@@ -2918,6 +2918,8 @@ function saswp_get_field_note($pname){
             'aiosp'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
             'squirrly_seo'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
             'wp_recipe_maker'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
+            'wp_zoom'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom">Recipe Card Blocks by WPZOOM</a>',        
+            'recipress'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipress">ReciPress</a>',        
             'wp_ultimate_recipe'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-ultimate-recipe/">WP Ultimate Recipe</a>',        
             'learn_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
             'learn_dash'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
@@ -3689,4 +3691,39 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         return $choices;
     }    
  
+}
+
+/**
+ * Get image url by specified $size
+ * 
+ * @since 1.9.43
+ * 
+ * @param  string|number $image_id    	The image id to get url
+ * @param  string $size        			The specific image size
+ * @param  array  $image_sizes 			Available image sizes for specified image id
+ * @return string              			The image url
+ */
+function saswp_get_image_size_url( $image_id, $size = 'full', $image_sizes = array() ) {
+    if ( isset( $image_sizes[ $size ] ) ) {
+        if ( isset( $image_sizes[ $size ]['url'] ) ) {
+            $image_url = $image_sizes[ $size ]['url'];
+        } elseif ( isset( $image_sizes[ $size ]['source_url'] ) ) {
+            $image_url = $image_sizes[ $size ]['source_url'];
+        }
+    }
+
+    if ( function_exists( 'fly_get_attachment_image_src' ) ) {
+        $thumb = fly_get_attachment_image_src( $image_id, $size );
+
+        if ( $thumb ) {
+            $image_url = isset( $thumb[0] ) ? $thumb[0] : $thumb['src'];
+        }
+    }
+
+    if ( !isset( $image_url ) ) {
+        $thumb = wp_get_attachment_image_src( $image_id, $size );
+        $image_url = $thumb && isset( $thumb[0] ) ? $thumb[0] : '';
+    }
+
+    return $image_url;
 }

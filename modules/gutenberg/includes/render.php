@@ -3,6 +3,60 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class SASWP_Gutenberg_Render {
     
+    public function qanda_block_data($attributes){
+        
+         $response          = '';
+         $accepted_answers  = '';
+         $suggested_answers = '';        
+         $question          = '';
+
+         $question  = '<div class="saswp-qanda-block-question">
+                <h3>'.esc_html($attributes['question_name']).'</h3>
+                <span class="saswp-qand-date">'.esc_html($attributes['question_date_created']).' '.esc_html($attributes['question_time_created']).' '.__( 'by', 'schema-and-structured-data-for-wp' ).' '.esc_html($attributes['question_author']).'</span>                
+                <p>'.esc_html($attributes['question_text']).'</p>
+                '. __( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($attributes['question_up_vote']).')
+                </div>';
+                
+                if(isset($attributes['accepted_answers']) && !empty($attributes['accepted_answers'])){
+
+                    foreach($attributes['accepted_answers'] as $answer){
+
+                        $accepted_answers .= '<li>
+                        <a href="'.esc_url($answer['url']).'">
+                        <p>'.esc_html($answer['text']).'</p>                        
+                        </a>
+                        <span class="saswp-qand-date">'.esc_html($answer['date_created']).' '.esc_html($answer['time_created']).' by <strong>'.esc_html($answer['author']).'</strong></span>                        
+                        <br> '. __( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')
+                        
+                        </li>';
+                       
+                    }
+
+                }
+
+                if(isset($attributes['suggested_answers']) && !empty($attributes['suggested_answers'])){
+
+                    foreach($attributes['suggested_answers'] as $answer){
+
+                        $suggested_answers .= '<li>
+                        <a href="'.esc_url($answer['url']).'">
+                        <p>'.esc_html($answer['text']).'</p>                        
+                        </a>
+                        <span class="saswp-qand-date">'.esc_html($answer['date_created']).' '.esc_html($answer['time_created']).' by <strong>'.esc_html($answer['author']).'</strong></span>                        
+                        <br> '. __( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')                        
+                        </li>';                       
+                    }
+
+                }
+              //Escaping has been done above for all below html  
+        $response = '<div class="saswp-qanda-block-html">
+        '.$question.'
+        <div class="saswp-qanda-block-answer"><h3>'. __( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.$accepted_answers.'</div>
+        <div class="saswp-qanda-block-answer"><h3>'. __( 'Suggested Answers', 'schema-and-structured-data-for-wp' ) .'</h3>'.$suggested_answers.'</div>
+        </div>';
+                
+        return $response;
+    }
     public function event_block_data($attributes){
         
         $response       = '';

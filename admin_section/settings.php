@@ -2281,7 +2281,33 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-wp-recipe-maker',
                                 'name' => 'sd_data[saswp-wp-recipe-maker]',                             
                         )
-		);
+                );
+
+        $wpzoom = array(
+                'label'  => 'Recipe Card Blocks by WPZOOM',
+                'id'     => 'saswp-wpzoom-checkbox',                        
+                'name'   => 'saswp-wpzoom-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpzoom'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpzoom',
+                        'name' => 'sd_data[saswp-wpzoom]',                             
+                )
+        );
+
+        $recipress = array(
+                'label'  => 'ReciPress',
+                'id'     => 'saswp-recipress-checkbox',                        
+                'name'   => 'saswp-recipress-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('recipress'),
+                'hidden' => array(
+                        'id'   => 'saswp-recipress',
+                        'name' => 'sd_data[saswp-recipress]',                             
+                )
+        );        
         $wp_ultimate_recipe = array(
 			'label'  => 'WP Ultimate Recipe',
 			'id'     => 'saswp-wp-ultimate-recipe-checkbox',                        
@@ -2698,6 +2724,8 @@ function saswp_compatibility_page_callback(){
                 $aiosp,
                 $squirrly_seo,                
                 $recipe_maker,
+                $recipress,
+                $wpzoom,
                 $wp_ultimate_recipe,
                 $zip_recipes,
                 $total_recipe_generator,

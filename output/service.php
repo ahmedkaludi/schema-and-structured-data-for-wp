@@ -1849,9 +1849,33 @@ Class saswp_output_service{
                      $input1['recipeCuisine'] =    $custom_fields['saswp_recipe_cuisine'];
                     }
                     if(isset($custom_fields['saswp_recipe_nutrition'])){
-                     $input1['nutrition']['calories'] =    $custom_fields['saswp_recipe_nutrition'];
+                        $input1['nutrition']['@type']    = 'NutritionInformation';   
+                        $input1['nutrition']['calories'] =    $custom_fields['saswp_recipe_nutrition'];
                     }
-                    
+                    if(isset($custom_fields['saswp_recipe_protein'])){
+                        $input1['nutrition']['@type']    = 'NutritionInformation';   
+                        $input1['nutrition']['proteinContent'] =    $custom_fields['saswp_recipe_protein'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_fat'])){
+                        $input1['nutrition']['@type']    = 'NutritionInformation';   
+                        $input1['nutrition']['fatContent'] =    $custom_fields['saswp_recipe_fat'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_fiber'])){
+                        $input1['nutrition']['@type']    = 'NutritionInformation';   
+                        $input1['nutrition']['fiberContent'] =    $custom_fields['saswp_recipe_fiber'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_sodium'])){
+                        $input1['nutrition']['@type']    = 'NutritionInformation';   
+                        $input1['nutrition']['sodiumContent'] =    $custom_fields['saswp_recipe_sodium'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_sugar'])){
+                        $input1['nutrition']['@type']        = 'NutritionInformation';   
+                        $input1['nutrition']['sugarContent'] =    $custom_fields['saswp_recipe_sugar'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_carbohydrate'])){
+                        $input1['nutrition']['@type']               = 'NutritionInformation';   
+                        $input1['nutrition']['carbohydrateContent'] =    $custom_fields['saswp_recipe_carbohydrate'];
+                    }                    
                     if(isset($custom_fields['saswp_recipe_ingredient'])){  
                         
                       if(is_array($custom_fields['saswp_recipe_ingredient'])){                          
@@ -1869,26 +1893,37 @@ Class saswp_output_service{
                         }                     
                     }
                     if(isset($custom_fields['saswp_recipe_video_name'])){
-                     $input1['video']['name'] =    $custom_fields['saswp_recipe_video_name'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['name'] =    $custom_fields['saswp_recipe_video_name'];
                     }
                     
                     if(isset($custom_fields['saswp_recipe_video_description'])){
-                     $input1['video']['description'] =    $custom_fields['saswp_recipe_video_description'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['description'] =    $custom_fields['saswp_recipe_video_description'];
                     }
                     if(isset($custom_fields['saswp_recipe_video_thumbnailurl'])){
-                     $input1['video']['thumbnailUrl'] =    $custom_fields['saswp_recipe_video_thumbnailurl'];
+                        $input1['video']['@type']   = 'VideoObject';   
+                        $input1['video']['thumbnailUrl'] =    $custom_fields['saswp_recipe_video_thumbnailurl'];
                     }
                     if(isset($custom_fields['saswp_recipe_video_contenturl'])){
-                     $input1['video']['contentUrl'] =    $custom_fields['saswp_recipe_video_contenturl'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['contentUrl'] =    $custom_fields['saswp_recipe_video_contenturl'];
                     }                    
                     if(isset($custom_fields['saswp_recipe_video_embedurl'])){
-                     $input1['video']['embedUrl'] =    $custom_fields['saswp_recipe_video_embedurl'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['embedUrl'] =    $custom_fields['saswp_recipe_video_embedurl'];
                     }
                     if(isset($custom_fields['saswp_recipe_video_upload_date'])){
-                     $input1['video']['uploadDate'] =    $custom_fields['saswp_recipe_video_upload_date'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['uploadDate'] =    $custom_fields['saswp_recipe_video_upload_date'];
                     }
                     if(isset($custom_fields['saswp_recipe_video_duration'])){
-                     $input1['video']['duration'] =    $custom_fields['saswp_recipe_video_duration'];
+                        $input1['video']['@type']   = 'VideoObject';
+                        $input1['video']['duration'] =    $custom_fields['saswp_recipe_video_duration'];
+                    }
+
+                    if(isset($custom_fields['saswp_recipe_video_url'])){                        
+                        $input1['video']['url'] =    $custom_fields['saswp_recipe_video_url'];
                     } 
                     
                     if(isset($custom_fields['saswp_recipe_rating_value']) && isset($custom_fields['saswp_recipe_rating_count'])){
@@ -3185,7 +3220,9 @@ Class saswp_output_service{
              $product_details = array(); 
              $varible_prices = array();
              
-             if (class_exists('WC_Product')) {
+             $post_type = get_post_type($post_id);
+
+             if ( class_exists('WC_Product') && function_exists('wc_get_product') && $post_type == 'product' ) {
                  
              global $woocommerce;
              global $sd_data;
@@ -3687,7 +3724,7 @@ Class saswp_output_service{
                         $accepted_answer['url']         = get_permalink($answer->ID);
                         $accepted_answer['text']        = wp_strip_all_tags($answer->post_content);
                         $accepted_answer['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z", $answer);
-                        $accepted_answer['author']      = array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename);
+                        $accepted_answer['author']      = array('@type' => 'Person', 'name' => is_object($authorinfo) ?  $authorinfo->data->user_nicename : 'Anonymous');
                         
                     }else{
                         
@@ -3697,7 +3734,7 @@ Class saswp_output_service{
                             'url'         => get_permalink($answer->ID),
                             'text'        => wp_strip_all_tags($answer->post_content),
                             'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
-                            'author'      => array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename),
+                            'author'      => array('@type' => 'Person', 'name' => is_object($authorinfo) ?  $authorinfo->data->user_nicename : 'Anonymous'),
                         );
                         
                     }
@@ -3930,7 +3967,7 @@ Class saswp_output_service{
                         if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
 
                             $input1 = array(
-                            '@context'			        => saswp_context_url(),
+                            '@context'			=> saswp_context_url(),
                             '@type'				=> $schema_type,
                             '@id'				=> trailingslashit(saswp_get_permalink()).'#'.$schema_type,     
                             'url'				=> trailingslashit(saswp_get_permalink()),
@@ -4064,11 +4101,33 @@ Class saswp_output_service{
                                             }
                                             
                                             if($multiple_size){
-                                                $width  = array(1200, 1200, 1200);
-                                                $height = array($targetHeight, 900, 675);
+
+                                                if($targetHeight < 675){
+
+                                                    $width  = array(1200, 1200, 1200);
+                                                    $height = array(900, 720, 675);
+
+                                                }else{
+
+                                                    $width  = array(1200, 1200, 1200);
+                                                    $height = array($targetHeight, 900, 675);
+
+                                                }
+                                                
                                             }else{
-                                                $width  = array(1200);
-                                                $height = array($targetHeight);
+
+                                                if($targetHeight < 675){
+
+                                                    $width  = array(1200);
+                                                    $height = array(720);
+
+                                                }else{
+
+                                                    $width  = array(1200);
+                                                    $height = array($targetHeight);
+                                                    
+                                                }
+                                                
                                             }                                                                                        
                                             
                                             for($i = 0; $i < count($width); $i++){

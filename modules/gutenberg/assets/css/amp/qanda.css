@@ -1,0 +1,28 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 15, 2019, 1:52:02 PM
+    Author     : acer
+*/
+.saswp-qanda-venue-details, .saswp-qanda-organizers-details, .saswp-qanda-performers-details{
+    padding-top:15px;
+}
+.saswp-qanda-date-fieldset select{
+    max-width: 100%;
+}
+.saswp-qand-date{
+    font-size: 15px;
+}
+.saswp-qanda-block-question{
+    margin-bottom: 25px;
+}
+.saswp-qanda-block-answer{
+    list-style-type: none;
+    margin-bottom: 10px;
+}
+.saswp-qanda-block-answer li{
+    margin-top: 15px;
+}

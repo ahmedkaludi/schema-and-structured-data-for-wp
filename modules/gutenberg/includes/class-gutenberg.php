@@ -49,6 +49,15 @@ class SASWP_Gutenberg {
                 'editor'       => 'saswp-gutenberg-css-reg-editor',
                 'local'        => array()            
             ),
+            'qanda' => array(            
+                'handler'      => 'saswp-qanda-js-reg',                
+                'local_var'    => 'saswpGutenbergQanda',
+                'block_name'   => 'qanda-block',
+                'render_func'  => 'render_qanda_data',
+                'style'        => 'saswp-g-qanda-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
             'job' => array(            
                 'handler'      => 'saswp-job-js-reg',                
                 'local_var'    => 'saswpGutenbergJob',
@@ -119,6 +128,10 @@ class SASWP_Gutenberg {
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/event.css';              
                                 echo @file_get_contents($amp_css);
                             }
+                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/qanda-block'){
+                                $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/qanda.css';              
+                                echo @file_get_contents($amp_css);
+                            }
                             if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/job.css';              
                                 echo @file_get_contents($amp_css);
@@ -158,6 +171,15 @@ class SASWP_Gutenberg {
                                                 array()                        
                                            );
                                            
+                                       }
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/qanda-block'){
+                                           
+                                        wp_enqueue_style(
+                                             'saswp-g-qanda-css',
+                                             SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/qanda.css',
+                                             array()                        
+                                        );
+                                        
                                        }
                                        if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
                                            
@@ -307,6 +329,22 @@ class SASWP_Gutenberg {
             
         }
         
+        public function render_qanda_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            echo $this->render->qanda_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
+
         public function render_event_data($attributes){
             
             ob_start();

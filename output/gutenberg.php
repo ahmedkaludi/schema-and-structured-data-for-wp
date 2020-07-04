@@ -9,6 +9,299 @@
  */
 if (! defined('ABSPATH') ) exit;
 
+
+function saswp_gutenberg_recipe_schema(){
+                        
+    global $post, $sd_data;
+
+    $input1 = array();
+
+    if( (isset($sd_data['saswp-wpzoom']) && $sd_data['saswp-wpzoom'] == 1) && class_exists('WPZOOM_Structured_Data_Helpers') && class_exists('WPZOOM_Helpers') ){
+
+    $recipe_block = saswp_get_gutenberg_block_data('wpzoom-recipe-card/block-recipe-card');     
+    $attributes = $recipe_block['attrs'];
+    
+    $service_object          = new saswp_output_service();   
+    $structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
+    $helpers                 = new WPZOOM_Helpers();
+    $feature_image           = $service_object->saswp_get_fetaure_image();                  
+                                       
+    $input1['@context']              = saswp_context_url();
+    $input1['@type']                 = 'Recipe';
+    $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Recipe';
+    $input1['name']                  = isset($attributes['recipeTitle']) ? $attributes['recipeTitle'] : saswp_get_the_title();                
+    $input1['description']           = isset($attributes['summary']) ? $attributes['summary'] : saswp_get_the_excerpt();                   
+    $input1['datePublished']         = get_the_date("c");
+    $input1['dateModified']          = get_the_modified_date("c");
+    $input1['keywords']              = isset($attributes['keywords']) ? $attributes['keywords'] :  saswp_get_the_tags();    
+    $input1['author']                = saswp_get_author_details();
+    
+
+    if(isset($attributes['cuisine'])){
+
+        $input1['recipeCuisine']    = $attributes['cuisine'];   
+
+    }
+    if(isset($attributes['course'])){
+
+        $input1['recipeCategory']    = $attributes['course'];   
+
+    }
+
+    if ( ! empty( $attributes['details'] ) && is_array( $attributes['details'] ) ) {
+
+        $details = array_filter( $attributes['details'], 'is_array' );
+        
+        foreach ( $details as $key => $detail ) {
+
+            if ( $key === 0 ) {
+                if ( ! empty( $detail[ 'value' ] ) ) {
+                    if ( !is_array( $detail['value'] ) ) {
+                        $yield = array(
+                             $detail['value']
+                         );
+
+                        if ( isset( $detail['unit'] ) && ! empty( $detail['unit'] ) ) {
+                            $yield[] = $detail['value'] .' '. $detail['unit'];
+                        }
+                    }
+                    elseif ( isset( $detail['jsonValue'] ) ) {
+                        $yield = array(
+                             $detail['jsonValue']
+                         );
+
+                        if ( isset( $detail['unit'] ) && ! empty( $detail['unit'] ) ) {
+                            $yield[] = $detail['value'] .' '. $detail['unit'];
+                        }
+                    }
+
+                    if ( isset( $yield ) ) {
+                         $input1['recipeYield'] = $yield;
+                     }
+                }
+            }elseif ( $key === 3 ) {
+                if ( ! empty( $detail[ 'value' ] ) ) {
+                    if ( !is_array( $detail['value'] ) ) {
+                        $input1['nutrition']['calories'] = $detail['value'] .' cal';
+                    }
+                    elseif ( isset( $detail['jsonValue'] ) ) {
+                        $input1['nutrition']['calories'] = $detail['jsonValue'] .' cal';
+                    }
+                }
+            }elseif ( $key === 1 ) {
+                if ( ! empty( $detail[ 'value' ] ) ) {
+                    if ( !is_array( $detail['value'] ) ) {
+                        $prepTime = $structured_data_helpers->get_number_from_string( $detail['value'] );
+                        $input1['prepTime'] = $structured_data_helpers->get_period_time( $detail['value'] );
+                    }
+                    elseif ( isset( $detail['jsonValue'] ) ) {
+                        $prepTime = $structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+                        $input1['prepTime'] = $structured_data_helpers->get_period_time( $detail['jsonValue'] );
+                    }
+                }
+            }elseif ( $key === 2 ) {
+                if ( ! empty( $detail[ 'value' ] )) {
+                    if ( !is_array( $detail['value'] ) ) {
+                        $cookTime = $structured_data_helpers->get_number_from_string( $detail['value'] );
+                        $input1['cookTime'] = $structured_data_helpers->get_period_time( $detail['value'] );
+                    }
+                    elseif ( isset( $detail['jsonValue'] ) ) {
+                        $cookTime = $structured_data_helpers->get_number_from_string( $detail['jsonValue'] );
+                        $input1['cookTime'] = $structured_data_helpers->get_period_time( $detail['jsonValue'] );
+                    }
+                }
+            }
+            elseif ( $key === 8 ) {
+                if ( ! empty( $detail[ 'value' ] )) {
+                    if ( !is_array( $detail['value'] ) ) {
+                        $input1['totalTime'] = $structured_data_helpers->get_period_time( $detail['value'] );
+                    }
+                    elseif ( isset( $detail['jsonValue'] ) ) {
+                        $input1['totalTime'] = $structured_data_helpers->get_period_time( $detail['jsonValue'] );
+                    }
+                }
+            }
+
+        }
+
+        if ( empty( $input1['totalTime'] ) ) {
+            if ( isset( $prepTime, $cookTime ) && ( $prepTime + $cookTime ) > 0 ) {
+                $input1['totalTime'] = $structured_data_helpers->get_period_time( $prepTime + $cookTime );
+            }
+        }
+
+    }
+
+    if ( ! empty( $attributes['ingredients'] ) && is_array( $attributes['ingredients'] ) ) {
+        $ingredients = array_filter( $attributes['ingredients'], 'is_array' );
+        foreach ( $ingredients as $ingredient ) {
+            $isGroup = isset( $ingredient['isGroup'] ) ? $ingredient['isGroup'] : false;
+
+            if ( ! $isGroup ) {
+                $input1['recipeIngredient'][] = $structured_data_helpers->get_ingredient_json_ld( $ingredient );
+            }
+
+        }
+    }
+
+    if ( ! empty( $attributes['steps'] ) && is_array( $attributes['steps'] ) ) {
+        $steps = array_filter( $attributes['steps'], 'is_array' );
+        $groups_section = array();
+        $instructions = array();
+
+        foreach ( $steps as $key => $step ) {
+            $isGroup = isset( $step['isGroup'] ) ? $step['isGroup'] : false;
+            $parent_permalink = get_the_permalink();
+            
+            if ( $isGroup ) {
+                $groups_section[ $key ] = array(
+                    '@type' => 'HowToSection',
+                    'name' => '',
+                    'itemListElement' => array(),
+                );
+                if ( ! empty( $step['jsonText'] ) ) {
+                    $groups_section[ $key ]['name'] = $step['jsonText'];
+                } else {
+                    $groups_section[ $key ]['name'] = $structured_data_helpers->step_text_to_JSON( $step['text'] );
+                }
+            }
+
+            if ( count( $groups_section ) > 0 ) {
+                end( $groups_section );
+                $last_key = key( $groups_section );
+
+                if ( ! $isGroup && $key > $last_key ) {
+                    $groups_section[ $last_key ]['itemListElement'][] = $structured_data_helpers->get_step_json_ld( $step, $parent_permalink );
+                }
+            } else {
+                $instructions[] = $structured_data_helpers->get_step_json_ld( $step, $parent_permalink );
+            }
+        }
+
+        $groups_section = array_merge( $instructions, $groups_section );
+        $input1['recipeInstructions'] = $groups_section;
+    }
+
+    $image_details   = saswp_get_image_by_id($attributes['image']['id']); 
+
+    if($image_details){
+        $input1['image'] = $image_details;
+    }else{
+        if(!empty($feature_image)){
+                
+            $input1 = array_merge($input1, $feature_image);   
+                    
+        }
+    }
+    
+    
+    //video json
+
+    if ( isset( $attributes['video'] ) && ! empty( $attributes['video'] ) && isset( $attributes['hasVideo'] ) && $attributes['hasVideo'] ) {
+        $video = $attributes['video'];
+        $video_id = isset( $video['id'] ) ? $video['id'] : 0;
+        $video_type = isset( $video['type'] ) ? $video['type'] : '';
+
+        if ( 'self-hosted' === $video_type ) {
+             $video_attachment = get_post( $video_id );
+
+             if ( $video_attachment ) {
+                 $video_data = wp_get_attachment_metadata( $video_id );
+                 $video_url = wp_get_attachment_url( $video_id );
+
+                 $image_id = get_post_thumbnail_id( $video_id );
+                 $thumb = wp_get_attachment_image_src( $image_id, 'full' );
+                 $thumbnail_url = $thumb && isset( $thumb[0] ) ? $thumb[0] : '';
+
+                 $input1['video'] = array_merge(
+                     $input1['video'], array(
+                         'name' => $video_attachment->post_title,
+                         'description' => $video_attachment->post_content,
+                         'thumbnailUrl' => $thumbnail_url,
+                         'contentUrl' => $video_url,
+                         'uploadDate' => date( 'c', strtotime( $video_attachment->post_date ) ),
+                         'duration' => 'PT' . $video_data['length'] . 'S',
+                     )
+                 );
+             }
+         }
+
+        if ( isset( $video['title'] ) && ! empty( $video['title'] ) ) {
+            $input1['video']['name'] = esc_html( $video['title'] );
+        }
+        if ( isset( $video['caption'] ) && !empty( $video['caption'] ) ) {
+            $input1['video']['description'] = esc_html( $video['caption'] );
+        }
+        if ( isset( $video['description'] ) && !empty( $video['description'] ) ) {
+            $input1['video']['description'] = esc_html( $video['description'] );
+        }
+        if ( isset( $video['poster']['url'] ) ) {
+            $input1['video']['thumbnailUrl'] = esc_url( $video['poster']['url'] );
+
+            if ( isset( $video['poster']['id'] ) ) {
+                 $poster_id = $video['poster']['id'];
+                 $poster_sizes_url = array(
+                     saswp_get_image_size_url( $poster_id, 'full' ),
+                     saswp_get_image_size_url( $poster_id, 'wpzoom-rcb-structured-data-1_1' ),
+                     saswp_get_image_size_url( $poster_id, 'wpzoom-rcb-structured-data-4_3' ),
+                     saswp_get_image_size_url( $poster_id, 'wpzoom-rcb-structured-data-16_9' ),
+                 );
+                 $input1['video']['thumbnailUrl'] = array_values( array_unique( $poster_sizes_url ) );
+             }
+        }
+        if ( isset( $video['url'] ) ) {
+            $input1['video']['contentUrl'] = esc_url( $video['url'] );
+
+            if ( 'embed' === $video_type ) {
+                $video_embed_url = $video['url'];
+
+                $input1['video']['@type'] = 'VideoObject';
+
+                if ( ! empty( $attributes['image'] ) && isset( $attributes['hasImage'] ) && $attributes['hasImage'] ) {
+                    $image_id = isset( $attributes['image']['id'] ) ? $attributes['image']['id'] : 0;
+                     $image_sizes = isset( $attributes['image']['sizes'] ) ? $attributes['image']['sizes'] : array();
+                     $image_sizes_url = array(
+                         saswp_get_image_size_url( $image_id, 'full', $image_sizes ),
+                         saswp_get_image_size_url( $image_id, 'wpzoom-rcb-structured-data-1_1', $image_sizes ),
+                         saswp_get_image_size_url( $image_id, 'wpzoom-rcb-structured-data-4_3', $image_sizes ),
+                         saswp_get_image_size_url( $image_id, 'wpzoom-rcb-structured-data-16_9', $image_sizes ),
+                     );
+                     $input1['video']['thumbnailUrl'] = array_values( array_unique( $image_sizes_url ) );
+                }
+
+                if ( strpos( $video['url'], 'youtu' ) ) {
+                    $video_embed_url = $helpers->convert_youtube_url_to_embed( $video['url'] );
+                }
+                elseif ( strpos( $video['url'] , 'vimeo' ) ) {
+                    $video_embed_url = $helpers->convert_vimeo_url_to_embed( $video['url'] );
+                }
+
+                $input1['video']['embedUrl'] = esc_url( $video_embed_url );
+            }
+        }
+        if ( isset( $video['date'] ) && 'embed' === $video_type ) {
+            $input1['video']['uploadDate'] = $video['date'];
+        }
+    }
+
+        $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
+        $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
+				
+		if(!empty($aggregateRating)){
+                $input1['aggregateRating'] = $aggregateRating;
+        }                                
+        if(!empty($extra_theme_review)){
+            $input1 = array_merge($input1, $extra_theme_review);
+        }
+        
+        $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+
+    }    
+                                    
+    return apply_filters('saswp_modify_recipe_schema_output', $input1 );
+
+}
+
 /**
  * Function to generate schema markup for Gutenberg Faq block
  * @global type $post
@@ -479,6 +772,78 @@ function saswp_gutenberg_event_schema(){
          
         }
                         
+    return $input1;
+        
+}
+
+function saswp_gutenberg_qanda_schema(){
+    
+    $input1 = array();
+     
+    $attributes = saswp_get_gutenberg_block_data('saswp/qanda-block');
+    
+    if(isset($attributes['attrs'])){
+        
+        $data                           = $attributes['attrs'];
+        $accepted_answer                = $data['accepted_answers'];
+        $suggested_answer               = $data['suggested_answers'];
+                
+        $answer_count   = 0;
+        $accepted_json  = array();
+        $suggested_json = array();
+
+        if($accepted_answer){
+            foreach($accepted_answer as $answer){
+                $accepted_json[] = array(
+                    '@type'         => 'Answer',
+                    'text'          => $answer['text'],
+                    'dateCreated'   => $answer['date_created_iso'],
+                    'upvoteCount'   => $answer['vote'],
+                    'url'           => $answer['url'],
+                    'author'        => array(
+                                    '@type' => 'Person',
+                                    'name'  => $answer['author']
+                    ),                    
+                );
+            }
+
+            $answer_count += count($accepted_answer);
+        }
+
+        if($suggested_answer){
+            foreach($suggested_answer as $answer){
+                $suggested_json[] = array(
+                    '@type'         => 'Answer',
+                    'text'          => $answer['text'],
+                    'dateCreated'   => $answer['date_created_iso'],
+                    'upvoteCount'   => $answer['vote'],
+                    'url'           => $answer['url'],
+                    'author'        => array(
+                                    '@type' => 'Person',
+                                    'name'  => $answer['author']
+                    ),                    
+                );
+            }
+            $answer_count += count($suggested_json);
+        }
+                
+        $input1['@context']              = saswp_context_url();
+        $input1['@type']                 = 'QAPage';
+        $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#QAPage';  
+
+        $input1['mainEntity']['@type']                        = 'Question';
+        $input1['mainEntity']['name']                         = $data['question_name'];
+        $input1['mainEntity']['text']                         = $data['question_text'];
+        $input1['mainEntity']['answerCount']                  = $answer_count;
+        $input1['mainEntity']['upvoteCount']                  = $data['question_up_vote'];
+        $input1['mainEntity']['dateCreated']                  = $data['question_date_created_iso'];
+        $input1['mainEntity']['author']['@type']              = 'Person';
+        $input1['mainEntity']['author']['name']               = $data['question_author'];
+        $input1['mainEntity']['acceptedAnswer']               = $accepted_json;
+        $input1['mainEntity']['suggestedAnswer']              = $suggested_json;
+
+    }    
+                
     return $input1;
         
 }
