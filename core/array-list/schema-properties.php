@@ -1584,12 +1584,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'attributes' => array(
                                 'placeholder' => 'Video Name'
                             ),
-                    ),
-                    array(
-                        'label' => 'Video URL',
-                        'id'    => 'saswp_recipe_video_url_'.$schema_id,
-                        'type'  => 'text',                         
-                        ),
+                    ),                    
                     array(
                             'label' => 'Video Description',
                             'id' => 'saswp_recipe_video_description_'.$schema_id,
@@ -3364,6 +3359,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'         => 'saswp_vg_schema_cheat_code_'.$schema_id,
                             'type'       => 'text',
                             
+                    ),
+                    array(
+                        'label'      => 'File Size',
+                        'id'         => 'saswp_vg_schema_file_size_'.$schema_id,
+                        'type'       => 'text'                        
                     ),
                     array(
                             'label' => 'Aggregate Rating',

@@ -1921,11 +1921,7 @@ Class saswp_output_service{
                         $input1['video']['@type']   = 'VideoObject';
                         $input1['video']['duration'] =    $custom_fields['saswp_recipe_video_duration'];
                     }
-
-                    if(isset($custom_fields['saswp_recipe_video_url'])){                        
-                        $input1['video']['url'] =    $custom_fields['saswp_recipe_video_url'];
-                    } 
-                    
+                                         
                     if(isset($custom_fields['saswp_recipe_rating_value']) && isset($custom_fields['saswp_recipe_rating_count'])){
                        $input1['aggregateRating']['@type']       =   'AggregateRating';
                        $input1['aggregateRating']['worstRating'] =   0;
@@ -2993,6 +2989,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_vg_schema_cheat_code'])){
                      $input1['cheatCode'] =    $custom_fields['saswp_vg_schema_cheat_code'];
+                    }
+                    if(isset($custom_fields['saswp_vg_schema_file_size'])){
+                        $input1['fileSize'] =    $custom_fields['saswp_vg_schema_file_size'];
                     }
                     
                 break;
