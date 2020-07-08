@@ -60,7 +60,7 @@ class saswp_output_compatibility{
 
     public function saswp_override_schema_markup(){
         
-        if(!is_admin()){
+        if(!is_admin() && saswp_global_option()){
 
         global $sd_data;        
 
