@@ -42,7 +42,7 @@ class saswp_output_compatibility{
             
            add_action( 'init', array($this, 'saswp_override_schema_markup'));
            add_filter( 'amp_init', array($this, 'saswp_override_schema_markup'));  
-           add_filter( 'wpsso_json_prop_https_schema_org_graph', 'saswp_exclude_wpsso_schema_graph', 10, 5 );            
+           add_filter( 'wpsso_json_prop_https_schema_org_graph', array($this ,'saswp_exclude_wpsso_schema_graph'), 10, 5 );            
            add_action( 'mv_create_modify_card_style_hooks', array($this, 'saswp_remove_create_mediavine'),100,2);          
     }
     
