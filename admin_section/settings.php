@@ -2296,6 +2296,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $wp_tasty_recipe = array(
+                'label'  => 'WP Tasty Recipe',
+                'id'     => 'saswp-wptastyrecipe-checkbox',                        
+                'name'   => 'saswp-wptastyrecipe-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wptastyrecipe'),
+                'hidden' => array(
+                        'id'   => 'saswp-wptastyrecipe',
+                        'name' => 'sd_data[saswp-wptastyrecipe]',                             
+                )
+        );
+
         $recipress = array(
                 'label'  => 'ReciPress',
                 'id'     => 'saswp-recipress-checkbox',                        
@@ -2726,6 +2739,7 @@ function saswp_compatibility_page_callback(){
                 $recipe_maker,
                 $recipress,
                 $wpzoom,
+                $wp_tasty_recipe,
                 $wp_ultimate_recipe,
                 $zip_recipes,
                 $total_recipe_generator,

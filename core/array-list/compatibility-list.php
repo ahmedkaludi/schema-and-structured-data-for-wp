@@ -310,6 +310,12 @@ return array(
             'opt_name'   => 'saswp-wpzoom',
             'part_in'    => 'free',
         ),
+        'wptastyrecipe' => array(            
+            'name'       => 'WP Tasty Recipe',
+            'free'       => 'tasty-recipes/tasty-recipes.php',               
+            'opt_name'   => 'saswp-wptastyrecipe',
+            'part_in'    => 'free',
+        ),
         'recipress' => array(            
             'name'       => 'ReciPress',
             'free'       => 'recipress/recipress.php',               

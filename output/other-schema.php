@@ -200,3 +200,33 @@ function saswp_recipress_json_ld($input1){
     return $input1;
 }
 
+function saswp_wp_tasty_recipe_json_ld(){
+
+    if ( ! is_singular() ) {
+        return array();
+    }
+    global $sd_data;
+    $resposne = array();
+
+    if( isset($sd_data['saswp-wptastyrecipe']) && $sd_data['saswp-wptastyrecipe'] == 1 && class_exists('Tasty_Recipes') && class_exists('Tasty_Recipes\Distribution_Metadata') ){
+
+        $recipes = Tasty_Recipes::get_recipes_for_post(
+            get_queried_object()->ID,
+            array(
+                'disable-json-ld' => false,
+            )
+        );
+        if ( empty( $recipes ) ) {
+            return array();
+        }
+                    
+            foreach ( $recipes as $recipe ) {
+                $resposne[] = Tasty_Recipes\Distribution_Metadata::get_enriched_google_schema_for_recipe( $recipe, get_queried_object() );                
+            }
+                        
+    }
+    
+    return $resposne;
+
+}
+

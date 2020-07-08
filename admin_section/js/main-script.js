@@ -700,6 +700,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-wptastyrecipe-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wptastyrecipe").val(1);                                
+                            }else{
+                              $("#saswp-wptastyrecipe").val(0);                                          
+                            }
+                      break;
+
                       case 'saswp-recipress-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
