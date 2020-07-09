@@ -48,15 +48,12 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
     }          
         // send the response back to the front end
        // vars
-        $choices       = array();    
-        $saved_choices = array();
+          if($response == 'date'){
+            $output = '<input value="'.esc_attr($saved_data).'" type="text" data-type="'.esc_attr($response).'"  class="widefat ajax-output saswp-datepicker-picker" name="data_group_array[group-'.esc_attr($current_group_number).'][data_array]['. esc_attr($current_number) .'][key_3]"/>'; 
+          }else{
 
-        $options['param'] = $response;
-      
-        if($options['param'] == "page_parent")
-        {
-          $options['param'] = "page";
-        }
+          $choices       = array();    
+          $saved_choices = array();
 
           $choices = saswp_get_condition_list($response);
           
@@ -76,7 +73,12 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             }
           } 
         
-    $output .= ' </select> ';    
+         $output .= ' </select> ';   
+
+          }
+    
+    
+
     $allowed_html = saswp_expanded_allowed_tags();
     echo wp_kses($output, $allowed_html); 
     

@@ -304,7 +304,28 @@ function saswp_comparison_logic_checker($input){
               
                $result = true;      
               
-          break;            
+          break;
+        
+        case 'date':  
+              
+          $published_date ='';  
+          
+          if(is_singular() || is_admin()){
+             $published_date = get_the_date('Y-m-d');  
+          }
+           
+         if ( $comparison == 'before_published' ) {
+             if ( $published_date <= $data ) {
+               $result = true;
+             }
+         }
+         if ( $comparison == 'after_published') {              
+             if ( $published_date >= $data ) {
+               $result = true;
+             }
+         }
+           
+        break;  
         // Basic Controls ------------ 
           // Posts Type
         case 'post_type':   
@@ -690,7 +711,8 @@ if(is_admin()){
   
   function saswp_select_callback($post) {
     
-    $data_group_array =  get_post_meta($post->ID, 'data_group_array', true );                 
+    $data_group_array =  get_post_meta($post->ID, 'data_group_array', true );     
+                
     $data_group_array = is_array($data_group_array)? array_values($data_group_array): array();  
     
     if ( empty( $data_group_array ) ) {
@@ -734,6 +756,8 @@ if(is_admin()){
         ),
         esc_html__("Other",'schema-and-structured-data-for-wp') => array( 
           'ef_taxonomy'         =>  esc_html__("Taxonomy (Tag)",'schema-and-structured-data-for-wp'), 
+          'date'                =>  esc_html__("Date",'schema-and-structured-data-for-wp'), 
+
         )
       ); 
 
@@ -769,6 +793,19 @@ if(is_admin()){
           if(isset($data_array[$i]['key_4'])){
             $selected_val_key_4 = $data_array[$i]['key_4'];
           }
+
+          if($selected_val_key_1 == 'date'){
+            $comparison = array(
+              'before_published'           =>  esc_html__( 'Before Published', 'schema-and-structured-data-for-wp'), 
+              'after_published'            =>  esc_html__( 'After Published', 'schema-and-structured-data-for-wp'),     
+            );
+          }else{
+            $comparison = array(
+              'equal'                =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp'), 
+              'not_equal'            =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp'),     
+            );    
+          }
+
           ?>
           <tr class="toclone">
             <td style="width:31%" class="post_types"> 

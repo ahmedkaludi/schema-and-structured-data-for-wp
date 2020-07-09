@@ -42,7 +42,7 @@ class saswp_output_compatibility{
             
            add_action( 'init', array($this, 'saswp_override_schema_markup'));
            add_filter( 'amp_init', array($this, 'saswp_override_schema_markup'));  
-           add_filter( 'wpsso_json_prop_https_schema_org_graph', 'saswp_exclude_wpsso_schema_graph', 10, 5 );            
+           add_filter( 'wpsso_json_prop_https_schema_org_graph', array($this ,'saswp_exclude_wpsso_schema_graph'), 10, 5 );            
            add_action( 'mv_create_modify_card_style_hooks', array($this, 'saswp_remove_create_mediavine'),100,2);          
     }
     
@@ -60,7 +60,7 @@ class saswp_output_compatibility{
 
     public function saswp_override_schema_markup(){
         
-        if(!is_admin()){
+        if(!is_admin() && saswp_global_option()){
 
         global $sd_data;        
 
@@ -158,8 +158,8 @@ class saswp_output_compatibility{
     }
     public function saswp_stachethemes_event_calendar_override(){                                                        
     }
-    public function saswp_event_on_override(){ 
-        
+    public function saswp_wptastyrecipe_override(){ 
+        remove_action( 'wp_head', array( 'Tasty_Recipes\Distribution_Metadata', 'action_wp_head_google_schema' ) );
     }    
     public function saswp_wordpress_news_override(){                                                        
     }
@@ -408,6 +408,9 @@ class saswp_output_compatibility{
     }
     public function wp_zoom_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wpzoom');
+    }
+    public function wptastyrecipe_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wptastyrecipe');
     }
     public function recipress_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-recipress');

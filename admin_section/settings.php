@@ -104,7 +104,7 @@ function saswp_admin_interface_render(){
 	
 	?>
 <div class="saswp-settings-container">
-	<div class="wrap saswp-settings-form saswp-settings-first-div">	
+	<div class="wrap saswp-settings-form saswp-settings-first-div" style="<?php echo( saswp_ext_installed_status()? 'width:100%;':''); ?>">	
 		<h1 class="wp-heading-inline"> <?php echo esc_html__( 'Schema & Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?> <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp' ) ); ?>" class="page-title-action"><?php echo esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ); ?></a></h1><br>		
                 <div>
 		<h2 class="nav-tab-wrapper saswp-tabs">
@@ -2296,6 +2296,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $wp_tasty_recipe = array(
+                'label'  => 'WP Tasty Recipe',
+                'id'     => 'saswp-wptastyrecipe-checkbox',                        
+                'name'   => 'saswp-wptastyrecipe-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wptastyrecipe'),
+                'hidden' => array(
+                        'id'   => 'saswp-wptastyrecipe',
+                        'name' => 'sd_data[saswp-wptastyrecipe]',                             
+                )
+        );
+
         $recipress = array(
                 'label'  => 'ReciPress',
                 'id'     => 'saswp-recipress-checkbox',                        
@@ -2726,6 +2739,7 @@ function saswp_compatibility_page_callback(){
                 $recipe_maker,
                 $recipress,
                 $wpzoom,
+                $wp_tasty_recipe,
                 $wp_ultimate_recipe,
                 $zip_recipes,
                 $total_recipe_generator,

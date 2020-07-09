@@ -294,7 +294,7 @@ function saswp_gutenberg_recipe_schema(){
             $input1 = array_merge($input1, $extra_theme_review);
         }
         
-        $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+        $input1 = saswp_append_fetched_reviews($input1, get_the_ID());
 
     }    
                                     

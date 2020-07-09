@@ -135,6 +135,29 @@ function saswp_schema_markup_output(){
         echo "\n\n";
         
     }
+
+    //Other schema markup compile with SASWP
+
+    if(saswp_global_option()) {
+
+        $wp_tasty_recipe          = saswp_wp_tasty_recipe_json_ld();
+
+        if(!empty($wp_tasty_recipe)){
+
+            foreach ($wp_tasty_recipe as $recipe) {
+
+                echo '<!-- Schema & Structured Data For WP Other Markup v'.esc_attr(SASWP_VERSION).' - -->';                            
+                echo PHP_EOL;
+                echo '<script type="application/ld+json" class="saswp-other-schema-markup-output">';
+                echo saswp_json_print_format( $recipe);
+                echo '</script>';			
+                echo PHP_EOL;
+
+            }
+
+        }
+
+    }    
         
 }
 /**
@@ -190,8 +213,7 @@ function saswp_get_all_schema_markup_output() {
             $gutenberg_recipe         = saswp_gutenberg_recipe_schema(); 
             $gutenberg_faq            = saswp_gutenberg_faq_schema();        
 
-        }
-
+        }        
         $taqeem_schema            = saswp_taqyeem_review_rich_snippet(); 
         $schema_for_faqs          = saswp_schema_for_faqs_schema();         
         $woo_cat_schema           = saswp_woocommerce_category_schema();  
@@ -305,7 +327,7 @@ function saswp_get_all_schema_markup_output() {
                             $output .= saswp_json_print_format($taqeem_schema);   
                             $output .= ",";
                             $output .= "\n\n";
-                        }
+                        }                        
                         if(!empty($elementor_faq)){
                         
                             $output .= saswp_json_print_format($elementor_faq);   
