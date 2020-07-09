@@ -3714,7 +3714,17 @@ Class saswp_output_service{
                 
                 foreach($answer_array as $answer){
                     
-                    $authorinfo = get_userdata($answer->post_author);  
+                    $authorinfo = get_userdata($answer->post_author);
+                    $authorname =  'Anonymous';
+
+                    if(is_object($authorinfo)){
+                        $authorname = $authorinfo->data->user_nicename;
+                    }else{
+                        $anonymous_name = get_post_meta( $answer->ID, '_dwqa_anonymous_name', true );
+                        if($anonymous_name && $anonymous_name !=''){
+                            $authorname = $anonymous_name;
+                        }
+                    }
                     
                     if($answer->ID == $best_answer_id){
                         
@@ -3723,7 +3733,7 @@ Class saswp_output_service{
                         $accepted_answer['url']         = get_permalink($answer->ID);
                         $accepted_answer['text']        = wp_strip_all_tags($answer->post_content);
                         $accepted_answer['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z", $answer);
-                        $accepted_answer['author']      = array('@type' => 'Person', 'name' => is_object($authorinfo) ?  $authorinfo->data->user_nicename : 'Anonymous');
+                        $accepted_answer['author']      = array('@type' => 'Person', 'name' => $authorname);
                         
                     }else{
                         
@@ -3733,7 +3743,7 @@ Class saswp_output_service{
                             'url'         => get_permalink($answer->ID),
                             'text'        => wp_strip_all_tags($answer->post_content),
                             'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
-                            'author'      => array('@type' => 'Person', 'name' => is_object($authorinfo) ?  $authorinfo->data->user_nicename : 'Anonymous'),
+                            'author'      => array('@type' => 'Person', 'name' => $authorname),
                         );
                         
                     }
