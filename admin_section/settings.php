@@ -104,7 +104,7 @@ function saswp_admin_interface_render(){
 	
 	?>
 <div class="saswp-settings-container">
-	<div class="wrap saswp-settings-form saswp-settings-first-div">	
+	<div class="wrap saswp-settings-form saswp-settings-first-div" style="<?php echo( saswp_ext_installed_status()? 'width:100%;':''); ?>">	
 		<h1 class="wp-heading-inline"> <?php echo esc_html__( 'Schema & Structured Data For WP', 'schema-and-structured-data-for-wp' ); ?> <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp' ) ); ?>" class="page-title-action"><?php echo esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ); ?></a></h1><br>		
                 <div>
 		<h2 class="nav-tab-wrapper saswp-tabs">
