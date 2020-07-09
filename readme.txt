@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.43
+Stable tag: 1.9.44
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.44 (09 July 2020) =
+
+* Added: Date Placement option for generting schema as per the post date published #895
+* Added: Compatibility with WP Tasty Recipe 
+* Added: Filesize property to VideoGame schema type #1090
+* Fixed: PHP Warning: call_user_func_array() expects parameter 1 to be a valid callback, function 'saswp_exclude_wpsso_schema_graph' not found or invalid function name #1104
+* Fixed: Review counts are decrementing without fetching the reviews #1087
+* Fixed: "User ID Missing" issue when fetching the "Capterra" reviews #1086
+* Fixed: Uncaught TypeError: Cannot read property 'status' of null in saswp-reviews-script.js #1095
+* Fixed: When structured data for non amp is unchecked then also the plugin is interacting with the non-amp code data. #1107
+* Fixed: If the banner isn't there, then the options needs to be full width #1106
 
 = 1.9.43 (04 July 2020) =
 
