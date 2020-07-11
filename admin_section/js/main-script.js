@@ -1,6 +1,31 @@
 var saswp_attached_rv  = [];  
 var saswp_attached_col = [];  
 jQuery(document).ready(function($){
+
+  $(document).on("click", ".saswp-dismiss-notices", function(){
+    var current = $(this);
+    var notice_type = $(this).attr('notice-type');
+
+    if(notice_type){
+
+      $.ajax({
+        type: "POST",    
+        url:ajaxurl,                    
+        dataType: "json",
+        data:{action:"saswp_dismiss_notices",notice_type:notice_type, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+        success:function(response){        
+          if(response['status'] == 't'){
+            current.parent().parent().hide();
+          }                                             
+        },
+        error: function(response){                    
+        console.log(response);
+        }
+        }); 
+
+    }
+    
+  });
   
   saswp_select2();
 

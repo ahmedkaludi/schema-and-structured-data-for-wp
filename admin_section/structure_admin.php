@@ -1442,7 +1442,36 @@ function saswp_send_query_message(){
 
 add_action('wp_ajax_saswp_send_query_message', 'saswp_send_query_message');
 
+add_action('wp_ajax_saswp_dismiss_notices', 'saswp_dismiss_notices');
 
+function saswp_dismiss_notices(){
+
+  if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+    return; 
+  }
+  if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+    return;  
+  }
+  
+  if(isset($_POST['notice_type'])){
+    
+    $notice_type = $_POST['notice_type'];
+
+    $user_id      = get_current_user_id();
+    
+    
+    $updated = update_user_meta( $user_id, $notice_type.'_dismiss_date', date("Y-m-d"));
+
+    if($updated){
+      echo json_encode(array('status'=>'t'));  
+    }else{
+      echo json_encode(array('status'=>'f'));  
+    }
+
+  }
+  
+  wp_die();           
+}
    /**
      * This is a ajax handler function for sending email from user admin panel to us. 
      * @return type json string

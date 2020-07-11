@@ -1288,6 +1288,7 @@ a.saswp-revws-lnk{
     margin-left: 20px;
     font-size: 14px;
     line-height: 0.6;
+    cursor: pointer;
 }
 .saswp-update-notice-btns{
     display: inline-block;
