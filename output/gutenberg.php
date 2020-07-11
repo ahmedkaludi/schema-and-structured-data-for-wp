@@ -298,7 +298,7 @@ function saswp_gutenberg_recipe_schema(){
 
     }    
                                     
-    return apply_filters('saswp_modify_recipe_schema_output', $input1 );
+    return apply_filters('saswp_modify_recipe_block_schema_output', $input1 );
 
 }
 
