@@ -288,7 +288,8 @@ return array(
         ),
         'aiosp' => array(            
                     'name'       => 'All in One SEO Pack',
-                    'free'       => 'all-in-one-seo-pack/all_in_one_seo_pack.php',               
+                    'free'       => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
+                    'pro'        => 'all-in-one-seo-pack-pro/all_in_one_seo_pack.php',               
                     'opt_name'   => 'saswp-aiosp',
                     'part_in'    => 'free',
         ),
