@@ -406,6 +406,9 @@ class saswp_output_compatibility{
     public function wp_recipe_maker_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wp-recipe-maker');
     }
+    public function ultimate_blocks_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-ultimate-blocks');
+    }
     public function wp_zoom_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wpzoom');
     }

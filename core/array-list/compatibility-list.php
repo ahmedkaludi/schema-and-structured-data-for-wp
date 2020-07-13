@@ -305,6 +305,12 @@ return array(
                     'opt_name'   => 'saswp-wp-recipe-maker',
                     'part_in'    => 'free',
         ),
+        'ultimate_blocks' => array(            
+            'name'       => 'Ultimate Blocks – Gutenberg Blocks Plugin',
+            'free'       => 'ultimate-blocks/ultimate-blocks.php',               
+            'opt_name'   => 'saswp-ultimate-blocks',
+            'part_in'    => 'free',
+        ),
         'wpzoom' => array(            
             'name'       => 'Recipe Card Blocks by WPZOOM',
             'free'       => 'recipe-card-blocks-by-wpzoom/wpzoom-recipe-card.php',               

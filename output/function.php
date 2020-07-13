@@ -1224,6 +1224,16 @@ function saswp_remove_microdata($content){
         $content = preg_replace('/hrecipe/', "", $content);
         
         //Clean json markup
+        if(isset($sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ){
+            
+            $regex = '/<div class\=\"ub_howto\"(.*?)<\/div><script type=\"application\/ld\+json\">(.*?)<\/script>/s';
+
+            preg_match( $regex, $content, $match);
+
+            $content = preg_replace($regex, '<div class="ub_howto"'.$match[1].' </div>', $content);        
+        }
+
+        //Clean json markup
         if(isset($sd_data['saswp-wpzoom']) && $sd_data['saswp-wpzoom'] == 1 ){
 
             $regex = '/<script type=\"application\/ld\+json\">(.*?)<\/script><div class=\"wp-block-wpzoom-recipe-card-block-recipe-card/s';

@@ -348,7 +348,10 @@ function saswp_gutenberg_how_to_schema(){
                 
                 $input1 = array();
                 
-                $yoast_howto = saswp_get_gutenberg_block_data('yoast/how-to-block');                 
+                $yoast_howto = saswp_get_gutenberg_block_data('yoast/how-to-block');  
+
+                $ub_howto    = saswp_get_gutenberg_block_data('ub/how-to');                      
+
                 if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 && $yoast_howto && isset($yoast_howto['attrs'])){
                     
                 $service_object     = new saswp_output_service();   
@@ -438,7 +441,121 @@ function saswp_gutenberg_how_to_schema(){
                              
                  }       
 
-                }else{
+                } else if( (isset($sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ) && $ub_howto && isset($ub_howto['attrs'])){
+                    
+                    extract($ub_howto['attrs']);
+                    
+                    $input1['@context']              = saswp_context_url();
+                    $input1['@type']                 = 'HowTo';
+                    $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';
+                    $input1['name']                  = saswp_get_the_title();                
+                    $input1['datePublished']         = get_the_date("c");
+                    $input1['dateModified']          = get_the_modified_date("c");    
+                    $input1['description']           = $introduction ? $introduction : saswp_get_the_excerpt(); 
+
+                    if(function_exists('generateISODurationCode')){
+                        $ISOTotalTime = generateISODurationCode($totalTime);
+
+                        if($ISOTotalTime){
+                            $input1['totalTime'] = $ISOTotalTime;
+                        }
+                    }
+                    
+
+                    $supply     = array();
+                    $supply_arr = array();
+                                        
+                    if($advancedMode && $includeSuppliesList && count($supplies) > 0){
+
+                        foreach($supplies as $val){
+
+                            $supply_data = array();
+
+                            if($val['name']){
+                                $supply_data['@type'] = 'HowToSupply';
+                                $supply_data['name']  = $val['name'];                            
+                                $supply_data['image'] = $val['imageURL'];                            
+                            }
+
+                        $supply_arr[] =  $supply_data;
+                        }
+                        $input1['supply'] = $supply_arr;
+                    }
+
+                    $tool     = array();
+                    $tool_arr = array();
+                                                            
+                    if($advancedMode && $includeToolsList && count($tools) > 0){
+
+                        foreach($tools as $val){
+
+                            $supply_data = array();
+
+                            if($val['name']){
+                                $supply_data['@type'] = 'HowToTool';
+                                $supply_data['name']  = $val['name'];    
+                                $supply_data['image'] = $val['imageURL'];                        
+                            }
+
+                        $tool_arr[] =  $supply_data;
+                        }
+                    $input1['tool'] = $tool_arr;
+                    }
+                    $step_sec = array();
+                    if(isset($useSections)){
+
+                        foreach($section as $i => $s){
+
+                            $step_arr = array();
+
+                            foreach($s['steps'] as $j => $step){
+                                $step_arr[] = array(
+                                    '@type'               => 'HowToStep',                                  
+                                    'name'                => $step['title'],
+                                    'image'               => $step['stepPic']['url'],
+                                    'url'                 => get_permalink(). '#'. $step['anchor'],
+                                    'itemListElement'     => array(
+                                        $step['direction'] ? array('@type' => 'HowToDirection', 'text' => $step['direction']) : '',
+                                        $step['tip'] ? array('@type' => 'HowToTip', 'text' => $step['tip']) : ''
+                                    ),
+                                );
+                            }
+
+                            $step_sec[] = array(
+                                '@type'             => 'HowToSection',
+                                'name'              => $s['sectionName'],                                
+                                'itemListElement'   => $step_arr,
+                            );
+
+                            $input1['step'] = $step_sec;
+                        }
+
+                    }else{
+
+                        if(count($section) > 0){
+
+                            $step_arr = array();
+
+                            foreach($section[0]['steps'] as $j => $step){
+
+                                $step_arr[] = array(
+                                    '@type'               => 'HowToStep',                                  
+                                    'name'                => $step['title'],
+                                    'image'               => $step['stepPic']['url'],
+                                    'url'                 => get_permalink(). '#'. $step['anchor'],
+                                    'itemListElement'     => array(
+                                        $step['direction'] ? array('@type' => 'HowToDirection', 'text' => $step['direction']): '',
+                                        $step['tip']? array('@type' => 'HowToTip', 'text' => $step['tip']) : '',
+                                    ),
+                                );
+
+                            }
+                            
+                            $input1['step'] = $step_arr;
+                        }
+                    }
+                    
+                } else {
                 
                 $parse_blocks = saswp_get_gutenberg_block_data('saswp/how-to-block');
 
@@ -586,6 +703,23 @@ function saswp_gutenberg_how_to_schema(){
                     
                 }
                 
+            if($input1){
+                
+                $service_object     = new saswp_output_service();
+
+                $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
+                $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
+				
+                if(!empty($aggregateRating)){
+                        $input1['aggregateRating'] = $aggregateRating;
+                }                                
+                if(!empty($extra_theme_review)){
+                    $input1 = array_merge($input1, $extra_theme_review);
+                }
+        
+                $input1 = saswp_append_fetched_reviews($input1, get_the_ID());
+                
+            }    
                                 
             return apply_filters('saswp_modify_howto_schema_output', $input1 );
     

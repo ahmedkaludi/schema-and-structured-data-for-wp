@@ -2296,6 +2296,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $ultimate_blocks = array(
+                'label'  => 'Ultimate Blocks – Gutenberg Blocks Plugin',
+                'id'     => 'saswp-ultimate-blocks-checkbox',                        
+                'name'   => 'saswp-ultimate-blocks-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('ultimate_blocks'),
+                'hidden' => array(
+                        'id'   => 'saswp-ultimate-blocks',
+                        'name' => 'sd_data[saswp-ultimate-blocks]',                             
+                )
+        );
+
         $wp_tasty_recipe = array(
                 'label'  => 'WP Tasty Recipe',
                 'id'     => 'saswp-wptastyrecipe-checkbox',                        
@@ -2739,6 +2752,7 @@ function saswp_compatibility_page_callback(){
                 $recipe_maker,
                 $recipress,
                 $wpzoom,
+                $ultimate_blocks,
                 $wp_tasty_recipe,
                 $wp_ultimate_recipe,
                 $zip_recipes,
