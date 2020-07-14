@@ -2546,3 +2546,54 @@ function saswp_get_loop_markup($i) {
 
     return $response;
 }
+
+function saswp_get_yotpo_reviews($product_id){
+
+    $yotpo_settings = get_option('yotpo_settings');
+    $response = array();
+
+    if(isset($yotpo_settings['app_key'])){
+
+        $i          = 1;
+        $loop_count = 1; 
+
+        do{
+            
+            $url  = esc_url('https://api.yotpo.com/v1/widget/'.$yotpo_settings['app_key'].'/products/'.$product_id.'/reviews.json?per_page=150&page='.$i);
+            $result = @wp_remote_get($url);
+
+            if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
+                
+                $reviews = json_decode(wp_remote_retrieve_body($result),true);
+
+                if($reviews['response']['reviews']){
+
+                    $response['average'] = $reviews['response']['bottomline']['average_score'];
+                    $response['total']   = $reviews['response']['bottomline']['total_review'];
+                    
+                    if($response['total'] > 150){
+                        $loop_count = ceil($response['total'] / 150);
+                    }
+
+                    foreach ($reviews['response']['reviews'] as  $value) {
+
+                        $response['reviews'][] = array(
+                            'author'        => $value['user']['display_name'],
+                            'datePublished' => $value['created_at'],
+                            'description'   => $value['content'],
+                            'reviewRating'  => $value['score'],
+                        ) ;
+
+                    }
+                    
+                }
+            }
+
+            $i++;
+
+        } while ($i <= $loop_count);
+        
+    }
+    
+    return $response;
+}

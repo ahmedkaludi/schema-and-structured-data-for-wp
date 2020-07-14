@@ -725,6 +725,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-yotpo-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-yotpo").val(1);                                
+                            }else{
+                              $("#saswp-yotpo").val(0);                                          
+                            }
+                      break;
+
                       case 'saswp-ultimate-blocks-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

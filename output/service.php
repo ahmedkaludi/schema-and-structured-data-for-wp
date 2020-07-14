@@ -3446,7 +3446,17 @@ Class saswp_output_service{
                         $product_details['product_average_rating'] = $sumofrating /  count($judge_me_post);
                     }
                  
-             }else if( $reviews && is_array($reviews) ){
+             } else if(function_exists('wc_yotpo_init') && (isset($sd_data['saswp-yotpo']) && $sd_data['saswp-yotpo'] ==1 )){
+            
+                $yotpo_reviews = saswp_get_yotpo_reviews($post_id);
+                
+                if($yotpo_reviews){
+                    $reviews_arr                               = $yotpo_reviews['reviews'];     
+                    $product_details['product_review_count']   = $yotpo_reviews['total'];
+                    $product_details['product_average_rating'] = $yotpo_reviews['average'];  
+                }
+
+             } else if( $reviews && is_array($reviews) ){
 
               $sumofrating = 0;
               $avg_rating  = 1;

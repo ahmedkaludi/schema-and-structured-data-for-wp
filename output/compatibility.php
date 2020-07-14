@@ -416,8 +416,11 @@ class saswp_output_compatibility{
     public function ultimate_blocks_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-ultimate-blocks');
     }
-    public function wp_zoom_on_activation(){
+    public function wpzoom_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wpzoom');
+    }
+    public function yotpo_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-yotpo');
     }
     public function wptastyrecipe_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wptastyrecipe');

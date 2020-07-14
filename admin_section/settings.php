@@ -2308,6 +2308,18 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-wpzoom]',                             
                 )
         );
+        $yotpo = array(
+                'label'  => 'Yotpo',
+                'id'     => 'saswp-yotpo-checkbox',                        
+                'name'   => 'saswp-yotpo-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('yotpo'),
+                'hidden' => array(
+                        'id'   => 'saswp-yotpo',
+                        'name' => 'sd_data[saswp-yotpo]',                             
+                )
+        );
 
         $starsrating = array(
                 'label'  => 'Stars Rating',
@@ -2778,6 +2790,7 @@ function saswp_compatibility_page_callback(){
                 $recipe_maker,
                 $recipress,
                 $wpzoom,
+                $yotpo,
                 $starsrating,
                 $ultimate_blocks,
                 $wp_tasty_recipe,

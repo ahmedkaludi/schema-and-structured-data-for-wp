@@ -323,6 +323,12 @@ return array(
             'opt_name'   => 'saswp-wpzoom',
             'part_in'    => 'free',
         ),
+        'yotpo' => array(            
+            'name'       => 'Yotpo: Product & Photo Reviews for WooCommerce',
+            'free'       => 'yotpo-social-reviews-for-woocommerce/wc_yotpo.php',               
+            'opt_name'   => 'saswp-yotpo',
+            'part_in'    => 'free',
+        ),
         'wptastyrecipe' => array(            
             'name'       => 'WP Tasty Recipe',
             'free'       => 'tasty-recipes/tasty-recipes.php',               
