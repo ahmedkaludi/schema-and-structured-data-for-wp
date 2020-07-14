@@ -993,7 +993,10 @@ function saswp_get_comments_with_rating(){
             'type'    => 'comment' 
         ) 
       );                                                                                                                                                                              
-          
+      
+        $starsrating        = saswp_check_starsrating_status();
+        $stars_rating_moved = get_option('saswp_imported_starsrating');
+
         if ( count( $post_comments ) ) {
 
         $sumofrating = 0;
@@ -1001,8 +1004,15 @@ function saswp_get_comments_with_rating(){
             
 		foreach ( $post_comments as $comment ) {                        
 
-            $rating = get_comment_meta($comment->comment_ID, 'review_rating', true);
-
+            if($starsrating || $stars_rating_moved){
+                $rating = get_comment_meta($comment->comment_ID, 'rating', true);
+                if($stars_rating_moved && !$rating){
+                    $rating = get_comment_meta($comment->comment_ID, 'review_rating', true);
+                }
+            }else{
+                $rating = get_comment_meta($comment->comment_ID, 'review_rating', true);
+            }
+            
             if(is_numeric($rating)){
 
                 $sumofrating += $rating;

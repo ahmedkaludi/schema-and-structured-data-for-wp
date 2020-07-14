@@ -1282,6 +1282,7 @@ function saswp_import_callback(){
         $aiors_message           = '';
         $wp_custom_rv_message    = '';
         $schema_for_faqs_message = '';
+        $starsrating_message    = '';
         $schema_plugin         = saswp_check_data_imported_from('schema'); 
         $schema_pro_plugin     = saswp_check_data_imported_from('schema_pro');
         $wp_seo_schema_plugin  = saswp_check_data_imported_from('wp_seo_schema');
@@ -1290,7 +1291,14 @@ function saswp_import_callback(){
         $aiors                 = saswp_check_data_imported_from('aiors');
         $wp_custom_rv          = saswp_check_data_imported_from('wp_custom_rv');
         $schema_for_faqs       = saswp_check_data_imported_from('schema_for_faqs');
+        $starsrating           = saswp_check_data_imported_from('starsrating');
         
+        if($starsrating->post_count !=0 ){
+            
+            $starsrating_message = $message;
+                     
+        }
+
         if($schema_for_faqs->post_count !=0 ){
             
           $schema_for_faqs_message = $message;
@@ -1377,6 +1385,11 @@ function saswp_import_callback(){
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the settings and data you can import from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('WP Customer Reviews','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="wp_custom_rv" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html__($wp_custom_rv_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
+                    </div>
+                </li>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__('All the reviews can be imported from this plugin when you click start importing','schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__('Stars Rating','schema-and-structured-data-for-wp'); ?></strong></div><button data-id="starsrating" class="button saswp-import-plugins"><?php echo esc_html__('Import','schema-and-structured-data-for-wp'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo '<p>'.esc_html__($starsrating_message, 'schema-and-structured-data-for-wp').'</p>'; ?>                          
                     </div>
                 </li>
 
@@ -2296,6 +2309,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $starsrating = array(
+                'label'  => 'Stars Rating',
+                'id'     => 'saswp-starsrating-checkbox',                        
+                'name'   => 'saswp-starsrating-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('starsrating'),
+                'hidden' => array(
+                        'id'   => 'saswp-starsrating',
+                        'name' => 'sd_data[saswp-starsrating]',                             
+                )
+        );
+
         $ultimate_blocks = array(
                 'label'  => 'Ultimate Blocks – Gutenberg Blocks Plugin',
                 'id'     => 'saswp-ultimate-blocks-checkbox',                        
@@ -2752,6 +2778,7 @@ function saswp_compatibility_page_callback(){
                 $recipe_maker,
                 $recipress,
                 $wpzoom,
+                $starsrating,
                 $ultimate_blocks,
                 $wp_tasty_recipe,
                 $wp_ultimate_recipe,

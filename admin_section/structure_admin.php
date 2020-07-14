@@ -1531,6 +1531,14 @@ function saswp_import_plugin_data(){
                     $result = saswp_import_wp_custom_rv_plugin_data();      
                 }                
                 break; 
+
+                case 'starsrating':       
+                      
+                  if ( is_plugin_active('stars-rating/stars-rating.php')) {                      
+                      update_option('saswp_imported_starsrating', 1);
+                      $result = 'updated';
+                  }                
+                break; 
                 
                 case 'schema_for_faqs':                
                   if ( is_plugin_active('faq-schema-markup-faq-structured-data/schema-for-faqs.php')) {

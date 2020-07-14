@@ -734,6 +734,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-starsrating-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-starsrating").val(1);                                
+                            }else{
+                              $("#saswp-starsrating").val(0);                                          
+                            }
+                      break;
+
                       case 'saswp-wptastyrecipe-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

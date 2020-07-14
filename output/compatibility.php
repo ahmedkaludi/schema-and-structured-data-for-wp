@@ -112,7 +112,11 @@ class saswp_output_compatibility{
       }        
                                    
     }        
-            
+    
+    public function saswp_starsrating_override(){            
+       update_option('google_search_stars', 'hide');
+    }
+
     public function saswp_soledad_override(){
             
          saswp_remove_anonymous_object_filter_or_action(
@@ -402,6 +406,9 @@ class saswp_output_compatibility{
     }
     public function squirrly_seo_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-squirrly-seo');
+    }
+    public function starsrating_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-starsrating');
     }
     public function wp_recipe_maker_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wp-recipe-maker');

@@ -34,17 +34,51 @@ function saswp_check_stars_rating(){
 		return false;
 	}
 }
+function saswp_check_starsrating_status(){
+
+		global $sd_data;
+
+		if(isset($sd_data['saswp-starsrating']) && $sd_data['saswp-starsrating'] == 1){
+
+			$enabled_posts = get_option( 'enabled_post_types' );
+			$post_status   = get_post_meta( get_the_ID(), 'sr-comments-rating', true );
+
+			if ( ! is_array( $enabled_posts ) ) {
+				$enabled_posts = (array) $enabled_posts;
+			}
+
+			$status = ( in_array( get_post_type(), $enabled_posts ) && ( '0' !== $post_status ) ) ? true : false;
+
+		}else{
+
+			$status = false;	
+
+		}		
+
+		return $status;
+
+}
 
 //Get the average rating of a post.
 function saswp_comment_rating_get_average_ratings( $id ) {
 
 	$comments = get_approved_comments( $id );
+	$stars_rating_moved = get_option('saswp_imported_starsrating');
 
 	if ( $comments ) {
 		$i = 0;
 		$total = 0;
 		foreach( $comments as $comment ){
-			$rate = get_comment_meta( $comment->comment_ID, 'review_rating', true );
+
+			if($stars_rating_moved){
+				$rate = get_comment_meta( $comment->comment_ID, 'rating', true );
+				if(!$rate){
+					$rate = get_comment_meta( $comment->comment_ID, 'review_rating', true );	
+				}
+			}else{
+				$rate = get_comment_meta( $comment->comment_ID, 'review_rating', true );
+			}
+			
 			if( isset( $rate ) && '' !== $rate ) {
 				$i++;
 				$total += $rate;
@@ -105,8 +139,16 @@ add_filter( 'comment_text', 'saswp_comment_rating_display_rating');
 function saswp_comment_rating_display_rating( $comment_text ){
 	
 	if ( saswp_check_stars_rating() ) {
-
-		$rating = get_comment_meta( get_comment_ID(), 'review_rating', true );
+		$stars_rating_moved = get_option('saswp_imported_starsrating');
+		if($stars_rating_moved){
+			$rating = get_comment_meta( get_comment_ID(), 'rating', true );
+			if(!$rating){
+				$rating = get_comment_meta( get_comment_ID(), 'review_rating', true );		
+			}
+		}else{
+			$rating = get_comment_meta( get_comment_ID(), 'review_rating', true );
+		}
+		
 
 		return '<p>'.saswp_get_rating_html_by_value($rating).'</p><p>'.esc_html($comment_text).'</p>';
 	} else {

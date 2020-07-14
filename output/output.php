@@ -1338,7 +1338,7 @@ function saswp_schema_output() {
                             case 'qanda':
 
                                 $post_type = get_post_type();
-
+                                
                                 $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'QAPage' ,
@@ -1859,7 +1859,7 @@ function saswp_schema_output() {
 
                                     //High priority reivew which is on post itself by stars rating
 
-                                    if(saswp_check_stars_rating()){
+                                    if(saswp_check_stars_rating() || saswp_check_starsrating_status()){
 
                                         $stars_rating = saswp_get_comments_with_rating();
 
@@ -1923,7 +1923,7 @@ function saswp_schema_output() {
                                         
                                         //High priority reivew which is on post itself by stars rating
 
-                                        if(saswp_check_stars_rating()){
+                                        if(saswp_check_stars_rating() || saswp_check_starsrating_status()){
 
                                             $stars_rating = saswp_get_comments_with_rating();
 

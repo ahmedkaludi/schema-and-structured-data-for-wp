@@ -2836,6 +2836,19 @@ function saswp_admin_notice(){
         
     }
 
+    if(function_exists('Stars_Rating') && (isset($sd_data['saswp-starsrating']) && $sd_data['saswp-starsrating'] == 1)){
+        
+        ?>
+        <div class="updated notice is-dismissible message">
+            <p>
+                  <span><?php echo esc_html__('You use Stars Rating plugin and has enabled Stars Rating option in Schema & Structured Data For WP & AMP. Use any one option for better comment form.', 'schema-and-structured-data-for-wp') ?> </span>                                                                
+            </p>
+        </div>
+
+      <?php 
+
+    }
+
     $user_id      = get_current_user_id();
     $dismiss_meta = get_user_meta( $user_id, 'amp_enable_dismiss_date' );
 
@@ -2937,6 +2950,7 @@ function saswp_get_field_note($pname){
             'squirrly_seo'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
             'wp_recipe_maker'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
             'wpzoom'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom">Recipe Card Blocks by WPZOOM</a>',        
+            'starsrating'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/stars-rating">Stars Rating</a>',        
             'ultimate_blocks'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-blocks">Ultimate Blocks – Gutenberg Blocks Plugin</a>',        
             'wptastyrecipe'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.wptasty.com">WP Tasty Recipe</a>',        
             'recipress'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipress">ReciPress</a>',        

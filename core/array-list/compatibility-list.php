@@ -311,6 +311,12 @@ return array(
             'opt_name'   => 'saswp-ultimate-blocks',
             'part_in'    => 'free',
         ),
+        'starsrating' => array(            
+            'name'       => 'Stars Rating',
+            'free'       => 'stars-rating/stars-rating.php',               
+            'opt_name'   => 'saswp-starsrating',
+            'part_in'    => 'free',
+        ),
         'wpzoom' => array(            
             'name'       => 'Recipe Card Blocks by WPZOOM',
             'free'       => 'recipe-card-blocks-by-wpzoom/wpzoom-recipe-card.php',               
