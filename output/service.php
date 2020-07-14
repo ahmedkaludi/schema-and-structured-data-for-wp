@@ -3255,6 +3255,20 @@ Class saswp_output_service{
 				 				 
                 }  
                  
+             //product categories starts here
+             
+             $terms       = get_the_terms( $post_id, 'product_cat' );
+             $product_cat = array();
+
+             if($terms){
+                foreach($terms as $val){
+                    $product_cat[] = $val->name;
+                }
+                $product_details['product_category'] = $product_cat;      
+             }
+
+             //product categories ends here 
+                
              $gtin = get_post_meta($post_id, $key='hwp_product_gtin', true);
              
              if($gtin !=''){
@@ -4012,6 +4026,10 @@ Class saswp_output_service{
 
                            }                              
                             
+                           if($schema_type == 'SoftwareApplication'){
+                            $input1['applicationCategory'] = $product_details['product_category'];     
+                           }
+
                           if(isset($product_details['product_gtin8']) && $product_details['product_gtin8'] !=''){
                             $input1['gtin8'] = esc_attr($product_details['product_gtin8']);  
                           }
