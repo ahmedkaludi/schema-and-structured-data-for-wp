@@ -1513,6 +1513,9 @@ Class saswp_output_service{
                     $phy_location = array();
                     $vir_location = array();
                     
+                    if(isset($custom_fields['saswp_event_schema_id'])){
+                        $input1['@id'] =    $custom_fields['saswp_event_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_event_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_event_schema_name'];
                     }
@@ -2682,7 +2685,10 @@ Class saswp_output_service{
                 break;
                 
                 case 'Person':      
-                      
+                    
+                    if(isset($custom_fields['saswp_person_schema_id'])){
+                     $input1['@id'] =    $custom_fields['saswp_person_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_person_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_person_schema_name'];
                     }

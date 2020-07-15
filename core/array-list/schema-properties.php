@@ -948,6 +948,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'TheaterEvent'     => 'TheaterEvent',
                                 'VisualArtsEvent'  => 'VisualArtsEvent'
                             ) 
+                        ),                        
+                        array(
+                                'label'   => 'ID',
+                                'id'      => 'saswp_event_schema_id_'.$schema_id,
+                                'type'    => 'text'                                
                         ),
                         array(
                                 'label' => 'Event Status',
@@ -4454,6 +4459,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 case 'Person':
                     
                     $meta_field = array(
+                    array(
+                                'label'   => 'ID',
+                                'id'      => 'saswp_person_schema_id_'.$schema_id,
+                                'type'    => 'text'                                
+                    ),        
                     array(
                             'label'      => 'Name',
                             'id'         => 'saswp_person_schema_name_'.$schema_id,

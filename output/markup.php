@@ -351,8 +351,7 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 
             $input1 = array(
             '@context'			=> saswp_context_url(),
-            '@type'				=> (isset($all_post_meta['saswp_event_schema_type_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_type_'.$schema_id][0] !='') ? $all_post_meta['saswp_event_schema_type_'.$schema_id][0] : 'Event' ,
-            '@id'                           => trailingslashit(get_permalink()).'#event',    
+            '@type'				=> (isset($all_post_meta['saswp_event_schema_type_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_type_'.$schema_id][0] !='') ? $all_post_meta['saswp_event_schema_type_'.$schema_id][0] : 'Event' ,            
             'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_name_'.$schema_id, 'saswp_array'),
             'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_description_'.$schema_id, 'saswp_array'),			                
             'image'                         => array(
@@ -389,7 +388,13 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                     '@type'   => 'VirtualLocation',
                     'name'    => isset($all_post_meta['saswp_event_schema_virtual_location_name_'.$schema_id][0]) ? $all_post_meta['saswp_event_schema_virtual_location_name_'.$schema_id][0] : '',
                     'url'     => isset($all_post_meta['saswp_event_schema_virtual_location_url_'.$schema_id][0]) ? $all_post_meta['saswp_event_schema_virtual_location_url_'.$schema_id][0]: ''
-                );    
+                );
+                
+                if(isset($all_post_meta['saswp_event_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_id_'.$schema_id][0] != ''){
+                    $input1['@id']                   = $all_post_meta['saswp_event_schema_id_'.$schema_id][0];
+                }else{
+                    $input1['@id']                   = trailingslashit(get_permalink()).'#Event';
+                }                
                 if(isset($all_post_meta['saswp_event_schema_attendance_mode_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_attendance_mode_'.$schema_id][0] == 'OfflineEventAttendanceMode'){
                     $input1['location'] =  $phy_location;  
                 }else if(isset($all_post_meta['saswp_event_schema_attendance_mode_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_attendance_mode_'.$schema_id][0] == 'OnlineEventAttendanceMode'){
@@ -1612,7 +1617,13 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
         $input1['@context']              = saswp_context_url();
         $input1['@type']                 = 'Person';
-        $input1['@id']                   = trailingslashit(get_permalink()).'#Person';
+
+        if(isset($all_post_meta['saswp_person_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_person_schema_id_'.$schema_id][0] != ''){
+            $input1['@id']                   = $all_post_meta['saswp_person_schema_id_'.$schema_id][0];
+        }else{
+            $input1['@id']                   = trailingslashit(get_permalink()).'#Person';
+        }
+        
         $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_url_'.$schema_id, 'saswp_array');                            
         $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_name_'.$schema_id, 'saswp_array');                                                        
         $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_description_'.$schema_id, 'saswp_array');                                                        

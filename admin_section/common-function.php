@@ -3698,7 +3698,11 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         if($taxonomies){
 
             foreach($taxonomies as $tax){
-                $choices[] = array('id' => $tax->slug, 'text' => $tax->name);
+
+                if(is_object($tax)){
+                    $choices[] = array('id' => $tax->slug, 'text' => $tax->name);
+                }
+                
             }
             
         }
