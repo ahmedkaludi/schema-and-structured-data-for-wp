@@ -579,18 +579,29 @@ function saswp_comparison_logic_checker($input){
             if(isset( $input['key_4'] ) && $input['key_4'] !='all'){
              
               $term_data       = $input['key_4'];
-              $terms           = wp_get_post_terms( $post->ID ,$data);
-              $termChoices = array();
+              $termChoices     = array();
 
-              if(count($terms)>0){
-                                                  
-                foreach ($terms as $key => $termvalue) {
+              if(is_tax()){
+
+                $queried_obj   = get_queried_object();
+                $termChoices[] = $queried_obj->slug;
+
+              }else{
+
+                $terms           = wp_get_post_terms( $post->ID ,$data);
+                
+                if(count($terms)>0){
+                                                    
+                  foreach ($terms as $key => $termvalue) {
+                      
+                    $termChoices[] = $termvalue->slug;
                     
-                   $termChoices[] = $termvalue->slug;
-                   
-                 } 
-                 
-              }                                                        
+                  } 
+                  
+                }
+
+              }
+                                                                      
               
             if ( $comparison == 'equal' ) {
               if(in_array($term_data, $termChoices)){
