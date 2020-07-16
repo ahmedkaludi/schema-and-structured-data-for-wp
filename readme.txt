@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.44
+Stable tag: 1.9.44.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.44.1 (16 July 2020) =
+
+* Fixed: Placement for taxonomy(tag) for particular product category is not working #1118
+* Fixed: Fatal error with a conflict plugin #1116
+* Fixed: Recipe schema:- The recipe markup is getting duplicated in AMP only. #1109
+* Fixed: First take user name in the review author if its not available than show 'anonymous' name for anonymous user #1112
+* Added: ID Property to Person and Event schema type #1117
+* Added: Compatibility with All in One Seo pack pro #1110
+* Added: Compatibility with  Ultimate Blocks ( https://wordpress.org/plugins/ultimate-blocks/ ). Only HowTo Block
+* Added: Compatibility with Yotpo reviews plugin ( https://wordpress.org/plugins/yotpo-social-reviews-for-woocommerce/ )
+* Added: Compatibility & Migrator with Stars Rating plugin ( https://wordpress.org/plugins/stars-rating/ ) 
+* Added: Display a message when user has not selected the options for displaying structured data via AMP plugins (AMP automatic etc). #1108
+
 
 = 1.9.44 (09 July 2020) =
 
