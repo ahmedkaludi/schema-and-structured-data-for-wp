@@ -52,7 +52,7 @@ class saswp_output_compatibility{
         
     } 
     
-    public function saswp_exclude_wpsso_schema_graph( $prop_data, $mod, $mt_og, $page_type_id, $is_main ) {
+    public function saswp_exclude_wpsso_schema_graph( $prop_data, $mod, $mt_og, $page_type_id=false, $is_main=false ) {
          
         return array();
         
