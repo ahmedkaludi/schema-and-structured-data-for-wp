@@ -171,6 +171,12 @@ return array(
                     'opt_name'   => 'saswp-lifter-lms',
                     'part_in'    => 'pro',
         ),
+        'senseilms'  =>  array(            
+            'name'       => 'Sensei LMS',
+            'free'       => 'sensei-lms/sensei-lms.php',              
+            'opt_name'   => 'saswp-senseilms',
+            'part_in'    => 'pro',
+        ),
         'wp_post_ratings' =>  array(            
                     'name'       => 'WP-PostRatings',
                     'free'       => 'wp-postratings/wp-postratings.php',            

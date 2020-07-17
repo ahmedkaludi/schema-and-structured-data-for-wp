@@ -2959,6 +2959,7 @@ function saswp_get_field_note($pname){
             'learn_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
             'learn_dash'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
             'lifter_lms'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
+            'senseilms'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/sensei-lms/">Sensei LMS</a>',
             'wplms'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/wplms-learning-management-system/6780226">WPLMS</a>',
             'wp_event_manager'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager/">WP Event Manager</a>',
             'events_manager'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
@@ -3235,17 +3236,20 @@ function saswp_is_date_field($date_str){
     
 }
 
-function saswp_get_video_links(){
+function saswp_get_video_metadata($content = ''){
     
-    global $post;
-    
-    $response = array();
-    
-    if(is_object($post)){
-        
+        global $post;
+        $response = array();
+
+        if(!$content){
+            if(is_object($post)){
+                $content = $post->post_content;
+            }    
+        }
+                                 
          $pattern = get_shortcode_regex();
          
-         if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+         if ( preg_match_all( '/'. $pattern .'/s', $content, $matches )
             && array_key_exists( 2, $matches )
             && in_array( 'playlist', $matches[2] ) )
             {
@@ -3256,31 +3260,44 @@ function saswp_get_video_links(){
                 $mached = ltrim($mached, '[');
                 $mached = trim($mached, '[]');
                 $attr = shortcode_parse_atts($mached);  
-                $response[] = wp_get_attachment_url($attr['ids']);
+                $vurl = wp_get_attachment_url($attr['ids']);
+                $response[]['video_url'] = $vurl;
                 
               }
                           
             }
            
-           preg_match_all( '/src\=\"(.*?)youtube\.com(.*?)\"/s', $post->post_content, $matches, PREG_SET_ORDER );
+           preg_match_all( '/src\=\"(.*?)youtube\.com(.*?)\"/s', $content, $matches, PREG_SET_ORDER );
            
            if($matches){
                
                foreach($matches as $match){
-                   
-                  $response[] = $match[1].'youtube.com'.$match[2]; 
+                  
+                  $vurl     = $match[1].'youtube.com'.$match[2]; 
+                  $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                  $result   = @wp_remote_get($rulr);                                    
+                  $metadata = json_decode(wp_remote_retrieve_body($result),true);
+
+                  $metadata['video_url'] = $vurl;                    
+                  $response[] = $metadata;
                    
                }                              
            }
            
-           preg_match_all( '/src\=\"(.*?)youtu\.be(.*?)\"/s', $post->post_content, $youtubematches, PREG_SET_ORDER );
+           preg_match_all( '/src\=\"(.*?)youtu\.be(.*?)\"/s', $content, $youtubematches, PREG_SET_ORDER );
            
            if($youtubematches){
                
                foreach($youtubematches as $match){
                    
-                  $response[] = $match[1].'youtu.be'.$match[2]; 
-                   
+                  $vurl       = $match[1].'youtu.be'.$match[2];                   
+                  $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                  $result   = @wp_remote_get($rulr);                                    
+                  $metadata = json_decode(wp_remote_retrieve_body($result),true);
+
+                  $metadata['video_url'] = $vurl;                    
+                  $response[] = $metadata;
+
                }
                               
            } 
@@ -3288,12 +3305,46 @@ function saswp_get_video_links(){
            $attributes = saswp_get_gutenberg_block_data('core-embed/youtube');            
            
            if(isset($attributes['attrs']['url'])){
-                $response[0] = $attributes['attrs']['url']; 
+
+                  $vurl = $attributes['attrs']['url']; 
+                  $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                  $result   = @wp_remote_get($rulr);                                    
+                  $metadata = json_decode(wp_remote_retrieve_body($result),true);
+
+                  $metadata['video_url'] = $vurl;                    
+                  $response[0] = $metadata;
            }
-           
-    }    
-    return $response;
+                          
+        return $response;
 }
+
+function saswp_get_thumbnail(){
+
+    global $thumbnail;
+
+    if(!$thumbnail){
+
+        $image_id 	        = get_post_thumbnail_id();	
+        $image_details 	    = wp_get_attachment_image_src($image_id);
+
+        if(isset($image_details[0])){
+
+            $thumbnail = $image_details[0];
+            
+        }else{
+
+            if(isset($sd_data['sd_default_image']['thumbnail'])){
+                $thumbnail = $sd_data['sd_default_image']['thumbnail'];    
+            }
+            
+        }
+
+    }    
+
+    return $thumbnail;
+
+}
+
 function saswp_remove_all_images($content){
 
     if($content){

@@ -341,6 +341,9 @@ class saswp_output_compatibility{
     public function lifter_lms_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-lifter-lms');
     }
+    public function senseilms_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-senseilms');
+    }
     public function wp_post_ratings_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wppostratings-raring');
     }

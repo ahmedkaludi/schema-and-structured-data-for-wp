@@ -1144,6 +1144,15 @@ jQuery(document).ready(function($){
                               $("#saswp-lifter-lms").val(0);           
                             }
                       break;
+
+                      case 'saswp-senseilms-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-senseilms").val(1);             
+                            }else{
+                              $("#saswp-senseilms").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-wp-event-manager-checkbox':
                           saswp_compatibliy_notes(current, id); 
