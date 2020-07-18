@@ -1045,6 +1045,15 @@ jQuery(document).ready(function($){
                               $("#saswp-taqyeem").val(0);           
                             }
                       break;
+
+                      case 'saswp-wp-product-review-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-product-review").val(1);             
+                            }else{
+                              $("#saswp-wp-product-review").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-the-events-calendar-checkbox':
                           saswp_compatibliy_notes(current, id); 

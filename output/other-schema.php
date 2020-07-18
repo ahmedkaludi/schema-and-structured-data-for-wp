@@ -57,6 +57,22 @@ function saswp_schema_for_faqs_schema(){
     return $input1;
 }
 
+function saswp_wp_product_review_lite_rich_snippet(){
+
+    global $post, $sd_data;
+
+    $input1    = array();    
+
+    if( is_object($post) && (isset($sd_data['saswp-wp-product-review']) && $sd_data['saswp-wp-product-review']) && class_exists('WPPR_Review_Model') ){        
+
+        $review_object = new WPPR_Review_Model($post->ID);
+        $input1        = $review_object->get_json_ld();        
+    }
+
+    return apply_filters('saswp_modify_wp_product_review_lite_default_schema', $input1);    
+
+}
+
 function saswp_taqyeem_review_rich_snippet(){
 
     global $post, $sd_data;

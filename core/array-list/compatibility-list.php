@@ -377,6 +377,12 @@ return array(
             'free'       => 'taqyeem/taqyeem.php',               
             'opt_name'   => 'saswp-taqyeem',
             'part_in'    => 'free',
+        ),
+        'wp_product_review' => array(            
+            'name'       => 'WP Product Review',
+            'free'       => 'wp-product-review/wp-product-review.php',               
+            'opt_name'   => 'saswp-wp-product-review',
+            'part_in'    => 'free',
         ),                    
     ),
     'themes' => array(

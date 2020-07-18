@@ -198,6 +198,14 @@ class saswp_output_compatibility{
         remove_filter('tie_taqyeem_after_review_box', 'taqyeem_review_rich_snippet');
     }
 
+    public function saswp_wp_product_review_override(){
+
+        $wppr_rich     = get_option('cwppos_options');
+        $wppr_rich['wppr_rich_snippet'] = 'no';
+        update_option('cwppos_options', $wppr_rich); 
+        
+    }
+
     public function saswp_kk_star_ratings_override(){
                         
         remove_action('wp_head', 'Bhittani\StarRating\structured_data');
@@ -406,6 +414,9 @@ class saswp_output_compatibility{
     }
     public function taqyeem_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-taqyeem');
+    }
+    public function wp_product_review_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wp-product-review');
     }
     public function squirrly_seo_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-squirrly-seo');

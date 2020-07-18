@@ -215,6 +215,7 @@ function saswp_get_all_schema_markup_output() {
 
         }        
         $taqeem_schema            = saswp_taqyeem_review_rich_snippet(); 
+        $wp_product_rv            = saswp_wp_product_review_lite_rich_snippet();
         $schema_for_faqs          = saswp_schema_for_faqs_schema();         
         $woo_cat_schema           = saswp_woocommerce_category_schema();  
         $woo_shop_page            = saswp_woocommerce_shop_page();  
@@ -325,6 +326,12 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($taqeem_schema)){
                         
                             $output .= saswp_json_print_format($taqeem_schema);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($wp_product_rv)){
+                        
+                            $output .= saswp_json_print_format($wp_product_rv);   
                             $output .= ",";
                             $output .= "\n\n";
                         }                        

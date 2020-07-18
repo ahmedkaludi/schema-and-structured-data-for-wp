@@ -2030,7 +2030,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-taqyeem',
                                 'name' => 'sd_data[saswp-taqyeem]',                             
                         )
-		);
+                );
+        $wp_product_review = array(
+                'label'  => 'WP Product Review',
+                'id'     => 'saswp-wp-product-review-checkbox',                        
+                'name'   => 'saswp-wp-product-review-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wp_product_review'),
+                'hidden' => array(
+                        'id'   => 'saswp-wp-product-review',
+                        'name' => 'sd_data[saswp-wp-product-review]',                             
+                )
+        );        
         $smart_crawl = array(
 			'label'  => 'SmartCrawl Seo',
 			'id'     => 'saswp-smart-crawl-checkbox',                        
@@ -2794,6 +2806,7 @@ function saswp_compatibility_page_callback(){
                 $soledad,
                 $reviews_wp_theme,
                 $taqyeem,
+                $wp_product_review,
                 $extratheme,
                 $dwquestiton,                
                 $yoast,
