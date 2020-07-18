@@ -2188,9 +2188,12 @@ if ( ! defined('ABSPATH') ) exit;
         global $post;
         global $sd_data;
 
-        $title   = @get_the_title();
-        $c_title = '';
-                                
+        $title = $c_title = '';
+
+        if(is_object($post)){
+            $title   = @get_the_title();
+        }
+                                                
         //SEOPress
         if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
                         
