@@ -708,7 +708,7 @@ function saswp_general_page_callback(){
         
         $meta_fields_default = array(	
                 array(
-			'label'  => 'Website Schema (Global)',
+			'label'  => 'Website Schema (HomePage)',
 			'id'     => 'saswp_website_schema_checkbox', 
                         'name'   => 'saswp_website_schema_checkbox',
 			'type'   => 'checkbox',
