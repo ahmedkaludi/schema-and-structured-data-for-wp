@@ -246,3 +246,23 @@ function saswp_wp_tasty_recipe_json_ld(){
 
 }
 
+add_filter('saswp_modify_video_object_schema_output', 'saswp_featured_video_plus_schema',10,1);
+
+function saswp_featured_video_plus_schema($input1){
+
+    global $sd_data;
+
+    if( isset($sd_data['saswp-featured-video-plus']) && $sd_data['saswp-featured-video-plus'] == 1 && function_exists('get_the_post_video_url') ){
+
+        if(has_post_video()){
+
+            $input1['contentUrl']   = get_the_post_video_url();
+            $input1['embedUrl']     = get_the_post_video_url();
+            $input1['thumbnailUrl'] = get_the_post_video_image_url();
+            
+        }
+        
+    }
+
+    return $input1;
+}

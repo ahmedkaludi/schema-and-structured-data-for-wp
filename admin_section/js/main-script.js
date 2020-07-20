@@ -1055,6 +1055,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-featured-video-plus-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-featured-video-plus").val(1);             
+                            }else{
+                              $("#saswp-featured-video-plus").val(0);           
+                            }
+                      break;
+
                       case 'saswp-wp-product-review-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

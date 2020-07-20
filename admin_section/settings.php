@@ -2346,6 +2346,18 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-video-thumbnails]',                             
                 )
         );
+        $featured_video_plus = array(
+                'label'  => 'Featured Video Plus',
+                'id'     => 'saswp-featured-video-plus-checkbox',                        
+                'name'   => 'saswp-featured-video-plus-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('featured_video_plus'),
+                'hidden' => array(
+                        'id'   => 'saswp-featured-video-plus',
+                        'name' => 'sd_data[saswp-featured-video-plus]',                             
+                )
+        );
         $yotpo = array(
                 'label'  => 'Yotpo',
                 'id'     => 'saswp-yotpo-checkbox',                        
@@ -2831,6 +2843,7 @@ function saswp_compatibility_page_callback(){
                 $recipress,
                 $wpzoom,
                 $video_thumbnails,
+                $featured_video_plus,
                 $yotpo,
                 $starsrating,
                 $ultimate_blocks,

@@ -389,6 +389,12 @@ return array(
             'free'       => 'video-thumbnails/video-thumbnails.php',               
             'opt_name'   => 'saswp-video-thumbnails',
             'part_in'    => 'free',
+        ),
+        'featured_video_plus' => array(            
+            'name'       => 'Featured Video Plus',
+            'free'       => 'featured-video-plus/featured-video-plus.php',               
+            'opt_name'   => 'saswp-featured-video-plus',
+            'part_in'    => 'free',
         )                    
     ),
     'themes' => array(
