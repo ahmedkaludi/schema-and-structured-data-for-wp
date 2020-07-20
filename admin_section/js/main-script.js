@@ -1046,6 +1046,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-video-thumbnails-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-video-thumbnails").val(1);             
+                            }else{
+                              $("#saswp-video-thumbnails").val(0);           
+                            }
+                      break;
+
                       case 'saswp-wp-product-review-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

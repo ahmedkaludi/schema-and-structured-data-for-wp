@@ -430,6 +430,9 @@ class saswp_output_compatibility{
     public function ultimate_blocks_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-ultimate-blocks');
     }
+    public function video_thumbnails_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-video-thumbnails');
+    }
     public function wpzoom_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wpzoom');
     }

@@ -383,7 +383,13 @@ return array(
             'free'       => 'wp-product-review/wp-product-review.php',               
             'opt_name'   => 'saswp-wp-product-review',
             'part_in'    => 'free',
-        ),                    
+        ),
+        'video_thumbnails' => array(            
+            'name'       => 'Video Thumbnails',
+            'free'       => 'video-thumbnails/video-thumbnails.php',               
+            'opt_name'   => 'saswp-video-thumbnails',
+            'part_in'    => 'free',
+        )                    
     ),
     'themes' => array(
         'soledad' => array(            

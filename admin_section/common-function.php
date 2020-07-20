@@ -2953,6 +2953,7 @@ function saswp_get_field_note($pname){
             'squirrly_seo'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
             'wp_recipe_maker'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
             'wpzoom'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom">Recipe Card Blocks by WPZOOM</a>',        
+            'video_thumbnails'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/video-thumbnails/">Video Thumbnails</a>',        
             'yotpo'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/yotpo-social-reviews-for-woocommerce/">Yotpo: Product & Photo Reviews for WooCommerce</a>',        
             'starsrating'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/stars-rating">Stars Rating</a>',        
             'ultimate_blocks'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-blocks">Ultimate Blocks – Gutenberg Blocks Plugin</a>',        
@@ -3324,23 +3325,27 @@ function saswp_get_video_metadata($content = ''){
 
 function saswp_get_thumbnail(){
 
-    global $thumbnail;
+    global $thumbnail, $sd_data;
 
     if(!$thumbnail){
 
         $image_id 	        = get_post_thumbnail_id();	
         $image_details 	    = wp_get_attachment_image_src($image_id);
 
-        if(isset($image_details[0])){
+        if( isset($sd_data['saswp-video-thumbnails']) && $sd_data['saswp-video-thumbnails'] == 1 && class_exists('Video_Thumbnails') ){
+
+            $thumbnail = get_video_thumbnail();
+
+        }else if (isset($image_details[0])){
 
             $thumbnail = $image_details[0];
-            
+
         }else{
 
             if(isset($sd_data['sd_default_image']['thumbnail'])){
                 $thumbnail = $sd_data['sd_default_image']['thumbnail'];    
             }
-            
+
         }
 
     }    
