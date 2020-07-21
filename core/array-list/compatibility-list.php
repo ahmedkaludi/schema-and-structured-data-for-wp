@@ -438,7 +438,7 @@ return array(
             'name'       => 'ClassiPress',
             'free'       => 'classipress',               
             'opt_name'   => 'saswp-classipress',
-            'part_in'    => 'pro',
+            'part_in'    => 'free',
         ),
         'realestate_5' => array(            
             'name'       => 'WP Pro Realestate 5',

@@ -266,3 +266,37 @@ function saswp_featured_video_plus_schema($input1){
 
     return $input1;
 }
+
+add_filter('saswp_modify_product_schema_output', 'saswp_classpress_ads_schema',10,1);
+
+function saswp_classpress_ads_schema($input1){
+
+    global $sd_data, $post;
+    
+    if(is_object($post) && $post->post_type == 'ad_listing' && isset($sd_data['saswp-classipress']) && $sd_data['saswp-classipress'] == 1 ){        
+
+        $post_meta = get_post_meta($post->ID, $key='', true);
+
+        $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
+
+        $input1['url']         = trailingslashit(saswp_get_permalink());
+        $input1['name']        = saswp_get_the_title();
+        $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
+        $input1['description'] = saswp_get_the_excerpt();
+        
+        $input1['offers']['@type']         = 'Offer';
+        $input1['offers']['url']           = saswp_get_permalink();
+        $input1['offers']['price']         = $post_meta['cp_price'][0] ? $post_meta['cp_price'][0] : 0;
+        $input1['offers']['priceCurrency'] = 'USD';
+        $input1['offers']['availability']  = 'InStock';
+        $input1['offers']['validFrom']     = get_the_modified_date('c');
+        $input1['offers']['priceValidUntil']     = $post_meta['cp_sys_expire_date'][0];
+
+        if( $post_meta['cp_ad_sold'][0] == 'yes') {
+            $input1['offers']['availability']  = 'OutOfStock';   
+        }
+        
+    }
+
+    return $input1;
+}
