@@ -211,6 +211,10 @@ class saswp_output_compatibility{
         remove_action('wp_head', 'Bhittani\StarRating\structured_data');
                         
     }
+
+    public function saswp_geodirectory_override(){                
+        remove_action( 'wp_head', array( 'GeoDir_Post_Data', 'schema' ), 10 );                         
+    }
     
     public function saswp_wp_event_manager_override(){
                         
@@ -435,6 +439,9 @@ class saswp_output_compatibility{
     }
     public function featured_video_plus_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-featured-video-plus');
+    }
+    public function geodirectory_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-geodirectory');
     }
     public function wpzoom_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wpzoom');

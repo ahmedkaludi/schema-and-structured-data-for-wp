@@ -2141,7 +2141,20 @@ function saswp_compatibility_page_callback(){
                         'id'   => 'saswp-realestate-5',
                         'name' => 'sd_data[saswp-realestate-5]',                             
                 )
-        ); 
+        );
+        
+        $geo_directory = array(
+                'label'  => 'GeoDirectory – Business Directory Plugin',
+                'id'     => 'saswp-geodirectory-checkbox',                        
+                'name'   => 'saswp-geodirectory-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('geodirectory'),
+                'hidden' => array(
+                        'id'   => 'saswp-geodirectory',
+                        'name' => 'sd_data[saswp-geodirectory]',                             
+                )
+        );
         
         $learn_press = array(
 			'label'  => 'LearnPress',
@@ -2766,6 +2779,7 @@ function saswp_compatibility_page_callback(){
              $wpresidence['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $myhome['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $realestate_5['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $geo_directory['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $classipress['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              
              
@@ -2861,6 +2875,7 @@ function saswp_compatibility_page_callback(){
                 $myhome,
                 $classipress,
                 $realestate_5,
+                $geo_directory,
                 $learn_press,
                 $learn_dash,
                 $lifter_lms,

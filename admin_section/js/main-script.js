@@ -1118,6 +1118,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-geodirectory-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-geodirectory").val(1);             
+                            }else{
+                              $("#saswp-geodirectory").val(0);           
+                            }
+                      break;
+
                       case 'saswp-classipress-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

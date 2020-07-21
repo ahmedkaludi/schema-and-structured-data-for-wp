@@ -395,7 +395,13 @@ return array(
             'free'       => 'featured-video-plus/featured-video-plus.php',               
             'opt_name'   => 'saswp-featured-video-plus',
             'part_in'    => 'free',
-        )                    
+        ),
+        'geodirectory' => array(            
+            'name'       => 'GeoDirectory – Business Directory Plugin',
+            'free'       => 'geodirectory/geodirectory.php',               
+            'opt_name'   => 'saswp-geodirectory',
+            'part_in'    => 'pro',
+        ),                   
     ),
     'themes' => array(
         'soledad' => array(            
@@ -439,7 +445,7 @@ return array(
             'free'       => 'realestate-5',               
             'opt_name'   => 'saswp-realestate-5',
             'part_in'    => 'pro',
-        ),
+        ),        
         'saswp_realhomes' => array(            
                     'name'       => 'RealHomes Theme',
                     'free'       => 'realhomes',               
