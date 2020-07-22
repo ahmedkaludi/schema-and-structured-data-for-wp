@@ -2280,11 +2280,16 @@ function saswp_archive_output(){
     $item_list        = array();  
     $collection_page  = array();
     $blog_page        = array();   
-    $item_list_schema = array();
-                 	        	
+    $item_list_schema = array();    
+    $product_cat      = false;
+
+    if( function_exists('is_product_category') && is_product_category() ){
+        $product_cat      = true;
+    }
+    
 	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
                     
-	    if ( is_category() || is_tax() ) {
+	    if ( (is_category() || is_tax()) && !$product_cat ) {
             		                                   
                 $i = 1;
                 $category_loop = new WP_Query( $query_string );                
