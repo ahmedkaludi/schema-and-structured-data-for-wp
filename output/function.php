@@ -2604,3 +2604,57 @@ function saswp_get_yotpo_reviews($product_id){
     
     return $response;
 }
+
+function saswp_get_stamped_reviews($product_id){
+
+    $public_api   = Woo_stamped_api::get_public_keys();
+    $store_url    = Woo_stamped_api::get_site_url();
+    
+    $response = array();
+
+    if($public_api && $store_url){
+
+        $i          = 1;
+        $loop_count = 1; 
+
+        do{
+            
+            $url  = "https://stamped.io/api/widget/reviews?productId={$product_id}&apiKey={$public_api}&storeUrl={$store_url}&per_page=100&page={$i}";
+            
+            $result = @wp_remote_get($url);
+
+            if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
+                
+                $reviews = json_decode(wp_remote_retrieve_body($result),true);
+
+                if($reviews['data']){
+
+                    $response['average'] = $reviews['ratingAll'];
+                    $response['total']   = $reviews['totalAll'];
+                    
+                    if($response['total'] > 100){
+                        $loop_count = ceil($response['total'] / 100);
+                    }
+
+                    foreach ($reviews['data'] as  $value) {
+
+                        $response['reviews'][] = array(
+                            'author'        => $value['author'],
+                            'datePublished' => $value['dateCreated'],
+                            'description'   => $value['reviewMessage'],
+                            'reviewRating'  => $value['reviewRating'],
+                        ) ;
+
+                    }
+                    
+                }
+            }
+
+            $i++;
+
+        } while ($i <= $loop_count);
+        
+    }
+    
+    return $response;
+}

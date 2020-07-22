@@ -2985,6 +2985,7 @@ function saswp_get_field_note($pname){
             'classipress'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.appthemes.com/themes/classipress/">ClassiPress</a>',
             'taqyeem'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
             'wp_product_review'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-product-review/">WP Product Review</a>',
+            'stamped'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/stampedio-product-reviews">Stamped.io Product Reviews & UGC for WooCommerce</a>',
             'soledad'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
             'zip_recipes'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
             'mediavine_create'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',

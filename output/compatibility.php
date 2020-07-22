@@ -422,6 +422,9 @@ class saswp_output_compatibility{
     public function wp_product_review_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wp-product-review');
     }
+    public function stamped_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-stamped');
+    }
     public function squirrly_seo_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-squirrly-seo');
     }

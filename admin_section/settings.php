@@ -2042,6 +2042,18 @@ function saswp_compatibility_page_callback(){
                         'id'   => 'saswp-wp-product-review',
                         'name' => 'sd_data[saswp-wp-product-review]',                             
                 )
+        ); 
+        $stamped = array(
+                'label'  => 'Stamped.io Product Reviews',
+                'id'     => 'saswp-stamped-checkbox',                        
+                'name'   => 'saswp-stamped-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('stamped'),
+                'hidden' => array(
+                        'id'   => 'saswp-stamped',
+                        'name' => 'sd_data[saswp-stamped]',                             
+                )
         );        
         $smart_crawl = array(
 			'label'  => 'SmartCrawl Seo',
@@ -2843,6 +2855,7 @@ function saswp_compatibility_page_callback(){
                 $reviews_wp_theme,
                 $taqyeem,
                 $wp_product_review,
+                $stamped,
                 $extratheme,
                 $dwquestiton,                
                 $yoast,

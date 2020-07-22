@@ -3452,6 +3452,17 @@ Class saswp_output_service{
                         $product_details['product_average_rating'] = $sumofrating /  count($judge_me_post);
                     }
                  
+             } else if(class_exists('Woo_stamped_api') && (isset($sd_data['saswp-stamped']) && $sd_data['saswp-stamped'] == 1)){
+
+                $stamped_reviews = saswp_get_stamped_reviews($post_id);
+                
+                if($stamped_reviews){
+                    $reviews_arr                               = $stamped_reviews['reviews'];     
+                    $product_details['product_review_count']   = $stamped_reviews['total'];
+                    $product_details['product_average_rating'] = $stamped_reviews['average'];  
+                }
+
+
              } else if(function_exists('wc_yotpo_init') && (isset($sd_data['saswp-yotpo']) && $sd_data['saswp-yotpo'] ==1 )){
             
                 $yotpo_reviews = saswp_get_yotpo_reviews($post_id);

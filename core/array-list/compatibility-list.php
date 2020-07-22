@@ -401,6 +401,12 @@ return array(
             'free'       => 'geodirectory/geodirectory.php',               
             'opt_name'   => 'saswp-geodirectory',
             'part_in'    => 'pro',
+        ),
+        'stamped' => array(            
+            'name'       => 'Stamped.io Product Reviews & UGC for WooCommerce',
+            'free'       => 'stampedio-product-reviews/woocommerce-stamped-io.php',               
+            'opt_name'   => 'saswp-stamped',
+            'part_in'    => 'free',
         ),                   
     ),
     'themes' => array(
