@@ -57,6 +57,22 @@ function saswp_schema_for_faqs_schema(){
     return $input1;
 }
 
+function saswp_wp_product_review_lite_rich_snippet(){
+
+    global $post, $sd_data;
+
+    $input1    = array();    
+
+    if( is_object($post) && (isset($sd_data['saswp-wp-product-review']) && $sd_data['saswp-wp-product-review']) && class_exists('WPPR_Review_Model') ){        
+
+        $review_object = new WPPR_Review_Model($post->ID);
+        $input1        = $review_object->get_json_ld();        
+    }
+
+    return apply_filters('saswp_modify_wp_product_review_lite_default_schema', $input1);    
+
+}
+
 function saswp_taqyeem_review_rich_snippet(){
 
     global $post, $sd_data;
@@ -230,3 +246,57 @@ function saswp_wp_tasty_recipe_json_ld(){
 
 }
 
+add_filter('saswp_modify_video_object_schema_output', 'saswp_featured_video_plus_schema',10,1);
+
+function saswp_featured_video_plus_schema($input1){
+
+    global $sd_data;
+
+    if( isset($sd_data['saswp-featured-video-plus']) && $sd_data['saswp-featured-video-plus'] == 1 && function_exists('get_the_post_video_url') ){
+
+        if(has_post_video()){
+
+            $input1['contentUrl']   = get_the_post_video_url();
+            $input1['embedUrl']     = get_the_post_video_url();
+            $input1['thumbnailUrl'] = get_the_post_video_image_url();
+            
+        }
+        
+    }
+
+    return $input1;
+}
+
+add_filter('saswp_modify_product_schema_output', 'saswp_classpress_ads_schema',10,1);
+
+function saswp_classpress_ads_schema($input1){
+
+    global $sd_data, $post;
+    
+    if(is_object($post) && $post->post_type == 'ad_listing' && isset($sd_data['saswp-classipress']) && $sd_data['saswp-classipress'] == 1 ){        
+
+        $post_meta = get_post_meta($post->ID, $key='', true);
+
+        $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
+
+        $input1['url']         = trailingslashit(saswp_get_permalink());
+        $input1['name']        = saswp_get_the_title();
+        $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
+        $input1['description'] = saswp_get_the_excerpt();
+        
+        $input1['offers']['@type']         = 'Offer';
+        $input1['offers']['url']           = saswp_get_permalink();
+        $input1['offers']['price']         = $post_meta['cp_price'][0] ? $post_meta['cp_price'][0] : 0;
+        $input1['offers']['priceCurrency'] = 'USD';
+        $input1['offers']['availability']  = 'InStock';
+        $input1['offers']['validFrom']     = get_the_modified_date('c');
+        $input1['offers']['priceValidUntil']     = $post_meta['cp_sys_expire_date'][0];
+
+        if( $post_meta['cp_ad_sold'][0] == 'yes') {
+            $input1['offers']['availability']  = 'OutOfStock';   
+        }
+        
+    }
+
+    return $input1;
+}

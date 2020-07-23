@@ -948,6 +948,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'TheaterEvent'     => 'TheaterEvent',
                                 'VisualArtsEvent'  => 'VisualArtsEvent'
                             ) 
+                        ),                        
+                        array(
+                                'label'   => 'ID',
+                                'id'      => 'saswp_event_schema_id_'.$schema_id,
+                                'type'    => 'text'                                
                         ),
                         array(
                                 'label' => 'Event Status',
@@ -2850,7 +2855,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 
                 case 'VideoObject':
 
-                    $video_links      = saswp_get_video_links();                        
+                    $video_links      = saswp_get_video_metadata();                        
 
                     $meta_field = array(
                     array(
@@ -2921,7 +2926,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Embed Url',
                             'id'      => 'saswp_video_object_embed_url_'.$schema_id,
                             'type'    => 'text',
-                            'default' => isset($video_links[0]) ? $video_links[0] : get_permalink()                            
+                            'default' => isset($video_links[0]['video_url']) ? $video_links[0]['video_url'] : get_permalink()                            
                     ),    
                     array(
                             'label'   => 'Main Entity Id',
@@ -4454,6 +4459,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 case 'Person':
                     
                     $meta_field = array(
+                    array(
+                                'label'   => 'ID',
+                                'id'      => 'saswp_person_schema_id_'.$schema_id,
+                                'type'    => 'text'                                
+                    ),        
                     array(
                             'label'      => 'Name',
                             'id'         => 'saswp_person_schema_name_'.$schema_id,

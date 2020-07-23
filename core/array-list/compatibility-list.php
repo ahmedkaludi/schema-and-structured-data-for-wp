@@ -171,6 +171,12 @@ return array(
                     'opt_name'   => 'saswp-lifter-lms',
                     'part_in'    => 'pro',
         ),
+        'senseilms'  =>  array(            
+            'name'       => 'Sensei LMS',
+            'free'       => 'sensei-lms/sensei-lms.php',              
+            'opt_name'   => 'saswp-senseilms',
+            'part_in'    => 'pro',
+        ),
         'wp_post_ratings' =>  array(            
                     'name'       => 'WP-PostRatings',
                     'free'       => 'wp-postratings/wp-postratings.php',            
@@ -246,6 +252,12 @@ return array(
                     'opt_name'   => 'saswp-event-calendar-wd',
                     'part_in'    => 'pro',
         ),
+        'sabaidiscuss' => array(            
+            'name'       => 'SabaiDiscuss',            
+            'free'       => 'sabai-discuss/sabai-discuss.php',
+            'opt_name'   => 'saswp-sabaidiscuss',
+            'part_in'    => 'pro',
+        ),
         'dw_qna' => array(            
                     'name'       => 'DW Question Answer',
                     'free'       => 'dw-question-answer/dw-question-answer.php',
@@ -288,7 +300,8 @@ return array(
         ),
         'aiosp' => array(            
                     'name'       => 'All in One SEO Pack',
-                    'free'       => 'all-in-one-seo-pack/all_in_one_seo_pack.php',               
+                    'free'       => 'all-in-one-seo-pack/all_in_one_seo_pack.php',
+                    'pro'        => 'all-in-one-seo-pack-pro/all_in_one_seo_pack.php',               
                     'opt_name'   => 'saswp-aiosp',
                     'part_in'    => 'free',
         ),
@@ -304,10 +317,28 @@ return array(
                     'opt_name'   => 'saswp-wp-recipe-maker',
                     'part_in'    => 'free',
         ),
+        'ultimate_blocks' => array(            
+            'name'       => 'Ultimate Blocks – Gutenberg Blocks Plugin',
+            'free'       => 'ultimate-blocks/ultimate-blocks.php',               
+            'opt_name'   => 'saswp-ultimate-blocks',
+            'part_in'    => 'free',
+        ),
+        'starsrating' => array(            
+            'name'       => 'Stars Rating',
+            'free'       => 'stars-rating/stars-rating.php',               
+            'opt_name'   => 'saswp-starsrating',
+            'part_in'    => 'free',
+        ),
         'wpzoom' => array(            
             'name'       => 'Recipe Card Blocks by WPZOOM',
             'free'       => 'recipe-card-blocks-by-wpzoom/wpzoom-recipe-card.php',               
             'opt_name'   => 'saswp-wpzoom',
+            'part_in'    => 'free',
+        ),
+        'yotpo' => array(            
+            'name'       => 'Yotpo: Product & Photo Reviews for WooCommerce',
+            'free'       => 'yotpo-social-reviews-for-woocommerce/wc_yotpo.php',               
+            'opt_name'   => 'saswp-yotpo',
             'part_in'    => 'free',
         ),
         'wptastyrecipe' => array(            
@@ -352,7 +383,37 @@ return array(
             'free'       => 'taqyeem/taqyeem.php',               
             'opt_name'   => 'saswp-taqyeem',
             'part_in'    => 'free',
-        ),                    
+        ),
+        'wp_product_review' => array(            
+            'name'       => 'WP Product Review',
+            'free'       => 'wp-product-review/wp-product-review.php',               
+            'opt_name'   => 'saswp-wp-product-review',
+            'part_in'    => 'free',
+        ),
+        'video_thumbnails' => array(            
+            'name'       => 'Video Thumbnails',
+            'free'       => 'video-thumbnails/video-thumbnails.php',               
+            'opt_name'   => 'saswp-video-thumbnails',
+            'part_in'    => 'free',
+        ),
+        'featured_video_plus' => array(            
+            'name'       => 'Featured Video Plus',
+            'free'       => 'featured-video-plus/featured-video-plus.php',               
+            'opt_name'   => 'saswp-featured-video-plus',
+            'part_in'    => 'free',
+        ),
+        'geodirectory' => array(            
+            'name'       => 'GeoDirectory – Business Directory Plugin',
+            'free'       => 'geodirectory/geodirectory.php',               
+            'opt_name'   => 'saswp-geodirectory',
+            'part_in'    => 'pro',
+        ),
+        'stamped' => array(            
+            'name'       => 'Stamped.io Product Reviews & UGC for WooCommerce',
+            'free'       => 'stampedio-product-reviews/woocommerce-stamped-io.php',               
+            'opt_name'   => 'saswp-stamped',
+            'part_in'    => 'free',
+        ),                   
     ),
     'themes' => array(
         'soledad' => array(            
@@ -389,14 +450,14 @@ return array(
             'name'       => 'ClassiPress',
             'free'       => 'classipress',               
             'opt_name'   => 'saswp-classipress',
-            'part_in'    => 'pro',
+            'part_in'    => 'free',
         ),
         'realestate_5' => array(            
             'name'       => 'WP Pro Realestate 5',
             'free'       => 'realestate-5',               
             'opt_name'   => 'saswp-realestate-5',
             'part_in'    => 'pro',
-        ),
+        ),        
         'saswp_realhomes' => array(            
                     'name'       => 'RealHomes Theme',
                     'free'       => 'realhomes',               

@@ -2188,9 +2188,12 @@ if ( ! defined('ABSPATH') ) exit;
         global $post;
         global $sd_data;
 
-        $title   = @get_the_title();
-        $c_title = '';
-                                
+        $title = $c_title = '';
+
+        if(is_object($post)){
+            $title   = @get_the_title();
+        }
+                                                
         //SEOPress
         if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
                         
@@ -2828,12 +2831,42 @@ function saswp_admin_notice(){
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
             <p>
                   <span><?php echo esc_html__('You have not set up default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
-                  <a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
 
       <?php   
         
+    }
+
+    if(function_exists('Stars_Rating') && (isset($sd_data['saswp-starsrating']) && $sd_data['saswp-starsrating'] == 1)){
+        
+        ?>
+        <div class="updated notice is-dismissible message">
+            <p>
+                  <span><?php echo esc_html__('You use Stars Rating plugin and has enabled Stars Rating option in Schema & Structured Data For WP & AMP. Use any one option for better comment form.', 'schema-and-structured-data-for-wp') ?> </span>                                                                
+            </p>
+        </div>
+
+      <?php 
+
+    }
+
+    $user_id      = get_current_user_id();
+    $dismiss_meta = get_user_meta( $user_id, 'amp_enable_dismiss_date' );
+
+    if(!$dismiss_meta && (!isset($sd_data['saswp-for-amp']) ||(isset($sd_data['saswp-for-amp']) &&$sd_data['saswp-for-amp'] == 0)) ){
+
+        ?>
+        <div class="updated notice message notice notice-alt saswp-feedback-notice">
+           <p>
+           <?php echo esc_html__('You have disabled schema on AMP.', 'schema-and-structured-data-for-wp') ?>
+           &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=amp' ) ); ?>"> <?php echo esc_html__('Enable it', 'schema-and-structured-data-for-wp') ?></a>
+           <a notice-type="amp_enable" class="saswp-revws-lnk saswp-dismiss-notices"> <?php echo esc_html__('Dismiss', 'schema-and-structured-data-for-wp') ?></a>
+         </p>           
+       </div>
+       <?php
+
     }
             
 }
@@ -2913,19 +2946,26 @@ function saswp_get_field_note($pname){
             'yoast_seo'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
             'rank_math'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
             'dw_qna'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
+            'sabaidiscuss'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://sabaidiscuss.com">SabaiDiscuss</a>',
             'smart_crawl'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
             'the_seo_framework'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
             'seo_press'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
             'aiosp'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
             'squirrly_seo'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
             'wp_recipe_maker'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
-            'wpzoom'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom">Recipe Card Blocks by WPZOOM</a>',        
+            'wpzoom'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom">Recipe Card Blocks by WPZOOM</a>',        
+            'video_thumbnails'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/video-thumbnails/">Video Thumbnails</a>',        
+            'featured_video_plus'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/featured-video-plus/">Featured Video Plus</a>',        
+            'yotpo'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/yotpo-social-reviews-for-woocommerce/">Yotpo: Product & Photo Reviews for WooCommerce</a>',        
+            'starsrating'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/stars-rating">Stars Rating</a>',        
+            'ultimate_blocks'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-blocks">Ultimate Blocks – Gutenberg Blocks Plugin</a>',        
             'wptastyrecipe'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.wptasty.com">WP Tasty Recipe</a>',        
             'recipress'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipress">ReciPress</a>',        
             'wp_ultimate_recipe'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-ultimate-recipe/">WP Ultimate Recipe</a>',        
             'learn_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
             'learn_dash'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
             'lifter_lms'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
+            'senseilms'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/sensei-lms/">Sensei LMS</a>',
             'wplms'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/wplms-learning-management-system/6780226">WPLMS</a>',
             'wp_event_manager'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager/">WP Event Manager</a>',
             'events_manager'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
@@ -2942,8 +2982,11 @@ function saswp_get_field_note($pname){
             'realhomes'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
             'myhome'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://myhometheme.net/">My Home Theme</a>',
             'realestate_5'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://myhometheme.net/">WP Pro Realstate 5</a>',
-            'classipress'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.appthemes.com/themes/classipress/">ClassiPress</a>',
+            'geodirectory'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/geodirectory/">GeoDirectory – Business Directory</a>',
+            'classipress'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.appthemes.com/themes/classipress/">ClassiPress</a>',
             'taqyeem'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
+            'wp_product_review'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-product-review/">WP Product Review</a>',
+            'stamped'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/stampedio-product-reviews">Stamped.io Product Reviews & UGC for WooCommerce</a>',
             'soledad'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
             'zip_recipes'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
             'mediavine_create'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
@@ -3202,17 +3245,20 @@ function saswp_is_date_field($date_str){
     
 }
 
-function saswp_get_video_links(){
+function saswp_get_video_metadata($content = ''){
     
-    global $post;
-    
-    $response = array();
-    
-    if(is_object($post)){
-        
+        global $post;
+        $response = array();
+
+        if(!$content){
+            if(is_object($post)){
+                $content = $post->post_content;
+            }    
+        }
+                                 
          $pattern = get_shortcode_regex();
          
-         if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+         if ( preg_match_all( '/'. $pattern .'/s', $content, $matches )
             && array_key_exists( 2, $matches )
             && in_array( 'playlist', $matches[2] ) )
             {
@@ -3223,31 +3269,44 @@ function saswp_get_video_links(){
                 $mached = ltrim($mached, '[');
                 $mached = trim($mached, '[]');
                 $attr = shortcode_parse_atts($mached);  
-                $response[] = wp_get_attachment_url($attr['ids']);
+                $vurl = wp_get_attachment_url($attr['ids']);
+                $response[]['video_url'] = $vurl;
                 
               }
                           
             }
            
-           preg_match_all( '/src\=\"(.*?)youtube\.com(.*?)\"/s', $post->post_content, $matches, PREG_SET_ORDER );
+           preg_match_all( '/src\=\"(.*?)youtube\.com(.*?)\"/s', $content, $matches, PREG_SET_ORDER );
            
            if($matches){
                
                foreach($matches as $match){
-                   
-                  $response[] = $match[1].'youtube.com'.$match[2]; 
+                  
+                  $vurl     = $match[1].'youtube.com'.$match[2]; 
+                  $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                  $result   = @wp_remote_get($rulr);                                    
+                  $metadata = json_decode(wp_remote_retrieve_body($result),true);
+
+                  $metadata['video_url'] = $vurl;                    
+                  $response[] = $metadata;
                    
                }                              
            }
            
-           preg_match_all( '/src\=\"(.*?)youtu\.be(.*?)\"/s', $post->post_content, $youtubematches, PREG_SET_ORDER );
+           preg_match_all( '/src\=\"(.*?)youtu\.be(.*?)\"/s', $content, $youtubematches, PREG_SET_ORDER );
            
            if($youtubematches){
                
                foreach($youtubematches as $match){
                    
-                  $response[] = $match[1].'youtu.be'.$match[2]; 
-                   
+                  $vurl       = $match[1].'youtu.be'.$match[2];                   
+                  $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                  $result   = @wp_remote_get($rulr);                                    
+                  $metadata = json_decode(wp_remote_retrieve_body($result),true);
+
+                  $metadata['video_url'] = $vurl;                    
+                  $response[] = $metadata;
+
                }
                               
            } 
@@ -3255,12 +3314,50 @@ function saswp_get_video_links(){
            $attributes = saswp_get_gutenberg_block_data('core-embed/youtube');            
            
            if(isset($attributes['attrs']['url'])){
-                $response[0] = $attributes['attrs']['url']; 
+
+                  $vurl = $attributes['attrs']['url']; 
+                  $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                  $result   = @wp_remote_get($rulr);                                    
+                  $metadata = json_decode(wp_remote_retrieve_body($result),true);
+
+                  $metadata['video_url'] = $vurl;                    
+                  $response[0] = $metadata;
            }
-           
-    }    
-    return $response;
+                          
+        return $response;
 }
+
+function saswp_get_thumbnail(){
+
+    global $thumbnail, $sd_data;
+
+    if(!$thumbnail){
+
+        $image_id 	        = get_post_thumbnail_id();	
+        $image_details 	    = wp_get_attachment_image_src($image_id);
+
+        if( isset($sd_data['saswp-video-thumbnails']) && $sd_data['saswp-video-thumbnails'] == 1 && class_exists('Video_Thumbnails') ){
+
+            $thumbnail = get_video_thumbnail();
+
+        }else if (isset($image_details[0])){
+
+            $thumbnail = $image_details[0];
+
+        }else{
+
+            if(isset($sd_data['sd_default_image']['thumbnail'])){
+                $thumbnail = $sd_data['sd_default_image']['thumbnail'];    
+            }
+
+        }
+
+    }    
+
+    return $thumbnail;
+
+}
+
 function saswp_remove_all_images($content){
 
     if($content){
@@ -3665,7 +3762,11 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         if($taxonomies){
 
             foreach($taxonomies as $tax){
-                $choices[] = array('id' => $tax->slug, 'text' => $tax->name);
+
+                if(is_object($tax)){
+                    $choices[] = array('id' => $tax->slug, 'text' => $tax->name);
+                }
+                
             }
             
         }
