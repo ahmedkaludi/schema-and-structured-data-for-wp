@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.44.1
+Stable tag: 1.9.45
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,21 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.45 (23 July 2020) =
+
+* Fixed: Fatal error: Uncaught Error: Call to a member function get() on null on activation Arlo training and event management system #1122
+* Fixed: Remove CollectionPage schema on product category page #1080
+* Fixed: Changed the label of Website schema (Global) to Website schema (HomePage) #1121
+* Fixed: Undefined index: saswp_product_reviews_created_date /plugins/schema-and-structured-data-for-wp/output/markup.php on line 885 #1120
+* Added: Compatibility with the Sensei LMS plugin ( https://wordpress.org/plugins/sensei-lms/) in Course Schema pro extension #918
+* Added: Compatibility with classiPress Ads theme #918
+* Added: Compatibility with Stamped.io Product Reviews & UGC for WooCommerce ( https://wordpress.org/plugins/stampedio-product-reviews/ ) #666
+* Added: Compatibility with Wp Product Review ( https://wordpress.org/plugins/wp-product-review/ ) #568
+* Added: Compatibility with Sabai Discuss plugin in Q&A pro extension #1056
+* Added: Compatibility with Geo Directory plugin in Real Estate pro extension #818
+* Added: Compatibility with Featured Video Plus ( https://wordpress.org/support/plugin/featured-video-plus/ ) #576 
+
 
 = 1.9.44.1 (16 July 2020) =
 
