@@ -429,6 +429,38 @@ function saswp_premium_features_callback(){ ?>
                                                                                                                                                
                     </div>
             </li>
+
+            <li>
+                            
+                            <?php
+                            
+                            $cooked_active_text = '';
+                            
+                            if(is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){                                        
+                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                            }else{
+                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                            }
+                            
+                            ?> 
+                                            
+                    <div class="saswp-features-ele">
+                        <div class="saswp-ele-ic" style="background: #509207;">
+                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/question.png">
+                            </div>
+                            <div class="saswp-ele-tlt">
+                                    <h3><?php echo esc_html__('Q&A Schema','schema-and-structured-data-for-wp') ?></h3>
+                                    <p><?php echo esc_html__('Q&A Schema extension is the number one solution to enhance your discussion forum website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+                            </div>
+                    </div>
+                    <div class="saswp-sts-btn">
+                        
+                        <?php echo $cooked_active_text; ?>
+                                                                                                                                               
+                    </div>
+            </li>
+
                         <li>
                             
                                         <?php
@@ -1503,6 +1535,11 @@ function saswp_import_callback(){
            $add_on[] = 'Cs';           
                                       
         }
+        if(is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
+                      
+                $add_on[] = 'qanda';           
+                                           
+        }
         if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
                       
            $add_on[] = 'Es';           
@@ -1640,6 +1677,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                     $response.= '</div>';
                 
                }
+
+               if($label == true && $on == 'qanda'){
+                   
+                $response.= '<div class="" style="display:inline-block">';
+                $response.= '<strong>'.esc_html__('Q&A Schema','schema-and-structured-data-for-wp').'</strong>';
+                $response.= '</div>';
+            
+                }
                
                if($label == true && $on == 'Rs'){
                    
@@ -2646,6 +2691,18 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-wp-theme-reviews]',                             
                 )
         );        
+        $sabaidiscuss = array(
+                'label'  => 'SabaiDiscuss',
+                'id'     => 'saswp-sabaidiscuss-checkbox',                        
+                'name'   => 'saswp-sabaidiscuss-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('sabaidiscuss'),
+                'hidden' => array(
+                            'id'   => 'saswp-sabaidiscuss',
+                            'name' => 'sd_data[saswp-sabaidiscuss]',                             
+                )
+        );
         $dwquestiton = array(
 			'label'  => 'DW Question Answer',
 			'id'     => 'saswp-dw-question-answer-checkbox',                        
@@ -2804,6 +2861,10 @@ function saswp_compatibility_page_callback(){
              $senseilms['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              
          }
+         if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
+                          
+                $sabaidiscuss['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Addon</a>';                        
+         }
          
          if(!is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
                           
@@ -2857,7 +2918,8 @@ function saswp_compatibility_page_callback(){
                 $wp_product_review,
                 $stamped,
                 $extratheme,
-                $dwquestiton,                
+                $dwquestiton,
+                $sabaidiscuss,                
                 $yoast,
                 $smart_crawl,
                 $seo_press,

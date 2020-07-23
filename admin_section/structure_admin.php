@@ -1646,7 +1646,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'res'          => 'Real Estate Schema',
                        'cs'           => 'Course Schema',
                        'es'           => 'Event Schema',
-                       'rs'           => 'Recipe Schema'
+                       'rs'           => 'Recipe Schema',
+                       'qanda'        => 'QandA Schema'
                 );
                                                                             
                 $edd_action = '';
@@ -1658,14 +1659,14 @@ function saswp_license_status($add_on, $license_status, $license_key){
                    $edd_action = 'deactivate_license'; 
                 }
             // data to send in our API request
-		$api_params = array(
-			'edd_action' => $edd_action,
-			'license'    => $license_key,
-                        'item_name'  => $item_name[strtolower($add_on)],
-                        'author'     => 'Magazine3',			
-			'url'        => home_url(),
-                        'beta'       => false,
-		);
+              $api_params = array(
+                'edd_action' => $edd_action,
+                'license'    => $license_key,
+                'item_name'  => $item_name[strtolower($add_on)],
+                'author'     => 'Magazine3',			
+                'url'        => home_url(),
+                'beta'       => false,
+              );
                 
                 $message        = '';
                 $current_status = '';

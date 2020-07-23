@@ -1127,6 +1127,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-sabaidiscuss-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-sabaidiscuss").val(1);             
+                            }else{
+                              $("#saswp-sabaidiscuss").val(0);           
+                            }
+                      break;
+
                       case 'saswp-geodirectory-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

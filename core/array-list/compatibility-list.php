@@ -252,6 +252,12 @@ return array(
                     'opt_name'   => 'saswp-event-calendar-wd',
                     'part_in'    => 'pro',
         ),
+        'sabaidiscuss' => array(            
+            'name'       => 'SabaiDiscuss',            
+            'free'       => 'sabai-discuss/sabai-discuss.php',
+            'opt_name'   => 'saswp-sabaidiscuss',
+            'part_in'    => 'pro',
+        ),
         'dw_qna' => array(            
                     'name'       => 'DW Question Answer',
                     'free'       => 'dw-question-answer/dw-question-answer.php',

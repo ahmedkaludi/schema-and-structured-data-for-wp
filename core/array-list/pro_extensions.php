@@ -39,6 +39,11 @@ return array(
             'path'       => 'event-schema-for-saswp/event-schema-for-saswp.php',                        
         ),
         array(
+            'key'        => 'qanda_schema',
+            'name'       => 'Q&A Schema',
+            'path'       => 'qanda-schema-for-saswp/qanda-schema-for-saswp.php',                        
+        ),
+        array(
             'key'        => 'recipe_schema',
             'name'       => 'Recipe Schema',
             'path'       => 'recipe-schema-for-saswp/recipe-schema-for-saswp.php',                        

@@ -395,6 +395,9 @@ class saswp_output_compatibility{
     public function event_calendar_wd_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-event-calendar-wd');
     }
+    public function sabaidiscuss_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-sabaidiscuss');
+    }
     public function dw_qna_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-dw-question-answer');
     }
