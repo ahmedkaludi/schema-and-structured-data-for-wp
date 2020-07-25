@@ -3255,9 +3255,34 @@ function saswp_get_video_metadata($content = ''){
                 $content = $post->post_content;
             }    
         }
-                                 
-         $pattern = get_shortcode_regex();
+                                                           
+         preg_match_all( '/\[video(.*?)\[\/video]/s', $content, $matches, PREG_SET_ORDER);
          
+         if($matches){
+
+             foreach ($matches as $match) {
+                
+                $mached = rtrim($match[0], '[/video]'); 
+                $mached = ltrim($mached, '[');
+                $mached = trim($mached, '[]');
+
+                $attr = shortcode_parse_atts($mached);
+                
+                foreach ($attr as $key => $value) {
+
+                    if(strpos($value, 'http')!== false){
+
+                        $response[]['video_url'] = $value;
+
+                    }
+                }
+
+             }
+             
+         }
+
+         $pattern = get_shortcode_regex();
+                  
          if ( preg_match_all( '/'. $pattern .'/s', $content, $matches )
             && array_key_exists( 2, $matches )
             && in_array( 'playlist', $matches[2] ) )
@@ -3268,10 +3293,15 @@ function saswp_get_video_metadata($content = ''){
                 $mached = rtrim($match, ']'); 
                 $mached = ltrim($mached, '[');
                 $mached = trim($mached, '[]');
-                $attr = shortcode_parse_atts($mached);  
-                $vurl = wp_get_attachment_url($attr['ids']);
-                $response[]['video_url'] = $vurl;
-                
+                $attr   = shortcode_parse_atts($mached);  
+
+                if(isset($attr['ids'])){
+
+                    $vurl = wp_get_attachment_url($attr['ids']);
+                    $response[]['video_url'] = $vurl;
+
+                }
+                                
               }
                           
             }

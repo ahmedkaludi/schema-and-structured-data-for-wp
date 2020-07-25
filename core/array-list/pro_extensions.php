@@ -40,7 +40,7 @@ return array(
         ),
         array(
             'key'        => 'qanda_schema',
-            'name'       => 'Q&A Schema',
+            'name'       => 'Q&A Schema Compatibility',
             'path'       => 'qanda-schema-for-saswp/qanda-schema-for-saswp.php',                        
         ),
         array(

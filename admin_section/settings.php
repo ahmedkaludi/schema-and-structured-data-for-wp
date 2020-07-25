@@ -450,8 +450,8 @@ function saswp_premium_features_callback(){ ?>
                                 <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/question.png">
                             </div>
                             <div class="saswp-ele-tlt">
-                                    <h3><?php echo esc_html__('Q&A Schema','schema-and-structured-data-for-wp') ?></h3>
-                                    <p><?php echo esc_html__('Q&A Schema extension is the number one solution to enhance your discussion forum website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+                                    <h3><?php echo esc_html__('Q&A Schema Compatibility','schema-and-structured-data-for-wp') ?></h3>
+                                    <p><?php echo esc_html__('Q&A Schema Compatibility extension is the number one solution to enhance your discussion forum website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
                             </div>
                     </div>
                     <div class="saswp-sts-btn">
@@ -2863,7 +2863,7 @@ function saswp_compatibility_page_callback(){
          }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
                           
-                $sabaidiscuss['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Addon</a>';                        
+                $sabaidiscuss['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
          }
          
          if(!is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
