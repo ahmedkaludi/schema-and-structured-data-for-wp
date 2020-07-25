@@ -679,8 +679,11 @@ class saswp_view_common_class {
                                             }                                         
                                         } 
                                     }                                                                                                         
-                                }                               
-                                update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);                                                                                                              
+                                }   
+                                if(!empty($element_val)){
+                                    update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);                                                                                                              
+                                }                            
+                                
                            }    
                          
                      }    
