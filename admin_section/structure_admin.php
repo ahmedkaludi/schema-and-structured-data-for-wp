@@ -532,24 +532,30 @@ function saswp_comparison_logic_checker($input){
       // Page Template 
         case 'page_template':
           
-            $current_page_template = '';
+            $page_template = '';
                       
             if(is_object($post)){
              
-                $current_page_template = get_page_template_slug( $post->ID );
+              $page_template = get_page_template_slug( $post->ID );
                 
-            }                                
-          
-            if ( $current_page_template == false ) {
-                $current_page_template = 'default';
+            }                        
+                                              
+            if ( $page_template == false ) {
+              $page_template = 'default';
             }
+
+            $page_template = strtolower($page_template);
+            $page_template = str_replace('.php','',$page_template);
+            $data          = strtolower($data);
+            $data          = str_replace('.php','',$data);
+            
             if ( $comparison == 'equal' ) {
-                if ( $current_page_template == $data ) {
+                if ( $page_template == $data ) {
                     $result = true;
                 }
             }
             if ( $comparison == 'not_equal') {              
-                if ( $current_page_template != $data ) {
+                if ( $page_template != $data ) {
                     $result = true;
                 }
             }
