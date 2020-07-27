@@ -2313,8 +2313,7 @@ function saswp_archive_output(){
                     while( $category_loop->have_posts() ): $category_loop->the_post();
                                                        
                                         $result            = saswp_get_loop_markup($i);
-                                        $category_posts[]  =  $result['schema_properties'];                                                                                                                                                                                                        
-                                        $item_list[]       = $result['itemlist'];
+                                        $category_posts[]  =  $result['schema_properties'];                                                                                                                                                                                                                                              
                                         
                         $i++;
                     endwhile;
@@ -2360,15 +2359,15 @@ function saswp_archive_output(){
         
         if(saswp_non_amp()){
             
-            if(is_home()){
+            if( is_home() && !is_front_page() ){
                 $homepage = true;
             }
         }else{
-            if(function_exists('ampforwp_is_home') && ampforwp_is_home()){            
+            if( (function_exists('ampforwp_is_home') && ampforwp_is_home()) && (function_exists('ampforwp_is_front_page') && !ampforwp_is_front_page()) ){            
                 $homepage = true;
             }
         }
-
+        
         if( $homepage ){
             
             $home_query_string = array(
@@ -2417,7 +2416,7 @@ function saswp_archive_output(){
                 }                
                                                        
                 if(isset($sd_data['saswp_archive_schema_type']) && $sd_data['saswp_archive_schema_type'] == 'BlogPosting'){
-                    $output = array($item_list_schema, $collection_page, $blog_page);
+                    $output = array($item_list_schema, array(), $blog_page);
                 }else{
                     $output = array($item_list_schema, $collection_page, array());
                 }
