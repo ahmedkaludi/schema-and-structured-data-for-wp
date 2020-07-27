@@ -2322,7 +2322,7 @@ function saswp_archive_output(){
                         '@type' 		=> "CollectionPage",
                         '@id' 		    => trailingslashit(esc_url($category_link)).'#CollectionPage',
                         'headline' 		=> esc_attr($category_headline),
-                        'description' 	=> strip_tags(term_description($category_id)),
+                        'description' 	=> strip_tags(get_term($category_id)->description),
                         'url'		 	=> esc_url($category_link),				
                         'hasPart' 		=> $category_posts
                     );
@@ -2332,7 +2332,7 @@ function saswp_archive_output(){
                         '@type' 		=> "Blog",
                         '@id' 		    => trailingslashit(esc_url($category_link)).'#Blog',
                         'headline' 		=> esc_attr($category_headline),
-                        'description' 	=> strip_tags(term_description($category_id)),
+                        'description' 	=> strip_tags(get_term($category_id)->description),
                         'url'		 	=> esc_url($category_link),				
                         'blogPost' 		=> $category_posts
                     );

@@ -1247,7 +1247,10 @@ function saswp_remove_microdata($content){
 
             preg_match( $regex, $content, $match);
 
-            $content = preg_replace($regex, '<div class="ub_howto"'.$match[1].' </div>', $content);        
+            if(isset($match[1])){
+                $content = preg_replace($regex, '<div class="ub_howto"'.$match[1].' </div>', $content);        
+            }
+            
         }
 
         //Clean json markup
