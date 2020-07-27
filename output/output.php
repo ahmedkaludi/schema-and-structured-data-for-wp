@@ -1598,7 +1598,7 @@ function saswp_schema_output() {
                                 
                                 }                                                                                                                     
                                 
-                                $input1 = apply_filters('saswp_modify_service_schema_output', $input1 );
+                                $input1 = apply_filters('saswp_modify_review_schema_output', $input1 );
                                 
                                 if($modified_schema == 1){
                                     
@@ -1791,8 +1791,15 @@ function saswp_schema_output() {
                             
                                     if($schema_type == 'Review'){
 
-
-                                     //kk star rating 
+                                    //Ratency Rating 
+                            
+                                    $ratency = saswp_ratency_rating_box_rating();
+                                
+                                    if(!empty($ratency)){
+                                        $input1['itemReviewed']['aggregateRating'] = $ratency; 
+                                    }
+                                        
+                                    //kk star rating 
                             
                                     $yasr = saswp_extract_yet_another_stars_rating();
                                 
@@ -1855,6 +1862,14 @@ function saswp_schema_output() {
                                     }                                    
                                         
                                     }else{                                                                            
+
+                                        //Ratency Rating 
+                            
+                                        $ratency = saswp_ratency_rating_box_rating();
+                                    
+                                        if(!empty($ratency)){
+                                            $input1['aggregateRating'] = $ratency; 
+                                        }
 
                                         //yet another star rating
                             

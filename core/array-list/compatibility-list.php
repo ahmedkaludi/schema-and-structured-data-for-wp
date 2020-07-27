@@ -464,6 +464,12 @@ return array(
                     'opt_name'   => 'saswp-realhomes',
                     'part_in'    => 'pro',
         ),
+        'ratency' => array(            
+            'name'       => 'Ratency - Review & Magazine Theme',
+            'free'       => 'ratency-progression',               
+            'opt_name'   => 'saswp-ratency',
+            'part_in'    => 'free',
+        ),
         'wpresidence' => array(            
                     'name'       => 'WP Residence',
                     'free'       => 'wpresidence',               

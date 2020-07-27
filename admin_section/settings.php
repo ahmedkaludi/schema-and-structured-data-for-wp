@@ -2136,7 +2136,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-homeland',
                                 'name' => 'sd_data[saswp-homeland]',                             
                         )
-		);
+                );
+        $ratency = array(
+                'label'  => 'Ratency - Review & Magazine Theme',
+                'id'     => 'saswp-ratency-checkbox',                        
+                'name'   => 'saswp-ratency-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox', 
+                'note'   => saswp_get_field_note('ratency'),
+                'hidden' => array(
+                        'id'   => 'saswp-ratency',
+                        'name' => 'sd_data[saswp-ratency]',                             
+                )
+        );        
         $real_homes = array(
 			'label'  => 'RealHomes Theme',
 			'id'     => 'saswp-realhomes-checkbox',                        
@@ -2944,6 +2956,7 @@ function saswp_compatibility_page_callback(){
                 $rankmath,
                 $homeland_theme,
                 $real_homes,
+                $ratency,
                 $wpresidence,
                 $myhome,
                 $classipress,
