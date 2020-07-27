@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.4
-Stable tag: 1.9.45
+Stable tag: 1.9.46
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.46 (28 July 2020) =
+
+* Fixed: Fatal error due to conflict with Yoast Seo #1127
+* Fixed: The placement options do not appear when trying to add a new schema type. #1126
+* Fixed: Do not create empty entiries in wp_post meta table. #1123
+* Fixed: Schema Does not appear with condition "Page template" #1119
+* Fixed: Itemlist schema should not be generated automatically on frontpage and archive page (When collection or blog list schema is there). #1132
+* Fixed: One of contentUrl or embedUrl must be provided warning is appearing eventhough video is present in the content #1125
+* Added: Compatibility with Ratency - Review & Magazine Theme #793
 
 = 1.9.45 (23 July 2020) =
 
