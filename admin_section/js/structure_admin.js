@@ -1,3 +1,11 @@
+function saswp_schema_datepicker(){
+        
+  jQuery('.saswp-datepicker-picker').datepicker({
+   dateFormat: "yy-mm-dd",             
+  });
+
+}
+
 function saswp_select2(){
 
     var $select2 = jQuery('.saswp-select2');

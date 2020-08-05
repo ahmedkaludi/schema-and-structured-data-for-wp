@@ -1090,6 +1090,15 @@ jQuery(document).ready(function($){
                               $("#saswp-homeland").val(0);           
                             }
                       break;
+
+                      case 'saswp-ratency-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ratency").val(1);             
+                            }else{
+                              $("#saswp-ratency").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-wpresidence-checkbox':
                           saswp_compatibliy_notes(current, id); 

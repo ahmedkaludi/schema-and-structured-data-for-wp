@@ -2977,6 +2977,7 @@ function saswp_get_field_note($pname){
             'woocommerce_bookings'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-bookings">Woocommerce Bookings</a>',        
             'extra'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
             'homeland'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
+            'ratency'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/ratency-review-magazine-theme/21303977">Ratency - Review & Magazine Theme</a>',            
             'wpresidence'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
             'reviews'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/reviews-products-and-services-review-wp-theme/13004739?s_rank=4">Reviews - Products And Services Review WP Theme</a>',            
             'realhomes'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
@@ -3255,9 +3256,34 @@ function saswp_get_video_metadata($content = ''){
                 $content = $post->post_content;
             }    
         }
-                                 
-         $pattern = get_shortcode_regex();
+                                                           
+         preg_match_all( '/\[video(.*?)\[\/video]/s', $content, $matches, PREG_SET_ORDER);
          
+         if($matches){
+
+             foreach ($matches as $match) {
+                
+                $mached = rtrim($match[0], '[/video]'); 
+                $mached = ltrim($mached, '[');
+                $mached = trim($mached, '[]');
+
+                $attr = shortcode_parse_atts($mached);
+                
+                foreach ($attr as $key => $value) {
+
+                    if(strpos($value, 'http')!== false){
+
+                        $response[]['video_url'] = $value;
+
+                    }
+                }
+
+             }
+             
+         }
+
+         $pattern = get_shortcode_regex();
+                  
          if ( preg_match_all( '/'. $pattern .'/s', $content, $matches )
             && array_key_exists( 2, $matches )
             && in_array( 'playlist', $matches[2] ) )
@@ -3268,10 +3294,15 @@ function saswp_get_video_metadata($content = ''){
                 $mached = rtrim($match, ']'); 
                 $mached = ltrim($mached, '[');
                 $mached = trim($mached, '[]');
-                $attr = shortcode_parse_atts($mached);  
-                $vurl = wp_get_attachment_url($attr['ids']);
-                $response[]['video_url'] = $vurl;
-                
+                $attr   = shortcode_parse_atts($mached);  
+
+                if(isset($attr['ids'])){
+
+                    $vurl = wp_get_attachment_url($attr['ids']);
+                    $response[]['video_url'] = $vurl;
+
+                }
+                                
               }
                           
             }

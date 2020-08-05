@@ -792,6 +792,38 @@ function saswp_extract_taqyeem_ratings(){
     return $star_rating;                       
 }
 
+function saswp_ratency_rating_box_rating(){
+        
+    global $sd_data, $post;    
+    $result = array();
+
+    if( isset($sd_data['saswp-ratency']) && $sd_data['saswp-ratency'] == 1 ){
+                       
+        $ratency_total_rv = get_post_meta($post->ID, 'progression_studios_review_total', true);
+         
+        if( $ratency_total_rv ){
+                       
+            $result['@type']       = 'AggregateRating';            
+            $result['ratingCount'] = 1;
+            $result['ratingValue'] = $ratency_total_rv;  
+            $result['bestRating']  = 10;
+            $result['worstRating'] = 1;                                                         
+            
+            return $result;
+            
+        }else{
+            
+            return array();    
+            
+        }
+        
+    }else{
+        
+        return array();
+        
+    }                        
+}
+
 /**
  * Extracting the value of yet another star rating plugins on current post
  * @global type $sd_data
@@ -1240,6 +1272,30 @@ function saswp_remove_microdata($content){
         $content = preg_replace('/hreview-aggregate/', "", $content);
         $content = preg_replace('/hrecipe/', "", $content);
         
+        if(isset($sd_data['saswp-ratency']) && $sd_data['saswp-ratency'] == 1 ){
+            
+            $regex = '/<meta property\=\"og\:image\:secure_url\" content\=\"(.*?)\" \/>(.*?)<script type\=\"application\/ld\+json\">(.*?)<\/script>/s';
+
+            preg_match( $regex, $content, $match);
+
+            if(isset($match[1])){
+                $content = preg_replace($regex, '<meta property="og:image:secure_url" content="'.$match[1].'" />', $content);        
+            }
+            
+        }
+
+        if(isset($sd_data['saswp-ratency']) && $sd_data['saswp-ratency'] == 1 ){
+            
+            $regex = '/<meta property\=\"og\:site_name\" content\="(.*?)\" \/>(.*?)<script type\=\"application\/ld\+json\">(.*?)<\/script>/s';
+
+            preg_match( $regex, $content, $match);
+
+            if(isset($match[1])){
+                $content = preg_replace($regex, '<meta property="og:site_name" content="'.$match[1].'" />', $content);        
+            }
+            
+        }
+
         //Clean json markup
         if(isset($sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ){
             
@@ -1247,7 +1303,10 @@ function saswp_remove_microdata($content){
 
             preg_match( $regex, $content, $match);
 
-            $content = preg_replace($regex, '<div class="ub_howto"'.$match[1].' </div>', $content);        
+            if(isset($match[1])){
+                $content = preg_replace($regex, '<div class="ub_howto"'.$match[1].' </div>', $content);        
+            }
+            
         }
 
         //Clean json markup
