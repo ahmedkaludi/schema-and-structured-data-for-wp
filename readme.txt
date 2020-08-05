@@ -120,7 +120,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.46 (28 July 2020) =
+= 1.9.46 (05 Aug 2020) =
 
 * Fixed: Fatal error due to conflict with Yoast Seo #1127
 * Fixed: The placement options do not appear when trying to add a new schema type. #1126
