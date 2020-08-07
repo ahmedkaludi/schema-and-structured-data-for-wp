@@ -22,6 +22,12 @@ return array(
             'opt_name'   => 'saswp-stachethemes-event-calendar',
             'part_in'    => 'pro',
         ),
+        'timetable_event'  =>  array(            
+            'name'       => 'Timetable and Event Schedule by MotoPress',
+            'free'       => 'mp-timetable/mp-timetable.php',                    
+            'opt_name'   => 'saswp-timetable-event',
+            'part_in'    => 'pro',
+        ),
         'wp_customer_reviews'  =>  array(            
                     'name'       => 'WP Customer Reviews',
                     'free'       => 'wp-customer-reviews/wp-customer-reviews-3.php',                    

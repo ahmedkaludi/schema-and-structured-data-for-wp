@@ -500,6 +500,9 @@ class saswp_output_compatibility{
     public function wp_event_aggregator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wp-event-aggregator');
     }
+    public function timetable_event_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-timetable-event');
+    }
     public function stachethemes_event_calendar_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-stachethemes-event-calendar');
     }

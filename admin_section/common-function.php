@@ -2927,6 +2927,7 @@ function saswp_get_field_note($pname){
             'strong_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
             'wp_event_aggregator'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-aggregator/">WP Event Aggregator</a>',
             'stachethemes_event_calendar' => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://stachethemes.com/">Stachethemes Event Calendar</a>',
+            'timetable_event'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mp-timetable">Timetable and Event Schedule by MotoPress</a>',
             'all_in_one_event_calendar'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-event-calendar/">All In One Event Calendar</a>',
             'event_on'                    => esc_html__('Event On','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.myeventon.com/">Event On</a>',
             'wordlift'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',

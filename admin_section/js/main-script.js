@@ -1575,6 +1575,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-timetable-event-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-timetable-event").val(1);                                
+                            }else{
+                              $("#saswp-timetable-event").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-stachethemes-event-calendar-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
