@@ -4404,6 +4404,7 @@ Class saswp_output_service{
                                                     
                             $publisher['publisher']['@type']         = 'Organization';
                             $publisher['publisher']['name']          = esc_attr($site_name);                            
+                            $publisher['publisher']['url']           = get_site_url();
                             
                             if($logo !='' && $height !='' && $width !=''){
                                                                              
