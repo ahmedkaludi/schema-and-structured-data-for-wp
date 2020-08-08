@@ -67,6 +67,12 @@ return array(
             'opt_name'   => 'saswp-all-in-one-event-calendar',
             'part_in'    => 'pro',
         ),
+        'xo_event_calendar'  =>  array(            
+            'name'       => 'XO Event Calendar',
+            'free'       => 'xo-event-calendar/xo-event-calendar.php',             
+            'opt_name'   => 'saswp-xo-event-calendar',
+            'part_in'    => 'pro',
+        ),
         'event_on'  =>  array(            
             'name'       => 'Event On',
             'free'       => 'eventON/eventon.php',             

@@ -377,6 +377,9 @@ class saswp_output_compatibility{
     public function all_in_one_event_calendar_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-all-in-one-event-calendar');
     }
+    public function xo_event_calendar_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-xo-event-calendar');
+    }
     public function the_events_calendar_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-the-events-calendar');
     }
