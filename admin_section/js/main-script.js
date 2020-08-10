@@ -1595,6 +1595,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-vs-event-list-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-vs-event-list").val(1);                                
+                            }else{
+                              $("#saswp-vs-event-list").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-stachethemes-event-calendar-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

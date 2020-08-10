@@ -73,6 +73,12 @@ return array(
             'opt_name'   => 'saswp-xo-event-calendar',
             'part_in'    => 'pro',
         ),
+        'vs_event_list'  =>  array(            
+            'name'       => 'Very Simple Event List',
+            'free'       => 'very-simple-event-list/vsel.php',             
+            'opt_name'   => 'saswp-vs-event-list',
+            'part_in'    => 'pro',
+        ),
         'event_on'  =>  array(            
             'name'       => 'Event On',
             'free'       => 'eventON/eventon.php',             

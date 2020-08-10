@@ -380,6 +380,9 @@ class saswp_output_compatibility{
     public function xo_event_calendar_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-xo-event-calendar');
     }
+    public function vs_event_list_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-vs-event-list');
+    }
     public function the_events_calendar_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-the-events-calendar');
     }
