@@ -71,7 +71,13 @@ return array(
             'name'       => 'XO Event Calendar',
             'free'       => 'xo-event-calendar/xo-event-calendar.php',             
             'opt_name'   => 'saswp-xo-event-calendar',
-            'part_in'    => 'pro',
+            'part_in'    => 'pro'
+        ),
+        'woo_event_manager'  =>  array(            
+            'name'       => 'WooCommerce Event Manager',
+            'free'       => 'mage-eventpress/woocommerce-event-press.php',             
+            'opt_name'   => 'saswp-woo-event-manager',
+            'part_in'    => 'pro'
         ),
         'vs_event_list'  =>  array(            
             'name'       => 'Very Simple Event List',

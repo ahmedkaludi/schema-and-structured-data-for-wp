@@ -216,6 +216,11 @@ class saswp_output_compatibility{
         remove_action( 'wp_head', array( 'GeoDir_Post_Data', 'schema' ), 10 );                         
     }
     
+    public function saswp_woo_event_manager_override(){
+                                
+        remove_action('wp_head', 'mep_event_rich_text_data');
+    }
+
     public function saswp_wp_event_manager_override(){
                         
         if(class_exists('WP_Event_Manager_Post_Types')){
@@ -379,6 +384,9 @@ class saswp_output_compatibility{
     }
     public function xo_event_calendar_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-xo-event-calendar');
+    }
+    public function woo_event_manager_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-woo-event-manager');
     }
     public function vs_event_list_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-vs-event-list');
