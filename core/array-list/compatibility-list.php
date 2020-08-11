@@ -79,6 +79,12 @@ return array(
             'opt_name'   => 'saswp-calendarize-it',
             'part_in'    => 'pro'
         ),
+        'events_schedule'  =>  array(            
+            'name'       => 'Events Schedule',
+            'free'       => 'weekly-class/weekly-class.php',             
+            'opt_name'   => 'saswp-events-schedule',
+            'part_in'    => 'pro'
+        ),
         'woo_event_manager'  =>  array(            
             'name'       => 'WooCommerce Event Manager',
             'free'       => 'mage-eventpress/woocommerce-event-press.php',             

@@ -1615,6 +1615,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-events-schedule-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-events-schedule").val(1);                                
+                            }else{
+                              $("#saswp-events-schedule").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-woo-event-manager-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
