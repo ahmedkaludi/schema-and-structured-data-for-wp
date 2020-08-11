@@ -2005,6 +2005,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $calendarize_it   = array(
+                'label'  => 'Calendarize it! for WordPress',
+                'id'     => 'saswp-calendarize-it-checkbox',                        
+                'name'   => 'saswp-calendarize-it-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('calendarize_it'),
+                'hidden' => array(
+                        'id'   => 'saswp-calendarize-it',
+                        'name' => 'sd_data[saswp-calendarize-it]',                             
+                )
+        );
+        
         $woo_event_manager  = array(
                 'label'  => 'WooCommerce Event Manager',
                 'id'     => 'saswp-woo-event-manager-checkbox',                        
@@ -2943,6 +2956,7 @@ function saswp_compatibility_page_callback(){
              $stachethemes_events['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $timetable_event['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $xo_event_calendar['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $calendarize_it['note']              = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $woo_event_manager['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $vs_event_list['note']               = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $all_in_one_event_calendar['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
@@ -3036,6 +3050,7 @@ function saswp_compatibility_page_callback(){
                 $stachethemes_events,
                 $timetable_event,
                 $xo_event_calendar,
+                $calendarize_it,
                 $woo_event_manager,
                 $vs_event_list,
                 $easy_testimonials,

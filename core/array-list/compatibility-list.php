@@ -73,6 +73,12 @@ return array(
             'opt_name'   => 'saswp-xo-event-calendar',
             'part_in'    => 'pro'
         ),
+        'calendarize_it'  =>  array(            
+            'name'       => 'Calendarize it! for WordPress',
+            'free'       => 'calendarize-it/calendarize-it.php',             
+            'opt_name'   => 'saswp-calendarize-it',
+            'part_in'    => 'pro'
+        ),
         'woo_event_manager'  =>  array(            
             'name'       => 'WooCommerce Event Manager',
             'free'       => 'mage-eventpress/woocommerce-event-press.php',             

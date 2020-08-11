@@ -385,6 +385,9 @@ class saswp_output_compatibility{
     public function xo_event_calendar_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-xo-event-calendar');
     }
+    public function calendarize_it_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-calendarize-it');
+    }
     public function woo_event_manager_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-woo-event-manager');
     }

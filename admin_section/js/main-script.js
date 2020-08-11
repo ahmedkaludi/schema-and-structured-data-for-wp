@@ -1605,6 +1605,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-calendarize-it-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-calendarize-it").val(1);                                
+                            }else{
+                              $("#saswp-calendarize-it").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-woo-event-manager-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
