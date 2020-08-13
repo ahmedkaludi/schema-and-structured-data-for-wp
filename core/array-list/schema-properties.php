@@ -1064,6 +1064,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type' => 'number',                                
                         ),
                         array(
+                                'label' => 'High Price',
+                                'id'    => 'saswp_event_schema_high_price_'.$schema_id,
+                                'type'  => 'number',                                
+                        ),
+                        array(
+                                'label' => 'Low Price',
+                                'id'    => 'saswp_event_schema_low_price_'.$schema_id,
+                                'type'  => 'number',                                
+                        ),
+                        array(
                                 'label' => 'Price Currency',
                                 'id' => 'saswp_event_schema_price_currency_'.$schema_id,
                                 'type' => 'text',                                

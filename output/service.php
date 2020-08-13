@@ -1606,14 +1606,26 @@ Class saswp_output_service{
                     }
                     
                     if(isset($custom_fields['saswp_event_schema_image'])){
-                     $input1['image'] =    $custom_fields['saswp_event_schema_image'];
+                        $input1['image'] =    $custom_fields['saswp_event_schema_image'];
                     }
                     if(isset($custom_fields['saswp_event_schema_performer_name'])){
-                     $input1['performer']['name'] =    $custom_fields['saswp_event_schema_performer_name'];
+                        $input1['performer']['name'] =    $custom_fields['saswp_event_schema_performer_name'];
                     }
+
                     if(isset($custom_fields['saswp_event_schema_price'])){
-                     $input1['offers']['price'] =    $custom_fields['saswp_event_schema_price'];
+                        $input1['offers']['@type'] =   'Offer';
+                        $input1['offers']['price'] =    $custom_fields['saswp_event_schema_price'];
                     }
+                    
+                    if(isset($custom_fields['saswp_event_schema_high_price']) && isset($custom_fields['saswp_event_schema_low_price'])){
+
+                        $input1['offers']['@type'] = 'AggregateOffer';
+
+                        $input1['offers']['highPrice'] = $custom_fields['saswp_event_schema_high_price'];
+                        $input1['offers']['lowPrice']  = $custom_fields['saswp_event_schema_low_price'];
+
+                    }
+                                        
                     if(isset($custom_fields['saswp_event_schema_price_currency'])){
                      $input1['offers']['priceCurrency'] =    $custom_fields['saswp_event_schema_price_currency'];
                     }
@@ -4404,6 +4416,7 @@ Class saswp_output_service{
                                                     
                             $publisher['publisher']['@type']         = 'Organization';
                             $publisher['publisher']['name']          = esc_attr($site_name);                            
+                            $publisher['publisher']['url']           = get_site_url();
                             
                             if($logo !='' && $height !='' && $width !=''){
                                                                              

@@ -1575,6 +1575,65 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-timetable-event-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-timetable-event").val(1);                                
+                            }else{
+                              $("#saswp-timetable-event").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-xo-event-calendar-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-xo-event-calendar").val(1);                                
+                            }else{
+                              $("#saswp-xo-event-calendar").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-vs-event-list-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-vs-event-list").val(1);                                
+                            }else{
+                              $("#saswp-vs-event-list").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-calendarize-it-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-calendarize-it").val(1);                                
+                            }else{
+                              $("#saswp-calendarize-it").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-events-schedule-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-events-schedule").val(1);                                
+                            }else{
+                              $("#saswp-events-schedule").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-woo-event-manager-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-woo-event-manager").val(1);                                
+                            }else{
+                              $("#saswp-woo-event-manager").val(0);                                          
+                            }                            
+                      break;
+
                       case 'saswp-stachethemes-event-calendar-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

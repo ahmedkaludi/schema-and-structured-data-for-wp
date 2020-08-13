@@ -1991,6 +1991,84 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-tevolution-events]',                             
                         )
                 );
+
+        $xo_event_calendar   = array(
+                'label'  => 'XO Event Calendar',
+                'id'     => 'saswp-xo-event-calendar-checkbox',                        
+                'name'   => 'saswp-xo-event-calendar-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('xo_event_calendar'),
+                'hidden' => array(
+                        'id'   => 'saswp-xo-event-calendar',
+                        'name' => 'sd_data[saswp-xo-event-calendar]',                             
+                )
+        );
+        
+        $events_schedule   = array(
+                'label'  => 'Events Schedule',
+                'id'     => 'saswp-events-schedule-checkbox',                        
+                'name'   => 'saswp-events-schedule-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('events_schedule'),
+                'hidden' => array(
+                        'id'   => 'saswp-events-schedule',
+                        'name' => 'sd_data[saswp-events-schedule]',                             
+                )
+        );
+
+        $calendarize_it   = array(
+                'label'  => 'Calendarize it! for WordPress',
+                'id'     => 'saswp-calendarize-it-checkbox',                        
+                'name'   => 'saswp-calendarize-it-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('calendarize_it'),
+                'hidden' => array(
+                        'id'   => 'saswp-calendarize-it',
+                        'name' => 'sd_data[saswp-calendarize-it]',                             
+                )
+        );
+        
+        $woo_event_manager  = array(
+                'label'  => 'WooCommerce Event Manager',
+                'id'     => 'saswp-woo-event-manager-checkbox',                        
+                'name'   => 'saswp-woo-event-manager-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('woo_event_manager'),
+                'hidden' => array(
+                                'id'   => 'saswp-woo-event-manager',
+                                'name' => 'sd_data[saswp-woo-event-manager]',                             
+                )
+        );
+
+        $vs_event_list   = array(
+                'label'  => 'Very Simple Event List',
+                'id'     => 'saswp-vs-event-list-checkbox',                        
+                'name'   => 'saswp-vs-event-list-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('vs_event_list'),
+                'hidden' => array(
+                        'id'   => 'saswp-vs-event-list',
+                        'name' => 'sd_data[saswp-vs-event-list]',                             
+                )
+        );
+
+        $timetable_event = array(
+                'label'  => 'Timetable and Event Schedule by MotoPress',
+                'id'     => 'saswp-timetable-event-checkbox',                        
+                'name'   => 'saswp-timetable-event-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('timetable_event'),
+                'hidden' => array(
+                        'id'   => 'saswp-timetable-event',
+                        'name' => 'sd_data[saswp-timetable-event]',                             
+                )
+        );        
         $stachethemes_events = array(
                 'label'  => 'Stachethemes Event Calendar',
                 'id'     => 'saswp-stachethemes-event-calendar-checkbox',                        
@@ -2889,6 +2967,12 @@ function saswp_compatibility_page_callback(){
              $tevolution_events['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $wp_event_aggregator['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $stachethemes_events['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $timetable_event['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $xo_event_calendar['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $events_schedule['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $calendarize_it['note']              = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $woo_event_manager['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             $vs_event_list['note']               = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $all_in_one_event_calendar['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $event_on['note']                    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              
@@ -2978,6 +3062,12 @@ function saswp_compatibility_page_callback(){
                 $all_in_one_event_calendar,
                 $event_on,
                 $stachethemes_events,
+                $timetable_event,
+                $xo_event_calendar,
+                $calendarize_it,
+                $events_schedule,
+                $woo_event_manager,
+                $vs_event_list,
                 $easy_testimonials,
                 $bne_testimonials,
                 $testimonial_pro,
@@ -3248,7 +3338,7 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_script('thickbox');
         wp_enqueue_style('thickbox');
                        	
-        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION);        
+        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery' ), SASWP_VERSION);        
         wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
 
         wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -3257,7 +3347,7 @@ function saswp_enqueue_style_js( $hook ) {
                                 
         wp_enqueue_script( 'saswp-functions-list', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'functions-list.min.js' : 'functions-list.js'), false, SASWP_VERSION );
         
-        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'main-script.min.js' : 'main-script.js'), array('jquery','jquery-ui-core'), SASWP_VERSION , true );
+        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'main-script.min.js' : 'main-script.js'), array('jquery'), SASWP_VERSION , true );
                         
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
         
@@ -3291,8 +3381,8 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         //DIGINEX theme compatibility ends                                         
 
         wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
-        wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true);
-        wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true);
+        wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', array( 'jquery'), SASWP_VERSION, true);
+        wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', array( 'jquery' ), SASWP_VERSION, true);
         	                                        
         }                
         

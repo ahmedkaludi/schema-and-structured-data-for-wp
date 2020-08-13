@@ -2,8 +2,8 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 5.4
-Stable tag: 1.9.46
+Tested up to: 5.5
+Stable tag: 1.9.47
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.47 (13 Aug 2020) =
+
+* Fixed: Warning: getimagesize(): corrupt JPEG data: 8 extraneous bytes before marker in aqua_resizer.php on line 144 #1134
+* Added: HighPrice & LowPrice properties for the Event Schema #431
+* Added: Event schema 3rd party compatibility ( Timetable and Event Schedule by MotoPress, Very Simple Event List, WooCommerce Event Manager, XO Event Calendar, Calendarize it! for WordPress, Events Schedule - WordPress Events Calendar Plugin) #1142
+
+= 1.9.46.1 (12 Aug 2020) =
+
+* Fixed: Compatibility issue with WordPress 5.5 #1149
 
 = 1.9.46 (05 Aug 2020) =
 

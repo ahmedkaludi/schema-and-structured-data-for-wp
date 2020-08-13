@@ -1092,6 +1092,7 @@ function saswp_schema_output() {
                                 $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $event_type ? $event_type : $schema_type;
                                 $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#event';
+                                $input1['url']		= trailingslashit(saswp_get_permalink());
                                                                                        
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;

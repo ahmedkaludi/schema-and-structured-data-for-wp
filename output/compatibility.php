@@ -216,6 +216,11 @@ class saswp_output_compatibility{
         remove_action( 'wp_head', array( 'GeoDir_Post_Data', 'schema' ), 10 );                         
     }
     
+    public function saswp_woo_event_manager_override(){
+                                
+        remove_action('wp_head', 'mep_event_rich_text_data');
+    }
+
     public function saswp_wp_event_manager_override(){
                         
         if(class_exists('WP_Event_Manager_Post_Types')){
@@ -377,6 +382,21 @@ class saswp_output_compatibility{
     public function all_in_one_event_calendar_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-all-in-one-event-calendar');
     }
+    public function xo_event_calendar_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-xo-event-calendar');
+    }
+    public function calendarize_it_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-calendarize-it');
+    }
+    public function events_schedule_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-events-schedule');
+    }
+    public function woo_event_manager_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-woo-event-manager');
+    }
+    public function vs_event_list_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-vs-event-list');
+    }
     public function the_events_calendar_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-the-events-calendar');
     }
@@ -499,6 +519,9 @@ class saswp_output_compatibility{
     }
     public function wp_event_aggregator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wp-event-aggregator');
+    }
+    public function timetable_event_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-timetable-event');
     }
     public function stachethemes_event_calendar_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-stachethemes-event-calendar');

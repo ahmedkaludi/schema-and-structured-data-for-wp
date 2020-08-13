@@ -22,6 +22,12 @@ return array(
             'opt_name'   => 'saswp-stachethemes-event-calendar',
             'part_in'    => 'pro',
         ),
+        'timetable_event'  =>  array(            
+            'name'       => 'Timetable and Event Schedule by MotoPress',
+            'free'       => 'mp-timetable/mp-timetable.php',                    
+            'opt_name'   => 'saswp-timetable-event',
+            'part_in'    => 'pro',
+        ),
         'wp_customer_reviews'  =>  array(            
                     'name'       => 'WP Customer Reviews',
                     'free'       => 'wp-customer-reviews/wp-customer-reviews-3.php',                    
@@ -59,6 +65,36 @@ return array(
             'free'       => 'all-in-one-event-calendar/all-in-one-event-calendar.php', 
             'pro'        => 'all-in-one-event-calendar/all-in-one-event-calendar.php', 
             'opt_name'   => 'saswp-all-in-one-event-calendar',
+            'part_in'    => 'pro',
+        ),
+        'xo_event_calendar'  =>  array(            
+            'name'       => 'XO Event Calendar',
+            'free'       => 'xo-event-calendar/xo-event-calendar.php',             
+            'opt_name'   => 'saswp-xo-event-calendar',
+            'part_in'    => 'pro'
+        ),
+        'calendarize_it'  =>  array(            
+            'name'       => 'Calendarize it! for WordPress',
+            'free'       => 'calendarize-it/calendarize-it.php',             
+            'opt_name'   => 'saswp-calendarize-it',
+            'part_in'    => 'pro'
+        ),
+        'events_schedule'  =>  array(            
+            'name'       => 'Events Schedule',
+            'free'       => 'weekly-class/weekly-class.php',             
+            'opt_name'   => 'saswp-events-schedule',
+            'part_in'    => 'pro'
+        ),
+        'woo_event_manager'  =>  array(            
+            'name'       => 'WooCommerce Event Manager',
+            'free'       => 'mage-eventpress/woocommerce-event-press.php',             
+            'opt_name'   => 'saswp-woo-event-manager',
+            'part_in'    => 'pro'
+        ),
+        'vs_event_list'  =>  array(            
+            'name'       => 'Very Simple Event List',
+            'free'       => 'very-simple-event-list/vsel.php',             
+            'opt_name'   => 'saswp-vs-event-list',
             'part_in'    => 'pro',
         ),
         'event_on'  =>  array(            
