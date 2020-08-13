@@ -120,6 +120,12 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.47 (13 Aug 2020) =
+
+* Fixed: Warning: getimagesize(): corrupt JPEG data: 8 extraneous bytes before marker in aqua_resizer.php on line 144 #1134
+* Added: HighPrice & LowPrice properties for the Event Schema #431
+* Added: Event schema 3rd party compatibility ( Timetable and Event Schedule by MotoPress, Very Simple Event List, WooCommerce Event Manager, XO Event Calendar, Calendarize it! for WordPress, Events Schedule - WordPress Events Calendar Plugin) #1142
+
 = 1.9.46.1 (12 Aug 2020) =
 
 * Fixed: Compatibility issue with WordPress 5.5 #1149
