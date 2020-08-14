@@ -2073,7 +2073,7 @@ if ( ! defined('ABSPATH') ) exit;
         }
         
         //SEOPress 
-        if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
+        if( saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1 && function_exists('seopress_titles_the_description_content') ){
             
              require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php'); //Social                                                                              
              $c_excerpt =  seopress_titles_the_description_content($post);             
