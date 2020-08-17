@@ -535,6 +535,9 @@ class saswp_output_compatibility{
     public function schemaforfaqs_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-schemaforfaqs');
     }
+    public function quickandeasyfaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-quickandeasyfaq');
+    }
     public function total_recipe_generator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-total-recipe-generator');
     }

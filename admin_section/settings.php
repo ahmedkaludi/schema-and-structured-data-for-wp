@@ -1960,6 +1960,19 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-schemaforfaqs]',                             
                 )
         );
+
+        $quickandeasyfaq = array(
+                'label'  => 'Quick and Easy FAQs',
+                'id'     => 'saswp-quickandeasyfaq-checkbox',                        
+                'name'   => 'saswp-quickandeasyfaq-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('quickandeasyfaq'),
+                'hidden' => array(
+                        'id'   => 'saswp-quickandeasyfaq',
+                        'name' => 'sd_data[saswp-quickandeasyfaq]',                             
+                )
+        );
                         
         $total_recipe_generator = array(
 			'label'  => 'Total Recipe Generator',
@@ -2983,7 +2996,7 @@ function saswp_compatibility_page_callback(){
          }
          if(!is_plugin_active('faq-schema-for-saswp/faq-schema-for-saswp.php')){
                           
-                //$sabaidiscuss['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
+                $quickandeasyfaq['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
          }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
                           
@@ -3109,6 +3122,7 @@ function saswp_compatibility_page_callback(){
                 $wordpress_news,
                 $WordLift,
                 $schemaforfaqs,
+                $quickandeasyfaq,
                 $flex_lmx
                 
 	);  

@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'quickandeasyfaq'  =>  array(            
+            'name'       => 'FAQ Schema Markup',
+            'free'       => 'quick-and-easy-faqs/quick-and-easy-faqs.php',                    
+            'opt_name'   => 'saswp-quickandeasyfaq',
+            'part_in'    => 'pro',
+        ),
         'schemaforfaqs'  =>  array(            
             'name'       => 'FAQ Schema Markup',
             'free'       => 'faq-schema-markup-faq-structured-data/schema-for-faqs.php',                    

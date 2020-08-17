@@ -1680,6 +1680,34 @@ function saswp_get_testimonial_data($atts, $matche){
                 return array('reviews' => $reviews, 'rating' => $ratings);
 }
 
+
+function saswp_get_shortcode_attrs($shortcode_str, $content){
+
+    $attributes = array();
+
+    $pattern = get_shortcode_regex();
+
+    if (  preg_match_all( '/'. $pattern .'/s', $content, $matches )
+            && array_key_exists( 2, $matches ) )
+    {
+        if(in_array( $shortcode_str, $matches[2] )){
+            
+            foreach ($matches[0] as $matche){
+            
+                $mached         = rtrim($matche, ']'); 
+                $mached         = ltrim($mached, '[');
+                $mached         = trim($mached);
+                $attributes[]   = shortcode_parse_atts('['.$mached.' ]');  
+                                
+            }
+
+        }
+    }
+
+    return $attributes;
+
+}
+
 function saswp_get_easy_testomonials(){
     
     $testimonial = array();

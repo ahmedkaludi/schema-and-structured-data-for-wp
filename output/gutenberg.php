@@ -805,7 +805,7 @@ function saswp_gutenberg_faq_schema(){
                 
             }            
 
-            return apply_filters('saswp_modify_faq_schema_output', $input1 );
+            return apply_filters('saswp_modify_faq_block_schema_output', $input1 );
     
 }
 
