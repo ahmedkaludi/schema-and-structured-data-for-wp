@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'accordionfaq'  =>  array(            
+            'name'       => 'Accordion FAQ',
+            'free'       => 'responsive-accordion-and-collapse/responsive-accordion.php',                    
+            'opt_name'   => 'saswp-accordionfaq',
+            'part_in'    => 'pro',
+        ),
         'quickandeasyfaq'  =>  array(            
             'name'       => 'FAQ Schema Markup',
             'free'       => 'quick-and-easy-faqs/quick-and-easy-faqs.php',                    
