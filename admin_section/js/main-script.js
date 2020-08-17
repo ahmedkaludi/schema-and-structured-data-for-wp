@@ -1524,6 +1524,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-helpiefaq-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-helpiefaq").val(1);                                
+                            }else{
+                              $("#saswp-helpiefaq").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-accordionfaq-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

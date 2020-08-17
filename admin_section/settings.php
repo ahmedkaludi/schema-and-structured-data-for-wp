@@ -1986,6 +1986,19 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-accordionfaq]',                             
                 )
         );
+
+        $helpiefaq = array(
+                'label'  => 'Helpie FAQ',
+                'id'     => 'saswp-helpiefaq-checkbox',                        
+                'name'   => 'saswp-helpiefaq-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('helpiefaq'),
+                'hidden' => array(
+                        'id'   => 'saswp-helpiefaq',
+                        'name' => 'sd_data[saswp-helpiefaq]',                             
+                )
+        );
                         
         $total_recipe_generator = array(
 			'label'  => 'Total Recipe Generator',
@@ -3011,6 +3024,8 @@ function saswp_compatibility_page_callback(){
                           
                 $quickandeasyfaq['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $accordionfaq['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $helpiefaq['note']       = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+
          }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
                           
@@ -3138,6 +3153,7 @@ function saswp_compatibility_page_callback(){
                 $schemaforfaqs,
                 $quickandeasyfaq,
                 $accordionfaq,
+                $helpiefaq,
                 $flex_lmx
                 
 	);  

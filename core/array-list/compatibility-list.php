@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'helpiefaq'  =>  array(            
+            'name'       => 'Helpie FAQ – WordPress FAQ Accordion Plugin',
+            'free'       => 'helpie-faq/helpie-faq.php',                    
+            'opt_name'   => 'saswp-helpiefaq',
+            'part_in'    => 'pro',
+        ),
         'accordionfaq'  =>  array(            
             'name'       => 'Accordion FAQ',
             'free'       => 'responsive-accordion-and-collapse/responsive-accordion.php',                    
