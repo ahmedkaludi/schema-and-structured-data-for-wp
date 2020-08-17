@@ -430,6 +430,36 @@ function saswp_premium_features_callback(){ ?>
                     </div>
             </li>
 
+            <li>                            
+                            <?php
+                            
+                            $cooked_active_text = '';
+                            
+                            if(is_plugin_active('faq-schema-for-saswp/faq-schema-for-saswp.php')){                                        
+                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                            }else{
+                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                            }
+                            
+                            ?> 
+                                            
+                    <div class="saswp-features-ele">
+                        <div class="saswp-ele-ic" style="background: #509207;">
+                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/question.png">
+                            </div>
+                            <div class="saswp-ele-tlt">
+                                    <h3><?php echo esc_html__('FAQ Schema Compatibility','schema-and-structured-data-for-wp') ?></h3>
+                                    <p><?php echo esc_html__(' extension is the number one solution to enhance your discussion forum website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+                            </div>
+                    </div>
+                    <div class="saswp-sts-btn">
+                        
+                        <?php echo $cooked_active_text; ?>
+                                                                                                                                               
+                    </div>
+            </li>
+
             <li>
                             
                             <?php
@@ -451,7 +481,7 @@ function saswp_premium_features_callback(){ ?>
                             </div>
                             <div class="saswp-ele-tlt">
                                     <h3><?php echo esc_html__('Q&A Schema Compatibility','schema-and-structured-data-for-wp') ?></h3>
-                                    <p><?php echo esc_html__('Q&A Schema Compatibility extension is the number one solution to enhance your discussion forum website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+                                    <p><?php echo esc_html__(' extension is the number one solution to enhance your discussion forum website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
                             </div>
                     </div>
                     <div class="saswp-sts-btn">
@@ -2950,6 +2980,10 @@ function saswp_compatibility_page_callback(){
              $wplms['note']       = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              $senseilms['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              
+         }
+         if(!is_plugin_active('faq-schema-for-saswp/faq-schema-for-saswp.php')){
+                          
+                //$sabaidiscuss['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
          }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
                           
