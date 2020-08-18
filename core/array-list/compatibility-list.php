@@ -10,6 +10,12 @@ return array(
             'opt_name'   => 'saswp-ultimatefaqs',
             'part_in'    => 'pro',
         ),
+        'easyaccordion'  =>  array(            
+            'name'       => 'Easy Accordion',
+            'free'       => 'easy-accordion-free/plugin-main.php',                    
+            'opt_name'   => 'saswp-easyaccordion',
+            'part_in'    => 'pro',
+        ),
         'helpiefaq'  =>  array(            
             'name'       => 'Helpie FAQ – WordPress FAQ Accordion Plugin',
             'free'       => 'helpie-faq/helpie-faq.php',                    

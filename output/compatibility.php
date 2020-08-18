@@ -544,6 +544,9 @@ class saswp_output_compatibility{
     public function ultimatefaqs_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-ultimatefaqs');
     }
+    public function easyaccordion_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-easyaccordion');
+    }
     public function helpiefaq_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-helpiefaq');
     }

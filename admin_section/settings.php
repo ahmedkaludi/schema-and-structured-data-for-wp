@@ -2000,6 +2000,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $easyaccordion = array(
+                'label'  => 'Easy Accordion',
+                'id'     => 'saswp-easyaccordion-checkbox',                        
+                'name'   => 'saswp-easyaccordion-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('easyaccordion'),
+                'hidden' => array(
+                        'id'   => 'saswp-easyaccordion',
+                        'name' => 'sd_data[saswp-easyaccordion]',                             
+                )
+        );
+
         $helpiefaq = array(
                 'label'  => 'Helpie FAQ',
                 'id'     => 'saswp-helpiefaq-checkbox',                        
@@ -3039,6 +3052,7 @@ function saswp_compatibility_page_callback(){
                 $accordionfaq['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $helpiefaq['note']       = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $ultimatefaqs['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $easyaccordion['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
 
          }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
@@ -3168,6 +3182,7 @@ function saswp_compatibility_page_callback(){
                 $quickandeasyfaq,
                 $accordionfaq,
                 $ultimatefaqs,
+                $easyaccordion,
                 $helpiefaq,
                 $flex_lmx
                 
