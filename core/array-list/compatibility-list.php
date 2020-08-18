@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'wpresponsivefaq'  =>  array(            
+            'name'       => 'WP responsive FAQ with category plugin',
+            'free'       => 'sp-faq/faq.php',                    
+            'opt_name'   => 'saswp-wpresponsivefaq',
+            'part_in'    => 'pro',
+        ),
         'ultimatefaqs'  =>  array(            
             'name'       => 'Ultimate FAQs – WordPress Knowledgebase Plugin',
             'free'       => 'ultimate-faqs/Main.php',                    

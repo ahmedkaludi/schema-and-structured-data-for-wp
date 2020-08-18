@@ -547,6 +547,9 @@ class saswp_output_compatibility{
     public function easyaccordion_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-easyaccordion');
     }
+    public function wpresponsivefaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpresponsivefaq');
+    }
     public function helpiefaq_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-helpiefaq');
     }
