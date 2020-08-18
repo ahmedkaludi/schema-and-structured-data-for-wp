@@ -1534,6 +1534,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-arconixfaq-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-arconixfaq").val(1);                                
+                            }else{
+                              $("#saswp-arconixfaq").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-wpresponsivefaq-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

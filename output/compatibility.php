@@ -550,6 +550,9 @@ class saswp_output_compatibility{
     public function wpresponsivefaq_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-wpresponsivefaq');
     }
+    public function arconixfaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-arconixfaq');
+    }
     public function helpiefaq_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-helpiefaq');
     }

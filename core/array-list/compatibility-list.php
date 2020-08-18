@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'arconixfaq'  =>  array(            
+            'name'       => 'Arconix FAQ',
+            'free'       => 'arconix-faq/plugin.php',                    
+            'opt_name'   => 'saswp-arconixfaq',
+            'part_in'    => 'pro',
+        ),
         'wpresponsivefaq'  =>  array(            
             'name'       => 'WP responsive FAQ with category plugin',
             'free'       => 'sp-faq/faq.php',                    
