@@ -1544,6 +1544,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-html5responsivefaq-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-html5responsivefaq").val(1);                                
+                            }else{
+                              $("#saswp-html5responsivefaq").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-wpresponsivefaq-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
