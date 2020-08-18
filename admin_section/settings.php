@@ -1987,6 +1987,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $ultimatefaqs = array(
+                'label'  => 'Ultimate FAQs',
+                'id'     => 'saswp-ultimatefaqs-checkbox',                        
+                'name'   => 'saswp-ultimatefaqs-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('ultimatefaqs'),
+                'hidden' => array(
+                        'id'   => 'saswp-ultimatefaqs',
+                        'name' => 'sd_data[saswp-ultimatefaqs]',                             
+                )
+        );
+
         $helpiefaq = array(
                 'label'  => 'Helpie FAQ',
                 'id'     => 'saswp-helpiefaq-checkbox',                        
@@ -3025,6 +3038,7 @@ function saswp_compatibility_page_callback(){
                 $quickandeasyfaq['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $accordionfaq['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $helpiefaq['note']       = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $ultimatefaqs['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
 
          }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
@@ -3153,6 +3167,7 @@ function saswp_compatibility_page_callback(){
                 $schemaforfaqs,
                 $quickandeasyfaq,
                 $accordionfaq,
+                $ultimatefaqs,
                 $helpiefaq,
                 $flex_lmx
                 

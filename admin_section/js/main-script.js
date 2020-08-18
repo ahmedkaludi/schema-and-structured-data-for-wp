@@ -1524,6 +1524,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-ultimatefaqs-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ultimatefaqs").val(1);                                
+                            }else{
+                              $("#saswp-ultimatefaqs").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-helpiefaq-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

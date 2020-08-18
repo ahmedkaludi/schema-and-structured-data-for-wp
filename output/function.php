@@ -1339,6 +1339,10 @@ function saswp_remove_microdata($content){
             
         }
         
+        if(isset($sd_data['saswp-ultimatefaqs']) && $sd_data['saswp-ultimatefaqs'] == 1 ){
+            $content = preg_replace('/<script type=\"application\/ld\+json" class=\"ewd-ufaq-ld-json-data"\>(.*?)<\/script>/', "", $content);
+        }
+        
         if(isset($sd_data['saswp-wp-ultimate-recipe']) && $sd_data['saswp-wp-ultimate-recipe'] == 1 ){
          
             $regex = '/<script type=\"application\/ld\+json\">(.*?)<\/script>[\s\n]*<div id=\"wpurp\-container\-recipe\-([0-9]+)\"/';

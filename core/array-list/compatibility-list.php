@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'ultimatefaqs'  =>  array(            
+            'name'       => 'Ultimate FAQs – WordPress Knowledgebase Plugin',
+            'free'       => 'ultimate-faqs/Main.php',                    
+            'opt_name'   => 'saswp-ultimatefaqs',
+            'part_in'    => 'pro',
+        ),
         'helpiefaq'  =>  array(            
             'name'       => 'Helpie FAQ – WordPress FAQ Accordion Plugin',
             'free'       => 'helpie-faq/helpie-faq.php',                    
