@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'accordion'  =>  array(            
+            'name'       => 'Accordion By PickPlugins',
+            'free'       => 'accordions/accordions.php',                    
+            'opt_name'   => 'saswp-accordion',
+            'part_in'    => 'pro',
+        ),
         'faqconcertina'  =>  array(            
             'name'       => 'FAQ Concertina',
             'free'       => 'faq-concertina/faq-concertina.php',                    
