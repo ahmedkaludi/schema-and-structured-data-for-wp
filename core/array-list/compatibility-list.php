@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'easyfaqs'  =>  array(            
+            'name'       => 'Easy FAQs',
+            'free'       => 'easy-faqs/easy-faqs.php',                    
+            'opt_name'   => 'saswp-easyfaqs',
+            'part_in'    => 'pro',
+        ),
         'accordion'  =>  array(            
             'name'       => 'Accordion By PickPlugins',
             'free'       => 'accordions/accordions.php',                    
