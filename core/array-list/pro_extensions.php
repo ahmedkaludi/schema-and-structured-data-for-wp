@@ -46,7 +46,7 @@ return array(
         array(
             'key'        => 'faq_schema',
             'name'       => 'FAQ Schema Compatibility',
-            'path'       => 'faq-schema-for-saswp/faq-schema-for-saswp.php',                        
+            'path'       => 'faq-schema-compatibility/faq-schema-compatibility.php',                        
         ),
         array(
             'key'        => 'recipe_schema',
