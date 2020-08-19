@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'faqconcertina'  =>  array(            
+            'name'       => 'FAQ Concertina',
+            'free'       => 'faq-concertina/faq-concertina.php',                    
+            'opt_name'   => 'saswp-faqconcertina',
+            'part_in'    => 'pro',
+        ),
         'html5responsivefaq'  =>  array(            
             'name'       => 'HTML5 Responsive FAQ',
             'free'       => 'html5-responsive-faq/html5-responsive-faq.php',                    

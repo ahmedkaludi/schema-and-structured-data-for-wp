@@ -1544,6 +1544,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-faqconcertina-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-faqconcertina").val(1);                                
+                            }else{
+                              $("#saswp-faqconcertina").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-html5responsivefaq-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

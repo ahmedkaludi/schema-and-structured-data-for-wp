@@ -2013,6 +2013,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $faqconcertina        = array(
+                'label'  => 'FAQ Concertina',
+                'id'     => 'saswp-faqconcertina-checkbox',                        
+                'name'   => 'saswp-faqconcertina-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('faqconcertina'),
+                'hidden' => array(
+                        'id'   => 'saswp-faqconcertina',
+                        'name' => 'sd_data[saswp-faqconcertina]',                             
+                )
+        );
+
         $html5responsivefaq   = array(
                 'label'  => 'HTML5 Responsive FAQ',
                 'id'     => 'saswp-html5responsivefaq-checkbox',                        
@@ -3087,14 +3100,15 @@ function saswp_compatibility_page_callback(){
          }
          if(!is_plugin_active('faq-schema-for-saswp/faq-schema-for-saswp.php')){
                           
-                $quickandeasyfaq['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $accordionfaq['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $helpiefaq['note']       = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $ultimatefaqs['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $arconixfaq['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $wpresponsivefaq['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                                                                
+                $quickandeasyfaq['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $accordionfaq['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $helpiefaq['note']            = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $ultimatefaqs['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $arconixfaq['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $wpresponsivefaq['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                                                                
                 $easyaccordion['note']        = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $html5responsivefaq['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $faqconcertina['note']        = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
 
          }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
@@ -3225,6 +3239,7 @@ function saswp_compatibility_page_callback(){
                 $accordionfaq,
                 $ultimatefaqs,
                 $arconixfaq,
+                $faqconcertina,
                 $html5responsivefaq,
                 $wpresponsivefaq,
                 $easyaccordion,
