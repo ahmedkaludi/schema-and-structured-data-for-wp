@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'masteraccordion'  =>  array(            
+            'name'       => 'Master Accordion',
+            'free'       => 'wp-awesome-faq/wp-awesome-faq.php',                    
+            'opt_name'   => 'saswp-masteraccordion',
+            'part_in'    => 'pro',
+        ),
         'easyfaqs'  =>  array(            
             'name'       => 'Easy FAQs',
             'free'       => 'easy-faqs/easy-faqs.php',                    

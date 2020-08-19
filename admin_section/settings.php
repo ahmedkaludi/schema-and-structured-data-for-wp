@@ -2052,6 +2052,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $masteraccordion        = array(
+                'label'  => 'Master Accordion',
+                'id'     => 'saswp-masteraccordion-checkbox',                        
+                'name'   => 'saswp-masteraccordion-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('masteraccordion'),
+                'hidden' => array(
+                        'id'   => 'saswp-masteraccordion',
+                        'name' => 'sd_data[saswp-masteraccordion]',                             
+                )
+        );
+
         $html5responsivefaq   = array(
                 'label'  => 'HTML5 Responsive FAQ',
                 'id'     => 'saswp-html5responsivefaq-checkbox',                        
@@ -3137,6 +3150,7 @@ function saswp_compatibility_page_callback(){
                 $faqconcertina['note']        = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $accordion['note']            = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $easyfaqs['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $masteraccordion['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
 
          }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
@@ -3268,6 +3282,7 @@ function saswp_compatibility_page_callback(){
                 $ultimatefaqs,
                 $arconixfaq,
                 $faqconcertina,
+                $masteraccordion,
                 $easyfaqs,
                 $accordion,
                 $html5responsivefaq,
