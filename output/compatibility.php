@@ -556,6 +556,9 @@ class saswp_output_compatibility{
     public function faqconcertina_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-faqconcertina');
     }
+    public function faqschemaforpost_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-faqschemaforpost');
+    }
     public function masteraccordion_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-masteraccordion');
     }

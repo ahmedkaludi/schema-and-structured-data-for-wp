@@ -2052,6 +2052,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $faqschemaforpost        = array(
+                'label'  => 'FAQ Schema For Pages And Posts',
+                'id'     => 'saswp-faqschemaforpost-checkbox',                        
+                'name'   => 'saswp-faqschemaforpost-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('faqschemaforpost'),
+                'hidden' => array(
+                        'id'   => 'saswp-faqschemaforpost',
+                        'name' => 'sd_data[saswp-faqschemaforpost]',                             
+                )
+        );
+
         $masteraccordion        = array(
                 'label'  => 'Master Accordion',
                 'id'     => 'saswp-masteraccordion-checkbox',                        
@@ -3282,6 +3295,7 @@ function saswp_compatibility_page_callback(){
                 $ultimatefaqs,
                 $arconixfaq,
                 $faqconcertina,
+                $faqschemaforpost,
                 $masteraccordion,
                 $easyfaqs,
                 $accordion,
