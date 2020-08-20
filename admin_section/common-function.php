@@ -3593,7 +3593,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         if($saved_data){
             $new_arr = array();
             foreach ($templates as $key => $value) {
-                if($key == $saved_data){
+                if($value == $saved_data){
                   $new_arr[$key] = $value;
                 }
             }
@@ -3604,7 +3604,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
             
             foreach($templates as $k => $v){
                              
-                 $choices[] = array('id' => $k, 'text' => $v);
+                 $choices[] = array('id' => $v, 'text' => $k);
           
             }
             
