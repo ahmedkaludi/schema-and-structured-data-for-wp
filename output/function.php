@@ -759,8 +759,21 @@ function saswp_reading_time_and_word_count() {
     $word_count      = substr_count( "$text ", ' ' );
     // How many seconds (total)?
     $seconds = floor( $word_count / $words_per_second );
+    
+    $timereq = '';
 
-    return array('word_count' => esc_attr($word_count), 'timerequired' => esc_attr($seconds));
+    if($seconds > 60){
+
+        $minutes      = floor($seconds/60);        
+        $seconds_left = $seconds % 60;
+        
+        $timereq = 'PT'.$minutes.'M'.$seconds_left.'S';
+
+    }else{
+        $timereq = 'PT'.$seconds.'S';
+    }
+
+    return array('word_count' => esc_attr($word_count), 'timerequired' => esc_attr($timereq));
 }
 
 /**
