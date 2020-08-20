@@ -147,6 +147,8 @@ class saswp_output_compatibility{
         add_action( 'template_redirect', array($this, 'saswp_betteramp_override_full') ,99);
         
     }
+    public function saswp_faqschemaforpost_override(){                
+    }
     public function saswp_betteramp_override_full(){
         
              remove_action( 'wp_head', 'BF_Json_LD_Generator::print_output' );

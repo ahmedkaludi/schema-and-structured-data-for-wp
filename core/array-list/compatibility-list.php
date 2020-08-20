@@ -5,10 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 return array(    
     'plugins' =>    array(        
         'faqschemaforpost'  =>  array(            
-            'name'       => 'Master Accordion',
+            'name'       => 'FAQ Schema For Pages And Posts',
             'free'       => 'faq-schema-for-pages-and-posts/wp-faq-schema.php',                    
             'opt_name'   => 'saswp-faqschemaforpost',
-            'part_in'    => 'free',
+            'part_in'    => 'pro',
         ),
         'masteraccordion'  =>  array(            
             'name'       => 'Master Accordion',
