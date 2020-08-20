@@ -217,7 +217,8 @@ function saswp_get_all_schema_markup_output() {
         $taqeem_schema            = saswp_taqyeem_review_rich_snippet(); 
         $wp_product_rv            = saswp_wp_product_review_lite_rich_snippet();
         $schema_for_faqs          = saswp_schema_for_faqs_schema();
-        $faqschemaforpost         = saswp_faqschemaforpost_schema();         
+        $faqschemaforpost         = saswp_faqschemaforpost_schema(); 
+        $wpfaqschemamarkup        = saswp_wpfaqschemamarkup_schema();         
         $woo_cat_schema           = saswp_woocommerce_category_schema();  
         $woo_shop_page            = saswp_woocommerce_shop_page();  
         $site_navigation          = saswp_site_navigation_output();     
@@ -327,6 +328,12 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($faqschemaforpost)){
                         
                             $output .= saswp_json_print_format($faqschemaforpost);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($wpfaqschemamarkup)){
+                        
+                            $output .= saswp_json_print_format($wpfaqschemamarkup);   
                             $output .= ",";
                             $output .= "\n\n";
                         }

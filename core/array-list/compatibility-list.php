@@ -10,6 +10,12 @@ return array(
             'opt_name'   => 'saswp-faqschemaforpost',
             'part_in'    => 'pro',
         ),
+        'wpfaqschemamarkup'  =>  array(            
+            'name'       => 'WP FAQ Schema Markup for SEO',
+            'free'       => 'wp-faq-schema-markup-for-seo/index.php',                    
+            'opt_name'   => 'saswp-wpfaqschemamarkup',
+            'part_in'    => 'pro',
+        ),
         'masteraccordion'  =>  array(            
             'name'       => 'Master Accordion',
             'free'       => 'wp-awesome-faq/wp-awesome-faq.php',                    

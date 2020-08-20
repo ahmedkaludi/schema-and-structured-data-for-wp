@@ -1554,6 +1554,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-wpfaqschemamarkup-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpfaqschemamarkup").val(1);                                
+                            }else{
+                              $("#saswp-wpfaqschemamarkup").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-faqschemaforpost-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
