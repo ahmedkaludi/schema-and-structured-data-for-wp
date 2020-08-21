@@ -564,6 +564,9 @@ class saswp_output_compatibility{
     public function masteraccordion_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-masteraccordion');
     }
+    public function webfaq10_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-webfaq10');
+    }
     public function wpfaqschemamarkup_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-wpfaqschemamarkup');
     }

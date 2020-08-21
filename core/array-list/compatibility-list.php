@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'webfaq10'  =>  array(            
+            'name'       => '10WebFAQ',
+            'free'       => 'faq-wd/faq_wd.php',                    
+            'opt_name'   => 'saswp-webfaq10',
+            'part_in'    => 'pro',
+        ),
         'faqschemaforpost'  =>  array(            
             'name'       => 'FAQ Schema For Pages And Posts',
             'free'       => 'faq-schema-for-pages-and-posts/wp-faq-schema.php',                    

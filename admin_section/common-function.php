@@ -2961,6 +2961,7 @@ function saswp_get_field_note($pname){
             'ampforwp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
             'quickandeasyfaq'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/quick-and-easy-faqs/">Quick and Easy FAQs</a>',
             'accordionfaq'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/responsive-accordion-and-collapse">Accordion FAQ</a>',
+            'webfaq10'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-wd/">10WebFAQ</a>',
             'ultimatefaqs'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-faqs/">Ultimate FAQs</a>',
             'easyaccordion'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-accordion-free/">Easy Accordion</a>',
             'wpresponsivefaq'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/sp-faq">WP responsive FAQ with category plugin</a>',
