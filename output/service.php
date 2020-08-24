@@ -143,7 +143,8 @@ Class saswp_output_service{
                     $response = @get_the_title();                    
                     break;
                 case 'post_content':
-                    $response = @get_the_content();                        
+                    $response = @get_the_content();
+					$response = wp_strip_all_tags(strip_shortcodes($response));                    
                     break;
                 case 'post_category':
                     $categories = get_the_category();
