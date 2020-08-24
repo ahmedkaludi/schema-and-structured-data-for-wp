@@ -2561,7 +2561,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'attributes' => array(
                                 'placeholder' => 'Apartment light cleaning, carpet cleaning'
                             )                                                        
-                       )                        
+                        ),
+                        array(
+                                'label' => 'Additional Type',
+                                'id'    => 'saswp_service_schema_additional_type_'.$schema_id,
+                                'type'  => 'text',                           
+                        ),
+                        array(
+                                'label' => 'Service Output',
+                                'id'    => 'saswp_service_schema_service_output_'.$schema_id,
+                                'type'  => 'text',                           
+                        )                        
                     );
                     break;
                 

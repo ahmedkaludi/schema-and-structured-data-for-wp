@@ -2177,6 +2177,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_service_schema_type'])){
                       $input1['serviceType'] =    $custom_fields['saswp_service_schema_type'];
                     }
+                    if(isset($custom_fields['saswp_service_schema_additional_type'])){
+                        $input1['additionalType'] =    $custom_fields['saswp_service_schema_additional_type'];
+                    }
+                    if(isset($custom_fields['saswp_service_schema_service_output'])){
+                      $input1['serviceOutput'] =    $custom_fields['saswp_service_schema_service_output'];
+                    }
                     if(isset($custom_fields['saswp_service_schema_provider_type']) && isset($custom_fields['saswp_service_schema_provider_name'])){
                       $input1['provider']['@type'] =    $custom_fields['saswp_service_schema_provider_type'];
                       $input1['provider']['name']  =    $custom_fields['saswp_service_schema_provider_name'];

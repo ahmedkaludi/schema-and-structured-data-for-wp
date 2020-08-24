@@ -3651,6 +3651,13 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1['name']        = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_name_'.$schema_id, 'saswp_array');
         $input1['serviceType'] = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_type_'.$schema_id, 'saswp_array');
 
+        if(isset($all_post_meta['saswp_service_schema_additional_type_'.$schema_id][0])){
+            $input1['additionalType']         = $all_post_meta['saswp_service_schema_additional_type_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_service_schema_service_output_'.$schema_id][0])){
+            $input1['serviceOutput']         = $all_post_meta['saswp_service_schema_service_output_'.$schema_id][0];
+        }
+
         if(isset($all_post_meta['saswp_service_schema_provider_type_'.$schema_id][0])){
 
              $input1['provider']['@type']                      = $all_post_meta['saswp_service_schema_provider_type_'.$schema_id][0];
