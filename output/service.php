@@ -1259,6 +1259,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_description'])){
                      $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_blogposting_description'] ));
                     }
+                    if(isset($custom_fields['saswp_blogposting_body'])){
+                        $input1['articleBody'] =    $custom_fields['saswp_blogposting_body'];
+                    }                                           
                     if(isset($custom_fields['saswp_blogposting_name'])){
                      $input1['name'] =    $custom_fields['saswp_blogposting_name'];
                     }

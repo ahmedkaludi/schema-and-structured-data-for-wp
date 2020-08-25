@@ -317,6 +317,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_blogposting_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => get_the_excerpt()
+                    ),                        
+                    array(
+                        'label'   => 'Article Body',
+                        'id'      => 'saswp_blogposting_body_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
                     ),
                     array(
                             'label' => 'Keywords',

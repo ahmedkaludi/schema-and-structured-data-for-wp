@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 1.9.47
+Stable tag: 1.9.48
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.48 (25 Aug 2020) =
+
+* Fixed: Placement condition page template is not working. #1166
+* Fixed: Need to show unit of the time in the time required value in the NewsArticle schema #1156
+* Fixed: Getting fatal error on the single post/page,conflict with the seopress in the specific use case. #1146
+* Fixed: Fatal error: Uncaught Error: Call to undefined function fifu_amp_url() in /core/3rd-party/aqua_resizer.php:334 #1155
+* Fixed: The Tripadvisor reviews are not fetching at user end. #1167
+* Fixed: html comments is rendering in the schema markup and causing a validation error in article schema #1169
+* Fixed: Users unable to fetch reviews #1162
+* Added: "additionalType" and "ServiceOutput" properties in service schema #1148
+
 
 = 1.9.47 (13 Aug 2020) =
 
