@@ -4,6 +4,96 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'webfaq10'  =>  array(            
+            'name'       => '10WebFAQ',
+            'free'       => 'faq-wd/faq_wd.php',                    
+            'opt_name'   => 'saswp-webfaq10',
+            'part_in'    => 'pro',
+        ),
+        'faqschemaforpost'  =>  array(            
+            'name'       => 'FAQ Schema For Pages And Posts',
+            'free'       => 'faq-schema-for-pages-and-posts/wp-faq-schema.php',                    
+            'opt_name'   => 'saswp-faqschemaforpost',
+            'part_in'    => 'pro',
+        ),
+        'wpfaqschemamarkup'  =>  array(            
+            'name'       => 'WP FAQ Schema Markup for SEO',
+            'free'       => 'wp-faq-schema-markup-for-seo/index.php',                    
+            'opt_name'   => 'saswp-wpfaqschemamarkup',
+            'part_in'    => 'pro',
+        ),
+        'masteraccordion'  =>  array(            
+            'name'       => 'Master Accordion',
+            'free'       => 'wp-awesome-faq/wp-awesome-faq.php',                    
+            'opt_name'   => 'saswp-masteraccordion',
+            'part_in'    => 'pro',
+        ),
+        'easyfaqs'  =>  array(            
+            'name'       => 'Easy FAQs',
+            'free'       => 'easy-faqs/easy-faqs.php',                    
+            'opt_name'   => 'saswp-easyfaqs',
+            'part_in'    => 'pro',
+        ),
+        'accordion'  =>  array(            
+            'name'       => 'Accordion By PickPlugins',
+            'free'       => 'accordions/accordions.php',                    
+            'opt_name'   => 'saswp-accordion',
+            'part_in'    => 'pro',
+        ),
+        'faqconcertina'  =>  array(            
+            'name'       => 'FAQ Concertina',
+            'free'       => 'faq-concertina/faq-concertina.php',                    
+            'opt_name'   => 'saswp-faqconcertina',
+            'part_in'    => 'pro',
+        ),
+        'html5responsivefaq'  =>  array(            
+            'name'       => 'HTML5 Responsive FAQ',
+            'free'       => 'html5-responsive-faq/html5-responsive-faq.php',                    
+            'opt_name'   => 'saswp-html5responsivefaq',
+            'part_in'    => 'pro',
+        ),
+        'arconixfaq'  =>  array(            
+            'name'       => 'Arconix FAQ',
+            'free'       => 'arconix-faq/plugin.php',                    
+            'opt_name'   => 'saswp-arconixfaq',
+            'part_in'    => 'pro',
+        ),
+        'wpresponsivefaq'  =>  array(            
+            'name'       => 'WP responsive FAQ with category plugin',
+            'free'       => 'sp-faq/faq.php',                    
+            'opt_name'   => 'saswp-wpresponsivefaq',
+            'part_in'    => 'pro',
+        ),
+        'ultimatefaqs'  =>  array(            
+            'name'       => 'Ultimate FAQs – WordPress Knowledgebase Plugin',
+            'free'       => 'ultimate-faqs/Main.php',                    
+            'opt_name'   => 'saswp-ultimatefaqs',
+            'part_in'    => 'pro',
+        ),
+        'easyaccordion'  =>  array(            
+            'name'       => 'Easy Accordion',
+            'free'       => 'easy-accordion-free/plugin-main.php',                    
+            'opt_name'   => 'saswp-easyaccordion',
+            'part_in'    => 'pro',
+        ),
+        'helpiefaq'  =>  array(            
+            'name'       => 'Helpie FAQ – WordPress FAQ Accordion Plugin',
+            'free'       => 'helpie-faq/helpie-faq.php',                    
+            'opt_name'   => 'saswp-helpiefaq',
+            'part_in'    => 'pro',
+        ),
+        'accordionfaq'  =>  array(            
+            'name'       => 'Accordion FAQ',
+            'free'       => 'responsive-accordion-and-collapse/responsive-accordion.php',                    
+            'opt_name'   => 'saswp-accordionfaq',
+            'part_in'    => 'pro',
+        ),
+        'quickandeasyfaq'  =>  array(            
+            'name'       => 'FAQ Schema Markup',
+            'free'       => 'quick-and-easy-faqs/quick-and-easy-faqs.php',                    
+            'opt_name'   => 'saswp-quickandeasyfaq',
+            'part_in'    => 'pro',
+        ),
         'schemaforfaqs'  =>  array(            
             'name'       => 'FAQ Schema Markup',
             'free'       => 'faq-schema-markup-faq-structured-data/schema-for-faqs.php',                    

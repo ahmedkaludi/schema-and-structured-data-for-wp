@@ -430,6 +430,36 @@ function saswp_premium_features_callback(){ ?>
                     </div>
             </li>
 
+            <li>                            
+                            <?php
+                            
+                            $cooked_active_text = '';
+                            
+                            if(is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){                                        
+                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                            }else{
+                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                            }
+                            
+                            ?> 
+                                            
+                    <div class="saswp-features-ele">
+                        <div class="saswp-ele-ic" style="background: #509207;">
+                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/faq.png">
+                            </div>
+                            <div class="saswp-ele-tlt">
+                                    <h3><?php echo esc_html__('FAQ Schema Compatibility','schema-and-structured-data-for-wp') ?></h3>
+                                    <p><?php echo esc_html__(' FAQ Schema Compatibility extension is the number one solution to enhance your FAQs website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+                            </div>
+                    </div>
+                    <div class="saswp-sts-btn">
+                        
+                        <?php echo $cooked_active_text; ?>
+                                                                                                                                               
+                    </div>
+            </li>
+
             <li>
                             
                             <?php
@@ -451,7 +481,7 @@ function saswp_premium_features_callback(){ ?>
                             </div>
                             <div class="saswp-ele-tlt">
                                     <h3><?php echo esc_html__('Q&A Schema Compatibility','schema-and-structured-data-for-wp') ?></h3>
-                                    <p><?php echo esc_html__('Q&A Schema Compatibility extension is the number one solution to enhance your discussion forum website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+                                    <p><?php echo esc_html__(' extension is the number one solution to enhance your discussion forum website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
                             </div>
                     </div>
                     <div class="saswp-sts-btn">
@@ -1930,6 +1960,201 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-schemaforfaqs]',                             
                 )
         );
+
+        $quickandeasyfaq = array(
+                'label'  => 'Quick and Easy FAQs',
+                'id'     => 'saswp-quickandeasyfaq-checkbox',                        
+                'name'   => 'saswp-quickandeasyfaq-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('quickandeasyfaq'),
+                'hidden' => array(
+                        'id'   => 'saswp-quickandeasyfaq',
+                        'name' => 'sd_data[saswp-quickandeasyfaq]',                             
+                )
+        );
+
+        $easyfaqs        = array(
+                'label'  => 'Easy FAQs',
+                'id'     => 'saswp-easyfaqs-checkbox',                        
+                'name'   => 'saswp-easyfaqs-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('easyfaqs'),
+                'hidden' => array(
+                        'id'   => 'saswp-easyfaqs',
+                        'name' => 'sd_data[saswp-easyfaqs]',                             
+                )
+        );
+
+        $accordionfaq = array(
+                'label'  => 'Accordion FAQ',
+                'id'     => 'saswp-accordionfaq-checkbox',                        
+                'name'   => 'saswp-accordionfaq-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('accordionfaq'),
+                'hidden' => array(
+                        'id'   => 'saswp-accordionfaq',
+                        'name' => 'sd_data[saswp-accordionfaq]',                             
+                )
+        );
+
+        $ultimatefaqs = array(
+                'label'  => 'Ultimate FAQs',
+                'id'     => 'saswp-ultimatefaqs-checkbox',                        
+                'name'   => 'saswp-ultimatefaqs-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('ultimatefaqs'),
+                'hidden' => array(
+                        'id'   => 'saswp-ultimatefaqs',
+                        'name' => 'sd_data[saswp-ultimatefaqs]',                             
+                )
+        );
+
+        $arconixfaq   = array(
+                'label'  => 'Arconix FAQ',
+                'id'     => 'saswp-arconixfaq-checkbox',                        
+                'name'   => 'saswp-arconixfaq-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('arconixfaq'),
+                'hidden' => array(
+                        'id'   => 'saswp-arconixfaq',
+                        'name' => 'sd_data[saswp-arconixfaq]',                             
+                )
+        );
+
+        $accordion   = array(
+                'label'  => 'Accordion By PickPlugins',
+                'id'     => 'saswp-accordion-checkbox',                        
+                'name'   => 'saswp-accordion-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('accordion'),
+                'hidden' => array(
+                        'id'   => 'saswp-accordion',
+                        'name' => 'sd_data[saswp-accordion]',                             
+                )
+        );
+
+        $faqconcertina        = array(
+                'label'  => 'FAQ Concertina',
+                'id'     => 'saswp-faqconcertina-checkbox',                        
+                'name'   => 'saswp-faqconcertina-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('faqconcertina'),
+                'hidden' => array(
+                        'id'   => 'saswp-faqconcertina',
+                        'name' => 'sd_data[saswp-faqconcertina]',                             
+                )
+        );
+
+        $faqschemaforpost        = array(
+                'label'  => 'FAQ Schema For Pages And Posts',
+                'id'     => 'saswp-faqschemaforpost-checkbox',                        
+                'name'   => 'saswp-faqschemaforpost-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('faqschemaforpost'),
+                'hidden' => array(
+                        'id'   => 'saswp-faqschemaforpost',
+                        'name' => 'sd_data[saswp-faqschemaforpost]',                             
+                )
+        );
+
+        $wpfaqschemamarkup        = array(
+                'label'  => 'WP FAQ Schema Markup for SEO',
+                'id'     => 'saswp-wpfaqschemamarkup-checkbox',                        
+                'name'   => 'saswp-wpfaqschemamarkup-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpfaqschemamarkup'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpfaqschemamarkup',
+                        'name' => 'sd_data[saswp-wpfaqschemamarkup]',                             
+                )
+        );
+
+        $webfaq10        = array(
+                'label'  => '10WebFAQ',
+                'id'     => 'saswp-webfaq10-checkbox',                        
+                'name'   => 'saswp-webfaq10-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('webfaq10'),
+                'hidden' => array(
+                        'id'   => 'saswp-webfaq10',
+                        'name' => 'sd_data[saswp-webfaq10]',                             
+                )
+        );
+
+        $masteraccordion        = array(
+                'label'  => 'Master Accordion',
+                'id'     => 'saswp-masteraccordion-checkbox',                        
+                'name'   => 'saswp-masteraccordion-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('masteraccordion'),
+                'hidden' => array(
+                        'id'   => 'saswp-masteraccordion',
+                        'name' => 'sd_data[saswp-masteraccordion]',                             
+                )
+        );
+
+        $html5responsivefaq   = array(
+                'label'  => 'HTML5 Responsive FAQ',
+                'id'     => 'saswp-html5responsivefaq-checkbox',                        
+                'name'   => 'saswp-html5responsivefaq-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('html5responsivefaq'),
+                'hidden' => array(
+                        'id'   => 'saswp-html5responsivefaq',
+                        'name' => 'sd_data[saswp-html5responsivefaq]',                             
+                )
+        );
+
+        $wpresponsivefaq = array(
+                'label'  => 'WP responsive FAQ with category plugin',
+                'id'     => 'saswp-wpresponsivefaq-checkbox',                        
+                'name'   => 'saswp-wpresponsivefaq-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpresponsivefaq'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpresponsivefaq',
+                        'name' => 'sd_data[saswp-wpresponsivefaq]',                             
+                )
+        );
+
+        $easyaccordion = array(
+                'label'  => 'Easy Accordion',
+                'id'     => 'saswp-easyaccordion-checkbox',                        
+                'name'   => 'saswp-easyaccordion-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('easyaccordion'),
+                'hidden' => array(
+                        'id'   => 'saswp-easyaccordion',
+                        'name' => 'sd_data[saswp-easyaccordion]',                             
+                )
+        );
+
+        $helpiefaq = array(
+                'label'  => 'Helpie FAQ',
+                'id'     => 'saswp-helpiefaq-checkbox',                        
+                'name'   => 'saswp-helpiefaq-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('helpiefaq'),
+                'hidden' => array(
+                        'id'   => 'saswp-helpiefaq',
+                        'name' => 'sd_data[saswp-helpiefaq]',                             
+                )
+        );
                         
         $total_recipe_generator = array(
 			'label'  => 'Total Recipe Generator',
@@ -2951,6 +3176,25 @@ function saswp_compatibility_page_callback(){
              $senseilms['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              
          }
+         if(!is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){
+                          
+                $quickandeasyfaq['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $accordionfaq['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $helpiefaq['note']            = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $ultimatefaqs['note']         = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $arconixfaq['note']           = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $wpresponsivefaq['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                                                                
+                $easyaccordion['note']        = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $html5responsivefaq['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $faqconcertina['note']        = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $accordion['note']            = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $easyfaqs['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $masteraccordion['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $wpfaqschemamarkup['note']    = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $faqschemaforpost['note']     = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $webfaq10['note']             = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+
+         }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
                           
                 $sabaidiscuss['note'] = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
@@ -3075,6 +3319,21 @@ function saswp_compatibility_page_callback(){
                 $wordpress_news,
                 $WordLift,
                 $schemaforfaqs,
+                $quickandeasyfaq,
+                $accordionfaq,
+                $ultimatefaqs,
+                $arconixfaq,
+                $faqconcertina,
+                $faqschemaforpost,
+                $wpfaqschemamarkup,
+                $webfaq10,
+                $masteraccordion,
+                $easyfaqs,
+                $accordion,
+                $html5responsivefaq,
+                $wpresponsivefaq,
+                $easyaccordion,
+                $helpiefaq,
                 $flex_lmx
                 
 	);  

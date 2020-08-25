@@ -216,7 +216,9 @@ function saswp_get_all_schema_markup_output() {
         }        
         $taqeem_schema            = saswp_taqyeem_review_rich_snippet(); 
         $wp_product_rv            = saswp_wp_product_review_lite_rich_snippet();
-        $schema_for_faqs          = saswp_schema_for_faqs_schema();         
+        $schema_for_faqs          = saswp_schema_for_faqs_schema();
+        $faqschemaforpost         = saswp_faqschemaforpost_schema(); 
+        $wpfaqschemamarkup        = saswp_wpfaqschemamarkup_schema();         
         $woo_cat_schema           = saswp_woocommerce_category_schema();  
         $woo_shop_page            = saswp_woocommerce_shop_page();  
         $site_navigation          = saswp_site_navigation_output();     
@@ -320,6 +322,18 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($schema_for_faqs)){
                         
                             $output .= saswp_json_print_format($schema_for_faqs);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($faqschemaforpost)){
+                        
+                            $output .= saswp_json_print_format($faqschemaforpost);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($wpfaqschemamarkup)){
+                        
+                            $output .= saswp_json_print_format($wpfaqschemamarkup);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
@@ -745,8 +759,21 @@ function saswp_reading_time_and_word_count() {
     $word_count      = substr_count( "$text ", ' ' );
     // How many seconds (total)?
     $seconds = floor( $word_count / $words_per_second );
+    
+    $timereq = '';
 
-    return array('word_count' => esc_attr($word_count), 'timerequired' => esc_attr($seconds));
+    if($seconds > 60){
+
+        $minutes      = floor($seconds/60);        
+        $seconds_left = $seconds % 60;
+        
+        $timereq = 'PT'.$minutes.'M'.$seconds_left.'S';
+
+    }else{
+        $timereq = 'PT'.$seconds.'S';
+    }
+
+    return array('word_count' => esc_attr($word_count), 'timerequired' => esc_attr($timereq));
 }
 
 /**
@@ -1339,6 +1366,10 @@ function saswp_remove_microdata($content){
             
         }
         
+        if(isset($sd_data['saswp-ultimatefaqs']) && $sd_data['saswp-ultimatefaqs'] == 1 ){
+            $content = preg_replace('/<script type=\"application\/ld\+json" class=\"ewd-ufaq-ld-json-data"\>(.*?)<\/script>/', "", $content);
+        }
+        
         if(isset($sd_data['saswp-wp-ultimate-recipe']) && $sd_data['saswp-wp-ultimate-recipe'] == 1 ){
          
             $regex = '/<script type=\"application\/ld\+json\">(.*?)<\/script>[\s\n]*<div id=\"wpurp\-container\-recipe\-([0-9]+)\"/';
@@ -1678,6 +1709,34 @@ function saswp_get_testimonial_data($atts, $matche){
                 }
                                                
                 return array('reviews' => $reviews, 'rating' => $ratings);
+}
+
+
+function saswp_get_shortcode_attrs($shortcode_str, $content){
+
+    $attributes = array();
+
+    $pattern = get_shortcode_regex();
+
+    if (  preg_match_all( '/'. $pattern .'/s', $content, $matches )
+            && array_key_exists( 2, $matches ) )
+    {
+        if(in_array( $shortcode_str, $matches[2] )){
+            
+            foreach ($matches[0] as $matche){
+            
+                $mached         = rtrim($matche, ']'); 
+                $mached         = ltrim($mached, '[');
+                $mached         = trim($mached);
+                $attributes[]   = shortcode_parse_atts('['.$mached.' ]');  
+                                
+            }
+
+        }
+    }
+
+    return $attributes;
+
 }
 
 function saswp_get_easy_testomonials(){

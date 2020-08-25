@@ -1653,7 +1653,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'cs'           => 'Course Schema',
                        'es'           => 'Event Schema',
                        'rs'           => 'Recipe Schema',
-                       'qanda'        => 'Q&A Schema Compatibility'
+                       'qanda'        => 'Q&A Schema Compatibility',
+                       'faq'          => 'FAQ Schema Compatibility'
                 );
                                                                             
                 $edd_action = '';

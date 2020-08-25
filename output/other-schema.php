@@ -9,6 +9,20 @@
  */
 if (! defined('ABSPATH') ) exit;
 
+function saswp_wpfaqschemamarkup_schema(){
+
+    $input1 = array();
+    
+    return apply_filters( 'saswp_modify_wpfaqschemamarkup_schema', $input1 );
+}
+
+function saswp_faqschemaforpost_schema(){
+
+    $input1 = array();
+    
+    return apply_filters( 'saswp_modify_faqschemaforpost_schema', $input1 );
+}
+
 function saswp_schema_for_faqs_schema(){
 
     global $post, $sd_data;

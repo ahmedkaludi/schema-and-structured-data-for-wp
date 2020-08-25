@@ -10,6 +10,28 @@
 
 // Exit if accessed directly
 if ( ! defined('ABSPATH') ) exit;
+
+    if( !function_exists( 'fifu_amp_url' ) ) {
+
+        function fifu_amp_url($url, $width, $height) {
+
+            if(function_exists('ampforwp_get_the_ID')){
+
+                $size = get_post_meta(ampforwp_get_the_ID(), 'fifu_image_dimension');
+
+                    if (!empty($size)) {
+                        $size = explode(';', $size[0]);
+                        $width = $size[0];
+                        $height = $size[1];
+                    }
+
+                return array(0 => $url, 1 => $width, 2 => $height);
+
+            }
+            
+        }
+
+    }
           
     /**
      * List of hooks used in this context
@@ -2073,7 +2095,7 @@ if ( ! defined('ABSPATH') ) exit;
         }
         
         //SEOPress 
-        if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
+        if( saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1 && function_exists('seopress_titles_the_description_content') ){
             
              require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php'); //Social                                                                              
              $c_excerpt =  seopress_titles_the_description_content($post);             
@@ -2937,6 +2959,21 @@ function saswp_get_field_note($pname){
             'event_on'                    => esc_html__('Event On','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.myeventon.com/">Event On</a>',
             'wordlift'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
             'ampforwp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
+            'quickandeasyfaq'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/quick-and-easy-faqs/">Quick and Easy FAQs</a>',
+            'accordionfaq'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/responsive-accordion-and-collapse">Accordion FAQ</a>',
+            'webfaq10'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-wd/">10WebFAQ</a>',
+            'ultimatefaqs'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-faqs/">Ultimate FAQs</a>',
+            'easyaccordion'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-accordion-free/">Easy Accordion</a>',
+            'wpresponsivefaq'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/sp-faq">WP responsive FAQ with category plugin</a>',
+            'arconixfaq'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/arconix-faq/">Arconix FAQ</a>',
+            'faqconcertina'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-concertina/">FAQ Concertina</a>',
+            'masteraccordion'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-awesome-faq/">Master Accordion</a>',
+            'wpfaqschemamarkup'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-faq-schema-markup-for-seo/">WP FAQ Schema Markup for SEO</a>',
+            'faqschemaforpost'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-for-pages-and-posts/">FAQ Schema For Pages And Posts</a>',
+            'accordion'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accordions">Accordion By PickPlugins</a>',
+            'easyfaqs'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-faqs/">Easy FAQs</a>',
+            'html5responsivefaq'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/html5-responsive-faq/">HTML5 Responsive FAQ</a>',
+            'helpiefaq'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/helpie-faq/">Helpie FAQ – WordPress FAQ Accordion Plugin</a>',
             'ampbyautomatic'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
             'schemaforfaqs'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-markup-faq-structured-data/">FAQ Schema Markup</a>',
             'betteramp'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Better AMP</a>',
@@ -3557,7 +3594,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         if($saved_data){
             $new_arr = array();
             foreach ($templates as $key => $value) {
-                if($key == $saved_data){
+                if($value == $saved_data){
                   $new_arr[$key] = $value;
                 }
             }
@@ -3568,7 +3605,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
             
             foreach($templates as $k => $v){
                              
-                 $choices[] = array('id' => $k, 'text' => $v);
+                 $choices[] = array('id' => $v, 'text' => $k);
           
             }
             

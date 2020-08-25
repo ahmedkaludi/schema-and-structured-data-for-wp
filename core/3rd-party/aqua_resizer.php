@@ -330,7 +330,7 @@ if(!function_exists('saswp_aq_resize')) {
 		}
 
         }
-        elseif( function_exists('fifu_activate') || is_plugin_active('fifu-premium/fifu-premium.php') ){
+        elseif( function_exists('fifu_amp_url') ){
             return fifu_amp_url($url, $width, $height); 
         } 
         else {

@@ -44,6 +44,11 @@ return array(
             'path'       => 'qanda-schema-for-saswp/qanda-schema-for-saswp.php',                        
         ),
         array(
+            'key'        => 'faq_schema',
+            'name'       => 'FAQ Schema Compatibility',
+            'path'       => 'faq-schema-compatibility/faq-schema-compatibility.php',                        
+        ),
+        array(
             'key'        => 'recipe_schema',
             'name'       => 'Recipe Schema',
             'path'       => 'recipe-schema-for-saswp/recipe-schema-for-saswp.php',                        

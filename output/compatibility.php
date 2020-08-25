@@ -147,6 +147,8 @@ class saswp_output_compatibility{
         add_action( 'template_redirect', array($this, 'saswp_betteramp_override_full') ,99);
         
     }
+    public function saswp_faqschemaforpost_override(){                
+    }
     public function saswp_betteramp_override_full(){
         
              remove_action( 'wp_head', 'BF_Json_LD_Generator::print_output' );
@@ -534,6 +536,51 @@ class saswp_output_compatibility{
     }
     public function schemaforfaqs_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-schemaforfaqs');
+    }
+    public function quickandeasyfaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-quickandeasyfaq');
+    }
+    public function accordionfaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-accordionfaq');
+    }
+    public function ultimatefaqs_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-ultimatefaqs');
+    }
+    public function easyaccordion_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-easyaccordion');
+    }
+    public function wpresponsivefaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpresponsivefaq');
+    }
+    public function arconixfaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-arconixfaq');
+    }
+    public function faqconcertina_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-faqconcertina');
+    }
+    public function faqschemaforpost_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-faqschemaforpost');
+    }
+    public function masteraccordion_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-masteraccordion');
+    }
+    public function webfaq10_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-webfaq10');
+    }
+    public function wpfaqschemamarkup_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpfaqschemamarkup');
+    }
+    public function easyfaqs_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-easyfaqs');
+    }
+    public function accordion_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-accordion');
+    }
+    public function html5responsivefaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-html5responsivefaq');
+    }
+    public function helpiefaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-helpiefaq');
     }
     public function total_recipe_generator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-total-recipe-generator');

@@ -1514,6 +1514,156 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-quickandeasyfaq-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-quickandeasyfaq").val(1);                                
+                            }else{
+                              $("#saswp-quickandeasyfaq").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-ultimatefaqs-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ultimatefaqs").val(1);                                
+                            }else{
+                              $("#saswp-ultimatefaqs").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-arconixfaq-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-arconixfaq").val(1);                                
+                            }else{
+                              $("#saswp-arconixfaq").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-faqconcertina-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-faqconcertina").val(1);                                
+                            }else{
+                              $("#saswp-faqconcertina").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-webfaq10-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-webfaq10").val(1);                                
+                            }else{
+                              $("#saswp-webfaq10").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-wpfaqschemamarkup-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpfaqschemamarkup").val(1);                                
+                            }else{
+                              $("#saswp-wpfaqschemamarkup").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-faqschemaforpost-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-faqschemaforpost").val(1);                                
+                            }else{
+                              $("#saswp-faqschemaforpost").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-masteraccordion-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-masteraccordion").val(1);                                
+                            }else{
+                              $("#saswp-masteraccordion").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-easyfaqs-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-easyfaqs").val(1);                                
+                            }else{
+                              $("#saswp-easyfaqs").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-accordion-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-accordion").val(1);                                
+                            }else{
+                              $("#saswp-accordion").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-html5responsivefaq-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-html5responsivefaq").val(1);                                
+                            }else{
+                              $("#saswp-html5responsivefaq").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-wpresponsivefaq-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpresponsivefaq").val(1);                                
+                            }else{
+                              $("#saswp-wpresponsivefaq").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-easyaccordion-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-easyaccordion").val(1);                                
+                            }else{
+                              $("#saswp-easyaccordion").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-helpiefaq-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-helpiefaq").val(1);                                
+                            }else{
+                              $("#saswp-helpiefaq").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-accordionfaq-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-accordionfaq").val(1);                                
+                            }else{
+                              $("#saswp-accordionfaq").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-schemaforfaqs-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

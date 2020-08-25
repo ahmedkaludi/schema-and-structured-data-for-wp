@@ -143,7 +143,8 @@ Class saswp_output_service{
                     $response = @get_the_title();                    
                     break;
                 case 'post_content':
-                    $response = @get_the_content();                        
+                    $response = @get_the_content();
+					$response = wp_strip_all_tags(strip_shortcodes($response));                    
                     break;
                 case 'post_category':
                     $categories = get_the_category();
@@ -1258,6 +1259,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_description'])){
                      $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_blogposting_description'] ));
                     }
+                    if(isset($custom_fields['saswp_blogposting_body'])){
+                        $input1['articleBody'] =    $custom_fields['saswp_blogposting_body'];
+                    }                                           
                     if(isset($custom_fields['saswp_blogposting_name'])){
                      $input1['name'] =    $custom_fields['saswp_blogposting_name'];
                     }
@@ -2176,6 +2180,12 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_service_schema_type'])){
                       $input1['serviceType'] =    $custom_fields['saswp_service_schema_type'];
+                    }
+                    if(isset($custom_fields['saswp_service_schema_additional_type'])){
+                        $input1['additionalType'] =    $custom_fields['saswp_service_schema_additional_type'];
+                    }
+                    if(isset($custom_fields['saswp_service_schema_service_output'])){
+                      $input1['serviceOutput'] =    $custom_fields['saswp_service_schema_service_output'];
                     }
                     if(isset($custom_fields['saswp_service_schema_provider_type']) && isset($custom_fields['saswp_service_schema_provider_name'])){
                       $input1['provider']['@type'] =    $custom_fields['saswp_service_schema_provider_type'];
