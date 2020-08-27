@@ -1948,6 +1948,20 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+
+        $simplejobboard        = array(
+                'label'  => 'Simple Job Board',
+                'id'     => 'saswp-simplejobboard-checkbox',                        
+                'name'   => 'saswp-simplejobboard-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('simplejobboard'),
+                'hidden' => array(
+                        'id'   => 'saswp-simplejobboard',
+                        'name' => 'sd_data[saswp-simplejobboard]',                             
+                )
+        );
+
         $schemaforfaqs = array(
                 'label'  => 'FAQ Schema Markup',
                 'id'     => 'saswp-schemaforfaqs-checkbox',                        
@@ -3176,6 +3190,13 @@ function saswp_compatibility_page_callback(){
              $senseilms['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              
          }
+
+         if(!is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){
+                          
+                $simplejobboard['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
+          
+         }
+
          if(!is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){
                           
                 $quickandeasyfaq['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
@@ -3320,6 +3341,7 @@ function saswp_compatibility_page_callback(){
                 $WordLift,
                 $schemaforfaqs,
                 $quickandeasyfaq,
+                $simplejobboard,
                 $accordionfaq,
                 $ultimatefaqs,
                 $arconixfaq,

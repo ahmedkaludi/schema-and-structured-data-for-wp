@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'simplejobboard'  =>  array(            
+            'name'       => 'Simple Job Board',
+            'free'       => 'simple-job-board/simple-job-board.php',                    
+            'opt_name'   => 'saswp-simplejobboard',
+            'part_in'    => 'pro',
+        ),
         'webfaq10'  =>  array(            
             'name'       => '10WebFAQ',
             'free'       => 'faq-wd/faq_wd.php',                    

@@ -1554,6 +1554,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-simplejobboard-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-simplejobboard").val(1);                                
+                            }else{
+                              $("#saswp-simplejobboard").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-webfaq10-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
