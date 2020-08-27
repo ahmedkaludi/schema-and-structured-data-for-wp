@@ -1962,6 +1962,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $wpjobopenings        = array(
+                'label'  => 'WP Job Openings',
+                'id'     => 'saswp-wpjobopenings-checkbox',                        
+                'name'   => 'saswp-wpjobopenings-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpjobopenings'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpjobopenings',
+                        'name' => 'sd_data[saswp-wpjobopenings]',                             
+                )
+        );
+
         $schemaforfaqs = array(
                 'label'  => 'FAQ Schema Markup',
                 'id'     => 'saswp-schemaforfaqs-checkbox',                        
@@ -3194,6 +3207,7 @@ function saswp_compatibility_page_callback(){
          if(!is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){
                           
                 $simplejobboard['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
+                $wpjobopenings['note']       = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
           
          }
 
@@ -3342,6 +3356,7 @@ function saswp_compatibility_page_callback(){
                 $schemaforfaqs,
                 $quickandeasyfaq,
                 $simplejobboard,
+                $wpjobopenings,
                 $accordionfaq,
                 $ultimatefaqs,
                 $arconixfaq,

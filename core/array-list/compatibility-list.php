@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'wpjobopenings'  =>  array(            
+            'name'       => 'WP Job Openings',
+            'free'       => 'wp-job-openings/wp-job-openings.php',                    
+            'opt_name'   => 'saswp-wpjobopenings',
+            'part_in'    => 'pro',
+        ),
         'simplejobboard'  =>  array(            
             'name'       => 'Simple Job Board',
             'free'       => 'simple-job-board/simple-job-board.php',                    

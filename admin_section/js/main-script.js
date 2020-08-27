@@ -1564,6 +1564,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-wpjobopenings-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpjobopenings").val(1);                                
+                            }else{
+                              $("#saswp-wpjobopenings").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-webfaq10-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
