@@ -119,6 +119,9 @@ class saswp_output_compatibility{
 
     public function saswp_wpjobopenings_override(){      
         add_filter( 'awsm_job_structured_data', '__return_false');                  
+    }
+    public function saswp_wpjobmanager_override(){      
+        add_filter( 'wpjm_output_job_listing_structured_data', '__return_false');             
     }    
     public function saswp_soledad_override(){
             
