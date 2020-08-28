@@ -570,6 +570,9 @@ class saswp_output_compatibility{
     public function simplejobboard_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-simplejobboard');
     }
+    public function wpjobmanager_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpjobmanager');
+    }
     public function wpjobopenings_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-wpjobopenings');
     }

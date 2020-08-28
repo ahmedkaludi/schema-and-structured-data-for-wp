@@ -1554,6 +1554,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-wpjobmanager-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpjobmanager").val(1);                                
+                            }else{
+                              $("#saswp-wpjobmanager").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-simplejobboard-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

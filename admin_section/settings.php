@@ -1962,6 +1962,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $wpjobmanager        = array(
+                'label'  => 'WP Job Manager',
+                'id'     => 'saswp-wpjobmanager-checkbox',                        
+                'name'   => 'saswp-wpjobmanager-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpjobmanager'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpjobmanager',
+                        'name' => 'sd_data[saswp-wpjobmanager]',                             
+                )
+        );
+
         $wpjobopenings        = array(
                 'label'  => 'WP Job Openings',
                 'id'     => 'saswp-wpjobopenings-checkbox',                        
@@ -3208,6 +3221,7 @@ function saswp_compatibility_page_callback(){
                           
                 $simplejobboard['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
                 $wpjobopenings['note']       = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
+                $wpjobmanager['note']        = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
           
          }
 
@@ -3356,6 +3370,7 @@ function saswp_compatibility_page_callback(){
                 $schemaforfaqs,
                 $quickandeasyfaq,
                 $simplejobboard,
+                $wpjobmanager,
                 $wpjobopenings,
                 $accordionfaq,
                 $ultimatefaqs,
