@@ -633,12 +633,14 @@ function saswp_schema_output() {
                                 $input1['@context']                        = saswp_context_url();
                                 $input1['@type']                           = 'JobPosting';
                                 $input1['@id']                             = trailingslashit(saswp_get_permalink()).'#JobPosting';                                                          
-                                $input1['hiringOrganization']['@type']     = 'Organization';                                                                                                                
+                                $input1['datePosted']                      = esc_html($date);                                                                                                                                                
+                                $input1['hiringOrganization']['@type']     = 'Organization'; 
+                                $input1['hiringOrganization']['name']      = (isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' )? $sd_data['sd_name'] : get_bloginfo(); 
                                 $input1['jobLocation']['@type']            = 'Place';
                                 $input1['jobLocation']['address']['@type'] = 'PostalAddress';                                                                                   
                                 $input1['baseSalary']['@type']             = 'MonetaryAmount';                            
                                 $input1['baseSalary']['value']['@type']    = 'QuantitativeValue'; 
-                                $input1['estimatedSalary']['@type']             = 'MonetaryAmount';                            
+                                $input1['estimatedSalary']['@type']        = 'MonetaryAmount';                            
                                 $input1['estimatedSalary']['value']['@type']    = 'QuantitativeValue';     
 
                                 $input1 = apply_filters('saswp_modify_jobposting_schema_output', $input1 );

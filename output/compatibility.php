@@ -117,6 +117,9 @@ class saswp_output_compatibility{
        update_option('google_search_stars', 'hide');
     }
 
+    public function saswp_wpjobopenings_override(){      
+        add_filter( 'awsm_job_structured_data', '__return_false');                  
+    }    
     public function saswp_soledad_override(){
             
          saswp_remove_anonymous_object_filter_or_action(
