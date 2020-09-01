@@ -49,6 +49,11 @@ return array(
             'path'       => 'faq-schema-compatibility/faq-schema-compatibility.php',                        
         ),
         array(
+            'key'        => 'jobposting_schema',
+            'name'       => 'JobPosting Schema Compatibility',
+            'path'       => 'jobposting-schema-compatibility/jobposting-schema-compatibility.php',                        
+        ),
+        array(
             'key'        => 'recipe_schema',
             'name'       => 'Recipe Schema',
             'path'       => 'recipe-schema-for-saswp/recipe-schema-for-saswp.php',                        
