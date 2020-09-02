@@ -4300,7 +4300,7 @@ Class saswp_output_service{
                                                                                                                                        
                                   if(is_array($attach_details) && !empty($attach_details)){
                                                                             
-                                                if($attachment !=''){
+                                                if( $attachment !='' && saswp_validate_url($attachment) ){
                                                     $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
                                                     $attach_images['image'][$k]['url']    = esc_url($attachment);
                                                     $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
@@ -4317,12 +4317,9 @@ Class saswp_output_service{
                           if(!empty($attach_images) && is_array($attach_images)){
                                                             
                               if(isset($input2['image'])){
-                                                                
-                                   $featured_image = $input2['image'];
-                                   $content_images = $attach_images['image'];
-                                  
-                                   if($featured_image && $content_images){
-                                       $input2['image'] = array_merge($featured_image, $content_images);
+                                                                                                                                     
+                                   if(isset($attach_images['image'])){
+                                       $input2['image'] = array_merge($input2['image'], $attach_images['image']);
                                    }
                                                                                                                                    
                               }else{
