@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 1.9.48
+Stable tag: 1.9.49
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.49 (03 Sept 2020) =
+
+* Fixed: The property 0 is not recognized by Google for an object of type ImageObject. #1188
+* Fixed: The publisher attribute is adding two times in the Article schema markup #1186
+* Fixed: Unable to fetch reviews. #1185
+
 
 = 1.9.48 (25 Aug 2020) =
 
