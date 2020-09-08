@@ -4,6 +4,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'wpjobmanager'  =>  array(            
+            'name'       => 'WP Job Manager',
+            'free'       => 'wp-job-manager/wp-job-manager.php',                    
+            'opt_name'   => 'saswp-wpjobmanager',
+            'part_in'    => 'pro',
+        ),
+        'wpjobopenings'  =>  array(            
+            'name'       => 'WP Job Openings',
+            'free'       => 'wp-job-openings/wp-job-openings.php',                    
+            'opt_name'   => 'saswp-wpjobopenings',
+            'part_in'    => 'pro',
+        ),
+        'simplejobboard'  =>  array(            
+            'name'       => 'Simple Job Board',
+            'free'       => 'simple-job-board/simple-job-board.php',                    
+            'opt_name'   => 'saswp-simplejobboard',
+            'part_in'    => 'pro',
+        ),
         'webfaq10'  =>  array(            
             'name'       => '10WebFAQ',
             'free'       => 'faq-wd/faq_wd.php',                    

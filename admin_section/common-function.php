@@ -10,29 +10,7 @@
 
 // Exit if accessed directly
 if ( ! defined('ABSPATH') ) exit;
-
-    if( !function_exists( 'fifu_amp_url' ) ) {
-
-        function fifu_amp_url($url, $width, $height) {
-
-            if(function_exists('ampforwp_get_the_ID')){
-
-                $size = get_post_meta(ampforwp_get_the_ID(), 'fifu_image_dimension');
-
-                    if (!empty($size)) {
-                        $size = explode(';', $size[0]);
-                        $width = $size[0];
-                        $height = $size[1];
-                    }
-
-                return array(0 => $url, 1 => $width, 2 => $height);
-
-            }
-            
-        }
-
-    }
-          
+              
     /**
      * List of hooks used in this context
      */
@@ -2975,6 +2953,9 @@ function saswp_get_field_note($pname){
             'html5responsivefaq'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/html5-responsive-faq/">HTML5 Responsive FAQ</a>',
             'helpiefaq'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/helpie-faq/">Helpie FAQ – WordPress FAQ Accordion Plugin</a>',
             'ampbyautomatic'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
+            'simplejobboard'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/simple-job-board/">Simple Job Board</a>',
+            'wpjobmanager'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">WP Job Manager</a>',
+            'wpjobopenings'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-job-openings/">WP Job Openings</a>',
             'schemaforfaqs'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-markup-faq-structured-data/">FAQ Schema Markup</a>',
             'betteramp'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Better AMP</a>',
             'wpamp'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',

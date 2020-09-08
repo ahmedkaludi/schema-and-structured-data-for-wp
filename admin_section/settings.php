@@ -430,6 +430,38 @@ function saswp_premium_features_callback(){ ?>
                     </div>
             </li>
 
+
+            <li>                            
+                            <?php
+                            
+                            $cooked_active_text = '';
+                            
+                            if(is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){                                        
+                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                            }else{
+                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                            }
+                            
+                            ?> 
+                                            
+                    <div class="saswp-features-ele">
+                        <div class="saswp-ele-ic" style="background: #509207;">
+                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/jobposting.png">
+                            </div>
+                            <div class="saswp-ele-tlt">
+                                    <h3><?php echo esc_html__('JobPosting Schema Compatibility','schema-and-structured-data-for-wp') ?></h3>
+                                    <p><?php echo esc_html__(' JobPosting Schema Compatibility extension is the number one solution to enhance your JOBs website with the right structured data.','schema-and-structured-data-for-wp') ?></p>
+                            </div>
+                    </div>
+                    <div class="saswp-sts-btn">
+                        
+                        <?php echo $cooked_active_text; ?>
+                                                                                                                                               
+                    </div>
+            </li>               
+
+
             <li>                            
                             <?php
                             
@@ -459,6 +491,7 @@ function saswp_premium_features_callback(){ ?>
                                                                                                                                                
                     </div>
             </li>
+
 
             <li>
                             
@@ -1948,6 +1981,46 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+
+        $simplejobboard        = array(
+                'label'  => 'Simple Job Board',
+                'id'     => 'saswp-simplejobboard-checkbox',                        
+                'name'   => 'saswp-simplejobboard-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('simplejobboard'),
+                'hidden' => array(
+                        'id'   => 'saswp-simplejobboard',
+                        'name' => 'sd_data[saswp-simplejobboard]',                             
+                )
+        );
+
+        $wpjobmanager        = array(
+                'label'  => 'WP Job Manager',
+                'id'     => 'saswp-wpjobmanager-checkbox',                        
+                'name'   => 'saswp-wpjobmanager-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpjobmanager'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpjobmanager',
+                        'name' => 'sd_data[saswp-wpjobmanager]',                             
+                )
+        );
+
+        $wpjobopenings        = array(
+                'label'  => 'WP Job Openings',
+                'id'     => 'saswp-wpjobopenings-checkbox',                        
+                'name'   => 'saswp-wpjobopenings-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpjobopenings'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpjobopenings',
+                        'name' => 'sd_data[saswp-wpjobopenings]',                             
+                )
+        );
+
         $schemaforfaqs = array(
                 'label'  => 'FAQ Schema Markup',
                 'id'     => 'saswp-schemaforfaqs-checkbox',                        
@@ -3176,6 +3249,15 @@ function saswp_compatibility_page_callback(){
              $senseilms['note']   = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
              
          }
+
+         if(!is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){
+                          
+                $simplejobboard['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
+                $wpjobopenings['note']       = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
+                $wpjobmanager['note']        = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
+          
+         }
+
          if(!is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){
                           
                 $quickandeasyfaq['note']      = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
@@ -3320,6 +3402,9 @@ function saswp_compatibility_page_callback(){
                 $WordLift,
                 $schemaforfaqs,
                 $quickandeasyfaq,
+                $simplejobboard,
+                $wpjobmanager,
+                $wpjobopenings,
                 $accordionfaq,
                 $ultimatefaqs,
                 $arconixfaq,

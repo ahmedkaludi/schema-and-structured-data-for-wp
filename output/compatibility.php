@@ -117,6 +117,12 @@ class saswp_output_compatibility{
        update_option('google_search_stars', 'hide');
     }
 
+    public function saswp_wpjobopenings_override(){      
+        add_filter( 'awsm_job_structured_data', '__return_false');                  
+    }
+    public function saswp_wpjobmanager_override(){      
+        add_filter( 'wpjm_output_job_listing_structured_data', '__return_false');             
+    }    
     public function saswp_soledad_override(){
             
          saswp_remove_anonymous_object_filter_or_action(
@@ -563,6 +569,15 @@ class saswp_output_compatibility{
     }
     public function masteraccordion_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-masteraccordion');
+    }
+    public function simplejobboard_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-simplejobboard');
+    }
+    public function wpjobmanager_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpjobmanager');
+    }
+    public function wpjobopenings_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpjobopenings');
     }
     public function webfaq10_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-webfaq10');

@@ -1053,9 +1053,9 @@ Class saswp_output_service{
                      $input1['author']['url'] =    $custom_fields['saswp_article_author_url'];
                     }
                     if(isset($custom_fields['saswp_article_organization_logo']) && isset($custom_fields['saswp_article_organization_name'])){
-                     $input1['Publisher']['@type']       =    'Organization';
-                     $input1['Publisher']['name']        =    $custom_fields['saswp_article_organization_name'];
-                     $input1['Publisher']['logo']        =    $custom_fields['saswp_article_organization_logo'];
+                     $input1['publisher']['@type']       =    'Organization';
+                     $input1['publisher']['name']        =    $custom_fields['saswp_article_organization_name'];
+                     $input1['publisher']['logo']        =    $custom_fields['saswp_article_organization_logo'];
                     }                    
                     break; 
                     case 'SpecialAnnouncement':      
@@ -1130,9 +1130,9 @@ Class saswp_output_service{
                          $input1['author']['url'] =    $custom_fields['saswp_special_announcement_author_url'];
                         }
                         if(isset($custom_fields['saswp_special_announcement_organization_logo']) && isset($custom_fields['saswp_special_announcement_organization_name'])){
-                         $input1['Publisher']['@type']       =    'Organization';
-                         $input1['Publisher']['name']        =    $custom_fields['saswp_special_announcement_organization_name'];
-                         $input1['Publisher']['logo']        =    $custom_fields['saswp_special_announcement_organization_logo'];
+                         $input1['publisher']['@type']       =    'Organization';
+                         $input1['publisher']['name']        =    $custom_fields['saswp_special_announcement_organization_name'];
+                         $input1['publisher']['logo']        =    $custom_fields['saswp_special_announcement_organization_logo'];
                         }                    
                         break;     
                     
@@ -1285,9 +1285,9 @@ Class saswp_output_service{
                     }
                                         
                     if(isset($custom_fields['saswp_blogposting_organization_logo']) && isset($custom_fields['saswp_blogposting_organization_name'])){
-                     $input1['Publisher']['@type']       =    'Organization';
-                     $input1['Publisher']['name']        =    $custom_fields['saswp_blogposting_organization_name'];
-                     $input1['Publisher']['logo']        =    $custom_fields['saswp_blogposting_organization_logo'];
+                     $input1['publisher']['@type']       =    'Organization';
+                     $input1['publisher']['name']        =    $custom_fields['saswp_blogposting_organization_name'];
+                     $input1['publisher']['logo']        =    $custom_fields['saswp_blogposting_organization_logo'];
                     }
                     
                     
@@ -1454,9 +1454,9 @@ Class saswp_output_service{
                        $input1['author']['Image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
                     }                    
                     if(isset($custom_fields['saswp_newsarticle_organization_logo']) && isset($custom_fields['saswp_newsarticle_organization_name'])){
-                     $input1['Publisher']['@type']       =    'Organization';
-                     $input1['Publisher']['name']        =    $custom_fields['saswp_newsarticle_organization_name'];
-                     $input1['Publisher']['logo']        =    $custom_fields['saswp_newsarticle_organization_logo'];
+                     $input1['publisher']['@type']       =    'Organization';
+                     $input1['publisher']['name']        =    $custom_fields['saswp_newsarticle_organization_name'];
+                     $input1['publisher']['logo']        =    $custom_fields['saswp_newsarticle_organization_logo'];
                     }
                                         
                     break;
@@ -1708,9 +1708,9 @@ Class saswp_output_service{
                     }
                      
                     if(isset($custom_fields['saswp_tech_article_organization_logo']) && isset($custom_fields['saswp_tech_article_organization_name'])){
-                     $input1['Publisher']['@type']       =    'Organization';
-                     $input1['Publisher']['name']        =    $custom_fields['saswp_tech_article_organization_name'];
-                     $input1['Publisher']['logo']        =    $custom_fields['saswp_tech_article_organization_logo'];
+                     $input1['publisher']['@type']       =    'Organization';
+                     $input1['publisher']['name']        =    $custom_fields['saswp_tech_article_organization_name'];
+                     $input1['publisher']['logo']        =    $custom_fields['saswp_tech_article_organization_logo'];
                     }
                     break;   
                     
@@ -1798,9 +1798,9 @@ Class saswp_output_service{
                     }
                     
                     if(isset($custom_fields['saswp_dfp_organization_logo']) && isset($custom_fields['saswp_dfp_organization_name'])){
-                     $input1['Publisher']['@type']       =    'Organization';
-                     $input1['Publisher']['name']        =    $custom_fields['saswp_dfp_organization_name'];
-                     $input1['Publisher']['logo']        =    $custom_fields['saswp_dfp_organization_logo'];
+                     $input1['publisher']['@type']       =    'Organization';
+                     $input1['publisher']['name']        =    $custom_fields['saswp_dfp_organization_name'];
+                     $input1['publisher']['logo']        =    $custom_fields['saswp_dfp_organization_logo'];
                     }                                                            
                     break;        
                 
@@ -4300,7 +4300,7 @@ Class saswp_output_service{
                                                                                                                                        
                                   if(is_array($attach_details) && !empty($attach_details)){
                                                                             
-                                                if($attachment !=''){
+                                                if( $attachment !='' && saswp_validate_url($attachment) ){
                                                     $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
                                                     $attach_images['image'][$k]['url']    = esc_url($attachment);
                                                     $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
@@ -4317,12 +4317,9 @@ Class saswp_output_service{
                           if(!empty($attach_images) && is_array($attach_images)){
                                                             
                               if(isset($input2['image'])){
-                                                                
-                                   $featured_image = $input2['image'];
-                                   $content_images = $attach_images['image'];
-                                  
-                                   if($featured_image && $content_images){
-                                       $input2['image'] = array_merge($featured_image, $content_images);
+                                                                                                                                     
+                                   if(isset($attach_images['image'])){
+                                       $input2['image'] = array_merge($input2['image'], $attach_images['image']);
                                    }
                                                                                                                                    
                               }else{
