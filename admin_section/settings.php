@@ -71,7 +71,17 @@ function saswp_add_menu_links() {
                     'structured_data_options', 
                     'saswp_admin_interface_render'
                     );	
-                                
+
+        $saswp_parent_page = add_menu_page( 
+                esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
+                esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),
+                saswp_current_user_can(),
+                'saswp',
+                'saswp_home_interface_render',
+              //  SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/talabat-img.png',
+                6
+            ); 
+
             if(!saswp_ext_installed_status()){
                 add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span class="saswp-upgrade-to-pro" style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
             }
@@ -85,6 +95,35 @@ function saswp_premium_interface_render(){
     exit;    
         
 }
+
+function saswp_home_interface_render(){
+
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
+		return;
+        }
+
+        //wp_enqueue_style('quads-admin-ad-style', QUADS_PLUGIN_URL.'admin/assets/js/dist/style.css');
+        
+        //wp_enqueue_style('quads-material-ui-font', 'https://fonts.googleapis.com/icon?family=Material+Icons');
+            
+        $data = array(
+                'plugin_url'           => SASWP_PLUGIN_URL,
+                'rest_url'             => esc_url_raw( rest_url() ),
+                'nonce'                => wp_create_nonce( 'wp_rest' )                
+        );
+
+        wp_enqueue_style('saswp-admin-style-icon', 'https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500&display=swap');
+        wp_enqueue_style('saswp-admin-style', SASWP_PLUGIN_URL.'admin/assets/js/dist/style.css');
+
+        wp_register_script( 'saswp-admin-script', SASWP_PLUGIN_URL . 'admin/assets/js/dist/adminscript.js', array( 'wp-i18n' ), SASWP_VERSION );
+
+        wp_localize_script( 'saswp-admin-script', 'saswp_localize_data', $data );        
+        wp_enqueue_script('saswp-admin-script');
+
+        echo '<div id="saswp-home-page"></div>';
+
+}
+
 function saswp_admin_interface_render(){
 	            
         if ( ! current_user_can( saswp_current_user_can() ) ) {

@@ -1,0 +1,5 @@
+/admin/assets/js/node_modules
+/admin/assets/js/src
+/admin/assets/js/package.json
+/admin/assets/js/package-lock.json
+/admin/assets/js/webpack.config.js
