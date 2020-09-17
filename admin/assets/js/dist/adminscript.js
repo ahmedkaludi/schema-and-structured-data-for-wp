@@ -65913,7 +65913,7 @@ var SchemaList = function SchemaList() {
     }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
       to: "admin.php?page=saswp&path=schema_single&type=".concat(item.post_meta.schema_type, "&id=").concat(item.post.post_id),
       className: "quads-edit-btn"
-    }, " ", /*#__PURE__*/_react["default"].createElement("strong", null, item.post_meta.schema_type))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", null, "Post"), /*#__PURE__*/_react["default"].createElement("p", null, item.post.post_modified)), /*#__PURE__*/_react["default"].createElement("div", null, "Action"));
+    }, " ", /*#__PURE__*/_react["default"].createElement("strong", null, item.post_meta.schema_type), item.post.post_status == 'draft' ? /*#__PURE__*/_react["default"].createElement("span", null, " ( Draft )") : '')), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", null, "Post"), /*#__PURE__*/_react["default"].createElement("p", null, item.post.post_modified)), /*#__PURE__*/_react["default"].createElement("div", null, "Action"));
   })))) : /*#__PURE__*/_react["default"].createElement("div", null, "Schema not found.", /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
     className: "btn btn-success",
     to: 'admin.php?page=saswp&path=schema_add&tab=popular_schema'
@@ -66337,7 +66337,13 @@ var SchemaSingle = function SchemaSingle() {
   }, []);
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("form", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-single-header"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-single-header-left"
   }, /*#__PURE__*/_react["default"].createElement("h3", null, schemaType, " Schema Setup")), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-single-header-right"
+  }, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
+    to: "admin.php?page=saswp"
+  }, "X"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-single-body"
   }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card"

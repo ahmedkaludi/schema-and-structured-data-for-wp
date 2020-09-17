@@ -199,6 +199,13 @@ and open the template in the editor.
 
 .saswp-remove-item {
   cursor: pointer; }
+
+.saswp-single-header-left {
+  float: left; }
+
+.saswp-single-header-right {
+  float: right;
+  padding: 10px; }
 @charset "UTF-8";
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 /* Document
