@@ -3885,3 +3885,30 @@ function saswp_get_image_size_url( $image_id, $size = 'full', $image_sizes = arr
 
     return $image_url;
 }
+function saswp_sanitize_post_meta($key, $meta){
+
+    $response = null;
+
+    switch ($key) {
+
+      case 'visibility_include':
+      case 'visibility_exclude':
+			$response = wp_unslash($meta);         
+        break;
+
+		case 'targeting_include':
+		case 'targeting_exclude':
+        $response = wp_unslash($meta);          
+		break;
+		case 'code':
+			$response = wp_unslash($meta);          
+		break;
+      
+      default:
+        $response = sanitize_text_field(wp_unslash($meta));
+        break;
+    }
+
+    return $response;
+    
+  }

@@ -38,6 +38,7 @@ require_once SASWP_DIR_NAME .'/output/gutenberg.php';
 require_once SASWP_DIR_NAME .'/output/elementor.php';
 require_once SASWP_DIR_NAME .'/output/divi-builder.php';
 
+
 if ( ! function_exists( 'is_plugin_active' ) )
      require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 
@@ -108,6 +109,12 @@ require_once SASWP_DIR_NAME.'/core/3rd-party/aqua_resizer.php';
 /**
  * set user defined message on plugin activate
  */
+
+//New UX includes starts here
+require_once SASWP_DIR_NAME .'/admin/includes/rest-api.php';
+require_once SASWP_DIR_NAME .'/admin/includes/rest-api-service.php';
+//New UX includes ends here
+
 register_activation_hook( __FILE__, 'saswp_on_activation' );
 register_uninstall_hook( __FILE__, 'saswp_on_uninstall' );
 
