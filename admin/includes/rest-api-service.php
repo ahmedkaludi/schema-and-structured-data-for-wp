@@ -11,6 +11,67 @@ class SASWP_Rest_Api_Service {
                             
     }
 
+    public function getSettings(){
+
+      $response  = array();
+      $resultset = array();
+      $mappings_file = SASWP_DIR_NAME . '/core/array-list/compatibility-list.php';
+      $saswp_option = get_option('sd_data');
+
+      
+      if ( file_exists( $mappings_file ) ) {
+
+                $plugins_arr = include $mappings_file;                
+
+                foreach ($plugins_arr['plugins'] as $key =>  $plugins){
+
+                  $int_arr = array();
+
+                  $int_arr['name']     = $plugins['name'];
+                  $int_arr['opt_name'] = $plugins['opt_name'];
+                  $int_arr['part_in']  = $plugins['part_in'];
+                  $int_arr['active']   = false;
+                  $int_arr['status']   = $saswp_option[$plugins['opt_name']];
+                  if(is_plugin_active($plugins['free']) || (isset($plugins['pro']) && is_plugin_active($plugins['pro']))){
+                    
+                    $int_arr['active']  = true;
+                    
+                  }
+
+                  $response[] = $int_arr;
+
+                  unset($saswp_option[$plugins['opt_name']]);
+
+                }
+
+                foreach ($plugins_arr['themes'] as $key =>  $plugins){
+                  
+                  $int_arr = array();
+
+                  $int_arr['name']     = $plugins['name'];
+                  $int_arr['opt_name'] = $plugins['opt_name'];
+                  $int_arr['part_in']  = $plugins['part_in'];
+                  $int_arr['active']   = false;
+                  $int_arr['status']   = $saswp_option[$plugins['opt_name']];
+                  if(get_template() == $plugins['free'] || (isset($plugins['pro']) && get_template() ==$plugins['pro'])){
+                    
+                    $int_arr['active']  = true;
+                    
+                  }
+
+                  $response[] = $int_arr;
+
+                  unset($saswp_option[$plugins['opt_name']]);
+
+                }
+
+                $resultset['settings']      = $saswp_option;
+                $resultset['compatibility'] = $response;
+      }
+
+      return $resultset;
+    }
+
     public function getConditionList($condition, $search, $diff = null){
 
         $choices = array();    
@@ -374,22 +435,29 @@ class SASWP_Rest_Api_Service {
     }
 
     public function updateSettings($parameters){
-      
+
+        
+        $settings      = json_decode($parameters['settings'], true);
+        $compatibility = json_decode($parameters['compatibility'], true);
+        
+        if($compatibility){
+          foreach ($compatibility as $value) {
+            $settings[$value['opt_name']] = $value['status'];
+          }
+        }
+        
         $response = false;
 
-        if($parameters){
-          $quads_options = get_settings('quads_settings');
+        if($settings){
+
+          $saswp_options = get_option('sd_data');
           
-          foreach($parameters as $key => $val){
-
-             if($key == 'QckTags'){
-              $quads_options['quicktags'] = array($key => $val);
-             } else{
-              $quads_options[$key] = $val;
-             }
-
+          foreach($settings as $key => $val){
+            $saswp_options[$key] = $val;
           }
-         $response =  update_option( 'quads_settings', $quads_options );
+          
+         $response =  update_option( 'sd_data', $saswp_options );
+
         }
 
         return $response;

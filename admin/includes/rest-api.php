@@ -97,7 +97,7 @@ class SASWP_Rest_Api {
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
-            ));
+            ));            
             register_rest_route( 'saswp-route', 'export-settings', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'exportSettings')                
@@ -275,26 +275,25 @@ class SASWP_Rest_Api {
         public function sendCustomerQuery($request){
 
              $parameters = $request->get_params();
-             
-               
-             $customer_type  = 'Are you a premium customer ? No';
+                            
+             $customer_type  = 'Premium Customer ? No';
              $message        = sanitize_textarea_field($parameters['message']); 
              $email          = sanitize_text_field($parameters['email']); 
              $premium_cus    = sanitize_text_field($parameters['type']);                
              
              if($premium_cus == 'yes'){
-                $customer_type  = 'Are you a premium customer ? Yes';
+                $customer_type  = 'Premium Customer ? Yes';
              }
              
              $message = '<p>'.$message.'</p><br><br>'
                      . $customer_type
-                     . '<br><br>'.'Query from WP Quads plugin support tab';
+                     . '<br><br>'.'Query from SASWP support tab';
              
              if($email && $message){
                            
                  //php mailer variables        
                  $sendto    = 'team@magazine3.com';
-                 $subject   = "WP Quads Customer Query";
+                 $subject   = "SASWP Customer Query";
                  
                  $headers[] = 'Content-Type: text/html; charset=UTF-8';
                  $headers[] = 'From: '. esc_attr($email);            
@@ -333,12 +332,15 @@ class SASWP_Rest_Api {
             return $response;
            
         }        
-        public function getSettings($request){
+        
+        public function getSettings($request_data){
 
-            $quads_settings = get_option('quads_settings');            
-            $quads_settings['QckTags'] = isset($quads_settings['quicktags']['QckTags']) ? $quads_settings['quicktags']['QckTags'] : false;                        
-            return $quads_settings;
-        }
+                $parameters = $request_data->get_params();
+                $response   = $this->api_service->getSettings();
+
+                return  $response;
+
+        }   
         public function getConditionList($request_data){
 
             $response = array();
@@ -416,8 +418,9 @@ class SASWP_Rest_Api {
                 $response = array('file_status' => 't','status' => 't', 'msg' =>  __( 'file uploaded successfully', 'quick-adsense-reloaded' ));                                       
 
             }else{
-                if(isset($parameters['settings'])){
-                    $result      = $this->api_service->updateSettings(json_decode($parameters['settings'], true));
+                
+                if($parameters){
+                    $result      = $this->api_service->updateSettings($parameters);
                     if($result){
                         $response = array('status' => 't', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));                                               
                     }

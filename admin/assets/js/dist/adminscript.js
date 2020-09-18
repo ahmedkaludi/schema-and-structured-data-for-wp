@@ -13576,6 +13576,8 @@ function createMemoryHistory(props) {
 "use strict";
 
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13601,507 +13603,603 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var Settings = /*#__PURE__*/function (_Component) {
-  _inherits(Settings, _Component);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-  var _super = _createSuper(Settings);
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-  function Settings(props) {
-    var _settings;
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-    var _this;
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-    _classCallCheck(this, Settings);
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-    _this = _super.call(this, props);
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-    _defineProperty(_assertThisInitialized(_this), "formChangeHandler", function (event) {
-      var name = event.target.name;
-      var value = '';
+var App = function App() {
+  var page = _queryString["default"].parse(window.location.search);
 
-      if (event.target.type === 'file') {
-        value = event.target.files[0];
+  var __ = wp.i18n.__;
 
-        _this.setState({
-          backup_file: value
-        });
-      } else {
-        if (event.target.type === 'checkbox') {
-          value = event.target.checked;
-        } else {
-          value = event.target.value;
-        }
+  var _useState = (0, _react.useState)(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      supportEmail = _useState2[0],
+      setSupportEmail = _useState2[1];
 
-        var settings = _this.state.settings;
-        settings[name] = value;
+  var _useState3 = (0, _react.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      supportMessage = _useState4[0],
+      setSupportMessage = _useState4[1];
 
-        _this.setState(settings);
+  var _useState5 = (0, _react.useState)(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      supportUserType = _useState6[0],
+      setSupportUserType = _useState6[1];
+
+  var sendSupportQuery = function sendSupportQuery() {
+    var body_json = {};
+    body_json.message = supportEmail;
+    body_json.email = supportMessage;
+    body_json.type = supportUserType;
+    var url = saswp_localize_data.rest_url + 'saswp-route/send-customer-query';
+    fetch(url, {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': saswp_localize_data.nonce
+      },
+      //make sure to serialize your JSON body
+      body: JSON.stringify(body_json)
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      if (result.status == 't') {}
+    }, function (error) {//     this.setState({            
+      //       quads_is_error: error,
+      //       quads_is_loaded: false
+      //     });
+    });
+  };
+
+  var _useReducer = (0, _react.useReducer)(function (state, newState) {
+    return _objectSpread(_objectSpread({}, state), newState);
+  }, {}),
+      _useReducer2 = _slicedToArray(_useReducer, 2),
+      userInput = _useReducer2[0],
+      setUserInput = _useReducer2[1];
+
+  var _useState7 = (0, _react.useState)([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      compatibility = _useState8[0],
+      setCompatibility = _useState8[1];
+
+  var getCompatibilityList = function getCompatibilityList() {
+    var url = saswp_localize_data.rest_url + "saswp-route/get-settings";
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
       }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      if (result.settings) {
+        setUserInput(result.settings);
+      }
+
+      if (result.compatibility) {
+        setCompatibility(result.compatibility);
+      }
+    }, function (error) {// this.setState({
+      //   isLoaded: true,
+      // });
     });
+  };
 
-    _defineProperty(_assertThisInitialized(_this), "aboutPageChangeHandler", function (e, data) {
-      var settings = _this.state.settings;
-      settings['about_page'] = data.value;
+  (0, _react.useEffect)(function () {
+    getCompatibilityList();
+  }, []); // pass in an empty array as a second argument
 
-      _this.setState(settings);
-    });
+  var handleCompatibilityChange = function handleCompatibilityChange(evt) {
+    var _evt$target = evt.target,
+        name = _evt$target.name,
+        value = _evt$target.value,
+        type = _evt$target.type;
 
-    _defineProperty(_assertThisInitialized(_this), "contactPageChangeHandler", function (e, data) {
-      var settings = _this.state.settings;
-      settings['contact_page'] = data.value;
-
-      _this.setState(settings);
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "aboutPageSearch", function (e, data) {
-      console.log(data.searchQuery);
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "contactPageSearch", function (e, data) {});
-
-    _this.state = {
-      settings: (_settings = {
-        website_json_ld: false,
-        defragment_json_ld: false,
-        json_ld_in_footer: false,
-        pretty_print_json_ld: false,
-        clean_micro_data: false,
-        multisize_image: false,
-        cmp_ampforwp: false
-      }, _defineProperty(_settings, "cmp_ampforwp", false), _defineProperty(_settings, "cmp_amp_by_automatic", false), _defineProperty(_settings, "cmp_better_amp", false), _defineProperty(_settings, "cmp_wp_amp", false), _defineProperty(_settings, "cmp_amp_wp", false), _defineProperty(_settings, "cmp_smartcrawl_seo", false), _defineProperty(_settings, "cmp_seo_press", false), _defineProperty(_settings, "cmp_the_seo_framework", false), _defineProperty(_settings, "cmp_all_in_one_seo_pack", false), _defineProperty(_settings, "cmp_rank_math", false), _defineProperty(_settings, "cmp_simple_author_box", false), _defineProperty(_settings, "reset_settings", false), _defineProperty(_settings, "remove_data_on_uninstall", false), _defineProperty(_settings, "about_page", ''), _defineProperty(_settings, "contact_page", ''), _settings)
-    };
-    return _this;
-  }
-
-  _createClass(Settings, [{
-    key: "render",
-    value: function render() {
-      var schemaOptions = [{
-        key: 'article',
-        value: 'article',
-        text: 'Article'
-      }, {
-        key: 'blogposting',
-        value: 'blogposting',
-        text: 'Blog Posting'
-      }, {
-        key: 'techarticle',
-        value: 'techarticle',
-        text: 'Tech Article'
-      }, {
-        key: 'newsarticle',
-        value: 'newsarticle',
-        text: 'News Article'
-      }];
-      var ALLOWED_MEDIA_TYPES = ['image'];
-
-      var page = _queryString["default"].parse(window.location.search);
-
-      var settings = this.state.settings;
-      var __ = wp.i18n.__; //const { MediaUpload, MediaUploadCheck } = wp.blockEditor;
-
-      return /*#__PURE__*/_react["default"].createElement("form", {
-        encType: "multipart/form-data",
-        method: "post",
-        id: "saswp_settings_form"
-      }, /*#__PURE__*/_react["default"].createElement("div", {
-        className: "saswp-top-header"
-      }, /*#__PURE__*/_react["default"].createElement("div", {
-        className: "saswp-top-header-left"
-      }, " ", /*#__PURE__*/_react["default"].createElement("h3", null, "Settings")), /*#__PURE__*/_react["default"].createElement("div", null, " ", /*#__PURE__*/_react["default"].createElement("a", {
-        className: "btn btn-success saswp-go-pro"
-      }, "GO PRO"), " ")), /*#__PURE__*/_react["default"].createElement("div", {
-        className: "saswp-settings-form-content"
-      }, /*#__PURE__*/_react["default"].createElement(_SettingsNavLink["default"], null), /*#__PURE__*/_react["default"].createElement("div", {
-        className: ""
-      }, function () {
-        switch (page.path) {
-          case "settings":
-            return /*#__PURE__*/_react["default"].createElement("div", {
-              className: "saswp-settings-setup"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, "General Settings"), /*#__PURE__*/_react["default"].createElement("p", null, "This is the basic schema"))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "divider-horizontal"
-            }), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, "Knowledge Graph", /*#__PURE__*/_react["default"].createElement("a", {
-              className: "btn btn-default saswp-setup"
-            }, "Setup")), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, "Default Schema Data", /*#__PURE__*/_react["default"].createElement("a", {
-              className: "btn btn-default saswp-setup"
-            }, "Setup"))));
-            break;
-
-          case "settings_general":
-            return /*#__PURE__*/_react["default"].createElement("div", {
-              className: "saswp-settings-general"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, "Basic Schema"), /*#__PURE__*/_react["default"].createElement("p", null, "This is the basic schema"))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "divider-horizontal"
-            }), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container-horizontal"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container"
-            }, /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Website Schema (Home)"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "BreadCrumbs"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Navigation Schema"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here"))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container"
-            }, /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Archive Schema"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Comments Schema"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")))))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, "Features"), /*#__PURE__*/_react["default"].createElement("p", null, "This is the basic schema"))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "divider-horizontal"
-            }), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container-horizontal"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container"
-            }, /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "AMP Support"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Stars Rating"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here"))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container"
-            }, /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Rating Box"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")))))));
-            break;
-
-          case "settings_compatibility":
-            return /*#__PURE__*/_react["default"].createElement("div", {
-              className: "saswp-settings-compatibility"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, /*#__PURE__*/_react["default"].createElement("h3", null, "3rd Party compatibility"), /*#__PURE__*/_react["default"].createElement("p", null, "This is description for 3rd party compatibility")), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "divider-horizontal"
-            }), /*#__PURE__*/_react["default"].createElement(_CompatibilityNavLink["default"], null), /*#__PURE__*/_react["default"].createElement("div", {
-              className: ""
-            }, function () {
-              var current = 'active';
-
-              if (typeof page.tab != 'undefined') {
-                current = page.tab;
-              }
-
-              switch (current) {
-                case "active":
-                  return /*#__PURE__*/_react["default"].createElement("div", {
-                    className: "card-body"
-                  }, /*#__PURE__*/_react["default"].createElement("div", {
-                    className: "form-group-container-horizontal"
-                  }, /*#__PURE__*/_react["default"].createElement("div", {
-                    className: "form-group-container"
-                  }, /*#__PURE__*/_react["default"].createElement("label", {
-                    className: "form-check form-group toggle"
-                  }, /*#__PURE__*/_react["default"].createElement("input", {
-                    type: "checkbox",
-                    className: "form-check-input"
-                  }), /*#__PURE__*/_react["default"].createElement("span", {
-                    className: "form-check-label"
-                  }, "AMPforWP")), /*#__PURE__*/_react["default"].createElement("label", {
-                    className: "form-check form-group toggle"
-                  }, /*#__PURE__*/_react["default"].createElement("input", {
-                    type: "checkbox",
-                    className: "form-check-input"
-                  }), /*#__PURE__*/_react["default"].createElement("span", {
-                    className: "form-check-label"
-                  }, "Better AMP")), /*#__PURE__*/_react["default"].createElement("label", {
-                    className: "form-check form-group toggle"
-                  }, /*#__PURE__*/_react["default"].createElement("input", {
-                    type: "checkbox",
-                    className: "form-check-input"
-                  }), /*#__PURE__*/_react["default"].createElement("span", {
-                    className: "form-check-label"
-                  }, "AMP WP"))), /*#__PURE__*/_react["default"].createElement("div", {
-                    className: "form-group-container"
-                  }, /*#__PURE__*/_react["default"].createElement("label", {
-                    className: "form-check form-group toggle"
-                  }, /*#__PURE__*/_react["default"].createElement("input", {
-                    type: "checkbox",
-                    className: "form-check-input"
-                  }), /*#__PURE__*/_react["default"].createElement("span", {
-                    className: "form-check-label"
-                  }, "AMP By Automatic")), /*#__PURE__*/_react["default"].createElement("label", {
-                    className: "form-check form-group toggle"
-                  }, /*#__PURE__*/_react["default"].createElement("input", {
-                    type: "checkbox",
-                    className: "form-check-input"
-                  }), /*#__PURE__*/_react["default"].createElement("span", {
-                    className: "form-check-label"
-                  }, "WP AMP")))));
-                  break;
-
-                case "all":
-                  return /*#__PURE__*/_react["default"].createElement("div", {
-                    className: "card-body"
-                  }, /*#__PURE__*/_react["default"].createElement("div", {
-                    className: "form-group-container-horizontal"
-                  }, /*#__PURE__*/_react["default"].createElement("div", {
-                    className: "form-group-container"
-                  }, /*#__PURE__*/_react["default"].createElement("label", {
-                    className: "form-check form-group toggle"
-                  }, /*#__PURE__*/_react["default"].createElement("input", {
-                    type: "checkbox",
-                    className: "form-check-input"
-                  }), /*#__PURE__*/_react["default"].createElement("span", {
-                    className: "form-check-label"
-                  }, "AMPforWP")), /*#__PURE__*/_react["default"].createElement("label", {
-                    className: "form-check form-group toggle"
-                  }, /*#__PURE__*/_react["default"].createElement("input", {
-                    type: "checkbox",
-                    className: "form-check-input"
-                  }), /*#__PURE__*/_react["default"].createElement("span", {
-                    className: "form-check-label"
-                  }, "Better AMP")), /*#__PURE__*/_react["default"].createElement("label", {
-                    className: "form-check form-group toggle"
-                  }, /*#__PURE__*/_react["default"].createElement("input", {
-                    type: "checkbox",
-                    className: "form-check-input"
-                  }), /*#__PURE__*/_react["default"].createElement("span", {
-                    className: "form-check-label"
-                  }, "AMP WP"))), /*#__PURE__*/_react["default"].createElement("div", {
-                    className: "form-group-container"
-                  }, /*#__PURE__*/_react["default"].createElement("label", {
-                    className: "form-check form-group toggle"
-                  }, /*#__PURE__*/_react["default"].createElement("input", {
-                    type: "checkbox",
-                    className: "form-check-input"
-                  }), /*#__PURE__*/_react["default"].createElement("span", {
-                    className: "form-check-label"
-                  }, "AMP By Automatic")), /*#__PURE__*/_react["default"].createElement("label", {
-                    className: "form-check form-group toggle"
-                  }, /*#__PURE__*/_react["default"].createElement("input", {
-                    type: "checkbox",
-                    className: "form-check-input"
-                  }), /*#__PURE__*/_react["default"].createElement("span", {
-                    className: "form-check-label"
-                  }, "WP AMP")))));
-                  break;
-              }
-            }())));
-            break;
-
-          case "settings_advanced":
-            return /*#__PURE__*/_react["default"].createElement("div", {
-              className: "saswp-settings-general"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, "Advanced Settings"), /*#__PURE__*/_react["default"].createElement("p", null, "This allows you to enable advance option in schema"))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "divider-horizontal"
-            }), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container-horizontal"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container"
-            }, /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Website Schema (Home)"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "BreadCrumbs"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Navigation Schema"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here"))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container"
-            }, /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Archive Schema"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Comments Schema"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")))))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, "Features"), /*#__PURE__*/_react["default"].createElement("p", null, "This is the basic schema"))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "divider-horizontal"
-            }), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "card-body"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container-horizontal"
-            }, /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container"
-            }, /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "AMP Support"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Stars Rating"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here"))), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "form-group-container"
-            }, /*#__PURE__*/_react["default"].createElement("label", {
-              className: "form-check form-group toggle"
-            }, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "checkbox",
-              className: "form-check-input"
-            }), /*#__PURE__*/_react["default"].createElement("span", {
-              className: "form-check-label"
-            }, "Rating Box"), /*#__PURE__*/_react["default"].createElement("p", {
-              className: "form-check-description"
-            }, "Website schema description goes here")))))));
-            break;
-
-          case "settings_support":
-            return /*#__PURE__*/_react["default"].createElement("div", null, "support");
-            break;
-        }
-      }(), /*#__PURE__*/_react["default"].createElement("div", {
-        className: "wpsd-save-settings-btn"
-      }, /*#__PURE__*/_react["default"].createElement(_it.Button, null, __('Save Settings', 'schema-and-structured-data-for-wp'))))));
+    if (type === "checkbox") {
+      value = evt.target.checked;
     }
-  }]);
 
-  return Settings;
-}(_react.Component);
+    var new_arr = [];
+    compatibility.map(function (item) {
+      if (item.opt_name == name) {
+        item.status = value;
+      }
 
-var _default = Settings;
+      new_arr.push(item);
+    });
+    setCompatibility(new_arr);
+  };
+
+  var handleInputChange = function handleInputChange(evt) {
+    var _evt$target2 = evt.target,
+        name = _evt$target2.name,
+        value = _evt$target2.value,
+        type = _evt$target2.type;
+
+    if (type === "checkbox") {
+      value = evt.target.checked;
+    }
+
+    setUserInput(_defineProperty({}, name, value));
+    console.log(userInput);
+  };
+
+  var saveSettings = function saveSettings(event) {
+    var formData = new FormData();
+    console.log(formData); //formData.append("file", this.state.backup_file);
+
+    formData.append("settings", JSON.stringify(userInput));
+    formData.append("compatibility", JSON.stringify(compatibility));
+    var url = saswp_localize_data.rest_url + 'saswp-route/update-settings';
+    fetch(url, {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'X-WP-Nonce': saswp_localize_data.nonce
+      },
+      body: formData
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {// if(result.status === 't'){              
+      //   if(result.file_status === 't'){               
+      //     this.setState({file_uploaded:true,button_spinner_toggle:false});
+      //     this.setState({settings_saved:true});
+      //   }else{
+      //     console.log(result);
+      //     this.setState({settings_saved:true, button_spinner_toggle:false});
+      //   }
+      // }else{
+      //   this.setState({settings_error:result.msg, button_spinner_toggle:false});
+      // }                               
+    }, function (error) {});
+  };
+
+  var saveSettingsHandler = function saveSettingsHandler(e) {
+    e.preventDefault();
+    saveSettings();
+  };
+
+  return /*#__PURE__*/_react["default"].createElement("form", {
+    encType: "multipart/form-data",
+    method: "post",
+    id: "saswp_settings_form"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-top-header"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-top-header-left"
+  }, " ", /*#__PURE__*/_react["default"].createElement("h3", null, "Settings")), /*#__PURE__*/_react["default"].createElement("div", null, " ", /*#__PURE__*/_react["default"].createElement("a", {
+    className: "btn btn-success saswp-go-pro"
+  }, "GO PRO"), " ")), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-settings-form-content"
+  }, /*#__PURE__*/_react["default"].createElement(_SettingsNavLink["default"], null), /*#__PURE__*/_react["default"].createElement("div", {
+    className: ""
+  }, function () {
+    switch (page.path) {
+      case "settings":
+        return /*#__PURE__*/_react["default"].createElement("div", {
+          className: "saswp-settings-setup"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, "General Settings"), /*#__PURE__*/_react["default"].createElement("p", null, "This is the basic schema"))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "divider-horizontal"
+        }), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, "Knowledge Graph", /*#__PURE__*/_react["default"].createElement("a", {
+          className: "btn btn-default saswp-setup"
+        }, "Setup")), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, "Default Schema Data", /*#__PURE__*/_react["default"].createElement("a", {
+          className: "btn btn-default saswp-setup"
+        }, "Setup"))));
+        break;
+
+      case "settings_general":
+        return /*#__PURE__*/_react["default"].createElement("div", {
+          className: "saswp-settings-general"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, "Basic Schema"), /*#__PURE__*/_react["default"].createElement("p", null, "This is the basic schema"))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "divider-horizontal"
+        }), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container-horizontal"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container"
+        }, /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp-website-schema",
+          checked: userInput['saswp-website-schema'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Website Schema (Home)"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp_breadcrumb_schema",
+          checked: userInput['saswp_breadcrumb_schema'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "BreadCrumbs"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Website schema description goes here"))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container"
+        }, /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp_archive_schema",
+          checked: userInput['saswp_archive_schema'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Archive Schema"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp_comments_schema",
+          checked: userInput['saswp_comments_schema'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Comments Schema"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Website schema description goes here")))))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, "Features"), /*#__PURE__*/_react["default"].createElement("p", null, "This is the basic schema"))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "divider-horizontal"
+        }), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container-horizontal"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container"
+        }, /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "AMP Support"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Stars Rating"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Website schema description goes here"))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container"
+        }, /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Rating Box"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Website schema description goes here")))))));
+        break;
+
+      case "settings_compatibility":
+        return /*#__PURE__*/_react["default"].createElement("div", {
+          className: "saswp-settings-compatibility"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("h3", null, "3rd Party compatibility"), /*#__PURE__*/_react["default"].createElement("p", null, "This is description for 3rd party compatibility")), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "divider-horizontal"
+        }), /*#__PURE__*/_react["default"].createElement(_CompatibilityNavLink["default"], null), /*#__PURE__*/_react["default"].createElement("div", {
+          className: ""
+        }, function () {
+          var current = 'active';
+
+          if (typeof page.tab != 'undefined') {
+            current = page.tab;
+          }
+
+          switch (current) {
+            case "active":
+              var active_list = compatibility.map(function (item, index) {
+                return item.active ? /*#__PURE__*/_react["default"].createElement("label", {
+                  key: index,
+                  className: "form-check form-group toggle"
+                }, /*#__PURE__*/_react["default"].createElement("input", {
+                  checked: item.status,
+                  onChange: handleCompatibilityChange,
+                  name: item.opt_name,
+                  type: "checkbox",
+                  className: "form-check-input"
+                }), /*#__PURE__*/_react["default"].createElement("span", {
+                  className: "form-check-label"
+                }, item.name)) : '';
+              });
+              var active_half = Math.ceil(active_list.length / 2);
+              var active_firstHalf = active_list.splice(0, active_half);
+              var active_secondHalf = active_list.splice(-active_half);
+              return /*#__PURE__*/_react["default"].createElement("div", {
+                className: "card-body"
+              }, /*#__PURE__*/_react["default"].createElement("div", {
+                className: "form-group-container-horizontal"
+              }, /*#__PURE__*/_react["default"].createElement("div", {
+                className: "form-group-container"
+              }, active_firstHalf), /*#__PURE__*/_react["default"].createElement("div", {
+                className: "form-group-container"
+              }, active_secondHalf)));
+              break;
+
+            case "all":
+              var list = compatibility.map(function (item, index) {
+                return /*#__PURE__*/_react["default"].createElement("label", {
+                  key: index,
+                  className: "form-check form-group toggle"
+                }, /*#__PURE__*/_react["default"].createElement("input", {
+                  checked: item.status,
+                  onChange: handleCompatibilityChange,
+                  name: item.opt_name,
+                  type: "checkbox",
+                  className: "form-check-input"
+                }), /*#__PURE__*/_react["default"].createElement("span", {
+                  className: "form-check-label"
+                }, item.name));
+              });
+              var half = Math.ceil(list.length / 2);
+              var firstHalf = list.splice(0, half);
+              var secondHalf = list.splice(-half);
+              return /*#__PURE__*/_react["default"].createElement("div", {
+                className: "card-body"
+              }, /*#__PURE__*/_react["default"].createElement("div", {
+                className: "form-group-container-horizontal"
+              }, /*#__PURE__*/_react["default"].createElement("div", {
+                className: "form-group-container"
+              }, firstHalf), /*#__PURE__*/_react["default"].createElement("div", {
+                className: "form-group-container"
+              }, secondHalf)));
+          }
+        }())));
+        break;
+
+      case "settings_advanced":
+        return /*#__PURE__*/_react["default"].createElement("div", {
+          className: "saswp-settings-general"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, "Advanced Settings"), /*#__PURE__*/_react["default"].createElement("p", null, "This allows you to enable advance option in schema"))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "divider-horizontal"
+        }), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container-horizontal"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container"
+        }, /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp-defragment",
+          checked: userInput['saswp-defragment'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Defragment Schema Markup"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "It relates all schema markups on page to a main entity and merge all markup to a single markup. ", /*#__PURE__*/_react["default"].createElement("a", {
+          target: "_blank",
+          href: "https://structured-data-for-wp.com/docs/article/what-is-defragment-schema-markup-and-how-to-add-it/"
+        }, "Learn More"))), /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp-markup-footer",
+          checked: userInput['saswp-markup-footer'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Add Schema Markup in footer"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "By default schema markup will be added in header section")), /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp-pretty-print",
+          checked: userInput['saswp-pretty-print'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Pretty Print Schema Markup"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "By default schema markup will be minified format")), /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp-microdata-cleanup",
+          checked: userInput['saswp-microdata-cleanup'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "MicroData CleanUp"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "It removes all the microdata generated by third party plugins which cause validation error on google testing tool"))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container"
+        }, /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp-other-images",
+          checked: userInput['saswp-other-images'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Add All Available Images On Post"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "It adds all the available images on a post to schema markup")), /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp-multiple-size-image",
+          checked: userInput['saswp-multiple-size-image'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Allow Multiple Size Image Creation"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "According to Google, For best results, multiple high-resolution images with the following aspect ratios: 16x9, 4x3, and 1x1 should be there")), /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp-rss-feed-image",
+          checked: userInput['saswp-rss-feed-image'],
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Add Featured Image in RSS feed"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Showing images alongside news/blogs if your website or blog appears in Google News")))))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, "Features"), /*#__PURE__*/_react["default"].createElement("p", null, "This is the basic schema"))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "divider-horizontal"
+        }), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container-horizontal"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container"
+        }, /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "AMP Support"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Website schema description goes here")), /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Stars Rating"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Website schema description goes here"))), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group-container"
+        }, /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, "Rating Box"), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, "Website schema description goes here")))))));
+        break;
+
+      case "settings_support":
+        return /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("p", null, "If you have any query, please write the query in below box or email us at ", /*#__PURE__*/_react["default"].createElement("a", {
+          href: "mailto:team@ampforwp.com"
+        }, "team@ampforwp.com"), ". We will reply to your email address shortly")), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "divider-horizontal"
+        }), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body saswp-support-section"
+        }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("input", {
+          value: supportEmail,
+          onChange: function onChange(event) {
+            return setSupportEmail(event.target.value);
+          },
+          placeholder: "email",
+          name: "saswp_query_email",
+          type: "text"
+        })), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("textarea", {
+          value: supportMessage,
+          onChange: function onChange(event) {
+            return setSupportMessage(event.target.value);
+          },
+          name: "saswp_query_message",
+          placeholder: "Write your query",
+          rows: "5",
+          cols: "60"
+        })), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", null, "Premium Customer ? "), /*#__PURE__*/_react["default"].createElement("select", {
+          value: supportUserType,
+          onChange: function onChange(event) {
+            return setSupportUserType(event.target.value);
+          },
+          name: "saswp_query_premium_cus"
+        }, /*#__PURE__*/_react["default"].createElement("option", null, "Select"), /*#__PURE__*/_react["default"].createElement("option", {
+          value: "yes"
+        }, "Yes"), /*#__PURE__*/_react["default"].createElement("option", {
+          value: "no"
+        }, "No"))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
+          className: "btn btn-success saswp-send-query",
+          onClick: sendSupportQuery
+        }, "Send Message"))));
+        break;
+    }
+  }(), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "wpsd-save-settings-btn"
+  }, /*#__PURE__*/_react["default"].createElement("a", {
+    className: "btn btn-success",
+    onClick: saveSettingsHandler
+  }, __('Save Settings', 'schema-and-structured-data-for-wp'))))));
+};
+
+var _default = App;
 exports["default"] = _default;
 
 /***/ }),

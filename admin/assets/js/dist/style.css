@@ -24,6 +24,27 @@
 
 .saswp-compatibility-tab .tab-item {
   width: 50%; }
+
+.wpsd-save-settings-btn {
+  margin-top: 15px;
+  margin-left: 30px; }
+
+.saswp-support-section {
+  width: 500px; }
+
+.saswp-support-section input {
+  width: 100%;
+  margin-top: 5px; }
+
+.saswp-support-section select {
+  width: 65%;
+  max-width: 65%;
+  margin-top: 5px;
+  margin-bottom: 5px; }
+
+.saswp-support-section textarea {
+  width: 100%;
+  margin-top: 5px; }
 .saswp-schema-type-tabbar {
   width: 100%;
   display: flex; }
