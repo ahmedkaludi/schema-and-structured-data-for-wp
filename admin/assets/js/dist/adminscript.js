@@ -13595,6 +13595,10 @@ var _it = __webpack_require__(206);
 
 var _reactRouterDom = __webpack_require__(33);
 
+var _PremiumFeatures = _interopRequireDefault(__webpack_require__(829));
+
+var _SettingsTools = _interopRequireDefault(__webpack_require__(830));
+
 __webpack_require__(462);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -13641,30 +13645,75 @@ var App = function App() {
       supportUserType = _useState6[0],
       setSupportUserType = _useState6[1];
 
+  var _useState7 = (0, _react.useState)(''),
+      _useState8 = _slicedToArray(_useState7, 2),
+      supportError = _useState8[0],
+      setSupportError = _useState8[1];
+
+  var _useState9 = (0, _react.useState)(''),
+      _useState10 = _slicedToArray(_useState9, 2),
+      supportSuccess = _useState10[0],
+      setSupportSuccess = _useState10[1];
+
+  var validateEmail = function validateEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+  };
+
   var sendSupportQuery = function sendSupportQuery() {
-    var body_json = {};
-    body_json.message = supportEmail;
-    body_json.email = supportMessage;
-    body_json.type = supportUserType;
-    var url = saswp_localize_data.rest_url + 'saswp-route/send-customer-query';
-    fetch(url, {
-      method: "post",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-WP-Nonce': saswp_localize_data.nonce
-      },
-      //make sure to serialize your JSON body
-      body: JSON.stringify(body_json)
-    }).then(function (res) {
-      return res.json();
-    }).then(function (result) {
-      if (result.status == 't') {}
-    }, function (error) {//     this.setState({            
-      //       quads_is_error: error,
-      //       quads_is_loaded: false
-      //     });
-    });
+    if (supportEmail == '' || supportMessage == '' || supportUserType == '') {
+      if (supportEmail == '') {
+        setSupportError('Email is required');
+      }
+
+      if (supportMessage == '') {
+        setSupportError('Message is required');
+      }
+
+      if (supportUserType == '') {
+        setSupportError('User Type is required');
+      }
+    } else {
+      if (validateEmail(supportEmail)) {
+        var body_json = {};
+        body_json.message = supportEmail;
+        body_json.email = supportMessage;
+        body_json.type = supportUserType;
+        var url = saswp_localize_data.rest_url + 'saswp-route/send-customer-query';
+        fetch(url, {
+          method: "post",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-WP-Nonce': saswp_localize_data.nonce
+          },
+          //make sure to serialize your JSON body
+          body: JSON.stringify(body_json)
+        }).then(function (res) {
+          return res.json();
+        }).then(function (result) {
+          if (result.status == 't') {
+            setSupportError('');
+            setSupportSuccess('Thank You! Message sent successfully. We will contact you shortly');
+          } else {
+            setSupportError('Something went wrong. Please check your network connection');
+            setSupportSuccess('');
+          }
+        }, function (error) {
+          setSupportError('Error' + error);
+        });
+      } else {
+        setSupportError('Enter a valid email');
+      }
+    }
+  };
+
+  var closeErrorAlert = function closeErrorAlert(e) {
+    setSupportError('');
+  };
+
+  var closeSuccessAlert = function closeSuccessAlert(e) {
+    setSupportSuccess('');
   };
 
   var _useReducer = (0, _react.useReducer)(function (state, newState) {
@@ -13674,12 +13723,12 @@ var App = function App() {
       userInput = _useReducer2[0],
       setUserInput = _useReducer2[1];
 
-  var _useState7 = (0, _react.useState)([]),
-      _useState8 = _slicedToArray(_useState7, 2),
-      compatibility = _useState8[0],
-      setCompatibility = _useState8[1];
+  var _useState11 = (0, _react.useState)([]),
+      _useState12 = _slicedToArray(_useState11, 2),
+      compatibility = _useState12[0],
+      setCompatibility = _useState12[1];
 
-  var getCompatibilityList = function getCompatibilityList() {
+  var getSettings = function getSettings() {
     var url = saswp_localize_data.rest_url + "saswp-route/get-settings";
     fetch(url, {
       headers: {
@@ -13702,7 +13751,7 @@ var App = function App() {
   };
 
   (0, _react.useEffect)(function () {
-    getCompatibilityList();
+    getSettings();
   }, []); // pass in an empty array as a second argument
 
   var handleCompatibilityChange = function handleCompatibilityChange(evt) {
@@ -14145,10 +14194,15 @@ var App = function App() {
         }, "Rating Box"), /*#__PURE__*/_react["default"].createElement("p", {
           className: "form-check-description"
         }, "Website schema description goes here")))))));
-        break;
+
+      case "settings_tools":
+        return /*#__PURE__*/_react["default"].createElement(_SettingsTools["default"], null);
+
+      case "settings_premium":
+        return /*#__PURE__*/_react["default"].createElement(_PremiumFeatures["default"], null);
 
       case "settings_support":
-        return /*#__PURE__*/_react["default"].createElement("div", {
+        return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
           className: "card"
         }, /*#__PURE__*/_react["default"].createElement("div", {
           className: "card-body"
@@ -14188,7 +14242,51 @@ var App = function App() {
         }, "No"))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
           className: "btn btn-success saswp-send-query",
           onClick: sendSupportQuery
-        }, "Send Message"))));
+        }, "Send Message")), supportSuccess ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_it.Alert // leftEl={<Icon>rocket</Icon>}
+        , {
+          rightEl: /*#__PURE__*/_react["default"].createElement("button", {
+            onClick: closeSuccessAlert,
+            data_type: "success",
+            "aria-label": "Close",
+            className: "close",
+            "data-dismiss": "alert",
+            type: "button"
+          }, "X"),
+          success: true
+        }, supportSuccess)) : '', supportError ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_it.Alert // leftEl={<Icon>rocket</Icon>}
+        , {
+          rightEl: /*#__PURE__*/_react["default"].createElement("button", {
+            onClick: closeErrorAlert,
+            data_type: "danger",
+            "aria-label": "Close",
+            className: "close",
+            "data-dismiss": "alert",
+            type: "button"
+          }, "X"),
+          danger: true
+        }, supportError)) : '')), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card"
+        }, /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("h2", null, "Frequently Asked Questions.")), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "divider-horizontal"
+        }), /*#__PURE__*/_react["default"].createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/_react["default"].createElement("h3", null, "1Q) Is there a Documentation Available?"), /*#__PURE__*/_react["default"].createElement("p", null, "A) The Documentation is always updated and available at ", /*#__PURE__*/_react["default"].createElement("a", {
+          target: "_blank",
+          href: "http://structured-data-for-wp.com/docs/"
+        }, "http://structured-data-for-wp.com/docs/")), /*#__PURE__*/_react["default"].createElement("h3", null, "2Q) How can I setup the Schema and Structured data for individual pages and posts?"), /*#__PURE__*/_react["default"].createElement("p", null, "A) Just with one click on the Structured data option, you will find an add new options window in the structured data option panel. Secondly, you need to write the name of the title where, if you would like to set the individual Page/Post then you can set the Page/Post type equal to the Page/Post(Name)."), /*#__PURE__*/_react["default"].createElement("h3", null, "3Q) How can I check the code whether the structured data is working or not?"), /*#__PURE__*/_react["default"].createElement("p", null, "A) To check the code, the first step we need to take is to copy the code of a page or post then visit the ", /*#__PURE__*/_react["default"].createElement("a", {
+          target: "_blank",
+          href: "https://search.google.com/test/rich-results"
+        }, "Structured data testing tool"), " by clicking on code snippet. Once we paste the snippet we can run the test."), /*#__PURE__*/_react["default"].createElement("h3", null, "4Q) How can I check whether the pages or posts are valid or not?"), /*#__PURE__*/_react["default"].createElement("p", null, "A) To check the page and post validation, please visit the ", /*#__PURE__*/_react["default"].createElement("a", {
+          target: "_blank",
+          href: "https://search.google.com/test/rich-results"
+        }, "Structured data testing tool"), " and paste the link of your website. Once we click on run test we can see the result whether the page or post is a valid one or not."), /*#__PURE__*/_react["default"].createElement("h3", null, "5Q) Where should users contact if they faced any issues?"), /*#__PURE__*/_react["default"].createElement("p", null, "A) We always welcome all our users to share their issues and get them fixed just with one click to the link ", /*#__PURE__*/_react["default"].createElement("a", {
+          href: "mailto:team@ampforwp.com"
+        }, "team@ampforwp.com"), " or ", /*#__PURE__*/_react["default"].createElement("a", {
+          href: "https://structured-data-for-wp.com/contact-us/",
+          target: "_blank"
+        }, "Support link")))));
         break;
     }
   }(), /*#__PURE__*/_react["default"].createElement("div", {
@@ -58629,6 +58727,12 @@ var SettingsNavLink = function SettingsNavLink() {
     to: 'admin.php?page=saswp&path=settings_advanced',
     className: current == 'settings_advanced' ? 'tab-item active' : 'tab-item'
   }, __('Advanced Settings', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
+    to: 'admin.php?page=saswp&path=settings_tools',
+    className: current == 'settings_tools' ? 'tab-item active' : 'tab-item'
+  }, __('Tools', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
+    to: 'admin.php?page=saswp&path=settings_premium',
+    className: current == 'settings_premium' ? 'tab-item active' : 'tab-item'
+  }, __('Premium Features', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
     to: 'admin.php?page=saswp&path=settings_support',
     className: current == 'settings_support' ? 'tab-item active' : 'tab-item'
   }, __('Support', 'schema-and-structured-data-for-wp')));
@@ -99172,6 +99276,225 @@ exports["default"] = _default;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 829 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireWildcard(__webpack_require__(0));
+
+var _queryString = _interopRequireDefault(__webpack_require__(34));
+
+var _it = __webpack_require__(206);
+
+var _reactRouterDom = __webpack_require__(33);
+
+__webpack_require__(462);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var PremiumFeatures = function PremiumFeatures() {
+  var _useState = (0, _react.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      extensionList = _useState2[0],
+      setExtensionList = _useState2[1];
+
+  var getPremiumExtensions = function getPremiumExtensions() {
+    var url = saswp_localize_data.rest_url + "saswp-route/get-premium-extensions";
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
+      }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      setExtensionList(result);
+    }, function (error) {// this.setState({
+      //   isLoaded: true,
+      // });
+    });
+  };
+
+  (0, _react.useEffect)(function () {
+    getPremiumExtensions();
+  }, []); // pass in an empty array as a second argument
+
+  var extensions = extensionList.map(function (item, index) {
+    return /*#__PURE__*/_react["default"].createElement("li", {
+      key: index
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-features-ele"
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-ele-ic",
+      style: {
+        background: item.background
+      }
+    }, /*#__PURE__*/_react["default"].createElement("img", {
+      src: item.image
+    })), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-ele-tlt"
+    }, /*#__PURE__*/_react["default"].createElement("h3", null, item.name), /*#__PURE__*/_react["default"].createElement("p", null, item.description))), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-sts-btn"
+    }, /*#__PURE__*/_react["default"].createElement("div", null, " Status : ", /*#__PURE__*/_react["default"].createElement("span", null, item.status)), /*#__PURE__*/_react["default"].createElement("div", null, item.status == 'InActive' ? /*#__PURE__*/_react["default"].createElement("a", {
+      className: "btn btn-success"
+    }, "Download") : '', "   ")));
+  });
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-pre-ftrs-wrap"
+  }, /*#__PURE__*/_react["default"].createElement("ul", {
+    className: "saswp-features-blocks"
+  }, extensions));
+};
+
+var _default = PremiumFeatures;
+exports["default"] = _default;
+
+/***/ }),
+/* 830 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireWildcard(__webpack_require__(0));
+
+var _queryString = _interopRequireDefault(__webpack_require__(34));
+
+var _it = __webpack_require__(206);
+
+var _reactRouterDom = __webpack_require__(33);
+
+__webpack_require__(462);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var PremiumFeatures = function PremiumFeatures() {
+  var _useState = (0, _react.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      extensionList = _useState2[0],
+      setExtensionList = _useState2[1];
+
+  var getPremiumExtensions = function getPremiumExtensions() {
+    var url = saswp_localize_data.rest_url + "saswp-route/get-premium-extensions";
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
+      }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      setExtensionList(result);
+    }, function (error) {// this.setState({
+      //   isLoaded: true,
+      // });
+    });
+  };
+
+  (0, _react.useEffect)(function () {
+    getPremiumExtensions();
+  }, []); // pass in an empty array as a second argument
+
+  var extensions = extensionList.map(function (item, index) {
+    return /*#__PURE__*/_react["default"].createElement("li", {
+      key: index
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-features-ele"
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-ele-ic",
+      style: {
+        background: item.background
+      }
+    }, /*#__PURE__*/_react["default"].createElement("img", {
+      src: item.image
+    })), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-ele-tlt"
+    }, /*#__PURE__*/_react["default"].createElement("h3", null, item.name), /*#__PURE__*/_react["default"].createElement("p", null, item.description))), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-sts-btn"
+    }, /*#__PURE__*/_react["default"].createElement("div", null, " Status : ", /*#__PURE__*/_react["default"].createElement("span", null, item.status)), /*#__PURE__*/_react["default"].createElement("div", null, item.status == 'InActive' ? /*#__PURE__*/_react["default"].createElement("a", {
+      className: "btn btn-success"
+    }, "Download") : '', "   ")));
+  });
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Tools")), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "divider-horizontal"
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("table", {
+    className: "saswp-tools-table"
+  }, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Export All Settings And Schema"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+    href: "".concat(saswp_localize_data.rest_url, "saswp-route/export-settings"),
+    className: "btn btn-success"
+  }, "Export"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Import All Settings And Schema"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+    type: "file",
+    name: "import_file"
+  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Reset Settings"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+    className: "btn btn-success"
+  }, "Reset"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Data Tracking Allow"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+    className: "btn btn-success"
+  }, "Allow"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Remove Data On Uninstall"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", {
+    className: "form-check form-group toggle"
+  }, /*#__PURE__*/_react["default"].createElement("input", {
+    type: "checkbox",
+    className: "form-check-input"
+  }), /*#__PURE__*/_react["default"].createElement("span", {
+    className: "form-check-label"
+  })))))));
+};
+
+var _default = PremiumFeatures;
+exports["default"] = _default;
 
 /***/ })
 /******/ ]);

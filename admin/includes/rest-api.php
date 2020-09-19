@@ -129,6 +129,13 @@ class SASWP_Rest_Api {
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
+            ));
+            register_rest_route( 'saswp-route', 'get-premium-extensions', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getPremiumExtensions'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
             ));             
         }  
 
@@ -144,6 +151,37 @@ class SASWP_Rest_Api {
             $response = update_option('quads-mode', $mode);            
 
             return array('status' => 't');                        
+
+        }
+        public function getPremiumExtensions($request){
+
+            $parameters = $request->get_params();
+            $mappings_file = SASWP_DIR_NAME . '/core/array-list/pro_extensions.php';
+
+            $pro_ext  = array();
+            $response = array();
+            
+            if ( file_exists( $mappings_file ) ) {
+                $pro_ext = include $mappings_file;
+            }
+
+            if(!empty($pro_ext)){
+
+                foreach($pro_ext as $ext){
+                                        
+                    if(is_plugin_active($ext['path'])){
+                        
+                        $ext['status'] = 'Active';
+                        
+                    }
+
+                    $response[] = $ext;
+
+                }
+
+            }
+
+            return $response;
 
         }
         public function getPlugins($request){
@@ -217,13 +255,62 @@ class SASWP_Rest_Api {
             return array('info' => $info);
         }
         public function exportSettings(){
+            
+            $post_type = array('saswp_reviews', 'saswp', 'saswp-collections');
+            $export_data_all   = array(); 
+            
+            foreach($post_type as $type){
+                
+                $export_data       = array();                
 
-            $settings = array();
-	        $settings = get_option( 'quads_settings' );
+                $all_schema_post = get_posts(
+
+                    array(
+                            'post_type' 	     => $type,                                                                                   
+                            'posts_per_page'     => -1,   
+                            'post_status'        => 'any',
+                    )
+
+                    );                        
+
+                if($all_schema_post){
+                
+                    foreach($all_schema_post as $schema){    
+
+                    $export_data[$schema->ID]['post']      = (array)$schema;                    
+                    $post_meta                             = get_post_meta($schema->ID, $key='', true );    
+
+                    if($post_meta){
+
+                        foreach ($post_meta as $key => $meta){
+
+                            if(@unserialize($meta[0]) !== false){
+                                $post_meta[$key] = @unserialize($meta[0]);
+                            }else{
+                                $post_meta[$key] = $meta[0];
+                            }
+
+                        }
+
+                    }
+
+                    $export_data[$schema->ID]['post_meta'] = $post_meta;  
+
+                    }       
+
+                    $export_data_all['posts'][$type] = $export_data;    
+                    
+                }
+                                    
+                
+            }
+            
+            $export_data_all['sd_data']         = get_option('sd_data');
+
             header( 'Content-Type: application/json; charset=utf-8' );
-	        header( 'Content-Disposition: attachment; filename=' . apply_filters( 'quads_settings_export_filename', 'quads-settings-export-' . date( 'm-d-Y' ) ) . '.json' );
+	        header('Content-disposition: attachment; filename=structuredatabackup.json');
             header( "Expires: 0" );
-            return   $settings ;	                   
+            return   $export_data_all;	                   
         }
         public function adMoreAction($request){
 

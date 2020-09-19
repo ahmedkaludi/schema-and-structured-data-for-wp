@@ -45,6 +45,59 @@
 .saswp-support-section textarea {
   width: 100%;
   margin-top: 5px; }
+
+.saswp-features-blocks {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px; }
+
+.saswp-features-blocks li {
+  background: #fff;
+  padding: 25px;
+  border: 1px solid #d8d8d8; }
+
+.saswp-sts-btn {
+  box-sizing: border-box;
+  height: 52px;
+  margin-top: 20px;
+  padding: 6px 15px;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; }
+
+.saswp-sts-txt {
+  font-size: 16px;
+  color: #000; }
+
+.saswp-ele-ic {
+  border-radius: 256px;
+  display: inline-block;
+  padding: 8px 10px 8px 10px;
+  width: 70px;
+  margin-right: 20px;
+  height: 70px;
+  float: left; }
+
+.saswp-ele-ic img {
+  width: 80%;
+  left: 10%;
+  position: relative;
+  top: 9%; }
+
+.saswp-sts-btn .saswp-sts-txt {
+  font-size: 16px;
+  color: #000; }
+
+.saswp-pre-ftrs-wrap {
+  padding: 20px; }
+
+.saswp-tools-table {
+  width: 100%; }
+
+.saswp-tools-table td {
+  padding-top: 20px; }
 .saswp-schema-type-tabbar {
   width: 100%;
   display: flex; }
