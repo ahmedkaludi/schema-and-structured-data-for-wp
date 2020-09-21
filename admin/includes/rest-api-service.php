@@ -13,10 +13,12 @@ class SASWP_Rest_Api_Service {
 
     public function getSettings(){
 
-      $response  = array();
-      $resultset = array();
+      global $sd_data;
+
+      $response      = array();
+      $resultset     = array();
       $mappings_file = SASWP_DIR_NAME . '/core/array-list/compatibility-list.php';
-      $saswp_option = get_option('sd_data');
+      $saswp_option  = $sd_data;
 
       
       if ( file_exists( $mappings_file ) ) {
@@ -71,7 +73,128 @@ class SASWP_Rest_Api_Service {
 
       return $resultset;
     }
+    public function importFromFile($import_file){
+      
+        global $wpdb;
+        
+        $result          = null;
+        $errorDesc       = array();
+        $all_schema_post = array();
 
+        $json_data       = @file_get_contents($import_file);
+
+        if($json_data){
+            
+          $json_array      = json_decode($json_data, true);   
+      
+          $posts_data      = $json_array['posts'];                   
+                      
+          if($posts_data){  
+              
+          foreach($posts_data as $data){
+                  
+          $all_schema_post = $data;                   
+                              
+          $schema_post = array();                     
+             
+          if($all_schema_post && is_array($all_schema_post)){
+          // begin transaction
+          $wpdb->query('START TRANSACTION');
+          
+          foreach($all_schema_post as $schema_post){  
+                            
+              $post_meta =     $schema_post['post_meta'];   
+              
+              if(saswp_post_exists($schema_post['post']['ID'])){
+                  
+                  $post_id    =     wp_update_post($schema_post['post']);  
+                   
+              }else{
+                  
+                  unset($schema_post['post']['ID']);
+                  
+                  $post_id    =     wp_insert_post($schema_post['post']); 
+                  
+                  if($post_meta){
+                      
+                      foreach($post_meta as $key => $val){
+
+                        $explod_key = explode("_",$key);
+
+                        $exp_count  = count($explod_key);
+
+                        $explod_key[($exp_count-1)] = $post_id;
+
+                        $explod_key = implode("_", $explod_key);
+
+                        $post_meta[$explod_key] = $val;
+
+                    }  
+                      
+                  }
+                                      
+              }
+                                                                                        
+              foreach($post_meta as $key => $meta){
+                  
+                  $meta = wp_unslash($meta);
+                  
+                  if(is_array($meta)){    
+                      
+                      $meta = wp_unslash($meta);
+                      update_post_meta($post_id, $key, $meta);
+                      
+                  }else{
+                      update_post_meta($post_id, $key, sanitize_text_field($meta));
+                  }
+                                                          
+              }
+                                                                                                                  
+              if(is_wp_error($post_id)){
+                  $errorDesc[] = $result->get_error_message();
+              }
+              } 
+              
+              }      
+                                      
+             }
+              
+          }            
+          //Saving settings data starts here
+          if(array_key_exists('sd_data', $json_array)){
+              
+              $saswp_sd_data = $json_array['sd_data'];
+              
+              foreach($saswp_sd_data as $key => $val){
+                  
+                  if(is_array($val)){
+                      
+                      $saswp_sd_data[$key] = $meta = array_map( 'sanitize_text_field' ,$val);   
+                      
+                  }else{
+                      
+                      $saswp_sd_data[$key] = sanitize_text_field($val);
+                      
+                  }
+                  
+              }
+              
+              update_option('sd_data', $saswp_sd_data); 
+          } 
+          //Saving settings data ends here             
+           update_option('saswp-file-upload_url','');
+          
+      }
+                                   
+      if ( count($errorDesc) ){
+        echo implode("\n<br/>", $errorDesc);              
+        $wpdb->query('ROLLBACK');             
+      }else{
+        $wpdb->query('COMMIT'); 
+        return true;
+      }
+
+    }
     public function getConditionList($condition, $search, $diff = null){
 
         $choices = array();    

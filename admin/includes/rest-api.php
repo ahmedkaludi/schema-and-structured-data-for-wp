@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class SASWP_Rest_Api {
                 
         private static $instance;   
-        private $api_service = null;
+        private $api_service = null;        
 
         private function __construct() {
             
@@ -13,6 +13,7 @@ class SASWP_Rest_Api {
                 require_once SASWP_DIR_NAME . '/admin/includes/rest-api-service.php';
                 $this->api_service = new SASWP_Rest_Api_Service();
             }
+            
             
             add_action( 'rest_api_init', array($this, 'registerRoute'));
                                  
@@ -28,12 +29,26 @@ class SASWP_Rest_Api {
         
         public function registerRoute(){
             
-            register_rest_route( 'saswp-route', 'get-schema-list', array(
+            register_rest_route( 'saswp-route', 'get-translations', array(
                     'methods'    => 'GET',
-                    'callback'   => array($this, 'getSchemaList'),
+                    'callback'   => array($this, 'getTranslations'),
                     'permission_callback' => function(){
                         return current_user_can( 'manage_options' );
                     }
+            ));
+            register_rest_route( 'saswp-route', 'get-schema-list', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getSchemaList'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
+            register_rest_route( 'saswp-route', 'get-migration-status', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getMigrationStatus'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
             ));
             register_rest_route( 'saswp-route', 'change-mode', array(
                 'methods'    => 'POST',
@@ -73,6 +88,20 @@ class SASWP_Rest_Api {
             register_rest_route( 'saswp-route', 'send-customer-query', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'sendCustomerQuery'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
+            register_rest_route( 'saswp-route', 'migration', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'migration'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
+            register_rest_route( 'saswp-route', 'reset-settings', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'resetSettings'),
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
@@ -359,6 +388,100 @@ class SASWP_Rest_Api {
 
             return $response;
         }
+        public function resetSettings($request){
+
+                $result = '';
+        
+                delete_option( 'sd_data');  
+                
+                $allposts= get_posts( array('post_type'=>'saswp','numberposts'=>-1) );
+                
+                foreach ($allposts as $eachpost) {
+                    
+                    $result = wp_delete_post( $eachpost->ID, true );
+                
+                }
+
+                if($result){
+                    return array('status'=>'t', 'msg' => 'Reset Successfully');
+                }
+
+        }
+        public function migration($request){
+
+            $parameters = $request->get_params();   
+            $plugin_name   = sanitize_text_field($parameters['plugin_name']);         
+
+            $result        = '';
+
+            switch ($plugin_name) {
+            
+                case 'schema':
+                    if ( is_plugin_active('schema/schema.php')) {
+                        $result = saswp_import_schema_plugin_data();      
+                    }                
+                    break;
+                    
+                case 'schema_pro':                
+                    if ( is_plugin_active('wp-schema-pro/wp-schema-pro.php')) {
+                        $result = saswp_import_schema_pro_plugin_data();      
+                    }                
+                    break;
+                case 'wp_seo_schema':                
+                    if ( is_plugin_active('wp-seo-structured-data-schema/wp-seo-structured-data-schema.php')) {
+                        $result = saswp_import_wp_seo_schema_plugin_data();      
+                    }
+                     break;
+                case 'seo_pressor':                
+                    if ( is_plugin_active('seo-pressor/seo-pressor.php')) {
+                        $result = saswp_import_seo_pressor_plugin_data();      
+                    }                
+                    break;
+               case 'wpsso_core':                
+                    if ( is_plugin_active('wpsso/wpsso.php') && is_plugin_active('wpsso-schema-json-ld/wpsso-schema-json-ld.php')) {
+                        $result = saswp_import_wpsso_core_plugin_data();      
+                    }                
+                    break;
+                case 'aiors':                
+                    if ( is_plugin_active('all-in-one-schemaorg-rich-snippets/index.php')) {
+                        $result = saswp_import_aiors_plugin_data();      
+                    }                
+                    break;   
+                    
+                    case 'wp_custom_rv':                
+                    if ( is_plugin_active('wp-customer-reviews/wp-customer-reviews-3.php')) {
+                        $result = saswp_import_wp_custom_rv_plugin_data();      
+                    }                
+                    break; 
+    
+                    case 'starsrating':       
+                          
+                      if ( is_plugin_active('stars-rating/stars-rating.php')) {                      
+                          update_option('saswp_imported_starsrating', 1);
+                          $result = 'updated';
+                      }                
+                    break; 
+                    
+                    case 'schema_for_faqs':                
+                      if ( is_plugin_active('faq-schema-markup-faq-structured-data/schema-for-faqs.php')) {
+                          $result = saswp_import_schema_for_faqs_plugin_data();      
+                      }                
+                    break;                 
+    
+                default:
+                    break;
+            }                             
+            if($result){
+                
+                 echo json_encode(array('status'=>'t', 'message'=>esc_html__('Data has been imported succeessfully','schema-and-structured-data-for-wp')));            
+                 
+            }else{
+                
+                echo json_encode(array('status'=>'f', 'message'=>esc_html__('Plugin data is not available or it is not activated','schema-and-structured-data-for-wp')));            
+            
+            }
+
+        }
         public function sendCustomerQuery($request){
 
              $parameters = $request->get_params();
@@ -462,6 +585,73 @@ class SASWP_Rest_Api {
             return $response;
            
         }
+        public function getMigrationStatus(){
+
+            $message                 = 'This plugin\'s data already has been imported. Do you want to import again?. click on button above button.';
+
+            $data_id = array(
+                'schema'         => '',
+                'schema_pro'     => '',
+                'wp_seo_schema'  => '',
+                'seo_pressor'    => '',
+                'wpsso_core'     => '',
+                'aiors'          => '',
+                'wp_custom_rv'   => '',
+                'schema_for_faqs'=> '',
+                'starsrating'    => '',
+            );
+
+            foreach ($data_id as $key => $value) {
+                
+                $cc_args    = array(
+                    'posts_per_page'   => -1,
+                    'post_type'        => 'saswp',
+                    'meta_key'         => 'imported_from',
+                    'meta_value'       => $key,
+                );	
+   
+                $result = new WP_Query( $cc_args ); 
+
+                if($result->post_count !=0 ){
+            
+                    $data_id[$key] = $message;                    
+                             
+                }
+
+            }
+
+            return $data_id;
+
+        }
+        public function getTranslations(){
+
+            global $sd_data;
+                        
+            global  $translation_labels;
+
+            $response = array();
+            
+            if(is_array($translation_labels)){
+               
+                foreach($translation_labels as $key => $val){
+                if(isset($sd_data[$key]) && $sd_data[$key] !='' ){
+                    $translation = $sd_data[$key];
+                }else{
+                    $translation = $val;
+                }   
+                
+                $response[] = array(
+                    'name'  => $val,
+                    'key'   => $key,
+                    'value' => $translation,
+                );
+                 
+                }
+            
+            }
+
+            return $response;
+        }
         public function getSchemaList(){
             
             $search_param = '';
@@ -499,11 +689,14 @@ class SASWP_Rest_Api {
                 if( empty( $import_file ) ) {
                     $response = array('status' => 'f', 'msg' =>  __( 'Please upload a file to import', 'quick-adsense-reloaded' ));                                       
                 }
-                
-                $settings = json_decode( file_get_contents( $import_file ), true);
-                update_option( 'quads_settings', $settings );
-                $response = array('file_status' => 't','status' => 't', 'msg' =>  __( 'file uploaded successfully', 'quick-adsense-reloaded' ));                                       
-
+                                                
+                if($import_file){
+                    $result      = $this->api_service->importFromFile($import_file);    
+                    $response = array('file_status' => 't','status' => 't', 'msg' =>  __( 'file uploaded successfully', 'quick-adsense-reloaded' ));                                       
+                }else{
+                    $response = array('status' => 'f', 'msg' =>  __( 'File not found', 'quick-adsense-reloaded' ));                   
+                }
+                                                
             }else{
                 
                 if($parameters){

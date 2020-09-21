@@ -1784,6 +1784,20 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp-multiple-size-image' => 1     
 
                 );	  
+
+                //Merge plugins array starts here
+                
+                //Merge plugins array ends here
+
+                //Merge translation array starts here
+
+                global $translation_labels;
+
+                if(is_array($translation_labels) && !empty($translation_labels)){
+                    $defaults = array_merge($defaults, $translation_labels);
+                }
+
+                //Merge translation array ends here
                 
                 if(is_array($logo)){
 

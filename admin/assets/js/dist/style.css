@@ -96,8 +96,24 @@
 .saswp-tools-table {
   width: 100%; }
 
+.saswp-translation-table {
+  width: 100%; }
+
+.saswp-translation-table td {
+  padding-top: 5px; }
+
 .saswp-tools-table td {
   padding-top: 20px; }
+
+.saswp-migration-body {
+  display: grid;
+  padding: 12px 30px !important; }
+
+.saswp-migration-label {
+  float: left; }
+
+.saswp-migration-button {
+  float: right; }
 .saswp-schema-type-tabbar {
   width: 100%;
   display: flex; }

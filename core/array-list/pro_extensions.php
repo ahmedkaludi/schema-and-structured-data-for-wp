@@ -10,7 +10,8 @@ return array(
             'description' => 'WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.',                       
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/woocommerce-icon.png',
             'status'      => 'InActive',
-            'background'  => '#96588a'
+            'background'  => '#96588a',
+            'download'    => 'https://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema'    
         ),
         array(
             'key'         => 'reviews_for_schema',
@@ -19,7 +20,8 @@ return array(
             'description' => 'Fetch reviews from 75+ platforms with a single click with proper structured data so you can get the stars in your search engine rankings. It also works for the AMP.',
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/customer-review.png',
             'status'      => 'InActive',
-            'background'  => '#509207'
+            'background'  => '#509207',
+            'download'    => 'https://structured-data-for-wp.com/reviews-for-schema'
         ),
         array(
             'key'         => 'real_estate_schema',
@@ -28,7 +30,8 @@ return array(
             'description' => 'Real Estate Schema extension is the number one solution to enhance your real estate website with the right structured data.',
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/real-estate-schema-wp.png',
             'status'      => 'InActive',
-            'background'  => '#ace'
+            'background'  => '#ace',
+            'download'    => 'https://structured-data-for-wp.com/extensions/real-estate-schema'
         ),
         array(
             'key'         => 'course_schema',
@@ -37,7 +40,8 @@ return array(
             'description' => 'Course Schema extension is the number one solution to enhance your course offering website with the right structured data.',
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/course.png',
             'status'      => 'InActive',
-            'background'  => '#dcb71d'
+            'background'  => '#dcb71d',
+            'download'    => 'https://structured-data-for-wp.com/course-schema'
         ),
         array(
             'key'         => 'event_schema',
@@ -46,7 +50,8 @@ return array(
             'description' => 'Event Schema extension is the number one solution to enhance your event website with the right structured data.',
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/event.png',
             'status'      => 'InActive',
-            'background'  => '#eae4ca'
+            'background'  => '#eae4ca',
+            'download'    => 'https://structured-data-for-wp.com/event-schema'
         ),
         array(
             'key'         => 'qanda_schema',
@@ -55,7 +60,8 @@ return array(
             'description' => 'Q&A Schema Compatibility extension is the number one solution to enhance your discussion forum website with the right structured data.',
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/question.png',
             'status'      => 'InActive',
-            'background'  => '#509207'
+            'background'  => '#509207',
+            'download'    => 'https://structured-data-for-wp.com/qanda-schema-for-saswp'
         ),
         array(
             'key'         => 'faq_schema',
@@ -64,7 +70,8 @@ return array(
             'description' => 'FAQ Schema Compatibility extension is the number one solution to enhance your FAQs website with the right structured data.',
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/faq.png',
             'status'      => 'InActive',
-            'background'  => '#509207'
+            'background'  => '#509207',
+            'download'    => 'https://structured-data-for-wp.com/faq-schema-compatibility'
         ),
         array(
             'key'         => 'jobposting_schema',
@@ -73,7 +80,8 @@ return array(
             'description' => 'JobPosting Schema Compatibility extension is the number one solution to enhance your JOBs website with the right structured data.',
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/jobposting.png',
             'status'      => 'InActive',
-            'background'  => '#509207'
+            'background'  => '#509207',
+            'download'    => 'https://structured-data-for-wp.com/jobposting-schema-compatibility'
         ),
         array(
             'key'         => 'recipe_schema',
@@ -82,7 +90,8 @@ return array(
             'description' => 'Recipe Schema extension is the number one solution to enhance your recipe website with the right structured data.',
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/recipe.png',
             'status'      => 'InActive',
-            'background'  => '#509207'
+            'background'  => '#509207',
+            'download'    => 'https://structured-data-for-wp.com/recipe-schema'
         )        
                         
     );
