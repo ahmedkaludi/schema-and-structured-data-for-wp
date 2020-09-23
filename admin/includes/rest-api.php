@@ -43,6 +43,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'get-reviews-list', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getReviewsList'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'get-migration-status', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getMigrationStatus'),
@@ -123,6 +130,13 @@ class SASWP_Rest_Api {
             register_rest_route( 'saswp-route', 'get-condition-list', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getConditionList'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));  
+            register_rest_route( 'saswp-route', 'get-page-list', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getPageList'),
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
@@ -234,7 +248,32 @@ class SASWP_Rest_Api {
             return $response;
 
         }
+        public function getPageList($request){
 
+            $response = array();
+            $search   = '';
+            $id       = '';
+
+            $parameters = $request->get_params();
+
+            if(isset($parameters['search'])){
+                $search   = $parameters['search'];
+            }
+            if(isset($parameters['id'])){
+                $id   = $parameters['id'];
+            }
+
+            $response = $this->api_service->getConditionList('page', $search, $id);
+
+            if($response){
+                return array('status' => 't', 'data' => $response);
+            }else{
+                return array('status' => 'f', 'data' => 'data not found');
+            }
+            
+            return $response;
+
+        }
         public function getTags($request){
 
             $response = array();
@@ -246,7 +285,7 @@ class SASWP_Rest_Api {
                 $search   = $parameters['search'];
             }
 
-            $response = $this->api_service->getConditionList('tags', $search, 'diff');
+            $response = $this->api_service->getConditionList('tags', $search, $saved_data, 'diff');
             if($response){
                 return array('status' => 't', 'data' => $response);
             }else{
@@ -652,6 +691,28 @@ class SASWP_Rest_Api {
 
             return $response;
         }
+
+        public function getReviewsList(){
+
+            $search_param = '';
+            $rvcount      = 10;
+            $attr         = array();
+            $paged        =  1;
+            $offset       =  0;
+            $post_type    = 'saswp_reviews';
+
+            if(isset($_GET['page'])){
+                $paged    = sanitize_text_field($_GET['page']);
+            }
+            
+            if(isset($_GET['search_param'])){
+                $search_param = sanitize_text_field($_GET['search_param']);
+            }            
+            $result = $this->api_service->getReviewsList($post_type, $attr, $rvcount, $paged, $offset, $search_param);                       
+            return $result;
+
+        }
+
         public function getSchemaList(){
             
             $search_param = '';

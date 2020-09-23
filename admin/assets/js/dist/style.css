@@ -99,6 +99,31 @@
 .saswp-translation-table {
   width: 100%; }
 
+.saswp-knowledge-table {
+  width: 100%;
+  padding: 5px; }
+
+.saswp-knowledge-table td {
+  padding: 5px; }
+
+.saswp-knowledge-table input {
+  width: 100%; }
+
+.saswp-knowledge-table select {
+  width: 100%; }
+
+.saswp-social-div {
+  padding-top: 5px;
+  padding-bottom: 5px; }
+
+.saswp-social-div span {
+  padding-left: 20px;
+  font-size: 20px;
+  cursor: pointer; }
+
+.saswp-social-div input {
+  width: 70%; }
+
 .saswp-translation-table td {
   padding-top: 5px; }
 
@@ -196,24 +221,6 @@ and open the template in the editor.
 .saswp-list-heading span {
   line-height: 0; }
 
-.saswp-heading-top {
-  display: inline-block;
-  width: 100%; }
-
-.saswp-heading-top div:nth-child(1) {
-  position: relative; }
-
-.saswp-heading-top div:nth-child(1) p {
-  top: -8px;
-  right: -60px;
-  position: absolute; }
-
-.saswp-heading-top div:nth-child(1) {
-  float: left; }
-
-.saswp-heading-top div:nth-child(2) {
-  float: right; }
-
 .saswp-close-div {
   background-color: black;
   height: 50px; }
@@ -296,6 +303,28 @@ and open the template in the editor.
 .saswp-single-header-right {
   float: right;
   padding: 10px; }
+.saswp-reviews-list-card {
+  margin-right: 20px;
+  max-width: inherit; }
+
+.saswp-review-card {
+  display: flex;
+  width: 100%;
+  padding: 16px 30px !important; }
+
+.saswp-review-card div:nth-child(1) {
+  width: 3%; }
+
+.saswp-review-card div:nth-child(2) {
+  width: 92%; }
+
+.avatar-text-bottom span {
+  padding-right: 20px; }
+
+.saswp-list-pagination {
+  margin-top: 10px; }
+.saswp-reviews-tabs {
+  background: #ffffff; }
 @charset "UTF-8";
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 /* Document
@@ -3058,3 +3087,31 @@ input:-webkit-autofill:active {
 .saswp-divider-vertical {
   border: 1px solid #eaedf3;
   height: 100%; }
+
+.saswp-heading-top {
+  display: inline-block;
+  width: 100%; }
+
+.saswp-heading-top div:nth-child(1) {
+  position: relative; }
+
+.saswp-heading-top div:nth-child(1) p {
+  top: -8px;
+  right: -60px;
+  position: absolute; }
+
+.saswp-heading-top div:nth-child(1) {
+  float: left; }
+
+.saswp-heading-top div:nth-child(2) {
+  float: right; }
+
+.saswp-sub-menu {
+  display: contents; }
+
+.saswp-sub-menu li {
+  padding-left: 20px !important; }
+
+.saswp-upgrade-btn {
+  margin-right: 15px;
+  padding: 9px; }

@@ -64,22 +64,22 @@ function saswp_ext_installed_status(){
 
 function saswp_add_menu_links() {	
                        
-	    add_submenu_page( 'edit.php?post_type=saswp',
-                    esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
-                    esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 
-                    saswp_current_user_can(),
-                    'structured_data_options', 
-                    'saswp_admin_interface_render'
-                    );	
+	//     add_submenu_page( 'edit.php?post_type=saswp',
+        //             esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
+        //             esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 
+        //             saswp_current_user_can(),
+        //             'structured_data_options', 
+        //             'saswp_admin_interface_render'
+        //             );	
 
         $saswp_parent_page = add_menu_page( 
                 esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
-                esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),
+                esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
                 saswp_current_user_can(),
                 'saswp',
                 'saswp_home_interface_render',
-              //  SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/talabat-img.png',
-                6
+                '',
+                25
             ); 
 
             if(!saswp_ext_installed_status()){
@@ -115,12 +115,12 @@ function saswp_home_interface_render(){
         wp_enqueue_style('saswp-admin-style-icon', 'https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500&display=swap');
         wp_enqueue_style('saswp-admin-style', SASWP_PLUGIN_URL.'admin/assets/js/dist/style.css');
 
-        wp_register_script( 'saswp-admin-script', SASWP_PLUGIN_URL . 'admin/assets/js/dist/adminscript.js', array( 'wp-i18n' ), SASWP_VERSION );
+        wp_register_script( 'saswp-admin-script', SASWP_PLUGIN_URL . 'admin/assets/js/dist/adminscript.js', array( 'wp-i18n', 'wp-block-editor', 'wp-components'), SASWP_VERSION );
 
         wp_localize_script( 'saswp-admin-script', 'saswp_localize_data', $data );        
         wp_enqueue_script('saswp-admin-script');
 
-        echo '<div id="saswp-home-page"></div>';
+        echo '<div id="saswp-home-page"></div>';        
 
 }
 

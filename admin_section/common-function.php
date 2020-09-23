@@ -1781,12 +1781,16 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp-microdata-cleanup'   => 1,
                         'saswp-other-images'        => 1,
                         'saswp_default_review'      => 1,
-                        'saswp-multiple-size-image' => 1     
+                        'saswp-multiple-size-image' => 1,
+                        'saswp_social_links'        => array(),
+                        'saswp_kb_type'             => '',
+                        'sd_about_page'             => '',
+                        'sd_contact_page'           => '', 
 
                 );	  
 
                 //Merge plugins array starts here
-                
+
                 //Merge plugins array ends here
 
                 //Merge translation array starts here

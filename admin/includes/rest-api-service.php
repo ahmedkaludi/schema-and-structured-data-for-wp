@@ -14,7 +14,7 @@ class SASWP_Rest_Api_Service {
     public function getSettings(){
 
       global $sd_data;
-
+      
       $response      = array();
       $resultset     = array();
       $mappings_file = SASWP_DIR_NAME . '/core/array-list/compatibility-list.php';
@@ -33,7 +33,7 @@ class SASWP_Rest_Api_Service {
                   $int_arr['opt_name'] = $plugins['opt_name'];
                   $int_arr['part_in']  = $plugins['part_in'];
                   $int_arr['active']   = false;
-                  $int_arr['status']   = $saswp_option[$plugins['opt_name']];
+                  $int_arr['status']   = isset($saswp_option[$plugins['opt_name']]) ? $saswp_option[$plugins['opt_name']] : false;
                   if(is_plugin_active($plugins['free']) || (isset($plugins['pro']) && is_plugin_active($plugins['pro']))){
                     
                     $int_arr['active']  = true;
@@ -54,7 +54,7 @@ class SASWP_Rest_Api_Service {
                   $int_arr['opt_name'] = $plugins['opt_name'];
                   $int_arr['part_in']  = $plugins['part_in'];
                   $int_arr['active']   = false;
-                  $int_arr['status']   = $saswp_option[$plugins['opt_name']];
+                  $int_arr['status']   = isset($saswp_option[$plugins['opt_name']]) ? $saswp_option[$plugins['opt_name']] : false;
                   if(get_template() == $plugins['free'] || (isset($plugins['pro']) && get_template() ==$plugins['pro'])){
                     
                     $int_arr['active']  = true;
@@ -70,7 +70,7 @@ class SASWP_Rest_Api_Service {
                 $resultset['settings']      = $saswp_option;
                 $resultset['compatibility'] = $response;
       }
-
+      
       return $resultset;
     }
     public function importFromFile($import_file){
@@ -195,7 +195,7 @@ class SASWP_Rest_Api_Service {
       }
 
     }
-    public function getConditionList($condition, $search, $diff = null){
+    public function getConditionList($condition, $search = null,$saved_data = null, $diff = null){
 
         $choices = array();    
     
@@ -259,11 +259,15 @@ class SASWP_Rest_Api_Service {
               foreach( $post_types as $post_type ){
               
                 $arg['post_type']      = $post_type;
-                $arg['posts_per_page'] = 10;  
+                $arg['posts_per_page'] = 50;  
                 $arg['post_status']    = 'any'; 
 
                 if(!empty($search)){
                   $arg['s']              = $search;
+                }
+
+                if($saved_data){
+                  $arg['p'] = $saved_data;  
                 }
 		            
                 $posts = $this->getPostsByArg($arg); 
@@ -457,6 +461,44 @@ class SASWP_Rest_Api_Service {
 
     }
 
+    public function getReviewsList($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null){
+            
+      $response   = array();                                
+      $arg        = array();
+      $meta_query = array();
+      $posts_data = array();
+      
+      $arg['post_type']      = $post_type;
+      $arg['posts_per_page'] = -1;  
+      $arg['post_status']    = 'any';    
+          
+      
+      if(isset($attr['in'])){
+        $arg['post__in']    = $attr['in'];  
+      }                    
+      if(isset($attr['id'])){
+        $arg['attachment_id']    = $attr['id'];  
+      }
+      if(isset($attr['title'])){
+        $arg['title']    = $attr['title'];  
+      }          
+      
+      if($rvcount){
+          $arg['posts_per_page']    = $rvcount;
+      }
+      if($paged){
+          $arg['paged']    = $paged;
+      }
+      if($offset){
+          $arg['offset']    = $offset;
+      }       
+                    
+      $response = $this->getPostsByArg($arg);
+      
+      return $response;
+  }
+
+
     public function getSchemaList($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null){
             
         $response   = array();                                
@@ -488,32 +530,7 @@ class SASWP_Rest_Api_Service {
         if($offset){
             $arg['offset']    = $offset;
         }       
-        if($search_param){
-
-            $meta_query_args = array(            
-                array(
-                    'relation' => 'OR',
-                    array(
-                        'key'     => 'label',
-                        'value'   => $search_param,
-                        'compare' => 'LIKE'
-                    ),
-                    array(
-                        'key'     => 'ad_id',
-                        'value'   => $search_param,
-                        'compare' => '='
-                    ),
-                    array(
-                        'key'     => 'ad_type',
-                        'value'   => $search_param,
-                        'compare' => 'LIKE'
-                    )
-                    )
-                );
-                $arg['meta_query']          = $meta_query_args; 
-                $arg['paged']               = 1;                               
-        }        
-        
+                        
         $response = $this->getPostsByArg($arg);
         
         return $response;
