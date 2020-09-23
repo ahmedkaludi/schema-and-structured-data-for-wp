@@ -14671,7 +14671,7 @@ var MenuComponent = function MenuComponent() {
   }, /*#__PURE__*/_react["default"].createElement("a", {
     target: "blank",
     href: "https://structured-data-for-wp.com/pricing/",
-    className: "btn btn-success"
+    className: "btn btn-success saswp-upgrade-btn"
   }, "UPGRADE TO PRO")), "';"));
 };
 
