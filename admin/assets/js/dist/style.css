@@ -1,3 +1,41 @@
+/* three dotted spinner css starts here */
+.saswp-dotted-spinner {
+  margin: 70px auto 0;
+  width: 70px;
+  text-align: center; }
+
+.saswp-dotted-spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: #38b249;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both; }
+
+.saswp-dotted-spinner .saswp-bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s; }
+
+.saswp-dotted-spinner .saswp-bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s; }
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0); }
+  40% {
+    -webkit-transform: scale(1); } }
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0); }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+/* three dotted spinner css ends here */
 .saswp-top-header {
   background: #fff;
   height: 65px;
@@ -25,7 +63,7 @@
 .saswp-compatibility-tab .tab-item {
   width: 50%; }
 
-.wpsd-save-settings-btn {
+.saswp-save-settings-btn {
   margin-top: 15px;
   margin-left: 30px; }
 
@@ -104,7 +142,11 @@
   padding: 5px; }
 
 .saswp-knowledge-table td {
-  padding: 5px; }
+  padding: 5px;
+  vertical-align: top; }
+
+.saswp-knowledge-table tr td:nth-child(1) {
+  width: 39%; }
 
 .saswp-knowledge-table input {
   width: 100%; }
@@ -139,6 +181,66 @@
 
 .saswp-migration-button {
   float: right; }
+
+.modal-body {
+  overflow-y: scroll;
+  height: 400px; }
+/*Spinner css starts here*/
+#saswp-cover-spin {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+  display: block; }
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(360deg); } }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+
+#saswp-cover-spin::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 48%;
+  top: 40%;
+  width: 40px;
+  height: 40px;
+  border-style: solid;
+  border-color: #38b249;
+  border-top-color: transparent;
+  border-width: 4px;
+  border-radius: 50%;
+  -webkit-animation: spin .8s linear infinite;
+  animation: spin .8s linear infinite; }
+
+/*Spinner css ends here*/
+.saswp-image-preview {
+  width: 160px;
+  position: relative;
+  margin-top: 8px;
+  border: 1px solid #eaedf3; }
+
+.saswp-image-preview img {
+  width: 100%;
+  padding: 8px; }
+
+.saswp-image-preview a {
+  position: absolute;
+  font-size: 20px;
+  margin-top: -4px;
+  padding-left: 4px; }
 .saswp-schema-type-tabbar {
   width: 100%;
   display: flex; }
@@ -323,6 +425,9 @@ and open the template in the editor.
 
 .saswp-list-pagination {
   margin-top: 10px; }
+
+.saswp-reviews-list-body {
+  min-height: 80px; }
 .saswp-reviews-tabs {
   background: #ffffff; }
 @charset "UTF-8";
@@ -3094,6 +3199,9 @@ input:-webkit-autofill:active {
 
 .saswp-heading-top div:nth-child(1) {
   position: relative; }
+
+.saswp-table {
+  width: 100%; }
 
 .saswp-heading-top div:nth-child(1) p {
   top: -8px;

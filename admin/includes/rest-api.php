@@ -78,6 +78,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'update-review', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'updateReview'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'update-settings', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'updateSettings'),
@@ -116,6 +123,13 @@ class SASWP_Rest_Api {
             register_rest_route( 'saswp-route', 'get-schema-data-by-id', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getSchemaById'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
+            register_rest_route( 'saswp-route', 'get-review-data-by-id', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getReviewById'),
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
@@ -610,6 +624,20 @@ class SASWP_Rest_Api {
 
             
         }
+        public function getReviewById($request_data){
+
+            $response = array();
+
+            $parameters = $request_data->get_params();
+
+            if(isset($parameters['review_id'])){
+                $response = $this->api_service->getReviewById($parameters['review_id']);
+            }else{
+                $response =  array('status' => '404', 'message' => 'Review id is required');
+            }
+            return $response;
+           
+        }
         public function getSchemaById($request_data){
 
             $response = array();
@@ -779,6 +807,17 @@ class SASWP_Rest_Api {
                 return array('status' => 't', 'schema_id' => $schema_id);
             }else{
                 return array('status' => 'f', 'schema_id' => null);
+            }     
+        }
+        public function updateReview($request_data){
+
+            $parameters     = $request_data->get_params();                                   
+            $review_id      = $this->api_service->updateReview($parameters);                       
+            
+            if($review_id){
+                return array('status' => 't', 'review_id' => $review_id);
+            }else{
+                return array('status' => 'f', 'review_id' => null);
             }     
         }      
        

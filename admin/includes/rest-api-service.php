@@ -432,6 +432,35 @@ class SASWP_Rest_Api_Service {
         return $choices;
     }
 
+    public function getReviewById($review_id){
+
+      $response  = array();
+      $meta_data = array();
+
+      if($review_id){
+
+          $response['post']      = get_post($review_id, ARRAY_A);  
+          $post_meta             = get_post_meta($review_id, '', true);  
+
+          if($post_meta){
+
+              foreach($post_meta as $key => $meta){
+                  if(is_serialized($meta[0])){
+                    $meta_data[$key] = unserialize($meta[0]);
+                  }else{
+                    $meta_data[$key] = $meta[0];
+                  }
+                  
+              }
+          }
+
+          $response['post_meta'] = $meta_data;
+          
+      }        
+      return $response;
+
+  }
+
     public function getSchemaById($schema_id){
 
         $response  = array();
@@ -663,7 +692,45 @@ class SASWP_Rest_Api_Service {
             }
             
             return  $schema_id;
-    } 
+    }
+    public function updateReview($parameters){
+            
+      $post_meta      = $parameters['post_meta'];                                                                   
+      $schema_id      = isset($parameters['review_id']) ? $parameters['review_id'] : '';                 
+      $post_status    = 'publish';            
+
+      if(isset($parameters['status'])){
+        $post_status    = $parameters['status'];   
+      }
+      
+      $arg = array(
+          'post_title'   => $post_meta['saswp_reviewer_name'],
+          'post_status'  => sanitize_text_field($post_status),
+          'post_type'    => 'saswp_reviews',
+      );
+                   
+      if($schema_id){                
+
+          $arg['post_id'] = $schema_id;
+          
+          @wp_update_post( $arg );                
+
+      }else{                
+        $schema_id = wp_insert_post( $arg );
+      }                        
+      
+      if($post_meta){
+          
+          foreach($post_meta as $key => $val){
+              
+              $filterd_meta = saswp_sanitize_post_meta($key, $val);
+
+              update_post_meta($schema_id, $key, $filterd_meta);
+          }                               
+      }
+      
+      return  $schema_id;
+} 
     
     public function changeAdStatus($ad_id, $action){
 
