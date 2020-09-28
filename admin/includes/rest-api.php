@@ -187,6 +187,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'get-platforms', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getPlatforms'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'get-premium-extensions', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getPremiumExtensions'),
@@ -240,6 +247,10 @@ class SASWP_Rest_Api {
 
             return $response;
 
+        }
+        public function getPlatforms($request){
+           $result =  saswp_get_terms_as_array();
+           return $result;
         }
         public function getPlugins($request){
 
@@ -811,7 +822,7 @@ class SASWP_Rest_Api {
         }
         public function updateReview($request_data){
 
-            $parameters     = $request_data->get_params();                                   
+            $parameters     = $request_data->get_params();                                               
             $review_id      = $this->api_service->updateReview($parameters);                       
             
             if($review_id){

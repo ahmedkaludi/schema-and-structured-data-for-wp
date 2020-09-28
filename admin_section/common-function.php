@@ -3923,7 +3923,7 @@ function saswp_sanitize_post_meta($key, $meta){
 		break;
       
       default:
-        $response = sanitize_text_field(wp_unslash($meta));
+        $response =wp_unslash($meta);
         break;
     }
 

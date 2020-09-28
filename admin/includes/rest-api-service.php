@@ -588,6 +588,32 @@ class SASWP_Rest_Api_Service {
                     }
                 }
                 
+                if(isset($post_meta['saswp_review_platform'])){
+
+                  $platform = get_post_meta( get_the_ID(), $key='saswp_review_platform', true);  
+                  $term     = get_term( $platform, 'platform' );
+
+                  if(isset($term->slug)){
+                        
+                    if($term->slug == 'self'){
+                        
+                         $service_object     = new saswp_output_service();
+                         $default_logo       = $service_object->saswp_get_publisher(true);                                                         
+                         
+                         if(isset($default_logo['url'])){
+                        
+                          $post_meta['saswp_review_platform_image'] =  $default_logo['url'];
+                             
+                         }
+                        
+                    }else{
+                         $post_meta['saswp_review_platform_image'] = SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png';
+                    }
+                                            
+                }
+
+                }
+
                 $posts_data[] = array(
                 'post'        => (array) $data,
                 'post_meta'   => $post_meta                
@@ -718,7 +744,7 @@ class SASWP_Rest_Api_Service {
       }else{                
         $schema_id = wp_insert_post( $arg );
       }                        
-      
+            
       if($post_meta){
           
           foreach($post_meta as $key => $val){
