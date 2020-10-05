@@ -64,13 +64,13 @@ function saswp_ext_installed_status(){
 
 function saswp_add_menu_links() {	
                        
-	//     add_submenu_page( 'edit.php?post_type=saswp',
-        //             esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
-        //             esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 
-        //             saswp_current_user_can(),
-        //             'structured_data_options', 
-        //             'saswp_admin_interface_render'
-        //             );	
+	    add_submenu_page( 'edit.php?post_type=saswp',
+                    esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
+                    esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 
+                    saswp_current_user_can(),
+                    'structured_data_options', 
+                    'saswp_admin_interface_render'
+                    );	
 
         $saswp_parent_page = add_menu_page( 
                 esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
@@ -96,24 +96,84 @@ function saswp_premium_interface_render(){
         
 }
 
-function saswp_home_interface_render(){
+function saswp_home_interface_render($hook){
 
         if ( ! current_user_can( saswp_current_user_can() ) ) {
 		return;
         }
 
-        //wp_enqueue_style('quads-admin-ad-style', QUADS_PLUGIN_URL.'admin/assets/js/dist/style.css');
-        
-        //wp_enqueue_style('quads-material-ui-font', 'https://fonts.googleapis.com/icon?family=Material+Icons');
-            
-        $data = array(
-                'plugin_url'           => SASWP_PLUGIN_URL,
-                'rest_url'             => esc_url_raw( rest_url() ),
-                'nonce'                => wp_create_nonce( 'wp_rest' )                
+        $translable_txt = array(
+                'attach_review'     => esc_html__( 'Attach reviews to this schema type' , 'schema-and-structured-data-for-wp' ),
+                'place_id'          => esc_html__( 'Place ID' , 'schema-and-structured-data-for-wp' ),
+                'reviews'           => esc_html__( 'Reviews' , 'schema-and-structured-data-for-wp' ),
+                'fetch'             => esc_html__( 'Fetch' , 'schema-and-structured-data-for-wp' ),
+                'step_in'           => esc_html__( 'Reviews count should be in step of 10' , 'schema-and-structured-data-for-wp' ),
+                'blocks_zero'       => esc_html__( 'Blocks value is zero' , 'schema-and-structured-data-for-wp' ),
+                'success'           => esc_html__( 'Success', 'schema-and-structured-data-for-wp' ),
+                'enter_place_id'    => esc_html__( 'Please enter place id' , 'schema-and-structured-data-for-wp' ),
+                'enter_api_key'     => esc_html__( 'Please enter api key' , 'schema-and-structured-data-for-wp' ),
+                'enter_rv_api_key'  => esc_html__( 'Please enter reviews api key' , 'schema-and-structured-data-for-wp' ),
+                'using_schema'      => esc_html__( 'Thanks for using Structured Data!' , 'schema-and-structured-data-for-wp' ),
+                'do_you_want'       => esc_html__( 'Do you want the latest on ' , 'schema-and-structured-data-for-wp' ),
+                'sd_update'         => esc_html__( 'Structured Data update' , 'schema-and-structured-data-for-wp' ),
+                'before_others'     => esc_html__( ' before others and some best resources on monetization in a single email? - Free just for users of Structured Data!' , 'schema-and-structured-data-for-wp' ),
+                'fill_email'        => esc_html__( 'Please fill in your name and email.' , 'schema-and-structured-data-for-wp' ),
+                'invalid_email'     => esc_html__( 'Your email address is invalid.' , 'schema-and-structured-data-for-wp' ),
+                'list_id_invalid'   => esc_html__( 'Your list ID is invalid.' , 'schema-and-structured-data-for-wp' ),
+                'already_subsribed' => esc_html__( 'You\'re already subscribed!' , 'schema-and-structured-data-for-wp' ),
+                'subsribed'         => esc_html__( 'Please enter reviews api key' , 'schema-and-structured-data-for-wp' ),
+                'try_again'         => esc_html__( 'Please enter reviews api key' , 'schema-and-structured-data-for-wp' )
         );
 
-        wp_enqueue_style('saswp-admin-style-icon', 'https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500&display=swap');
+        
+        $all_schema_array = array();
+        
+        $mappings_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
+                
+        if ( file_exists( $mappings_file ) ) {
+            $all_schema_array = include $mappings_file;
+        }
+
+        $post_type = '';
+        
+        $current_screen = get_current_screen(); 
+       
+        if(isset($current_screen->post_type)){                  
+            $post_type = $current_screen->post_type;                
+        }
+            
+        $data = array(
+                'plugin_url'                   => SASWP_PLUGIN_URL,
+                'rest_url'                     => esc_url_raw( rest_url() ),
+                'nonce'                        => wp_create_nonce( 'wp_rest' ), 
+                'current_url'                  => saswp_get_current_url(), 
+                'post_id'                      => get_the_ID(),
+                'ajax_url'                     => admin_url( 'admin-ajax.php' ),            
+                'saswp_security_nonce'         => wp_create_nonce('saswp_ajax_check_nonce'),  
+                'new_url_selector'             => esc_url(admin_url()).'post-new.php?post_type=saswp',
+                'new_url_href'                 => htmlspecialchars_decode(wp_nonce_url(admin_url('index.php?page=saswp_add_new_data_type&'), '_wpnonce')),            
+                'collection_post_add_url'      => esc_url(admin_url()).'post-new.php?post_type=saswp-collections',
+                'collection_post_add_new_url'  => htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce')),
+                'collections_page_url'         => htmlspecialchars_decode(admin_url('edit.php?post_type=saswp-collections')),
+                'reviews_page_url'             => htmlspecialchars_decode(admin_url('edit.php?post_type=saswp_reviews')),
+                'post_type'                    => $post_type,   
+                'page_now'                     => $hook,
+                'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')),
+                'saswp_schema_types'           =>  $all_schema_array,
+                'trans_based_on'               => saswp_label_text('translation-based-on'),
+                'trans_reviews'                => saswp_label_text('translation-reviews'),
+                'trans_self'                   => saswp_label_text('translation-self'),
+                'translable_txt'               => $translable_txt               
+        );
+
+        
+        
         wp_enqueue_style('saswp-admin-style', SASWP_PLUGIN_URL.'admin/assets/js/dist/style.css');
+        //wp_enqueue_style( 'saswp-admin-fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,700,300', false );
+
+        // wp_enqueue_style( 'saswp-admin-fonts', SASWP_PLUGIN_URL . 'admin/assets/js/dist/fonts/182fadb541cdfa9b77620d8b4ea81926.ttf', false );
+        // wp_enqueue_style( 'saswp-admin-fonts', SASWP_PLUGIN_URL . 'admin/assets/js/dist/fonts/3ec057358075821566e03cdf079e3c56.woff', false );
+        
 
         wp_register_script( 'saswp-admin-script', SASWP_PLUGIN_URL . 'admin/assets/js/dist/adminscript.js', array( 'wp-i18n', 'wp-block-editor', 'wp-components'), SASWP_VERSION );
 
@@ -1627,6 +1687,11 @@ function saswp_import_callback(){
            $add_on[] = 'Woocommerce';           
                                       
         }
+        if(is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){
+                      
+                $add_on[] = 'Jobposting';           
+                                           
+        }
         if(is_plugin_active('real-estate-schema/real-estate-schema.php')){
                       
            $add_on[] = 'Res';           
@@ -1756,6 +1821,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                     $response.= '</div>';
                 
                }
+
+               if($label == true && $on == 'Jobposting'){
+                   
+                $response.= '<div class="" style="display:inline-block">';
+                $response.= '<strong>'.esc_html__(''.$on.' Compatibility For Schema','schema-and-structured-data-for-wp').'</strong>';
+                $response.= '</div>';
+            
+                }
                
                if($label == true && $on == 'Res'){
                    

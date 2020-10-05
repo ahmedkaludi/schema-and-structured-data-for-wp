@@ -432,6 +432,37 @@ class SASWP_Rest_Api_Service {
         return $choices;
     }
 
+    public function getCollectionById($review_id){
+
+      $response  = array();
+      $meta_data = array();
+
+      if($review_id){
+          
+          $post_meta             = get_post_meta($review_id, '', true);  
+
+          if($post_meta){
+
+              foreach($post_meta as $key => $meta){
+                
+                  if(is_serialized($meta[0])){
+                    $meta_data[$key] = unserialize($meta[0]);
+                  }else{
+                    $meta_data[$key] = $meta[0];
+                  }
+                  
+              }
+          }
+
+          $meta_data['saswp_collection_title'] =   get_the_title($review_id);  
+          $response['post_meta'] = $meta_data;
+          
+      }        
+      return $response;
+
+  }
+
+
     public function getReviewById($review_id){
 
       $response  = array();
@@ -490,7 +521,7 @@ class SASWP_Rest_Api_Service {
 
     }
 
-    public function getReviewsList($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null){
+    public function getCollectionsList($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null){
             
       $response   = array();                                
       $arg        = array();
@@ -527,7 +558,42 @@ class SASWP_Rest_Api_Service {
       return $response;
   }
 
-
+  public function getReviewsList($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null){
+            
+    $response   = array();                                
+    $arg        = array();
+    $meta_query = array();
+    $posts_data = array();
+    
+    $arg['post_type']      = $post_type;
+    $arg['posts_per_page'] = -1;  
+    $arg['post_status']    = 'any';    
+        
+    
+    if(isset($attr['in'])){
+      $arg['post__in']    = $attr['in'];  
+    }                    
+    if(isset($attr['id'])){
+      $arg['attachment_id']    = $attr['id'];  
+    }
+    if(isset($attr['title'])){
+      $arg['title']    = $attr['title'];  
+    }          
+    
+    if($rvcount){
+        $arg['posts_per_page']    = $rvcount;
+    }
+    if($paged){
+        $arg['paged']    = $paged;
+    }
+    if($offset){
+        $arg['offset']    = $offset;
+    }       
+                  
+    $response = $this->getPostsByArg($arg);
+    
+    return $response;
+}
     public function getSchemaList($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null){
             
         $response   = array();                                
@@ -565,6 +631,8 @@ class SASWP_Rest_Api_Service {
         return $response;
     }
 
+    
+
     public function getPostsByArg($arg){
       
       $response = array();
@@ -582,12 +650,41 @@ class SASWP_Rest_Api_Service {
                 $data['post_status']   =  get_post_status();
                 $data['post_modified'] =  get_the_date('d M, Y');
                 $post_meta             = get_post_meta(get_the_ID(), '', true);
+
                 if($post_meta){
                     foreach($post_meta as $key => $val ){
                         $post_meta[$key] = $val[0];
                     }
                 }
-                
+
+                                
+                if(isset($post_meta['saswp_platform_ids'])){
+
+                  $post_meta['saswp_platform_ids'] = unserialize($post_meta['saswp_platform_ids']);
+                  
+                }
+                if(isset($post_meta['saswp_total_reviews'])){
+
+                  $post_meta['saswp_total_reviews'] = unserialize($post_meta['saswp_total_reviews']);
+
+                  $rv_images = array();
+                  $k = 1; 
+                  foreach ($post_meta['saswp_total_reviews'] as $value) {
+                    
+                    $image = get_post_meta( $value, $key='saswp_reviewer_image', true);  
+                    
+                    $rv_images[] = $image;
+
+                    if($k == 3){
+                      break;
+                    }
+                    $k++;
+                  }
+
+                  $post_meta['saswp_collection_images'] = $rv_images;
+
+                }
+
                 if(isset($post_meta['saswp_review_platform'])){
 
                   $platform = get_post_meta( get_the_ID(), $key='saswp_review_platform', true);  
@@ -758,7 +855,7 @@ class SASWP_Rest_Api_Service {
       return  $schema_id;
 } 
     
-    public function changeAdStatus($ad_id, $action){
+    public function changePostStatus($ad_id, $action){
 
       $response = wp_update_post(array(
                     'ID'            =>  $ad_id,
@@ -768,7 +865,7 @@ class SASWP_Rest_Api_Service {
       return $response;
       
     }
-    public function duplicateAd($ad_id){
+    public function duplicatePost($ad_id){
 
       $response = null;
 
@@ -815,7 +912,7 @@ class SASWP_Rest_Api_Service {
       return $response;
     }
 
-    public function deleteAd($ad_id){
+    public function deletePost($ad_id){
       $response = wp_delete_post($ad_id, true);
       return $response; 
     }    

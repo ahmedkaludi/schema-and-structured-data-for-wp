@@ -1,0 +1,28 @@
+.saswp-left-context-menu {
+    position: absolute;
+    top: 0px;
+    left: -130px;
+    z-index: 100000;
+    float: left;
+    min-width: 125px;
+    padding: 10px 10px 10px 10px;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+.saswp-left-context-menu ul{
+    margin: 0;
+}
+.saswp-left-context-menu li{
+   // border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 3px 2px;
+    margin: 0;
+    cursor: pointer;
+}

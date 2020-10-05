@@ -1,0 +1,130 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.saswp-schema-list{
+    display: flex;
+    width: 100%;
+}
+.saswp-schema-list div:nth-child(1){    
+    width: 60%;
+}
+.saswp-schema-list div:nth-child(2), .saswp-schema-list div:nth-child(3){    
+    width: 20%;
+}
+.saswp-schema-list-container .card-body{
+    padding-bottom: 10px;    
+}
+.saswp-schema-list-container .card{
+    max-width: initial;
+    padding: 5px 10px;
+}
+.saswp-list-heading span:nth-child(1){
+    float: left;
+}
+.saswp-list-heading{
+    padding-top: 15px;
+}
+.saswp-list-heading span:nth-child(2){
+    float: right;
+}
+.saswp-list-heading span{
+    line-height: 0;
+}
+.saswp-close-div{
+    background-color: black;
+    height: 50px;
+}
+.saswp-close{    
+    float: right;
+}
+.saswp-close-div{
+    padding:10px;
+}
+.saswp-addschema-heading{
+    background-color: #7369cd;
+    padding: 30px;
+    display: flex;
+    width: 100%;
+}
+.saswp-list-grid i:nth-child(1), .saswp-list-grid .saswp-divider-vertical{
+    margin-right: 10px;
+}
+.saswp-list-grid{
+    display: inherit;
+    padding: 27px;
+    font-size: larger;
+}
+
+.saswp-addschema-heading-left, .saswp-addschema-heading-right{
+    width: 50%;
+}
+.saswp-addschema-heading-right{
+    text-align: center;
+}
+.saswp-add-card{
+    padding: 5px;
+    height: 290px; 
+    word-break: break-all;   
+}
+.saswp-add-card img{
+ width: 100%;  
+ cursor: pointer; 
+}
+.saswp-add-card h2{
+    text-align: center;  
+    margin-top:auto;
+    cursor: pointer;
+}
+.saswp-addschema-body-list{
+    padding: 10px;
+}
+.saswp-addschema-body-list ul{    
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    display: grid;
+    grid-gap: 7px;
+    margin: 0;
+}
+.saswp-single-header h3{
+    padding: 21px;
+}
+.saswp-single-header{
+    background: #ffffff;
+    height: 70px;
+    width: 100%;
+}
+.saswp-selected-place{
+    background: aqua; 
+    background: #e9f2ea;    
+    border-radius: 20px;
+    padding: 7px;
+    font-size: 12px;
+    color:#000000;
+    font-weight: 500;
+    box-shadow: green;
+    box-shadow: 0 1px 1px #c7ccc8;
+    margin: 4px;
+    display: inline-block;
+}
+.saswp-single-body .card{
+    max-width: 750px;
+}
+.saswp-publish-button{
+    margin: 10px;
+    float: right;
+}
+.saswp-remove-item{
+    cursor: pointer;
+}
+.saswp-single-header-left{
+    float: left;
+}
+.saswp-single-header-right{
+    float: right;
+    padding: 10px;
+}

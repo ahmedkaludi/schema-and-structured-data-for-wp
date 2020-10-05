@@ -2,6 +2,7 @@
        var saswp_meta_fields      = [];
        var saswp_meta_list_fields = []; 
        var saswp_taxonomy_term    = []; 
+       
        var saswp_collection       = [];
        var saswp_total_collection = [];
        var saswp_total_reviews     = [];

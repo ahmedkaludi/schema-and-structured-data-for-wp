@@ -686,7 +686,7 @@ function saswp_comparison_logic_checker($input){
 //Back End
 if(is_admin()){
          
-  //add_action( 'init', 'saswp_create_post_type' );
+  add_action( 'init', 'saswp_create_post_type' );
   
   function saswp_create_post_type() {
       

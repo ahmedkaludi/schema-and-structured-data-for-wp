@@ -5,13 +5,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class SASWP_Rest_Api {
                 
         private static $instance;   
-        private $api_service = null;        
+        private $api_service        = null; 
+        private $review_service     = null;        
+        
 
         private function __construct() {
             
             if($this->api_service == null){
                 require_once SASWP_DIR_NAME . '/admin/includes/rest-api-service.php';
                 $this->api_service = new SASWP_Rest_Api_Service();
+            }
+
+            if($this->review_service == null){
+                require_once SASWP_DIR_NAME.'/modules/reviews/reviews_service.php';
+                $this->review_service = new saswp_reviews_service();
             }
             
             
@@ -50,6 +57,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'get-collections-list', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getCollectionsList'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'get-migration-status', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getMigrationStatus'),
@@ -64,9 +78,9 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
-            register_rest_route( 'saswp-route', 'ad-more-action', array(
+            register_rest_route( 'saswp-route', 'more-action', array(
                 'methods'    => 'POST',
-                'callback'   => array($this, 'adMoreAction'),
+                'callback'   => array($this, 'moreAction'),
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
@@ -134,6 +148,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'get-collection-data-by-id', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getCollectionById'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'get-settings', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getSettings'),
@@ -144,6 +165,20 @@ class SASWP_Rest_Api {
             register_rest_route( 'saswp-route', 'get-condition-list', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getConditionList'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
+            register_rest_route( 'saswp-route', 'get-reviews-by-platform-id', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getReviewsByPlatformId'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            )); 
+            register_rest_route( 'saswp-route', 'get-collection-platforms-ids', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getCollectionPlatformsIds'),
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
@@ -249,8 +284,39 @@ class SASWP_Rest_Api {
 
         }
         public function getPlatforms($request){
-           $result =  saswp_get_terms_as_array();
-           return $result;
+
+            $platforms =  saswp_get_terms_as_array();
+
+            $parameters = $request->get_params();
+
+            if(isset($parameters['bystatus']) && $parameters['bystatus'] =='yes'){
+
+                $active_platform   = array();
+                $inactive_platform = array();
+                
+                if($platforms){
+
+                    global $wpdb;
+                        $exists_platforms = $wpdb->get_results("
+                        SELECT meta_value, count(meta_value) as meta_count FROM {$wpdb->postmeta} WHERE `meta_key`='saswp_review_platform' group by meta_value",
+                        ARRAY_A
+                        );
+
+                        foreach($platforms as $key => $val){
+                            if(in_array($key, array_column($exists_platforms, 'meta_value'))){                                   
+                                   $active_platform[$key] = $val;
+                            }else{                               
+                               $inactive_platform[$key] = $val;
+                            }
+                          }
+                 
+                          return array('active' => $active_platform, 'inactive' => $inactive_platform);
+                }
+
+            }else{
+                return $platforms;
+            }
+           
         }
         public function getPlugins($request){
 
@@ -405,12 +471,12 @@ class SASWP_Rest_Api {
             header( "Expires: 0" );
             return   $export_data_all;	                   
         }
-        public function adMoreAction($request){
+        public function moreAction($request){
 
             $response   = array();
             $parameters = $request->get_params();
             $action     = $parameters['action'];
-            $ad_id      = $parameters['ad_id'];
+            $ad_id      = $parameters['post_id'];
             $result     = null;
             
             if($action){
@@ -418,26 +484,26 @@ class SASWP_Rest_Api {
                 switch ($action) {
 
                     case 'publish':
-                        $result = $this->api_service->changeAdStatus($ad_id, 'publish');
+                        $result = $this->api_service->changePostStatus($ad_id, 'publish');
                         if($result){
                             $response = array('status'=> 't', 'msg' => 'Changed Successfully', 'data' => array());
                         }
                         break;
                     case 'draft':
-                        $result = $this->api_service->changeAdStatus($ad_id, 'draft');
+                        $result = $this->api_service->changePostStatus($ad_id, 'draft');
                         if($result){
                             $response = array('status'=> 't', 'msg' => 'Changed Successfully', 'data' => array());
                         }    
                         break;
                     case 'duplicate':
-                        $new_ad_id = $this->api_service->duplicateAd($ad_id);
+                        $new_ad_id = $this->api_service->duplicatePost($ad_id);
                         if($new_ad_id){
-                            $data     = $this->api_service->getAdById($new_ad_id);                            
+                            $data     = $this->api_service->getSchemaById($new_ad_id);                            
                             $response = array('status'=> 't', 'msg' => 'Duplicated Successfully', 'data' => $data);
                         }
                         break;
                     case 'delete':
-                        $result = $this->api_service->deleteAd($ad_id);
+                        $result = $this->api_service->deletePost($ad_id);
                         if($result){
                             $response = array('status'=> 't', 'msg' => 'Deleted Successfully', 'data' => array());
                         }
@@ -615,6 +681,64 @@ class SASWP_Rest_Api {
                 return  $response;
 
         }   
+
+        public function getCollectionPlatformsIds($request_data){
+
+            $parameters = $request_data->get_params();
+
+            $collection_id = intval($parameters['collection_id']);            
+
+            if($collection_id){
+                
+                $reviews_list = get_post_meta($collection_id, 'saswp_platform_ids', true);
+                
+            if($reviews_list){
+                
+                return array('status' => true, 'message'=> $reviews_list);
+                                                    
+            }else{
+                
+                return array('status' => false, 'message'=> 'Data not found');
+                
+            }
+                                            
+            }else{
+                
+                return array('status' => false, 'message'=> 'Collection id is missing');
+                
+            }                
+
+        }
+
+        public function getReviewsByPlatformId($request_data){
+
+            $parameters = $request_data->get_params();
+
+            $platform_id = intval($parameters['platform_id']);
+            $rvcount     = intval($parameters['rvcount']);
+
+
+            if($platform_id  && $rvcount){
+                                
+                $reviews_list = $this->review_service->saswp_get_reviews_list_by_parameters(null, $platform_id, $rvcount); 
+                
+            if($reviews_list){
+                
+                return array('status' => true, 'message'=> $reviews_list);
+                                                    
+            }else{
+                
+                return array('status' => false, 'message'=> 'Data not found');
+                
+            }
+                                            
+            }else{
+                
+                return array('status' => false, 'message'=> 'Platform id or review count is missing');
+                
+            }
+
+        }
         public function getConditionList($request_data){
 
             $response = array();
@@ -634,6 +758,20 @@ class SASWP_Rest_Api {
             return $response;
 
             
+        }
+        public function getCollectionById($request_data){
+
+            $response = array();
+
+            $parameters = $request_data->get_params();
+
+            if(isset($parameters['collection_id'])){
+                $response = $this->api_service->getCollectionById($parameters['collection_id']);
+            }else{
+                $response =  array('status' => '404', 'message' => 'Review id is required');
+            }
+            return $response;
+           
         }
         public function getReviewById($request_data){
 
@@ -729,6 +867,27 @@ class SASWP_Rest_Api {
             }
 
             return $response;
+        }
+
+        public function getCollectionsList(){
+
+            $search_param = '';
+            $rvcount      = 10;
+            $attr         = array();
+            $paged        =  1;
+            $offset       =  0;
+            $post_type    = 'saswp-collections';
+
+            if(isset($_GET['page'])){
+                $paged    = sanitize_text_field($_GET['page']);
+            }
+            
+            if(isset($_GET['search_param'])){
+                $search_param = sanitize_text_field($_GET['search_param']);
+            }            
+            $result = $this->api_service->getCollectionsList($post_type, $attr, $rvcount, $paged, $offset, $search_param);                       
+            return $result;
+
         }
 
         public function getReviewsList(){

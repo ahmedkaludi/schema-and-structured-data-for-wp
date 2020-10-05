@@ -1,0 +1,14 @@
+.saswp-schema-type-tabbar{
+    width: 100%;
+    display: flex;
+}
+.saswp-list-grid, .saswp-schema-type-tab, .saswp-search-box{
+    width: 33.3%;
+}
+.saswp-schema-type-tabbar{
+    background: white;   
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+.saswp-search-box .form-group{
+    padding-top: 18px;
+}

@@ -1,0 +1,68 @@
+.saswp-divider-vertical{
+border: 1px solid #eaedf3;
+height: 100%;
+width: fit-content;
+}
+.form-check.toggle .form-check-input:checked + .form-check-label:before {
+    background: var(--success) !important;
+    border-color: var(--success) !important;
+}
+
+.saswp-heading-top{
+display: inline-block;
+width: 100%;    
+}
+.saswp-heading-top div:nth-child(1){    
+position: relative;
+}
+.saswp-more-action{
+    position: relative;
+    cursor: pointer;
+}
+.saswp-date-container{
+position: relative;
+}
+.saswp-date-picker{
+position: absolute;
+}
+.saswp-table input{
+width: 100%;
+}
+.saswp-table select{
+width: 100%;
+}
+.saswp-table textarea{
+width: 100%;
+}
+.saswp-table{
+width:100%;
+}
+.saswp-table td{
+padding: 7px;
+vertical-align: top;
+}
+.saswp-heading-top div:nth-child(1) p{
+top: -8px;
+right: -60px;
+position: absolute;
+}
+.saswp-heading-top div:nth-child(1){
+float: left;
+}
+.saswp-heading-top div:nth-child(2){
+float: right;
+}
+.saswp-sub-menu{
+display:contents;  
+}
+.saswp-sub-menu li{
+padding-left:20px !important;
+}
+.saswp-upgrade-btn{
+margin-right: 15px !important;
+padding: 9px !important ;
+}
+ul *:not(:last-child),
+ol *:not(:last-child) {
+  margin-bottom: 0px !important; 
+}

@@ -1,0 +1,158 @@
+.saswp-top-header{
+    background: #fff;
+    height: 65px;
+    padding:10px;
+}
+.saswp-top-header .saswp-go-pro{
+    float: right;
+}
+.saswp-top-header-left{
+    float: left;
+}
+.card{
+    padding: 0px;
+}
+.saswp-settings-form-content .card{
+    max-width: 730px;
+}
+.saswp-settings-setup .saswp-setup{
+    float: right;
+}
+.saswp-compatibility-tab{
+    height: 65px;
+    width: 100%;
+}
+.saswp-compatibility-tab .tab-item{
+    width: 50%;
+}
+.saswp-save-settings-btn{
+    margin-top: 15px;
+    margin-left: 30px;
+}
+.saswp-support-section{
+    width:500px;
+}
+.saswp-support-section input{
+    width: 100%;
+    margin-top: 5px;
+}
+.saswp-support-section select{
+    width: 65%;
+    max-width: 65%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.saswp-support-section textarea{
+    width: 100%;
+    margin-top: 5px;
+    
+}
+.saswp-features-blocks{
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+.saswp-features-blocks li{
+    background: #fff;
+    padding: 25px;
+    border: 1px solid #d8d8d8;
+}
+.saswp-sts-btn{
+    box-sizing: border-box;
+    height: 52px;
+    margin-top: 20px;
+    padding: 6px 15px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.saswp-sts-txt{
+    font-size: 16px;
+    color: #000;
+}
+.saswp-ele-ic {
+    border-radius: 256px;
+    display: inline-block;
+    padding: 8px 10px 8px 10px;
+    width: 70px;
+    margin-right: 20px;
+    height: 70px;
+    float: left;
+}
+.saswp-ele-ic img {
+    width: 80%;
+    left: 10%;
+    position: relative;
+    top: 9%;
+}
+.saswp-sts-btn .saswp-sts-txt {
+    font-size: 16px;
+    color: #000;
+}
+.saswp-pre-ftrs-wrap{
+    padding:20px;
+}
+.saswp-tools-table{
+    width: 100%;
+}
+.saswp-translation-table{
+    width: 100%;    
+}
+.saswp-knowledge-table{
+    width: 100%;
+    padding: 5px;
+}
+.saswp-settings-large-icon{
+    font-size: 18px;
+    border: 1px solid #eaedf3;
+    border-radius: 28px;
+    padding: 8px;
+    margin: 10px;
+}
+.saswp-knowledge-table td{    
+    padding: 5px;    
+    vertical-align: top;
+}
+.saswp-knowledge-table tr td:nth-child(1) {
+    width: 39%;
+}
+.saswp-knowledge-table input{    
+    width: 100%;    
+}
+.saswp-knowledge-table select{    
+    width: 100%;    
+}
+.saswp-social-div{
+    padding-top: 5px;
+    padding-bottom: 5px; 
+}
+.saswp-social-div span{
+    padding-left: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.saswp-social-div input{
+    width: 70%;
+}
+.saswp-translation-table td{    
+    padding-top: 5px;
+}
+.saswp-tools-table td{
+    padding-top: 20px;
+}
+.saswp-migration-body{
+    display: grid;
+    padding: 12px 30px !important;
+}
+.saswp-migration-label{
+    float: left;
+}
+.saswp-migration-button{
+    float: right;
+}
+.modal-body{    
+    overflow-y: scroll;    
+    height: 400px;
+}

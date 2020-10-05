@@ -1,0 +1,33 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+
+.saswp-schema-pagination {
+    display: inline-block;  
+    background: white;
+    border: 1px solid var(--border-color-base);
+    border-radius: 4px;    
+    box-shadow: 0 8px 13px 0 rgba(0, 0, 0, 0.04);
+}
+
+.saswp-schema-pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.saswp-schema-pagination a.saswp-page-active {
+  background-color:#38b249;
+  color: white;
+}
+.saswp-list-pagination{
+  text-align: center;
+}
+.saswp-schema-pagination a:hover:not(.saswp-page-active) {background-color: #ddd;}

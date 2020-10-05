@@ -1,0 +1,208 @@
+.saswp-reviews-list-card{
+    margin-right: 20px;
+    max-width: inherit;
+}
+.saswp-review-card{
+    display: flex;
+    width: 100%;
+    padding: 16px 30px !important;
+}
+.saswp-review-card div:nth-child(1){
+    width: 3%;
+}
+.saswp-review-avatar{
+    width: 92%;
+}
+.avatar-text-bottom span{
+    padding-right: 20px;
+}
+.saswp-list-pagination{
+    margin-top:10px;
+}
+.saswp-reviews-list-body{
+    min-height: 80px;
+}
+.saswp-review-list-img{
+    width: 15px;
+}
+.saswp-collections-list-body .avatar-image-wrapper{
+    display: flex;
+}
+.saswp-collections-list-body  .collection-image2{
+    margin-left: -20px;
+}
+.saswp-collections-list-body  .collection-image3{
+    margin-left: -20px;
+}
+.saswp-collections-list-body .avatar-content{
+    margin-left: 52px;
+}
+/* Collection css starts here */
+
+.saswp-collection-body{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.saswp-collection-lp{
+    flex: 1 0 68%;
+    margin-right: 20px;
+    width: 68%;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    padding-bottom: 22px;
+}
+.saswp-collection-lp .card{
+    width: 100%;
+}
+.saswp-collection-container{
+    width: 100%;
+    display: inline-block;
+    padding-right: 20px;
+    padding-top:20px;
+    box-sizing: border-box;
+}
+.saswp-collection-title {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+.saswp-collection-settings{
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    flex: 1 0 27%;
+    height: 100%;
+    width: 28%;
+}
+.saswp-collection-settings ul{
+    margin: 0;
+    padding: 0px;
+}
+.saswp-sv-btn{
+    background: #f5f5f5;
+    padding: 8px 10px;
+    text-align: right;
+    width: 100%;
+    box-sizing: border-box;
+}
+.saswp-collection-settings ul li {
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+    position: relative;
+}
+.saswp-collection-settings ul li a {
+    padding: 12px 15px;
+    background: #fff;
+    color: #23282d;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 600;
+    transition: all 0.5s ease-in-out 0s;
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+}
+.saswp-collection-settings li a.saswp-accordion:after {
+    content: "\f140";
+    font: normal 20px/1 dashicons;
+    speak: none;
+    display: block;
+    position: absolute;
+    color: #72777c;
+    top: 13px;
+    right: 18px;
+}
+.saswp-collection-settings li a.saswp-accordion.active:after {
+    content: "\f142";
+    top: 13px;
+}
+.saswp-accordion.active + .saswp-accordion-panel {
+    border-top: 1px solid #ddd;
+}
+.saswp-accordion-panel {
+    padding: 15px 18px;
+    display: none;
+    background-color: white;
+    overflow: hidden;
+    border-top: 1px solid #ddd;
+}
+.saswp-plf-lst-rv-cnt {
+    display: inline-grid;
+    width: 100%;
+    flex-wrap: wrap;
+    grid-template-columns: 180px 57px 1fr;
+    grid-gap: 5px;
+}
+.saswp-platform-added-list {
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
+}
+.wp-admin .saswp-collection-settings select {
+    margin: 0px;
+    min-height: 30px;
+    max-height: 30px;
+    max-width: 100%;
+}
+.saswp-collection-settings ul li input {
+    width: 100%;
+}
+.saswp-collection-settings a.saswp-add-to-collection {
+    text-align: center;
+    height: 30px;
+    font-weight: normal;
+    position: relative;
+    top: 1px;
+    line-height: 27px;
+}
+.saswp-collection-settings a.saswp-add-to-collection {
+    text-align: center;
+    height: 30px;
+    font-weight: normal;
+    position: relative;
+    top: 1px;
+    line-height: 27px;
+}
+.saswp-dp-dsg {
+    display: inline-grid;
+    grid-template-columns: 1fr 2fr;
+    width: 100%;
+    grid-gap: 0px 5px;
+    align-items: center;
+    color: #666;
+}
+.wp-core-ui a.button.saswp-remove-platform:after {
+    content: "\f153";
+    display: block;
+    font: normal 16px/20px dashicons;
+}
+.wp-core-ui a.button.saswp-remove-platform {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin-left: 6px;
+    min-height: 0px;
+}
+.cancel-btn {
+    margin-right: 10px;
+    margin-bottom: 5px;
+    float: left;
+    display: inline-flex;
+}
+.saswp-collection-shortcode {
+    color: #555;
+    margin-top: 10px;
+    padding: 4px;
+    background: #f1f1f1;
+    display: inline-block;
+    border: 1px solid #ddd;
+}
+/* Collection css ends here */
+
