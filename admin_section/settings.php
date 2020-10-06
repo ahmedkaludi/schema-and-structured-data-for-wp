@@ -1582,6 +1582,12 @@ function saswp_import_callback(){
            $add_on[] = 'Cooked';           
                                       
         }
+
+        if(is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){
+                      
+                $add_on[] = 'Jobposting';           
+                                           
+        }
         
         if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
                       
@@ -1725,6 +1731,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                     $response.= '</div>';
                 
                }
+
+               if($label == true && $on == 'Jobposting'){
+                   
+                $response.= '<div class="" style="display:inline-block">';
+                $response.= '<strong>'.esc_html__('JobPosting Schema Compatibility','schema-and-structured-data-for-wp').'</strong>';
+                $response.= '</div>';
+            
+                }
                
                if($label == true && $on == 'Cs'){
                    
