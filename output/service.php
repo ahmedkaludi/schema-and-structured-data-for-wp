@@ -359,6 +359,7 @@ Class saswp_output_service{
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
                                                  
             $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);            
+            $allowed_html     = saswp_expanded_allowed_tags();
             $review_markup    = array();
             $review_response  = array();
             $main_schema_type = '';
@@ -3030,7 +3031,7 @@ Class saswp_output_service{
                      $input1['title'] =    $custom_fields['saswp_jobposting_schema_title'];
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_description'])){
-                     $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_jobposting_schema_description'] ));
+                     $input1['description'] =    wp_kses($custom_fields['saswp_jobposting_schema_description'], $allowed_html);
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_url'])){
                      $input1['url'] =    saswp_validate_url($custom_fields['saswp_jobposting_schema_url']);
