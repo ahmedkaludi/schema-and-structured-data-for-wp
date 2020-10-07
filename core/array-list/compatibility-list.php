@@ -565,6 +565,12 @@ return array(
                     'free'       => 'soledad',               
                     'opt_name'   => 'saswp-soledad',
                     'part_in'    => 'free',
+        ), 
+        'rannarecipe' => array(            
+            'name'       => 'Ranna - Food & Recipe',
+            'free'       => 'ranna',               
+            'opt_name'   => 'saswp-rannarecipe',
+            'part_in'    => 'free',
         ),  
         'wplms' => array(            
             'name'       => 'WPLMS',

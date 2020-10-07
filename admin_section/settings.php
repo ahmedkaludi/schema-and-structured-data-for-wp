@@ -2527,6 +2527,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-homeland]',                             
                         )
                 );
+        $ranna_recipe = array(
+                'label'  => 'Ranna - Food & Recipe',
+                'id'     => 'saswp-rannarecipe-checkbox',                        
+                'name'   => 'saswp-rannarecipe-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox', 
+                'note'   => saswp_get_field_note('rannarecipe'),
+                'hidden' => array(
+                        'id'   => 'saswp-rannarecipe',
+                        'name' => 'sd_data[saswp-rannarecipe]',                             
+                )
+        );        
         $ratency = array(
                 'label'  => 'Ratency - Review & Magazine Theme',
                 'id'     => 'saswp-ratency-checkbox',                        
@@ -3326,6 +3338,7 @@ function saswp_compatibility_page_callback(){
              $ht_recipes['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';
              $easyrecipe['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
              $total_recipe_generator['note']     = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
+             $ranna_recipe['note']               = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
              
          }
          
@@ -3373,6 +3386,7 @@ function saswp_compatibility_page_callback(){
                 $wp_tasty_recipe,
                 $wp_ultimate_recipe,
                 $zip_recipes,
+                $ranna_recipe,
                 $total_recipe_generator,
                 $easyrecipe,
                 $mediavine_create,
