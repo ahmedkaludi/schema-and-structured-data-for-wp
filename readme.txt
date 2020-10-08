@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 1.9.49
+Stable tag: 1.9.50
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.50 (08 Oct 2020) =
+
+* Fixed: Schema plugin option panel not saving if the Norebro theme is active #1212
+* Fixed: Duration is not detecting in the video object schema. #1202
+* Fixed: Display the right message after the user tries to fetch reviews.
+* Fixed: The field to enter the license key for the Job Posting schema plugin is not showing when it is active #1213
+* Fixed: HTML tags should not get strip form the description propety of the job posting schema type #1211
+* Fixed: Review count is showing as a minus value: Maximum Reviews Limits -10 #1201
+* Fixed: CLUTCH reviews - Displays message "Something went wrong while preparing database. #1198
+* Added: Compatibility with the "Ranna – Food & Recipe Blog Theme. #1206
 
 = 1.9.49 (03 Sept 2020) =
 
