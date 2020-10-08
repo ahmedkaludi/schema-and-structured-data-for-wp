@@ -2238,6 +2238,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_video_object_name'])){
                      $input1['name'] =    $custom_fields['saswp_video_object_name'];
+                    }
+                    if(isset($custom_fields['saswp_video_object_duration'])){
+                        $input1['duration'] =    $custom_fields['saswp_video_object_duration'];
                     }                    
                     if(isset($custom_fields['saswp_video_object_upload_date'])){
                      $input1['uploadDate'] =    $custom_fields['saswp_video_object_upload_date'];

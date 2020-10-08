@@ -3558,6 +3558,10 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
                 ),
         );
     
+    if(isset($all_post_meta['saswp_video_object_duration_'.$schema_id][0]) ) {
+        $input1['duration']   = $all_post_meta['saswp_video_object_duration_'.$schema_id][0];        
+    }    
+
     if(isset($all_post_meta['saswp_video_object_content_url_'.$schema_id][0]) && wp_http_validate_url($all_post_meta['saswp_video_object_content_url_'.$schema_id][0]) ) {
         $input1['contentUrl']   = $all_post_meta['saswp_video_object_content_url_'.$schema_id][0];        
     }
