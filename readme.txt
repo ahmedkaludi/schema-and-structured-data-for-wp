@@ -131,6 +131,10 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: CLUTCH reviews - Displays message "Something went wrong while preparing database. #1198
 * Added: Compatibility with the "Ranna – Food & Recipe Blog Theme. #1206
 
+= 1.9.49.1 (15 Sept 2020) =
+
+* Fixed: Image size smaller than recommended" warnings in search console for the version 1.9.48 and above. #1200
+
 = 1.9.49 (03 Sept 2020) =
 
 * Fixed: The property 0 is not recognized by Google for an object of type ImageObject. #1188
