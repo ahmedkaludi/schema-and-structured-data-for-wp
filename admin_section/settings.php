@@ -1582,6 +1582,12 @@ function saswp_import_callback(){
            $add_on[] = 'Cooked';           
                                       
         }
+
+        if(is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){
+                      
+                $add_on[] = 'Jobposting';           
+                                           
+        }
         
         if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
                       
@@ -1725,6 +1731,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                     $response.= '</div>';
                 
                }
+
+               if($label == true && $on == 'Jobposting'){
+                   
+                $response.= '<div class="" style="display:inline-block">';
+                $response.= '<strong>'.esc_html__('JobPosting Schema Compatibility','schema-and-structured-data-for-wp').'</strong>';
+                $response.= '</div>';
+            
+                }
                
                if($label == true && $on == 'Cs'){
                    
@@ -2513,6 +2527,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-homeland]',                             
                         )
                 );
+        $ranna_recipe = array(
+                'label'  => 'Ranna - Food & Recipe',
+                'id'     => 'saswp-rannarecipe-checkbox',                        
+                'name'   => 'saswp-rannarecipe-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox', 
+                'note'   => saswp_get_field_note('rannarecipe'),
+                'hidden' => array(
+                        'id'   => 'saswp-rannarecipe',
+                        'name' => 'sd_data[saswp-rannarecipe]',                             
+                )
+        );        
         $ratency = array(
                 'label'  => 'Ratency - Review & Magazine Theme',
                 'id'     => 'saswp-ratency-checkbox',                        
@@ -3312,6 +3338,7 @@ function saswp_compatibility_page_callback(){
              $ht_recipes['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';
              $easyrecipe['note']                 = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
              $total_recipe_generator['note']     = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
+             $ranna_recipe['note']               = esc_html__('This feature requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
              
          }
          
@@ -3359,6 +3386,7 @@ function saswp_compatibility_page_callback(){
                 $wp_tasty_recipe,
                 $wp_ultimate_recipe,
                 $zip_recipes,
+                $ranna_recipe,
                 $total_recipe_generator,
                 $easyrecipe,
                 $mediavine_create,
@@ -3721,12 +3749,15 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         if($saswp_metaboxes || $post_type == 'saswp' || $post_type == 'saswp-collections' || $post_type == 'saswp_reviews' || $hook == 'saswp_page_structured_data_options' || $hook == 'saswp_page_collection' ){
 
         //DIGINEX theme compatibility starts         
-        wp_dequeue_script( 'select2-js' );        
-        //DIGINEX theme compatibility ends                                         
+        wp_dequeue_script( 'select2-js' );                
+        //DIGINEX theme compatibility ends 
+        
+        wp_dequeue_script( 'select2' );
+        wp_deregister_script( 'select2' );
 
         wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
-        wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', array( 'jquery'), SASWP_VERSION, true);
-        wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', array( 'jquery' ), SASWP_VERSION, true);
+        wp_enqueue_script('select2', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', array( 'jquery'), SASWP_VERSION, true);
+        wp_enqueue_script('select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', array( 'jquery' ), SASWP_VERSION, true);
         	                                        
         }                
         

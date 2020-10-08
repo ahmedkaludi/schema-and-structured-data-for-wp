@@ -2946,7 +2946,10 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Duration',
                             'id' => 'saswp_video_object_duration_'.$schema_id,
-                            'type' => 'text'                            
+                            'type' => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'PT1H10M54S'
+                            )                                                         
                     ),    
                     array(
                             'label'   => 'Embed Url',

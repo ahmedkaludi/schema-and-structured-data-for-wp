@@ -329,7 +329,10 @@ if(!function_exists('saswp_aq_resize')) {
 		
 		}
 
-        }         
+        }
+        elseif( (function_exists('fifu_activate') || is_plugin_active('fifu-premium/fifu-premium.php')) && function_exists('fifu_amp_url')  ){
+            return fifu_amp_url($url, $width, $height); 
+        } 
         else {
             $aq_resize = Aq_Resize::getInstance();
             return $aq_resize->process( $url, $width, $height, $crop, $single, $upscale );
