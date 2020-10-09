@@ -816,6 +816,43 @@ class SASWP_Rest_Api_Service {
             
             return  $schema_id;
     }
+
+    public function updateCollection($parameters){
+
+      $post_meta          = $parameters['post_meta'];                                                                   
+      
+      $collection_id      = isset($parameters['collection_id']) ? $parameters['collection_id'] : '';                 
+            
+      $arg = array(
+          'post_title'   => $post_meta['saswp_collection_title'],
+          'post_name'    => $post_meta['saswp_collection_title'],
+          'post_status'  => 'publish',
+          'post_type'    => 'saswp-collections',
+      );
+                   
+      if($collection_id){                
+
+          $arg['post_id'] = $collection_id;
+          
+          @wp_update_post( $arg );                
+
+      }else{                
+        $collection_id = wp_insert_post( $arg );
+      }                        
+            
+      if($post_meta){
+          
+          foreach($post_meta as $key => $val){
+              
+              $filterd_meta = saswp_sanitize_post_meta($key, $val);
+
+              update_post_meta($collection_id, $key, $filterd_meta);
+          }                               
+      }
+      
+      return  $collection_id;
+      
+    }
     public function updateReview($parameters){
             
       $post_meta      = $parameters['post_meta'];                                                                   

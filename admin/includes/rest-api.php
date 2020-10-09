@@ -99,6 +99,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'update-collection', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'updateCollection'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'update-settings', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'updateSettings'),
@@ -989,7 +996,19 @@ class SASWP_Rest_Api {
             }else{
                 return array('status' => 'f', 'review_id' => null);
             }     
-        }      
+        }
+        
+        public function updateCollection($request_data){
+
+            $parameters         = $request_data->get_params();                                               
+            $collection_id      = $this->api_service->updateCollection($parameters);                       
+            
+            if($collection_id){
+                return array('status' => 't', 'collection_id' => $collection_id);
+            }else{
+                return array('status' => 'f', 'collection_id' => null);
+            }     
+        }
        
 }
 if(class_exists('SASWP_Rest_Api')){

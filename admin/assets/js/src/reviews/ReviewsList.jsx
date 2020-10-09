@@ -148,7 +148,7 @@ useEffect(() => {
                     <StarRatings                    
                       isSelectable ={true}
                       isAggregateRating={true}
-                      rating={Number(item.post_meta.saswp_review_rating)}
+                      rating={ (typeof(item.post_meta.saswp_review_rating) !== 'undefined') ? Number(item.post_meta.saswp_review_rating) : 0}
                       starRatedColor="#ffd700"
                       starHoverColor="#ffd700"                  
                       numberOfStars={5}

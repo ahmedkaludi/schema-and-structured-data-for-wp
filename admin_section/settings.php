@@ -167,7 +167,7 @@ function saswp_home_interface_render($hook){
         );
 
         
-        
+        wp_enqueue_media();        
         wp_enqueue_style('saswp-admin-style', SASWP_PLUGIN_URL.'admin/assets/js/dist/style.css');
         //wp_enqueue_style( 'saswp-admin-fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,700,300', false );
 

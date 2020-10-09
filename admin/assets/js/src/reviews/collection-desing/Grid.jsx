@@ -6,63 +6,6 @@ import Pagination from './../../common/pagination/pagination'
 
 const Grid = (props) => {
   
-  const [pagination, setPagination]           = useState(false);
-  const [postsCount, setPostsCount]           = useState(0);
-  const [pageCount, setPageCount]             = useState(1);
-  const [paginateClicked, setPaginateClicked] = useState(1);  
-  const [gridCol, setGridCol]                 = useState([]);
-
-
-  const handleGridPagination = (e) => {
-
-    e.preventDefault();      
-        
-    setPaginateClicked(e.currentTarget.dataset.id);    
-  
-  }
-
-  const handlePaginateAction = () => {
-
-      
-    let grid_col   = props.collectionArray;    
-    let per_page   = props.postMeta.saswp_collection_per_page;
-    let page_count = Math.ceil(props.collectionArray.length / per_page);  
-    let next_page  = per_page;
-    let offset     = 0;
-    let pagination = props.postMeta.saswp_collection_pagination;
-
-    
-    if(paginateClicked > 0){                        
-        next_page            = paginateClicked * per_page;                
-    } 
-
-    offset              = next_page - per_page;
-
-    if(pagination && per_page > 0){
-                               
-      grid_col = grid_col.slice(offset, next_page);
-      
-    }      
-        
-    setPagination(pagination);
-    setPostsCount(props.collectionArray.length);
-    setPageCount(page_count);
-    setGridCol(grid_col);
-    
-  }
-  
-  useEffect(() => {                               
-    
-    handlePaginateAction();
-    
-  },[]);
-  
-  useEffect(() => {                               
-    
-    handlePaginateAction();
-    
-  },[paginateClicked]);
-  
   const convertDateToString = (date_str) => {
            
     let date_time = {};
@@ -106,11 +49,11 @@ const templateColumns = () => {
   return (    
     <div>
         {          
-        gridCol ? 
+        props.gridCol ? 
             <div className="saswp-r1">    
             <ul style={templateColumns()}>    
                 {
-                    gridCol.map((value, i) => (
+                    props.gridCol.map((value, i) => (
                         
                         <li key={i}>               
                             <div className="saswp-rc">
@@ -138,9 +81,9 @@ const templateColumns = () => {
             
             </ul> 
 
-            {pagination ? 
+            {props.postMeta.saswp_collection_pagination ? 
             <div className="saswp-list-pagination">
-              <Pagination pageCount={pageCount} postsCount={postsCount} paginateClicked={paginateClicked} onPaginate = {handleGridPagination} />
+              <Pagination pageCount={props.pageCount} postsCount={props.postsCount} paginateClicked={props.paginateClicked} onPaginate = {props.handleGridPagination} />
             </div> : ''}
 
             </div> 
