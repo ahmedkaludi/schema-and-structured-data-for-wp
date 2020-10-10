@@ -50,7 +50,7 @@ function saswp_add_all_meta_boxes() {
                 esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
                 'saswp_schema_options_meta_box_callback',
                 'saswp',
-                'advanced',
+                'normal',
                 'low'
                 );
     add_meta_box( 
