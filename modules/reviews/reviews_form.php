@@ -227,7 +227,7 @@ class SASWP_Reviews_Form {
                 add_action( 'amp_post_template_data', array($this, 'saswp_reviews_form_amp_script'));  
                 
                 if($on_button){
-                    $form       .= '<div class="saswp-rv-form-btn"><span href="#" class="button button-default" on="tap:AMP.setState({ saswp_review_form_toggle: !saswp_review_form_toggle })" role="button" tabindex="1">'.saswp_label_text('translation-review-form').'</span></div>';
+                    $form       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default" on="tap:AMP.setState({ saswp_review_form_toggle: !saswp_review_form_toggle })" role="button" tabindex="1">'.saswp_label_text('translation-review-form').'</a></div>';
                 }
                 
                 $form   .= '<form   action-xhr="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'" [class]="saswp_review_form_toggle ? \'saswp-review-submission-form\' : \'saswp_hide saswp-review-submission-form\' ">';
