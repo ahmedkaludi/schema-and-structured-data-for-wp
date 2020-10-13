@@ -1027,6 +1027,15 @@ jQuery(document).ready(function($){
                               $("#saswp-yoast").val(0);           
                             }
                       break;
+
+                      case 'saswp-slimseo-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-slimseo").val(1);             
+                            }else{
+                              $("#saswp-slimseo").val(0);           
+                            }
+                      break;
                      
                      case 'saswp-rankmath-checkbox':
                           saswp_compatibliy_notes(current, id); 

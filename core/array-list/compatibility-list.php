@@ -416,6 +416,13 @@ return array(
                     'opt_name'   => 'saswp-yoast', 
                     'part_in'    => 'free',
         ),
+        'slimseo' => array(            
+            'name'       => 'Slim Seo',
+            'free'       => 'slim-seo/slim-seo.php',
+            'pro'        => 'slim-seo-premium/slim-seo-premium.php',
+            'opt_name'   => 'saswp-slimseo', 
+            'part_in'    => 'free',
+        ),
         'rank_math' => array(            
                     'name'       => 'Rank Math',
                     'free'       => 'seo-by-rank-math/rank-math.php',   

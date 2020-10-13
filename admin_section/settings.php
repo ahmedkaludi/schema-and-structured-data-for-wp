@@ -3154,7 +3154,19 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-yoast',
                                 'name' => 'sd_data[saswp-yoast]',                             
                         )
-		);
+                );
+        $slimseo      = array(
+                'label'   => 'Slim SEO',
+                'id'      => 'saswp-slimseo-checkbox',                        
+                'name'    => 'saswp-slimseo-checkbox',
+                'type'    => 'checkbox',
+                'note'   => saswp_get_field_note('slimseo'),
+                'class'   => 'checkbox saswp-checkbox',
+                'hidden'  => array(
+                        'id'   => 'saswp-slimseo',
+                        'name' => 'sd_data[saswp-slimseo]',                             
+                )
+        );        
         $rankmath      = array(
 			'label'   => 'Rank Math',
 			'id'      => 'saswp-rankmath-checkbox',                        
@@ -3370,6 +3382,7 @@ function saswp_compatibility_page_callback(){
                 $dwquestiton,
                 $sabaidiscuss,                
                 $yoast,
+                $slimseo,
                 $smart_crawl,
                 $seo_press,
                 $the_seo_framework,
