@@ -2979,9 +2979,7 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-the-events-calendar]',                             
                         )
 		);
-        
-        
-        
+                        
         $kk_star = array(
 			'label'  => 'kk Star Ratings',
 			'id'     => 'saswp-kk-star-raring-checkbox',                        
@@ -2994,6 +2992,20 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-kk-star-raring]',                             
                         )
                 );
+
+        $wpdiscuz = array(
+                'label'  => 'Comments – wpDiscuz',
+                'id'     => 'saswp-wpdiscuz-checkbox',                        
+                'name'   => 'saswp-wpdiscuz-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpdiscuz'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpdiscuz',
+                        'name' => 'sd_data[saswp-wpdiscuz]',                             
+                )
+        );
+
         $yasr = array(
 			'label'  => 'Yet Another Stars Rating',
 			'id'     => 'saswp-yet-another-stars-rating-checkbox',                        
@@ -3364,6 +3376,7 @@ function saswp_compatibility_page_callback(){
                 $wpamp,
                 $ampwp,
                 $kk_star,
+                $wpdiscuz,
                 $yasr,
                 $wp_customer_review,
                 $simple_author_box,  

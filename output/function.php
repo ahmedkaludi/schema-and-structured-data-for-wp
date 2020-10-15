@@ -893,6 +893,45 @@ function saswp_extract_yet_another_stars_rating(){
 }
 
 /**
+ * Extracting the value of wpdiscuz plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
+function saswp_extract_wpdiscuz(){
+        
+    global $sd_data, $post;    
+    $star_rating = array();
+
+    if(isset($sd_data['saswp-wpdiscuz']) && $sd_data['saswp-wpdiscuz'] == 1 && is_plugin_active('wpdiscuz/class.WpdiscuzCore.php') ){
+           
+        $rating = (float) get_post_meta($post->ID, 'wpdiscuz_post_rating', true);
+        $count = (int) get_post_meta($post->ID, 'wpdiscuz_post_rating_count', true);
+         
+        if($rating){
+           
+            $star_rating['@type']        = 'AggregateRating';
+            $star_rating['bestRating']   = 5;
+            $star_rating['worstRating']  = 1;            
+            $star_rating['ratingCount'] = $count;
+            $star_rating['ratingValue'] = $rating;                                                           
+            
+            return $star_rating;
+            
+        }else{
+            
+            return array();    
+            
+        }
+        
+    }else{
+        
+        return array();
+        
+    }                        
+}
+
+/**
  * Extracting the value of star ratings plugins on current post
  * @global type $sd_data
  * @param type $id

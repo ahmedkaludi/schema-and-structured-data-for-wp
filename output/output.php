@@ -1791,7 +1791,7 @@ function saswp_schema_output() {
                         
                         if(!in_array($schema_type, $without_aggregate)){ 
                                                      
-                            
+                                
                                     if($schema_type == 'Review'){
 
                                     //Ratency Rating 
@@ -1825,6 +1825,13 @@ function saswp_schema_output() {
                                         $input1['itemReviewed']['aggregateRating'] = $kkstar_aggregateRating; 
                                     }
 
+                                    //Comments – wpDiscuz 
+                                    $wpdiscuz_aggregateRating = saswp_extract_wpdiscuz();
+
+                                    if(!empty($wpdiscuz_aggregateRating)){
+                                        $input1['aggregateRating'] = $wpdiscuz_aggregateRating; 
+                                    }
+                                    
                                     //wp post-rating star rating 
 
                                     $wp_post_rating_ar = saswp_extract_wp_post_ratings();
@@ -1895,6 +1902,13 @@ function saswp_schema_output() {
 
                                         if(!empty($kkstar_aggregateRating)){
                                             $input1['aggregateRating'] = $kkstar_aggregateRating; 
+                                        }
+
+                                        //Comments – wpDiscuz 
+                                        $wpdiscuz_aggregateRating = saswp_extract_wpdiscuz();
+                                        
+                                        if(!empty($wpdiscuz_aggregateRating)){
+                                            $input1['aggregateRating'] = $wpdiscuz_aggregateRating; 
                                         }
 
                                         //wp post-rating star rating 

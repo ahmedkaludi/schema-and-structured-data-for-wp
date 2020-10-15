@@ -938,6 +938,17 @@ jQuery(document).ready(function($){
                               $("#saswp-kk-star-raring").val(0);           
                             }
                       break;
+
+                      case 'saswp-wpdiscuz-checkbox':
+                          
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpdiscuz").val(1);             
+                            }else{
+                              $("#saswp-wpdiscuz").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp-yet-another-stars-rating-checkbox':
                           
                           saswp_compatibliy_notes(current, id); 

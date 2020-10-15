@@ -219,7 +219,7 @@ class saswp_output_compatibility{
         remove_action('wp_head', 'Bhittani\StarRating\structured_data');
                         
     }
-
+    
     public function saswp_geodirectory_override(){                
         remove_action( 'wp_head', array( 'GeoDir_Post_Data', 'schema' ), 10 );                         
     }
@@ -347,6 +347,9 @@ class saswp_output_compatibility{
     }
     public function kk_star_ratings_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-kk-star-raring');
+    }
+    public function wpdiscuz_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpdiscuz');
     }
     public function easy_testimonials_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-easy-testimonials');
