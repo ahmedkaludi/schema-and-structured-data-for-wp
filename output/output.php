@@ -161,7 +161,7 @@ function saswp_schema_output() {
         $modified_date 	    = get_the_modified_date("c");        
         $modify_option      = get_option('modify_schema_post_enable_'.get_the_ID()); 
         $schema_enable      = get_post_meta(get_the_ID(), 'saswp_enable_disable_schema', true); 
-        $all_post_meta      = get_post_meta(get_the_ID(), $key='', true);
+        $all_post_meta      = get_post_meta(get_the_ID(), $key='', true);        
         $default_logo       = $service_object->saswp_get_publisher(true);
         $publisher          = $service_object->saswp_get_publisher();
         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
@@ -176,9 +176,10 @@ function saswp_schema_output() {
                             $schema_options = $schemaConditionals['schema_options'];
                         }   
 
-                        $schema_type      = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
-                        $schema_post_id   = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
-
+                        $schema_type        = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
+                        $schema_post_id     = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
+                        $enable_videoobject = get_post_meta($schema_post_id, 'saswp_enable_videoobject', true);
+                        
                         $input1         = array();
                         $logo           = ''; 
                         $height         = '';
@@ -197,7 +198,7 @@ function saswp_schema_output() {
                         }                                                                   				   		                                                                                           		                        
 			                                                                                              
                         $modified_schema    = get_post_meta(get_the_ID(), 'saswp_modify_this_schema_'.$schema_post_id, true);
-                                                                        
+                                                                            
                         if($modify_option == 'enable' && (isset($schema_enable[$schema_post_id]) && $schema_enable[$schema_post_id] == 1)){
                      
                             $modified_schema = 1;  
@@ -1667,6 +1668,15 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_video_object_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }                                
+
+                                if(isset($enable_videoobject) && $enable_videoobject == 1){
+                                    
+                                    if(!isset($input1['contentUrl']) || $input1['contentUrl'] == ''){
+                                        $input1 = array();
+                                    }
+
+                                }
+
                             break;
                         
                             case 'ImageObject':
@@ -1789,9 +1799,9 @@ function saswp_schema_output() {
                         
                         global $without_aggregate;
                         
-                        if(!in_array($schema_type, $without_aggregate)){ 
+                        if(!in_array($schema_type, $without_aggregate) && !empty($input1) ){ 
                                                      
-                            
+                                
                                     if($schema_type == 'Review'){
 
                                     //Ratency Rating 
@@ -1825,6 +1835,13 @@ function saswp_schema_output() {
                                         $input1['itemReviewed']['aggregateRating'] = $kkstar_aggregateRating; 
                                     }
 
+                                    //Comments – wpDiscuz 
+                                    $wpdiscuz_aggregateRating = saswp_extract_wpdiscuz();
+
+                                    if(!empty($wpdiscuz_aggregateRating)){
+                                        $input1['aggregateRating'] = $wpdiscuz_aggregateRating; 
+                                    }
+                                    
                                     //wp post-rating star rating 
 
                                     $wp_post_rating_ar = saswp_extract_wp_post_ratings();
@@ -1895,6 +1912,13 @@ function saswp_schema_output() {
 
                                         if(!empty($kkstar_aggregateRating)){
                                             $input1['aggregateRating'] = $kkstar_aggregateRating; 
+                                        }
+
+                                        //Comments – wpDiscuz 
+                                        $wpdiscuz_aggregateRating = saswp_extract_wpdiscuz();
+                                        
+                                        if(!empty($wpdiscuz_aggregateRating)){
+                                            $input1['aggregateRating'] = $wpdiscuz_aggregateRating; 
                                         }
 
                                         //wp post-rating star rating 

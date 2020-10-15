@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 1.9.50
+Stable tag: 1.9.51
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.51 (15 Oct 2020) =
+
+* Added: Option to show VideoObject json-LD, Only if video is available on the post #1197
+* Added: Compatibility with Slim SEO ( https://wordpress.org/plugins/slim-seo/ ) #1214
+* Added: Compatibility with Comments – wpDiscuz ( https://wordpress.org/plugins/wpdiscuz/ ) #1203
+* Fixed: Facebook user profile picture not showing  #1170
+* Fixed: The attribute 'href' may not appear in tag 'span' validation issue when the "Show form on button tap" shortcode is enabled #1192
+* Fixed: The Paywall functionality of the NewsArticle schema is not updating if the ACF Pro plugin is active #1195
+
 
 = 1.9.50 (08 Oct 2020) =
 

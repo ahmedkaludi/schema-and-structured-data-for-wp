@@ -50,7 +50,7 @@ function saswp_add_all_meta_boxes() {
                 esc_html__( 'Advance Schema Options', 'schema-and-structured-data-for-wp' ),
                 'saswp_schema_options_meta_box_callback',
                 'saswp',
-                'advanced',
+                'normal',
                 'low'
                 );
     add_meta_box( 
@@ -152,6 +152,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $append_reviews    = get_post_meta($post->ID, 'saswp_enable_append_reviews', true);
                         $event_type        = get_post_meta($post->ID, 'saswp_event_type', true);                         
                         $speakable         = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
+                        $enable_videoobject= get_post_meta($post->ID, 'saswp_enable_videoobject', true);
                         $item_list_enable  = get_post_meta($post->ID, 'saswp_enable_itemlist_schema', true);
                         $item_list_tags    = get_post_meta($post->ID, 'saswp_item_list_tags', true);
                         $item_list_custom  = get_post_meta($post->ID, 'saswp_item_list_custom', true);
@@ -635,7 +636,16 @@ function saswp_schema_type_meta_box_callback( $post) {
                       <input class="saswp-enable-speakable" type="checkbox" name="saswp_enable_speakable_schema" value="1" <?php if(isset($speakable) && $speakable == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
                    </td>
                 </tr>
-                                
+
+                <tr>
+                   <td>
+                       <label for="saswp-enable-markup"><?php echo esc_html__( 'Show Json-LD, Only if video is available' ,'schema-and-structured-data-for-wp');?></label>
+                   </td>
+                   <td>
+                      <input id="saswp-enable-markup" class="saswp-enable-markup-class" type="checkbox" name="saswp_enable_videoobject" value="1" <?php if(isset($enable_videoobject) && $enable_videoobject == 1){echo 'checked'; }else{ echo ''; } ?> >
+                   </td>
+                </tr>           
+
                 <tr>
                    <td>
                        <label for="saswp-append-reviews"><?php echo esc_html__('Add Reviews' ,'schema-and-structured-data-for-wp');?></label>
@@ -1200,6 +1210,11 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                     update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
                 }else{
                     update_post_meta( $post_id, 'saswp_enable_speakable_schema', '0' );                                                                       
+                }
+                if(isset($_POST['saswp_enable_videoobject'])){
+                    update_post_meta( $post_id, 'saswp_enable_videoobject', intval($_POST['saswp_enable_videoobject']) );                                                                       
+                }else{
+                    update_post_meta( $post_id, 'saswp_enable_videoobject', '0' );                                                                       
                 }
 
                 if(isset($_POST['saswp_enable_append_reviews'])){

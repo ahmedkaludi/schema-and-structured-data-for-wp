@@ -219,7 +219,7 @@ class saswp_output_compatibility{
         remove_action('wp_head', 'Bhittani\StarRating\structured_data');
                         
     }
-
+    
     public function saswp_geodirectory_override(){                
         remove_action( 'wp_head', array( 'GeoDir_Post_Data', 'schema' ), 10 );                         
     }
@@ -263,7 +263,7 @@ class saswp_output_compatibility{
         add_filter('wpseo_json_ld_output', '__return_false');         
         $this->saswp_remove_yoast_product_schema();                
     }
-    
+        
     public function saswp_the_seo_framework_override(){        
         
         add_filter('the_seo_framework_receive_json_data', '__return_null');
@@ -348,6 +348,9 @@ class saswp_output_compatibility{
     public function kk_star_ratings_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-kk-star-raring');
     }
+    public function wpdiscuz_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpdiscuz');
+    }
     public function easy_testimonials_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-easy-testimonials');
     }
@@ -431,6 +434,9 @@ class saswp_output_compatibility{
     }
     public function yoast_seo_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-yoast');
+    }
+    public function slimseo_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-slimseo');
     }
     public function rank_math_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-rankmath');
@@ -621,4 +627,18 @@ class saswp_output_compatibility{
 if(class_exists('saswp_output_compatibility')){
    $obj_compatibility =  new saswp_output_compatibility();
    $obj_compatibility->saswp_service_compatibility_hooks();
+}
+
+//Remove Slim seo schema 
+
+add_action('slim_seo_init', 'saswp_override_slim_seo',1,10);
+
+function saswp_override_slim_seo($plugin){
+
+    global $sd_data;
+
+    if( isset($sd_data['saswp-slimseo']) && $sd_data['saswp-slimseo'] == 1){
+        $plugin->disable( 'schema' );
+    }
+
 }

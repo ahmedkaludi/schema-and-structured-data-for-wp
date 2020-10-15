@@ -278,6 +278,12 @@ return array(
                     'opt_name'   => 'saswp-kk-star-raring',
                     'part_in'    => 'free',
         ),
+        'wpdiscuz'  =>  array(            
+            'name'       => 'Comments – wpDiscuz',
+            'free'       => 'wpdiscuz/class.WpdiscuzCore.php',            
+            'opt_name'   => 'saswp-wpdiscuz',
+            'part_in'    => 'free',
+        ),
         'easy_testimonials'  =>  array(            
                     'name'       => 'Easy Testimonials',
                     'free'       => 'easy-testimonials/easy-testimonials.php',            
@@ -415,6 +421,13 @@ return array(
                     'pro'        => 'wordpress-seo-premium/wp-seo-premium.php',
                     'opt_name'   => 'saswp-yoast', 
                     'part_in'    => 'free',
+        ),
+        'slimseo' => array(            
+            'name'       => 'Slim Seo',
+            'free'       => 'slim-seo/slim-seo.php',
+            'pro'        => 'slim-seo-premium/slim-seo-premium.php',
+            'opt_name'   => 'saswp-slimseo', 
+            'part_in'    => 'free',
         ),
         'rank_math' => array(            
                     'name'       => 'Rank Math',

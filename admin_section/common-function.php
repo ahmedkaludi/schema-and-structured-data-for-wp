@@ -2039,6 +2039,16 @@ if ( ! defined('ABSPATH') ) exit;
             }
 
         }
+
+        if(saswp_remove_warnings($sd_data, 'saswp-slimseo', 'saswp_string') == 1){
+
+            $slim_seo = get_post_meta( $post->ID, 'slim_seo', true );
+            
+            if(isset($slim_seo['description']) && $slim_seo['description'] != ''){
+                $excerpt = $slim_seo['description'];
+            }
+
+        }
         
         if(saswp_remove_warnings($sd_data, 'saswp-smart-crawl', 'saswp_string') == 1){
                             
@@ -2251,6 +2261,18 @@ if ( ! defined('ABSPATH') ) exit;
                                                                             
         }
         
+        //Slim Seo
+        if(saswp_remove_warnings($sd_data, 'saswp-slimseo', 'saswp_string') == 1){
+                          
+            
+            $slim_seo = get_post_meta( $post->ID, 'slim_seo', true );
+            
+            if(isset($slim_seo['title']) && $slim_seo['title'] != ''){
+                $title = $slim_seo['title'];
+            }
+            
+        }
+
         //The seo framework
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                           
@@ -2969,6 +2991,7 @@ function saswp_get_field_note($pname){
             'cooked'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
             'the_events_calendar'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
             'yoast_seo'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
+            'slimseo'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/slim-seo/">Slim SEO</a>',
             'rank_math'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
             'dw_qna'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
             'sabaidiscuss'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://sabaidiscuss.com">SabaiDiscuss</a>',
