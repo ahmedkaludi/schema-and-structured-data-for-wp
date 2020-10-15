@@ -513,12 +513,18 @@ jQuery(document).ready(function($){
            || schematype == 'Review'
 
            ){
-
+                        
             $(".saswp-enable-append-reviews").parent().parent().show();
         }else{
             $(".saswp-enable-append-reviews").parent().parent().hide();
         }
 
+
+        if(schematype == 'VideoObject'){
+          $(".saswp-enable-markup-class").parent().parent().show();
+        }else{
+          $(".saswp-enable-markup-class").parent().parent().hide();
+        }
 
         if(schematype == 'local_business'){
          $(".saswp-option-table-class tr").eq(1).show();   
@@ -625,6 +631,12 @@ jQuery(document).ready(function($){
                 $(".saswp-enable-append-reviews").parent().parent().show();
             }else{
                 $(".saswp-enable-append-reviews").parent().parent().hide();
+            }
+            
+            if(schematype == 'VideoObject'){
+              $(".saswp-enable-markup-class").parent().parent().show();
+            }else{
+              $(".saswp-enable-markup-class").parent().parent().hide();
             }
             
             if(schematype == 'local_business'){
