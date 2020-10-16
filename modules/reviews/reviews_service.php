@@ -634,7 +634,8 @@ class saswp_reviews_service {
               'saswp_review_link',
               'saswp_review_platform',
               'saswp_review_platform_icon',
-              'saswp_review_platform_name',   
+              'saswp_review_platform_name',
+              'saswp_review_location_id'   
             );
              
              $service_object     = new saswp_output_service();
@@ -785,8 +786,18 @@ class saswp_reviews_service {
                 }                               
                
                foreach ($collection as $value){
-
+                        
                        $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
+                    
+                       $review_link = $value['saswp_review_link'];
+
+                       if($value['saswp_review_platform_name'] == 'Avvo' && $review_link == ''){
+                        
+                            $review_link = $value['saswp_review_location_id'].'#client_reviews';
+
+                       }
+
+
                        $html .= '<li>';                       
                        $html .= '<div class="saswp-rc">';
                        $html .= '<div class="saswp-rc-a">';
@@ -794,7 +805,7 @@ class saswp_reviews_service {
                        $html .= '<img loading="lazy" src="'.esc_url($value['saswp_reviewer_image']).'" width="56" height="56"/>';
                        $html .= '</div>';
                        $html .= '<div class="saswp-rc-nm">';
-                       $html .= '<a target="_blank" href="'.esc_url($value['saswp_review_link']).'">'.esc_attr($value['saswp_reviewer_name']).'</a>';
+                       $html .= '<a target="_blank" href="'.esc_url($review_link).'">'.esc_attr($value['saswp_reviewer_name']).'</a>';
                        $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);                       
                        $html .= '<span class="saswp-rc-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
                        $html .= '</div>';
@@ -848,7 +859,15 @@ class saswp_reviews_service {
     }
     
     public function  saswp_review_desing_for_slider($value){
-                        
+        
+                $review_link = $value['saswp_review_link'];
+
+                if($value['saswp_review_platform_name'] == 'Avvo' && $review_link == ''){
+                
+                    $review_link = $value['saswp_review_location_id'].'#client_reviews';
+
+                }
+        
                 $html = '';
                 $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
                 
@@ -873,7 +892,7 @@ class saswp_reviews_service {
                 $html .= '<div class="saswp-rc-a">';
                 $html .= '<img loading="lazy" src="'.esc_url($value['saswp_reviewer_image']).'"/>';
                 $html .= '<div class="saswp-rc-nm">';
-                $html .= '<a target="_blank" href="'.esc_url($value['saswp_review_link']).'">'. esc_attr($value['saswp_reviewer_name']).'</a>';
+                $html .= '<a target="_blank" href="'.esc_url($review_link).'">'. esc_attr($value['saswp_reviewer_name']).'</a>';
                 $html .= '<span class="saswp-rc-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
                 $html .= '</div>';
                 $html .= '</div>';
