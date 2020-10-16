@@ -3909,3 +3909,27 @@ function saswp_get_image_size_url( $image_id, $size = 'full', $image_sizes = arr
 
     return $image_url;
 }
+
+function saswp_area_served_expload ($data) {
+
+    $response = array();
+
+    if($data){
+
+        $area_served = explode(',', $data);
+
+        if($area_served){
+
+            foreach ($area_served as  $value) {
+                $response[] = array(
+                '@type' => 'Place',
+                'name'  => $value
+            );      
+            }
+            
+        }
+
+    }
+    
+    return $response;
+}

@@ -1174,12 +1174,8 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                   $input1['servesCuisine'] = esc_attr($all_post_meta['local_serves_cuisine_'.$schema_id][0]);   
                 }
                 
-                if(isset($all_post_meta['local_area_served_'.$schema_id][0])){
-                    
-                  $area_served = explode(',', $all_post_meta['local_area_served_'.$schema_id][0]);
-                  
-                  $input1['areaServed'] = $area_served;   
-                  
+                if(isset($all_post_meta['local_area_served_'.$schema_id][0])){                    
+                    $input1['areaServed'] = saswp_area_served_expload( $all_post_meta['local_area_served_'.$schema_id][0] );                                                       
                 }
                
                 //social fields starts here

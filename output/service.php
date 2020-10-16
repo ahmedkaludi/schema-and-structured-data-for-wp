@@ -1221,7 +1221,7 @@ Class saswp_output_service{
                      $input1['openingHours'] =    $custom_fields['saswp_dayofweek'];
                     }                    
                     if(isset($custom_fields['local_area_served'])){                         
-                     $input1['areaServed'] =    $custom_fields['local_area_served'];                     
+                     $input1['areaServed'] =    saswp_area_served_expload($custom_fields['local_area_served']);                     
                     }                    
                     if(isset($custom_fields['local_price_range'])){
                      $input1['priceRange'] =    $custom_fields['local_price_range'];
@@ -2208,7 +2208,7 @@ Class saswp_output_service{
                       $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_service_schema_description'] ));
                     }
                     if(isset($custom_fields['saswp_service_schema_area_served'])){
-                      $input1['areaServed'] =    $custom_fields['saswp_service_schema_area_served'];
+                      $input1['areaServed'] =    saswp_area_served_expload($custom_fields['saswp_service_schema_area_served']);
                     }
                     if(isset($custom_fields['saswp_service_schema_service_offer'])){
                       $input1['hasOfferCatalog'] =    $custom_fields['saswp_service_schema_service_offer'];
