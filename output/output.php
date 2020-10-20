@@ -470,7 +470,7 @@ function saswp_schema_output() {
                                     $input1 = array_merge($input1, $woo_markp);
                                 }
 
-                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13']);
+                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13'], $input1['gtin12']);
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 
@@ -1133,7 +1133,7 @@ function saswp_schema_output() {
                                     $input1 = array_merge($input1, $woo_markp);
                                 }
                                                                 
-                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13']);
+                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13'], $input1['gtin12']);
                                 
                                 if(!empty($publisher)){                            
                                      $input1 = array_merge($input1, $publisher);                            
@@ -1178,7 +1178,7 @@ function saswp_schema_output() {
                                     $input1 = array_merge($input1, $woo_markp);
                                 }
                                                                 
-                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13']);
+                                unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13'], $input1['gtin12']);
                                 
                                 if(!empty($publisher)){                            
                                      $input1 = array_merge($input1, $publisher);                            
