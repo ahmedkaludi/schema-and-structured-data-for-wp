@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 1.9.51
+Stable tag: 1.9.52
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.52 (26 Oct 2020) =
+
+* Fixed: When city names added manually by separating with comma, in store schema, in output of schema markup all city name are showing as one value in areaServed property #1217
+* Fixed: Item list schema is getting generated on the product category pages even though the Archive option is unchecked. we need to connect it to that option. #1177
+* Fixed: When we click on avvo icon it redirecting to homepage (Reviews for Schema). #1216
+* Fixed: Fatal error: Uncaught Error: Call to undefined function mptt_get_event_data () #1222
+* Fixed: User ID Missing issue when fetching the "AVVO" reviews. #1187
+* Added: gtin12 property in product schema #1054
+
 
 = 1.9.51 (15 Oct 2020) =
 
