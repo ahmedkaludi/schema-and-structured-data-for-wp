@@ -3171,7 +3171,7 @@ function saswp_current_user_allowed(){
 
             $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
         
-            if( !empty($hasrole)){ 
+            if( !empty($hasrole)){                                     
                 return reset($hasrole);
             }
 
