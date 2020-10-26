@@ -874,6 +874,9 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             if(isset($all_post_meta['saswp_product_schema_gtin13_'.$schema_id])){
                 $input1['gtin13'] = esc_attr($all_post_meta['saswp_product_schema_gtin13_'.$schema_id][0]);  
             }
+            if(isset($all_post_meta['saswp_product_schema_gtin12_'.$schema_id])){
+                $input1['gtin12'] = esc_attr($all_post_meta['saswp_product_schema_gtin12_'.$schema_id][0]);  
+            }
             if(isset($all_post_meta['saswp_product_schema_mpn_'.$schema_id])){
               $input1['mpn'] = esc_attr($all_post_meta['saswp_product_schema_mpn_'.$schema_id][0]);  
             }
@@ -1174,12 +1177,8 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                   $input1['servesCuisine'] = esc_attr($all_post_meta['local_serves_cuisine_'.$schema_id][0]);   
                 }
                 
-                if(isset($all_post_meta['local_area_served_'.$schema_id][0])){
-                    
-                  $area_served = explode(',', $all_post_meta['local_area_served_'.$schema_id][0]);
-                  
-                  $input1['areaServed'] = $area_served;   
-                  
+                if(isset($all_post_meta['local_area_served_'.$schema_id][0])){                    
+                    $input1['areaServed'] = saswp_area_served_expload( $all_post_meta['local_area_served_'.$schema_id][0] );                                                       
                 }
                
                 //social fields starts here
