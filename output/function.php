@@ -1064,6 +1064,7 @@ function saswp_get_comments($post_id){
                 
         $comments[] = array (
                 '@type'       => 'Comment',
+                'id'          => trailingslashit(get_permalink()).'comment-'.$comment->comment_ID,
                 'dateCreated' => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
                 'description' => strip_tags($comment->comment_content),
                 'author'      => array (
