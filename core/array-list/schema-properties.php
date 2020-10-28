@@ -355,6 +355,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),     
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_blogposting_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )                        
+                   ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_blogposting_author_name_'.$schema_id,
                             'type' => 'text',
@@ -495,6 +504,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_permalink()
                     ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_newsarticle_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_newsarticle_author_name_'.$schema_id,
                             'type' => 'text',
@@ -608,6 +626,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
                       ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_webpage_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_webpage_author_name_'.$schema_id,
                             'type' => 'text',
@@ -706,6 +733,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_article_date_modified_'.$schema_id,
                                 'type' => 'text',
                                 'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_article_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
                         ),
                         array(
                                 'label' => 'Author Name',
@@ -839,6 +875,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id' => 'saswp_special_announcement_image_'.$schema_id,
                                         'type' => 'media'                            
                                 ),                    
+                                array(
+                                        'label'   => 'Author Type',
+                                        'id'      => 'saswp_special_announcement_author_type_'.$schema_id,
+                                        'type'    => 'select',
+                                        'options' => array(
+                                                'Person'           => 'Person',
+                                                'Organization'     => 'Organization',                        
+                                )
+                                ),
                                 array(
                                         'label' => 'Author Name',
                                         'id' => 'saswp_special_announcement_author_name_'.$schema_id,
@@ -1177,6 +1222,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_tech_article_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_tech_article_author_name_'.$schema_id,
                             'type' => 'text',
@@ -1207,10 +1261,9 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
                     ),
                     array(
-                        'label' => 'Speakable',
-                        'id' => 'saswp_tech_article_speakable_'.$schema_id,
-                        'type' => 'checkbox',
-
+                            'label' => 'Speakable',
+                            'id' => 'saswp_tech_article_speakable_'.$schema_id,
+                            'type' => 'checkbox'
                     )                        
                     );
                     break;
@@ -1356,6 +1409,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_dfp_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_dfp_author_name_'.$schema_id,
                             'type' => 'text',
@@ -1431,6 +1493,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_recipe_main_entity_'.$schema_id,
                             'type' => 'text',
                             'default' => get_permalink()
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_recipe_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label' => 'Author Name',
@@ -1902,6 +1973,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                 'id'         => 'saswp_audiobook_date_modified_'.$schema_id,
                                                 'type'       => 'text',
                                                 'default'    => get_the_modified_date("Y-m-d")                            
+                                        ),
+                                        array(
+                                                'label'   => 'Author Type',
+                                                'id'      => 'saswp_audiobook_author_type_'.$schema_id,
+                                                'type'    => 'select',
+                                                'options' => array(
+                                                        'Person'           => 'Person',
+                                                        'Organization'     => 'Organization',                        
+                                                )
                                         ),
                                         array(
                                                 'label'   => 'Author Name',
@@ -2728,6 +2808,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_audio_schema_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_audio_schema_author_name_'.$schema_id,
                             'type' => 'text',                            
@@ -2970,6 +3059,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_permalink()
                     ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_video_object_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label'   => 'Author Name',
                             'id'      => 'saswp_video_object_author_name_'.$schema_id,
                             'type'    => 'text',
@@ -3056,6 +3154,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Content Location',
                             'id'    => 'saswpimage_object_content_location_'.$schema_id,
                             'type'  => 'text'                            
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswpimage_object_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),    
                     array(
                             'label' => 'Author Name',
@@ -3119,6 +3226,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_qa_date_created_'.$schema_id,
                             'type' => 'text',                           
                     ),    
+                    array(
+                            'label' => 'Author Type',
+                            'id'    => 'saswp_qa_question_author_type_'.$schema_id,
+                            'type'  => 'text',                           
+                    ),
                     array(
                             'label' => 'Author Name',
                             'id' => 'saswp_qa_question_author_name_'.$schema_id,
@@ -3330,6 +3442,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             
                     ),
                     array(
+                        'label'      => 'Author Type',
+                        'id'         => 'saswp_vg_schema_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                        
+                    ),
+                    array(
                             'label'      => 'Author Name',
                             'id'         => 'saswp_vg_schema_author_name_'.$schema_id,
                             'type'       => 'text',
@@ -3439,6 +3561,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Image',
                             'id'         => 'saswp_tvseries_schema_image_'.$schema_id,
                             'type'       => 'media'                            
+                    ),
+                    array(
+                        'label'      => 'Author Type',
+                        'id'         => 'saswp_tvseries_schema_author_type_'.$schema_id,
+                        'type'       => 'select',
+                        'options'   => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label'      => 'Author Name',
@@ -4464,6 +4595,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default'    => saswp_get_the_tags()                            
                         ),
                         array(
+                                'label'      => 'Author Type',
+                                'id'         => 'saswp_faq_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                        )
+                        ),
+                        array(
                                 'label'      => 'Author',
                                 'id'         => 'saswp_faq_author_'.$schema_id,
                                 'type'       => 'text',
@@ -4755,6 +4895,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default'    => get_the_modified_date("Y-m-d")
                         ),     
                         array(
+                                'label'      => 'Author Type',
+                                'id'         => 'saswp_cws_schema_author_type_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                        )
+                        ),
+                        array(
                                 'label'      => 'Author Name',
                                 'id'         => 'saswp_cws_schema_author_name_'.$schema_id,
                                 'type'       => 'text',
@@ -4893,6 +5042,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Image',
                             'id'         => 'saswp_book_image_'.$schema_id,
                             'type'       => 'media',                           
+                    ),
+                    array(
+                        'label'      => 'Author Type',
+                        'id'         => 'saswp_book_author_type_'.$schema_id,
+                        'type'       => 'select',
+                        'options'    => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )           
                     ),
                     array(
                             'label'      => 'Author',
