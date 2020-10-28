@@ -2234,6 +2234,9 @@ Class saswp_output_service{
                       $input1['provider']['@type'] =    $custom_fields['saswp_service_schema_provider_type'];
                       $input1['provider']['name']  =    $custom_fields['saswp_service_schema_provider_name'];
                     }                                        
+                    if(isset($custom_fields['saswp_service_schema_price_range'])){
+                        $input1['provider']['priceRange'] =    $custom_fields['saswp_service_schema_price_range'];
+                    }
                     if(isset($custom_fields['saswp_service_schema_image'])){
                       $input1['provider']['image'] =    $custom_fields['saswp_service_schema_image'];
                     }

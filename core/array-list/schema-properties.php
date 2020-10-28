@@ -2572,13 +2572,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     $meta_field = array(
                     array(
                             'label' => 'Name',
-                            'id' => 'saswp_service_schema_name_'.$schema_id,
-                            'type' => 'text',                    
+                            'id'    => 'saswp_service_schema_name_'.$schema_id,
+                            'type'  => 'text',                    
                     ),
                     array(
                             'label' => 'URL',
-                            'id' => 'saswp_service_schema_url_'.$schema_id,
-                            'type' => 'text',                    
+                            'id'    => 'saswp_service_schema_url_'.$schema_id,
+                            'type'  => 'text',                    
                     ),    
                     array(
                             'label' => 'Service Type',
@@ -2630,6 +2630,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Telephone',
                             'id' => 'saswp_service_schema_telephone_'.$schema_id,
                             'type' => 'text',                            
+                    ), 
+                    array(
+                        'label' => 'Price Range',
+                        'id'    => 'saswp_service_schema_price_range_'.$schema_id,
+                        'type'  => 'text',                            
                     ),                    
                     array(
                             'label' => 'Description',
