@@ -1118,11 +1118,14 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
             $operation_days      = explode( "rn", esc_html( stripslashes(saswp_remove_warnings($all_post_meta, 'saswp_dayofweek_'.$schema_id, 'saswp_array'))) );;                               
             $business_sub_name   = '';
             $business_type       = saswp_remove_warnings($all_post_meta, 'saswp_business_type_'.$schema_id, 'saswp_array'); 
-            $post_specific_obj   = new saswp_post_specific();
+            
+            $mapping_local_sub = SASWP_DIR_NAME . '/core/array-list/local-sub-business.php';
 
-            if(array_key_exists($business_type, $post_specific_obj->_local_sub_business)){
+            $post_specific_obj   = include $mapping_local_sub;
+                
+            if(array_key_exists($business_type, $post_specific_obj)){
 
-                $check_business_type = $post_specific_obj->_local_sub_business[$business_type];
+                $check_business_type = $post_specific_obj[$business_type];
 
                 if(!empty($check_business_type)){
 
@@ -1189,7 +1192,14 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                 }
                 
                 if(isset($all_post_meta['local_area_served_'.$schema_id][0])){                    
-                    $input1['areaServed'] = saswp_area_served_expload( $all_post_meta['local_area_served_'.$schema_id][0] );                                                       
+                    $input1['areaServed'] = saswp_explode_comma_seprated( $all_post_meta['local_area_served_'.$schema_id][0], 'Place' );                                                       
+                }
+
+                if(isset($all_post_meta['local_business_founder_'.$schema_id][0])){                    
+                    $input1['founder'] = saswp_explode_comma_seprated( $all_post_meta['local_business_founder_'.$schema_id][0], 'Person' );
+                }
+                if(isset($all_post_meta['local_business_employee_'.$schema_id][0])){                    
+                    $input1['employee'] = saswp_explode_comma_seprated( $all_post_meta['local_business_employee_'.$schema_id][0], 'Person' );
                 }
                
                 //social fields starts here

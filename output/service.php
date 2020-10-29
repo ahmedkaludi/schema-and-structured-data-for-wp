@@ -1229,8 +1229,13 @@ Class saswp_output_service{
                      $input1['geo']['latitude']  =    $custom_fields['local_latitude'];
                      $input1['geo']['longitude'] =    $custom_fields['local_longitude'];
                      
+                    }                                        
+                    if(isset($custom_fields['local_business_founder'])){
+                        $input1['founder'] =    saswp_explode_comma_seprated($custom_fields['local_business_founder'], 'Person');
+                    }
+                    if(isset($custom_fields['local_business_employee'])){
+                        $input1['employee'] =    saswp_explode_comma_seprated($custom_fields['local_business_employee'], 'Person');
                     }                    
-                                                               
                     if(isset($custom_fields['local_phone'])){
                      $input1['telephone'] =    $custom_fields['local_phone'];
                     }
@@ -1241,7 +1246,7 @@ Class saswp_output_service{
                      $input1['openingHours'] =    $custom_fields['saswp_dayofweek'];
                     }                    
                     if(isset($custom_fields['local_area_served'])){                         
-                     $input1['areaServed'] =    saswp_area_served_expload($custom_fields['local_area_served']);                     
+                     $input1['areaServed'] =    saswp_explode_comma_seprated($custom_fields['local_area_served'], 'Place');                     
                     }                    
                     if(isset($custom_fields['local_price_range'])){
                      $input1['priceRange'] =    $custom_fields['local_price_range'];
@@ -2253,7 +2258,7 @@ Class saswp_output_service{
                       $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_service_schema_description'] ));
                     }
                     if(isset($custom_fields['saswp_service_schema_area_served'])){
-                      $input1['areaServed'] =    saswp_area_served_expload($custom_fields['saswp_service_schema_area_served']);
+                      $input1['areaServed'] =    saswp_explode_comma_seprated($custom_fields['saswp_service_schema_area_served'], 'Place');
                     }
                     if(isset($custom_fields['saswp_service_schema_service_offer'])){
                       $input1['hasOfferCatalog'] =    $custom_fields['saswp_service_schema_service_offer'];

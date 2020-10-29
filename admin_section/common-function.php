@@ -3910,7 +3910,7 @@ function saswp_get_image_size_url( $image_id, $size = 'full', $image_sizes = arr
     return $image_url;
 }
 
-function saswp_area_served_expload ($data) {
+function saswp_explode_comma_seprated ($data, $type) {
 
     $response = array();
 
@@ -3922,7 +3922,7 @@ function saswp_area_served_expload ($data) {
 
             foreach ($area_served as  $value) {
                 $response[] = array(
-                '@type' => 'Place',
+                '@type' => $type,
                 'name'  => $value
             );      
             }

@@ -122,13 +122,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $meta_field[] = array(
                             'label'   => 'Business Name',
                             'id'      => 'local_business_name_'.$schema_id,
-                            'type'    => 'text',                             
+                            'type'    => 'text', 
+                                                        
                         );
                     
                         $meta_field[] = array(
-                           'label' => 'URL',
-                            'id' => 'local_business_name_url_'.$schema_id,
-                            'type' => 'text',
+                            'label'    => 'URL',
+                            'id'      => 'local_business_name_url_'.$schema_id,
+                            'type'    => 'text',
                             'default' => get_permalink()                            
                         );
                     
@@ -137,8 +138,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'local_business_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => is_object($post) ? $post->post_excerpt : ''                            
-                        );
-                    
+                        );                                            
                         $meta_field[] = array(
                             'label' => 'Street Address',
                             'id' => 'local_street_address_'.$schema_id,
@@ -238,7 +238,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'Additional Type',
                                 'id'    => 'local_additional_type_'.$schema_id,
                                 'type'  => 'text',                            
-                        );                                                
+                        );
+                        $meta_field[] = array(
+                                'label'   => 'Founder',
+                                'id'      => 'local_business_founder_'.$schema_id,
+                                'type'    => 'textarea',  
+                                'note'    => 'Note: If There are more than one founder, Separate founder list by comma ( , )'                                 
+                       );
+                       $meta_field[] = array(
+                               'label'   => 'Employee',
+                               'id'      => 'local_business_employee_'.$schema_id,
+                               'type'    => 'textarea',
+                               'note'    => 'Note: If There are more than one employee. Separate employee list by comma ( , )'                                   
+                       );                                                
                         $meta_field[] =   array(
                             'label' => 'Facebook',
                             'id' => 'local_facebook_'.$schema_id,
