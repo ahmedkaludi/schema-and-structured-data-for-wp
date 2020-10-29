@@ -691,8 +691,8 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
     
             $input1 = array();
 
-            $recipe_logo    = get_post_meta( get_the_ID(), 'saswp_recipe_organization_logo_'.$schema_id.'_detail',true);
-            $recipe_image   = get_post_meta( get_the_ID(), 'saswp_recipe_image_'.$schema_id.'_detail',true);                                                                           
+            $recipe_logo           = get_post_meta( get_the_ID(), 'saswp_recipe_organization_logo_'.$schema_id.'_detail',true);
+            $recipe_image          = get_post_meta( get_the_ID(), 'saswp_recipe_image_'.$schema_id.'_detail',true);                                                                           
             $recipe_author_image   = get_post_meta( get_the_ID(), 'saswp_recipe_author_image_'.$schema_id.'_detail',true);
 
             $ingredient     = array();
@@ -804,7 +804,26 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                 $input1['nutrition']['@type']    = 'NutritionInformation';
                 $input1['nutrition']['carbohydrateContent'] = $all_post_meta['saswp_recipe_carbohydrate_'.$schema_id][0];
             }
-
+            if($all_post_meta['saswp_recipe_cholesterol_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['cholesterolContent'] = $all_post_meta['saswp_recipe_cholesterol_'.$schema_id][0];
+            }
+            if($all_post_meta['saswp_recipe_saturated_fat_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['saturatedFatContent'] = $all_post_meta['saswp_recipe_saturated_fat_'.$schema_id][0];
+            }
+            if($all_post_meta['saswp_recipe_unsaturated_fat_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['unsaturatedFatContent'] = $all_post_meta['saswp_recipe_unsaturated_fat_'.$schema_id][0];
+            }
+            if($all_post_meta['saswp_recipe_trans_fat_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['transFatContent'] = $all_post_meta['saswp_recipe_trans_fat_'.$schema_id][0];
+            }
+            if($all_post_meta['saswp_recipe_serving_size_'.$schema_id][0]){                
+                $input1['nutrition']['@type']    = 'NutritionInformation';
+                $input1['nutrition']['servingSize'] = $all_post_meta['saswp_recipe_serving_size_'.$schema_id][0];
+            }
             if(saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_name_'.$schema_id, 'saswp_array') !='' && saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_thumbnailurl_'.$schema_id, 'saswp_array') !='' && saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_description_'.$schema_id, 'saswp_array') !=''){
 
                 $input1['video']['@type']        = 'VideoObject';

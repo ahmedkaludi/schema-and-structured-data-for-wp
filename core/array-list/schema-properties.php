@@ -1664,6 +1664,46 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         ),
                     ),
                     array(
+                        'label' => 'Cholesterol',
+                        'id'    => 'saswp_recipe_cholesterol_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Saturated Fat',
+                        'id'    => 'saswp_recipe_saturated_fat_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Unsaturated Fat',
+                        'id'    => 'saswp_recipe_unsaturated_fat_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Trans Fat',
+                        'id'    => 'saswp_recipe_trans_fat_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Serving Size',
+                        'id'    => 'saswp_recipe_serving_size_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '370 grams'
+                        ),
+                    ),
+                    array(
                             'label' => 'Recipe Ingredient',
                             'id' => 'saswp_recipe_ingredient_'.$schema_id,
                             'type' => 'textarea',

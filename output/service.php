@@ -1939,7 +1939,27 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_recipe_carbohydrate'])){
                         $input1['nutrition']['@type']               = 'NutritionInformation';   
                         $input1['nutrition']['carbohydrateContent'] =    $custom_fields['saswp_recipe_carbohydrate'];
-                    }                    
+                    }                                        
+                    if(isset($custom_fields['saswp_recipe_cholesterol'])){
+                        $input1['nutrition']['@type']               = 'NutritionInformation';   
+                        $input1['nutrition']['cholesterolContent'] =    $custom_fields['saswp_recipe_cholesterol'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_saturated_fat'])){
+                        $input1['nutrition']['@type']               = 'NutritionInformation';   
+                        $input1['nutrition']['saturatedFatContent'] =    $custom_fields['saswp_recipe_saturated_fat'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_unsaturated_fat'])){
+                        $input1['nutrition']['@type']               = 'NutritionInformation';   
+                        $input1['nutrition']['unsaturatedFatContent'] =    $custom_fields['saswp_recipe_unsaturated_fat'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_trans_fat'])){
+                        $input1['nutrition']['@type']               = 'NutritionInformation';   
+                        $input1['nutrition']['transFatContent'] =    $custom_fields['saswp_recipe_trans_fat'];
+                    }
+                    if(isset($custom_fields['saswp_recipe_serving_size'])){
+                        $input1['nutrition']['@type']               = 'NutritionInformation';   
+                        $input1['nutrition']['servingSize'] =    $custom_fields['saswp_recipe_serving_size'];
+                    }
                     if(isset($custom_fields['saswp_recipe_ingredient'])){  
                         
                       if(is_array($custom_fields['saswp_recipe_ingredient'])){                          
