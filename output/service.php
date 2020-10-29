@@ -2065,6 +2065,17 @@ Class saswp_output_service{
                      $input1['offers']['seller']['@type']         =    'Organization';
                      $input1['offers']['seller']['name']          =    $custom_fields['saswp_product_schema_seller'];
                     }
+
+                    if( isset($custom_fields['saswp_product_schema_high_price']) && isset($custom_fields['saswp_product_schema_low_price']) ){
+
+                        $input1['offers']['@type']     = 'AggregateOffer';
+                        $input1['offers']['highPrice'] = $custom_fields['saswp_product_schema_high_price'];
+                        $input1['offers']['lowPrice']  = $custom_fields['saswp_product_schema_low_price'];
+
+                        if(isset($custom_fields['saswp_product_schema_offer_count'])){
+                            $input1['offers']['offerCount']     = $custom_fields['saswp_product_schema_offer_count'];
+                        }
+                    }
                     
                     if(isset($custom_fields['saswp_product_schema_rating']) && isset($custom_fields['saswp_product_schema_review_count'])){
                      $input1['aggregateRating']['@type']       = 'aggregateRating';

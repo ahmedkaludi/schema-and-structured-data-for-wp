@@ -835,11 +835,12 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             $input1 = array();
     
             $product_image = get_post_meta( get_the_ID(), 'saswp_product_schema_image_'.$schema_id.'_detail',true);                                                                           
+
             $input1 = array(
-            '@context'			=> saswp_context_url(),
-            '@type'				=> 'Product',
+            '@context'			            => saswp_context_url(),
+            '@type'				            => 'Product',
             '@id'                           => trailingslashit(get_permalink()).'#product',    
-            'url'				=> trailingslashit(get_permalink()),
+            'url'				            => trailingslashit(get_permalink()),
             'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_name_'.$schema_id, 'saswp_array'),
             'sku'                           => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_sku_'.$schema_id, 'saswp_array'),
             'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_description_'.$schema_id, 'saswp_array'),													                       
@@ -857,7 +858,7 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 
             }
             
-            if(isset($all_post_meta['saswp_product_schema_price_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_price_'.$schema_id][0]){
+            if( (isset($all_post_meta['saswp_product_schema_price_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_price_'.$schema_id][0]) || (isset($all_post_meta['saswp_product_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_low_price_'.$schema_id][0]) ) ){
                             
                 $input1['offers']['@type']           = 'Offer';
                 $input1['offers']['availability']    = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_availability_'.$schema_id, 'saswp_array');
@@ -867,6 +868,17 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['offers']['url']             = trailingslashit(saswp_get_permalink());
                 $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id][0])):'';
             
+                if( isset($all_post_meta['saswp_product_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_low_price_'.$schema_id][0]) ){
+                    $input1['offers']['@type']           = 'AggregateOffer';
+                    $input1['offers']['highPrice']       = $all_post_meta['saswp_product_schema_high_price_'.$schema_id][0];
+                    $input1['offers']['lowPrice']        = $all_post_meta['saswp_product_schema_low_price_'.$schema_id][0];
+
+                    if( isset($all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0]) ){
+                        $input1['offers']['offerCount'] = $all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0];
+                    }
+
+                }
+
                 if(isset($all_post_meta['saswp_product_schema_seller_'.$schema_id])){
                     $input1['offers']['seller']['@type']   = 'Organization';
                     $input1['offers']['seller']['name']    = esc_attr($all_post_meta['saswp_product_schema_seller_'.$schema_id][0]);  

@@ -2473,7 +2473,24 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_price_'.$schema_id,
                             'type'    => 'text',
                             'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
-                     ),
+                       ),
+                        array(
+                                'label'   => 'High Price',
+                                'id'      => 'saswp_product_schema_high_price_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                        ),
+                        array(
+                                'label'   => 'Low Price',
+                                'id'      => 'saswp_product_schema_low_price_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                        ),
+                        array(
+                                'label'   => 'Offer Count',
+                                'id'      => 'saswp_product_schema_offer_count_'.$schema_id,
+                                'type'    => 'text',                                
+                        ),
                         array(
                             'label'   => 'Price Valid Until',
                             'id'      => 'saswp_product_schema_priceValidUntil_'.$schema_id,
