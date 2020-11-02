@@ -122,13 +122,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $meta_field[] = array(
                             'label'   => 'Business Name',
                             'id'      => 'local_business_name_'.$schema_id,
-                            'type'    => 'text',                             
+                            'type'    => 'text', 
+                                                        
                         );
                     
                         $meta_field[] = array(
-                           'label' => 'URL',
-                            'id' => 'local_business_name_url_'.$schema_id,
-                            'type' => 'text',
+                            'label'    => 'URL',
+                            'id'      => 'local_business_name_url_'.$schema_id,
+                            'type'    => 'text',
                             'default' => get_permalink()                            
                         );
                     
@@ -137,8 +138,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'local_business_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => is_object($post) ? $post->post_excerpt : ''                            
-                        );
-                    
+                        );                                            
                         $meta_field[] = array(
                             'label' => 'Street Address',
                             'id' => 'local_street_address_'.$schema_id,
@@ -238,7 +238,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'Additional Type',
                                 'id'    => 'local_additional_type_'.$schema_id,
                                 'type'  => 'text',                            
-                        );                                                
+                        );
+                        $meta_field[] = array(
+                                'label'   => 'Founder',
+                                'id'      => 'local_business_founder_'.$schema_id,
+                                'type'    => 'textarea',  
+                                'note'    => 'Note: If There are more than one founder, Separate founder list by comma ( , )'                                 
+                       );
+                       $meta_field[] = array(
+                               'label'   => 'Employee',
+                               'id'      => 'local_business_employee_'.$schema_id,
+                               'type'    => 'textarea',
+                               'note'    => 'Note: If There are more than one employee. Separate employee list by comma ( , )'                                   
+                       );                                                
                         $meta_field[] =   array(
                             'label' => 'Facebook',
                             'id' => 'local_facebook_'.$schema_id,
@@ -354,6 +366,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',
                             'default' => get_the_modified_date("Y-m-d")
                     ),     
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_blogposting_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )                        
+                   ),
                     array(
                             'label' => 'Author Name',
                             'id' => 'saswp_blogposting_author_name_'.$schema_id,
@@ -495,6 +516,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_permalink()
                     ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_newsarticle_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_newsarticle_author_name_'.$schema_id,
                             'type' => 'text',
@@ -608,6 +638,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
                       ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_webpage_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_webpage_author_name_'.$schema_id,
                             'type' => 'text',
@@ -706,6 +745,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_article_date_modified_'.$schema_id,
                                 'type' => 'text',
                                 'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_article_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
                         ),
                         array(
                                 'label' => 'Author Name',
@@ -839,6 +887,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id' => 'saswp_special_announcement_image_'.$schema_id,
                                         'type' => 'media'                            
                                 ),                    
+                                array(
+                                        'label'   => 'Author Type',
+                                        'id'      => 'saswp_special_announcement_author_type_'.$schema_id,
+                                        'type'    => 'select',
+                                        'options' => array(
+                                                'Person'           => 'Person',
+                                                'Organization'     => 'Organization',                        
+                                )
+                                ),
                                 array(
                                         'label' => 'Author Name',
                                         'id' => 'saswp_special_announcement_author_name_'.$schema_id,
@@ -1177,6 +1234,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_tech_article_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_tech_article_author_name_'.$schema_id,
                             'type' => 'text',
@@ -1207,10 +1273,9 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
                     ),
                     array(
-                        'label' => 'Speakable',
-                        'id' => 'saswp_tech_article_speakable_'.$schema_id,
-                        'type' => 'checkbox',
-
+                            'label' => 'Speakable',
+                            'id' => 'saswp_tech_article_speakable_'.$schema_id,
+                            'type' => 'checkbox'
                     )                        
                     );
                     break;
@@ -1356,6 +1421,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_dfp_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_dfp_author_name_'.$schema_id,
                             'type' => 'text',
@@ -1431,6 +1505,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_recipe_main_entity_'.$schema_id,
                             'type' => 'text',
                             'default' => get_permalink()
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_recipe_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label' => 'Author Name',
@@ -1578,6 +1661,46 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'  => 'text',
                         'attributes' => array(
                             'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Cholesterol',
+                        'id'    => 'saswp_recipe_cholesterol_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Saturated Fat',
+                        'id'    => 'saswp_recipe_saturated_fat_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Unsaturated Fat',
+                        'id'    => 'saswp_recipe_unsaturated_fat_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Trans Fat',
+                        'id'    => 'saswp_recipe_trans_fat_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Serving Size',
+                        'id'    => 'saswp_recipe_serving_size_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '370 grams'
                         ),
                     ),
                     array(
@@ -1902,6 +2025,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                 'id'         => 'saswp_audiobook_date_modified_'.$schema_id,
                                                 'type'       => 'text',
                                                 'default'    => get_the_modified_date("Y-m-d")                            
+                                        ),
+                                        array(
+                                                'label'   => 'Author Type',
+                                                'id'      => 'saswp_audiobook_author_type_'.$schema_id,
+                                                'type'    => 'select',
+                                                'options' => array(
+                                                        'Person'           => 'Person',
+                                                        'Organization'     => 'Organization',                        
+                                                )
                                         ),
                                         array(
                                                 'label'   => 'Author Name',
@@ -2381,7 +2513,24 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_price_'.$schema_id,
                             'type'    => 'text',
                             'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
-                     ),
+                       ),
+                        array(
+                                'label'   => 'High Price',
+                                'id'      => 'saswp_product_schema_high_price_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                        ),
+                        array(
+                                'label'   => 'Low Price',
+                                'id'      => 'saswp_product_schema_low_price_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                        ),
+                        array(
+                                'label'   => 'Offer Count',
+                                'id'      => 'saswp_product_schema_offer_count_'.$schema_id,
+                                'type'    => 'text',                                
+                        ),
                         array(
                             'label'   => 'Price Valid Until',
                             'id'      => 'saswp_product_schema_priceValidUntil_'.$schema_id,
@@ -2492,13 +2641,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     $meta_field = array(
                     array(
                             'label' => 'Name',
-                            'id' => 'saswp_service_schema_name_'.$schema_id,
-                            'type' => 'text',                    
+                            'id'    => 'saswp_service_schema_name_'.$schema_id,
+                            'type'  => 'text',                    
                     ),
                     array(
                             'label' => 'URL',
-                            'id' => 'saswp_service_schema_url_'.$schema_id,
-                            'type' => 'text',                    
+                            'id'    => 'saswp_service_schema_url_'.$schema_id,
+                            'type'  => 'text',                    
                     ),    
                     array(
                             'label' => 'Service Type',
@@ -2550,6 +2699,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Telephone',
                             'id' => 'saswp_service_schema_telephone_'.$schema_id,
                             'type' => 'text',                            
+                    ), 
+                    array(
+                        'label' => 'Price Range',
+                        'id'    => 'saswp_service_schema_price_range_'.$schema_id,
+                        'type'  => 'text',                            
                     ),                    
                     array(
                             'label' => 'Description',
@@ -2726,6 +2880,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_audio_schema_date_modified_'.$schema_id,
                             'type' => 'text',
                             'default' => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_audio_schema_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label' => 'Author Name',
@@ -2970,6 +3133,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_permalink()
                     ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_video_object_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label'   => 'Author Name',
                             'id'      => 'saswp_video_object_author_name_'.$schema_id,
                             'type'    => 'text',
@@ -3056,6 +3228,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Content Location',
                             'id'    => 'saswpimage_object_content_location_'.$schema_id,
                             'type'  => 'text'                            
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswpimage_object_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),    
                     array(
                             'label' => 'Author Name',
@@ -3080,6 +3261,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswpimage_object_author_image_'.$schema_id,
                             'type'    => 'media',
                             'default' => isset($author_details['url']) ? $author_details['url'] : ''   
+                    ),
+                    array(
+                        'label'   => 'License',
+                        'id'      => 'saswpimage_object_license_'.$schema_id,
+                        'type'    => 'text',                        
                     ),
                     array(
                             'label'   => 'Organization Name',
@@ -3119,6 +3305,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_qa_date_created_'.$schema_id,
                             'type' => 'text',                           
                     ),    
+                    array(
+                            'label' => 'Author Type',
+                            'id'    => 'saswp_qa_question_author_type_'.$schema_id,
+                            'type'  => 'text',                           
+                    ),
                     array(
                             'label' => 'Author Name',
                             'id' => 'saswp_qa_question_author_name_'.$schema_id,
@@ -3330,6 +3521,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             
                     ),
                     array(
+                        'label'      => 'Author Type',
+                        'id'         => 'saswp_vg_schema_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                        
+                    ),
+                    array(
                             'label'      => 'Author Name',
                             'id'         => 'saswp_vg_schema_author_name_'.$schema_id,
                             'type'       => 'text',
@@ -3439,6 +3640,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Image',
                             'id'         => 'saswp_tvseries_schema_image_'.$schema_id,
                             'type'       => 'media'                            
+                    ),
+                    array(
+                        'label'      => 'Author Type',
+                        'id'         => 'saswp_tvseries_schema_author_type_'.$schema_id,
+                        'type'       => 'select',
+                        'options'   => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label'      => 'Author Name',
@@ -4464,6 +4674,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default'    => saswp_get_the_tags()                            
                         ),
                         array(
+                                'label'      => 'Author Type',
+                                'id'         => 'saswp_faq_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                        )
+                        ),
+                        array(
                                 'label'      => 'Author',
                                 'id'         => 'saswp_faq_author_'.$schema_id,
                                 'type'       => 'text',
@@ -4755,6 +4974,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default'    => get_the_modified_date("Y-m-d")
                         ),     
                         array(
+                                'label'      => 'Author Type',
+                                'id'         => 'saswp_cws_schema_author_type_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                        )
+                        ),
+                        array(
                                 'label'      => 'Author Name',
                                 'id'         => 'saswp_cws_schema_author_name_'.$schema_id,
                                 'type'       => 'text',
@@ -4893,6 +5121,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Image',
                             'id'         => 'saswp_book_image_'.$schema_id,
                             'type'       => 'media',                           
+                    ),
+                    array(
+                        'label'      => 'Author Type',
+                        'id'         => 'saswp_book_author_type_'.$schema_id,
+                        'type'       => 'select',
+                        'options'    => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )           
                     ),
                     array(
                             'label'      => 'Author',
