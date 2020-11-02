@@ -129,6 +129,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: Price Range to the Service schema #1088
 * Added: License property for ImageObject Schema #1190
 * Added: Allow users to change the author from a person to an organization #749
+* Fixed: Undefined index: wpdiscuz plugins\schema-and-structured-data-for-wp\admin_section\common-function.php on line 3054 #1228
 
 
 = 1.9.52 (26 Oct 2020) =
