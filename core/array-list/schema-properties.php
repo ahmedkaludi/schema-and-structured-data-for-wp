@@ -3263,6 +3263,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => isset($author_details['url']) ? $author_details['url'] : ''   
                     ),
                     array(
+                        'label'   => 'License',
+                        'id'      => 'saswpimage_object_license_'.$schema_id,
+                        'type'    => 'text',                        
+                    ),
+                    array(
                             'label'   => 'Organization Name',
                             'id'      => 'saswpimage_object_organization_name_'.$schema_id,
                             'type'    => 'text',
