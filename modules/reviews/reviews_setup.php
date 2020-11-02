@@ -321,104 +321,123 @@ function saswp_create_platform_custom_taxonomy() {
 }
 
 function saswp_insert_platform_terms(){
-    
-    $term_array = array(    
-                    'Self',
-                    'Agoda', 
-                    'Avvo', 
-                    'Angies List',
-                    'Apple AppStore',
-                    'Expedia', 
-                    'Facebook', 
-                    'Google', 
-                    'TripAdvisor', 
-                    'Yelp', 
-                    'Zillow', 
-                    'Zomato',                     
-                    'Airbnb', 
-                    'AliExpress', 
-                    'AlternativeTo', 
-                    'Amazon',
-                    'BBB',
-                    'BestBuy',
-                    'Booking.com', 
-                    'Capterra', 
-                    'CarGurus',
-                    'Cars.com', 
-                    'Citysearch', 
-                    'Classpass', 
-                    'Consumer Affairs', 
-                    'Clutch',
-                    'CreditKarma', 
-                    'CustomerLobby', 
-                    'DealerRater', 
-                    'Ebay', 
-                    'Edmunds', 
-                    'Etsy', 
-                    'Foursquare',
-                    'Flipkart',
-                    'G2Crowd', 
-                    'Gearbest',
-                    'Gartner',
-                    'Glassdoor', 
-                    'Healthgrades', 
-                    'HomeAdvisor', 
-                    'Homestars', 
-                    'Houzz', 
-                    'Hotels.com', 
-                    'HungerStation',
-                    'Indeed',
-                    'IMDB',
-                    'Insider Pages', 
-                    'Jet',
-                    'Judge.me',
-                    'Lawyers.com', 
-                    'Lending Tree', 
-                    'Martindale', 
-                    'Newegg', 
-                    'OpenRice', 
-                    'Opentable', 
-                    'ProductHunt',
-                    'Playstore',
-                    'RateMDs', 
-                    'ReserveOut',
-                    'Rotten Tomatoes',
-                    'Sitejabber', 
-                    'Siftery', 
-                    'Steam',
-                    'SoftwareAdvice',
-                    'Shopper Approved',
-                    'Talabat', 
-                    'The Knot', 
-                    'Thumbtack', 
-                    'Trulia', 
-                    'TrustedShops', 
-                    'Trustpilot', 
-                    'TrustRadius', 
-                    'Vitals', 
-                    'Walmart', 
-                    'WeddingWire',
-                    'Wish',
-                    'Yell', 
-                    'YellowPages', 
-                    'ZocDoc'                     
-                );
 
-  foreach($term_array as $term){
+    $term_ids = array();
+
+    $platform_inserted = get_transient('saswp_platform_inserted');
     
-      if(!term_exists( $term, 'platform' )){
-      
-        wp_insert_term(
-        $term, 
-        'platform', 
-        array(
-        'slug' => $term,
-       )
-      );
+    if($platform_inserted != 79){
         
-   }
-      
-  }
+        $term_array = array(    
+            'Self',
+            'Agoda', 
+            'Avvo', 
+            'Angies List',
+            'Apple AppStore',
+            'Expedia', 
+            'Facebook', 
+            'Google', 
+            'TripAdvisor', 
+            'Yelp', 
+            'Zillow', 
+            'Zomato',                     
+            'Airbnb', 
+            'AliExpress', 
+            'AlternativeTo', 
+            'Amazon',
+            'BBB',
+            'BestBuy',
+            'Booking.com', 
+            'Capterra', 
+            'CarGurus',
+            'Cars.com', 
+            'Citysearch', 
+            'Classpass', 
+            'Consumer Affairs', 
+            'Clutch',
+            'CreditKarma', 
+            'CustomerLobby', 
+            'DealerRater', 
+            'Ebay', 
+            'Edmunds', 
+            'Etsy', 
+            'Foursquare',
+            'Flipkart',
+            'G2Crowd', 
+            'Gearbest',
+            'Gartner',
+            'Glassdoor', 
+            'Healthgrades', 
+            'HomeAdvisor', 
+            'Homestars', 
+            'Houzz', 
+            'Hotels.com', 
+            'HungerStation',
+            'Indeed',
+            'IMDB',
+            'Insider Pages', 
+            'Jet',
+            'Judge.me',
+            'Lawyers.com', 
+            'Lending Tree', 
+            'Martindale', 
+            'Newegg', 
+            'OpenRice', 
+            'Opentable', 
+            'ProductHunt',
+            'Playstore',
+            'RateMDs', 
+            'ReserveOut',
+            'Rotten Tomatoes',
+            'Sitejabber', 
+            'Siftery', 
+            'Steam',
+            'SoftwareAdvice',
+            'Shopper Approved',
+            'Talabat', 
+            'The Knot', 
+            'Thumbtack', 
+            'Trulia', 
+            'TrustedShops', 
+            'Trustpilot', 
+            'TrustRadius', 
+            'Vitals', 
+            'Walmart', 
+            'WeddingWire',
+            'Wish',
+            'Yell', 
+            'YellowPages', 
+            'ZocDoc'                     
+        );
+
+        foreach($term_array as $term){
+
+            $term_id = term_exists( $term, 'platform' );                         
+                
+            if(!$term_id){
+
+                $result = wp_insert_term(  $term, 'platform', array('slug' => $term) );
+
+                if(!is_wp_error($result)){
+                    $term_ids[] = $result;
+                }
+
+            }else{
+                
+                if(isset($term_id['term_id'])){
+                    $term_ids[] = $term_id['term_id'];
+                }
+                
+            }
+
+        }
+
+        if(count($term_ids)  == 79){
+            set_transient('saswp_platform_inserted', 79,  24*7*HOUR_IN_SECONDS ); 
+        }
+
+    }
+        
 }
 
 function saswp_get_terms_as_array(){
