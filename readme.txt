@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 1.9.52
+Stable tag: 1.9.53
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.53 (02 Nov 2020) =
+
+* Added: Support for "low price" and "high price" properties of the product schema #1133
+* Added: NutritionInformation all properties such as ( servingSize, fatContent, saturatedFatContent etc. ) in Recipe Schema #1070
+* Added: Properties ( employee & alumni ) in RealEstateAgent schema type. #1053
+* Added: Generate an id for the comment markup. #1057
+* Added: Price Range to the Service schema #1088
+* Added: License property for ImageObject Schema #1190
+* Added: Allow users to change the author from a person to an organization #749
+
 
 = 1.9.52 (26 Oct 2020) =
 
