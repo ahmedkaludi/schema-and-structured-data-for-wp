@@ -287,6 +287,13 @@ if(!function_exists('saswp_aq_resize')) {
      * need to change any code in your own WP themes. Usage is still the same :)
      */
     function saswp_aq_resize( $url, $width = null, $height = null, $crop = null, $single = true, $upscale = false ) {
+
+        $stop_resize = apply_filters('saswp_stop_image_resizer', false );
+
+        if($stop_resize){
+            return array();
+        }
+
         /* WPML Fix */
         if ( defined( 'ICL_SITEPRESS_VERSION' ) ){
             global $sitepress;
