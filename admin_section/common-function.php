@@ -2846,7 +2846,21 @@ function saswp_admin_notice(){
         </div>
         <?php
     }  
+    
+    if(isset($sd_data['sd_logo']['url']) && $sd_data['sd_logo']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
+
+        ?>
+        <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
+            <p>
+                  <span><?php echo esc_html__('Please setup Logo to avoid structured data validation issue.', 'schema-and-structured-data-for-wp') ?> </span>                                               
+                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-knowledge-container' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+            </p>
+        </div>
+
+      <?php   
         
+    }
+
     if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
 
         ?>
