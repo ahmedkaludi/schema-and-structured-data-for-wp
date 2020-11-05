@@ -2131,6 +2131,26 @@ if ( ! defined('ABSPATH') ) exit;
             }
         
         }
+
+        if( isset($sd_data['saswp-metatagmanager']) && $sd_data['saswp-metatagmanager'] == 1 && class_exists('Meta_Tag_Manager') ){
+
+            $post_meta = get_post_meta($post->ID, 'mtm_data', true);
+            
+            $meta_tag = array_column($post_meta, 'value');
+            
+            $key      = array_search("description",$meta_tag);
+                
+            if(array_key_exists($key, $post_meta)){
+                
+                $c_excerpt = $post_meta[$key]['content'];
+                
+                if($c_excerpt){
+                    $excerpt = $c_excerpt;
+                }
+
+            }
+                            
+        }
             
         }
            
@@ -3006,6 +3026,7 @@ function saswp_get_field_note($pname){
             'cooked'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
             'the_events_calendar'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
             'yoast_seo'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
+            'metatagmanager'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/meta-tag-manager/">Meta Tag Manager</a>',
             'slimseo'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/slim-seo/">Slim SEO</a>',
             'rank_math'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
             'dw_qna'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',

@@ -422,6 +422,12 @@ return array(
                     'opt_name'   => 'saswp-yoast', 
                     'part_in'    => 'free',
         ),
+        'metatagmanager' => array(            
+            'name'       => 'Meta Tag Manager',
+            'free'       => 'meta-tag-manager/meta-tag-manager.php',            
+            'opt_name'   => 'saswp-metatagmanager', 
+            'part_in'    => 'free',
+        ),
         'slimseo' => array(            
             'name'       => 'Slim Seo',
             'free'       => 'slim-seo/slim-seo.php',

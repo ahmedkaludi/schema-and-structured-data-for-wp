@@ -1501,7 +1501,7 @@ function saswp_global_option(){
  */
 function saswp_get_the_tags(){
 
-    global $post;
+    global $post, $sd_data;
     $tag_str = '';
     
     if(is_object($post)){
@@ -1520,6 +1520,20 @@ function saswp_get_the_tags(){
         
         
     }    
+
+
+    if( isset($sd_data['saswp-metatagmanager']) && $sd_data['saswp-metatagmanager'] == 1 && class_exists('Meta_Tag_Manager') ){
+
+        $post_meta = get_post_meta($post->ID, 'mtm_data', true);
+        $meta_tag = array_column($post_meta, 'value');
+        $key      = array_search("keywords",$meta_tag);
+        
+        if(array_key_exists($key, $post_meta)){
+            $tag_str = $post_meta[$key]['content'];
+        }
+                        
+    }
+
     return $tag_str;
     
 }

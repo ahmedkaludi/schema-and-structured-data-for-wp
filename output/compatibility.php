@@ -435,6 +435,9 @@ class saswp_output_compatibility{
     public function yoast_seo_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-yoast');
     }
+    public function metatagmanager_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('metatagmanager');
+    }
     public function slimseo_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-slimseo');
     }

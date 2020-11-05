@@ -3167,6 +3167,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-yoast]',                             
                         )
                 );
+        $metatagmanager      = array(
+                'label'   => 'Meta Tag Manager',
+                'id'      => 'saswp-metatagmanager-checkbox',                        
+                'name'    => 'saswp-metatagmanager-checkbox',
+                'type'    => 'checkbox',
+                'note'   => saswp_get_field_note('metatagmanager'),
+                'class'   => 'checkbox saswp-checkbox',
+                'hidden'  => array(
+                        'id'   => 'saswp-metatagmanager',
+                        'name' => 'sd_data[saswp-metatagmanager]',                             
+                )
+        );        
         $slimseo      = array(
                 'label'   => 'Slim SEO',
                 'id'      => 'saswp-slimseo-checkbox',                        
@@ -3395,6 +3407,7 @@ function saswp_compatibility_page_callback(){
                 $dwquestiton,
                 $sabaidiscuss,                
                 $yoast,
+                $metatagmanager,
                 $slimseo,
                 $smart_crawl,
                 $seo_press,
