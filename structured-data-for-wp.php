@@ -87,6 +87,11 @@ require_once SASWP_DIR_NAME.'/modules/rating-box/backend.php';
 require_once SASWP_DIR_NAME.'/modules/rating-box/frontend.php'; 
 require_once SASWP_DIR_NAME.'/output/service.php'; 
 require_once SASWP_DIR_NAME.'/output/compatibility.php'; 
+
+//Loading api files
+
+require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api.php';
+
 //Loading Reviews files
 require_once SASWP_DIR_NAME.'/modules/divi-builder/extension.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_admin.php'; 
