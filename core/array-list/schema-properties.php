@@ -5164,6 +5164,26 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text',                           
                     ),    
                     array(
+                        'label'      => 'Book Format',
+                        'id'         => 'saswp_book_format_'.$schema_id,
+                        'type'       => 'select',                           
+                        'options'    => array(
+                                     'AudiobookFormat'   => 'AudiobookFormat',
+                                     'EBook'             => 'EBook',
+                                     'GraphicNovel'      => 'GraphicNovel',
+                                     'Hardcover'         => 'Hardcover',
+                                     'Paperback'         => 'Paperback' 
+                        )                         
+                    ),    
+                    array(
+                        'label'      => 'In Language',
+                        'id'         => 'saswp_book_inlanguage_'.$schema_id,
+                        'type'       => 'text',       
+                        'attributes' => array(
+                                'placeholder' => 'English'
+                        ),                    
+                    ),    
+                    array(
                             'label'      => 'Publisher',
                             'id'         => 'saswp_book_publisher_'.$schema_id,
                             'type'       => 'text',                           
