@@ -215,7 +215,7 @@ Class saswp_rating_box_frontend{
                 }                                                                                                              
                 $boxdata.='<tr>
                             <td class="saswp-rvw-sm">
-                                <span>'.esc_html__('SUMMARY', 'schema-and-structured-data-for-wp').'</span>
+                                <span>'.saswp_t_string('SUMMARY').'</span>
                                 <div class="rvw-dsc">
                                 '.wpautop( stripslashes ( $saswp_review_description ) ).'
                                 </div>

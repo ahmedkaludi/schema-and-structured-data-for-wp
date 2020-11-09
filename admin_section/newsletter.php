@@ -48,7 +48,7 @@ class saswp_ads_newsletter {
 		    echo $response;
 
                 }else{
-                        echo esc_html__('Email id required', 'schema-and-structured-data-for-wp');                        
+                        echo saswp_t_string('Email id required');                        
                 }                        
 
                 wp_die();
@@ -77,7 +77,7 @@ class saswp_ads_newsletter {
                         $object['current_user_email'] = $current_user->user_email;                
                         $object['current_user_name']  = $current_user->display_name;        
 			$object['displayID']          = '#menu-posts-saswp';                        
-                        $object['button1']            = esc_html__('No Thanks', 'schema-and-structured-data-for-wp');
+                        $object['button1']            = saswp_t_string('No Thanks');
                         $object['button2']            = false;
                         $object['function_name']      = '';                        
 		}

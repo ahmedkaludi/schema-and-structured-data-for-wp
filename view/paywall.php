@@ -37,22 +37,22 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                    <table class="option-table-class saswp-paywall-table-class">
                         <tbody>
                             <tr>
-                                <td><label for="notAccessibleForFree"><?php echo esc_html__( 'Paywall', 'schema-and-structured-data-for-wp' ) ?></label></td>
+                                <td><label for="notAccessibleForFree"><?php echo saswp_t_string( 'Paywall' ) ?></label></td>
                               <td><input type="checkbox" id="notAccessibleForFree" name="notAccessibleForFree" value="1" <?php if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree']==1){echo 'checked'; }?>>
                               </td>
                             </tr>
                             <tr <?php if(!isset($schema_options['notAccessibleForFree']) || $schema_options['notAccessibleForFree']!=1){echo 'style="display:none"'; }?>>
-                              <td><label for="isAccessibleForFree"><?php echo esc_html__( 'Is accessible for free', 'schema-and-structured-data-for-wp' ) ?></label></td>
+                              <td><label for="isAccessibleForFree"><?php echo saswp_t_string( 'Is accessible for free' ) ?></label></td>
                               <td>
                                   <select name="isAccessibleForFree" id="isAccessibleForFree">
-                                    <option value="False" <?php if( isset($schema_options['isAccessibleForFree']) && $schema_options['isAccessibleForFree']=='False'){echo 'selected'; }?>><?php echo esc_html__( 'False', 'schema-and-structured-data-for-wp' ); ?></option>
-                                    <option value="True" <?php if( isset($schema_options['isAccessibleForFree']) && $schema_options['isAccessibleForFree']=='True'){echo 'selected'; }?>><?php echo esc_html__( 'True', 'schema-and-structured-data-for-wp' ); ?></option>
+                                    <option value="False" <?php if( isset($schema_options['isAccessibleForFree']) && $schema_options['isAccessibleForFree']=='False'){echo 'selected'; }?>><?php echo saswp_t_string( 'False' ); ?></option>
+                                    <option value="True" <?php if( isset($schema_options['isAccessibleForFree']) && $schema_options['isAccessibleForFree']=='True'){echo 'selected'; }?>><?php echo saswp_t_string( 'True' ); ?></option>
                                   </select>
                               </td>
                             </tr>
                             <tr <?php if(!isset($schema_options['notAccessibleForFree']) || $schema_options['notAccessibleForFree']!=1){echo 'style="display:none"'; }?>>
                               <td>
-                                <label for="paywall_class_name"><?php echo esc_html__( 'Enter the class name of paywall section', 'schema-and-structured-data-for-wp' ); ?></label>  
+                                <label for="paywall_class_name"><?php echo saswp_t_string( 'Enter the class name of paywall section' ); ?></label>  
                               </td>
                               <td><input type="text" id="paywall_class_name" name="paywall_class_name" value="<?php if( isset($schema_options['paywall_class_name']) ){echo esc_attr($schema_options['paywall_class_name']); }?>"></td>
                             </tr>

@@ -12,9 +12,9 @@ class SASWP_Gutenberg_Render {
 
          $question  = '<div class="saswp-qanda-block-question">
                 <h3>'.esc_html($attributes['question_name']).'</h3>
-                <span class="saswp-qand-date">'.esc_html($attributes['question_date_created']).' '.esc_html($attributes['question_time_created']).' '.__( 'by', 'schema-and-structured-data-for-wp' ).' '.esc_html($attributes['question_author']).'</span>                
+                <span class="saswp-qand-date">'.esc_html($attributes['question_date_created']).' '.esc_html($attributes['question_time_created']).' '.saswp_t_string( 'by' ).' '.esc_html($attributes['question_author']).'</span>                
                 <p>'.esc_html($attributes['question_text']).'</p>
-                '. __( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($attributes['question_up_vote']).')
+                '. saswp_t_string( 'Vote' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($attributes['question_up_vote']).')
                 </div>';
                 
                 if(isset($attributes['accepted_answers']) && !empty($attributes['accepted_answers'])){
@@ -26,7 +26,7 @@ class SASWP_Gutenberg_Render {
                         <p>'.esc_html($answer['text']).'</p>                        
                         </a>
                         <span class="saswp-qand-date">'.esc_html($answer['date_created']).' '.esc_html($answer['time_created']).' by <strong>'.esc_html($answer['author']).'</strong></span>                        
-                        <br> '. __( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')
+                        <br> '. saswp_t_string( 'Vote' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')
                         
                         </li>';
                        
@@ -43,7 +43,7 @@ class SASWP_Gutenberg_Render {
                         <p>'.esc_html($answer['text']).'</p>                        
                         </a>
                         <span class="saswp-qand-date">'.esc_html($answer['date_created']).' '.esc_html($answer['time_created']).' by <strong>'.esc_html($answer['author']).'</strong></span>                        
-                        <br> '. __( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')                        
+                        <br> '. saswp_t_string( 'Vote' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')                        
                         </li>';                       
                     }
 
@@ -51,8 +51,8 @@ class SASWP_Gutenberg_Render {
               //Escaping has been done above for all below html  
         $response = '<div class="saswp-qanda-block-html">
         '.$question.'
-        <div class="saswp-qanda-block-answer"><h3>'. __( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.$accepted_answers.'</div>
-        <div class="saswp-qanda-block-answer"><h3>'. __( 'Suggested Answers', 'schema-and-structured-data-for-wp' ) .'</h3>'.$suggested_answers.'</div>
+        <div class="saswp-qanda-block-answer"><h3>'. saswp_t_string( 'Accepted Answers' ).'</h3>'.$accepted_answers.'</div>
+        <div class="saswp-qanda-block-answer"><h3>'. saswp_t_string( 'Suggested Answers' ) .'</h3>'.$suggested_answers.'</div>
         </div>';
                 
         return $response;
@@ -68,9 +68,9 @@ class SASWP_Gutenberg_Render {
                     foreach($attributes['organizers'] as $org){
 
                        $org_html .= '<div class="saswp-event-organiser"><span>'.esc_html($org['name']).'</span><br>';
-                       $org_html .= '<strong>'.esc_html__('Phone', 'schema-and-structured-data-for-wp').' : </strong><span>'.esc_html($org['phone']).'</span><br>';
-                       $org_html .= '<strong>'.esc_html__('Email', 'schema-and-structured-data-for-wp').' : </strong><span>'.esc_html($org['email']).'</span><br>';
-                       $org_html .= '<strong>'.esc_html__('Website', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($org['website']).'</span></div>';
+                       $org_html .= '<strong>'.saswp_t_string('Phone').' : </strong><span>'.esc_html($org['phone']).'</span><br>';
+                       $org_html .= '<strong>'.saswp_t_string('Email').' : </strong><span>'.esc_html($org['email']).'</span><br>';
+                       $org_html .= '<strong>'.saswp_t_string('Website').' : </strong> <span>'.esc_html($org['website']).'</span></div>';
 
                     }
 
@@ -81,8 +81,8 @@ class SASWP_Gutenberg_Render {
                     foreach($attributes['performers'] as $org){
 
                        $performer_html .= '<div class="saswp-event-organiser"><span>'.esc_html($org['name']).'</span><br>';
-                       $performer_html .= '<strong>'.esc_html__('URL', 'schema-and-structured-data-for-wp').' : </strong><span><a href="'.esc_url($org['url']).'">'.esc_url($org['url']).'</a></span><br>';
-                       $performer_html .= '<strong>'.esc_html__('Email', 'schema-and-structured-data-for-wp').' : </strong><span>'.esc_html($org['email']).'</span><br>';                       
+                       $performer_html .= '<strong>'.saswp_t_string('URL').' : </strong><span><a href="'.esc_url($org['url']).'">'.esc_url($org['url']).'</a></span><br>';
+                       $performer_html .= '<strong>'.saswp_t_string('Email').' : </strong><span>'.esc_html($org['email']).'</span><br>';                       
 
                     }
 
@@ -92,7 +92,7 @@ class SASWP_Gutenberg_Render {
 
         if(isset($attributes['event_status']) && $attributes['event_status'] == 'EventRescheduled' && isset($attributes['previous_date'])){
 
-            $previous_date = '<strong>'.esc_html__('Previous Date', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['previous_date']).'</span>'
+            $previous_date = '<strong>'.saswp_t_string('Previous Date').' : </strong> <span>'.esc_html($attributes['previous_date']).'</span>'
                             . (!isset($attributes['all_day']) ?  '<span> ,'.esc_html($attributes['previous_time']).'</span><br>' : '<br>');        
 
         }                
@@ -100,21 +100,21 @@ class SASWP_Gutenberg_Render {
         $response   .= '<div class="saswp-event-wrapper">'
                     . (isset($attributes['description']) ? '<p>'.$attributes['description'].'</p>' : '')
                     . '<div class="saswp-event-dates">'
-                    . '<h5>'.esc_html__('Event Details', 'schema-and-structured-data-for-wp').'</h5>'
-                    . '<strong>'.esc_html__('Start Date', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['start_date']).'</span>'
+                    . '<h5>'.saswp_t_string('Event Details').'</h5>'
+                    . '<strong>'.saswp_t_string('Start Date').' : </strong> <span>'.esc_html($attributes['start_date']).'</span>'
                     . (!isset($attributes['all_day']) ?  '<span> ,'.esc_html($attributes['start_time']).'</span><br>' : '<br>')
-                    . '<strong>'.esc_html__('End Date', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['end_date']).'</span>'
+                    . '<strong>'.saswp_t_string('End Date').' : </strong> <span>'.esc_html($attributes['end_date']).'</span>'
                     . (!isset($attributes['all_day']) ?  '<span> ,'.esc_html($attributes['end_time']).'</span><br>' : '<br>')                    
                     . $previous_date
-                    . ($attributes['website'] ? '<strong>'.esc_html__('Website', 'schema-and-structured-data-for-wp').' : </strong> <span><a href="'.esc_url($attributes['website']).'">'.esc_url($attributes['website']).'</a></span><br>' : '')
-                    . ($attributes['price'] ? '<strong>'.esc_html__('Price', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['price']).' '. (isset($attributes['currency_code']) ? esc_html($attributes['currency_code']) : 'USD').'</span><br>' : '')
-                    . ($attributes['attendance_mode'] ? '<strong>'.esc_html__('Attendance Mode', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['attendance_mode']).'</span><br>' : '')
-                    . ($attributes['event_status'] ? '<strong>'.esc_html__('Status', 'schema-and-structured-data-for-wp').' : </strong> <span>'.esc_html($attributes['event_status']).'</span>' : '')
-                    . (isset($attributes['all_day']) ?  '<div>'.esc_html__('This event is all day', 'schema-and-structured-data-for-wp').'</div>' : '')
+                    . ($attributes['website'] ? '<strong>'.saswp_t_string('Website').' : </strong> <span><a href="'.esc_url($attributes['website']).'">'.esc_url($attributes['website']).'</a></span><br>' : '')
+                    . ($attributes['price'] ? '<strong>'.saswp_t_string('Price').' : </strong> <span>'.esc_html($attributes['price']).' '. (isset($attributes['currency_code']) ? esc_html($attributes['currency_code']) : 'USD').'</span><br>' : '')
+                    . ($attributes['attendance_mode'] ? '<strong>'.saswp_t_string('Attendance Mode').' : </strong> <span>'.esc_html($attributes['attendance_mode']).'</span><br>' : '')
+                    . ($attributes['event_status'] ? '<strong>'.saswp_t_string('Status').' : </strong> <span>'.esc_html($attributes['event_status']).'</span>' : '')
+                    . (isset($attributes['all_day']) ?  '<div>'.saswp_t_string('This event is all day').'</div>' : '')
                     . '</div>'
                 
                     . '<div class="saswp-event-venue-details">'
-                    . (($attributes['venue_name'] || $attributes['venue_address']) ? '<h5>'.esc_html__('Venue', 'schema-and-structured-data-for-wp').'</h5>' : '')
+                    . (($attributes['venue_name'] || $attributes['venue_address']) ? '<h5>'.saswp_t_string('Venue').'</h5>' : '')
                     . ($attributes['venue_name'] ? '<span>'.esc_html($attributes['venue_name']).'</span><br><br>' : '')
                     . ($attributes['venue_address'] ? '<span>'.esc_html($attributes['venue_address']).'</span>, ': '')
                     . ($attributes['venue_city'] ? '<span>'.esc_html($attributes['venue_city']).'</span>, <br>': '')                    
@@ -122,15 +122,15 @@ class SASWP_Gutenberg_Render {
                     . ($attributes['venue_postal_code'] ? '<span>'.esc_html($attributes['venue_postal_code']).'</span>, ': '')
                     . ($attributes['venue_country'] ? '<span>'.esc_html($attributes['venue_country']).'</span><br>': '');
                     if($attributes['venue_phone']){
-                        $response.= '<strong>'.esc_html__('Phone', 'schema-and-structured-data-for-wp').' : </strong><span>'.esc_html($attributes['venue_phone']).'</span>';
+                        $response.= '<strong>'.saswp_t_string('Phone').' : </strong><span>'.esc_html($attributes['venue_phone']).'</span>';
                     }                       
                     $response.= '</div>'                                    
                     . '<div class="saswp-event-organizers-details">'
-                    . '<h5>'.esc_html__('Organizers', 'schema-and-structured-data-for-wp').'</h5>'                    
+                    . '<h5>'.saswp_t_string('Organizers').'</h5>'                    
                     . $org_html
                     . '</div>'                
                     . '<div class="saswp-event-performers-details">'
-                    . '<h5>'.esc_html__('Performers', 'schema-and-structured-data-for-wp').'</h5>'                    
+                    . '<h5>'.saswp_t_string('Performers').'</h5>'                    
                     . $performer_html
                     . '</div>'        
                     . '</div>';
@@ -173,13 +173,13 @@ class SASWP_Gutenberg_Render {
          $response.= '<p class="saswp-job-company-name">';
          
                     if($attributes['company_website']){
-                        $response .=  '<a target="_blank" class="saswp-job-company-website" href="'.esc_url($attributes['company_website']).'"><span class="dashicons dashicons-admin-links"></span> '.esc_html__('Website', 'schema-and-structured-data-for-wp').'</a>';
+                        $response .=  '<a target="_blank" class="saswp-job-company-website" href="'.esc_url($attributes['company_website']).'"><span class="dashicons dashicons-admin-links"></span> '.saswp_t_string('Website').'</a>';
                     }
                     if($attributes['company_twitter']){
-                        $response .= '<a target="_blank" class="saswp-job-company-twitter" href="'.esc_url($attributes['company_twitter']).'"><span class="dashicons dashicons-twitter"></span> '.esc_html__('Twitter', 'schema-and-structured-data-for-wp').'</a>';
+                        $response .= '<a target="_blank" class="saswp-job-company-twitter" href="'.esc_url($attributes['company_twitter']).'"><span class="dashicons dashicons-twitter"></span> '.saswp_t_string('Twitter').'</a>';
                     }
                     if($attributes['company_facebook']){
-                        $response .= '<a target="_blank" class="saswp-job-company-facebook" href="'.esc_url($attributes['company_facebook']).'"><span class="dashicons dashicons-facebook-alt"></span>'.esc_html__('Facebook', 'schema-and-structured-data-for-wp').'</a>';
+                        $response .= '<a target="_blank" class="saswp-job-company-facebook" href="'.esc_url($attributes['company_facebook']).'"><span class="dashicons dashicons-facebook-alt"></span>'.saswp_t_string('Facebook').'</a>';
                     }
                              
                     $response .= '<strong>'.esc_html($attributes['company_name']).'</strong>'
@@ -187,7 +187,7 @@ class SASWP_Gutenberg_Render {
                     . '<p class="saswp-job-company-tagline">'.esc_html($attributes['company_tagline']).'</p>';
                     
                     if($attributes['base_salary']){
-                        $response .= '<p><strong>'.esc_html__('Base Salary', 'schema-and-structured-data-for-wp').': </strong> <span>'.esc_html($attributes['base_salary']).' '.esc_html($attributes['currency_code']).' '.esc_html__('per', 'schema-and-structured-data-for-wp').' '.esc_html($attributes['unit_text']).'</span> <p>';
+                        $response .= '<p><strong>'.saswp_t_string('Base Salary').': </strong> <span>'.esc_html($attributes['base_salary']).' '.esc_html($attributes['currency_code']).' '.saswp_t_string('per').' '.esc_html($attributes['unit_text']).'</span> <p>';
                     }
              
                     $response.= '</div>'
@@ -198,7 +198,7 @@ class SASWP_Gutenberg_Render {
                     . '<div class="saswp-job-application-details">';
                     
                     if($attributes['app_email_or_website']){
-                        $response.= esc_html__('To apply for this job', 'schema-and-structured-data-for-wp').' <strong>'.esc_html($attributes['app_email_or_website']).'</strong> '
+                        $response.= saswp_t_string('To apply for this job').' <strong>'.esc_html($attributes['app_email_or_website']).'</strong> '
                        . '<a href="mailto:'.esc_attr($attributes['app_email_or_website']).'">'.esc_attr($attributes['app_email_or_website']).'</a>';
                     }
                                                             
@@ -220,16 +220,16 @@ class SASWP_Gutenberg_Render {
           foreach($attributes['courses'] as $course){
             
             $response .= '<div class="saswp-course-loop">'
-                      . '<h3 class="saswp-course-detail">'.esc_html__('Course Details', 'schema-and-structured-data-for-wp').'</h3>'
+                      . '<h3 class="saswp-course-detail">'.saswp_t_string('Course Details').'</h3>'
                       . '<h5>'.esc_html($course['name']).'</h5>'
                       . '<p>';
             if($course['image_url']){
                 $response .='<img src="'.esc_url($course['image_url']).'">';
             }          
             $response .= ''.esc_html($course['description']).'</p>'
-                      . '<h5>'.esc_html__('Provider Details', 'schema-and-structured-data-for-wp').'</h5>'
-                      . '<div><strong>'.esc_html__('Provider Name', 'schema-and-structured-data-for-wp').'</strong> : '. esc_html($course['provider_name']). '</div>'
-                      . '<div><strong>'.esc_html__('Provider Website', 'schema-and-structured-data-for-wp').'</strong> : '. '<a href="'.esc_url($course['provider_website']).'">'.esc_url($course['provider_website']).'</a></div>'                    
+                      . '<h5>'.saswp_t_string('Provider Details').'</h5>'
+                      . '<div><strong>'.saswp_t_string('Provider Name').'</strong> : '. esc_html($course['provider_name']). '</div>'
+                      . '<div><strong>'.saswp_t_string('Provider Website').'</strong> : '. '<a href="'.esc_url($course['provider_website']).'">'.esc_url($course['provider_website']).'</a></div>'                    
                       . '</div>';  
 
             }  

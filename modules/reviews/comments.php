@@ -171,7 +171,7 @@ function saswp_comment_rating_display_average_rating() {
 			$average = $average_rate['average'];
 			$count   = $average_rate['count'];
 				
-			$custom_content  = '<div class="saswp-average-rating">'.esc_html__('Average','schema-and-structured-data-for-wp').' '. saswp_get_rating_html_by_value($average).' '.$average.' '. esc_html__('Based On','schema-and-structured-data-for-wp') .' '.$count.'</div>';
+			$custom_content  = '<div class="saswp-average-rating">'.saswp_t_string('Average').' '. saswp_get_rating_html_by_value($average).' '.esc_html($average).' '. saswp_t_string('Based On') .' '.esc_html($count).'</div>';
 
 			echo $custom_content;
 

@@ -87,7 +87,7 @@ class saswp_reviews_admin {
 			
 			add_meta_box(
 				'saswp_review_content',
-				esc_html__( 'Review Content', 'schema-and-structured-data-for-wp' ),
+				saswp_t_string( 'Review Content' ),
 				array( $this, 'saswp_meta_box_callback' ),
 				$single_screen,
 				'normal',
@@ -124,7 +124,7 @@ class saswp_reviews_admin {
                     if(isset($meta_field['label'])){
                       $label =  $meta_field['label']; 
                     }
-			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $label, 'schema-and-structured-data-for-wp' ) . '</label>';
+			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $label ) . '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
                         
 			if ( empty( $meta_value ) ) {
@@ -159,12 +159,12 @@ class saswp_reviews_admin {
 							'<option %s value="%s">%s</option>',
 							$meta_value == $key ? 'selected' : '',
 							$key,
-							esc_html__($value, 'schema-and-structured-data-for-wp')
+							saswp_t_string($value)
 						);
 					}
                                         $input .= '</select>';
 					
-					break;
+									break;
 				case 'textarea':
 					$input = sprintf(
 						'<textarea class="saswp_textarea" id="%s" name="%s" rows="5">%s</textarea>',
