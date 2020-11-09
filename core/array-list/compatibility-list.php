@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'polylang'  =>  array(            
+            'name'       => 'Polylang',
+            'free'       => 'polylang/polylang.php',                    
+            'opt_name'   => 'saswp-polylang',
+            'part_in'    => 'pro',
+        ),
         'wpjobmanager'  =>  array(            
             'name'       => 'WP Job Manager',
             'free'       => 'wp-job-manager/wp-job-manager.php',                    
