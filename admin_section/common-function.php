@@ -2975,6 +2975,7 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
 function saswp_get_field_note($pname){
     
     $notes = array(  
+            'polylang'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/polylang/">Polylang</a>',
             'wpdiscuz'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wpdiscuz/">Comments – wpDiscuz</a>',
             'rannarecipe'                 => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/ranna-food-recipe-wordpress-theme/25157340">Ranna - Food & Recipe</a>',
             'easy_recipe'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/easyrecipe/">EasyRecipe</a>',
@@ -3972,6 +3973,12 @@ function saswp_explode_comma_seprated ($data, $type) {
 
 function saswp_t_string($string){
 
-    return esc_html__( $string , 'schema-and-structured-data-for-wp');
+    $settings       = saswp_defaultSettings();    
 
+    if(function_exists('pll__') && (isset($settings['saswp-polylang']) && $settings['saswp-polylang'] == 1) ){
+        return pll__($string);
+    }else{
+        return esc_html__( $string , 'schema-and-structured-data-for-wp');
+    }
+    
 }

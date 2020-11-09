@@ -1645,8 +1645,9 @@ add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
 
 function saswp_license_status($add_on, $license_status, $license_key){
                                       
-                $item_name = array(
-                       'cooked'       => 'Cooked compatibility for Schema',
+                $item_name = array(                       
+                       'jobposting'   => 'JobPosting Schema Compatibility',
+                       'polylang'     => 'Polylang Compatibility For SASWP',
                        'woocommerce'  => 'Woocommerce compatibility for Schema',
                        'reviews'      => 'Reviews for schema',
                        'res'          => 'Real Estate Schema',

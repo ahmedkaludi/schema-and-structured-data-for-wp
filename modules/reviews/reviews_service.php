@@ -1053,7 +1053,7 @@ class saswp_reviews_service {
                             $platform_name  = $value['saswp_review_platform_name'];
 
                             if($platform_name == 'Self'){
-                                $platform_name = saswp_label_text('translation-self');
+                                $platform_name = saswp_t_string(saswp_label_text('translation-self'));
                             }
 
                             $platform_icon  = $value['saswp_review_platform_icon'];
@@ -1086,7 +1086,7 @@ class saswp_reviews_service {
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-r3-brv">';
-                      $html .= saswp_label_text('translation-based-on').' '.esc_attr($review_count).' '.saswp_label_text('translation-reviews');
+                      $html .= saswp_t_string(saswp_label_text('translation-based-on')).' '.esc_attr($review_count).' '.saswp_t_string(saswp_label_text('translation-reviews'));
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '</a>';
@@ -1114,7 +1114,7 @@ class saswp_reviews_service {
                             
                             $platform_name  = $value['saswp_review_platform_name'];
                             if($platform_name == 'Self'){
-                                $platform_name = saswp_label_text('translation-self');
+                                $platform_name = saswp_t_string(saswp_label_text('translation-self'));
                             }
                             $platform_icon  = $value['saswp_review_platform_icon'];
                             $sum_of_rating += $value['saswp_review_rating'];
@@ -1146,7 +1146,7 @@ class saswp_reviews_service {
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-r3-brv">';
-                      $html .= saswp_label_text('translation-based-on').' '.esc_attr($review_count).' '.saswp_label_text('translation-reviews');
+                      $html .= saswp_t_string(saswp_label_text('translation-based-on')).' '.esc_attr($review_count).' '.saswp_t_string(saswp_label_text('translation-reviews'));
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '</a>';

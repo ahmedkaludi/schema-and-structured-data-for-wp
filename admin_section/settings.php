@@ -398,7 +398,38 @@ function saswp_handle_file_upload($option){
 function saswp_premium_features_callback(){ ?>
 	<div class="saswp-pre-ftrs-wrap">
 		<ul class="saswp-features-blocks">
-                    
+
+                <li>
+                            
+                            <?php
+                            
+                            $cooked_active_text = '';
+                            
+                            if(is_plugin_active('polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php')){                                        
+                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                            }else{
+                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                            }
+                            
+                            ?> 
+                                            
+                    <div class="saswp-features-ele">
+                        <div class="saswp-ele-ic" style="background: #509207;">
+                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/polylang.png">
+                            </div>
+                            <div class="saswp-ele-tlt">
+                                    <h3><?php echo saswp_t_string('Polylang Compatibility for SASWP') ?></h3>
+                                    <p><?php echo saswp_t_string('It adds all the static labels from this plugin to Polylang Strings Translations dashboard where user can translate it') ?></p>
+                            </div>
+                    </div>
+                    <div class="saswp-sts-btn">
+                        
+                        <?php echo $cooked_active_text; ?>
+                                                                                                                                               
+                    </div>
+            </li>
+
                 <li>
                             
                             <?php
@@ -1583,6 +1614,12 @@ function saswp_import_callback(){
                                       
         }
 
+        if(is_plugin_active('polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php')){
+                      
+                $add_on[] = 'Polylang';           
+                                           
+        }
+        
         if(is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){
                       
                 $add_on[] = 'Jobposting';           
@@ -1995,6 +2032,19 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+
+        $polylang = array(
+                'label'  => 'Polylang',
+                'id'     => 'saswp-polylang-checkbox',                        
+                'name'   => 'saswp-polylang-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('polylang'),
+                'hidden' => array(
+                        'id'   => 'saswp-polylang',
+                        'name' => 'sd_data[saswp-polylang]',                             
+                )
+        );        
 
         $simplejobboard        = array(
                 'label'  => 'Simple Job Board',
@@ -3339,6 +3389,10 @@ function saswp_compatibility_page_callback(){
                 $webfaq10['note']             = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
 
          }
+         if(!is_plugin_active('polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php')){
+                          
+                $polylang['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/polylang-compatibility-for-saswp/">Polylang Compatibility For SASWP Addon</a>';                        
+         }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
                           
                 $sabaidiscuss['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
@@ -3407,6 +3461,7 @@ function saswp_compatibility_page_callback(){
                 $dwquestiton,
                 $sabaidiscuss,                
                 $yoast,
+                $polylang,
                 $metatagmanager,
                 $slimseo,
                 $smart_crawl,
@@ -3733,9 +3788,9 @@ function saswp_enqueue_style_js( $hook ) {
             'page_now'                     => $hook,
             'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')),
             'saswp_schema_types'           =>  $all_schema_array,
-            'trans_based_on'               => saswp_label_text('translation-based-on'),
-            'trans_reviews'                => saswp_label_text('translation-reviews'),
-            'trans_self'                   => saswp_label_text('translation-self'),
+            'trans_based_on'               => saswp_t_string(saswp_label_text('translation-based-on')),
+            'trans_reviews'                => saswp_t_string(saswp_label_text('translation-reviews')),
+            'trans_self'                   => saswp_t_string(saswp_label_text('translation-self')),
             'translable_txt'               => $translable_txt
         );
                         

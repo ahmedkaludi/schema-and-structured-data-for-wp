@@ -1051,6 +1051,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-polylang-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-polylang").val(1);             
+                            }else{
+                              $("#saswp-polylang").val(0);           
+                            }
+                      break;
+
                       case 'saswp-metatagmanager-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

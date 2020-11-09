@@ -606,6 +606,9 @@ class saswp_output_compatibility{
     public function helpiefaq_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-helpiefaq');
     }
+    public function polylang_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-polylang');
+    }
     public function total_recipe_generator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-total-recipe-generator');
     }
