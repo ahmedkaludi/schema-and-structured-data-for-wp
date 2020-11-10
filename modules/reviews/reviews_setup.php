@@ -28,20 +28,20 @@ function saswp_register_saswp_reviews_location() {
                         
         $post_type = array(
 	    'labels' => array(
-	        'name' 			=> esc_html__( 'Location', 'schema-and-structured-data-for-wp' ),	        
-	        'add_new' 		=> esc_html__( 'Add Location', 'schema-and-structured-data-for-wp' ),
-	        'add_new_item'  	=> esc_html__( 'Edit Location', 'schema-and-structured-data-for-wp' ),
-                'edit_item'             => esc_html__( 'Edit Location','schema-and-structured-data-for-wp'),                
+	        'name' 		            	=> saswp_t_string( 'Location' ),	        
+	        'add_new' 		            => saswp_t_string( 'Add Location' ),
+	        'add_new_item'  	        => saswp_t_string( 'Edit Location' ),
+            'edit_item'                 => saswp_t_string( 'Edit Location'),                
 	    ),
-      	'public' 		=> false,
-      	'has_archive' 		=> false,
+      	'public' 		        => false,
+      	'has_archive' 		    => false,
       	'exclude_from_search'	=> true,
     	'publicly_queryable'	=> false,
-       // 'show_in_menu'          => 'edit.php?post_type=saswp',                
+       // 'show_in_menu'        => 'edit.php?post_type=saswp',                
         'show_ui'               => false,
-	'show_in_nav_menus'     => false,			
+	    'show_in_nav_menus'     => false,			
         'show_admin_column'     => true,        
-	'rewrite'               => false,        
+	    'rewrite'               => false,        
     );
         
     if(saswp_current_user_allowed()){
@@ -66,10 +66,10 @@ function saswp_register_saswp_reviews() {
                         
         $post_type = array(
 	    'labels' => array(
-	        'name' 			=> esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ),	        
-	        'add_new' 		=> esc_html__( 'Add Review', 'schema-and-structured-data-for-wp' ),
-	        'add_new_item'  	=> esc_html__( 'Edit Review', 'schema-and-structured-data-for-wp' ),
-                'edit_item'             => esc_html__( 'Edit Review','schema-and-structured-data-for-wp'),                
+	        'name' 			=> saswp_t_string( 'Reviews' ),	        
+	        'add_new' 		=> saswp_t_string( 'Add Review' ),
+	        'add_new_item'  	=> saswp_t_string( 'Edit Review' ),
+                'edit_item'             => saswp_t_string( 'Edit Review'),                
 	    ),
       	'public' 		=> true,
       	'has_archive' 		=> false,
@@ -112,7 +112,7 @@ function saswp_collection_custom_columns($columns) {
     
     unset($columns['date']);
     
-    $columns['saswp_collection_shortcode']       = '<a>'.esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' ).'<a>';
+    $columns['saswp_collection_shortcode']       = '<a>'.saswp_t_string( 'Shortcode' ).'<a>';
     
     return $columns;
     
@@ -196,13 +196,13 @@ function saswp_reviews_custom_columns($columns) {
     unset($columns);
     
     $columns['cb']                         = '<input type="checkbox" />';
-    $columns['saswp_reviewer_image']       = '<a>'.esc_html__( 'Image', 'schema-and-structured-data-for-wp' ).'<a>';
-    $columns['title']                      = esc_html__( 'Title', 'schema-and-structured-data-for-wp' );    
-    $columns['saswp_review_rating']        = '<a>'.esc_html__( 'Rating', 'schema-and-structured-data-for-wp' ).'<a>';    
-    $columns['saswp_review_platform']      = '<a>'.esc_html__( 'Platform', 'schema-and-structured-data-for-wp' ).'<a>';    
-    $columns['saswp_review_date']          = '<a>'.esc_html__( 'Review Date', 'schema-and-structured-data-for-wp' ).'<a>'; 
-    $columns['saswp_review_place_id']      = '<a>'.esc_html__( 'Place ID/Reviewed To', 'schema-and-structured-data-for-wp' ).'<a>';    
-    $columns['saswp_review_shortcode']     = '<a>'.esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' ).'<a>';    
+    $columns['saswp_reviewer_image']       = '<a>'.saswp_t_string( 'Image' ).'<a>';
+    $columns['title']                      = saswp_t_string( 'Title' );    
+    $columns['saswp_review_rating']        = '<a>'.saswp_t_string( 'Rating' ).'<a>';    
+    $columns['saswp_review_platform']      = '<a>'.saswp_t_string( 'Platform' ).'<a>';    
+    $columns['saswp_review_date']          = '<a>'.saswp_t_string( 'Review Date' ).'<a>'; 
+    $columns['saswp_review_place_id']      = '<a>'.saswp_t_string( 'Place ID/Reviewed To' ).'<a>';    
+    $columns['saswp_review_shortcode']     = '<a>'.saswp_t_string( 'Shortcode' ).'<a>';    
     
     return $columns;
 }
@@ -321,104 +321,123 @@ function saswp_create_platform_custom_taxonomy() {
 }
 
 function saswp_insert_platform_terms(){
-    
-    $term_array = array(    
-                    'Self',
-                    'Agoda', 
-                    'Avvo', 
-                    'Angies List',
-                    'Apple AppStore',
-                    'Expedia', 
-                    'Facebook', 
-                    'Google', 
-                    'TripAdvisor', 
-                    'Yelp', 
-                    'Zillow', 
-                    'Zomato',                     
-                    'Airbnb', 
-                    'AliExpress', 
-                    'AlternativeTo', 
-                    'Amazon',
-                    'BBB',
-                    'BestBuy',
-                    'Booking.com', 
-                    'Capterra', 
-                    'CarGurus',
-                    'Cars.com', 
-                    'Citysearch', 
-                    'Classpass', 
-                    'Consumer Affairs', 
-                    'Clutch',
-                    'CreditKarma', 
-                    'CustomerLobby', 
-                    'DealerRater', 
-                    'Ebay', 
-                    'Edmunds', 
-                    'Etsy', 
-                    'Foursquare',
-                    'Flipkart',
-                    'G2Crowd', 
-                    'Gearbest',
-                    'Gartner',
-                    'Glassdoor', 
-                    'Healthgrades', 
-                    'HomeAdvisor', 
-                    'Homestars', 
-                    'Houzz', 
-                    'Hotels.com', 
-                    'HungerStation',
-                    'Indeed',
-                    'IMDB',
-                    'Insider Pages', 
-                    'Jet',
-                    'Judge.me',
-                    'Lawyers.com', 
-                    'Lending Tree', 
-                    'Martindale', 
-                    'Newegg', 
-                    'OpenRice', 
-                    'Opentable', 
-                    'ProductHunt',
-                    'Playstore',
-                    'RateMDs', 
-                    'ReserveOut',
-                    'Rotten Tomatoes',
-                    'Sitejabber', 
-                    'Siftery', 
-                    'Steam',
-                    'SoftwareAdvice',
-                    'Shopper Approved',
-                    'Talabat', 
-                    'The Knot', 
-                    'Thumbtack', 
-                    'Trulia', 
-                    'TrustedShops', 
-                    'Trustpilot', 
-                    'TrustRadius', 
-                    'Vitals', 
-                    'Walmart', 
-                    'WeddingWire',
-                    'Wish',
-                    'Yell', 
-                    'YellowPages', 
-                    'ZocDoc'                     
-                );
 
-  foreach($term_array as $term){
+    $term_ids = array();
+
+    $platform_inserted = get_transient('saswp_platform_inserted');
     
-      if(!term_exists( $term, 'platform' )){
-      
-        wp_insert_term(
-        $term, 
-        'platform', 
-        array(
-        'slug' => $term,
-       )
-      );
+    if($platform_inserted != 79){
         
-   }
-      
-  }
+        $term_array = array(    
+            'Self',
+            'Agoda', 
+            'Avvo', 
+            'Angies List',
+            'Apple AppStore',
+            'Expedia', 
+            'Facebook', 
+            'Google', 
+            'TripAdvisor', 
+            'Yelp', 
+            'Zillow', 
+            'Zomato',                     
+            'Airbnb', 
+            'AliExpress', 
+            'AlternativeTo', 
+            'Amazon',
+            'BBB',
+            'BestBuy',
+            'Booking.com', 
+            'Capterra', 
+            'CarGurus',
+            'Cars.com', 
+            'Citysearch', 
+            'Classpass', 
+            'Consumer Affairs', 
+            'Clutch',
+            'CreditKarma', 
+            'CustomerLobby', 
+            'DealerRater', 
+            'Ebay', 
+            'Edmunds', 
+            'Etsy', 
+            'Foursquare',
+            'Flipkart',
+            'G2Crowd', 
+            'Gearbest',
+            'Gartner',
+            'Glassdoor', 
+            'Healthgrades', 
+            'HomeAdvisor', 
+            'Homestars', 
+            'Houzz', 
+            'Hotels.com', 
+            'HungerStation',
+            'Indeed',
+            'IMDB',
+            'Insider Pages', 
+            'Jet',
+            'Judge.me',
+            'Lawyers.com', 
+            'Lending Tree', 
+            'Martindale', 
+            'Newegg', 
+            'OpenRice', 
+            'Opentable', 
+            'ProductHunt',
+            'Playstore',
+            'RateMDs', 
+            'ReserveOut',
+            'Rotten Tomatoes',
+            'Sitejabber', 
+            'Siftery', 
+            'Steam',
+            'SoftwareAdvice',
+            'Shopper Approved',
+            'Talabat', 
+            'The Knot', 
+            'Thumbtack', 
+            'Trulia', 
+            'TrustedShops', 
+            'Trustpilot', 
+            'TrustRadius', 
+            'Vitals', 
+            'Walmart', 
+            'WeddingWire',
+            'Wish',
+            'Yell', 
+            'YellowPages', 
+            'ZocDoc'                     
+        );
+
+        foreach($term_array as $term){
+
+            $term_id = term_exists( $term, 'platform' );                         
+                
+            if(!$term_id){
+
+                $result = wp_insert_term(  $term, 'platform', array('slug' => $term) );
+
+                if(!is_wp_error($result)){
+                    $term_ids[] = $result;
+                }
+
+            }else{
+                
+                if(isset($term_id['term_id'])){
+                    $term_ids[] = $term_id['term_id'];
+                }
+                
+            }
+
+        }
+
+        if(count($term_ids)  == 79){
+            set_transient('saswp_platform_inserted', 79,  24*7*HOUR_IN_SECONDS ); 
+        }
+
+    }
+        
 }
 
 function saswp_get_terms_as_array(){
@@ -454,7 +473,7 @@ function saswp_reviews_filter() {
         $current_plugin = esc_attr($_GET['slug']); // Check if option has been selected
       } ?>
       <select name="slug" id="slug">
-        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php esc_html_e( 'All', 'schema-and-structured-data-for-wp' ); ?></option>
+        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php esc_html_e( 'All' ); ?></option>
         <?php foreach( $plugins as $key=>$value ) { ?>
           <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $current_plugin ); ?>><?php echo esc_attr( $value ); ?></option>
         <?php } ?>

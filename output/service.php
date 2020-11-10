@@ -464,6 +464,12 @@ Class saswp_output_service{
                         }
                      
                     }
+                    if(isset($custom_fields['saswp_book_inlanguage'])){
+                        $input1['inLanguage'] =    $custom_fields['saswp_book_inlanguage'];
+                    }
+                    if(isset($custom_fields['saswp_book_format'])){
+                        $input1['bookFormat'] =    $custom_fields['saswp_book_format'];
+                    }
                     if(isset($custom_fields['saswp_book_isbn'])){
                      $input1['isbn'] =    $custom_fields['saswp_book_isbn'];
                     }
@@ -1524,6 +1530,13 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_webpage_headline'])){
                      $input1['mainEntity']['headline'] =    $custom_fields['saswp_webpage_headline'];
+                    }
+
+                    if(isset($custom_fields['saswp_webpage_section'])){
+                        $input1['mainEntity']['articleSection'] =    $custom_fields['saswp_webpage_section'];
+                    }
+                    if(isset($custom_fields['saswp_webpage_body'])){
+                        $input1['mainEntity']['articleBody'] =    $custom_fields['saswp_webpage_body'];
                     }
                     
                     if(isset($custom_fields['saswp_webpage_date_published'])){
@@ -4121,8 +4134,8 @@ Class saswp_output_service{
 						'mainEntityOfPage'	=> saswp_get_permalink(),						
 						'headline'		=> saswp_get_the_title(),
 						'description'		=> saswp_get_the_excerpt(),
-                                                'articleBody'           => saswp_get_the_content(),
-                                                'keywords'              => saswp_get_the_tags(),
+                        'articleBody'           => saswp_get_the_content(),
+                        'keywords'              => saswp_get_the_tags(),
 						'datePublished' 	=> esc_html($date),
 						'dateModified'		=> esc_html($modified_date),
 						'author'			=> saswp_get_author_details(),

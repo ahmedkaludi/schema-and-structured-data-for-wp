@@ -75,7 +75,7 @@ class saswp_view_common_class {
                      foreach ( $meta_fields as $meta_field ) {
                     
                     
-			$label = '<label for="' . $meta_field['name'] . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ) . '</label>';			
+			$label = '<label for="' . $meta_field['name'] . '">' . saswp_t_string( $meta_field['label'] ) . '</label>';			
 			                                                                        
 			switch ( $meta_field['type'] ) {
                                                             								                                
@@ -132,7 +132,7 @@ class saswp_view_common_class {
 							'<option %s value="%s">%s</option>',
 							$data[$meta_field['name']] === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							esc_html__($value, 'schema-and-structured-data-for-wp' )
+							saswp_t_string($value )
 						);
 					}
 					$input .= '</select>';
@@ -257,7 +257,7 @@ class saswp_view_common_class {
                                 
                             }
                                                         
-                            $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'Add '.$btn_text, 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
+                            $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.saswp_t_string( 'Add '.$btn_text ).'</a>';                                                                                                    
                             $tabs_fields .= '</div>';                                                                                                
                          
                         }
@@ -289,7 +289,7 @@ class saswp_view_common_class {
                         $input      = '';
                         $attributes = '';
                         
-			$label      = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ). '</label>';
+			$label      = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ). '</label>';
 			$meta_value = get_post_meta( $post_id, $meta_field['id'], true );
                                                 
 			if ( empty( $meta_value ) && isset($meta_field['default'])) {
@@ -432,7 +432,7 @@ class saswp_view_common_class {
 							'<option %s value="%s">%s</option>',
 							$meta_value === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							esc_html__($value, 'schema-and-structured-data-for-wp' )
+							saswp_t_string($value )
 						);
 					}
 					$input .= '</select>';

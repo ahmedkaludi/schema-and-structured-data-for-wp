@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function saswp_help_meta_box_cb(){
 
-    echo '<a href="'.esc_url(admin_url('admin.php?page=structured_data_options&tab=support')).'">'.esc_html__('Need Help', 'schema-and-structured-data-for-wp').'</a>';   
+    echo '<a href="'.esc_url(admin_url('admin.php?page=structured_data_options&tab=support')).'">'.saswp_t_string('Need Help').'</a>';   
 }
 
 /**

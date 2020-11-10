@@ -33,8 +33,8 @@ class Saswp_Reviews_Widget extends WP_Widget {
             
 		parent::__construct(
 			'saswp_google_review_widget', // Base ID
-			esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ), // Name
-			array( 'description' => esc_html__( 'Widget to display Reviews', 'schema-and-structured-data-for-wp' ), ) // Args
+			saswp_t_string( 'Reviews' ), // Name
+			array( 'description' => saswp_t_string( 'Widget to display Reviews' ), ) // Args
 		);
 	}
 
@@ -80,11 +80,11 @@ class Saswp_Reviews_Widget extends WP_Widget {
 	public function form( $instance ) {
             
             
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Review Title', 'schema-and-structured-data-for-wp' );
-                $ads   = ! empty( $instance['g_review'] ) ? $instance['g_review'] : esc_html__( 'review list to be display', 'schema-and-structured-data-for-wp' );?>
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : saswp_t_string( 'Review Title' );
+                $ads   = ! empty( $instance['g_review'] ) ? $instance['g_review'] : saswp_t_string( 'review list to be display' );?>
                 <p>
                     <label for="<?php echo esc_attr( $this->get_field_id( 'g_review' ) ); ?>">
-        		<?php esc_attr_e( 'Reviews :', 'schema-and-structured-data-for-wp' ); ?>
+        		<?php esc_attr_e( 'Reviews :' ); ?>
                     </label>
                     <input id="<?php echo esc_attr( $this->get_field_id( 'g_review' )); ?>" name="<?php echo esc_attr( $this->get_field_name( 'g_review' ) ); ?>" type="text" placeholder="review count" value="<?php echo (isset($instance['g_review']) ? $instance['g_review'] : 5); ?>">
                 </p>

@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'polylang'  =>  array(            
+            'name'       => 'Polylang',
+            'free'       => 'polylang/polylang.php',                    
+            'opt_name'   => 'saswp-polylang',
+            'part_in'    => 'pro',
+        ),
         'wpjobmanager'  =>  array(            
             'name'       => 'WP Job Manager',
             'free'       => 'wp-job-manager/wp-job-manager.php',                    
@@ -421,6 +427,12 @@ return array(
                     'pro'        => 'wordpress-seo-premium/wp-seo-premium.php',
                     'opt_name'   => 'saswp-yoast', 
                     'part_in'    => 'free',
+        ),
+        'metatagmanager' => array(            
+            'name'       => 'Meta Tag Manager',
+            'free'       => 'meta-tag-manager/meta-tag-manager.php',            
+            'opt_name'   => 'saswp-metatagmanager', 
+            'part_in'    => 'free',
         ),
         'slimseo' => array(            
             'name'       => 'Slim Seo',

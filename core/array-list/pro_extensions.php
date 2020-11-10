@@ -4,7 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(
         array(
-            'key'        => 'cooked_compatibility_for_schema',
+            'key'        => 'polylang_compatibility_for_saswp',
+            'name'       => 'Polylang Compatibility For SASWP',
+            'path'       => 'polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php',                        
+        ),
+        array(
+            'key'        => 'saswp_pro_extension_manager',
             'name'       => 'SASWP Pro Extension Manager',
             'path'       => 'saswp-pro-extension-manager/saswp-pro-extension-manager.php',                        
         ),

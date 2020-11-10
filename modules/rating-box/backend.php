@@ -48,7 +48,7 @@ class saswp_rating_box_backend {
 
                             add_meta_box(
                               'saswp_rating_box',
-                              esc_html__( 'Rating Box', 'schema-and-structured-data-for-wp' ),
+                              saswp_t_string( 'Rating Box' ),
                               array( $this, 'saswp_meta_box_callback' ),
                               $single_screen,
                               'advanced',
@@ -90,23 +90,23 @@ class saswp_rating_box_backend {
                 
                 ?>                     
                 <div>
-                    <div class="saswp-enable-review-on-post"><label><?php echo esc_html__('Enable/Disable', 'schema-and-structured-data-for-wp'); ?>   <input type="checkbox" id="saswp-review-item-enable" name="saswp-review-item-enable" <?php echo (isset( $saswp_review_details['saswp-review-item-enable'] ) &&  $saswp_review_details['saswp-review-item-enable'] == 1 ? 'checked="checked"' : ''); ?> value="1"></label></div>
+                    <div class="saswp-enable-review-on-post"><label><?php echo saswp_t_string('Enable/Disable'); ?>   <input type="checkbox" id="saswp-review-item-enable" name="saswp-review-item-enable" <?php echo (isset( $saswp_review_details['saswp-review-item-enable'] ) &&  $saswp_review_details['saswp-review-item-enable'] == 1 ? 'checked="checked"' : ''); ?> value="1"></label></div>
                     
                     <div class="saswp-review-fields">
                     <div class="saswp-review-item">
                         <table class="saswp-review-tables">
                         <tr>
-                            <td><label><?php echo esc_html__('Review Title', 'schema-and-structured-data-for-wp'); ?></label></td>                            
+                            <td><label><?php echo saswp_t_string('Review Title'); ?></label></td>                            
                             <td><div class="saswp-field"><input type="text" id="saswp-review-item-title" name="saswp-review-item-title" value="<?php if ( isset( $saswp_review_details['saswp-review-item-title'] ) && ( ! empty( $saswp_review_details['saswp-review-item-title'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-title'] ); ?>"></div></td>
                         </tr>
                         <tr>
-                            <td><label><?php echo esc_html__('Review Location', 'schema-and-structured-data-for-wp'); ?></label></td>                            
+                            <td><label><?php echo saswp_t_string('Review Location'); ?></label></td>                            
                             <td>
                                 <div class="saswp-field">
                                     <select id="saswp-review-location" name="saswp-review-location">                                        
-                                        <option value="1" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 1 ) )  echo 'selected'; ?>><?php echo esc_html__('After The Content', 'schema-and-structured-data-for-wp'); ?></option>    
-                                        <option value="2" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 2 ) )  echo 'selected'; ?>><?php echo esc_html__('Before The Content', 'schema-and-structured-data-for-wp'); ?></option>    
-                                        <option value="3" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 3 ) )  echo 'selected'; ?>><?php echo esc_html__('Custom (Use ShortCode)', 'schema-and-structured-data-for-wp'); ?></option>    
+                                        <option value="1" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 1 ) )  echo 'selected'; ?>><?php echo saswp_t_string('After The Content'); ?></option>    
+                                        <option value="2" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 2 ) )  echo 'selected'; ?>><?php echo saswp_t_string('Before The Content'); ?></option>    
+                                        <option value="3" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 3 ) )  echo 'selected'; ?>><?php echo saswp_t_string('Custom (Use ShortCode)'); ?></option>    
                                     </select>
                                     <input class="saswp-review-shortcode" type="text" value="<?php echo '[saswp-review id=&quot;review&quot;]'; ?>" readonly> 
                                 </div>
@@ -125,9 +125,9 @@ class saswp_rating_box_backend {
                                 for ($i=0; $i<count($saswp_review_item_feature); $i++){
                                 ?>
                                 <tr class="saswp-review-item-tr">
-                                <td><?php echo esc_html__('Review Item Feature', 'schema-and-structured-data-for-wp'); ?></td>
+                                <td><?php echo saswp_t_string('Review Item Feature'); ?></td>
                                 <td><input type="text" name="saswp-review-item-feature[]" value="<?php echo esc_attr($saswp_review_item_feature[$i]); ?>"></td>
-                                <td><?php echo esc_html__('Rating', 'schema-and-structured-data-for-wp'); ?></td>
+                                <td><?php echo saswp_t_string('Rating'); ?></td>
                                 <td><input step="0.1" min="0" max="5" type="number" name="saswp-review-item-star-rating[]" value="<?php echo esc_attr($saswp_review_item_star_rating[$i]); ?>"></td>
                                 <td><a type="button" class="saswp-remove-review-item button">x</a></td>
                                 </tr>
@@ -137,13 +137,13 @@ class saswp_rating_box_backend {
                             }
                             ?>
                         </table>
-                        <div class="saswp-over-all-raring"><label><?php echo esc_html__('Over All Rating', 'schema-and-structured-data-for-wp'); ?></label><input type="text" id="saswp-review-item-over-all" name="saswp-review-item-over-all" value="<?php if ( isset( $saswp_review_details['saswp-review-item-over-all'] ) && ( ! empty( $saswp_review_details['saswp-review-item-over-all'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-over-all'] ); ?>" readonly></div>
-                        <div><a class="button saswp-add-more-item"><?php echo esc_html__('Add Item', 'schema-and-structured-data-for-wp'); ?></a></div>
+                        <div class="saswp-over-all-raring"><label><?php echo saswp_t_string('Over All Rating'); ?></label><input type="text" id="saswp-review-item-over-all" name="saswp-review-item-over-all" value="<?php if ( isset( $saswp_review_details['saswp-review-item-over-all'] ) && ( ! empty( $saswp_review_details['saswp-review-item-over-all'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-over-all'] ); ?>" readonly></div>
+                        <div><a class="button saswp-add-more-item"><?php echo saswp_t_string('Add Item'); ?></a></div>
                     </div>
                 
                     <div class="saswp-review-description">
-                        <div><label><?php echo esc_html__('Summary Title', 'schema-and-structured-data-for-wp'); ?></label> <input type="text" id="saswp-review-item-description-title" name="saswp-review-item-description-title" value="<?php if ( isset( $saswp_review_details['saswp-review-item-description-title'] ) && ( ! empty( $saswp_review_details['saswp-review-item-description-title'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-description-title'] ); ?>"></div>  
-                        <div class="saswp-wp-ediot-desc"><label><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp'); ?></label></div>
+                        <div><label><?php echo saswp_t_string('Summary Title'); ?></label> <input type="text" id="saswp-review-item-description-title" name="saswp-review-item-description-title" value="<?php if ( isset( $saswp_review_details['saswp-review-item-description-title'] ) && ( ! empty( $saswp_review_details['saswp-review-item-description-title'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-description-title'] ); ?>"></div>  
+                        <div class="saswp-wp-ediot-desc"><label><?php echo saswp_t_string('Description'); ?></label></div>
                         <?php                        
                         $content       = get_post_meta( $post->ID, 'saswp-review-item-description', true );                        
                         wp_editor( $content, 'saswp-review-item-description', array('textarea_rows'=> '5', 'media_buttons' => FALSE,) );                   
@@ -152,7 +152,7 @@ class saswp_rating_box_backend {
 
                     <div class="saswp-review-pros-and-cons">                        
                     <div class="saswp-props">
-                        <div class="saswp-wp-ediot-desc"><label><?php echo esc_html__('Pros', 'schema-and-structured-data-for-wp'); ?></label></div>
+                        <div class="saswp-wp-ediot-desc"><label><?php echo saswp_t_string('Pros'); ?></label></div>
                         <?php
                         $content       = get_post_meta( $post->ID, 'saswp-review-item-props', true );                                         
                         wp_editor( $content, 'saswp-review-item-props',
@@ -170,7 +170,7 @@ class saswp_rating_box_backend {
                    ?> 
                     </div>
                     <div class="saswp-cons">
-                        <div class="saswp-wp-ediot-desc"><label><?php echo esc_html__('Cons', 'schema-and-structured-data-for-wp'); ?></label></div>
+                        <div class="saswp-wp-ediot-desc"><label><?php echo saswp_t_string('Cons'); ?></label></div>
                          <?php
                         $content       = get_post_meta( $post->ID, 'saswp-review-item-cons', true );  
                         wp_editor( $content, 

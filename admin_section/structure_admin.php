@@ -691,16 +691,16 @@ if(is_admin()){
   function saswp_create_post_type() {
       
     $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );      
-    $not_found_button = '<div><span class="dashicons dashicons-thumbs-up"></span>'.esc_html__("Thank you for using Schema & Structured Data For WP plugin!",'schema-and-structured-data-for-wp').' <a href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'.esc_html__("Start Quick Setup?",'schema-and-structured-data-for-wp').'</a></div>';       
+    $not_found_button = '<div><span class="dashicons dashicons-thumbs-up"></span>'.saswp_t_string("Thank you for using Schema & Structured Data For WP plugin!").' <a href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'.saswp_t_string("Start Quick Setup?").'</a></div>';       
     
     $saswp = array(
             'labels' => array(
-                'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-                'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-                'add_new' 	    => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
+                'name'              => saswp_t_string( 'Structured Data' ),
+                'singular_name'     => saswp_t_string( 'Structured Data' ),
+                'add_new' 	    => saswp_t_string( 'Add Schema Type' ),
                 'add_new_item'      => '',
-                'edit_item'         => esc_html__( 'Edit Schema Type','schema-and-structured-data-for-wp'),           
-                'all_items'         => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
+                'edit_item'         => saswp_t_string( 'Edit Schema Type'),           
+                'all_items'         => saswp_t_string( 'Schema Types' ),  
                 'not_found'         => $not_found_button    
            ),
           'public'                => true,
@@ -756,31 +756,31 @@ if(is_admin()){
     <?php 
     // Type Select    
       $choices = array(
-        esc_html__("Basic",'schema-and-structured-data-for-wp') => array(        
-          'post_type'           =>  esc_html__("Post Type",'schema-and-structured-data-for-wp'),
-          'show_globally'       =>  esc_html__("Show Globally",'schema-and-structured-data-for-wp'),    
-          'user_type'           =>  esc_html__("Logged in User Type",'schema-and-structured-data-for-wp'),
-          'homepage'            =>  esc_html__("Homepage", 'schema-and-structured-data-for-wp'),  
+        saswp_t_string("Basic") => array(        
+          'post_type'           =>  saswp_t_string("Post Type"),
+          'show_globally'       =>  saswp_t_string("Show Globally"),    
+          'user_type'           =>  saswp_t_string("Logged in User Type"),
+          'homepage'            =>  saswp_t_string("Homepage"),  
         ),
-        esc_html__("Post",'schema-and-structured-data-for-wp') => array(
-          'post'                =>  esc_html__("Post",'schema-and-structured-data-for-wp'),
-          'post_category'       =>  esc_html__("Post Category",'schema-and-structured-data-for-wp'),
-          'post_format'         =>  esc_html__("Post Format",'schema-and-structured-data-for-wp'), 
+        saswp_t_string("Post") => array(
+          'post'                =>  saswp_t_string("Post"),
+          'post_category'       =>  saswp_t_string("Post Category"),
+          'post_format'         =>  saswp_t_string("Post Format"), 
         ),
-        esc_html__("Page",'schema-and-structured-data-for-wp') => array(
-          'page'                =>  esc_html__("Page",'schema-and-structured-data-for-wp'), 
-          'page_template'       =>  esc_html__("Page Template",'schema-and-structured-data-for-wp'),
+        saswp_t_string("Page") => array(
+          'page'                =>  saswp_t_string("Page"), 
+          'page_template'       =>  saswp_t_string("Page Template"),
         ),
-        esc_html__("Other",'schema-and-structured-data-for-wp') => array( 
-          'ef_taxonomy'         =>  esc_html__("Taxonomy (Tag)",'schema-and-structured-data-for-wp'), 
-          'date'                =>  esc_html__("Date",'schema-and-structured-data-for-wp'), 
+        saswp_t_string("Other") => array( 
+          'ef_taxonomy'         =>  saswp_t_string("Taxonomy (Tag)"), 
+          'date'                =>  saswp_t_string("Date"), 
 
         )
       ); 
 
       $comparison = array(
-        'equal'                =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp'), 
-        'not_equal'            =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp'),     
+        'equal'                =>  saswp_t_string( 'Equal to'), 
+        'not_equal'            =>  saswp_t_string( 'Not Equal to (Exclude)'),     
       );
 
       $total_group_fields = count( $data_group_array ); ?>
@@ -813,13 +813,13 @@ if(is_admin()){
 
           if($selected_val_key_1 == 'date'){
             $comparison = array(
-              'before_published'           =>  esc_html__( 'Before Published', 'schema-and-structured-data-for-wp'), 
-              'after_published'            =>  esc_html__( 'After Published', 'schema-and-structured-data-for-wp'),     
+              'before_published'           =>  saswp_t_string( 'Before Published'), 
+              'after_published'            =>  saswp_t_string( 'After Published'),     
             );
           }else{
             $comparison = array(
-              'equal'                =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp'), 
-              'not_equal'            =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp'),     
+              'equal'                =>  saswp_t_string( 'Equal to'), 
+              'not_equal'            =>  saswp_t_string( 'Not Equal to (Exclude)'),     
             );    
           }
 
@@ -832,7 +832,7 @@ if(is_admin()){
                   <optgroup label="<?php echo esc_attr($choice_key);?>">
                   <?php
                   foreach ($choice_value as $sub_key => $sub_value) { ?> 
-                    <option class="pt-child" value="<?php echo esc_attr( $sub_key );?>" <?php selected( $selected_val_key_1, $sub_key );?> > <?php echo esc_html__($sub_value,'schema-and-structured-data-for-wp');?> </option>
+                    <option class="pt-child" value="<?php echo esc_attr( $sub_key );?>" <?php selected( $selected_val_key_1, $sub_key );?> > <?php echo saswp_t_string($sub_value);?> </option>
                     <?php
                   }
                   ?> </optgroup > <?php
@@ -847,7 +847,7 @@ if(is_admin()){
                     $selcomp = 'selected';
                   }
                   ?>
-                  <option class="pt-child" value="<?php echo esc_attr( $key );?>" <?php echo esc_attr($selcomp); ?> > <?php echo esc_html__($value,'schema-and-structured-data-for-wp');?> </option>
+                  <option class="pt-child" value="<?php echo esc_attr( $key );?>" <?php echo esc_attr($selcomp); ?> > <?php echo saswp_t_string($value);?> </option>
                   <?php
                 } ?>
               </select>
@@ -864,7 +864,7 @@ if(is_admin()){
             </td>
 
             <td class="widefat structured-clone" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
-                <span> <button class="saswp-placement-button" type="button"> <?php echo esc_html__('And' ,'schema-and-structured-data-for-wp');?> </button> </span> </td>
+                <span> <button class="saswp-placement-button" type="button"> <?php echo saswp_t_string('And' );?> </button> </span> </td>
             
             <td class="widefat structured-delete" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
                 <button class="saswp-placement-button" type="button"><span class="dashicons dashicons-trash"></span>  </button></td>         
@@ -877,7 +877,7 @@ if(is_admin()){
     <?php } ?>
     
     
-    <a style="margin-left: 8px; margin-bottom: 8px;" class="button saswp-placement-or-group saswp-placement-button" href="#"><?php echo esc_html__('Or','schema-and-structured-data-for-wp'); ?></a>
+    <a style="margin-left: 8px; margin-bottom: 8px;" class="button saswp-placement-or-group saswp-placement-button" href="#"><?php echo saswp_t_string('Or'); ?></a>
 </div>        
     <?php
   }
@@ -1170,8 +1170,8 @@ function saswp_custom_breadcrumbs() {
                 
                 foreach($cat_parents as $parents) {
                     
-                    $cat_display .= '<li class="item-cat">'.esc_html__( $parents, 'schema-and-structured-data-for-wp' ).'</li>';
-                    $cat_display .= '<li class="separator"> ' . esc_html__( $separator, 'schema-and-structured-data-for-wp' ) . ' </li>';
+                    $cat_display .= '<li class="item-cat">'.saswp_t_string( $parents ).'</li>';
+                    $cat_display .= '<li class="separator"> ' . saswp_t_string( $separator ) . ' </li>';
                     
                 }
                 
@@ -1245,8 +1245,8 @@ function saswp_custom_breadcrumbs() {
                 
                 foreach ( $anc as $ancestor ) {
                     
-                    $parents .= '<li class="item-parent item-parent-' . esc_attr($ancestor) . '"><a class="bread-parent bread-parent-' . esc_attr($ancestor) . '" href="' . esc_url(get_permalink($ancestor)) . '" title="' . esc_attr(@get_the_title($ancestor)) . '">' . esc_html__(@get_the_title($ancestor), 'schema-and-structured-data-for-wp' ) . '</a></li>';
-                    $parents .= '<li class="separator separator-' . esc_attr($ancestor) . '"> ' . esc_html__($separator, 'schema-and-structured-data-for-wp' ) . ' </li>';
+                    $parents .= '<li class="item-parent item-parent-' . esc_attr($ancestor) . '"><a class="bread-parent bread-parent-' . esc_attr($ancestor) . '" href="' . esc_url(get_permalink($ancestor)) . '" title="' . esc_attr(@get_the_title($ancestor)) . '">' . saswp_t_string(@get_the_title($ancestor) ) . '</a></li>';
+                    $parents .= '<li class="separator separator-' . esc_attr($ancestor) . '"> ' . saswp_t_string($separator ) . ' </li>';
                     $variables1_titles[]    = @get_the_title($ancestor);
                     $variables2_links[]     = get_permalink($ancestor);
                     $breadcrumb_url         = get_permalink($ancestor);
@@ -1358,12 +1358,12 @@ function saswp_custom_column_set( $column, $post_id ) {
                     } 
                     if($enabled){
                         
-                        echo '<div><strong>'.esc_html__( 'Enable on: ', 'schema-and-structured-data-for-wp' ).'</strong> '.esc_attr($enabled).'</div>';    
+                        echo '<div><strong>'.saswp_t_string( 'Enable on: ' ).'</strong> '.esc_attr($enabled).'</div>';    
                     
                     }
                     if($exclude){
                         
-                        echo '<div><strong>'.esc_html__( 'Exclude from: ', 'schema-and-structured-data-for-wp' ).'</strong>'.esc_attr($exclude).'</div>';   
+                        echo '<div><strong>'.saswp_t_string( 'Exclude from: ' ).'</strong>'.esc_attr($exclude).'</div>';   
                     
                     }                    
                     }                    
@@ -1388,8 +1388,8 @@ function saswp_custom_columns($columns) {
     unset($columns);
     $columns['cb']    = $cb;
     $columns['title'] = $title;
-    $columns['saswp_schema_type']       = '<a>'.esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ).'<a>';
-    $columns['saswp_target_location']   = '<a>'.esc_html__( 'Target Location', 'schema-and-structured-data-for-wp' ).'<a>';    
+    $columns['saswp_schema_type']       = '<a>'.saswp_t_string( 'Schema Type' ).'<a>';
+    $columns['saswp_target_location']   = '<a>'.saswp_t_string( 'Target Location' ).'<a>';    
     
     return $columns;
 }
@@ -1568,11 +1568,11 @@ function saswp_import_plugin_data(){
         }                             
         if($result){
             
-             echo json_encode(array('status'=>'t', 'message'=>esc_html__('Data has been imported succeessfully','schema-and-structured-data-for-wp')));            
+             echo json_encode(array('status'=>'t', 'message'=>saswp_t_string('Data has been imported succeessfully')));            
              
         }else{
             
-            echo json_encode(array('status'=>'f', 'message'=>esc_html__('Plugin data is not available or it is not activated','schema-and-structured-data-for-wp')));            
+            echo json_encode(array('status'=>'f', 'message'=>saswp_t_string('Plugin data is not available or it is not activated')));            
         
         }        
            wp_die();           
@@ -1645,8 +1645,9 @@ add_action('wp_ajax_saswp_feeback_remindme', 'saswp_feeback_remindme');
 
 function saswp_license_status($add_on, $license_status, $license_key){
                                       
-                $item_name = array(
-                       'cooked'       => 'Cooked compatibility for Schema',
+                $item_name = array(                       
+                       'jobposting'   => 'JobPosting Schema Compatibility',
+                       'polylang'     => 'Polylang Compatibility For SASWP',
                        'woocommerce'  => 'Woocommerce compatibility for Schema',
                        'reviews'      => 'Reviews for schema',
                        'res'          => 'Real Estate Schema',

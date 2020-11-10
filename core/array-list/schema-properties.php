@@ -590,6 +590,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_excerpt()
                     ),
                     array(
+                        'label'   => 'Webpage Section',
+                        'id'      => 'saswp_webpage_section_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => get_the_excerpt()
+                    ),    
+                    array(
+                        'label'   => 'Webpage Body',
+                        'id'      => 'saswp_webpage_body_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                    ),    
+                    array(
                             'label' => 'Keywords',
                             'id' => 'saswp_webpage_keywords_'.$schema_id,
                             'type' => 'text',
@@ -5150,6 +5162,26 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Number Of Page',
                             'id'         => 'saswp_book_no_of_page_'.$schema_id,
                             'type'       => 'text',                           
+                    ),    
+                    array(
+                        'label'      => 'Book Format',
+                        'id'         => 'saswp_book_format_'.$schema_id,
+                        'type'       => 'select',                           
+                        'options'    => array(
+                                     'AudiobookFormat'   => 'AudiobookFormat',
+                                     'EBook'             => 'EBook',
+                                     'GraphicNovel'      => 'GraphicNovel',
+                                     'Hardcover'         => 'Hardcover',
+                                     'Paperback'         => 'Paperback' 
+                        )                         
+                    ),    
+                    array(
+                        'label'      => 'In Language',
+                        'id'         => 'saswp_book_inlanguage_'.$schema_id,
+                        'type'       => 'text',       
+                        'attributes' => array(
+                                'placeholder' => 'English'
+                        ),                    
                     ),    
                     array(
                             'label'      => 'Publisher',
