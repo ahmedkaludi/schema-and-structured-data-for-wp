@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 1.9.53
+Stable tag: 1.9.54
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.54 (09 Nov 2020) =
+
+* Added: Rest api to show the headless output #1026
+* Added: Article body and Article Section properties to webpage schema #1147
+* Added: bookformat and inlanguage properties to Book Schema #1143
+* Added: Separate folder (schema-and-structured-data-for-wp) in uploads to store all resized images by this plugin. #807 
+* Added: A notice box has been added, if logo is not set. #1165
+* Added: Compatibility with Meta Tag Manager ( https://wordpress.org/plugins/meta-tag-manager/ )
+* Fixed: Warning Error: The text tag script type=application/ld+json contains html comments, which is disallowed #1140
+* Fixed: Woocommerce category schema has an issue when reviews collection is present #1182
+* Fixed: Excessive number of queries at each page load in admin pages #1227
+* Fixed: Issue with the image size when user inserting recipe by using WP recipe maker plugin. #1159
+
 
 = 1.9.53 (02 Nov 2020) =
 
