@@ -120,7 +120,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.54 (09 Nov 2020) =
+= 1.9.54 (10 Nov 2020) =
 
 * Added: Rest api to show the headless output #1026
 * Added: Article body and Article Section properties to webpage schema #1147
