@@ -2136,19 +2136,23 @@ if ( ! defined('ABSPATH') ) exit;
 
             $post_meta = get_post_meta($post->ID, 'mtm_data', true);
             
-            $meta_tag = array_column($post_meta, 'value');
+            if(is_array($post_meta)){
+
+                $meta_tag = array_column($post_meta, 'value');
             
-            $key      = array_search("description",$meta_tag);
+                $key      = array_search("description",$meta_tag);
                 
-            if(array_key_exists($key, $post_meta)){
-                
-                $c_excerpt = $post_meta[$key]['content'];
-                
-                if($c_excerpt){
-                    $excerpt = $c_excerpt;
+                if(array_key_exists($key, $post_meta)){
+                    
+                    $c_excerpt = $post_meta[$key]['content'];
+                    
+                    if($c_excerpt){
+                        $excerpt = $c_excerpt;
+                    }
+
                 }
 
-            }
+            }            
                             
         }
             
@@ -2285,7 +2289,7 @@ if ( ! defined('ABSPATH') ) exit;
         if(saswp_remove_warnings($sd_data, 'saswp-slimseo', 'saswp_string') == 1){
                           
             
-            $slim_seo = get_post_meta( $post->ID, 'slim_seo', true );
+            $slim_seo = get_post_meta( get_the_ID(), 'slim_seo', true );
             
             if(isset($slim_seo['title']) && $slim_seo['title'] != ''){
                 $title = $slim_seo['title'];

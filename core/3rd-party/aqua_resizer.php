@@ -104,12 +104,13 @@ if(!class_exists('Aq_Resize')) {
 
                 if(is_dir($make_new_dir)){
 
-                    $old_url = $url;
-                    $new_url = str_replace($upload_main_url, '', $url);                
-                    $url = $upload_url.'/schema-and-structured-data-for-wp'.$new_url;
-                    $new_url = $make_new_dir.$new_url;
+                    $old_url    = $url;
+                    $explod_url = @explode('/', $url);                    
+                    $new_url    = end($explod_url);               
+                    $url        = $upload_url.'/schema-and-structured-data-for-wp/'.$new_url;
+                    $new_url    = $make_new_dir.'/'.$new_url;
                     
-                    copy($old_url, $new_url);
+                    @copy($old_url, $new_url);
 
                 }
                 //Creating custom folder in uploads and save resizable images. Ends here
