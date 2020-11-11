@@ -120,6 +120,10 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.54.1 (11 Nov 2020) =
+
+* Added: Image missing in AMP after last update #1220
+
 = 1.9.54 (10 Nov 2020) =
 
 * Added: Rest api to show the headless output #1026

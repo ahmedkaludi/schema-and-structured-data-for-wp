@@ -35,13 +35,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return str|array
  */
 
-if(!class_exists('Aq_Resize')) {
+if(!class_exists('SASWP_Aq_Resize')) {
     
-    if(!class_exists('Aq_Exception')){
-        class Aq_Exception extends Exception {}
+    if(!class_exists('SASWP_Aq_Exception')){
+        class SASWP_Aq_Exception extends Exception {}
     }
         
-    class Aq_Resize
+    class SASWP_Aq_Resize
     {
         /**
          * The singleton instance
@@ -49,7 +49,7 @@ if(!class_exists('Aq_Resize')) {
         static private $instance = null;
 
         /**
-         * Should an Aq_Exception be thrown on error?
+         * Should an SASWP_Aq_Exception be thrown on error?
          * If false (default), then the error will just be logged.
          */
         public $throwOnError = false;
@@ -82,9 +82,9 @@ if(!class_exists('Aq_Resize')) {
             try {
                 // Validate inputs.
                 if (!$url)
-                    throw new Aq_Exception('$url parameter is required');
+                    throw new SASWP_Aq_Exception('$url parameter is required');
                 if (!$width)
-                    throw new Aq_Exception('$width parameter is required');
+                    throw new SASWP_Aq_Exception('$width parameter is required');
 
                 // Caipt'n, ready to hook.
                 if ( true === $upscale ) add_filter( 'image_resize_dimensions', array($this, 'aq_upscale'), 10, 6 );
@@ -193,7 +193,7 @@ if(!class_exists('Aq_Resize')) {
 
                     if ( ! $dims || ( true == $crop && false == $upscale && ( $dst_w < $width || $dst_h < $height ) ) ) {
                         // Can't resize, so return false saying that the action to do could not be processed as planned.
-                        throw new Aq_Exception('Unable to resize image because image_resize_dimensions() failed');
+                        throw new SASWP_Aq_Exception('Unable to resize image because image_resize_dimensions() failed');
                     }
                     // Else check if cache exists.
                     elseif ( file_exists( $destfilename ) && @getimagesize( $destfilename ) ) {
@@ -220,7 +220,7 @@ if(!class_exists('Aq_Resize')) {
                             $resized_rel_path = str_replace( $upload_dir, '', $resized_file['path'] );
                             $img_url = $upload_url . $resized_rel_path;
                         } else {
-                            throw new Aq_Exception('Unable to save resized image file: ' . $resized_file->get_error_message());
+                            throw new SASWP_Aq_Exception('Unable to save resized image file: ' . $resized_file->get_error_message());
                         }
 
                     }
@@ -254,7 +254,7 @@ if(!class_exists('Aq_Resize')) {
 
                 return $image;
             }
-            catch (Aq_Exception $ex) {
+            catch (SASWP_Aq_Exception $ex) {
                 // Throwing errors for the images stored on CDN #2285
                 /*error_log('Aq_Resize.process() error: ' . $ex->getMessage());*/
 
@@ -352,7 +352,7 @@ if(!function_exists('saswp_aq_resize')) {
 					
 				}	
 											
-				$aq_resize = Aq_Resize::getInstance();
+				$aq_resize = SASWP_Aq_Resize::getInstance();
 				return $aq_resize->process( $url, $width, $height, $crop, $single, $upscale );
 		
 		}
@@ -362,7 +362,7 @@ if(!function_exists('saswp_aq_resize')) {
             return fifu_amp_url($url, $width, $height); 
         } 
         else {
-            $aq_resize = Aq_Resize::getInstance();
+            $aq_resize = SASWP_Aq_Resize::getInstance();
             return $aq_resize->process( $url, $width, $height, $crop, $single, $upscale );
         }
     }
