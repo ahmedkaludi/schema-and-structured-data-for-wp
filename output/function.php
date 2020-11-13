@@ -932,6 +932,46 @@ function saswp_extract_wpdiscuz(){
 }
 
 /**
+ * Extracting the value of rating form plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
+function saswp_extract_ratingform(){
+    
+    global $sd_data;    
+    $star_rating = array();
+
+    if(isset($sd_data['saswp-ratingform']) && $sd_data['saswp-ratingform'] == 1 && is_plugin_active('rating-form/rf-init.php')){                
+        
+        $total = get_post_meta(get_the_ID(), 'rf_total', true) ? ((int) get_post_meta(get_the_ID(), 'rf_total', true)) : 0;
+        $avg   = get_post_meta(get_the_ID(), 'rf_average', true) ? ((int) get_post_meta(get_the_ID(), 'rf_average', true)) : 0;
+        
+         
+        if( $total > 0 ){
+           
+            $star_rating['@type']        = 'AggregateRating';
+            $star_rating['bestRating']   = 5;
+            $star_rating['worstRating']  = 1;            
+            $star_rating['ratingCount'] = $total;
+            $star_rating['ratingValue'] = $avg;      
+            
+            return $star_rating;
+            
+        }else{
+            
+            return array();    
+            
+        }
+        
+    }else{
+        
+        return array();
+        
+    }                        
+}
+
+/**
  * Extracting the value of star ratings plugins on current post
  * @global type $sd_data
  * @param type $id

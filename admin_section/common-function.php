@@ -3024,6 +3024,7 @@ function saswp_get_field_note($pname){
             'wpamp'                       => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
             'ampwp'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
             'kk_star_ratings'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'ratingform'                  => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/rating-form/10357679/">Rating Form</a>',
             'simple_author_box'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/simple-author-box//">Simple Author Box</a>',
             'wp_post_ratings'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',

@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'ratingform'  =>  array(            
+            'name'       => 'Rating Form by SerdarG',
+            'free'       => 'rating-form/rf-init.php',                    
+            'opt_name'   => 'saswp-ratingform',
+            'part_in'    => 'free',
+        ),
         'polylang'  =>  array(            
             'name'       => 'Polylang',
             'free'       => 'polylang/polylang.php',                    

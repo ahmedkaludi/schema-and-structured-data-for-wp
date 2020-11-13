@@ -2033,6 +2033,19 @@ function saswp_compatibility_page_callback(){
                         )
                 );
 
+        $ratingform = array(
+                'label'  => 'Rating Form by SerdarG',
+                'id'     => 'saswp-ratingform-checkbox',                        
+                'name'   => 'saswp-ratingform-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('ratingform'),
+                'hidden' => array(
+                        'id'   => 'saswp-ratingform',
+                        'name' => 'sd_data[saswp-ratingform]',                             
+                )
+        );        
+
         $polylang = array(
                 'label'  => 'Polylang',
                 'id'     => 'saswp-polylang-checkbox',                        
@@ -3442,6 +3455,7 @@ function saswp_compatibility_page_callback(){
                 $wpamp,
                 $ampwp,
                 $kk_star,
+                $ratingform,
                 $wpdiscuz,
                 $yasr,
                 $wp_customer_review,

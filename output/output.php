@@ -1827,6 +1827,13 @@ function saswp_schema_output() {
                                       if(!empty($taqyeem_rating)){
                                         $input1['itemReviewed']['aggregateRating'] = $taqyeem_rating; 
                                       }
+                                    //Rating Form 
+                            
+                                    $ratingform = saswp_extract_ratingform();
+                                
+                                    if(!empty($ratingform)){
+                                        $input1['itemReviewed']['aggregateRating'] = $ratingform; 
+                                    }  
                                     //kk star rating 
                             
                                     $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
@@ -1905,6 +1912,13 @@ function saswp_schema_output() {
 
                                         if(!empty($taqyeem_rating)){
                                             $input1['aggregateRating'] = $taqyeem_rating; 
+                                        }
+
+                                        //Rating Form 
+                                        $ratingform = saswp_extract_ratingform();
+
+                                        if(!empty($ratingform)){
+                                            $input1['aggregateRating'] = $ratingform; 
                                         }
 
                                         //kk star rating 

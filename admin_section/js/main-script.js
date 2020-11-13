@@ -951,6 +951,16 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-ratingform-checkbox':
+                          
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ratingform").val(1);             
+                            }else{
+                              $("#saswp-ratingform").val(0);           
+                            }
+                      break;
+
                       case 'saswp-wpdiscuz-checkbox':
                           
                           saswp_compatibliy_notes(current, id); 
