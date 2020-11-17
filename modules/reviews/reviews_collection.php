@@ -262,7 +262,7 @@ class SASWP_Reviews_Collection {
                 $dots = $f_interval = $f_visibility = $arrow = 1;
                 $g_type = $design = $cols = $sorting = '';
                 
-                $collection_data = get_post_meta($attr['id'], $key='', true);
+                $collection_data = get_post_meta($attr['id']);
                 
                 if(isset($collection_data['saswp_collection_design'][0])){
                     $design        = $collection_data['saswp_collection_design'][0];
@@ -422,7 +422,7 @@ class SASWP_Reviews_Collection {
 
                 $post_id = intval($_GET['post_id']);
 
-                $post_meta = get_post_meta($post_id, $key='', true );            
+                $post_meta = get_post_meta($post_id);            
 
 
             } else{

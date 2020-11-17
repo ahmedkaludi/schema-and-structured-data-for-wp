@@ -218,7 +218,7 @@ if ( ! defined('ABSPATH') ) exit;
                         foreach($all_schema_post as $schema){    
 
                         $export_data[$schema->ID]['post']      = (array)$schema;                    
-                        $post_meta                             = get_post_meta($schema->ID, $key='', true );    
+                        $post_meta                             = get_post_meta($schema->ID);    
 
                         if($post_meta){
 
@@ -312,7 +312,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
                 $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                 
-                $schema_post_meta       = get_post_meta($schema->ID, $key='', true ); 
+                $schema_post_meta       = get_post_meta($schema->ID); 
                 $schema_post_types      = get_post_meta($schema->ID, $key='_schema_post_types', true );                  
                 $schema_post_meta_box   = get_post_meta($schema->ID, $key='_schema_post_meta_box', true );
                 
@@ -1245,7 +1245,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
                 $wpdb->get_results("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                 
-                $schema_post_meta           = get_post_meta($schema->ID, $key='', true );                 
+                $schema_post_meta           = get_post_meta($schema->ID);                 
                 $schema_post_types          = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-type', true );                   
                 $schema_post_meta_box       = get_post_meta($schema->ID, $key='bsf-aiosrs-'.$schema_post_types, true );                
                 $schema_enable_location     = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-location', true );

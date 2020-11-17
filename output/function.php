@@ -2338,7 +2338,7 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
                  
                  foreach($attached_col as $col_id){
                      
-                     $collection_data = get_post_meta($col_id, $key='', true);
+                     $collection_data = get_post_meta($col_id);
                      
                      if(isset($collection_data['saswp_platform_ids'][0])){
                         $platform_ids  = unserialize($collection_data['saswp_platform_ids'][0]);                
@@ -2452,7 +2452,7 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
 
                     if($schema_options['saswp_modify_method'] == 'manual'){
                         
-                        $all_post_meta = get_post_meta($schema_post_id, $key='', true); 
+                        $all_post_meta = get_post_meta($schema_post_id); 
                         
                         switch ($schema_type) {
                             

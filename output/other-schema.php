@@ -289,7 +289,7 @@ function saswp_classpress_ads_schema($input1){
     
     if(is_object($post) && $post->post_type == 'ad_listing' && isset($sd_data['saswp-classipress']) && $sd_data['saswp-classipress'] == 1 ){        
 
-        $post_meta = get_post_meta($post->ID, $key='', true);
+        $post_meta = get_post_meta($post->ID);
 
         $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
 

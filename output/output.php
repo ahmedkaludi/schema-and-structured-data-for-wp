@@ -161,7 +161,7 @@ function saswp_schema_output() {
         $modified_date 	    = get_the_modified_date("c");        
         $modify_option      = get_option('modify_schema_post_enable_'.get_the_ID()); 
         $schema_enable      = get_post_meta(get_the_ID(), 'saswp_enable_disable_schema', true); 
-        $all_post_meta      = get_post_meta(get_the_ID(), $key='', true);        
+        $all_post_meta      = get_post_meta(get_the_ID());        
         $default_logo       = $service_object->saswp_get_publisher(true);
         $publisher          = $service_object->saswp_get_publisher();
         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
