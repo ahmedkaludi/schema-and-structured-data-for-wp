@@ -315,12 +315,15 @@ if(!function_exists('saswp_aq_resize')) {
             return array();
         }
 
-        /* WPML Fix */
+        /* WPML Fix 
+
         if ( defined( 'ICL_SITEPRESS_VERSION' ) ){
             global $sitepress;
             $url = $sitepress->convert_url( $url, $sitepress->get_default_language() );
         }
-        /* WPML Fix */
+        
+         WPML Fix */
+
          /* EWWW Image Optimizer (ExactDN) Compatible*/
         global $exactdn;
         if ( class_exists( 'ExactDN' ) && $exactdn->get_exactdn_domain() ) {
