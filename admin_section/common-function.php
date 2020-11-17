@@ -2300,12 +2300,16 @@ if ( ! defined('ABSPATH') ) exit;
         //The seo framework
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                           
+            if(is_object($post)){
+
                 $c_title = get_post_meta($post->ID, '_genesis_title', true);
                 
                 if($c_title){
                     $title = $c_title;
-                }                                
-                                      
+                }                
+
+            }
+                                                                                      
         }
         
         //SmartCrawl title
