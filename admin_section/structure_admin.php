@@ -1939,6 +1939,7 @@ function saswp_get_select2_data(){
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
           return; 
         }
+        
         if ( (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ) ||  (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_add_new_nonce' ) )){
 
           $search        = isset( $_GET['q'] ) ? sanitize_text_field( $_GET['q'] ) : '';                                    

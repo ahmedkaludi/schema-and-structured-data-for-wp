@@ -2,6 +2,76 @@ var saswp_attached_rv  = [];
 var saswp_attached_col = [];  
 jQuery(document).ready(function($){
 
+  function saswp_get_collection_condition_list_ajax(condition){
+
+    if(condition){
+
+      $.ajax({
+        url : ajaxurl,
+        method : "GET",
+        data: { 
+          action: "saswp_get_select2_data", 
+          type: condition,  
+          q: '',                      
+          saswp_security_nonce:saswp_localize_data.saswp_security_nonce
+        },
+        beforeSend: function(){ 
+
+        },
+        success: function(result){ 
+                    
+          if(result){
+
+            var html = '';
+
+              $.each(result, function(index, data){
+                html +='<option value="'+data.id+'">'+data.text+'</option>';      
+              });
+
+              $(".saswp-collection-where-data").html('');
+              $(".saswp-collection-where-data").append(html);
+              saswp_select2();
+          }
+
+        },
+        error: function(data){
+          console.log("Failed Ajax Request");
+          console.log(data);
+        }
+      }); 
+
+    }
+
+  }
+
+  $(document).on("change", ".saswp-collection-where", function(){
+
+    var current   = $(this);
+    var condition = $(this).val();   
+  
+      if(condition){
+
+        saswp_get_collection_condition_list_ajax(condition);
+
+      }
+    
+  });
+
+  $(".saswp-collection-display-method").change(function(){
+
+    var type = $(this).val();
+    console.log(type);
+    if(type == 'shortcode'){
+      $(".saswp-coll-where").addClass('saswp_hide');
+      $("#saswp-motivatebox").css("display", "block");
+    }else{
+      $(".saswp-coll-where").removeClass('saswp_hide');
+      $("#saswp-motivatebox").css("display", "none");
+    }
+
+  }).change();
+  
+
   $(document).on("click", ".saswp-dismiss-notices", function(){
     var current = $(this);
     var notice_type = $(this).attr('notice-type');
@@ -3099,7 +3169,7 @@ function copySelectionText(){
 return copysuccess
 }
 
-var motivatebox = document.getElementById('motivatebox')
+var motivatebox = document.getElementById('saswp-motivatebox')
  
 if(motivatebox){
 
