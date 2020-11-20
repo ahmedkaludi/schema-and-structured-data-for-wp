@@ -971,6 +971,58 @@ function saswp_extract_ratingform(){
     }                        
 }
 
+function saswp_get_elementor_testomonials(){
+
+            global $sd_data;    
+            
+            if(isset($sd_data['saswp-elementor']) && $sd_data['saswp-elementor'] == 1 && is_plugin_active('elementor/elementor.php')){
+               
+                $alldata    = get_post_meta( get_the_ID(),'_elementor_data', true );
+                $alldata    = json_decode($alldata, true);
+            
+                $returnData = array();
+                $reviews = array();
+                $ratings = array();
+
+                if( !empty($alldata) && is_array($alldata) ) {
+
+                    $sumofrating = 0;
+                    $avg_rating  = 1;
+
+                    foreach ( $alldata as $element_data ) {
+                        $returnData[] = saswp_get_elementor_widget_data($element_data, 'testimonial');
+                    }
+                    
+                    foreach ( $returnData as $value ) {
+                        
+                        $reviews[] = array(
+                            '@type'         => 'Review',
+                            'author'        => array('@type'=> 'Person', 'name' => $value['settings']['testimonial_name']),
+                            //'datePublished' => saswp_format_date_time($value->post_date),
+                            'description'   => $value['settings']['testimonial_content'],
+                            'reviewRating'  => array(
+                                               '@type'	        => 'Rating',
+                                               'bestRating'	    => '5',
+                                               'ratingValue'	=> '5',
+                                               'worstRating'	=> '1',
+                                  )
+                        );
+
+                    }
+
+                    $ratings['aggregateRating'] =  array(
+                        '@type'         => 'AggregateRating',
+                        'ratingValue'	=> '5',
+                        'reviewCount'   => count($returnData)
+                    );
+
+                }
+                
+                return array('reviews' => $reviews, 'rating' => $ratings);
+
+            }
+                        
+}
 /**
  * Extracting the value of star ratings plugins on current post
  * @global type $sd_data

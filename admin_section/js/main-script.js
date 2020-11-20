@@ -1644,6 +1644,15 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-elementor-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-elementor").val(1);                                
+                            }else{
+                              $("#saswp-elementor").val(0);                                          
+                            }                            
+                      break;
+
                       case 'saswp-rannarecipe-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

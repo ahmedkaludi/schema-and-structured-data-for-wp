@@ -3028,6 +3028,7 @@ function saswp_get_field_note($pname){
             'wpamp'                       => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
             'ampwp'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
             'kk_star_ratings'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'elementor'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Elementor Testimonial</a>',
             'ratingform'                  => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/rating-form/10357679/">Rating Form</a>',
             'simple_author_box'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/simple-author-box//">Simple Author Box</a>',
             'wp_post_ratings'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
@@ -3990,4 +3991,26 @@ function saswp_t_string($string){
         return esc_html__( $string , 'schema-and-structured-data-for-wp');
     }
     
+}
+
+function saswp_get_elementor_widget_data($element_data, $widget_type){
+
+    if ( null!=$element_data['elType'] ) {
+
+      if ( 'widget' == $element_data['elType']) {
+
+                if( $element_data['widgetType'] == $widget_type ){
+                    return $element_type  = $element_data;
+                }else{
+                    return '';
+                }
+        
+      } else {
+
+                foreach($element_data['elements'] as $element_ot){
+                    return saswp_get_elementor_widget_data($element_ot, $widget_type);
+                }
+
+      }
+    }
 }

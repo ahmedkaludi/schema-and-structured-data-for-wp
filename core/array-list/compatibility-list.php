@@ -290,6 +290,13 @@ return array(
                     'opt_name'   => 'saswp-kk-star-raring',
                     'part_in'    => 'free',
         ),
+        'elementor'  =>  array(            
+            'name'       => 'Elementor Testimonial',
+            'free'       => 'elementor/elementor.php', 
+            'pro'        => 'elementor-pro/elementor-pro.php',           
+            'opt_name'   => 'saswp-elementor',
+            'part_in'    => 'free',
+        ),
         'wpdiscuz'  =>  array(            
             'name'       => 'Comments – wpDiscuz',
             'free'       => 'wpdiscuz/class.WpdiscuzCore.php',            

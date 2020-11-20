@@ -1975,7 +1975,22 @@ function saswp_schema_output() {
                                         }
                                         
                                     }
-                                      
+
+                                    //Elementor Testomonials
+                                    $ele_testomonials = saswp_get_elementor_testomonials();   
+                                                                        
+                                    if($ele_testomonials){
+                                        
+                                          $input1 = array_merge($input1,$ele_testomonials['rating']);
+                                          
+                                          if(isset($input1['review'])){
+                                              $input1 = array_merge($input1['review'],$ele_testomonials['reviews']);
+                                          }else{
+                                              $input1['review'] = $ele_testomonials['reviews'];
+                                          }
+                                          
+                                    }
+                                    
                                     //BNE Testomonials
                                     $bne_testomonials = saswp_get_bne_testomonials();   
                                                                         

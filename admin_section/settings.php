@@ -2032,6 +2032,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+        $elementor_testimonial = array(
+			'label'  => 'Elementor Testimonial',
+			'id'     => 'saswp-elementor-checkbox',                        
+                        'name'   => 'saswp-elementor-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('elementor'),
+                        'hidden' => array(
+                                'id'   => 'saswp-elementor',
+                                'name' => 'sd_data[saswp-elementor]',                             
+                        )
+        );        
 
         $ratingform = array(
                 'label'  => 'Rating Form by SerdarG',
@@ -3455,6 +3467,7 @@ function saswp_compatibility_page_callback(){
                 $wpamp,
                 $ampwp,
                 $kk_star,
+                $elementor_testimonial,
                 $ratingform,
                 $wpdiscuz,
                 $yasr,
