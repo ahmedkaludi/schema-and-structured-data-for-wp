@@ -179,7 +179,7 @@ if(!class_exists('SASWP_Aq_Resize')) {
                 }
                 // Get image info.
                 $info = pathinfo( $img_path );
-                $ext = $info['extension'];
+                $ext = isset($info['extension']) ? $info['extension'] : '';
                 list( $orig_w, $orig_h ) = @getimagesize( $img_path );
 
                 // Get image size after cropping.
