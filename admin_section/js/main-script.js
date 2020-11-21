@@ -2951,10 +2951,11 @@ jQuery(document).ready(function($){
         }
         
         //star rating stars here
-            if(typeof(saswp_reviews_data) !== 'undefined'){
-            console.log(saswp_reviews_data.rating_val);
+            if(typeof(saswp_reviews_data) !== 'undefined'){                          
+
              $(".saswp-rating-div").rateYo({
               spacing: "5px",  
+              rtl:saswp_localize_data.is_rtl,
               rating: saswp_reviews_data.rating_val,                           
               readOnly: saswp_reviews_data.readonly,
               onSet: function (rating, rateYoInstance) {

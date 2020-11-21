@@ -1,6 +1,7 @@
 jQuery(document).ready(function($){  
 
     jQuery(".saswp-rating-front-div").rateYo({              
+              rtl:saswp_localize_review_data.is_rtl,  
               rating : 5,  
               spacing: "5px",                                       
               onSet: function (rating, rateYoInstance) {

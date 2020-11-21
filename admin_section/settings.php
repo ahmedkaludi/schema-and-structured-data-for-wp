@@ -3818,7 +3818,8 @@ function saswp_enqueue_style_js( $hook ) {
             'trans_based_on'               => saswp_t_string(saswp_label_text('translation-based-on')),
             'trans_reviews'                => saswp_t_string(saswp_label_text('translation-reviews')),
             'trans_self'                   => saswp_t_string(saswp_label_text('translation-self')),
-            'translable_txt'               => $translable_txt
+            'translable_txt'               => $translable_txt,
+            'is_rtl'                       => is_rtl()     
         );
                         
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');
