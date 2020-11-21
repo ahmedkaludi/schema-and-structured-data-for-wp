@@ -1371,7 +1371,7 @@ function saswp_import_callback(){
                         )
                 ),
                 array(
-                        'label'  => 'Resized Image in Separate Folder',
+                        'label'  => 'Resized Images in Separate Folder',
                         'id'     => 'saswp-resized-image-folder-checkbox',                        
                         'name'   => 'saswp-resized-image-folder-checkbox',
                         'type'   => 'checkbox',
