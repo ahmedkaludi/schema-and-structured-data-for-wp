@@ -95,24 +95,31 @@ if(!class_exists('SASWP_Aq_Resize')) {
                 $upload_url = $upload_info['baseurl'];
 
                 //Creating custom folder in uploads and save resizable images. Starts here
-                $upload_main_url = $upload_info['url'];
-                $make_new_dir = $upload_dir . '/schema-and-structured-data-for-wp';
+                global $sd_data;
+                
+                if( isset($sd_data['saswp-resized-image-folder']) && $sd_data['saswp-resized-image-folder'] == 1 ){
 
-                if (! is_dir($make_new_dir)) {
-                    mkdir( $make_new_dir, 0700 );
+                    $upload_main_url = $upload_info['url'];
+                    $make_new_dir = $upload_dir . '/schema-and-structured-data-for-wp';
+
+                    if (! is_dir($make_new_dir)) {
+                        mkdir( $make_new_dir, 0700 );
+                    }
+
+                    if(is_dir($make_new_dir)){
+
+                        $old_url    = $url;
+                        $explod_url = @explode('/', $url);                    
+                        $new_url    = end($explod_url);               
+                        $url        = $upload_url.'/schema-and-structured-data-for-wp/'.$new_url;
+                        $new_url    = $make_new_dir.'/'.$new_url;
+                        
+                        @copy($old_url, $new_url);
+
+                    }
+
                 }
-
-                if(is_dir($make_new_dir)){
-
-                    $old_url    = $url;
-                    $explod_url = @explode('/', $url);                    
-                    $new_url    = end($explod_url);               
-                    $url        = $upload_url.'/schema-and-structured-data-for-wp/'.$new_url;
-                    $new_url    = $make_new_dir.'/'.$new_url;
-                    
-                    @copy($old_url, $new_url);
-
-                }
+                
                 //Creating custom folder in uploads and save resizable images. Ends here
 
                 $http_prefix = "http://";

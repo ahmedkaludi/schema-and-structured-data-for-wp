@@ -1371,6 +1371,18 @@ function saswp_import_callback(){
                         )
                 ),
                 array(
+                        'label'  => 'Resized Image in Separate Folder',
+                        'id'     => 'saswp-resized-image-folder-checkbox',                        
+                        'name'   => 'saswp-resized-image-folder-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'Store all resized images by SASWP in a separate folder "schema-and-structured-data-for-wp" for better management and optimization of images',   
+                        'hidden' => array(
+                                'id'   => 'saswp-resized-image-folder',
+                                'name' => 'sd_data[saswp-resized-image-folder]',                             
+                        )
+                ),
+                array(
                         'label'  => 'Add Featured Image in RSS feed',
                         'id'     => 'saswp-rss-feed-image-checkbox',                        
                         'name'   => 'saswp-rss-feed-image-checkbox',

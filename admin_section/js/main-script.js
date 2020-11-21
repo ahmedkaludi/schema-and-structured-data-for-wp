@@ -1636,10 +1636,46 @@ jQuery(document).ready(function($){
                       
                       case 'saswp-ampbyautomatic-checkbox':
                            saswp_compatibliy_notes(current, id); 
-                            if ($(this).is(':checked')) {              
+                            if ($(this).is(':checked')) {                                            
+
                               $("#saswp-ampbyautomatic").val(1);                                
                             }else{
                               $("#saswp-ampbyautomatic").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-resized-image-folder-checkbox':
+                      
+                            var resized_id = $("#saswp-resized-image-folder-checkbox");
+
+                            if ($(this).is(':checked')) {              
+
+                              $.ajax({
+                                type: "POST",    
+                                url:ajaxurl,                    
+                                dataType: "json",
+                                data:{action:"saswp_create_resized_image_folder", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                success:function(response){   
+                                  
+                                  if(response.status == 't'){
+                                    $("#saswp-resized-image-folder").val(1);                                
+                                  }else{
+                                    resized_id.prop("checked", false);
+                                    resized_id.next().text(response.message);
+                                    resized_id.next().css('color', 'red');
+                                  }
+
+                                },
+                                error: function(response){                    
+                                    resized_id.prop("checked", false);
+                                    resized_id.next().text(response);
+                                    resized_id.next().css('color', 'red');
+                                }
+                                });
+                                                                                         
+                            }else{
+                              $("#saswp-resized-image-folder").val(0);                                          
                             }
                             
                       break;
