@@ -348,6 +348,12 @@ class saswp_output_compatibility{
     public function kk_star_ratings_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-kk-star-raring');
     }
+    public function elementor_ratings_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-elementor');
+    }
+    public function ratingform_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-ratingform');
+    }
     public function wpdiscuz_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wpdiscuz');
     }
@@ -436,7 +442,7 @@ class saswp_output_compatibility{
          $this->saswp_update_option_on_compatibility_activation('saswp-yoast');
     }
     public function metatagmanager_on_activation(){
-        $this->saswp_update_option_on_compatibility_activation('metatagmanager');
+        $this->saswp_update_option_on_compatibility_activation('saswp-metatagmanager');
     }
     public function slimseo_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-slimseo');

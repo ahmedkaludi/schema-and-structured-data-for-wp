@@ -1371,6 +1371,18 @@ function saswp_import_callback(){
                         )
                 ),
                 array(
+                        'label'  => 'Resized Images in Separate Folder',
+                        'id'     => 'saswp-resized-image-folder-checkbox',                        
+                        'name'   => 'saswp-resized-image-folder-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'Store all resized images by SASWP in a separate folder "schema-and-structured-data-for-wp" for better management and optimization of images',   
+                        'hidden' => array(
+                                'id'   => 'saswp-resized-image-folder',
+                                'name' => 'sd_data[saswp-resized-image-folder]',                             
+                        )
+                ),
+                array(
                         'label'  => 'Add Featured Image in RSS feed',
                         'id'     => 'saswp-rss-feed-image-checkbox',                        
                         'name'   => 'saswp-rss-feed-image-checkbox',
@@ -2032,6 +2044,31 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+        $elementor_testimonial = array(
+			'label'  => 'Elementor Testimonial',
+			'id'     => 'saswp-elementor-checkbox',                        
+                        'name'   => 'saswp-elementor-checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('elementor'),
+                        'hidden' => array(
+                                'id'   => 'saswp-elementor',
+                                'name' => 'sd_data[saswp-elementor]',                             
+                        )
+        );        
+
+        $ratingform = array(
+                'label'  => 'Rating Form by SerdarG',
+                'id'     => 'saswp-ratingform-checkbox',                        
+                'name'   => 'saswp-ratingform-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('ratingform'),
+                'hidden' => array(
+                        'id'   => 'saswp-ratingform',
+                        'name' => 'sd_data[saswp-ratingform]',                             
+                )
+        );        
 
         $polylang = array(
                 'label'  => 'Polylang',
@@ -3442,6 +3479,8 @@ function saswp_compatibility_page_callback(){
                 $wpamp,
                 $ampwp,
                 $kk_star,
+                $elementor_testimonial,
+                $ratingform,
                 $wpdiscuz,
                 $yasr,
                 $wp_customer_review,
@@ -3791,7 +3830,8 @@ function saswp_enqueue_style_js( $hook ) {
             'trans_based_on'               => saswp_t_string(saswp_label_text('translation-based-on')),
             'trans_reviews'                => saswp_t_string(saswp_label_text('translation-reviews')),
             'trans_self'                   => saswp_t_string(saswp_label_text('translation-self')),
-            'translable_txt'               => $translable_txt
+            'translable_txt'               => $translable_txt,
+            'is_rtl'                       => is_rtl()     
         );
                         
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');

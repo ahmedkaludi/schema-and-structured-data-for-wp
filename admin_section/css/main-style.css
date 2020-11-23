@@ -1347,19 +1347,28 @@ a.saswp-revws-lnk{
 /*
 Collection css starts here
 */
+
+.saswp-collection-placement-post{    
+    width: -webkit-fill-available;
+}
+.saswp-collection-placement-post td{
+    vertical-align: top;
+    width: -webkit-fill-available;
+}
+
 .saswp-grid-pagination{
-     display: inline-block;
-     padding: 20px;
+    display: inline-block;
+    padding: 20px;
 }
 .saswp-grid-pagination a{
-      color: black;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
 }
 .saswp-grid-pagination a.active {
-  background-color: #4CAF50;
-  color: white;
+    background-color: #4CAF50;
+    color: white;
 }
 .saswp-grid-pagination a:hover:not(.active) {
     background-color: #ddd;
@@ -1560,6 +1569,7 @@ Collection css starts here
     grid-gap: 0px 5px;
     align-items: center;
     color:#666;
+    padding-bottom: 8px;
 }
 .saswp-dp-dtm{
     margin-top:13px;
@@ -1692,6 +1702,7 @@ Collection css starts here
     background: #f1f1f1;
     display: inline-block;
     border: 1px solid #ddd;
+    margin-left:75px;
 }
 
 /** Badges CSS **/

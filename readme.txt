@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 1.9.54
+Stable tag: 1.9.55
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,27 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.55 (23 Nov 2020) =
+
+* Fixed: ERROR: Image elements do not have explicit width and height,in light house test of perfomance. #1236
+* Fixed: rtl issue with stars #1233
+* Fixed: Error: Image elements do not have [alt] attributes, in light house test of accessibility #1235
+* Fixed: Issue - trying to get property ‘ID’ of non-object #1247
+* Fixed: Judge.me reviews are not updating in backend. #1232
+* Fixed: Image resizer is not working on multilingual site after last 2 updates #1246
+* Fixed: Undefined index: extension in /core/3rd-party/aqua_resizer.php on line 175 #1252
+* Fixed: Undefined offset: 0 in /output/output.php:164, /output/function.php:252 and /output/function.php:117 #1245
+* Added: Compatibility with Review testimonials Elementor widget #324
+* Added: Placement feature in Collections #1234
+* Added: Attribute `rel="noopener"` for google review grid #1242
+* Added: Compatibility with Rating Form ( https://codecanyon.net/item/rating-form/10357679 ) #422 
+* Enhancement: Added Option to optimize images in separate folder. #1251
+
+
+= 1.9.54.1 (11 Nov 2020) =
+
+* Added: Image missing in AMP after last update #1220
 
 = 1.9.54 (10 Nov 2020) =
 

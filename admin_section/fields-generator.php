@@ -277,7 +277,7 @@ class saswp_fields_generator {
                                                         <h2>Get Your 5 Stars Reviews on Google SERPs</h2>
                                                         <p class="saswp_desc">Automatically Fetch your customer reviews from 80+ Platforms and show them on your website with proper schema support. <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema">Learn More...</a></p>
                                                         <div class="saswp_cmpny_lst">                                                            
-                                                            <span class="saswp_lst saswp_avlbl">Integrations Avaliable</span>
+                                                            <span class="saswp_lst saswp_avlbl">Integrations Available</span>
                                                             <ul>
                                                                 <li class="check-img"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/google-1-img.png">
                                                                     <span class="saswp_cmpny">Google Reviews</span>

@@ -3738,7 +3738,7 @@ Class saswp_output_service{
             $post_review_title  = '';
             $post_review_desc   = '';
             
-            $post_meta   = get_post_meta($post_id, $key='', true);                                       
+            $post_meta   = get_post_meta($post_id);                                       
             
             if(isset($post_meta['_post_review_box_breakdowns_score'])){
                 
@@ -3856,7 +3856,7 @@ Class saswp_output_service{
                 
                 if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 && (is_plugin_active('dw-question-answer/dw-question-answer.php') || is_plugin_active('dw-question-answer-pro/dw-question-answer.php')) ){
                  
-                $post_meta      = get_post_meta($post_id, $key='', true);
+                $post_meta      = get_post_meta($post_id);
                 
                 if(isset($post_meta['_dwqa_best_answer'])){
                     

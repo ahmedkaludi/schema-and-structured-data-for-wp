@@ -218,7 +218,7 @@ if ( ! defined('ABSPATH') ) exit;
                         foreach($all_schema_post as $schema){    
 
                         $export_data[$schema->ID]['post']      = (array)$schema;                    
-                        $post_meta                             = get_post_meta($schema->ID, $key='', true );    
+                        $post_meta                             = get_post_meta($schema->ID);    
 
                         if($post_meta){
 
@@ -312,7 +312,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
                 $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                 
-                $schema_post_meta       = get_post_meta($schema->ID, $key='', true ); 
+                $schema_post_meta       = get_post_meta($schema->ID); 
                 $schema_post_types      = get_post_meta($schema->ID, $key='_schema_post_types', true );                  
                 $schema_post_meta_box   = get_post_meta($schema->ID, $key='_schema_post_meta_box', true );
                 
@@ -1245,7 +1245,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
                 $wpdb->get_results("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                 
-                $schema_post_meta           = get_post_meta($schema->ID, $key='', true );                 
+                $schema_post_meta           = get_post_meta($schema->ID);                 
                 $schema_post_types          = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-type', true );                   
                 $schema_post_meta_box       = get_post_meta($schema->ID, $key='bsf-aiosrs-'.$schema_post_types, true );                
                 $schema_enable_location     = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-location', true );
@@ -2300,12 +2300,16 @@ if ( ! defined('ABSPATH') ) exit;
         //The seo framework
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                           
+            if(is_object($post)){
+
                 $c_title = get_post_meta($post->ID, '_genesis_title', true);
                 
                 if($c_title){
                     $title = $c_title;
-                }                                
-                                      
+                }                
+
+            }
+                                                                                      
         }
         
         //SmartCrawl title
@@ -3024,6 +3028,8 @@ function saswp_get_field_note($pname){
             'wpamp'                       => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
             'ampwp'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
             'kk_star_ratings'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'elementor'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Elementor Testimonial</a>',
+            'ratingform'                  => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/rating-form/10357679/">Rating Form</a>',
             'simple_author_box'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/simple-author-box//">Simple Author Box</a>',
             'wp_post_ratings'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
@@ -3985,4 +3991,26 @@ function saswp_t_string($string){
         return esc_html__( $string , 'schema-and-structured-data-for-wp');
     }
     
+}
+
+function saswp_get_elementor_widget_data($element_data, $widget_type){
+
+    if ( null!=$element_data['elType'] ) {
+
+      if ( 'widget' == $element_data['elType']) {
+
+                if( $element_data['widgetType'] == $widget_type ){
+                    return $element_type  = $element_data;
+                }else{
+                    return '';
+                }
+        
+      } else {
+
+                foreach($element_data['elements'] as $element_ot){
+                    return saswp_get_elementor_widget_data($element_ot, $widget_type);
+                }
+
+      }
+    }
 }

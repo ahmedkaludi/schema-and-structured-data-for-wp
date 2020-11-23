@@ -161,7 +161,7 @@ function saswp_schema_output() {
         $modified_date 	    = get_the_modified_date("c");        
         $modify_option      = get_option('modify_schema_post_enable_'.get_the_ID()); 
         $schema_enable      = get_post_meta(get_the_ID(), 'saswp_enable_disable_schema', true); 
-        $all_post_meta      = get_post_meta(get_the_ID(), $key='', true);        
+        $all_post_meta      = get_post_meta(get_the_ID());        
         $default_logo       = $service_object->saswp_get_publisher(true);
         $publisher          = $service_object->saswp_get_publisher();
         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
@@ -1827,6 +1827,13 @@ function saswp_schema_output() {
                                       if(!empty($taqyeem_rating)){
                                         $input1['itemReviewed']['aggregateRating'] = $taqyeem_rating; 
                                       }
+                                    //Rating Form 
+                            
+                                    $ratingform = saswp_extract_ratingform();
+                                
+                                    if(!empty($ratingform)){
+                                        $input1['itemReviewed']['aggregateRating'] = $ratingform; 
+                                    }  
                                     //kk star rating 
                             
                                     $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
@@ -1907,6 +1914,13 @@ function saswp_schema_output() {
                                             $input1['aggregateRating'] = $taqyeem_rating; 
                                         }
 
+                                        //Rating Form 
+                                        $ratingform = saswp_extract_ratingform();
+
+                                        if(!empty($ratingform)){
+                                            $input1['aggregateRating'] = $ratingform; 
+                                        }
+
                                         //kk star rating 
                                         $kkstar_aggregateRating = saswp_extract_kk_star_ratings();
 
@@ -1961,7 +1975,22 @@ function saswp_schema_output() {
                                         }
                                         
                                     }
-                                      
+
+                                    //Elementor Testomonials
+                                    $ele_testomonials = saswp_get_elementor_testomonials();   
+                                                                        
+                                    if($ele_testomonials){
+                                        
+                                          $input1 = array_merge($input1,$ele_testomonials['rating']);
+                                          
+                                          if(isset($input1['review'])){
+                                              $input1 = array_merge($input1['review'],$ele_testomonials['reviews']);
+                                          }else{
+                                              $input1['review'] = $ele_testomonials['reviews'];
+                                          }
+                                          
+                                    }
+                                    
                                     //BNE Testomonials
                                     $bne_testomonials = saswp_get_bne_testomonials();   
                                                                         

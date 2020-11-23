@@ -2,6 +2,76 @@ var saswp_attached_rv  = [];
 var saswp_attached_col = [];  
 jQuery(document).ready(function($){
 
+  function saswp_get_collection_condition_list_ajax(condition){
+
+    if(condition){
+
+      $.ajax({
+        url : ajaxurl,
+        method : "GET",
+        data: { 
+          action: "saswp_get_select2_data", 
+          type: condition,  
+          q: '',                      
+          saswp_security_nonce:saswp_localize_data.saswp_security_nonce
+        },
+        beforeSend: function(){ 
+
+        },
+        success: function(result){ 
+                    
+          if(result){
+
+            var html = '';
+
+              $.each(result, function(index, data){
+                html +='<option value="'+data.id+'">'+data.text+'</option>';      
+              });
+
+              $(".saswp-collection-where-data").html('');
+              $(".saswp-collection-where-data").append(html);
+              saswp_select2();
+          }
+
+        },
+        error: function(data){
+          console.log("Failed Ajax Request");
+          console.log(data);
+        }
+      }); 
+
+    }
+
+  }
+
+  $(document).on("change", ".saswp-collection-where", function(){
+
+    var current   = $(this);
+    var condition = $(this).val();   
+  
+      if(condition){
+
+        saswp_get_collection_condition_list_ajax(condition);
+
+      }
+    
+  });
+
+  $(".saswp-collection-display-method").change(function(){
+
+    var type = $(this).val();
+    console.log(type);
+    if(type == 'shortcode'){
+      $(".saswp-coll-where").addClass('saswp_hide');
+      $("#saswp-motivatebox").css("display", "block");
+    }else{
+      $(".saswp-coll-where").removeClass('saswp_hide');
+      $("#saswp-motivatebox").css("display", "none");
+    }
+
+  }).change();
+  
+
   $(document).on("click", ".saswp-dismiss-notices", function(){
     var current = $(this);
     var notice_type = $(this).attr('notice-type');
@@ -951,6 +1021,16 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-ratingform-checkbox':
+                          
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ratingform").val(1);             
+                            }else{
+                              $("#saswp-ratingform").val(0);           
+                            }
+                      break;
+
                       case 'saswp-wpdiscuz-checkbox':
                           
                           saswp_compatibliy_notes(current, id); 
@@ -1556,12 +1636,57 @@ jQuery(document).ready(function($){
                       
                       case 'saswp-ampbyautomatic-checkbox':
                            saswp_compatibliy_notes(current, id); 
-                            if ($(this).is(':checked')) {              
+                            if ($(this).is(':checked')) {                                            
+
                               $("#saswp-ampbyautomatic").val(1);                                
                             }else{
                               $("#saswp-ampbyautomatic").val(0);                                          
                             }
                             
+                      break;
+
+                      case 'saswp-resized-image-folder-checkbox':
+                      
+                            var resized_id = $("#saswp-resized-image-folder-checkbox");
+
+                            if ($(this).is(':checked')) {              
+
+                              $.ajax({
+                                type: "POST",    
+                                url:ajaxurl,                    
+                                dataType: "json",
+                                data:{action:"saswp_create_resized_image_folder", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                success:function(response){   
+                                  
+                                  if(response.status == 't'){
+                                    $("#saswp-resized-image-folder").val(1);                                
+                                  }else{
+                                    resized_id.prop("checked", false);
+                                    resized_id.next().text(response.message);
+                                    resized_id.next().css('color', 'red');
+                                  }
+
+                                },
+                                error: function(response){                    
+                                    resized_id.prop("checked", false);
+                                    resized_id.next().text(response);
+                                    resized_id.next().css('color', 'red');
+                                }
+                                });
+                                                                                         
+                            }else{
+                              $("#saswp-resized-image-folder").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-elementor-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-elementor").val(1);                                
+                            }else{
+                              $("#saswp-elementor").val(0);                                          
+                            }                            
                       break;
 
                       case 'saswp-rannarecipe-checkbox':
@@ -2862,10 +2987,11 @@ jQuery(document).ready(function($){
         }
         
         //star rating stars here
-            if(typeof(saswp_reviews_data) !== 'undefined'){
-            console.log(saswp_reviews_data.rating_val);
+            if(typeof(saswp_reviews_data) !== 'undefined'){                          
+
              $(".saswp-rating-div").rateYo({
               spacing: "5px",  
+              rtl:saswp_localize_data.is_rtl,
               rating: saswp_reviews_data.rating_val,                           
               readOnly: saswp_reviews_data.readonly,
               onSet: function (rating, rateYoInstance) {
@@ -3089,7 +3215,7 @@ function copySelectionText(){
 return copysuccess
 }
 
-var motivatebox = document.getElementById('motivatebox')
+var motivatebox = document.getElementById('saswp-motivatebox')
  
 if(motivatebox){
 

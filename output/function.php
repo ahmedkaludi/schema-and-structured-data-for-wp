@@ -932,6 +932,98 @@ function saswp_extract_wpdiscuz(){
 }
 
 /**
+ * Extracting the value of rating form plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
+function saswp_extract_ratingform(){
+    
+    global $sd_data;    
+    $star_rating = array();
+
+    if(isset($sd_data['saswp-ratingform']) && $sd_data['saswp-ratingform'] == 1 && is_plugin_active('rating-form/rf-init.php')){                
+        
+        $total = get_post_meta(get_the_ID(), 'rf_total', true) ? ((int) get_post_meta(get_the_ID(), 'rf_total', true)) : 0;
+        $avg   = get_post_meta(get_the_ID(), 'rf_average', true) ? ((int) get_post_meta(get_the_ID(), 'rf_average', true)) : 0;
+        
+         
+        if( $total > 0 ){
+           
+            $star_rating['@type']        = 'AggregateRating';
+            $star_rating['bestRating']   = 5;
+            $star_rating['worstRating']  = 1;            
+            $star_rating['ratingCount'] = $total;
+            $star_rating['ratingValue'] = $avg;      
+            
+            return $star_rating;
+            
+        }else{
+            
+            return array();    
+            
+        }
+        
+    }else{
+        
+        return array();
+        
+    }                        
+}
+
+function saswp_get_elementor_testomonials(){
+
+            global $sd_data;    
+            
+            if(isset($sd_data['saswp-elementor']) && $sd_data['saswp-elementor'] == 1 && is_plugin_active('elementor/elementor.php')){
+               
+                $alldata    = get_post_meta( get_the_ID(),'_elementor_data', true );
+                $alldata    = json_decode($alldata, true);
+            
+                $returnData = array();
+                $reviews = array();
+                $ratings = array();
+
+                if( !empty($alldata) && is_array($alldata) ) {
+
+                    $sumofrating = 0;
+                    $avg_rating  = 1;
+
+                    foreach ( $alldata as $element_data ) {
+                        $returnData[] = saswp_get_elementor_widget_data($element_data, 'testimonial');
+                    }
+                    
+                    foreach ( $returnData as $value ) {
+                        
+                        $reviews[] = array(
+                            '@type'         => 'Review',
+                            'author'        => array('@type'=> 'Person', 'name' => $value['settings']['testimonial_name']),
+                            //'datePublished' => saswp_format_date_time($value->post_date),
+                            'description'   => $value['settings']['testimonial_content'],
+                            'reviewRating'  => array(
+                                               '@type'	        => 'Rating',
+                                               'bestRating'	    => '5',
+                                               'ratingValue'	=> '5',
+                                               'worstRating'	=> '1',
+                                  )
+                        );
+
+                    }
+
+                    $ratings['aggregateRating'] =  array(
+                        '@type'         => 'AggregateRating',
+                        'ratingValue'	=> '5',
+                        'reviewCount'   => count($returnData)
+                    );
+
+                }
+                
+                return array('reviews' => $reviews, 'rating' => $ratings);
+
+            }
+                        
+}
+/**
  * Extracting the value of star ratings plugins on current post
  * @global type $sd_data
  * @param type $id
@@ -2298,7 +2390,7 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
                  
                  foreach($attached_col as $col_id){
                      
-                     $collection_data = get_post_meta($col_id, $key='', true);
+                     $collection_data = get_post_meta($col_id);
                      
                      if(isset($collection_data['saswp_platform_ids'][0])){
                         $platform_ids  = unserialize($collection_data['saswp_platform_ids'][0]);                
@@ -2412,7 +2504,7 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
 
                     if($schema_options['saswp_modify_method'] == 'manual'){
                         
-                        $all_post_meta = get_post_meta($schema_post_id, $key='', true); 
+                        $all_post_meta = get_post_meta($schema_post_id); 
                         
                         switch ($schema_type) {
                             

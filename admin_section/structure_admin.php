@@ -1939,6 +1939,7 @@ function saswp_get_select2_data(){
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
           return; 
         }
+        
         if ( (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ) ||  (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_add_new_nonce' ) )){
 
           $search        = isset( $_GET['q'] ) ? sanitize_text_field( $_GET['q'] ) : '';                                    
@@ -1954,3 +1955,51 @@ function saswp_get_select2_data(){
         
         wp_die();
 }
+
+function saswp_create_resized_image_folder(){                  
+    
+  if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+     return; 
+  }
+  if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+     return;  
+  }    
+
+  $response    = array();       
+  $upload_info = wp_upload_dir();
+  $upload_dir  = $upload_info['basedir'];
+  $upload_url  = $upload_info['baseurl'];  
+
+  $upload_main_url = $upload_info['url'];
+  $make_new_dir = $upload_dir . '/schema-and-structured-data-for-wp';
+
+  if (! is_dir($make_new_dir)) {
+      mkdir( $make_new_dir, 0700 );
+  }
+
+  if(is_dir($make_new_dir)){
+
+    $old_url    = SASWP_PLUGIN_URL.'/admin_section/images/sd-logo-white.png';            
+    $url        = $upload_url.'/schema-and-structured-data-for-wp/sd-logo-white.png';
+    $new_url    = $make_new_dir.'/sd-logo-white.png';    
+    @copy($old_url, $new_url);
+
+    $result = @wp_remote_get($url);
+    
+    if(wp_remote_retrieve_response_code($result) == 200){
+      $response = array('status' => 't');   
+    }else{
+      $response = array('status' => 'f', 'message' => 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.');
+    }
+
+  }else{
+    $response = array('status' => 'f', 'message' => 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.');
+  }
+
+  wp_send_json( $response );
+
+  wp_die();           
+
+}
+
+add_action('wp_ajax_saswp_create_resized_image_folder', 'saswp_create_resized_image_folder');

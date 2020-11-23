@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'ratingform'  =>  array(            
+            'name'       => 'Rating Form by SerdarG',
+            'free'       => 'rating-form/rf-init.php',                    
+            'opt_name'   => 'saswp-ratingform',
+            'part_in'    => 'free',
+        ),
         'polylang'  =>  array(            
             'name'       => 'Polylang',
             'free'       => 'polylang/polylang.php',                    
@@ -283,6 +289,13 @@ return array(
                     'free'       => 'kk-star-ratings/index.php',            
                     'opt_name'   => 'saswp-kk-star-raring',
                     'part_in'    => 'free',
+        ),
+        'elementor'  =>  array(            
+            'name'       => 'Elementor Testimonial',
+            'free'       => 'elementor/elementor.php', 
+            'pro'        => 'elementor-pro/elementor-pro.php',           
+            'opt_name'   => 'saswp-elementor',
+            'part_in'    => 'free',
         ),
         'wpdiscuz'  =>  array(            
             'name'       => 'Comments – wpDiscuz',
