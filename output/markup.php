@@ -2042,7 +2042,8 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['datePosted']            = isset($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])):'';                            
     $input1['validThrough']          = isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])):'';                            
     $input1['employmentType']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_employment_type_'.$schema_id, 'saswp_array');
-
+    $input1['industry']              = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_industry_'.$schema_id, 'saswp_array');
+    $input1['occupationalCategory']  = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_occupational_category_'.$schema_id, 'saswp_array');
     $input1['hiringOrganization']['@type']     = 'Organization';
     $input1['hiringOrganization']['name']      = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_ho_name_'.$schema_id, 'saswp_array');
     $input1['hiringOrganization']['sameAs']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_ho_url_'.$schema_id, 'saswp_array');

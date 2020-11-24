@@ -4540,7 +4540,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'Part-Time'  => 'Part-Time',
                                 'Contractor' => 'Contractor',       
                             )
-                    ), 
+                        ), 
+                    array(
+                                'label'      => 'Industry',
+                                'id'         => 'saswp_jobposting_schema_industry_'.$schema_id,
+                                'type'       => 'text',                             
+                        ),
+                    array(
+                                'label'      => 'Occupational Category',
+                                'id'         => 'saswp_jobposting_schema_occupational_category_'.$schema_id,
+                                'type'       => 'text',                             
+                        ),
                     array(
                             'label'      => 'Hiring Organization Name',
                             'id'         => 'saswp_jobposting_schema_ho_name_'.$schema_id,
