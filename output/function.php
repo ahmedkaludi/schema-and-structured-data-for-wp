@@ -196,15 +196,12 @@ function saswp_get_all_schema_markup_output() {
         $gutenberg_job            = array();
         $gutenberg_course         = array();
         
-        if(is_singular() || is_front_page() || (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) ){
-
+        if( !is_home() && ( is_singular() || is_front_page() || (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page())) ){
             
             $elementor_faq            = saswp_elementor_faq_schema();
             $elementor_qanda          = saswp_elementor_qanda_schema();
             $elementor_howto          = saswp_elementor_howto_schema();
-
             $divi_builder_faq         = saswp_divi_builder_faq_schema();
-
             $gutenberg_event          = saswp_gutenberg_event_schema();  
             $gutenberg_qanda          = saswp_gutenberg_qanda_schema();  
             $gutenberg_job            = saswp_gutenberg_job_schema();
