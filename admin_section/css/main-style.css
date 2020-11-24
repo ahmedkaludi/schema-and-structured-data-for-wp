@@ -2423,3 +2423,17 @@ span.saswp-mines{
 .saswp-stars-post-table td{
 padding: 2px;
 }
+
+/* Offer Banner Starts Here */
+.saswp-offer-banner{
+    background: #ca4a1f;
+    color: #fff;
+    cursor: pointer;
+    border-color: #ca4a1f;
+}
+.saswp-offer-banner:hover{
+    background: hsl(15deg 73% 46%);
+    color: #fff;
+    cursor: pointer;
+}
+/* Offer Banner Ends Here */
