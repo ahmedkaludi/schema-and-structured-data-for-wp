@@ -1347,7 +1347,40 @@ a.saswp-revws-lnk{
 /*
 Collection css starts here
 */
-
+.saswp-add-dynamic-section{
+    padding: 0px 30px;
+}
+.saswp-add-dynamic-btn{
+    text-align: center;
+    margin-bottom: 10px;
+}
+.saswp-add-single-rv{
+    margin-left: 10px !important;
+}
+.saswp-dynamic-platforms{
+    display: flex;
+    width: 100%;
+}
+.saswp-dynamic-platforms select{
+    margin-right: 10px;
+    width: 40%;
+}
+.saswp-add-rv-btn{
+    font-size: 25px;
+    margin-left: -8px;
+    padding-top: 15px;
+    cursor: pointer;
+}
+.saswp-remove-coll-rv{
+    position: absolute;
+    top: 2;
+    top: 0px;
+    right: 0px;
+}
+.saswp-rmv-coll-rv{
+    padding: 3px;
+    cursor: pointer;
+}
 .saswp-collection-placement-post{    
     width: -webkit-fill-available;
 }
@@ -1412,7 +1445,7 @@ Collection css starts here
     margin-top: 10px;
 }
 .saswp-collection-title input{
-    width: 100%;
+    width: 96%;
     padding: 3px 8px;
     font-size: 15px;
     line-height: 2;
@@ -2423,3 +2456,17 @@ span.saswp-mines{
 .saswp-stars-post-table td{
 padding: 2px;
 }
+
+/* Offer Banner Starts Here */
+.saswp-offer-banner{
+    background: #ca4a1f;
+    color: #fff;
+    cursor: pointer;
+    border-color: #ca4a1f;
+}
+.saswp-offer-banner:hover{
+    background: hsl(15deg 73% 46%);
+    color: #fff;
+    cursor: pointer;
+}
+/* Offer Banner Ends Here */

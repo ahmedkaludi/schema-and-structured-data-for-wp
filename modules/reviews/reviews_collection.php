@@ -281,6 +281,7 @@ class SASWP_Reviews_Collection {
             wp_die();
         }
         
+
         public function saswp_add_to_collection(){
                         
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
@@ -292,10 +293,21 @@ class SASWP_Reviews_Collection {
             
             $platform_id = intval($_GET['platform_id']);
             $rvcount     = intval($_GET['rvcount']);
-            
-            if($platform_id  && $rvcount){
-                                
-            $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters(null, $platform_id, $rvcount); 
+            $review_id   = ''; 
+            $attr        = array();
+
+            if(isset($_GET['reviews_ids']) && $_GET['reviews_ids'] != ''){
+                $attr['in'] = json_decode($_GET['reviews_ids']);
+            }
+
+            if(isset($_GET['review_id']) && $_GET['review_id'] != ''){
+                $review_id   = intval($_GET['review_id']);
+                $attr['in'] = array($review_id);
+            }
+                        
+            if( $platform_id ||  isset($attr['in']) ){
+                                                     
+            $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters($attr, $platform_id, $rvcount); 
              
             if($reviews_list){
                 
@@ -544,6 +556,7 @@ class SASWP_Reviews_Collection {
                         <div class="saswp-collection-lp">
                             <div class="saswp-collection-title">
                                 <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo get_the_title($post_id); } ?>" id="saswp_collection_title" name="saswp_collection_title">
+                                <span class="saswp-rmv-coll-rv dashicons dashicons-admin-generic"></span>
                             </div>
                             <span class="spinner saswp-spinner"></span>
                             <div class="saswp-collection-preview">                                
@@ -586,6 +599,7 @@ class SASWP_Reviews_Collection {
                                          echo '</select>';
                                                     
                                         } ?>   
+                                        
                                         <input type="number" id="saswp-review-count" name="saswp-review-count" min="0" value="5">
                                         <a class="button button-default saswp-add-to-collection"><?php echo saswp_t_string('Add'); ?></a>
                                       </div>
@@ -593,7 +607,22 @@ class SASWP_Reviews_Collection {
                                           
                                       </div>
                                         <div class="saswp-total-reviews-list">  
-                                          
+
+                                        <?php 
+                                        
+                                        if(isset($post_meta['saswp_total_reviews'][0])){
+
+                                            $reviews_list = unserialize($post_meta['saswp_total_reviews'][0]);
+
+                                            if(is_array($reviews_list)){
+                                                echo '<input type="hidden" id="saswp_total_reviews_list" name="saswp_total_reviews" value="'.json_encode($reviews_list).'">';
+                                            }
+                                                                                        
+                                        }
+
+                                        
+                                        ?>
+
                                       </div>
                                     </div>
                                 </li>

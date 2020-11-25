@@ -3148,7 +3148,12 @@ Class saswp_output_service{
                 break;
                 
                 case 'JobPosting':      
-                      
+
+                    if(isset($custom_fields['saswp_jobposting_schema_industry'])){
+                        $input1['industry']             =    $custom_fields['saswp_jobposting_schema_industry'];
+                    }if(isset($custom_fields['saswp_jobposting_schema_occupational_category'])){
+                        $input1['occupationalCategory'] =    $custom_fields['saswp_jobposting_schema_occupational_category'];
+                    }  
                     if(isset($custom_fields['saswp_jobposting_schema_title'])){
                      $input1['title'] =    $custom_fields['saswp_jobposting_schema_title'];
                     }
