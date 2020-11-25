@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 1.9.55
+Stable tag: 1.9.56
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,15 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.56 (25 Nov 2020) =
+
+* Added: option to add and remove single review in the collection #1239
+* Added: Industry and OccupationalCategory properties to JobPosting schema #1255
+* Added: Special banner for the Black Friday #1249
+* Fixed: Review checkbox not showing on private page #1254
+* Fixed: Homepage shows review and FAQ schema but both the schema's have been appiled to the post that is on the homepage and not on the homepage itself. #1243
+
 
 = 1.9.55 (23 Nov 2020) =
 
