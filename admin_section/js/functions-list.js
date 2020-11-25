@@ -434,7 +434,14 @@
                                              
                if(saswp_collection[key]){
                    
-                   jQuery.each(saswp_collection[key], function(index, value){                                               
+                   jQuery.each(saswp_collection[key], function(index, value){      
+                    
+                        if(rmv_boolean){
+                            value.is_remove = true; 
+                        }else{
+                            value.is_remove = false; 
+                        }
+                    
                         saswp_total_collection.push(value);
                    
                     });
@@ -504,12 +511,15 @@
            
             var platform_list = '';
             
-            platform_list += '<div class="cancel-btn">';
-            platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span><span>('+rvcount+')</span>';
-            platform_list += '<input type="hidden" name="saswp_platform_ids['+key+']" value="'+rvcount+'">';
-            platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform"></a>';
-            platform_list += '</div>';
-            
+            if(rvcount > 0){
+                
+                platform_list += '<div class="cancel-btn">';
+                platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span><span>('+rvcount+')</span>';
+                platform_list += '<input type="hidden" name="saswp_platform_ids['+key+']" value="'+rvcount+'">';
+                platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform"></a>';
+                platform_list += '</div>';
+            }
+                        
             return platform_list;
                                    
        }
@@ -1080,7 +1090,7 @@
                 var html          = '';                
                 var grid_cols     = '';
                 var page_count    = 0;
-                
+
                 if(saswp_total_collection.length > 0){
                     
                     page_count = Math.ceil(saswp_total_collection.length / perpage);
@@ -1134,9 +1144,14 @@
                             html += '</div>';
                             
                             html += '</div>';
-                            html +='<div class="saswp-rc-cnt">';
+                            html += '<div class="saswp-rc-cnt">';
                             html += '<p>'+value.saswp_review_text+'</p>';
                             html += '</div>';
+
+                            if(value.is_remove){
+                                html += '<span platform-id="'+value.saswp_review_platform+'" data-id="'+value.saswp_review_id+'" class="dashicons dashicons-remove saswp-remove-coll-rv"></span>';
+                            }
+                            
                             html += '</li>';
                                                                                   
                         });
@@ -1165,7 +1180,7 @@
                         html += '</div>';                        
                         
                     }
-                                   
+                                                    
                     html += '</div>';
                                                                                 
                 }
@@ -1257,21 +1272,24 @@
            
        }  
        
-       function saswp_get_collection_data(rvcount, platform_id, current = null){
+       function saswp_get_collection_data(rvcount, platform_id, current = null, review_id =  null){
            
             jQuery.get(ajaxurl, 
-                             { action:"saswp_add_to_collection", rvcount:rvcount, platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                             { action:"saswp_add_to_collection", rvcount:rvcount, review_id:review_id, platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                              
                               function(response){                                  
                     
                               if(response['status']){   
                                       
                                         var res_json = response['message'];
-                                                                            
-                                        saswp_collection[platform_id] = res_json;
-                                      
-                                        saswp_collection[platform_id] = jQuery.extend(saswp_collection[platform_id], res_json);
-                                                                                                                                                                                                                                                                                                       
+                                        var old_json = saswp_collection[platform_id];
+
+                                        if(old_json){
+                                            var result = [...new Set([...old_json, ...res_json])];                                         
+                                            saswp_collection[platform_id] = result;                                            
+                                        }else{
+                                            saswp_collection[platform_id] = res_json;
+                                        }                                                                                                                                                                                                                                                                                                       
                                         saswp_on_collection_design_change();
                                                                             
                               }
@@ -1283,6 +1301,7 @@
                              },'json');
            
        }
+       
        
 function saswpIsEmail(email) {
         var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;

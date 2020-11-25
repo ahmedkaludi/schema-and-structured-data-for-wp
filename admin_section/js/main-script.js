@@ -1,5 +1,7 @@
 var saswp_attached_rv  = [];  
 var saswp_attached_col = [];  
+var rmv_boolean        = false;
+var rmv_html           = '';
 jQuery(document).ready(function($){
 
   function saswp_get_collection_condition_list_ajax(condition){
@@ -60,7 +62,7 @@ jQuery(document).ready(function($){
   $(".saswp-collection-display-method").change(function(){
 
     var type = $(this).val();
-    console.log(type);
+    
     if(type == 'shortcode'){
       $(".saswp-coll-where").addClass('saswp_hide');
       $("#saswp-motivatebox").css("display", "block");
@@ -2370,7 +2372,7 @@ jQuery(document).ready(function($){
             var message     = $("#saswp_query_message").val();  
             var email       = $("#saswp_query_email").val();  
             var premium_cus = $("#saswp_query_premium_cus").val(); 
-            console.log(saswpIsEmail(email));
+            
             if($.trim(message) !='' && premium_cus && $.trim(email) !='' && saswpIsEmail(email) == true){
              $.ajax({
                             type: "POST",    
@@ -3043,8 +3045,119 @@ jQuery(document).ready(function($){
             
             //Collection js start here
             
-               saswpCollectionSlider();
-               
+            saswpCollectionSlider();
+                                              
+            
+            
+
+            $(document).on("click", ".saswp-add-rv-btn", function(){
+
+              $(".saswp-dynamic-platforms").toggle();
+              
+            });
+
+            $(".saswp-rmv-coll-rv").on("click", function(){
+
+              rmv_boolean = rmv_boolean ? false : true;                             
+              
+              //var new_coll = saswp_total_collection.map(v => Object.assign(v, {is_remove: rmv_boolean}));
+
+              //if(new_coll){
+                
+                //saswp_total_collection = new_coll;
+                saswp_on_collection_design_change();
+
+                jQuery(jQuery(".saswp-add-dynamic-section")).remove();
+
+                if(rmv_boolean){
+                  var html ='';
+                  html +='<div class="saswp-add-dynamic-section">';
+                  html += '<div class="saswp-add-dynamic-btn">';
+                  html +='<span class="dashicons dashicons-plus-alt saswp-add-rv-btn"></span>';
+                  html += '</div>';
+                  html +='<div class="saswp-dynamic-platforms" style="display:none;">';
+                  var platforms_html = jQuery("#saswp-plaftorm-list").html();
+                  html +='<select name="saswp_dynamic_platforms" id="saswp_dynamic_platforms"><option value="">Choose Platform</option>'+platforms_html+'</select>';
+                  html +='</div>';                    
+                  html +='</div>';
+                
+                  jQuery(jQuery(".saswp-collection-preview")[0]).after(html);                
+                }
+                
+             // }              
+                            
+            }); 
+            $(document).on("change", "#saswp_dynamic_platforms", function(){
+
+              var platform_id = $(this).val();
+              
+              if(platform_id){
+                
+                jQuery.get(ajaxurl, 
+                  { action:"saswp_add_to_collection", rvcount:'', platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                  
+                   function(response){                                  
+         
+                   if(response['status']){   
+                           
+                        if(response['message']){
+
+                          var option = '';
+                          $.each(response['message'], function(i, e){
+                              option += '<option value="'+e.saswp_review_id+'">'+e.saswp_reviewer_name+' ( '+e.saswp_review_rating+' ) </option>';
+                          });
+
+                          if(option){
+                            var html  = '';
+                                html += '<select id="saswp_dynamic_reviews_list" class="saswp-select2">';
+                                html += option;
+                                html += '</select>';
+                                html += '<a class="button button-default saswp-add-single-rv">Add</a>';
+
+                                $("#saswp_dynamic_platforms").nextAll().remove();
+                                $("#saswp_dynamic_platforms").after(html);
+
+                                saswp_select2();
+                          }
+
+                        }                                                                                              
+                   }                                                                    
+                   
+                  },'json');
+
+              }
+                
+            });
+
+            $(document).on("click", ".saswp-add-single-rv", function(e) {
+              e.preventDefault();
+
+              var review_id   = $("#saswp_dynamic_reviews_list").val();
+              var platform_id = $("#saswp_dynamic_platforms").val();
+              var is_remove   = true;
+              if(review_id){
+                saswp_get_collection_data(null, platform_id, null, review_id, is_remove);
+              }
+              
+
+            });
+              
+            $(document).on("click" ,".saswp-remove-coll-rv", function(){
+
+                var review_id     = $(this).attr('data-id');                
+                var platform_id = $(this).attr('platform-id');                
+                
+                if(platform_id){
+
+                  var myarray = saswp_collection[platform_id].filter(function( obj ) {
+                    return obj.saswp_review_id != review_id;
+                  });
+                  saswp_collection[platform_id] = myarray;                
+                  saswp_on_collection_design_change();
+
+                }
+                                                                
+            })
                
             $(document).on("click", ".saswp-grid-page", function(e){
                 e.preventDefault();
@@ -3116,9 +3229,13 @@ jQuery(document).ready(function($){
                 
                 $(".saswp-coll-options").addClass('saswp_hide');
                 $(".saswp-collection-lp").css('height', 'auto'); 
-                
+                $(".saswp-rmv-coll-rv").hide();
+                $(".saswp-add-dynamic-section").hide();
+
                 if(design == 'grid'){
                     $(".saswp-grid-options").removeClass("saswp_hide");
+                    $(".saswp-rmv-coll-rv").show();
+                    $(".saswp-add-dynamic-section").show();
                 }
                 
                 if(design == 'gallery'){                    
@@ -3150,7 +3267,7 @@ jQuery(document).ready(function($){
                     
                     current.addClass('updating-message');
                     
-                    saswp_get_collection_data(rvcount, platform_id, current);
+                    saswp_get_collection_data(rvcount, platform_id, current, null);
                     
                 }else{
                     
@@ -3176,7 +3293,7 @@ jQuery(document).ready(function($){
                                         var res_json = response['message'];
                                         
                                         $.each(res_json, function(i, e){
-                                            saswp_get_collection_data(e, i, null);
+                                            saswp_get_collection_data(e, i, null, null);
                                         });
                                                                                                                                                                                          
                               }
