@@ -1077,7 +1077,7 @@
                    
                });
                
-               var html = '<input type="hidden" name="saswp_total_reviews" value="'+JSON.stringify(saswp_total_reviews)+'">';
+               var html = '<input type="hidden" id="saswp_total_reviews_list" name="saswp_total_reviews" value="'+JSON.stringify(saswp_total_reviews)+'">';
                
                jQuery(".saswp-total-reviews-list").html('');                
                jQuery(".saswp-total-reviews-list").append(html); 
@@ -1272,25 +1272,31 @@
            
        }  
        
-       function saswp_get_collection_data(rvcount, platform_id, current = null, review_id =  null){
+       function saswp_get_collection_data(rvcount, platform_id, current = null, review_id =  null, reviews_ids = null){
            
             jQuery.get(ajaxurl, 
-                             { action:"saswp_add_to_collection", rvcount:rvcount, review_id:review_id, platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                             { action:"saswp_add_to_collection", rvcount:rvcount, reviews_ids:reviews_ids, review_id:review_id, platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                              
                               function(response){                                  
                     
                               if(response['status']){   
-                                      
-                                        var res_json = response['message'];
-                                        var old_json = saswp_collection[platform_id];
+                                                                      
+                                jQuery.each(response['message'], function(index, value){
 
-                                        if(old_json){
-                                            var result = [...new Set([...old_json, ...res_json])];                                         
-                                            saswp_collection[platform_id] = result;                                            
-                                        }else{
-                                            saswp_collection[platform_id] = res_json;
-                                        }                                                                                                                                                                                                                                                                                                       
-                                        saswp_on_collection_design_change();
+                                    var id = JSON.parse(value.saswp_review_platform);
+                                    var narr =  [];
+                                    narr.push(value);
+
+                                    if(typeof(saswp_collection[id]) == 'undefined'){
+                                        saswp_collection[id] = narr;
+                                    }else{
+                                        var result = [...new Set([...saswp_collection[id], ...narr])];
+                                        saswp_collection[id] = result;
+                                    }
+                                    
+                                 });
+
+                                saswp_on_collection_design_change();
                                                                             
                               }
                               

@@ -3276,33 +3276,15 @@ jQuery(document).ready(function($){
                 }
                 
             });
-            
-            var collection_id  = $("#saswp_collection_id").val();
-            
-            if(collection_id){
+                        
+            var reviews_list   = $("#saswp_total_reviews_list").val();
+
+            if(reviews_list){
                 
-               $('.spinner').addClass('is-active');
-                
-                $.get(ajaxurl, 
-                             { action:"saswp_get_collection_platforms", collection_id:collection_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                             
-                              function(response){                                  
-                                                                                    
-                              if(response['status']){   
-                                      
-                                        var res_json = response['message'];
-                                        
-                                        $.each(res_json, function(i, e){
-                                            saswp_get_collection_data(e, i, null, null);
-                                        });
-                                                                                                                                                                                         
-                              }
-                              $('.spinner').removeClass('is-active');
-                                                                                                                     
-                             },'json');
-                
+              saswp_get_collection_data(null, null, null, null, reviews_list);
+                                           
             }
-            
+                                    
             //Collection js ends here
 
 

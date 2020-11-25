@@ -296,12 +296,16 @@ class SASWP_Reviews_Collection {
             $review_id   = ''; 
             $attr        = array();
 
+            if(isset($_GET['reviews_ids']) && $_GET['reviews_ids'] != ''){
+                $attr['in'] = json_decode($_GET['reviews_ids']);
+            }
+
             if(isset($_GET['review_id']) && $_GET['review_id'] != ''){
                 $review_id   = intval($_GET['review_id']);
                 $attr['in'] = array($review_id);
             }
                         
-            if($platform_id){
+            if( $platform_id ||  isset($attr['in']) ){
                                                      
             $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters($attr, $platform_id, $rvcount); 
              
@@ -603,7 +607,22 @@ class SASWP_Reviews_Collection {
                                           
                                       </div>
                                         <div class="saswp-total-reviews-list">  
-                                          
+
+                                        <?php 
+                                        
+                                        if(isset($post_meta['saswp_total_reviews'][0])){
+
+                                            $reviews_list = unserialize($post_meta['saswp_total_reviews'][0]);
+
+                                            if(is_array($reviews_list)){
+                                                echo '<input type="hidden" id="saswp_total_reviews_list" name="saswp_total_reviews" value="'.json_encode($reviews_list).'">';
+                                            }
+                                                                                        
+                                        }
+
+                                        
+                                        ?>
+
                                       </div>
                                     </div>
                                 </li>

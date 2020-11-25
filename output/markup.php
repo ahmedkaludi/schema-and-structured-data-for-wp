@@ -3437,8 +3437,8 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
 
                 $input1['author']['image']['@type']   = 'ImageObject';
                 $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_author_image_'.$schema_id, 'saswp_array');       
-                $input1['author']['image']['height']  = $author_image['height'];
-                $input1['author']['image']['width']   = $author_image['width'];
+                $input1['author']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
+                $input1['author']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
 
                     
                 $itemlist  = get_post_meta($schema_post_id, 'newsarticle_items_'.$schema_id, true);
