@@ -3522,16 +3522,22 @@ Class saswp_output_service{
                  $product_details['product_availability'] = $product->get_stock_status();
              }
              
+             $woo_price = $product->get_price();
+
+             if( function_exists('wc_prices_include_tax') &&  wc_prices_include_tax() ) {
+                $woo_price = wc_get_price_including_tax($product);
+             } 
+
              if(method_exists('WC_Product_Simple', 'get_type')){
                  
                 if($product->get_type() == 'variable'){
                     $product_details['product_varible_price']   = $varible_prices;
                 }else{
-                    $product_details['product_price']           = $product->get_price();
+                    $product_details['product_price']           = $woo_price;
                 }
 
              }else{
-                $product_details['product_price']           = $product->get_price();
+                $product_details['product_price']           = $woo_price;
              }
                           
              $product_details['product_sku']             = $product->get_sku() ? $product->get_sku(): get_the_ID();             
