@@ -1052,6 +1052,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_article_section'])){
                      $input1['articleSection'] =    $custom_fields['saswp_article_section'];
                     }
+                    if(isset($custom_fields['saswp_article_inlanguage'])){
+                        $input1['inLanguage'] =    $custom_fields['saswp_article_inlanguage'];
+                    }
                     if(isset($custom_fields['saswp_article_headline'])){
                      $input1['headline'] =    $custom_fields['saswp_article_headline'];
                     }                    
@@ -1285,6 +1288,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_main_entity_of_page'])){
                      $input1['mainEntityOfPage'] =    $custom_fields['saswp_blogposting_main_entity_of_page'];
                     }
+                    if(isset($custom_fields['saswp_blogposting_inlanguage'])){
+                        $input1['inLanguage'] =    $custom_fields['saswp_blogposting_inlanguage'];
+                    }
                     if(isset($custom_fields['saswp_blogposting_headline'])){
                      $input1['headline'] =    $custom_fields['saswp_blogposting_headline'];
                     }
@@ -1448,6 +1454,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_newsarticle_URL'])){
                        $input1['url'] =    saswp_validate_url($custom_fields['saswp_newsarticle_URL']); 
+                    }
+                    if(isset($custom_fields['saswp_newsarticle_inlanguage'])){
+                        $input1['inLanguage'] =    $custom_fields['saswp_newsarticle_inlanguage']; 
                     }
                     if(isset($custom_fields['saswp_newsarticle_headline'])){
                        $input1['headline'] =    $custom_fields['saswp_newsarticle_headline']; 
@@ -1733,6 +1742,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_tech_article_section'])){
                      $input1['articleSection'] =    $custom_fields['saswp_tech_article_section'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_inlanguage'])){
+                        $input1['inLanguage'] =    $custom_fields['saswp_tech_article_inlanguage'];
                     }
                     if(isset($custom_fields['saswp_tech_article_headline'])){
                      $input1['headline'] =    $custom_fields['saswp_tech_article_headline'];

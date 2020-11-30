@@ -319,6 +319,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_permalink()
                     ),
                     array(
+                        'label'   => 'inLanguage',
+                        'id'      => 'saswp_blogposting_inlanguage_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_bloginfo('language'),
+                   ),
+                    array(
                             'label' => 'Headline',
                             'id' => 'saswp_blogposting_headline_'.$schema_id,
                             'type' => 'text',
@@ -444,6 +450,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_newsarticle_image_'.$schema_id,
                             'type' => 'media',                            
                     ),    
+                    array(
+                        'label'   => 'inLanguage',
+                        'id'      => 'saswp_newsarticle_inlanguage_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_bloginfo('language'),
+                    ),
                     array(
                             'label' => 'Headline',
                             'id' => 'saswp_newsarticle_headline_'.$schema_id,
@@ -715,6 +727,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'Image',
                                 'id' => 'saswp_article_image_'.$schema_id,
                                 'type' => 'media'                            
+                        ),
+                        array(
+                                'label'   => 'inLanguage',
+                                'id'      => 'saswp_article_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
                         ),
                         array(
                                 'label' => 'Headline',
@@ -1215,6 +1233,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_tech_article_image_'.$schema_id,
                             'type' => 'media',                            
                     ),
+                    array(
+                        'label'   => 'inLanguage',
+                        'id'      => 'saswp_tech_article_inlanguage_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_bloginfo('language'),
+                   ),
                     array(
                             'label' => 'Headline',
                             'id' => 'saswp_tech_article_headline_'.$schema_id,
