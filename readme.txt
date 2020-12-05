@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.5
-Stable tag: 1.9.56
+Stable tag: 1.9.57
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,15 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.57 (05 Dec 2020) =
+
+* Fixed: The price field not getting the taxable value for the product schema #1259
+* Fixed: inLanguage property is absent from NewsArticle and Article schema types? #1260
+* Added: Rating column in comments list when Stars Rating is enabled in the default comment form #1049 
+* Fixed: Review schem mark up is not being fetched form the review collectioin badge type #1261
+* Fixed: If the "WPMU DEV SEO" plugin is active then showing the JS error in the console #1262
+
 
 = 1.9.56 (25 Nov 2020) =
 
