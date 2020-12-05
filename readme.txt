@@ -124,9 +124,9 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 * Fixed: The price field not getting the taxable value for the product schema #1259
 * Fixed: inLanguage property is absent from NewsArticle and Article schema types? #1260
-* Added: Rating column in comments list when Stars Rating is enabled in the default comment form #1049 
 * Fixed: Review schem mark up is not being fetched form the review collectioin badge type #1261
 * Fixed: If the "WPMU DEV SEO" plugin is active then showing the JS error in the console #1262
+* Added: Rating column in comments list when Stars Rating is enabled in the default comment form #1049 
 
 
 = 1.9.56 (25 Nov 2020) =
