@@ -149,7 +149,7 @@ function saswp_comment_rating_display_rating( $comment_text ){
 			$rating = get_comment_meta( get_comment_ID(), 'review_rating', true );
 		}
 		
-
+		wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       
 		return '<p>'.saswp_get_rating_html_by_value($rating).'</p><p>'.esc_html($comment_text).'</p>';
 	} else {
 		return '<p>'.$comment_text.'</p>';

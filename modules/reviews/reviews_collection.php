@@ -445,8 +445,24 @@ class SASWP_Reviews_Collection {
                     }
                                      
                     $collection = $this->_service->saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting);                    
-                    $saswp_post_reviews = array_merge($saswp_post_reviews, $collection);
-                    
+
+                    if($design == 'badge'){
+
+                        $new_coll = array();
+
+                        if($collection){
+                            foreach($collection as $coll){
+                                foreach($coll as $new){
+                                    $new_coll[] = $new;   
+                                }
+                            }
+                        }
+
+                        $saswp_post_reviews = array_merge($saswp_post_reviews, $new_coll);
+                    }else{
+                        $saswp_post_reviews = array_merge($saswp_post_reviews, $collection);
+                    }
+                                        
                     switch($design) {
                     
                     case "grid":
