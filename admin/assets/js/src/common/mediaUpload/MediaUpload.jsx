@@ -44,7 +44,7 @@ const handleImageChoose = (e) => {
               var my_index = 0;
               
               selection.each(function(attachment) {                                            
-                console.log(attachment.attributes.sizes);
+                
                 image_data.id        = attachment['id'];
                 image_data.url       = attachment.attributes.sizes.full.url;                
                 image_data.width     = attachment.attributes.sizes.full.width;
@@ -58,6 +58,10 @@ const handleImageChoose = (e) => {
 
               });
               
+              if(props.data_id){
+                image_data.data_id = props.data_id;
+              }
+
               setImageSrc(image_data.url);
               props.onSelection(image_data);                            
            });   

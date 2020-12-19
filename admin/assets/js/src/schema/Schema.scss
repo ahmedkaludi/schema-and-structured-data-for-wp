@@ -7,6 +7,12 @@ and open the template in the editor.
     Created on : Jan 28, 2020, 11:41:08 AM
     Author     : Magazine3
 */
+.saswp-custom-fields-table td{
+    vertical-align: top;
+}
+.saswp-custom-fields-table .saswp-image-preview{
+    width: 80px !important;
+}
 .saswp-schema-list{
     display: flex;
     width: 100%;

@@ -3920,10 +3920,18 @@ function saswp_sanitize_post_meta($key, $meta){
 		break;
 		case 'code':
 			$response = wp_unslash($meta);          
+        break;
+        
+        case 'saswp_custom_meta_field':
+        case 'saswp_taxonomy_term':
+        case 'schema_options':
+        case 'saswp_meta_list_val':
+        case 'saswp_fixed_text':
+			$response = array_map( 'sanitize_text_field' ,$meta);          
 		break;
       
       default:
-        $response =wp_unslash($meta);
+        $response = wp_unslash($meta);
         break;
     }
 

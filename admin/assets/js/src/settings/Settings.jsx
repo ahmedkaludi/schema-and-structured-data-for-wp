@@ -353,7 +353,7 @@ const addSocialInput = () => {
 }
 
 const removeSocialClick = index => {
-  event.preventDefault();  
+  
   let vals = [...userInput['saswp_social_links']];  
   vals.splice(index,1);
   setUserInput({ 'saswp_social_links': vals });
@@ -419,7 +419,7 @@ const getPageList = (type, search, id) => {
         (result) => {         
           setIsLoaded(true);
           if(result.status == 't'){
-
+            console.log(result.data);
             if(type === 'about' || type === 'contact'){
 
               if(type == 'about'){

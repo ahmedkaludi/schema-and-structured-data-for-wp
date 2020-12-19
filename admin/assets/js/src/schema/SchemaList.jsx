@@ -165,7 +165,7 @@ const SchemaList = () => {
             </ul>
           </div>          
           </div>
-          : <div>Schema not found. 
+          : <div className="saswp-not-found">Schema not found. 
           <Link className="btn btn-success"  to={'admin.php?page=saswp&path=schema_add&tab=popular_schema'}>{__('Add New Schema', 'schema-and-structured-data-for-wp')}</Link>
           </div>  
           

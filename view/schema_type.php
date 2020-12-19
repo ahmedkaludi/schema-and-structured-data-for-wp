@@ -987,7 +987,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                     
                                     echo '<select name="saswp_taxonomy_term['.esc_attr($fieldkey).']">';
                                     
-                                    foreach ($choices as $key => $val){
+                                    foreach ($choices as $key => $val   ){
                                         
                                         echo '<option value="'.esc_attr($key).'" '.((isset($taxonomy_term[$fieldkey]) && $taxonomy_term[$fieldkey] == $key) ? 'selected' :'').'>'.esc_attr($val).'</option>';
                                         

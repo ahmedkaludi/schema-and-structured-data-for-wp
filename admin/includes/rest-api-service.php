@@ -5,9 +5,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class SASWP_Rest_Api_Service {
 
     private $migration_service = null;
+    private $output_service    = null;
 
     public function __construct() {
                 
+        if($this->output_service == null){
+          
+            $this->output_service = new saswp_output_service();
+
+        }
                             
     }
 
@@ -193,6 +199,29 @@ class SASWP_Rest_Api_Service {
         $wpdb->query('COMMIT'); 
         return true;
       }
+
+    }
+    public function searchPostMeta($search_string){
+                                          
+            $data          = array();            
+            
+            global $wpdb;
+
+	          $saswp_meta_array = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE '%{$search_string}%'", ARRAY_A ); // WPCS: unprepared SQL OK.         
+              if ( isset( $saswp_meta_array ) && ! empty( $saswp_meta_array ) ) {
+                  
+                foreach ( $saswp_meta_array as $value ) {
+      
+                    $data[] = array(
+                      'value'   => $value['meta_key'],
+                      'label' => preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $value['meta_key'] ) ) ),
+                    );
+      
+                }
+                                        
+              }
+                                    
+            return $data;  
 
     }
     public function getConditionList($condition, $search = null,$saved_data = null, $diff = null){
@@ -492,6 +521,27 @@ class SASWP_Rest_Api_Service {
 
   }
 
+    public function getSchemaDataByType($schema_type){
+
+      $response = array();
+
+      $meta_fields      = $this->output_service->saswp_get_all_schema_type_fields($schema_type);
+      $meta_list_fields = include(SASWP_DIR_NAME . '/core/array-list/meta_list.php'); 
+
+      $choices    = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
+      $taxonomies = saswp_post_taxonomy_generator();
+      $choices    = array_merge($choices, $taxonomies); 
+      
+      $response = array(
+                  'meta_fields'      => $meta_fields, 
+                  'meta_list_fields' => $meta_list_fields,
+                  'taxonomies'       => $choices,
+                );
+
+      return $response;
+
+    }
+
     public function getSchemaById($schema_id){
 
         $response  = array();
@@ -781,6 +831,7 @@ class SASWP_Rest_Api_Service {
     public function updateSchema($parameters){
             
             $post_meta      = $parameters['post_meta'];                                                                   
+            
             $schema_id      = isset($parameters['schema_id']) ? $parameters['schema_id'] : '';                 
             $post_status    = 'publish';            
 
@@ -789,7 +840,7 @@ class SASWP_Rest_Api_Service {
             }
             
             $arg = array(
-                'post_title'   => sanitize_text_field( $parameters['schema_type']),                                                            
+                'post_title'   => sanitize_text_field( $post_meta['schema_type']),                                                            
                 'post_status'  => sanitize_text_field($post_status),
                 'post_type'    => 'saswp',
             );

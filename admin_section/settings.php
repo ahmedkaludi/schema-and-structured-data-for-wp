@@ -64,13 +64,13 @@ function saswp_ext_installed_status(){
 
 function saswp_add_menu_links() {	
                        
-	    add_submenu_page( 'edit.php?post_type=saswp',
-                    esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
-                    esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 
-                    saswp_current_user_can(),
-                    'structured_data_options', 
-                    'saswp_admin_interface_render'
-                    );	
+	//     add_submenu_page( 'edit.php?post_type=saswp',
+        //             esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
+        //             esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 
+        //             saswp_current_user_can(),
+        //             'structured_data_options', 
+        //             'saswp_admin_interface_render'
+        //             );	
 
         $saswp_parent_page = add_menu_page( 
                 esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
@@ -82,9 +82,9 @@ function saswp_add_menu_links() {
                 25
             ); 
 
-            if(!saswp_ext_installed_status()){
-                add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span class="saswp-upgrade-to-pro" style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
-            }
+        //     if(!saswp_ext_installed_status()){
+        //         add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span class="saswp-upgrade-to-pro" style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
+        //     }
                                                             
 }
 add_action( 'admin_menu', 'saswp_add_menu_links' );

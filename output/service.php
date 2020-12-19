@@ -3205,11 +3205,11 @@ Class saswp_output_service{
              }
             
             $search_string = isset( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';                                    
-	    $data          = array();
-	    $result        = array();
+            $data          = array();
+            $result        = array();
             
             global $wpdb;
-	    $saswp_meta_array = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE '%{$search_string}%'", ARRAY_A ); // WPCS: unprepared SQL OK.         
+	           $saswp_meta_array = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE '%{$search_string}%'", ARRAY_A ); // WPCS: unprepared SQL OK.         
             if ( isset( $saswp_meta_array ) && ! empty( $saswp_meta_array ) ) {
                 
 				foreach ( $saswp_meta_array as $value ) {

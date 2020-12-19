@@ -327,6 +327,12 @@ and open the template in the editor.
     Created on : Jan 28, 2020, 11:41:08 AM
     Author     : Magazine3
 */
+.saswp-custom-fields-table td {
+  vertical-align: top; }
+
+.saswp-custom-fields-table .saswp-image-preview {
+  width: 80px !important; }
+
 .saswp-schema-list {
   display: flex;
   width: 100%; }
@@ -2282,6 +2288,14 @@ span.saswp-mines {
 .react-datepicker__portal .react-datepicker__navigation--next--disabled, .react-datepicker__portal .react-datepicker__navigation--next--disabled:hover {
   border-left-color: #e6e6e6;
   cursor: default; }
+.saswp-not-found {
+  text-align: center;
+  padding-top: 80px;
+  padding-bottom: 80px; }
+
+.saswp-not-found a {
+  margin-left: 10px; }
+
 .saswp-divider-vertical {
   border: 1px solid #eaedf3;
   height: 100%;

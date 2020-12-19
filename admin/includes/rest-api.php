@@ -148,6 +148,15 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+
+            register_rest_route( 'saswp-route', 'get-schema-data-by-type', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getSchemaDataByType'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
+
             register_rest_route( 'saswp-route', 'get-review-data-by-id', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getReviewById'),
@@ -193,6 +202,13 @@ class SASWP_Rest_Api {
             register_rest_route( 'saswp-route', 'get-page-list', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getPageList'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
+            register_rest_route( 'saswp-route', 'search-post-meta', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'searchPostMeta'),
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
@@ -362,6 +378,28 @@ class SASWP_Rest_Api {
             }
 
             $response = $this->api_service->getConditionList('page', $search, $id);
+
+            if($response){
+                return array('status' => 't', 'data' => $response);
+            }else{
+                return array('status' => 'f', 'data' => 'data not found');
+            }
+            
+            return $response;
+
+        }
+        public function searchPostMeta($request){
+
+            $response = array();
+            $search   = '';            
+
+            $parameters = $request->get_params();
+
+            if(isset($parameters['search'])){
+                $search   = $parameters['search'];
+            }            
+
+            $response = $this->api_service->searchPostMeta($search);
 
             if($response){
                 return array('status' => 't', 'data' => $response);
@@ -790,6 +828,20 @@ class SASWP_Rest_Api {
                 $response = $this->api_service->getReviewById($parameters['review_id']);
             }else{
                 $response =  array('status' => '404', 'message' => 'Review id is required');
+            }
+            return $response;
+           
+        }
+        public function getSchemaDataByType($request_data){
+
+            $response = array();
+
+            $parameters = $request_data->get_params();
+            
+            if(isset($parameters['schema_type'])){
+                $response = $this->api_service->getSchemaDataByType($parameters['schema_type']);
+            }else{
+                $response =  array('status' => '404', 'message' => 'Schema Type is required');
             }
             return $response;
            
