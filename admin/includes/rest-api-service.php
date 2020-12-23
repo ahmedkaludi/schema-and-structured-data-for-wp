@@ -706,7 +706,6 @@ class SASWP_Rest_Api_Service {
                         $post_meta[$key] = $val[0];
                     }
                 }
-
                                 
                 if(isset($post_meta['saswp_platform_ids'])){
 

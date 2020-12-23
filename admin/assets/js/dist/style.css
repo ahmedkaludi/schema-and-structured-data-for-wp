@@ -337,6 +337,12 @@ and open the template in the editor.
   display: flex;
   width: 100%; }
 
+.saswp-rv-tab-content {
+  box-sizing: border-box;
+  width: 100%;
+  overflow-y: scroll;
+  height: 260px; }
+
 .saswp-schema-list div:nth-child(1) {
   width: 60%; }
 
@@ -452,6 +458,11 @@ and open the template in the editor.
 .saswp-single-header-right {
   float: right;
   padding: 10px; }
+.saswp-field-generator-table input {
+  width: 100%; }
+
+.saswp-field-generator-table textarea {
+  width: 100%; }
 .saswp-reviews-list-card {
   margin-right: 20px;
   max-width: inherit; }

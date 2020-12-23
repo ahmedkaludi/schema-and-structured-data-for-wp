@@ -6,6 +6,8 @@ import './Schema.scss';
 import Select from "react-select";
 import { useParams, useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import MediaUpload from './../common/mediaUpload/MediaUpload';
+import FieldGenerator from './../common/field-generator/FieldGenerator'
+import { Modal } from '@duik/it';
 
 const SchemaSingle = () => {
 
@@ -39,9 +41,204 @@ const SchemaSingle = () => {
 
         const [metaFields, setMetaFields]                                   = useState([]);  
         const [modifyEntry, setModifyEntry]                                 = useState([]);        
-        const [customFieldSearched, setCustomFieldSearched]                 = useState([]);        
+        const [customFieldSearched, setCustomFieldSearched]                 = useState([]);       
+
+        const [addReviewModal, setAddReviewModal]                           = useState(false); 
+        const [reviewTabStatus, setReviewTabStatus]                         = useState(0); 
+        const [reviewToBeAdded, setReviewToBeAdded]                         = useState([]);
+        const [reviewToBeAddedFound, setReviewToBeAddedFound]               = useState([]);
+        const [collectionToBeAdded, setCollectionToBeAdded]                 = useState([]);
+        const [collectionToBeAddedFound, setCollectionToBeAddedFound]       = useState([]); 
         
-                      
+        const businessTypeVal   = {
+                automotivebusiness              : [                                                                
+                                        {value:'',label: 'Select Sub Business Type ( optional )'},
+                                        {value:'autobodyshop',label: 'Auto Body Shop'},
+                                        {value:'autodealer',label: 'Auto Dealer'},
+                                        {value:'autopartsstore',label: 'Auto Parts Store'},
+                                        {value:'autorental',label: 'Auto Rental'},
+                                        {value:'autorepair',label: 'Auto Repair'},
+                                        {value:'autowash',label: 'Auto Wash'},
+                                        {value:'gasstation',label: 'Gas Station'},
+                                        {value:'motorcycledealer',label: 'Motorcycle Dealer'},
+                                        {value:'motorcyclerepair',label: 'Motorcycle Repair'}
+                ],
+                emergencyservice                :[
+                        {value:''               ,label: 'Select Sub Business Type ( optional )'},     
+                        {value:'firestation'    ,label: 'Fire Station'},
+                        {value:'hospital'       ,label: 'Hospital'},
+                        {value:'policestation'  ,label: 'Police Station'}
+                ],
+                entertainmentbusiness           :[
+                        {value:''                   ,label: 'Select Sub Business Type ( optional )'},  
+                        {value:'adultentertainment' ,label: 'Adult Entertainment'},
+                        {value:'amusementpark'      ,label: 'Amusement Park'},
+                        {value:'artgallery'         ,label: 'Art Gallery'},
+                        {value:'casino'             ,label: 'Casino'},
+                        {value:'comedyclub'         ,label: 'Comedy Club'},
+                        {value:'movietheater'       ,label: 'Movie Theater'},
+                        {value:'nightclub'          ,label: 'Night Club'}
+                ],
+                financialservice                :[
+                        {value:''                   ,label: 'Select Sub Business Type ( optional )'},   
+                        {value:'accountingservice'  ,label: 'Accounting Service'},
+                        {value:'automatedteller'    ,label: 'Automated Teller'},
+                        {value:'bankorcredit_union' ,label: 'Bank Or Credit Union'},
+                        {value:'insuranceagency'    ,label: 'Insurance Agency'}
+                ],
+                foodestablishment               :[
+                        {value:''                   ,label: 'Select Sub Business Type ( optional )'},    
+                        {value:'bakery'             ,label: 'Bakery'},
+                        {value:'barorpub'           ,label: 'Bar Or Pub'},
+                        {value:'brewery'            ,label: 'Brewery'},
+                        {value:'cafeorcoffee_shop'  ,label: 'Cafe Or Coffee Shop'}, 
+                        {value:'fastfoodrestaurant' ,label: 'Fast Food Restaurant'},
+                        {value:'icecreamshop'       ,label: 'Ice Cream Shop'},
+                        {value:'restaurant'         ,label: 'Restaurant'},
+                        {value:'winery'             ,label: 'Winery'}
+                ],
+                healthandbeautybusiness         :[
+                        {value:''             ,label: 'Select Sub Business Type ( optional )'},    
+                        {value:'beautysalon'  ,label: 'Beauty Salon'},
+                        {value:'dayspa'       ,label: 'DaySpa'},
+                        {value:'hairsalon'    ,label: 'Hair Salon'},
+                        {value:'healthclub'   ,label: 'Health Club'}, 
+                        {value:'nailsalon'    ,label: 'Nail Salon'},
+                        {value:'tattooparlor' ,label: 'Tattoo Parlor'}
+                ],
+                homeandconstructionbusiness     :[
+                        {value:''                  ,label: 'Select Sub Business Type ( optional )'},  
+                        {value:'electrician'       ,label: 'Electrician'},
+                        {value:'generalcontractor' ,label: 'General Contractor'},
+                        {value:'hvacbusiness'      ,label: 'HVAC Business'},
+                        {value:'locksmith'         ,label: 'Locksmith'},
+                        {value:'movingcompany'     ,label: 'Moving Company'},
+                        {value:'plumber'           ,label: 'Plumber'},
+                        {value:'roofingcontractor' ,label: 'Roofing Contractor'},
+                        {value:'housepainter'      ,label: 'House Painter'}
+                ],
+                legalservice                    :[
+                        {value:''         ,label: 'Select Sub Business Type ( optional )'},  
+                        {value:'attorney' ,label: 'Attorney'},
+                        {value:'notary'   ,label: 'Notary'}
+                ],
+                lodgingbusiness                 :[
+                        {value:''                ,label: 'Select Sub Business Type ( optional )'},  
+                        {value:'bedandbreakfast' ,label: 'Bed And Breakfast'},
+                        {value:'campground'      ,label: 'Campground'},
+                        {value:'hostel'          ,label: 'Hostel'},
+                        {value:'hotel'           ,label: 'Hotel'},
+                        {value:'motel'           ,label: 'Motel'},
+                        {value:'resort'          ,label: 'Resort'}
+                ],
+                sportsactivitylocation          :[
+                        {value:''                    ,label: 'Select Sub Business Type ( optional )'},  
+                        {value:'bowlingalley'        ,label: 'Bowling Alley'},
+                        {value:'exercisegym'         ,label: 'Exercise Gym'},
+                        {value:'golfcourse'          ,label: 'Golf Course'},
+                        {value:'healthclub'          ,label: 'Health Club'},
+                        {value:'publicswimming_pool' ,label: 'Public Swimming Pool'},
+                        {value:'skiresort'           ,label: 'Ski Resort'},
+                        {value:'sportsclub'          ,label: 'Sports Club'},
+                        {value:'stadiumorarena'      ,label: 'Stadium Or Arena'},
+                        {value:'tenniscomplex'       ,label: 'Tennis Complex'}
+                ],
+                store                           :[
+                        {value:''                      ,label: 'Select Sub Business Type ( optional )'},  
+                        {value:'autopartsstore'        ,label: 'Auto Parts Store'},
+                        {value:'bikestore'             ,label: 'Bike Store'},
+                        {value:'bookstore'             ,label: 'Book Store'},
+                        {value:'clothingstore'         ,label: 'Clothing Store'},
+                        {value:'computerstore'         ,label: 'Computer Store'},
+                        {value:'conveniencestore'      ,label: 'Convenience Store'},
+                        {value:'departmentstore'       ,label: 'Department Store'},
+                        {value:'electronicsstore'      ,label: 'Electronics Store'},
+                        {value:'florist'               ,label: 'Florist'},
+                        {value:'furniturestore'        ,label: 'Furniture Store'},
+                        {value:'gardenstore'           ,label: 'Garden Store'},
+                        {value:'grocerystore'          ,label: 'Grocery Store'},
+                        {value:'hardwarestore'         ,label: 'Hardware Store'},
+                        {value:'hobbyshop'             ,label: 'Hobby Shop'},
+                        {value:'homegoodsstore'        ,label: 'HomeGoods Store'},
+                        {value:'jewelrystore'          ,label: 'Jewelry Store'},
+                        {value:'liquorstore'           ,label: 'Liquor Store'},
+                        {value:'mensclothingstore'     ,label: 'Mens Clothing Store'},
+                        {value:'mobilephonestore'      ,label: 'Mobile Phone Store'},
+                        {value:'movierentalstore'      ,label: 'Movie Rental Store'},
+                        {value:'musicstore'            ,label: 'Music Store'},
+                        {value:'officeequipmentstore'  ,label: 'Office Equipment Store'},
+                        {value:'outletstore'           ,label: 'Outlet Store'},
+                        {value:'pawnshop'              ,label: 'Pawn Shop'},
+                        {value:'petstore'              ,label: 'Pet Store'},
+                        {value:'shoestore'             ,label: 'Shoe Store'},
+                        {value:'sportinggoodsstore'    ,label: 'Sporting Goods Store'},
+                        {value:'tireshop'              ,label: 'Tire Shop'},
+                        {value:'toystore'              ,label: 'Toy Store'},
+                        {value:'wholesalestore'        ,label: 'Wholesale Store'}
+                ],
+                medicalbusiness                 :[
+                        {value:''                 ,label: 'Select Sub Business Type ( optional )'},  
+                        {value:'Communityhealth'  ,label: 'Community Health'},
+                        {value:'dentist'          ,label: 'Dentist'},
+                        {value:'dermatology'      ,label: 'Dermatology'},
+                        {value:'dietnutrition'    ,label: 'Diet Nutrition'},
+                        {value:'emergency'        ,label: 'Emergency'},
+                        {value:'geriatric'        ,label: 'Geriatric'},
+                        {value:'gynecologic'      ,label: 'Gynecologic'},
+                        {value:'medicalclinic'    ,label: 'Medical Clinic'},
+                        {value:'midwifery'        ,label: 'Midwifery'},                              
+                        {value:'nursing'         ,label: 'Nursing'},
+                        {value:'obstetric'       ,label: 'Obstetric'},
+                        {value:'oncologic'       ,label: 'Oncologic'},
+                        {value:'optician'        ,label: 'Optician'},
+                        {value:'optometric'      ,label: 'Optometric'},
+                        {value:'otolaryngologic' ,label: 'Otolaryngologic'},
+                        {value:'pediatric'       ,label: 'Pediatric'},
+                        {value:'pharmacy'        ,label: 'Pharmacy'},
+                        {value:'physician'       ,label: 'Physician'},
+                        {value:'physiotherapy'   ,label: 'Physiotherapy'},
+                        {value:'plasticsurgery'  ,label: 'Plastic Surgery'},
+                        {value:'podiatric'       ,label: 'Podiatric'},
+                        {value:'primarycare'     ,label: 'Primary Care'},
+                        {value:'psychiatric'     ,label: 'Psychiatric'},
+                        {value:'publichealth'    ,label: 'Public Health'},
+                        {value:'veterinarycare'  ,label: 'VeterinaryCare'}
+                ],
+        };
+
+        const [businessType, setBusinessType]                               = useState([
+                                                                                 {value:"", label:"Select Business Type (Optional)"},
+                                                                                 {value:"animalshelter", label:"Animal Shelter"},
+                                                                                 {value:"automotivebusiness", label:"Automotive Business"},
+                                                                                 {value:"childcare", label:"ChildCare"},
+                                                                                 {value:"dentist", label:"Dentist"},
+                                                                                 {value:"drycleaningorlaundry", label:"Dry Cleaning Or Laundry"},
+                                                                                 {value:"emergencyservice", label:"Emergency Service"},
+                                                                                 {value:"employmentagency", label:"Employment Agency"},
+                                                                                 {value:"entertainmentbusiness", label:"Entertainment Business"},
+                                                                                 {value:"financialservice", label:"Financial Service"},
+                                                                                 {value:"foodestablishment", label:"Food Establishment"},
+                                                                                 {value:"governmentoffice", label:"Government Office"},
+                                                                                 {value:"healthandbeautybusiness", label:"Health And Beauty Business"},
+                                                                                 {value:"homeandconstructionbusiness", label:"Home And Construction Business"},
+                                                                                 {value:"internetcafe", label:"Internet Cafe"},
+                                                                                 {value:"legalservice", label:"Legal Service"},
+                                                                                 {value:"library", label:"Library"},
+                                                                                 {value:"lodgingbusiness", label:"Lodging Business"},
+                                                                                 {value:"medicalbusiness", label:"Medical Business"},
+                                                                                 {value:"professionalservice", label:"Professional Service"},
+                                                                                 {value:"radiostation", label:"Radio Station"},
+                                                                                 {value:"realestateagent", label:"Real Estate Agent"},
+                                                                                 {value:"recyclingcenter", label:"Recycling Center"},
+                                                                                 {value:"selfstorage", label:"Self Storage"},
+                                                                                 {value:"shoppingcenter", label:"Shopping Center"},
+                                                                                 {value:"sportsactivitylocation", label:"Sports Activity Location"},
+                                                                                 {value:"store", label:"Store"},
+                                                                                 {value:"televisionstation", label:"Television Station"},
+                                                                                 {value:"touristinformationcenter", label:"Tourist Information Center"},
+                                                                                 {value:"travelagency", label:"Travel Agency"},
+                                                                                ]); 
+                              
         const [postMeta, setPostMeta] = useReducer(
                 (state, newState) => ({...state, ...newState}),
                 {
@@ -59,21 +256,237 @@ const SchemaSingle = () => {
                         saswp_meta_list_val:{},      
                 }                
               );
+        const [manualFields, setManualFields]      =  useState([]);
+        
+        const getManualFields = (schemaType, schemaID) => {
 
+                let url = saswp_localize_data.rest_url+'saswp-route/get-manual-fields?schema_id='+schemaID+'&schema_type='+schemaType;      
+
+                fetch(url,{
+                        headers: {                    
+                        'X-WP-Nonce': saswp_localize_data.nonce,
+                        }
+                }
+                )
+                .then(res => res.json())
+                .then(
+                (result) => {                                                                   
+                        setManualFields(result);
+                },        
+                (error) => {
+                
+                }
+                );
+        }
+        
+        const handleBusinessTypeChange = (option)  => {
+                
+                let clonedata = {...postMeta};                
+                clonedata.saswp_business_type = option.value;
+                if(businessTypeVal[option.value]){
+                        clonedata.saswp_business_name = option.value;
+                }else{
+                        clonedata.saswp_business_name = '';
+                }
+                
+                setPostMeta(clonedata);
+
+        }
+        const handleSubBusinessTypeChange = (option)  => {
+                
+                let clonedata = {...postMeta};                
+                clonedata.saswp_business_name = option.value;
+                setPostMeta(clonedata);
+
+        }
+        const handleSubBusinessTypeValue = () => {
+
+                let response = [{value:"", label: "Select Sub Business Type (Optional)"}];
+
+                if(postMeta.saswp_business_name && businessTypeVal[postMeta.saswp_business_type]){
+                                                                        
+                        businessTypeVal[postMeta.saswp_business_type].map( (list) => {
+
+                                if(list.value == postMeta.saswp_business_name){                                                                                
+                                        response[0] = list;    
+                                }                                
+
+                        })
+                }
+
+                return response;
+
+        }
+        const handleBusinessTypeValue = ()  => {
+
+                let response = [{value:"", label: "Select Business Type (Optional)"}];
+
+                if(postMeta.saswp_business_type){
+                        
+                        businessType.map( (list) => {
+
+                                if(list.value == postMeta.saswp_business_type){                                                                                
+                                        response[0] = list;    
+                                }                                
+
+                        })
+                }
+
+                return response;
+
+        }    
+
+        const getCollectionsOnLoad = (offset = null, page = null) => {
+                                                        
+                let url = saswp_localize_data.rest_url+'saswp-route/get-collections-list?offset='+offset+'&page='+page;      
+
+                fetch(url,{
+                        headers: {                    
+                        'X-WP-Nonce': saswp_localize_data.nonce,
+                        }
+                }
+                )
+                .then(res => res.json())
+                .then(
+                (result) => {                                              
+                        setCollectionToBeAdded( (prevState) => ([ ...prevState, ...result.posts_data ]));                                
+                        setCollectionToBeAddedFound(result.posts_found)
+                },        
+                (error) => {
+                
+                }
+                );
+
+        }      
+        const getReviewsOnLoad = (offset = null, page = null) =>{
+                                                         
+                        let url = saswp_localize_data.rest_url+'saswp-route/get-reviews-list?offset='+offset+'&page='+page;      
+
+                        fetch(url,{
+                                headers: {                    
+                                'X-WP-Nonce': saswp_localize_data.nonce,
+                                }
+                        }
+                        )
+                        .then(res => res.json())
+                        .then(
+                        (result) => {                      
+                                setReviewToBeAdded( (prevState) => ([ ...prevState, ...result.posts_data ]));                                
+                                setReviewToBeAddedFound(result.posts_found)
+                        },        
+                        (error) => {
+                        
+                        }
+                        );
+
+        }
+        const handleLoadMoreCollection = (e) => {
+
+                e.preventDefault();
+                let offset = collectionToBeAdded.length
+                
+                if(offset <= collectionToBeAddedFound){
+                        let page   = (offset/10)+1;
+                        getCollectionsOnLoad(offset, page);
+                }
+                
+        }
+        const handleLoadMoreReviews = (e) => {
+
+                e.preventDefault();
+                let offset = reviewToBeAdded.length;
+                
+                if(offset <= reviewToBeAddedFound){
+                        let page   = (offset/10)+1;
+                        getReviewsOnLoad(offset, page);
+                }
+                
+        }
+        const handleCollectionClick = (e) => {                
+
+                
+                let review_id = parseInt(e.currentTarget.dataset.id);                                
+                let value     = e.target.checked;
+                                
+                let clonedata = {...postMeta};
+
+                if(value){
+                        clonedata.saswp_attached_collection.push(review_id);        
+                }else{
+                        
+                        let index = clonedata.saswp_attached_collection.indexOf(review_id);
+                        
+                        if (index > -1) {
+                                clonedata.saswp_attached_collection.splice(index, 1);
+                        }
+                }                
+                setPostMeta(clonedata);                                
+        }
+        const handleReviewClick = (e) => {                
+
+                
+                let review_id = parseInt(e.currentTarget.dataset.id);                                
+                let value     = e.target.checked;
+                                
+                let clonedata = {...postMeta};
+
+                if(value){
+                        clonedata.saswp_attahced_reviews.push(review_id);        
+                }else{
+                        
+                        let index = clonedata.saswp_attahced_reviews.indexOf(review_id);
+                        
+                        if (index > -1) {
+                                clonedata.saswp_attahced_reviews.splice(index, 1);
+                        }
+                }                
+                setPostMeta(clonedata);                                
+        }
+        const handleAddReviewTab = (e) => {
+                e.preventDefault();
+                let index = e.currentTarget.dataset.id;
+                
+                if(index == 0 && reviewToBeAdded.length == 0){
+                        getReviewsOnLoad();
+                }
+                if(index == 1 && collectionToBeAdded.length == 0){                        
+                        getCollectionsOnLoad();
+                }
+
+                setReviewTabStatus(index);      
+        }      
+        const handleCloseAddReviewModal = () =>{
+                setAddReviewModal(false);
+        }      
+        const handleOpenAddReviewModal = (e) =>{
+                e.preventDefault();
+                setAddReviewModal(true);
+                getReviewsOnLoad();
+        }      
         const handleInputChange = evt => {
                 let { name, value, type } = evt.target;
 
                 if(type === "checkbox"){
                         value = evt.target.checked;
                 }
-
+                if(name == 'saswp_enable_append_reviews' && value){
+                        getReviewsOnLoad();
+                        setAddReviewModal(true);                        
+                }
                 switch (name) {
 
+                        case 'isAccessibleForFree':
+                        case 'notAccessibleForFree':
+                        case 'paywall_class_name':
                         case 'enable_custom_field':
-                                let data = {enable_custom_field: value};
-                                setPostMeta({schema_options: data});
-                                break;
-                
+                        case 'saswp_modify_method':
+                                
+                                let clonedata     = {...postMeta};
+                                clonedata.schema_options[name] = value; 
+                                setPostMeta(clonedata);   
+
+                                break;                        
+
                         default:
                                 setPostMeta({[name]: value});  
                                 break;
@@ -340,11 +753,15 @@ const SchemaSingle = () => {
                         setSchemaID(page.id);                           
                         getSchemaDataById(page.id);             
                 }
+
+                if((page.type == 'local_business' || page.type == 'HowTo' || page.type == 'FAQ' && page.id)){
+                        getManualFields(page.type, page.id);
+                }
                 
         }, [])
 
-        useEffect(() => {                
-              //console.log(postMeta.saswp_meta_list_val);                
+        useEffect(() => {                         
+              //console.log(postMeta);                
         }, [postMeta])
 
         const handleCustomFieldChange = (i, key, option) => {
@@ -442,9 +859,11 @@ const SchemaSingle = () => {
                         height: data.height,
                         width: data.width,
                 }
+                if(!clonedata.saswp_fixed_image){
+                        clonedata.saswp_fixed_image = {};
+                }
+                clonedata.saswp_fixed_image[data_key] = image_data;                
                 
-                clonedata.saswp_fixed_image[data_key] = image_data;
-
                 setPostMeta(clonedata);                
 
         }
@@ -514,17 +933,28 @@ const SchemaSingle = () => {
         const thirdTd = (key, val, i) => {
 
                 let third = [];
-
+                
                 if(key && val){
 
                         switch (val) {
 
                                 case 'manual_text':
-                                        third.push(<input data-key={key} data-type={val} data-id={i} key={key} type="text" name={`saswp_fixed_text[${key}]`} value={postMeta.saswp_fixed_text[key]} onChange={handleRightChange} />)
+                                        if(!postMeta.saswp_fixed_text){
+                                                postMeta.saswp_fixed_text = {};
+                                        }
+                                        third.push(<input data-key={key} 
+                                                data-type={val} data-id={i}
+                                                key={key} type="text"
+                                                name={`saswp_fixed_text[${key}]`} 
+                                                value={postMeta.saswp_fixed_text[key]} 
+                                                onChange={handleRightChange} />)
                                         break;
                                 case 'taxonomy_term':
         
                                         if(metaFields.taxonomies){
+                                                if(!postMeta.saswp_taxonomy_term){
+                                                        postMeta.saswp_taxonomy_term = {};
+                                                }
                                                 third.push(
                                                         <select data-key={key} data-type={val} data-id={i} key={key} name={`saswp_taxonomy_term[${key}]`} value={postMeta.saswp_taxonomy_term[key]} onChange={handleRightChange} >
                                                                 {
@@ -598,7 +1028,7 @@ const SchemaSingle = () => {
                 let cloneModify = [...modifyEntry];
                 cloneModify.push(new_tr);
                 setModifyEntry(cloneModify);                
-                console.log(modifyEntry);
+                
 
         }
         const modifyTr = () => {
@@ -621,7 +1051,20 @@ const SchemaSingle = () => {
                                        
                 return result;
         }
-        
+
+        const handleManualFieldImage = (image) => {
+                
+                let clonedata = {...postMeta};
+                
+                clonedata[image.data_id]  = {
+                        height: image.height,
+                        width: image.width,
+                        thumbnail: image.thumbnail
+                }                
+                setPostMeta(clonedata);
+
+        }
+                
         return (<>
         <div>
         <form encType="multipart/form-data" method="post" id="saswp_schema_form">  
@@ -632,6 +1075,40 @@ const SchemaSingle = () => {
                 <div className="saswp-single-body">
 
                         <div>
+                        <div className="card">
+                                <div className="card-body">
+                                  <table className="form-table">
+                                          <tbody>
+                                                  <tr>
+                                                          <td>Business Type</td>
+                                                          <td>                                                
+                                                          <Select       
+                                                                Clearable     = {true}      
+                                                                name          = "saswp_business_type"                                                                                                                                
+                                                                value         = {handleBusinessTypeValue()}
+                                                                options       = {businessType}
+                                                                onChange      = {handleBusinessTypeChange}                                                           
+                                                                />
+                                                          </td>
+                                                  </tr>
+                                                         {postMeta.saswp_business_name ?
+                                                           <tr>
+                                                            <td>Sub Business Type</td>
+                                                            <td>
+                                                            <Select       
+                                                                Clearable     = {true}
+                                                                name          = "saswp_business_name"
+                                                                value         = {handleSubBusinessTypeValue()}
+                                                                options       = {businessTypeVal[postMeta.saswp_business_name]}
+                                                                onChange      = {handleSubBusinessTypeChange}                                         
+                                                                />  
+                                                            </td>
+                                                           </tr>     
+                                            :null}                                                  
+                                          </tbody>
+                                  </table>      
+                                </div>
+                        </div>        
                         <div className="card">
                                 <div className="card-body">
                                         <h3>Where do you want to insert?</h3>
@@ -766,45 +1243,205 @@ const SchemaSingle = () => {
                                        <div className="card-body">
                                                <h3>Advanced Options</h3>
                                        </div>
-                                       <div className="divider-horizontal"></div>
+
+                                       {
+                                               (  schemaType == 'Book' 
+                                               || schemaType == 'Course' 
+                                               || schemaType == 'Organization' 
+                                               || schemaType == 'CreativeWorkSeries'
+                                               || schemaType == 'MobileApplication'
+                                               || schemaType == 'ImageObject'
+                                               || schemaType == 'HowTo' 
+                                               || schemaType == 'MusicPlaylist' 
+                                               || schemaType == 'MusicAlbum'               
+                                               || schemaType == 'Recipe'
+                                               || schemaType == 'TVSeries'
+                                               || schemaType == 'SoftwareApplication'
+                                               || schemaType == 'Event'
+                                               || schemaType == 'VideoGame'
+                                               || schemaType == 'Service'
+                                               || schemaType == 'AudioObject'
+                                               || schemaType == 'VideoObject'
+                                               || schemaType == 'local_business'
+                                               || schemaType == 'Product'
+                                               || schemaType == 'Review'
+                                    
+                                               ) ? 
+                                               <div>
+                                                       <div className="divider-horizontal"></div>
                                        <div className="card-body">
-                                                <span>ItemList </span>                                                
+                                                <span>Add Reviews  </span> 
                                                 <span><label className="form-check form-group toggle">
-                                                <input type="checkbox" className="form-check-input" />
-                                                <span className="form-check-label"></span>                                                
+                                                <input checked={postMeta.saswp_enable_append_reviews == 1 ? true : false } onChange={handleInputChange}  name="saswp_enable_append_reviews" type="checkbox" className="form-check-input" />
+                                                <span className="form-check-label"></span>
                                                 </label>
                                                 </span>
                                                 <span>?</span>
-                                                
+                                                <div>
+
+                                                        <Modal
+                                                        isOpen={addReviewModal}
+                                                        handleClose={handleCloseAddReviewModal}                  
+                                                        >
+                                                                <Modal.Header>
+                                                                <Modal.Title>Attach reviews to this schema type</Modal.Title>
+                                                                </Modal.Header>  
+                                                                                                                                
+                                                                <div>
+                                                                        <nav className="tabs">
+                                                                                <a onClick={handleAddReviewTab} data-id="0" className={reviewTabStatus == 0 ? 'tab-item active' : 'tab-item'} >Reviews</a>
+                                                                                <a onClick={handleAddReviewTab} data-id="1" className={reviewTabStatus == 1 ? 'tab-item active' : 'tab-item'}>Collections</a>
+                                                                                <a onClick={handleAddReviewTab} data-id="2" className={reviewTabStatus == 2 ? 'tab-item active' : 'tab-item'}>Shortcode</a>
+                                                                        </nav>        
+                                                                        <div className="card-body">
+                                                                                {reviewTabStatus == 0 ? <div className="saswp-rv-tab-content">
+
+                                                                                        {
+                                                                                                reviewToBeAdded ? 
+
+                                                                                                reviewToBeAdded.map( (list, index) => {
+                                                                                                        
+                                                                                                        return(                                                                                                                
+                                                                                                                <div key={index} className="saswp-add-rv-loop">
+                                                                                                                  <input data-id={list.post.post_id} onChange={handleReviewClick} checked={ (postMeta.saswp_attahced_reviews && (postMeta.saswp_attahced_reviews).includes(list.post.post_id)) ? true : false } className="saswp-attach-rv-checkbox" type="checkbox" />  <strong> {list.post_meta.saswp_reviewer_name} ( Rating - {list.post_meta.saswp_review_rating} ) <span className="saswp-g-plus"><img width="25" height="25" src= {list.post_meta.saswp_review_platform_image}/></span></strong>
+                                                                                                                </div>
+                                                                                                                        
+                                                                                                        )                                
+                                                                        
+                                                                                                })
+
+                                                                                                 : '' 
+                                                                                        }
+                                                                                {reviewToBeAddedFound > 10 ? <div><a onClick={handleLoadMoreReviews}>Load More...</a></div> : ''}
+                                                                                </div> : ''}
+                                                                                {reviewTabStatus == 1 ? <div className="saswp-rv-tab-content">                                                                                                                                                                        
+
+                                                                                        {
+                                                                                                collectionToBeAdded ? 
+
+                                                                                                collectionToBeAdded.map( (list, index) => {
+                                                                                                        
+                                                                                                        return(                                                                                                                
+                                                                                                                <div key={index} className="saswp-add-rv-loop">
+                                                                                                                <input data-id={list.post.post_id} onChange={handleCollectionClick} checked={ (postMeta.saswp_attached_collection && (postMeta.saswp_attached_collection).includes(list.post.post_id))  ? true : false } className="saswp-attach-rv-checkbox" type="checkbox" />  <strong> {list.post.post_title}  </strong>
+                                                                                                                </div>
+                                                                                                                        
+                                                                                                        )                                
+
+                                                                                                })
+
+                                                                                                : '' 
+                                                                                        }
+                                                                                        {collectionToBeAddedFound > 10 ? <div><a onClick={handleLoadMoreCollection}>Load More...</a></div> : ''}
+                                                                                        
+                                                                                        </div> : ''}                                                                                
+                                                                                {reviewTabStatus == 2 ? 
+                                                                                <div className="saswp-rv-tab-content">
+                                                                                        <p> Output reviews in front and its schema markup in source by using below shortcode </p>
+                                                                                        <strong>[saswp-reviews]</strong>
+                                                                                        <br/>
+                                                                                        Or
+                                                                                        <br/>
+                                                                                        <strong>[saswp-reviews-collection id="your collection id"]</strong>                                                                                        
+                                                                                </div> : ''}
+                                                                                
+                                                                        </div>
+                                                                </div>
+                                                                                                                                
+                                                        </Modal>
+
+                                                        <a className="saswp-attach-reviews" onClick={handleOpenAddReviewModal}>
+                                                                
+                                                                {
+
+                                                                        (postMeta.saswp_attahced_reviews || postMeta.saswp_attached_collection) ? 
+                                                                        <span className="saswp-attached-rv-count">
+                                                                               {
+                                                                                       postMeta.saswp_attahced_reviews ? 
+                                                                                       <span>Attached {postMeta.saswp_attahced_reviews.length} Reviews </span>
+                                                                                       : ''                                                                                       
+                                                                               } 
+                                                                               {
+                                                                                       postMeta.saswp_attached_collection ? 
+                                                                                       <span>, {postMeta.saswp_attached_collection.length} Collections</span>
+                                                                                       : ''
+                                                                               }
+                                                                                </span>
+                                                                        : ''
+
+
+                                                                }
+
+                                                        </a>
+                                                </div>
                                        </div>
-                                       <div className="divider-horizontal"></div>
-                                       <div className="card-body">
-                                                <span>Speakable  </span>                                               
-                                                <span><label className="form-check form-group toggle">
-                                                <input type="checkbox" className="form-check-input" />
-                                                <span className="form-check-label"></span>                                                
-                                                </label>
-                                                </span>
-                                                <span>?</span>
-                                                
-                                       </div>
-                                       <div className="divider-horizontal"></div>
-                                       <div className="card-body">
-                                                <span>Paywall </span>
-                                                <span><label className="form-check form-group toggle">
-                                                <input type="checkbox" className="form-check-input" />
-                                                <span className="form-check-label"></span>                                                
-                                                </label>
-                                                </span>
-                                                <span>?</span>
-                                                
-                                       </div>
+                                               </div>
+                                               : ''
+                                       }
+                                       {
+                                               (schemaType == 'TechArticle' || schemaType == 'Article' || schemaType == 'Blogposting' || schemaType == 'NewsArticle' || schemaType == 'WebPage') ? 
+                                               <div>
+                                                       <div className="divider-horizontal"></div>
+                                                <div className="card-body">
+                                                                <span>ItemList  </span>                                               
+                                                                <span><label className="form-check form-group toggle">
+                                                                <input checked={postMeta.saswp_enable_itemlist_schema == 1 ? true : false } onChange={handleInputChange}  name="saswp_enable_itemlist_schema" type="checkbox" className="form-check-input" />
+                                                                <span className="form-check-label"></span>                                                
+                                                                </label>
+                                                                </span>
+                                                                <span>?</span>
+
+                                                                {
+                                                                        postMeta.saswp_enable_itemlist_schema == 1 ?
+                                                                        <div>
+                                                                                <select value={postMeta.saswp_item_list_tags} name="saswp_item_list_tags" onChange={handleInputChange}>
+                                                                                        <option value="h1">H1</option> 
+                                                                                        <option value="h2">H2</option> 
+                                                                                        <option value="h3">H3</option> 
+                                                                                        <option value="h4">H4</option> 
+                                                                                        <option value="h5">H5</option> 
+                                                                                        <option value="h6">H6</option> 
+                                                                                        <option value="custom">Custom</option> 
+                                                                                </select>      
+                                                                        {
+                                                                        postMeta.saswp_item_list_tags == "custom" ? 
+                                                                        <input type="text" name="saswp_item_list_custom" onChange={handleInputChange} value={postMeta.saswp_item_list_custom} />
+                                                                        : ''       
+                                                                        }
+                                                                                
+                                                                </div>       
+                                                                        : ''
+                                                                }                                                
+                                                </div>
+                                               </div>
+                                               
+                                               : ''
+                                       }
+                                       
+                                       {
+                                               (schemaType == 'TechArticle' || schemaType == 'Article' || schemaType == 'Blogposting' || schemaType == 'NewsArticle' || schemaType == 'WebPage') ?
+                                                        <div>
+                                                        <div className="divider-horizontal"></div>
+                                                                <div className="card-body">
+                                                                                <span>Speakable  </span>                                               
+                                                                                <span><label className="form-check form-group toggle">
+                                                                                <input checked={postMeta.saswp_enable_speakable_schema == 1 ? true : false } onChange={handleInputChange}  name="saswp_enable_speakable_schema" type="checkbox" className="form-check-input" />
+                                                                                <span className="form-check-label"></span>                                                
+                                                                                </label>
+                                                                                </span>
+                                                                                <span>?</span>
+                                                                                
+                                                                </div>
+                                                        </div>
+                                                : ''
+                                       }
+                                                                              
                                        <div className="divider-horizontal"></div>
                                        <div className="card-body">
                                                <div className="saswp-global-modify-top">
-                                                        <span>Modify Schema Output</span>
+                                                        <span>Modify Schema Output</span>                                                        
                                                          <span><label className="form-check form-group toggle">
-                                                        <input checked={postMeta.schema_options.enable_custom_field} onChange={handleInputChange}  name="enable_custom_field" type="checkbox" className="form-check-input" />
+                                                        <input checked={postMeta.schema_options.enable_custom_field == 1 ? true : false} onChange={handleInputChange}  name="enable_custom_field" type="checkbox" className="form-check-input" />
                                                         <span className="form-check-label"></span>                                                
                                                         </label>
                                                         </span>
@@ -812,10 +1449,33 @@ const SchemaSingle = () => {
                                                </div>
 
                                                 {
-                                                 postMeta.schema_options.enable_custom_field ?
-                                                        <div className="saswp-modify-container">
-                                                                
-                                                                <div className="saswp-dynamic-container">
+                                                 postMeta.schema_options.enable_custom_field == 1 ?
+                                                        <div className="saswp-modify-container">                                                                
+                                                                {
+                                                                        (schemaType == 'local_business' || schemaType == 'HowTo' || schemaType == 'FAQ') ? 
+                                                                        <div className="saswp-enable-modify-schema">
+                                                                                <strong>Choose Method</strong>
+                                                                                <select onChange={handleInputChange} value={postMeta.schema_options.saswp_modify_method} name="saswp_modify_method" className="saswp-enable-modify-schema-output">
+                                                                                <option value="automatic">Automatic</option>
+                                                                                <option value="manual">Manual</option>
+                                                                                </select>                                    
+                                                                        </div>
+                                                                        : ''
+                                                                }
+                                                                {
+                                                                        (postMeta.schema_options.saswp_modify_method == 'manual') ? 
+                                                                        <div>
+                                                                                {manualFields ? 
+                                                                                        <FieldGenerator 
+                                                                                                postMeta={postMeta}
+                                                                                                handleInputChange={handleInputChange}
+                                                                                                handleManualFieldImage = {handleManualFieldImage}
+                                                                                                fielddata={manualFields} 
+                                                                                        />
+                                                                                : null}                                                                        
+                                                                        </div> 
+                                                                         : 
+                                                                        <div className="saswp-dynamic-container">
                                                                         <div className="saswp-custom-fields-div">
 
                                                                         {(modifyEntry.length > 0) ? 
@@ -835,9 +1495,49 @@ const SchemaSingle = () => {
                                                                         <div> <a onClick={addTr} className="saswp-add-custom-fields btn btn-primary">Add Property</a> </div>     
                                                                         </div>     
                                                                 </div>
+                                                                }                                                                
                                                         </div>
                                                  : ''       
                                                 }                                                                                               
+                                       </div>
+                                       <div className="divider-horizontal"></div>
+                                       <div className="card-body">
+                                                <span>Paywall </span>
+                                                <span><label className="form-check form-group toggle">
+                                                <input checked={postMeta.schema_options.notAccessibleForFree == 1 ? true : false } onChange={handleInputChange}  name="notAccessibleForFree" type="checkbox" className="form-check-input" />
+                                                <span className="form-check-label"></span>                                                
+                                                </label>
+                                                </span>
+                                                <span>?</span>
+
+                                                {
+                                                        postMeta.schema_options.notAccessibleForFree == 1 ?
+                                                        
+                                                        <div>
+                                                                <table>
+                                                                 <tbody>
+                                                                  <tr>
+                                                                          <td>Is accessible for free</td>
+                                                                          <td>
+                                                                          <select name="isAccessibleForFree" value={postMeta.schema_options.isAccessibleForFree} onChange={handleInputChange}>
+                                                                                <option value="False">False</option>
+                                                                                <option value="True">True</option>                                                                
+                                                                          </select>
+                                                                          </td>
+                                                                  </tr>
+                                                                  <tr><td>Enter the class name of paywall section</td>
+                                                                          <td>
+                                                                          <input type="text" name="paywall_class_name" value={postMeta.schema_options.paywall_class_name} onChange={handleInputChange} />
+                                                                          </td>
+                                                                  </tr>       
+                                                                 </tbody>       
+                                                                </table>                                                                
+                                                                
+                                                        </div>
+                                                        
+                                                        : ''
+                                                }
+                                                                                                
                                        </div>
                                 </div> 
                         </div>

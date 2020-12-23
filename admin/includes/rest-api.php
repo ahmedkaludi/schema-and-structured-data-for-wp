@@ -57,6 +57,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'get-manual-fields', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getManualFields'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'get-collections-list', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getCollectionsList'),
@@ -938,7 +945,7 @@ class SASWP_Rest_Api {
             $post_type    = 'saswp-collections';
 
             if(isset($_GET['page'])){
-                $paged    = sanitize_text_field($_GET['page']);
+                $paged    = intval($_GET['page']);
             }
             
             if(isset($_GET['search_param'])){
@@ -948,24 +955,38 @@ class SASWP_Rest_Api {
             return $result;
 
         }
+        public function getManualFields($request_data){
 
+            $response = array();
+
+            $parameters      = $request_data->get_params();
+
+            if( isset($parameters['schema_id']) && isset($parameters['schema_type']) ){
+                $response = saswp_get_fields_by_schema_type($parameters['schema_id'], null, $parameters['schema_type'], 'manual');
+            }else{
+                $response = array('status' => 'f', 'msg' =>  __( 'Schema Type and ID are required', 'quick-adsense-reloaded' ));                   
+            }
+            
+            return $response;
+
+        }
         public function getReviewsList(){
 
             $search_param = '';
-            $rvcount      = 10;
+            $count        = 10;
             $attr         = array();
             $paged        =  1;
             $offset       =  0;
             $post_type    = 'saswp_reviews';
 
             if(isset($_GET['page'])){
-                $paged    = sanitize_text_field($_GET['page']);
-            }
+                $paged    = intval($_GET['page']);
+            }            
             
             if(isset($_GET['search_param'])){
                 $search_param = sanitize_text_field($_GET['search_param']);
             }            
-            $result = $this->api_service->getReviewsList($post_type, $attr, $rvcount, $paged, $offset, $search_param);                       
+            $result = $this->api_service->getReviewsList($post_type, $attr, $count, $paged, $offset, $search_param);                       
             return $result;
 
         }

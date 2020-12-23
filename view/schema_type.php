@@ -1067,6 +1067,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $schema_type    = get_post_meta($post->ID, 'schema_type', true);
 
                                 $schema_fields = saswp_get_fields_by_schema_type($post->ID, null, $schema_type, 'manual');
+                                
                                 $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post->ID, $post->ID, null, null, 1);
                                 
                                 if($schema_type == 'Review'){

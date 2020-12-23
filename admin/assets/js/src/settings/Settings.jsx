@@ -419,7 +419,7 @@ const getPageList = (type, search, id) => {
         (result) => {         
           setIsLoaded(true);
           if(result.status == 't'){
-            console.log(result.data);
+            
             if(type === 'about' || type === 'contact'){
 
               if(type == 'about'){

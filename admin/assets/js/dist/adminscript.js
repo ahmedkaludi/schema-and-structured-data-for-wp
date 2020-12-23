@@ -17517,6 +17517,11 @@ var MediaUpload = function MediaUpload(props) {
     image_data.width = '';
     image_data.height = '';
     image_data.thumbnail = '';
+
+    if (props.data_id) {
+      image_data.data_id = props.data_id;
+    }
+
     setImageSrc('');
     props.onSelection(image_data);
   };
@@ -19537,8 +19542,6 @@ var App = function App() {
       setIsLoaded(true);
 
       if (result.status == 't') {
-        console.log(result.data);
-
         if (type === 'about' || type === 'contact') {
           if (type == 'about') {
             setAboutPageList(result.data);
@@ -67938,6 +67941,10 @@ var _reactSelect = _interopRequireDefault(__webpack_require__(70));
 
 var _MediaUpload = _interopRequireDefault(__webpack_require__(48));
 
+var _FieldGenerator = _interopRequireDefault(__webpack_require__(303));
+
+var _it = __webpack_require__(12);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -68092,6 +68099,533 @@ var SchemaSingle = function SchemaSingle() {
       customFieldSearched = _useState46[0],
       setCustomFieldSearched = _useState46[1];
 
+  var _useState47 = (0, _react.useState)(false),
+      _useState48 = _slicedToArray(_useState47, 2),
+      addReviewModal = _useState48[0],
+      setAddReviewModal = _useState48[1];
+
+  var _useState49 = (0, _react.useState)(0),
+      _useState50 = _slicedToArray(_useState49, 2),
+      reviewTabStatus = _useState50[0],
+      setReviewTabStatus = _useState50[1];
+
+  var _useState51 = (0, _react.useState)([]),
+      _useState52 = _slicedToArray(_useState51, 2),
+      reviewToBeAdded = _useState52[0],
+      setReviewToBeAdded = _useState52[1];
+
+  var _useState53 = (0, _react.useState)([]),
+      _useState54 = _slicedToArray(_useState53, 2),
+      reviewToBeAddedFound = _useState54[0],
+      setReviewToBeAddedFound = _useState54[1];
+
+  var _useState55 = (0, _react.useState)([]),
+      _useState56 = _slicedToArray(_useState55, 2),
+      collectionToBeAdded = _useState56[0],
+      setCollectionToBeAdded = _useState56[1];
+
+  var _useState57 = (0, _react.useState)([]),
+      _useState58 = _slicedToArray(_useState57, 2),
+      collectionToBeAddedFound = _useState58[0],
+      setCollectionToBeAddedFound = _useState58[1];
+
+  var businessTypeVal = {
+    automotivebusiness: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'autobodyshop',
+      label: 'Auto Body Shop'
+    }, {
+      value: 'autodealer',
+      label: 'Auto Dealer'
+    }, {
+      value: 'autopartsstore',
+      label: 'Auto Parts Store'
+    }, {
+      value: 'autorental',
+      label: 'Auto Rental'
+    }, {
+      value: 'autorepair',
+      label: 'Auto Repair'
+    }, {
+      value: 'autowash',
+      label: 'Auto Wash'
+    }, {
+      value: 'gasstation',
+      label: 'Gas Station'
+    }, {
+      value: 'motorcycledealer',
+      label: 'Motorcycle Dealer'
+    }, {
+      value: 'motorcyclerepair',
+      label: 'Motorcycle Repair'
+    }],
+    emergencyservice: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'firestation',
+      label: 'Fire Station'
+    }, {
+      value: 'hospital',
+      label: 'Hospital'
+    }, {
+      value: 'policestation',
+      label: 'Police Station'
+    }],
+    entertainmentbusiness: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'adultentertainment',
+      label: 'Adult Entertainment'
+    }, {
+      value: 'amusementpark',
+      label: 'Amusement Park'
+    }, {
+      value: 'artgallery',
+      label: 'Art Gallery'
+    }, {
+      value: 'casino',
+      label: 'Casino'
+    }, {
+      value: 'comedyclub',
+      label: 'Comedy Club'
+    }, {
+      value: 'movietheater',
+      label: 'Movie Theater'
+    }, {
+      value: 'nightclub',
+      label: 'Night Club'
+    }],
+    financialservice: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'accountingservice',
+      label: 'Accounting Service'
+    }, {
+      value: 'automatedteller',
+      label: 'Automated Teller'
+    }, {
+      value: 'bankorcredit_union',
+      label: 'Bank Or Credit Union'
+    }, {
+      value: 'insuranceagency',
+      label: 'Insurance Agency'
+    }],
+    foodestablishment: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'bakery',
+      label: 'Bakery'
+    }, {
+      value: 'barorpub',
+      label: 'Bar Or Pub'
+    }, {
+      value: 'brewery',
+      label: 'Brewery'
+    }, {
+      value: 'cafeorcoffee_shop',
+      label: 'Cafe Or Coffee Shop'
+    }, {
+      value: 'fastfoodrestaurant',
+      label: 'Fast Food Restaurant'
+    }, {
+      value: 'icecreamshop',
+      label: 'Ice Cream Shop'
+    }, {
+      value: 'restaurant',
+      label: 'Restaurant'
+    }, {
+      value: 'winery',
+      label: 'Winery'
+    }],
+    healthandbeautybusiness: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'beautysalon',
+      label: 'Beauty Salon'
+    }, {
+      value: 'dayspa',
+      label: 'DaySpa'
+    }, {
+      value: 'hairsalon',
+      label: 'Hair Salon'
+    }, {
+      value: 'healthclub',
+      label: 'Health Club'
+    }, {
+      value: 'nailsalon',
+      label: 'Nail Salon'
+    }, {
+      value: 'tattooparlor',
+      label: 'Tattoo Parlor'
+    }],
+    homeandconstructionbusiness: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'electrician',
+      label: 'Electrician'
+    }, {
+      value: 'generalcontractor',
+      label: 'General Contractor'
+    }, {
+      value: 'hvacbusiness',
+      label: 'HVAC Business'
+    }, {
+      value: 'locksmith',
+      label: 'Locksmith'
+    }, {
+      value: 'movingcompany',
+      label: 'Moving Company'
+    }, {
+      value: 'plumber',
+      label: 'Plumber'
+    }, {
+      value: 'roofingcontractor',
+      label: 'Roofing Contractor'
+    }, {
+      value: 'housepainter',
+      label: 'House Painter'
+    }],
+    legalservice: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'attorney',
+      label: 'Attorney'
+    }, {
+      value: 'notary',
+      label: 'Notary'
+    }],
+    lodgingbusiness: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'bedandbreakfast',
+      label: 'Bed And Breakfast'
+    }, {
+      value: 'campground',
+      label: 'Campground'
+    }, {
+      value: 'hostel',
+      label: 'Hostel'
+    }, {
+      value: 'hotel',
+      label: 'Hotel'
+    }, {
+      value: 'motel',
+      label: 'Motel'
+    }, {
+      value: 'resort',
+      label: 'Resort'
+    }],
+    sportsactivitylocation: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'bowlingalley',
+      label: 'Bowling Alley'
+    }, {
+      value: 'exercisegym',
+      label: 'Exercise Gym'
+    }, {
+      value: 'golfcourse',
+      label: 'Golf Course'
+    }, {
+      value: 'healthclub',
+      label: 'Health Club'
+    }, {
+      value: 'publicswimming_pool',
+      label: 'Public Swimming Pool'
+    }, {
+      value: 'skiresort',
+      label: 'Ski Resort'
+    }, {
+      value: 'sportsclub',
+      label: 'Sports Club'
+    }, {
+      value: 'stadiumorarena',
+      label: 'Stadium Or Arena'
+    }, {
+      value: 'tenniscomplex',
+      label: 'Tennis Complex'
+    }],
+    store: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'autopartsstore',
+      label: 'Auto Parts Store'
+    }, {
+      value: 'bikestore',
+      label: 'Bike Store'
+    }, {
+      value: 'bookstore',
+      label: 'Book Store'
+    }, {
+      value: 'clothingstore',
+      label: 'Clothing Store'
+    }, {
+      value: 'computerstore',
+      label: 'Computer Store'
+    }, {
+      value: 'conveniencestore',
+      label: 'Convenience Store'
+    }, {
+      value: 'departmentstore',
+      label: 'Department Store'
+    }, {
+      value: 'electronicsstore',
+      label: 'Electronics Store'
+    }, {
+      value: 'florist',
+      label: 'Florist'
+    }, {
+      value: 'furniturestore',
+      label: 'Furniture Store'
+    }, {
+      value: 'gardenstore',
+      label: 'Garden Store'
+    }, {
+      value: 'grocerystore',
+      label: 'Grocery Store'
+    }, {
+      value: 'hardwarestore',
+      label: 'Hardware Store'
+    }, {
+      value: 'hobbyshop',
+      label: 'Hobby Shop'
+    }, {
+      value: 'homegoodsstore',
+      label: 'HomeGoods Store'
+    }, {
+      value: 'jewelrystore',
+      label: 'Jewelry Store'
+    }, {
+      value: 'liquorstore',
+      label: 'Liquor Store'
+    }, {
+      value: 'mensclothingstore',
+      label: 'Mens Clothing Store'
+    }, {
+      value: 'mobilephonestore',
+      label: 'Mobile Phone Store'
+    }, {
+      value: 'movierentalstore',
+      label: 'Movie Rental Store'
+    }, {
+      value: 'musicstore',
+      label: 'Music Store'
+    }, {
+      value: 'officeequipmentstore',
+      label: 'Office Equipment Store'
+    }, {
+      value: 'outletstore',
+      label: 'Outlet Store'
+    }, {
+      value: 'pawnshop',
+      label: 'Pawn Shop'
+    }, {
+      value: 'petstore',
+      label: 'Pet Store'
+    }, {
+      value: 'shoestore',
+      label: 'Shoe Store'
+    }, {
+      value: 'sportinggoodsstore',
+      label: 'Sporting Goods Store'
+    }, {
+      value: 'tireshop',
+      label: 'Tire Shop'
+    }, {
+      value: 'toystore',
+      label: 'Toy Store'
+    }, {
+      value: 'wholesalestore',
+      label: 'Wholesale Store'
+    }],
+    medicalbusiness: [{
+      value: '',
+      label: 'Select Sub Business Type ( optional )'
+    }, {
+      value: 'Communityhealth',
+      label: 'Community Health'
+    }, {
+      value: 'dentist',
+      label: 'Dentist'
+    }, {
+      value: 'dermatology',
+      label: 'Dermatology'
+    }, {
+      value: 'dietnutrition',
+      label: 'Diet Nutrition'
+    }, {
+      value: 'emergency',
+      label: 'Emergency'
+    }, {
+      value: 'geriatric',
+      label: 'Geriatric'
+    }, {
+      value: 'gynecologic',
+      label: 'Gynecologic'
+    }, {
+      value: 'medicalclinic',
+      label: 'Medical Clinic'
+    }, {
+      value: 'midwifery',
+      label: 'Midwifery'
+    }, {
+      value: 'nursing',
+      label: 'Nursing'
+    }, {
+      value: 'obstetric',
+      label: 'Obstetric'
+    }, {
+      value: 'oncologic',
+      label: 'Oncologic'
+    }, {
+      value: 'optician',
+      label: 'Optician'
+    }, {
+      value: 'optometric',
+      label: 'Optometric'
+    }, {
+      value: 'otolaryngologic',
+      label: 'Otolaryngologic'
+    }, {
+      value: 'pediatric',
+      label: 'Pediatric'
+    }, {
+      value: 'pharmacy',
+      label: 'Pharmacy'
+    }, {
+      value: 'physician',
+      label: 'Physician'
+    }, {
+      value: 'physiotherapy',
+      label: 'Physiotherapy'
+    }, {
+      value: 'plasticsurgery',
+      label: 'Plastic Surgery'
+    }, {
+      value: 'podiatric',
+      label: 'Podiatric'
+    }, {
+      value: 'primarycare',
+      label: 'Primary Care'
+    }, {
+      value: 'psychiatric',
+      label: 'Psychiatric'
+    }, {
+      value: 'publichealth',
+      label: 'Public Health'
+    }, {
+      value: 'veterinarycare',
+      label: 'VeterinaryCare'
+    }]
+  };
+
+  var _useState59 = (0, _react.useState)([{
+    value: "",
+    label: "Select Business Type (Optional)"
+  }, {
+    value: "animalshelter",
+    label: "Animal Shelter"
+  }, {
+    value: "automotivebusiness",
+    label: "Automotive Business"
+  }, {
+    value: "childcare",
+    label: "ChildCare"
+  }, {
+    value: "dentist",
+    label: "Dentist"
+  }, {
+    value: "drycleaningorlaundry",
+    label: "Dry Cleaning Or Laundry"
+  }, {
+    value: "emergencyservice",
+    label: "Emergency Service"
+  }, {
+    value: "employmentagency",
+    label: "Employment Agency"
+  }, {
+    value: "entertainmentbusiness",
+    label: "Entertainment Business"
+  }, {
+    value: "financialservice",
+    label: "Financial Service"
+  }, {
+    value: "foodestablishment",
+    label: "Food Establishment"
+  }, {
+    value: "governmentoffice",
+    label: "Government Office"
+  }, {
+    value: "healthandbeautybusiness",
+    label: "Health And Beauty Business"
+  }, {
+    value: "homeandconstructionbusiness",
+    label: "Home And Construction Business"
+  }, {
+    value: "internetcafe",
+    label: "Internet Cafe"
+  }, {
+    value: "legalservice",
+    label: "Legal Service"
+  }, {
+    value: "library",
+    label: "Library"
+  }, {
+    value: "lodgingbusiness",
+    label: "Lodging Business"
+  }, {
+    value: "medicalbusiness",
+    label: "Medical Business"
+  }, {
+    value: "professionalservice",
+    label: "Professional Service"
+  }, {
+    value: "radiostation",
+    label: "Radio Station"
+  }, {
+    value: "realestateagent",
+    label: "Real Estate Agent"
+  }, {
+    value: "recyclingcenter",
+    label: "Recycling Center"
+  }, {
+    value: "selfstorage",
+    label: "Self Storage"
+  }, {
+    value: "shoppingcenter",
+    label: "Shopping Center"
+  }, {
+    value: "sportsactivitylocation",
+    label: "Sports Activity Location"
+  }, {
+    value: "store",
+    label: "Store"
+  }, {
+    value: "televisionstation",
+    label: "Television Station"
+  }, {
+    value: "touristinformationcenter",
+    label: "Tourist Information Center"
+  }, {
+    value: "travelagency",
+    label: "Travel Agency"
+  }]),
+      _useState60 = _slicedToArray(_useState59, 2),
+      businessType = _useState60[0],
+      setBusinessType = _useState60[1];
+
   var _useReducer = (0, _react.useReducer)(function (state, newState) {
     return _objectSpread(_objectSpread({}, state), newState);
   }, {
@@ -68112,6 +68646,200 @@ var SchemaSingle = function SchemaSingle() {
       postMeta = _useReducer2[0],
       setPostMeta = _useReducer2[1];
 
+  var _useState61 = (0, _react.useState)([]),
+      _useState62 = _slicedToArray(_useState61, 2),
+      manualFields = _useState62[0],
+      setManualFields = _useState62[1];
+
+  var getManualFields = function getManualFields(schemaType, schemaID) {
+    var url = saswp_localize_data.rest_url + 'saswp-route/get-manual-fields?schema_id=' + schemaID + '&schema_type=' + schemaType;
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
+      }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      setManualFields(result);
+    }, function (error) {});
+  };
+
+  var handleBusinessTypeChange = function handleBusinessTypeChange(option) {
+    var clonedata = _objectSpread({}, postMeta);
+
+    clonedata.saswp_business_type = option.value;
+
+    if (businessTypeVal[option.value]) {
+      clonedata.saswp_business_name = option.value;
+    } else {
+      clonedata.saswp_business_name = '';
+    }
+
+    setPostMeta(clonedata);
+  };
+
+  var handleSubBusinessTypeChange = function handleSubBusinessTypeChange(option) {
+    var clonedata = _objectSpread({}, postMeta);
+
+    clonedata.saswp_business_name = option.value;
+    setPostMeta(clonedata);
+  };
+
+  var handleSubBusinessTypeValue = function handleSubBusinessTypeValue() {
+    var response = [{
+      value: "",
+      label: "Select Sub Business Type (Optional)"
+    }];
+
+    if (postMeta.saswp_business_name && businessTypeVal[postMeta.saswp_business_type]) {
+      businessTypeVal[postMeta.saswp_business_type].map(function (list) {
+        if (list.value == postMeta.saswp_business_name) {
+          response[0] = list;
+        }
+      });
+    }
+
+    return response;
+  };
+
+  var handleBusinessTypeValue = function handleBusinessTypeValue() {
+    var response = [{
+      value: "",
+      label: "Select Business Type (Optional)"
+    }];
+
+    if (postMeta.saswp_business_type) {
+      businessType.map(function (list) {
+        if (list.value == postMeta.saswp_business_type) {
+          response[0] = list;
+        }
+      });
+    }
+
+    return response;
+  };
+
+  var getCollectionsOnLoad = function getCollectionsOnLoad() {
+    var offset = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var url = saswp_localize_data.rest_url + 'saswp-route/get-collections-list?offset=' + offset + '&page=' + page;
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
+      }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      setCollectionToBeAdded(function (prevState) {
+        return [].concat(_toConsumableArray(prevState), _toConsumableArray(result.posts_data));
+      });
+      setCollectionToBeAddedFound(result.posts_found);
+    }, function (error) {});
+  };
+
+  var getReviewsOnLoad = function getReviewsOnLoad() {
+    var offset = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var url = saswp_localize_data.rest_url + 'saswp-route/get-reviews-list?offset=' + offset + '&page=' + page;
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
+      }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      setReviewToBeAdded(function (prevState) {
+        return [].concat(_toConsumableArray(prevState), _toConsumableArray(result.posts_data));
+      });
+      setReviewToBeAddedFound(result.posts_found);
+    }, function (error) {});
+  };
+
+  var handleLoadMoreCollection = function handleLoadMoreCollection(e) {
+    e.preventDefault();
+    var offset = collectionToBeAdded.length;
+
+    if (offset <= collectionToBeAddedFound) {
+      var _page = offset / 10 + 1;
+
+      getCollectionsOnLoad(offset, _page);
+    }
+  };
+
+  var handleLoadMoreReviews = function handleLoadMoreReviews(e) {
+    e.preventDefault();
+    var offset = reviewToBeAdded.length;
+
+    if (offset <= reviewToBeAddedFound) {
+      var _page2 = offset / 10 + 1;
+
+      getReviewsOnLoad(offset, _page2);
+    }
+  };
+
+  var handleCollectionClick = function handleCollectionClick(e) {
+    var review_id = parseInt(e.currentTarget.dataset.id);
+    var value = e.target.checked;
+
+    var clonedata = _objectSpread({}, postMeta);
+
+    if (value) {
+      clonedata.saswp_attached_collection.push(review_id);
+    } else {
+      var index = clonedata.saswp_attached_collection.indexOf(review_id);
+
+      if (index > -1) {
+        clonedata.saswp_attached_collection.splice(index, 1);
+      }
+    }
+
+    setPostMeta(clonedata);
+  };
+
+  var handleReviewClick = function handleReviewClick(e) {
+    var review_id = parseInt(e.currentTarget.dataset.id);
+    var value = e.target.checked;
+
+    var clonedata = _objectSpread({}, postMeta);
+
+    if (value) {
+      clonedata.saswp_attahced_reviews.push(review_id);
+    } else {
+      var index = clonedata.saswp_attahced_reviews.indexOf(review_id);
+
+      if (index > -1) {
+        clonedata.saswp_attahced_reviews.splice(index, 1);
+      }
+    }
+
+    setPostMeta(clonedata);
+  };
+
+  var handleAddReviewTab = function handleAddReviewTab(e) {
+    e.preventDefault();
+    var index = e.currentTarget.dataset.id;
+
+    if (index == 0 && reviewToBeAdded.length == 0) {
+      getReviewsOnLoad();
+    }
+
+    if (index == 1 && collectionToBeAdded.length == 0) {
+      getCollectionsOnLoad();
+    }
+
+    setReviewTabStatus(index);
+  };
+
+  var handleCloseAddReviewModal = function handleCloseAddReviewModal() {
+    setAddReviewModal(false);
+  };
+
+  var handleOpenAddReviewModal = function handleOpenAddReviewModal(e) {
+    e.preventDefault();
+    setAddReviewModal(true);
+    getReviewsOnLoad();
+  };
+
   var handleInputChange = function handleInputChange(evt) {
     var _evt$target = evt.target,
         name = _evt$target.name,
@@ -68122,14 +68850,21 @@ var SchemaSingle = function SchemaSingle() {
       value = evt.target.checked;
     }
 
+    if (name == 'saswp_enable_append_reviews' && value) {
+      getReviewsOnLoad();
+      setAddReviewModal(true);
+    }
+
     switch (name) {
+      case 'isAccessibleForFree':
+      case 'notAccessibleForFree':
+      case 'paywall_class_name':
       case 'enable_custom_field':
-        var data = {
-          enable_custom_field: value
-        };
-        setPostMeta({
-          schema_options: data
-        });
+      case 'saswp_modify_method':
+        var clonedata = _objectSpread({}, postMeta);
+
+        clonedata.schema_options[name] = value;
+        setPostMeta(clonedata);
         break;
 
       default:
@@ -68385,8 +69120,12 @@ var SchemaSingle = function SchemaSingle() {
       setSchemaID(page.id);
       getSchemaDataById(page.id);
     }
+
+    if (page.type == 'local_business' || page.type == 'HowTo' || page.type == 'FAQ' && page.id) {
+      getManualFields(page.type, page.id);
+    }
   }, []);
-  (0, _react.useEffect)(function () {//console.log(postMeta.saswp_meta_list_val);                
+  (0, _react.useEffect)(function () {//console.log(postMeta);                
   }, [postMeta]);
 
   var handleCustomFieldChange = function handleCustomFieldChange(i, key, option) {
@@ -68481,6 +69220,11 @@ var SchemaSingle = function SchemaSingle() {
       height: data.height,
       width: data.width
     };
+
+    if (!clonedata.saswp_fixed_image) {
+      clonedata.saswp_fixed_image = {};
+    }
+
     clonedata.saswp_fixed_image[data_key] = image_data;
     setPostMeta(clonedata);
   };
@@ -68545,6 +69289,10 @@ var SchemaSingle = function SchemaSingle() {
     if (key && val) {
       switch (val) {
         case 'manual_text':
+          if (!postMeta.saswp_fixed_text) {
+            postMeta.saswp_fixed_text = {};
+          }
+
           third.push( /*#__PURE__*/_react["default"].createElement("input", {
             "data-key": key,
             "data-type": val,
@@ -68559,6 +69307,10 @@ var SchemaSingle = function SchemaSingle() {
 
         case 'taxonomy_term':
           if (metaFields.taxonomies) {
+            if (!postMeta.saswp_taxonomy_term) {
+              postMeta.saswp_taxonomy_term = {};
+            }
+
             third.push( /*#__PURE__*/_react["default"].createElement("select", {
               "data-key": key,
               "data-type": val,
@@ -68640,7 +69392,6 @@ var SchemaSingle = function SchemaSingle() {
 
     cloneModify.push(new_tr);
     setModifyEntry(cloneModify);
-    console.log(modifyEntry);
   };
 
   var modifyTr = function modifyTr() {
@@ -68663,6 +69414,17 @@ var SchemaSingle = function SchemaSingle() {
     return result;
   };
 
+  var handleManualFieldImage = function handleManualFieldImage(image) {
+    var clonedata = _objectSpread({}, postMeta);
+
+    clonedata[image.data_id] = {
+      height: image.height,
+      width: image.width,
+      thumbnail: image.thumbnail
+    };
+    setPostMeta(clonedata);
+  };
+
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("form", {
     encType: "multipart/form-data",
     method: "post",
@@ -68678,6 +69440,24 @@ var SchemaSingle = function SchemaSingle() {
   }, "X"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-single-body"
   }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("table", {
+    className: "form-table"
+  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Business Type"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_reactSelect["default"], {
+    Clearable: true,
+    name: "saswp_business_type",
+    value: handleBusinessTypeValue(),
+    options: businessType,
+    onChange: handleBusinessTypeChange
+  }))), postMeta.saswp_business_name ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Sub Business Type"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_reactSelect["default"], {
+    Clearable: true,
+    name: "saswp_business_name",
+    value: handleSubBusinessTypeValue(),
+    options: businessTypeVal[postMeta.saswp_business_name],
+    onChange: handleSubBusinessTypeChange
+  }))) : null)))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
@@ -68761,40 +69541,134 @@ var SchemaSingle = function SchemaSingle() {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Advanced Options")), /*#__PURE__*/_react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Advanced Options")), schemaType == 'Book' || schemaType == 'Course' || schemaType == 'Organization' || schemaType == 'CreativeWorkSeries' || schemaType == 'MobileApplication' || schemaType == 'ImageObject' || schemaType == 'HowTo' || schemaType == 'MusicPlaylist' || schemaType == 'MusicAlbum' || schemaType == 'Recipe' || schemaType == 'TVSeries' || schemaType == 'SoftwareApplication' || schemaType == 'Event' || schemaType == 'VideoGame' || schemaType == 'Service' || schemaType == 'AudioObject' || schemaType == 'VideoObject' || schemaType == 'local_business' || schemaType == 'Product' || schemaType == 'Review' ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: "divider-horizontal"
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
-  }, /*#__PURE__*/_react["default"].createElement("span", null, "ItemList "), /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement("label", {
+  }, /*#__PURE__*/_react["default"].createElement("span", null, "Add Reviews  "), /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement("label", {
     className: "form-check form-group toggle"
   }, /*#__PURE__*/_react["default"].createElement("input", {
+    checked: postMeta.saswp_enable_append_reviews == 1 ? true : false,
+    onChange: handleInputChange,
+    name: "saswp_enable_append_reviews",
     type: "checkbox",
     className: "form-check-input"
   }), /*#__PURE__*/_react["default"].createElement("span", {
     className: "form-check-label"
-  }))), /*#__PURE__*/_react["default"].createElement("span", null, "?")), /*#__PURE__*/_react["default"].createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("span", null, "?"), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_it.Modal, {
+    isOpen: addReviewModal,
+    handleClose: handleCloseAddReviewModal
+  }, /*#__PURE__*/_react["default"].createElement(_it.Modal.Header, null, /*#__PURE__*/_react["default"].createElement(_it.Modal.Title, null, "Attach reviews to this schema type")), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("nav", {
+    className: "tabs"
+  }, /*#__PURE__*/_react["default"].createElement("a", {
+    onClick: handleAddReviewTab,
+    "data-id": "0",
+    className: reviewTabStatus == 0 ? 'tab-item active' : 'tab-item'
+  }, "Reviews"), /*#__PURE__*/_react["default"].createElement("a", {
+    onClick: handleAddReviewTab,
+    "data-id": "1",
+    className: reviewTabStatus == 1 ? 'tab-item active' : 'tab-item'
+  }, "Collections"), /*#__PURE__*/_react["default"].createElement("a", {
+    onClick: handleAddReviewTab,
+    "data-id": "2",
+    className: reviewTabStatus == 2 ? 'tab-item active' : 'tab-item'
+  }, "Shortcode")), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, reviewTabStatus == 0 ? /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-rv-tab-content"
+  }, reviewToBeAdded ? reviewToBeAdded.map(function (list, index) {
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      key: index,
+      className: "saswp-add-rv-loop"
+    }, /*#__PURE__*/_react["default"].createElement("input", {
+      "data-id": list.post.post_id,
+      onChange: handleReviewClick,
+      checked: postMeta.saswp_attahced_reviews && postMeta.saswp_attahced_reviews.includes(list.post.post_id) ? true : false,
+      className: "saswp-attach-rv-checkbox",
+      type: "checkbox"
+    }), "  ", /*#__PURE__*/_react["default"].createElement("strong", null, " ", list.post_meta.saswp_reviewer_name, " ( Rating - ", list.post_meta.saswp_review_rating, " ) ", /*#__PURE__*/_react["default"].createElement("span", {
+      className: "saswp-g-plus"
+    }, /*#__PURE__*/_react["default"].createElement("img", {
+      width: "25",
+      height: "25",
+      src: list.post_meta.saswp_review_platform_image
+    }))));
+  }) : '', reviewToBeAddedFound > 10 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
+    onClick: handleLoadMoreReviews
+  }, "Load More...")) : '') : '', reviewTabStatus == 1 ? /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-rv-tab-content"
+  }, collectionToBeAdded ? collectionToBeAdded.map(function (list, index) {
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      key: index,
+      className: "saswp-add-rv-loop"
+    }, /*#__PURE__*/_react["default"].createElement("input", {
+      "data-id": list.post.post_id,
+      onChange: handleCollectionClick,
+      checked: postMeta.saswp_attached_collection && postMeta.saswp_attached_collection.includes(list.post.post_id) ? true : false,
+      className: "saswp-attach-rv-checkbox",
+      type: "checkbox"
+    }), "  ", /*#__PURE__*/_react["default"].createElement("strong", null, " ", list.post.post_title, "  "));
+  }) : '', collectionToBeAddedFound > 10 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
+    onClick: handleLoadMoreCollection
+  }, "Load More...")) : '') : '', reviewTabStatus == 2 ? /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-rv-tab-content"
+  }, /*#__PURE__*/_react["default"].createElement("p", null, " Output reviews in front and its schema markup in source by using below shortcode "), /*#__PURE__*/_react["default"].createElement("strong", null, "[saswp-reviews]"), /*#__PURE__*/_react["default"].createElement("br", null), "Or", /*#__PURE__*/_react["default"].createElement("br", null), /*#__PURE__*/_react["default"].createElement("strong", null, "[saswp-reviews-collection id=\"your collection id\"]")) : ''))), /*#__PURE__*/_react["default"].createElement("a", {
+    className: "saswp-attach-reviews",
+    onClick: handleOpenAddReviewModal
+  }, postMeta.saswp_attahced_reviews || postMeta.saswp_attached_collection ? /*#__PURE__*/_react["default"].createElement("span", {
+    className: "saswp-attached-rv-count"
+  }, postMeta.saswp_attahced_reviews ? /*#__PURE__*/_react["default"].createElement("span", null, "Attached ", postMeta.saswp_attahced_reviews.length, " Reviews ") : '', postMeta.saswp_attached_collection ? /*#__PURE__*/_react["default"].createElement("span", null, ", ", postMeta.saswp_attached_collection.length, " Collections") : '') : '')))) : '', schemaType == 'TechArticle' || schemaType == 'Article' || schemaType == 'Blogposting' || schemaType == 'NewsArticle' || schemaType == 'WebPage' ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "divider-horizontal"
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("span", null, "ItemList  "), /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement("label", {
+    className: "form-check form-group toggle"
+  }, /*#__PURE__*/_react["default"].createElement("input", {
+    checked: postMeta.saswp_enable_itemlist_schema == 1 ? true : false,
+    onChange: handleInputChange,
+    name: "saswp_enable_itemlist_schema",
+    type: "checkbox",
+    className: "form-check-input"
+  }), /*#__PURE__*/_react["default"].createElement("span", {
+    className: "form-check-label"
+  }))), /*#__PURE__*/_react["default"].createElement("span", null, "?"), postMeta.saswp_enable_itemlist_schema == 1 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("select", {
+    value: postMeta.saswp_item_list_tags,
+    name: "saswp_item_list_tags",
+    onChange: handleInputChange
+  }, /*#__PURE__*/_react["default"].createElement("option", {
+    value: "h1"
+  }, "H1"), /*#__PURE__*/_react["default"].createElement("option", {
+    value: "h2"
+  }, "H2"), /*#__PURE__*/_react["default"].createElement("option", {
+    value: "h3"
+  }, "H3"), /*#__PURE__*/_react["default"].createElement("option", {
+    value: "h4"
+  }, "H4"), /*#__PURE__*/_react["default"].createElement("option", {
+    value: "h5"
+  }, "H5"), /*#__PURE__*/_react["default"].createElement("option", {
+    value: "h6"
+  }, "H6"), /*#__PURE__*/_react["default"].createElement("option", {
+    value: "custom"
+  }, "Custom")), postMeta.saswp_item_list_tags == "custom" ? /*#__PURE__*/_react["default"].createElement("input", {
+    type: "text",
+    name: "saswp_item_list_custom",
+    onChange: handleInputChange,
+    value: postMeta.saswp_item_list_custom
+  }) : '') : '')) : '', schemaType == 'TechArticle' || schemaType == 'Article' || schemaType == 'Blogposting' || schemaType == 'NewsArticle' || schemaType == 'WebPage' ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: "divider-horizontal"
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
   }, /*#__PURE__*/_react["default"].createElement("span", null, "Speakable  "), /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement("label", {
     className: "form-check form-group toggle"
   }, /*#__PURE__*/_react["default"].createElement("input", {
+    checked: postMeta.saswp_enable_speakable_schema == 1 ? true : false,
+    onChange: handleInputChange,
+    name: "saswp_enable_speakable_schema",
     type: "checkbox",
     className: "form-check-input"
   }), /*#__PURE__*/_react["default"].createElement("span", {
     className: "form-check-label"
-  }))), /*#__PURE__*/_react["default"].createElement("span", null, "?")), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "divider-horizontal"
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "card-body"
-  }, /*#__PURE__*/_react["default"].createElement("span", null, "Paywall "), /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement("label", {
-    className: "form-check form-group toggle"
-  }, /*#__PURE__*/_react["default"].createElement("input", {
-    type: "checkbox",
-    className: "form-check-input"
-  }), /*#__PURE__*/_react["default"].createElement("span", {
-    className: "form-check-label"
-  }))), /*#__PURE__*/_react["default"].createElement("span", null, "?")), /*#__PURE__*/_react["default"].createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("span", null, "?"))) : '', /*#__PURE__*/_react["default"].createElement("div", {
     className: "divider-horizontal"
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
@@ -68803,16 +69677,32 @@ var SchemaSingle = function SchemaSingle() {
   }, /*#__PURE__*/_react["default"].createElement("span", null, "Modify Schema Output"), /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement("label", {
     className: "form-check form-group toggle"
   }, /*#__PURE__*/_react["default"].createElement("input", {
-    checked: postMeta.schema_options.enable_custom_field,
+    checked: postMeta.schema_options.enable_custom_field == 1 ? true : false,
     onChange: handleInputChange,
     name: "enable_custom_field",
     type: "checkbox",
     className: "form-check-input"
   }), /*#__PURE__*/_react["default"].createElement("span", {
     className: "form-check-label"
-  }))), /*#__PURE__*/_react["default"].createElement("span", null, "?")), postMeta.schema_options.enable_custom_field ? /*#__PURE__*/_react["default"].createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("span", null, "?")), postMeta.schema_options.enable_custom_field == 1 ? /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-modify-container"
-  }, /*#__PURE__*/_react["default"].createElement("div", {
+  }, schemaType == 'local_business' || schemaType == 'HowTo' || schemaType == 'FAQ' ? /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-enable-modify-schema"
+  }, /*#__PURE__*/_react["default"].createElement("strong", null, "Choose Method"), /*#__PURE__*/_react["default"].createElement("select", {
+    onChange: handleInputChange,
+    value: postMeta.schema_options.saswp_modify_method,
+    name: "saswp_modify_method",
+    className: "saswp-enable-modify-schema-output"
+  }, /*#__PURE__*/_react["default"].createElement("option", {
+    value: "automatic"
+  }, "Automatic"), /*#__PURE__*/_react["default"].createElement("option", {
+    value: "manual"
+  }, "Manual"))) : '', postMeta.schema_options.saswp_modify_method == 'manual' ? /*#__PURE__*/_react["default"].createElement("div", null, manualFields ? /*#__PURE__*/_react["default"].createElement(_FieldGenerator["default"], {
+    postMeta: postMeta,
+    handleInputChange: handleInputChange,
+    handleManualFieldImage: handleManualFieldImage,
+    fielddata: manualFields
+  }) : null) : /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-dynamic-container"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-custom-fields-div"
@@ -68821,7 +69711,34 @@ var SchemaSingle = function SchemaSingle() {
   }, /*#__PURE__*/_react["default"].createElement("tbody", null, modifyTr())) : '', /*#__PURE__*/_react["default"].createElement("div", null, " ", /*#__PURE__*/_react["default"].createElement("a", {
     onClick: addTr,
     className: "saswp-add-custom-fields btn btn-primary"
-  }, "Add Property"), " ")))) : ''))), /*#__PURE__*/_react["default"].createElement("div", {
+  }, "Add Property"), " ")))) : ''), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "divider-horizontal"
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("span", null, "Paywall "), /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement("label", {
+    className: "form-check form-group toggle"
+  }, /*#__PURE__*/_react["default"].createElement("input", {
+    checked: postMeta.schema_options.notAccessibleForFree == 1 ? true : false,
+    onChange: handleInputChange,
+    name: "notAccessibleForFree",
+    type: "checkbox",
+    className: "form-check-input"
+  }), /*#__PURE__*/_react["default"].createElement("span", {
+    className: "form-check-label"
+  }))), /*#__PURE__*/_react["default"].createElement("span", null, "?"), postMeta.schema_options.notAccessibleForFree == 1 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Is accessible for free"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
+    name: "isAccessibleForFree",
+    value: postMeta.schema_options.isAccessibleForFree,
+    onChange: handleInputChange
+  }, /*#__PURE__*/_react["default"].createElement("option", {
+    value: "False"
+  }, "False"), /*#__PURE__*/_react["default"].createElement("option", {
+    value: "True"
+  }, "True")))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Enter the class name of paywall section"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+    type: "text",
+    name: "paywall_class_name",
+    value: postMeta.schema_options.paywall_class_name,
+    onChange: handleInputChange
+  })))))) : ''))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-publish-button"
   }, postStatus == 'publish' || postStatus == 'draft' ? /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn btn-success",
@@ -82577,6 +83494,99 @@ function Reference(props) {
 
 /***/ }),
 /* 302 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 303 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(0));
+
+__webpack_require__(304);
+
+var _MediaUpload = _interopRequireDefault(__webpack_require__(48));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var FieldGenerator = function FieldGenerator(props) {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("table", {
+    className: "form-table saswp-field-generator-table"
+  }, /*#__PURE__*/_react["default"].createElement("tbody", null, props.fielddata.map(function (item) {
+    var meta_value = item["default"];
+
+    if (props.postMeta[item.id]) {
+      meta_value = props.postMeta[item.id];
+    }
+
+    switch (item.type) {
+      case 'textarea':
+        return /*#__PURE__*/_react["default"].createElement("tr", {
+          key: item.id
+        }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, item.label)), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("textarea", {
+          rows: "5",
+          placeholder: typeof item.attributes != 'undefined' ? item.attributes.placeholder : '',
+          onChange: props.handleInputChange,
+          type: "text",
+          name: item.id,
+          value: meta_value
+        }), /*#__PURE__*/_react["default"].createElement("p", null, item.note)));
+        break;
+
+      case 'media':
+        var media_key = item.id + '_detail';
+        var img_src = '';
+
+        if (typeof props.postMeta[media_key] != 'undefined') {
+          img_src = props.postMeta[media_key]['thumbnail'];
+        }
+
+        return /*#__PURE__*/_react["default"].createElement("tr", {
+          key: item.id
+        }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, item.label)), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_MediaUpload["default"], {
+          data_id: "".concat(item.id, "_detail"),
+          onSelection: props.handleManualFieldImage,
+          src: img_src
+        })));
+        break;
+
+      case 'checkbox':
+        break;
+
+      case 'select':
+        break;
+
+      case 'radio':
+        break;
+
+      default:
+        return /*#__PURE__*/_react["default"].createElement("tr", {
+          key: item.id
+        }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, item.label)), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+          placeholder: typeof item.attributes != 'undefined' ? item.attributes.placeholder : '',
+          onChange: props.handleInputChange,
+          type: "text",
+          name: item.id,
+          value: meta_value
+        })));
+    }
+  }))));
+};
+
+var _default = FieldGenerator;
+exports["default"] = _default;
+
+/***/ }),
+/* 304 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

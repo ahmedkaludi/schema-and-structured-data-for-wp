@@ -15,6 +15,10 @@ const handleRemoveImage = (e) => {
     image_data.width     = '';
     image_data.height    = '';
     image_data.thumbnail = '';
+    
+    if(props.data_id){
+      image_data.data_id = props.data_id;
+    }
 
     setImageSrc('');
     props.onSelection(image_data);
