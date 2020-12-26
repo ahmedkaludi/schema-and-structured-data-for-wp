@@ -669,6 +669,71 @@ and open the template in the editor.
   border: 1px solid #ddd; }
 
 /* Collection css ends here */
+/*free version reviews fetch css goes here */
+.saswp_cmpny_lst {
+  width: 100%;
+  display: inline-block;
+  margin-top: 30px; }
+
+.saswp_avlbl {
+  color: #2a902e;
+  font-family: georgia;
+  font-style: italic;
+  font-size: 15px;
+  font-weight: 600; }
+
+.saswp_cmpny_lst ul {
+  margin: 15px 0px 20px 0px;
+  width: 100%;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px; }
+
+.saswp_cmpny_lst li {
+  position: relative;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #444;
+  margin: 0; }
+
+.saswp-rev-btn {
+  width: 100%;
+  display: inline-block;
+  margin-top: 20px;
+  text-align: center; }
+
+.saswp-rev-btn a {
+  padding: 12px 18px;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 5px;
+  background: #0085ba;
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px; }
+
+.saswp-fetch-rv-table td {
+  vertical-align: top; }
+
+.saswp-fetch-rv-container .card {
+  max-width: 900px; }
+
+.saswp-g-place-api {
+  padding-bottom: 10px; }
+
+.saswp-g-place-api label {
+  padding-right: 5px; }
+
+.saswp-reviews-platform-fields label {
+  display: block;
+  padding: 2px 0; }
+
+.saswp-remove-platform-f {
+  margin-top: 21px; }
+
+/*free version reviews fetch css ends here */
 .saswp-collection-preview {
   padding: 0px 30px; }
 

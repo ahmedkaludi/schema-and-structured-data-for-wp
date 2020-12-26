@@ -422,6 +422,218 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var strictUriEncode = __webpack_require__(125);
+var objectAssign = __webpack_require__(16);
+
+function encoderForArrayFormat(opts) {
+	switch (opts.arrayFormat) {
+		case 'index':
+			return function (key, value, index) {
+				return value === null ? [
+					encode(key, opts),
+					'[',
+					index,
+					']'
+				].join('') : [
+					encode(key, opts),
+					'[',
+					encode(index, opts),
+					']=',
+					encode(value, opts)
+				].join('');
+			};
+
+		case 'bracket':
+			return function (key, value) {
+				return value === null ? encode(key, opts) : [
+					encode(key, opts),
+					'[]=',
+					encode(value, opts)
+				].join('');
+			};
+
+		default:
+			return function (key, value) {
+				return value === null ? encode(key, opts) : [
+					encode(key, opts),
+					'=',
+					encode(value, opts)
+				].join('');
+			};
+	}
+}
+
+function parserForArrayFormat(opts) {
+	var result;
+
+	switch (opts.arrayFormat) {
+		case 'index':
+			return function (key, value, accumulator) {
+				result = /\[(\d*)\]$/.exec(key);
+
+				key = key.replace(/\[\d*\]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				}
+
+				if (accumulator[key] === undefined) {
+					accumulator[key] = {};
+				}
+
+				accumulator[key][result[1]] = value;
+			};
+
+		case 'bracket':
+			return function (key, value, accumulator) {
+				result = /(\[\])$/.exec(key);
+				key = key.replace(/\[\]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				} else if (accumulator[key] === undefined) {
+					accumulator[key] = [value];
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+
+		default:
+			return function (key, value, accumulator) {
+				if (accumulator[key] === undefined) {
+					accumulator[key] = value;
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+	}
+}
+
+function encode(value, opts) {
+	if (opts.encode) {
+		return opts.strict ? strictUriEncode(value) : encodeURIComponent(value);
+	}
+
+	return value;
+}
+
+function keysSorter(input) {
+	if (Array.isArray(input)) {
+		return input.sort();
+	} else if (typeof input === 'object') {
+		return keysSorter(Object.keys(input)).sort(function (a, b) {
+			return Number(a) - Number(b);
+		}).map(function (key) {
+			return input[key];
+		});
+	}
+
+	return input;
+}
+
+exports.extract = function (str) {
+	return str.split('?')[1] || '';
+};
+
+exports.parse = function (str, opts) {
+	opts = objectAssign({arrayFormat: 'none'}, opts);
+
+	var formatter = parserForArrayFormat(opts);
+
+	// Create an object with no prototype
+	// https://github.com/sindresorhus/query-string/issues/47
+	var ret = Object.create(null);
+
+	if (typeof str !== 'string') {
+		return ret;
+	}
+
+	str = str.trim().replace(/^(\?|#|&)/, '');
+
+	if (!str) {
+		return ret;
+	}
+
+	str.split('&').forEach(function (param) {
+		var parts = param.replace(/\+/g, ' ').split('=');
+		// Firefox (pre 40) decodes `%3D` to `=`
+		// https://github.com/sindresorhus/query-string/pull/37
+		var key = parts.shift();
+		var val = parts.length > 0 ? parts.join('=') : undefined;
+
+		// missing `=` should be `null`:
+		// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+		val = val === undefined ? null : decodeURIComponent(val);
+
+		formatter(decodeURIComponent(key), val, ret);
+	});
+
+	return Object.keys(ret).sort().reduce(function (result, key) {
+		var val = ret[key];
+		if (Boolean(val) && typeof val === 'object' && !Array.isArray(val)) {
+			// Sort object keys, not values
+			result[key] = keysSorter(val);
+		} else {
+			result[key] = val;
+		}
+
+		return result;
+	}, Object.create(null));
+};
+
+exports.stringify = function (obj, opts) {
+	var defaults = {
+		encode: true,
+		strict: true,
+		arrayFormat: 'none'
+	};
+
+	opts = objectAssign(defaults, opts);
+
+	var formatter = encoderForArrayFormat(opts);
+
+	return obj ? Object.keys(obj).sort().map(function (key) {
+		var val = obj[key];
+
+		if (val === undefined) {
+			return '';
+		}
+
+		if (val === null) {
+			return encode(key, opts);
+		}
+
+		if (Array.isArray(val)) {
+			var result = [];
+
+			val.slice().forEach(function (val2) {
+				if (val2 === undefined) {
+					return;
+				}
+
+				result.push(formatter(key, val2, result.length));
+			});
+
+			return result.join('&');
+		}
+
+		return encode(key, opts) + '=' + encode(val, opts);
+	}).filter(function (x) {
+		return x.length > 0;
+	}).join('&') : '';
+};
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -448,13 +660,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tiny_warning__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__babel_runtime_helpers_esm_extends__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_tiny_invariant__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_tiny_invariant__ = __webpack_require__(38);
 
 
 
@@ -776,218 +988,6 @@ if (process.env.NODE_ENV !== "production") {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var strictUriEncode = __webpack_require__(125);
-var objectAssign = __webpack_require__(14);
-
-function encoderForArrayFormat(opts) {
-	switch (opts.arrayFormat) {
-		case 'index':
-			return function (key, value, index) {
-				return value === null ? [
-					encode(key, opts),
-					'[',
-					index,
-					']'
-				].join('') : [
-					encode(key, opts),
-					'[',
-					encode(index, opts),
-					']=',
-					encode(value, opts)
-				].join('');
-			};
-
-		case 'bracket':
-			return function (key, value) {
-				return value === null ? encode(key, opts) : [
-					encode(key, opts),
-					'[]=',
-					encode(value, opts)
-				].join('');
-			};
-
-		default:
-			return function (key, value) {
-				return value === null ? encode(key, opts) : [
-					encode(key, opts),
-					'=',
-					encode(value, opts)
-				].join('');
-			};
-	}
-}
-
-function parserForArrayFormat(opts) {
-	var result;
-
-	switch (opts.arrayFormat) {
-		case 'index':
-			return function (key, value, accumulator) {
-				result = /\[(\d*)\]$/.exec(key);
-
-				key = key.replace(/\[\d*\]$/, '');
-
-				if (!result) {
-					accumulator[key] = value;
-					return;
-				}
-
-				if (accumulator[key] === undefined) {
-					accumulator[key] = {};
-				}
-
-				accumulator[key][result[1]] = value;
-			};
-
-		case 'bracket':
-			return function (key, value, accumulator) {
-				result = /(\[\])$/.exec(key);
-				key = key.replace(/\[\]$/, '');
-
-				if (!result) {
-					accumulator[key] = value;
-					return;
-				} else if (accumulator[key] === undefined) {
-					accumulator[key] = [value];
-					return;
-				}
-
-				accumulator[key] = [].concat(accumulator[key], value);
-			};
-
-		default:
-			return function (key, value, accumulator) {
-				if (accumulator[key] === undefined) {
-					accumulator[key] = value;
-					return;
-				}
-
-				accumulator[key] = [].concat(accumulator[key], value);
-			};
-	}
-}
-
-function encode(value, opts) {
-	if (opts.encode) {
-		return opts.strict ? strictUriEncode(value) : encodeURIComponent(value);
-	}
-
-	return value;
-}
-
-function keysSorter(input) {
-	if (Array.isArray(input)) {
-		return input.sort();
-	} else if (typeof input === 'object') {
-		return keysSorter(Object.keys(input)).sort(function (a, b) {
-			return Number(a) - Number(b);
-		}).map(function (key) {
-			return input[key];
-		});
-	}
-
-	return input;
-}
-
-exports.extract = function (str) {
-	return str.split('?')[1] || '';
-};
-
-exports.parse = function (str, opts) {
-	opts = objectAssign({arrayFormat: 'none'}, opts);
-
-	var formatter = parserForArrayFormat(opts);
-
-	// Create an object with no prototype
-	// https://github.com/sindresorhus/query-string/issues/47
-	var ret = Object.create(null);
-
-	if (typeof str !== 'string') {
-		return ret;
-	}
-
-	str = str.trim().replace(/^(\?|#|&)/, '');
-
-	if (!str) {
-		return ret;
-	}
-
-	str.split('&').forEach(function (param) {
-		var parts = param.replace(/\+/g, ' ').split('=');
-		// Firefox (pre 40) decodes `%3D` to `=`
-		// https://github.com/sindresorhus/query-string/pull/37
-		var key = parts.shift();
-		var val = parts.length > 0 ? parts.join('=') : undefined;
-
-		// missing `=` should be `null`:
-		// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
-		val = val === undefined ? null : decodeURIComponent(val);
-
-		formatter(decodeURIComponent(key), val, ret);
-	});
-
-	return Object.keys(ret).sort().reduce(function (result, key) {
-		var val = ret[key];
-		if (Boolean(val) && typeof val === 'object' && !Array.isArray(val)) {
-			// Sort object keys, not values
-			result[key] = keysSorter(val);
-		} else {
-			result[key] = val;
-		}
-
-		return result;
-	}, Object.create(null));
-};
-
-exports.stringify = function (obj, opts) {
-	var defaults = {
-		encode: true,
-		strict: true,
-		arrayFormat: 'none'
-	};
-
-	opts = objectAssign(defaults, opts);
-
-	var formatter = encoderForArrayFormat(opts);
-
-	return obj ? Object.keys(obj).sort().map(function (key) {
-		var val = obj[key];
-
-		if (val === undefined) {
-			return '';
-		}
-
-		if (val === null) {
-			return encode(key, opts);
-		}
-
-		if (Array.isArray(val)) {
-			var result = [];
-
-			val.slice().forEach(function (val2) {
-				if (val2 === undefined) {
-					return;
-				}
-
-				result.push(formatter(key, val2, result.length));
-			});
-
-			return result.join('&');
-		}
-
-		return encode(key, opts) + '=' + encode(val, opts);
-	}).filter(function (x) {
-		return x.length > 0;
-	}).join('&') : '';
-};
-
-
-/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1246,7 +1246,7 @@ function _inheritsLoose(subClass, superClass) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__(9), __webpack_require__(22), __webpack_require__(38), __webpack_require__(39), __webpack_require__(40), __webpack_require__(41), __webpack_require__(42), __webpack_require__(65), __webpack_require__(64), __webpack_require__(66), __webpack_require__(132), __webpack_require__(133), __webpack_require__(134), __webpack_require__(135), __webpack_require__(136), __webpack_require__(137), __webpack_require__(138), __webpack_require__(139), __webpack_require__(140), __webpack_require__(141), __webpack_require__(142), __webpack_require__(143), __webpack_require__(144), __webpack_require__(145), __webpack_require__(146), __webpack_require__(147), __webpack_require__(148), __webpack_require__(149), __webpack_require__(150), __webpack_require__(151), __webpack_require__(152), __webpack_require__(153), __webpack_require__(154), __webpack_require__(155), __webpack_require__(156), __webpack_require__(157), __webpack_require__(158), __webpack_require__(159), __webpack_require__(160), __webpack_require__(161));
+		module.exports = factory(__webpack_require__(9), __webpack_require__(22), __webpack_require__(39), __webpack_require__(40), __webpack_require__(41), __webpack_require__(42), __webpack_require__(43), __webpack_require__(65), __webpack_require__(64), __webpack_require__(66), __webpack_require__(135), __webpack_require__(136), __webpack_require__(137), __webpack_require__(138), __webpack_require__(139), __webpack_require__(140), __webpack_require__(141), __webpack_require__(142), __webpack_require__(143), __webpack_require__(144), __webpack_require__(145), __webpack_require__(146), __webpack_require__(147), __webpack_require__(148), __webpack_require__(149), __webpack_require__(150), __webpack_require__(151), __webpack_require__(152), __webpack_require__(153), __webpack_require__(154), __webpack_require__(155), __webpack_require__(156), __webpack_require__(157), __webpack_require__(158), __webpack_require__(159), __webpack_require__(160), __webpack_require__(161), __webpack_require__(162), __webpack_require__(163), __webpack_require__(164));
 	else if(typeof define === 'function' && define.amd)
 		define(["@duik/create-simple-component", "@duik/form-group", "@duik/use-open-state", "@duik/dropdown", "@duik/button", "@duik/outer-events-handler", "@duik/content-title", "@duik/datepicker", "@duik/loader-dots", "@duik/text-field", "@duik/core", "@duik/alert", "@duik/avatar", "@duik/button-group", "@duik/progress", "@duik/divider", "@duik/select-date", "@duik/nav-panel", "@duik/nav-section", "@duik/nav-link", "@duik/nav-title", "@duik/nav-section-title", "@duik/checkbox", "@duik/toggle", "@duik/radio", "@duik/select", "@duik/text-area", "@duik/form-group-container", "@duik/scroll-area", "@duik/tabs", "@duik/container-vertical", "@duik/container-horizontal", "@duik/top-bar", "@duik/top-bar-link", "@duik/top-bar-link-container", "@duik/top-bar-menu-divider", "@duik/top-bar-section", "@duik/top-bar-title", "@duik/widget", "@duik/modal"], factory);
 	else {
@@ -1841,124 +1841,6 @@ exports["default"] = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-
-/* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = _objectWithoutPropertiesLoose;
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -1968,7 +1850,7 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(__webpack_require__(0));
 
-__webpack_require__(171);
+__webpack_require__(132);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -1988,13 +1870,7 @@ var _default = DottedSpinner;
 exports["default"] = _default;
 
 /***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 18 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -2233,6 +2109,130 @@ Icon.displayName = "Icon";
 });
 
 /***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = _objectWithoutPropertiesLoose;
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
@@ -2464,7 +2464,7 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(__webpack_require__(0));
 
-__webpack_require__(198);
+__webpack_require__(200);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -2641,6 +2641,131 @@ module.exports = _inheritsLoose;
 "use strict";
 
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireWildcard(__webpack_require__(0));
+
+__webpack_require__(184);
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var MediaUpload = function MediaUpload(props) {
+  var _useState = (0, _react.useState)(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      imageSrc = _useState2[0],
+      setImageSrc = _useState2[1];
+
+  var handleRemoveImage = function handleRemoveImage(e) {
+    e.preventDefault();
+    var image_data = {};
+    image_data.id = '';
+    image_data.url = '';
+    image_data.width = '';
+    image_data.height = '';
+    image_data.thumbnail = '';
+
+    if (props.data_id) {
+      image_data.data_id = props.data_id;
+    }
+
+    setImageSrc('');
+    props.onSelection(image_data);
+  };
+
+  var handleImageChoose = function handleImageChoose(e) {
+    e.preventDefault();
+    var image_frame;
+
+    if (image_frame) {
+      image_frame.open();
+    } // Define image_frame as wp.media object
+
+
+    image_frame = wp.media({
+      library: {
+        type: 'image'
+      }
+    });
+    image_frame.on('close', function () {
+      // On close, get selections and save to the hidden input
+      // plus other AJAX stuff to refresh the image preview
+      var selection = image_frame.state().get('selection');
+      var image_data = {};
+      var my_index = 0;
+      selection.each(function (attachment) {
+        image_data.id = attachment['id'];
+        image_data.url = attachment.attributes.sizes.full.url;
+        image_data.width = attachment.attributes.sizes.full.width;
+        image_data.height = attachment.attributes.sizes.full.height;
+
+        if (typeof attachment.attributes.sizes.thumbnail != 'undefined') {
+          image_data.thumbnail = attachment.attributes.sizes.thumbnail.url;
+        } else {
+          image_data.thumbnail = '';
+        }
+      });
+
+      if (props.data_id) {
+        image_data.data_id = props.data_id;
+      }
+
+      setImageSrc(image_data.url);
+      props.onSelection(image_data);
+    });
+    image_frame.on('open', function () {
+      // On open, get the id from the hidden input
+      // and select the appropiate images in the media manager
+      var selection = image_frame.state().get('selection');
+    });
+    image_frame.open();
+  };
+
+  (0, _react.useEffect)(function () {
+    setImageSrc(props.src);
+  });
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-media-upload"
+  }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
+    onClick: handleImageChoose,
+    className: "btn btn-default"
+  }, "Upload")), imageSrc ? /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-image-preview"
+  }, /*#__PURE__*/_react["default"].createElement("img", {
+    src: imageSrc
+  }), /*#__PURE__*/_react["default"].createElement("a", {
+    onClick: handleRemoveImage
+  }, "X")) : '');
+};
+
+var _default = MediaUpload;
+exports["default"] = _default;
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -2691,7 +2816,7 @@ var _default = Pagination;
 exports["default"] = _default;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -13570,7 +13695,7 @@ return jQuery;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13593,7 +13718,7 @@ function startOfUTCISOWeek(dirtyDate) {
 }
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13627,7 +13752,7 @@ function startOfUTCWeek(dirtyDate, dirtyOptions) {
 }
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13660,7 +13785,7 @@ function getTimezoneOffsetInMilliseconds(dirtyDate) {
 }
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13676,7 +13801,7 @@ function getTimezoneOffsetInMilliseconds(dirtyDate) {
 var printWarning = function() {};
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactPropTypesSecret = __webpack_require__(35);
+  var ReactPropTypesSecret = __webpack_require__(36);
   var loggedTypeFailures = {};
   var has = Function.call.bind(Object.prototype.hasOwnProperty);
 
@@ -13770,7 +13895,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13789,7 +13914,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13805,7 +13930,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_resolve_pathname__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_value_equal__ = __webpack_require__(120);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_tiny_warning__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_tiny_invariant__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_tiny_invariant__ = __webpack_require__(38);
 
 
 
@@ -14729,7 +14854,7 @@ function createMemoryHistory(props) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14752,7 +14877,7 @@ function invariant(condition, message) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -14891,12 +15016,12 @@ var useOpenState = function (isOpenDefaultState) {
 });
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__(38), __webpack_require__(40), __webpack_require__(41));
+		module.exports = factory(__webpack_require__(39), __webpack_require__(41), __webpack_require__(42));
 	else if(typeof define === 'function' && define.amd)
 		define(["@duik/use-open-state", "@duik/button", "@duik/outer-events-handler"], factory);
 	else {
@@ -15341,7 +15466,7 @@ Dropdown_Dropdown.displayName = 'Dropdown';
 });
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -15546,7 +15671,7 @@ Button.displayName = 'Button';
 });
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -15850,7 +15975,7 @@ var OuterEventsHandler = /** @class */ (function (_super) {
 });
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -15992,7 +16117,7 @@ var ContentTitle = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE_0___de
 });
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -16199,7 +16324,7 @@ BaseInput.displayName = 'BaseInput';
 });
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16208,7 +16333,7 @@ BaseInput.displayName = 'BaseInput';
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ENTERING; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ENTERED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return EXITING; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
@@ -16218,7 +16343,7 @@ BaseInput.displayName = 'BaseInput';
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__config__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_PropTypes__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TransitionGroupContext__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TransitionGroupContext__ = __webpack_require__(46);
 
 
 
@@ -16835,7 +16960,7 @@ Transition.EXITING = EXITING;
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16845,7 +16970,7 @@ Transition.EXITING = EXITING;
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react___default.a.createContext(null));
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17247,7 +17372,7 @@ var ClassNames = withEmotionCache(function (props, context) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17470,131 +17595,6 @@ function isMobileDevice() {
 
 
 /***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _react = _interopRequireWildcard(__webpack_require__(0));
-
-__webpack_require__(184);
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var MediaUpload = function MediaUpload(props) {
-  var _useState = (0, _react.useState)(''),
-      _useState2 = _slicedToArray(_useState, 2),
-      imageSrc = _useState2[0],
-      setImageSrc = _useState2[1];
-
-  var handleRemoveImage = function handleRemoveImage(e) {
-    e.preventDefault();
-    var image_data = {};
-    image_data.id = '';
-    image_data.url = '';
-    image_data.width = '';
-    image_data.height = '';
-    image_data.thumbnail = '';
-
-    if (props.data_id) {
-      image_data.data_id = props.data_id;
-    }
-
-    setImageSrc('');
-    props.onSelection(image_data);
-  };
-
-  var handleImageChoose = function handleImageChoose(e) {
-    e.preventDefault();
-    var image_frame;
-
-    if (image_frame) {
-      image_frame.open();
-    } // Define image_frame as wp.media object
-
-
-    image_frame = wp.media({
-      library: {
-        type: 'image'
-      }
-    });
-    image_frame.on('close', function () {
-      // On close, get selections and save to the hidden input
-      // plus other AJAX stuff to refresh the image preview
-      var selection = image_frame.state().get('selection');
-      var image_data = {};
-      var my_index = 0;
-      selection.each(function (attachment) {
-        image_data.id = attachment['id'];
-        image_data.url = attachment.attributes.sizes.full.url;
-        image_data.width = attachment.attributes.sizes.full.width;
-        image_data.height = attachment.attributes.sizes.full.height;
-
-        if (typeof attachment.attributes.sizes.thumbnail != 'undefined') {
-          image_data.thumbnail = attachment.attributes.sizes.thumbnail.url;
-        } else {
-          image_data.thumbnail = '';
-        }
-      });
-
-      if (props.data_id) {
-        image_data.data_id = props.data_id;
-      }
-
-      setImageSrc(image_data.url);
-      props.onSelection(image_data);
-    });
-    image_frame.on('open', function () {
-      // On open, get the id from the hidden input
-      // and select the appropiate images in the media manager
-      var selection = image_frame.state().get('selection');
-    });
-    image_frame.open();
-  };
-
-  (0, _react.useEffect)(function () {
-    setImageSrc(props.src);
-  });
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-media-upload"
-  }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
-    onClick: handleImageChoose,
-    className: "btn btn-default"
-  }, "Upload")), imageSrc ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-image-preview"
-  }, /*#__PURE__*/_react["default"].createElement("img", {
-    src: imageSrc
-  }), /*#__PURE__*/_react["default"].createElement("a", {
-    onClick: handleRemoveImage
-  }, "X")) : '');
-};
-
-var _default = MediaUpload;
-exports["default"] = _default;
-
-/***/ }),
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17737,7 +17737,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _starRatings = __webpack_require__(193);
+var _starRatings = __webpack_require__(195);
 
 var _starRatings2 = _interopRequireDefault(_starRatings);
 
@@ -17800,7 +17800,7 @@ function addMilliseconds(dirtyDate, dirtyAmount) {
 /* harmony export (immutable) */ __webpack_exports__["a"] = getUTCWeekYear;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__toInteger_index_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__toDate_index_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__startOfUTCWeek_index_js__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__startOfUTCWeek_index_js__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__requiredArgs_index_js__ = __webpack_require__(1);
 
 
@@ -18057,7 +18057,7 @@ module.exports = _defineProperty;
 "use strict";
 
 
-var implementation = __webpack_require__(286);
+var implementation = __webpack_require__(288);
 
 module.exports = Function.prototype.bind || implementation;
 
@@ -18143,7 +18143,7 @@ module.exports = defineProperties;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_defineProperty__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_context__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_context__ = __webpack_require__(297);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_context___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_create_react_context__);
 
 
@@ -18240,16 +18240,16 @@ if (process.env.NODE_ENV === 'production') {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_tiny_warning__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_mini_create_react_context__ = __webpack_require__(121);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_tiny_invariant__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_tiny_invariant__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__babel_runtime_helpers_esm_extends__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path_to_regexp__ = __webpack_require__(122);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path_to_regexp___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_path_to_regexp__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_is__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_is___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_react_is__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_hoist_non_react_statics__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_hoist_non_react_statics__);
 
@@ -19041,23 +19041,21 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
 var _SettingsNavLink = _interopRequireDefault(__webpack_require__(127));
 
 var _CompatibilityNavLink = _interopRequireDefault(__webpack_require__(129));
 
-var _reactRouterDom = __webpack_require__(6);
-
 var _PremiumFeatures = _interopRequireDefault(__webpack_require__(131));
 
-var _SettingsServices = _interopRequireDefault(__webpack_require__(172));
+var _SettingsServices = _interopRequireDefault(__webpack_require__(133));
 
-var _SettingsTools = _interopRequireDefault(__webpack_require__(173));
+var _SettingsTools = _interopRequireDefault(__webpack_require__(134));
 
 var _Migration = _interopRequireDefault(__webpack_require__(174));
 
-__webpack_require__(17);
+__webpack_require__(18);
 
 var _it = __webpack_require__(12);
 
@@ -19067,9 +19065,9 @@ var _reactSelect = _interopRequireDefault(__webpack_require__(70));
 
 var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
 
-var _MediaUpload = _interopRequireDefault(__webpack_require__(48));
+var _MediaUpload = _interopRequireDefault(__webpack_require__(29));
 
-var _icon = _interopRequireDefault(__webpack_require__(18));
+var _icon = _interopRequireDefault(__webpack_require__(15));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -21430,16 +21428,16 @@ var classNamesShape = process.env.NODE_ENV !== 'production' ? __WEBPACK_IMPORTED
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(15);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_extends__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_esm_assertThisInitialized__ = __webpack_require__(168);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_esm_assertThisInitialized__ = __webpack_require__(171);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TransitionGroupContext__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils_ChildMapping__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TransitionGroupContext__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils_ChildMapping__ = __webpack_require__(172);
 
 
 
@@ -21641,12 +21639,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memoize_one__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__emotion_core__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__emotion_core__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_06b0d5a4_browser_esm_js__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_06b0d5a4_browser_esm_js__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__index_4322c0ed_browser_esm_js__ = __webpack_require__(75);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return __WEBPACK_IMPORTED_MODULE_6__index_4322c0ed_browser_esm_js__["z"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Select_9fdb8cd0_browser_esm_js__ = __webpack_require__(77);
@@ -22487,12 +22485,12 @@ var serializeStyles = function serializeStyles(args, registered, mergedProps) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return components; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__emotion_core__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__emotion_core__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_dom__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_06b0d5a4_browser_esm_js__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_06b0d5a4_browser_esm_js__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__emotion_css__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_input_autosize__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_input_autosize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_input_autosize__);
@@ -24067,10 +24065,10 @@ exports.default = AutosizeInput;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memoize_one__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__emotion_core__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__emotion_core__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_06b0d5a4_browser_esm_js__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_06b0d5a4_browser_esm_js__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__index_4322c0ed_browser_esm_js__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__emotion_css__ = __webpack_require__(23);
 
@@ -26826,9 +26824,9 @@ var _react = _interopRequireDefault(__webpack_require__(0));
 
 __webpack_require__(186);
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -26920,17 +26918,17 @@ var _react = _interopRequireWildcard(__webpack_require__(0));
 
 __webpack_require__(19);
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-var _pagination = _interopRequireDefault(__webpack_require__(29));
+var _pagination = _interopRequireDefault(__webpack_require__(30));
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(16));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
 
 var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
 
-var _icon = _interopRequireDefault(__webpack_require__(18));
+var _icon = _interopRequireDefault(__webpack_require__(15));
 
 var _reactStarRatings = _interopRequireDefault(__webpack_require__(50));
 
@@ -27163,19 +27161,775 @@ exports["default"] = _default;
 "use strict";
 
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
-var _react = _interopRequireDefault(__webpack_require__(0));
+var _react = _interopRequireWildcard(__webpack_require__(0));
+
+var _it = __webpack_require__(12);
+
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
+
+var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
 
 __webpack_require__(19);
 
+var _icon = _interopRequireDefault(__webpack_require__(15));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 var ReviewsFetch = function ReviewsFetch() {
-  return /*#__PURE__*/_react["default"].createElement("div", null, "To be developed soon");
+  var platforms = [{
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/google-1-img.png',
+    name: 'Google Reviews'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/shopper-approved-img.png',
+    name: 'Shopper Approved'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/agoda-img.png',
+    name: 'Agoda'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/airbnb-img.png',
+    name: 'Airbnb'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/alternativeto-img.png',
+    name: 'AlternativeTo'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/amazon-img.png',
+    name: 'Amazon'
+  }, {
+    image: saswp_localize_data.plugin_url + 'admin_section/images/reviews_platform_icon/angies-list-img.png',
+    name: 'Angies List'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/aliexpress-img.png',
+    name: 'Ali Express'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/appstore-img.png',
+    name: 'App Store'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/avvo-img.png',
+    name: 'Avvo'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/bbb-img.png',
+    name: 'BBB'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/bestbuy-img.png',
+    name: 'Bestbuy'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/booking-com-img.png',
+    name: 'Booking.com'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/capterra-img.png',
+    name: 'Capterra'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/cars-com-img.png',
+    name: 'Cars.com'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/cargurus-img.png',
+    name: 'Cargurus'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/clutch-img.png',
+    name: 'Clutch.com'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/citysearch-img.png',
+    name: 'Citysearch'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/consumer-affairs-img.png',
+    name: 'Consumer Affairs'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/creditkarma-img.png',
+    name: 'CreditKarma'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/customerlobby-img.png',
+    name: 'CustomerLobby'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/dealerrater-img.png',
+    name: 'DealerRater'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/ebay-img.png',
+    name: 'Ebay'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/edmunds-img.png',
+    name: 'Edmunds'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/etsy-img.png',
+    name: 'Etsy'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/expedia-img.png',
+    name: 'Expedia'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/facebook-img.png',
+    name: 'Facebook'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/flipkart-img.png',
+    name: 'Flipkart'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/foursquare-img.png',
+    name: 'Foursquare'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/g2crowd-img.png',
+    name: 'G2Crowd'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/gearbest-img.png',
+    name: 'Gearbest'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/glassdoor-img.png',
+    name: 'Glassdoor'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/healthgrades-img.png',
+    name: 'Healthgrades'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/homeadvisor-img.png',
+    name: 'HomeAdvisor'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/homestars-img.png',
+    name: 'Homestars'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/houzz-img.png',
+    name: 'Houzz'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/hotels-com-img.png',
+    name: 'Hotels.com'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/hungerstation-img.png',
+    name: 'Hungerstation'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/imdb-img.png',
+    name: 'Imdb'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/indeed-img.png',
+    name: 'Indeed'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/insiderpages-img.png',
+    name: 'Insider Pages'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/jet-img.png',
+    name: 'Jet'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/lawyers-com-img.png',
+    name: 'Lawyers.com'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/lendingtree-img.png',
+    name: 'Lending Tree'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/martindale-img.png',
+    name: 'Martindale'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/newegg-img.png',
+    name: 'Newegg'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/openrice-img.png',
+    name: 'OpenRice'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/opentable-img.png',
+    name: 'Opentable'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/playstore-img.png',
+    name: 'Playstore'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/producthunt-img.png',
+    name: 'ProductHunt'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/ratemds-img.png',
+    name: 'RateMDs'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/reserveout-img.png',
+    name: 'Reserveout'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/rottentomatoes-img.png',
+    name: 'Rottentomatoes'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/siftery-img.png',
+    name: 'Siftery'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/sitejabber-img.png',
+    name: 'Sitejabber'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/softwareadvice-img.png',
+    name: 'SoftwareAdvice'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/steam-img.png',
+    name: 'Steam'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/talabat-img.png',
+    name: 'Talabat'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/theknot-img.png',
+    name: 'The Knot'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/thumbtack-img.png',
+    name: 'Thumbtack'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/tripadvisor-img.png',
+    name: 'TripAdvisor'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/trulia-img.png',
+    name: 'Trulia'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/trustedshops-img.png',
+    name: 'TrustedShops'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/trustpilot-img.png',
+    name: 'Trustpilot'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/trustradius-img.png',
+    name: 'TrustRadius'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/vitals-img.png',
+    name: 'Vitals'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/walmart-img.png',
+    name: 'Walmart'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/weddingwire-img.png',
+    name: 'WeddingWire'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/wish-img.png',
+    name: 'Wish'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/yelp-img.png',
+    name: 'Yelp'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/yellowpages-img.png',
+    name: 'Yellow Pages'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/zillow-img.png',
+    name: 'Zillow'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/zocdoc-img.png',
+    name: 'ZocDoc'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/zomato-img.png',
+    name: 'Zomato'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/judge-me-img.png',
+    name: 'Judge.me'
+  }];
+  var __ = wp.i18n.__;
+
+  var _useState = (0, _react.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      fetchMessage = _useState2[0],
+      setFetchMessage = _useState2[1];
+
+  var _useState3 = (0, _react.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      fetchLoaded = _useState4[0],
+      setFetchLoaded = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(true),
+      _useState6 = _slicedToArray(_useState5, 2),
+      isLoaded = _useState6[0],
+      setIsLoaded = _useState6[1];
+
+  var _useState7 = (0, _react.useState)(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      mainSpinner = _useState8[0],
+      setMainSpinner = _useState8[1];
+
+  var _useState9 = (0, _react.useState)(false),
+      _useState10 = _slicedToArray(_useState9, 2),
+      dottedSpinner = _useState10[0],
+      setDottedSpinner = _useState10[1];
+
+  var _useState11 = (0, _react.useState)({}),
+      _useState12 = _slicedToArray(_useState11, 2),
+      platformsList = _useState12[0],
+      setPlatformsList = _useState12[1];
+
+  var _useReducer = (0, _react.useReducer)(function (state, newState) {
+    return _objectSpread(_objectSpread({}, state), newState);
+  }, {
+    'saswp-google-review': '',
+    'saswp_google_place_api_key': '',
+    'saswp_reviews_location_name': [],
+    'saswp_reviews_location_blocks': [],
+    'reviews_addon_license_key': '',
+    'reviews_addon_license_key_status': ''
+  }),
+      _useReducer2 = _slicedToArray(_useReducer, 2),
+      userInput = _useReducer2[0],
+      setUserInput = _useReducer2[1];
+
+  var getPlatformsList = function getPlatformsList() {
+    setMainSpinner(true);
+    var url = saswp_localize_data.rest_url + "saswp-route/get-platforms-list";
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
+      }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      setPlatformsList(result);
+      setMainSpinner(false);
+    }, function (error) {});
+  };
+
+  var getSettings = function getSettings() {
+    setMainSpinner(true);
+    var url = saswp_localize_data.rest_url + "saswp-route/get-settings";
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
+      }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      if (result.settings) {
+        setUserInput(result.settings);
+      }
+
+      setMainSpinner(false);
+    }, function (error) {});
+  };
+
+  var handleInputChange = function handleInputChange(evt) {
+    var _evt$target = evt.target,
+        name = _evt$target.name,
+        value = _evt$target.value,
+        type = _evt$target.type;
+    console.log(name);
+    console.log(value);
+
+    if (name == 'saswp_reviews_location_name') {
+      var index = evt.currentTarget.dataset.id;
+
+      var clonedata = _objectSpread({}, userInput);
+
+      clonedata['saswp_reviews_location_name'][index] = value;
+      setUserInput(clonedata);
+    } else if (name.includes('reviewsforschema-')) {
+      var _index = evt.currentTarget.dataset.index;
+      var platform = evt.currentTarget.dataset.platform;
+      name = evt.currentTarget.dataset.name;
+
+      var _clonedata = _objectSpread({}, userInput);
+
+      _clonedata[platform][_index][name] = value;
+      setUserInput(_clonedata);
+    } else {
+      if (type === "checkbox") {
+        value = evt.target.checked;
+      }
+
+      setUserInput(_defineProperty({}, name, value));
+    }
+  };
+
+  var handleAddPlatformField = function handleAddPlatformField(e) {
+    e.preventDefault();
+    var platform = e.currentTarget.dataset.platform;
+    var platform_id = e.currentTarget.dataset.platform_id;
+    var new_obj = {};
+
+    if (platformsList[platform].fields) {
+      platformsList[platform].fields.map(function (item, j) {
+        new_obj[item.name] = '';
+      });
+
+      var clonedata = _objectSpread({}, userInput);
+
+      if (typeof clonedata[platform_id] == 'undefined') {
+        clonedata[platform_id] = [];
+        clonedata[platform_id].push(new_obj);
+      } else {
+        clonedata[platform_id].push(new_obj);
+      }
+
+      setUserInput(clonedata);
+    }
+  };
+
+  var handleRemovePlatformField = function handleRemovePlatformField(e) {
+    e.preventDefault();
+    var platform = e.currentTarget.dataset.platform;
+    var index = e.currentTarget.dataset.index;
+
+    var clonedata = _objectSpread({}, userInput);
+
+    clonedata[platform].splice(index, 1);
+    setUserInput(clonedata);
+  };
+
+  var saveSettings = function saveSettings(event) {
+    setIsLoaded(false);
+    var formData = new FormData();
+    formData.append("settings", JSON.stringify(userInput));
+    var url = saswp_localize_data.rest_url + 'saswp-route/update-settings';
+    fetch(url, {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'X-WP-Nonce': saswp_localize_data.nonce
+      },
+      body: formData
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      setIsLoaded(true);
+    }, function (error) {});
+  };
+
+  var saveSettingsHandler = function saveSettingsHandler(e) {
+    e.preventDefault();
+    saveSettings();
+  };
+
+  var handleAddLocation = function handleAddLocation(e) {
+    e.preventDefault();
+
+    var clonedata = _objectSpread({}, userInput);
+
+    clonedata['saswp_reviews_location_name'].push('');
+    setUserInput(clonedata);
+  };
+
+  var handleRemoveLocation = function handleRemoveLocation(e) {
+    e.preventDefault();
+    var index = e.currentTarget.dataset.id;
+
+    var clonedata = _objectSpread({}, userInput);
+
+    clonedata['saswp_reviews_location_name'].splice(index, 1);
+    setUserInput(clonedata);
+  };
+
+  var handleFetchProReviews = function handleFetchProReviews(e) {
+    var index = e.currentTarget.dataset.index;
+    var platform_id = e.currentTarget.dataset.platform_id;
+    console.log(platform_id);
+  };
+
+  var handleFetchFreeReviews = function handleFetchFreeReviews(e) {
+    e.preventDefault();
+    var index = e.currentTarget.dataset.id;
+    var place_id = userInput['saswp_reviews_location_name'][index];
+
+    if (place_id) {
+      setFetchLoaded([]);
+
+      var cloneLoaded = _toConsumableArray(fetchLoaded);
+
+      cloneLoaded[index] = true;
+      setFetchLoaded(cloneLoaded);
+      var url = saswp_localize_data.rest_url + "saswp-route/fetch-google-free-reviews";
+      var body_json = {};
+      body_json.location = place_id;
+      body_json.g_api = userInput['saswp_google_place_api_key'];
+      body_json.blocks = 5;
+      body_json.premium_status = 'free';
+      fetch(url, {
+        method: "post",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': saswp_localize_data.nonce
+        },
+        body: JSON.stringify(body_json)
+      }).then(function (res) {
+        return res.json();
+      }).then(function (result) {
+        var clonemessage = _toConsumableArray(fetchMessage);
+
+        clonemessage[index] = result.message;
+        setFetchMessage(clonemessage);
+
+        var cloneLoaded = _toConsumableArray(fetchLoaded);
+
+        cloneLoaded[index] = false;
+        setFetchLoaded(cloneLoaded);
+      }, function (error) {
+        setFetchLoaded([]);
+      });
+    }
+  };
+
+  var handleLicenseActivation = function handleLicenseActivation() {
+    setIsLoaded(false);
+    var url = saswp_localize_data.rest_url + "saswp-route/license_status_check";
+    var body_json = {};
+    var status = 'active';
+
+    if (userInput['reviews_addon_license_key_status'] == 'active') {
+      status = 'inactive';
+    }
+
+    body_json.license_key = userInput['reviews_addon_license_key'];
+    body_json.license_status = status;
+    body_json.add_on = 'reviews';
+    fetch(url, {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': saswp_localize_data.nonce
+      },
+      body: JSON.stringify(body_json)
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      setIsLoaded(true);
+
+      var clonedata = _objectSpread({}, userInput);
+
+      clonedata['reviews_addon_license_key_message'] = result.message;
+      clonedata['reviews_addon_license_key_status'] = result.status;
+      setUserInput(clonedata);
+    }, function (error) {});
+  };
+
+  var reviewsFieldGenerator = function reviewsFieldGenerator(platform, key) {
+    var response = [];
+
+    if (userInput[platform['id']]) {
+      var _loop = function _loop(i) {
+        if (platform['fields']) {
+          response.push( /*#__PURE__*/_react["default"].createElement("tr", {
+            key: i
+          }, platform['fields'].map(function (item, j) {
+            return /*#__PURE__*/_react["default"].createElement("td", {
+              key: j
+            }, /*#__PURE__*/_react["default"].createElement("label", null, item['label']), /*#__PURE__*/_react["default"].createElement("input", {
+              onChange: handleInputChange,
+              type: item['type'],
+              "data-id": item['name'],
+              "data-platform": platform['id'],
+              "data-index": i,
+              "data-name": item['name'],
+              name: "reviewsforschema-[".concat(platform['id'], "][").concat(i, "][").concat(item['name'], "]"),
+              value: userInput[platform['id']][i][item['name']]
+            }));
+          }), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null), /*#__PURE__*/_react["default"].createElement("a", {
+            "data-index": i,
+            "data-platform_id": platform['id'],
+            "data-platform": key,
+            className: "btn btn-default saswp-fetch-reviews",
+            onClick: handleFetchProReviews
+          }, "Fetch")), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null), /*#__PURE__*/_react["default"].createElement("a", {
+            onClick: handleRemovePlatformField,
+            "data-index": i,
+            "data-platform": platform['id'],
+            className: "saswp-remove-platform-f btn btn-default"
+          }, "X")), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("span", {
+            "data-platform": key,
+            className: "saswp-rv-fetched-msg"
+          }))));
+        }
+      };
+
+      for (var i = 0; i < userInput[platform['id']].length; i++) {
+        _loop(i);
+      }
+    }
+
+    return response;
+  };
+
+  (0, _react.useEffect)(function () {
+    getSettings();
+    getPlatformsList();
+  }, []);
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, mainSpinner ? /*#__PURE__*/_react["default"].createElement(_MainSpinner["default"], null) : '', /*#__PURE__*/_react["default"].createElement("form", {
+    encType: "multipart/form-data",
+    method: "post",
+    id: "saswp_settings_form"
+  }, saswp_localize_data.reviewsforschema == 'free' ? /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-fetch-rv-container"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("table", {
+    className: "form-table saswp-fetch-rv-table"
+  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Google Review"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+    onChange: handleInputChange,
+    checked: userInput['saswp-google-review'] == 1 ? true : false,
+    type: "checkbox",
+    name: "saswp-google-review"
+  }), /*#__PURE__*/_react["default"].createElement("p", null, "This option enables the google review section. ", /*#__PURE__*/_react["default"].createElement("a", {
+    target: "_blank",
+    href: "https://structured-data-for-wp.com/docs/article/how-to-fetch-google-reviewfree-version/"
+  }, "Learn More")), userInput['saswp-google-review'] == 1 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-g-place-api"
+  }, /*#__PURE__*/_react["default"].createElement("label", null, "Google place API Key"), /*#__PURE__*/_react["default"].createElement("input", {
+    name: "saswp_google_place_api_key",
+    onChange: handleInputChange,
+    value: userInput['saswp_google_place_api_key'],
+    type: "text"
+  })), userInput.saswp_reviews_location_name ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, userInput.saswp_reviews_location_name.map(function (item, i) {
+    return /*#__PURE__*/_react["default"].createElement("tr", {
+      key: i
+    }, /*#__PURE__*/_react["default"].createElement("td", null, "Place Id"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+      "data-id": i,
+      type: "text",
+      onChange: handleInputChange,
+      name: "saswp_reviews_location_name",
+      value: item
+    })), /*#__PURE__*/_react["default"].createElement("td", null, "Reviews"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+      type: "text",
+      name: "saswp_reviews_location_blocks",
+      defaultValue: "5",
+      disabled: "disabled"
+    })), /*#__PURE__*/_react["default"].createElement("td", null, fetchLoaded[i] ? /*#__PURE__*/_react["default"].createElement(_it.Button, {
+      success: true,
+      loading: true
+    }, "Loading success") : /*#__PURE__*/_react["default"].createElement("a", {
+      "data-id": i,
+      className: "btn btn-success saswp-fetch-g-reviews",
+      onClick: handleFetchFreeReviews
+    }, "Fetch")), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+      "data-id": i,
+      onClick: handleRemoveLocation,
+      className: "saswp-remove-review-item button"
+    }, "X")), /*#__PURE__*/_react["default"].createElement("td", null, fetchMessage[i] ? /*#__PURE__*/_react["default"].createElement("p", {
+      className: "saswp-rv-fetched-msg"
+    }, fetchMessage[i]) : ''));
+  }))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
+    className: "btn",
+    onClick: handleAddLocation
+  }, "Add Location"), /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("a", {
+    target: "_blank",
+    href: "https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder"
+  }, "Place ID Finder")))) : null) : null)))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-quick-links-div"
+  }, /*#__PURE__*/_react["default"].createElement("h4", null, "Quick Links"), /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("a", {
+    target: "_blank",
+    href: "https://structured-data-for-wp.com/docs/article/how-to-display-reviews-with-collection-feature/"
+  }, "How to show reviews on the website"))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-save-settings-btn"
+  }, isLoaded ? /*#__PURE__*/_react["default"].createElement(_it.Button, {
+    success: true,
+    onClick: saveSettingsHandler
+  }, __('Save Settings', 'schema-and-structured-data-for-wp')) : /*#__PURE__*/_react["default"].createElement(_it.Button, {
+    success: true,
+    loading: true
+  }, "Loading success")))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("h2", null, "Get Your 5 Stars Reviews on Google SERPs"), /*#__PURE__*/_react["default"].createElement("p", {
+    className: "saswp_desc"
+  }, "Automatically Fetch your customer reviews from 80+ Platforms and show them on your website with proper schema support. ", /*#__PURE__*/_react["default"].createElement("a", {
+    target: "_blank",
+    href: "https://structured-data-for-wp.com/reviews-for-schema"
+  }, "Learn More...")), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp_cmpny_lst"
+  }, /*#__PURE__*/_react["default"].createElement("span", {
+    className: "saswp_lst saswp_avlbl"
+  }, "Integrations Avaliable"), /*#__PURE__*/_react["default"].createElement("ul", null, platforms.map(function (item, i) {
+    return /*#__PURE__*/_react["default"].createElement("li", {
+      key: i
+    }, " ", /*#__PURE__*/_react["default"].createElement("img", {
+      src: item.image,
+      alt: item.name,
+      height: "20",
+      width: "20"
+    }), " ", /*#__PURE__*/_react["default"].createElement("span", {
+      className: "saswp_cmpny"
+    }, item.name));
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-rev-btn"
+  }, /*#__PURE__*/_react["default"].createElement("span", null, "With our API service, you can fetch reviews from anywhere you want! and we are always increasing the number of integrations. You can also request for an integration as well."), /*#__PURE__*/_react["default"].createElement("a", {
+    target: "_blank",
+    href: "https://structured-data-for-wp.com/reviews-for-schema"
+  }, "Get The Reviews Addon Now"))))) : /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-fetch-rv-container"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("table", {
+    className: "form-table saswp-fetch-rv-table"
+  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Reviews Pro API Key"), /*#__PURE__*/_react["default"].createElement("td", null, userInput['reviews_addon_license_key_status'] == 'active' ? /*#__PURE__*/_react["default"].createElement(_icon["default"], null, "check") : /*#__PURE__*/_react["default"].createElement(_icon["default"], null, "close"), /*#__PURE__*/_react["default"].createElement("input", {
+    onChange: handleInputChange,
+    value: userInput['reviews_addon_license_key'],
+    type: "text",
+    placeholder: "Enter License Key",
+    name: "reviews_addon_license_key",
+    id: "reviews_addon_license_key"
+  }), isLoaded ? /*#__PURE__*/_react["default"].createElement(_it.Button, {
+    success: true,
+    onClick: handleLicenseActivation
+  }, userInput['reviews_addon_license_key_status'] == 'active' ? __('Deactivate', 'schema-and-structured-data-for-wp') : __('Activate', 'schema-and-structured-data-for-wp')) : /*#__PURE__*/_react["default"].createElement(_it.Button, {
+    success: true,
+    loading: true
+  }, "  Loading success")), /*#__PURE__*/_react["default"].createElement("td", null, " ", userInput['reviews_addon_license_key_message'] ? userInput['reviews_addon_license_key_message'] : '', " ")))))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp_rv_module"
+  }, platformsList ? Object.keys(platformsList).map(function (key) {
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      key: key,
+      className: '${platformsList[key]}-section saswp-reviews-list-section'
+    }, /*#__PURE__*/_react["default"].createElement("table", {
+      className: "saswp-reviews-list-table"
+    }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("strong", null, platformsList[key]['label']), /*#__PURE__*/_react["default"].createElement("input", {
+      type: "checkbox",
+      name: "".concat(platformsList[key]['name']),
+      onChange: handleInputChange,
+      checked: userInput[platformsList[key]['name']]
+    }))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-reviews-platform-fields"
+    }, userInput[platformsList[key]['name']] ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("strong", null, "Note:"), " If the reviews have not been fetched on first instance. We recommend you to fetch again with same reviews count after some time as it may take time to scrap the reviews on server.")) : '', platformsList[key]['type'] == 'multi' && userInput[platformsList[key]['name']] ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("table", {
+      "data-platform": key,
+      className: "saswp-platform-table"
+    }, /*#__PURE__*/_react["default"].createElement("tbody", null, reviewsFieldGenerator(platformsList[key], key))), /*#__PURE__*/_react["default"].createElement("a", {
+      onClick: handleAddPlatformField,
+      "data-platform_id": platformsList[key]['id'],
+      "data-platform": key,
+      className: "btn btn-default"
+    }, "Add URL")) : ''))))));
+  }) : null), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-quick-links-div"
+  }, /*#__PURE__*/_react["default"].createElement("h4", null, "Quick Links"), /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("a", {
+    target: "_blank",
+    href: "https://structured-data-for-wp.com/docs/article/how-to-display-reviews-with-collection-feature/"
+  }, "How to show reviews on the website"))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-save-settings-btn"
+  }, isLoaded ? /*#__PURE__*/_react["default"].createElement(_it.Button, {
+    success: true,
+    onClick: saveSettingsHandler
+  }, __('Save Settings', 'schema-and-structured-data-for-wp')) : /*#__PURE__*/_react["default"].createElement(_it.Button, {
+    success: true,
+    loading: true
+  }, "Loading success")))))));
 };
 
 var _default = ReviewsFetch;
@@ -27261,11 +28015,11 @@ function isValid(dirtyDate) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_formatDistance_index_js__ = __webpack_require__(211);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_formatLong_index_js__ = __webpack_require__(212);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_formatRelative_index_js__ = __webpack_require__(214);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_localize_index_js__ = __webpack_require__(215);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_match_index_js__ = __webpack_require__(217);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_formatDistance_index_js__ = __webpack_require__(213);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_formatLong_index_js__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_formatRelative_index_js__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_localize_index_js__ = __webpack_require__(217);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_match_index_js__ = __webpack_require__(219);
 
 
 
@@ -27362,8 +28116,8 @@ function addLeadingZeros(number, targetLength) {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = getUTCISOWeek;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__toDate_index_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfUTCISOWeek_index_js__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__startOfUTCISOWeekYear_index_js__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfUTCISOWeek_index_js__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__startOfUTCISOWeekYear_index_js__ = __webpack_require__(225);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__requiredArgs_index_js__ = __webpack_require__(1);
 
 
@@ -27389,7 +28143,7 @@ function getUTCISOWeek(dirtyDate) {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = getUTCISOWeekYear;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__toDate_index_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfUTCISOWeek_index_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfUTCISOWeek_index_js__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__requiredArgs_index_js__ = __webpack_require__(1);
 
 
@@ -27425,8 +28179,8 @@ function getUTCISOWeekYear(dirtyDate) {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = getUTCWeek;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__toDate_index_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfUTCWeek_index_js__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__startOfUTCWeekYear_index_js__ = __webpack_require__(224);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfUTCWeek_index_js__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__startOfUTCWeekYear_index_js__ = __webpack_require__(226);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__requiredArgs_index_js__ = __webpack_require__(1);
 
 
@@ -27755,7 +28509,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["default"] = setMonth;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_toInteger_index_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__toDate_index_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__getDaysInMonth_index_js__ = __webpack_require__(246);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__getDaysInMonth_index_js__ = __webpack_require__(248);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_requiredArgs_index_js__ = __webpack_require__(1);
 
 
@@ -27879,7 +28633,7 @@ var slice = Array.prototype.slice;
 var isArgs = __webpack_require__(100);
 
 var origKeys = Object.keys;
-var keysShim = origKeys ? function keys(o) { return origKeys(o); } : __webpack_require__(281);
+var keysShim = origKeys ? function keys(o) { return origKeys(o); } : __webpack_require__(283);
 
 var originalKeys = Object.keys;
 
@@ -28143,23 +28897,23 @@ var _react = _interopRequireDefault(__webpack_require__(0));
 
 var _reactDom = _interopRequireDefault(__webpack_require__(10));
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
 var _Schema = _interopRequireDefault(__webpack_require__(126));
 
-var _Reviews = _interopRequireDefault(__webpack_require__(192));
+var _Reviews = _interopRequireDefault(__webpack_require__(194));
 
 var _Settings = _interopRequireDefault(__webpack_require__(63));
 
-__webpack_require__(300);
-
-__webpack_require__(301);
-
 __webpack_require__(302);
 
-var _history = __webpack_require__(36);
+__webpack_require__(303);
+
+__webpack_require__(304);
+
+var _history = __webpack_require__(37);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -28266,7 +29020,7 @@ _reactDom["default"].render( /*#__PURE__*/_react["default"].createElement(_react
  * LICENSE file in the root directory of this source tree.
  */
 
-var l=__webpack_require__(14),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113,z=n?Symbol.for("react.memo"):60115,A=n?Symbol.for("react.lazy"):
+var l=__webpack_require__(16),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113,z=n?Symbol.for("react.memo"):60115,A=n?Symbol.for("react.lazy"):
 60116,B="function"===typeof Symbol&&Symbol.iterator;function C(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}
 var D={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},E={};function F(a,b,c){this.props=a;this.context=b;this.refs=E;this.updater=c||D}F.prototype.isReactComponent={};F.prototype.setState=function(a,b){if("object"!==typeof a&&"function"!==typeof a&&null!=a)throw Error(C(85));this.updater.enqueueSetState(this,a,b,"setState")};F.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function G(){}G.prototype=F.prototype;function H(a,b,c){this.props=a;this.context=b;this.refs=E;this.updater=c||D}var I=H.prototype=new G;I.constructor=H;l(I,F.prototype);I.isPureReactComponent=!0;var J={current:null},K=Object.prototype.hasOwnProperty,L={key:!0,ref:!0,__self:!0,__source:!0};
@@ -28306,8 +29060,8 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(14);
-var checkPropTypes = __webpack_require__(34);
+var _assign = __webpack_require__(16);
+var checkPropTypes = __webpack_require__(35);
 
 var ReactVersion = '16.13.1';
 
@@ -30221,7 +30975,7 @@ exports.version = ReactVersion;
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(0),n=__webpack_require__(14),r=__webpack_require__(61);function u(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}if(!aa)throw Error(u(227));
+var aa=__webpack_require__(0),n=__webpack_require__(16),r=__webpack_require__(61);function u(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}if(!aa)throw Error(u(227));
 function ba(a,b,c,d,e,f,g,h,k){var l=Array.prototype.slice.call(arguments,3);try{b.apply(c,l)}catch(m){this.onError(m)}}var da=!1,ea=null,fa=!1,ha=null,ia={onError:function(a){da=!0;ea=a}};function ja(a,b,c,d,e,f,g,h,k){da=!1;ea=null;ba.apply(ia,arguments)}function ka(a,b,c,d,e,f,g,h,k){ja.apply(this,arguments);if(da){if(da){var l=ea;da=!1;ea=null}else throw Error(u(198));fa||(fa=!0,ha=l)}}var la=null,ma=null,na=null;
 function oa(a,b,c){var d=a.type||"unknown-event";a.currentTarget=na(c);ka(d,b,void 0,a);a.currentTarget=null}var pa=null,qa={};
 function ra(){if(pa)for(var a in qa){var b=qa[a],c=pa.indexOf(a);if(!(-1<c))throw Error(u(96,a));if(!sa[c]){if(!b.extractEvents)throw Error(u(97,a));sa[c]=b;c=b.eventTypes;for(var d in c){var e=void 0;var f=c[d],g=b,h=d;if(ta.hasOwnProperty(h))throw Error(u(99,h));ta[h]=f;var k=f.phasedRegistrationNames;if(k){for(e in k)k.hasOwnProperty(e)&&ua(k[e],g,h);e=!0}else f.registrationName?(ua(f.registrationName,g,h),e=!0):e=!1;if(!e)throw Error(u(98,d,a));}}}}
@@ -31420,9 +32174,9 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var React = __webpack_require__(0);
-var _assign = __webpack_require__(14);
+var _assign = __webpack_require__(16);
 var Scheduler = __webpack_require__(61);
-var checkPropTypes = __webpack_require__(34);
+var checkPropTypes = __webpack_require__(35);
 var tracing = __webpack_require__(112);
 
 var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED; // Prevent newer renderers from RTE when used with older react package versions.
@@ -57087,10 +57841,10 @@ exports.isSuspense = isSuspense;
 
 
 var ReactIs = __webpack_require__(26);
-var assign = __webpack_require__(14);
+var assign = __webpack_require__(16);
 
-var ReactPropTypesSecret = __webpack_require__(35);
-var checkPropTypes = __webpack_require__(34);
+var ReactPropTypesSecret = __webpack_require__(36);
+var checkPropTypes = __webpack_require__(35);
 
 var has = Function.call.bind(Object.prototype.hasOwnProperty);
 var printWarning = function() {};
@@ -57685,7 +58439,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 
-var ReactPropTypesSecret = __webpack_require__(35);
+var ReactPropTypesSecret = __webpack_require__(36);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -58635,9 +59389,9 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
 var _Settings = _interopRequireDefault(__webpack_require__(63));
 
@@ -58739,9 +59493,9 @@ var _react = _interopRequireDefault(__webpack_require__(0));
 
 __webpack_require__(128);
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -58810,9 +59564,9 @@ var _react = _interopRequireDefault(__webpack_require__(0));
 
 __webpack_require__(130);
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -58865,15 +59619,9 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
 
-var _it = __webpack_require__(12);
-
-var _reactRouterDom = __webpack_require__(6);
-
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(16));
-
-__webpack_require__(17);
+__webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -58960,6 +59708,216 @@ exports["default"] = _default;
 
 /***/ }),
 /* 132 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireWildcard(__webpack_require__(0));
+
+__webpack_require__(18);
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var SettingsServices = function SettingsServices() {
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-pre-ftrs-wrap"
+  }, /*#__PURE__*/_react["default"].createElement("ul", {
+    className: "saswp-features-blocks"
+  }, /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-features-ele"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-ele-ic saswp-ele-4",
+    style: {
+      background: '#69e781'
+    }
+  }, /*#__PURE__*/_react["default"].createElement("img", {
+    src: "http://localhost/wordpress/wp-content/plugins/schema-and-structured-data-for-wp//admin_section/images/support-1.png"
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-ele-tlt"
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Priority Support"), /*#__PURE__*/_react["default"].createElement("p", null, "We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team."))), /*#__PURE__*/_react["default"].createElement("a", {
+    className: "btn btn-success",
+    target: "_blank",
+    href: "https://structured-data-for-wp.com/priority-support//"
+  }, "Try it")), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-features-ele"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-ele-ic saswp-ele-3",
+    style: {
+      background: '#cacaca'
+    }
+  }, /*#__PURE__*/_react["default"].createElement("img", {
+    src: "http://localhost/wordpress/wp-content/plugins/schema-and-structured-data-for-wp//admin_section/images/news.png"
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-ele-tlt"
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Google News Schema Setup"), /*#__PURE__*/_react["default"].createElement("p", null, "Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website."))), /*#__PURE__*/_react["default"].createElement("a", {
+    className: "btn btn-success",
+    target: "_blank",
+    href: "http://structured-data-for-wp.com/services/google-news-schema-setup/"
+  }, "Try it")), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-features-ele"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-ele-ic saswp-ele-4",
+    style: {
+      background: '#9c56cc'
+    }
+  }, /*#__PURE__*/_react["default"].createElement("img", {
+    src: "http://localhost/wordpress/wp-content/plugins/schema-and-structured-data-for-wp//admin_section/images/schema-setup-icon.png"
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-ele-tlt"
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Structured Data Setup & Error Clean Up"), /*#__PURE__*/_react["default"].createElement("p", null, "We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers."))), /*#__PURE__*/_react["default"].createElement("a", {
+    className: "btn btn-success",
+    target: "_blank",
+    href: "http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/"
+  }, "Try it"))));
+};
+
+var _default = SettingsServices;
+exports["default"] = _default;
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireWildcard(__webpack_require__(0));
+
+var _queryString = _interopRequireDefault(__webpack_require__(6));
+
+var _it = __webpack_require__(12);
+
+var _reactRouterDom = __webpack_require__(7);
+
+__webpack_require__(18);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var SettingsTools = function SettingsTools(props) {
+  var _useState = (0, _react.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      extensionList = _useState2[0],
+      setExtensionList = _useState2[1];
+
+  var getPremiumExtensions = function getPremiumExtensions() {
+    var url = saswp_localize_data.rest_url + "saswp-route/get-premium-extensions";
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
+      }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      setExtensionList(result);
+    }, function (error) {// this.setState({
+      //   isLoaded: true,
+      // });
+    });
+  };
+
+  (0, _react.useEffect)(function () {
+    getPremiumExtensions();
+  }, []); // pass in an empty array as a second argument
+
+  var extensions = extensionList.map(function (item, index) {
+    return /*#__PURE__*/_react["default"].createElement("li", {
+      key: index
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-features-ele"
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-ele-ic",
+      style: {
+        background: item.background
+      }
+    }, /*#__PURE__*/_react["default"].createElement("img", {
+      src: item.image
+    })), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-ele-tlt"
+    }, /*#__PURE__*/_react["default"].createElement("h3", null, item.name), /*#__PURE__*/_react["default"].createElement("p", null, item.description))), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "saswp-sts-btn"
+    }, /*#__PURE__*/_react["default"].createElement("div", null, " Status : ", /*#__PURE__*/_react["default"].createElement("span", null, item.status)), /*#__PURE__*/_react["default"].createElement("div", null, item.status == 'InActive' ? /*#__PURE__*/_react["default"].createElement("a", {
+      className: "btn btn-success"
+    }, "Download") : '', "   ")));
+  });
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Tools")), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "divider-horizontal"
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("table", {
+    className: "saswp-tools-table"
+  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Export All Settings And Schema"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+    href: "".concat(saswp_localize_data.rest_url, "saswp-route/export-settings"),
+    className: "btn btn-success"
+  }, "Export"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Import All Settings And Schema"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+    type: "file",
+    name: "import_file",
+    onChange: props.handleInputChange
+  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Reset Settings"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+    className: "btn btn-success",
+    onClick: props.resetSettings
+  }, "Reset"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Data Tracking Allow"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+    className: "btn btn-success"
+  }, "Allow"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Remove Data On Uninstall"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", {
+    className: "form-check form-group toggle"
+  }, /*#__PURE__*/_react["default"].createElement("input", {
+    name: "saswp_rmv_data_on_uninstall",
+    checked: props.userInput['saswp_rmv_data_on_uninstall'],
+    onChange: props.handleInputChange,
+    type: "checkbox",
+    className: "form-check-input"
+  }), /*#__PURE__*/_react["default"].createElement("span", {
+    className: "form-check-label"
+  }))))))));
+};
+
+var _default = SettingsTools;
+exports["default"] = _default;
+
+/***/ }),
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -59087,7 +60045,7 @@ __webpack_require__.r(__webpack_exports__);
 });
 
 /***/ }),
-/* 133 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -59270,7 +60228,7 @@ module.exports = {"alert":"alert","alert-left-el":"alert-left-el","alert-right-e
 });
 
 /***/ }),
-/* 134 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -59522,7 +60480,7 @@ Avatar.displayName = "Avatar";
 });
 
 /***/ }),
-/* 135 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -59707,7 +60665,7 @@ ButtonGroup.displayName = "ButtonGroup";
 });
 
 /***/ }),
-/* 136 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -59890,7 +60848,7 @@ Progress.displayName = "Progress";
 });
 
 /***/ }),
-/* 137 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -60072,12 +61030,12 @@ Divider.displayName = "Divider";
 });
 
 /***/ }),
-/* 138 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__(22), __webpack_require__(38), __webpack_require__(39), __webpack_require__(42), __webpack_require__(65));
+		module.exports = factory(__webpack_require__(22), __webpack_require__(39), __webpack_require__(40), __webpack_require__(43), __webpack_require__(65));
 	else if(typeof define === 'function' && define.amd)
 		define(["@duik/form-group", "@duik/use-open-state", "@duik/dropdown", "@duik/content-title", "@duik/datepicker"], factory);
 	else {
@@ -60378,7 +61336,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8__;
 });
 
 /***/ }),
-/* 139 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -60562,7 +61520,7 @@ NavPanel.displayName = "NavPanel";
 });
 
 /***/ }),
-/* 140 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -60704,7 +61662,7 @@ var NavSection = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE_0___defa
 });
 
 /***/ }),
-/* 141 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -60904,7 +61862,7 @@ NavLink.defaultProps = {
 });
 
 /***/ }),
-/* 142 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -61046,7 +62004,7 @@ var NavTitle = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE_0___defaul
 });
 
 /***/ }),
-/* 143 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -61188,12 +62146,12 @@ var NavSectionTitle = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE_0__
 });
 
 /***/ }),
-/* 144 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__(43));
+		module.exports = factory(__webpack_require__(44));
 	else if(typeof define === 'function' && define.amd)
 		define(["@duik/base-input"], factory);
 	else {
@@ -61316,12 +62274,12 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__9__;
 });
 
 /***/ }),
-/* 145 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__(43));
+		module.exports = factory(__webpack_require__(44));
 	else if(typeof define === 'function' && define.amd)
 		define(["@duik/base-input"], factory);
 	else {
@@ -61467,12 +62425,12 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__9__;
 });
 
 /***/ }),
-/* 146 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__(43));
+		module.exports = factory(__webpack_require__(44));
 	else if(typeof define === 'function' && define.amd)
 		define(["@duik/base-input"], factory);
 	else {
@@ -61618,12 +62576,12 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__9__;
 });
 
 /***/ }),
-/* 147 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__(22), __webpack_require__(39), __webpack_require__(42), __webpack_require__(66));
+		module.exports = factory(__webpack_require__(22), __webpack_require__(40), __webpack_require__(43), __webpack_require__(66));
 	else if(typeof define === 'function' && define.amd)
 		define(["@duik/form-group", "@duik/dropdown", "@duik/content-title", "@duik/text-field"], factory);
 	else {
@@ -61995,7 +62953,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__8__;
 });
 
 /***/ }),
-/* 148 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -62189,7 +63147,7 @@ TextArea.displayName = "TextArea";
 });
 
 /***/ }),
-/* 149 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -62370,7 +63328,7 @@ FormGroupContainer.displayName = "FormGroupContainer";
 });
 
 /***/ }),
-/* 150 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -62528,7 +63486,7 @@ var ScrollAreaXOverflow = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE
 });
 
 /***/ }),
-/* 151 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -62761,7 +63719,7 @@ var TabContainer = Tabs;
 });
 
 /***/ }),
-/* 152 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -62903,7 +63861,7 @@ var ContainerVertical = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE_0
 });
 
 /***/ }),
-/* 153 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -63045,7 +64003,7 @@ var ContainerHorizontal = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE
 });
 
 /***/ }),
-/* 154 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -63187,7 +64145,7 @@ var TopBar = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE_0___default(
 });
 
 /***/ }),
-/* 155 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -63365,7 +64323,7 @@ TopBarLink.displayName = "TopBarLink";
 });
 
 /***/ }),
-/* 156 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -63507,7 +64465,7 @@ var TopBarLinkContainer = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE
 });
 
 /***/ }),
-/* 157 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -63649,7 +64607,7 @@ var TopBarMenuDivider = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE_0
 });
 
 /***/ }),
-/* 158 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -63791,7 +64749,7 @@ var TopBarSection = _duik_create_simple_component__WEBPACK_IMPORTED_MODULE_0___d
 });
 
 /***/ }),
-/* 159 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -63973,7 +64931,7 @@ TopBarTitle.defaultProps = {
 });
 
 /***/ }),
-/* 160 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -64241,12 +65199,12 @@ var Card = Widget;
 });
 
 /***/ }),
-/* 161 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__(9), __webpack_require__(40), __webpack_require__(41));
+		module.exports = factory(__webpack_require__(9), __webpack_require__(41), __webpack_require__(42));
 	else if(typeof define === 'function' && define.amd)
 		define(["@duik/create-simple-component", "@duik/button", "@duik/outer-events-handler"], factory);
 	else {
@@ -64381,7 +65339,7 @@ module.exports = __webpack_require__(10);
 /***/ 51:
 /***/ (function(module, exports) {
 
-module.exports = __webpack_require__(162);
+module.exports = __webpack_require__(165);
 
 /***/ }),
 
@@ -64561,20 +65519,20 @@ Modal.Title = ModalTitle;
 });
 
 /***/ }),
-/* 162 */
+/* 165 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CSSTransition__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CSSTransition__ = __webpack_require__(166);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CSSTransition", function() { return __WEBPACK_IMPORTED_MODULE_0__CSSTransition__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ReplaceTransition__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ReplaceTransition__ = __webpack_require__(170);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ReplaceTransition", function() { return __WEBPACK_IMPORTED_MODULE_1__ReplaceTransition__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SwitchTransition__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SwitchTransition__ = __webpack_require__(173);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "SwitchTransition", function() { return __WEBPACK_IMPORTED_MODULE_2__SwitchTransition__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TransitionGroup__ = __webpack_require__(69);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TransitionGroup", function() { return __WEBPACK_IMPORTED_MODULE_3__TransitionGroup__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Transition__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Transition__ = __webpack_require__(45);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Transition", function() { return __WEBPACK_IMPORTED_MODULE_4__Transition__["d"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__config__ = __webpack_require__(67);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "config", function() { return __WEBPACK_IMPORTED_MODULE_5__config__["a"]; });
@@ -64586,20 +65544,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 163 */
+/* 166 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_extends__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_dom_helpers_addClass__ = __webpack_require__(164);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_dom_helpers_removeClass__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_dom_helpers_addClass__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_dom_helpers_removeClass__ = __webpack_require__(169);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Transition__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Transition__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_PropTypes__ = __webpack_require__(68);
 
 
@@ -65016,19 +65974,19 @@ CSSTransition.propTypes = process.env.NODE_ENV !== "production" ? Object(__WEBPA
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
-/* 164 */
+/* 167 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = addClass;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__hasClass__ = __webpack_require__(165);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__hasClass__ = __webpack_require__(168);
 
 function addClass(element, className) {
   if (element.classList) element.classList.add(className);else if (!Object(__WEBPACK_IMPORTED_MODULE_0__hasClass__["a" /* default */])(element, className)) if (typeof element.className === 'string') element.className = element.className + " " + className;else element.setAttribute('class', (element.className && element.className.baseVal || '') + " " + className);
 }
 
 /***/ }),
-/* 165 */
+/* 168 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65039,7 +65997,7 @@ function hasClass(element, className) {
 }
 
 /***/ }),
-/* 166 */
+/* 169 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65060,11 +66018,11 @@ function removeClass(element, className) {
 }
 
 /***/ }),
-/* 167 */
+/* 170 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(15);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
@@ -65212,7 +66170,7 @@ ReplaceTransition.propTypes = process.env.NODE_ENV !== "production" ? {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
-/* 168 */
+/* 171 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65226,7 +66184,7 @@ function _assertThisInitialized(self) {
 }
 
 /***/ }),
-/* 169 */
+/* 172 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65378,7 +66336,7 @@ function getNextChildMapping(nextProps, prevChildMapping, onExited) {
 }
 
 /***/ }),
-/* 170 */
+/* 173 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65388,8 +66346,8 @@ function getNextChildMapping(nextProps, prevChildMapping, onExited) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Transition__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TransitionGroupContext__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Transition__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TransitionGroupContext__ = __webpack_require__(46);
 
 
 var _leaveRenders, _enterRenders;
@@ -65650,216 +66608,6 @@ SwitchTransition.defaultProps = {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
-/* 171 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 172 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _react = _interopRequireWildcard(__webpack_require__(0));
-
-__webpack_require__(17);
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-var SettingsServices = function SettingsServices() {
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-pre-ftrs-wrap"
-  }, /*#__PURE__*/_react["default"].createElement("ul", {
-    className: "saswp-features-blocks"
-  }, /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-features-ele"
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-ele-ic saswp-ele-4",
-    style: {
-      background: '#69e781'
-    }
-  }, /*#__PURE__*/_react["default"].createElement("img", {
-    src: "http://localhost/wordpress/wp-content/plugins/schema-and-structured-data-for-wp//admin_section/images/support-1.png"
-  })), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-ele-tlt"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Priority Support"), /*#__PURE__*/_react["default"].createElement("p", null, "We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team."))), /*#__PURE__*/_react["default"].createElement("a", {
-    className: "btn btn-success",
-    target: "_blank",
-    href: "https://structured-data-for-wp.com/priority-support//"
-  }, "Try it")), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-features-ele"
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-ele-ic saswp-ele-3",
-    style: {
-      background: '#cacaca'
-    }
-  }, /*#__PURE__*/_react["default"].createElement("img", {
-    src: "http://localhost/wordpress/wp-content/plugins/schema-and-structured-data-for-wp//admin_section/images/news.png"
-  })), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-ele-tlt"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Google News Schema Setup"), /*#__PURE__*/_react["default"].createElement("p", null, "Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website."))), /*#__PURE__*/_react["default"].createElement("a", {
-    className: "btn btn-success",
-    target: "_blank",
-    href: "http://structured-data-for-wp.com/services/google-news-schema-setup/"
-  }, "Try it")), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-features-ele"
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-ele-ic saswp-ele-4",
-    style: {
-      background: '#9c56cc'
-    }
-  }, /*#__PURE__*/_react["default"].createElement("img", {
-    src: "http://localhost/wordpress/wp-content/plugins/schema-and-structured-data-for-wp//admin_section/images/schema-setup-icon.png"
-  })), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-ele-tlt"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Structured Data Setup & Error Clean Up"), /*#__PURE__*/_react["default"].createElement("p", null, "We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers."))), /*#__PURE__*/_react["default"].createElement("a", {
-    className: "btn btn-success",
-    target: "_blank",
-    href: "http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/"
-  }, "Try it"))));
-};
-
-var _default = SettingsServices;
-exports["default"] = _default;
-
-/***/ }),
-/* 173 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _react = _interopRequireWildcard(__webpack_require__(0));
-
-var _queryString = _interopRequireDefault(__webpack_require__(7));
-
-var _it = __webpack_require__(12);
-
-var _reactRouterDom = __webpack_require__(6);
-
-__webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var SettingsTools = function SettingsTools(props) {
-  var _useState = (0, _react.useState)([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      extensionList = _useState2[0],
-      setExtensionList = _useState2[1];
-
-  var getPremiumExtensions = function getPremiumExtensions() {
-    var url = saswp_localize_data.rest_url + "saswp-route/get-premium-extensions";
-    fetch(url, {
-      headers: {
-        'X-WP-Nonce': saswp_localize_data.nonce
-      }
-    }).then(function (res) {
-      return res.json();
-    }).then(function (result) {
-      setExtensionList(result);
-    }, function (error) {// this.setState({
-      //   isLoaded: true,
-      // });
-    });
-  };
-
-  (0, _react.useEffect)(function () {
-    getPremiumExtensions();
-  }, []); // pass in an empty array as a second argument
-
-  var extensions = extensionList.map(function (item, index) {
-    return /*#__PURE__*/_react["default"].createElement("li", {
-      key: index
-    }, /*#__PURE__*/_react["default"].createElement("div", {
-      className: "saswp-features-ele"
-    }, /*#__PURE__*/_react["default"].createElement("div", {
-      className: "saswp-ele-ic",
-      style: {
-        background: item.background
-      }
-    }, /*#__PURE__*/_react["default"].createElement("img", {
-      src: item.image
-    })), /*#__PURE__*/_react["default"].createElement("div", {
-      className: "saswp-ele-tlt"
-    }, /*#__PURE__*/_react["default"].createElement("h3", null, item.name), /*#__PURE__*/_react["default"].createElement("p", null, item.description))), /*#__PURE__*/_react["default"].createElement("div", {
-      className: "saswp-sts-btn"
-    }, /*#__PURE__*/_react["default"].createElement("div", null, " Status : ", /*#__PURE__*/_react["default"].createElement("span", null, item.status)), /*#__PURE__*/_react["default"].createElement("div", null, item.status == 'InActive' ? /*#__PURE__*/_react["default"].createElement("a", {
-      className: "btn btn-success"
-    }, "Download") : '', "   ")));
-  });
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "card"
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "card-body"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Tools")), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "divider-horizontal"
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "card-body"
-  }, /*#__PURE__*/_react["default"].createElement("table", {
-    className: "saswp-tools-table"
-  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Export All Settings And Schema"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
-    href: "".concat(saswp_localize_data.rest_url, "saswp-route/export-settings"),
-    className: "btn btn-success"
-  }, "Export"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Import All Settings And Schema"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
-    type: "file",
-    name: "import_file",
-    onChange: props.handleInputChange
-  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Reset Settings"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
-    className: "btn btn-success",
-    onClick: props.resetSettings
-  }, "Reset"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Data Tracking Allow"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
-    className: "btn btn-success"
-  }, "Allow"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Remove Data On Uninstall"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", {
-    className: "form-check form-group toggle"
-  }, /*#__PURE__*/_react["default"].createElement("input", {
-    name: "saswp_rmv_data_on_uninstall",
-    checked: props.userInput['saswp_rmv_data_on_uninstall'],
-    onChange: props.handleInputChange,
-    type: "checkbox",
-    className: "form-check-input"
-  }), /*#__PURE__*/_react["default"].createElement("span", {
-    className: "form-check-label"
-  }))))))));
-};
-
-var _default = SettingsTools;
-exports["default"] = _default;
-
-/***/ }),
 /* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -65875,13 +66623,13 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
 var _it = __webpack_require__(12);
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-__webpack_require__(17);
+__webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -66074,7 +66822,7 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-__webpack_require__(17);
+__webpack_require__(18);
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -67136,11 +67884,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
 var _SchemaTypeNavLink = _interopRequireDefault(__webpack_require__(78));
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -67633,19 +68381,19 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-var _pagination = _interopRequireDefault(__webpack_require__(29));
+var _pagination = _interopRequireDefault(__webpack_require__(30));
 
 var _it = __webpack_require__(12);
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(16));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
 
 var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
 
-var _icon = _interopRequireDefault(__webpack_require__(18));
+var _icon = _interopRequireDefault(__webpack_require__(15));
 
 var _LeftContextMenu = _interopRequireDefault(__webpack_require__(49));
 
@@ -67929,19 +68677,19 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
 var _SchemaTypeNavLink = _interopRequireDefault(__webpack_require__(78));
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
 __webpack_require__(79);
 
 var _reactSelect = _interopRequireDefault(__webpack_require__(70));
 
-var _MediaUpload = _interopRequireDefault(__webpack_require__(48));
+var _MediaUpload = _interopRequireDefault(__webpack_require__(29));
 
-var _FieldGenerator = _interopRequireDefault(__webpack_require__(303));
+var _FieldGenerator = _interopRequireDefault(__webpack_require__(192));
 
 var _it = __webpack_require__(12);
 
@@ -69769,21 +70517,114 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(__webpack_require__(0));
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+__webpack_require__(193);
 
-var _reactRouterDom = __webpack_require__(6);
+var _MediaUpload = _interopRequireDefault(__webpack_require__(29));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var FieldGenerator = function FieldGenerator(props) {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("table", {
+    className: "form-table saswp-field-generator-table"
+  }, /*#__PURE__*/_react["default"].createElement("tbody", null, props.fielddata.map(function (item) {
+    var meta_value = item["default"];
+
+    if (props.postMeta[item.id]) {
+      meta_value = props.postMeta[item.id];
+    }
+
+    switch (item.type) {
+      case 'textarea':
+        return /*#__PURE__*/_react["default"].createElement("tr", {
+          key: item.id
+        }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, item.label)), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("textarea", {
+          rows: "5",
+          placeholder: typeof item.attributes != 'undefined' ? item.attributes.placeholder : '',
+          onChange: props.handleInputChange,
+          type: "text",
+          name: item.id,
+          value: meta_value
+        }), /*#__PURE__*/_react["default"].createElement("p", null, item.note)));
+        break;
+
+      case 'media':
+        var media_key = item.id + '_detail';
+        var img_src = '';
+
+        if (typeof props.postMeta[media_key] != 'undefined') {
+          img_src = props.postMeta[media_key]['thumbnail'];
+        }
+
+        return /*#__PURE__*/_react["default"].createElement("tr", {
+          key: item.id
+        }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, item.label)), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_MediaUpload["default"], {
+          data_id: "".concat(item.id, "_detail"),
+          onSelection: props.handleManualFieldImage,
+          src: img_src
+        })));
+        break;
+
+      case 'checkbox':
+        break;
+
+      case 'select':
+        break;
+
+      case 'radio':
+        break;
+
+      default:
+        return /*#__PURE__*/_react["default"].createElement("tr", {
+          key: item.id
+        }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, item.label)), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+          placeholder: typeof item.attributes != 'undefined' ? item.attributes.placeholder : '',
+          onChange: props.handleInputChange,
+          type: "text",
+          name: item.id,
+          value: meta_value
+        })));
+    }
+  }))));
+};
+
+var _default = FieldGenerator;
+exports["default"] = _default;
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(0));
+
+var _queryString = _interopRequireDefault(__webpack_require__(6));
+
+var _reactRouterDom = __webpack_require__(7);
 
 var _ReviewsAccept = _interopRequireDefault(__webpack_require__(80));
 
 var _ReviewsCollections = _interopRequireDefault(__webpack_require__(81));
 
-var _ReviewsCollectionsSingle = _interopRequireDefault(__webpack_require__(195));
+var _ReviewsCollectionsSingle = _interopRequireDefault(__webpack_require__(197));
 
 var _ReviewsFetch = _interopRequireDefault(__webpack_require__(82));
 
-var _ReviewsMain = _interopRequireDefault(__webpack_require__(203));
+var _ReviewsMain = _interopRequireDefault(__webpack_require__(205));
 
-var _ReviewsSingle = _interopRequireDefault(__webpack_require__(207));
+var _ReviewsSingle = _interopRequireDefault(__webpack_require__(209));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -69819,7 +70660,7 @@ var _default = Reviews;
 exports["default"] = _default;
 
 /***/ }),
-/* 193 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69839,7 +70680,7 @@ var _propTypes = __webpack_require__(8);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _star = __webpack_require__(194);
+var _star = __webpack_require__(196);
 
 var _star2 = _interopRequireDefault(_star);
 
@@ -70087,7 +70928,7 @@ StarRatings.defaultProps = {
 exports.default = StarRatings;
 
 /***/ }),
-/* 194 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70282,7 +71123,7 @@ Star.propTypes = {
 exports.default = Star;
 
 /***/ }),
-/* 195 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70299,29 +71140,29 @@ var _react = _interopRequireWildcard(__webpack_require__(0));
 
 __webpack_require__(19);
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(16));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
 
 var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
 
-var _icon = _interopRequireDefault(__webpack_require__(18));
+var _icon = _interopRequireDefault(__webpack_require__(15));
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
-var _Grid = _interopRequireDefault(__webpack_require__(196));
+var _Grid = _interopRequireDefault(__webpack_require__(198));
 
-var _Badge = _interopRequireDefault(__webpack_require__(199));
+var _Badge = _interopRequireDefault(__webpack_require__(201));
 
-var _Fomo = _interopRequireDefault(__webpack_require__(200));
+var _Fomo = _interopRequireDefault(__webpack_require__(202));
 
-var _Gallery = _interopRequireDefault(__webpack_require__(201));
+var _Gallery = _interopRequireDefault(__webpack_require__(203));
 
 var _it = __webpack_require__(12);
 
-var _Popup = _interopRequireDefault(__webpack_require__(202));
+var _Popup = _interopRequireDefault(__webpack_require__(204));
 
-var _jquery = _interopRequireDefault(__webpack_require__(30));
+var _jquery = _interopRequireDefault(__webpack_require__(31));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -70951,7 +71792,7 @@ var _default = ReviewsCollectionsSingle;
 exports["default"] = _default;
 
 /***/ }),
-/* 196 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70966,11 +71807,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-__webpack_require__(197);
+__webpack_require__(199);
 
 var _StarRatingHtml = _interopRequireDefault(__webpack_require__(24));
 
-var _pagination = _interopRequireDefault(__webpack_require__(29));
+var _pagination = _interopRequireDefault(__webpack_require__(30));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -71060,19 +71901,19 @@ var _default = Grid;
 exports["default"] = _default;
 
 /***/ }),
-/* 197 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 198 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
 /* 199 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 200 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71145,7 +71986,7 @@ var _default = Badge;
 exports["default"] = _default;
 
 /***/ }),
-/* 200 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71160,7 +72001,7 @@ var _react = _interopRequireDefault(__webpack_require__(0));
 
 var _StarRatingHtml = _interopRequireDefault(__webpack_require__(24));
 
-var _jquery = _interopRequireDefault(__webpack_require__(30));
+var _jquery = _interopRequireDefault(__webpack_require__(31));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -71231,7 +72072,7 @@ var _default = Fomo;
 exports["default"] = _default;
 
 /***/ }),
-/* 201 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71246,7 +72087,7 @@ var _react = _interopRequireDefault(__webpack_require__(0));
 
 var _StarRatingHtml = _interopRequireDefault(__webpack_require__(24));
 
-var _jquery = _interopRequireDefault(__webpack_require__(30));
+var _jquery = _interopRequireDefault(__webpack_require__(31));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -71479,7 +72320,7 @@ var _default = Gallery;
 exports["default"] = _default;
 
 /***/ }),
-/* 202 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71494,7 +72335,7 @@ var _react = _interopRequireDefault(__webpack_require__(0));
 
 var _StarRatingHtml = _interopRequireDefault(__webpack_require__(24));
 
-var _jquery = _interopRequireDefault(__webpack_require__(30));
+var _jquery = _interopRequireDefault(__webpack_require__(31));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -71593,7 +72434,7 @@ var _default = Popup;
 exports["default"] = _default;
 
 /***/ }),
-/* 203 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71606,11 +72447,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(__webpack_require__(0));
 
-var _ReviewsNavLink = _interopRequireDefault(__webpack_require__(204));
+var _ReviewsNavLink = _interopRequireDefault(__webpack_require__(206));
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
 var _ReviewsAccept = _interopRequireDefault(__webpack_require__(80));
 
@@ -71618,7 +72459,7 @@ var _ReviewsCollections = _interopRequireDefault(__webpack_require__(81));
 
 var _ReviewsFetch = _interopRequireDefault(__webpack_require__(82));
 
-var _ReviewsList = _interopRequireDefault(__webpack_require__(206));
+var _ReviewsList = _interopRequireDefault(__webpack_require__(208));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -71649,7 +72490,7 @@ var _default = ReviewsMain;
 exports["default"] = _default;
 
 /***/ }),
-/* 204 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71662,11 +72503,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(__webpack_require__(0));
 
-__webpack_require__(205);
+__webpack_require__(207);
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -71702,13 +72543,13 @@ var _default = ReviewsNavLink;
 exports["default"] = _default;
 
 /***/ }),
-/* 205 */
+/* 207 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 206 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71725,17 +72566,17 @@ var _react = _interopRequireWildcard(__webpack_require__(0));
 
 __webpack_require__(19);
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-var _pagination = _interopRequireDefault(__webpack_require__(29));
+var _pagination = _interopRequireDefault(__webpack_require__(30));
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(16));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
 
 var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
 
-var _icon = _interopRequireDefault(__webpack_require__(18));
+var _icon = _interopRequireDefault(__webpack_require__(15));
 
 var _reactStarRatings = _interopRequireDefault(__webpack_require__(50));
 
@@ -71986,7 +72827,7 @@ var _default = ReviewsList;
 exports["default"] = _default;
 
 /***/ }),
-/* 207 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -72001,15 +72842,15 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(7);
 
-var _queryString = _interopRequireDefault(__webpack_require__(7));
+var _queryString = _interopRequireDefault(__webpack_require__(6));
 
 __webpack_require__(19);
 
-var _MediaUpload = _interopRequireDefault(__webpack_require__(48));
+var _MediaUpload = _interopRequireDefault(__webpack_require__(29));
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(16));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
 
 var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
 
@@ -72017,11 +72858,11 @@ var _it = __webpack_require__(12);
 
 var _reactStarRatings = _interopRequireDefault(__webpack_require__(50));
 
-var _reactDatepicker = _interopRequireDefault(__webpack_require__(208));
+var _reactDatepicker = _interopRequireDefault(__webpack_require__(210));
 
-__webpack_require__(299);
+__webpack_require__(301);
 
-var _icon = _interopRequireDefault(__webpack_require__(18));
+var _icon = _interopRequireDefault(__webpack_require__(15));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -72333,15 +73174,15 @@ var _default = ReviewsSingle;
 exports["default"] = _default;
 
 /***/ }),
-/* 208 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {!function(e,t){ true?t(exports,__webpack_require__(0),__webpack_require__(8),__webpack_require__(5),__webpack_require__(209),__webpack_require__(83),__webpack_require__(210),__webpack_require__(92),__webpack_require__(93),__webpack_require__(53),__webpack_require__(94),__webpack_require__(54),__webpack_require__(95),__webpack_require__(225),__webpack_require__(226),__webpack_require__(227),__webpack_require__(228),__webpack_require__(229),__webpack_require__(230),__webpack_require__(231),__webpack_require__(232),__webpack_require__(233),__webpack_require__(234),__webpack_require__(235),__webpack_require__(236),__webpack_require__(239),__webpack_require__(240),__webpack_require__(241),__webpack_require__(242),__webpack_require__(243),__webpack_require__(244),__webpack_require__(245),__webpack_require__(96),__webpack_require__(247),__webpack_require__(248),__webpack_require__(249),__webpack_require__(250),__webpack_require__(251),__webpack_require__(252),__webpack_require__(253),__webpack_require__(254),__webpack_require__(55),__webpack_require__(25),__webpack_require__(255),__webpack_require__(97),__webpack_require__(256),__webpack_require__(257),__webpack_require__(258),__webpack_require__(259),__webpack_require__(260),__webpack_require__(261),__webpack_require__(262),__webpack_require__(263),__webpack_require__(264),__webpack_require__(265),__webpack_require__(266),__webpack_require__(267),__webpack_require__(2),__webpack_require__(268),__webpack_require__(275),__webpack_require__(276),__webpack_require__(277),__webpack_require__(10)):"function"==typeof define&&define.amd?define(["exports","react","prop-types","classnames","date-fns/isDate","date-fns/isValid","date-fns/format","date-fns/addMinutes","date-fns/addHours","date-fns/addDays","date-fns/addWeeks","date-fns/addMonths","date-fns/addYears","date-fns/subMinutes","date-fns/subHours","date-fns/subDays","date-fns/subWeeks","date-fns/subMonths","date-fns/subYears","date-fns/getSeconds","date-fns/getMinutes","date-fns/getHours","date-fns/getDay","date-fns/getDate","date-fns/getWeek","date-fns/getMonth","date-fns/getQuarter","date-fns/getYear","date-fns/getTime","date-fns/setSeconds","date-fns/setMinutes","date-fns/setHours","date-fns/setMonth","date-fns/setQuarter","date-fns/setYear","date-fns/min","date-fns/max","date-fns/differenceInCalendarDays","date-fns/differenceInCalendarMonths","date-fns/differenceInCalendarWeeks","date-fns/differenceInCalendarYears","date-fns/startOfDay","date-fns/startOfWeek","date-fns/startOfMonth","date-fns/startOfQuarter","date-fns/startOfYear","date-fns/endOfDay","date-fns/endOfWeek","date-fns/endOfMonth","date-fns/isEqual","date-fns/isSameDay","date-fns/isSameMonth","date-fns/isSameYear","date-fns/isSameQuarter","date-fns/isAfter","date-fns/isBefore","date-fns/isWithinInterval","date-fns/toDate","date-fns/parse","date-fns/parseISO","react-onclickoutside","react-popper","react-dom"],t):t((e=e||self).DatePicker={},e.React,e.PropTypes,e.classNames,e.isDate,e.isValidDate,e.format,e.addMinutes,e.addHours,e.utils,e.utils$1,e.addMonths,e.addYears,e.subMinutes,e.subHours,e.subDays,e.subWeeks,e.subMonths,e.subYears,e.getSeconds,e.getMinutes,e.getHours,e.getDay,e.getDate,e.dfgetWeek,e.getMonth,e.getQuarter,e.getYear,e.getTime,e.setSeconds,e.setMinutes,e.setHours,e.utils$2,e.utils$3,e.utils$4,e.min,e.max,e.differenceInCalendarDays,e.differenceInCalendarMonths,e.differenceInCalendarWeeks,e.differenceInCalendarYears,e.startOfDay,e.startOfWeek,e.startOfMonth,e.startOfQuarter,e.startOfYear,e.endOfDay,e.endOfWeek,e.endOfMonth,e.dfIsEqual,e.dfIsSameDay,e.dfIsSameMonth,e.dfIsSameYear,e.dfIsSameQuarter,e.isAfter,e.isBefore,e.isWithinInterval,e.toDate,e.parse,e.parseISO,e.onClickOutside,e.ReactPopper,e.ReactDOM)}(this,(function(e,t,r,n,a,o,s,p,i,c,l,d,u,h,f,m,y,v,w,D,k,g,b,C,_,O,S,P,M,E,N,Y,x,T,I,L,j,R,F,q,W,A,B,H,K,Q,V,U,$,z,G,J,X,Z,ee,te,re,ne,ae,oe,se,pe,ie){"use strict";function ce(e){return(ce="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function le(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function de(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function ue(e,t,r){return t&&de(e.prototype,t),r&&de(e,r),e}function he(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}function fe(){return(fe=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e}).apply(this,arguments)}function me(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function ye(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?me(Object(r),!0).forEach((function(t){he(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):me(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}function ve(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&De(e,t)}function we(e){return(we=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}function De(e,t){return(De=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function ke(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function ge(e,t){return!t||"object"!=typeof t&&"function"!=typeof t?ke(e):t}function be(e){var t=function(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],(function(){}))),!0}catch(e){return!1}}();return function(){var r,n=we(e);if(t){var a=we(this).constructor;r=Reflect.construct(n,arguments,a)}else r=n.apply(this,arguments);return ge(this,r)}}function Ce(e,t){switch(e){case"P":return t.date({width:"short"});case"PP":return t.date({width:"medium"});case"PPP":return t.date({width:"long"});case"PPPP":default:return t.date({width:"full"})}}function _e(e,t){switch(e){case"p":return t.time({width:"short"});case"pp":return t.time({width:"medium"});case"ppp":return t.time({width:"long"});case"pppp":default:return t.time({width:"full"})}}t=t&&Object.prototype.hasOwnProperty.call(t,"default")?t.default:t,r=r&&Object.prototype.hasOwnProperty.call(r,"default")?r.default:r,n=n&&Object.prototype.hasOwnProperty.call(n,"default")?n.default:n,a=a&&Object.prototype.hasOwnProperty.call(a,"default")?a.default:a,o=o&&Object.prototype.hasOwnProperty.call(o,"default")?o.default:o,s=s&&Object.prototype.hasOwnProperty.call(s,"default")?s.default:s,p=p&&Object.prototype.hasOwnProperty.call(p,"default")?p.default:p,i=i&&Object.prototype.hasOwnProperty.call(i,"default")?i.default:i,c=c&&Object.prototype.hasOwnProperty.call(c,"default")?c.default:c,l=l&&Object.prototype.hasOwnProperty.call(l,"default")?l.default:l,d=d&&Object.prototype.hasOwnProperty.call(d,"default")?d.default:d,u=u&&Object.prototype.hasOwnProperty.call(u,"default")?u.default:u,h=h&&Object.prototype.hasOwnProperty.call(h,"default")?h.default:h,f=f&&Object.prototype.hasOwnProperty.call(f,"default")?f.default:f,m=m&&Object.prototype.hasOwnProperty.call(m,"default")?m.default:m,y=y&&Object.prototype.hasOwnProperty.call(y,"default")?y.default:y,v=v&&Object.prototype.hasOwnProperty.call(v,"default")?v.default:v,w=w&&Object.prototype.hasOwnProperty.call(w,"default")?w.default:w,D=D&&Object.prototype.hasOwnProperty.call(D,"default")?D.default:D,k=k&&Object.prototype.hasOwnProperty.call(k,"default")?k.default:k,g=g&&Object.prototype.hasOwnProperty.call(g,"default")?g.default:g,b=b&&Object.prototype.hasOwnProperty.call(b,"default")?b.default:b,C=C&&Object.prototype.hasOwnProperty.call(C,"default")?C.default:C,_=_&&Object.prototype.hasOwnProperty.call(_,"default")?_.default:_,O=O&&Object.prototype.hasOwnProperty.call(O,"default")?O.default:O,S=S&&Object.prototype.hasOwnProperty.call(S,"default")?S.default:S,P=P&&Object.prototype.hasOwnProperty.call(P,"default")?P.default:P,M=M&&Object.prototype.hasOwnProperty.call(M,"default")?M.default:M,E=E&&Object.prototype.hasOwnProperty.call(E,"default")?E.default:E,N=N&&Object.prototype.hasOwnProperty.call(N,"default")?N.default:N,Y=Y&&Object.prototype.hasOwnProperty.call(Y,"default")?Y.default:Y,x=x&&Object.prototype.hasOwnProperty.call(x,"default")?x.default:x,T=T&&Object.prototype.hasOwnProperty.call(T,"default")?T.default:T,I=I&&Object.prototype.hasOwnProperty.call(I,"default")?I.default:I,L=L&&Object.prototype.hasOwnProperty.call(L,"default")?L.default:L,j=j&&Object.prototype.hasOwnProperty.call(j,"default")?j.default:j,R=R&&Object.prototype.hasOwnProperty.call(R,"default")?R.default:R,F=F&&Object.prototype.hasOwnProperty.call(F,"default")?F.default:F,q=q&&Object.prototype.hasOwnProperty.call(q,"default")?q.default:q,W=W&&Object.prototype.hasOwnProperty.call(W,"default")?W.default:W,A=A&&Object.prototype.hasOwnProperty.call(A,"default")?A.default:A,B=B&&Object.prototype.hasOwnProperty.call(B,"default")?B.default:B,H=H&&Object.prototype.hasOwnProperty.call(H,"default")?H.default:H,K=K&&Object.prototype.hasOwnProperty.call(K,"default")?K.default:K,Q=Q&&Object.prototype.hasOwnProperty.call(Q,"default")?Q.default:Q,V=V&&Object.prototype.hasOwnProperty.call(V,"default")?V.default:V,U=U&&Object.prototype.hasOwnProperty.call(U,"default")?U.default:U,$=$&&Object.prototype.hasOwnProperty.call($,"default")?$.default:$,z=z&&Object.prototype.hasOwnProperty.call(z,"default")?z.default:z,G=G&&Object.prototype.hasOwnProperty.call(G,"default")?G.default:G,J=J&&Object.prototype.hasOwnProperty.call(J,"default")?J.default:J,X=X&&Object.prototype.hasOwnProperty.call(X,"default")?X.default:X,Z=Z&&Object.prototype.hasOwnProperty.call(Z,"default")?Z.default:Z,ee=ee&&Object.prototype.hasOwnProperty.call(ee,"default")?ee.default:ee,te=te&&Object.prototype.hasOwnProperty.call(te,"default")?te.default:te,re=re&&Object.prototype.hasOwnProperty.call(re,"default")?re.default:re,ne=ne&&Object.prototype.hasOwnProperty.call(ne,"default")?ne.default:ne,ae=ae&&Object.prototype.hasOwnProperty.call(ae,"default")?ae.default:ae,oe=oe&&Object.prototype.hasOwnProperty.call(oe,"default")?oe.default:oe,se=se&&Object.prototype.hasOwnProperty.call(se,"default")?se.default:se,ie=ie&&Object.prototype.hasOwnProperty.call(ie,"default")?ie.default:ie;var Oe={p:_e,P:function(e,t){var r,n=e.match(/(P+)(p+)?/),a=n[1],o=n[2];if(!o)return Ce(e,t);switch(a){case"P":r=t.dateTime({width:"short"});break;case"PP":r=t.dateTime({width:"medium"});break;case"PPP":r=t.dateTime({width:"long"});break;case"PPPP":default:r=t.dateTime({width:"full"})}return r.replace("{{date}}",Ce(a,t)).replace("{{time}}",_e(o,t))}},Se=/P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;function Pe(e){var t=e?"string"==typeof e||e instanceof String?oe(e):ne(e):new Date;return Ee(t)?t:null}function Me(e,t,r,n){var a=null,o=Ve(r)||Qe(),p=!0;return Array.isArray(t)?(t.forEach((function(t){var r=ae(e,t,new Date,{locale:o});n&&(p=Ee(r)&&e===s(r,t,{awareOfUnicodeTokens:!0})),Ee(r)&&p&&(a=r)})),a):(a=ae(e,t,new Date,{locale:o}),n?p=Ee(a)&&e===s(a,t,{awareOfUnicodeTokens:!0}):Ee(a)||(t=t.match(Se).map((function(e){var t=e[0];return"p"===t||"P"===t?o?(0,Oe[t])(e,o.formatLong):t:e})).join(""),e.length>0&&(a=ae(e,t.slice(0,e.length),new Date)),Ee(a)||(a=new Date(e))),Ee(a)&&p?a:null)}function Ee(e){return o(e)&&ee(e,new Date("1/1/1000"))}function Ne(e,t,r){if("en"===r)return s(e,t,{awareOfUnicodeTokens:!0});var n=Ve(r);return r&&!n&&console.warn('A locale object was not found for the provided string ["'.concat(r,'"].')),!n&&Qe()&&Ve(Qe())&&(n=Ve(Qe())),s(e,t,{locale:n||null,awareOfUnicodeTokens:!0})}function Ye(e,t){var r=t.hour,n=void 0===r?0:r,a=t.minute,o=void 0===a?0:a,s=t.second;return Y(N(E(e,void 0===s?0:s),o),n)}function xe(e,t){var r=t&&Ve(t)||Qe()&&Ve(Qe());return _(e,r?{locale:r}:null)}function Te(e,t){return Ne(e,"ddd",t)}function Ie(e){return A(e)}function Le(e,t){var r=Ve(t||Qe());return B(e,{locale:r})}function je(e){return H(e)}function Re(e){return Q(e)}function Fe(e){return K(e)}function qe(e,t){return e&&t?X(e,t):!e&&!t}function We(e,t){return e&&t?J(e,t):!e&&!t}function Ae(e,t){return e&&t?Z(e,t):!e&&!t}function Be(e,t){return e&&t?G(e,t):!e&&!t}function He(e,t){return e&&t?z(e,t):!e&&!t}function Ke(e,t,r){var n,a=A(t),o=V(r);try{n=re(e,{start:a,end:o})}catch(e){n=!1}return n}function Qe(){return("undefined"!=typeof window?window:global).__localeId__}function Ve(e){if("string"==typeof e){var t="undefined"!=typeof window?window:global;return t.__localeData__?t.__localeData__[e]:null}return e}function Ue(e,t){return Ne(x(Pe(),e),"LLLL",t)}function $e(e,t){return Ne(x(Pe(),e),"LLL",t)}function ze(e,t){return Ne(T(Pe(),e),"QQQ",t)}function Ge(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.maxDate,a=t.excludeDates,o=t.includeDates,s=t.filterDate;return nt(e,{minDate:r,maxDate:n})||a&&a.some((function(t){return Be(e,t)}))||o&&!o.some((function(t){return Be(e,t)}))||s&&!s(Pe(e))||!1}function Je(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.excludeDates;return r&&r.some((function(t){return Be(e,t)}))||!1}function Xe(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.maxDate,a=t.excludeDates,o=t.includeDates,s=t.filterDate;return nt(e,{minDate:r,maxDate:n})||a&&a.some((function(t){return We(e,t)}))||o&&!o.some((function(t){return We(e,t)}))||s&&!s(Pe(e))||!1}function Ze(e,t,r,n){var a=P(e),o=O(e),s=P(t),p=O(t),i=P(n);return a===s&&a===i?o<=r&&r<=p:a<s?i===a&&o<=r||i===s&&p>=r||i<s&&i>a:void 0}function et(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.maxDate,a=t.excludeDates,o=t.includeDates,s=t.filterDate;return nt(e,{minDate:r,maxDate:n})||a&&a.some((function(t){return Ae(e,t)}))||o&&!o.some((function(t){return Ae(e,t)}))||s&&!s(Pe(e))||!1}function tt(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.maxDate,a=new Date(e,0,1);return nt(a,{minDate:r,maxDate:n})||!1}function rt(e,t,r,n){var a=P(e),o=S(e),s=P(t),p=S(t),i=P(n);return a===s&&a===i?o<=r&&r<=p:a<s?i===a&&o<=r||i===s&&p>=r||i<s&&i>a:void 0}function nt(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.maxDate;return r&&R(e,r)<0||n&&R(e,n)>0}function at(e,t){for(var r=t.length,n=0;n<r;n++)if(g(t[n])===g(e)&&k(t[n])===k(e))return!0;return!1}function ot(e,t){var r=t.minTime,n=t.maxTime;if(!r||!n)throw new Error("Both minTime and maxTime props required");var a,o=Pe(),s=Y(N(o,k(e)),g(e)),p=Y(N(o,k(r)),g(r)),i=Y(N(o,k(n)),g(n));try{a=!re(s,{start:p,end:i})}catch(e){a=!1}return a}function st(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.includeDates,a=v(e,1);return r&&F(r,a)>0||n&&n.every((function(e){return F(e,a)>0}))||!1}function pt(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.maxDate,n=t.includeDates,a=d(e,1);return r&&F(a,r)>0||n&&n.every((function(e){return F(a,e)>0}))||!1}function it(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.includeDates,a=w(e,1);return r&&W(r,a)>0||n&&n.every((function(e){return W(e,a)>0}))||!1}function ct(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.maxDate,n=t.includeDates,a=u(e,1);return r&&W(a,r)>0||n&&n.every((function(e){return W(a,e)>0}))||!1}function lt(e){var t=e.minDate,r=e.includeDates;if(r&&t){var n=r.filter((function(e){return R(e,t)>=0}));return L(n)}return r?L(r):t}function dt(e){var t=e.maxDate,r=e.includeDates;if(r&&t){var n=r.filter((function(e){return R(e,t)<=0}));return j(n)}return r?j(r):t}function ut(){for(var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"react-datepicker__day--highlighted",r=new Map,n=0,o=e.length;n<o;n++){var s=e[n];if(a(s)){var p=Ne(s,"MM.dd.yyyy"),i=r.get(p)||[];i.includes(t)||(i.push(t),r.set(p,i))}else if("object"===ce(s)){var c=Object.keys(s),l=c[0],d=s[c[0]];if("string"==typeof l&&d.constructor===Array)for(var u=0,h=d.length;u<h;u++){var f=Ne(d[u],"MM.dd.yyyy"),m=r.get(f)||[];m.includes(l)||(m.push(l),r.set(f,m))}}}return r}function ht(e,t,r,n,a){for(var o=a.length,s=[],c=0;c<o;c++){var l=p(i(e,g(a[c])),k(a[c])),d=p(e,(r+1)*n);ee(l,t)&&te(l,d)&&s.push(a[c])}return s}function ft(e){return e<10?"0".concat(e):"".concat(e)}function mt(e){var t=12*Math.ceil(P(e)/12);return{startPeriod:t-11,endPeriod:t}}function yt(e,t,r,n){for(var a=[],o=0;o<2*t+1;o++){var s=e+t-o,p=!0;r&&(p=P(r)<=s),n&&p&&(p=P(n)>=s),p&&a.push(s)}return a}var vt=se(function(e){ve(a,e);var r=be(a);function a(e){var n;le(this,a),he(ke(n=r.call(this,e)),"renderOptions",(function(){var e=n.props.year,r=n.state.yearsList.map((function(r){return t.createElement("div",{className:e===r?"react-datepicker__year-option react-datepicker__year-option--selected_year":"react-datepicker__year-option",key:r,onClick:n.onChange.bind(ke(n),r)},e===r?t.createElement("span",{className:"react-datepicker__year-option--selected"},"✓"):"",r)})),a=n.props.minDate?P(n.props.minDate):null,o=n.props.maxDate?P(n.props.maxDate):null;return o&&n.state.yearsList.find((function(e){return e===o}))||r.unshift(t.createElement("div",{className:"react-datepicker__year-option",key:"upcoming",onClick:n.incrementYears},t.createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--years react-datepicker__navigation--years-upcoming"}))),a&&n.state.yearsList.find((function(e){return e===a}))||r.push(t.createElement("div",{className:"react-datepicker__year-option",key:"previous",onClick:n.decrementYears},t.createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--years react-datepicker__navigation--years-previous"}))),r})),he(ke(n),"onChange",(function(e){n.props.onChange(e)})),he(ke(n),"handleClickOutside",(function(){n.props.onCancel()})),he(ke(n),"shiftYears",(function(e){var t=n.state.yearsList.map((function(t){return t+e}));n.setState({yearsList:t})})),he(ke(n),"incrementYears",(function(){return n.shiftYears(1)})),he(ke(n),"decrementYears",(function(){return n.shiftYears(-1)}));var o=e.yearDropdownItemNumber,s=e.scrollableYearDropdown,p=o||(s?10:5);return n.state={yearsList:yt(n.props.year,p,n.props.minDate,n.props.maxDate)},n}return ue(a,[{key:"render",value:function(){var e=n({"react-datepicker__year-dropdown":!0,"react-datepicker__year-dropdown--scrollable":this.props.scrollableYearDropdown});return t.createElement("div",{className:e},this.renderOptions())}}]),a}(t.Component)),wt=function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"state",{dropdownVisible:!1}),he(ke(e),"renderSelectOptions",(function(){for(var r=e.props.minDate?P(e.props.minDate):1900,n=e.props.maxDate?P(e.props.maxDate):2100,a=[],o=r;o<=n;o++)a.push(t.createElement("option",{key:o,value:o},o));return a})),he(ke(e),"onSelectChange",(function(t){e.onChange(t.target.value)})),he(ke(e),"renderSelectMode",(function(){return t.createElement("select",{value:e.props.year,className:"react-datepicker__year-select",onChange:e.onSelectChange},e.renderSelectOptions())})),he(ke(e),"renderReadView",(function(r){return t.createElement("div",{key:"read",style:{visibility:r?"visible":"hidden"},className:"react-datepicker__year-read-view",onClick:function(t){return e.toggleDropdown(t)}},t.createElement("span",{className:"react-datepicker__year-read-view--down-arrow"}),t.createElement("span",{className:"react-datepicker__year-read-view--selected-year"},e.props.year))})),he(ke(e),"renderDropdown",(function(){return t.createElement(vt,{key:"dropdown",year:e.props.year,onChange:e.onChange,onCancel:e.toggleDropdown,minDate:e.props.minDate,maxDate:e.props.maxDate,scrollableYearDropdown:e.props.scrollableYearDropdown,yearDropdownItemNumber:e.props.yearDropdownItemNumber})})),he(ke(e),"renderScrollMode",(function(){var t=e.state.dropdownVisible,r=[e.renderReadView(!t)];return t&&r.unshift(e.renderDropdown()),r})),he(ke(e),"onChange",(function(t){e.toggleDropdown(),t!==e.props.year&&e.props.onChange(t)})),he(ke(e),"toggleDropdown",(function(t){e.setState({dropdownVisible:!e.state.dropdownVisible},(function(){e.props.adjustDateOnChange&&e.handleYearChange(e.props.date,t)}))})),he(ke(e),"handleYearChange",(function(t,r){e.onSelect(t,r),e.setOpen()})),he(ke(e),"onSelect",(function(t,r){e.props.onSelect&&e.props.onSelect(t,r)})),he(ke(e),"setOpen",(function(){e.props.setOpen&&e.props.setOpen(!0)})),e}return ue(n,[{key:"render",value:function(){var e;switch(this.props.dropdownMode){case"scroll":e=this.renderScrollMode();break;case"select":e=this.renderSelectMode()}return t.createElement("div",{className:"react-datepicker__year-dropdown-container react-datepicker__year-dropdown-container--".concat(this.props.dropdownMode)},e)}}]),n}(t.Component),Dt=se(function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"renderOptions",(function(){return e.props.monthNames.map((function(r,n){return t.createElement("div",{className:e.props.month===n?"react-datepicker__month-option react-datepicker__month-option--selected_month":"react-datepicker__month-option",key:r,onClick:e.onChange.bind(ke(e),n)},e.props.month===n?t.createElement("span",{className:"react-datepicker__month-option--selected"},"✓"):"",r)}))})),he(ke(e),"onChange",(function(t){return e.props.onChange(t)})),he(ke(e),"handleClickOutside",(function(){return e.props.onCancel()})),e}return ue(n,[{key:"render",value:function(){return t.createElement("div",{className:"react-datepicker__month-dropdown"},this.renderOptions())}}]),n}(t.Component)),kt=function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"state",{dropdownVisible:!1}),he(ke(e),"renderSelectOptions",(function(e){return e.map((function(e,r){return t.createElement("option",{key:r,value:r},e)}))})),he(ke(e),"renderSelectMode",(function(r){return t.createElement("select",{value:e.props.month,className:"react-datepicker__month-select",onChange:function(t){return e.onChange(t.target.value)}},e.renderSelectOptions(r))})),he(ke(e),"renderReadView",(function(r,n){return t.createElement("div",{key:"read",style:{visibility:r?"visible":"hidden"},className:"react-datepicker__month-read-view",onClick:e.toggleDropdown},t.createElement("span",{className:"react-datepicker__month-read-view--down-arrow"}),t.createElement("span",{className:"react-datepicker__month-read-view--selected-month"},n[e.props.month]))})),he(ke(e),"renderDropdown",(function(r){return t.createElement(Dt,{key:"dropdown",month:e.props.month,monthNames:r,onChange:e.onChange,onCancel:e.toggleDropdown})})),he(ke(e),"renderScrollMode",(function(t){var r=e.state.dropdownVisible,n=[e.renderReadView(!r,t)];return r&&n.unshift(e.renderDropdown(t)),n})),he(ke(e),"onChange",(function(t){e.toggleDropdown(),t!==e.props.month&&e.props.onChange(t)})),he(ke(e),"toggleDropdown",(function(){return e.setState({dropdownVisible:!e.state.dropdownVisible})})),e}return ue(n,[{key:"render",value:function(){var e,r=this,n=[0,1,2,3,4,5,6,7,8,9,10,11].map(this.props.useShortMonthInDropdown?function(e){return $e(e,r.props.locale)}:function(e){return Ue(e,r.props.locale)});switch(this.props.dropdownMode){case"scroll":e=this.renderScrollMode(n);break;case"select":e=this.renderSelectMode(n)}return t.createElement("div",{className:"react-datepicker__month-dropdown-container react-datepicker__month-dropdown-container--".concat(this.props.dropdownMode)},e)}}]),n}(t.Component);function gt(e,t){for(var r=[],n=je(e),a=je(t);!ee(n,a);)r.push(Pe(n)),n=d(n,1);return r}var bt=se(function(e){ve(a,e);var r=be(a);function a(e){var n;return le(this,a),he(ke(n=r.call(this,e)),"renderOptions",(function(){return n.state.monthYearsList.map((function(e){var r=M(e),a=qe(n.props.date,e)&&We(n.props.date,e);return t.createElement("div",{className:a?"react-datepicker__month-year-option --selected_month-year":"react-datepicker__month-year-option",key:r,onClick:n.onChange.bind(ke(n),r)},a?t.createElement("span",{className:"react-datepicker__month-year-option--selected"},"✓"):"",Ne(e,n.props.dateFormat))}))})),he(ke(n),"onChange",(function(e){return n.props.onChange(e)})),he(ke(n),"handleClickOutside",(function(){n.props.onCancel()})),n.state={monthYearsList:gt(n.props.minDate,n.props.maxDate)},n}return ue(a,[{key:"render",value:function(){var e=n({"react-datepicker__month-year-dropdown":!0,"react-datepicker__month-year-dropdown--scrollable":this.props.scrollableMonthYearDropdown});return t.createElement("div",{className:e},this.renderOptions())}}]),a}(t.Component)),Ct=function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"state",{dropdownVisible:!1}),he(ke(e),"renderSelectOptions",(function(){for(var r=je(e.props.minDate),n=je(e.props.maxDate),a=[];!ee(r,n);){var o=M(r);a.push(t.createElement("option",{key:o,value:o},Ne(r,e.props.dateFormat,e.props.locale))),r=d(r,1)}return a})),he(ke(e),"onSelectChange",(function(t){e.onChange(t.target.value)})),he(ke(e),"renderSelectMode",(function(){return t.createElement("select",{value:M(je(e.props.date)),className:"react-datepicker__month-year-select",onChange:e.onSelectChange},e.renderSelectOptions())})),he(ke(e),"renderReadView",(function(r){var n=Ne(e.props.date,e.props.dateFormat,e.props.locale);return t.createElement("div",{key:"read",style:{visibility:r?"visible":"hidden"},className:"react-datepicker__month-year-read-view",onClick:function(t){return e.toggleDropdown(t)}},t.createElement("span",{className:"react-datepicker__month-year-read-view--down-arrow"}),t.createElement("span",{className:"react-datepicker__month-year-read-view--selected-month-year"},n))})),he(ke(e),"renderDropdown",(function(){return t.createElement(bt,{key:"dropdown",date:e.props.date,dateFormat:e.props.dateFormat,onChange:e.onChange,onCancel:e.toggleDropdown,minDate:e.props.minDate,maxDate:e.props.maxDate,scrollableMonthYearDropdown:e.props.scrollableMonthYearDropdown})})),he(ke(e),"renderScrollMode",(function(){var t=e.state.dropdownVisible,r=[e.renderReadView(!t)];return t&&r.unshift(e.renderDropdown()),r})),he(ke(e),"onChange",(function(t){e.toggleDropdown();var r=Pe(parseInt(t));qe(e.props.date,r)&&We(e.props.date,r)||e.props.onChange(r)})),he(ke(e),"toggleDropdown",(function(){return e.setState({dropdownVisible:!e.state.dropdownVisible})})),e}return ue(n,[{key:"render",value:function(){var e;switch(this.props.dropdownMode){case"scroll":e=this.renderScrollMode();break;case"select":e=this.renderSelectMode()}return t.createElement("div",{className:"react-datepicker__month-year-dropdown-container react-datepicker__month-year-dropdown-container--".concat(this.props.dropdownMode)},e)}}]),n}(t.Component),_t=function(e){ve(a,e);var r=be(a);function a(){var e;le(this,a);for(var o=arguments.length,s=new Array(o),p=0;p<o;p++)s[p]=arguments[p];return he(ke(e=r.call.apply(r,[this].concat(s))),"dayEl",t.createRef()),he(ke(e),"handleClick",(function(t){!e.isDisabled()&&e.props.onClick&&e.props.onClick(t)})),he(ke(e),"handleMouseEnter",(function(t){!e.isDisabled()&&e.props.onMouseEnter&&e.props.onMouseEnter(t)})),he(ke(e),"handleOnKeyDown",(function(t){" "===t.key&&(t.preventDefault(),t.key="Enter"),e.props.handleOnKeyDown(t)})),he(ke(e),"isSameDay",(function(t){return Be(e.props.day,t)})),he(ke(e),"isKeyboardSelected",(function(){return!e.props.disabledKeyboardNavigation&&!e.isSameDay(e.props.selected)&&e.isSameDay(e.props.preSelection)})),he(ke(e),"isDisabled",(function(){return Ge(e.props.day,e.props)})),he(ke(e),"isExcluded",(function(){return Je(e.props.day,e.props)})),he(ke(e),"getHighLightedClass",(function(t){var r=e.props,n=r.day,a=r.highlightDates;if(!a)return!1;var o=Ne(n,"MM.dd.yyyy");return a.get(o)})),he(ke(e),"isInRange",(function(){var t=e.props,r=t.day,n=t.startDate,a=t.endDate;return!(!n||!a)&&Ke(r,n,a)})),he(ke(e),"isInSelectingRange",(function(){var t=e.props,r=t.day,n=t.selectsStart,a=t.selectsEnd,o=t.selectsRange,s=t.selectingDate,p=t.startDate,i=t.endDate;return!(!(n||a||o)||!s||e.isDisabled())&&(n&&i&&(te(s,i)||He(s,i))?Ke(r,s,i):(a&&p&&(ee(s,p)||He(s,p))||!(!o||!p||i||!ee(s,p)&&!He(s,p)))&&Ke(r,p,s))})),he(ke(e),"isSelectingRangeStart",(function(){if(!e.isInSelectingRange())return!1;var t=e.props,r=t.day,n=t.selectingDate,a=t.startDate;return Be(r,t.selectsStart?n:a)})),he(ke(e),"isSelectingRangeEnd",(function(){if(!e.isInSelectingRange())return!1;var t=e.props,r=t.day,n=t.selectingDate,a=t.endDate;return Be(r,t.selectsEnd?n:a)})),he(ke(e),"isRangeStart",(function(){var t=e.props,r=t.day,n=t.startDate,a=t.endDate;return!(!n||!a)&&Be(n,r)})),he(ke(e),"isRangeEnd",(function(){var t=e.props,r=t.day,n=t.startDate,a=t.endDate;return!(!n||!a)&&Be(a,r)})),he(ke(e),"isWeekend",(function(){var t=b(e.props.day);return 0===t||6===t})),he(ke(e),"isOutsideMonth",(function(){return void 0!==e.props.month&&e.props.month!==O(e.props.day)})),he(ke(e),"getClassNames",(function(t){var r=e.props.dayClassName?e.props.dayClassName(t):void 0;return n("react-datepicker__day",r,"react-datepicker__day--"+Te(e.props.day),{"react-datepicker__day--disabled":e.isDisabled(),"react-datepicker__day--excluded":e.isExcluded(),"react-datepicker__day--selected":e.isSameDay(e.props.selected),"react-datepicker__day--keyboard-selected":e.isKeyboardSelected(),"react-datepicker__day--range-start":e.isRangeStart(),"react-datepicker__day--range-end":e.isRangeEnd(),"react-datepicker__day--in-range":e.isInRange(),"react-datepicker__day--in-selecting-range":e.isInSelectingRange(),"react-datepicker__day--selecting-range-start":e.isSelectingRangeStart(),"react-datepicker__day--selecting-range-end":e.isSelectingRangeEnd(),"react-datepicker__day--today":e.isSameDay(Pe()),"react-datepicker__day--weekend":e.isWeekend(),"react-datepicker__day--outside-month":e.isOutsideMonth()},e.getHighLightedClass("react-datepicker__day--highlighted"))})),he(ke(e),"getAriaLabel",(function(){var t=e.props,r=t.day,n=t.ariaLabelPrefixWhenEnabled,a=void 0===n?"Choose":n,o=t.ariaLabelPrefixWhenDisabled,s=void 0===o?"Not available":o,p=e.isDisabled()||e.isExcluded()?s:a;return"".concat(p," ").concat(Ne(r,"PPPP"))})),he(ke(e),"getTabIndex",(function(t,r){var n=t||e.props.selected,a=r||e.props.preSelection;return e.isKeyboardSelected()||e.isSameDay(n)&&Be(a,n)?0:-1})),he(ke(e),"handleFocusDay",(function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},r=!1;0===e.getTabIndex()&&!t.isInputFocused&&e.isSameDay(e.props.preSelection)&&(document.activeElement&&document.activeElement!==document.body||(r=!0),e.props.containerRef&&e.props.containerRef.current&&e.props.containerRef.current.contains(document.activeElement)&&document.activeElement.classList.contains("react-datepicker__day")&&(r=!0)),r&&e.dayEl.current.focus({preventScroll:!0})})),he(ke(e),"render",(function(){return t.createElement("div",{ref:e.dayEl,className:e.getClassNames(e.props.day),onKeyDown:e.handleOnKeyDown,onClick:e.handleClick,onMouseEnter:e.handleMouseEnter,tabIndex:e.getTabIndex(),"aria-label":e.getAriaLabel(),role:"button","aria-disabled":e.isDisabled()},e.props.renderDayContents?e.props.renderDayContents(C(e.props.day),e.props.day):C(e.props.day))})),e}return ue(a,[{key:"componentDidMount",value:function(){this.handleFocusDay()}},{key:"componentDidUpdate",value:function(e){this.handleFocusDay(e)}}]),a}(t.Component),Ot=function(e){ve(a,e);var r=be(a);function a(){var e;le(this,a);for(var t=arguments.length,n=new Array(t),o=0;o<t;o++)n[o]=arguments[o];return he(ke(e=r.call.apply(r,[this].concat(n))),"handleClick",(function(t){e.props.onClick&&e.props.onClick(t)})),e}return ue(a,[{key:"render",value:function(){var e=this.props,r=e.weekNumber,a=e.ariaLabelPrefix,o=void 0===a?"week ":a,s={"react-datepicker__week-number":!0,"react-datepicker__week-number--clickable":!!e.onClick};return t.createElement("div",{className:n(s),"aria-label":"".concat(o," ").concat(this.props.weekNumber),onClick:this.handleClick},r)}}]),a}(t.Component),St=function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"handleDayClick",(function(t,r){e.props.onDayClick&&e.props.onDayClick(t,r)})),he(ke(e),"handleDayMouseEnter",(function(t){e.props.onDayMouseEnter&&e.props.onDayMouseEnter(t)})),he(ke(e),"handleWeekClick",(function(t,r,n){"function"==typeof e.props.onWeekSelect&&e.props.onWeekSelect(t,r,n),e.props.shouldCloseOnSelect&&e.props.setOpen(!1)})),he(ke(e),"formatWeekNumber",(function(t){return e.props.formatWeekNumber?e.props.formatWeekNumber(t):xe(t,e.props.locale)})),he(ke(e),"renderDays",(function(){var r=Le(e.props.day,e.props.locale),n=[],a=e.formatWeekNumber(r);if(e.props.showWeekNumber){var o=e.props.onWeekSelect?e.handleWeekClick.bind(ke(e),r,a):void 0;n.push(t.createElement(Ot,{key:"W",weekNumber:a,onClick:o,ariaLabelPrefix:e.props.ariaLabelPrefix}))}return n.concat([0,1,2,3,4,5,6].map((function(n){var a=c(r,n);return t.createElement(_t,{ariaLabelPrefixWhenEnabled:e.props.chooseDayAriaLabelPrefix,ariaLabelPrefixWhenDisabled:e.props.disabledDayAriaLabelPrefix,key:a.valueOf(),day:a,month:e.props.month,onClick:e.handleDayClick.bind(ke(e),a),onMouseEnter:e.handleDayMouseEnter.bind(ke(e),a),minDate:e.props.minDate,maxDate:e.props.maxDate,excludeDates:e.props.excludeDates,includeDates:e.props.includeDates,highlightDates:e.props.highlightDates,selectingDate:e.props.selectingDate,filterDate:e.props.filterDate,preSelection:e.props.preSelection,selected:e.props.selected,selectsStart:e.props.selectsStart,selectsEnd:e.props.selectsEnd,selectsRange:e.props.selectsRange,startDate:e.props.startDate,endDate:e.props.endDate,dayClassName:e.props.dayClassName,renderDayContents:e.props.renderDayContents,disabledKeyboardNavigation:e.props.disabledKeyboardNavigation,handleOnKeyDown:e.props.handleOnKeyDown,isInputFocused:e.props.isInputFocused,containerRef:e.props.containerRef})})))})),e}return ue(n,[{key:"render",value:function(){return t.createElement("div",{className:"react-datepicker__week"},this.renderDays())}}],[{key:"defaultProps",get:function(){return{shouldCloseOnSelect:!0}}}]),n}(t.Component),Pt=function(e){ve(a,e);var r=be(a);function a(){var e;le(this,a);for(var o=arguments.length,s=new Array(o),p=0;p<o;p++)s[p]=arguments[p];return he(ke(e=r.call.apply(r,[this].concat(s))),"handleDayClick",(function(t,r){e.props.onDayClick&&e.props.onDayClick(t,r,e.props.orderInDisplay)})),he(ke(e),"handleDayMouseEnter",(function(t){e.props.onDayMouseEnter&&e.props.onDayMouseEnter(t)})),he(ke(e),"handleMouseLeave",(function(){e.props.onMouseLeave&&e.props.onMouseLeave()})),he(ke(e),"isRangeStartMonth",(function(t){var r=e.props,n=r.day,a=r.startDate,o=r.endDate;return!(!a||!o)&&We(x(n,t),a)})),he(ke(e),"isRangeStartQuarter",(function(t){var r=e.props,n=r.day,a=r.startDate,o=r.endDate;return!(!a||!o)&&Ae(T(n,t),a)})),he(ke(e),"isRangeEndMonth",(function(t){var r=e.props,n=r.day,a=r.startDate,o=r.endDate;return!(!a||!o)&&We(x(n,t),o)})),he(ke(e),"isRangeEndQuarter",(function(t){var r=e.props,n=r.day,a=r.startDate,o=r.endDate;return!(!a||!o)&&Ae(T(n,t),o)})),he(ke(e),"isWeekInMonth",(function(t){var r=e.props.day,n=c(t,6);return We(t,r)||We(n,r)})),he(ke(e),"renderWeeks",(function(){for(var r=[],n=e.props.fixedHeight,a=Le(je(e.props.day),e.props.locale),o=0,s=!1;r.push(t.createElement(St,{ariaLabelPrefix:e.props.weekAriaLabelPrefix,chooseDayAriaLabelPrefix:e.props.chooseDayAriaLabelPrefix,disabledDayAriaLabelPrefix:e.props.disabledDayAriaLabelPrefix,key:o,day:a,month:O(e.props.day),onDayClick:e.handleDayClick,onDayMouseEnter:e.handleDayMouseEnter,onWeekSelect:e.props.onWeekSelect,formatWeekNumber:e.props.formatWeekNumber,locale:e.props.locale,minDate:e.props.minDate,maxDate:e.props.maxDate,excludeDates:e.props.excludeDates,includeDates:e.props.includeDates,highlightDates:e.props.highlightDates,selectingDate:e.props.selectingDate,filterDate:e.props.filterDate,preSelection:e.props.preSelection,selected:e.props.selected,selectsStart:e.props.selectsStart,selectsEnd:e.props.selectsEnd,selectsRange:e.props.selectsRange,showWeekNumber:e.props.showWeekNumbers,startDate:e.props.startDate,endDate:e.props.endDate,dayClassName:e.props.dayClassName,setOpen:e.props.setOpen,shouldCloseOnSelect:e.props.shouldCloseOnSelect,disabledKeyboardNavigation:e.props.disabledKeyboardNavigation,renderDayContents:e.props.renderDayContents,handleOnKeyDown:e.props.handleOnKeyDown,isInputFocused:e.props.isInputFocused,containerRef:e.props.containerRef})),!s;){o++,a=l(a,1);var p=n&&o>=6,i=!n&&!e.isWeekInMonth(a);if(p||i){if(!e.props.peekNextMonth)break;s=!0}}return r})),he(ke(e),"onMonthClick",(function(t,r){e.handleDayClick(je(x(e.props.day,r)),t)})),he(ke(e),"onQuarterClick",(function(t,r){e.handleDayClick(Fe(T(e.props.day,r)),t)})),he(ke(e),"getMonthClassNames",(function(t){var r=e.props,a=r.day,o=r.startDate,s=r.endDate,p=r.selected,i=r.minDate,c=r.maxDate;return n("react-datepicker__month-text","react-datepicker__month-".concat(t),{"react-datepicker__month--disabled":(i||c)&&Xe(x(a,t),e.props),"react-datepicker__month--selected":O(a)===t&&P(a)===P(p),"react-datepicker__month--in-range":Ze(o,s,t,a),"react-datepicker__month--range-start":e.isRangeStartMonth(t),"react-datepicker__month--range-end":e.isRangeEndMonth(t)})})),he(ke(e),"getQuarterClassNames",(function(t){var r=e.props,a=r.day,o=r.startDate,s=r.endDate,p=r.selected,i=r.minDate,c=r.maxDate;return n("react-datepicker__quarter-text","react-datepicker__quarter-".concat(t),{"react-datepicker__quarter--disabled":(i||c)&&et(T(a,t),e.props),"react-datepicker__quarter--selected":S(a)===t&&P(a)===P(p),"react-datepicker__quarter--in-range":rt(o,s,t,a),"react-datepicker__quarter--range-start":e.isRangeStartQuarter(t),"react-datepicker__quarter--range-end":e.isRangeEndQuarter(t)})})),he(ke(e),"renderMonths",(function(){var r=e.props,n=r.showFullMonthYearPicker,a=r.showTwoColumnMonthYearPicker,o=r.locale;return(a?[[0,1],[2,3],[4,5],[6,7],[8,9],[10,11]]:[[0,1,2],[3,4,5],[6,7,8],[9,10,11]]).map((function(r,a){return t.createElement("div",{className:"react-datepicker__month-wrapper",key:a},r.map((function(r,a){return t.createElement("div",{key:a,onClick:function(t){e.onMonthClick(t,r)},className:e.getMonthClassNames(r)},n?Ue(r,o):$e(r,o))})))}))})),he(ke(e),"renderQuarters",(function(){return t.createElement("div",{className:"react-datepicker__quarter-wrapper"},[1,2,3,4].map((function(r,n){return t.createElement("div",{key:n,onClick:function(t){e.onQuarterClick(t,r)},className:e.getQuarterClassNames(r)},ze(r,e.props.locale))})))})),he(ke(e),"getClassNames",(function(){var t=e.props,r=t.selectingDate,a=t.selectsStart,o=t.selectsEnd,s=t.showMonthYearPicker,p=t.showQuarterYearPicker;return n("react-datepicker__month",{"react-datepicker__month--selecting-range":r&&(a||o)},{"react-datepicker__monthPicker":s},{"react-datepicker__quarterPicker":p})})),e}return ue(a,[{key:"render",value:function(){var e=this.props,r=e.showMonthYearPicker,n=e.showQuarterYearPicker,a=e.day,o=e.ariaLabelPrefix,s=void 0===o?"month ":o;return t.createElement("div",{className:this.getClassNames(),onMouseLeave:this.handleMouseLeave,"aria-label":"".concat(s," ").concat(Ne(a,"yyyy-MM"))},r?this.renderMonths():n?this.renderQuarters():this.renderWeeks())}}]),a}(t.Component),Mt=function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"state",{height:null}),he(ke(e),"handleClick",(function(t){(e.props.minTime||e.props.maxTime)&&ot(t,e.props)||e.props.excludeTimes&&at(t,e.props.excludeTimes)||e.props.includeTimes&&!at(t,e.props.includeTimes)||e.props.onChange(t)})),he(ke(e),"liClasses",(function(t,r,n){var a=["react-datepicker__time-list-item",e.props.timeClassName?e.props.timeClassName(t,r,n):void 0];return e.props.selected&&r===g(t)&&n===k(t)&&a.push("react-datepicker__time-list-item--selected"),((e.props.minTime||e.props.maxTime)&&ot(t,e.props)||e.props.excludeTimes&&at(t,e.props.excludeTimes)||e.props.includeTimes&&!at(t,e.props.includeTimes))&&a.push("react-datepicker__time-list-item--disabled"),e.props.injectTimes&&(60*g(t)+k(t))%e.props.intervals!=0&&a.push("react-datepicker__time-list-item--injected"),a.join(" ")})),he(ke(e),"renderTimes",(function(){for(var r=[],n=e.props.format?e.props.format:"p",a=e.props.intervals,o=e.props.selected||e.props.openToDate||Pe(),s=g(o),i=k(o),c=Ie(Pe()),l=1440/a,d=e.props.injectTimes&&e.props.injectTimes.sort((function(e,t){return e-t})),u=[],h=0;h<l;h++){var f=p(c,h*a);if(r.push(f),d){var m=ht(c,f,h,a,d);r=r.concat(m)}s===g(f)&&u.push(f)}return r.map((function(r,a){return t.createElement("li",{key:a,onClick:e.handleClick.bind(ke(e),r),className:e.liClasses(r,s,i),ref:function(t){s===g(r)&&(i>=k(r)?e.centerLi=t:e.centerLi||u.indexOf(r)!==u.length-1||(e.centerLi=t))}},Ne(r,n,e.props.locale))}))})),e}return ue(n,[{key:"componentDidMount",value:function(){this.list.scrollTop=n.calcCenterPosition(this.props.monthRef?this.props.monthRef.clientHeight-this.header.clientHeight:this.list.clientHeight,this.centerLi),this.props.monthRef&&this.header&&this.setState({height:this.props.monthRef.clientHeight-this.header.clientHeight})}},{key:"render",value:function(){var e=this,r=this.state.height;return t.createElement("div",{className:"react-datepicker__time-container ".concat(this.props.todayButton?"react-datepicker__time-container--with-today-button":"")},t.createElement("div",{className:"react-datepicker__header react-datepicker__header--time",ref:function(t){e.header=t}},t.createElement("div",{className:"react-datepicker-time__header"},this.props.timeCaption)),t.createElement("div",{className:"react-datepicker__time"},t.createElement("div",{className:"react-datepicker__time-box"},t.createElement("ul",{className:"react-datepicker__time-list",ref:function(t){e.list=t},style:r?{height:r}:{}},this.renderTimes()))))}}],[{key:"defaultProps",get:function(){return{intervals:30,onTimeChange:function(){},todayButton:null,timeCaption:"Time"}}}]),n}(t.Component);he(Mt,"calcCenterPosition",(function(e,t){return t.offsetTop-(e/2-t.clientHeight/2)}));var Et=function(e){ve(a,e);var r=be(a);function a(e){var t;return le(this,a),he(ke(t=r.call(this,e)),"handleYearClick",(function(e,r){t.props.onDayClick&&t.props.onDayClick(e,r)})),he(ke(t),"isSameDay",(function(e,t){return Be(e,t)})),he(ke(t),"isKeyboardSelected",(function(e){var r=Re(I(t.props.date,e));return!t.props.disabledKeyboardNavigation&&!t.props.inline&&!Be(r,Re(t.props.selected))&&Be(r,Re(t.props.preSelection))})),he(ke(t),"onYearClick",(function(e,r){var n=t.props.date;t.handleYearClick(Re(I(n,r)),e)})),he(ke(t),"getYearClassNames",(function(e){var r=t.props,a=r.minDate,o=r.maxDate,s=r.selected;return n("react-datepicker__year-text",{"react-datepicker__year-text--selected":e===P(s),"react-datepicker__year-text--disabled":(a||o)&&tt(e,t.props),"react-datepicker__year-text--keyboard-selected":t.isKeyboardSelected(e)})})),t}return ue(a,[{key:"render",value:function(){for(var e=this,r=[],n=mt(this.props.date),a=n.startPeriod,o=n.endPeriod,s=function(n){r.push(t.createElement("div",{onClick:function(t){e.onYearClick(t,n)},className:e.getYearClassNames(n),key:n},n))},p=a;p<=o;p++)s(p);return t.createElement("div",{className:"react-datepicker__year"},t.createElement("div",{className:"react-datepicker__year-wrapper"},r))}}]),a}(t.Component),Nt=function(e){ve(n,e);var r=be(n);function n(e){var a;return le(this,n),he(ke(a=r.call(this,e)),"onTimeChange",(function(e){a.setState({time:e});var t=new Date;t.setHours(e.split(":")[0]),t.setMinutes(e.split(":")[1]),a.props.onChange(t)})),he(ke(a),"renderTimeInput",(function(){var e=a.state.time,r=a.props,n=r.timeString,o=r.customTimeInput;return o?t.cloneElement(o,{value:e,onChange:a.onTimeChange}):t.createElement("input",{type:"time",className:"react-datepicker-time__input",placeholder:"Time",name:"time-input",required:!0,value:e,onChange:function(e){a.onTimeChange(e.target.value||n)}})})),a.state={time:a.props.timeString},a}return ue(n,[{key:"render",value:function(){return t.createElement("div",{className:"react-datepicker__input-time-container"},t.createElement("div",{className:"react-datepicker-time__caption"},this.props.timeInputLabel),t.createElement("div",{className:"react-datepicker-time__input-container"},t.createElement("div",{className:"react-datepicker-time__input"},this.renderTimeInput())))}}]),n}(t.Component);function Yt(e){var r=e.className,n=e.children,a=e.showPopperArrow,o=e.arrowProps,s=void 0===o?{}:o;return t.createElement("div",{className:r},a&&t.createElement("div",fe({className:"react-datepicker__triangle"},s)),n)}var xt=["react-datepicker__year-select","react-datepicker__month-select","react-datepicker__month-year-select"],Tt=function(e){ve(a,e);var r=be(a);function a(e){var o;return le(this,a),he(ke(o=r.call(this,e)),"handleClickOutside",(function(e){o.props.onClickOutside(e)})),he(ke(o),"setClickOutsideRef",(function(){return o.containerRef.current})),he(ke(o),"handleDropdownFocus",(function(e){(function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=(e.className||"").split(/\s+/);return xt.some((function(e){return t.indexOf(e)>=0}))})(e.target)&&o.props.onDropdownFocus()})),he(ke(o),"getDateInView",(function(){var e=o.props,t=e.preSelection,r=e.selected,n=e.openToDate,a=lt(o.props),s=dt(o.props),p=Pe(),i=n||r||t;return i||(a&&te(p,a)?a:s&&ee(p,s)?s:p)})),he(ke(o),"increaseMonth",(function(){o.setState((function(e){var t=e.date;return{date:d(t,1)}}),(function(){return o.handleMonthChange(o.state.date)}))})),he(ke(o),"decreaseMonth",(function(){o.setState((function(e){var t=e.date;return{date:v(t,1)}}),(function(){return o.handleMonthChange(o.state.date)}))})),he(ke(o),"handleDayClick",(function(e,t,r){return o.props.onSelect(e,t,r)})),he(ke(o),"handleDayMouseEnter",(function(e){o.setState({selectingDate:e}),o.props.onDayMouseEnter&&o.props.onDayMouseEnter(e)})),he(ke(o),"handleMonthMouseLeave",(function(){o.setState({selectingDate:null}),o.props.onMonthMouseLeave&&o.props.onMonthMouseLeave()})),he(ke(o),"handleYearChange",(function(e){o.props.onYearChange&&o.props.onYearChange(e),o.props.adjustDateOnChange&&(o.props.onSelect&&o.props.onSelect(e),o.props.setOpen&&o.props.setOpen(!0)),o.props.setPreSelection&&o.props.setPreSelection(e)})),he(ke(o),"handleMonthChange",(function(e){o.props.onMonthChange&&o.props.onMonthChange(e),o.props.adjustDateOnChange&&(o.props.onSelect&&o.props.onSelect(e),o.props.setOpen&&o.props.setOpen(!0)),o.props.setPreSelection&&o.props.setPreSelection(e)})),he(ke(o),"handleMonthYearChange",(function(e){o.handleYearChange(e),o.handleMonthChange(e)})),he(ke(o),"changeYear",(function(e){o.setState((function(t){var r=t.date;return{date:I(r,e)}}),(function(){return o.handleYearChange(o.state.date)}))})),he(ke(o),"changeMonth",(function(e){o.setState((function(t){var r=t.date;return{date:x(r,e)}}),(function(){return o.handleMonthChange(o.state.date)}))})),he(ke(o),"changeMonthYear",(function(e){o.setState((function(t){var r=t.date;return{date:I(x(r,O(e)),P(e))}}),(function(){return o.handleMonthYearChange(o.state.date)}))})),he(ke(o),"header",(function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:o.state.date,r=Le(e,o.props.locale),a=[];return o.props.showWeekNumbers&&a.push(t.createElement("div",{key:"W",className:"react-datepicker__day-name"},o.props.weekLabel||"#")),a.concat([0,1,2,3,4,5,6].map((function(e){var a=c(r,e),s=o.formatWeekday(a,o.props.locale),p=o.props.weekDayClassName?o.props.weekDayClassName(a):void 0;return t.createElement("div",{key:e,className:n("react-datepicker__day-name",p)},s)})))})),he(ke(o),"formatWeekday",(function(e,t){return o.props.formatWeekDay?function(e,t,r){return t(Ne(e,"EEEE",r))}(e,o.props.formatWeekDay,t):o.props.useWeekdaysShort?function(e,t){return Ne(e,"EEE",t)}(e,t):function(e,t){return Ne(e,"EEEEEE",t)}(e,t)})),he(ke(o),"decreaseYear",(function(){o.setState((function(e){var t=e.date;return{date:w(t,o.props.showYearPicker?12:1)}}),(function(){return o.handleYearChange(o.state.date)}))})),he(ke(o),"renderPreviousButton",(function(){if(!o.props.renderCustomHeader){var e;switch(!0){case o.props.showMonthYearPicker:e=it(o.state.date,o.props);break;case o.props.showYearPicker:e=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=Re(w(e,12)),a=mt(n),o=a.startPeriod,s=a.endPeriod,p=r&&P(r);return p&&(p<o||p>s)||!1}(o.state.date,o.props);break;default:e=st(o.state.date,o.props)}if((o.props.forceShowMonthNavigation||o.props.showDisabledMonthNavigation||!e)&&!o.props.showTimeSelectOnly){var r=["react-datepicker__navigation","react-datepicker__navigation--previous"],n=o.decreaseMonth;(o.props.showMonthYearPicker||o.props.showQuarterYearPicker||o.props.showYearPicker)&&(n=o.decreaseYear),e&&o.props.showDisabledMonthNavigation&&(r.push("react-datepicker__navigation--previous--disabled"),n=null);var a=o.props.showMonthYearPicker||o.props.showQuarterYearPicker||o.props.showYearPicker,s=o.props,p=s.previousMonthAriaLabel,i=void 0===p?"Previous Month":p,c=s.previousYearAriaLabel,l=void 0===c?"Previous Year":c;return t.createElement("button",{type:"button",className:r.join(" "),onClick:n,"aria-label":a?l:i},a?o.props.previousYearButtonLabel:o.props.previousMonthButtonLabel)}}})),he(ke(o),"increaseYear",(function(){o.setState((function(e){var t=e.date;return{date:u(t,o.props.showYearPicker?12:1)}}),(function(){return o.handleYearChange(o.state.date)}))})),he(ke(o),"renderNextButton",(function(){if(!o.props.renderCustomHeader){var e;switch(!0){case o.props.showMonthYearPicker:e=ct(o.state.date,o.props);break;case o.props.showYearPicker:e=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.maxDate,n=u(e,12),a=mt(n),o=a.startPeriod,s=a.endPeriod,p=r&&P(r);return p&&(p<o||p>s)||!1}(o.state.date,o.props);break;default:e=pt(o.state.date,o.props)}if((o.props.forceShowMonthNavigation||o.props.showDisabledMonthNavigation||!e)&&!o.props.showTimeSelectOnly){var r=["react-datepicker__navigation","react-datepicker__navigation--next"];o.props.showTimeSelect&&r.push("react-datepicker__navigation--next--with-time"),o.props.todayButton&&r.push("react-datepicker__navigation--next--with-today-button");var n=o.increaseMonth;(o.props.showMonthYearPicker||o.props.showQuarterYearPicker||o.props.showYearPicker)&&(n=o.increaseYear),e&&o.props.showDisabledMonthNavigation&&(r.push("react-datepicker__navigation--next--disabled"),n=null);var a=o.props.showMonthYearPicker||o.props.showQuarterYearPicker||o.props.showYearPicker,s=o.props,p=s.nextMonthAriaLabel,i=void 0===p?"Next Month":p,c=s.nextYearAriaLabel,l=void 0===c?"Next Year":c;return t.createElement("button",{type:"button",className:r.join(" "),onClick:n,"aria-label":a?l:i},a?o.props.nextYearButtonLabel:o.props.nextMonthButtonLabel)}}})),he(ke(o),"renderCurrentMonth",(function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:o.state.date,r=["react-datepicker__current-month"];return o.props.showYearDropdown&&r.push("react-datepicker__current-month--hasYearDropdown"),o.props.showMonthDropdown&&r.push("react-datepicker__current-month--hasMonthDropdown"),o.props.showMonthYearDropdown&&r.push("react-datepicker__current-month--hasMonthYearDropdown"),t.createElement("div",{className:r.join(" ")},Ne(e,o.props.dateFormat,o.props.locale))})),he(ke(o),"renderYearDropdown",(function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0];if(o.props.showYearDropdown&&!e)return t.createElement(wt,{adjustDateOnChange:o.props.adjustDateOnChange,date:o.state.date,onSelect:o.props.onSelect,setOpen:o.props.setOpen,dropdownMode:o.props.dropdownMode,onChange:o.changeYear,minDate:o.props.minDate,maxDate:o.props.maxDate,year:P(o.state.date),scrollableYearDropdown:o.props.scrollableYearDropdown,yearDropdownItemNumber:o.props.yearDropdownItemNumber})})),he(ke(o),"renderMonthDropdown",(function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0];if(o.props.showMonthDropdown&&!e)return t.createElement(kt,{dropdownMode:o.props.dropdownMode,locale:o.props.locale,onChange:o.changeMonth,month:O(o.state.date),useShortMonthInDropdown:o.props.useShortMonthInDropdown})})),he(ke(o),"renderMonthYearDropdown",(function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0];if(o.props.showMonthYearDropdown&&!e)return t.createElement(Ct,{dropdownMode:o.props.dropdownMode,locale:o.props.locale,dateFormat:o.props.dateFormat,onChange:o.changeMonthYear,minDate:o.props.minDate,maxDate:o.props.maxDate,date:o.state.date,scrollableMonthYearDropdown:o.props.scrollableMonthYearDropdown})})),he(ke(o),"renderTodayButton",(function(){if(o.props.todayButton&&!o.props.showTimeSelectOnly)return t.createElement("div",{className:"react-datepicker__today-button",onClick:function(e){return o.props.onSelect(A(Pe()),e)}},o.props.todayButton)})),he(ke(o),"renderDefaultHeader",(function(e){var r=e.monthDate,n=e.i;return t.createElement("div",{className:"react-datepicker__header"},o.renderCurrentMonth(r),t.createElement("div",{className:"react-datepicker__header__dropdown react-datepicker__header__dropdown--".concat(o.props.dropdownMode),onFocus:o.handleDropdownFocus},o.renderMonthDropdown(0!==n),o.renderMonthYearDropdown(0!==n),o.renderYearDropdown(0!==n)),t.createElement("div",{className:"react-datepicker__day-names"},o.header(r)))})),he(ke(o),"renderCustomHeader",(function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},r=e.monthDate,n=e.i;if(0!==n&&void 0!==n)return null;var a=st(o.state.date,o.props),s=pt(o.state.date,o.props),p=it(o.state.date,o.props),i=ct(o.state.date,o.props),c=!o.props.showMonthYearPicker&&!o.props.showQuarterYearPicker&&!o.props.showYearPicker;return t.createElement("div",{className:"react-datepicker__header react-datepicker__header--custom",onFocus:o.props.onDropdownFocus},o.props.renderCustomHeader(ye(ye({},o.state),{},{changeMonth:o.changeMonth,changeYear:o.changeYear,decreaseMonth:o.decreaseMonth,increaseMonth:o.increaseMonth,decreaseYear:o.decreaseYear,increaseYear:o.increaseYear,prevMonthButtonDisabled:a,nextMonthButtonDisabled:s,prevYearButtonDisabled:p,nextYearButtonDisabled:i})),c&&t.createElement("div",{className:"react-datepicker__day-names"},o.header(r)))})),he(ke(o),"renderYearHeader",(function(){var e=o.state.date,r=o.props.showYearPicker,n=mt(e),a=n.startPeriod,s=n.endPeriod;return t.createElement("div",{className:"react-datepicker__header react-datepicker-year-header"},r?"".concat(a," - ").concat(s):P(e))})),he(ke(o),"renderHeader",(function(e){switch(!0){case void 0!==o.props.renderCustomHeader:return o.renderCustomHeader(e);case o.props.showMonthYearPicker||o.props.showQuarterYearPicker||o.props.showYearPicker:return o.renderYearHeader(e);default:return o.renderDefaultHeader(e)}})),he(ke(o),"renderMonths",(function(){if(!o.props.showTimeSelectOnly&&!o.props.showYearPicker){for(var e=[],r=o.props.showPreviousMonths?o.props.monthsShown-1:0,n=v(o.state.date,r),a=0;a<o.props.monthsShown;++a){var s=a-o.props.monthSelectedIn,p=d(n,s),i="month-".concat(a);e.push(t.createElement("div",{key:i,ref:function(e){o.monthContainer=e},className:"react-datepicker__month-container"},o.renderHeader({monthDate:p,i:a}),t.createElement(Pt,{chooseDayAriaLabelPrefix:o.props.chooseDayAriaLabelPrefix,disabledDayAriaLabelPrefix:o.props.disabledDayAriaLabelPrefix,weekAriaLabelPrefix:o.props.weekAriaLabelPrefix,onChange:o.changeMonthYear,day:p,dayClassName:o.props.dayClassName,monthClassName:o.props.monthClassName,onDayClick:o.handleDayClick,handleOnKeyDown:o.props.handleOnKeyDown,onDayMouseEnter:o.handleDayMouseEnter,onMouseLeave:o.handleMonthMouseLeave,onWeekSelect:o.props.onWeekSelect,orderInDisplay:a,formatWeekNumber:o.props.formatWeekNumber,locale:o.props.locale,minDate:o.props.minDate,maxDate:o.props.maxDate,excludeDates:o.props.excludeDates,highlightDates:o.props.highlightDates,selectingDate:o.state.selectingDate,includeDates:o.props.includeDates,fixedHeight:o.props.fixedHeight,filterDate:o.props.filterDate,preSelection:o.props.preSelection,selected:o.props.selected,selectsStart:o.props.selectsStart,selectsEnd:o.props.selectsEnd,selectsRange:o.props.selectsRange,showWeekNumbers:o.props.showWeekNumbers,startDate:o.props.startDate,endDate:o.props.endDate,peekNextMonth:o.props.peekNextMonth,setOpen:o.props.setOpen,shouldCloseOnSelect:o.props.shouldCloseOnSelect,renderDayContents:o.props.renderDayContents,disabledKeyboardNavigation:o.props.disabledKeyboardNavigation,showMonthYearPicker:o.props.showMonthYearPicker,showFullMonthYearPicker:o.props.showFullMonthYearPicker,showTwoColumnMonthYearPicker:o.props.showTwoColumnMonthYearPicker,showYearPicker:o.props.showYearPicker,showQuarterYearPicker:o.props.showQuarterYearPicker,isInputFocused:o.props.isInputFocused,containerRef:o.containerRef})))}return e}})),he(ke(o),"renderYears",(function(){if(!o.props.showTimeSelectOnly)return o.props.showYearPicker?t.createElement("div",{className:"react-datepicker__year--container"},o.renderHeader(),t.createElement(Et,fe({onDayClick:o.handleDayClick,date:o.state.date},o.props))):void 0})),he(ke(o),"renderTimeSection",(function(){if(o.props.showTimeSelect&&(o.state.monthContainer||o.props.showTimeSelectOnly))return t.createElement(Mt,{selected:o.props.selected,openToDate:o.props.openToDate,onChange:o.props.onTimeChange,timeClassName:o.props.timeClassName,format:o.props.timeFormat,includeTimes:o.props.includeTimes,intervals:o.props.timeIntervals,minTime:o.props.minTime,maxTime:o.props.maxTime,excludeTimes:o.props.excludeTimes,timeCaption:o.props.timeCaption,todayButton:o.props.todayButton,showMonthDropdown:o.props.showMonthDropdown,showMonthYearDropdown:o.props.showMonthYearDropdown,showYearDropdown:o.props.showYearDropdown,withPortal:o.props.withPortal,monthRef:o.state.monthContainer,injectTimes:o.props.injectTimes,locale:o.props.locale})})),he(ke(o),"renderInputTimeSection",(function(){var e=new Date(o.props.selected),r=Ee(e)&&Boolean(o.props.selected)?"".concat(ft(e.getHours()),":").concat(ft(e.getMinutes())):"";if(o.props.showTimeInput)return t.createElement(Nt,{timeString:r,timeInputLabel:o.props.timeInputLabel,onChange:o.props.onTimeChange,customTimeInput:o.props.customTimeInput})})),o.containerRef=t.createRef(),o.state={date:o.getDateInView(),selectingDate:null,monthContainer:null},o}return ue(a,null,[{key:"defaultProps",get:function(){return{onDropdownFocus:function(){},monthsShown:1,monthSelectedIn:0,forceShowMonthNavigation:!1,timeCaption:"Time",previousYearButtonLabel:"Previous Year",nextYearButtonLabel:"Next Year",previousMonthButtonLabel:"Previous Month",nextMonthButtonLabel:"Next Month",customTimeInput:null}}}]),ue(a,[{key:"componentDidMount",value:function(){var e=this;this.props.showTimeSelect&&(this.assignMonthContainer=void e.setState({monthContainer:e.monthContainer}))}},{key:"componentDidUpdate",value:function(e){this.props.preSelection&&!Be(this.props.preSelection,e.preSelection)?this.setState({date:this.props.preSelection}):this.props.openToDate&&!Be(this.props.openToDate,e.openToDate)&&this.setState({date:this.props.openToDate})}},{key:"render",value:function(){var e=this.props.container||Yt;return t.createElement("div",{ref:this.containerRef},t.createElement(e,{className:n("react-datepicker",this.props.className,{"react-datepicker--time-only":this.props.showTimeSelectOnly}),showPopperArrow:this.props.showPopperArrow,arrowProps:this.props.arrowProps},this.renderPreviousButton(),this.renderNextButton(),this.renderMonths(),this.renderYears(),this.renderTodayButton(),this.renderTimeSection(),this.renderInputTimeSection(),this.props.children))}}]),a}(t.Component),It=function(e){return!e.disabled&&-1!==e.tabIndex},Lt=function(e){ve(n,e);var r=be(n);function n(e){var a;return le(this,n),he(ke(a=r.call(this,e)),"getTabChildren",(function(){return Array.prototype.slice.call(a.tabLoopRef.current.querySelectorAll("[tabindex], a, button, input, select, textarea"),1,-1).filter(It)})),he(ke(a),"handleFocusStart",(function(e){var t=a.getTabChildren();t&&t.length>1&&t[t.length-1].focus()})),he(ke(a),"handleFocusEnd",(function(e){var t=a.getTabChildren();t&&t.length>1&&t[0].focus()})),a.tabLoopRef=t.createRef(),a}return ue(n,null,[{key:"defaultProps",get:function(){return{enableTabLoop:!0}}}]),ue(n,[{key:"render",value:function(){return this.props.enableTabLoop?t.createElement("div",{className:"react-datepicker__tab-loop",ref:this.tabLoopRef},t.createElement("div",{className:"react-datepicker__tab-loop__start",tabIndex:"0",onFocus:this.handleFocusStart}),this.props.children,t.createElement("div",{className:"react-datepicker__tab-loop__end",tabIndex:"0",onFocus:this.handleFocusEnd})):this.props.children}}]),n}(t.Component),jt=function(e){ve(r,e);var t=be(r);function r(e){var n;return le(this,r),(n=t.call(this,e)).el=document.createElement("div"),n}return ue(r,[{key:"componentDidMount",value:function(){this.portalRoot=document.getElementById(this.props.portalId),this.portalRoot||(this.portalRoot=document.createElement("div"),this.portalRoot.setAttribute("id",this.props.portalId),document.body.appendChild(this.portalRoot)),this.portalRoot.appendChild(this.el)}},{key:"componentWillUnmount",value:function(){this.portalRoot.removeChild(this.el)}},{key:"render",value:function(){return ie.createPortal(this.props.children,this.el)}}]),r}(t.Component),Rt=function(e){ve(a,e);var r=be(a);function a(){return le(this,a),r.apply(this,arguments)}return ue(a,[{key:"render",value:function(){var e,r=this.props,a=r.className,o=r.wrapperClassName,s=r.hidePopper,p=r.popperComponent,i=r.popperModifiers,c=r.popperPlacement,l=r.popperProps,d=r.targetComponent,u=r.enableTabLoop,h=r.popperOnKeyDown,f=r.portalId;if(!s){var m=n("react-datepicker-popper",a);e=t.createElement(pe.Popper,fe({modifiers:i,placement:c},l),(function(e){var r=e.ref,n=e.style,a=e.placement,o=e.arrowProps;return t.createElement(Lt,{enableTabLoop:u},t.createElement("div",fe({ref:r,style:n},{className:m,"data-placement":a,onKeyDown:h}),t.cloneElement(p,{arrowProps:o})))}))}this.props.popperContainer&&(e=t.createElement(this.props.popperContainer,{},e)),f&&!s&&(e=t.createElement(jt,{portalId:f},e));var y=n("react-datepicker-wrapper",o);return t.createElement(pe.Manager,{className:"react-datepicker-manager"},t.createElement(pe.Reference,null,(function(e){var r=e.ref;return t.createElement("div",{ref:r,className:y},d)})),e)}}],[{key:"defaultProps",get:function(){return{hidePopper:!0,popperModifiers:{preventOverflow:{enabled:!0,escapeWithReference:!0,boundariesElement:"viewport"}},popperProps:{},popperPlacement:"bottom-start"}}}]),a}(t.Component),Ft=se(Tt);var qt=function(e){ve(o,e);var r=be(o);function o(e){var s;return le(this,o),he(ke(s=r.call(this,e)),"getPreSelection",(function(){return s.props.openToDate?s.props.openToDate:s.props.selectsEnd&&s.props.startDate?s.props.startDate:s.props.selectsStart&&s.props.endDate?s.props.endDate:Pe()})),he(ke(s),"calcInitialState",(function(){var e=s.getPreSelection(),t=lt(s.props),r=dt(s.props),n=t&&te(e,t)?t:r&&ee(e,r)?r:e;return{open:s.props.startOpen||!1,preventFocus:!1,preSelection:s.props.selected?s.props.selected:n,highlightDates:ut(s.props.highlightDates),focused:!1}})),he(ke(s),"clearPreventFocusTimeout",(function(){s.preventFocusTimeout&&clearTimeout(s.preventFocusTimeout)})),he(ke(s),"setFocus",(function(){s.input&&s.input.focus&&s.input.focus({preventScroll:!0})})),he(ke(s),"setBlur",(function(){s.input&&s.input.blur&&s.input.blur(),s.cancelFocusInput()})),he(ke(s),"setOpen",(function(e){var t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];s.setState({open:e,preSelection:e&&s.state.open?s.state.preSelection:s.calcInitialState().preSelection,lastPreSelectChange:At},(function(){e||s.setState((function(e){return{focused:!!t&&e.focused}}),(function(){!t&&s.setBlur(),s.setState({inputValue:null})}))}))})),he(ke(s),"inputOk",(function(){return a(s.state.preSelection)})),he(ke(s),"isCalendarOpen",(function(){return void 0===s.props.open?s.state.open&&!s.props.disabled&&!s.props.readOnly:s.props.open})),he(ke(s),"handleFocus",(function(e){s.state.preventFocus||(s.props.onFocus(e),s.props.preventOpenOnFocus||s.props.readOnly||s.setOpen(!0)),s.setState({focused:!0})})),he(ke(s),"cancelFocusInput",(function(){clearTimeout(s.inputFocusTimeout),s.inputFocusTimeout=null})),he(ke(s),"deferFocusInput",(function(){s.cancelFocusInput(),s.inputFocusTimeout=setTimeout((function(){return s.setFocus()}),1)})),he(ke(s),"handleDropdownFocus",(function(){s.cancelFocusInput()})),he(ke(s),"handleBlur",(function(e){(!s.state.open||s.props.withPortal||s.props.showTimeInput)&&s.props.onBlur(e),s.setState({focused:!1})})),he(ke(s),"handleCalendarClickOutside",(function(e){s.props.inline||s.setOpen(!1),s.props.onClickOutside(e),s.props.withPortal&&e.preventDefault()})),he(ke(s),"handleChange",(function(){for(var e=arguments.length,t=new Array(e),r=0;r<e;r++)t[r]=arguments[r];var n=t[0];if(!s.props.onChangeRaw||(s.props.onChangeRaw.apply(ke(s),t),"function"==typeof n.isDefaultPrevented&&!n.isDefaultPrevented())){s.setState({inputValue:n.target.value,lastPreSelectChange:Wt});var a=Me(n.target.value,s.props.dateFormat,s.props.locale,s.props.strictParsing);!a&&n.target.value||s.setSelected(a,n,!0)}})),he(ke(s),"handleSelect",(function(e,t,r){s.setState({preventFocus:!0},(function(){return s.preventFocusTimeout=setTimeout((function(){return s.setState({preventFocus:!1})}),50),s.preventFocusTimeout})),s.props.onChangeRaw&&s.props.onChangeRaw(t),s.setSelected(e,t,!1,r),!s.props.shouldCloseOnSelect||s.props.showTimeSelect?s.setPreSelection(e):s.props.inline||s.setOpen(!1)})),he(ke(s),"setSelected",(function(e,t,r,n){var a=e;if(null===a||!Ge(a,s.props)){var o=s.props,p=o.onChange,i=o.selectsRange,c=o.startDate,l=o.endDate;if(!He(s.props.selected,a)||s.props.allowSameDay||i)if(null!==a&&(!s.props.selected||r&&(s.props.showTimeSelect||s.props.showTimeSelectOnly||s.props.showTimeInput)||(a=Ye(a,{hour:g(s.props.selected),minute:k(s.props.selected),second:D(s.props.selected)})),s.props.inline||s.setState({preSelection:a}),s.props.focusSelectedMonth||s.setState({monthSelectedIn:n})),i){var d=c&&!l,u=c&&l;!c&&!l?p([a,null],t):d&&(te(a,c)?p([a,null],t):p([c,a],t)),u&&p([a,null],t)}else p(a,t);r||(s.props.onSelect(a,t),s.setState({inputValue:null}))}})),he(ke(s),"setPreSelection",(function(e){var t=void 0!==s.props.minDate,r=void 0!==s.props.maxDate,n=!0;e&&(t&&r?n=Ke(e,s.props.minDate,s.props.maxDate):t?n=ee(e,s.props.minDate):r&&(n=te(e,s.props.maxDate))),n&&s.setState({preSelection:e})})),he(ke(s),"handleTimeChange",(function(e){var t=Ye(s.props.selected?s.props.selected:s.getPreSelection(),{hour:g(e),minute:k(e)});s.setState({preSelection:t}),s.props.onChange(t),s.props.shouldCloseOnSelect&&s.setOpen(!1),s.props.showTimeInput&&s.setOpen(!0),s.setState({inputValue:null})})),he(ke(s),"onInputClick",(function(){s.props.disabled||s.props.readOnly||s.setOpen(!0),s.props.onInputClick()})),he(ke(s),"onInputKeyDown",(function(e){s.props.onKeyDown(e);var t=e.key;if(s.state.open||s.props.inline||s.props.preventOpenOnFocus){if(s.state.open){if("ArrowDown"===t||"ArrowUp"===t){e.preventDefault();var r=s.calendar.componentNode&&s.calendar.componentNode.querySelector('.react-datepicker__day[tabindex="0"]');return void(r&&r.focus({preventScroll:!0}))}var n=Pe(s.state.preSelection);"Enter"===t?(e.preventDefault(),s.inputOk()&&s.state.lastPreSelectChange===At?(s.handleSelect(n,e),!s.props.shouldCloseOnSelect&&s.setPreSelection(n)):s.setOpen(!1)):"Escape"===t&&(e.preventDefault(),s.setOpen(!1)),s.inputOk()||s.props.onInputError({code:1,msg:"Date input not valid."})}}else"ArrowDown"!==t&&"ArrowUp"!==t&&"Enter"!==t||s.onInputClick()})),he(ke(s),"onDayKeyDown",(function(e){s.props.onKeyDown(e);var t=e.key,r=Pe(s.state.preSelection);if("Enter"===t)e.preventDefault(),s.handleSelect(r,e),!s.props.shouldCloseOnSelect&&s.setPreSelection(r);else if("Escape"===t)e.preventDefault(),s.setOpen(!1),s.inputOk()||s.props.onInputError({code:1,msg:"Date input not valid."});else if(!s.props.disabledKeyboardNavigation){var n;switch(t){case"ArrowLeft":n=m(r,1);break;case"ArrowRight":n=c(r,1);break;case"ArrowUp":n=y(r,1);break;case"ArrowDown":n=l(r,1);break;case"PageUp":n=v(r,1);break;case"PageDown":n=d(r,1);break;case"Home":n=w(r,1);break;case"End":n=u(r,1)}if(!n)return void(s.props.onInputError&&s.props.onInputError({code:1,msg:"Date input not valid."}));e.preventDefault(),s.setState({lastPreSelectChange:At}),s.props.adjustDateOnChange&&s.setSelected(n),s.setPreSelection(n)}})),he(ke(s),"onPopperKeyDown",(function(e){"Escape"===e.key&&(e.preventDefault(),s.setState({preventFocus:!0},(function(){s.setOpen(!1),setTimeout((function(){s.setFocus(),s.setState({preventFocus:!1})}))})))})),he(ke(s),"onClearClick",(function(e){e&&e.preventDefault&&e.preventDefault(),s.props.onChange(null,e),s.setState({inputValue:null})})),he(ke(s),"clear",(function(){s.onClearClick()})),he(ke(s),"onScroll",(function(e){"boolean"==typeof s.props.closeOnScroll&&s.props.closeOnScroll?e.target!==document&&e.target!==document.documentElement&&e.target!==document.body||s.setOpen(!1):"function"==typeof s.props.closeOnScroll&&s.props.closeOnScroll(e)&&s.setOpen(!1)})),he(ke(s),"renderCalendar",(function(){return s.props.inline||s.isCalendarOpen()?t.createElement(Ft,{ref:function(e){s.calendar=e},locale:s.props.locale,chooseDayAriaLabelPrefix:s.props.chooseDayAriaLabelPrefix,disabledDayAriaLabelPrefix:s.props.disabledDayAriaLabelPrefix,weekAriaLabelPrefix:s.props.weekAriaLabelPrefix,adjustDateOnChange:s.props.adjustDateOnChange,setOpen:s.setOpen,shouldCloseOnSelect:s.props.shouldCloseOnSelect,dateFormat:s.props.dateFormatCalendar,useWeekdaysShort:s.props.useWeekdaysShort,formatWeekDay:s.props.formatWeekDay,dropdownMode:s.props.dropdownMode,selected:s.props.selected,preSelection:s.state.preSelection,onSelect:s.handleSelect,onWeekSelect:s.props.onWeekSelect,openToDate:s.props.openToDate,minDate:s.props.minDate,maxDate:s.props.maxDate,selectsStart:s.props.selectsStart,selectsEnd:s.props.selectsEnd,selectsRange:s.props.selectsRange,startDate:s.props.startDate,endDate:s.props.endDate,excludeDates:s.props.excludeDates,filterDate:s.props.filterDate,onClickOutside:s.handleCalendarClickOutside,formatWeekNumber:s.props.formatWeekNumber,highlightDates:s.state.highlightDates,includeDates:s.props.includeDates,includeTimes:s.props.includeTimes,injectTimes:s.props.injectTimes,peekNextMonth:s.props.peekNextMonth,showMonthDropdown:s.props.showMonthDropdown,showPreviousMonths:s.props.showPreviousMonths,useShortMonthInDropdown:s.props.useShortMonthInDropdown,showMonthYearDropdown:s.props.showMonthYearDropdown,showWeekNumbers:s.props.showWeekNumbers,showYearDropdown:s.props.showYearDropdown,withPortal:s.props.withPortal,forceShowMonthNavigation:s.props.forceShowMonthNavigation,showDisabledMonthNavigation:s.props.showDisabledMonthNavigation,scrollableYearDropdown:s.props.scrollableYearDropdown,scrollableMonthYearDropdown:s.props.scrollableMonthYearDropdown,todayButton:s.props.todayButton,weekLabel:s.props.weekLabel,outsideClickIgnoreClass:"react-datepicker-ignore-onclickoutside",fixedHeight:s.props.fixedHeight,monthsShown:s.props.monthsShown,monthSelectedIn:s.state.monthSelectedIn,onDropdownFocus:s.handleDropdownFocus,onMonthChange:s.props.onMonthChange,onYearChange:s.props.onYearChange,dayClassName:s.props.dayClassName,weekDayClassName:s.props.weekDayClassName,monthClassName:s.props.monthClassName,timeClassName:s.props.timeClassName,showTimeSelect:s.props.showTimeSelect,showTimeSelectOnly:s.props.showTimeSelectOnly,onTimeChange:s.handleTimeChange,timeFormat:s.props.timeFormat,timeIntervals:s.props.timeIntervals,minTime:s.props.minTime,maxTime:s.props.maxTime,excludeTimes:s.props.excludeTimes,timeCaption:s.props.timeCaption,className:s.props.calendarClassName,container:s.props.calendarContainer,yearDropdownItemNumber:s.props.yearDropdownItemNumber,previousMonthButtonLabel:s.props.previousMonthButtonLabel,nextMonthButtonLabel:s.props.nextMonthButtonLabel,previousYearButtonLabel:s.props.previousYearButtonLabel,nextYearButtonLabel:s.props.nextYearButtonLabel,timeInputLabel:s.props.timeInputLabel,disabledKeyboardNavigation:s.props.disabledKeyboardNavigation,renderCustomHeader:s.props.renderCustomHeader,popperProps:s.props.popperProps,renderDayContents:s.props.renderDayContents,onDayMouseEnter:s.props.onDayMouseEnter,onMonthMouseLeave:s.props.onMonthMouseLeave,showTimeInput:s.props.showTimeInput,showMonthYearPicker:s.props.showMonthYearPicker,showFullMonthYearPicker:s.props.showFullMonthYearPicker,showTwoColumnMonthYearPicker:s.props.showTwoColumnMonthYearPicker,showYearPicker:s.props.showYearPicker,showQuarterYearPicker:s.props.showQuarterYearPicker,showPopperArrow:s.props.showPopperArrow,excludeScrollbar:s.props.excludeScrollbar,handleOnKeyDown:s.onDayKeyDown,isInputFocused:s.state.focused,customTimeInput:s.props.customTimeInput,setPreSelection:s.setPreSelection},s.props.children):null})),he(ke(s),"renderDateInput",(function(){var e,r,a,o,p,i=n(s.props.className,he({},"react-datepicker-ignore-onclickoutside",s.state.open)),c=s.props.customInput||t.createElement("input",{type:"text"}),l=s.props.customInputRef||"ref",d="string"==typeof s.props.value?s.props.value:"string"==typeof s.state.inputValue?s.state.inputValue:(r=s.props.selected,a=s.props,o=a.dateFormat,p=a.locale,r&&Ne(r,Array.isArray(o)?o[0]:o,p)||"");return t.cloneElement(c,(he(e={},l,(function(e){s.input=e})),he(e,"value",d),he(e,"onBlur",s.handleBlur),he(e,"onChange",s.handleChange),he(e,"onClick",s.onInputClick),he(e,"onFocus",s.handleFocus),he(e,"onKeyDown",s.onInputKeyDown),he(e,"id",s.props.id),he(e,"name",s.props.name),he(e,"autoFocus",s.props.autoFocus),he(e,"placeholder",s.props.placeholderText),he(e,"disabled",s.props.disabled),he(e,"autoComplete",s.props.autoComplete),he(e,"className",n(c.props.className,i)),he(e,"title",s.props.title),he(e,"readOnly",s.props.readOnly),he(e,"required",s.props.required),he(e,"tabIndex",s.props.tabIndex),he(e,"aria-labelledby",s.props.ariaLabelledBy),e))})),he(ke(s),"renderClearButton",(function(){var e=s.props,r=e.isClearable,n=e.selected,a=e.clearButtonTitle,o=e.ariaLabelClose,p=void 0===o?"Close":o;return r&&null!=n?t.createElement("button",{type:"button",className:"react-datepicker__close-icon","aria-label":p,onClick:s.onClearClick,title:a,tabIndex:-1}):null})),s.state=s.calcInitialState(),s}return ue(o,null,[{key:"defaultProps",get:function(){return{allowSameDay:!1,dateFormat:"MM/dd/yyyy",dateFormatCalendar:"LLLL yyyy",onChange:function(){},disabled:!1,disabledKeyboardNavigation:!1,dropdownMode:"scroll",onFocus:function(){},onBlur:function(){},onKeyDown:function(){},onInputClick:function(){},onSelect:function(){},onClickOutside:function(){},onMonthChange:function(){},onCalendarOpen:function(){},onCalendarClose:function(){},preventOpenOnFocus:!1,onYearChange:function(){},onInputError:function(){},monthsShown:1,readOnly:!1,withPortal:!1,shouldCloseOnSelect:!0,showTimeSelect:!1,showTimeInput:!1,showPreviousMonths:!1,showMonthYearPicker:!1,showFullMonthYearPicker:!1,showTwoColumnMonthYearPicker:!1,showYearPicker:!1,showQuarterYearPicker:!1,strictParsing:!1,timeIntervals:30,timeCaption:"Time",previousMonthButtonLabel:"Previous Month",nextMonthButtonLabel:"Next Month",previousYearButtonLabel:"Previous Year",nextYearButtonLabel:"Next Year",timeInputLabel:"Time",enableTabLoop:!0,renderDayContents:function(e){return e},focusSelectedMonth:!1,showPopperArrow:!0,excludeScrollbar:!0,customTimeInput:null}}}]),ue(o,[{key:"componentDidMount",value:function(){window.addEventListener("scroll",this.onScroll,!0)}},{key:"componentDidUpdate",value:function(e,t){var r,n;e.inline&&(r=e.selected,n=this.props.selected,r&&n?O(r)!==O(n)||P(r)!==P(n):r!==n)&&this.setPreSelection(this.props.selected),void 0!==this.state.monthSelectedIn&&e.monthsShown!==this.props.monthsShown&&this.setState({monthSelectedIn:0}),e.highlightDates!==this.props.highlightDates&&this.setState({highlightDates:ut(this.props.highlightDates)}),t.focused||He(e.selected,this.props.selected)||this.setState({inputValue:null}),t.open!==this.state.open&&(!1===t.open&&!0===this.state.open&&this.props.onCalendarOpen(),!0===t.open&&!1===this.state.open&&this.props.onCalendarClose())}},{key:"componentWillUnmount",value:function(){this.clearPreventFocusTimeout(),window.removeEventListener("scroll",this.onScroll,!0)}},{key:"render",value:function(){var e=this.renderCalendar();return this.props.inline&&!this.props.withPortal?e:this.props.withPortal?t.createElement("div",null,this.props.inline?null:t.createElement("div",{className:"react-datepicker__input-container"},this.renderDateInput(),this.renderClearButton()),this.state.open||this.props.inline?t.createElement("div",{className:"react-datepicker__portal"},e):null):t.createElement(Rt,{className:this.props.popperClassName,wrapperClassName:this.props.wrapperClassName,hidePopper:!this.isCalendarOpen(),portalId:this.props.portalId,popperModifiers:this.props.popperModifiers,targetComponent:t.createElement("div",{className:"react-datepicker__input-container"},this.renderDateInput(),this.renderClearButton()),popperContainer:this.props.popperContainer,popperComponent:e,popperPlacement:this.props.popperPlacement,popperProps:this.props.popperProps,popperOnKeyDown:this.onPopperKeyDown,enableTabLoop:this.props.enableTabLoop})}}]),o}(t.Component),Wt="input",At="navigate";e.CalendarContainer=Yt,e.default=qt,e.getDefaultLocale=Qe,e.registerLocale=function(e,t){var r="undefined"!=typeof window?window:global;r.__localeData__||(r.__localeData__={}),r.__localeData__[e]=t},e.setDefaultLocale=function(e){("undefined"!=typeof window?window:global).__localeId__=e},Object.defineProperty(e,"__esModule",{value:!0})}));
+/* WEBPACK VAR INJECTION */(function(global) {!function(e,t){ true?t(exports,__webpack_require__(0),__webpack_require__(8),__webpack_require__(5),__webpack_require__(211),__webpack_require__(83),__webpack_require__(212),__webpack_require__(92),__webpack_require__(93),__webpack_require__(53),__webpack_require__(94),__webpack_require__(54),__webpack_require__(95),__webpack_require__(227),__webpack_require__(228),__webpack_require__(229),__webpack_require__(230),__webpack_require__(231),__webpack_require__(232),__webpack_require__(233),__webpack_require__(234),__webpack_require__(235),__webpack_require__(236),__webpack_require__(237),__webpack_require__(238),__webpack_require__(241),__webpack_require__(242),__webpack_require__(243),__webpack_require__(244),__webpack_require__(245),__webpack_require__(246),__webpack_require__(247),__webpack_require__(96),__webpack_require__(249),__webpack_require__(250),__webpack_require__(251),__webpack_require__(252),__webpack_require__(253),__webpack_require__(254),__webpack_require__(255),__webpack_require__(256),__webpack_require__(55),__webpack_require__(25),__webpack_require__(257),__webpack_require__(97),__webpack_require__(258),__webpack_require__(259),__webpack_require__(260),__webpack_require__(261),__webpack_require__(262),__webpack_require__(263),__webpack_require__(264),__webpack_require__(265),__webpack_require__(266),__webpack_require__(267),__webpack_require__(268),__webpack_require__(269),__webpack_require__(2),__webpack_require__(270),__webpack_require__(277),__webpack_require__(278),__webpack_require__(279),__webpack_require__(10)):"function"==typeof define&&define.amd?define(["exports","react","prop-types","classnames","date-fns/isDate","date-fns/isValid","date-fns/format","date-fns/addMinutes","date-fns/addHours","date-fns/addDays","date-fns/addWeeks","date-fns/addMonths","date-fns/addYears","date-fns/subMinutes","date-fns/subHours","date-fns/subDays","date-fns/subWeeks","date-fns/subMonths","date-fns/subYears","date-fns/getSeconds","date-fns/getMinutes","date-fns/getHours","date-fns/getDay","date-fns/getDate","date-fns/getWeek","date-fns/getMonth","date-fns/getQuarter","date-fns/getYear","date-fns/getTime","date-fns/setSeconds","date-fns/setMinutes","date-fns/setHours","date-fns/setMonth","date-fns/setQuarter","date-fns/setYear","date-fns/min","date-fns/max","date-fns/differenceInCalendarDays","date-fns/differenceInCalendarMonths","date-fns/differenceInCalendarWeeks","date-fns/differenceInCalendarYears","date-fns/startOfDay","date-fns/startOfWeek","date-fns/startOfMonth","date-fns/startOfQuarter","date-fns/startOfYear","date-fns/endOfDay","date-fns/endOfWeek","date-fns/endOfMonth","date-fns/isEqual","date-fns/isSameDay","date-fns/isSameMonth","date-fns/isSameYear","date-fns/isSameQuarter","date-fns/isAfter","date-fns/isBefore","date-fns/isWithinInterval","date-fns/toDate","date-fns/parse","date-fns/parseISO","react-onclickoutside","react-popper","react-dom"],t):t((e=e||self).DatePicker={},e.React,e.PropTypes,e.classNames,e.isDate,e.isValidDate,e.format,e.addMinutes,e.addHours,e.utils,e.utils$1,e.addMonths,e.addYears,e.subMinutes,e.subHours,e.subDays,e.subWeeks,e.subMonths,e.subYears,e.getSeconds,e.getMinutes,e.getHours,e.getDay,e.getDate,e.dfgetWeek,e.getMonth,e.getQuarter,e.getYear,e.getTime,e.setSeconds,e.setMinutes,e.setHours,e.utils$2,e.utils$3,e.utils$4,e.min,e.max,e.differenceInCalendarDays,e.differenceInCalendarMonths,e.differenceInCalendarWeeks,e.differenceInCalendarYears,e.startOfDay,e.startOfWeek,e.startOfMonth,e.startOfQuarter,e.startOfYear,e.endOfDay,e.endOfWeek,e.endOfMonth,e.dfIsEqual,e.dfIsSameDay,e.dfIsSameMonth,e.dfIsSameYear,e.dfIsSameQuarter,e.isAfter,e.isBefore,e.isWithinInterval,e.toDate,e.parse,e.parseISO,e.onClickOutside,e.ReactPopper,e.ReactDOM)}(this,(function(e,t,r,n,a,o,s,p,i,c,l,d,u,h,f,m,y,v,w,D,k,g,b,C,_,O,S,P,M,E,N,Y,x,T,I,L,j,R,F,q,W,A,B,H,K,Q,V,U,$,z,G,J,X,Z,ee,te,re,ne,ae,oe,se,pe,ie){"use strict";function ce(e){return(ce="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function le(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function de(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function ue(e,t,r){return t&&de(e.prototype,t),r&&de(e,r),e}function he(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}function fe(){return(fe=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e}).apply(this,arguments)}function me(e,t){var r=Object.keys(e);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(e);t&&(n=n.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),r.push.apply(r,n)}return r}function ye(e){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{};t%2?me(Object(r),!0).forEach((function(t){he(e,t,r[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(r)):me(Object(r)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(r,t))}))}return e}function ve(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&De(e,t)}function we(e){return(we=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}function De(e,t){return(De=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function ke(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function ge(e,t){return!t||"object"!=typeof t&&"function"!=typeof t?ke(e):t}function be(e){var t=function(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],(function(){}))),!0}catch(e){return!1}}();return function(){var r,n=we(e);if(t){var a=we(this).constructor;r=Reflect.construct(n,arguments,a)}else r=n.apply(this,arguments);return ge(this,r)}}function Ce(e,t){switch(e){case"P":return t.date({width:"short"});case"PP":return t.date({width:"medium"});case"PPP":return t.date({width:"long"});case"PPPP":default:return t.date({width:"full"})}}function _e(e,t){switch(e){case"p":return t.time({width:"short"});case"pp":return t.time({width:"medium"});case"ppp":return t.time({width:"long"});case"pppp":default:return t.time({width:"full"})}}t=t&&Object.prototype.hasOwnProperty.call(t,"default")?t.default:t,r=r&&Object.prototype.hasOwnProperty.call(r,"default")?r.default:r,n=n&&Object.prototype.hasOwnProperty.call(n,"default")?n.default:n,a=a&&Object.prototype.hasOwnProperty.call(a,"default")?a.default:a,o=o&&Object.prototype.hasOwnProperty.call(o,"default")?o.default:o,s=s&&Object.prototype.hasOwnProperty.call(s,"default")?s.default:s,p=p&&Object.prototype.hasOwnProperty.call(p,"default")?p.default:p,i=i&&Object.prototype.hasOwnProperty.call(i,"default")?i.default:i,c=c&&Object.prototype.hasOwnProperty.call(c,"default")?c.default:c,l=l&&Object.prototype.hasOwnProperty.call(l,"default")?l.default:l,d=d&&Object.prototype.hasOwnProperty.call(d,"default")?d.default:d,u=u&&Object.prototype.hasOwnProperty.call(u,"default")?u.default:u,h=h&&Object.prototype.hasOwnProperty.call(h,"default")?h.default:h,f=f&&Object.prototype.hasOwnProperty.call(f,"default")?f.default:f,m=m&&Object.prototype.hasOwnProperty.call(m,"default")?m.default:m,y=y&&Object.prototype.hasOwnProperty.call(y,"default")?y.default:y,v=v&&Object.prototype.hasOwnProperty.call(v,"default")?v.default:v,w=w&&Object.prototype.hasOwnProperty.call(w,"default")?w.default:w,D=D&&Object.prototype.hasOwnProperty.call(D,"default")?D.default:D,k=k&&Object.prototype.hasOwnProperty.call(k,"default")?k.default:k,g=g&&Object.prototype.hasOwnProperty.call(g,"default")?g.default:g,b=b&&Object.prototype.hasOwnProperty.call(b,"default")?b.default:b,C=C&&Object.prototype.hasOwnProperty.call(C,"default")?C.default:C,_=_&&Object.prototype.hasOwnProperty.call(_,"default")?_.default:_,O=O&&Object.prototype.hasOwnProperty.call(O,"default")?O.default:O,S=S&&Object.prototype.hasOwnProperty.call(S,"default")?S.default:S,P=P&&Object.prototype.hasOwnProperty.call(P,"default")?P.default:P,M=M&&Object.prototype.hasOwnProperty.call(M,"default")?M.default:M,E=E&&Object.prototype.hasOwnProperty.call(E,"default")?E.default:E,N=N&&Object.prototype.hasOwnProperty.call(N,"default")?N.default:N,Y=Y&&Object.prototype.hasOwnProperty.call(Y,"default")?Y.default:Y,x=x&&Object.prototype.hasOwnProperty.call(x,"default")?x.default:x,T=T&&Object.prototype.hasOwnProperty.call(T,"default")?T.default:T,I=I&&Object.prototype.hasOwnProperty.call(I,"default")?I.default:I,L=L&&Object.prototype.hasOwnProperty.call(L,"default")?L.default:L,j=j&&Object.prototype.hasOwnProperty.call(j,"default")?j.default:j,R=R&&Object.prototype.hasOwnProperty.call(R,"default")?R.default:R,F=F&&Object.prototype.hasOwnProperty.call(F,"default")?F.default:F,q=q&&Object.prototype.hasOwnProperty.call(q,"default")?q.default:q,W=W&&Object.prototype.hasOwnProperty.call(W,"default")?W.default:W,A=A&&Object.prototype.hasOwnProperty.call(A,"default")?A.default:A,B=B&&Object.prototype.hasOwnProperty.call(B,"default")?B.default:B,H=H&&Object.prototype.hasOwnProperty.call(H,"default")?H.default:H,K=K&&Object.prototype.hasOwnProperty.call(K,"default")?K.default:K,Q=Q&&Object.prototype.hasOwnProperty.call(Q,"default")?Q.default:Q,V=V&&Object.prototype.hasOwnProperty.call(V,"default")?V.default:V,U=U&&Object.prototype.hasOwnProperty.call(U,"default")?U.default:U,$=$&&Object.prototype.hasOwnProperty.call($,"default")?$.default:$,z=z&&Object.prototype.hasOwnProperty.call(z,"default")?z.default:z,G=G&&Object.prototype.hasOwnProperty.call(G,"default")?G.default:G,J=J&&Object.prototype.hasOwnProperty.call(J,"default")?J.default:J,X=X&&Object.prototype.hasOwnProperty.call(X,"default")?X.default:X,Z=Z&&Object.prototype.hasOwnProperty.call(Z,"default")?Z.default:Z,ee=ee&&Object.prototype.hasOwnProperty.call(ee,"default")?ee.default:ee,te=te&&Object.prototype.hasOwnProperty.call(te,"default")?te.default:te,re=re&&Object.prototype.hasOwnProperty.call(re,"default")?re.default:re,ne=ne&&Object.prototype.hasOwnProperty.call(ne,"default")?ne.default:ne,ae=ae&&Object.prototype.hasOwnProperty.call(ae,"default")?ae.default:ae,oe=oe&&Object.prototype.hasOwnProperty.call(oe,"default")?oe.default:oe,se=se&&Object.prototype.hasOwnProperty.call(se,"default")?se.default:se,ie=ie&&Object.prototype.hasOwnProperty.call(ie,"default")?ie.default:ie;var Oe={p:_e,P:function(e,t){var r,n=e.match(/(P+)(p+)?/),a=n[1],o=n[2];if(!o)return Ce(e,t);switch(a){case"P":r=t.dateTime({width:"short"});break;case"PP":r=t.dateTime({width:"medium"});break;case"PPP":r=t.dateTime({width:"long"});break;case"PPPP":default:r=t.dateTime({width:"full"})}return r.replace("{{date}}",Ce(a,t)).replace("{{time}}",_e(o,t))}},Se=/P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;function Pe(e){var t=e?"string"==typeof e||e instanceof String?oe(e):ne(e):new Date;return Ee(t)?t:null}function Me(e,t,r,n){var a=null,o=Ve(r)||Qe(),p=!0;return Array.isArray(t)?(t.forEach((function(t){var r=ae(e,t,new Date,{locale:o});n&&(p=Ee(r)&&e===s(r,t,{awareOfUnicodeTokens:!0})),Ee(r)&&p&&(a=r)})),a):(a=ae(e,t,new Date,{locale:o}),n?p=Ee(a)&&e===s(a,t,{awareOfUnicodeTokens:!0}):Ee(a)||(t=t.match(Se).map((function(e){var t=e[0];return"p"===t||"P"===t?o?(0,Oe[t])(e,o.formatLong):t:e})).join(""),e.length>0&&(a=ae(e,t.slice(0,e.length),new Date)),Ee(a)||(a=new Date(e))),Ee(a)&&p?a:null)}function Ee(e){return o(e)&&ee(e,new Date("1/1/1000"))}function Ne(e,t,r){if("en"===r)return s(e,t,{awareOfUnicodeTokens:!0});var n=Ve(r);return r&&!n&&console.warn('A locale object was not found for the provided string ["'.concat(r,'"].')),!n&&Qe()&&Ve(Qe())&&(n=Ve(Qe())),s(e,t,{locale:n||null,awareOfUnicodeTokens:!0})}function Ye(e,t){var r=t.hour,n=void 0===r?0:r,a=t.minute,o=void 0===a?0:a,s=t.second;return Y(N(E(e,void 0===s?0:s),o),n)}function xe(e,t){var r=t&&Ve(t)||Qe()&&Ve(Qe());return _(e,r?{locale:r}:null)}function Te(e,t){return Ne(e,"ddd",t)}function Ie(e){return A(e)}function Le(e,t){var r=Ve(t||Qe());return B(e,{locale:r})}function je(e){return H(e)}function Re(e){return Q(e)}function Fe(e){return K(e)}function qe(e,t){return e&&t?X(e,t):!e&&!t}function We(e,t){return e&&t?J(e,t):!e&&!t}function Ae(e,t){return e&&t?Z(e,t):!e&&!t}function Be(e,t){return e&&t?G(e,t):!e&&!t}function He(e,t){return e&&t?z(e,t):!e&&!t}function Ke(e,t,r){var n,a=A(t),o=V(r);try{n=re(e,{start:a,end:o})}catch(e){n=!1}return n}function Qe(){return("undefined"!=typeof window?window:global).__localeId__}function Ve(e){if("string"==typeof e){var t="undefined"!=typeof window?window:global;return t.__localeData__?t.__localeData__[e]:null}return e}function Ue(e,t){return Ne(x(Pe(),e),"LLLL",t)}function $e(e,t){return Ne(x(Pe(),e),"LLL",t)}function ze(e,t){return Ne(T(Pe(),e),"QQQ",t)}function Ge(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.maxDate,a=t.excludeDates,o=t.includeDates,s=t.filterDate;return nt(e,{minDate:r,maxDate:n})||a&&a.some((function(t){return Be(e,t)}))||o&&!o.some((function(t){return Be(e,t)}))||s&&!s(Pe(e))||!1}function Je(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.excludeDates;return r&&r.some((function(t){return Be(e,t)}))||!1}function Xe(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.maxDate,a=t.excludeDates,o=t.includeDates,s=t.filterDate;return nt(e,{minDate:r,maxDate:n})||a&&a.some((function(t){return We(e,t)}))||o&&!o.some((function(t){return We(e,t)}))||s&&!s(Pe(e))||!1}function Ze(e,t,r,n){var a=P(e),o=O(e),s=P(t),p=O(t),i=P(n);return a===s&&a===i?o<=r&&r<=p:a<s?i===a&&o<=r||i===s&&p>=r||i<s&&i>a:void 0}function et(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.maxDate,a=t.excludeDates,o=t.includeDates,s=t.filterDate;return nt(e,{minDate:r,maxDate:n})||a&&a.some((function(t){return Ae(e,t)}))||o&&!o.some((function(t){return Ae(e,t)}))||s&&!s(Pe(e))||!1}function tt(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.maxDate,a=new Date(e,0,1);return nt(a,{minDate:r,maxDate:n})||!1}function rt(e,t,r,n){var a=P(e),o=S(e),s=P(t),p=S(t),i=P(n);return a===s&&a===i?o<=r&&r<=p:a<s?i===a&&o<=r||i===s&&p>=r||i<s&&i>a:void 0}function nt(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.maxDate;return r&&R(e,r)<0||n&&R(e,n)>0}function at(e,t){for(var r=t.length,n=0;n<r;n++)if(g(t[n])===g(e)&&k(t[n])===k(e))return!0;return!1}function ot(e,t){var r=t.minTime,n=t.maxTime;if(!r||!n)throw new Error("Both minTime and maxTime props required");var a,o=Pe(),s=Y(N(o,k(e)),g(e)),p=Y(N(o,k(r)),g(r)),i=Y(N(o,k(n)),g(n));try{a=!re(s,{start:p,end:i})}catch(e){a=!1}return a}function st(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.includeDates,a=v(e,1);return r&&F(r,a)>0||n&&n.every((function(e){return F(e,a)>0}))||!1}function pt(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.maxDate,n=t.includeDates,a=d(e,1);return r&&F(a,r)>0||n&&n.every((function(e){return F(a,e)>0}))||!1}function it(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=t.includeDates,a=w(e,1);return r&&W(r,a)>0||n&&n.every((function(e){return W(e,a)>0}))||!1}function ct(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.maxDate,n=t.includeDates,a=u(e,1);return r&&W(a,r)>0||n&&n.every((function(e){return W(a,e)>0}))||!1}function lt(e){var t=e.minDate,r=e.includeDates;if(r&&t){var n=r.filter((function(e){return R(e,t)>=0}));return L(n)}return r?L(r):t}function dt(e){var t=e.maxDate,r=e.includeDates;if(r&&t){var n=r.filter((function(e){return R(e,t)<=0}));return j(n)}return r?j(r):t}function ut(){for(var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"react-datepicker__day--highlighted",r=new Map,n=0,o=e.length;n<o;n++){var s=e[n];if(a(s)){var p=Ne(s,"MM.dd.yyyy"),i=r.get(p)||[];i.includes(t)||(i.push(t),r.set(p,i))}else if("object"===ce(s)){var c=Object.keys(s),l=c[0],d=s[c[0]];if("string"==typeof l&&d.constructor===Array)for(var u=0,h=d.length;u<h;u++){var f=Ne(d[u],"MM.dd.yyyy"),m=r.get(f)||[];m.includes(l)||(m.push(l),r.set(f,m))}}}return r}function ht(e,t,r,n,a){for(var o=a.length,s=[],c=0;c<o;c++){var l=p(i(e,g(a[c])),k(a[c])),d=p(e,(r+1)*n);ee(l,t)&&te(l,d)&&s.push(a[c])}return s}function ft(e){return e<10?"0".concat(e):"".concat(e)}function mt(e){var t=12*Math.ceil(P(e)/12);return{startPeriod:t-11,endPeriod:t}}function yt(e,t,r,n){for(var a=[],o=0;o<2*t+1;o++){var s=e+t-o,p=!0;r&&(p=P(r)<=s),n&&p&&(p=P(n)>=s),p&&a.push(s)}return a}var vt=se(function(e){ve(a,e);var r=be(a);function a(e){var n;le(this,a),he(ke(n=r.call(this,e)),"renderOptions",(function(){var e=n.props.year,r=n.state.yearsList.map((function(r){return t.createElement("div",{className:e===r?"react-datepicker__year-option react-datepicker__year-option--selected_year":"react-datepicker__year-option",key:r,onClick:n.onChange.bind(ke(n),r)},e===r?t.createElement("span",{className:"react-datepicker__year-option--selected"},"✓"):"",r)})),a=n.props.minDate?P(n.props.minDate):null,o=n.props.maxDate?P(n.props.maxDate):null;return o&&n.state.yearsList.find((function(e){return e===o}))||r.unshift(t.createElement("div",{className:"react-datepicker__year-option",key:"upcoming",onClick:n.incrementYears},t.createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--years react-datepicker__navigation--years-upcoming"}))),a&&n.state.yearsList.find((function(e){return e===a}))||r.push(t.createElement("div",{className:"react-datepicker__year-option",key:"previous",onClick:n.decrementYears},t.createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--years react-datepicker__navigation--years-previous"}))),r})),he(ke(n),"onChange",(function(e){n.props.onChange(e)})),he(ke(n),"handleClickOutside",(function(){n.props.onCancel()})),he(ke(n),"shiftYears",(function(e){var t=n.state.yearsList.map((function(t){return t+e}));n.setState({yearsList:t})})),he(ke(n),"incrementYears",(function(){return n.shiftYears(1)})),he(ke(n),"decrementYears",(function(){return n.shiftYears(-1)}));var o=e.yearDropdownItemNumber,s=e.scrollableYearDropdown,p=o||(s?10:5);return n.state={yearsList:yt(n.props.year,p,n.props.minDate,n.props.maxDate)},n}return ue(a,[{key:"render",value:function(){var e=n({"react-datepicker__year-dropdown":!0,"react-datepicker__year-dropdown--scrollable":this.props.scrollableYearDropdown});return t.createElement("div",{className:e},this.renderOptions())}}]),a}(t.Component)),wt=function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"state",{dropdownVisible:!1}),he(ke(e),"renderSelectOptions",(function(){for(var r=e.props.minDate?P(e.props.minDate):1900,n=e.props.maxDate?P(e.props.maxDate):2100,a=[],o=r;o<=n;o++)a.push(t.createElement("option",{key:o,value:o},o));return a})),he(ke(e),"onSelectChange",(function(t){e.onChange(t.target.value)})),he(ke(e),"renderSelectMode",(function(){return t.createElement("select",{value:e.props.year,className:"react-datepicker__year-select",onChange:e.onSelectChange},e.renderSelectOptions())})),he(ke(e),"renderReadView",(function(r){return t.createElement("div",{key:"read",style:{visibility:r?"visible":"hidden"},className:"react-datepicker__year-read-view",onClick:function(t){return e.toggleDropdown(t)}},t.createElement("span",{className:"react-datepicker__year-read-view--down-arrow"}),t.createElement("span",{className:"react-datepicker__year-read-view--selected-year"},e.props.year))})),he(ke(e),"renderDropdown",(function(){return t.createElement(vt,{key:"dropdown",year:e.props.year,onChange:e.onChange,onCancel:e.toggleDropdown,minDate:e.props.minDate,maxDate:e.props.maxDate,scrollableYearDropdown:e.props.scrollableYearDropdown,yearDropdownItemNumber:e.props.yearDropdownItemNumber})})),he(ke(e),"renderScrollMode",(function(){var t=e.state.dropdownVisible,r=[e.renderReadView(!t)];return t&&r.unshift(e.renderDropdown()),r})),he(ke(e),"onChange",(function(t){e.toggleDropdown(),t!==e.props.year&&e.props.onChange(t)})),he(ke(e),"toggleDropdown",(function(t){e.setState({dropdownVisible:!e.state.dropdownVisible},(function(){e.props.adjustDateOnChange&&e.handleYearChange(e.props.date,t)}))})),he(ke(e),"handleYearChange",(function(t,r){e.onSelect(t,r),e.setOpen()})),he(ke(e),"onSelect",(function(t,r){e.props.onSelect&&e.props.onSelect(t,r)})),he(ke(e),"setOpen",(function(){e.props.setOpen&&e.props.setOpen(!0)})),e}return ue(n,[{key:"render",value:function(){var e;switch(this.props.dropdownMode){case"scroll":e=this.renderScrollMode();break;case"select":e=this.renderSelectMode()}return t.createElement("div",{className:"react-datepicker__year-dropdown-container react-datepicker__year-dropdown-container--".concat(this.props.dropdownMode)},e)}}]),n}(t.Component),Dt=se(function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"renderOptions",(function(){return e.props.monthNames.map((function(r,n){return t.createElement("div",{className:e.props.month===n?"react-datepicker__month-option react-datepicker__month-option--selected_month":"react-datepicker__month-option",key:r,onClick:e.onChange.bind(ke(e),n)},e.props.month===n?t.createElement("span",{className:"react-datepicker__month-option--selected"},"✓"):"",r)}))})),he(ke(e),"onChange",(function(t){return e.props.onChange(t)})),he(ke(e),"handleClickOutside",(function(){return e.props.onCancel()})),e}return ue(n,[{key:"render",value:function(){return t.createElement("div",{className:"react-datepicker__month-dropdown"},this.renderOptions())}}]),n}(t.Component)),kt=function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"state",{dropdownVisible:!1}),he(ke(e),"renderSelectOptions",(function(e){return e.map((function(e,r){return t.createElement("option",{key:r,value:r},e)}))})),he(ke(e),"renderSelectMode",(function(r){return t.createElement("select",{value:e.props.month,className:"react-datepicker__month-select",onChange:function(t){return e.onChange(t.target.value)}},e.renderSelectOptions(r))})),he(ke(e),"renderReadView",(function(r,n){return t.createElement("div",{key:"read",style:{visibility:r?"visible":"hidden"},className:"react-datepicker__month-read-view",onClick:e.toggleDropdown},t.createElement("span",{className:"react-datepicker__month-read-view--down-arrow"}),t.createElement("span",{className:"react-datepicker__month-read-view--selected-month"},n[e.props.month]))})),he(ke(e),"renderDropdown",(function(r){return t.createElement(Dt,{key:"dropdown",month:e.props.month,monthNames:r,onChange:e.onChange,onCancel:e.toggleDropdown})})),he(ke(e),"renderScrollMode",(function(t){var r=e.state.dropdownVisible,n=[e.renderReadView(!r,t)];return r&&n.unshift(e.renderDropdown(t)),n})),he(ke(e),"onChange",(function(t){e.toggleDropdown(),t!==e.props.month&&e.props.onChange(t)})),he(ke(e),"toggleDropdown",(function(){return e.setState({dropdownVisible:!e.state.dropdownVisible})})),e}return ue(n,[{key:"render",value:function(){var e,r=this,n=[0,1,2,3,4,5,6,7,8,9,10,11].map(this.props.useShortMonthInDropdown?function(e){return $e(e,r.props.locale)}:function(e){return Ue(e,r.props.locale)});switch(this.props.dropdownMode){case"scroll":e=this.renderScrollMode(n);break;case"select":e=this.renderSelectMode(n)}return t.createElement("div",{className:"react-datepicker__month-dropdown-container react-datepicker__month-dropdown-container--".concat(this.props.dropdownMode)},e)}}]),n}(t.Component);function gt(e,t){for(var r=[],n=je(e),a=je(t);!ee(n,a);)r.push(Pe(n)),n=d(n,1);return r}var bt=se(function(e){ve(a,e);var r=be(a);function a(e){var n;return le(this,a),he(ke(n=r.call(this,e)),"renderOptions",(function(){return n.state.monthYearsList.map((function(e){var r=M(e),a=qe(n.props.date,e)&&We(n.props.date,e);return t.createElement("div",{className:a?"react-datepicker__month-year-option --selected_month-year":"react-datepicker__month-year-option",key:r,onClick:n.onChange.bind(ke(n),r)},a?t.createElement("span",{className:"react-datepicker__month-year-option--selected"},"✓"):"",Ne(e,n.props.dateFormat))}))})),he(ke(n),"onChange",(function(e){return n.props.onChange(e)})),he(ke(n),"handleClickOutside",(function(){n.props.onCancel()})),n.state={monthYearsList:gt(n.props.minDate,n.props.maxDate)},n}return ue(a,[{key:"render",value:function(){var e=n({"react-datepicker__month-year-dropdown":!0,"react-datepicker__month-year-dropdown--scrollable":this.props.scrollableMonthYearDropdown});return t.createElement("div",{className:e},this.renderOptions())}}]),a}(t.Component)),Ct=function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"state",{dropdownVisible:!1}),he(ke(e),"renderSelectOptions",(function(){for(var r=je(e.props.minDate),n=je(e.props.maxDate),a=[];!ee(r,n);){var o=M(r);a.push(t.createElement("option",{key:o,value:o},Ne(r,e.props.dateFormat,e.props.locale))),r=d(r,1)}return a})),he(ke(e),"onSelectChange",(function(t){e.onChange(t.target.value)})),he(ke(e),"renderSelectMode",(function(){return t.createElement("select",{value:M(je(e.props.date)),className:"react-datepicker__month-year-select",onChange:e.onSelectChange},e.renderSelectOptions())})),he(ke(e),"renderReadView",(function(r){var n=Ne(e.props.date,e.props.dateFormat,e.props.locale);return t.createElement("div",{key:"read",style:{visibility:r?"visible":"hidden"},className:"react-datepicker__month-year-read-view",onClick:function(t){return e.toggleDropdown(t)}},t.createElement("span",{className:"react-datepicker__month-year-read-view--down-arrow"}),t.createElement("span",{className:"react-datepicker__month-year-read-view--selected-month-year"},n))})),he(ke(e),"renderDropdown",(function(){return t.createElement(bt,{key:"dropdown",date:e.props.date,dateFormat:e.props.dateFormat,onChange:e.onChange,onCancel:e.toggleDropdown,minDate:e.props.minDate,maxDate:e.props.maxDate,scrollableMonthYearDropdown:e.props.scrollableMonthYearDropdown})})),he(ke(e),"renderScrollMode",(function(){var t=e.state.dropdownVisible,r=[e.renderReadView(!t)];return t&&r.unshift(e.renderDropdown()),r})),he(ke(e),"onChange",(function(t){e.toggleDropdown();var r=Pe(parseInt(t));qe(e.props.date,r)&&We(e.props.date,r)||e.props.onChange(r)})),he(ke(e),"toggleDropdown",(function(){return e.setState({dropdownVisible:!e.state.dropdownVisible})})),e}return ue(n,[{key:"render",value:function(){var e;switch(this.props.dropdownMode){case"scroll":e=this.renderScrollMode();break;case"select":e=this.renderSelectMode()}return t.createElement("div",{className:"react-datepicker__month-year-dropdown-container react-datepicker__month-year-dropdown-container--".concat(this.props.dropdownMode)},e)}}]),n}(t.Component),_t=function(e){ve(a,e);var r=be(a);function a(){var e;le(this,a);for(var o=arguments.length,s=new Array(o),p=0;p<o;p++)s[p]=arguments[p];return he(ke(e=r.call.apply(r,[this].concat(s))),"dayEl",t.createRef()),he(ke(e),"handleClick",(function(t){!e.isDisabled()&&e.props.onClick&&e.props.onClick(t)})),he(ke(e),"handleMouseEnter",(function(t){!e.isDisabled()&&e.props.onMouseEnter&&e.props.onMouseEnter(t)})),he(ke(e),"handleOnKeyDown",(function(t){" "===t.key&&(t.preventDefault(),t.key="Enter"),e.props.handleOnKeyDown(t)})),he(ke(e),"isSameDay",(function(t){return Be(e.props.day,t)})),he(ke(e),"isKeyboardSelected",(function(){return!e.props.disabledKeyboardNavigation&&!e.isSameDay(e.props.selected)&&e.isSameDay(e.props.preSelection)})),he(ke(e),"isDisabled",(function(){return Ge(e.props.day,e.props)})),he(ke(e),"isExcluded",(function(){return Je(e.props.day,e.props)})),he(ke(e),"getHighLightedClass",(function(t){var r=e.props,n=r.day,a=r.highlightDates;if(!a)return!1;var o=Ne(n,"MM.dd.yyyy");return a.get(o)})),he(ke(e),"isInRange",(function(){var t=e.props,r=t.day,n=t.startDate,a=t.endDate;return!(!n||!a)&&Ke(r,n,a)})),he(ke(e),"isInSelectingRange",(function(){var t=e.props,r=t.day,n=t.selectsStart,a=t.selectsEnd,o=t.selectsRange,s=t.selectingDate,p=t.startDate,i=t.endDate;return!(!(n||a||o)||!s||e.isDisabled())&&(n&&i&&(te(s,i)||He(s,i))?Ke(r,s,i):(a&&p&&(ee(s,p)||He(s,p))||!(!o||!p||i||!ee(s,p)&&!He(s,p)))&&Ke(r,p,s))})),he(ke(e),"isSelectingRangeStart",(function(){if(!e.isInSelectingRange())return!1;var t=e.props,r=t.day,n=t.selectingDate,a=t.startDate;return Be(r,t.selectsStart?n:a)})),he(ke(e),"isSelectingRangeEnd",(function(){if(!e.isInSelectingRange())return!1;var t=e.props,r=t.day,n=t.selectingDate,a=t.endDate;return Be(r,t.selectsEnd?n:a)})),he(ke(e),"isRangeStart",(function(){var t=e.props,r=t.day,n=t.startDate,a=t.endDate;return!(!n||!a)&&Be(n,r)})),he(ke(e),"isRangeEnd",(function(){var t=e.props,r=t.day,n=t.startDate,a=t.endDate;return!(!n||!a)&&Be(a,r)})),he(ke(e),"isWeekend",(function(){var t=b(e.props.day);return 0===t||6===t})),he(ke(e),"isOutsideMonth",(function(){return void 0!==e.props.month&&e.props.month!==O(e.props.day)})),he(ke(e),"getClassNames",(function(t){var r=e.props.dayClassName?e.props.dayClassName(t):void 0;return n("react-datepicker__day",r,"react-datepicker__day--"+Te(e.props.day),{"react-datepicker__day--disabled":e.isDisabled(),"react-datepicker__day--excluded":e.isExcluded(),"react-datepicker__day--selected":e.isSameDay(e.props.selected),"react-datepicker__day--keyboard-selected":e.isKeyboardSelected(),"react-datepicker__day--range-start":e.isRangeStart(),"react-datepicker__day--range-end":e.isRangeEnd(),"react-datepicker__day--in-range":e.isInRange(),"react-datepicker__day--in-selecting-range":e.isInSelectingRange(),"react-datepicker__day--selecting-range-start":e.isSelectingRangeStart(),"react-datepicker__day--selecting-range-end":e.isSelectingRangeEnd(),"react-datepicker__day--today":e.isSameDay(Pe()),"react-datepicker__day--weekend":e.isWeekend(),"react-datepicker__day--outside-month":e.isOutsideMonth()},e.getHighLightedClass("react-datepicker__day--highlighted"))})),he(ke(e),"getAriaLabel",(function(){var t=e.props,r=t.day,n=t.ariaLabelPrefixWhenEnabled,a=void 0===n?"Choose":n,o=t.ariaLabelPrefixWhenDisabled,s=void 0===o?"Not available":o,p=e.isDisabled()||e.isExcluded()?s:a;return"".concat(p," ").concat(Ne(r,"PPPP"))})),he(ke(e),"getTabIndex",(function(t,r){var n=t||e.props.selected,a=r||e.props.preSelection;return e.isKeyboardSelected()||e.isSameDay(n)&&Be(a,n)?0:-1})),he(ke(e),"handleFocusDay",(function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},r=!1;0===e.getTabIndex()&&!t.isInputFocused&&e.isSameDay(e.props.preSelection)&&(document.activeElement&&document.activeElement!==document.body||(r=!0),e.props.containerRef&&e.props.containerRef.current&&e.props.containerRef.current.contains(document.activeElement)&&document.activeElement.classList.contains("react-datepicker__day")&&(r=!0)),r&&e.dayEl.current.focus({preventScroll:!0})})),he(ke(e),"render",(function(){return t.createElement("div",{ref:e.dayEl,className:e.getClassNames(e.props.day),onKeyDown:e.handleOnKeyDown,onClick:e.handleClick,onMouseEnter:e.handleMouseEnter,tabIndex:e.getTabIndex(),"aria-label":e.getAriaLabel(),role:"button","aria-disabled":e.isDisabled()},e.props.renderDayContents?e.props.renderDayContents(C(e.props.day),e.props.day):C(e.props.day))})),e}return ue(a,[{key:"componentDidMount",value:function(){this.handleFocusDay()}},{key:"componentDidUpdate",value:function(e){this.handleFocusDay(e)}}]),a}(t.Component),Ot=function(e){ve(a,e);var r=be(a);function a(){var e;le(this,a);for(var t=arguments.length,n=new Array(t),o=0;o<t;o++)n[o]=arguments[o];return he(ke(e=r.call.apply(r,[this].concat(n))),"handleClick",(function(t){e.props.onClick&&e.props.onClick(t)})),e}return ue(a,[{key:"render",value:function(){var e=this.props,r=e.weekNumber,a=e.ariaLabelPrefix,o=void 0===a?"week ":a,s={"react-datepicker__week-number":!0,"react-datepicker__week-number--clickable":!!e.onClick};return t.createElement("div",{className:n(s),"aria-label":"".concat(o," ").concat(this.props.weekNumber),onClick:this.handleClick},r)}}]),a}(t.Component),St=function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"handleDayClick",(function(t,r){e.props.onDayClick&&e.props.onDayClick(t,r)})),he(ke(e),"handleDayMouseEnter",(function(t){e.props.onDayMouseEnter&&e.props.onDayMouseEnter(t)})),he(ke(e),"handleWeekClick",(function(t,r,n){"function"==typeof e.props.onWeekSelect&&e.props.onWeekSelect(t,r,n),e.props.shouldCloseOnSelect&&e.props.setOpen(!1)})),he(ke(e),"formatWeekNumber",(function(t){return e.props.formatWeekNumber?e.props.formatWeekNumber(t):xe(t,e.props.locale)})),he(ke(e),"renderDays",(function(){var r=Le(e.props.day,e.props.locale),n=[],a=e.formatWeekNumber(r);if(e.props.showWeekNumber){var o=e.props.onWeekSelect?e.handleWeekClick.bind(ke(e),r,a):void 0;n.push(t.createElement(Ot,{key:"W",weekNumber:a,onClick:o,ariaLabelPrefix:e.props.ariaLabelPrefix}))}return n.concat([0,1,2,3,4,5,6].map((function(n){var a=c(r,n);return t.createElement(_t,{ariaLabelPrefixWhenEnabled:e.props.chooseDayAriaLabelPrefix,ariaLabelPrefixWhenDisabled:e.props.disabledDayAriaLabelPrefix,key:a.valueOf(),day:a,month:e.props.month,onClick:e.handleDayClick.bind(ke(e),a),onMouseEnter:e.handleDayMouseEnter.bind(ke(e),a),minDate:e.props.minDate,maxDate:e.props.maxDate,excludeDates:e.props.excludeDates,includeDates:e.props.includeDates,highlightDates:e.props.highlightDates,selectingDate:e.props.selectingDate,filterDate:e.props.filterDate,preSelection:e.props.preSelection,selected:e.props.selected,selectsStart:e.props.selectsStart,selectsEnd:e.props.selectsEnd,selectsRange:e.props.selectsRange,startDate:e.props.startDate,endDate:e.props.endDate,dayClassName:e.props.dayClassName,renderDayContents:e.props.renderDayContents,disabledKeyboardNavigation:e.props.disabledKeyboardNavigation,handleOnKeyDown:e.props.handleOnKeyDown,isInputFocused:e.props.isInputFocused,containerRef:e.props.containerRef})})))})),e}return ue(n,[{key:"render",value:function(){return t.createElement("div",{className:"react-datepicker__week"},this.renderDays())}}],[{key:"defaultProps",get:function(){return{shouldCloseOnSelect:!0}}}]),n}(t.Component),Pt=function(e){ve(a,e);var r=be(a);function a(){var e;le(this,a);for(var o=arguments.length,s=new Array(o),p=0;p<o;p++)s[p]=arguments[p];return he(ke(e=r.call.apply(r,[this].concat(s))),"handleDayClick",(function(t,r){e.props.onDayClick&&e.props.onDayClick(t,r,e.props.orderInDisplay)})),he(ke(e),"handleDayMouseEnter",(function(t){e.props.onDayMouseEnter&&e.props.onDayMouseEnter(t)})),he(ke(e),"handleMouseLeave",(function(){e.props.onMouseLeave&&e.props.onMouseLeave()})),he(ke(e),"isRangeStartMonth",(function(t){var r=e.props,n=r.day,a=r.startDate,o=r.endDate;return!(!a||!o)&&We(x(n,t),a)})),he(ke(e),"isRangeStartQuarter",(function(t){var r=e.props,n=r.day,a=r.startDate,o=r.endDate;return!(!a||!o)&&Ae(T(n,t),a)})),he(ke(e),"isRangeEndMonth",(function(t){var r=e.props,n=r.day,a=r.startDate,o=r.endDate;return!(!a||!o)&&We(x(n,t),o)})),he(ke(e),"isRangeEndQuarter",(function(t){var r=e.props,n=r.day,a=r.startDate,o=r.endDate;return!(!a||!o)&&Ae(T(n,t),o)})),he(ke(e),"isWeekInMonth",(function(t){var r=e.props.day,n=c(t,6);return We(t,r)||We(n,r)})),he(ke(e),"renderWeeks",(function(){for(var r=[],n=e.props.fixedHeight,a=Le(je(e.props.day),e.props.locale),o=0,s=!1;r.push(t.createElement(St,{ariaLabelPrefix:e.props.weekAriaLabelPrefix,chooseDayAriaLabelPrefix:e.props.chooseDayAriaLabelPrefix,disabledDayAriaLabelPrefix:e.props.disabledDayAriaLabelPrefix,key:o,day:a,month:O(e.props.day),onDayClick:e.handleDayClick,onDayMouseEnter:e.handleDayMouseEnter,onWeekSelect:e.props.onWeekSelect,formatWeekNumber:e.props.formatWeekNumber,locale:e.props.locale,minDate:e.props.minDate,maxDate:e.props.maxDate,excludeDates:e.props.excludeDates,includeDates:e.props.includeDates,highlightDates:e.props.highlightDates,selectingDate:e.props.selectingDate,filterDate:e.props.filterDate,preSelection:e.props.preSelection,selected:e.props.selected,selectsStart:e.props.selectsStart,selectsEnd:e.props.selectsEnd,selectsRange:e.props.selectsRange,showWeekNumber:e.props.showWeekNumbers,startDate:e.props.startDate,endDate:e.props.endDate,dayClassName:e.props.dayClassName,setOpen:e.props.setOpen,shouldCloseOnSelect:e.props.shouldCloseOnSelect,disabledKeyboardNavigation:e.props.disabledKeyboardNavigation,renderDayContents:e.props.renderDayContents,handleOnKeyDown:e.props.handleOnKeyDown,isInputFocused:e.props.isInputFocused,containerRef:e.props.containerRef})),!s;){o++,a=l(a,1);var p=n&&o>=6,i=!n&&!e.isWeekInMonth(a);if(p||i){if(!e.props.peekNextMonth)break;s=!0}}return r})),he(ke(e),"onMonthClick",(function(t,r){e.handleDayClick(je(x(e.props.day,r)),t)})),he(ke(e),"onQuarterClick",(function(t,r){e.handleDayClick(Fe(T(e.props.day,r)),t)})),he(ke(e),"getMonthClassNames",(function(t){var r=e.props,a=r.day,o=r.startDate,s=r.endDate,p=r.selected,i=r.minDate,c=r.maxDate;return n("react-datepicker__month-text","react-datepicker__month-".concat(t),{"react-datepicker__month--disabled":(i||c)&&Xe(x(a,t),e.props),"react-datepicker__month--selected":O(a)===t&&P(a)===P(p),"react-datepicker__month--in-range":Ze(o,s,t,a),"react-datepicker__month--range-start":e.isRangeStartMonth(t),"react-datepicker__month--range-end":e.isRangeEndMonth(t)})})),he(ke(e),"getQuarterClassNames",(function(t){var r=e.props,a=r.day,o=r.startDate,s=r.endDate,p=r.selected,i=r.minDate,c=r.maxDate;return n("react-datepicker__quarter-text","react-datepicker__quarter-".concat(t),{"react-datepicker__quarter--disabled":(i||c)&&et(T(a,t),e.props),"react-datepicker__quarter--selected":S(a)===t&&P(a)===P(p),"react-datepicker__quarter--in-range":rt(o,s,t,a),"react-datepicker__quarter--range-start":e.isRangeStartQuarter(t),"react-datepicker__quarter--range-end":e.isRangeEndQuarter(t)})})),he(ke(e),"renderMonths",(function(){var r=e.props,n=r.showFullMonthYearPicker,a=r.showTwoColumnMonthYearPicker,o=r.locale;return(a?[[0,1],[2,3],[4,5],[6,7],[8,9],[10,11]]:[[0,1,2],[3,4,5],[6,7,8],[9,10,11]]).map((function(r,a){return t.createElement("div",{className:"react-datepicker__month-wrapper",key:a},r.map((function(r,a){return t.createElement("div",{key:a,onClick:function(t){e.onMonthClick(t,r)},className:e.getMonthClassNames(r)},n?Ue(r,o):$e(r,o))})))}))})),he(ke(e),"renderQuarters",(function(){return t.createElement("div",{className:"react-datepicker__quarter-wrapper"},[1,2,3,4].map((function(r,n){return t.createElement("div",{key:n,onClick:function(t){e.onQuarterClick(t,r)},className:e.getQuarterClassNames(r)},ze(r,e.props.locale))})))})),he(ke(e),"getClassNames",(function(){var t=e.props,r=t.selectingDate,a=t.selectsStart,o=t.selectsEnd,s=t.showMonthYearPicker,p=t.showQuarterYearPicker;return n("react-datepicker__month",{"react-datepicker__month--selecting-range":r&&(a||o)},{"react-datepicker__monthPicker":s},{"react-datepicker__quarterPicker":p})})),e}return ue(a,[{key:"render",value:function(){var e=this.props,r=e.showMonthYearPicker,n=e.showQuarterYearPicker,a=e.day,o=e.ariaLabelPrefix,s=void 0===o?"month ":o;return t.createElement("div",{className:this.getClassNames(),onMouseLeave:this.handleMouseLeave,"aria-label":"".concat(s," ").concat(Ne(a,"yyyy-MM"))},r?this.renderMonths():n?this.renderQuarters():this.renderWeeks())}}]),a}(t.Component),Mt=function(e){ve(n,e);var r=be(n);function n(){var e;le(this,n);for(var a=arguments.length,o=new Array(a),s=0;s<a;s++)o[s]=arguments[s];return he(ke(e=r.call.apply(r,[this].concat(o))),"state",{height:null}),he(ke(e),"handleClick",(function(t){(e.props.minTime||e.props.maxTime)&&ot(t,e.props)||e.props.excludeTimes&&at(t,e.props.excludeTimes)||e.props.includeTimes&&!at(t,e.props.includeTimes)||e.props.onChange(t)})),he(ke(e),"liClasses",(function(t,r,n){var a=["react-datepicker__time-list-item",e.props.timeClassName?e.props.timeClassName(t,r,n):void 0];return e.props.selected&&r===g(t)&&n===k(t)&&a.push("react-datepicker__time-list-item--selected"),((e.props.minTime||e.props.maxTime)&&ot(t,e.props)||e.props.excludeTimes&&at(t,e.props.excludeTimes)||e.props.includeTimes&&!at(t,e.props.includeTimes))&&a.push("react-datepicker__time-list-item--disabled"),e.props.injectTimes&&(60*g(t)+k(t))%e.props.intervals!=0&&a.push("react-datepicker__time-list-item--injected"),a.join(" ")})),he(ke(e),"renderTimes",(function(){for(var r=[],n=e.props.format?e.props.format:"p",a=e.props.intervals,o=e.props.selected||e.props.openToDate||Pe(),s=g(o),i=k(o),c=Ie(Pe()),l=1440/a,d=e.props.injectTimes&&e.props.injectTimes.sort((function(e,t){return e-t})),u=[],h=0;h<l;h++){var f=p(c,h*a);if(r.push(f),d){var m=ht(c,f,h,a,d);r=r.concat(m)}s===g(f)&&u.push(f)}return r.map((function(r,a){return t.createElement("li",{key:a,onClick:e.handleClick.bind(ke(e),r),className:e.liClasses(r,s,i),ref:function(t){s===g(r)&&(i>=k(r)?e.centerLi=t:e.centerLi||u.indexOf(r)!==u.length-1||(e.centerLi=t))}},Ne(r,n,e.props.locale))}))})),e}return ue(n,[{key:"componentDidMount",value:function(){this.list.scrollTop=n.calcCenterPosition(this.props.monthRef?this.props.monthRef.clientHeight-this.header.clientHeight:this.list.clientHeight,this.centerLi),this.props.monthRef&&this.header&&this.setState({height:this.props.monthRef.clientHeight-this.header.clientHeight})}},{key:"render",value:function(){var e=this,r=this.state.height;return t.createElement("div",{className:"react-datepicker__time-container ".concat(this.props.todayButton?"react-datepicker__time-container--with-today-button":"")},t.createElement("div",{className:"react-datepicker__header react-datepicker__header--time",ref:function(t){e.header=t}},t.createElement("div",{className:"react-datepicker-time__header"},this.props.timeCaption)),t.createElement("div",{className:"react-datepicker__time"},t.createElement("div",{className:"react-datepicker__time-box"},t.createElement("ul",{className:"react-datepicker__time-list",ref:function(t){e.list=t},style:r?{height:r}:{}},this.renderTimes()))))}}],[{key:"defaultProps",get:function(){return{intervals:30,onTimeChange:function(){},todayButton:null,timeCaption:"Time"}}}]),n}(t.Component);he(Mt,"calcCenterPosition",(function(e,t){return t.offsetTop-(e/2-t.clientHeight/2)}));var Et=function(e){ve(a,e);var r=be(a);function a(e){var t;return le(this,a),he(ke(t=r.call(this,e)),"handleYearClick",(function(e,r){t.props.onDayClick&&t.props.onDayClick(e,r)})),he(ke(t),"isSameDay",(function(e,t){return Be(e,t)})),he(ke(t),"isKeyboardSelected",(function(e){var r=Re(I(t.props.date,e));return!t.props.disabledKeyboardNavigation&&!t.props.inline&&!Be(r,Re(t.props.selected))&&Be(r,Re(t.props.preSelection))})),he(ke(t),"onYearClick",(function(e,r){var n=t.props.date;t.handleYearClick(Re(I(n,r)),e)})),he(ke(t),"getYearClassNames",(function(e){var r=t.props,a=r.minDate,o=r.maxDate,s=r.selected;return n("react-datepicker__year-text",{"react-datepicker__year-text--selected":e===P(s),"react-datepicker__year-text--disabled":(a||o)&&tt(e,t.props),"react-datepicker__year-text--keyboard-selected":t.isKeyboardSelected(e)})})),t}return ue(a,[{key:"render",value:function(){for(var e=this,r=[],n=mt(this.props.date),a=n.startPeriod,o=n.endPeriod,s=function(n){r.push(t.createElement("div",{onClick:function(t){e.onYearClick(t,n)},className:e.getYearClassNames(n),key:n},n))},p=a;p<=o;p++)s(p);return t.createElement("div",{className:"react-datepicker__year"},t.createElement("div",{className:"react-datepicker__year-wrapper"},r))}}]),a}(t.Component),Nt=function(e){ve(n,e);var r=be(n);function n(e){var a;return le(this,n),he(ke(a=r.call(this,e)),"onTimeChange",(function(e){a.setState({time:e});var t=new Date;t.setHours(e.split(":")[0]),t.setMinutes(e.split(":")[1]),a.props.onChange(t)})),he(ke(a),"renderTimeInput",(function(){var e=a.state.time,r=a.props,n=r.timeString,o=r.customTimeInput;return o?t.cloneElement(o,{value:e,onChange:a.onTimeChange}):t.createElement("input",{type:"time",className:"react-datepicker-time__input",placeholder:"Time",name:"time-input",required:!0,value:e,onChange:function(e){a.onTimeChange(e.target.value||n)}})})),a.state={time:a.props.timeString},a}return ue(n,[{key:"render",value:function(){return t.createElement("div",{className:"react-datepicker__input-time-container"},t.createElement("div",{className:"react-datepicker-time__caption"},this.props.timeInputLabel),t.createElement("div",{className:"react-datepicker-time__input-container"},t.createElement("div",{className:"react-datepicker-time__input"},this.renderTimeInput())))}}]),n}(t.Component);function Yt(e){var r=e.className,n=e.children,a=e.showPopperArrow,o=e.arrowProps,s=void 0===o?{}:o;return t.createElement("div",{className:r},a&&t.createElement("div",fe({className:"react-datepicker__triangle"},s)),n)}var xt=["react-datepicker__year-select","react-datepicker__month-select","react-datepicker__month-year-select"],Tt=function(e){ve(a,e);var r=be(a);function a(e){var o;return le(this,a),he(ke(o=r.call(this,e)),"handleClickOutside",(function(e){o.props.onClickOutside(e)})),he(ke(o),"setClickOutsideRef",(function(){return o.containerRef.current})),he(ke(o),"handleDropdownFocus",(function(e){(function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=(e.className||"").split(/\s+/);return xt.some((function(e){return t.indexOf(e)>=0}))})(e.target)&&o.props.onDropdownFocus()})),he(ke(o),"getDateInView",(function(){var e=o.props,t=e.preSelection,r=e.selected,n=e.openToDate,a=lt(o.props),s=dt(o.props),p=Pe(),i=n||r||t;return i||(a&&te(p,a)?a:s&&ee(p,s)?s:p)})),he(ke(o),"increaseMonth",(function(){o.setState((function(e){var t=e.date;return{date:d(t,1)}}),(function(){return o.handleMonthChange(o.state.date)}))})),he(ke(o),"decreaseMonth",(function(){o.setState((function(e){var t=e.date;return{date:v(t,1)}}),(function(){return o.handleMonthChange(o.state.date)}))})),he(ke(o),"handleDayClick",(function(e,t,r){return o.props.onSelect(e,t,r)})),he(ke(o),"handleDayMouseEnter",(function(e){o.setState({selectingDate:e}),o.props.onDayMouseEnter&&o.props.onDayMouseEnter(e)})),he(ke(o),"handleMonthMouseLeave",(function(){o.setState({selectingDate:null}),o.props.onMonthMouseLeave&&o.props.onMonthMouseLeave()})),he(ke(o),"handleYearChange",(function(e){o.props.onYearChange&&o.props.onYearChange(e),o.props.adjustDateOnChange&&(o.props.onSelect&&o.props.onSelect(e),o.props.setOpen&&o.props.setOpen(!0)),o.props.setPreSelection&&o.props.setPreSelection(e)})),he(ke(o),"handleMonthChange",(function(e){o.props.onMonthChange&&o.props.onMonthChange(e),o.props.adjustDateOnChange&&(o.props.onSelect&&o.props.onSelect(e),o.props.setOpen&&o.props.setOpen(!0)),o.props.setPreSelection&&o.props.setPreSelection(e)})),he(ke(o),"handleMonthYearChange",(function(e){o.handleYearChange(e),o.handleMonthChange(e)})),he(ke(o),"changeYear",(function(e){o.setState((function(t){var r=t.date;return{date:I(r,e)}}),(function(){return o.handleYearChange(o.state.date)}))})),he(ke(o),"changeMonth",(function(e){o.setState((function(t){var r=t.date;return{date:x(r,e)}}),(function(){return o.handleMonthChange(o.state.date)}))})),he(ke(o),"changeMonthYear",(function(e){o.setState((function(t){var r=t.date;return{date:I(x(r,O(e)),P(e))}}),(function(){return o.handleMonthYearChange(o.state.date)}))})),he(ke(o),"header",(function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:o.state.date,r=Le(e,o.props.locale),a=[];return o.props.showWeekNumbers&&a.push(t.createElement("div",{key:"W",className:"react-datepicker__day-name"},o.props.weekLabel||"#")),a.concat([0,1,2,3,4,5,6].map((function(e){var a=c(r,e),s=o.formatWeekday(a,o.props.locale),p=o.props.weekDayClassName?o.props.weekDayClassName(a):void 0;return t.createElement("div",{key:e,className:n("react-datepicker__day-name",p)},s)})))})),he(ke(o),"formatWeekday",(function(e,t){return o.props.formatWeekDay?function(e,t,r){return t(Ne(e,"EEEE",r))}(e,o.props.formatWeekDay,t):o.props.useWeekdaysShort?function(e,t){return Ne(e,"EEE",t)}(e,t):function(e,t){return Ne(e,"EEEEEE",t)}(e,t)})),he(ke(o),"decreaseYear",(function(){o.setState((function(e){var t=e.date;return{date:w(t,o.props.showYearPicker?12:1)}}),(function(){return o.handleYearChange(o.state.date)}))})),he(ke(o),"renderPreviousButton",(function(){if(!o.props.renderCustomHeader){var e;switch(!0){case o.props.showMonthYearPicker:e=it(o.state.date,o.props);break;case o.props.showYearPicker:e=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.minDate,n=Re(w(e,12)),a=mt(n),o=a.startPeriod,s=a.endPeriod,p=r&&P(r);return p&&(p<o||p>s)||!1}(o.state.date,o.props);break;default:e=st(o.state.date,o.props)}if((o.props.forceShowMonthNavigation||o.props.showDisabledMonthNavigation||!e)&&!o.props.showTimeSelectOnly){var r=["react-datepicker__navigation","react-datepicker__navigation--previous"],n=o.decreaseMonth;(o.props.showMonthYearPicker||o.props.showQuarterYearPicker||o.props.showYearPicker)&&(n=o.decreaseYear),e&&o.props.showDisabledMonthNavigation&&(r.push("react-datepicker__navigation--previous--disabled"),n=null);var a=o.props.showMonthYearPicker||o.props.showQuarterYearPicker||o.props.showYearPicker,s=o.props,p=s.previousMonthAriaLabel,i=void 0===p?"Previous Month":p,c=s.previousYearAriaLabel,l=void 0===c?"Previous Year":c;return t.createElement("button",{type:"button",className:r.join(" "),onClick:n,"aria-label":a?l:i},a?o.props.previousYearButtonLabel:o.props.previousMonthButtonLabel)}}})),he(ke(o),"increaseYear",(function(){o.setState((function(e){var t=e.date;return{date:u(t,o.props.showYearPicker?12:1)}}),(function(){return o.handleYearChange(o.state.date)}))})),he(ke(o),"renderNextButton",(function(){if(!o.props.renderCustomHeader){var e;switch(!0){case o.props.showMonthYearPicker:e=ct(o.state.date,o.props);break;case o.props.showYearPicker:e=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},r=t.maxDate,n=u(e,12),a=mt(n),o=a.startPeriod,s=a.endPeriod,p=r&&P(r);return p&&(p<o||p>s)||!1}(o.state.date,o.props);break;default:e=pt(o.state.date,o.props)}if((o.props.forceShowMonthNavigation||o.props.showDisabledMonthNavigation||!e)&&!o.props.showTimeSelectOnly){var r=["react-datepicker__navigation","react-datepicker__navigation--next"];o.props.showTimeSelect&&r.push("react-datepicker__navigation--next--with-time"),o.props.todayButton&&r.push("react-datepicker__navigation--next--with-today-button");var n=o.increaseMonth;(o.props.showMonthYearPicker||o.props.showQuarterYearPicker||o.props.showYearPicker)&&(n=o.increaseYear),e&&o.props.showDisabledMonthNavigation&&(r.push("react-datepicker__navigation--next--disabled"),n=null);var a=o.props.showMonthYearPicker||o.props.showQuarterYearPicker||o.props.showYearPicker,s=o.props,p=s.nextMonthAriaLabel,i=void 0===p?"Next Month":p,c=s.nextYearAriaLabel,l=void 0===c?"Next Year":c;return t.createElement("button",{type:"button",className:r.join(" "),onClick:n,"aria-label":a?l:i},a?o.props.nextYearButtonLabel:o.props.nextMonthButtonLabel)}}})),he(ke(o),"renderCurrentMonth",(function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:o.state.date,r=["react-datepicker__current-month"];return o.props.showYearDropdown&&r.push("react-datepicker__current-month--hasYearDropdown"),o.props.showMonthDropdown&&r.push("react-datepicker__current-month--hasMonthDropdown"),o.props.showMonthYearDropdown&&r.push("react-datepicker__current-month--hasMonthYearDropdown"),t.createElement("div",{className:r.join(" ")},Ne(e,o.props.dateFormat,o.props.locale))})),he(ke(o),"renderYearDropdown",(function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0];if(o.props.showYearDropdown&&!e)return t.createElement(wt,{adjustDateOnChange:o.props.adjustDateOnChange,date:o.state.date,onSelect:o.props.onSelect,setOpen:o.props.setOpen,dropdownMode:o.props.dropdownMode,onChange:o.changeYear,minDate:o.props.minDate,maxDate:o.props.maxDate,year:P(o.state.date),scrollableYearDropdown:o.props.scrollableYearDropdown,yearDropdownItemNumber:o.props.yearDropdownItemNumber})})),he(ke(o),"renderMonthDropdown",(function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0];if(o.props.showMonthDropdown&&!e)return t.createElement(kt,{dropdownMode:o.props.dropdownMode,locale:o.props.locale,onChange:o.changeMonth,month:O(o.state.date),useShortMonthInDropdown:o.props.useShortMonthInDropdown})})),he(ke(o),"renderMonthYearDropdown",(function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0];if(o.props.showMonthYearDropdown&&!e)return t.createElement(Ct,{dropdownMode:o.props.dropdownMode,locale:o.props.locale,dateFormat:o.props.dateFormat,onChange:o.changeMonthYear,minDate:o.props.minDate,maxDate:o.props.maxDate,date:o.state.date,scrollableMonthYearDropdown:o.props.scrollableMonthYearDropdown})})),he(ke(o),"renderTodayButton",(function(){if(o.props.todayButton&&!o.props.showTimeSelectOnly)return t.createElement("div",{className:"react-datepicker__today-button",onClick:function(e){return o.props.onSelect(A(Pe()),e)}},o.props.todayButton)})),he(ke(o),"renderDefaultHeader",(function(e){var r=e.monthDate,n=e.i;return t.createElement("div",{className:"react-datepicker__header"},o.renderCurrentMonth(r),t.createElement("div",{className:"react-datepicker__header__dropdown react-datepicker__header__dropdown--".concat(o.props.dropdownMode),onFocus:o.handleDropdownFocus},o.renderMonthDropdown(0!==n),o.renderMonthYearDropdown(0!==n),o.renderYearDropdown(0!==n)),t.createElement("div",{className:"react-datepicker__day-names"},o.header(r)))})),he(ke(o),"renderCustomHeader",(function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},r=e.monthDate,n=e.i;if(0!==n&&void 0!==n)return null;var a=st(o.state.date,o.props),s=pt(o.state.date,o.props),p=it(o.state.date,o.props),i=ct(o.state.date,o.props),c=!o.props.showMonthYearPicker&&!o.props.showQuarterYearPicker&&!o.props.showYearPicker;return t.createElement("div",{className:"react-datepicker__header react-datepicker__header--custom",onFocus:o.props.onDropdownFocus},o.props.renderCustomHeader(ye(ye({},o.state),{},{changeMonth:o.changeMonth,changeYear:o.changeYear,decreaseMonth:o.decreaseMonth,increaseMonth:o.increaseMonth,decreaseYear:o.decreaseYear,increaseYear:o.increaseYear,prevMonthButtonDisabled:a,nextMonthButtonDisabled:s,prevYearButtonDisabled:p,nextYearButtonDisabled:i})),c&&t.createElement("div",{className:"react-datepicker__day-names"},o.header(r)))})),he(ke(o),"renderYearHeader",(function(){var e=o.state.date,r=o.props.showYearPicker,n=mt(e),a=n.startPeriod,s=n.endPeriod;return t.createElement("div",{className:"react-datepicker__header react-datepicker-year-header"},r?"".concat(a," - ").concat(s):P(e))})),he(ke(o),"renderHeader",(function(e){switch(!0){case void 0!==o.props.renderCustomHeader:return o.renderCustomHeader(e);case o.props.showMonthYearPicker||o.props.showQuarterYearPicker||o.props.showYearPicker:return o.renderYearHeader(e);default:return o.renderDefaultHeader(e)}})),he(ke(o),"renderMonths",(function(){if(!o.props.showTimeSelectOnly&&!o.props.showYearPicker){for(var e=[],r=o.props.showPreviousMonths?o.props.monthsShown-1:0,n=v(o.state.date,r),a=0;a<o.props.monthsShown;++a){var s=a-o.props.monthSelectedIn,p=d(n,s),i="month-".concat(a);e.push(t.createElement("div",{key:i,ref:function(e){o.monthContainer=e},className:"react-datepicker__month-container"},o.renderHeader({monthDate:p,i:a}),t.createElement(Pt,{chooseDayAriaLabelPrefix:o.props.chooseDayAriaLabelPrefix,disabledDayAriaLabelPrefix:o.props.disabledDayAriaLabelPrefix,weekAriaLabelPrefix:o.props.weekAriaLabelPrefix,onChange:o.changeMonthYear,day:p,dayClassName:o.props.dayClassName,monthClassName:o.props.monthClassName,onDayClick:o.handleDayClick,handleOnKeyDown:o.props.handleOnKeyDown,onDayMouseEnter:o.handleDayMouseEnter,onMouseLeave:o.handleMonthMouseLeave,onWeekSelect:o.props.onWeekSelect,orderInDisplay:a,formatWeekNumber:o.props.formatWeekNumber,locale:o.props.locale,minDate:o.props.minDate,maxDate:o.props.maxDate,excludeDates:o.props.excludeDates,highlightDates:o.props.highlightDates,selectingDate:o.state.selectingDate,includeDates:o.props.includeDates,fixedHeight:o.props.fixedHeight,filterDate:o.props.filterDate,preSelection:o.props.preSelection,selected:o.props.selected,selectsStart:o.props.selectsStart,selectsEnd:o.props.selectsEnd,selectsRange:o.props.selectsRange,showWeekNumbers:o.props.showWeekNumbers,startDate:o.props.startDate,endDate:o.props.endDate,peekNextMonth:o.props.peekNextMonth,setOpen:o.props.setOpen,shouldCloseOnSelect:o.props.shouldCloseOnSelect,renderDayContents:o.props.renderDayContents,disabledKeyboardNavigation:o.props.disabledKeyboardNavigation,showMonthYearPicker:o.props.showMonthYearPicker,showFullMonthYearPicker:o.props.showFullMonthYearPicker,showTwoColumnMonthYearPicker:o.props.showTwoColumnMonthYearPicker,showYearPicker:o.props.showYearPicker,showQuarterYearPicker:o.props.showQuarterYearPicker,isInputFocused:o.props.isInputFocused,containerRef:o.containerRef})))}return e}})),he(ke(o),"renderYears",(function(){if(!o.props.showTimeSelectOnly)return o.props.showYearPicker?t.createElement("div",{className:"react-datepicker__year--container"},o.renderHeader(),t.createElement(Et,fe({onDayClick:o.handleDayClick,date:o.state.date},o.props))):void 0})),he(ke(o),"renderTimeSection",(function(){if(o.props.showTimeSelect&&(o.state.monthContainer||o.props.showTimeSelectOnly))return t.createElement(Mt,{selected:o.props.selected,openToDate:o.props.openToDate,onChange:o.props.onTimeChange,timeClassName:o.props.timeClassName,format:o.props.timeFormat,includeTimes:o.props.includeTimes,intervals:o.props.timeIntervals,minTime:o.props.minTime,maxTime:o.props.maxTime,excludeTimes:o.props.excludeTimes,timeCaption:o.props.timeCaption,todayButton:o.props.todayButton,showMonthDropdown:o.props.showMonthDropdown,showMonthYearDropdown:o.props.showMonthYearDropdown,showYearDropdown:o.props.showYearDropdown,withPortal:o.props.withPortal,monthRef:o.state.monthContainer,injectTimes:o.props.injectTimes,locale:o.props.locale})})),he(ke(o),"renderInputTimeSection",(function(){var e=new Date(o.props.selected),r=Ee(e)&&Boolean(o.props.selected)?"".concat(ft(e.getHours()),":").concat(ft(e.getMinutes())):"";if(o.props.showTimeInput)return t.createElement(Nt,{timeString:r,timeInputLabel:o.props.timeInputLabel,onChange:o.props.onTimeChange,customTimeInput:o.props.customTimeInput})})),o.containerRef=t.createRef(),o.state={date:o.getDateInView(),selectingDate:null,monthContainer:null},o}return ue(a,null,[{key:"defaultProps",get:function(){return{onDropdownFocus:function(){},monthsShown:1,monthSelectedIn:0,forceShowMonthNavigation:!1,timeCaption:"Time",previousYearButtonLabel:"Previous Year",nextYearButtonLabel:"Next Year",previousMonthButtonLabel:"Previous Month",nextMonthButtonLabel:"Next Month",customTimeInput:null}}}]),ue(a,[{key:"componentDidMount",value:function(){var e=this;this.props.showTimeSelect&&(this.assignMonthContainer=void e.setState({monthContainer:e.monthContainer}))}},{key:"componentDidUpdate",value:function(e){this.props.preSelection&&!Be(this.props.preSelection,e.preSelection)?this.setState({date:this.props.preSelection}):this.props.openToDate&&!Be(this.props.openToDate,e.openToDate)&&this.setState({date:this.props.openToDate})}},{key:"render",value:function(){var e=this.props.container||Yt;return t.createElement("div",{ref:this.containerRef},t.createElement(e,{className:n("react-datepicker",this.props.className,{"react-datepicker--time-only":this.props.showTimeSelectOnly}),showPopperArrow:this.props.showPopperArrow,arrowProps:this.props.arrowProps},this.renderPreviousButton(),this.renderNextButton(),this.renderMonths(),this.renderYears(),this.renderTodayButton(),this.renderTimeSection(),this.renderInputTimeSection(),this.props.children))}}]),a}(t.Component),It=function(e){return!e.disabled&&-1!==e.tabIndex},Lt=function(e){ve(n,e);var r=be(n);function n(e){var a;return le(this,n),he(ke(a=r.call(this,e)),"getTabChildren",(function(){return Array.prototype.slice.call(a.tabLoopRef.current.querySelectorAll("[tabindex], a, button, input, select, textarea"),1,-1).filter(It)})),he(ke(a),"handleFocusStart",(function(e){var t=a.getTabChildren();t&&t.length>1&&t[t.length-1].focus()})),he(ke(a),"handleFocusEnd",(function(e){var t=a.getTabChildren();t&&t.length>1&&t[0].focus()})),a.tabLoopRef=t.createRef(),a}return ue(n,null,[{key:"defaultProps",get:function(){return{enableTabLoop:!0}}}]),ue(n,[{key:"render",value:function(){return this.props.enableTabLoop?t.createElement("div",{className:"react-datepicker__tab-loop",ref:this.tabLoopRef},t.createElement("div",{className:"react-datepicker__tab-loop__start",tabIndex:"0",onFocus:this.handleFocusStart}),this.props.children,t.createElement("div",{className:"react-datepicker__tab-loop__end",tabIndex:"0",onFocus:this.handleFocusEnd})):this.props.children}}]),n}(t.Component),jt=function(e){ve(r,e);var t=be(r);function r(e){var n;return le(this,r),(n=t.call(this,e)).el=document.createElement("div"),n}return ue(r,[{key:"componentDidMount",value:function(){this.portalRoot=document.getElementById(this.props.portalId),this.portalRoot||(this.portalRoot=document.createElement("div"),this.portalRoot.setAttribute("id",this.props.portalId),document.body.appendChild(this.portalRoot)),this.portalRoot.appendChild(this.el)}},{key:"componentWillUnmount",value:function(){this.portalRoot.removeChild(this.el)}},{key:"render",value:function(){return ie.createPortal(this.props.children,this.el)}}]),r}(t.Component),Rt=function(e){ve(a,e);var r=be(a);function a(){return le(this,a),r.apply(this,arguments)}return ue(a,[{key:"render",value:function(){var e,r=this.props,a=r.className,o=r.wrapperClassName,s=r.hidePopper,p=r.popperComponent,i=r.popperModifiers,c=r.popperPlacement,l=r.popperProps,d=r.targetComponent,u=r.enableTabLoop,h=r.popperOnKeyDown,f=r.portalId;if(!s){var m=n("react-datepicker-popper",a);e=t.createElement(pe.Popper,fe({modifiers:i,placement:c},l),(function(e){var r=e.ref,n=e.style,a=e.placement,o=e.arrowProps;return t.createElement(Lt,{enableTabLoop:u},t.createElement("div",fe({ref:r,style:n},{className:m,"data-placement":a,onKeyDown:h}),t.cloneElement(p,{arrowProps:o})))}))}this.props.popperContainer&&(e=t.createElement(this.props.popperContainer,{},e)),f&&!s&&(e=t.createElement(jt,{portalId:f},e));var y=n("react-datepicker-wrapper",o);return t.createElement(pe.Manager,{className:"react-datepicker-manager"},t.createElement(pe.Reference,null,(function(e){var r=e.ref;return t.createElement("div",{ref:r,className:y},d)})),e)}}],[{key:"defaultProps",get:function(){return{hidePopper:!0,popperModifiers:{preventOverflow:{enabled:!0,escapeWithReference:!0,boundariesElement:"viewport"}},popperProps:{},popperPlacement:"bottom-start"}}}]),a}(t.Component),Ft=se(Tt);var qt=function(e){ve(o,e);var r=be(o);function o(e){var s;return le(this,o),he(ke(s=r.call(this,e)),"getPreSelection",(function(){return s.props.openToDate?s.props.openToDate:s.props.selectsEnd&&s.props.startDate?s.props.startDate:s.props.selectsStart&&s.props.endDate?s.props.endDate:Pe()})),he(ke(s),"calcInitialState",(function(){var e=s.getPreSelection(),t=lt(s.props),r=dt(s.props),n=t&&te(e,t)?t:r&&ee(e,r)?r:e;return{open:s.props.startOpen||!1,preventFocus:!1,preSelection:s.props.selected?s.props.selected:n,highlightDates:ut(s.props.highlightDates),focused:!1}})),he(ke(s),"clearPreventFocusTimeout",(function(){s.preventFocusTimeout&&clearTimeout(s.preventFocusTimeout)})),he(ke(s),"setFocus",(function(){s.input&&s.input.focus&&s.input.focus({preventScroll:!0})})),he(ke(s),"setBlur",(function(){s.input&&s.input.blur&&s.input.blur(),s.cancelFocusInput()})),he(ke(s),"setOpen",(function(e){var t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];s.setState({open:e,preSelection:e&&s.state.open?s.state.preSelection:s.calcInitialState().preSelection,lastPreSelectChange:At},(function(){e||s.setState((function(e){return{focused:!!t&&e.focused}}),(function(){!t&&s.setBlur(),s.setState({inputValue:null})}))}))})),he(ke(s),"inputOk",(function(){return a(s.state.preSelection)})),he(ke(s),"isCalendarOpen",(function(){return void 0===s.props.open?s.state.open&&!s.props.disabled&&!s.props.readOnly:s.props.open})),he(ke(s),"handleFocus",(function(e){s.state.preventFocus||(s.props.onFocus(e),s.props.preventOpenOnFocus||s.props.readOnly||s.setOpen(!0)),s.setState({focused:!0})})),he(ke(s),"cancelFocusInput",(function(){clearTimeout(s.inputFocusTimeout),s.inputFocusTimeout=null})),he(ke(s),"deferFocusInput",(function(){s.cancelFocusInput(),s.inputFocusTimeout=setTimeout((function(){return s.setFocus()}),1)})),he(ke(s),"handleDropdownFocus",(function(){s.cancelFocusInput()})),he(ke(s),"handleBlur",(function(e){(!s.state.open||s.props.withPortal||s.props.showTimeInput)&&s.props.onBlur(e),s.setState({focused:!1})})),he(ke(s),"handleCalendarClickOutside",(function(e){s.props.inline||s.setOpen(!1),s.props.onClickOutside(e),s.props.withPortal&&e.preventDefault()})),he(ke(s),"handleChange",(function(){for(var e=arguments.length,t=new Array(e),r=0;r<e;r++)t[r]=arguments[r];var n=t[0];if(!s.props.onChangeRaw||(s.props.onChangeRaw.apply(ke(s),t),"function"==typeof n.isDefaultPrevented&&!n.isDefaultPrevented())){s.setState({inputValue:n.target.value,lastPreSelectChange:Wt});var a=Me(n.target.value,s.props.dateFormat,s.props.locale,s.props.strictParsing);!a&&n.target.value||s.setSelected(a,n,!0)}})),he(ke(s),"handleSelect",(function(e,t,r){s.setState({preventFocus:!0},(function(){return s.preventFocusTimeout=setTimeout((function(){return s.setState({preventFocus:!1})}),50),s.preventFocusTimeout})),s.props.onChangeRaw&&s.props.onChangeRaw(t),s.setSelected(e,t,!1,r),!s.props.shouldCloseOnSelect||s.props.showTimeSelect?s.setPreSelection(e):s.props.inline||s.setOpen(!1)})),he(ke(s),"setSelected",(function(e,t,r,n){var a=e;if(null===a||!Ge(a,s.props)){var o=s.props,p=o.onChange,i=o.selectsRange,c=o.startDate,l=o.endDate;if(!He(s.props.selected,a)||s.props.allowSameDay||i)if(null!==a&&(!s.props.selected||r&&(s.props.showTimeSelect||s.props.showTimeSelectOnly||s.props.showTimeInput)||(a=Ye(a,{hour:g(s.props.selected),minute:k(s.props.selected),second:D(s.props.selected)})),s.props.inline||s.setState({preSelection:a}),s.props.focusSelectedMonth||s.setState({monthSelectedIn:n})),i){var d=c&&!l,u=c&&l;!c&&!l?p([a,null],t):d&&(te(a,c)?p([a,null],t):p([c,a],t)),u&&p([a,null],t)}else p(a,t);r||(s.props.onSelect(a,t),s.setState({inputValue:null}))}})),he(ke(s),"setPreSelection",(function(e){var t=void 0!==s.props.minDate,r=void 0!==s.props.maxDate,n=!0;e&&(t&&r?n=Ke(e,s.props.minDate,s.props.maxDate):t?n=ee(e,s.props.minDate):r&&(n=te(e,s.props.maxDate))),n&&s.setState({preSelection:e})})),he(ke(s),"handleTimeChange",(function(e){var t=Ye(s.props.selected?s.props.selected:s.getPreSelection(),{hour:g(e),minute:k(e)});s.setState({preSelection:t}),s.props.onChange(t),s.props.shouldCloseOnSelect&&s.setOpen(!1),s.props.showTimeInput&&s.setOpen(!0),s.setState({inputValue:null})})),he(ke(s),"onInputClick",(function(){s.props.disabled||s.props.readOnly||s.setOpen(!0),s.props.onInputClick()})),he(ke(s),"onInputKeyDown",(function(e){s.props.onKeyDown(e);var t=e.key;if(s.state.open||s.props.inline||s.props.preventOpenOnFocus){if(s.state.open){if("ArrowDown"===t||"ArrowUp"===t){e.preventDefault();var r=s.calendar.componentNode&&s.calendar.componentNode.querySelector('.react-datepicker__day[tabindex="0"]');return void(r&&r.focus({preventScroll:!0}))}var n=Pe(s.state.preSelection);"Enter"===t?(e.preventDefault(),s.inputOk()&&s.state.lastPreSelectChange===At?(s.handleSelect(n,e),!s.props.shouldCloseOnSelect&&s.setPreSelection(n)):s.setOpen(!1)):"Escape"===t&&(e.preventDefault(),s.setOpen(!1)),s.inputOk()||s.props.onInputError({code:1,msg:"Date input not valid."})}}else"ArrowDown"!==t&&"ArrowUp"!==t&&"Enter"!==t||s.onInputClick()})),he(ke(s),"onDayKeyDown",(function(e){s.props.onKeyDown(e);var t=e.key,r=Pe(s.state.preSelection);if("Enter"===t)e.preventDefault(),s.handleSelect(r,e),!s.props.shouldCloseOnSelect&&s.setPreSelection(r);else if("Escape"===t)e.preventDefault(),s.setOpen(!1),s.inputOk()||s.props.onInputError({code:1,msg:"Date input not valid."});else if(!s.props.disabledKeyboardNavigation){var n;switch(t){case"ArrowLeft":n=m(r,1);break;case"ArrowRight":n=c(r,1);break;case"ArrowUp":n=y(r,1);break;case"ArrowDown":n=l(r,1);break;case"PageUp":n=v(r,1);break;case"PageDown":n=d(r,1);break;case"Home":n=w(r,1);break;case"End":n=u(r,1)}if(!n)return void(s.props.onInputError&&s.props.onInputError({code:1,msg:"Date input not valid."}));e.preventDefault(),s.setState({lastPreSelectChange:At}),s.props.adjustDateOnChange&&s.setSelected(n),s.setPreSelection(n)}})),he(ke(s),"onPopperKeyDown",(function(e){"Escape"===e.key&&(e.preventDefault(),s.setState({preventFocus:!0},(function(){s.setOpen(!1),setTimeout((function(){s.setFocus(),s.setState({preventFocus:!1})}))})))})),he(ke(s),"onClearClick",(function(e){e&&e.preventDefault&&e.preventDefault(),s.props.onChange(null,e),s.setState({inputValue:null})})),he(ke(s),"clear",(function(){s.onClearClick()})),he(ke(s),"onScroll",(function(e){"boolean"==typeof s.props.closeOnScroll&&s.props.closeOnScroll?e.target!==document&&e.target!==document.documentElement&&e.target!==document.body||s.setOpen(!1):"function"==typeof s.props.closeOnScroll&&s.props.closeOnScroll(e)&&s.setOpen(!1)})),he(ke(s),"renderCalendar",(function(){return s.props.inline||s.isCalendarOpen()?t.createElement(Ft,{ref:function(e){s.calendar=e},locale:s.props.locale,chooseDayAriaLabelPrefix:s.props.chooseDayAriaLabelPrefix,disabledDayAriaLabelPrefix:s.props.disabledDayAriaLabelPrefix,weekAriaLabelPrefix:s.props.weekAriaLabelPrefix,adjustDateOnChange:s.props.adjustDateOnChange,setOpen:s.setOpen,shouldCloseOnSelect:s.props.shouldCloseOnSelect,dateFormat:s.props.dateFormatCalendar,useWeekdaysShort:s.props.useWeekdaysShort,formatWeekDay:s.props.formatWeekDay,dropdownMode:s.props.dropdownMode,selected:s.props.selected,preSelection:s.state.preSelection,onSelect:s.handleSelect,onWeekSelect:s.props.onWeekSelect,openToDate:s.props.openToDate,minDate:s.props.minDate,maxDate:s.props.maxDate,selectsStart:s.props.selectsStart,selectsEnd:s.props.selectsEnd,selectsRange:s.props.selectsRange,startDate:s.props.startDate,endDate:s.props.endDate,excludeDates:s.props.excludeDates,filterDate:s.props.filterDate,onClickOutside:s.handleCalendarClickOutside,formatWeekNumber:s.props.formatWeekNumber,highlightDates:s.state.highlightDates,includeDates:s.props.includeDates,includeTimes:s.props.includeTimes,injectTimes:s.props.injectTimes,peekNextMonth:s.props.peekNextMonth,showMonthDropdown:s.props.showMonthDropdown,showPreviousMonths:s.props.showPreviousMonths,useShortMonthInDropdown:s.props.useShortMonthInDropdown,showMonthYearDropdown:s.props.showMonthYearDropdown,showWeekNumbers:s.props.showWeekNumbers,showYearDropdown:s.props.showYearDropdown,withPortal:s.props.withPortal,forceShowMonthNavigation:s.props.forceShowMonthNavigation,showDisabledMonthNavigation:s.props.showDisabledMonthNavigation,scrollableYearDropdown:s.props.scrollableYearDropdown,scrollableMonthYearDropdown:s.props.scrollableMonthYearDropdown,todayButton:s.props.todayButton,weekLabel:s.props.weekLabel,outsideClickIgnoreClass:"react-datepicker-ignore-onclickoutside",fixedHeight:s.props.fixedHeight,monthsShown:s.props.monthsShown,monthSelectedIn:s.state.monthSelectedIn,onDropdownFocus:s.handleDropdownFocus,onMonthChange:s.props.onMonthChange,onYearChange:s.props.onYearChange,dayClassName:s.props.dayClassName,weekDayClassName:s.props.weekDayClassName,monthClassName:s.props.monthClassName,timeClassName:s.props.timeClassName,showTimeSelect:s.props.showTimeSelect,showTimeSelectOnly:s.props.showTimeSelectOnly,onTimeChange:s.handleTimeChange,timeFormat:s.props.timeFormat,timeIntervals:s.props.timeIntervals,minTime:s.props.minTime,maxTime:s.props.maxTime,excludeTimes:s.props.excludeTimes,timeCaption:s.props.timeCaption,className:s.props.calendarClassName,container:s.props.calendarContainer,yearDropdownItemNumber:s.props.yearDropdownItemNumber,previousMonthButtonLabel:s.props.previousMonthButtonLabel,nextMonthButtonLabel:s.props.nextMonthButtonLabel,previousYearButtonLabel:s.props.previousYearButtonLabel,nextYearButtonLabel:s.props.nextYearButtonLabel,timeInputLabel:s.props.timeInputLabel,disabledKeyboardNavigation:s.props.disabledKeyboardNavigation,renderCustomHeader:s.props.renderCustomHeader,popperProps:s.props.popperProps,renderDayContents:s.props.renderDayContents,onDayMouseEnter:s.props.onDayMouseEnter,onMonthMouseLeave:s.props.onMonthMouseLeave,showTimeInput:s.props.showTimeInput,showMonthYearPicker:s.props.showMonthYearPicker,showFullMonthYearPicker:s.props.showFullMonthYearPicker,showTwoColumnMonthYearPicker:s.props.showTwoColumnMonthYearPicker,showYearPicker:s.props.showYearPicker,showQuarterYearPicker:s.props.showQuarterYearPicker,showPopperArrow:s.props.showPopperArrow,excludeScrollbar:s.props.excludeScrollbar,handleOnKeyDown:s.onDayKeyDown,isInputFocused:s.state.focused,customTimeInput:s.props.customTimeInput,setPreSelection:s.setPreSelection},s.props.children):null})),he(ke(s),"renderDateInput",(function(){var e,r,a,o,p,i=n(s.props.className,he({},"react-datepicker-ignore-onclickoutside",s.state.open)),c=s.props.customInput||t.createElement("input",{type:"text"}),l=s.props.customInputRef||"ref",d="string"==typeof s.props.value?s.props.value:"string"==typeof s.state.inputValue?s.state.inputValue:(r=s.props.selected,a=s.props,o=a.dateFormat,p=a.locale,r&&Ne(r,Array.isArray(o)?o[0]:o,p)||"");return t.cloneElement(c,(he(e={},l,(function(e){s.input=e})),he(e,"value",d),he(e,"onBlur",s.handleBlur),he(e,"onChange",s.handleChange),he(e,"onClick",s.onInputClick),he(e,"onFocus",s.handleFocus),he(e,"onKeyDown",s.onInputKeyDown),he(e,"id",s.props.id),he(e,"name",s.props.name),he(e,"autoFocus",s.props.autoFocus),he(e,"placeholder",s.props.placeholderText),he(e,"disabled",s.props.disabled),he(e,"autoComplete",s.props.autoComplete),he(e,"className",n(c.props.className,i)),he(e,"title",s.props.title),he(e,"readOnly",s.props.readOnly),he(e,"required",s.props.required),he(e,"tabIndex",s.props.tabIndex),he(e,"aria-labelledby",s.props.ariaLabelledBy),e))})),he(ke(s),"renderClearButton",(function(){var e=s.props,r=e.isClearable,n=e.selected,a=e.clearButtonTitle,o=e.ariaLabelClose,p=void 0===o?"Close":o;return r&&null!=n?t.createElement("button",{type:"button",className:"react-datepicker__close-icon","aria-label":p,onClick:s.onClearClick,title:a,tabIndex:-1}):null})),s.state=s.calcInitialState(),s}return ue(o,null,[{key:"defaultProps",get:function(){return{allowSameDay:!1,dateFormat:"MM/dd/yyyy",dateFormatCalendar:"LLLL yyyy",onChange:function(){},disabled:!1,disabledKeyboardNavigation:!1,dropdownMode:"scroll",onFocus:function(){},onBlur:function(){},onKeyDown:function(){},onInputClick:function(){},onSelect:function(){},onClickOutside:function(){},onMonthChange:function(){},onCalendarOpen:function(){},onCalendarClose:function(){},preventOpenOnFocus:!1,onYearChange:function(){},onInputError:function(){},monthsShown:1,readOnly:!1,withPortal:!1,shouldCloseOnSelect:!0,showTimeSelect:!1,showTimeInput:!1,showPreviousMonths:!1,showMonthYearPicker:!1,showFullMonthYearPicker:!1,showTwoColumnMonthYearPicker:!1,showYearPicker:!1,showQuarterYearPicker:!1,strictParsing:!1,timeIntervals:30,timeCaption:"Time",previousMonthButtonLabel:"Previous Month",nextMonthButtonLabel:"Next Month",previousYearButtonLabel:"Previous Year",nextYearButtonLabel:"Next Year",timeInputLabel:"Time",enableTabLoop:!0,renderDayContents:function(e){return e},focusSelectedMonth:!1,showPopperArrow:!0,excludeScrollbar:!0,customTimeInput:null}}}]),ue(o,[{key:"componentDidMount",value:function(){window.addEventListener("scroll",this.onScroll,!0)}},{key:"componentDidUpdate",value:function(e,t){var r,n;e.inline&&(r=e.selected,n=this.props.selected,r&&n?O(r)!==O(n)||P(r)!==P(n):r!==n)&&this.setPreSelection(this.props.selected),void 0!==this.state.monthSelectedIn&&e.monthsShown!==this.props.monthsShown&&this.setState({monthSelectedIn:0}),e.highlightDates!==this.props.highlightDates&&this.setState({highlightDates:ut(this.props.highlightDates)}),t.focused||He(e.selected,this.props.selected)||this.setState({inputValue:null}),t.open!==this.state.open&&(!1===t.open&&!0===this.state.open&&this.props.onCalendarOpen(),!0===t.open&&!1===this.state.open&&this.props.onCalendarClose())}},{key:"componentWillUnmount",value:function(){this.clearPreventFocusTimeout(),window.removeEventListener("scroll",this.onScroll,!0)}},{key:"render",value:function(){var e=this.renderCalendar();return this.props.inline&&!this.props.withPortal?e:this.props.withPortal?t.createElement("div",null,this.props.inline?null:t.createElement("div",{className:"react-datepicker__input-container"},this.renderDateInput(),this.renderClearButton()),this.state.open||this.props.inline?t.createElement("div",{className:"react-datepicker__portal"},e):null):t.createElement(Rt,{className:this.props.popperClassName,wrapperClassName:this.props.wrapperClassName,hidePopper:!this.isCalendarOpen(),portalId:this.props.portalId,popperModifiers:this.props.popperModifiers,targetComponent:t.createElement("div",{className:"react-datepicker__input-container"},this.renderDateInput(),this.renderClearButton()),popperContainer:this.props.popperContainer,popperComponent:e,popperPlacement:this.props.popperPlacement,popperProps:this.props.popperProps,popperOnKeyDown:this.onPopperKeyDown,enableTabLoop:this.props.enableTabLoop})}}]),o}(t.Component),Wt="input",At="navigate";e.CalendarContainer=Yt,e.default=qt,e.getDefaultLocale=Qe,e.registerLocale=function(e,t){var r="undefined"!=typeof window?window:global;r.__localeData__||(r.__localeData__={}),r.__localeData__[e]=t},e.setDefaultLocale=function(e){("undefined"!=typeof window?window:global).__localeId__=e},Object.defineProperty(e,"__esModule",{value:!0})}));
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
 
 /***/ }),
-/* 209 */
+/* 211 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72392,7 +73233,7 @@ function isDate(value) {
 }
 
 /***/ }),
-/* 210 */
+/* 212 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72402,9 +73243,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__locale_en_US_index_js__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__subMilliseconds_index_js__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__toDate_index_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_format_formatters_index_js__ = __webpack_require__(220);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_format_formatters_index_js__ = __webpack_require__(222);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_format_longFormatters_index_js__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__lib_getTimezoneOffsetInMilliseconds_index_js__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__lib_getTimezoneOffsetInMilliseconds_index_js__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__lib_protectedTokens_index_js__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__lib_toInteger_index_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__lib_requiredArgs_index_js__ = __webpack_require__(1);
@@ -72841,7 +73682,7 @@ function cleanEscapedString(input) {
 }
 
 /***/ }),
-/* 211 */
+/* 213 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72933,11 +73774,11 @@ function formatDistance(token, count, options) {
 }
 
 /***/ }),
-/* 212 */
+/* 214 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildFormatLongFn_index_js__ = __webpack_require__(213);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildFormatLongFn_index_js__ = __webpack_require__(215);
 
 var dateFormats = {
   full: 'EEEE, MMMM do, y',
@@ -72974,7 +73815,7 @@ var formatLong = {
 /* harmony default export */ __webpack_exports__["a"] = (formatLong);
 
 /***/ }),
-/* 213 */
+/* 215 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72989,7 +73830,7 @@ function buildFormatLongFn(args) {
 }
 
 /***/ }),
-/* 214 */
+/* 216 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73007,11 +73848,11 @@ function formatRelative(token, _date, _baseDate, _options) {
 }
 
 /***/ }),
-/* 215 */
+/* 217 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildLocalizeFn_index_js__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildLocalizeFn_index_js__ = __webpack_require__(218);
 
 var eraValues = {
   narrow: ['B', 'A'],
@@ -73163,7 +74004,7 @@ var localize = {
 /* harmony default export */ __webpack_exports__["a"] = (localize);
 
 /***/ }),
-/* 216 */
+/* 218 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73192,12 +74033,12 @@ function buildLocalizeFn(args) {
 }
 
 /***/ }),
-/* 217 */
+/* 219 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildMatchPatternFn_index_js__ = __webpack_require__(218);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_buildMatchFn_index_js__ = __webpack_require__(219);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_buildMatchPatternFn_index_js__ = __webpack_require__(220);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_buildMatchFn_index_js__ = __webpack_require__(221);
 
 
 var matchOrdinalNumberPattern = /^(\d+)(th|st|nd|rd)?/i;
@@ -73298,7 +74139,7 @@ var match = {
 /* harmony default export */ __webpack_exports__["a"] = (match);
 
 /***/ }),
-/* 218 */
+/* 220 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73330,7 +74171,7 @@ function buildMatchPatternFn(args) {
 }
 
 /***/ }),
-/* 219 */
+/* 221 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73387,12 +74228,12 @@ function findIndex(array, predicate) {
 }
 
 /***/ }),
-/* 220 */
+/* 222 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lightFormatters_index_js__ = __webpack_require__(221);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_getUTCDayOfYear_index_js__ = __webpack_require__(222);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lightFormatters_index_js__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_getUTCDayOfYear_index_js__ = __webpack_require__(224);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_getUTCISOWeek_index_js__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_getUTCISOWeekYear_index_js__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_getUTCWeek_index_js__ = __webpack_require__(89);
@@ -74256,7 +75097,7 @@ function formatTimezone(offset, dirtyDelimiter) {
 /* harmony default export */ __webpack_exports__["a"] = (formatters);
 
 /***/ }),
-/* 221 */
+/* 223 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74345,7 +75186,7 @@ var formatters = {
 /* harmony default export */ __webpack_exports__["a"] = (formatters);
 
 /***/ }),
-/* 222 */
+/* 224 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74369,13 +75210,13 @@ function getUTCDayOfYear(dirtyDate) {
 }
 
 /***/ }),
-/* 223 */
+/* 225 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = startOfUTCISOWeekYear;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__getUTCISOWeekYear_index_js__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfUTCISOWeek_index_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfUTCISOWeek_index_js__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__requiredArgs_index_js__ = __webpack_require__(1);
 
 
@@ -74393,14 +75234,14 @@ function startOfUTCISOWeekYear(dirtyDate) {
 }
 
 /***/ }),
-/* 224 */
+/* 226 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = startOfUTCWeekYear;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__toInteger_index_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getUTCWeekYear_index_js__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__startOfUTCWeek_index_js__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__startOfUTCWeek_index_js__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__requiredArgs_index_js__ = __webpack_require__(1);
 
 
@@ -74424,7 +75265,7 @@ function startOfUTCWeekYear(dirtyDate, dirtyOptions) {
 }
 
 /***/ }),
-/* 225 */
+/* 227 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74466,7 +75307,7 @@ function subMinutes(dirtyDate, dirtyAmount) {
 }
 
 /***/ }),
-/* 226 */
+/* 228 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74508,7 +75349,7 @@ function subHours(dirtyDate, dirtyAmount) {
 }
 
 /***/ }),
-/* 227 */
+/* 229 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74550,7 +75391,7 @@ function subDays(dirtyDate, dirtyAmount) {
 }
 
 /***/ }),
-/* 228 */
+/* 230 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74592,7 +75433,7 @@ function subWeeks(dirtyDate, dirtyAmount) {
 }
 
 /***/ }),
-/* 229 */
+/* 231 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74634,7 +75475,7 @@ function subMonths(dirtyDate, dirtyAmount) {
 }
 
 /***/ }),
-/* 230 */
+/* 232 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74676,7 +75517,7 @@ function subYears(dirtyDate, dirtyAmount) {
 }
 
 /***/ }),
-/* 231 */
+/* 233 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74716,7 +75557,7 @@ function getSeconds(dirtyDate) {
 }
 
 /***/ }),
-/* 232 */
+/* 234 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74756,7 +75597,7 @@ function getMinutes(dirtyDate) {
 }
 
 /***/ }),
-/* 233 */
+/* 235 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74796,7 +75637,7 @@ function getHours(dirtyDate) {
 }
 
 /***/ }),
-/* 234 */
+/* 236 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74836,7 +75677,7 @@ function getDay(dirtyDate) {
 }
 
 /***/ }),
-/* 235 */
+/* 237 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74876,14 +75717,14 @@ function getDate(dirtyDate) {
 }
 
 /***/ }),
-/* 236 */
+/* 238 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["default"] = getWeek;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__startOfWeek_index_js__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfWeekYear_index_js__ = __webpack_require__(237);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfWeekYear_index_js__ = __webpack_require__(239);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__toDate_index_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_requiredArgs_index_js__ = __webpack_require__(1);
 
@@ -74945,12 +75786,12 @@ function getWeek(dirtyDate, options) {
 }
 
 /***/ }),
-/* 237 */
+/* 239 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = startOfWeekYear;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__getWeekYear_index_js__ = __webpack_require__(238);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__getWeekYear_index_js__ = __webpack_require__(240);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfWeek_index_js__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_toInteger_index_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_requiredArgs_index_js__ = __webpack_require__(1);
@@ -75018,7 +75859,7 @@ function startOfWeekYear(dirtyDate, dirtyOptions) {
 }
 
 /***/ }),
-/* 238 */
+/* 240 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75108,7 +75949,7 @@ function getWeekYear(dirtyDate, dirtyOptions) {
 }
 
 /***/ }),
-/* 239 */
+/* 241 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75148,7 +75989,7 @@ function getMonth(dirtyDate) {
 }
 
 /***/ }),
-/* 240 */
+/* 242 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75188,7 +76029,7 @@ function getQuarter(dirtyDate) {
 }
 
 /***/ }),
-/* 241 */
+/* 243 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75228,7 +76069,7 @@ function getYear(dirtyDate) {
 }
 
 /***/ }),
-/* 242 */
+/* 244 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75268,7 +76109,7 @@ function getTime(dirtyDate) {
 }
 
 /***/ }),
-/* 243 */
+/* 245 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75312,7 +76153,7 @@ function setSeconds(dirtyDate, dirtySeconds) {
 }
 
 /***/ }),
-/* 244 */
+/* 246 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75356,7 +76197,7 @@ function setMinutes(dirtyDate, dirtyMinutes) {
 }
 
 /***/ }),
-/* 245 */
+/* 247 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75400,7 +76241,7 @@ function setHours(dirtyDate, dirtyHours) {
 }
 
 /***/ }),
-/* 246 */
+/* 248 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75443,7 +76284,7 @@ function getDaysInMonth(dirtyDate) {
 }
 
 /***/ }),
-/* 247 */
+/* 249 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75490,7 +76331,7 @@ function setQuarter(dirtyDate, dirtyQuarter) {
 }
 
 /***/ }),
-/* 248 */
+/* 250 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75539,7 +76380,7 @@ function setYear(dirtyDate, dirtyYear) {
 }
 
 /***/ }),
-/* 249 */
+/* 251 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75614,7 +76455,7 @@ function min(dirtyDatesArray) {
 }
 
 /***/ }),
-/* 250 */
+/* 252 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75689,13 +76530,13 @@ function max(dirtyDatesArray) {
 }
 
 /***/ }),
-/* 251 */
+/* 253 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["default"] = differenceInCalendarDays;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_getTimezoneOffsetInMilliseconds_index_js__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_getTimezoneOffsetInMilliseconds_index_js__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__startOfDay_index_js__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_requiredArgs_index_js__ = __webpack_require__(1);
 
@@ -75750,7 +76591,7 @@ function differenceInCalendarDays(dirtyDateLeft, dirtyDateRight) {
 }
 
 /***/ }),
-/* 252 */
+/* 254 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75796,14 +76637,14 @@ function differenceInCalendarMonths(dirtyDateLeft, dirtyDateRight) {
 }
 
 /***/ }),
-/* 253 */
+/* 255 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["default"] = differenceInCalendarWeeks;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__startOfWeek_index_js__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_getTimezoneOffsetInMilliseconds_index_js__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_getTimezoneOffsetInMilliseconds_index_js__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_requiredArgs_index_js__ = __webpack_require__(1);
 
 
@@ -75862,7 +76703,7 @@ function differenceInCalendarWeeks(dirtyDateLeft, dirtyDateRight, dirtyOptions) 
 }
 
 /***/ }),
-/* 254 */
+/* 256 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75906,7 +76747,7 @@ function differenceInCalendarYears(dirtyDateLeft, dirtyDateRight) {
 }
 
 /***/ }),
-/* 255 */
+/* 257 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75948,7 +76789,7 @@ function startOfMonth(dirtyDate) {
 }
 
 /***/ }),
-/* 256 */
+/* 258 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75991,7 +76832,7 @@ function startOfYear(dirtyDate) {
 }
 
 /***/ }),
-/* 257 */
+/* 259 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76032,7 +76873,7 @@ function endOfDay(dirtyDate) {
 }
 
 /***/ }),
-/* 258 */
+/* 260 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76097,7 +76938,7 @@ function endOfWeek(dirtyDate, dirtyOptions) {
 }
 
 /***/ }),
-/* 259 */
+/* 261 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76140,7 +76981,7 @@ function endOfMonth(dirtyDate) {
 }
 
 /***/ }),
-/* 260 */
+/* 262 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76184,7 +77025,7 @@ function isEqual(dirtyLeftDate, dirtyRightDate) {
 }
 
 /***/ }),
-/* 261 */
+/* 263 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76225,7 +77066,7 @@ function isSameDay(dirtyDateLeft, dirtyDateRight) {
 }
 
 /***/ }),
-/* 262 */
+/* 264 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76266,7 +77107,7 @@ function isSameMonth(dirtyDateLeft, dirtyDateRight) {
 }
 
 /***/ }),
-/* 263 */
+/* 265 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76307,7 +77148,7 @@ function isSameYear(dirtyDateLeft, dirtyDateRight) {
 }
 
 /***/ }),
-/* 264 */
+/* 266 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76348,7 +77189,7 @@ function isSameQuarter(dirtyDateLeft, dirtyDateRight) {
 }
 
 /***/ }),
-/* 265 */
+/* 267 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76389,7 +77230,7 @@ function isAfter(dirtyDate, dirtyDateToCompare) {
 }
 
 /***/ }),
-/* 266 */
+/* 268 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76430,7 +77271,7 @@ function isBefore(dirtyDate, dirtyDateToCompare) {
 }
 
 /***/ }),
-/* 267 */
+/* 269 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76529,7 +77370,7 @@ function isWithinInterval(dirtyDate, dirtyInterval) {
 }
 
 /***/ }),
-/* 268 */
+/* 270 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76538,12 +77379,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__locale_en_US_index_js__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__subMilliseconds_index_js__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__toDate_index_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_assign_index_js__ = __webpack_require__(269);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_assign_index_js__ = __webpack_require__(271);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_format_longFormatters_index_js__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_getTimezoneOffsetInMilliseconds_index_js__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_getTimezoneOffsetInMilliseconds_index_js__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__lib_protectedTokens_index_js__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__lib_toInteger_index_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__lib_parsers_index_js__ = __webpack_require__(270);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__lib_parsers_index_js__ = __webpack_require__(272);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__lib_requiredArgs_index_js__ = __webpack_require__(1);
 
 
@@ -77097,7 +77938,7 @@ function cleanEscapedString(input) {
 }
 
 /***/ }),
-/* 269 */
+/* 271 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77119,17 +77960,17 @@ function assign(target, dirtyObject) {
 }
 
 /***/ }),
-/* 270 */
+/* 272 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_getUTCWeekYear_index_js__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_setUTCDay_index_js__ = __webpack_require__(271);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_setUTCISODay_index_js__ = __webpack_require__(272);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_setUTCISOWeek_index_js__ = __webpack_require__(273);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_setUTCWeek_index_js__ = __webpack_require__(274);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_startOfUTCISOWeek_index_js__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__lib_startOfUTCWeek_index_js__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_setUTCDay_index_js__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_setUTCISODay_index_js__ = __webpack_require__(274);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_setUTCISOWeek_index_js__ = __webpack_require__(275);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_setUTCWeek_index_js__ = __webpack_require__(276);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_startOfUTCISOWeek_index_js__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__lib_startOfUTCWeek_index_js__ = __webpack_require__(33);
 
 
 
@@ -78635,7 +79476,7 @@ var parsers = {
 /* harmony default export */ __webpack_exports__["a"] = (parsers);
 
 /***/ }),
-/* 271 */
+/* 273 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78671,7 +79512,7 @@ function setUTCDay(dirtyDate, dirtyDay, dirtyOptions) {
 }
 
 /***/ }),
-/* 272 */
+/* 274 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78703,7 +79544,7 @@ function setUTCISODay(dirtyDate, dirtyDay) {
 }
 
 /***/ }),
-/* 273 */
+/* 275 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78728,7 +79569,7 @@ function setUTCISOWeek(dirtyDate, dirtyISOWeek) {
 }
 
 /***/ }),
-/* 274 */
+/* 276 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78753,7 +79594,7 @@ function setUTCWeek(dirtyDate, dirtyWeek, options) {
 }
 
 /***/ }),
-/* 275 */
+/* 277 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -79053,7 +79894,7 @@ function validateTimezone(_hours, minutes) {
 }
 
 /***/ }),
-/* 276 */
+/* 278 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -79429,14 +80270,14 @@ function onClickOutsideHOC(WrappedComponent, config) {
 
 
 /***/ }),
-/* 277 */
+/* 279 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Popper__ = __webpack_require__(278);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Popper__ = __webpack_require__(280);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Manager__ = __webpack_require__(60);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Reference__ = __webpack_require__(298);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Reference__ = __webpack_require__(300);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Popper", function() { return __WEBPACK_IMPORTED_MODULE_0__Popper__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "placements", function() { return __WEBPACK_IMPORTED_MODULE_0__Popper__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Manager", function() { return __WEBPACK_IMPORTED_MODULE_1__Manager__["c"]; });
@@ -79448,14 +80289,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  // Public types
 
 /***/ }),
-/* 278 */
+/* 280 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* unused harmony export InnerPopper */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return placements; });
 /* harmony export (immutable) */ __webpack_exports__["a"] = Popper;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_objectWithoutPropertiesLoose__ = __webpack_require__(279);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_objectWithoutPropertiesLoose__ = __webpack_require__(281);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_objectWithoutPropertiesLoose___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_objectWithoutPropertiesLoose__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_extends__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_extends__);
@@ -79465,11 +80306,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__babel_runtime_helpers_inheritsLoose___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__babel_runtime_helpers_inheritsLoose__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__babel_runtime_helpers_defineProperty__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__babel_runtime_helpers_defineProperty__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_deep_equal__ = __webpack_require__(280);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_deep_equal__ = __webpack_require__(282);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_deep_equal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_deep_equal__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_popper_js__ = __webpack_require__(294);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_popper_js__ = __webpack_require__(296);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Manager__ = __webpack_require__(60);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils__ = __webpack_require__(104);
 
@@ -79678,7 +80519,7 @@ function Popper(_ref) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
-/* 279 */
+/* 281 */
 /***/ (function(module, exports) {
 
 function _objectWithoutPropertiesLoose(source, excluded) {
@@ -79699,15 +80540,15 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 module.exports = _objectWithoutPropertiesLoose;
 
 /***/ }),
-/* 280 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var objectKeys = __webpack_require__(99);
-var isArguments = __webpack_require__(282);
-var is = __webpack_require__(283);
-var isRegex = __webpack_require__(284);
-var flags = __webpack_require__(287);
-var isDate = __webpack_require__(293);
+var isArguments = __webpack_require__(284);
+var is = __webpack_require__(285);
+var isRegex = __webpack_require__(286);
+var flags = __webpack_require__(289);
+var isDate = __webpack_require__(295);
 
 var getTime = Date.prototype.getTime;
 
@@ -79817,7 +80658,7 @@ module.exports = deepEqual;
 
 
 /***/ }),
-/* 281 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79946,7 +80787,7 @@ module.exports = keysShim;
 
 
 /***/ }),
-/* 282 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79984,7 +80825,7 @@ module.exports = supportsStandardArguments ? isStandardArguments : isLegacyArgum
 
 
 /***/ }),
-/* 283 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80012,13 +80853,13 @@ module.exports = function is(a, b) {
 
 
 /***/ }),
-/* 284 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var has = __webpack_require__(285);
+var has = __webpack_require__(287);
 var regexExec = RegExp.prototype.exec;
 var gOPD = Object.getOwnPropertyDescriptor;
 
@@ -80058,7 +80899,7 @@ module.exports = function isRegex(value) {
 
 
 /***/ }),
-/* 285 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80070,7 +80911,7 @@ module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
 
 
 /***/ }),
-/* 286 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80129,18 +80970,18 @@ module.exports = function bind(that) {
 
 
 /***/ }),
-/* 287 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var define = __webpack_require__(59);
-var callBind = __webpack_require__(288);
+var callBind = __webpack_require__(290);
 
 var implementation = __webpack_require__(101);
 var getPolyfill = __webpack_require__(102);
-var shim = __webpack_require__(292);
+var shim = __webpack_require__(294);
 
 var flagsBound = callBind(implementation);
 
@@ -80154,7 +80995,7 @@ module.exports = flagsBound;
 
 
 /***/ }),
-/* 288 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80162,7 +81003,7 @@ module.exports = flagsBound;
 
 var bind = __webpack_require__(58);
 
-var GetIntrinsic = __webpack_require__(289);
+var GetIntrinsic = __webpack_require__(291);
 
 var $Function = GetIntrinsic('%Function%');
 var $apply = $Function.apply;
@@ -80178,7 +81019,7 @@ module.exports.apply = function applyBind() {
 
 
 /***/ }),
-/* 289 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80220,7 +81061,7 @@ var ThrowTypeError = $gOPD
 	}())
 	: throwTypeError;
 
-var hasSymbols = __webpack_require__(290)();
+var hasSymbols = __webpack_require__(292)();
 
 var getProto = Object.getPrototypeOf || function (x) { return x.__proto__; }; // eslint-disable-line no-proto
 
@@ -80403,14 +81244,14 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 
 
 /***/ }),
-/* 290 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
 var origSymbol = global.Symbol;
-var hasSymbolSham = __webpack_require__(291);
+var hasSymbolSham = __webpack_require__(293);
 
 module.exports = function hasNativeSymbols() {
 	if (typeof origSymbol !== 'function') { return false; }
@@ -80424,7 +81265,7 @@ module.exports = function hasNativeSymbols() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
 
 /***/ }),
-/* 291 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80473,7 +81314,7 @@ module.exports = function hasSymbols() {
 
 
 /***/ }),
-/* 292 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80506,7 +81347,7 @@ module.exports = function shimFlags() {
 
 
 /***/ }),
-/* 293 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80535,7 +81376,7 @@ module.exports = function isDateObject(value) {
 
 
 /***/ }),
-/* 294 */
+/* 296 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -83159,7 +84000,7 @@ Popper.Defaults = Defaults;
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(21)))
 
 /***/ }),
-/* 295 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83171,7 +84012,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _implementation = __webpack_require__(296);
+var _implementation = __webpack_require__(298);
 
 var _implementation2 = _interopRequireDefault(_implementation);
 
@@ -83181,7 +84022,7 @@ exports.default = _react2.default.createContext || _implementation2.default;
 module.exports = exports['default'];
 
 /***/ }),
-/* 296 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83197,7 +84038,7 @@ var _propTypes = __webpack_require__(8);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _gud = __webpack_require__(297);
+var _gud = __webpack_require__(299);
 
 var _gud2 = _interopRequireDefault(_gud);
 
@@ -83384,7 +84225,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 297 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83400,7 +84241,7 @@ module.exports = function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
 
 /***/ }),
-/* 298 */
+/* 300 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -83475,18 +84316,6 @@ function Reference(props) {
 }
 
 /***/ }),
-/* 299 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 300 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
 /* 301 */
 /***/ (function(module, exports) {
 
@@ -83500,90 +84329,9 @@ function Reference(props) {
 
 /***/ }),
 /* 303 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _react = _interopRequireDefault(__webpack_require__(0));
-
-__webpack_require__(304);
-
-var _MediaUpload = _interopRequireDefault(__webpack_require__(48));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var FieldGenerator = function FieldGenerator(props) {
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("table", {
-    className: "form-table saswp-field-generator-table"
-  }, /*#__PURE__*/_react["default"].createElement("tbody", null, props.fielddata.map(function (item) {
-    var meta_value = item["default"];
-
-    if (props.postMeta[item.id]) {
-      meta_value = props.postMeta[item.id];
-    }
-
-    switch (item.type) {
-      case 'textarea':
-        return /*#__PURE__*/_react["default"].createElement("tr", {
-          key: item.id
-        }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, item.label)), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("textarea", {
-          rows: "5",
-          placeholder: typeof item.attributes != 'undefined' ? item.attributes.placeholder : '',
-          onChange: props.handleInputChange,
-          type: "text",
-          name: item.id,
-          value: meta_value
-        }), /*#__PURE__*/_react["default"].createElement("p", null, item.note)));
-        break;
-
-      case 'media':
-        var media_key = item.id + '_detail';
-        var img_src = '';
-
-        if (typeof props.postMeta[media_key] != 'undefined') {
-          img_src = props.postMeta[media_key]['thumbnail'];
-        }
-
-        return /*#__PURE__*/_react["default"].createElement("tr", {
-          key: item.id
-        }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, item.label)), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_MediaUpload["default"], {
-          data_id: "".concat(item.id, "_detail"),
-          onSelection: props.handleManualFieldImage,
-          src: img_src
-        })));
-        break;
-
-      case 'checkbox':
-        break;
-
-      case 'select':
-        break;
-
-      case 'radio':
-        break;
-
-      default:
-        return /*#__PURE__*/_react["default"].createElement("tr", {
-          key: item.id
-        }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, item.label)), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
-          placeholder: typeof item.attributes != 'undefined' ? item.attributes.placeholder : '',
-          onChange: props.handleInputChange,
-          type: "text",
-          name: item.id,
-          value: meta_value
-        })));
-    }
-  }))));
-};
-
-var _default = FieldGenerator;
-exports["default"] = _default;
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 304 */

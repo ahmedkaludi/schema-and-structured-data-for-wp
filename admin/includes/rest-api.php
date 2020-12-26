@@ -85,6 +85,20 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'fetch-google-free-reviews', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'fetchGoogleFreeReviews'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
+            register_rest_route( 'saswp-route', 'license_status_check', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'licenseStatusCheck'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'more-action', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'moreAction'),
@@ -155,7 +169,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
-
+            register_rest_route( 'saswp-route', 'get-platforms-list', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getPlatformsList'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'get-schema-data-by-type', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getSchemaDataByType'),
@@ -268,6 +288,31 @@ class SASWP_Rest_Api {
             ));             
         }  
 
+        public function licenseStatusCheck($request){
+
+            $parameters = $request->get_params();            
+
+            $add_on           = sanitize_text_field($parameters['add_on']);
+            $license_status   = sanitize_text_field($parameters['license_status']);
+            $license_key      = sanitize_text_field($parameters['license_key']);
+            
+            if($add_on && $license_status && $license_key){                
+                return  saswp_license_status($add_on, $license_status, $license_key);
+            }else{
+                return array('status' => 'f', 'message' => 'License key is required');
+            }
+        
+        }
+        public function fetchGoogleFreeReviews($request){
+            
+            $parameters = $request->get_params();            
+            
+            $reviews_service = new saswp_reviews_service();
+            $result = $reviews_service->saswp_fetch_google_reviews_process($parameters);
+            
+            return $result;            
+
+        }
         public function changeMode($request){
             
             $parameters = $request->get_params();
@@ -850,6 +895,19 @@ class SASWP_Rest_Api {
             }else{
                 $response =  array('status' => '404', 'message' => 'Schema Type is required');
             }
+            return $response;
+           
+        }
+        public function getPlatformsList($request_data) {
+
+            $response = array();
+            
+            $mappings_file = SASWP_REVIEWS_DIR_NAME . '/admin/reviews_platform.php';
+
+            if ( file_exists( $mappings_file ) ) {
+                $response = include $mappings_file;
+            }
+
             return $response;
            
         }

@@ -1,7 +1,4 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import queryString from 'query-string'
-import { Button } from '@duik/it';
-import { BrowserRouter as Router, Switch, Route, Link, matchPath } from 'react-router-dom';
 import DottedSpinner from './../common/dotted-spinner/DottedSpinner';
 import './Settings.scss';
 

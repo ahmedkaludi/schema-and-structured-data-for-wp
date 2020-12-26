@@ -241,6 +241,134 @@ class saswp_reviews_service {
         
     }
     
+    public function saswp_fetch_google_reviews_process ($post_data){
+
+        global $sd_data;
+        
+        $location  = $blocks = $premium_status = $g_api = $reviews_api = $reviews_api_status = '';
+        
+        if(isset($post_data['reviews_api'])){
+            $reviews_api = sanitize_text_field($post_data['reviews_api']);
+        }
+        
+        if(isset($post_data['reviews_api_status'])){
+            $reviews_api_status = sanitize_text_field($post_data['reviews_api_status']);
+        }
+                        
+        if(isset($post_data['location'])){
+            $location = sanitize_text_field($post_data['location']);
+        }
+        
+        if(isset($post_data['g_api'])){                    
+            $g_api = sanitize_text_field($post_data['g_api']);                                        
+        }
+        
+        if(isset($post_data['premium_status'])){
+            $premium_status = sanitize_text_field($post_data['premium_status']);
+        }
+        
+        if(isset($post_data['blocks'])){
+            $blocks = intval($post_data['blocks']);
+        }
+                                        
+        if($location){
+            
+           if(isset($sd_data['saswp_reviews_location_name'])){
+                  
+               if(!in_array($location, $sd_data['saswp_reviews_location_name'])){
+                   array_push($sd_data['saswp_reviews_location_name'], $location);                       
+               }
+                                      
+           }else{
+               $sd_data['saswp_reviews_location_name'] = array($location);  
+               
+           }
+                              
+           if(isset($sd_data['saswp_reviews_location_blocks'])){
+                  
+               if(!in_array($blocks, $sd_data['saswp_reviews_location_blocks'])){
+                   array_push($sd_data['saswp_reviews_location_blocks'], $blocks);                       
+               }
+                                      
+           }else{
+               
+                   $sd_data['saswp_reviews_location_blocks'] = array($blocks);  
+               
+           }
+                
+          $sd_data['saswp-google-review']        = 1;
+          $sd_data['saswp_google_place_api_key'] = $g_api;
+          update_option('sd_data', $sd_data);    
+                            
+          $result         = null;                                    
+          $user_id        = get_option('reviews_addon_user_id');
+            
+          if($reviews_api){                       
+                
+              if($premium_status == 'premium'){
+                
+                if($reviews_api_status == 'active'){
+                  
+                    if($user_id){
+                     
+                        if(function_exists('saswp_get_paid_reviews_data')){
+
+                        $result = saswp_get_paid_reviews_data($location, $reviews_api, $user_id, $blocks); 
+
+                        if($result['status'] && is_numeric($result['message'])){
+                            
+                            $rv_limits = get_option('reviews_addon_reviews_limits');
+                            
+                            $result['message'] = esc_html__('Reviews fetched','schema-and-structured-data-for-wp').' : '. ($rv_limits - $result['message'] ). ', '.esc_html__('Remains Limit','schema-and-structured-data-for-wp').' : '.$result['message'];                                    
+                            
+                            update_option('reviews_addon_reviews_limits', intval($result['message']));
+                        }
+
+                        }else{
+                            $result['status']  = false;
+                            $result['message'] = esc_html__( 'Reviews for schema plugin is not activated', 'schema-and-structured-data-for-wp' );
+                        }
+                        
+                    }else{
+                        $result['status']  = false;
+                        $result['message'] = esc_html__( 'User is not register', 'schema-and-structured-data-for-wp' );
+                    }                                                        
+                    
+                }else{
+                        $result['status']  = false;
+                        $result['message'] = esc_html__( 'License key is not active', 'schema-and-structured-data-for-wp' );
+                }  
+                                          
+                
+              }else{
+                  
+                  if($g_api){
+                                                                  
+                     $result = $this->saswp_get_free_reviews_data($location, $g_api);                                                                                                                                  
+                     
+                 }
+                 
+              }
+                                      
+          }else{
+              
+              if($g_api){
+                                                                      
+                  $result = $this->saswp_get_free_reviews_data($location, $g_api);                                                                                                                                  
+              }                      
+              
+          }  
+                                                     
+          return $result;
+            
+        }else{
+            
+          return array('status' => false, 'message' => esc_html__( 'Place id is empty', 'schema-and-structured-data-for-wp' )); 
+          
+        }
+
+}
+
     public function saswp_fetch_google_reviews(){
                 
                 if ( ! current_user_can( saswp_current_user_can() ) ) {
@@ -255,131 +383,11 @@ class saswp_reviews_service {
                    return;  
                 }
                 
-                global $sd_data;
+                $result = $this->saswp_fetch_google_reviews_process($_POST);
                 
-                $location  = $blocks = $premium_status = $g_api = $reviews_api = $reviews_api_status = '';
+                echo json_encode($result);
                 
-                if(isset($_POST['reviews_api'])){
-                    $reviews_api = sanitize_text_field($_POST['reviews_api']);
-                }
-                
-                if(isset($_POST['reviews_api_status'])){
-                    $reviews_api_status = sanitize_text_field($_POST['reviews_api_status']);
-                }
-                                
-                if(isset($_POST['location'])){
-                    $location = sanitize_text_field($_POST['location']);
-                }
-                
-                if(isset($_POST['g_api'])){                    
-                    $g_api = sanitize_text_field($_POST['g_api']);                                        
-                }
-                
-                if(isset($_POST['premium_status'])){
-                    $premium_status = sanitize_text_field($_POST['premium_status']);
-                }
-                
-                if(isset($_POST['blocks'])){
-                    $blocks = intval($_POST['blocks']);
-                }
-                                                
-                if($location){
-                    
-                   if(isset($sd_data['saswp_reviews_location_name'])){
-                          
-                       if(!in_array($location, $sd_data['saswp_reviews_location_name'])){
-                           array_push($sd_data['saswp_reviews_location_name'], $location);                       
-                       }
-                                              
-                   }else{
-                       $sd_data['saswp_reviews_location_name'] = array($location);  
-                       
-                   }
-                                      
-                   if(isset($sd_data['saswp_reviews_location_blocks'])){
-                          
-                       if(!in_array($blocks, $sd_data['saswp_reviews_location_blocks'])){
-                           array_push($sd_data['saswp_reviews_location_blocks'], $blocks);                       
-                       }
-                                              
-                   }else{
-                       
-                           $sd_data['saswp_reviews_location_blocks'] = array($blocks);  
-                       
-                   }
-                        
-                  $sd_data['saswp-google-review']        = 1;
-                  $sd_data['saswp_google_place_api_key'] = $g_api;
-                  update_option('sd_data', $sd_data);    
-                                    
-                  $result         = null;                                    
-                  $user_id        = get_option('reviews_addon_user_id');
-                    
-                  if($reviews_api){                       
-                        
-                      if($premium_status == 'premium'){
-                        
-                        if($reviews_api_status == 'active'){
-                          
-                            if($user_id){
-                             
-                                if(function_exists('saswp_get_paid_reviews_data')){
-
-                                $result = saswp_get_paid_reviews_data($location, $reviews_api, $user_id, $blocks); 
-
-                                if($result['status'] && is_numeric($result['message'])){
-                                    
-                                    $rv_limits = get_option('reviews_addon_reviews_limits');
-                                    
-                                    $result['message'] = esc_html__('Reviews fetched','schema-and-structured-data-for-wp').' : '. ($rv_limits - $result['message'] ). ', '.esc_html__('Remains Limit','schema-and-structured-data-for-wp').' : '.$result['message'];                                    
-                                    
-                                    update_option('reviews_addon_reviews_limits', intval($result['message']));
-                                }
-
-                                }else{
-                                    $result['status']  = false;
-                                    $result['message'] = esc_html__( 'Reviews for schema plugin is not activated', 'schema-and-structured-data-for-wp' );
-                                }
-                                
-                            }else{
-                                $result['status']  = false;
-                                $result['message'] = esc_html__( 'User is not register', 'schema-and-structured-data-for-wp' );
-                            }                                                        
-                            
-                        }else{
-                                $result['status']  = false;
-                                $result['message'] = esc_html__( 'License key is not active', 'schema-and-structured-data-for-wp' );
-                        }  
-                                                  
-                        
-                      }else{
-                          
-                          if($g_api){
-                                                                          
-                             $result = $this->saswp_get_free_reviews_data($location, $g_api);                                                                                                                                  
-                             
-                         }
-                         
-                      }
-                                              
-                  }else{
-                      
-                      if($g_api){
-                                                                              
-                          $result = $this->saswp_get_free_reviews_data($location, $g_api);                                                                                                                                  
-                      }                      
-                      
-                  }  
-                                                             
-                  echo json_encode($result);
-                    
-                }else{
-                    
-                  echo json_encode(array('status' => false, 'message' => esc_html__( 'Place id is empty', 'schema-and-structured-data-for-wp' ))); 
-                  
-                }
-                
-            wp_die();
+                wp_die();
         
     }
         

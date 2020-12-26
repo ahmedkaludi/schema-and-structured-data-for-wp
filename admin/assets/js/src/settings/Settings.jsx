@@ -2,7 +2,6 @@ import React, { useState, useEffect, useReducer } from 'react';
 import queryString from 'query-string'
 import SettingsNavLink from './../settings-nav-link/SettingsNavLink'
 import CompatibilityNavLink from './../compatibility-nav-link/CompatibilityNavLink'
-import { BrowserRouter as Router, Switch, Route, Link, matchPath } from 'react-router-dom';
 import PremiumFeatures from './PremiumFeatures';
 import SettingsServices from './SettingsServices';
 import SettingsTools from './SettingsTools';
