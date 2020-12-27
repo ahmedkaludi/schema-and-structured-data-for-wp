@@ -85,6 +85,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'change-interface', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'changeInterface'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'fetch-google-free-reviews', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'fetchGoogleFreeReviews'),
@@ -318,6 +325,15 @@ class SASWP_Rest_Api {
             $result = $reviews_service->saswp_fetch_google_reviews_process($parameters);
             
             return $result;            
+
+        }
+        public function changeInterface($request){
+                                                            
+            update_option('saswp_interface', 'old');            
+
+            $old_url = admin_url( 'edit.php?post_type=saswp' );
+
+            return array('status' => 't', 'url' => $old_url);       
 
         }
         public function changeMode($request){

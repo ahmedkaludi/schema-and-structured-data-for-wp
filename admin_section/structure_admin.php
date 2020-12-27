@@ -689,40 +689,46 @@ if(is_admin()){
   add_action( 'init', 'saswp_create_post_type' );
   
   function saswp_create_post_type() {
-      
-    $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );      
-    $not_found_button = '<div><span class="dashicons dashicons-thumbs-up"></span>'.esc_html__("Thank you for using Schema & Structured Data For WP plugin!",'schema-and-structured-data-for-wp').' <a href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'.esc_html__("Start Quick Setup?",'schema-and-structured-data-for-wp').'</a></div>';       
     
-    $saswp = array(
-            'labels' => array(
-                'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-                'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-                'add_new' 	    => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
-                'add_new_item'      => '',
-                'edit_item'         => esc_html__( 'Edit Schema Type','schema-and-structured-data-for-wp'),           
-                'all_items'         => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
-                'not_found'         => $not_found_button    
-           ),
-          'public'                => true,
-          'has_archive'           => false,
-          'exclude_from_search'   => true,
-          'publicly_queryable'    => false,
-          'show_in_admin_bar'     => false,
-          'supports'              => array('title'),  
-          'menu_position'         => 100
-          
-      );    
-    
-    if(saswp_current_user_allowed()){        
-        
-        $cap = saswp_post_type_capabilities();
+    $interface = get_option('saswp_interface');
 
-        if(!empty($cap)){        
-            $saswp['capabilities'] = $cap;         
-        }
-        
-        register_post_type( 'saswp', $saswp);
-    }
+    if($interface != 'new'){
+
+      $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );      
+      $not_found_button = '<div><span class="dashicons dashicons-thumbs-up"></span>'.esc_html__("Thank you for using Schema & Structured Data For WP plugin!",'schema-and-structured-data-for-wp').' <a href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'.esc_html__("Start Quick Setup?",'schema-and-structured-data-for-wp').'</a></div>';       
+    
+      $saswp = array(
+              'labels' => array(
+                  'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
+                  'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
+                  'add_new' 	    => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
+                  'add_new_item'      => '',
+                  'edit_item'         => esc_html__( 'Edit Schema Type','schema-and-structured-data-for-wp'),           
+                  'all_items'         => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
+                  'not_found'         => $not_found_button    
+            ),
+            'public'                => true,
+            'has_archive'           => false,
+            'exclude_from_search'   => true,
+            'publicly_queryable'    => false,
+            'show_in_admin_bar'     => false,
+            'supports'              => array('title'),  
+            'menu_position'         => 100
+            
+        );    
+    
+      if(saswp_current_user_allowed()){        
+          
+          $cap = saswp_post_type_capabilities();
+
+          if(!empty($cap)){        
+              $saswp['capabilities'] = $cap;         
+          }
+          
+          register_post_type( 'saswp', $saswp);
+      }
+
+    }    
     
   } 
   

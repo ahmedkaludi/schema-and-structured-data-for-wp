@@ -29003,7 +29003,31 @@ var MenuComponent = function MenuComponent() {
   var handlePushURL = function handlePushURL(e) {
     e.preventDefault();
     var data_id = e.currentTarget.dataset.id;
-    history.push(data_id);
+
+    if (data_id == 'old') {
+      var body_json = {};
+      body_json["interface"] = 'old';
+      var url = saswp_localize_data.rest_url + "saswp-route/change-interface";
+      fetch(url, {
+        method: "post",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': saswp_localize_data.nonce
+        },
+        body: JSON.stringify(body_json)
+      }).then(function (res) {
+        return res.json();
+      }).then(function (result) {
+        console.log(result);
+
+        if (result.status == 't') {
+          window.location.replace(result.url);
+        }
+      }, function (error) {});
+    } else {
+      history.push(data_id);
+    }
   };
 
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("a", {
@@ -29048,8 +29072,8 @@ var MenuComponent = function MenuComponent() {
     onClick: handlePushURL,
     href: "",
     className: "saswp-sub-menu",
-    "data-id": "admin.php?page=saswp&path=settings"
-  }, "Free Vs Pro")), /*#__PURE__*/_react["default"].createElement("li", {
+    "data-id": "old"
+  }, "Move to Old Interface")), /*#__PURE__*/_react["default"].createElement("li", {
     className: ""
   }, /*#__PURE__*/_react["default"].createElement("a", {
     target: "blank",

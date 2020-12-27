@@ -62,33 +62,58 @@ function saswp_ext_installed_status(){
     
 }
 
+function saswp_add_new_menu_links(){
+
+        $interface = get_option('saswp_interface');
+
+        if($interface == 'new'){
+
+                add_menu_page( 
+                        esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
+                        esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
+                        saswp_current_user_can(),
+                        'saswp',
+                        'saswp_home_interface_render',
+                        '',
+                        25
+                    ); 
+        }
+           
+}
 function saswp_add_menu_links() {	
-                       
-	    add_submenu_page( 'edit.php?post_type=saswp',
+
+        $interface = get_option('saswp_interface');
+
+        if($interface != 'new'){
+
+                add_submenu_page( 'edit.php?post_type=saswp',
                     esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
                     esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ), 
                     saswp_current_user_can(),
                     'structured_data_options', 
                     'saswp_admin_interface_render'
-                    );	
+                    );	        
+                add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span>'.esc_html__( 'Try New Interface', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'saswp', 'saswp_new_interface_render' );	
 
-        $saswp_parent_page = add_menu_page( 
-                esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ),
-                esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-                saswp_current_user_can(),
-                'saswp',
-                'saswp_home_interface_render',
-                '',
-                25
-            ); 
+                if(!saswp_ext_installed_status()){
+                        add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span class="saswp-upgrade-to-pro" style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
+                }
 
-            if(!saswp_ext_installed_status()){
-                add_submenu_page( 'edit.php?post_type=saswp', esc_html__( 'Schema & Structured Data For Wp', 'schema-and-structured-data-for-wp' ), '<span class="saswp-upgrade-to-pro" style="color:#fff176;">'.esc_html__( 'Upgrade To Premium', 'schema-and-structured-data-for-wp' ).'</span>', 'manage_options', 'structured_data_premium', 'saswp_premium_interface_render' );	
-            }
+        }                       	    
                                                             
 }
 add_action( 'admin_menu', 'saswp_add_menu_links' );
+add_action( 'admin_menu', 'saswp_add_new_menu_links' );
 
+function saswp_new_interface_render(){
+
+        update_option('saswp_interface', 'new');
+
+        $url = admin_url('admin.php?page=saswp');
+        wp_redirect($url);
+        exit;    
+
+}
 function saswp_premium_interface_render(){
     
     wp_redirect( 'https://structured-data-for-wp.com/pricing/' );
@@ -174,12 +199,7 @@ function saswp_home_interface_render($hook){
 
         
         wp_enqueue_media();        
-        wp_enqueue_style('saswp-admin-style', SASWP_PLUGIN_URL.'admin/assets/js/dist/style.css');
-        //wp_enqueue_style( 'saswp-admin-fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,700,300', false );
-
-        // wp_enqueue_style( 'saswp-admin-fonts', SASWP_PLUGIN_URL . 'admin/assets/js/dist/fonts/182fadb541cdfa9b77620d8b4ea81926.ttf', false );
-        // wp_enqueue_style( 'saswp-admin-fonts', SASWP_PLUGIN_URL . 'admin/assets/js/dist/fonts/3ec057358075821566e03cdf079e3c56.woff', false );
-        
+        wp_enqueue_style('saswp-admin-style', SASWP_PLUGIN_URL.'admin/assets/js/dist/style.css');                
 
         wp_register_script( 'saswp-admin-script', SASWP_PLUGIN_URL . 'admin/assets/js/dist/adminscript.js', array( 'wp-i18n', 'wp-block-editor', 'wp-components'), SASWP_VERSION );
 
