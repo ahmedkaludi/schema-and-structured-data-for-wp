@@ -9,6 +9,7 @@ import Migration from './Migration';
 import './Settings.scss';
 import { Alert } from '@duik/it'
 import TranslationPanel from './translationPanel';
+import License from './License';
 import { Modal } from '@duik/it';
 import Select from "react-select";
 import { Button } from '@duik/it'
@@ -32,6 +33,8 @@ const App = () => {
   const [supportError, setSupportError]       = useState('');
   const [supportSuccess, setSupportSuccess]   = useState('');
   const [backupFile, setBackupFile]           = useState(null);
+
+  const [licenseActivationMessage, setLicenseActivationMessage]     = useState([]);
 
   const validateEmail = (email) => {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -198,7 +201,7 @@ const App = () => {
     let { name, value, type } = evt.target;
 
     if(type === 'file'){
-      let file = event.target.files[0];
+      let file = evt.target.files[0];
       setBackupFile(file);
     }else{
 
@@ -211,6 +214,60 @@ const App = () => {
     }
             
   }
+
+  const handleLicenseActivation = (e) => {
+
+    e.preventDefault();
+    
+    let add_on = e.currentTarget.dataset.id;
+    let url = saswp_localize_data.rest_url + "saswp-route/license_status_check";
+
+    setLicenseActivationMessage([]);
+
+    let cloneLoaded  = [...licenseActivationMessage];            
+    cloneLoaded[add_on] = true;
+    setLicenseActivationMessage(cloneLoaded);
+  
+    const body_json       = {};                
+    
+    let status = 'active';
+
+    if(userInput[add_on+'_addon_license_key_status'] == 'active'){
+      status = 'inactive';
+    }
+
+    body_json.license_key          = userInput[add_on+'_addon_license_key'];                 
+    body_json.license_status       = status;                 
+    body_json.add_on               = add_on;                
+         
+    fetch(url, {
+      method: "post",
+      headers: {                    
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': saswp_localize_data.nonce,
+      },
+      body: JSON.stringify(body_json)
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {    
+        setIsLoaded(true);           
+        let clonedata = {...userInput};
+        clonedata[add_on+'_addon_license_key_message'] = result.message;
+        clonedata[add_on+'_addon_license_key_status']  = result.status;            
+        setUserInput(clonedata);            
+
+        let cloneLoaded  = [...licenseActivationMessage];            
+            cloneLoaded[add_on] = false;
+            setLicenseActivationMessage(cloneLoaded);
+      },        
+      (error) => {
+        setLicenseActivationMessage([]);
+      }
+    );
+
+}
 
   const saveSettings = (event) => {                 
 
@@ -1045,6 +1102,12 @@ useEffect(() => {
             handleInputChange={handleInputChange}
             userInput = {userInput}
            />
+           <License 
+           handleInputChange        = {handleInputChange}
+           handleLicenseActivation  = {handleLicenseActivation}
+           userInput                = {userInput}
+           licenseActivationMessage = {licenseActivationMessage}
+            />
           
         </div>
 

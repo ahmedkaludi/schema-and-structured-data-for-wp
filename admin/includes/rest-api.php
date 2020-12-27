@@ -176,6 +176,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'get-active-pro-ext', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getActiveProExt'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'get-schema-data-by-type', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getSchemaDataByType'),
@@ -338,19 +345,21 @@ class SASWP_Rest_Api {
             if ( file_exists( $mappings_file ) ) {
                 $pro_ext = include $mappings_file;
             }
-
+            
             if(!empty($pro_ext)){
 
-                foreach($pro_ext as $ext){
+                foreach($pro_ext as $ikey => $ext){
                                         
                     if(is_plugin_active($ext['path'])){
                         
                         $ext['status'] = 'Active';
                         
                     }
-
-                    $response[] = $ext;
-
+                    
+                    if($ext['key'] != 'saswp_pro_extension_manager'){
+                        $response[] = $ext;
+                    }
+                                        
                 }
 
             }
@@ -898,6 +907,19 @@ class SASWP_Rest_Api {
             return $response;
            
         }
+        public function getActiveProExt($request_data){
+
+            $response = array();
+
+            
+            
+
+
+            
+            return $response;
+            
+        }
+
         public function getPlatformsList($request_data) {
 
             $response = array();
