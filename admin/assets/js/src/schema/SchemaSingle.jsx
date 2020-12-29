@@ -1,10 +1,9 @@
 import React, {useState, useEffect, useReducer} from 'react';
 import queryString from 'query-string'
-import SchemaTypeNavLink from '../schema-type-nav-link/SchemaTypeNavLink'
 import {Link} from 'react-router-dom';
 import './Schema.scss';
 import Select from "react-select";
-import { useParams, useLocation, useHistory, useRouteMatch } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import MediaUpload from './../common/mediaUpload/MediaUpload';
 import FieldGenerator from './../common/field-generator/FieldGenerator'
 import { Modal } from '@duik/it';
@@ -19,25 +18,13 @@ const SchemaSingle = () => {
         const [mainSpinner, setMainSpinner]         = useState(false);  
         const [partSpinner, setPartSpinner]         = useState(false); 
 
-        const [currentIncludedConType, setCurrentIncludedConType]           = useState('');
-        const [currentExcludedConType, setCurrentExcludedConType]           = useState('');
+
         const [schemaType, setSchemaType]                                   = useState('');
-
         const [postStatus, setPostStatus]                                   = useState('');
-
         const [schemaID, setSchemaID]                                       = useState(null);
-        const [includedToggle, setIncludedToggle]                           = useState(false);
-        const [excludedToggle, setExcludedToggle]                           = useState(false);
-        const [includedRightPlaceholder, setIncludedRightPlaceholder]       = useState('Select Targeting Data');
-        const [excludedRightPlaceholder, setExcludedRightPlaceholder]       = useState('Select Targeting Data');
-        const [multiTypeIncludedValue, setMultiTypeIncludedValue]           = useState([]);
-        const [multiTypeExcludedValue, setMultiTypeExcludedValue]           = useState([]);
-        const [multiTypeLeftIncludedValue, setMultiTypeLeftIncludedValue]   = useState([]);
-        const [multiTypeRightIncludedValue, setMultiTypeRightIncludedValue] = useState([]);
-        const [multiTypeLeftExcludedValue, setMultiTypeLeftExcludedValue]   = useState([]);
-        const [multiTypeRightExcludedValue, setMultiTypeRightExcludedValue] = useState([]);
-        const [includedDynamicOptions, setIncludedDynamicOptions]           = useState([]);
-        const [excludedDynamicOptions, setExcludedDynamicOptions]           = useState([]);
+                        
+        const [placeThirdTdOption, setPlaceThirdTdOption]                   = useState([]);
+        const [placeThirdTdValue, setPlaceThirdTdValue]                     = useState([]);
 
         const [metaFields, setMetaFields]                                   = useState([]);  
         const [modifyEntry, setModifyEntry]                                 = useState([]);        
@@ -206,38 +193,38 @@ const SchemaSingle = () => {
                 ],
         };
 
-        const [businessType, setBusinessType]                               = useState([
-                                                                                 {value:"", label:"Select Business Type (Optional)"},
-                                                                                 {value:"animalshelter", label:"Animal Shelter"},
-                                                                                 {value:"automotivebusiness", label:"Automotive Business"},
-                                                                                 {value:"childcare", label:"ChildCare"},
-                                                                                 {value:"dentist", label:"Dentist"},
-                                                                                 {value:"drycleaningorlaundry", label:"Dry Cleaning Or Laundry"},
-                                                                                 {value:"emergencyservice", label:"Emergency Service"},
-                                                                                 {value:"employmentagency", label:"Employment Agency"},
-                                                                                 {value:"entertainmentbusiness", label:"Entertainment Business"},
-                                                                                 {value:"financialservice", label:"Financial Service"},
-                                                                                 {value:"foodestablishment", label:"Food Establishment"},
-                                                                                 {value:"governmentoffice", label:"Government Office"},
-                                                                                 {value:"healthandbeautybusiness", label:"Health And Beauty Business"},
-                                                                                 {value:"homeandconstructionbusiness", label:"Home And Construction Business"},
-                                                                                 {value:"internetcafe", label:"Internet Cafe"},
-                                                                                 {value:"legalservice", label:"Legal Service"},
-                                                                                 {value:"library", label:"Library"},
-                                                                                 {value:"lodgingbusiness", label:"Lodging Business"},
-                                                                                 {value:"medicalbusiness", label:"Medical Business"},
-                                                                                 {value:"professionalservice", label:"Professional Service"},
-                                                                                 {value:"radiostation", label:"Radio Station"},
-                                                                                 {value:"realestateagent", label:"Real Estate Agent"},
-                                                                                 {value:"recyclingcenter", label:"Recycling Center"},
-                                                                                 {value:"selfstorage", label:"Self Storage"},
-                                                                                 {value:"shoppingcenter", label:"Shopping Center"},
-                                                                                 {value:"sportsactivitylocation", label:"Sports Activity Location"},
-                                                                                 {value:"store", label:"Store"},
-                                                                                 {value:"televisionstation", label:"Television Station"},
-                                                                                 {value:"touristinformationcenter", label:"Tourist Information Center"},
-                                                                                 {value:"travelagency", label:"Travel Agency"},
-                                                                                ]); 
+        const [businessType, setBusinessType] = useState([
+                                                {value:"", label:"Select Business Type (Optional)"},
+                                                {value:"animalshelter", label:"Animal Shelter"},
+                                                {value:"automotivebusiness", label:"Automotive Business"},
+                                                {value:"childcare", label:"ChildCare"},
+                                                {value:"dentist", label:"Dentist"},
+                                                {value:"drycleaningorlaundry", label:"Dry Cleaning Or Laundry"},
+                                                {value:"emergencyservice", label:"Emergency Service"},
+                                                {value:"employmentagency", label:"Employment Agency"},
+                                                {value:"entertainmentbusiness", label:"Entertainment Business"},
+                                                {value:"financialservice", label:"Financial Service"},
+                                                {value:"foodestablishment", label:"Food Establishment"},
+                                                {value:"governmentoffice", label:"Government Office"},
+                                                {value:"healthandbeautybusiness", label:"Health And Beauty Business"},
+                                                {value:"homeandconstructionbusiness", label:"Home And Construction Business"},
+                                                {value:"internetcafe", label:"Internet Cafe"},
+                                                {value:"legalservice", label:"Legal Service"},
+                                                {value:"library", label:"Library"},
+                                                {value:"lodgingbusiness", label:"Lodging Business"},
+                                                {value:"medicalbusiness", label:"Medical Business"},
+                                                {value:"professionalservice", label:"Professional Service"},
+                                                {value:"radiostation", label:"Radio Station"},
+                                                {value:"realestateagent", label:"Real Estate Agent"},
+                                                {value:"recyclingcenter", label:"Recycling Center"},
+                                                {value:"selfstorage", label:"Self Storage"},
+                                                {value:"shoppingcenter", label:"Shopping Center"},
+                                                {value:"sportsactivitylocation", label:"Sports Activity Location"},
+                                                {value:"store", label:"Store"},
+                                                {value:"televisionstation", label:"Television Station"},
+                                                {value:"touristinformationcenter", label:"Tourist Information Center"},
+                                                {value:"travelagency", label:"Travel Agency"},
+                                        ]); 
                               
         const [postMeta, setPostMeta] = useReducer(
                 (state, newState) => ({...state, ...newState}),
@@ -253,7 +240,9 @@ const SchemaSingle = () => {
                         saswp_taxonomy_term:{},
                         saswp_fixed_image:{},
                         saswp_custom_meta_field:{},
-                        saswp_meta_list_val:{},      
+                        saswp_meta_list_val:{},
+                        data_group_array: {}
+                              
                 }                
               );
         const [manualFields, setManualFields]      =  useState([]);
@@ -360,24 +349,24 @@ const SchemaSingle = () => {
         }      
         const getReviewsOnLoad = (offset = null, page = null) =>{
                                                          
-                        let url = saswp_localize_data.rest_url+'saswp-route/get-reviews-list?offset='+offset+'&page='+page;      
+                let url = saswp_localize_data.rest_url+'saswp-route/get-reviews-list?offset='+offset+'&page='+page;      
 
-                        fetch(url,{
-                                headers: {                    
-                                'X-WP-Nonce': saswp_localize_data.nonce,
-                                }
+                fetch(url,{
+                        headers: {                    
+                        'X-WP-Nonce': saswp_localize_data.nonce,
                         }
-                        )
-                        .then(res => res.json())
-                        .then(
-                        (result) => {                      
-                                setReviewToBeAdded( (prevState) => ([ ...prevState, ...result.posts_data ]));                                
-                                setReviewToBeAddedFound(result.posts_found)
-                        },        
-                        (error) => {
-                        
-                        }
-                        );
+                }
+                )
+                .then(res => res.json())
+                .then(
+                (result) => {                      
+                        setReviewToBeAdded( (prevState) => ([ ...prevState, ...result.posts_data ]));                                
+                        setReviewToBeAddedFound(result.posts_found)
+                },        
+                (error) => {
+                
+                }
+                );
 
         }
         const handleLoadMoreCollection = (e) => {
@@ -403,7 +392,6 @@ const SchemaSingle = () => {
                 
         }
         const handleCollectionClick = (e) => {                
-
                 
                 let review_id = parseInt(e.currentTarget.dataset.id);                                
                 let value     = e.target.checked;
@@ -462,35 +450,117 @@ const SchemaSingle = () => {
                 e.preventDefault();
                 setAddReviewModal(true);
                 getReviewsOnLoad();
+        }
+        const handlePlaceFourthTdChange = (key_1, key_3, i, k, option) => {
+        
+                let clonedata     = {...postMeta};                        
+                clonedata['data_group_array']['group-'+i]['data_array'][k]['key_4']       = option.value;
+                clonedata['data_group_array']['group-'+i]['data_array'][k]['key_4_saved'] = option;                        
+                setPostMeta(clonedata);   
         }      
+        
+        const getConditionMeta = (value, group, group_index, index, key_option, key_saved, q='') => {
+
+                let url = saswp_localize_data.rest_url +"saswp-route/get-condition-list?condition="+value+'&search='+q;
+      
+                fetch(url, {
+                        headers: {                    
+                        'X-WP-Nonce': saswp_localize_data.nonce,
+                        }
+                })
+                .then(res => res.json())
+                .then(
+                        (result) => {      
+                                        
+                                let clonedata     = {...postMeta};                        
+                                clonedata['data_group_array'][group]['data_array'][index][key_option] = result;
+                                clonedata['data_group_array'][group]['data_array'][index][key_saved]   = [{label:'select', value:''}];
+                                setPostMeta(clonedata);                                   
+                        
+                        },        
+                        (error) => {
+                                console.log(error);
+                        }
+                );  
+
+        }
+        const handlePlaceThirdTdChange = (key_1, i, k, option) => {
+        
+                let clonedata     = {...postMeta};                        
+                clonedata['data_group_array']['group-'+i]['data_array'][k]['key_3'] = option.value;
+                clonedata['data_group_array']['group-'+i]['data_array'][k]['key_3_saved'] = option;                        
+                setPostMeta(clonedata);   
+
+                if(key_1 == 'ef_taxonomy'){
+                        getConditionMeta(option.value, 'group-'+i, i, k, 'key_4_options', 'key_4_saved', '');
+                }
+        }
+        const handlePlaceThirdTdInputChange = (key_1, i, k, q) => {                
+                if(q){
+                        getConditionMeta(key_1, 'group-'+i, i, k, 'key_3_options', 'key_3_saved', q);
+                }
+
+        }
+        const handlePlaceFourthTdInputChange = (key_1, key_3, i, k, q) => {
+                if(q){
+                        getConditionMeta(key_3, 'group-'+i, i, k, 'key_4_options', 'key_4_saved', q);
+                }
+        }
         const handleInputChange = evt => {
+
                 let { name, value, type } = evt.target;
+                
+                if(name.includes('data_group_array')){
+                                               
+                        let group       = evt.currentTarget.dataset.group;
+                        let group_index = evt.currentTarget.dataset.group_index;
+                        let index = evt.currentTarget.dataset.index;
+                        let key   = evt.currentTarget.dataset.key;
 
-                if(type === "checkbox"){
-                        value = evt.target.checked;
+                        if(key == 'key_1'){
+                                getConditionMeta(value, group, group_index, index, 'key_3_options', 'key_3_saved', '');
+                        }                        
+                        
+                        let clonedata     = {...postMeta};
+                        clonedata['data_group_array'][group]['data_array'][index][key] = value;
+
+                        if(key == 'key_1' && value == 'date'){
+                                clonedata['data_group_array'][group]['data_array'][index]['key_3'] = '';        
+                        }
+                        
+                        setPostMeta(clonedata);   
+                }else{
+
+                        if(type === "checkbox"){
+                                value = evt.target.checked;
+                        }
+                        if(name == 'saswp_enable_append_reviews' && value){
+                                getReviewsOnLoad();
+                                setAddReviewModal(true);                        
+                        }
+
+                        switch (name) {
+
+                                case 'isAccessibleForFree':
+                                case 'notAccessibleForFree':
+                                case 'paywall_class_name':
+                                case 'enable_custom_field':
+                                case 'saswp_modify_method':
+                                        
+                                        let clonedata     = {...postMeta};
+                                        clonedata.schema_options[name] = value; 
+                                        setPostMeta(clonedata);   
+        
+                                        break;                        
+        
+                                default:
+                                        setPostMeta({[name]: value});  
+                                        break;
+                        }
+
                 }
-                if(name == 'saswp_enable_append_reviews' && value){
-                        getReviewsOnLoad();
-                        setAddReviewModal(true);                        
-                }
-                switch (name) {
 
-                        case 'isAccessibleForFree':
-                        case 'notAccessibleForFree':
-                        case 'paywall_class_name':
-                        case 'enable_custom_field':
-                        case 'saswp_modify_method':
-                                
-                                let clonedata     = {...postMeta};
-                                clonedata.schema_options[name] = value; 
-                                setPostMeta(clonedata);   
-
-                                break;                        
-
-                        default:
-                                setPostMeta({[name]: value});  
-                                break;
-                }
+                
                               
         }      
 
@@ -499,10 +569,7 @@ const SchemaSingle = () => {
                 setIsLoaded(false);
 
                 let   body_json       = {};
-                let   post_meta       = {};
-                
-                // post_meta.visibility_include = multiTypeIncludedValue;
-                // post_meta.visibility_exclude = multiTypeExcludedValue;
+                let   post_meta       = {};                                
                 
                 let mentry = Object.fromEntries(modifyEntry);
 
@@ -581,9 +648,7 @@ const SchemaSingle = () => {
                 .then(res => res.json())
                 .then(
                   (result) => {  
-                    
-                    setMultiTypeIncludedValue(result.post_meta.visibility_include);
-                    setMultiTypeExcludedValue(result.post_meta.visibility_exclude);
+                                        
                     setPostStatus(result.post.post_status);
                     setPostMeta(result.post_meta);         
 
@@ -617,153 +682,7 @@ const SchemaSingle = () => {
                 }       
                 
         }      
-
-        const getConditionMeta = (condition_type, visibility_type, search_param = '') => {
-
-                let url = saswp_localize_data.rest_url +"saswp-route/get-condition-list?condition="+condition_type+'&search='+search_param;
-      
-                fetch(url, {
-                        headers: {                    
-                        'X-WP-Nonce': saswp_localize_data.nonce,
-                        }
-                })
-                .then(res => res.json())
-                .then(
-                        (result) => {      
-                                        
-                        if(visibility_type == 'include'){                                                                 
-                                setMultiTypeRightIncludedValue([]);
-                                setIncludedDynamicOptions(result);
-                        }
-
-                        if(visibility_type == 'exclude' || visibility_type){                                                 
-                                setMultiTypeRightExcludedValue([]);        
-                                setExcludedDynamicOptions(result);
-                        }
-                        
-                        },        
-                        (error) => {
-                                console.log(error);
-                        }
-                );  
-
-        }
-        const handleMultiIncludedRightChange = (option) => {          
-                setMultiTypeRightIncludedValue(option);         
-        }
-        const handleMultiIncludedSearch = (q) => {
-                if(q !== ''){
-                        getConditionMeta(currentIncludedConType, 'include', q);  
-                }
-        }
-        const handleIncludedToggle = () => {  
-                setIncludedToggle(!includedToggle);
-        }        
-        const handleMultiIncludedLeftChange = (option) => {   
-        
-                let placeholder = 'Search for ' + option.label;    
-                setCurrentIncludedConType(option.value);
-                setIncludedRightPlaceholder(placeholder);
-                setIncludedRightPlaceholder(placeholder);
-                setMultiTypeLeftIncludedValue(option);
-                getConditionMeta(option.value, 'include');          
-        }
-        const addIncluded = (e) => {
-
-                e.preventDefault();  
-            
-                let type  = multiTypeLeftIncludedValue;
-                let value = multiTypeRightIncludedValue;
-              
-                if( typeof (value.value) !== 'undefined'){                  
-                  let data    = multiTypeIncludedValue;
-                  data.push({type: type, value: value});
-                  let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);          
-                  setMultiTypeIncludedValue(newData);       
-                }        
-              
-            }
-        const  removeIncluded = (e) => {
-                let index = e.currentTarget.dataset.index;                                  
-                const newarr = [ ...multiTypeIncludedValue ];    
-                newarr.splice(index,1);
-                setMultiTypeIncludedValue(newarr);
-        }
-        
-        
-
-        const handleMultiExcludedRightChange = (option) => {          
-                setMultiTypeRightExcludedValue(option);         
-        }
-        const handleMultiExcludedSearch = (q) => {
-                if(q !== ''){
-                        getConditionMeta(currentExcludedConType, 'exclude', q);  
-                }
-        }
-        const handleExcludedToggle = () => {  
-                setExcludedToggle(!excludedToggle);
-        }        
-        const handleMultiExcludedLeftChange = (option) => {   
-        
-                let placeholder = 'Search for ' + option.label;    
-                setCurrentExcludedConType(option.value);
-                setExcludedRightPlaceholder(placeholder);
-                setExcludedRightPlaceholder(placeholder);
-                setMultiTypeLeftExcludedValue(option);
-                getConditionMeta(option.value, 'exclude');          
-        }
-        const addExcluded = (e) => {
-
-                e.preventDefault();  
-            
-                let type  = multiTypeLeftExcludedValue;
-                let value = multiTypeRightExcludedValue;
-              
-                if( typeof (value.value) !== 'undefined'){                  
-                  let data    = multiTypeExcludedValue;
-                  data.push({type: type, value: value});
-                  let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);          
-                  setMultiTypeExcludedValue(newData);       
-                }        
-              
-            }
-        const  removeExcluded = (e) => {
-                let index = e.currentTarget.dataset.index;                                  
-                const newarr = [ ...multiTypeExcludedValue ];    
-                newarr.splice(index,1);
-                setMultiTypeExcludedValue(newarr);
-        }
-        
-        const multiTypeOptions = [
-                {label:'Post Type', value:'post_type'},
-                {label:'General', value:'general'},
-                {label:'Logged in User Type', value:'user_type'},
-                {label:'Post', value:'post'},
-                {label:'Post Category', value:'post_category'},
-                {label:'Post Format', value:'post_format'},
-                {label:'Page', value:'page'},
-                {label:'Taxonomy Terms', value:'taxonomy'},
-                {label:'Tags', value:'tags'}        
-              ]
-
-        useEffect(() => {                
-                setSchemaType(page.type);                
-                getSchemaDataByType(page.type);
-                if(typeof(page.id)  != 'undefined' ) { 
-                        setSchemaID(page.id);                           
-                        getSchemaDataById(page.id);             
-                }
-
-                if((page.type == 'local_business' || page.type == 'HowTo' || page.type == 'FAQ' && page.id)){
-                        getManualFields(page.type, page.id);
-                }
-                
-        }, [])
-
-        useEffect(() => {                         
-              //console.log(postMeta);                
-        }, [postMeta])
-
+                                                                
         const handleCustomFieldChange = (i, key, option) => {
                 
                 let clonedata     = {...postMeta};
@@ -1063,7 +982,25 @@ const SchemaSingle = () => {
                 }                
                 setPostMeta(clonedata);
 
-        }
+        }                                
+
+        useEffect(() => {                
+                setSchemaType(page.type);                
+                getSchemaDataByType(page.type);
+                if(typeof(page.id)  != 'undefined' ) { 
+                        setSchemaID(page.id);                           
+                        getSchemaDataById(page.id);             
+                }
+
+                if((page.type == 'local_business' || page.type == 'HowTo' || page.type == 'FAQ' && page.id)){
+                        getManualFields(page.type, page.id);
+                }
+                
+        }, [])
+
+        useEffect(() => {                         
+              console.log(postMeta.data_group_array);
+        }, [postMeta])
                 
         return (<>
         <div>
@@ -1075,169 +1012,156 @@ const SchemaSingle = () => {
                 <div className="saswp-single-body">
 
                         <div>
+                        {schemaType == 'local_business' ? 
                         <div className="card">
-                                <div className="card-body">
-                                  <table className="form-table">
-                                          <tbody>
-                                                  <tr>
-                                                          <td>Business Type</td>
-                                                          <td>                                                
-                                                          <Select       
-                                                                Clearable     = {true}      
-                                                                name          = "saswp_business_type"                                                                                                                                
-                                                                value         = {handleBusinessTypeValue()}
-                                                                options       = {businessType}
-                                                                onChange      = {handleBusinessTypeChange}                                                           
-                                                                />
-                                                          </td>
-                                                  </tr>
-                                                         {postMeta.saswp_business_name ?
-                                                           <tr>
-                                                            <td>Sub Business Type</td>
-                                                            <td>
-                                                            <Select       
-                                                                Clearable     = {true}
-                                                                name          = "saswp_business_name"
-                                                                value         = {handleSubBusinessTypeValue()}
-                                                                options       = {businessTypeVal[postMeta.saswp_business_name]}
-                                                                onChange      = {handleSubBusinessTypeChange}                                         
-                                                                />  
-                                                            </td>
-                                                           </tr>     
-                                            :null}                                                  
-                                          </tbody>
-                                  </table>      
-                                </div>
-                        </div>        
-                        <div className="card">
-                                <div className="card-body">
-                                        <h3>Where do you want to insert?</h3>
-                                        <p>Where do you want to insert</p>
-                                </div>
-                                <div className="divider-horizontal"></div>
-                                <div className="card-body">
-                                <div className="saswp-user-targeting"> 
-       <h2>Included On <a onClick={handleIncludedToggle}>+</a>  </h2>                
-             <div className="saswp-place-list">
-              {                
-              multiTypeIncludedValue ? 
-              multiTypeIncludedValue.map( (item, index) => (
-                typeof(item.type) !='undefined' ?
-                <span key={index} className="saswp-selected-place">{item.type.label} - {item.value.label}<span className="saswp-remove-item" onClick={removeIncluded} data-index={index}>  x</span></span>                                
-                :''
-               ) )
-              :''}
-             </div>             
-        
-
-        {includedToggle ?
-        <div className="saswp-targeting-selection">
-        <table className="form-table">
-         <tbody>
-           <tr>             
-           <td>
-            <Select              
-              name="userTargetingIncludedType"
-              placeholder="Select Targeting Type"              
-              options= {multiTypeOptions}
-              value  = {multiTypeLeftIncludedValue}
-              onChange={handleMultiIncludedLeftChange}                                                 
-            />             
-           </td>
-           <td>
-            <Select       
-              Clearable ={true}      
-              name="userTargetingIncludedData"
-              placeholder={includedRightPlaceholder}
-              value={multiTypeRightIncludedValue}
-              options={includedDynamicOptions}
-              onChange={handleMultiIncludedRightChange} 
-              onInputChange={handleMultiIncludedSearch}                                     
-            />             
-           </td>
-           <td><a onClick={addIncluded} className="btn btn-success">Add</a></td>
-           </tr>
-         </tbody> 
-        </table>
-        </div>
-        : ''}
-       </div>                               
-
-       <div className="saswp-user-targeting"> 
-       <h2>Excluded From <a onClick={handleExcludedToggle}>+</a>  </h2>                
-             <div className="saswp-place-list">
-              {                
-              multiTypeExcludedValue ? 
-              multiTypeExcludedValue.map( (item, index) => (
-                typeof(item.type) !='undefined' ?
-                <span key={index} className="saswp-selected-place">{item.type.label} - {item.value.label}<span className="saswp-remove-item" onClick={removeExcluded} data-index={index}>  x</span></span>                                
-                :''
-               ) )
-              :''}
-             </div>             
-        
-
-        {excludedToggle ?
-        <div className="saswp-targeting-selection">
-        <table className="form-table">
-         <tbody>
-           <tr>             
-           <td>
-            <Select              
-              name="userTargetingIncludedType"
-              placeholder="Select Targeting Type"              
-              options= {multiTypeOptions}
-              value  = {multiTypeLeftExcludedValue}
-              onChange={handleMultiExcludedLeftChange}                                                 
-            />             
-           </td>
-           <td>
-            <Select       
-              Clearable ={true}      
-              name="userTargetingExcludedData"
-              placeholder={excludedRightPlaceholder}
-              value={multiTypeRightExcludedValue}
-              options={excludedDynamicOptions}
-              onChange={handleMultiExcludedRightChange} 
-              onInputChange={handleMultiExcludedSearch}                                     
-            />             
-           </td>
-           <td><a onClick={addExcluded} className="btn btn-success">Add</a></td>
-           </tr>
-         </tbody> 
-        </table>
-        </div>
-        : ''}
-       </div>                       
-                                </div>
-                        </div>        
+                        <div className="card-body">
+                        <table className="form-table">
+                                <tbody>
+                                        <tr>
+                                                <td>Business Type</td>
+                                                <td>                                                
+                                                <Select       
+                                                        Clearable     = {true}      
+                                                        name          = "saswp_business_type"                                                                                                                                
+                                                        value         = {handleBusinessTypeValue()}
+                                                        options       = {businessType}
+                                                        onChange      = {handleBusinessTypeChange}                                                           
+                                                        />
+                                                </td>
+                                        </tr>
+                                                {postMeta.saswp_business_name ?
+                                                <tr>
+                                                <td>Sub Business Type</td>
+                                                <td>
+                                                <Select       
+                                                        Clearable     = {true}
+                                                        name          = "saswp_business_name"
+                                                        value         = {handleSubBusinessTypeValue()}
+                                                        options       = {businessTypeVal[postMeta.saswp_business_name]}
+                                                        onChange      = {handleSubBusinessTypeChange}                                         
+                                                        />  
+                                                </td>
+                                                </tr>     
+                                :null}                                                  
+                                </tbody>
+                        </table>      
                         </div>
-                        {/* <div>
-                                <div className="card">
-                                        <div className="card-body">
-                                                <h3>Automatically Fetch Data from Plugins</h3>
-                                        </div>
-                                        <div className="divider-horizontal"></div>
-                                        <div className="card-body">
-                                                <div className="form-group-container-horizontal">
+                        </div>               
+                        : ''}                                
+                        <div className="card">
+                                <div className="card-body">
+                                        <h3>Placement</h3>
+                                        <p>Where do you want to insert</p>
+                                </div>                        
+                                <div className="divider-horizontal"></div>
 
-                                                <div className="form-group-container">
-                                                <label className="form-check form-group toggle">
-                                                <input name="firstName" value={userInput.firstName} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                                                <span className="form-check-label">The Events Calendar</span>
+                                <div className="card-body">
+                                        <div className="saswp-placement-groups">
+                                        {
+                                                                                                
+                                                postMeta.data_group_array ? 
                                                 
-                                                </label></div>                
-                                                
-                                                <div className="form-group-container">
-                                                <label className="form-check form-group toggle">
-                                                <input type="checkbox" className="form-check-input" />
-                                                <span className="form-check-label">Testimonial Pro</span>
-                                                
-                                                </label></div>                
-                                                </div>
+                                                Object.keys(postMeta.data_group_array).map(function(key, i) {
+                                                        return (
+                                                                <div key={i} className="saswp-placement-group" name={`data_group_array${i}`} data-id={i}>
+                                                                        {i != 0 ? <span>Or</span> : null}                                                                        
+                                                                        
+                                                                <table className="saswp-placement-row-table">
+                                                                        <tbody>
+                                                                                {
+                                                                                postMeta.data_group_array[key].data_array.map( (item, k) => {
+                                                                                        return(
+                                                                                        <tr key={k} className="toclone">
+
+                                                                                                <td>
+                                                                                                <select onChange={handleInputChange} value={item.key_1} name={`data_group_array[${key}][data_array][${i}][key_1]`} data-group={key} data-group_index={i} data-index={k} data-key={`key_1`} >
+                                                                                                        <optgroup label="Basic">                                                                                                                
+                                                                                                                <option value="post_type"> Post Type </option>                                                                                                                
+                                                                                                                <option value="show_globally"> Show Globally </option>                                                                                                                
+                                                                                                                <option value="user_type"> Logged in User Type </option>                                                                                                                
+                                                                                                                <option value="homepage"> Homepage </option>
+                                                                                                        </optgroup>          
+                                                                                                        <optgroup label="Post">
+                                                                                                                <option value="post"> Post </option>                                                                                                                
+                                                                                                                <option value="post_category"> Post Category </option>                                                                                                                
+                                                                                                                <option value="post_format"> Post Format </option>
+                                                                                                        </optgroup>          
+                                                                                                        <optgroup label="Page">                                                                                                                
+                                                                                                                <option value="page"> Page </option>                                                                                                                
+                                                                                                                <option value="page_template"> Page Template </option>
+                                                                                                        </optgroup>          
+                                                                                                        <optgroup label="Other">                                                                                                                
+                                                                                                                <option   value="ef_taxonomy"> Taxonomy (Tag) </option>
+                                                                                                                <option   value="date"> Date </option>
+                                                                                                        </optgroup>               
+                                                                                                </select>
+
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                        {
+                                                                                                              item.key_1 == 'date' ? 
+                                                                                                                <select onChange={handleInputChange} name={`data_group_array[${key}][data_array][${i}][key_2]`} value={item.key_2} data-group={key} data-group_index={i} data-index={k} data-key={`key_2`}>
+                                                                                                                        <option value="before_published">  Before Published  </option>        
+                                                                                                                        <option value="after_published">   After Published   </option>        
+                                                                                                                </select>        
+                                                                                                               :   
+                                                                                                               <select onChange={handleInputChange} name={`data_group_array[${key}][data_array][${i}][key_2]`} value={item.key_2} data-group={key} data-group_index={i} data-index={k} data-key={`key_2`}>
+                                                                                                                        <option value="equal"> Equal to </option>        
+                                                                                                                        <option value="not_equal">  Not Equal to (Exclude)  </option>        
+                                                                                                                </select>        
+                                                                                                        }                                                                                                
+                                                                                                </td>
+                                                                                                <td>    
+                                                                                                        
+                                                                                                 {
+                                                                                                         item.key_1 == 'date' ?
+                                                                                                         <input type="text" placeholder="2020-12-31" name={`data_group_array[${key}][data_array][${i}][key_3]`} value={item.key_3} onChange={handleInputChange} data-group={key} data-group_index={i} data-index={k} data-key={`key_3`} />
+                                                                                                          : 
+                                                                                                          <Select
+                                                                                                          isSearchable ={true}
+                                                                                                          name={`data_group_array[${key}][data_array][${i}][key_3]`}
+                                                                                                          value={item.key_3_saved}
+                                                                                                          options={item.key_3_options}
+                                                                                                          onChange={e => handlePlaceThirdTdChange(item.key_1, i, k, e)}
+                                                                                                          onInputChange={e => handlePlaceThirdTdInputChange(item.key_1, i, k, e)}
+                                                                                                        />
+
+                                                                                                 }       
+
+                                                                                                 {
+                                                                                                         (item.key_1 == 'ef_taxonomy') ?
+                                                                                                                                                                                                                         
+                                                                                                                 <Select
+                                                                                                                 isSearchable ={true}
+                                                                                                                 name={`data_group_array[${key}][data_array][${i}][key_4]`}
+                                                                                                                 value={item.key_4_saved}
+                                                                                                                 options={item.key_4_options}
+                                                                                                                 onChange={e => handlePlaceFourthTdChange(item.key_1, item.key_3, i, k, e)}
+                                                                                                                 onInputChange={e => handlePlaceFourthTdInputChange(item.key_1, item.key_3, i, k, e)}
+                                                                                                         />
+                                                                                                          : null
+                                                                                                 }
+
+                                                                                                </td>
+                                                                                                <td><a className="btn btn-default">AND</a></td>
+                                                                                                <td><a><span className="dashicons dashicons-trash"></span></a></td>
+                                                                                        </tr>)
+                                                                                })     
+                                                                                }
+                                                                        </tbody>       
+                                                                </table>
+                                                                </div>
+                                                                )
+                                                }) : null
+
+                                        }
                                         </div>
-                                </div>
-                        </div> */}
+                                </div>                        
+
+                        </div>        
+
+                        </div>
+                        
                         <div>
                                <div className="card">
                                        <div className="card-body">

@@ -657,7 +657,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "useParams", function() { return __WEBPACK_IMPORTED_MODULE_0_react_router__["m"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "useRouteMatch", function() { return __WEBPACK_IMPORTED_MODULE_0_react_router__["n"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_0_react_router__["o"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history__ = __webpack_require__(37);
@@ -1230,18 +1230,6 @@ if (process.env.NODE_ENV === 'production') {
 
 /***/ }),
 /* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = _inheritsLoose;
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
-
-/***/ }),
-/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -1810,73 +1798,19 @@ __webpack_require__.r(__webpack_exports__);
 });
 
 /***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = _inheritsLoose;
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  subClass.__proto__ = superClass;
+}
+
+/***/ }),
 /* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _react = _interopRequireDefault(__webpack_require__(0));
-
-__webpack_require__(184);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var MainSpinner = function MainSpinner() {
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
-    id: "saswp-cover-spin"
-  }));
-};
-
-var _default = MainSpinner;
-exports["default"] = _default;
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _react = _interopRequireDefault(__webpack_require__(0));
-
-__webpack_require__(132);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var DottedSpinner = function DottedSpinner() {
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-dotted-spinner"
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-bounce1"
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-bounce2"
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-bounce3"
-  })));
-};
-
-var _default = DottedSpinner;
-exports["default"] = _default;
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -2113,6 +2047,72 @@ Icon.displayName = "Icon";
 
 /******/ });
 });
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(0));
+
+__webpack_require__(184);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var MainSpinner = function MainSpinner() {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
+    id: "saswp-cover-spin"
+  }));
+};
+
+var _default = MainSpinner;
+exports["default"] = _default;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(0));
+
+__webpack_require__(132);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var DottedSpinner = function DottedSpinner() {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-dotted-spinner"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-bounce1"
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-bounce2"
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-bounce3"
+  })));
+};
+
+var _default = DottedSpinner;
+exports["default"] = _default;
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 17 */
@@ -16334,7 +16334,7 @@ BaseInput.displayName = 'BaseInput';
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ENTERED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return EXITING; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react__ = __webpack_require__(0);
@@ -17614,7 +17614,7 @@ __webpack_require__(190);
 
 var _useOutsideClick = _interopRequireDefault(__webpack_require__(191));
 
-var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
+var _MainSpinner = _interopRequireDefault(__webpack_require__(14));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -18235,7 +18235,7 @@ if (process.env.NODE_ENV === 'production') {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return useParams; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return useRouteMatch; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return withRouter; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
@@ -19055,9 +19055,9 @@ var _SettingsTools = _interopRequireDefault(__webpack_require__(134));
 
 var _Migration = _interopRequireDefault(__webpack_require__(174));
 
-__webpack_require__(15);
+__webpack_require__(16);
 
-var _it = __webpack_require__(12);
+var _it = __webpack_require__(11);
 
 var _translationPanel = _interopRequireDefault(__webpack_require__(175));
 
@@ -19065,11 +19065,11 @@ var _License = _interopRequireDefault(__webpack_require__(176));
 
 var _reactSelect = _interopRequireDefault(__webpack_require__(70));
 
-var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
+var _MainSpinner = _interopRequireDefault(__webpack_require__(14));
 
 var _MediaUpload = _interopRequireDefault(__webpack_require__(29));
 
-var _icon = _interopRequireDefault(__webpack_require__(16));
+var _icon = _interopRequireDefault(__webpack_require__(13));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -21491,7 +21491,7 @@ var classNamesShape = process.env.NODE_ENV !== 'production' ? __WEBPACK_IMPORTED
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_extends__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_esm_assertThisInitialized__ = __webpack_require__(171);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
@@ -26984,11 +26984,11 @@ var _reactRouterDom = __webpack_require__(7);
 
 var _pagination = _interopRequireDefault(__webpack_require__(30));
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(15));
 
-var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
+var _MainSpinner = _interopRequireDefault(__webpack_require__(14));
 
-var _icon = _interopRequireDefault(__webpack_require__(16));
+var _icon = _interopRequireDefault(__webpack_require__(13));
 
 var _reactStarRatings = _interopRequireDefault(__webpack_require__(50));
 
@@ -27230,15 +27230,15 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _it = __webpack_require__(12);
+var _it = __webpack_require__(11);
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(15));
 
-var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
+var _MainSpinner = _interopRequireDefault(__webpack_require__(14));
 
 __webpack_require__(19);
 
-var _icon = _interopRequireDefault(__webpack_require__(16));
+var _icon = _interopRequireDefault(__webpack_require__(13));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -58712,7 +58712,7 @@ function valueEqual(a, b) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_tiny_warning__ = __webpack_require__(27);
@@ -59703,9 +59703,9 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(15));
 
-__webpack_require__(15);
+__webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -59812,7 +59812,7 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-__webpack_require__(15);
+__webpack_require__(16);
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -59892,11 +59892,11 @@ var _react = _interopRequireWildcard(__webpack_require__(0));
 
 var _queryString = _interopRequireDefault(__webpack_require__(6));
 
-var _it = __webpack_require__(12);
+var _it = __webpack_require__(11);
 
 var _reactRouterDom = __webpack_require__(7);
 
-__webpack_require__(15);
+__webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -65634,7 +65634,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_extends__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_dom_helpers_addClass__ = __webpack_require__(167);
@@ -66107,7 +66107,7 @@ function removeClass(element, className) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react__ = __webpack_require__(0);
@@ -66425,7 +66425,7 @@ function getNextChildMapping(nextProps, prevChildMapping, onExited) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* unused harmony export modes */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
@@ -66709,11 +66709,11 @@ var _react = _interopRequireWildcard(__webpack_require__(0));
 
 var _queryString = _interopRequireDefault(__webpack_require__(6));
 
-var _it = __webpack_require__(12);
+var _it = __webpack_require__(11);
 
 var _reactRouterDom = __webpack_require__(7);
 
-__webpack_require__(15);
+__webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -66906,7 +66906,7 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-__webpack_require__(15);
+__webpack_require__(16);
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -66988,11 +66988,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-__webpack_require__(15);
+__webpack_require__(16);
 
-var _icon = _interopRequireDefault(__webpack_require__(16));
+var _icon = _interopRequireDefault(__webpack_require__(13));
 
-var _it = __webpack_require__(12);
+var _it = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -68566,13 +68566,13 @@ var _reactRouterDom = __webpack_require__(7);
 
 var _pagination = _interopRequireDefault(__webpack_require__(30));
 
-var _it = __webpack_require__(12);
+var _it = __webpack_require__(11);
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(15));
 
-var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
+var _MainSpinner = _interopRequireDefault(__webpack_require__(14));
 
-var _icon = _interopRequireDefault(__webpack_require__(16));
+var _icon = _interopRequireDefault(__webpack_require__(13));
 
 var _LeftContextMenu = _interopRequireDefault(__webpack_require__(49));
 
@@ -68858,8 +68858,6 @@ var _react = _interopRequireWildcard(__webpack_require__(0));
 
 var _queryString = _interopRequireDefault(__webpack_require__(6));
 
-var _SchemaTypeNavLink = _interopRequireDefault(__webpack_require__(78));
-
 var _reactRouterDom = __webpack_require__(7);
 
 __webpack_require__(79);
@@ -68870,7 +68868,7 @@ var _MediaUpload = _interopRequireDefault(__webpack_require__(29));
 
 var _FieldGenerator = _interopRequireDefault(__webpack_require__(193));
 
-var _it = __webpack_require__(12);
+var _it = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -68928,133 +68926,73 @@ var SchemaSingle = function SchemaSingle() {
 
   var _useState7 = (0, _react.useState)(''),
       _useState8 = _slicedToArray(_useState7, 2),
-      currentIncludedConType = _useState8[0],
-      setCurrentIncludedConType = _useState8[1];
+      schemaType = _useState8[0],
+      setSchemaType = _useState8[1];
 
   var _useState9 = (0, _react.useState)(''),
       _useState10 = _slicedToArray(_useState9, 2),
-      currentExcludedConType = _useState10[0],
-      setCurrentExcludedConType = _useState10[1];
+      postStatus = _useState10[0],
+      setPostStatus = _useState10[1];
 
-  var _useState11 = (0, _react.useState)(''),
+  var _useState11 = (0, _react.useState)(null),
       _useState12 = _slicedToArray(_useState11, 2),
-      schemaType = _useState12[0],
-      setSchemaType = _useState12[1];
+      schemaID = _useState12[0],
+      setSchemaID = _useState12[1];
 
-  var _useState13 = (0, _react.useState)(''),
+  var _useState13 = (0, _react.useState)([]),
       _useState14 = _slicedToArray(_useState13, 2),
-      postStatus = _useState14[0],
-      setPostStatus = _useState14[1];
+      placeThirdTdOption = _useState14[0],
+      setPlaceThirdTdOption = _useState14[1];
 
-  var _useState15 = (0, _react.useState)(null),
+  var _useState15 = (0, _react.useState)([]),
       _useState16 = _slicedToArray(_useState15, 2),
-      schemaID = _useState16[0],
-      setSchemaID = _useState16[1];
+      placeThirdTdValue = _useState16[0],
+      setPlaceThirdTdValue = _useState16[1];
 
-  var _useState17 = (0, _react.useState)(false),
+  var _useState17 = (0, _react.useState)([]),
       _useState18 = _slicedToArray(_useState17, 2),
-      includedToggle = _useState18[0],
-      setIncludedToggle = _useState18[1];
+      metaFields = _useState18[0],
+      setMetaFields = _useState18[1];
 
-  var _useState19 = (0, _react.useState)(false),
+  var _useState19 = (0, _react.useState)([]),
       _useState20 = _slicedToArray(_useState19, 2),
-      excludedToggle = _useState20[0],
-      setExcludedToggle = _useState20[1];
+      modifyEntry = _useState20[0],
+      setModifyEntry = _useState20[1];
 
-  var _useState21 = (0, _react.useState)('Select Targeting Data'),
+  var _useState21 = (0, _react.useState)([]),
       _useState22 = _slicedToArray(_useState21, 2),
-      includedRightPlaceholder = _useState22[0],
-      setIncludedRightPlaceholder = _useState22[1];
+      customFieldSearched = _useState22[0],
+      setCustomFieldSearched = _useState22[1];
 
-  var _useState23 = (0, _react.useState)('Select Targeting Data'),
+  var _useState23 = (0, _react.useState)(false),
       _useState24 = _slicedToArray(_useState23, 2),
-      excludedRightPlaceholder = _useState24[0],
-      setExcludedRightPlaceholder = _useState24[1];
+      addReviewModal = _useState24[0],
+      setAddReviewModal = _useState24[1];
 
-  var _useState25 = (0, _react.useState)([]),
+  var _useState25 = (0, _react.useState)(0),
       _useState26 = _slicedToArray(_useState25, 2),
-      multiTypeIncludedValue = _useState26[0],
-      setMultiTypeIncludedValue = _useState26[1];
+      reviewTabStatus = _useState26[0],
+      setReviewTabStatus = _useState26[1];
 
   var _useState27 = (0, _react.useState)([]),
       _useState28 = _slicedToArray(_useState27, 2),
-      multiTypeExcludedValue = _useState28[0],
-      setMultiTypeExcludedValue = _useState28[1];
+      reviewToBeAdded = _useState28[0],
+      setReviewToBeAdded = _useState28[1];
 
   var _useState29 = (0, _react.useState)([]),
       _useState30 = _slicedToArray(_useState29, 2),
-      multiTypeLeftIncludedValue = _useState30[0],
-      setMultiTypeLeftIncludedValue = _useState30[1];
+      reviewToBeAddedFound = _useState30[0],
+      setReviewToBeAddedFound = _useState30[1];
 
   var _useState31 = (0, _react.useState)([]),
       _useState32 = _slicedToArray(_useState31, 2),
-      multiTypeRightIncludedValue = _useState32[0],
-      setMultiTypeRightIncludedValue = _useState32[1];
+      collectionToBeAdded = _useState32[0],
+      setCollectionToBeAdded = _useState32[1];
 
   var _useState33 = (0, _react.useState)([]),
       _useState34 = _slicedToArray(_useState33, 2),
-      multiTypeLeftExcludedValue = _useState34[0],
-      setMultiTypeLeftExcludedValue = _useState34[1];
-
-  var _useState35 = (0, _react.useState)([]),
-      _useState36 = _slicedToArray(_useState35, 2),
-      multiTypeRightExcludedValue = _useState36[0],
-      setMultiTypeRightExcludedValue = _useState36[1];
-
-  var _useState37 = (0, _react.useState)([]),
-      _useState38 = _slicedToArray(_useState37, 2),
-      includedDynamicOptions = _useState38[0],
-      setIncludedDynamicOptions = _useState38[1];
-
-  var _useState39 = (0, _react.useState)([]),
-      _useState40 = _slicedToArray(_useState39, 2),
-      excludedDynamicOptions = _useState40[0],
-      setExcludedDynamicOptions = _useState40[1];
-
-  var _useState41 = (0, _react.useState)([]),
-      _useState42 = _slicedToArray(_useState41, 2),
-      metaFields = _useState42[0],
-      setMetaFields = _useState42[1];
-
-  var _useState43 = (0, _react.useState)([]),
-      _useState44 = _slicedToArray(_useState43, 2),
-      modifyEntry = _useState44[0],
-      setModifyEntry = _useState44[1];
-
-  var _useState45 = (0, _react.useState)([]),
-      _useState46 = _slicedToArray(_useState45, 2),
-      customFieldSearched = _useState46[0],
-      setCustomFieldSearched = _useState46[1];
-
-  var _useState47 = (0, _react.useState)(false),
-      _useState48 = _slicedToArray(_useState47, 2),
-      addReviewModal = _useState48[0],
-      setAddReviewModal = _useState48[1];
-
-  var _useState49 = (0, _react.useState)(0),
-      _useState50 = _slicedToArray(_useState49, 2),
-      reviewTabStatus = _useState50[0],
-      setReviewTabStatus = _useState50[1];
-
-  var _useState51 = (0, _react.useState)([]),
-      _useState52 = _slicedToArray(_useState51, 2),
-      reviewToBeAdded = _useState52[0],
-      setReviewToBeAdded = _useState52[1];
-
-  var _useState53 = (0, _react.useState)([]),
-      _useState54 = _slicedToArray(_useState53, 2),
-      reviewToBeAddedFound = _useState54[0],
-      setReviewToBeAddedFound = _useState54[1];
-
-  var _useState55 = (0, _react.useState)([]),
-      _useState56 = _slicedToArray(_useState55, 2),
-      collectionToBeAdded = _useState56[0],
-      setCollectionToBeAdded = _useState56[1];
-
-  var _useState57 = (0, _react.useState)([]),
-      _useState58 = _slicedToArray(_useState57, 2),
-      collectionToBeAddedFound = _useState58[0],
-      setCollectionToBeAddedFound = _useState58[1];
+      collectionToBeAddedFound = _useState34[0],
+      setCollectionToBeAddedFound = _useState34[1];
 
   var businessTypeVal = {
     automotivebusiness: [{
@@ -69458,7 +69396,7 @@ var SchemaSingle = function SchemaSingle() {
     }]
   };
 
-  var _useState59 = (0, _react.useState)([{
+  var _useState35 = (0, _react.useState)([{
     value: "",
     label: "Select Business Type (Optional)"
   }, {
@@ -69549,9 +69487,9 @@ var SchemaSingle = function SchemaSingle() {
     value: "travelagency",
     label: "Travel Agency"
   }]),
-      _useState60 = _slicedToArray(_useState59, 2),
-      businessType = _useState60[0],
-      setBusinessType = _useState60[1];
+      _useState36 = _slicedToArray(_useState35, 2),
+      businessType = _useState36[0],
+      setBusinessType = _useState36[1];
 
   var _useReducer = (0, _react.useReducer)(function (state, newState) {
     return _objectSpread(_objectSpread({}, state), newState);
@@ -69567,16 +69505,17 @@ var SchemaSingle = function SchemaSingle() {
     saswp_taxonomy_term: {},
     saswp_fixed_image: {},
     saswp_custom_meta_field: {},
-    saswp_meta_list_val: {}
+    saswp_meta_list_val: {},
+    data_group_array: {}
   }),
       _useReducer2 = _slicedToArray(_useReducer, 2),
       postMeta = _useReducer2[0],
       setPostMeta = _useReducer2[1];
 
-  var _useState61 = (0, _react.useState)([]),
-      _useState62 = _slicedToArray(_useState61, 2),
-      manualFields = _useState62[0],
-      setManualFields = _useState62[1];
+  var _useState37 = (0, _react.useState)([]),
+      _useState38 = _slicedToArray(_useState37, 2),
+      manualFields = _useState38[0],
+      setManualFields = _useState38[1];
 
   var getManualFields = function getManualFields(schemaType, schemaID) {
     var url = saswp_localize_data.rest_url + 'saswp-route/get-manual-fields?schema_id=' + schemaID + '&schema_type=' + schemaType;
@@ -69767,45 +69706,119 @@ var SchemaSingle = function SchemaSingle() {
     getReviewsOnLoad();
   };
 
+  var handlePlaceFourthTdChange = function handlePlaceFourthTdChange(key_1, key_3, i, k, option) {
+    var clonedata = _objectSpread({}, postMeta);
+
+    clonedata['data_group_array']['group-' + i]['data_array'][k]['key_4'] = option.value;
+    clonedata['data_group_array']['group-' + i]['data_array'][k]['key_4_saved'] = option;
+    setPostMeta(clonedata);
+  };
+
+  var getConditionMeta = function getConditionMeta(value, group, group_index, index, key_option, key_saved) {
+    var q = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : '';
+    var url = saswp_localize_data.rest_url + "saswp-route/get-condition-list?condition=" + value + '&search=' + q;
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
+      }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      var clonedata = _objectSpread({}, postMeta);
+
+      clonedata['data_group_array'][group]['data_array'][index][key_option] = result;
+      clonedata['data_group_array'][group]['data_array'][index][key_saved] = [{
+        label: 'select',
+        value: ''
+      }];
+      setPostMeta(clonedata);
+    }, function (error) {
+      console.log(error);
+    });
+  };
+
+  var handlePlaceThirdTdChange = function handlePlaceThirdTdChange(key_1, i, k, option) {
+    var clonedata = _objectSpread({}, postMeta);
+
+    clonedata['data_group_array']['group-' + i]['data_array'][k]['key_3'] = option.value;
+    clonedata['data_group_array']['group-' + i]['data_array'][k]['key_3_saved'] = option;
+    setPostMeta(clonedata);
+
+    if (key_1 == 'ef_taxonomy') {
+      getConditionMeta(option.value, 'group-' + i, i, k, 'key_4_options', 'key_4_saved', '');
+    }
+  };
+
+  var handlePlaceThirdTdInputChange = function handlePlaceThirdTdInputChange(key_1, i, k, q) {
+    if (q) {
+      getConditionMeta(key_1, 'group-' + i, i, k, 'key_3_options', 'key_3_saved', q);
+    }
+  };
+
+  var handlePlaceFourthTdInputChange = function handlePlaceFourthTdInputChange(key_1, key_3, i, k, q) {
+    if (q) {
+      getConditionMeta(key_3, 'group-' + i, i, k, 'key_4_options', 'key_4_saved', q);
+    }
+  };
+
   var handleInputChange = function handleInputChange(evt) {
     var _evt$target = evt.target,
         name = _evt$target.name,
         value = _evt$target.value,
         type = _evt$target.type;
 
-    if (type === "checkbox") {
-      value = evt.target.checked;
-    }
+    if (name.includes('data_group_array')) {
+      var group = evt.currentTarget.dataset.group;
+      var group_index = evt.currentTarget.dataset.group_index;
+      var index = evt.currentTarget.dataset.index;
+      var key = evt.currentTarget.dataset.key;
 
-    if (name == 'saswp_enable_append_reviews' && value) {
-      getReviewsOnLoad();
-      setAddReviewModal(true);
-    }
+      if (key == 'key_1') {
+        getConditionMeta(value, group, group_index, index, 'key_3_options', 'key_3_saved', '');
+      }
 
-    switch (name) {
-      case 'isAccessibleForFree':
-      case 'notAccessibleForFree':
-      case 'paywall_class_name':
-      case 'enable_custom_field':
-      case 'saswp_modify_method':
-        var clonedata = _objectSpread({}, postMeta);
+      var clonedata = _objectSpread({}, postMeta);
 
-        clonedata.schema_options[name] = value;
-        setPostMeta(clonedata);
-        break;
+      clonedata['data_group_array'][group]['data_array'][index][key] = value;
 
-      default:
-        setPostMeta(_defineProperty({}, name, value));
-        break;
+      if (key == 'key_1' && value == 'date') {
+        clonedata['data_group_array'][group]['data_array'][index]['key_3'] = '';
+      }
+
+      setPostMeta(clonedata);
+    } else {
+      if (type === "checkbox") {
+        value = evt.target.checked;
+      }
+
+      if (name == 'saswp_enable_append_reviews' && value) {
+        getReviewsOnLoad();
+        setAddReviewModal(true);
+      }
+
+      switch (name) {
+        case 'isAccessibleForFree':
+        case 'notAccessibleForFree':
+        case 'paywall_class_name':
+        case 'enable_custom_field':
+        case 'saswp_modify_method':
+          var _clonedata = _objectSpread({}, postMeta);
+
+          _clonedata.schema_options[name] = value;
+          setPostMeta(_clonedata);
+          break;
+
+        default:
+          setPostMeta(_defineProperty({}, name, value));
+          break;
+      }
     }
   };
 
   var saveFormData = function saveFormData(status) {
     setIsLoaded(false);
     var body_json = {};
-    var post_meta = {}; // post_meta.visibility_include = multiTypeIncludedValue;
-    // post_meta.visibility_exclude = multiTypeExcludedValue;
-
+    var post_meta = {};
     var mentry = Object.fromEntries(modifyEntry);
     postMeta.saswp_meta_list_val = mentry;
     postMeta.schema_type = schemaType;
@@ -69860,8 +69873,6 @@ var SchemaSingle = function SchemaSingle() {
     }).then(function (res) {
       return res.json();
     }).then(function (result) {
-      setMultiTypeIncludedValue(result.post_meta.visibility_include);
-      setMultiTypeExcludedValue(result.post_meta.visibility_exclude);
       setPostStatus(result.post.post_status);
       setPostMeta(result.post_meta);
       var entry = Object.entries(result.post_meta.saswp_meta_list_val);
@@ -69890,170 +69901,6 @@ var SchemaSingle = function SchemaSingle() {
       saveFormData('publish');
     }
   };
-
-  var getConditionMeta = function getConditionMeta(condition_type, visibility_type) {
-    var search_param = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-    var url = saswp_localize_data.rest_url + "saswp-route/get-condition-list?condition=" + condition_type + '&search=' + search_param;
-    fetch(url, {
-      headers: {
-        'X-WP-Nonce': saswp_localize_data.nonce
-      }
-    }).then(function (res) {
-      return res.json();
-    }).then(function (result) {
-      if (visibility_type == 'include') {
-        setMultiTypeRightIncludedValue([]);
-        setIncludedDynamicOptions(result);
-      }
-
-      if (visibility_type == 'exclude' || visibility_type) {
-        setMultiTypeRightExcludedValue([]);
-        setExcludedDynamicOptions(result);
-      }
-    }, function (error) {
-      console.log(error);
-    });
-  };
-
-  var handleMultiIncludedRightChange = function handleMultiIncludedRightChange(option) {
-    setMultiTypeRightIncludedValue(option);
-  };
-
-  var handleMultiIncludedSearch = function handleMultiIncludedSearch(q) {
-    if (q !== '') {
-      getConditionMeta(currentIncludedConType, 'include', q);
-    }
-  };
-
-  var handleIncludedToggle = function handleIncludedToggle() {
-    setIncludedToggle(!includedToggle);
-  };
-
-  var handleMultiIncludedLeftChange = function handleMultiIncludedLeftChange(option) {
-    var placeholder = 'Search for ' + option.label;
-    setCurrentIncludedConType(option.value);
-    setIncludedRightPlaceholder(placeholder);
-    setIncludedRightPlaceholder(placeholder);
-    setMultiTypeLeftIncludedValue(option);
-    getConditionMeta(option.value, 'include');
-  };
-
-  var addIncluded = function addIncluded(e) {
-    e.preventDefault();
-    var type = multiTypeLeftIncludedValue;
-    var value = multiTypeRightIncludedValue;
-
-    if (typeof value.value !== 'undefined') {
-      var data = multiTypeIncludedValue;
-      data.push({
-        type: type,
-        value: value
-      });
-      var newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);
-      setMultiTypeIncludedValue(newData);
-    }
-  };
-
-  var removeIncluded = function removeIncluded(e) {
-    var index = e.currentTarget.dataset.index;
-
-    var newarr = _toConsumableArray(multiTypeIncludedValue);
-
-    newarr.splice(index, 1);
-    setMultiTypeIncludedValue(newarr);
-  };
-
-  var handleMultiExcludedRightChange = function handleMultiExcludedRightChange(option) {
-    setMultiTypeRightExcludedValue(option);
-  };
-
-  var handleMultiExcludedSearch = function handleMultiExcludedSearch(q) {
-    if (q !== '') {
-      getConditionMeta(currentExcludedConType, 'exclude', q);
-    }
-  };
-
-  var handleExcludedToggle = function handleExcludedToggle() {
-    setExcludedToggle(!excludedToggle);
-  };
-
-  var handleMultiExcludedLeftChange = function handleMultiExcludedLeftChange(option) {
-    var placeholder = 'Search for ' + option.label;
-    setCurrentExcludedConType(option.value);
-    setExcludedRightPlaceholder(placeholder);
-    setExcludedRightPlaceholder(placeholder);
-    setMultiTypeLeftExcludedValue(option);
-    getConditionMeta(option.value, 'exclude');
-  };
-
-  var addExcluded = function addExcluded(e) {
-    e.preventDefault();
-    var type = multiTypeLeftExcludedValue;
-    var value = multiTypeRightExcludedValue;
-
-    if (typeof value.value !== 'undefined') {
-      var data = multiTypeExcludedValue;
-      data.push({
-        type: type,
-        value: value
-      });
-      var newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);
-      setMultiTypeExcludedValue(newData);
-    }
-  };
-
-  var removeExcluded = function removeExcluded(e) {
-    var index = e.currentTarget.dataset.index;
-
-    var newarr = _toConsumableArray(multiTypeExcludedValue);
-
-    newarr.splice(index, 1);
-    setMultiTypeExcludedValue(newarr);
-  };
-
-  var multiTypeOptions = [{
-    label: 'Post Type',
-    value: 'post_type'
-  }, {
-    label: 'General',
-    value: 'general'
-  }, {
-    label: 'Logged in User Type',
-    value: 'user_type'
-  }, {
-    label: 'Post',
-    value: 'post'
-  }, {
-    label: 'Post Category',
-    value: 'post_category'
-  }, {
-    label: 'Post Format',
-    value: 'post_format'
-  }, {
-    label: 'Page',
-    value: 'page'
-  }, {
-    label: 'Taxonomy Terms',
-    value: 'taxonomy'
-  }, {
-    label: 'Tags',
-    value: 'tags'
-  }];
-  (0, _react.useEffect)(function () {
-    setSchemaType(page.type);
-    getSchemaDataByType(page.type);
-
-    if (typeof page.id != 'undefined') {
-      setSchemaID(page.id);
-      getSchemaDataById(page.id);
-    }
-
-    if (page.type == 'local_business' || page.type == 'HowTo' || page.type == 'FAQ' && page.id) {
-      getManualFields(page.type, page.id);
-    }
-  }, []);
-  (0, _react.useEffect)(function () {//console.log(postMeta);                
-  }, [postMeta]);
 
   var handleCustomFieldChange = function handleCustomFieldChange(i, key, option) {
     var clonedata = _objectSpread({}, postMeta);
@@ -70352,6 +70199,22 @@ var SchemaSingle = function SchemaSingle() {
     setPostMeta(clonedata);
   };
 
+  (0, _react.useEffect)(function () {
+    setSchemaType(page.type);
+    getSchemaDataByType(page.type);
+
+    if (typeof page.id != 'undefined') {
+      setSchemaID(page.id);
+      getSchemaDataById(page.id);
+    }
+
+    if (page.type == 'local_business' || page.type == 'HowTo' || page.type == 'FAQ' && page.id) {
+      getManualFields(page.type, page.id);
+    }
+  }, []);
+  (0, _react.useEffect)(function () {
+    console.log(postMeta.data_group_array);
+  }, [postMeta]);
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("form", {
     encType: "multipart/form-data",
     method: "post",
@@ -70366,7 +70229,7 @@ var SchemaSingle = function SchemaSingle() {
     to: "admin.php?page=saswp"
   }, "X"))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-single-body"
-  }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", null, schemaType == 'local_business' ? /*#__PURE__*/_react["default"].createElement("div", {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
@@ -70384,87 +70247,129 @@ var SchemaSingle = function SchemaSingle() {
     value: handleSubBusinessTypeValue(),
     options: businessTypeVal[postMeta.saswp_business_name],
     onChange: handleSubBusinessTypeChange
-  }))) : null)))), /*#__PURE__*/_react["default"].createElement("div", {
+  }))) : null)))) : '', /*#__PURE__*/_react["default"].createElement("div", {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Where do you want to insert?"), /*#__PURE__*/_react["default"].createElement("p", null, "Where do you want to insert")), /*#__PURE__*/_react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Placement"), /*#__PURE__*/_react["default"].createElement("p", null, "Where do you want to insert")), /*#__PURE__*/_react["default"].createElement("div", {
     className: "divider-horizontal"
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-user-targeting"
-  }, /*#__PURE__*/_react["default"].createElement("h2", null, "Included On ", /*#__PURE__*/_react["default"].createElement("a", {
-    onClick: handleIncludedToggle
-  }, "+"), "  "), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-place-list"
-  }, multiTypeIncludedValue ? multiTypeIncludedValue.map(function (item, index) {
-    return typeof item.type != 'undefined' ? /*#__PURE__*/_react["default"].createElement("span", {
-      key: index,
-      className: "saswp-selected-place"
-    }, item.type.label, " - ", item.value.label, /*#__PURE__*/_react["default"].createElement("span", {
-      className: "saswp-remove-item",
-      onClick: removeIncluded,
-      "data-index": index
-    }, "  x")) : '';
-  }) : ''), includedToggle ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-targeting-selection"
-  }, /*#__PURE__*/_react["default"].createElement("table", {
-    className: "form-table"
-  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_reactSelect["default"], {
-    name: "userTargetingIncludedType",
-    placeholder: "Select Targeting Type",
-    options: multiTypeOptions,
-    value: multiTypeLeftIncludedValue,
-    onChange: handleMultiIncludedLeftChange
-  })), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_reactSelect["default"], {
-    Clearable: true,
-    name: "userTargetingIncludedData",
-    placeholder: includedRightPlaceholder,
-    value: multiTypeRightIncludedValue,
-    options: includedDynamicOptions,
-    onChange: handleMultiIncludedRightChange,
-    onInputChange: handleMultiIncludedSearch
-  })), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
-    onClick: addIncluded,
-    className: "btn btn-success"
-  }, "Add")))))) : ''), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-user-targeting"
-  }, /*#__PURE__*/_react["default"].createElement("h2", null, "Excluded From ", /*#__PURE__*/_react["default"].createElement("a", {
-    onClick: handleExcludedToggle
-  }, "+"), "  "), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-place-list"
-  }, multiTypeExcludedValue ? multiTypeExcludedValue.map(function (item, index) {
-    return typeof item.type != 'undefined' ? /*#__PURE__*/_react["default"].createElement("span", {
-      key: index,
-      className: "saswp-selected-place"
-    }, item.type.label, " - ", item.value.label, /*#__PURE__*/_react["default"].createElement("span", {
-      className: "saswp-remove-item",
-      onClick: removeExcluded,
-      "data-index": index
-    }, "  x")) : '';
-  }) : ''), excludedToggle ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: "saswp-targeting-selection"
-  }, /*#__PURE__*/_react["default"].createElement("table", {
-    className: "form-table"
-  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_reactSelect["default"], {
-    name: "userTargetingIncludedType",
-    placeholder: "Select Targeting Type",
-    options: multiTypeOptions,
-    value: multiTypeLeftExcludedValue,
-    onChange: handleMultiExcludedLeftChange
-  })), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_reactSelect["default"], {
-    Clearable: true,
-    name: "userTargetingExcludedData",
-    placeholder: excludedRightPlaceholder,
-    value: multiTypeRightExcludedValue,
-    options: excludedDynamicOptions,
-    onChange: handleMultiExcludedRightChange,
-    onInputChange: handleMultiExcludedSearch
-  })), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
-    onClick: addExcluded,
-    className: "btn btn-success"
-  }, "Add")))))) : '')))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-placement-groups"
+  }, postMeta.data_group_array ? Object.keys(postMeta.data_group_array).map(function (key, i) {
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      key: i,
+      className: "saswp-placement-group",
+      name: "data_group_array".concat(i),
+      "data-id": i
+    }, i != 0 ? /*#__PURE__*/_react["default"].createElement("span", null, "Or") : null, /*#__PURE__*/_react["default"].createElement("table", {
+      className: "saswp-placement-row-table"
+    }, /*#__PURE__*/_react["default"].createElement("tbody", null, postMeta.data_group_array[key].data_array.map(function (item, k) {
+      return /*#__PURE__*/_react["default"].createElement("tr", {
+        key: k,
+        className: "toclone"
+      }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
+        onChange: handleInputChange,
+        value: item.key_1,
+        name: "data_group_array[".concat(key, "][data_array][").concat(i, "][key_1]"),
+        "data-group": key,
+        "data-group_index": i,
+        "data-index": k,
+        "data-key": "key_1"
+      }, /*#__PURE__*/_react["default"].createElement("optgroup", {
+        label: "Basic"
+      }, /*#__PURE__*/_react["default"].createElement("option", {
+        value: "post_type"
+      }, " Post Type "), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "show_globally"
+      }, " Show Globally "), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "user_type"
+      }, " Logged in User Type "), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "homepage"
+      }, " Homepage ")), /*#__PURE__*/_react["default"].createElement("optgroup", {
+        label: "Post"
+      }, /*#__PURE__*/_react["default"].createElement("option", {
+        value: "post"
+      }, " Post "), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "post_category"
+      }, " Post Category "), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "post_format"
+      }, " Post Format ")), /*#__PURE__*/_react["default"].createElement("optgroup", {
+        label: "Page"
+      }, /*#__PURE__*/_react["default"].createElement("option", {
+        value: "page"
+      }, " Page "), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "page_template"
+      }, " Page Template ")), /*#__PURE__*/_react["default"].createElement("optgroup", {
+        label: "Other"
+      }, /*#__PURE__*/_react["default"].createElement("option", {
+        value: "ef_taxonomy"
+      }, " Taxonomy (Tag) "), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "date"
+      }, " Date ")))), /*#__PURE__*/_react["default"].createElement("td", null, item.key_1 == 'date' ? /*#__PURE__*/_react["default"].createElement("select", {
+        onChange: handleInputChange,
+        name: "data_group_array[".concat(key, "][data_array][").concat(i, "][key_2]"),
+        value: item.key_2,
+        "data-group": key,
+        "data-group_index": i,
+        "data-index": k,
+        "data-key": "key_2"
+      }, /*#__PURE__*/_react["default"].createElement("option", {
+        value: "before_published"
+      }, "  Before Published  "), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "after_published"
+      }, "   After Published   ")) : /*#__PURE__*/_react["default"].createElement("select", {
+        onChange: handleInputChange,
+        name: "data_group_array[".concat(key, "][data_array][").concat(i, "][key_2]"),
+        value: item.key_2,
+        "data-group": key,
+        "data-group_index": i,
+        "data-index": k,
+        "data-key": "key_2"
+      }, /*#__PURE__*/_react["default"].createElement("option", {
+        value: "equal"
+      }, " Equal to "), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "not_equal"
+      }, "  Not Equal to (Exclude)  "))), /*#__PURE__*/_react["default"].createElement("td", null, item.key_1 == 'date' ? /*#__PURE__*/_react["default"].createElement("input", {
+        type: "text",
+        placeholder: "2020-12-31",
+        name: "data_group_array[".concat(key, "][data_array][").concat(i, "][key_3]"),
+        value: item.key_3,
+        onChange: handleInputChange,
+        "data-group": key,
+        "data-group_index": i,
+        "data-index": k,
+        "data-key": "key_3"
+      }) : /*#__PURE__*/_react["default"].createElement(_reactSelect["default"], {
+        isSearchable: true,
+        name: "data_group_array[".concat(key, "][data_array][").concat(i, "][key_3]"),
+        value: item.key_3_saved,
+        options: item.key_3_options,
+        onChange: function onChange(e) {
+          return handlePlaceThirdTdChange(item.key_1, i, k, e);
+        },
+        onInputChange: function onInputChange(e) {
+          return handlePlaceThirdTdInputChange(item.key_1, i, k, e);
+        }
+      }), item.key_1 == 'ef_taxonomy' ? /*#__PURE__*/_react["default"].createElement(_reactSelect["default"], {
+        isSearchable: true,
+        name: "data_group_array[".concat(key, "][data_array][").concat(i, "][key_4]"),
+        value: item.key_4_saved,
+        options: item.key_4_options,
+        onChange: function onChange(e) {
+          return handlePlaceFourthTdChange(item.key_1, item.key_3, i, k, e);
+        },
+        onInputChange: function onInputChange(e) {
+          return handlePlaceFourthTdInputChange(item.key_1, item.key_3, i, k, e);
+        }
+      }) : null), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+        className: "btn btn-default"
+      }, "AND")), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", null, /*#__PURE__*/_react["default"].createElement("span", {
+        className: "dashicons dashicons-trash"
+      }))));
+    }))));
+  }) : null)))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
@@ -71319,11 +71224,11 @@ var _react = _interopRequireWildcard(__webpack_require__(0));
 
 __webpack_require__(19);
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(15));
 
-var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
+var _MainSpinner = _interopRequireDefault(__webpack_require__(14));
 
-var _icon = _interopRequireDefault(__webpack_require__(16));
+var _icon = _interopRequireDefault(__webpack_require__(13));
 
 var _reactRouterDom = __webpack_require__(7);
 
@@ -71337,7 +71242,7 @@ var _Fomo = _interopRequireDefault(__webpack_require__(203));
 
 var _Gallery = _interopRequireDefault(__webpack_require__(204));
 
-var _it = __webpack_require__(12);
+var _it = __webpack_require__(11);
 
 var _Popup = _interopRequireDefault(__webpack_require__(205));
 
@@ -72751,11 +72656,11 @@ var _reactRouterDom = __webpack_require__(7);
 
 var _pagination = _interopRequireDefault(__webpack_require__(30));
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(15));
 
-var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
+var _MainSpinner = _interopRequireDefault(__webpack_require__(14));
 
-var _icon = _interopRequireDefault(__webpack_require__(16));
+var _icon = _interopRequireDefault(__webpack_require__(13));
 
 var _reactStarRatings = _interopRequireDefault(__webpack_require__(50));
 
@@ -73029,11 +72934,11 @@ __webpack_require__(19);
 
 var _MediaUpload = _interopRequireDefault(__webpack_require__(29));
 
-var _DottedSpinner = _interopRequireDefault(__webpack_require__(14));
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(15));
 
-var _MainSpinner = _interopRequireDefault(__webpack_require__(13));
+var _MainSpinner = _interopRequireDefault(__webpack_require__(14));
 
-var _it = __webpack_require__(12);
+var _it = __webpack_require__(11);
 
 var _reactStarRatings = _interopRequireDefault(__webpack_require__(50));
 
@@ -73041,7 +72946,7 @@ var _reactDatepicker = _interopRequireDefault(__webpack_require__(211));
 
 __webpack_require__(302);
 
-var _icon = _interopRequireDefault(__webpack_require__(16));
+var _icon = _interopRequireDefault(__webpack_require__(13));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

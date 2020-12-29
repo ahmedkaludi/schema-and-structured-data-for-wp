@@ -458,6 +458,15 @@ and open the template in the editor.
 .saswp-single-header-right {
   float: right;
   padding: 10px; }
+
+.saswp-placement-row-table {
+  width: 100%; }
+
+.saswp-placement-row-table td:nth-child(3) {
+  width: 30%; }
+
+.saswp-placement-group {
+  border-bottom: 1px solid #c7ccc8; }
 .saswp-field-generator-table input {
   width: 100%; }
 

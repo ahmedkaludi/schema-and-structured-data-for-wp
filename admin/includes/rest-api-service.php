@@ -542,6 +542,21 @@ class SASWP_Rest_Api_Service {
 
     }
 
+    public function covertJquerySelect2toReact($data_array){
+
+      if($data_array && is_array($data_array)){
+
+        foreach ($data_array as $skey => $sval) {
+          $data_array[$skey] = array(
+            'label' => $sval['text'],
+            'value' => $sval['id'],
+          );
+        }
+
+      } 
+
+      return $data_array;
+    }
     public function getSchemaById($schema_id){
 
         $response  = array();
@@ -551,15 +566,65 @@ class SASWP_Rest_Api_Service {
 
             $response['post']      = get_post($schema_id, ARRAY_A);  
             $post_meta             = get_post_meta($schema_id, '', true);  
-
+            
             if($post_meta){
 
                 foreach($post_meta as $key => $meta){
-                    if(is_serialized($meta[0])){
+
+                    if($key == 'data_group_array'){
+
                       $meta_data[$key] = unserialize($meta[0]);
+                      
+                      if( is_array($meta_data[$key]) && !empty($meta_data[$key]) ){
+
+                        foreach($meta_data[$key] as $ikey => $ival){
+
+                              foreach ($ival['data_array'] as $jkey => $jval) {
+                                                                                                
+                                $saved_val      = saswp_get_condition_list($jval['key_1'], '' , $jval['key_3']);
+                                $key_3_options  = saswp_get_condition_list($jval['key_1']);
+                                $key_3_options  = $this->covertJquerySelect2toReact($key_3_options);
+                                $meta_data[$key][$ikey]['data_array'][$jkey]['key_3_options'] = $key_3_options;  
+
+                                if(!empty($saved_val) && is_array($saved_val)){
+
+                                  $saved_val= $this->covertJquerySelect2toReact($saved_val);
+                                  
+                                  $meta_data[$key][$ikey]['data_array'][$jkey]['key_3_saved'] = $saved_val;
+                                } 
+                                
+                                if($jval['key_1'] == 'ef_taxonomy'){
+
+                                  $saved_key_4    = saswp_get_condition_list($jval['key_3'], '', $jval['key_4']);
+                                  $key_4_options  = saswp_get_condition_list($jval['key_3']);
+                                  $key_4_options  = $this->covertJquerySelect2toReact($key_4_options);
+                                  if(!empty($saved_key_4) && is_array($saved_key_4)){
+
+                                    $saved_key_4 = $this->covertJquerySelect2toReact($saved_key_4);                                      
+                                    $meta_data[$key][$ikey]['data_array'][$jkey]['key_4_saved'] = $saved_key_4;
+                                    if($key_4_options){
+                                      $key_4_options[] = array('label' => 'All', 'value' => 'all');
+                                    }
+                                    $meta_data[$key][$ikey]['data_array'][$jkey]['key_4_options'] = $key_4_options;  
+
+                                  }
+                                  
+                                }
+
+                              }
+                        }
+
+                      }                      
+
                     }else{
-                      $meta_data[$key] = $meta[0];
-                    }
+
+                      if(is_serialized($meta[0])){
+                        $meta_data[$key] = unserialize($meta[0]);
+                      }else{
+                        $meta_data[$key] = $meta[0];
+                      }
+
+                    }                
                     
                 }
             }
@@ -567,6 +632,7 @@ class SASWP_Rest_Api_Service {
             $response['post_meta'] = $meta_data;
             
         }        
+
         return $response;
 
     }

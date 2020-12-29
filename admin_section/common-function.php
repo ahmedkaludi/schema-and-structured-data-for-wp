@@ -3587,7 +3587,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
       case "page_template" :
         $array_search = true;
         $choices[] = array('id' => 'default', 'text' => 'Default Template');
-
+        require_once ABSPATH . 'wp-admin/includes/admin.php';
         $templates = get_page_templates();
         
         if($saved_data){
@@ -3749,14 +3749,15 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
       case "ef_taxonomy" :
         
         $args['public'] = true;
-
+        
         if(!empty($search) && $search != null){                
             $args['name'] = $search; 
+            
         }  
         if($saved_data){
             $args['name'] = $saved_data; 
         }      
-
+        
         $taxonomies = get_taxonomies( $args, 'objects');
         
         if($taxonomies){
@@ -3770,7 +3771,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
               }
 
         }
-                                     
+        
         break;      
 
         case "homepage":
@@ -3791,7 +3792,27 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
                 );     
             }
              
-        break;      
+        break; 
+        
+        case "show_globally":
+            $array_search = true; 
+            $choices = array(
+                array('id'  => 'true', 'text' => 'True'),
+                array('id'  => 'false', 'text' => 'False')                                         
+            );     
+            
+            if($saved_data == 'false'){
+                $choices = array(                    
+                    array('id'  => 'false', 'text' => 'False')                                         
+                );     
+            }
+            if($saved_data == 'true'){
+                $choices = array(
+                    array('id'  => 'true', 'text' => 'True'),                    
+                );     
+            }
+             
+        break; 
 
         case "all":
 
@@ -3864,6 +3885,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         
         return array('results' => $choices);
     }else{
+        
         return $choices;
     }    
  

@@ -873,12 +873,17 @@ class SASWP_Rest_Api {
             }
 
             if(isset($parameters['condition'])){
-                $response = $this->api_service->getConditionList($parameters['condition'], $search);
+                $response  = saswp_get_condition_list($parameters['condition'], $search);
+
+                if(isset($response['results'])){
+                    $response = $response['results'];
+                }
+
+                $response  = $this->api_service->covertJquerySelect2toReact($response);                
             }else{
                 $response =  array('status' => '404', 'message' => 'property type is required');
             }
             return $response;
-
             
         }
         public function getCollectionById($request_data){
