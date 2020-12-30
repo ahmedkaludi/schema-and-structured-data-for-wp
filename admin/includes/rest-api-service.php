@@ -557,6 +557,26 @@ class SASWP_Rest_Api_Service {
 
       return $data_array;
     }
+    public function getDefaultPlacement(){
+
+            $response = array();
+            $key_3_options  = saswp_get_condition_list('post_type');
+            $key_3_options  = $this->covertJquerySelect2toReact($key_3_options);
+
+            $response = array(
+                'data_array' => array(
+                    array(
+                        'key_1' => 'post_type',
+                        'key_2' => 'equal',
+                        'key_3' => $key_3_options[0]['value'],
+                        'key_3_options' => $key_3_options,
+                        'key_3_saved'   => array($key_3_options[0]) 
+                    )
+                )
+            );
+            
+            return $response;
+    }
     public function getSchemaById($schema_id){
 
         $response  = array();
@@ -628,10 +648,14 @@ class SASWP_Rest_Api_Service {
                     
                 }
             }
-
-            $response['post_meta'] = $meta_data;
-            
+                                    
         }        
+
+        if(!isset($meta_data['data_group_array'])){
+          $meta_data['data_group_array']['group-0'] = $this->getDefaultPlacement();
+        }
+
+        $response['post_meta'] = $meta_data;
 
         return $response;
 

@@ -68864,6 +68864,10 @@ __webpack_require__(79);
 
 var _reactSelect = _interopRequireDefault(__webpack_require__(70));
 
+var _MainSpinner = _interopRequireDefault(__webpack_require__(14));
+
+var _DottedSpinner = _interopRequireDefault(__webpack_require__(15));
+
 var _MediaUpload = _interopRequireDefault(__webpack_require__(29));
 
 var _FieldGenerator = _interopRequireDefault(__webpack_require__(193));
@@ -68939,60 +68943,55 @@ var SchemaSingle = function SchemaSingle() {
       schemaID = _useState12[0],
       setSchemaID = _useState12[1];
 
-  var _useState13 = (0, _react.useState)([]),
+  var _useState13 = (0, _react.useState)({}),
       _useState14 = _slicedToArray(_useState13, 2),
-      placeThirdTdOption = _useState14[0],
-      setPlaceThirdTdOption = _useState14[1];
+      defaultPlacement = _useState14[0],
+      setDefaultPlacement = _useState14[1];
 
   var _useState15 = (0, _react.useState)([]),
       _useState16 = _slicedToArray(_useState15, 2),
-      placeThirdTdValue = _useState16[0],
-      setPlaceThirdTdValue = _useState16[1];
+      metaFields = _useState16[0],
+      setMetaFields = _useState16[1];
 
   var _useState17 = (0, _react.useState)([]),
       _useState18 = _slicedToArray(_useState17, 2),
-      metaFields = _useState18[0],
-      setMetaFields = _useState18[1];
+      modifyEntry = _useState18[0],
+      setModifyEntry = _useState18[1];
 
   var _useState19 = (0, _react.useState)([]),
       _useState20 = _slicedToArray(_useState19, 2),
-      modifyEntry = _useState20[0],
-      setModifyEntry = _useState20[1];
+      customFieldSearched = _useState20[0],
+      setCustomFieldSearched = _useState20[1];
 
-  var _useState21 = (0, _react.useState)([]),
+  var _useState21 = (0, _react.useState)(false),
       _useState22 = _slicedToArray(_useState21, 2),
-      customFieldSearched = _useState22[0],
-      setCustomFieldSearched = _useState22[1];
+      addReviewModal = _useState22[0],
+      setAddReviewModal = _useState22[1];
 
-  var _useState23 = (0, _react.useState)(false),
+  var _useState23 = (0, _react.useState)(0),
       _useState24 = _slicedToArray(_useState23, 2),
-      addReviewModal = _useState24[0],
-      setAddReviewModal = _useState24[1];
+      reviewTabStatus = _useState24[0],
+      setReviewTabStatus = _useState24[1];
 
-  var _useState25 = (0, _react.useState)(0),
+  var _useState25 = (0, _react.useState)([]),
       _useState26 = _slicedToArray(_useState25, 2),
-      reviewTabStatus = _useState26[0],
-      setReviewTabStatus = _useState26[1];
+      reviewToBeAdded = _useState26[0],
+      setReviewToBeAdded = _useState26[1];
 
   var _useState27 = (0, _react.useState)([]),
       _useState28 = _slicedToArray(_useState27, 2),
-      reviewToBeAdded = _useState28[0],
-      setReviewToBeAdded = _useState28[1];
+      reviewToBeAddedFound = _useState28[0],
+      setReviewToBeAddedFound = _useState28[1];
 
   var _useState29 = (0, _react.useState)([]),
       _useState30 = _slicedToArray(_useState29, 2),
-      reviewToBeAddedFound = _useState30[0],
-      setReviewToBeAddedFound = _useState30[1];
+      collectionToBeAdded = _useState30[0],
+      setCollectionToBeAdded = _useState30[1];
 
   var _useState31 = (0, _react.useState)([]),
       _useState32 = _slicedToArray(_useState31, 2),
-      collectionToBeAdded = _useState32[0],
-      setCollectionToBeAdded = _useState32[1];
-
-  var _useState33 = (0, _react.useState)([]),
-      _useState34 = _slicedToArray(_useState33, 2),
-      collectionToBeAddedFound = _useState34[0],
-      setCollectionToBeAddedFound = _useState34[1];
+      collectionToBeAddedFound = _useState32[0],
+      setCollectionToBeAddedFound = _useState32[1];
 
   var businessTypeVal = {
     automotivebusiness: [{
@@ -69396,7 +69395,7 @@ var SchemaSingle = function SchemaSingle() {
     }]
   };
 
-  var _useState35 = (0, _react.useState)([{
+  var _useState33 = (0, _react.useState)([{
     value: "",
     label: "Select Business Type (Optional)"
   }, {
@@ -69487,9 +69486,9 @@ var SchemaSingle = function SchemaSingle() {
     value: "travelagency",
     label: "Travel Agency"
   }]),
-      _useState36 = _slicedToArray(_useState35, 2),
-      businessType = _useState36[0],
-      setBusinessType = _useState36[1];
+      _useState34 = _slicedToArray(_useState33, 2),
+      businessType = _useState34[0],
+      setBusinessType = _useState34[1];
 
   var _useReducer = (0, _react.useReducer)(function (state, newState) {
     return _objectSpread(_objectSpread({}, state), newState);
@@ -69512,12 +69511,13 @@ var SchemaSingle = function SchemaSingle() {
       postMeta = _useReducer2[0],
       setPostMeta = _useReducer2[1];
 
-  var _useState37 = (0, _react.useState)([]),
-      _useState38 = _slicedToArray(_useState37, 2),
-      manualFields = _useState38[0],
-      setManualFields = _useState38[1];
+  var _useState35 = (0, _react.useState)([]),
+      _useState36 = _slicedToArray(_useState35, 2),
+      manualFields = _useState36[0],
+      setManualFields = _useState36[1];
 
   var getManualFields = function getManualFields(schemaType, schemaID) {
+    setMainSpinner(true);
     var url = saswp_localize_data.rest_url + 'saswp-route/get-manual-fields?schema_id=' + schemaID + '&schema_type=' + schemaType;
     fetch(url, {
       headers: {
@@ -69526,6 +69526,7 @@ var SchemaSingle = function SchemaSingle() {
     }).then(function (res) {
       return res.json();
     }).then(function (result) {
+      setMainSpinner(false);
       setManualFields(result);
     }, function (error) {});
   };
@@ -69589,6 +69590,7 @@ var SchemaSingle = function SchemaSingle() {
     var offset = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     var url = saswp_localize_data.rest_url + 'saswp-route/get-collections-list?offset=' + offset + '&page=' + page;
+    setPartSpinner(true);
     fetch(url, {
       headers: {
         'X-WP-Nonce': saswp_localize_data.nonce
@@ -69596,6 +69598,7 @@ var SchemaSingle = function SchemaSingle() {
     }).then(function (res) {
       return res.json();
     }).then(function (result) {
+      setPartSpinner(false);
       setCollectionToBeAdded(function (prevState) {
         return [].concat(_toConsumableArray(prevState), _toConsumableArray(result.posts_data));
       });
@@ -69606,6 +69609,7 @@ var SchemaSingle = function SchemaSingle() {
   var getReviewsOnLoad = function getReviewsOnLoad() {
     var offset = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    setPartSpinner(true);
     var url = saswp_localize_data.rest_url + 'saswp-route/get-reviews-list?offset=' + offset + '&page=' + page;
     fetch(url, {
       headers: {
@@ -69614,6 +69618,7 @@ var SchemaSingle = function SchemaSingle() {
     }).then(function (res) {
       return res.json();
     }).then(function (result) {
+      setPartSpinner(false);
       setReviewToBeAdded(function (prevState) {
         return [].concat(_toConsumableArray(prevState), _toConsumableArray(result.posts_data));
       });
@@ -69714,6 +69719,23 @@ var SchemaSingle = function SchemaSingle() {
     setPostMeta(clonedata);
   };
 
+  var getDefaultPlacement = function getDefaultPlacement() {
+    setMainSpinner(true);
+    var url = saswp_localize_data.rest_url + "saswp-route/get-default-placement";
+    fetch(url, {
+      headers: {
+        'X-WP-Nonce': saswp_localize_data.nonce
+      }
+    }).then(function (res) {
+      return res.json();
+    }).then(function (result) {
+      setMainSpinner(false);
+      setDefaultPlacement(result);
+    }, function (error) {
+      console.log(error);
+    });
+  };
+
   var getConditionMeta = function getConditionMeta(value, group, group_index, index, key_option, key_saved) {
     var q = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : '';
     var url = saswp_localize_data.rest_url + "saswp-route/get-condition-list?condition=" + value + '&search=' + q;
@@ -69735,6 +69757,17 @@ var SchemaSingle = function SchemaSingle() {
     }, function (error) {
       console.log(error);
     });
+  };
+
+  var handleRemovePlacementTr = function handleRemovePlacementTr(e) {
+    e.preventDefault();
+    var index = e.currentTarget.dataset.index;
+    var group_index = e.currentTarget.dataset.group_index;
+
+    var clonedata = _objectSpread({}, postMeta);
+
+    clonedata['data_group_array']['group-' + group_index]['data_array'].splice(index, 1);
+    setPostMeta(clonedata);
   };
 
   var handlePlaceThirdTdChange = function handlePlaceThirdTdChange(key_1, i, k, option) {
@@ -69759,6 +69792,29 @@ var SchemaSingle = function SchemaSingle() {
     if (q) {
       getConditionMeta(key_3, 'group-' + i, i, k, 'key_4_options', 'key_4_saved', q);
     }
+  };
+
+  var handlePlacementOr = function handlePlacementOr(e) {
+    e.preventDefault();
+
+    var clonedata = _objectSpread({}, postMeta);
+
+    var clone_array = Object.entries(clonedata.data_group_array);
+    var new_length = clone_array.length;
+    var data = JSON.parse(JSON.stringify(defaultPlacement));
+    clonedata.data_group_array["group-" + new_length] = data;
+    setPostMeta(clonedata);
+  };
+
+  var handlePlacementAnd = function handlePlacementAnd(e) {
+    e.preventDefault();
+    var group_index = e.currentTarget.dataset.group_index;
+
+    var clonedata = _objectSpread({}, postMeta);
+
+    var data = JSON.parse(JSON.stringify(defaultPlacement));
+    clonedata.data_group_array["group-" + group_index]['data_array'].push(data['data_array'][0]);
+    setPostMeta(clonedata);
   };
 
   var handleInputChange = function handleInputChange(evt) {
@@ -69786,6 +69842,7 @@ var SchemaSingle = function SchemaSingle() {
       }
 
       setPostMeta(clonedata);
+      console.log(defaultPlacement);
     } else {
       if (type === "checkbox") {
         value = evt.target.checked;
@@ -69852,6 +69909,7 @@ var SchemaSingle = function SchemaSingle() {
   };
 
   var getSchemaDataByType = function getSchemaDataByType(schema_type) {
+    setMainSpinner(true);
     var url = saswp_localize_data.rest_url + 'saswp-route/get-schema-data-by-type?schema_type=' + schema_type;
     fetch(url, {
       headers: {
@@ -69860,11 +69918,14 @@ var SchemaSingle = function SchemaSingle() {
     }).then(function (res) {
       return res.json();
     }).then(function (result) {
+      setMainSpinner(false);
       setMetaFields(result);
     }, function (error) {});
   };
 
-  var getSchemaDataById = function getSchemaDataById(schema_id) {
+  var getSchemaDataById = function getSchemaDataById() {
+    var schema_id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    setMainSpinner(true);
     var url = saswp_localize_data.rest_url + 'saswp-route/get-schema-data-by-id?schema_id=' + schema_id;
     fetch(url, {
       headers: {
@@ -69873,10 +69934,18 @@ var SchemaSingle = function SchemaSingle() {
     }).then(function (res) {
       return res.json();
     }).then(function (result) {
-      setPostStatus(result.post.post_status);
+      setMainSpinner(false);
+
+      if (result.post) {
+        setPostStatus(result.post.post_status);
+      }
+
       setPostMeta(result.post_meta);
-      var entry = Object.entries(result.post_meta.saswp_meta_list_val);
-      setModifyEntry(entry);
+
+      if (result.post_meta.saswp_meta_list_val) {
+        var entry = Object.entries(result.post_meta.saswp_meta_list_val);
+        setModifyEntry(entry);
+      }
     }, function (error) {});
   };
 
@@ -70200,22 +70269,23 @@ var SchemaSingle = function SchemaSingle() {
   };
 
   (0, _react.useEffect)(function () {
+    getDefaultPlacement();
     setSchemaType(page.type);
     getSchemaDataByType(page.type);
 
     if (typeof page.id != 'undefined') {
       setSchemaID(page.id);
       getSchemaDataById(page.id);
+    } else {
+      getSchemaDataById();
     }
 
     if (page.type == 'local_business' || page.type == 'HowTo' || page.type == 'FAQ' && page.id) {
       getManualFields(page.type, page.id);
     }
   }, []);
-  (0, _react.useEffect)(function () {
-    console.log(postMeta.data_group_array);
-  }, [postMeta]);
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("form", {
+  (0, _react.useEffect)(function () {}, [postMeta]);
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", null, mainSpinner ? /*#__PURE__*/_react["default"].createElement(_MainSpinner["default"], null) : '', /*#__PURE__*/_react["default"].createElement("form", {
     encType: "multipart/form-data",
     method: "post",
     id: "saswp_schema_form"
@@ -70258,11 +70328,9 @@ var SchemaSingle = function SchemaSingle() {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-placement-groups"
   }, postMeta.data_group_array ? Object.keys(postMeta.data_group_array).map(function (key, i) {
-    return /*#__PURE__*/_react["default"].createElement("div", {
+    return typeof postMeta.data_group_array[key].data_array != 'undefined' && postMeta.data_group_array[key].data_array.length > 0 ? /*#__PURE__*/_react["default"].createElement("div", {
       key: i,
-      className: "saswp-placement-group",
-      name: "data_group_array".concat(i),
-      "data-id": i
+      className: "saswp-placement-group"
     }, i != 0 ? /*#__PURE__*/_react["default"].createElement("span", null, "Or") : null, /*#__PURE__*/_react["default"].createElement("table", {
       className: "saswp-placement-row-table"
     }, /*#__PURE__*/_react["default"].createElement("tbody", null, postMeta.data_group_array[key].data_array.map(function (item, k) {
@@ -70364,12 +70432,22 @@ var SchemaSingle = function SchemaSingle() {
           return handlePlaceFourthTdInputChange(item.key_1, item.key_3, i, k, e);
         }
       }) : null), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+        onClick: handlePlacementAnd,
+        "data-group_index": i,
+        "data-index": k,
         className: "btn btn-default"
-      }, "AND")), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", null, /*#__PURE__*/_react["default"].createElement("span", {
+      }, "AND")), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+        "data-group_index": i,
+        "data-index": k,
+        onClick: handleRemovePlacementTr
+      }, /*#__PURE__*/_react["default"].createElement("span", {
         className: "dashicons dashicons-trash"
       }))));
-    }))));
-  }) : null)))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
+    })))) : null;
+  }) : null, /*#__PURE__*/_react["default"].createElement("a", {
+    onClick: handlePlacementOr,
+    className: "btn btn-default"
+  }, "OR"))))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
@@ -70408,7 +70486,7 @@ var SchemaSingle = function SchemaSingle() {
     className: "card-body"
   }, reviewTabStatus == 0 ? /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-rv-tab-content"
-  }, reviewToBeAdded ? reviewToBeAdded.map(function (list, index) {
+  }, partSpinner ? /*#__PURE__*/_react["default"].createElement(_DottedSpinner["default"], null) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, reviewToBeAdded ? reviewToBeAdded.map(function (list, index) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       key: index,
       className: "saswp-add-rv-loop"
@@ -70425,11 +70503,11 @@ var SchemaSingle = function SchemaSingle() {
       height: "25",
       src: list.post_meta.saswp_review_platform_image
     }))));
-  }) : '', reviewToBeAddedFound > 10 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
+  }) : ''), reviewToBeAddedFound > 10 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
     onClick: handleLoadMoreReviews
   }, "Load More...")) : '') : '', reviewTabStatus == 1 ? /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-rv-tab-content"
-  }, collectionToBeAdded ? collectionToBeAdded.map(function (list, index) {
+  }, partSpinner ? /*#__PURE__*/_react["default"].createElement(_DottedSpinner["default"], null) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, collectionToBeAdded ? collectionToBeAdded.map(function (list, index) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       key: index,
       className: "saswp-add-rv-loop"
@@ -70440,7 +70518,7 @@ var SchemaSingle = function SchemaSingle() {
       className: "saswp-attach-rv-checkbox",
       type: "checkbox"
     }), "  ", /*#__PURE__*/_react["default"].createElement("strong", null, " ", list.post.post_title, "  "));
-  }) : '', collectionToBeAddedFound > 10 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
+  }) : ''), collectionToBeAddedFound > 10 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
     onClick: handleLoadMoreCollection
   }, "Load More...")) : '') : '', reviewTabStatus == 2 ? /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-rv-tab-content"
@@ -70572,16 +70650,22 @@ var SchemaSingle = function SchemaSingle() {
     onChange: handleInputChange
   })))))) : ''))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-publish-button"
-  }, postStatus == 'publish' || postStatus == 'draft' ? /*#__PURE__*/_react["default"].createElement("a", {
+  }, postStatus == 'publish' || postStatus == 'draft' ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, isLoaded ? /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn btn-success",
     onClick: publishPost
-  }, "Update") : /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
+  }, "Update") : /*#__PURE__*/_react["default"].createElement(_it.Button, {
+    success: true,
+    loading: true
+  }, "Loading success")) : /*#__PURE__*/_react["default"].createElement("div", null, isLoaded ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn btn-success",
     onClick: draftPost
   }, "Draft"), /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn btn-success",
     onClick: publishPost
-  }, "Publish")))))));
+  }, "Publish")) : /*#__PURE__*/_react["default"].createElement(_it.Button, {
+    success: true,
+    loading: true
+  }, "Loading success")))))));
 };
 
 var _default = SchemaSingle;

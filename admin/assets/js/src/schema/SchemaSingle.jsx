@@ -4,9 +4,12 @@ import {Link} from 'react-router-dom';
 import './Schema.scss';
 import Select from "react-select";
 import {useHistory} from 'react-router-dom';
+import MainSpinner from './../common/main-spinner/MainSpinner';
+import DottedSpinner from './../common/dotted-spinner/DottedSpinner';
 import MediaUpload from './../common/mediaUpload/MediaUpload';
 import FieldGenerator from './../common/field-generator/FieldGenerator'
 import { Modal } from '@duik/it';
+import { Button } from '@duik/it'
 
 const SchemaSingle = () => {
 
@@ -22,9 +25,9 @@ const SchemaSingle = () => {
         const [schemaType, setSchemaType]                                   = useState('');
         const [postStatus, setPostStatus]                                   = useState('');
         const [schemaID, setSchemaID]                                       = useState(null);
-                        
-        const [placeThirdTdOption, setPlaceThirdTdOption]                   = useState([]);
-        const [placeThirdTdValue, setPlaceThirdTdValue]                     = useState([]);
+        const [defaultPlacement, setDefaultPlacement]                       = useState({});
+                                
+        
 
         const [metaFields, setMetaFields]                                   = useState([]);  
         const [modifyEntry, setModifyEntry]                                 = useState([]);        
@@ -249,8 +252,10 @@ const SchemaSingle = () => {
         
         const getManualFields = (schemaType, schemaID) => {
 
-                let url = saswp_localize_data.rest_url+'saswp-route/get-manual-fields?schema_id='+schemaID+'&schema_type='+schemaType;      
+                setMainSpinner(true);
 
+                let url = saswp_localize_data.rest_url+'saswp-route/get-manual-fields?schema_id='+schemaID+'&schema_type='+schemaType;      
+                
                 fetch(url,{
                         headers: {                    
                         'X-WP-Nonce': saswp_localize_data.nonce,
@@ -260,6 +265,7 @@ const SchemaSingle = () => {
                 .then(res => res.json())
                 .then(
                 (result) => {                                                                   
+                        setMainSpinner(false);
                         setManualFields(result);
                 },        
                 (error) => {
@@ -328,7 +334,7 @@ const SchemaSingle = () => {
         const getCollectionsOnLoad = (offset = null, page = null) => {
                                                         
                 let url = saswp_localize_data.rest_url+'saswp-route/get-collections-list?offset='+offset+'&page='+page;      
-
+                setPartSpinner(true);
                 fetch(url,{
                         headers: {                    
                         'X-WP-Nonce': saswp_localize_data.nonce,
@@ -337,7 +343,8 @@ const SchemaSingle = () => {
                 )
                 .then(res => res.json())
                 .then(
-                (result) => {                                              
+                (result) => {      
+                        setPartSpinner(false);
                         setCollectionToBeAdded( (prevState) => ([ ...prevState, ...result.posts_data ]));                                
                         setCollectionToBeAddedFound(result.posts_found)
                 },        
@@ -348,7 +355,9 @@ const SchemaSingle = () => {
 
         }      
         const getReviewsOnLoad = (offset = null, page = null) =>{
-                                                         
+                
+                setPartSpinner(true);
+
                 let url = saswp_localize_data.rest_url+'saswp-route/get-reviews-list?offset='+offset+'&page='+page;      
 
                 fetch(url,{
@@ -360,6 +369,7 @@ const SchemaSingle = () => {
                 .then(res => res.json())
                 .then(
                 (result) => {                      
+                        setPartSpinner(false);
                         setReviewToBeAdded( (prevState) => ([ ...prevState, ...result.posts_data ]));                                
                         setReviewToBeAddedFound(result.posts_found)
                 },        
@@ -458,11 +468,30 @@ const SchemaSingle = () => {
                 clonedata['data_group_array']['group-'+i]['data_array'][k]['key_4_saved'] = option;                        
                 setPostMeta(clonedata);   
         }      
-        
+        const getDefaultPlacement = () => {
+                setMainSpinner(true);
+                let url = saswp_localize_data.rest_url +"saswp-route/get-default-placement";
+                fetch(url, {
+                        headers: {                    
+                        'X-WP-Nonce': saswp_localize_data.nonce,
+                        }
+                })
+                .then(res => res.json())
+                .then(
+                        (result) => {      
+                                setMainSpinner(false);           
+                                setDefaultPlacement(result);
+                        
+                        },        
+                        (error) => {
+                                console.log(error);
+                        }
+                );
+        }
         const getConditionMeta = (value, group, group_index, index, key_option, key_saved, q='') => {
-
+                
                 let url = saswp_localize_data.rest_url +"saswp-route/get-condition-list?condition="+value+'&search='+q;
-      
+                
                 fetch(url, {
                         headers: {                    
                         'X-WP-Nonce': saswp_localize_data.nonce,
@@ -482,6 +511,17 @@ const SchemaSingle = () => {
                                 console.log(error);
                         }
                 );  
+
+        }
+        const handleRemovePlacementTr = (e) => {
+                e.preventDefault();
+
+                let index       = e.currentTarget.dataset.index;
+                let group_index = e.currentTarget.dataset.group_index;
+                let clonedata     = {...postMeta};                        
+
+                clonedata['data_group_array']['group-'+group_index]['data_array'].splice(index, 1);
+                setPostMeta(clonedata);                                                   
 
         }
         const handlePlaceThirdTdChange = (key_1, i, k, option) => {
@@ -506,6 +546,30 @@ const SchemaSingle = () => {
                         getConditionMeta(key_3, 'group-'+i, i, k, 'key_4_options', 'key_4_saved', q);
                 }
         }
+        const handlePlacementOr = (e) => {
+
+                e.preventDefault();
+                let clonedata     = {...postMeta};                
+                let clone_array   = Object.entries(clonedata.data_group_array);
+                let new_length    = clone_array.length;
+                let data          = JSON.parse(JSON.stringify(defaultPlacement));
+                clonedata.data_group_array["group-"+new_length] = data;
+                
+                setPostMeta(clonedata);                                   
+
+        }
+        const handlePlacementAnd = (e) => {
+
+                e.preventDefault();
+                
+                let group_index = e.currentTarget.dataset.group_index;                
+                
+                let clonedata     = {...postMeta};                                                                
+                let data          = JSON.parse(JSON.stringify(defaultPlacement));
+                clonedata.data_group_array["group-"+group_index]['data_array'].push(data['data_array'][0]);                                                
+                setPostMeta(clonedata);                                   
+
+        }
         const handleInputChange = evt => {
 
                 let { name, value, type } = evt.target;
@@ -522,6 +586,7 @@ const SchemaSingle = () => {
                         }                        
                         
                         let clonedata     = {...postMeta};
+                                              
                         clonedata['data_group_array'][group]['data_array'][index][key] = value;
 
                         if(key == 'key_1' && value == 'date'){
@@ -529,6 +594,7 @@ const SchemaSingle = () => {
                         }
                         
                         setPostMeta(clonedata);   
+                        console.log(defaultPlacement);
                 }else{
 
                         if(type === "checkbox"){
@@ -616,7 +682,7 @@ const SchemaSingle = () => {
               }
 
         const getSchemaDataByType =  (schema_type) => {
-                
+                setMainSpinner(true);        
                 let url = saswp_localize_data.rest_url+'saswp-route/get-schema-data-by-type?schema_type='+schema_type;      
 
                 fetch(url,{
@@ -627,7 +693,8 @@ const SchemaSingle = () => {
                 )
                 .then(res => res.json())
                 .then(
-                  (result) => {                      
+                  (result) => {    
+                        setMainSpinner(false);                  
                         setMetaFields(result);                                                  
                   },        
                   (error) => {
@@ -636,8 +703,8 @@ const SchemaSingle = () => {
                 );  
           
         }      
-        const getSchemaDataById =  (schema_id) => {
-
+        const getSchemaDataById =  (schema_id = null) => {
+                setMainSpinner(true);
                 let url = saswp_localize_data.rest_url+'saswp-route/get-schema-data-by-id?schema_id='+schema_id;      
                 fetch(url,{
                   headers: {                    
@@ -648,13 +715,17 @@ const SchemaSingle = () => {
                 .then(res => res.json())
                 .then(
                   (result) => {  
-                                        
-                    setPostStatus(result.post.post_status);
+                        setMainSpinner(false);             
+                    if(result.post){
+                        setPostStatus(result.post.post_status);
+                    }                    
                     setPostMeta(result.post_meta);         
 
-                    let entry        = Object.entries(result.post_meta.saswp_meta_list_val);        
-                    setModifyEntry(entry);
-                              
+                    if(result.post_meta.saswp_meta_list_val){
+                        let entry        = Object.entries(result.post_meta.saswp_meta_list_val);        
+                        setModifyEntry(entry);
+                    }
+                                                  
                   },        
                   (error) => {
                     
@@ -985,11 +1056,14 @@ const SchemaSingle = () => {
         }                                
 
         useEffect(() => {                
+                getDefaultPlacement();
                 setSchemaType(page.type);                
-                getSchemaDataByType(page.type);
+                getSchemaDataByType(page.type);                
                 if(typeof(page.id)  != 'undefined' ) { 
                         setSchemaID(page.id);                           
                         getSchemaDataById(page.id);             
+                }else{
+                        getSchemaDataById();             
                 }
 
                 if((page.type == 'local_business' || page.type == 'HowTo' || page.type == 'FAQ' && page.id)){
@@ -999,11 +1073,12 @@ const SchemaSingle = () => {
         }, [])
 
         useEffect(() => {                         
-              console.log(postMeta.data_group_array);
+              
         }, [postMeta])
                 
         return (<>
         <div>
+        {mainSpinner ? <MainSpinner /> : ''}
         <form encType="multipart/form-data" method="post" id="saswp_schema_form">  
                 <div className="saswp-single-header">
                         <div className="saswp-single-header-left"><h3>{schemaType} Schema Setup</h3></div>
@@ -1063,7 +1138,8 @@ const SchemaSingle = () => {
                                                 
                                                 Object.keys(postMeta.data_group_array).map(function(key, i) {
                                                         return (
-                                                                <div key={i} className="saswp-placement-group" name={`data_group_array${i}`} data-id={i}>
+                                                                ( typeof(postMeta.data_group_array[key].data_array) != 'undefined' && postMeta.data_group_array[key].data_array.length > 0) ?
+                                                                <div key={i} className="saswp-placement-group">
                                                                         {i != 0 ? <span>Or</span> : null}                                                                        
                                                                         
                                                                 <table className="saswp-placement-row-table">
@@ -1143,18 +1219,21 @@ const SchemaSingle = () => {
                                                                                                  }
 
                                                                                                 </td>
-                                                                                                <td><a className="btn btn-default">AND</a></td>
-                                                                                                <td><a><span className="dashicons dashicons-trash"></span></a></td>
+                                                                                                <td><a onClick={handlePlacementAnd} data-group_index={i} data-index={k} className="btn btn-default">AND</a></td>
+                                                                                                <td><a data-group_index={i} data-index={k} onClick={handleRemovePlacementTr}><span className="dashicons dashicons-trash"></span></a></td>
                                                                                         </tr>)
                                                                                 })     
                                                                                 }
                                                                         </tbody>       
                                                                 </table>
                                                                 </div>
+                                                                 : null
+                                                                
                                                                 )
                                                 }) : null
 
                                         }
+                                        <a onClick={handlePlacementOr} className="btn btn-default">OR</a>
                                         </div>
                                 </div>                        
 
@@ -1218,29 +1297,35 @@ const SchemaSingle = () => {
                                                                                 <a onClick={handleAddReviewTab} data-id="2" className={reviewTabStatus == 2 ? 'tab-item active' : 'tab-item'}>Shortcode</a>
                                                                         </nav>        
                                                                         <div className="card-body">
-                                                                                {reviewTabStatus == 0 ? <div className="saswp-rv-tab-content">
+                                                                                
+                                                                                    {reviewTabStatus == 0 ? <div className="saswp-rv-tab-content">
 
-                                                                                        {
+                                                                                        {partSpinner ? <DottedSpinner /> : <>
+                                                                                                {
                                                                                                 reviewToBeAdded ? 
 
                                                                                                 reviewToBeAdded.map( (list, index) => {
                                                                                                         
                                                                                                         return(                                                                                                                
                                                                                                                 <div key={index} className="saswp-add-rv-loop">
-                                                                                                                  <input data-id={list.post.post_id} onChange={handleReviewClick} checked={ (postMeta.saswp_attahced_reviews && (postMeta.saswp_attahced_reviews).includes(list.post.post_id)) ? true : false } className="saswp-attach-rv-checkbox" type="checkbox" />  <strong> {list.post_meta.saswp_reviewer_name} ( Rating - {list.post_meta.saswp_review_rating} ) <span className="saswp-g-plus"><img width="25" height="25" src= {list.post_meta.saswp_review_platform_image}/></span></strong>
+                                                                                                                <input data-id={list.post.post_id} onChange={handleReviewClick} checked={ (postMeta.saswp_attahced_reviews && (postMeta.saswp_attahced_reviews).includes(list.post.post_id)) ? true : false } className="saswp-attach-rv-checkbox" type="checkbox" />  <strong> {list.post_meta.saswp_reviewer_name} ( Rating - {list.post_meta.saswp_review_rating} ) <span className="saswp-g-plus"><img width="25" height="25" src= {list.post_meta.saswp_review_platform_image}/></span></strong>
                                                                                                                 </div>
                                                                                                                         
                                                                                                         )                                
-                                                                        
+
                                                                                                 })
 
-                                                                                                 : '' 
+                                                                                                : '' 
                                                                                         }
-                                                                                {reviewToBeAddedFound > 10 ? <div><a onClick={handleLoadMoreReviews}>Load More...</a></div> : ''}
-                                                                                </div> : ''}
-                                                                                {reviewTabStatus == 1 ? <div className="saswp-rv-tab-content">                                                                                                                                                                        
+                                                                                        </>}
+                                                                                        {reviewToBeAddedFound > 10 ? <div><a onClick={handleLoadMoreReviews}>Load More...</a></div> : ''}
+                                                                                        </div> : ''}    
+                                                                                
+                                                                                
+                                                                                     {reviewTabStatus == 1 ? <div className="saswp-rv-tab-content">                                                                                                                                                                        
 
-                                                                                        {
+                                                                                        {partSpinner ? <DottedSpinner /> : <>
+                                                                                                {
                                                                                                 collectionToBeAdded ? 
 
                                                                                                 collectionToBeAdded.map( (list, index) => {
@@ -1256,9 +1341,11 @@ const SchemaSingle = () => {
 
                                                                                                 : '' 
                                                                                         }
+                                                                                        </>}
                                                                                         {collectionToBeAddedFound > 10 ? <div><a onClick={handleLoadMoreCollection}>Load More...</a></div> : ''}
-                                                                                        
-                                                                                        </div> : ''}                                                                                
+
+                                                                                        </div> : ''}                                                                                   
+                                                                                                                                                                
                                                                                 {reviewTabStatus == 2 ? 
                                                                                 <div className="saswp-rv-tab-content">
                                                                                         <p> Output reviews in front and its schema markup in source by using below shortcode </p>
@@ -1468,11 +1555,17 @@ const SchemaSingle = () => {
                         <div className="saswp-publish-button">
                                 {
                                 (postStatus == 'publish' || postStatus == 'draft') ? 
-                                         <a className="btn btn-success" onClick={publishPost}>Update</a>
+                                        <>
+                                        {isLoaded ? <a className="btn btn-success" onClick={publishPost}>Update</a> : <Button success loading>Loading success</Button>}
+                                        </>       
                                 :
                                 <div>
-                                        <a className="btn btn-success" onClick={draftPost}>Draft</a>
-                                        <a className="btn btn-success" onClick={publishPost}>Publish</a>
+                                        {isLoaded ? <>
+                                                <a className="btn btn-success" onClick={draftPost}>Draft</a>
+                                                <a className="btn btn-success" onClick={publishPost}>Publish</a>
+                                        </> : <Button success loading>Loading success</Button>
+                                        }
+                                        
                                 </div>
                                 }                                 
                         </div>

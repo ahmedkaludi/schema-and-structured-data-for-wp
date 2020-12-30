@@ -50,6 +50,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'get-default-placement', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getDefaultPlacement'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'get-reviews-list', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getReviewsList'),
@@ -1054,6 +1061,11 @@ class SASWP_Rest_Api {
             }            
             $result = $this->api_service->getCollectionsList($post_type, $attr, $rvcount, $paged, $offset, $search_param);                       
             return $result;
+
+        }
+        public function getDefaultPlacement($request_data){
+
+            return $this->api_service->getDefaultPlacement();
 
         }
         public function getManualFields($request_data){
