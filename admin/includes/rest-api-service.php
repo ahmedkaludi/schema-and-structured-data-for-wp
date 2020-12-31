@@ -737,9 +737,7 @@ class SASWP_Rest_Api_Service {
     public function getSchemaList($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null){
             
         $response   = array();                                
-        $arg        = array();
-        $meta_query = array();
-        $posts_data = array();
+        $arg        = array();        
         
         $arg['post_type']      = $post_type;
         $arg['posts_per_page'] = -1;  
@@ -789,14 +787,53 @@ class SASWP_Rest_Api_Service {
                 $data['post_title']    =  get_the_title();
                 $data['post_status']   =  get_post_status();
                 $data['post_modified'] =  get_the_date('d M, Y');
-                $post_meta             = get_post_meta(get_the_ID(), '', true);
+                $post_meta             =  get_post_meta(get_the_ID(), '', true);
 
                 if($post_meta){
                     foreach($post_meta as $key => $val ){
                         $post_meta[$key] = $val[0];
                     }
                 }
+
+                if(isset($post_meta['data_group_array'])){
+
+                  $data_group = unserialize($post_meta['data_group_array']);
+                  $enabled = array();  
+                  $exclude = array();
+                  foreach ($data_group as $groups){
+                       
+                    foreach($groups['data_array'] as $group){                           
+                       
+                       if($group['key_2'] == 'equal'){
+                           
+                           if($group['key_1'] == 'show_globally'){
+                               
+                               $enabled[] = 'Globally';  
+                               
+                           }else{
+                               
+                               if(isset($group['key_3'])){
+                                  $enabled[] = $group['key_3'];   
+                               } 
+                                                                  
+                           }
+                                                                                   
+                       }else{
+                           
+                        $exclude[] = $group['key_3'];   
+                        
+                       }
+                       
+                    }
+                    
+                }
+
+                $post_meta['target_enable']  = $enabled;
+                $post_meta['target_exclude'] = $exclude;
+
+                }
                                 
+
                 if(isset($post_meta['saswp_platform_ids'])){
 
                   $post_meta['saswp_platform_ids'] = unserialize($post_meta['saswp_platform_ids']);

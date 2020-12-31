@@ -1,26 +1,14 @@
-import React, { Component} from 'react';
+import React from 'react';
 import queryString from 'query-string'
-import {Link, Route} from 'react-router-dom';
-import Settings from './settings/Settings'
+import {Route} from 'react-router-dom';
 
 import SchemaAdd from './schema/SchemaAdd';
 import SchemaList from './schema/SchemaList'
 import SchemaSingle from './schema/SchemaSingle'
 
-class Schema extends Component {
 
-    constructor(props) {  
-      
-        super(props);
-        this.state = {                    
-        };            
-    }
-  
-    
-
-  render() {
-
-    return(
+const Schema = (props) => {
+  return(
     <div>        
     <Route render={props => {                                        
       const page = queryString.parse(window.location.search); 
@@ -44,9 +32,6 @@ class Schema extends Component {
           }                    
       }}/> 
       </div>
-      );    
-  }
-  
+      ); 
 }
-
 export default Schema;

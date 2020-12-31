@@ -2,8 +2,6 @@ import React,{useState, useEffect} from 'react';
 import queryString from 'query-string';
 import {Link} from 'react-router-dom';
 import Pagination from './../common/pagination/pagination';
-import { Button } from '@duik/it';
-import { Toggle } from '@duik/it'
 import DottedSpinner from './../common/dotted-spinner/DottedSpinner';
 import MainSpinner from './../common/main-spinner/MainSpinner';
 import Icon from '@duik/icon'
@@ -51,6 +49,7 @@ const SchemaList = () => {
       .then(res => res.json())
       .then(
         (result) => {     
+          console.log(result);
           setMainSpinner(false); 
           setPartSpinner(false);        
           setPostsData(result.posts_data);
@@ -123,13 +122,13 @@ const SchemaList = () => {
               <p>{postsCount} types</p>
             </div>
             <div>
-            <Link className="btn btn-success"  to={'admin.php?page=saswp&path=schema_add&tab=popular_schema'}> <Icon style={{'marginRight':'7px'}}>plus_rounded</Icon>{__('Add New Schema', 'schema-and-structured-data-for-wp')}</Link>                                                                
+            <Link className="btn btn-success"  to={'admin.php?page=saswp&path=schema_add&tab=popular_schema'}> <Icon style={{'marginRight':'7px'}}>plus_rounded</Icon>{__('Add New Schema', 'schema-and-structured-data-for-wp')}</Link>
             </div>
             </div>
 
             <div className="saswp-schema-list">
                 <div><p>NAME</p></div>
-                <div><p>ENABLED ON</p></div>
+                <div><p>TARGET LOCATION</p></div>
                 <div></div>
             </div>                          
           </div>
@@ -149,7 +148,36 @@ const SchemaList = () => {
             <div>
             <Link to={`admin.php?page=saswp&path=schema_single&type=${item.post_meta.schema_type}&id=${item.post.post_id}`} className="quads-edit-btn"> <strong>{item.post_meta.schema_type}</strong>{item.post.post_status == 'draft' ? <span> ( Draft )</span> : ''}</Link>               
             </div>
-            <div><a>Post</a><p>{item.post.post_modified}</p></div>
+            <div>
+            <span>Enable On : </span>
+            {
+              ( typeof(item.post_meta) != 'undefined' && typeof(item.post_meta.target_enable) != 'undefined' && item.post_meta.target_enable) ?  
+              <div>                
+                {
+                  
+                  item.post_meta.target_enable.map( (ktem, j) => {
+                  return(<span key={j}>{ktem}<span>,</span></span>)
+                })
+                }              
+              </div>
+              : null
+            }
+
+            <span>Excluded From : </span>
+            {
+              ( typeof(item.post_meta) != 'undefined' && typeof(item.post_meta.target_exclude) != 'undefined' && item.post_meta.target_exclude) ?  
+              <div>                
+                {
+                  
+                  item.post_meta.target_exclude.map( (ktem, j) => {
+                  return(<span key={j}>{ktem}<span>,</span></span>)
+                })
+                }              
+              </div>
+              : null
+            }
+
+            <p>{item.post.post_modified}</p></div>
             <div className="saswp-more-action">
               {moreBoxId === item.post.post_id ? 
                 <LeftContextMenu onMoreAction={handleMoreClickAction} Option={
