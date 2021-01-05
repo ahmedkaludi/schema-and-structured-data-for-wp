@@ -361,6 +361,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_permalink()
                     ),
                     array(
+                        'label'   => 'Image',
+                        'id'      => 'saswp_blogposting_image_'.$schema_id,
+                        'type'    => 'media'                        
+                    ),
+                    array(
                             'label' => 'Date Published',
                             'id' => 'saswp_blogposting_date_published_'.$schema_id,
                             'type' => 'text',

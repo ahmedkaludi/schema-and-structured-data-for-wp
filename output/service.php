@@ -1306,6 +1306,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_url'])){
                      $input1['url'] =    saswp_validate_url($custom_fields['saswp_blogposting_url']);
                     }
+                    if(isset($custom_fields['saswp_blogposting_image'])){
+                     $input1['image'] =    $custom_fields['saswp_blogposting_image'];
+                    }
                     if(isset($custom_fields['saswp_blogposting_date_published'])){
                      $input1['datePublished'] =    $custom_fields['saswp_blogposting_date_published'];
                     }
@@ -1313,7 +1316,7 @@ Class saswp_output_service{
                      $input1['dateModified'] =    $custom_fields['saswp_blogposting_date_modified'];
                     }
                     if(isset($custom_fields['saswp_blogposting_author_type'])){
-                        $input1['author']['@type'] =    $custom_fields['saswp_blogposting_author_type'];
+                     $input1['author']['@type'] =    $custom_fields['saswp_blogposting_author_type'];
                     }
                     if(isset($custom_fields['saswp_blogposting_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_blogposting_author_name'];
@@ -1330,8 +1333,7 @@ Class saswp_output_service{
                      $input1['publisher']['name']        =    $custom_fields['saswp_blogposting_organization_name'];
                      $input1['publisher']['logo']        =    $custom_fields['saswp_blogposting_organization_logo'];
                     }
-                    
-                    
+                                        
                     break;
                     
                 case 'AudioObject':
@@ -4083,8 +4085,8 @@ Class saswp_output_service{
 					'mainEntityOfPage'              => saswp_get_permalink(),					
 					'headline'			=> saswp_get_the_title(),
 					'description'                   => saswp_get_the_excerpt(),
-                                        'articleBody'                   => saswp_get_the_content(),
-                                        'keywords'                      => saswp_get_the_tags(),
+                    'articleBody'                   => saswp_get_the_content(),
+                    'keywords'                      => saswp_get_the_tags(),
 					'datePublished'                 => esc_html($date),
 					'dateModified'                  => esc_html($modified_date),
 					'author'			=> saswp_get_author_details(),
