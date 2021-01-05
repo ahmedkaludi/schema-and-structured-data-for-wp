@@ -1232,7 +1232,7 @@ function saswp_custom_breadcrumbs() {
         } else if ( is_page() ) {
               
             // Standard page
-            if( $post->post_parent ){
+            if( is_object( $post ) &&  $post->post_parent ){
                    
                 // If child page, get parents 
                 $anc = get_post_ancestors( $post->ID );
