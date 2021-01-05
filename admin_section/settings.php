@@ -129,7 +129,7 @@ function saswp_admin_interface_render(){
                         
                         echo '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Support') . '</a>';
 
-                        echo '<a target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="nav-tab saswp-offer-banner">50% OFF for LIMITED time</a>'
+                        //echo '<a target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="nav-tab saswp-offer-banner">50% OFF for LIMITED time</a>'
 
 			?>
                     
