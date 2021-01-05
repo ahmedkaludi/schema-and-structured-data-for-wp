@@ -1550,6 +1550,10 @@ Class saswp_output_service{
                         $input1['mainEntity']['articleBody'] =    $custom_fields['saswp_webpage_body'];
                     }
                     
+                    if(isset($custom_fields['saswp_webpage_keywords'])){
+                        $input1['mainEntity']['keywords'] =    $custom_fields['saswp_webpage_keywords'];
+                    }
+                    
                     if(isset($custom_fields['saswp_webpage_date_published'])){
                      $input1['mainEntity']['datePublished'] =    $custom_fields['saswp_webpage_date_published'];
                     }
