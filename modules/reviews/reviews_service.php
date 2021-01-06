@@ -34,6 +34,7 @@ class saswp_reviews_service {
             case 'grid':                                
                 $attr['in'] = $total_reviews;
                 $collection = $this->saswp_get_reviews_list_by_parameters($attr); 
+                $collection = $this->saswp_sort_collection($collection, $sorting);     
                 break;
             case 'gallery':              
             case 'badge':                                
@@ -702,15 +703,15 @@ class saswp_reviews_service {
                 case 'lowest':
                     
                         usort($collection, function($a, $b) {                            
-                                return $a['saswp_review_rating'] - $b['saswp_review_rating'];                                                        
+                                return (((float)$a['saswp_review_rating']) - ((float)$b['saswp_review_rating']));
                         });
                                                 
                         break;
                     
                 case 'highest':
                     
-                        usort($collection, function($a, $b) {                            
-                                return $a['saswp_review_rating'] - $b['saswp_review_rating'];                                                        
+                        usort($collection, function($a, $b) {
+                                return ( ((float)$a['saswp_review_rating']) - ((float)$b['saswp_review_rating']));
                         });
                         
                         $collection = array_reverse($collection);
