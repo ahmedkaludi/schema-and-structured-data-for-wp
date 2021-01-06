@@ -1978,13 +1978,13 @@ function saswp_schema_output() {
 
                                     //Elementor Testomonials
                                     $ele_testomonials = saswp_get_elementor_testomonials();   
-                                                                        
+                                    
                                     if($ele_testomonials){
                                         
                                           $input1 = array_merge($input1,$ele_testomonials['rating']);
                                           
                                           if(isset($input1['review'])){
-                                              $input1 = array_merge($input1['review'],$ele_testomonials['reviews']);
+                                              $input1['review'] = array_merge($input1['review'],$ele_testomonials['reviews']);
                                           }else{
                                               $input1['review'] = $ele_testomonials['reviews'];
                                           }
@@ -1999,7 +1999,7 @@ function saswp_schema_output() {
                                           $input1 = array_merge($input1,$bne_testomonials['rating']);
                                           
                                           if(isset($input1['review'])){
-                                              $input1 = array_merge($input1['review'],$bne_testomonials['reviews']);
+                                              $input1['review'] = array_merge($input1['review'],$bne_testomonials['reviews']);
                                           }else{
                                               $input1['review'] = $bne_testomonials['reviews'];
                                           }
@@ -2014,7 +2014,7 @@ function saswp_schema_output() {
                                           $input1 = array_merge($input1,$testomonials['rating']);
                                           
                                           if(isset($input1['review'])){
-                                              $input1 = array_merge($input1['review'],$testomonials['reviews']);
+                                            $input1['review'] = array_merge($input1['review'],$testomonials['reviews']);
                                           }else{
                                               $input1['review'] = $testomonials['reviews'];
                                           }
@@ -2029,7 +2029,7 @@ function saswp_schema_output() {
                                           $input1 = array_merge($input1,$testomonial_pro['rating']);
                                           
                                           if(isset($input1['review'])){
-                                              $input1 = array_merge($input1['review'],$testomonial_pro['reviews']);
+                                            $input1['review'] = array_merge($input1['review'],$testomonial_pro['reviews']);
                                           }else{
                                               $input1['review'] = $testomonial_pro['reviews'];
                                           }
@@ -2045,7 +2045,7 @@ function saswp_schema_output() {
                                           $input1 = array_merge($input1,$strong_testimonials['rating']);
                                           
                                           if(isset($input1['review'])){
-                                              $input1 = array_merge($input1['review'],$strong_testimonials['reviews']);
+                                            $input1['review'] = array_merge($input1['review'],$strong_testimonials['reviews']);
                                           }else{
                                               $input1['review'] = $strong_testimonials['reviews'];
                                           }
