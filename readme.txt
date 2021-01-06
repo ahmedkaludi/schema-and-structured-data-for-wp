@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.6
-Stable tag: 1.9.58
+Stable tag: 1.9.59
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.59 (06 Jan 2021) =
+
+* Fixed: The tax amount is not adding in the price field in the schema markup #1283
+* Fixed: The reviews added in the collection are not showing in correct sorting format in the frontend #1264
+* Fixed: When Elementor Testimonial compatibility is selected, local business schema type is missing its type(unspecified Type) #1270
+* Fixed: Trying to get property ‘post_parent’ of non-object #1279
+* Fixed: Image property is missing from BlogPosting schema #1277
+* Fixed: If the Valid through is empty in modify schema output it does not allow job posting to display #1276
+* Fixed: VideoObject is causing a validation error in AMP #1280
+* Fixed: Warnings and notices #1274
+* Enhancement: Remove special offer banner #1284
+
 
 = 1.9.58 (10 Dec 2020) =
 
