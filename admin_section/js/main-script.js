@@ -2982,28 +2982,30 @@ jQuery(document).ready(function($){
             
         }
         // Offer Banner addition
-        if('saswp_reviews' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'edit.php'){
+        // if('saswp_reviews' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'edit.php'){
 
-          var offer_banner = '<a style="background: #ca4a1f;color: #fff;border-color:#ca4a1f;" target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="page-title-action saswp-offer-banner">50% OFF for Limited time</a>';
-          jQuery(jQuery(".wrap .page-title-action")).after(offer_banner);
+        //   var offer_banner = '<a style="background: #ca4a1f;color: #fff;border-color:#ca4a1f;" target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="page-title-action saswp-offer-banner">50% OFF for Limited time</a>';
+        //   jQuery(jQuery(".wrap .page-title-action")).after(offer_banner);
 
-        }
+        // }
 
 
-        if('saswp' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'post.php'){
+        // if('saswp' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'post.php'){
 
-          var offer_banner = '<a style="background: #ca4a1f;color: #fff;border-color:#ca4a1f;" target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="page-title-action saswp-offer-banner">50% OFF for Limited time</a>';
-          jQuery(jQuery(".wrap a")[0]).after(offer_banner);
+        //   var offer_banner = '<a style="background: #ca4a1f;color: #fff;border-color:#ca4a1f;" target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="page-title-action saswp-offer-banner">50% OFF for Limited time</a>';
+        //   jQuery(jQuery(".wrap a")[0]).after(offer_banner);
 
-        }
+        // }
 
         if ('saswp' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'edit.php') {
         
           // Offer Banner addition
 
-          var offer_banner = '<a style="background: #ca4a1f;color: #fff;border-color:#ca4a1f;" target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="page-title-action saswp-offer-banner">50% OFF for Limited time</a>';
+          //var offer_banner = '<a style="background: #ca4a1f;color: #fff;border-color:#ca4a1f;" target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="page-title-action saswp-offer-banner">50% OFF for Limited time</a>';
           
-          jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>"+offer_banner);
+          //jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>"+offer_banner);
+
+          jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>");
          
         }
         

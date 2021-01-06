@@ -3407,15 +3407,19 @@ function saswp_get_video_metadata($content = ''){
            if($matches){
                
                foreach($matches as $match){
-                  
-                  $vurl     = $match[1].'youtube.com'.$match[2]; 
+                         
+                  $vurl     = 'https://youtube.com'.$match[2]; 
                   $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
                   $result   = @wp_remote_get($rulr);                                    
-                  $metadata = json_decode(wp_remote_retrieve_body($result),true);
+                  
+                  if(wp_remote_retrieve_response_code($result) == 200){
 
-                  $metadata['video_url'] = $vurl;                    
-                  $response[] = $metadata;
-                   
+                        $metadata = json_decode(wp_remote_retrieve_body($result),true);
+                        
+                        $metadata['video_url'] = $vurl;                    
+                        $response[] = $metadata;
+                        
+                  }                                                       
                }                              
            }
            
