@@ -3542,7 +3542,7 @@ Class saswp_output_service{
              
              $woo_price = $product->get_price();
 
-             if( function_exists('wc_prices_include_tax') &&  wc_prices_include_tax() ) {
+             if( function_exists('wc_get_price_including_tax')) {
                 $woo_price = wc_get_price_including_tax($product);
              } 
 
