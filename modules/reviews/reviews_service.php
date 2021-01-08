@@ -818,7 +818,7 @@ class saswp_reviews_service {
 
                        $html .= '</div>';
                        $html .='<div class="saswp-rc-cnt">';
-                       $html .= '<p>'. esc_attr($value['saswp_review_text']).'</p>';
+                       $html .= '<p>'. wp_strip_all_tags(html_entity_decode($value['saswp_review_text'])).'</p>';
                        $html .= '</div>';
                        $html .= '</li>'; 
 
