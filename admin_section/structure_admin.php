@@ -2003,3 +2003,27 @@ function saswp_create_resized_image_folder(){
 }
 
 add_action('wp_ajax_saswp_create_resized_image_folder', 'saswp_create_resized_image_folder');
+
+// add async and defer attributes to enqueued scripts
+function saswp_script_loader_tag($tag, $handle, $src) {
+	
+	if ($handle === 'saswp-recaptcha') {
+		
+		if (false === stripos($tag, 'async')) {
+			
+			$tag = str_replace(' src', ' async src', $tag);
+			
+		}
+		
+		if (false === stripos($tag, 'defer')) {
+			
+			$tag = str_replace('<script ', '<script defer ', $tag);
+			
+		}
+		
+	}
+	
+	return $tag;
+	
+}
+add_filter('script_loader_tag', 'saswp_script_loader_tag', 10, 3);
