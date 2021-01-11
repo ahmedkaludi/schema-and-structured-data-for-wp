@@ -263,6 +263,9 @@ class saswp_output_compatibility{
         add_filter('wpseo_json_ld_output', '__return_false');         
         $this->saswp_remove_yoast_product_schema();                
     }
+    public function saswp_webstories_override(){        
+        add_filter('web_stories_enable_schemaorg_metadata', '__return_false');   
+    }
         
     public function saswp_the_seo_framework_override(){        
         
@@ -521,6 +524,9 @@ class saswp_output_compatibility{
     }
     public function ampbyautomatic_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-ampbyautomatic');
+    }
+    public function webstories_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-webstories');
     }
     public function betteramp_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-betteramp');

@@ -1647,6 +1647,17 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-webstories-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {                                            
+
+                              $("#saswp-webstories").val(1);                                
+                            }else{
+                              $("#saswp-webstories").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-resized-image-folder-checkbox':
                       
                             var resized_id = $("#saswp-resized-image-folder-checkbox");

@@ -3020,6 +3020,7 @@ function saswp_get_field_note($pname){
             'html5responsivefaq'          => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/html5-responsive-faq/">HTML5 Responsive FAQ</a>',
             'helpiefaq'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/helpie-faq/">Helpie FAQ – WordPress FAQ Accordion Plugin</a>',
             'ampbyautomatic'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
+            'webstories'                  => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/web-stories/">Web Stories</a>',
             'simplejobboard'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/simple-job-board/">Simple Job Board</a>',
             'wpjobmanager'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">WP Job Manager</a>',
             'wpjobopenings'               => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-job-openings/">WP Job Openings</a>',
