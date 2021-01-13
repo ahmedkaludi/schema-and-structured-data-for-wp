@@ -1990,6 +1990,16 @@ if ( ! defined('ABSPATH') ) exit;
         return apply_filters('saswp_the_content' ,$content);
 
     }
+
+    function saswp_strip_all_tags( $content ) {
+            
+            $content = wp_strip_all_tags(strip_shortcodes($content));   
+            $content = preg_replace('/\[.*?\]/','', $content);            
+            $content = str_replace('=', '', $content); 
+            $content = str_replace(array("\n","\r\n","\r"), ' ', $content);
+
+            return $content;
+    }
     /**
      * Here we are modifying the default excerpt
      * @global type $post
