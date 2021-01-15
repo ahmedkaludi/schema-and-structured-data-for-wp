@@ -1981,7 +1981,7 @@ if ( ! defined('ABSPATH') ) exit;
         
         if(is_object($post)){
             $content = get_post_field('post_content', $post->ID);            
-            $content = wp_strip_all_tags(strip_shortcodes($content));   
+            $content = wp_strip_all_tags($content);   
             $content = preg_replace('/\[.*?\]/','', $content);            
             $content = str_replace('=', '', $content); 
             $content = str_replace(array("\n","\r\n","\r"), ' ', $content);
@@ -1993,7 +1993,7 @@ if ( ! defined('ABSPATH') ) exit;
 
     function saswp_strip_all_tags( $content ) {
             
-            $content = wp_strip_all_tags(strip_shortcodes($content));   
+            $content = wp_strip_all_tags($content);   
             $content = preg_replace('/\[.*?\]/','', $content);            
             $content = str_replace('=', '', $content); 
             $content = str_replace(array("\n","\r\n","\r"), ' ', $content);
