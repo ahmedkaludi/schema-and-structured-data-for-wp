@@ -260,6 +260,12 @@ return array(
                     'opt_name'   => 'saswp-ampbyautomatic',
                     'part_in'    => 'free',
         ),
+        'webstories'  =>  array(
+            'name'       => 'Web Stories',
+            'free'       => 'web-stories/web-stories.php',
+            'opt_name'   => 'saswp-webstories',
+            'part_in'    => 'free'
+        ),
         'betteramp'  =>  array(            
                     'name'       => 'Better AMP',
                     'free'       => 'better-amp/better-amp.php',            

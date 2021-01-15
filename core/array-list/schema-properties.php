@@ -334,13 +334,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_blogposting_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),                        
                     array(
                         'label'   => 'Article Body',
                         'id'      => 'saswp_blogposting_body_'.$schema_id,
                         'type'    => 'textarea',
-                        'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                        'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
                     ),
                     array(
                             'label' => 'Keywords',
@@ -483,7 +483,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_newsarticle_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
                             'label' => 'Keywords',
@@ -501,7 +501,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Article Body',
                             'id' => 'saswp_newsarticle_body_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                            'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
                     ),
                      array(
                             'label' => 'Name',
@@ -604,19 +604,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_webpage_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
                         'label'   => 'Webpage Section',
                         'id'      => 'saswp_webpage_section_'.$schema_id,
                         'type'    => 'textarea',
-                        'default' => get_the_excerpt()
+                        'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),    
                     array(
                         'label'   => 'Webpage Body',
                         'id'      => 'saswp_webpage_body_'.$schema_id,
                         'type'    => 'textarea',
-                        'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                        'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
                     ),    
                     array(
                             'label' => 'Keywords',
@@ -749,19 +749,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'Description',
                                 'id' => 'saswp_article_description_'.$schema_id,
                                 'type' => 'textarea',
-                                'default' => get_the_excerpt()
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
                         ),
                         array(
                                 'label'   => 'Article Section',
                                 'id'      => 'saswp_article_section_'.$schema_id,
                                 'type'    => 'textarea',
-                                'default' => get_the_excerpt()
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
                         ),    
                         array(
                                 'label'   => 'Article Body',
                                 'id'      => 'saswp_article_body_'.$schema_id,
                                 'type'    => 'textarea',
-                                'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                                'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
                         ),    
                         array(
                                 'label' => 'Keywords',
@@ -855,7 +855,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                             'label' => 'Description',
                                             'id' => 'saswp_special_announcement_description_'.$schema_id,
                                             'type' => 'textarea',
-                                            'default' => get_the_excerpt()
+                                            'default' => saswp_strip_all_tags(get_the_excerpt())
                                     ),
                                     array(
                                         'label' => 'Quarantine Guidelines',
@@ -1254,7 +1254,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_tech_article_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ) , 
                     array(
                             'label' => 'Keywords',
@@ -1436,7 +1436,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_dfp_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ) ,    
                     array(
                             'label' => 'URL',
@@ -1539,7 +1539,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_recipe_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
                             'label' => 'Main Entity Id',
@@ -1933,7 +1933,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label'   => 'Description',
                                 'id'      => 'saswp_real_estate_listing_description_'.$schema_id,
                                 'type'    => 'textarea', 
-                                'default' => get_the_excerpt()
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
                         ), 
                         array(
                                 'label'    => 'Image',
@@ -2042,7 +2042,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                 'label'   => 'Description',
                                                 'id'      => 'saswp_audiobook_description_'.$schema_id,
                                                 'type'    => 'textarea',
-                                                'default' => get_the_excerpt()                                                                  
+                                                'default' => saswp_strip_all_tags(get_the_excerpt())                                                                  
                                         ),
                                         array(
                                                 'label'   => 'URL',
@@ -2794,7 +2794,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Review Description',
                             'id' => 'saswp_review_description_'.$schema_id,
                             'type' => 'textarea',                           
-                            'default' => get_the_excerpt()                         
+                            'default' => saswp_strip_all_tags(get_the_excerpt())                         
                         );                        
                         $meta_field[] = array(
                             'label' => 'Review Author',
@@ -3122,13 +3122,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Description',
                             'id'      => 'saswp_video_object_description_'.$schema_id,
                             'type'    => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
                             'label'   => 'Transcript',
                             'id'      => 'saswp_video_object_transcript_'.$schema_id,
                             'type'    => 'textarea',
-                            'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                            'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
                     ),
                     array(
                             'label'   => 'Name',
@@ -3245,7 +3245,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswpimage_object_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
                             'label' => 'Name',

@@ -1647,6 +1647,17 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-webstories-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {                                            
+
+                              $("#saswp-webstories").val(1);                                
+                            }else{
+                              $("#saswp-webstories").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-resized-image-folder-checkbox':
                       
                             var resized_id = $("#saswp-resized-image-folder-checkbox");
@@ -2967,6 +2978,7 @@ jQuery(document).ready(function($){
                 html += '<p>Use Below shortcode to show reviews form in your website. Using this you can accept reviews from your website directly</p>';
                 html += '<div class="saswp-show-form-on-tab"><strong>Simple Form</strong> <input value="[saswp-reviews-form]" type="text" readonly></div>';
                 html += '<div class="saswp-show-form-on-tab"><strong>Show form on button tap</strong> <input value="[saswp-reviews-form onbutton=&quot;1&quot;]" type="text" readonly></div>';
+                html += '<p><strong>Note:</strong> To enable google reCAPTCHA v2 add SITE KEY & SECRET KEY respectively as parameters in above shortcode. Eg <input value="[saswp-reviews-form site_key=&quot;your key&quot; secret_key=&quot;your key&quot;]" type="text" readonly>. To get keys <a target="_blank" href="https://www.google.com/recaptcha/admin/create">Click here.</a> You must choose reCAPTCHA type v2 </p>'
                 html += '</div>';
                 html += '</div>';
                 

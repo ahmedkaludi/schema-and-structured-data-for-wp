@@ -72,7 +72,9 @@ function saswp_schema_markup_hook_on_init() {
                     add_filter( 'wprm_recipe_metadata', '__return_false' );            
                 }                
             }
-                                    
+            if(isset($sd_data['saswp-webstories']) && $sd_data['saswp-webstories'] == 1){
+                    add_action('web_stories_story_head', 'saswp_schema_markup_output');                     
+            }                                               
             if(isset($sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
                 ob_start("saswp_remove_microdata");                
             }

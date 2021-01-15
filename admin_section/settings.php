@@ -2047,6 +2047,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+        $webstories = array(
+                'label'  => 'Web Stories',
+                'id'     => 'saswp-webstories-checkbox',                        
+                'name'   => 'saswp-webstories-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('webstories'),
+                'hidden' => array(
+                        'id'   => 'saswp-webstories',
+                        'name' => 'sd_data[saswp-webstories]',                             
+                )
+        );        
         $elementor_testimonial = array(
 			'label'  => 'Elementor Testimonial',
 			'id'     => 'saswp-elementor-checkbox',                        
@@ -3490,6 +3502,7 @@ function saswp_compatibility_page_callback(){
                 $simple_author_box,  
                 $wppostratings,
                 $bbpress,
+                $webstories,
                 $woocommerce,
                 $woocommerce_bok,
                 $woocommerce_mem,
