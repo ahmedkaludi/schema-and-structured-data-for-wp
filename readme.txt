@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.6
-Stable tag: 1.9.59
+Stable tag: 1.9.60
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.60 (15 Jan 2021) =
+
+* Fixed: The HTML tags are showing in the review box #1286
+* Fixed: If the"Product Default Review" option is enabled then the "Unspecified type"showing as the schema type #1268
+* Fixed: The arrow buttons in the gallery module of reviews(collection) are not working properly. #1272
+* Fixed: Reviews are not fetching. #1282
+* Fixed: Remove Divi builder unnecessary code from content #1271
+* Added: Re-captcha feature on the rating forms. #1257
+* Added: Compatible with webstories ( https://wordpress.org/plugins/web-stories/ ) #1267
+
 
 = 1.9.59 (06 Jan 2021) =
 
