@@ -3489,6 +3489,8 @@ Class saswp_output_service{
                  $product_desc = saswp_get_the_excerpt();                 
              }
              
+             $product_desc = do_shortcode($product_desc);
+
              $product_details['product_description'] = wp_strip_all_tags(strip_shortcodes($product_desc));
              
              if($product->get_attributes()){
@@ -3549,7 +3551,12 @@ Class saswp_output_service{
              if(method_exists('WC_Product_Simple', 'get_type')){
                  
                 if($product->get_type() == 'variable'){
-                    $product_details['product_varible_price']   = $varible_prices;
+                    if( !empty($varible_prices) ){
+                        $product_details['product_varible_price']   = $varible_prices;
+                    }else{
+                        $product_details['product_price']           = $woo_price;    
+                    }
+                    
                 }else{
                     $product_details['product_price']           = $woo_price;
                 }
@@ -4205,7 +4212,7 @@ Class saswp_output_service{
                             'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')                                                               
                           );
                             
-                          if(isset($product_details['product_price']) && $product_details['product_price'] ){
+                          if(isset($product_details['product_price'])){
 							
                                     $input1['offers'] = array(
                                                     '@type'	        => 'Offer',
