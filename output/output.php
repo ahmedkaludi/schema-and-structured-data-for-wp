@@ -1026,8 +1026,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'Organization',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#Organization',    
-                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    '@id'				=> trailingslashit(saswp_get_current_url()).'#Organization',    
+                                    'url'				=> trailingslashit(saswp_get_current_url()),                                                                                    
                                     'description'       => saswp_get_the_excerpt(),                                                                        
                                     'name'				=> saswp_get_the_title()			                                                                                                            
                                     );                                                                                                                                                                                        
@@ -1043,8 +1043,7 @@ function saswp_schema_output() {
                                         $input1 = saswp_organization_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                     }
-                            
-                                    
+                                                                
                                 break;    
                         
                             case 'AudioObject':
