@@ -697,7 +697,7 @@ if(is_admin()){
             'labels' => array(
                 'name'              => saswp_t_string( 'Structured Data' ),
                 'singular_name'     => saswp_t_string( 'Structured Data' ),
-                'add_new' 	    => saswp_t_string( 'Add Schema Type' ),
+                'add_new' 	        => saswp_t_string( 'Add Schema Type' ),
                 'add_new_item'      => '',
                 'edit_item'         => saswp_t_string( 'Edit Schema Type'),           
                 'all_items'         => saswp_t_string( 'Schema Types' ),  

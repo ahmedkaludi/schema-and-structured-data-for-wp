@@ -65,22 +65,23 @@ function saswp_register_saswp_reviews_location() {
 function saswp_register_saswp_reviews() {
                         
         $post_type = array(
-	    'labels' => array(
-	        'name' 			=> saswp_t_string( 'Reviews' ),	        
-	        'add_new' 		=> saswp_t_string( 'Add Review' ),
-	        'add_new_item'  	=> saswp_t_string( 'Edit Review' ),
-                'edit_item'             => saswp_t_string( 'Edit Review'),                
-	    ),
-      	'public' 		=> true,
-      	'has_archive' 		=> false,
-      	'exclude_from_search'	=> true,
-    	'publicly_queryable'	=> false,
-        'show_in_menu'          => 'edit.php?post_type=saswp',                
-        'show_ui'               => true,
-	'show_in_nav_menus'     => false,			
-        'show_admin_column'     => true,        
-	'rewrite'               => false,        
-    );
+            'labels' => array(
+                'name' 			    => saswp_t_string( 'Reviews' ),	        
+                'add_new' 		    => saswp_t_string( 'Add Review' ),
+                'add_new_item'  	=> saswp_t_string( 'Edit Review' ),
+                'edit_item'         => saswp_t_string( 'Edit Review'),                
+            ),
+            'public' 		        => true,
+            'has_archive' 		    => false,
+            'exclude_from_search'	=> true,
+            'show_in_admin_bar'     => false,
+            'publicly_queryable'	=> false,
+            'show_in_menu'          => 'edit.php?post_type=saswp',                
+            'show_ui'               => true,
+            'show_in_nav_menus'     => false,			
+            'show_admin_column'     => true,        
+            'rewrite'               => false
+        );
     
         if(saswp_current_user_allowed()){
             
