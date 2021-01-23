@@ -1549,6 +1549,9 @@ Collection css starts here
   margin-left:10px;
   text-align: initial;
 }
+.saswp_reviewer_image .saswp-rv-img span{
+  vertical-align: top;
+}
 .saswp-rc-cnt{
   position: static;
   height: 80px;
