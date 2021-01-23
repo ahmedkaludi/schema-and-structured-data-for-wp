@@ -1547,6 +1547,7 @@ Collection css starts here
 .saswp-rc-nm{
   width:100%;
   margin-left:10px;
+  text-align: initial;
 }
 .saswp-rc-cnt{
   position: static;
