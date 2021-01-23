@@ -1141,7 +1141,9 @@ function saswp_custom_breadcrumbs() {
                     $breadcrumb_url      = $post_type_archive;
             }
              
-            // Get post category info
+            if( !isset($sd_data['saswp_breadcrumb_remove_cat']) || (isset($sd_data['saswp_breadcrumb_remove_cat']) && $sd_data['saswp_breadcrumb_remove_cat'] == 0 ) ){
+
+              // Get post category info
             $category = get_the_category();
               
             if(!empty($category)) {
@@ -1175,6 +1177,8 @@ function saswp_custom_breadcrumbs() {
                     
                 }
                 
+            }
+
             }
               
             // If it's a custom post type within a custom taxonomy

@@ -965,14 +965,26 @@ jQuery(document).ready(function($){
                               $("#saswp_search_box_schema").val(0);           
                             }
                       break;
+
+                      case 'saswp_breadcrumb_remove_cat_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_breadcrumb_remove_cat").val(1);             
+                            }else{
+                              $("#saswp_breadcrumb_remove_cat").val(0);           
+                            }
+                      break;
                       
                       case 'saswp_breadcrumb_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp_breadcrumb_schema").val(1);             
+                              $("#saswp_breadcrumb_schema").val(1);  
+                              $("#saswp_breadcrumb_remove_cat").parent().parent().show();             
                             }else{
                               $("#saswp_breadcrumb_schema").val(0);           
+                              $("#saswp_breadcrumb_remove_cat").parent().parent().hide();  
                             }
+
                       break;
                                                                   
                       case 'saswp_comments_schema_checkbox':

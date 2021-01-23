@@ -892,6 +892,17 @@ function saswp_general_page_callback(){
                              'id'   => 'saswp_breadcrumb_schema',
                              'name' => 'sd_data[saswp_breadcrumb_schema]',                             
                         )
+                ),
+                array(
+			'label'  => 'Exclude Category',
+			'id'     => 'saswp_breadcrumb_remove_cat_checkbox', 
+                        'name'   => 'saswp_breadcrumb_remove_cat_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
+                        'hidden' => array(
+                             'id'   => 'saswp_breadcrumb_remove_cat',
+                             'name' => 'sd_data[saswp_breadcrumb_remove_cat]',                             
+                        )
 		),
                 array(
 			'label'  => 'Comments',
