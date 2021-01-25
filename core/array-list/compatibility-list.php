@@ -440,6 +440,13 @@ return array(
                     'opt_name'   => 'saswp-dw-question-answer',
                     'part_in'    => 'free',
         ),
+        'wpqa' => array(            
+            'name'       => 'WPQA Builder',
+            'free'       => 'WPQA/wpqa.php',
+            'pro'        => 'WPQA/wpqa.php',
+            'opt_name'   => 'saswp-wpqa',
+            'part_in'    => 'pro',
+        ),
         'yoast_seo' => array(            
                     'name'       => 'Yoast Seo',
                     'free'       => 'wordpress-seo/wp-seo.php',

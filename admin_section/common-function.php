@@ -3052,6 +3052,7 @@ function saswp_get_field_note($pname){
             'slimseo'                     => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/slim-seo/">Slim SEO</a>',
             'rank_math'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
             'dw_qna'                      => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
+            'wpqa'                        => saswp_t_string('Requires').' <a target="_blank" href="https://2code.info/wpqa-builder/">WPQA Builder Plugin</a>',
             'sabaidiscuss'                => saswp_t_string('Requires').' <a target="_blank" href="https://sabaidiscuss.com">SabaiDiscuss</a>',
             'smart_crawl'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
             'the_seo_framework'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',

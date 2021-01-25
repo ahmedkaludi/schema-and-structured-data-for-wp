@@ -1126,6 +1126,15 @@ jQuery(document).ready(function($){
                               $("#saswp-dw-question-answer").val(0);           
                             }
                       break;
+
+                      case 'saswp-wpqa-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpqa").val(1);             
+                            }else{
+                              $("#saswp-wpqa").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-wp-job-manager-checkbox':
                           saswp_compatibliy_notes(current, id); 

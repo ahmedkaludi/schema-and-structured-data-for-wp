@@ -3253,7 +3253,19 @@ function saswp_compatibility_page_callback(){
                                     'id'   => 'saswp-dw-question-answer',
                                     'name' => 'sd_data[saswp-dw-question-answer]',                             
                         )
-		);
+                );
+        $wpqa_builder = array(
+                'label'  => 'WPQA Builder',
+                'id'     => 'saswp-wpqa-checkbox',                        
+                'name'   => 'saswp-wpqa-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpqa'),
+                'hidden' => array(
+                                'id'   => 'saswp-wpqa',
+                                'name' => 'sd_data[saswp-wpqa]',
+                )
+        );        
         
         $bbpress = array(
 			'label'  => 'bbPress',
@@ -3459,6 +3471,7 @@ function saswp_compatibility_page_callback(){
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
                           
                 $sabaidiscuss['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
+                $wpqa_builder['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
          }
          
          if(!is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
@@ -3525,6 +3538,7 @@ function saswp_compatibility_page_callback(){
                 $stamped,
                 $extratheme,
                 $dwquestiton,
+                $wpqa_builder,
                 $sabaidiscuss,                
                 $yoast,
                 $polylang,

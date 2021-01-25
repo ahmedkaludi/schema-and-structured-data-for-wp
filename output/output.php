@@ -1345,7 +1345,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'QAPage' ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#QAPage',       						                                                            		
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#QAPage',
                                     'mainEntity'	    => array(
                                         '@type'    => 'Question'
                                     ) ,
