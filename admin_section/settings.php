@@ -1672,6 +1672,11 @@ function saswp_import_callback(){
                 $add_on[] = 'qanda';           
                                            
         }
+        if(is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){
+                      
+                $add_on[] = 'faq';           
+                                           
+        }
         if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
                       
            $add_on[] = 'Es';           
@@ -1824,6 +1829,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                 $response.= '<strong>'.saswp_t_string('Q&A Schema').'</strong>';
                 $response.= '</div>';
             
+                }
+
+                if($label == true && $on == 'faq'){
+                   
+                        $response.= '<div class="" style="display:inline-block">';
+                        $response.= '<strong>'.saswp_t_string('FAQ Schema Compatibility').'</strong>';
+                        $response.= '</div>';
+                    
                 }
                
                if($label == true && $on == 'Rs'){
