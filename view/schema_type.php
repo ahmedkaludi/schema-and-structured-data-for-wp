@@ -67,6 +67,13 @@ function saswp_add_all_meta_boxes() {
                 'side', 
                 'low' 
               );
+    add_meta_box( 
+                'saswp_reviews_usage', 
+                saswp_t_string( 'Review Usage' ), 
+                'saswp_reviews_usage_metabox', 'saswp_reviews',
+                'side', 
+                'low' 
+    );          
     add_meta_box(
             'saswp_submitdiv',
                 saswp_t_string( 'Publish' ), 
