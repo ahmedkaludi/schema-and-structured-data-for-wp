@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.6
-Stable tag: 1.9.60
+Stable tag: 1.9.61
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,23 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.61 (28 Jan 2021) =
+
+* Fixed: The field to enter the license key is not showing after activating the "FAQ Schema Compatibility" plugin. #1303
+* Fixed: Warning error showing in the search console for the blogposting schema, if the user is modifying the schema type #1301
+* Fixed: Review date alignment is incorrect #1300
+* Fixed: Schema Organization adding latest post markup on Homepage #1288
+* Fixed: The warning error showing for the woocommerce products archive pages for the offer and description field #1290
+* Fixed: Author Field Issue for Webpage schema if "modify schema output" option is used in Post/page #1289
+* Fixed: Judge.me reviews are not updating in backend. #1232
+* Added: An option to add or remove category in breadcrumb #1292
+* Added: Compatible with wpqa-builder plugin( https://2code.info/wpqa-builder/ ) #1293
+* Added: Compatible with Business Reviews Bundle plugin( https://richplugins.com/business-reviews-bundle-wordpress-plugin ) #1225
+* Added: "Review Usage" box in review edit section. #1294
+* Enhancement: Remove "view post" from reivew custom post type #1295 
+* Enhancement: Name should be vertically middle in review list page #1296
+
 
 = 1.9.60 (15 Jan 2021) =
 
