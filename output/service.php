@@ -1306,7 +1306,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_url'])){
                      $input1['url'] =    saswp_validate_url($custom_fields['saswp_blogposting_url']);
                     }
-                    if(isset($custom_fields['saswp_blogposting_image'])){
+                    if(isset($custom_fields['saswp_blogposting_image']) && $custom_fields['saswp_blogposting_image']){
                      $input1['image'] =    $custom_fields['saswp_blogposting_image'];
                     }
                     if(isset($custom_fields['saswp_blogposting_date_published'])){
