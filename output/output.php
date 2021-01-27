@@ -2049,7 +2049,22 @@ function saswp_schema_output() {
                                               $input1['review'] = $strong_testimonials['reviews'];
                                           }
                                           
-                                    }                                                                        
+                                    }
+                                    
+                                    // Business Review Bundle
+                                    $brb_reviews = saswp_get_brb_reviews();   
+                                    
+                                    if($brb_reviews){
+                                        
+                                          $input1 = array_merge($input1,$brb_reviews['rating']);
+                                          
+                                          if(isset($input1['review'])){
+                                              $input1['review'] = array_merge($input1['review'],$brb_reviews['reviews']);
+                                          }else{
+                                              $input1['review'] = $brb_reviews['reviews'];
+                                          }
+                                          
+                                    }
                         
                         }                                                
                                 

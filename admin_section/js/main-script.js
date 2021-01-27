@@ -1626,6 +1626,16 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
+
+                      case 'saswp-brb-checkbox':
+                          
+                            if ($(this).is(':checked')) {
+                              $("#saswp-brb").val(1);                                
+                            }else{
+                              $("#saswp-brb").val(0);                                          
+                            }
+                            
+                      break;
                       
                       case 'saswp-testimonial-pro-checkbox':
                           

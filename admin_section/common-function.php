@@ -3002,6 +3002,7 @@ function saswp_get_field_note($pname){
             'wp_customer_reviews'         => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-customer-reviews">WP Customer Reviews</a>',
             'wordpress_news'              => saswp_t_string('Requires').' <a target="_blank" href="#">Wordpress News</a>',
             'strong_testimonials'         => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
+            'brb'                         => saswp_t_string('Requires').' <a target="_blank" href="https://richplugins.com/business-reviews-bundle-wordpress-plugin">Business Reviews Bundle</a>',
             'wp_event_aggregator'         => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-aggregator/">WP Event Aggregator</a>',
             'stachethemes_event_calendar' => saswp_t_string('Requires').' <a target="_blank" href="http://stachethemes.com/">Stachethemes Event Calendar</a>',
             'timetable_event'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/mp-timetable">Timetable and Event Schedule by MotoPress</a>',

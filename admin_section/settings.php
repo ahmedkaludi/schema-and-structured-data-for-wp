@@ -2094,7 +2094,20 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-elementor',
                                 'name' => 'sd_data[saswp-elementor]',                             
                         )
-        );        
+        );
+        
+        $brb = array(
+                'label'  => 'Business Reviews Bundle',
+                'id'     => 'saswp-brb-checkbox',                        
+                'name'   => 'saswp-brb-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('brb'),
+                'hidden' => array(
+                        'id'   => 'saswp-brb',
+                        'name' => 'sd_data[saswp-brb]',                             
+                )
+        );
 
         $ratingform = array(
                 'label'  => 'Rating Form by SerdarG',
@@ -3532,6 +3545,7 @@ function saswp_compatibility_page_callback(){
                 $ampwp,
                 $kk_star,
                 $elementor_testimonial,
+                $brb,
                 $ratingform,
                 $wpdiscuz,
                 $yasr,

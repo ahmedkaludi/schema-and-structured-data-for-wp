@@ -242,6 +242,12 @@ return array(
                     'opt_name'   => 'saswp-strong-testimonials',
                     'part_in'    => 'free',
         ),
+        'brb'  =>  array(
+            'name'       => 'Business Reviews Bundle',
+            'free'       => 'business-reviews-bundle/brb.php',            
+            'opt_name'   => 'saswp-brb',
+            'part_in'    => 'free',
+        ),
         'wordlift'  =>  array(            
                     'name'       => 'WordLift',
                     'free'       => 'wordlift/wordlift.php',            
