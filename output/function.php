@@ -2105,9 +2105,9 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
             $ratings       = array();            
             $arg  = array(  
                 'post_type' 		=>	'bne_testimonials',		
-		'order'			=> 	$atts['order'],
-		'orderby' 		=> 	$atts['orderby'],
-		'posts_per_page'	=> 	$atts['limit'],
+		        'order'			=> 	$atts['order'],
+		        'orderby' 		=> 	$atts['orderby'],
+		        'posts_per_page'	=> 	$atts['limit'],
              );    
 
             $testimonial = get_posts( $arg); 
@@ -2155,6 +2155,105 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
     
 }
 
+function saswp_get_brb_reviews(){
+
+    global $post, $sd_data;
+    $ratings = array();
+    $reviews = array();
+    
+    if(isset($sd_data['saswp-brb']) && $sd_data['saswp-brb'] == 1 && class_exists('WP_Business_Reviews_Bundle\Includes\Core')){
+        
+        if(is_object($post)){
+
+            $pattern = get_shortcode_regex();
+
+            if (   preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+                && array_key_exists( 2, $matches ) )
+            {
+
+                $testimo_str = ''; 
+           
+                if(in_array( 'brb_collection', $matches[2] )){
+                    $testimo_str = 'brb_collection';
+                }
+
+                if($testimo_str){
+                    
+                    foreach ($matches[0] as $match){
+
+                        $mached = rtrim($match, ']'); 
+                        $mached = ltrim($mached, '[');
+                        $mached = trim($mached);
+                        $atts   = shortcode_parse_atts('['.$mached.' ]'); 
+                                                
+                        if( isset($atts['id']) ){
+
+                            $args = array(
+                                'post_type'      => 'brb_collection',
+                                'p'              => $atts['id'],
+                                'posts_per_page' => 1,
+                                'no_found_rows'  => true,
+                            );
+                    
+                            $post_data	= get_posts($args);                
+                                
+                            if( isset($post_data[0]) ){
+
+                                $post_data[0];
+                                $core_obj     = new WP_Business_Reviews_Bundle\Includes\Core;
+                                $reviews_data = $core_obj->get_reviews($post_data[0]);
+
+                                if(!empty($reviews_data)){
+
+                                    $sumofrating = 0;
+                                    $avg_rating  = 1;
+
+                                    foreach ($reviews_data as $value){                                        
+                   
+                                        $sumofrating += 5;
+                   
+                                        $reviews[] = array(
+                                            '@type'         => 'Review',
+                                            'author'        => array('@type'=> 'Person', 'name' => $value->name),
+                                            'datePublished' => saswp_format_date_time($value->time),
+                                            'description'   => $value->text,
+                                            'reviewRating'  => array(
+                                                               '@type'	        => 'Rating',
+                                                               'bestRating'	    => '5',
+                                                               'ratingValue'	=> '5',
+                                                               'worstRating'	=> '1',
+                                                  )
+                                        ); 
+                   
+                                       }
+
+                                     if($sumofrating> 0){
+                                        $avg_rating = $sumofrating /  count($reviews); 
+                                      }
+                  
+                                      $ratings['aggregateRating'] =  array(
+                                                                      '@type'         => 'AggregateRating',
+                                                                      'ratingValue'	  => $avg_rating,
+                                                                      'reviewCount'   => count($reviews)
+                                                                    );
+                                }
+                                
+                            }                                                
+
+                        }                        
+                            break;
+                    }
+
+                }
+
+            }
+
+        }
+
+        return array('reviews' => $reviews, 'rating' => $ratings);
+
+    }
+}
 function saswp_get_strong_testimonials(){
     
     $testimonial = array();

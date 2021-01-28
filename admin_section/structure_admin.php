@@ -697,7 +697,7 @@ if(is_admin()){
             'labels' => array(
                 'name'              => saswp_t_string( 'Structured Data' ),
                 'singular_name'     => saswp_t_string( 'Structured Data' ),
-                'add_new' 	    => saswp_t_string( 'Add Schema Type' ),
+                'add_new' 	        => saswp_t_string( 'Add Schema Type' ),
                 'add_new_item'      => '',
                 'edit_item'         => saswp_t_string( 'Edit Schema Type'),           
                 'all_items'         => saswp_t_string( 'Schema Types' ),  
@@ -1141,7 +1141,9 @@ function saswp_custom_breadcrumbs() {
                     $breadcrumb_url      = $post_type_archive;
             }
              
-            // Get post category info
+            if( !isset($sd_data['saswp_breadcrumb_remove_cat']) || (isset($sd_data['saswp_breadcrumb_remove_cat']) && $sd_data['saswp_breadcrumb_remove_cat'] == 0 ) ){
+
+              // Get post category info
             $category = get_the_category();
               
             if(!empty($category)) {
@@ -1175,6 +1177,8 @@ function saswp_custom_breadcrumbs() {
                     
                 }
                 
+            }
+
             }
               
             // If it's a custom post type within a custom taxonomy

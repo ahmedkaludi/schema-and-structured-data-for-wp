@@ -242,6 +242,12 @@ return array(
                     'opt_name'   => 'saswp-strong-testimonials',
                     'part_in'    => 'free',
         ),
+        'brb'  =>  array(
+            'name'       => 'Business Reviews Bundle',
+            'free'       => 'business-reviews-bundle/brb.php',            
+            'opt_name'   => 'saswp-brb',
+            'part_in'    => 'free',
+        ),
         'wordlift'  =>  array(            
                     'name'       => 'WordLift',
                     'free'       => 'wordlift/wordlift.php',            
@@ -439,6 +445,13 @@ return array(
                     'pro'        => 'dw-question-answer-pro/dw-question-answer.php',
                     'opt_name'   => 'saswp-dw-question-answer',
                     'part_in'    => 'free',
+        ),
+        'wpqa' => array(            
+            'name'       => 'WPQA Builder',
+            'free'       => 'WPQA/wpqa.php',
+            'pro'        => 'WPQA/wpqa.php',
+            'opt_name'   => 'saswp-wpqa',
+            'part_in'    => 'pro',
         ),
         'yoast_seo' => array(            
                     'name'       => 'Yoast Seo',

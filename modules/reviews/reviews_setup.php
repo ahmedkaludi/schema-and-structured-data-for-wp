@@ -65,22 +65,23 @@ function saswp_register_saswp_reviews_location() {
 function saswp_register_saswp_reviews() {
                         
         $post_type = array(
-	    'labels' => array(
-	        'name' 			=> saswp_t_string( 'Reviews' ),	        
-	        'add_new' 		=> saswp_t_string( 'Add Review' ),
-	        'add_new_item'  	=> saswp_t_string( 'Edit Review' ),
-                'edit_item'             => saswp_t_string( 'Edit Review'),                
-	    ),
-      	'public' 		=> true,
-      	'has_archive' 		=> false,
-      	'exclude_from_search'	=> true,
-    	'publicly_queryable'	=> false,
-        'show_in_menu'          => 'edit.php?post_type=saswp',                
-        'show_ui'               => true,
-	'show_in_nav_menus'     => false,			
-        'show_admin_column'     => true,        
-	'rewrite'               => false,        
-    );
+            'labels' => array(
+                'name' 			    => saswp_t_string( 'Reviews' ),	        
+                'add_new' 		    => saswp_t_string( 'Add Review' ),
+                'add_new_item'  	=> saswp_t_string( 'Edit Review' ),
+                'edit_item'         => saswp_t_string( 'Edit Review'),                
+            ),
+            'public' 		        => true,
+            'has_archive' 		    => false,
+            'exclude_from_search'	=> true,
+            'show_in_admin_bar'     => false,
+            'publicly_queryable'	=> false,
+            'show_in_menu'          => 'edit.php?post_type=saswp',                
+            'show_ui'               => true,
+            'show_in_nav_menus'     => false,			
+            'show_admin_column'     => true,        
+            'rewrite'               => false
+        );
     
         if(saswp_current_user_allowed()){
             
@@ -509,6 +510,13 @@ add_filter( 'parse_query', 'saswp_sort_reviews_by_platform' );
 
 function saswp_reviews_form_shortcode_metabox($post){
     
-    echo '<p>Use Below shortcode to show reviews form in your website. Using this you can collect reviews from your website directly</p>';
+    echo '<p>'.esc_html__( 'Use Below shortcode to show reviews form in your website. Using this you can collect reviews from your website directly.' , 'schema-and-structured-data-for-wp').'</p>';
     echo '<input type="text" value="[saswp-reviews-form]" readonly>';
+}
+
+function saswp_reviews_usage_metabox ($post) {
+
+    echo '<p>'.esc_html__( 'Use these reviews to create a collection and use them to show on frontend.' , 'schema-and-structured-data-for-wp').'</p>';
+    echo '<div><a href="'.esc_url( admin_url("edit.php?post_type=saswp-collections") ).'">'.esc_html__( 'Add to collection' , 'schema-and-structured-data-for-wp').'</a></div>';
+
 }

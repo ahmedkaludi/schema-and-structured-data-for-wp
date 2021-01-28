@@ -1026,8 +1026,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'Organization',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#Organization',    
-                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    '@id'				=> trailingslashit(saswp_get_current_url()).'#Organization',    
+                                    'url'				=> trailingslashit(saswp_get_current_url()),                                                                                    
                                     'description'       => saswp_get_the_excerpt(),                                                                        
                                     'name'				=> saswp_get_the_title()			                                                                                                            
                                     );                                                                                                                                                                                        
@@ -1043,8 +1043,7 @@ function saswp_schema_output() {
                                         $input1 = saswp_organization_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                     }
-                            
-                                    
+                                                                
                                 break;    
                         
                             case 'AudioObject':
@@ -1346,7 +1345,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'QAPage' ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#QAPage',       						                                                            		
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#QAPage',
                                     'mainEntity'	    => array(
                                         '@type'    => 'Question'
                                     ) ,
@@ -2050,7 +2049,22 @@ function saswp_schema_output() {
                                               $input1['review'] = $strong_testimonials['reviews'];
                                           }
                                           
-                                    }                                                                        
+                                    }
+                                    
+                                    // Business Review Bundle
+                                    $brb_reviews = saswp_get_brb_reviews();   
+                                    
+                                    if($brb_reviews){
+                                        
+                                          $input1 = array_merge($input1,$brb_reviews['rating']);
+                                          
+                                          if(isset($input1['review'])){
+                                              $input1['review'] = array_merge($input1['review'],$brb_reviews['reviews']);
+                                          }else{
+                                              $input1['review'] = $brb_reviews['reviews'];
+                                          }
+                                          
+                                    }
                         
                         }                                                
                                 

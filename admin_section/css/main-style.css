@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+.saswp-settings-container .nav-tab-wrapper{
+    display: flex;
+}
 .saswp_review_form_toggle_check{
     margin:10px !important;   
 }
@@ -701,7 +704,9 @@ Compatibility tab css ends
 .saswp-knowledge-label label[for="saswp_search_box_schema_checkbox"] {
     padding-left: 10px;
 }
-
+.saswp-knowledge-label label[for="saswp_breadcrumb_remove_cat_checkbox"] {
+    padding-left: 10px;
+}
 .saswp-knowledge-label label[for="saswp-woocommerce-booking-checkbox"] {
     padding-left: 10px;
 }
@@ -1547,6 +1552,10 @@ Collection css starts here
 .saswp-rc-nm{
   width:100%;
   margin-left:10px;
+  text-align: initial;
+}
+.saswp_reviewer_image .saswp-rv-img span{
+  vertical-align: top;
 }
 .saswp-rc-cnt{
   position: static;

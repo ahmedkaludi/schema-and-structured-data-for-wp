@@ -965,14 +965,26 @@ jQuery(document).ready(function($){
                               $("#saswp_search_box_schema").val(0);           
                             }
                       break;
+
+                      case 'saswp_breadcrumb_remove_cat_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_breadcrumb_remove_cat").val(1);             
+                            }else{
+                              $("#saswp_breadcrumb_remove_cat").val(0);           
+                            }
+                      break;
                       
                       case 'saswp_breadcrumb_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp_breadcrumb_schema").val(1);             
+                              $("#saswp_breadcrumb_schema").val(1);  
+                              $("#saswp_breadcrumb_remove_cat").parent().parent().show();             
                             }else{
                               $("#saswp_breadcrumb_schema").val(0);           
+                              $("#saswp_breadcrumb_remove_cat").parent().parent().hide();  
                             }
+
                       break;
                                                                   
                       case 'saswp_comments_schema_checkbox':
@@ -1112,6 +1124,15 @@ jQuery(document).ready(function($){
                               $("#saswp-dw-question-answer").val(1);             
                             }else{
                               $("#saswp-dw-question-answer").val(0);           
+                            }
+                      break;
+
+                      case 'saswp-wpqa-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpqa").val(1);             
+                            }else{
+                              $("#saswp-wpqa").val(0);           
                             }
                       break;
                       
@@ -1602,6 +1623,16 @@ jQuery(document).ready(function($){
                               $("#saswp-easy-testimonials").val(1);                                
                             }else{
                               $("#saswp-easy-testimonials").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-brb-checkbox':
+                          
+                            if ($(this).is(':checked')) {
+                              $("#saswp-brb").val(1);                                
+                            }else{
+                              $("#saswp-brb").val(0);                                          
                             }
                             
                       break;
@@ -2622,6 +2653,8 @@ jQuery(document).ready(function($){
         
         if(hash == '#saswp-default-container'){
             $('.saswp-global-container:eq(2)').show();
+        }else if(hash == '#saswp-knowledge-container'){
+            $('.saswp-global-container:eq(1)').show();
         }else{
             $('.saswp-global-container:first').show();
         }

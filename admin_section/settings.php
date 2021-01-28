@@ -892,6 +892,17 @@ function saswp_general_page_callback(){
                              'id'   => 'saswp_breadcrumb_schema',
                              'name' => 'sd_data[saswp_breadcrumb_schema]',                             
                         )
+                ),
+                array(
+			'label'  => 'Exclude Category',
+			'id'     => 'saswp_breadcrumb_remove_cat_checkbox', 
+                        'name'   => 'saswp_breadcrumb_remove_cat_checkbox',
+			'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
+                        'hidden' => array(
+                             'id'   => 'saswp_breadcrumb_remove_cat',
+                             'name' => 'sd_data[saswp_breadcrumb_remove_cat]',                             
+                        )
 		),
                 array(
 			'label'  => 'Comments',
@@ -1661,6 +1672,11 @@ function saswp_import_callback(){
                 $add_on[] = 'qanda';           
                                            
         }
+        if(is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){
+                      
+                $add_on[] = 'faq';           
+                                           
+        }
         if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
                       
            $add_on[] = 'Es';           
@@ -1813,6 +1829,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                 $response.= '<strong>'.saswp_t_string('Q&A Schema').'</strong>';
                 $response.= '</div>';
             
+                }
+
+                if($label == true && $on == 'faq'){
+                   
+                        $response.= '<div class="" style="display:inline-block">';
+                        $response.= '<strong>'.saswp_t_string('FAQ Schema Compatibility').'</strong>';
+                        $response.= '</div>';
+                    
                 }
                
                if($label == true && $on == 'Rs'){
@@ -2070,7 +2094,20 @@ function saswp_compatibility_page_callback(){
                                 'id'   => 'saswp-elementor',
                                 'name' => 'sd_data[saswp-elementor]',                             
                         )
-        );        
+        );
+        
+        $brb = array(
+                'label'  => 'Business Reviews Bundle',
+                'id'     => 'saswp-brb-checkbox',                        
+                'name'   => 'saswp-brb-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('brb'),
+                'hidden' => array(
+                        'id'   => 'saswp-brb',
+                        'name' => 'sd_data[saswp-brb]',                             
+                )
+        );
 
         $ratingform = array(
                 'label'  => 'Rating Form by SerdarG',
@@ -3242,7 +3279,19 @@ function saswp_compatibility_page_callback(){
                                     'id'   => 'saswp-dw-question-answer',
                                     'name' => 'sd_data[saswp-dw-question-answer]',                             
                         )
-		);
+                );
+        $wpqa_builder = array(
+                'label'  => 'WPQA Builder',
+                'id'     => 'saswp-wpqa-checkbox',                        
+                'name'   => 'saswp-wpqa-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpqa'),
+                'hidden' => array(
+                                'id'   => 'saswp-wpqa',
+                                'name' => 'sd_data[saswp-wpqa]',
+                )
+        );        
         
         $bbpress = array(
 			'label'  => 'bbPress',
@@ -3448,6 +3497,7 @@ function saswp_compatibility_page_callback(){
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
                           
                 $sabaidiscuss['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
+                $wpqa_builder['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
          }
          
          if(!is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
@@ -3495,6 +3545,7 @@ function saswp_compatibility_page_callback(){
                 $ampwp,
                 $kk_star,
                 $elementor_testimonial,
+                $brb,
                 $ratingform,
                 $wpdiscuz,
                 $yasr,
@@ -3514,6 +3565,7 @@ function saswp_compatibility_page_callback(){
                 $stamped,
                 $extratheme,
                 $dwquestiton,
+                $wpqa_builder,
                 $sabaidiscuss,                
                 $yoast,
                 $polylang,

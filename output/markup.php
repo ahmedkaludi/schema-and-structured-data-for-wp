@@ -2909,8 +2909,7 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
     'articleBody'                   => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_body_'.$schema_id, 'saswp_array'),
     'keywords'                      => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_keywords_'.$schema_id, 'saswp_array'),
     'name'				            => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_name_'.$schema_id, 'saswp_array'),
-    'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_url_'.$schema_id, 'saswp_array'),
-    'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_image_'.$schema_id, 'saswp_array'),
+    'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_url_'.$schema_id, 'saswp_array'),    
     'datePublished'                 => isset($all_post_meta['saswp_blogposting_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_blogposting_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
     'dateModified'                  => isset($all_post_meta['saswp_blogposting_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_blogposting_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',    
     'publisher'			=> array(
@@ -2925,6 +2924,10 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
             ),
     );
 
+    if(isset($all_post_meta['saswp_blogposting_image_'.$schema_id][0]) && $all_post_meta['saswp_blogposting_image_'.$schema_id][0]){
+        $input1['image'] = $all_post_meta['saswp_blogposting_image_'.$schema_id][0];
+    }
+    
     $input1['author']['@type']       = 'Person';
 
     if(isset( $all_post_meta['saswp_blogposting_author_type_'.$schema_id][0] )){
@@ -3092,15 +3095,15 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
 
         );
 
-        $input1['author']['@type']       = 'Person';
+        $input1['mainEntity']['author']['@type']       = 'Person';
 
         if(isset( $all_post_meta['saswp_webpage_author_type_'.$schema_id][0] )){
-            $input1['author']['@type']       = $all_post_meta['saswp_webpage_author_type_'.$schema_id][0];
+            $input1['mainEntity']['author']['@type']       = $all_post_meta['saswp_webpage_author_type_'.$schema_id][0];
         }  
 
-        $input1['author']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_name_'.$schema_id, 'saswp_array');
-        $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_description_'.$schema_id, 'saswp_array');
-        $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_url_'.$schema_id, 'saswp_array');   
+        $input1['mainEntity']['author']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_name_'.$schema_id, 'saswp_array');
+        $input1['mainEntity']['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_description_'.$schema_id, 'saswp_array');
+        $input1['mainEntity']['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_url_'.$schema_id, 'saswp_array');   
 
         if(isset($all_post_meta['saswp_webpage_speakable_'.$schema_id]) && $all_post_meta['saswp_webpage_speakable_'.$schema_id][0] == 1){
 
