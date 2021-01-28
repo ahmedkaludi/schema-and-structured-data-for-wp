@@ -129,6 +129,8 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: The warning error showing for the woocommerce products archive pages for the offer and description field #1290
 * Fixed: Author Field Issue for Webpage schema if "modify schema output" option is used in Post/page #1289
 * Fixed: Judge.me reviews are not updating in backend. #1232
+* Fixed: Fix the tabs so it's viewable in 1280 res screen #1299
+* Fixed: when we click on Logo setup notice, nothing happens #1297
 * Added: An option to add or remove category in breadcrumb #1292
 * Added: Compatible with wpqa-builder plugin( https://2code.info/wpqa-builder/ ) #1293
 * Added: Compatible with Business Reviews Bundle plugin( https://richplugins.com/business-reviews-bundle-wordpress-plugin ) #1225
