@@ -2653,6 +2653,8 @@ jQuery(document).ready(function($){
         
         if(hash == '#saswp-default-container'){
             $('.saswp-global-container:eq(2)').show();
+        }else if(hash == '#saswp-knowledge-container'){
+            $('.saswp-global-container:eq(1)').show();
         }else{
             $('.saswp-global-container:first').show();
         }
