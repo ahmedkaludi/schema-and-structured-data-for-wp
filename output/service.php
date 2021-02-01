@@ -2303,10 +2303,7 @@ Class saswp_output_service{
                     }                                        
                     if(isset($custom_fields['saswp_service_schema_price_range'])){
                         $input1['provider']['priceRange'] =    $custom_fields['saswp_service_schema_price_range'];
-                    }
-                    if(isset($custom_fields['saswp_service_schema_image'])){
-                      $input1['provider']['image'] =    $custom_fields['saswp_service_schema_image'];
-                    }
+                    }                    
                     if(isset($custom_fields['saswp_service_schema_locality'])){
                      $input1['provider']['address']['addressLocality'] =    $custom_fields['saswp_service_schema_locality'];
                     }
@@ -2321,6 +2318,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_service_schema_area_served'])){
                       $input1['areaServed'] =    saswp_explode_comma_seprated($custom_fields['saswp_service_schema_area_served'], 'Place');
+                    }
+                    if(isset($custom_fields['saswp_service_schema_image'])){
+                        $input1['image']    =    $custom_fields['saswp_service_schema_image'];
                     }
                     if(isset($custom_fields['saswp_service_schema_service_offer'])){
                       $input1['hasOfferCatalog'] =    $custom_fields['saswp_service_schema_service_offer'];

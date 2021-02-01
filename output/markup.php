@@ -3793,8 +3793,7 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
         if(isset($all_post_meta['saswp_service_schema_provider_type_'.$schema_id][0])){
 
              $input1['provider']['@type']                      = $all_post_meta['saswp_service_schema_provider_type_'.$schema_id][0];
-             $input1['provider']['name']                       = $all_post_meta['saswp_service_schema_provider_name_'.$schema_id][0];                                    
-             $input1['provider']['image']                      = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_image_'.$schema_id, 'saswp_array');             
+             $input1['provider']['name']                       = $all_post_meta['saswp_service_schema_provider_name_'.$schema_id][0];                                                 
              $input1['provider']['address']['@type']           = 'PostalAddress';
              $input1['provider']['address']['addressLocality'] = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_locality_'.$schema_id, 'saswp_array');
              $input1['provider']['address']['postalCode']      = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_postal_code_'.$schema_id, 'saswp_array');
@@ -3804,6 +3803,10 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['provider']['priceRange']                 = $all_post_meta['saswp_service_schema_price_range_'.$schema_id][0];
              }
 
+        }
+
+        if( isset($all_post_meta['saswp_service_schema_image_'.$schema_id][0]) && !empty($all_post_meta['saswp_service_schema_image_'.$schema_id][0]) ){
+            $input1['image']                      = $all_post_meta['saswp_service_schema_image_'.$schema_id][0];             
         }
 
         $input1['description'] = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_description_'.$schema_id, 'saswp_array');
