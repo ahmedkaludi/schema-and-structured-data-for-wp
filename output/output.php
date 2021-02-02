@@ -841,8 +841,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'CreativeWorkSeries',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#BlogPosting',    
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    '@id'				=> trailingslashit(saswp_get_current_url()).'#CreativeWorkSeries',    
+                                    'url'				=> trailingslashit(saswp_get_current_url()),
                                     'inLanguage'        => get_bloginfo('language'),                                                                            
                                     'description'       => saswp_get_the_excerpt(),                                    
                                     'keywords'          => saswp_get_the_tags(),    

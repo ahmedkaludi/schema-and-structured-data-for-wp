@@ -545,6 +545,58 @@ Class saswp_output_service{
                     
                 break;
                 
+                case 'CreativeWorkSeries':      
+                                        
+                       if(isset($custom_fields['saswp_cws_schema_image'])){
+                            $input1['image'] =    $custom_fields['saswp_cws_schema_image'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_url'])){
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_cws_schema_url']);
+                       }                       
+                       if(isset($custom_fields['saswp_cws_schema_keywords'])){
+                            $input1['keywords'] =    $custom_fields['saswp_cws_schema_keywords'];
+                       }                       
+                       if(isset($custom_fields['saswp_cws_schema_inlanguage'])){
+                            $input1['inLanguage'] =    $custom_fields['saswp_cws_schema_inlanguage'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_name'])){
+                            $input1['name'] =    $custom_fields['saswp_cws_schema_name'];
+                       }                    
+                       if(isset($custom_fields['saswp_cws_schema_description'])){
+                            $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_cws_schema_description'] ));
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_date_published'])){
+                            $input1['datePublished'] =    $custom_fields['saswp_cws_schema_date_published'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_date_modified'])){
+                            $input1['dateModified'] =    $custom_fields['saswp_cws_schema_date_modified'];
+                       }                       
+                       if(isset($custom_fields['saswp_cws_schema_start_date'])){
+                             $input1['datePublished'] =    $custom_fields['saswp_cws_schema_start_date'];
+                       }
+                        if(isset($custom_fields['saswp_cws_schema_end_date'])){
+                            $input1['dateModified'] =    $custom_fields['saswp_cws_schema_end_date'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_author_type'])){
+                            $input1['author']['@type'] =    $custom_fields['saswp_cws_schema_author_type'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_author_name'])){
+                            $input1['author']['name'] =    $custom_fields['saswp_cws_schema_author_name'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_author_description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_cws_schema_author_description'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_author_url'])){
+                            $input1['author']['url'] =    $custom_fields['saswp_cws_schema_author_url'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_organization_logo']) && isset($custom_fields['saswp_cws_schema_organization_name'])){
+                            $input1['publisher']['@type']       =    'Organization';
+                            $input1['publisher']['name']        =    $custom_fields['saswp_cws_schema_organization_name'];
+                            $input1['publisher']['logo']        =    $custom_fields['saswp_cws_schema_organization_logo'];
+                       }
+                                                              
+                break; 
+
                 case 'MusicComposition':      
                     
                     if(isset($custom_fields['saswp_music_composition_name'])){

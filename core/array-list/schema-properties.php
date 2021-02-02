@@ -5003,6 +5003,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type'       => 'text',                           
                         ),
                         array(
+                                'label'      => 'Image',
+                                'id'         => 'saswp_cws_schema_image_'.$schema_id,
+                                'type'       => 'media',                           
+                        ),
+                        array(
                                 'label'      => 'Start Date',
                                 'id'         => 'saswp_cws_schema_start_date_'.$schema_id,
                                 'type'       => 'text',                           
@@ -5023,7 +5028,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_cws_schema_date_modified_'.$schema_id,
                                 'type'       => 'text',
                                 'default'    => get_the_modified_date("Y-m-d")
-                        ),     
+                        ), 
+                        array(
+                                'label'      => 'In Language',
+                                'id'         => 'saswp_cws_schema_inlanguage_'.$schema_id,
+                                'type'       => 'text',       
+                                'attributes' => array(
+                                        'placeholder' => 'English'
+                                ),                    
+                        ),    
                         array(
                                 'label'      => 'Author Type',
                                 'id'         => 'saswp_cws_schema_author_type_'.$schema_id,
