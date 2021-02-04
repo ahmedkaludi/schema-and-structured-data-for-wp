@@ -2853,9 +2853,7 @@ function saswp_admin_notice(){
                     . '</a>'
                     . '</p>'
                     . '</div>';        
-    
-    
-          
+                                      
     $sd_data         = get_option('sd_data'); 
         
     if(($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') && !isset($sd_data['sd_initial_wizard_status'])){
@@ -2863,23 +2861,43 @@ function saswp_admin_notice(){
         echo $setup_notice;
         
     }     
-     //Feedback notice
+     //Feedback notice    
     $activation_date  =  get_option("saswp_activation_date");  
     $activation_never =  get_option("saswp_activation_never");      
     $next_days        =  strtotime("+7 day", strtotime($activation_date));
     $next_days        =  date('Y-m-d', $next_days);   
     $current_date     =  date("Y-m-d");
-    
+
+    $notice_msg = '';
+
+    if($activation_date){
+
+        $date1 = new DateTime($activation_date);
+        $date2 = new DateTime($current_date);
+        $diff = $date1->diff($date2);
+        
+        $notice_msg = ( ($diff->y > 0 ) ? $diff->y. ' years, ' : ''). ( ($diff->m > 0 ) ? $diff->m. ' month, ' : ''). ( ($diff->d > 0 ) ? floor($diff->d / 7). ' Week, ' : '');
+
+    }
+        
     if(($next_days < $current_date) && $activation_never !='never' ){
       ?>
-         <div class="updated notice message notice notice-alt saswp-feedback-notice">
-            <p><span class="dashicons dashicons-thumbs-up"></span> 
-            <?php echo saswp_t_string('You have been using the Schema & Structured Data for WP & AMP for some time. Now, Do you like it? If Yes.') ?>
-            <a class="saswp-revws-lnk" target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo saswp_t_string('Rate Plugin') ?></a>
-          </p>
+         <div class="updated notice message notice notice-alt saswp-feedback-notice">                         
+            <p class="saswp-notice-p">
+            <?php   echo saswp_t_string('Awesome, you\'ve been using '); 
+                    echo '<strong>' .saswp_t_string(' Schema & Structured Data '). '</strong>' ;
+                    echo saswp_t_string('plugin for more than '. $notice_msg);
+                    echo '<p class="saswp-notice-p">'.saswp_t_string('May we ask you to give it a 5-star rating on WordPress?').'</p>';                                     
+            ?>
+            <div>- SASWP dev team</div>
+            </p>                                                                        
+
             <div class="saswp-update-notice-btns">
-                <a  class="saswp-feedback-remindme"><?php echo saswp_t_string('Remind Me Later') ?></a>
-                <a  class="saswp-feedback-no-thanks"><?php echo saswp_t_string('No Thanks') ?></a>
+                <ul>
+                    <li><a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"><?php echo saswp_t_string('Ok, you deserve it') ?></a></li>
+                    <li><a  class="saswp-feedback-remindme"><?php echo saswp_t_string('Nope, May be later') ?></a></li>
+                    <li><a  class="saswp-feedback-no-thanks"><?php echo saswp_t_string('I already did') ?></a></li>
+                </ul>
             </div>
         </div>
         <?php
