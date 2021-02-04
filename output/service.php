@@ -3084,6 +3084,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_person_schema_linkedin'])){
                         $sameas[] =    $custom_fields['saswp_person_schema_linkedin'];
                     }
+                    if(isset($custom_fields['saswp_person_schema_youtube'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_youtube'];
+                    }
                     if($sameas){
                         $input1['sameAs'] = $sameas;
                     }

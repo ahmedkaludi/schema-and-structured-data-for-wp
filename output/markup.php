@@ -1772,6 +1772,9 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         if(isset($all_post_meta['saswp_person_schema_linkedin_'.$schema_id][0])){
             $sameas[]        = $all_post_meta['saswp_person_schema_linkedin_'.$schema_id][0];
         }
+        if(isset($all_post_meta['saswp_person_schema_youtube_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_youtube_'.$schema_id][0];
+        }
         if($sameas){
             $input1['sameAs'] = $sameas;
         }
