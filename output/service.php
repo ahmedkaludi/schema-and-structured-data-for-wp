@@ -2089,12 +2089,12 @@ Class saswp_output_service{
                         $input1['video']['duration'] =    $custom_fields['saswp_recipe_video_duration'];
                     }
                                          
-                    if(isset($custom_fields['saswp_recipe_rating_value']) && isset($custom_fields['saswp_recipe_rating_count'])){
+                    if(isset($custom_fields['saswp_recipe_schema_rating']) && isset($custom_fields['saswp_recipe_schema_review_count'])){
                        $input1['aggregateRating']['@type']       =   'AggregateRating';
                        $input1['aggregateRating']['worstRating'] =   0;
                        $input1['aggregateRating']['bestRating']  =   5;
-                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_recipe_rating_value'];
-                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_recipe_rating_count'];
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_recipe_schema_rating'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_recipe_schema_review_count'];
                     }
                     
                     break;
