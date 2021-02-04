@@ -1147,18 +1147,46 @@ function saswp_custom_breadcrumbs() {
             $category = get_the_category();
               
             if(!empty($category)) {
+              
+              $yoast_primary_cat_name     = '';
+              $yoast_primary_cat_url      = '';
+
+              if ( class_exists('WPSEO_Primary_Term') && ( isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 ) ) {
+
+                $wpseo_primary_term = new WPSEO_Primary_Term( 'category', get_the_id() );
+                $wpseo_primary_term = $wpseo_primary_term->get_primary_term();
+                $term_yoast = get_term( $wpseo_primary_term );
                 
-              $category_values = array_values( $category );
+                if (!is_wp_error( $term_yoast ) ) {
+                                                               
+                  $yoast_primary_cat_name  = $term_yoast->name;
+                  $yoast_primary_cat_url   = get_category_link( $term_yoast->term_id );                  
+  
+                }
+
+               }
+
+               if(!empty($yoast_primary_cat_name) && !empty($yoast_primary_cat_url)){
+
+                      $variables1_titles[]  = $yoast_primary_cat_name;
+                      $variables2_links[]   = $yoast_primary_cat_url;
+                      $breadcrumb_url       = $yoast_primary_cat_url;
+
+               }else{
+
+                  $category_values = array_values( $category );
               
-              foreach ($category_values as $category_value) {
+                  foreach ($category_values as $category_value) {
+                      
+                      $category_name        = get_category($category_value);
+                      $cat_name             = $category_name->name;
+                      $variables1_titles[]  = $cat_name;
+                      $variables2_links[]   = get_category_link( $category_value );
+                      $breadcrumb_url       = get_category_link( $category_value );
                   
-                  $category_name        = get_category($category_value);
-                  $cat_name             = $category_name->name;
-                  $variables1_titles[]  = $cat_name;
-                  $variables2_links[]   = get_category_link( $category_value );
-                  $breadcrumb_url       = get_category_link( $category_value );
-              
-              }
+                  }
+
+               }                                                        
               
                 // Get last category post is in
                 $last_category   = end(($category));
