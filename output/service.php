@@ -2108,7 +2108,8 @@ Class saswp_output_service{
                     }
                     
                     if(isset($custom_fields['saswp_product_schema_brand_name'])){
-                     $input1['brand']['name'] =    $custom_fields['saswp_product_schema_brand_name'];
+                     $input1['brand']['@type'] =    'Brand';
+                     $input1['brand']['name']  =    $custom_fields['saswp_product_schema_brand_name'];
                     }
                     
                     if(isset($custom_fields['saswp_product_schema_mpn'])){
@@ -4391,7 +4392,7 @@ Class saswp_output_service{
                             $input1['isbn'] = esc_attr($product_details['product_isbn']);  
                           }
                           if(isset($product_details['product_brand']) && $product_details['product_brand'] !=''){
-                            $input1['brand'] =  array('@type'=>'Thing','name'=> esc_attr($product_details['product_brand']));  
+                            $input1['brand'] =  array('@type'=>'Brand','name'=> esc_attr($product_details['product_brand']));  
                           }                                     
                           if(isset($product_details['product_review_count']) && $product_details['product_review_count'] >0 && isset($product_details['product_average_rating']) && $product_details['product_average_rating'] >0){
                                $input1['aggregateRating'] =  array(
