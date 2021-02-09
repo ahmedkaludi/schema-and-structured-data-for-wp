@@ -1192,19 +1192,25 @@ function saswp_custom_breadcrumbs() {
                 $last_category   = end(($category));
                 $category_name   = get_category($last_category);
                 // Get parent any categories and create array
-                $get_cat_parents = rtrim(get_category_parents($last_category->term_id, true, ','),',');
-                $cat_parents     = explode(',',$get_cat_parents);
+                $get_cat_parents = get_category_parents($last_category->term_id, true, ',');
+
+                if(is_string($get_cat_parents)){
+
+                  $get_cat_parents = rtrim($get_cat_parents,',');
+                  $cat_parents     = explode(',',$get_cat_parents);
+
+                  // Loop through parent categories and store in variable $cat_display
+                  $cat_display = '';
                   
-                // Loop through parent categories and store in variable $cat_display
-                $cat_display = '';
-                
-                foreach($cat_parents as $parents) {
-                    
-                    $cat_display .= '<li class="item-cat">'.saswp_t_string( $parents ).'</li>';
-                    $cat_display .= '<li class="separator"> ' . saswp_t_string( $separator ) . ' </li>';
-                    
+                  foreach($cat_parents as $parents) {
+                      
+                      $cat_display .= '<li class="item-cat">'.saswp_t_string( $parents ).'</li>';
+                      $cat_display .= '<li class="separator"> ' . saswp_t_string( $separator ) . ' </li>';
+                      
+                  }
+
                 }
-                
+                                                                                  
             }
 
             }
