@@ -1202,12 +1202,16 @@ function saswp_custom_breadcrumbs() {
                   // Loop through parent categories and store in variable $cat_display
                   $cat_display = '';
                   
-                  foreach($cat_parents as $parents) {
+                  if( !empty($cat_parents) && is_array($cat_parents) ){
+
+                    foreach($cat_parents as $parents) {
                       
                       $cat_display .= '<li class="item-cat">'.saswp_t_string( $parents ).'</li>';
                       $cat_display .= '<li class="separator"> ' . saswp_t_string( $separator ) . ' </li>';
                       
-                  }
+                    }
+
+                  }                  
 
                 }
                                                                                   
