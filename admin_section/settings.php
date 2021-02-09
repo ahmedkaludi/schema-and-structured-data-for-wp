@@ -2071,6 +2071,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+        $wpreviewpro = array(
+                'label'  => 'WP Review Pro',
+                'id'     => 'saswp-wpreviewpro-checkbox',                        
+                'name'   => 'saswp-wpreviewpro-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpreviewpro'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpreviewpro',
+                        'name' => 'sd_data[saswp-wpreviewpro]',                             
+                )
+        );        
         $webstories = array(
                 'label'  => 'Web Stories',
                 'id'     => 'saswp-webstories-checkbox',                        
@@ -3552,6 +3564,7 @@ function saswp_compatibility_page_callback(){
                 $wp_customer_review,
                 $simple_author_box,  
                 $wppostratings,
+                $wpreviewpro,
                 $bbpress,
                 $webstories,
                 $woocommerce,

@@ -266,6 +266,12 @@ return array(
                     'opt_name'   => 'saswp-ampbyautomatic',
                     'part_in'    => 'free',
         ),
+        'wpreviewpro'  =>  array(            
+            'name'       => 'WP Review Pro',
+            'free'       => 'wp-review-pro/wp-review.php',            
+            'opt_name'   => 'saswp-wpreviewpro',
+            'part_in'    => 'free',
+        ),
         'webstories'  =>  array(
             'name'       => 'Web Stories',
             'free'       => 'web-stories/web-stories.php',
