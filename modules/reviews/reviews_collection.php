@@ -390,8 +390,12 @@ class SASWP_Reviews_Collection {
                     $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]);                
                 }
                 if(isset($collection_data['saswp_platform_ids'][0])){
+                    
                     $total_reviews  = unserialize($collection_data['saswp_total_reviews'][0]);
-                    $total_reviews_count = count($total_reviews);
+                    if( is_array($total_reviews) && !empty($total_reviews) ){
+                        $total_reviews_count = count($total_reviews);
+                    }
+                    
                 }
                 if(isset($collection_data['saswp_collection_pagination'][0])){
                     $pagination  = $collection_data['saswp_collection_pagination'][0];                
