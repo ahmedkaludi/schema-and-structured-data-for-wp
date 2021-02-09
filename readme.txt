@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.6
-Stable tag: 1.9.61
+Stable tag: 1.9.62
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.62 (09 Feb 2021) =
+
+* Fixed: Change the 'type' of brand to Brand or Organization from Thing #1312
+* Fixed: Aggregate rating markup is not displaying when we add the data through the custom fields. #1310
+* Fixed: Service Schema Image Issue #1304
+* Fixed: Validation issues with "HTML5 Responsive FAQ" plugin #1302
+* Fixed: URL property on the category page is not correct in the schema markup(creativework series schema) instead it is rendering the first post URL on that category page. #1157
+* Fixed: Rating message is not looking good #1164
+* Added: Youtube field option in the person schema. #1311
+* Added: Markup for autos (Car Schema) #1305
+* Added: Compatibility with WP Review Pro #1139
+* Enhancement: When yoast compatibility is on then breadcrumb should take category according to yoast #1308
+ 
 
 = 1.9.61 (28 Jan 2021) =
 
