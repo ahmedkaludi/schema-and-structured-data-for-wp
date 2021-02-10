@@ -120,11 +120,13 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.62 (09 Feb 2021) =
+= 1.9.62 (10 Feb 2021) =
 
 * Fixed: Change the 'type' of brand to Brand or Organization from Thing #1312
 * Fixed: Aggregate rating markup is not displaying when we add the data through the custom fields. #1310
 * Fixed: Service Schema Image Issue #1304
+* Fixed: PHP warning and error “Parameter must be an array or an object…” #1314
+* Fixed: rtrim expects parameter 1 to be string, object given #1316
 * Fixed: Validation issues with "HTML5 Responsive FAQ" plugin #1302
 * Fixed: URL property on the category page is not correct in the schema markup(creativework series schema) instead it is rendering the first post URL on that category page. #1157
 * Fixed: Rating message is not looking good #1164
