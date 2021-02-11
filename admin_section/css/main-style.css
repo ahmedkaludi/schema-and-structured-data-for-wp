@@ -1266,22 +1266,15 @@ Google review module ends here
     border-radius: 4px;
 }
 /** Notification CSS **/
-.updated.notice p{
-    display: flex;
+.updated.notice p{    
     width: 100%;
     align-items: center;
 }
 .updated.notice .dashicons-thumbs-up{
     margin-right:10px;
 }
-a.saswp-feedback-remindme, a.saswp-feedback-no-thanks{
-    display: inline-block;
+a.saswp-feedback-remindme, a.saswp-feedback-no-thanks{    
     cursor: pointer;
-}
-.saswp-feedback-remindme:after{
-    content:",";
-    display: inline-block;
-    margin-right:5px;    
 }
 a.saswp-revws-lnk{
     display: inline-block;
@@ -1295,10 +1288,26 @@ a.saswp-revws-lnk{
     line-height: 0.6;
     cursor: pointer;
 }
-.saswp-update-notice-btns{
+.saswp-update-notice-btns {
     display: inline-block;
     width: 100%;
     margin-bottom: 5px;
+}
+.saswp-update-notice-btns ul{
+    list-style: inside;
+    margin: 0 10px 20px 20px;
+}
+.saswp-notice-p{
+    font-size: 16px;
+    color: #28672d;
+}
+.saswp-update-notice-btns li a{
+    text-decoration:underline;
+}
+.saswp-update-notice-btns li{
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
 }
 .saswp-about-contact-page{
     width:75%; 

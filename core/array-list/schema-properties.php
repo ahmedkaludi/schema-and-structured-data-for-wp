@@ -1773,7 +1773,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Video Description',
                             'id' => 'saswp_recipe_video_description_'.$schema_id,
-                            'type' => 'text', 
+                            'type' => 'textarea', 
                             'attributes' => array(
                                 'placeholder' => 'Video Description'
                             ),
@@ -2691,6 +2691,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'  => 'text',                    
                     ),    
                     array(
+                        'label' => 'Image',
+                        'id' => 'saswp_service_schema_image_'.$schema_id,
+                        'type' => 'media',                            
+                     ),
+                    array(
                             'label' => 'Service Type',
                             'id' => 'saswp_service_schema_type_'.$schema_id,
                             'type' => 'text',                            
@@ -2715,12 +2720,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                      'PerformingGroup'              => 'Performing Group', 
                                      'SportsOrganization'           => 'Sports Organization',
                             ),                           
-                    ),    
-                    array(
-                            'label' => 'Image',
-                            'id' => 'saswp_service_schema_image_'.$schema_id,
-                            'type' => 'media',                            
-                    ),
+                    ),                        
                     array(
                             'label' => 'Locality',
                             'id' => 'saswp_service_schema_locality_'.$schema_id,
@@ -4872,6 +4872,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'       => 'text',                            
                     ),
                     array(
+                        'label'      => 'Youtube',
+                        'id'         => 'saswp_person_schema_youtube_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
                         'label'      => 'Twitter',
                         'id'         => 'saswp_person_schema_twitter_'.$schema_id,
                         'type'       => 'text',                            
@@ -4979,6 +4984,142 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                    );
                     break;
 
+                    case 'Car':
+
+                        $meta_field = array(
+                                array(
+                                        'label'      => 'Name',
+                                        'id'         => 'saswp_car_schema_name_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Description',
+                                        'id'         => 'saswp_car_schema_description_'.$schema_id,
+                                        'type'       => 'textarea',                           
+                                ),
+                                array(
+                                        'label'      => 'URL',
+                                        'id'         => 'saswp_car_schema_url_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Model',
+                                        'id'         => 'saswp_car_schema_model_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Image',
+                                        'id'         => 'saswp_car_schema_image_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Body Type',
+                                        'id'         => 'saswp_car_schema_body_type_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Fuel Type',
+                                        'id'         => 'saswp_car_schema_fuel_type_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Fuel Efficiency',
+                                        'id'         => 'saswp_car_schema_fuel_efficiency_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Seating Capacity',
+                                        'id'         => 'saswp_car_schema_seating_capacity_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Number Of Doors',
+                                        'id'         => 'saswp_car_schema_number_of_doors_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Weight',
+                                        'id'         => 'saswp_car_schema_weight_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Width',
+                                        'id'         => 'saswp_car_schema_width_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Height',
+                                        'id'         => 'saswp_car_schema_height_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'SKU',
+                                        'id'         => 'saswp_car_schema_sku_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'MPN',
+                                        'id'         => 'saswp_car_schema_mpn_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Brand',
+                                        'id'         => 'saswp_car_schema_brand_name'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Manufacturer',
+                                        'id'         => 'saswp_car_schema_manufacturer_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                   array(
+                                        'label'   => 'Price',
+                                        'id'      => 'saswp_car_schema_price_'.$schema_id,
+                                        'type'    => 'text',                                        
+                                   ),
+                                    array(
+                                        'label'   => 'High Price',
+                                        'id'      => 'saswp_car_schema_high_price_'.$schema_id,
+                                        'type'    => 'text'                                            
+                                    ),
+                                    array(
+                                        'label'   => 'Low Price',
+                                        'id'      => 'saswp_car_schema_low_price_'.$schema_id,
+                                        'type'    => 'text'                                            
+                                    ),
+                                    array(
+                                        'label'   => 'Offer Count',
+                                        'id'      => 'saswp_car_schema_offer_count_'.$schema_id,
+                                        'type'    => 'text'
+                                    ),
+                                    array(
+                                        'label'   => 'Price Valid Until',
+                                        'id'      => 'saswp_car_schema_priceValidUntil_'.$schema_id,
+                                        'type'    => 'text'                                        
+                                   ),
+                                    array(
+                                        'label'   => 'Currency',
+                                        'id'      => 'saswp_car_schema_currency_'.$schema_id,
+                                        'type'    => 'text'                                        
+                                   ),
+                                array(
+                                        'label' => 'Aggregate Rating',
+                                        'id'    => 'saswp_car_schema_enable_rating_'.$schema_id,
+                                        'type'  => 'checkbox',                            
+                                ),
+                                array(
+                                        'label'   => 'Rating',
+                                        'id'      => 'saswp_car_schema_rating_value_'.$schema_id,
+                                        'type'    => 'text',                                        
+                                ),
+                                array(
+                                        'label'   => 'Rating Count',
+                                        'id'      => 'saswp_car_schema_rating_count_'.$schema_id,
+                                        'type'    => 'text',                            
+                                )                                    
+                               );
+
+                    break;
                     case 'CreativeWorkSeries':
                     
                         $meta_field = array(
@@ -4995,12 +5136,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         array(
                                 'label'      => 'Description',
                                 'id'         => 'saswp_cws_schema_description_'.$schema_id,
-                                'type'       => 'text',                           
+                                'type'       => 'textarea',                           
                         ),
                         array(
                                 'label'      => 'Keywords',
                                 'id'         => 'saswp_cws_schema_keywords_'.$schema_id,
                                 'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Image',
+                                'id'         => 'saswp_cws_schema_image_'.$schema_id,
+                                'type'       => 'media',                           
                         ),
                         array(
                                 'label'      => 'Start Date',
@@ -5023,7 +5169,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_cws_schema_date_modified_'.$schema_id,
                                 'type'       => 'text',
                                 'default'    => get_the_modified_date("Y-m-d")
-                        ),     
+                        ), 
+                        array(
+                                'label'      => 'In Language',
+                                'id'         => 'saswp_cws_schema_inlanguage_'.$schema_id,
+                                'type'       => 'text',       
+                                'attributes' => array(
+                                        'placeholder' => 'English'
+                                ),                    
+                        ),    
                         array(
                                 'label'      => 'Author Type',
                                 'id'         => 'saswp_cws_schema_author_type_'.$schema_id,
@@ -5077,7 +5231,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label'      => 'Description',
                             'id'         => 'saswp_data_feed_schema_description_'.$schema_id,
-                            'type'       => 'text',                           
+                            'type'       => 'textarea',                           
                     ),
                     array(
                             'label'      => 'DateModified',

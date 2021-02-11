@@ -545,6 +545,58 @@ Class saswp_output_service{
                     
                 break;
                 
+                case 'CreativeWorkSeries':      
+                                        
+                       if(isset($custom_fields['saswp_cws_schema_image'])){
+                            $input1['image'] =    $custom_fields['saswp_cws_schema_image'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_url'])){
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_cws_schema_url']);
+                       }                       
+                       if(isset($custom_fields['saswp_cws_schema_keywords'])){
+                            $input1['keywords'] =    $custom_fields['saswp_cws_schema_keywords'];
+                       }                       
+                       if(isset($custom_fields['saswp_cws_schema_inlanguage'])){
+                            $input1['inLanguage'] =    $custom_fields['saswp_cws_schema_inlanguage'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_name'])){
+                            $input1['name'] =    $custom_fields['saswp_cws_schema_name'];
+                       }                    
+                       if(isset($custom_fields['saswp_cws_schema_description'])){
+                            $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_cws_schema_description'] ));
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_date_published'])){
+                            $input1['datePublished'] =    $custom_fields['saswp_cws_schema_date_published'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_date_modified'])){
+                            $input1['dateModified'] =    $custom_fields['saswp_cws_schema_date_modified'];
+                       }                       
+                       if(isset($custom_fields['saswp_cws_schema_start_date'])){
+                             $input1['datePublished'] =    $custom_fields['saswp_cws_schema_start_date'];
+                       }
+                        if(isset($custom_fields['saswp_cws_schema_end_date'])){
+                            $input1['dateModified'] =    $custom_fields['saswp_cws_schema_end_date'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_author_type'])){
+                            $input1['author']['@type'] =    $custom_fields['saswp_cws_schema_author_type'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_author_name'])){
+                            $input1['author']['name'] =    $custom_fields['saswp_cws_schema_author_name'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_author_description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_cws_schema_author_description'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_author_url'])){
+                            $input1['author']['url'] =    $custom_fields['saswp_cws_schema_author_url'];
+                       }
+                       if(isset($custom_fields['saswp_cws_schema_organization_logo']) && isset($custom_fields['saswp_cws_schema_organization_name'])){
+                            $input1['publisher']['@type']       =    'Organization';
+                            $input1['publisher']['name']        =    $custom_fields['saswp_cws_schema_organization_name'];
+                            $input1['publisher']['logo']        =    $custom_fields['saswp_cws_schema_organization_logo'];
+                       }
+                                                              
+                break; 
+
                 case 'MusicComposition':      
                     
                     if(isset($custom_fields['saswp_music_composition_name'])){
@@ -2037,12 +2089,12 @@ Class saswp_output_service{
                         $input1['video']['duration'] =    $custom_fields['saswp_recipe_video_duration'];
                     }
                                          
-                    if(isset($custom_fields['saswp_recipe_rating_value']) && isset($custom_fields['saswp_recipe_rating_count'])){
+                    if(isset($custom_fields['saswp_recipe_schema_rating']) && isset($custom_fields['saswp_recipe_schema_review_count'])){
                        $input1['aggregateRating']['@type']       =   'AggregateRating';
                        $input1['aggregateRating']['worstRating'] =   0;
                        $input1['aggregateRating']['bestRating']  =   5;
-                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_recipe_rating_value'];
-                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_recipe_rating_count'];
+                       $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_recipe_schema_rating'];
+                       $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_recipe_schema_review_count'];
                     }
                     
                     break;
@@ -2056,7 +2108,8 @@ Class saswp_output_service{
                     }
                     
                     if(isset($custom_fields['saswp_product_schema_brand_name'])){
-                     $input1['brand']['name'] =    $custom_fields['saswp_product_schema_brand_name'];
+                     $input1['brand']['@type'] =    'Brand';
+                     $input1['brand']['name']  =    $custom_fields['saswp_product_schema_brand_name'];
                     }
                     
                     if(isset($custom_fields['saswp_product_schema_mpn'])){
@@ -2129,12 +2182,88 @@ Class saswp_output_service{
                     }
                     
                     if(isset($custom_fields['saswp_product_schema_rating']) && isset($custom_fields['saswp_product_schema_review_count'])){
-                     $input1['aggregateRating']['@type']       = 'aggregateRating';
-                     $input1['aggregateRating']['ratingValue'] = $custom_fields['saswp_product_schema_rating'];
-                     $input1['aggregateRating']['reviewCount'] = $custom_fields['saswp_product_schema_review_count'];
+                        $input1['aggregateRating']['@type']       = 'aggregateRating';
+                        $input1['aggregateRating']['ratingValue'] = $custom_fields['saswp_product_schema_rating'];
+                        $input1['aggregateRating']['reviewCount'] = $custom_fields['saswp_product_schema_review_count'];
                     }
                                                             
                     break;
+
+                    case 'Car':
+                            if(isset($custom_fields['saswp_car_schema_model'])){
+                                $input1['model'] =    $custom_fields['saswp_car_schema_model'];
+                            }
+                            if(isset($custom_fields['saswp_car_schema_body_type'])){
+                                $input1['bodyType'] =    $custom_fields['saswp_car_schema_body_type'];
+                            }
+                            if(isset($custom_fields['saswp_car_schema_fuel_efficiency'])){
+                                $input1['fuelEfficiency'] =    $custom_fields['saswp_car_schema_fuel_efficiency'];
+                            }
+                            if(isset($custom_fields['saswp_car_schema_seating_capacity'])){
+                                $input1['seatingCapacity'] =    $custom_fields['saswp_car_schema_seating_capacity'];
+                            }
+                            if(isset($custom_fields['saswp_car_schema_number_of_doors'])){
+                                $input1['numberOfdoors'] =    $custom_fields['saswp_car_schema_number_of_doors'];
+                            }
+                            if(isset($custom_fields['saswp_car_schema_weight'])){
+                                $input1['weight'] =    $custom_fields['saswp_car_schema_weight'];
+                            }
+                            if(isset($custom_fields['saswp_car_schema_width'])){
+                                $input1['width'] =    $custom_fields['saswp_car_schema_width'];
+                            }
+                            if(isset($custom_fields['saswp_car_schema_height'])){
+                                $input1['height'] =    $custom_fields['saswp_car_schema_height'];
+                            }
+                            if(isset($custom_fields['saswp_car_schema_manufacturer'])){
+                                $input1['manufacturer'] =    $custom_fields['saswp_car_schema_manufacturer'];
+                            }
+                           if(isset($custom_fields['saswp_car_schema_url'])){
+                                $input1['url'] =    saswp_validate_url($custom_fields['saswp_car_schema_url']);
+                           }
+                           if(isset($custom_fields['saswp_car_schema_name'])){
+                                $input1['name'] =    $custom_fields['saswp_car_schema_name'];
+                           }                           
+                           if(isset($custom_fields['saswp_car_schema_brand_name'])){
+                                $input1['brand']['name'] =    $custom_fields['saswp_car_schema_brand_name'];
+                           }                           
+                           if(isset($custom_fields['saswp_car_schema_mpn'])){
+                                $input1['mpn'] =    $custom_fields['saswp_car_schema_mpn'];
+                           }                                                                   
+                           if(isset($custom_fields['saswp_car_schema_description'])){
+                                $input1['description'] =  wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_car_schema_description'] ));
+                           }                    
+                           if(isset($custom_fields['saswp_car_schema_image'])){
+                                $input1['image'] =    $custom_fields['saswp_car_schema_image'];
+                           }                           
+                           if(isset($custom_fields['saswp_car_schema_price'])){
+                                $input1['offers']['price'] =    $custom_fields['saswp_car_schema_price'];                                                                             
+                           }
+                           if(isset($custom_fields['saswp_car_schema_currency'])){
+                                $input1['offers']['priceCurrency'] =    $custom_fields['saswp_car_schema_currency'];                            
+                           }                           
+                           if(isset($custom_fields['saswp_car_schema_priceValidUntil'])){
+                                $input1['offers']['priceValidUntil'] =    $custom_fields['saswp_car_schema_priceValidUntil'];                            
+                           }                                              
+                           if(isset($custom_fields['saswp_car_schema_sku'])){
+                                $input1['sku']                    =    $custom_fields['saswp_car_schema_sku'];
+                           }                                  
+                           if( isset($custom_fields['saswp_car_schema_high_price']) && isset($custom_fields['saswp_car_schema_low_price']) ){
+       
+                               $input1['offers']['@type']     = 'AggregateOffer';
+                               $input1['offers']['highPrice'] = $custom_fields['saswp_car_schema_high_price'];
+                               $input1['offers']['lowPrice']  = $custom_fields['saswp_car_schema_low_price'];
+       
+                               if(isset($custom_fields['saswp_car_schema_offer_count'])){
+                                   $input1['offers']['offerCount']     = $custom_fields['saswp_car_schema_offer_count'];
+                               }
+                           }                           
+                           if(isset($custom_fields['saswp_car_schema_rating']) && isset($custom_fields['saswp_car_schema_rating_count'])){
+                                $input1['aggregateRating']['@type']       = 'aggregateRating';
+                                $input1['aggregateRating']['ratingValue'] = $custom_fields['saswp_car_schema_rating'];
+                                $input1['aggregateRating']['reviewCount'] = $custom_fields['saswp_car_schema_rating_count'];
+                           }
+                                                                
+                        break;
 
                     case 'RentAction':                                                                                                  
 
@@ -2303,10 +2432,7 @@ Class saswp_output_service{
                     }                                        
                     if(isset($custom_fields['saswp_service_schema_price_range'])){
                         $input1['provider']['priceRange'] =    $custom_fields['saswp_service_schema_price_range'];
-                    }
-                    if(isset($custom_fields['saswp_service_schema_image'])){
-                      $input1['provider']['image'] =    $custom_fields['saswp_service_schema_image'];
-                    }
+                    }                    
                     if(isset($custom_fields['saswp_service_schema_locality'])){
                      $input1['provider']['address']['addressLocality'] =    $custom_fields['saswp_service_schema_locality'];
                     }
@@ -2321,6 +2447,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_service_schema_area_served'])){
                       $input1['areaServed'] =    saswp_explode_comma_seprated($custom_fields['saswp_service_schema_area_served'], 'Place');
+                    }
+                    if(isset($custom_fields['saswp_service_schema_image'])){
+                        $input1['image']    =    $custom_fields['saswp_service_schema_image'];
                     }
                     if(isset($custom_fields['saswp_service_schema_service_offer'])){
                       $input1['hasOfferCatalog'] =    $custom_fields['saswp_service_schema_service_offer'];
@@ -2955,6 +3084,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_person_schema_linkedin'])){
                         $sameas[] =    $custom_fields['saswp_person_schema_linkedin'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_youtube'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_youtube'];
                     }
                     if($sameas){
                         $input1['sameAs'] = $sameas;
@@ -4197,6 +4329,7 @@ Class saswp_output_service{
                 case 'SoftwareApplication':
                 case 'MobileApplication':
                 case 'Book':
+                case 'Car':    
                                                                         
                         $product_details = $this->saswp_woocommerce_product_details(get_the_ID());  
 
@@ -4259,7 +4392,7 @@ Class saswp_output_service{
                             $input1['isbn'] = esc_attr($product_details['product_isbn']);  
                           }
                           if(isset($product_details['product_brand']) && $product_details['product_brand'] !=''){
-                            $input1['brand'] =  array('@type'=>'Thing','name'=> esc_attr($product_details['product_brand']));  
+                            $input1['brand'] =  array('@type'=>'Brand','name'=> esc_attr($product_details['product_brand']));  
                           }                                     
                           if(isset($product_details['product_review_count']) && $product_details['product_review_count'] >0 && isset($product_details['product_average_rating']) && $product_details['product_average_rating'] >0){
                                $input1['aggregateRating'] =  array(

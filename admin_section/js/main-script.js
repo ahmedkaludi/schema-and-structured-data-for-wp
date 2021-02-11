@@ -1678,6 +1678,17 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-wpreviewpro-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {                                            
+
+                              $("#saswp-wpreviewpro").val(1);                                
+                            }else{
+                              $("#saswp-wpreviewpro").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-webstories-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {                                            
