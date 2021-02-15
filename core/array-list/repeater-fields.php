@@ -49,6 +49,9 @@ return array( 'schema_type_element' => array(
                                'how-to-tool'   => 'howto_tool', 
                                'how-to-step'   => 'howto_step', 
 						),
+						'Recipe' => array(
+							'recipe-instructions' => 'recipe_instructions'
+					    ),
 						'SpecialAnnouncement' => array(
 							'announcement-location' => 'announcement_location', 														
 					    ),
@@ -316,26 +319,43 @@ return array( 'schema_type_element' => array(
 		    )                                        
                     ),
                     'howto_step' => array(                    
-                    array(
-			'label'     => 'Step Name',
-			'name'      => 'saswp_howto_step_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'HowToDirection Text',
-			'name'      => 'saswp_howto_direction_text',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'HowToTip Text',
-			'name'      => 'saswp_howto_tip_text',
-			'type'      => 'text',                        
-		    ),    
-                    array(
-			'label'     => 'Step Image',
-			'name'      => 'saswp_howto_step_image',
-			'type'      => 'media',                        
-		    )                                        
+								array(
+									'label'     => 'Step Name',
+									'name'      => 'saswp_howto_step_name',
+									'type'      => 'text',                        
+									),
+								array(
+									'label'     => 'HowToDirection Text',
+									'name'      => 'saswp_howto_direction_text',
+									'type'      => 'text',                        
+									),
+								array(
+									'label'     => 'HowToTip Text',
+									'name'      => 'saswp_howto_tip_text',
+									'type'      => 'text',                        
+									),    
+								array(
+									'label'     => 'Step Image',
+									'name'      => 'saswp_howto_step_image',
+									'type'      => 'media',                        
+									)                                        
+					),	
+					'recipe_instructions' => array(                    
+						array(
+							'label'     => 'Step Name',
+							'name'      => 'saswp_recipe_instructions_step_name',
+							'type'      => 'text',                        
+							),
+						array(
+							'label'     => 'Step Text',
+							'name'      => 'saswp_recipe_instructions_step_text',
+							'type'      => 'text',                        
+							),
+						array(
+							'label'     => 'Step Image',
+							'name'      => 'saswp_recipe_instructions_step_image',
+							'type'      => 'media',
+							),					
 					),					
 					'announcement_location' => array(                    
 						array(

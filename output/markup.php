@@ -697,6 +697,8 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             $recipe_image          = get_post_meta( get_the_ID(), 'saswp_recipe_image_'.$schema_id.'_detail',true);                                                                           
             $recipe_author_image   = get_post_meta( get_the_ID(), 'saswp_recipe_author_image_'.$schema_id.'_detail',true);
 
+            $step    = get_post_meta($schema_post_id, 'recipe_instructions_'.$schema_id, true);  
+
             $ingredient     = array();
             $instruction    = array();
 
@@ -759,6 +761,39 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
 
             );
+
+            //Recipe instruction improved version
+
+            $step_arr = array(); 
+            
+            if(!empty($step)){
+
+                foreach($step as $key => $val){
+
+                    $supply_data = array();
+                                                          
+                    $supply_data['@type']   = 'HowToStep';
+                    $supply_data['url']     = trailingslashit(get_permalink()).'#step'.++$key;
+                    $supply_data['name']    = $val['saswp_recipe_instructions_step_name'];  
+                    $supply_data['text']    = $val['saswp_recipe_instructions_step_text'];                        
+
+                    if(isset($val['saswp_recipe_instructions_step_image_id']) && $val['saswp_recipe_instructions_step_image_id'] !=''){
+
+                        $image_details   = saswp_get_image_by_id($val['saswp_recipe_instructions_step_image_id']);  
+                        
+                        if($image_details){
+                            $supply_data['image']  = $image_details;                                                
+                        }
+                                
+                    }
+
+                    $step_arr[] =  $supply_data;
+
+                }
+
+                 $input1['recipeInstructions'] = $step_arr;
+
+            }
 
             if( isset($all_post_meta['saswp_recipe_author_name_'.$schema_id][0]) ) {
 
