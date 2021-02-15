@@ -594,17 +594,21 @@ function saswp_comparison_logic_checker($input){
 
               }else{
 
-                $terms           = wp_get_post_terms( $post->ID ,$data);
+                if( is_object($post) ) {
+
+                  $terms           = wp_get_post_terms( $post->ID ,$data);
                 
-                if(count($terms)>0){
-                                                    
-                  foreach ($terms as $key => $termvalue) {
+                  if(count($terms)>0){
+                                                      
+                    foreach ($terms as $key => $termvalue) {
+                        
+                      $termChoices[] = $termvalue->slug;
                       
-                    $termChoices[] = $termvalue->slug;
+                    } 
                     
-                  } 
-                  
-                }
+                  }
+
+                }                
 
               }
                                                                       
