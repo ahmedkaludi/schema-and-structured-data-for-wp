@@ -2207,7 +2207,12 @@ function saswp_kb_website_output(){
                 
                 if(isset($sd_data['saswp_website_schema']) && $sd_data['saswp_website_schema'] == 1 || !isset($sd_data['saswp_website_schema'])){
                  
-                $site_url  = get_home_url();
+                if( function_exists('pll_home_url') ) {
+                    $site_url  = pll_home_url();
+                }else{
+                    $site_url  = get_home_url();
+                }
+                
 		        $site_name = get_bloginfo();
                 
                 if($site_url && $site_name){

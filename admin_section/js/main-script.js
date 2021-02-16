@@ -1081,6 +1081,15 @@ jQuery(document).ready(function($){
                               $("#saswp-woocommerce").val(0);                                         
                             }
                       break;
+
+                      case 'saswp-wpecommerce-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpecommerce").val(1);                              
+                            }else{
+                              $("#saswp-wpecommerce").val(0);                                         
+                            }
+                      break;
                       
                       case 'saswp-default-review-checkbox':
                           saswp_compatibliy_notes(current, id); 

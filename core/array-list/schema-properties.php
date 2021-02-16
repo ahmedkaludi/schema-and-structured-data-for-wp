@@ -1752,16 +1752,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'placeholder' => '2 cups of flour; 3/4 cup white sugar;'
                             ),
                             'note' => 'Note: Separate Ingredient list by semicolon ( ; )'  
-                    ), 
-                    array(
-                            'label' => 'Recipe Instructions',
-                            'id' => 'saswp_recipe_instructions_'.$schema_id,
-                            'type' => 'textarea',
-                            'attributes' => array(
-                                'placeholder' => 'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan; large bowl, combine flour, sugar, baking powder, and salt. pan.;'
-                            ),
-                            'note' => 'Note: Separate Instructions step by semicolon ( ; )'  
-                    ), 
+                    ),                     
                     array(
                             'label' => 'Video Name',
                             'id' => 'saswp_recipe_video_name_'.$schema_id,
@@ -1815,7 +1806,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'attributes' => array(
                                 'placeholder' => 'PT1M33S'
                             ),
-                    ),   
+                    ), 
+                    array(
+                        'label' => 'Recipe Instructions',
+                        'id' => 'saswp_recipe_instructions_'.$schema_id,
+                        'type' => 'textarea',
+                        'attributes' => array(
+                            'placeholder' => 'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan; large bowl, combine flour, sugar, baking powder, and salt. pan.;'
+                        ),
+                        'note' => 'Note: Separate Instructions step by semicolon ( ; ). If you want to add images. Use below repeater "Add Recipe Instructions"'  
+                   ),   
                     array(
                         'label' => 'Aggregate Rating',
                         'id' => 'saswp_recipe_schema_enable_rating_'.$schema_id,

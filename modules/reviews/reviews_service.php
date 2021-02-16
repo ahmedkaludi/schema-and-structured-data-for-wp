@@ -752,12 +752,17 @@ class saswp_reviews_service {
                    
     }
     
-    public function saswp_convert_datetostring($date_str){
+    public function saswp_convert_datetostring($date_str, $date_format = ''){
         
         $response = array();
         
         if($date_str){
-            $response['date'] = date('Y-m-d', strtotime($date_str));
+            if(!empty($date_format)){
+                $response['date'] = date($date_format, strtotime($date_str));
+            }else{
+                $response['date'] = date('Y-m-d', strtotime($date_str));
+            }
+            
             $response['time'] = date('G:i:s', strtotime($date_str));
         }
         
@@ -765,7 +770,7 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count){
+    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format){
         
            $html          = '';                
            $grid_cols     = '';
@@ -788,7 +793,7 @@ class saswp_reviews_service {
                
                foreach ($collection as $value){
                         
-                       $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
+                       $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format ); 
                     
                        $review_link = $value['saswp_review_link'];
 
@@ -859,7 +864,7 @@ class saswp_reviews_service {
         
     }
     
-    public function  saswp_review_desing_for_slider($value){
+    public function saswp_review_desing_for_slider($value, $date_format){
         
                 $review_link = $value['saswp_review_link'];
 
@@ -870,7 +875,7 @@ class saswp_reviews_service {
                 }
         
                 $html = '';
-                $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
+                $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format); 
                 
                 $html .= '<div class="saswp-r2-sli">';
                 $html .= '<div class="saswp-r2-b">';
@@ -907,7 +912,7 @@ class saswp_reviews_service {
 
     }
 
-    public function saswp_create_collection_slider($g_type, $arrow, $dots, $collection){
+    public function saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format){
                 
                 $html = '';                               
                 
@@ -931,7 +936,7 @@ class saswp_reviews_service {
                                                           
                                 $html .= '<div class="saswp-si">';
                                 
-                                $html .= $this->saswp_review_desing_for_slider($value);
+                                $html .= $this->saswp_review_desing_for_slider($value, $date_format);
                                 
                                 $html .= '</div>';
                              
@@ -1166,7 +1171,7 @@ class saswp_reviews_service {
         return $html;
         
     }
-    public function saswp_create_collection_popup($collection){
+    public function saswp_create_collection_popup($collection, $date_format){
                 
                    $html          = '';                
                    $html_list     = '';
@@ -1182,7 +1187,7 @@ class saswp_reviews_service {
                             $sum_of_rating += $value['saswp_review_rating'];
                             $review_count++;
                             
-                            $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
+                            $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format); 
                             
                             $html_list .= '<li>';
                             $html_list .= '<div class="saswp-r4-b">';
@@ -1288,7 +1293,7 @@ class saswp_reviews_service {
                 return $html;
                 
     }
-    public function saswp_create_collection_fomo($f_interval, $f_visibility, $collection){
+    public function saswp_create_collection_fomo($f_interval, $f_visibility, $collection, $date_format){
             
         
         $html = '';
@@ -1301,7 +1306,7 @@ class saswp_reviews_service {
             $html .= '<input type="hidden" id="saswp_fomo_interval" value="'.esc_attr($f_interval).'">';
             foreach ($collection as $value){
                 
-                    $date_str = $this->saswp_convert_datetostring($value['saswp_review_date']); 
+                    $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format); 
 
                     $html .= '<div id="'.$i.'" class="saswp-r5">';
                     $html .= '<div class="saswp-r5-r">';                            

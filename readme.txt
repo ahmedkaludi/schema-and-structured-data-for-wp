@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.6
-Stable tag: 1.9.62
+Stable tag: 1.9.63
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.63 (16 Feb 2021) =
+
+* Fixed: Filling up error log with PHP errors #1319
+* Fixed: wpDiscuz Comments on schema enabled pages are showing with HTML tags for bold/italic words #1317
+* Fixed: Sitelinks search box potentialAction property does not get correct url in polylang multilanguage site #1321
+* Added: An option to change the date format for the reviews showing through the collection #1307
+* Added: An image filed option in the recipe instruction. #1313
+* Added: Compatability with WP eCommerce ( https://wordpress.org/plugins/wp-e-commerce/ ) #1315
+
 
 = 1.9.62 (10 Feb 2021) =
 

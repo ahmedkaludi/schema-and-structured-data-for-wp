@@ -2071,6 +2071,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+        $wpecommerce = array(
+                'label'  => 'WP eCommerce',
+                'id'     => 'saswp-wpecommerce-checkbox',                        
+                'name'   => 'saswp-wpecommerce-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpecommerce'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpecommerce',
+                        'name' => 'sd_data[saswp-wpecommerce]',                             
+                )
+        );
         $wpreviewpro = array(
                 'label'  => 'WP Review Pro',
                 'id'     => 'saswp-wpreviewpro-checkbox',                        
@@ -3567,7 +3579,8 @@ function saswp_compatibility_page_callback(){
                 $wpreviewpro,
                 $bbpress,
                 $webstories,
-                $woocommerce,
+                $wpecommerce,
+                $woocommerce,                
                 $woocommerce_bok,
                 $woocommerce_mem,
                 $cooked, 
