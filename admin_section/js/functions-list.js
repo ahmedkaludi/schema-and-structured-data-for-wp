@@ -15,10 +15,25 @@
            if(date_str){
                
              var date_string = new Date(date_str); 
-             
+             var d = date_string.getDate();
+             var m =  date_string.getMonth();
+                 m += 1;  // JavaScript months are 0-11
+             var y = date_string.getFullYear();
+
+             var formated_date = date_string.toLocaleDateString();
+
+             var date_format = jQuery(".saswp-collection-date-format").val();
+
+             if(date_format && date_format == 'Y-m-d'){
+                formated_date = y + "-" + m + "-" + d;
+             }
+             if(date_format && date_format == 'd-m-Y'){
+                formated_date = d + "-" + m + "-" + y;
+             }
+
                date_time = {
                    time : date_string.toLocaleTimeString(),
-                   date : date_string.toLocaleDateString()
+                   date : formated_date
                };
            }else{
               date_time = {
