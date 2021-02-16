@@ -314,3 +314,48 @@ function saswp_classpress_ads_schema($input1){
 
     return $input1;
 }
+
+add_filter('saswp_modify_product_schema_output', 'saswp_wpecommerce_product_schema',10,1);
+
+function saswp_wpecommerce_product_schema($input1){
+
+    global $sd_data, $post;
+
+    if( isset($sd_data['saswp-wpecommerce']) && $sd_data['saswp-wpecommerce'] == 1 && function_exists('wpsc_the_product_description') && get_post_type() == 'wpsc-product' ){
+
+            $price = get_post_meta( get_the_ID(), '_wpsc_special_price', true );
+            $cal_price = wpsc_calculate_price(get_the_ID());
+			$currargs = array(
+				'display_currency_symbol' => false,
+				'display_decimal_point'   => false,
+				'display_currency_code'   => true,
+				'display_as_html'         => false
+			);
+			$cal_price = wpsc_currency_display($cal_price, $currargs);
+            $currency  = chop($cal_price," 0");
+
+            $availability = 'InStock';
+
+            if(!wpsc_product_has_stock()){
+                $availability = 'OutOfStock';
+            }
+
+            $single_offer = array(
+                '@type'         => 'Offer',
+                'price'         => $price,   
+                'url'           => get_permalink(),       
+                'priceCurrency' => $currency, 
+                'priceValidUntil' => date( 'Y-12-31', time() + YEAR_IN_SECONDS ),                   
+                'availability'  => $availability,                                        
+              );
+
+            $input1['sku']         = wpsc_product_sku();
+            $input1['description'] = wpsc_the_product_description();
+            $input1['name']        = wpsc_the_product_title();
+            $input1['offers']      = $single_offer;
+        
+    }
+
+    return $input1;
+
+}

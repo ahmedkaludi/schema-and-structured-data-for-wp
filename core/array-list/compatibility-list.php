@@ -266,6 +266,12 @@ return array(
                     'opt_name'   => 'saswp-ampbyautomatic',
                     'part_in'    => 'free',
         ),
+        'wpecommerce'  =>  array(            
+            'name'       => 'WP eCommerce',
+            'free'       => 'wp-e-commerce/wp-shopping-cart.php',            
+            'opt_name'   => 'saswp-wpecommerce',
+            'part_in'    => 'free',
+        ),
         'wpreviewpro'  =>  array(            
             'name'       => 'WP Review Pro',
             'free'       => 'wp-review-pro/wp-review.php',            
