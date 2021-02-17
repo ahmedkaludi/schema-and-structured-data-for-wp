@@ -864,7 +864,7 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_review_desing_for_slider($value, $date_format){
+    public function saswp_review_desing_for_slider($value, $date_format = ''){
         
                 $review_link = $value['saswp_review_link'];
 
@@ -956,7 +956,7 @@ class saswp_reviews_service {
                                                                     
                                 foreach($coll as $value){
 
-                                     $html .= $this->saswp_review_desing_for_slider($value);
+                                     $html .= $this->saswp_review_desing_for_slider($value, $date_format);
 
                                 }
                                 
@@ -1005,7 +1005,7 @@ class saswp_reviews_service {
                          foreach ($collection as $value){
                              
                              $html .= '<li>';
-                             $html .= $this->saswp_review_desing_for_slider($value);
+                             $html .= $this->saswp_review_desing_for_slider($value, $date_format);
                              $html .= '</li>';
                              
                              if($i == 0){
