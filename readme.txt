@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.6
-Stable tag: 1.9.63
+Stable tag: 1.9.63.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,11 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.63.1 (17 Feb 2021) =
+
+* Fixed: Fatal error: Uncaught ArgumentCountError: Too few arguments to function saswp_reviews_service::saswp_review_desing_for_slider() #1323
+* Fixed: Remove extra slash from potentialAction property of website schema #1321
 
 = 1.9.63 (16 Feb 2021) =
 
