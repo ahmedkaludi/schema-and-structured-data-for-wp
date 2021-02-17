@@ -2228,7 +2228,7 @@ function saswp_kb_website_output(){
                     if(isset($sd_data['saswp_search_box_schema']) && $sd_data['saswp_search_box_schema'] == 1 || !isset($sd_data['saswp_search_box_schema'])){
                         
                         $input['potentialAction']['@type']       = 'SearchAction';
-                        $input['potentialAction']['target']      = esc_url($site_url).'/?s={search_term_string}';
+                        $input['potentialAction']['target']      = esc_url(trailingslashit($site_url)).'?s={search_term_string}';
                         $input['potentialAction']['query-input'] = 'required name=search_term_string';
                         
                     }
