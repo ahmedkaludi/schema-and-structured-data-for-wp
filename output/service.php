@@ -3781,7 +3781,7 @@ Class saswp_output_service{
                 }
 
 
-             } else if(function_exists('wc_yotpo_init') && (isset($sd_data['saswp-yotpo']) && $sd_data['saswp-yotpo'] ==1 )){
+             } else if( function_exists('wc_yotpo_init') && (isset($sd_data['saswp-yotpo']) && $sd_data['saswp-yotpo'] ==1 ) ){
             
                 $yotpo_reviews = saswp_get_yotpo_reviews($post_id);
                 
@@ -3789,6 +3789,16 @@ Class saswp_output_service{
                     $reviews_arr                               = $yotpo_reviews['reviews'];     
                     $product_details['product_review_count']   = $yotpo_reviews['total'];
                     $product_details['product_average_rating'] = $yotpo_reviews['average'];  
+                }
+
+             } else if ( function_exists('RYVIU') && (isset($sd_data['saswp-ryviu']) && $sd_data['saswp-ryviu'] == 1 ) ) {
+
+                $ryviu_reviews = saswp_get_ryviu_reviews($post_id);
+                
+                if($ryviu_reviews){
+                    $reviews_arr                               = $ryviu_reviews['reviews'];     
+                    $product_details['product_review_count']   = $ryviu_reviews['total'];
+                    $product_details['product_average_rating'] = $ryviu_reviews['average'];  
                 }
 
              } else if( $reviews && is_array($reviews) ){

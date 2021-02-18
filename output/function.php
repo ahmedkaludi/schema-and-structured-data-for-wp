@@ -2911,6 +2911,83 @@ function saswp_get_loop_markup($i) {
     return $response;
 }
 
+function saswp_get_ryviu_reviews ($product_id){
+    
+    $domain   = '';
+    $shop_url = site_url();
+    $domain   = str_replace(array('https://', 'http://'), '', $shop_url);    
+    $handle   = get_post_field( 'post_name', get_post() );
+    
+    $response = array();
+
+    if(!empty($domain)){
+
+        $i           = 1;
+        $loop_count  = 1; 
+        $sumofrating = 0;
+        $avg_rating  = 1;
+
+        do{
+            
+            $url  = esc_url( "https://app.ryviu.io/frontend/client/get-more-reviews?domain=".$domain );
+            $body = array(
+                "domain" 	    => $domain,                
+                "handle" 	    => $handle,                
+                "page" 		    => $i,
+                "product_id"    => $product_id,
+                "type"          => "load-more",                
+            );            
+            
+            $result = @wp_remote_post(
+                $url, [
+                    'headers'   => [ 'Content-Type' => 'application/json' ],
+                    'body'       => json_encode($body),
+                ]
+            );
+            
+            if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
+                
+                $reviews = json_decode(wp_remote_retrieve_body($result),true);
+                
+                if($reviews['more_reviews']){
+                    
+                    foreach ($reviews['more_reviews'] as  $value) {
+
+                        $response['reviews'][] = array(
+                            'author'        => $value['author'],
+                            'datePublished' => $value['created_at'],
+                            'description'   => $value['body_text'],
+                            'reviewRating'  => $value['rating'],
+                        ) ;
+
+                        $sumofrating += $value['rating'];
+
+                    }
+                    
+                    if( $sumofrating> 0 ){
+                       $avg_rating = $sumofrating /  $reviews['total']; 
+                    }
+
+                    $response['average'] = $avg_rating;
+                    $response['total']   = $reviews['total'];
+                    
+                    if($response['total'] > 10){
+                        $loop_count = ceil($response['total'] / 10);
+                    }
+
+                    
+                }
+            }
+
+            $i++;
+
+        } while ($i <= $loop_count);
+        
+    }
+    
+    return $response;
+
+}
 function saswp_get_yotpo_reviews($product_id){
 
     $yotpo_settings = get_option('yotpo_settings');

@@ -818,6 +818,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-ryviu-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ryviu").val(1);                                
+                            }else{
+                              $("#saswp-ryviu").val(0);                                          
+                            }
+                      break;
+
                       case 'saswp-ultimate-blocks-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

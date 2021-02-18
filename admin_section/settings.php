@@ -3018,6 +3018,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $ryviu = array(
+                'label'  => 'Ryviu – Product Reviews for WooCommerce',
+                'id'     => 'saswp-ryviu-checkbox',                        
+                'name'   => 'saswp-ryviu-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('ryviu'),
+                'hidden' => array(
+                        'id'   => 'saswp-ryviu',
+                        'name' => 'sd_data[saswp-ryviu]',                             
+                )
+        );
+
         $starsrating = array(
                 'label'  => 'Stars Rating',
                 'id'     => 'saswp-starsrating-checkbox',                        
@@ -3608,6 +3621,7 @@ function saswp_compatibility_page_callback(){
                 $video_thumbnails,
                 $featured_video_plus,
                 $yotpo,
+                $ryviu,
                 $starsrating,
                 $ultimate_blocks,
                 $wp_tasty_recipe,

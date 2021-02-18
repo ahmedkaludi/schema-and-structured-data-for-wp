@@ -507,6 +507,9 @@ class saswp_output_compatibility{
     public function yotpo_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-yotpo');
     }
+    public function ryviu_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-ryviu');
+    }
     public function wptastyrecipe_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wptastyrecipe');
     }
