@@ -16,6 +16,8 @@ add_action( 'init', 'saswp_register_saswp_reviews_location',20);
 
 add_action( 'manage_saswp_reviews_posts_custom_column' , 'saswp_reviews_custom_columns_set', 10, 2 );
 add_filter( 'manage_saswp_reviews_posts_columns', 'saswp_reviews_custom_columns' );
+add_filter( 'manage_edit-saswp_reviews_sortable_columns', 'saswp_reviews_set_sortable_columns',10,2 );
+add_action( 'pre_get_posts', 'saswp_sort_reviews_date_column_query' );
 
 add_action( 'manage_saswp-collections_posts_custom_column' , 'saswp_collection_custom_columns_set', 10, 2 );
 add_filter( 'manage_saswp-collections_posts_columns', 'saswp_collection_custom_columns' );
@@ -191,19 +193,43 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                
             }
 }
+function saswp_sort_reviews_date_column_query( $query ) {
+
+    if ( ! is_admin() )
+    return;
+
+    $orderby = $query->get( 'orderby');
+
+    if ( 'saswp_review_date' == $orderby ) {
+        $query->set( 'meta_key', 'saswp_review_date' );
+        $query->set( 'orderby', 'meta_value_num' );
+    }
+    if ( 'saswp_review_rating' == $orderby ) {
+        $query->set( 'meta_key', 'saswp_review_rating' );
+        $query->set( 'orderby', 'meta_value_num' );
+    }
+
+}
+
+function saswp_reviews_set_sortable_columns( $columns ){
+
+    $columns['saswp_review_date']  = 'saswp_review_date';
+    $columns['saswp_review_rating'] = 'saswp_review_rating';
+    return $columns;
+}
 
 function saswp_reviews_custom_columns($columns) {    
     
     unset($columns);
     
     $columns['cb']                         = '<input type="checkbox" />';
-    $columns['saswp_reviewer_image']       = '<a>'.saswp_t_string( 'Image' ).'<a>';
+    $columns['saswp_reviewer_image']       = saswp_t_string( 'Image' );
     $columns['title']                      = saswp_t_string( 'Title' );    
-    $columns['saswp_review_rating']        = '<a>'.saswp_t_string( 'Rating' ).'<a>';    
-    $columns['saswp_review_platform']      = '<a>'.saswp_t_string( 'Platform' ).'<a>';    
-    $columns['saswp_review_date']          = '<a>'.saswp_t_string( 'Review Date' ).'<a>'; 
-    $columns['saswp_review_place_id']      = '<a>'.saswp_t_string( 'Place ID/Reviewed To' ).'<a>';    
-    $columns['saswp_review_shortcode']     = '<a>'.saswp_t_string( 'Shortcode' ).'<a>';    
+    $columns['saswp_review_rating']        = saswp_t_string( 'Rating' );    
+    $columns['saswp_review_platform']      = saswp_t_string( 'Platform' );    
+    $columns['saswp_review_date']          = saswp_t_string( 'Review Date' ); 
+    $columns['saswp_review_place_id']      = saswp_t_string( 'Place ID/Reviewed To' );    
+    $columns['saswp_review_shortcode']     = saswp_t_string( 'Shortcode' );    
     
     return $columns;
 }
