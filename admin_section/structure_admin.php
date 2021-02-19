@@ -1317,7 +1317,7 @@ function saswp_custom_breadcrumbs() {
             $term_id        = get_query_var('tag_id');                   
             $get_term       = get_term($term_id);
             
-            if(is_object($get_term)){
+            if( is_object($get_term) && isset($get_term->name) ){
                 
                 $variables1_titles[] = $get_term->name;
                 $variables2_links[]  = get_term_link($term_id);
