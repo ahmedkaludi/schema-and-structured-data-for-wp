@@ -1954,7 +1954,7 @@ function saswp_review_page_callback(){
         <div class="saswp-settings-list">
         <ul>
                 <li>
-                        <div class="saswp-knowledge-label"><label>Upload Reviews From CSV</label></div>
+                        <div class="saswp-knowledge-label"><label><?php echo saswp_t_string('Upload Reviews From CSV'); ?></label></div>
                         <div class="saswp-knowledge-field">
                          <input type="file" name="saswp_upload_rv_csv" id="saswp_upload_rv_csv" multiple="false" accept=".csv" />
                          <p><?php echo saswp_t_string('You must follow the format.'); ?> <a href="<?php echo esc_url($csv_url); ?>"><?php echo saswp_t_string('Click here');  ?></a> <?php echo saswp_t_string('to download the format.') ?></p>
