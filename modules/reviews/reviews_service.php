@@ -495,8 +495,8 @@ class saswp_reviews_service {
                 $place_saved[] = $post_id;                                                  
                 $review_meta = array(
                         'saswp_rvs_loc_id'                 => sanitize_text_field($result['place_id']),      
-                        'saswp_rvs_loc_review_count'       => $result['user_ratings_total'], 
-                        'saswp_rvs_loc_avg_rating'         => $result['rating'],
+                        'saswp_rvs_loc_review_count'       => sanitize_text_field($result['user_ratings_total']), 
+                        'saswp_rvs_loc_avg_rating'         => sanitize_text_field($result['rating']),
                         'saswp_rvs_loc_icon'               => esc_url($result['icon']),
                         'saswp_rvs_loc_address'            => sanitize_textarea_field($result['formatted_address']),
                 );
@@ -558,8 +558,8 @@ class saswp_reviews_service {
                         'saswp_review_platform'       => intval($term->term_id),
                         'saswp_review_location_id'    => sanitize_text_field($place_id),
                         'saswp_review_time'           => sanitize_text_field($review['time']),
-                        'saswp_review_date'           => $review['date'],
-                        'saswp_review_rating'         => $review['rating'],
+                        'saswp_review_date'           => sanitize_text_field($review['date']),
+                        'saswp_review_rating'         => sanitize_text_field($review['rating']),
                         'saswp_review_text'           => sanitize_textarea_field($review['text']),                                
                         'saswp_reviewer_lang'         => sanitize_text_field($review['language']),
                         'saswp_reviewer_name'         => sanitize_text_field($review['author_name']),
