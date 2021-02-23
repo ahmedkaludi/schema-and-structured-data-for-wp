@@ -363,7 +363,8 @@ function saswp_settings_init(){
 
 function saswp_custom_upload_mimes($mimes = array()) {
 	
-	$mimes['json'] = "application/json";
+        $mimes['json'] = "application/json";
+        $mimes['csv']  =  "text/csv";
 
 	return $mimes;
 }
@@ -391,7 +392,24 @@ function saswp_handle_file_upload($option){
            }
         }
        
-   }  
+   }
+   
+   if(isset($_FILES['saswp_upload_rv_csv'])){
+     
+        $fileInfo = wp_check_filetype(basename($_FILES['saswp_upload_rv_csv']['name']));
+     
+         if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'csv') {
+ 
+             if(!empty($_FILES["saswp_upload_rv_csv"]["tmp_name"])){
+ 
+               $urls = wp_handle_upload($_FILES["saswp_upload_rv_csv"], array('test_form' => FALSE));    
+               $url = $urls["url"];
+               update_option('saswp_rv_csv_upload_url',esc_url($url));
+ 
+            }
+         }
+        
+  }
    
   return $option;
   
@@ -1930,6 +1948,16 @@ function saswp_review_page_callback(){
         ?>
         
     <div class="saswp-review-container" id="saswp-review-reviews-container">
+
+        <div class="saswp-settings-list">
+        <ul>
+                <li>
+                        <div class="saswp-knowledge-label"><label>Upload Reviews From CSV</label></div>
+                        <div class="saswp-knowledge-field"> <input type="file" name="saswp_upload_rv_csv" id="saswp_upload_rv_csv" multiple="false" accept=".csv" /></div>
+                </li>
+        </ul>
+        </div>
+        
         <?php 
 
             $meta_fields = apply_filters('saswp_modify_reviews_settings_page', $meta_fields);

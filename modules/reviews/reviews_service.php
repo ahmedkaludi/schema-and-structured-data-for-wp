@@ -20,6 +20,7 @@ class saswp_reviews_service {
         
         add_action('wp_ajax_saswp_fetch_google_reviews', array($this,'saswp_fetch_google_reviews'));
         add_shortcode('saswp-reviews', array($this, 'saswp_reviews_shortcode' ),10);  
+        add_action('admin_init', array($this, 'saswp_import_reviews_from_csv' ),9);
         
     }
     
@@ -242,6 +243,61 @@ class saswp_reviews_service {
         
     }
     
+    public function saswp_import_reviews_from_csv(){
+        
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
+            return;
+       }
+       
+       global $wpdb;
+       
+       $result          = null;
+       $errorDesc       = array();       
+       $reviews_arr     = array();
+       $url = get_option('saswp_rv_csv_upload_url');
+       
+       if($url){
+           
+        $handle = fopen($url, "r");
+        $wpdb->query('START TRANSACTION');    
+
+        $counter = 0;
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+
+            // Skip the first row as is likely column names
+            if ($counter === 0) {
+                $counter++;
+                continue;
+            }
+                        
+            print_r($data);die;
+
+            $reviews_arr[] array(
+                'author_name'           => $data[0],
+                'author_url'            => '',
+                'platform'              => '',
+                'profile_photo_url'     => '',
+                'time'                  => '',
+                'date'                  => '',
+                'rating'                => '',
+                'text'                  => '',
+                'language'              => ''
+            );
+
+        }
+
+                                    
+       if ( count($errorDesc) ){
+         echo implode("\n<br/>", $errorDesc);              
+         $wpdb->query('ROLLBACK');             
+       }else{
+         $wpdb->query('COMMIT'); 
+         return true;
+       }
+            
+      }
+
+    }
     public function saswp_fetch_google_reviews(){
                 
                 if ( ! current_user_can( saswp_current_user_can() ) ) {
