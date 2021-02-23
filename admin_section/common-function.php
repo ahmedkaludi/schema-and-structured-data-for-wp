@@ -15,7 +15,8 @@ if ( ! defined('ABSPATH') ) exit;
      * List of hooks used in this context
      */
     add_action( 'admin_init', 'saswp_import_all_settings_and_schema',9);
-    add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema');  
+    add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema'); 
+    add_action( 'wp_ajax_saswp_download_csv_review_format', 'saswp_download_csv_review_format');  
     add_action( 'plugins_loaded', 'saswp_defaultSettings' );
     add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
     add_action( 'amp_post_template_css','saswp_enqueue_amp_script');
@@ -178,6 +179,30 @@ if ( ! defined('ABSPATH') ) exit;
        }                                    
                                                              
     }   
+
+    function saswp_download_csv_review_format(){
+
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
+            return;
+        }
+        if ( ! isset( $_GET['_wpnonce'] ) ){
+                return; 
+        }
+
+        if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
+                return;  
+        }
+                                                                   
+       $data = "Author, Author Url, Author Image, Date, Time, Rating, Title, Text, Platform, Language";
+
+       header('Content-Type: text/csv; charset=utf-8');
+       header('Content-disposition: attachment; filename=reviewscsv.csv');
+       echo $data;   
+                                     
+       wp_die();
+
+
+    }
     /**
      * We are here exporting all schema types and its settings as a backup file     
      * @global type $wpdb
@@ -3084,12 +3109,13 @@ function saswp_get_field_note($pname){
             'wpzoom'                      => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom">Recipe Card Blocks by WPZOOM</a>',        
             'video_thumbnails'            => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/video-thumbnails/">Video Thumbnails</a>',        
             'featured_video_plus'         => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/featured-video-plus/">Featured Video Plus</a>',        
-            'yotpo'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/yotpo-social-reviews-for-woocommerce/">Yotpo: Product & Photo Reviews for WooCommerce</a>',        
+            'yotpo'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/yotpo-social-reviews-for-woocommerce/">Yotpo: Product & Photo Reviews for WooCommerce</a>',
+            'ryviu'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/ryviu">Ryviu – Product Reviews for WooCommerce</a>',
             'starsrating'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/stars-rating">Stars Rating</a>',        
             'ultimate_blocks'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-blocks">Ultimate Blocks – Gutenberg Blocks Plugin</a>',        
-            'wptastyrecipe'               => saswp_t_string('Requires').' <a target="_blank" href="https://www.wptasty.com">WP Tasty Recipe</a>',        
-            'recipress'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/recipress">ReciPress</a>',        
-            'wp_ultimate_recipe'          => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-ultimate-recipe/">WP Ultimate Recipe</a>',        
+            'wptastyrecipe'               => saswp_t_string('Requires').' <a target="_blank" href="https://www.wptasty.com">WP Tasty Recipe</a>',
+            'recipress'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/recipress">ReciPress</a>',
+            'wp_ultimate_recipe'          => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-ultimate-recipe/">WP Ultimate Recipe</a>',
             'learn_press'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
             'learn_dash'                  => saswp_t_string('Requires').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
             'lifter_lms'                  => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',

@@ -363,7 +363,8 @@ function saswp_settings_init(){
 
 function saswp_custom_upload_mimes($mimes = array()) {
 	
-	$mimes['json'] = "application/json";
+        $mimes['json'] = "application/json";
+        $mimes['csv']  =  "text/csv";
 
 	return $mimes;
 }
@@ -391,7 +392,24 @@ function saswp_handle_file_upload($option){
            }
         }
        
-   }  
+   }
+   
+   if(isset($_FILES['saswp_upload_rv_csv'])){
+     
+        $fileInfo = wp_check_filetype(basename($_FILES['saswp_upload_rv_csv']['name']));
+     
+         if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'csv') {
+ 
+             if(!empty($_FILES["saswp_upload_rv_csv"]["tmp_name"])){
+ 
+               $urls = wp_handle_upload($_FILES["saswp_upload_rv_csv"], array('test_form' => FALSE));    
+               $url = $urls["url"];
+               update_option('saswp_rv_csv_upload_url',esc_url($url));
+ 
+            }
+         }
+        
+  }
    
   return $option;
   
@@ -1926,10 +1944,25 @@ function saswp_review_page_callback(){
                   )  
                                   
 	);    
-                          
+                    
+        $csv_url  = wp_nonce_url(admin_url('admin-ajax.php?action=saswp_download_csv_review_format'), '_wpnonce');         
+
         ?>
         
     <div class="saswp-review-container" id="saswp-review-reviews-container">
+
+        <div class="saswp-settings-list">
+        <ul>
+                <li>
+                        <div class="saswp-knowledge-label"><label><?php echo saswp_t_string('Upload Reviews From CSV'); ?></label></div>
+                        <div class="saswp-knowledge-field">
+                         <input type="file" name="saswp_upload_rv_csv" id="saswp_upload_rv_csv" multiple="false" accept=".csv" />
+                         <p><?php echo saswp_t_string('You must follow the format.'); ?> <a href="<?php echo esc_url($csv_url); ?>"><?php echo saswp_t_string('Click here');  ?></a> <?php echo saswp_t_string('to download the format.') ?></p>
+                         </div>
+                </li>
+        </ul>
+        </div>
+        
         <?php 
 
             $meta_fields = apply_filters('saswp_modify_reviews_settings_page', $meta_fields);
@@ -3018,6 +3051,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $ryviu = array(
+                'label'  => 'Ryviu – Product Reviews for WooCommerce',
+                'id'     => 'saswp-ryviu-checkbox',                        
+                'name'   => 'saswp-ryviu-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('ryviu'),
+                'hidden' => array(
+                        'id'   => 'saswp-ryviu',
+                        'name' => 'sd_data[saswp-ryviu]',                             
+                )
+        );
+
         $starsrating = array(
                 'label'  => 'Stars Rating',
                 'id'     => 'saswp-starsrating-checkbox',                        
@@ -3608,6 +3654,7 @@ function saswp_compatibility_page_callback(){
                 $video_thumbnails,
                 $featured_video_plus,
                 $yotpo,
+                $ryviu,
                 $starsrating,
                 $ultimate_blocks,
                 $wp_tasty_recipe,

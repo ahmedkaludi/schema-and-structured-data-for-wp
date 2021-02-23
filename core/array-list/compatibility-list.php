@@ -554,6 +554,12 @@ return array(
             'opt_name'   => 'saswp-yotpo',
             'part_in'    => 'free',
         ),
+        'ryviu' => array(            
+            'name'       => 'Ryviu – Product Reviews for WooCommerce',
+            'free'       => 'ryviu/ryviu.php',               
+            'opt_name'   => 'saswp-ryviu',
+            'part_in'    => 'free',
+        ),
         'wptastyrecipe' => array(            
             'name'       => 'WP Tasty Recipe',
             'free'       => 'tasty-recipes/tasty-recipes.php',               
