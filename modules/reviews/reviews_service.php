@@ -247,14 +247,15 @@ class saswp_reviews_service {
         
         if ( ! current_user_can( saswp_current_user_can() ) ) {
             return;
-       }
+        }
        
        global $wpdb;
        
        $result          = null;
        $errorDesc       = array();       
        $reviews_arr     = array();
-       $url = get_option('saswp_rv_csv_upload_url');
+       $place_id        = 'upload_by_csv';
+       $url             = get_option('saswp_rv_csv_upload_url');
        
        if($url){
            
@@ -268,24 +269,35 @@ class saswp_reviews_service {
             if ($counter === 0) {
                 $counter++;
                 continue;
-            }
-                        
-            print_r($data);die;
+            }                                    
 
-            $reviews_arr[] array(
+            $reviews_arr[] = array(
                 'author_name'           => $data[0],
-                'author_url'            => '',
-                'platform'              => '',
-                'profile_photo_url'     => '',
-                'time'                  => '',
-                'date'                  => '',
-                'rating'                => '',
-                'text'                  => '',
-                'language'              => ''
+                'author_url'            => $data[1],
+                'profile_photo_url'     => $data[2],                                                
+                'date'                  => $data[3],
+                'time'                  => isset($data[3]) ? $data[3] : null,
+                'rating'                => $data[5],
+                'title'                 => $data[6],
+                'text'                  => $data[7],
+                'platform'              => $data[8],
+                'language'              => isset($data[9]) ? $data[9] : null
             );
+            
+            if(isset($data[6]) && $data[6] != ''){
+                $place_id = $data[6];
+            }
+        }    
+            
+        $reviews_total            = array();
+        $reviews_total['reviews'] = $reviews_arr;
+        $result                   = $this->saswp_save_free_reviews_data($reviews_total, $place_id);
 
+        update_option('saswp_rv_csv_upload_url','');
+        
+        if(is_wp_error($result)){
+            $errorDesc[] = $result->get_error_message();
         }
-
                                     
        if ( count($errorDesc) ){
          echo implode("\n<br/>", $errorDesc);              
@@ -471,10 +483,10 @@ class saswp_reviews_service {
                                                                    
                 $user_id     = get_current_user_id();
                 $postarr = array(
-                    'post_author'           => $user_id,                                                            
-                    'post_title'            => $result['name'],                    
+                    'post_author'           => intval($user_id),          
+                    'post_title'            => sanitize_text_field($result['name']),                    
                     'post_status'           => 'publish',                                                            
-                    'post_name'             => $result['name'],                                                            
+                    'post_name'             => sanitize_text_field($result['name']),
                     'post_type'             => 'saswp_rvs_location',
                                                                              
                 );
@@ -482,11 +494,11 @@ class saswp_reviews_service {
                 $post_id = wp_insert_post(  $postarr );   
                 $place_saved[] = $post_id;                                                  
                 $review_meta = array(
-                        'saswp_rvs_loc_id'                 => $result['place_id'],      
+                        'saswp_rvs_loc_id'                 => sanitize_text_field($result['place_id']),      
                         'saswp_rvs_loc_review_count'       => $result['user_ratings_total'], 
                         'saswp_rvs_loc_avg_rating'         => $result['rating'],
-                        'saswp_rvs_loc_icon'               => $result['icon'],
-                        'saswp_rvs_loc_address'            => $result['formatted_address'],
+                        'saswp_rvs_loc_icon'               => esc_url($result['icon']),
+                        'saswp_rvs_loc_address'            => sanitize_textarea_field($result['formatted_address']),
                 );
 
                 if($post_id && !empty($review_meta) && is_array($review_meta)){
@@ -509,7 +521,7 @@ class saswp_reviews_service {
                 $user_id     = get_current_user_id();
                 $postarr = array(
                     'post_author'           => $user_id,                                                            
-                    'post_title'            => $review['author_name'],                    
+                    'post_title'            => isset($review['title']) ? sanitize_text_field($review['title']) : sanitize_text_field($review['author_name']),
                     'post_status'           => 'publish',                                                            
                     'post_name'             => 'Default Review',                                                            
                     'post_type'             => 'saswp_reviews',
@@ -518,32 +530,40 @@ class saswp_reviews_service {
                    
                 $post_id = wp_insert_post(  $postarr );   
                 $reviews_saved[] = $post_id;
-                $term     = get_term_by( 'slug','google', 'platform' );
+
+                if(isset($review['platform']) && $review['platform'] != ''){
+                    $term     = get_term_by( 'slug',$review['platform'], 'platform' );
+                    if(!isset($term->term_id)){
+                        $term     = get_term_by( 'slug','self', 'platform' );
+                    }
+                }else{
+                    $term     = get_term_by( 'slug','google', 'platform' );
+                }                               
                 
                 $media_detail = array();
                 
-                if(isset($review['profile_photo_url'])){
+                if(isset($review['profile_photo_url']) && $review['profile_photo_url'] != ''){
                     
                     $image_details = saswp_get_attachment_details(array($review['profile_photo_url']));   
                     
                     $media_detail = array(                                                    
-                        'width'      => $image_details[0][0],
-                        'height'     => $image_details[0][1],
-                        'thumbnail'  => $review['profile_photo_url'],
+                        'width'      => intval($image_details[0][0]),
+                        'height'     => intval($image_details[0][1]),
+                        'thumbnail'  => esc_url($review['profile_photo_url']),
                     );
                     
                 }                
                 
                 $review_meta = array(
-                        'saswp_review_platform'       => $term->term_id,
-                        'saswp_review_location_id'    => $place_id,
-                        'saswp_review_time'           => $review['time'],
+                        'saswp_review_platform'       => intval($term->term_id),
+                        'saswp_review_location_id'    => sanitize_text_field($place_id),
+                        'saswp_review_time'           => sanitize_text_field($review['time']),
                         'saswp_review_date'           => $review['date'],
                         'saswp_review_rating'         => $review['rating'],
-                        'saswp_review_text'           => $review['text'],                                
-                        'saswp_reviewer_lang'         => $review['language'],
-                        'saswp_reviewer_name'         => $review['author_name'],
-                        'saswp_review_link'           => isset($review['author_url']) ? $review['author_url'] : null,
+                        'saswp_review_text'           => sanitize_textarea_field($review['text']),                                
+                        'saswp_reviewer_lang'         => sanitize_text_field($review['language']),
+                        'saswp_reviewer_name'         => sanitize_text_field($review['author_name']),
+                        'saswp_review_link'           => isset($review['author_url']) ? esc_url($review['author_url']) : null,
                         'saswp_reviewer_image'        => isset($review['profile_photo_url']) ? $review['profile_photo_url'] : SASWP_DIR_URI.'/admin_section/images/default_user.jpg',
                         'saswp_reviewer_image_detail' => $media_detail
                 );

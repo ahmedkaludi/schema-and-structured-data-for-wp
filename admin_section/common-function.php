@@ -15,7 +15,8 @@ if ( ! defined('ABSPATH') ) exit;
      * List of hooks used in this context
      */
     add_action( 'admin_init', 'saswp_import_all_settings_and_schema',9);
-    add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema');  
+    add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema'); 
+    add_action( 'wp_ajax_saswp_download_csv_review_format', 'saswp_download_csv_review_format');  
     add_action( 'plugins_loaded', 'saswp_defaultSettings' );
     add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
     add_action( 'amp_post_template_css','saswp_enqueue_amp_script');
@@ -178,6 +179,30 @@ if ( ! defined('ABSPATH') ) exit;
        }                                    
                                                              
     }   
+
+    function saswp_download_csv_review_format(){
+
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
+            return;
+        }
+        if ( ! isset( $_GET['_wpnonce'] ) ){
+                return; 
+        }
+
+        if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
+                return;  
+        }
+                                                                   
+       $data = "Author, Author Url, Author Image, Date, Time, Rating, Title, Text, Platform, Language";
+
+       header('Content-Type: text/csv; charset=utf-8');
+       header('Content-disposition: attachment; filename=reviewscsv.csv');
+       echo $data;   
+                                     
+       wp_die();
+
+
+    }
     /**
      * We are here exporting all schema types and its settings as a backup file     
      * @global type $wpdb

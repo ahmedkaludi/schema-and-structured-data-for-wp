@@ -1944,7 +1944,9 @@ function saswp_review_page_callback(){
                   )  
                                   
 	);    
-                          
+                    
+        $csv_url  = wp_nonce_url(admin_url('admin-ajax.php?action=saswp_download_csv_review_format'), '_wpnonce');         
+
         ?>
         
     <div class="saswp-review-container" id="saswp-review-reviews-container">
@@ -1953,7 +1955,10 @@ function saswp_review_page_callback(){
         <ul>
                 <li>
                         <div class="saswp-knowledge-label"><label>Upload Reviews From CSV</label></div>
-                        <div class="saswp-knowledge-field"> <input type="file" name="saswp_upload_rv_csv" id="saswp_upload_rv_csv" multiple="false" accept=".csv" /></div>
+                        <div class="saswp-knowledge-field">
+                         <input type="file" name="saswp_upload_rv_csv" id="saswp_upload_rv_csv" multiple="false" accept=".csv" />
+                         <p><?php echo saswp_t_string('You must follow the format.'); ?> <a href="<?php echo esc_url($csv_url); ?>"><?php echo saswp_t_string('Click here');  ?></a> <?php echo saswp_t_string('to download the format.') ?></p>
+                         </div>
                 </li>
         </ul>
         </div>
