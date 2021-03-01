@@ -63,7 +63,8 @@ return array(
         ),                                                                                                                                                                                    
         'Product' => array(
             'Product'                  => 'Product',
-            'Car'                      => 'Car'
+            'Car'                      => 'Car',
+            'Vehicle'                  => 'Vehicle'
         ),
         'Place' => array(
             'TouristAttraction'               => 'TouristAttraction',

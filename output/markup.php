@@ -3006,7 +3006,172 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
     return $input1;
     
 }
+function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
 
+    $car_image = get_post_meta( get_the_ID(), 'saswp_vehicle_schema_image_'.$schema_id.'_detail',true);                                                                           
+
+    $input1 = array(
+    '@context'			            => saswp_context_url(),
+    '@type'				            => ['Product','Vehicle'],    
+    'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_url_'.$schema_id, 'saswp_array'),
+    'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_name_'.$schema_id, 'saswp_array'),
+    'sku'                           => saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_sku_'.$schema_id, 'saswp_array'),
+    'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_description_'.$schema_id, 'saswp_array'),
+    'brand'                         => array('@type' => 'Thing',
+                                             'name'  => saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_brand_name_'.$schema_id, 'saswp_array'),
+                                            )    
+    ); 
+    
+    if(isset($car_image['thumbnail']) && $car_image['thumbnail']){
+        
+        $input1['image']['@type']           = 'ImageObject';
+        $input1['image']['url']             = $car_image['thumbnail'];
+        $input1['image']['width']           = $car_image['width'];
+        $input1['image']['height']          = $car_image['height'];
+        
+    }
+    
+    if( (isset($all_post_meta['saswp_vehicle_schema_price_'.$schema_id][0]) && $all_post_meta['saswp_vehicle_schema_price_'.$schema_id][0]) || (isset($all_post_meta['saswp_vehicle_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_vehicle_schema_low_price_'.$schema_id][0]) ) ){
+                    
+        $input1['offers']['@type']           = 'Offer';
+        $input1['offers']['availability']    = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_availability_'.$schema_id, 'saswp_array');
+        $input1['offers']['itemCondition']   = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_condition_'.$schema_id, 'saswp_array');
+        $input1['offers']['price']           = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_price_'.$schema_id, 'saswp_array');
+        $input1['offers']['priceCurrency']   = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_currency_'.$schema_id, 'saswp_array');
+        $input1['offers']['url']             = trailingslashit(saswp_get_permalink());
+        $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_vehicle_schema_priceValidUntil_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_vehicle_schema_priceValidUntil_'.$schema_id][0])):'';
+    
+        if( isset($all_post_meta['saswp_vehicle_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_vehicle_schema_low_price_'.$schema_id][0]) ){
+            $input1['offers']['@type']           = 'AggregateOffer';
+            $input1['offers']['highPrice']       = $all_post_meta['saswp_vehicle_schema_high_price_'.$schema_id][0];
+            $input1['offers']['lowPrice']        = $all_post_meta['saswp_vehicle_schema_low_price_'.$schema_id][0];
+
+            if( isset($all_post_meta['saswp_vehicle_schema_offer_count_'.$schema_id][0]) ){
+                $input1['offers']['offerCount'] = $all_post_meta['saswp_vehicle_schema_offer_count_'.$schema_id][0];
+            }
+
+        }       
+
+    }
+                                            
+    if(isset($all_post_meta['saswp_vehicle_schema_model_'.$schema_id])){
+        $input1['model'] = esc_attr($all_post_meta['saswp_vehicle_schema_model_'.$schema_id][0]);  
+    }
+    if(isset($all_post_meta['saswp_vehicle_schema_body_type_'.$schema_id])){
+        $input1['bodyType'] = esc_attr($all_post_meta['saswp_vehicle_schema_body_type_'.$schema_id][0]);  
+    }
+    if(isset($all_post_meta['saswp_vehicle_schema_fuel_type_'.$schema_id])){
+        $input1['fuelType'] = esc_attr($all_post_meta['saswp_vehicle_schema_fuel_type_'.$schema_id][0]);  
+    }
+
+    if(isset($all_post_meta['saswp_vehicle_schema_fuel_efficiency_'.$schema_id])){
+        $input1['fuelEfficiency'] = esc_attr($all_post_meta['saswp_vehicle_schema_fuel_efficiency_'.$schema_id][0]);  
+    }
+    if(isset($all_post_meta['saswp_vehicle_schema_seating_capacity_'.$schema_id])){
+        $input1['seatingCapacity'] = esc_attr($all_post_meta['saswp_vehicle_schema_seating_capacity_'.$schema_id][0]);  
+    }
+    if(isset($all_post_meta['saswp_vehicle_schema_number_of_doors_'.$schema_id])){
+        $input1['numberOfdoors'] = esc_attr($all_post_meta['saswp_vehicle_schema_number_of_doors_'.$schema_id][0]);  
+    }
+
+    if(isset($all_post_meta['saswp_vehicle_schema_weight_'.$schema_id])){
+        $input1['weight'] = esc_attr($all_post_meta['saswp_vehicle_schema_weight_'.$schema_id][0]);  
+    }
+    if(isset($all_post_meta['saswp_vehicle_schema_width_'.$schema_id])){
+        $input1['width'] = esc_attr($all_post_meta['saswp_vehicle_schema_width_'.$schema_id][0]);  
+    }
+    if(isset($all_post_meta['saswp_vehicle_schema_height_'.$schema_id])){
+        $input1['height'] = esc_attr($all_post_meta['saswp_vehicle_schema_height_'.$schema_id][0]);  
+    }
+
+    if(isset($all_post_meta['saswp_vehicle_schema_manufacturer_'.$schema_id])){
+        $input1['manufacturer'] = esc_attr($all_post_meta['saswp_vehicle_schema_manufacturer_'.$schema_id][0]);  
+    }
+
+    if(isset($all_post_meta['saswp_vehicle_schema_mpn_'.$schema_id])){
+      $input1['mpn'] = esc_attr($all_post_meta['saswp_vehicle_schema_mpn_'.$schema_id][0]);  
+    }    
+    
+    if(saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_rating_value_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_rating_count_'.$schema_id, 'saswp_array')){   
+                         
+                                  $input1['aggregateRating'] = array(
+                                                    "@type"       => "AggregateRating",
+                                                    "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_rating_value_'.$schema_id, 'saswp_array'),
+                                                    "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_rating_count_'.$schema_id, 'saswp_array')
+                                                 );                                       
+                                 }
+                                     
+                                 
+                                $itinerary  = get_post_meta($schema_post_id, 'car_reviews_'.$schema_id, true);
+                    
+                                $itinerary_arr = array();
+
+                                if(!empty($itinerary)){
+
+                                 foreach($itinerary as $review){
+                                        
+                                  $review_fields = array();
+                                  
+                                  $review_fields['@type']         = 'Review';
+                                  $review_fields['author']        = esc_attr($review['saswp_vehicle_reviews_reviewer_name']);
+
+                                  if(isset($review['saswp_vehicle_reviews_created_date'])){
+                                    $review_fields['datePublished'] = esc_html($review['saswp_vehicle_reviews_created_date']);
+                                  }
+                                  if(isset($review['saswp_vehicle_reviews_text'])){
+                                    $review_fields['description']   = esc_textarea($review['saswp_vehicle_reviews_text']);
+                                  }
+                                                                                                                                                                
+                                  if(is_int($review['saswp_vehicle_reviews_reviewer_rating'])){
+                                      
+                                        $review_fields['reviewRating']['@type']   = 'Rating';
+                                        $review_fields['reviewRating']['bestRating']   = '5';
+                                        $review_fields['reviewRating']['ratingValue']   = esc_attr($review['saswp_vehicle_reviews_reviewer_rating']);
+                                        $review_fields['reviewRating']['worstRating']   = '1';
+                                  
+                                  }
+                                                                                                                                                                
+                                  $itinerary_arr[] = $review_fields;
+                                    }
+                                   $input1['review'] = $itinerary_arr;
+                                }
+                                
+                                $service = new saswp_output_service();
+                                $car_details = $service->saswp_woocommerce_product_details(get_the_ID());  
+
+                                if(!empty($car_details['car_reviews'])){
+                              
+                                $reviews = array();
+                              
+                                 foreach ($car_details['car_reviews'] as $review){
+                                                                                  
+                                  $review_fields = array();
+                                  
+                                  $review_fields['@type']         = 'Review';
+                                  $review_fields['author']        = esc_attr($review['author']);
+                                  $review_fields['datePublished'] = esc_html($review['datePublished']);
+                                  $review_fields['description']   = $review['description'];
+                                                                            
+                                  if(isset($review['reviewRating']) && $review['reviewRating'] !=''){
+                                      
+                                        $review_fields['reviewRating']['@type']   = 'Rating';
+                                        $review_fields['reviewRating']['bestRating']   = '5';
+                                        $review_fields['reviewRating']['ratingValue']   = esc_attr($review['reviewRating']);
+                                        $review_fields['reviewRating']['worstRating']   = '1';
+                                  
+                                  }
+                                                                                                                                                                
+                                  $reviews[] = $review_fields;
+                                  
+                              }
+                                 $input1['review'] =  $reviews;
+                        }
+
+            return $input1;
+
+}
 function saswp_car_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
