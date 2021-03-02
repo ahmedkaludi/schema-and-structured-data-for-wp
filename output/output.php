@@ -1896,6 +1896,14 @@ function saswp_schema_output() {
                                         $input1['itemReviewed']['aggregateRating'] = $kkstar_aggregateRating; 
                                     }
 
+                                    //Rate My post
+                            
+                                    $rmp_aggregateRating = saswp_extract_rmp_ratings();
+                                
+                                    if(!empty($rmp_aggregateRating)){
+                                        $input1['itemReviewed']['aggregateRating'] = $rmp_aggregateRating; 
+                                    }
+
                                     //Comments – wpDiscuz 
                                     $wpdiscuz_aggregateRating = saswp_extract_wpdiscuz();
 
@@ -1980,6 +1988,13 @@ function saswp_schema_output() {
 
                                         if(!empty($kkstar_aggregateRating)){
                                             $input1['aggregateRating'] = $kkstar_aggregateRating; 
+                                        }
+
+                                        //Rate My Post rating 
+                                        $rmp_aggregateRating = saswp_extract_rmp_ratings();
+
+                                        if(!empty($rmp_aggregateRating)){
+                                            $input1['aggregateRating'] = $rmp_aggregateRating; 
                                         }
 
                                         //Comments – wpDiscuz 

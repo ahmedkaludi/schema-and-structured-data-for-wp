@@ -3202,6 +3202,19 @@ function saswp_compatibility_page_callback(){
                         )
                 );
 
+        $rmp_rating = array(
+                'label'  => 'Rate my Post – WP Rating System',
+                'id'     => 'saswp-rmprating-checkbox',                        
+                'name'   => 'saswp-rmprating-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('rmprating'),
+                'hidden' => array(
+                        'id'   => 'saswp-rmprating',
+                        'name' => 'sd_data[saswp-rmprating]',                             
+                )
+        );
+
         $wpdiscuz = array(
                 'label'  => 'Comments – wpDiscuz',
                 'id'     => 'saswp-wpdiscuz-checkbox',                        
@@ -3614,6 +3627,7 @@ function saswp_compatibility_page_callback(){
                 $wpamp,
                 $ampwp,
                 $kk_star,
+                $rmp_rating,
                 $elementor_testimonial,
                 $brb,
                 $ratingform,

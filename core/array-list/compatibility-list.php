@@ -314,6 +314,12 @@ return array(
                     'opt_name'   => 'saswp-kk-star-raring',
                     'part_in'    => 'free',
         ),
+        'rmprating'  =>  array(            
+            'name'       => 'Rate my Post – WP Rating System',
+            'free'       => 'rate-my-post/rate-my-post.php',            
+            'opt_name'   => 'saswp-rmprating',
+            'part_in'    => 'free',
+        ),
         'elementor'  =>  array(            
             'name'       => 'Elementor Testimonial',
             'free'       => 'elementor/elementor.php', 

@@ -351,6 +351,9 @@ class saswp_output_compatibility{
     public function kk_star_ratings_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-kk-star-raring');
     }
+    public function rmprating_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-rmprating');
+    }
     public function elementor_ratings_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-elementor');
     }
