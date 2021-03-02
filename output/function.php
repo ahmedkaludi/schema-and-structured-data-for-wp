@@ -178,8 +178,7 @@ function saswp_get_all_schema_markup_output() {
         $custom_output = '';
        
         $custom_markup            = '';
-        $output                   = '';
-        $post_specific_enable     = '';
+        $output                   = '';        
         $schema_output            = array();
         $kb_schema_output         = array(); 
         $item_list                = array();
