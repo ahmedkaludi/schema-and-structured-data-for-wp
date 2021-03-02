@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.6
-Stable tag: 1.9.64
+Stable tag: 1.9.65
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,11 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.65 (02 March 2021) =
+
+* Fixed: The script tag contains invalid JSON that cannot be parsed. #1328
+* Fixed: Service schema type's Image field is missing. #1329
+* Added: Vehicle schema type #629
 
 = 1.9.64 (23 Feb 2021) =
 
