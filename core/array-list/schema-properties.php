@@ -164,7 +164,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                         
                         $meta_field[] = array(
-                                'label' => 'Latitude',
+                            'label' => 'Latitude',
                             'id' => 'local_latitude_'.$schema_id,
                             'type' => 'text',                         
                         );
@@ -4580,6 +4580,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_jobposting_schema_occupational_category_'.$schema_id,
                                 'type'       => 'text',                             
                         ),
+                     array(
+                                'label'      => 'Job Immediate Start',
+                                'id'         => 'saswp_jobposting_schema_jobimmediatestart_'.$schema_id,
+                                'type'       => 'text',                             
+                       ),
                     array(
                             'label'      => 'Hiring Organization Name',
                             'id'         => 'saswp_jobposting_schema_ho_name_'.$schema_id,
@@ -4620,6 +4625,22 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'         => 'saswp_jobposting_schema_country_'.$schema_id,
                             'type'       => 'text',                             
                     ),
+                    array(
+                                'label'      => 'GeoCoordinates Latitude',
+                                'id'         => 'saswp_jobposting_schema_latitude_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                        'placeholder' => '17.412'
+                                ), 
+                     ),
+                     array(
+                                'label'      => 'GeoCoordinates Longitude',
+                                'id'         => 'saswp_jobposting_schema_longitude_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                        'placeholder' => '78.433'
+                                ),
+                        ),
                     array(
                             'label'      => 'Base Salary Currency',
                             'id'         => 'saswp_jobposting_schema_bs_currency_'.$schema_id,

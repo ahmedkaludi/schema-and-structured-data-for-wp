@@ -3402,6 +3402,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_jobposting_schema_employment_type'])){
                      $input1['employmentType'] =    $custom_fields['saswp_jobposting_schema_employment_type'];
                     }
+                    if(isset($custom_fields['saswp_jobposting_schema_jobimmediatestart'])){
+                     $input1['jobImmediateStart'] =    $custom_fields['saswp_jobposting_schema_jobimmediatestart'];
+                    }
                     if(isset($custom_fields['saswp_jobposting_schema_ho_name'])){
                      $input1['hiringOrganization']['name'] =    $custom_fields['saswp_jobposting_schema_ho_name'];
                     }
@@ -3425,6 +3428,11 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_country'])){
                      $input1['jobLocation']['address']['addressCountry'] =    $custom_fields['saswp_jobposting_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_latitude']) && isset($custom_fields['saswp_jobposting_schema_longitude'])){                        
+                     $input1['jobLocation']['geo']['@type']     =    'GeoCoordinates';   
+                     $input1['jobLocation']['geo']['latitude']  =    $custom_fields['saswp_jobposting_schema_latitude'];
+                     $input1['jobLocation']['geo']['longitude'] =    $custom_fields['saswp_jobposting_schema_longitude'];                     
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_bs_currency'])){
                      $input1['baseSalary']['currency'] =    $custom_fields['saswp_jobposting_schema_bs_currency'];

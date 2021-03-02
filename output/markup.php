@@ -2103,6 +2103,15 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['jobLocation']['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_country_'.$schema_id, 'saswp_array');
     $input1['jobLocation']['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_postalcode_'.$schema_id, 'saswp_array');
 
+    if(isset($all_post_meta['saswp_jobposting_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_jobposting_schema_longitude_'.$schema_id][0])){
+
+        $input1['jobLocation']['geo']['@type']     = 'GeoCoordinates';
+        $input1['jobLocation']['geo']['latitude']  = $all_post_meta['saswp_jobposting_schema_latitude_'.$schema_id][0];
+        $input1['jobLocation']['geo']['longitude'] = $all_post_meta['saswp_jobposting_schema_longitude_'.$schema_id][0];
+    }
+    if( isset($all_post_meta['saswp_jobposting_schema_jobimmediatestart_'.$schema_id][0]) ){
+        $input1['jobImmediateStart'] = $all_post_meta['saswp_jobposting_schema_jobimmediatestart_'.$schema_id][0];
+    }
 
     $input1['baseSalary']['@type']             = 'MonetaryAmount';
     $input1['baseSalary']['currency']          = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_currency_'.$schema_id, 'saswp_array');
