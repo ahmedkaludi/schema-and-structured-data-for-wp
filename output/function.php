@@ -498,7 +498,7 @@ function saswp_get_all_schema_markup_output() {
                     $final_output['@context']   = saswp_context_url();
 
                     $final_output['@graph'][]   = $kb_schema_output;
-                    $final_output['@graph'][]   = $kb_website_output;
+                    $final_output['@graph'][]   = $kb_website_output;                    
 
                     $final_output['@graph'][]   = $webpage;
                    
@@ -507,6 +507,9 @@ function saswp_get_all_schema_markup_output() {
                     }
                     
                     $final_output['@graph'][]   = $soutput;
+
+                    $final_output['@graph'] = array_filter($final_output['@graph']);
+                    $final_output['@graph'] = array_values($final_output['@graph']);
                         
                     $schema = saswp_json_print_format($final_output);
                     $output .= $schema; 

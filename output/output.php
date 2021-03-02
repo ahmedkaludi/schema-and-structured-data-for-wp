@@ -840,8 +840,7 @@ function saswp_schema_output() {
                                     
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
-                                '@type'				=> ['Product', 'Car'],
-                                //'@type'				=> 'Car',                                   
+                                '@type'				=> ['Product', 'Car'],                                                                  
                                 'url'				=> trailingslashit(saswp_get_current_url()),                                                                                       
                                 'description'       => saswp_get_the_excerpt(),                                                                    
                                 'name'				=> saswp_get_the_title(),			                                
@@ -860,6 +859,34 @@ function saswp_schema_output() {
                                 if($modified_schema == 1){
                             
                                     $input1 = saswp_car_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                }
+                                                            
+                            break;
+
+                            case 'Vehicle':
+                                    
+                                $input1 = array(
+                                '@context'			=> saswp_context_url(),
+                                '@type'				=> ['Product', 'Vehicle'],                                                                  
+                                'url'				=> trailingslashit(saswp_get_current_url()),                                                                                       
+                                'description'       => saswp_get_the_excerpt(),                                                                    
+                                'name'				=> saswp_get_the_title(),			                                
+                                );
+                                                                                                         
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] == 1){
+                                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }
+                                
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+
+                                $input1 = apply_filters('saswp_modify_vehicle_schema_output', $input1 ); 
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                            
+                                    $input1 = saswp_vehicle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                 }
                                                             

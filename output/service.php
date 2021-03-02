@@ -2265,6 +2265,82 @@ Class saswp_output_service{
                                                                 
                         break;
 
+                        case 'Vehicle':
+                            if(isset($custom_fields['saswp_vehicle_schema_model'])){
+                                $input1['model'] =    $custom_fields['saswp_vehicle_schema_model'];
+                            }
+                            if(isset($custom_fields['saswp_vehicle_schema_body_type'])){
+                                $input1['bodyType'] =    $custom_fields['saswp_vehicle_schema_body_type'];
+                            }
+                            if(isset($custom_fields['saswp_vehicle_schema_fuel_efficiency'])){
+                                $input1['fuelEfficiency'] =    $custom_fields['saswp_vehicle_schema_fuel_efficiency'];
+                            }
+                            if(isset($custom_fields['saswp_vehicle_schema_seating_capacity'])){
+                                $input1['seatingCapacity'] =    $custom_fields['saswp_vehicle_schema_seating_capacity'];
+                            }
+                            if(isset($custom_fields['saswp_vehicle_schema_number_of_doors'])){
+                                $input1['numberOfdoors'] =    $custom_fields['saswp_vehicle_schema_number_of_doors'];
+                            }
+                            if(isset($custom_fields['saswp_vehicle_schema_weight'])){
+                                $input1['weight'] =    $custom_fields['saswp_vehicle_schema_weight'];
+                            }
+                            if(isset($custom_fields['saswp_vehicle_schema_width'])){
+                                $input1['width'] =    $custom_fields['saswp_vehicle_schema_width'];
+                            }
+                            if(isset($custom_fields['saswp_vehicle_schema_height'])){
+                                $input1['height'] =    $custom_fields['saswp_vehicle_schema_height'];
+                            }
+                            if(isset($custom_fields['saswp_vehicle_schema_manufacturer'])){
+                                $input1['manufacturer'] =    $custom_fields['saswp_vehicle_schema_manufacturer'];
+                            }
+                           if(isset($custom_fields['saswp_vehicle_schema_url'])){
+                                $input1['url'] =    saswp_validate_url($custom_fields['saswp_vehicle_schema_url']);
+                           }
+                           if(isset($custom_fields['saswp_vehicle_schema_name'])){
+                                $input1['name'] =    $custom_fields['saswp_vehicle_schema_name'];
+                           }                           
+                           if(isset($custom_fields['saswp_vehicle_schema_brand_name'])){
+                                $input1['brand']['name'] =    $custom_fields['saswp_vehicle_schema_brand_name'];
+                           }                           
+                           if(isset($custom_fields['saswp_vehicle_schema_mpn'])){
+                                $input1['mpn'] =    $custom_fields['saswp_vehicle_schema_mpn'];
+                           }                                                                   
+                           if(isset($custom_fields['saswp_vehicle_schema_description'])){
+                                $input1['description'] =  wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_vehicle_schema_description'] ));
+                           }                    
+                           if(isset($custom_fields['saswp_vehicle_schema_image'])){
+                                $input1['image'] =    $custom_fields['saswp_vehicle_schema_image'];
+                           }                           
+                           if(isset($custom_fields['saswp_vehicle_schema_price'])){
+                                $input1['offers']['price'] =    $custom_fields['saswp_vehicle_schema_price'];                                                                             
+                           }
+                           if(isset($custom_fields['saswp_vehicle_schema_currency'])){
+                                $input1['offers']['priceCurrency'] =    $custom_fields['saswp_vehicle_schema_currency'];                            
+                           }                           
+                           if(isset($custom_fields['saswp_vehicle_schema_priceValidUntil'])){
+                                $input1['offers']['priceValidUntil'] =    $custom_fields['saswp_vehicle_schema_priceValidUntil'];                            
+                           }                                              
+                           if(isset($custom_fields['saswp_vehicle_schema_sku'])){
+                                $input1['sku']                    =    $custom_fields['saswp_vehicle_schema_sku'];
+                           }                                  
+                           if( isset($custom_fields['saswp_vehicle_schema_high_price']) && isset($custom_fields['saswp_vehicle_schema_low_price']) ){
+       
+                               $input1['offers']['@type']     = 'AggregateOffer';
+                               $input1['offers']['highPrice'] = $custom_fields['saswp_vehicle_schema_high_price'];
+                               $input1['offers']['lowPrice']  = $custom_fields['saswp_vehicle_schema_low_price'];
+       
+                               if(isset($custom_fields['saswp_vehicle_schema_offer_count'])){
+                                   $input1['offers']['offerCount']     = $custom_fields['saswp_vehicle_schema_offer_count'];
+                               }
+                           }                           
+                           if(isset($custom_fields['saswp_vehicle_schema_rating']) && isset($custom_fields['saswp_vehicle_schema_rating_count'])){
+                                $input1['aggregateRating']['@type']       = 'aggregateRating';
+                                $input1['aggregateRating']['ratingValue'] = $custom_fields['saswp_vehicle_schema_rating'];
+                                $input1['aggregateRating']['reviewCount'] = $custom_fields['saswp_vehicle_schema_rating_count'];
+                           }
+                                                                
+                        break;
+
                     case 'RentAction':                                                                                                  
 
                         if(isset($custom_fields['saswp_rent_action_agent_name'])){
@@ -2429,6 +2505,10 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_service_schema_provider_type']) && isset($custom_fields['saswp_service_schema_provider_name'])){
                       $input1['provider']['@type'] =    $custom_fields['saswp_service_schema_provider_type'];
                       $input1['provider']['name']  =    $custom_fields['saswp_service_schema_provider_name'];
+                      
+                        if(isset($custom_fields['saswp_service_schema_image'])){
+                            $input1['provider']['image']    =    $custom_fields['saswp_service_schema_image'];
+                        }
                     }                                        
                     if(isset($custom_fields['saswp_service_schema_price_range'])){
                         $input1['provider']['priceRange'] =    $custom_fields['saswp_service_schema_price_range'];
@@ -4339,7 +4419,8 @@ Class saswp_output_service{
                 case 'SoftwareApplication':
                 case 'MobileApplication':
                 case 'Book':
-                case 'Car':    
+                case 'Car':
+                case 'Vehicle':    
                                                                         
                         $product_details = $this->saswp_woocommerce_product_details(get_the_ID());  
 
