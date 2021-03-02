@@ -2644,7 +2644,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_product_schema_gtin12_'.$schema_id,
                                 'type'    => 'text',  
                                 'default' => saswp_remove_warnings($product_details, 'product_gtin12', 'saswp_string')    
-                                ),
+                        ),
+                        array(
+                                'label'   => 'Color',
+                                'id'      => 'saswp_product_schema_color_'.$schema_id,
+                                'type'    => 'text'                                
+                        ),
                         array(
                             'label' => 'Seller Organization',
                             'id'    => 'saswp_product_schema_seller_'.$schema_id,

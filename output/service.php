@@ -2124,6 +2124,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_product_schema_gtin12'])){
                         $input1['gtin12'] =    $custom_fields['saswp_product_schema_gtin12'];
                     }
+                    if(isset($custom_fields['saswp_product_schema_color'])){
+                        $input1['color'] =    $custom_fields['saswp_product_schema_color'];
+                    } 
                     if(isset($custom_fields['saswp_product_additional_type'])){
                         $input1['additionalType'] =    $custom_fields['saswp_product_additional_type'];
                     }                                        
