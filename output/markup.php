@@ -106,7 +106,7 @@ function saswp_book_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 
             }  
 
-            if($all_post_meta['saswp_book_author_'.$schema_id][0]){
+            if( isset($all_post_meta['saswp_book_author_'.$schema_id][0]) && !empty($all_post_meta['saswp_book_author_'.$schema_id][0]) ){
 
                 $input1['author']['@type']   = 'Person';
 
@@ -2473,8 +2473,8 @@ function saswp_apartment_schema_markup($schema_id, $schema_post_id, $all_post_me
             $supply_data = array();
             $supply_data['@type']                                                  = 'PropertyValue';
             $supply_data['name']                                                   = $val['saswp_apartment_additional_property_name'];
-            $supply_data[$val['saswp_apartment_additional_property_code_type']]    = $val['saswp_apartment_additional_property_code_value'];
-            $supply_data['value']                                                  = $val['saswp_apartment_additional_property_value'];
+            $supply_data[$val['saswp_apartment_additional_property_code_type']]    = isset($val['saswp_apartment_additional_property_code_value']) ? $val['saswp_apartment_additional_property_code_value'] : '';
+            $supply_data['value']                                                  = isset($val['saswp_apartment_additional_property_value']) ? $val['saswp_apartment_additional_property_value'] : '';
 
            $add_property_arr[] =  $supply_data;
         }
