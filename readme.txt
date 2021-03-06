@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.6
-Stable tag: 1.9.65
+Stable tag: 1.9.66
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.66 (06 March 2021) =
+
+* Added: Compatibility with Rate My Post plugin ( https://wordpress.org/plugins/rate-my-post/ ) #378
+* Added: Two fields for the JobPosting schema type ( Job Immediate Start & Geo Coordinates ) #1331
+* Added: Colour property in product schema #920
+* Fixed: Warning: Undefined array key #1332
 
 = 1.9.65 (02 March 2021) =
 

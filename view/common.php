@@ -155,14 +155,14 @@ class saswp_view_common_class {
                                     if (saswp_is_date_field($meta_field['name'].'_'.$index.'_'.$schema_id)) {
                                                 $class='saswp-datepicker-picker';    
                                     }
-                                                                                                            
+                                    $data_value = isset($data[$meta_field['name']]) ? $data[$meta_field['name']] : '';
                                      $input = sprintf(
 						'<input class="%s"  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
                                                 $class,
 						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
 						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
 						esc_attr($meta_field['type']),
-						esc_attr($data[$meta_field['name']])                                            
+						esc_attr($data_value)                                            
                                              );
                                         
 					

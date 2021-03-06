@@ -1044,6 +1044,16 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-rmprating-checkbox':
+                          
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-rmprating").val(1);             
+                            }else{
+                              $("#saswp-rmprating").val(0);           
+                            }
+                      break;
+
                       case 'saswp-ratingform-checkbox':
                           
                           saswp_compatibliy_notes(current, id); 

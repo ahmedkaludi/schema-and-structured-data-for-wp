@@ -178,8 +178,7 @@ function saswp_get_all_schema_markup_output() {
         $custom_output = '';
        
         $custom_markup            = '';
-        $output                   = '';
-        $post_specific_enable     = '';
+        $output                   = '';        
         $schema_output            = array();
         $kb_schema_output         = array(); 
         $item_list                = array();
@@ -1025,6 +1024,40 @@ function saswp_get_elementor_testomonials(){
             }
                         
 }
+
+function saswp_extract_rmp_ratings(){
+        
+    global $sd_data;    
+    $star_rating = array();
+    if(isset($sd_data['saswp-rmprating']) && $sd_data['saswp-rmprating'] == 1 && is_plugin_active('rate-my-post/rate-my-post.php')){
+       
+        
+        $avg   = get_post_meta(get_the_ID(), 'rmp_avg_rating', true) ? ( get_post_meta(get_the_ID(), 'rmp_avg_rating', true)) : 0;
+        $votes = get_post_meta(get_the_ID(), 'rmp_vote_count', true) ? ((int) get_post_meta(get_the_ID(), 'rmp_vote_count', true)) : 0;
+                 
+        if($votes>0){
+                        
+            $star_rating['@type']       = 'AggregateRating';
+            $star_rating['bestRating']  = 5;
+            $star_rating['worstRating'] = 1;
+            $star_rating['ratingCount'] = $votes;
+            $star_rating['ratingValue'] = $avg;                                                           
+            
+            return $star_rating;
+            
+        }else{
+            
+            return array();    
+            
+        }
+        
+    }else{
+        
+        return array();
+        
+    }                        
+}
+
 /**
  * Extracting the value of star ratings plugins on current post
  * @global type $sd_data

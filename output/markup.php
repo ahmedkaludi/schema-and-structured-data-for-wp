@@ -106,7 +106,7 @@ function saswp_book_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 
             }  
 
-            if($all_post_meta['saswp_book_author_'.$schema_id][0]){
+            if( isset($all_post_meta['saswp_book_author_'.$schema_id][0]) && !empty($all_post_meta['saswp_book_author_'.$schema_id][0]) ){
 
                 $input1['author']['@type']   = 'Person';
 
@@ -949,6 +949,9 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                                     
             if(isset($all_post_meta['saswp_product_schema_gtin8_'.$schema_id])){
                 $input1['gtin8'] = esc_attr($all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0]);  
+            }
+            if(isset($all_post_meta['saswp_product_schema_color_'.$schema_id])){
+                $input1['color'] = esc_attr($all_post_meta['saswp_product_schema_color_'.$schema_id][0]);  
             }
             if(isset($all_post_meta['saswp_product_schema_gtin13_'.$schema_id])){
                 $input1['gtin13'] = esc_attr($all_post_meta['saswp_product_schema_gtin13_'.$schema_id][0]);  
@@ -2103,6 +2106,15 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['jobLocation']['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_country_'.$schema_id, 'saswp_array');
     $input1['jobLocation']['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_postalcode_'.$schema_id, 'saswp_array');
 
+    if(isset($all_post_meta['saswp_jobposting_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_jobposting_schema_longitude_'.$schema_id][0])){
+
+        $input1['jobLocation']['geo']['@type']     = 'GeoCoordinates';
+        $input1['jobLocation']['geo']['latitude']  = $all_post_meta['saswp_jobposting_schema_latitude_'.$schema_id][0];
+        $input1['jobLocation']['geo']['longitude'] = $all_post_meta['saswp_jobposting_schema_longitude_'.$schema_id][0];
+    }
+    if( isset($all_post_meta['saswp_jobposting_schema_jobimmediatestart_'.$schema_id][0]) ){
+        $input1['jobImmediateStart'] = $all_post_meta['saswp_jobposting_schema_jobimmediatestart_'.$schema_id][0];
+    }
 
     $input1['baseSalary']['@type']             = 'MonetaryAmount';
     $input1['baseSalary']['currency']          = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_bs_currency_'.$schema_id, 'saswp_array');
@@ -2461,8 +2473,8 @@ function saswp_apartment_schema_markup($schema_id, $schema_post_id, $all_post_me
             $supply_data = array();
             $supply_data['@type']                                                  = 'PropertyValue';
             $supply_data['name']                                                   = $val['saswp_apartment_additional_property_name'];
-            $supply_data[$val['saswp_apartment_additional_property_code_type']]    = $val['saswp_apartment_additional_property_code_value'];
-            $supply_data['value']                                                  = $val['saswp_apartment_additional_property_value'];
+            $supply_data[$val['saswp_apartment_additional_property_code_type']]    = isset($val['saswp_apartment_additional_property_code_value']) ? $val['saswp_apartment_additional_property_code_value'] : '';
+            $supply_data['value']                                                  = isset($val['saswp_apartment_additional_property_value']) ? $val['saswp_apartment_additional_property_value'] : '';
 
            $add_property_arr[] =  $supply_data;
         }
