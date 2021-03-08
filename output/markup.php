@@ -4149,6 +4149,75 @@ function saswp_image_object_schema_markup($schema_id, $schema_post_id, $all_post
     
 }
 
+function saswp_taxi_service_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+
+    $area_served_str = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_area_served_'.$schema_id, 'saswp_array');
+    $area_served_arr = explode(',', $area_served_str);
+
+    $service_offer_str = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_service_offer_'.$schema_id, 'saswp_array');
+    $service_offer_arr = explode(',', $service_offer_str);
+
+    $input1['@context']    = saswp_context_url();
+    $input1['@type']       = 'TaxiService';
+    $input1['@id']         = trailingslashit(get_permalink()).'#TaxiService';
+    $input1['name']        = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_name_'.$schema_id, 'saswp_array');
+    $input1['serviceType'] = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_type_'.$schema_id, 'saswp_array');
+
+    if(isset($all_post_meta['saswp_taxi_service_schema_additional_type_'.$schema_id][0])){
+        $input1['additionalType']         = $all_post_meta['saswp_taxi_service_schema_additional_type_'.$schema_id][0];
+    }
+    if(isset($all_post_meta['saswp_taxi_service_schema_service_output_'.$schema_id][0])){
+        $input1['serviceOutput']         = $all_post_meta['saswp_taxi_service_schema_service_output_'.$schema_id][0];
+    }
+
+    if(isset($all_post_meta['saswp_taxi_service_schema_provider_type_'.$schema_id][0])){
+
+         $input1['provider']['@type']                      = $all_post_meta['saswp_taxi_service_schema_provider_type_'.$schema_id][0];
+         $input1['provider']['name']                       = $all_post_meta['saswp_taxi_service_schema_provider_name_'.$schema_id][0];                                                 
+         $input1['provider']['address']['@type']           = 'PostalAddress';
+         $input1['provider']['address']['addressLocality'] = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_locality_'.$schema_id, 'saswp_array');
+         $input1['provider']['address']['postalCode']      = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_postal_code_'.$schema_id, 'saswp_array');
+         $input1['provider']['address']['telephone']       = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_telephone_'.$schema_id, 'saswp_array');
+
+         if(isset($all_post_meta['saswp_taxi_service_schema_price_range_'.$schema_id][0])){
+            $input1['provider']['priceRange']                 = $all_post_meta['saswp_taxi_service_schema_price_range_'.$schema_id][0];
+         }
+
+    }
+
+    if( isset($all_post_meta['saswp_taxi_service_schema_image_'.$schema_id][0]) && !empty($all_post_meta['saswp_taxi_service_schema_image_'.$schema_id][0]) ){
+        $input1['image']                      = $all_post_meta['saswp_taxi_service_schema_image_'.$schema_id][0];             
+    }
+
+    $input1['description'] = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_description_'.$schema_id, 'saswp_array');
+
+            $areaServed = array();
+            foreach($area_served_arr as $area){
+                $areaServed[] = array(
+                    '@type' => 'City',
+                    'name'  => $area
+                );
+            }
+            $serviceOffer = array();
+            foreach($service_offer_arr as $offer){
+                $serviceOffer[] = array(
+                    '@type' => 'Offer',
+                    'name'  => $offer
+                );
+            }
+           $input1['areaServed'] = $areaServed;
+           $input1['hasOfferCatalog'] = array(
+               '@type'            => 'OfferCatalog',
+                'name'            => saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_name_'.$schema_id, 'saswp_array'),
+                'itemListElement' => $serviceOffer
+           );
+
+    return $input1;
+
+}
+
 function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
         $input1 = array();

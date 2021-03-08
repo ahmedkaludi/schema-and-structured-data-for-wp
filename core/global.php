@@ -53,6 +53,7 @@ $without_aggregate = array(
         'WebPage',
         'JobPosting',
         'Service',
+        'TaxiService',
         'Trip',
         'MedicalCondition',
         'TouristAttraction',

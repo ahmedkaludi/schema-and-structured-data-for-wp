@@ -49,6 +49,7 @@ return array(
             'ItemList'                    => 'ItemList', 
             'JobPosting'                  => 'JobPosting', 
             'Service'                     => 'Service',
+            'TaxiService'                 => 'TaxiService',
             'Trip'                        => 'Trip',    
         ),
         'Media' =>  array(

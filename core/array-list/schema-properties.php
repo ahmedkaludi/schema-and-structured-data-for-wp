@@ -2786,6 +2786,111 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         )                        
                     );
                     break;
+
+                    case 'TaxiService':
+                    
+                        $meta_field = array(
+                        array(
+                                'label' => 'Name',
+                                'id'    => 'saswp_taxi_service_schema_name_'.$schema_id,
+                                'type'  => 'text',                    
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id'    => 'saswp_taxi_service_schema_url_'.$schema_id,
+                                'type'  => 'text',                    
+                        ),    
+                        array(
+                            'label' => 'Image',
+                            'id' => 'saswp_taxi_service_schema_image_'.$schema_id,
+                            'type' => 'media',                            
+                         ),
+                        array(
+                                'label' => 'Service Type',
+                                'id' => 'saswp_taxi_service_schema_type_'.$schema_id,
+                                'type' => 'text',                            
+                        ),
+                        array(
+                                'label' => 'Provider Name',
+                                'id' => 'saswp_taxi_service_schema_provider_name_'.$schema_id,
+                                'type' => 'text',                           
+                        ),
+                        array(
+                                'label' => 'Provider Type',
+                                'id' => 'saswp_taxi_service_schema_provider_type_'.$schema_id,
+                                'type' => 'select',
+                                'options' => array(
+                                         'Airline'                      => 'Airline',
+                                         'Corporation'                  => 'Corporation',
+                                         'EducationalOrganization'      => 'Educational Organization',
+                                         'GovernmentOrganization'       => 'Government Organization',
+                                         'LocalBusiness'                => 'Local Business',
+                                         'MedicalOrganization'          => 'Medical Organization',  
+                                         'NGO'                          => 'NGO', 
+                                         'PerformingGroup'              => 'Performing Group', 
+                                         'SportsOrganization'           => 'Sports Organization',
+                                ),                           
+                        ),                        
+                        array(
+                                'label' => 'Locality',
+                                'id' => 'saswp_taxi_service_schema_locality_'.$schema_id,
+                                'type' => 'text',                            
+                        ),
+                        array(
+                                'label' => 'Postal Code',
+                                'id' => 'saswp_taxi_service_schema_postal_code_'.$schema_id,
+                                'type' => 'text',                           
+                        ),
+                        array(
+                                'label' => 'Address Country',
+                                'id' => 'saswp_taxi_service_schema_country_'.$schema_id,
+                                'type' => 'text',                           
+                        ),    
+                        array(
+                                'label' => 'Telephone',
+                                'id' => 'saswp_taxi_service_schema_telephone_'.$schema_id,
+                                'type' => 'text',                            
+                        ), 
+                        array(
+                            'label' => 'Price Range',
+                            'id'    => 'saswp_taxi_service_schema_price_range_'.$schema_id,
+                            'type'  => 'text',                            
+                        ),                    
+                        array(
+                                'label' => 'Description',
+                                'id' => 'saswp_taxi_service_schema_description_'.$schema_id,
+                                'type' => 'textarea',                           
+                        ),
+                        array(
+                                'label' => 'Area Served (City)',
+                                'id' => 'saswp_taxi_service_schema_area_served_'.$schema_id,
+                                'type' => 'textarea',                           
+                                'note'   => 'Note: Enter all the City name in comma separated',
+                                'attributes' => array(
+                                    'placeholder' => 'New York, Los Angeles'
+                                ),
+                        ),
+                        array(
+                                'label' => 'Service Offer',
+                                'id' => 'saswp_taxi_service_schema_service_offer_'.$schema_id,
+                                'type' => 'textarea',                           
+                                'note'   => 'Note: Enter all the service offer in comma separated',
+                                'attributes' => array(
+                                    'placeholder' => 'Apartment light cleaning, carpet cleaning'
+                                )                                                        
+                            ),
+                            array(
+                                    'label' => 'Additional Type',
+                                    'id'    => 'saswp_taxi_service_schema_additional_type_'.$schema_id,
+                                    'type'  => 'text',                           
+                            ),
+                            array(
+                                    'label' => 'Service Output',
+                                    'id'    => 'saswp_taxi_service_schema_service_output_'.$schema_id,
+                                    'type'  => 'text',                           
+                            )                        
+                        );
+                        break;    
                 
                 case 'Review':
                                         

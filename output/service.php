@@ -2539,6 +2539,55 @@ Class saswp_output_service{
                     }
                                                                              
                     break;
+
+                    case 'TaxiService':
+
+                        if(isset($custom_fields['saswp_taxi_service_schema_name'])){
+                          $input1['name'] =    $custom_fields['saswp_taxi_service_schema_name'];
+                        }
+                        if(isset($custom_fields['saswp_taxi_service_schema_type'])){
+                          $input1['serviceType'] =    $custom_fields['saswp_taxi_service_schema_type'];
+                        }
+                        if(isset($custom_fields['saswp_taxi_service_schema_additional_type'])){
+                            $input1['additionalType'] =    $custom_fields['saswp_taxi_service_schema_additional_type'];
+                        }
+                        if(isset($custom_fields['saswp_taxi_service_schema_service_output'])){
+                          $input1['serviceOutput'] =    $custom_fields['saswp_taxi_service_schema_service_output'];
+                        }
+                        if(isset($custom_fields['saswp_taxi_service_schema_provider_type']) && isset($custom_fields['saswp_taxi_service_schema_provider_name'])){
+                          $input1['provider']['@type'] =    $custom_fields['saswp_taxi_service_schema_provider_type'];
+                          $input1['provider']['name']  =    $custom_fields['saswp_taxi_service_schema_provider_name'];
+                          
+                            if(isset($custom_fields['saswp_taxi_service_schema_image'])){
+                                $input1['provider']['image']    =    $custom_fields['saswp_taxi_service_schema_image'];
+                            }
+                        }                                        
+                        if(isset($custom_fields['saswp_taxi_service_schema_price_range'])){
+                            $input1['provider']['priceRange'] =    $custom_fields['saswp_taxi_service_schema_price_range'];
+                        }                    
+                        if(isset($custom_fields['saswp_taxi_service_schema_locality'])){
+                         $input1['provider']['address']['addressLocality'] =    $custom_fields['saswp_taxi_service_schema_locality'];
+                        }
+                        if(isset($custom_fields['saswp_taxi_service_schema_postal_code'])){
+                          $input1['provider']['address']['postalCode'] =    $custom_fields['saswp_taxi_service_schema_postal_code'];
+                        }
+                        if(isset($custom_fields['saswp_taxi_service_schema_telephone'])){
+                          $input1['provider']['address']['telephone'] =    $custom_fields['saswp_taxi_service_schema_telephone'];
+                        }                    
+                        if(isset($custom_fields['saswp_taxi_service_schema_description'])){
+                          $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_taxi_service_schema_description'] ));
+                        }
+                        if(isset($custom_fields['saswp_taxi_service_schema_area_served'])){
+                          $input1['areaServed'] =    saswp_explode_comma_seprated($custom_fields['saswp_taxi_service_schema_area_served'], 'Place');
+                        }
+                        if(isset($custom_fields['saswp_taxi_service_schema_image'])){
+                            $input1['image']    =    $custom_fields['saswp_taxi_service_schema_image'];
+                        }
+                        if(isset($custom_fields['saswp_taxi_service_schema_service_offer'])){
+                          $input1['hasOfferCatalog'] =    $custom_fields['saswp_taxi_service_schema_service_offer'];
+                        }
+                                                                                 
+                    break;    
                 
                 case 'VideoObject':
                     
