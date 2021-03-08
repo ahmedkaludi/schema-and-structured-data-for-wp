@@ -50,7 +50,8 @@ return array(
             'JobPosting'                  => 'JobPosting', 
             'Service'                     => 'Service',
             'TaxiService'                 => 'TaxiService',
-            'Trip'                        => 'Trip',    
+            'Trip'                        => 'Trip',   
+            'BoatTrip'                    => 'BoatTrip',    
         ),
         'Media' =>  array(
              'AudioObject'              => 'AudioObject',

@@ -1893,6 +1893,51 @@ function saswp_trip_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     return $input1;
 }
 
+function saswp_boat_trip_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+    
+    $howto_image = get_post_meta( get_the_ID(), 'saswp_boat_trip_schema_image_'.$schema_id.'_detail',true); 
+
+    $input1['@context']              = saswp_context_url();
+    $input1['@type']                 = 'BoatTrip';
+    $input1['@id']                   = trailingslashit(get_permalink()).'#BoatTrip';
+    $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_boat_trip_schema_url_'.$schema_id, 'saswp_array');                            
+    $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_boat_trip_schema_name_'.$schema_id, 'saswp_array');                            
+    $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_boat_trip_schema_description_'.$schema_id, 'saswp_array');                            
+
+    if(!(empty($howto_image))){
+
+    $input1['image']['@type']        = 'ImageObject';
+    $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+    $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+    $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+
+    }
+
+    $itinerary  = get_post_meta($schema_post_id, 'boat_trip_itinerary_'.$schema_id, true);
+
+    $itinerary_arr = array();
+
+    if(!empty($itinerary)){
+
+        foreach($itinerary as $val){
+
+            $supply_data = array();
+            $supply_data['@type']        = $val['saswp_boat_trip_itinerary_type'];
+            $supply_data['name']         = $val['saswp_boat_trip_itinerary_name'];
+            $supply_data['description']  = $val['saswp_boat_trip_itinerary_description'];
+            $supply_data['url']          = $val['saswp_boat_trip_itinerary_url'];
+
+
+           $itinerary_arr[] =  $supply_data;
+        }
+       $input1['itinerary'] = $itinerary_arr;
+    }    
+    
+    return $input1;
+}
+
 
 function saswp_itemlist_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     

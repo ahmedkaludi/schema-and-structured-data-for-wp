@@ -3526,6 +3526,23 @@ Class saswp_output_service{
                     }
                     
                 break;
+
+                case 'BoatTrip':      
+                    
+                       if(isset($custom_fields['saswp_boat_trip_schema_name'])){
+                        $input1['name'] =    $custom_fields['saswp_boat_trip_schema_name'];
+                       }
+                       if(isset($custom_fields['saswp_boat_trip_schema_description'])){
+                        $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_boat_trip_schema_description'] ));
+                       }
+                       if(isset($custom_fields['saswp_boat_trip_schema_url'])){
+                        $input1['url'] =    saswp_validate_url($custom_fields['saswp_boat_trip_schema_url']);
+                       }
+                       if(isset($custom_fields['saswp_boat_trip_schema_image'])){
+                        $input1['image'] =    $custom_fields['saswp_boat_trip_schema_image'];
+                       }
+                    
+                break;
                 
                 case 'MedicalCondition':      
                       

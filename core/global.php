@@ -55,6 +55,7 @@ $without_aggregate = array(
         'Service',
         'TaxiService',
         'Trip',
+        'BoatTrip',
         'MedicalCondition',
         'TouristAttraction',
         'TouristDestination',

@@ -4840,6 +4840,42 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                     break;
 
+                    case 'BoatTrip':
+                    
+                        $meta_field = array(
+                        array(
+                                'label'      => 'Name',
+                                'id'         => 'saswp_boat_trip_schema_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'Name'
+                                ), 
+                        ),
+                        array(
+                                'label'      => 'Description',
+                                'id'         => 'saswp_boat_trip_schema_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'attributes' => array(
+                                    'placeholder' => 'Description'
+                                )
+                        ),
+                        array(
+                                'label'      => 'URL',
+                                'id'         => 'saswp_boat_trip_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink() 
+                        ),
+                        array(
+                                'label'      => 'Image',
+                                'id'         => 'saswp_boat_trip_schema_image_'.$schema_id,
+                                'type'       => 'media'                            
+                        )    
+                            
+                            
+                       );
+    
+                    break;
+
                     case 'FAQ':
                     
                         $meta_field = array(
