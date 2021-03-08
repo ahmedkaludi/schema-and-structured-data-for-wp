@@ -4299,6 +4299,10 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['provider']['priceRange']                 = $all_post_meta['saswp_service_schema_price_range_'.$schema_id][0];
              }
 
+             if( isset($all_post_meta['saswp_service_schema_image_'.$schema_id][0]) && !empty($all_post_meta['saswp_service_schema_image_'.$schema_id][0]) ){
+                $input1['provider']['image']                      = $all_post_meta['saswp_service_schema_image_'.$schema_id][0];             
+             }
+
         }
 
         if( isset($all_post_meta['saswp_service_schema_image_'.$schema_id][0]) && !empty($all_post_meta['saswp_service_schema_image_'.$schema_id][0]) ){
