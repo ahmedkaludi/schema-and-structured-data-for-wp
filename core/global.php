@@ -47,6 +47,7 @@ $without_aggregate = array(
         'DiscussionForumPosting',
         'DataFeed',
         'FAQ',
+        'Photograph',
         'NewsArticle',
         'qanda',        
         'TechArticle',
