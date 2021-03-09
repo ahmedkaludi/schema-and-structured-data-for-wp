@@ -346,6 +346,23 @@ function saswp_schema_output() {
                                 }
                             
                             break;
+
+                            case 'BoatTrip':
+                                                                                   
+                                $input1['@context']              = saswp_context_url();
+                                $input1['@type']                 = 'BoatTrip';
+                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#BoatTrip';    
+
+                                $input1 = apply_filters('saswp_modify_boat_trip_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_boat_trip_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+                            
+                            break;
                         
                             case 'SingleFamilyResidence':
                                                                                                                                             
@@ -1309,6 +1326,21 @@ function saswp_schema_output() {
                                 }
 			                                
                             break;
+
+                            case 'Photograph':
+                                                                
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
+                                                                				                                                                                                                                
+                                $input1 = apply_filters('saswp_modify_photograph_schema_output', $input1 );  
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_photograph_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			                                
+                            break;
                         
                             case 'TechArticle':
                                                                 
@@ -1582,7 +1614,7 @@ function saswp_schema_output() {
                             
                             case 'Service':
                                                                                                  
-				$input1['@context'] =  saswp_context_url();
+				                $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $schema_type;
                                 $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#service';
                                                                                                                                                                                                                                 
@@ -1593,6 +1625,23 @@ function saswp_schema_output() {
                                 if($modified_schema == 1){
                                     
                                     $input1 = saswp_service_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+                                
+                            break;
+
+                            case 'TaxiService':
+                                                                                                 
+				                $input1['@context'] =  saswp_context_url();
+                                $input1['@type']    =  $schema_type;
+                                $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#TaxiService';
+                                                                                                                                                                                                                                
+                                $input1 = apply_filters('saswp_modify_taxi_service_schema_output', $input1 );
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_taxi_service_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
                                 
                             break;

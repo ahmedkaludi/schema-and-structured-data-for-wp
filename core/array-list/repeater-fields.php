@@ -78,7 +78,11 @@ return array( 'schema_type_element' => array(
                         ),
                         'Trip' => array(
                                'trip-itinerary'  => 'trip_itinerary'
-                        )                                                                          
+						),
+						'BoatTrip' => array(
+							'boat-trip-itinerary'  => 'boat_trip_itinerary'
+					    )
+						                                                                          
                     ),
     'meta_name' => array(
                      'movie_actor' => array(                    
@@ -455,38 +459,66 @@ return array( 'schema_type_element' => array(
                     ),
                    'trip_itinerary' => array(                    
                     array(
-			'label'     => 'Itinerary Type',
-			'name'      => 'saswp_trip_itinerary_type',
-			'type'      => 'select',
-                        'options'   => array(
-                                'City'                            => 'City',
-                                'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
-                                'AdministrativeArea'              => 'AdministrativeArea',
-                                'LakeBodyOfWater'                 => 'LakeBodyOfWater'
-                        )
+						'label'     => 'Itinerary Type',
+						'name'      => 'saswp_trip_itinerary_type',
+						'type'      => 'select',
+									'options'   => array(
+											'City'                            => 'City',
+											'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
+											'AdministrativeArea'              => 'AdministrativeArea',
+											'LakeBodyOfWater'                 => 'LakeBodyOfWater'
+									)
 		    ),
                     array(
-			'label'     => 'Itinerary Name',
-			'name'      => 'saswp_trip_itinerary_name',
-			'type'      => 'text'                        
+						'label'     => 'Itinerary Name',
+						'name'      => 'saswp_trip_itinerary_name',
+						'type'      => 'text'                        
 		    ),
                      array(
-			'label'     => 'Itinerary Description',
-			'name'      => 'saswp_trip_itinerary_description',
-			'type'      => 'textarea'                        
+						'label'     => 'Itinerary Description',
+						'name'      => 'saswp_trip_itinerary_description',
+						'type'      => 'textarea'                        
 		    ),
                      array(
-			'label'     => 'Itinerary URL',
-			'name'      => 'saswp_trip_itinerary_url',
-			'type'      => 'text'                        
-		    )   
-                    ),                                                                       
+						'label'     => 'Itinerary URL',
+						'name'      => 'saswp_trip_itinerary_url',
+						'type'      => 'text'                        
+						)   
+                    ),   
+					'boat_trip_itinerary' => array(                    
+						array(
+							'label'     => 'Itinerary Type',
+							'name'      => 'saswp_boat_trip_itinerary_type',
+							'type'      => 'select',
+										'options'   => array(
+												'City'                            => 'City',
+												'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
+												'AdministrativeArea'              => 'AdministrativeArea',
+												'LakeBodyOfWater'                 => 'LakeBodyOfWater'
+										)
+							),
+						array(
+							'label'     => 'Itinerary Name',
+							'name'      => 'saswp_boat_trip_itinerary_name',
+							'type'      => 'text'                        
+							),
+						 array(
+							'label'     => 'Itinerary Description',
+							'name'      => 'saswp_boat_trip_itinerary_description',
+							'type'      => 'textarea'                        
+							),
+						 array(
+							'label'     => 'Itinerary URL',
+							'name'      => 'saswp_boat_trip_itinerary_url',
+							'type'      => 'text'                        
+							)   
+						),                                                                     
                     'faq_question' => array(                                       
                     array(
-			'label'     => 'Question',
-			'name'      => 'saswp_faq_question_name',
-			'type'      => 'text'                        
-		    ),
+						'label'     => 'Question',
+						'name'      => 'saswp_faq_question_name',
+						'type'      => 'text'                        
+						),
                      array(
 			'label'     => 'Accepted Answer',
 			'name'      => 'saswp_faq_question_answer',
