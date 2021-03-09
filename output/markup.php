@@ -1755,6 +1755,14 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         $input1['nationality']           = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_nationality_'.$schema_id, 'saswp_array');                                                        
         $input1['jobTitle']              = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_job_title_'.$schema_id, 'saswp_array');                                                        
 
+        if(isset($all_post_meta['saswp_person_schema_company_'.$schema_id][0])){
+            $input1['worksFor']['@type']       = 'Organization';
+            $input1['worksFor']['name']        = $all_post_meta['saswp_person_schema_company_'.$schema_id][0];
+            if(isset($all_post_meta['saswp_person_schema_website_'.$schema_id][0])){
+                $input1['worksFor']['url']     = $all_post_meta['saswp_person_schema_website_'.$schema_id][0];
+            }
+        }
+
         $input1['address']['@type']             = 'PostalAddress';
         $input1['address']['streetAddress']     = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_street_address_'.$schema_id, 'saswp_array');
         $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_country_'.$schema_id, 'saswp_array');
@@ -1817,17 +1825,17 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             $input1['sameAs'] = $sameas;
         }
 
-        if(isset($all_post_meta['saswp_person_schema_occupation_name_'.$schema_id][0])){
+        if(isset($all_post_meta['saswp_person_schema_occupation_name_'.$schema_id][0]) && $all_post_meta['saswp_person_schema_occupation_name_'.$schema_id][0] != ''){
             $input1['hasOccupation']['name'] =    $all_post_meta['saswp_person_schema_occupation_name_'.$schema_id][0];
         }
-        if(isset($all_post_meta['saswp_person_schema_occupation_description_'.$schema_id][0])){
+        if(isset($all_post_meta['saswp_person_schema_occupation_description_'.$schema_id][0]) && $all_post_meta['saswp_person_schema_occupation_description_'.$schema_id][0] != ''){
             $input1['hasOccupation']['description'] =    $all_post_meta['saswp_person_schema_occupation_description_'.$schema_id][0];
         }
-        if(isset($all_post_meta['saswp_person_schema_occupation_city_'.$schema_id][0])){
+        if(isset($all_post_meta['saswp_person_schema_occupation_city_'.$schema_id][0]) && $all_post_meta['saswp_person_schema_occupation_city_'.$schema_id][0] != ''){
             $input1['hasOccupation']['occupationLocation']['@type'] = 'City'; 
             $input1['hasOccupation']['occupationLocation']['name']  =    $all_post_meta['saswp_person_schema_occupation_city_'.$schema_id][0];
         }
-        if(isset($all_post_meta['saswp_person_schema_estimated_salary_'.$schema_id][0])){
+        if(isset($all_post_meta['saswp_person_schema_estimated_salary_'.$schema_id][0]) && $all_post_meta['saswp_person_schema_estimated_salary_'.$schema_id][0] != ''){
             $input1['hasOccupation']['estimatedSalary']['@type']     =  'MonetaryAmountDistribution';
             $input1['hasOccupation']['estimatedSalary']['name']      =  'base';
             $input1['hasOccupation']['estimatedSalary']['currency']  =  $all_post_meta['saswp_person_schema_salary_currency_'.$schema_id][0];
@@ -1839,7 +1847,7 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             $input1['hasOccupation']['estimatedSalary']['percentile75']  =  $all_post_meta['saswp_person_schema_salary_percentile75_'.$schema_id][0];
             $input1['hasOccupation']['estimatedSalary']['percentile90']  =  $all_post_meta['saswp_person_schema_salary_percentile90_'.$schema_id][0];
         }
-        if(isset($all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0])){
+        if(isset( $all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0] ) && $all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0] != '' ){
             $input1['hasOccupation']['mainEntityOfPage']['@type']         = 'WebPage'; 
             $input1['hasOccupation']['mainEntityOfPage']['lastReviewed']  =    saswp_format_date_time($all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0]);
         }

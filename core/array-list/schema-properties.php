@@ -5024,7 +5024,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text',                            
                     ),
                     array(
-                            'label'      => 'Company',
+                            'label'      => 'Company ( Works For )',
                             'id'         => 'saswp_person_schema_company_'.$schema_id,
                             'type'       => 'text',                            
                     ),

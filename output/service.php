@@ -3155,6 +3155,16 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_person_schema_job_title'])){
                      $input1['jobTitle'] =    $custom_fields['saswp_person_schema_job_title'];
                     }
+
+                    if(isset($custom_fields['saswp_person_schema_company'])){                        
+                        $input1['worksFor']['@type']       = 'Organization';
+                        $input1['worksFor']['name']        = $custom_fields['saswp_person_schema_company'];
+
+                        if(isset($custom_fields['saswp_person_schema_website'])){
+                            $input1['worksFor']['url']       = $custom_fields['saswp_person_schema_website'];
+                        }
+                    }
+
                     if(isset($custom_fields['saswp_person_schema_award'])){
                         $input1['award'] =    $custom_fields['saswp_person_schema_award'];
                     }
