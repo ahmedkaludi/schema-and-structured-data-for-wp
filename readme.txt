@@ -2,8 +2,8 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 5.6
-Stable tag: 1.9.66
+Tested up to: 5.7
+Stable tag: 1.9.67
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.67 (09 March 2021) =
+
+* Fixed: Fatal error occuring, when trying to activate elemtor plugin along with the saswp plugin(While using PHP 8 versioin) #1336
+* Fixed: Value for the Image Field is required in service schema #1337
+* Added: WorksFor Property added to Person schema #1145
+* Added: Photograph and ImageGallery schema #790
+* Added: TaxiService Schema #1083
+* Added: BoatTrip schema #1135
+
 
 = 1.9.66 (06 March 2021) =
 
