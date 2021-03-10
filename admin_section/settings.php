@@ -95,12 +95,8 @@ function saswp_admin_interface_render(){
 	if ( isset( $_GET['settings-updated'] ) ) {							                                                 
 		settings_errors();               
 	}
-            $is_amp = false;
-        if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
-            $is_amp = true;			
-        }   
-       
-        $tab = saswp_get_tab('general', array('general', 'amp','review','compatibility','email_schema', 'tools', 'tools','premium_features', 'services', 'support'));            
+                  
+        $tab = saswp_get_tab('general', array('general', 'amp','review','compatibility','email_schema' ,'instant_indexing', 'tools','premium_features', 'services', 'support'));            
 	
 	?>
 <div class="saswp-settings-container">
@@ -122,6 +118,8 @@ function saswp_admin_interface_render(){
                         echo '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Email Schema') . '</a>';
                         
                         echo '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Advanced') . '</a>';                         			
+
+                        echo '<a href="' . esc_url(saswp_admin_link('instant_indexing')) . '" class="nav-tab ' . esc_attr( $tab == 'instant_indexing' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Indexing') . '</a>';
                         
                         echo '<a href="' . esc_url(saswp_admin_link('premium_features')) . '" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Premium Features') . '</a>';                         			
                         
@@ -187,6 +185,11 @@ function saswp_admin_interface_render(){
                         echo "<div class='saswp-email_schema' ".( $tab != 'email_schema' ? 'style="display:none;"' : '').">";
 			     // Status                        
 			        do_settings_sections( 'saswp_email_schema_section' );	// Page slug
+			echo "</div>";
+
+                        echo "<div class='saswp-instant_indexing' ".( $tab != 'instant_indexing' ? 'style="display:none;"' : '').">";
+			     // Status                        
+			        do_settings_sections( 'saswp_instant_indexing_section' );	// Page slug
 			echo "</div>";
                         
                         echo "<div class='saswp-tools' ".( $tab != 'tools' ? 'style="display:none;"' : '').">";
@@ -311,6 +314,16 @@ function saswp_settings_init(){
 			'saswp_email_schema_callback',								// CB
 			'saswp_email_schema_section',						// Page slug
 			'saswp_email_schema_section'						// Settings Section ID
+		);
+
+                add_settings_section('saswp_instant_indexing_section', __return_false(), '__return_false', 'saswp_instant_indexing_section');
+
+                add_settings_field(
+			'saswp_instant_indexing_settings',								// ID
+			'',		// Title
+			'saswp_instant_indexing_callback',								// CB
+			'saswp_instant_indexing_section',						// Page slug
+			'saswp_instant_indexing_section'						// Settings Section ID
 		);
                 
                 
@@ -2024,6 +2037,80 @@ function saswp_review_page_callback(){
     <?php
         
         
+}
+
+function saswp_instant_indexing_callback(){
+        
+        $settings = saswp_defaultSettings();  
+             
+        $post_types = get_post_types( array( 'public' => true ), 'objects' );  
+        
+        ?>
+
+        <div class="saswp-heading"><h2><?php echo saswp_t_string('Enable On ( Automatic )'); ?> </h2></div>
+        <p> <?php echo saswp_t_string('To instant indexing from these post types automatically in the background when a post is published, edited, or deleted'); ?></p>
+
+        <div class="saswp-settings-list">
+                <ul>
+                        <li>
+                                <div class="saswp-knowledge-label">
+                                        <label><?php echo saswp_t_string('Post Types'); ?></label>
+                                </div>
+                                <div class="saswp-knowledge-field">
+                                <?php
+                                        if( !empty($post_types) ){
+                                                unset($post_types['attachment'], $post_types['saswp'], $post_types['saswp_reviews'], $post_types['saswp-collections']);
+                                                
+                                                foreach($post_types as $post_type){
+                                                        echo ' <input type="checkbox" value="1" name="sd_data[instant_indexing]['.esc_attr($post_type->name).']" '.checked( ! empty( $settings['instant_indexing'][ $post_type->name ] ), true, false ).' /> '.esc_html($post_type->label).'<br>';
+                                                }
+
+                                        }
+                                                
+                                        ?> 
+                                </div>                
+                        </li>
+                </ul>
+        </div>
+        <div class="saswp-heading"><h2><?php echo saswp_t_string('Instant Console ( Manual )'); ?> </h2></div> 
+        
+        <div class="saswp-settings-list">
+                <ul>
+                        <li>
+                                <div class="saswp-knowledge-label">
+                                        <label for="giapi-url"><?php echo saswp_t_string('URLs (one per line, up to 50):'); ?></label>
+                                        <textarea name="url" id="saswp-giapi-url" class="regular-text code" style="min-width: 600px;" rows="5"></textarea>
+                                </div>                                              
+                        </li>
+                        <li>
+                        <div class="saswp-knowledge-label">
+
+                                <label><?php echo saswp_t_string('Action:'); ?></label>
+
+                                <input type="radio" class="saswp-i-i-action" name="sd_data[instant_indexing_action]" value="update"  <?php echo checked($settings['instant_indexing_action'], 'update') ?>   /> <?php echo saswp_t_string('Publish/Update'); ?> <br>
+                                <input type="radio" class="saswp-i-i-action" name="sd_data[instant_indexing_action]" value="remove"   <?php echo checked($settings['instant_indexing_action'], 'remove') ?> /> <?php echo saswp_t_string('Remove'); ?> <br>
+                                <input type="radio" class="saswp-i-i-action" name="sd_data[instant_indexing_action]" value="getstatus" <?php echo checked($settings['instant_indexing_action'], 'getstatus') ?> /> <?php echo saswp_t_string('Get status'); ?>
+                                <br>
+                                <br>
+                                <a class="button button-default saswp-instant-indexing-send"><?php echo saswp_t_string('Send For Indexing'); ?></a>
+                        </div>   
+                      
+                        </li>
+                </ul>
+        </div>
+
+        <div id="giapi-response-userfriendly" class="not-ready">
+		<br>
+		<hr>
+		<div class="response-box">
+			<code class="response-id"></code>
+			<h4 class="response-status"></h4>
+			<p class="response-message"></p>
+		</div>		
+	</div>
+
+        <?php
+                        
 }
 
 function saswp_email_schema_callback(){
@@ -4022,6 +4109,8 @@ function saswp_enqueue_style_js( $hook ) {
                         
         wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
         
+
+        apply_filters('saswp_wp_enqueue_more_script', '');
 
         }                
         

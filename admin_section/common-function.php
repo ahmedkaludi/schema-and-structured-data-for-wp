@@ -1806,7 +1806,9 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp-microdata-cleanup'   => 1,
                         'saswp-other-images'        => 1,
                         'saswp_default_review'      => 1,
-                        'saswp-multiple-size-image' => 1     
+                        'saswp-multiple-size-image' => 1,
+                        'instant_indexing_action'   => 1,
+                        'instant_indexing'          => array('post' => 1, 'page' => 1)   
 
                 );	  
                 
