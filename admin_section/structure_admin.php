@@ -1701,7 +1701,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'es'           => 'Event Schema',
                        'rs'           => 'Recipe Schema',
                        'qanda'        => 'Q&A Schema Compatibility',
-                       'faq'          => 'FAQ Schema Compatibility'
+                       'faq'          => 'FAQ Schema Compatibility',
+                       'ociaifs'      => '1 Click Indexing Api Integration For SASWP'
                 );
                                                                             
                 $edd_action = '';
