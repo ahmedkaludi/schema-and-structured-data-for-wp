@@ -4093,7 +4093,28 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         
 }
 
+function saswp_dequeue_other_select2_on_saswp_screen(){
+
+        global $saswp_metaboxes;
+        
+        $post_type = '';
+        
+        $current_screen = get_current_screen(); 
+       
+        if(isset($current_screen->post_type)){                  
+            $post_type = $current_screen->post_type;                
+        }    
+        
+        if($saswp_metaboxes || $post_type == 'saswp' || $post_type == 'saswp-collections' || $post_type == 'saswp_reviews' || $hook == 'saswp_page_structured_data_options' || $hook == 'saswp_page_collection' ){
+
+                wp_dequeue_script( 'forminator-shared-ui' ); 
+        	                                        
+        }  
+          
+}
+
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_saswp_select2_js',9999 );
+add_action( 'admin_footer', 'saswp_dequeue_other_select2_on_saswp_screen',9999 );
 
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 
