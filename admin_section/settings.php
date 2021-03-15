@@ -1677,7 +1677,13 @@ function saswp_import_callback(){
         <?php    
                                 
         $add_on = array();
-                
+        
+        if(is_plugin_active('1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php')){
+                      
+                $add_on[] = 'OCIAIFS';           
+                                           
+        }
+        
         if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){
                       
            $add_on[] = 'Cooked';           
