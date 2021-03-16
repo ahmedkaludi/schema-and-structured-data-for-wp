@@ -4097,10 +4097,13 @@ function saswp_dequeue_other_select2_on_saswp_screen(){
 
         global $saswp_metaboxes;
         
-        $post_type = '';
-        
+        $post_type = $hook = '';        
         $current_screen = get_current_screen(); 
-       
+        
+        if(isset($current_screen->id)){
+                $hook = $current_screen->id;         
+        }
+
         if(isset($current_screen->post_type)){                  
             $post_type = $current_screen->post_type;                
         }    
