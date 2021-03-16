@@ -353,7 +353,7 @@ function saswp_insert_platform_terms(){
 
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if($platform_inserted != 79){
+    if($platform_inserted != 81){
         
         $term_array = array(    
             'Self',
@@ -364,10 +364,11 @@ function saswp_insert_platform_terms(){
             'Expedia', 
             'Facebook', 
             'Google', 
+            'Goodreads',
             'TripAdvisor', 
             'Yelp', 
             'Zillow', 
-            'Zomato',                     
+            'Zomato',                        
             'Airbnb', 
             'AliExpress', 
             'AlternativeTo', 
@@ -420,6 +421,7 @@ function saswp_insert_platform_terms(){
             'Siftery', 
             'Steam',
             'SoftwareAdvice',
+            'Shopify App Store',                     
             'Shopper Approved',
             'Talabat', 
             'The Knot', 
@@ -459,8 +461,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 79){
-            set_transient('saswp_platform_inserted', 79,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 81){
+            set_transient('saswp_platform_inserted', 81,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }
