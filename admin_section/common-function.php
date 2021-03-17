@@ -3503,19 +3503,30 @@ function saswp_get_video_metadata($content = ''){
                               
            } 
 
-           $attributes = saswp_get_gutenberg_block_data('core-embed/youtube');            
+
+           if(function_exists('has_block')){
+            
+            if( has_block('core-embed/youtube') ){
+                $attributes = saswp_get_gutenberg_block_data('core-embed/youtube');    
+            }
+
+            if( has_block('core/embed') ){
+                $attributes = saswp_get_gutenberg_block_data('core/embed');    
+            }
            
-           if(isset($attributes['attrs']['url'])){
+            if(isset($attributes['attrs']['url'])){
+ 
+                   $vurl     = $attributes['attrs']['url']; 
+                   $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                   $result   = @wp_remote_get($rulr);                                    
+                   $metadata = json_decode(wp_remote_retrieve_body($result),true);
+ 
+                   $metadata['video_url'] = $vurl;                    
+                   $response[0] = $metadata;
+            }
 
-                  $vurl = $attributes['attrs']['url']; 
-                  $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
-                  $result   = @wp_remote_get($rulr);                                    
-                  $metadata = json_decode(wp_remote_retrieve_body($result),true);
-
-                  $metadata['video_url'] = $vurl;                    
-                  $response[0] = $metadata;
            }
-                          
+                                     
         return $response;
 }
 
