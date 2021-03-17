@@ -3261,7 +3261,11 @@ function saswp_current_user_allowed(){
     
     global $sd_data;
     
-    if( is_user_logged_in() ) {
+    if(!function_exists('wp_get_current_user')) {                
+        require_once( ABSPATH . '/wp-includes/pluggable.php' );
+    } 
+
+    if( ( function_exists('is_user_logged_in') && is_user_logged_in() )  && function_exists('wp_get_current_user') ) {
     
     $currentUser     = wp_get_current_user();        
     $saswp_roles     = isset($sd_data['saswp-role-based-access']) ? $sd_data['saswp-role-based-access'] : array('administrator');
@@ -3302,24 +3306,33 @@ function saswp_current_user_can(){
 function saswp_post_type_capabilities(){
         
         $caplist = array();
-    
-        $cap = saswp_current_user_can();
-    
-        if(!is_super_admin()){
-        
-            $caplist =  array(
-                'publish_posts'       => $cap,
-                'edit_posts'          => $cap,
-                'edit_others_posts'   => $cap,
-                'delete_posts'        => $cap,
-                'delete_others_posts' => $cap,
-                'read_private_posts'  => $cap,
-                'edit_post'           => $cap,
-                'delete_post'         => $cap,
-                'read_post'           => $cap,
-            ); 
             
+        if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user')) {                
+            require_once( ABSPATH . '/wp-includes/capabilities.php' );
+            require_once( ABSPATH . '/wp-includes/pluggable.php' );
         }
+
+        if( function_exists('is_super_admin') && function_exists('wp_get_current_user') ){
+
+            $cap = saswp_current_user_can();
+
+            if(!is_super_admin()){
+        
+                $caplist =  array(
+                    'publish_posts'       => $cap,
+                    'edit_posts'          => $cap,
+                    'edit_others_posts'   => $cap,
+                    'delete_posts'        => $cap,
+                    'delete_others_posts' => $cap,
+                    'read_private_posts'  => $cap,
+                    'edit_post'           => $cap,
+                    'delete_post'         => $cap,
+                    'read_post'           => $cap,
+                ); 
+                
+            }
+
+        }        
         
         return $caplist;      
 }

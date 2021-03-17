@@ -275,13 +275,19 @@ class saswp_view_common_class {
     public function saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null, $modified= null) { 
                                 
                 global $sd_data;                        
-                
-                $current_user   = wp_get_current_user();
+
                 $author_details = array();
-                
-                if(function_exists('get_avatar_data')){
-                    $author_details	= get_avatar_data($current_user->ID);                
-                }                                                
+
+                if( function_exists('wp_get_current_user') ) {
+
+                    $current_user   = wp_get_current_user();
+                                
+                    if(function_exists('get_avatar_data')){
+                        $author_details	= get_avatar_data($current_user->ID);                
+                    }
+
+                }
+
 		$output = '';                
                                 
 		foreach ( $saswp_meta_fields as $meta_field ) {

@@ -296,7 +296,11 @@ function saswp_comparison_logic_checker($input){
         $result     = ''; 
        
         // Get all the users registered
-        $user       = wp_get_current_user();
+        $user       = null;
+
+        if( function_exists('wp_get_current_user') ){
+            $user       = wp_get_current_user();
+        }        
 
         switch ($type) {
             
@@ -380,9 +384,15 @@ function saswp_comparison_logic_checker($input){
       // Logged in User Type
         case 'user_type':            
             if ( $comparison == 'equal') {
-                if ( in_array( $data, (array) $user->roles ) ) {
+              
+                if(is_object($user)){
+
+                  if ( in_array( $data, (array) $user->roles ) ) {
                     $result = true;
+                  }
+
                 }
+                
             }            
             if ( $comparison == 'not_equal') {
                 
@@ -1460,17 +1470,18 @@ function saswp_send_query_message(){
         $message        = sanitize_textarea_field($_POST['message']); 
         $email          = sanitize_textarea_field($_POST['email']); 
         $premium_cus    = sanitize_textarea_field($_POST['premium_cus']);   
-        $user           = wp_get_current_user();
-        
-        if($premium_cus == 'yes'){
-           $customer_type  = 'Are you a premium customer ? Yes';
-        }
-        
-        $message = '<p>'.$message.'</p><br><br>'
-                . $customer_type
-                . '<br><br>'.'Query from plugin support tab';
-        
-        if($user){
+                                
+        if(function_exists('wp_get_current_user')){
+
+            $user           = wp_get_current_user();
+
+            if($premium_cus == 'yes'){
+              $customer_type  = 'Are you a premium customer ? Yes';
+            }
+         
+            $message = '<p>'.$message.'</p><br><br>'
+                 . $customer_type
+                 . '<br><br>'.'Query from plugin support tab';
             
             $user_data  = $user->data;        
             $user_email = $user_data->user_email;     

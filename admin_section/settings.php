@@ -1455,7 +1455,7 @@ function saswp_import_callback(){
                 
 	);   
         
-        if(is_super_admin()){
+        if( function_exists('is_super_admin') &&  is_super_admin() ){
             
             $meta_fields[] = array(
 			'label'   => 'Role Based Access',
@@ -4129,25 +4129,35 @@ add_filter( 'option_page_capability_sd_data_group', 'saswp_option_page_capabilit
 
 function saswp_pre_update_settings($value, $old_value,  $option){
     
-    if(!is_super_admin()){
+        if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user') ) {
+                require_once( ABSPATH . '/wp-includes/capabilities.php' );
+                require_once( ABSPATH . '/wp-includes/pluggable.php' );
+        }   
+        
+        if( function_exists('is_super_admin') && function_exists('wp_get_current_user') ){
+
+                   if(!is_super_admin()){
     
-        if(isset($old_value['saswp-role-based-access'])){
-           $value['saswp-role-based-access'] = $old_value['saswp-role-based-access']; 
-        }
-        
-    }else{
-        
-        if(isset($value['saswp-role-based-access']) && !empty($value['saswp-role-based-access'])){
-                if(!in_array('administrator', $value['saswp-role-based-access'])){
-                    array_push($value['saswp-role-based-access'], 'administrator');
-                }
-        }else{
-                $value['saswp-role-based-access'] = array();
-                array_push($value['saswp-role-based-access'], 'administrator');
-        }
-                
-    }    
-   return $value; 
+                        if(isset($old_value['saswp-role-based-access'])){
+                           $value['saswp-role-based-access'] = $old_value['saswp-role-based-access']; 
+                        }
+                        
+                    }else{
+                        
+                        if(isset($value['saswp-role-based-access']) && !empty($value['saswp-role-based-access'])){
+                                if(!in_array('administrator', $value['saswp-role-based-access'])){
+                                    array_push($value['saswp-role-based-access'], 'administrator');
+                                }
+                        }else{
+                                $value['saswp-role-based-access'] = array();
+                                array_push($value['saswp-role-based-access'], 'administrator');
+                        }
+                                
+                    }
+
+        }   
+
+        return $value; 
 }
 
 add_filter('pre_update_option_sd_data', 'saswp_pre_update_settings',10,3);
