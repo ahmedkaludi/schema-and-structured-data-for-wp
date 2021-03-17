@@ -128,6 +128,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Warning: Undefined variable $hook in \admin_section\settings.php on line 4108 #1346
 * Fixed: Collection page(Archive) schema is not being generated for "tag" pages. #1339
 * Fixed: Conflict with the forminator plugin #1340
+* Fixed: Warning: Undefined array key #1350
 
 = 1.9.67 (09 March 2021) =
 
