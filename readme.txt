@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.67
+Stable tag: 1.9.68
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,15 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.68 (17 March 2021) =
+
+* Fixed: Call to undefined function wp_get_current_user in /admin_section/settings.php(4060) #1347
+* Fixed: JobPosting Schema is not showing after modifying on post individually. #1349
+* Fixed: Warning: one of contentUrl or embedUrl must be provided warning. #1348
+* Fixed: Warning: Undefined variable $hook in \admin_section\settings.php on line 4108 #1346
+* Fixed: Collection page(Archive) schema is not being generated for "tag" pages. #1339
+* Fixed: Conflict with the forminator plugin #1340
 
 = 1.9.67 (09 March 2021) =
 

@@ -415,7 +415,7 @@ function saswp_premium_features_callback(){ ?>
 
 		<ul class="saswp-features-blocks">
 
-                <li>
+                <!-- <li>
                             
                             <?php
                             
@@ -444,7 +444,7 @@ function saswp_premium_features_callback(){ ?>
                         <?php echo $cooked_active_text; ?>
                                                                                                                                                
                     </div>
-            </li>
+            </li> -->
 
                 <li>
                             
