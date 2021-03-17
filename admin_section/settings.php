@@ -415,7 +415,7 @@ function saswp_premium_features_callback(){ ?>
 
 		<ul class="saswp-features-blocks">
 
-                <!-- <li>
+                <li>
                             
                             <?php
                             
@@ -435,7 +435,7 @@ function saswp_premium_features_callback(){ ?>
                                 <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/indexing.png">
                             </div>
                             <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('1 Click Indexing Api Integration For SASWP') ?></h3>
+                                    <h3><?php echo saswp_t_string('1-Click Indexing API Integration') ?></h3>
                                     <p><?php echo saswp_t_string('The Indexing API allows any site owner to directly notify Google when pages are added or removed. This allows Google to schedule pages for a fresh crawl, which can lead to higher quality user traffic') ?></p>
                             </div>
                     </div>
@@ -444,7 +444,7 @@ function saswp_premium_features_callback(){ ?>
                         <?php echo $cooked_active_text; ?>
                                                                                                                                                
                     </div>
-            </li> -->
+            </li>
 
                 <li>
                             
@@ -466,7 +466,7 @@ function saswp_premium_features_callback(){ ?>
                                 <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/polylang.png">
                             </div>
                             <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('Polylang Compatibility for SASWP') ?></h3>
+                                    <h3><?php echo saswp_t_string('Polylang Compatibility') ?></h3>
                                     <p><?php echo saswp_t_string('It adds all the static labels from this plugin to Polylang Strings Translations dashboard where user can translate it') ?></p>
                             </div>
                     </div>
