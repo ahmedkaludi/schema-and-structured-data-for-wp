@@ -95,12 +95,8 @@ function saswp_admin_interface_render(){
 	if ( isset( $_GET['settings-updated'] ) ) {							                                                 
 		settings_errors();               
 	}
-            $is_amp = false;
-        if ( is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php') ) {
-            $is_amp = true;			
-        }   
-       
-        $tab = saswp_get_tab('general', array('general', 'amp','review','compatibility','email_schema', 'tools', 'tools','premium_features', 'services', 'support'));            
+        
+        $tab = saswp_get_tab('general', apply_filters( 'saswp_extra_settings_tab', array('general', 'amp','review','compatibility','email_schema', 'tools','premium_features', 'services', 'support') ));            
 	
 	?>
 <div class="saswp-settings-container">
@@ -109,33 +105,29 @@ function saswp_admin_interface_render(){
                 <div>
 		<h2 class="nav-tab-wrapper saswp-tabs">
                     
-			<?php			
+			<?php	
 
-			echo '<a href="' . esc_url(saswp_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Global') . '</a>';
-			                                               
-                        echo '<a href="' . esc_url(saswp_admin_link('amp')) . '" class="nav-tab ' . esc_attr( $tab == 'amp' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('AMP') . '</a>';    
-                                                                                                                                                                                                                                              
-                        echo '<a href="' . esc_url(saswp_admin_link('review')) . '" class="nav-tab ' . esc_attr( $tab == 'review' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Review') . '</a>';
-                        
-                        echo '<a href="' . esc_url(saswp_admin_link('compatibility')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Compatibility') . '</a>';
-                        
-                        echo '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Email Schema') . '</a>';
-                        
-                        echo '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Advanced') . '</a>';                         			
-                        
-                        echo '<a href="' . esc_url(saswp_admin_link('premium_features')) . '" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Premium Features') . '</a>';                         			
-                        
-                        echo '<a href="' . esc_url(saswp_admin_link('services')) . '" class="nav-tab ' . esc_attr( $tab == 'services' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Services') . '</a>';                         			
-                        
-                        echo '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Support') . '</a>';
-
-                        //echo '<a target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="nav-tab saswp-offer-banner">50% OFF for LIMITED time</a>'
-
+                        $tab_links = apply_filters( 'saswp_extra_settings_tab_link',        
+                                array(                                 
+                                        '<a href="' . esc_url(saswp_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Global') . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('amp')) . '" class="nav-tab ' . esc_attr( $tab == 'amp' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('AMP') . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('review')) . '" class="nav-tab ' . esc_attr( $tab == 'review' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Review') . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('compatibility')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Compatibility') . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Email Schema') . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Advanced') . '</a>',                                       
+                                        '<a href="' . esc_url(saswp_admin_link('premium_features')) . '" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Premium Features') . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('services')) . '" class="nav-tab ' . esc_attr( $tab == 'services' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Services') . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Support') . '</a>',
+                                        //'<a target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="nav-tab saswp-offer-banner">50% OFF for LIMITED time</a>'
+                                ), $tab);
+                                
+                                foreach($tab_links as $link){
+                                        echo $link;
+                                }
 			?>
                     
 		</h2>
-                 
-                                           
+                                                            
                 </div>
                 
                 <form action="<?php echo admin_url("options.php") ?>" method="post" enctype="multipart/form-data" class="saswp-settings-form">		
@@ -188,7 +180,7 @@ function saswp_admin_interface_render(){
 			     // Status                        
 			        do_settings_sections( 'saswp_email_schema_section' );	// Page slug
 			echo "</div>";
-                        
+                                                
                         echo "<div class='saswp-tools' ".( $tab != 'tools' ? 'style="display:none;"' : '').">";
                         
                             echo '<div id="saswp-tools-tabs" style="margin-top: 10px;">';
@@ -215,6 +207,8 @@ function saswp_admin_interface_render(){
 			     // Status                        
 			        do_settings_sections( 'saswp_support_section' );	// Page slug
 			echo "</div>";
+
+                        apply_filters('saswp_extra_settings_tab_div', $tab);
 
 			?>
 		</div>
@@ -311,8 +305,7 @@ function saswp_settings_init(){
 			'saswp_email_schema_callback',								// CB
 			'saswp_email_schema_section',						// Page slug
 			'saswp_email_schema_section'						// Settings Section ID
-		);
-                
+		);               
                 
                 add_settings_section('saswp_support_section', __return_false(), '__return_false', 'saswp_support_section');
 
@@ -417,8 +410,41 @@ function saswp_handle_file_upload($option){
 
 
 function saswp_premium_features_callback(){ ?>
+
 	<div class="saswp-pre-ftrs-wrap">
+
 		<ul class="saswp-features-blocks">
+
+                <li>
+                            
+                            <?php
+                            
+                            $cooked_active_text = '';
+                            
+                            if(is_plugin_active('1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php')){                                        
+                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                            }else{
+                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                            }
+                            
+                            ?> 
+                                            
+                    <div class="saswp-features-ele">
+                        <div class="saswp-ele-ic" style="background: #9fa2f5;">
+                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/indexing.png">
+                            </div>
+                            <div class="saswp-ele-tlt">
+                                    <h3><?php echo saswp_t_string('1-Click Indexing API Integration') ?></h3>
+                                    <p><?php echo saswp_t_string('The Indexing API allows any site owner to directly notify Google when pages are added or removed. This allows Google to schedule pages for a fresh crawl, which can lead to higher quality user traffic') ?></p>
+                            </div>
+                    </div>
+                    <div class="saswp-sts-btn">
+                        
+                        <?php echo $cooked_active_text; ?>
+                                                                                                                                               
+                    </div>
+            </li>
 
                 <li>
                             
@@ -440,7 +466,7 @@ function saswp_premium_features_callback(){ ?>
                                 <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/polylang.png">
                             </div>
                             <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('Polylang Compatibility for SASWP') ?></h3>
+                                    <h3><?php echo saswp_t_string('Polylang Compatibility') ?></h3>
                                     <p><?php echo saswp_t_string('It adds all the static labels from this plugin to Polylang Strings Translations dashboard where user can translate it') ?></p>
                             </div>
                     </div>
@@ -1429,7 +1455,7 @@ function saswp_import_callback(){
                 
 	);   
         
-        if(is_super_admin()){
+        if( function_exists('is_super_admin') &&  is_super_admin() ){
             
             $meta_fields[] = array(
 			'label'   => 'Role Based Access',
@@ -1651,7 +1677,13 @@ function saswp_import_callback(){
         <?php    
                                 
         $add_on = array();
-                
+        
+        if(is_plugin_active('1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php')){
+                      
+                $add_on[] = 'OCIAIFS';           
+                                           
+        }
+        
         if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){
                       
            $add_on[] = 'Cooked';           
@@ -4023,6 +4055,8 @@ function saswp_enqueue_style_js( $hook ) {
         wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
         
 
+        apply_filters('saswp_wp_enqueue_more_script', '');
+
         }                
         
 }
@@ -4059,7 +4093,31 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         
 }
 
+function saswp_dequeue_other_select2_on_saswp_screen(){
+
+        global $saswp_metaboxes;
+        
+        $post_type = $hook = '';        
+        $current_screen = get_current_screen(); 
+        
+        if(isset($current_screen->id)){
+                $hook = $current_screen->id;         
+        }
+
+        if(isset($current_screen->post_type)){                  
+            $post_type = $current_screen->post_type;                
+        }    
+        
+        if($saswp_metaboxes || $post_type == 'saswp' || $post_type == 'saswp-collections' || $post_type == 'saswp_reviews' || $hook == 'saswp_page_structured_data_options' || $hook == 'saswp_page_collection' ){
+
+                wp_dequeue_script( 'forminator-shared-ui' ); 
+        	                                        
+        }  
+          
+}
+
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_saswp_select2_js',9999 );
+add_action( 'admin_footer', 'saswp_dequeue_other_select2_on_saswp_screen',9999 );
 
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 
@@ -4071,25 +4129,35 @@ add_filter( 'option_page_capability_sd_data_group', 'saswp_option_page_capabilit
 
 function saswp_pre_update_settings($value, $old_value,  $option){
     
-    if(!is_super_admin()){
+        if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user') ) {
+                require_once( ABSPATH . '/wp-includes/capabilities.php' );
+                require_once( ABSPATH . '/wp-includes/pluggable.php' );
+        }   
+        
+        if( function_exists('is_super_admin') && function_exists('wp_get_current_user') ){
+
+                   if(!is_super_admin()){
     
-        if(isset($old_value['saswp-role-based-access'])){
-           $value['saswp-role-based-access'] = $old_value['saswp-role-based-access']; 
-        }
-        
-    }else{
-        
-        if(isset($value['saswp-role-based-access']) && !empty($value['saswp-role-based-access'])){
-                if(!in_array('administrator', $value['saswp-role-based-access'])){
-                    array_push($value['saswp-role-based-access'], 'administrator');
-                }
-        }else{
-                $value['saswp-role-based-access'] = array();
-                array_push($value['saswp-role-based-access'], 'administrator');
-        }
-                
-    }    
-   return $value; 
+                        if(isset($old_value['saswp-role-based-access'])){
+                           $value['saswp-role-based-access'] = $old_value['saswp-role-based-access']; 
+                        }
+                        
+                    }else{
+                        
+                        if(isset($value['saswp-role-based-access']) && !empty($value['saswp-role-based-access'])){
+                                if(!in_array('administrator', $value['saswp-role-based-access'])){
+                                    array_push($value['saswp-role-based-access'], 'administrator');
+                                }
+                        }else{
+                                $value['saswp-role-based-access'] = array();
+                                array_push($value['saswp-role-based-access'], 'administrator');
+                        }
+                                
+                    }
+
+        }   
+
+        return $value; 
 }
 
 add_filter('pre_update_option_sd_data', 'saswp_pre_update_settings',10,3);

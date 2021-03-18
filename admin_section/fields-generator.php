@@ -504,6 +504,12 @@ class saswp_fields_generator {
                                                                 <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/judge-me-img.png">
                                                                     <span>Judge.me</span>
                                                                 </li>
+                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/shopify-app-store-img.png">
+                                                                    <span>Shopify App Store</span>
+                                                                </li>
+                                                                <li><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/goodreads-img.png">
+                                                                    <span>Goodreads</span>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                         <div class="saswp-rev-btn">

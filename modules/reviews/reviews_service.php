@@ -115,7 +115,7 @@ class saswp_reviews_service {
                 $rv_image = '';
                 $postarr = array();
                 
-                if(is_user_logged_in()){
+                if( (function_exists('is_user_logged_in') && is_user_logged_in() ) && function_exists('wp_get_current_user') ){
                     
                      $current_user = wp_get_current_user();
                      $postarr['post_author'] = $current_user->ID;

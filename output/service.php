@@ -3501,7 +3501,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_jobposting_schema_dateposted'])){
                      $input1['datePosted'] =    $custom_fields['saswp_jobposting_schema_dateposted'];
                     }
-                    if(isset($custom_fields['saswp_jobposting_schema_validthrough'])){
+                    if(isset($custom_fields['saswp_jobposting_schema_validthrough']) && $custom_fields['saswp_jobposting_schema_validthrough'] !='' ){
                      $input1['validThrough'] =    $custom_fields['saswp_jobposting_schema_validthrough'];
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_employment_type'])){

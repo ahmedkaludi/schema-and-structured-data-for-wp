@@ -296,7 +296,11 @@ function saswp_comparison_logic_checker($input){
         $result     = ''; 
        
         // Get all the users registered
-        $user       = wp_get_current_user();
+        $user       = null;
+
+        if( function_exists('wp_get_current_user') ){
+            $user       = wp_get_current_user();
+        }        
 
         switch ($type) {
             
@@ -380,9 +384,15 @@ function saswp_comparison_logic_checker($input){
       // Logged in User Type
         case 'user_type':            
             if ( $comparison == 'equal') {
-                if ( in_array( $data, (array) $user->roles ) ) {
+              
+                if(is_object($user)){
+
+                  if ( in_array( $data, (array) $user->roles ) ) {
                     $result = true;
+                  }
+
                 }
+                
             }            
             if ( $comparison == 'not_equal') {
                 
@@ -963,9 +973,7 @@ function saswp_dequeue_script() {
       
       // if our current user can't edit this post, bail
     if( !current_user_can( saswp_current_user_can() ) ) return;  
-      
-    $meta_value = get_post_meta( $post_id, null, true );       
-    
+                
     $post_data_group_array = array();  
     $temp_condition_array  = array();
     $show_globally         = false;
@@ -1460,17 +1468,18 @@ function saswp_send_query_message(){
         $message        = sanitize_textarea_field($_POST['message']); 
         $email          = sanitize_textarea_field($_POST['email']); 
         $premium_cus    = sanitize_textarea_field($_POST['premium_cus']);   
-        $user           = wp_get_current_user();
-        
-        if($premium_cus == 'yes'){
-           $customer_type  = 'Are you a premium customer ? Yes';
-        }
-        
-        $message = '<p>'.$message.'</p><br><br>'
-                . $customer_type
-                . '<br><br>'.'Query from plugin support tab';
-        
-        if($user){
+                                
+        if(function_exists('wp_get_current_user')){
+
+            $user           = wp_get_current_user();
+
+            if($premium_cus == 'yes'){
+              $customer_type  = 'Are you a premium customer ? Yes';
+            }
+         
+            $message = '<p>'.$message.'</p><br><br>'
+                 . $customer_type
+                 . '<br><br>'.'Query from plugin support tab';
             
             $user_data  = $user->data;        
             $user_email = $user_data->user_email;     
@@ -1701,7 +1710,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'es'           => 'Event Schema',
                        'rs'           => 'Recipe Schema',
                        'qanda'        => 'Q&A Schema Compatibility',
-                       'faq'          => 'FAQ Schema Compatibility'
+                       'faq'          => 'FAQ Schema Compatibility',
+                       'ociaifs'      => '1 Click Indexing Api Integration For SASWP'
                 );
                                                                             
                 $edd_action = '';

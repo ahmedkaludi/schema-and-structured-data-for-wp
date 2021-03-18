@@ -4,6 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(
         array(
+            'key'        => 'ociaifs_for_saswp',
+            'name'       => '1 Click Indexing Api Integration For SASWP',
+            'path'       => '1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php',                        
+        ),
+        array(
             'key'        => 'polylang_compatibility_for_saswp',
             'name'       => 'Polylang Compatibility For SASWP',
             'path'       => 'polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php',                        

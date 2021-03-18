@@ -2483,7 +2483,7 @@ function saswp_archive_output(){
     
 	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
                     
-	    if ( (is_category() || is_tax()) && !$product_cat ) {
+	    if ( ( is_category() || is_tag() || is_tax()) && !$product_cat ) {
             		                                   
                 $i = 1;
                 $category_loop = new WP_Query( $query_string );                
