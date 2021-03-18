@@ -973,9 +973,7 @@ function saswp_dequeue_script() {
       
       // if our current user can't edit this post, bail
     if( !current_user_can( saswp_current_user_can() ) ) return;  
-      
-    $meta_value = get_post_meta( $post_id, null, true );       
-    
+                
     $post_data_group_array = array();  
     $temp_condition_array  = array();
     $show_globally         = false;
