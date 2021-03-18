@@ -4766,7 +4766,10 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'options'    => array(
                                 'Full-Time'  => 'Full-Time',
                                 'Part-Time'  => 'Part-Time',
-                                'Contractor' => 'Contractor',       
+                                'Contractor' => 'Contractor',                                
+                                'Temporary'  => 'Temporary',
+                                'Seasonal'   => 'Seasonal',
+                                'Internship' => 'Internship',
                             )
                         ), 
                     array(

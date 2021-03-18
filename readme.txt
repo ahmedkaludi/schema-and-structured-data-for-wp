@@ -120,7 +120,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
-= 1.9.68 (17 March 2021) =
+= 1.9.68 (18 March 2021) =
 
 * Fixed: Call to undefined function wp_get_current_user in /admin_section/settings.php(4060) #1347
 * Fixed: JobPosting Schema is not showing after modifying on post individually. #1349
@@ -129,6 +129,8 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Collection page(Archive) schema is not being generated for "tag" pages. #1339
 * Fixed: Conflict with the forminator plugin #1340
 * Fixed: Warning: Undefined array key #1350
+* Fixed: Fatal error: Uncaught TypeError while saving post when WPGraphQL plugin is active #1352
+* Added: More EmplymentType option inside JobPosting Schema #1353
 
 = 1.9.67 (09 March 2021) =
 
