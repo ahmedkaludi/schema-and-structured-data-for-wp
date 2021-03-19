@@ -2880,17 +2880,51 @@ function saswp_get_reviews_wp_theme(){
     return $response_rv;
 
 }
-add_filter( 'the_content', 'saswp_featured_image_in_feed' );
 
-function saswp_featured_image_in_feed( $content ) {
+add_filter( 'the_excerpt_rss', 'saswp_featured_image_in_feed_excerpt' );
+
+function saswp_featured_image_in_feed_excerpt( $content ) {
+
+    global $post, $sd_data;
+    
+    if( is_feed() ) {
+
+        $use_excerpt = get_option('rss_use_excerpt');
+
+        if( $use_excerpt == 1 && (isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1) ){
+
+            if ( has_post_thumbnail( $post->ID ) ){
+                $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
+                $content = $image . $content;
+            }
+
+        }
+        
+    }
+
+    return $content;
+    
+}
+
+add_filter( 'the_content', 'saswp_featured_image_in_feed_content' );
+
+function saswp_featured_image_in_feed_content( $content ) {
 
     global $post, $sd_data;
 
-    if( is_feed() &&  isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1 ) {
-        if ( has_post_thumbnail( $post->ID ) ){
-            $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
-            $content = $image . $content;
+    if( is_feed() ) {
+
+        $use_excerpt = get_option('rss_use_excerpt');
+
+        if( $use_excerpt != 1 && (isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1) ){
+
+            if ( has_post_thumbnail( $post->ID ) ){
+                $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
+                $content = $image . $content;
+            }
+
         }
+        
     }
 
     return $content;
