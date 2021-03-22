@@ -2951,7 +2951,7 @@ function saswp_get_loop_markup($i) {
     $logo               = $service_object->saswp_get_publisher(true);   
     $feature_image      = $service_object->saswp_get_fetaure_image();             
                                                                                                       
-    $publisher_info['type']           = 'Organization';                                
+    $publisher_info['@type']          = 'Organization';                                
     $publisher_info['name']           = esc_attr($site_name);
     $publisher_info['logo']['@type']  = 'ImageObject';
     $publisher_info['logo']['url']    = isset($logo['url'])    ? esc_attr($logo['url']):'';
