@@ -3162,3 +3162,40 @@ function saswp_get_stamped_reviews($product_id){
     
     return $response;
 }
+
+function saswp_get_ampforwp_story_images(){
+
+    $image_arr = array();
+    
+    if(class_exists('Ampforwp_Stories_Post_Type')){
+
+        $amp_story_meta = get_post_meta( get_the_ID(), 'ampforwp_stories', true );
+        $post_type      = get_post_type(get_the_ID());
+
+        if( !empty($amp_story_meta) && is_array($amp_story_meta) && $post_type == 'ampforwp_story' ) {
+                                                    
+            foreach ($amp_story_meta as $value) {
+                    
+                if( isset($value['design_type']) ){
+
+                    if( $value['design_type'] == 'design1'){
+                        $image_arr[] = saswp_get_image_by_url($value['dsg1_image_url']);
+                    }
+                    if($value['design_type'] == 'design2'){
+                        $image_arr[] = saswp_get_image_by_url($value['dsg2_image_url']);
+                    }
+                    if($value['design_type'] == 'design3'){
+                        $image_arr[] = saswp_get_image_by_url($value['dsg3_image_url']);
+                    }
+
+                }
+                
+            }
+                                                            
+        }
+
+    }
+
+    return $image_arr;
+    
+}

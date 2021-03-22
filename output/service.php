@@ -4493,16 +4493,21 @@ Class saswp_output_service{
                                         
                     );
 
+                    $image_arr = array();
+                                                            
+                    $image_arr  = saswp_get_ampforwp_story_images();    
+                    
                     $block_data = saswp_get_gutenberg_block_data('core/gallery');
                                     
                     if(isset($block_data['attrs']['ids']) && is_array($block_data['attrs']['ids']) && !empty($block_data['attrs']['ids']) ){
-
-                        $image_arr = array();
-
+                        
                         foreach($block_data['attrs']['ids'] as $image_id){
                             $image_arr[] = saswp_get_image_by_id($image_id);                            
                         }
-                        
+                                                                        
+                    }
+
+                    if( !empty($image_arr) ){
                         $input1['mainEntityOfPage']['@type'] = 'ImageGallery';
                         $input1['mainEntityOfPage']['image'] = $image_arr;                        
                     }
