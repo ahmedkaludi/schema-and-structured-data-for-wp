@@ -4092,3 +4092,14 @@ function saswp_get_elementor_widget_data($element_data, $widget_type){
       }
     }
 }
+
+function saswp_isset($str){
+
+    $result = false;
+
+    if(isset($str) && $str !=''){
+        $result = true;
+    }
+
+    return $result;
+}

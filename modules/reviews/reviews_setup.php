@@ -538,13 +538,13 @@ add_filter( 'parse_query', 'saswp_sort_reviews_by_platform' );
 
 function saswp_reviews_form_shortcode_metabox($post){
     
-    echo '<p>'.esc_html__( 'Use Below shortcode to show reviews form in your website. Using this you can collect reviews from your website directly.' , 'schema-and-structured-data-for-wp').'</p>';
+    echo '<p>'.saswp_t_string( 'Use Below shortcode to show reviews form in your website. Using this you can collect reviews from your website directly.').'</p>';
     echo '<input type="text" value="[saswp-reviews-form]" readonly>';
 }
 
 function saswp_reviews_usage_metabox ($post) {
 
-    echo '<p>'.esc_html__( 'Use these reviews to create a collection and use them to show on frontend.' , 'schema-and-structured-data-for-wp').'</p>';
-    echo '<div><a href="'.esc_url( admin_url("edit.php?post_type=saswp-collections") ).'">'.esc_html__( 'Add to collection' , 'schema-and-structured-data-for-wp').'</a></div>';
+    echo '<p>'.saswp_t_string( 'Use these reviews to create a collection and use them to show on frontend.').'</p>';
+    echo '<div><a href="'.esc_url( admin_url("edit.php?post_type=saswp-collections") ).'">'.saswp_t_string( 'Add to collection').'</a></div>';
 
 }

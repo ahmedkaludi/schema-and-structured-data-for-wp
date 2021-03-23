@@ -422,10 +422,10 @@ function saswp_premium_features_callback(){ ?>
                             $cooked_active_text = '';
                             
                             if(is_plugin_active('1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                             }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                             }
                             
                             ?> 
@@ -453,10 +453,10 @@ function saswp_premium_features_callback(){ ?>
                             $cooked_active_text = '';
                             
                             if(is_plugin_active('polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                             }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                             }
                             
                             ?> 
@@ -484,10 +484,10 @@ function saswp_premium_features_callback(){ ?>
                             $cooked_active_text = '';
                             
                             if(is_plugin_active('reviews-for-schema/reviews-for-schema.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                             }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                             }
                             
                             ?> 
@@ -515,10 +515,10 @@ function saswp_premium_features_callback(){ ?>
                             $cooked_active_text = '';
                             
                             if(is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                             }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                             }
                             
                             ?> 
@@ -546,10 +546,10 @@ function saswp_premium_features_callback(){ ?>
                             $cooked_active_text = '';
                             
                             if(is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                             }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                             }
                             
                             ?> 
@@ -578,10 +578,10 @@ function saswp_premium_features_callback(){ ?>
                             $cooked_active_text = '';
                             
                             if(is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                             }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                             }
                             
                             ?> 
@@ -609,10 +609,10 @@ function saswp_premium_features_callback(){ ?>
                                         $cooked_active_text = '';
                                         
                                         if(is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                            $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                                         }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                            $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                                         }
                                         
                                         ?> 
@@ -640,10 +640,10 @@ function saswp_premium_features_callback(){ ?>
                                         $cooked_active_text = '';
                                         
                                         if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                            $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                                         }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                            $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                                         }
                                         
                                         ?> 
@@ -670,10 +670,10 @@ function saswp_premium_features_callback(){ ?>
                                         $cooked_active_text = '';
                                         
                                         if(is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                            $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                                         }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">Download</span></a>';
+                                            $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                                         }
                                         
                                         ?> 
@@ -697,10 +697,10 @@ function saswp_premium_features_callback(){ ?>
                              <?php
                                         $woocommerce_active_text = '';
                                         if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){                                           
-                                          $woocommerce_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green">Active</span></label>';                                          ;
+                                          $woocommerce_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green">'.saswp_t_string('Active').'</span></label>';                                          ;
                                         }else{                                            
-                                           $woocommerce_active_text .= '<label class="saswp-sts-txt">Status :<span>Inactive</span></label>'; 
-                                           $woocommerce_active_text .= '<a target="_blank" href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/"><span class="saswp-d-btn">Download</span></a>';
+                                           $woocommerce_active_text .= '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>'; 
+                                           $woocommerce_active_text .= '<a target="_blank" href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                                         }
                                         
                                         ?>                                                        
@@ -726,10 +726,10 @@ function saswp_premium_features_callback(){ ?>
                                         $cooked_active_text = '';
                                         
                                         if(is_plugin_active('real-estate-schema/real-estate-schema.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">Status :<span style="color:green;">Active</span></label>';                                            
+                                            $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                                         }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">Status :<span>Inactive</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/real-estate-schema/"><span class="saswp-d-btn">Download</span></a>';
+                                            $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/real-estate-schema/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
                                         }
                                         
                                         ?> 
