@@ -98,8 +98,7 @@ if(!class_exists('SASWP_Aq_Resize')) {
                 global $sd_data;
                 
                 if( isset($sd_data['saswp-resized-image-folder']) && $sd_data['saswp-resized-image-folder'] == 1 ){
-
-                    $upload_main_url = $upload_info['url'];
+                    
                     $make_new_dir = $upload_dir . '/schema-and-structured-data-for-wp';
 
                     if (! is_dir($make_new_dir)) {

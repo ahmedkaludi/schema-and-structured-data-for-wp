@@ -77,18 +77,15 @@ class Saswp_Reviews_Widget extends WP_Widget {
 	 *
 	 * @param array $instance Previously saved values from database.
 	 */
-	public function form( $instance ) {
-            
-            
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : saswp_t_string( 'Review Title' );
-                $ads   = ! empty( $instance['g_review'] ) ? $instance['g_review'] : saswp_t_string( 'review list to be display' );?>
-                <p>
-                    <label for="<?php echo esc_attr( $this->get_field_id( 'g_review' ) ); ?>">
-        		<?php esc_attr_e( 'Reviews :' ); ?>
-                    </label>
-                    <input id="<?php echo esc_attr( $this->get_field_id( 'g_review' )); ?>" name="<?php echo esc_attr( $this->get_field_name( 'g_review' ) ); ?>" type="text" placeholder="review count" value="<?php echo (isset($instance['g_review']) ? $instance['g_review'] : 5); ?>">
-                </p>
-            <?php 
+	public function form( $instance ) {                        		                
+		?>
+			<p>
+				<label for="<?php echo esc_attr( $this->get_field_id( 'g_review' ) ); ?>">
+			<?php esc_attr_e( 'Reviews :' ); ?>
+				</label>
+				<input id="<?php echo esc_attr( $this->get_field_id( 'g_review' )); ?>" name="<?php echo esc_attr( $this->get_field_name( 'g_review' ) ); ?>" type="text" placeholder="review count" value="<?php echo (isset($instance['g_review']) ? $instance['g_review'] : 5); ?>">
+			</p>
+		<?php 
 	}
 
 	/**

@@ -338,8 +338,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                 
                 $schema_post_meta       = get_post_meta($schema->ID); 
-                $schema_post_types      = get_post_meta($schema->ID, $key='_schema_post_types', true );                  
-                $schema_post_meta_box   = get_post_meta($schema->ID, $key='_schema_post_meta_box', true );
+                $schema_post_types      = get_post_meta($schema->ID, $key='_schema_post_types', true );                                  
                 
                 $data_group_array = array();
                 
@@ -361,12 +360,9 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     }                                        
                 }                                
-                $schema_type         ='';
-                $schema_article_type ='';                                                
                 
-                if(isset($schema_post_meta['_schema_type'])){
-                  $schema_type = $schema_post_meta['_schema_type'];  
-                }
+                $schema_article_type ='';                                                
+
                 if(isset($schema_post_meta['_schema_article_type'])){
                   $schema_article_type = $schema_post_meta['_schema_article_type'][0];  
                 }                      
@@ -387,8 +383,7 @@ if ( ! defined('ABSPATH') ) exit;
               //Importing settings starts here
                             
                 $schema_plugin_options = get_option('schema_wp_settings');                                      
-                $custom_logo_id        = get_theme_mod( 'custom_logo' );
-                $logo                  = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+                $custom_logo_id        = get_theme_mod( 'custom_logo' );                
                                 
                 $saswp_plugin_options = array(                    
                     'sd_logo'   => array(
@@ -1269,8 +1264,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $result  = $post_id;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
                 $wpdb->get_results("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
-                
-                $schema_post_meta           = get_post_meta($schema->ID);                 
+                                             
                 $schema_post_types          = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-type', true );                   
                 $schema_post_meta_box       = get_post_meta($schema->ID, $key='bsf-aiosrs-'.$schema_post_types, true );                
                 $schema_enable_location     = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-location', true );
@@ -1466,12 +1460,7 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     }                  
                 }                                
-                $schema_type  = '';  
-                $local_name   = '';
-                $local_image  = '';
-                $local_phone  = '';
-                $local_url    = '';
-                $local_url    = '';
+                $schema_type  = '';                  
                 
                 if(isset($schema_post_types)){
                     
@@ -1534,8 +1523,7 @@ if ( ! defined('ABSPATH') ) exit;
               
                 $schema_pro_general_settings = get_option('wp-schema-pro-general-settings');  
                 $schema_pro_social_profile   = get_option('wp-schema-pro-social-profiles');
-                $schema_pro_global_schemas   = get_option('wp-schema-pro-global-schemas');
-                $schema_pro_settings         = get_option('aiosrs-pro-settings');                                 
+                $schema_pro_global_schemas   = get_option('wp-schema-pro-global-schemas');                                             
                 $logo                        = wp_get_attachment_image_src( $schema_pro_general_settings['site-logo-custom'] , 'full' );
                              
                 $saswp_plugin_options = array(
@@ -4103,4 +4091,15 @@ function saswp_get_elementor_widget_data($element_data, $widget_type){
 
       }
     }
+}
+
+function saswp_isset($str){
+
+    $result = false;
+
+    if(isset($str) && $str !=''){
+        $result = true;
+    }
+
+    return $result;
 }

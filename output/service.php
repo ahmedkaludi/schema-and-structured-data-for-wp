@@ -4375,139 +4375,73 @@ Class saswp_output_service{
         public function saswp_schema_markup_generator($schema_type){
             
                         global $post, $sd_data;                                                
-            
-                        $logo         = ''; 
-                        $height       = '';
-                        $width        = '';
-                        $site_name    = '';
-                                                
-                        $default_logo = $this->saswp_get_publisher(true);
+                                    
+                        $publisher    = array();
                         
-                        if(!empty($default_logo)){
-            
-                            $logo   = $default_logo['url'];
-                            $height = $default_logo['height'];
-                            $width  = $default_logo['width'];
-            
-                        }
-                        
-                        if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
-                            
-                            $site_name = $sd_data['sd_name'];  
-                          
-                        }else{
-                            
-                            $site_name = get_bloginfo();    
-                            
-                        }
-                        
+                        $publisher    = $this->saswp_get_publisher();                           
+                                                                                                                                                
                         $input1         = array();                                                                                    			                  			
                         $date 		    = get_the_date("c");
                         $modified_date 	= get_the_modified_date("c");                        
 			                                                
             switch ($schema_type) {
-                
-                case 'TechArticle':
+                                                
+                case 'Article':   
+                case 'TechArticle':  
+                case 'Photograph':  
+                case 'Blogposting':
+                case 'BlogPosting': 
+                                         
+                    $input1 = array(
+					'@context'			=> saswp_context_url(),
+					'@type'				=> $schema_type,
+                    '@id'				=> trailingslashit(saswp_get_permalink()).'#'.$schema_type,
+                    'url'				=> saswp_get_permalink(),
+                    'inLanguage'        => get_bloginfo('language'),
+					'mainEntityOfPage'  => saswp_get_permalink(),					
+					'headline'			=> saswp_get_the_title(),
+					'description'       => saswp_get_the_excerpt(),
+                    'articleBody'       => saswp_get_the_content(),
+                    'keywords'          => saswp_get_the_tags(),
+					'datePublished'     => esc_html($date),
+					'dateModified'      => esc_html($modified_date),
+					'author'			=> saswp_get_author_details()					                                    
+				);
+
+                if($schema_type == 'Photograph'){
+                    unset($input1['articleBody']);
+                    $image_arr = array();
+                                                            
+                    $image_arr  = saswp_get_ampforwp_story_images();    
                     
-                    $input1 = array(
-					'@context'			=> saswp_context_url(),
-					'@type'				=> 'TechArticle',
-                                        '@id'				=> trailingslashit(saswp_get_permalink()).'#techarticle',
-                                        'url'				=> saswp_get_permalink(),
-                                        'inLanguage'                    => get_bloginfo('language'),
-					'mainEntityOfPage'              => saswp_get_permalink(),					
-					'headline'			=> saswp_get_the_title(),
-					'description'                   => saswp_get_the_excerpt(),
-                                        'articleBody'                   => saswp_get_the_content(),
-                                        'keywords'                      => saswp_get_the_tags(),
-					'datePublished'                 => esc_html($date),
-					'dateModified'                  => esc_html($modified_date),
-					'author'			=> saswp_get_author_details(),
-					'publisher'			=> array(
-						'@type'			=> 'Organization',
-						'logo' 			=> array(
-							'@type'		=> 'ImageObject',
-							'url'		=> esc_url($logo),
-							'width'		=> esc_attr($width),
-							'height'	=> esc_attr($height),
-							),
-						'name'			=> esc_attr($site_name),
-					),
-                                    
-				);
-
-                    break;
-                
-                case 'Article':                   
-                    $input1 = array(
-					'@context'			=> saswp_context_url(),
-					'@type'				=> 'Article',
-                                        '@id'				=> trailingslashit(saswp_get_permalink()).'#article',
-                                        'url'				=> saswp_get_permalink(),
-                                        'inLanguage'                    => get_bloginfo('language'),
-					'mainEntityOfPage'              => saswp_get_permalink(),					
-					'headline'			=> saswp_get_the_title(),
-					'description'                   => saswp_get_the_excerpt(),
-                    'articleBody'                   => saswp_get_the_content(),
-                    'keywords'                      => saswp_get_the_tags(),
-					'datePublished'                 => esc_html($date),
-					'dateModified'                  => esc_html($modified_date),
-					'author'			=> saswp_get_author_details(),
-					'publisher'			=> array(
-						'@type'			=> 'Organization',
-						'logo' 			=> array(
-							'@type'		=> 'ImageObject',
-							'url'		=> esc_url($logo),
-							'width'		=> esc_attr($width),
-							'height'	=> esc_attr($height),
-							),
-						'name'			=> esc_attr($site_name),
-					),
-                                    
-				);
-
-                    break;
-
-                case 'Photograph':                   
-                        $input1 = array(
-                        '@context'			=> saswp_context_url(),
-                        '@type'				=> 'Photograph',
-                        '@id'				=> trailingslashit(saswp_get_permalink()).'#Photograph',
-                        'url'				=> saswp_get_permalink(),
-                        'inLanguage'        => get_bloginfo('language'),                        					
-                        'headline'			=> saswp_get_the_title(),
-                        'description'       => saswp_get_the_excerpt(),                        
-                        'datePublished'     => esc_html($date),
-                        'dateModified'      => esc_html($modified_date),
-                        'author'			=> saswp_get_author_details(),
-                        'publisher'			=> array(
-                            '@type'			=> 'Organization',
-                            'logo' 			=> array(
-                                '@type'		=> 'ImageObject',
-                                'url'		=> esc_url($logo),
-                                'width'		=> esc_attr($width),
-                                'height'	=> esc_attr($height),
-                                ),
-                            'name'			=> esc_attr($site_name),
-                        ),
-                                        
-                    );
-
                     $block_data = saswp_get_gutenberg_block_data('core/gallery');
                                     
                     if(isset($block_data['attrs']['ids']) && is_array($block_data['attrs']['ids']) && !empty($block_data['attrs']['ids']) ){
-
-                        $image_arr = array();
-
+                        
                         foreach($block_data['attrs']['ids'] as $image_id){
                             $image_arr[] = saswp_get_image_by_id($image_id);                            
                         }
-                        
+                                                                        
+                    }
+                    
+                    if( !empty($image_arr) ){
+                        unset($input1['mainEntityOfPage']);
                         $input1['mainEntityOfPage']['@type'] = 'ImageGallery';
                         $input1['mainEntityOfPage']['image'] = $image_arr;                        
                     }
-    
-                        break;
+
+                }
+
+                if(!empty($publisher)){
+                    $input1 = array_merge($input1, $publisher);   
+                }
+                
+                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] == 1){
+                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                }
+
+                    break;
+                
                     case 'SpecialAnnouncement':                   
                         $input1 = array(
                         '@context'			=> saswp_context_url(),
@@ -4516,25 +4450,18 @@ Class saswp_output_service{
                         'url'				=> saswp_get_permalink(),
                         'inLanguage'        => get_bloginfo('language'),                        
                         'name'			    => saswp_get_the_title(),                        
-                        'text'                   => saswp_get_the_excerpt(),                                                                    
-                        'keywords'                      => saswp_get_the_tags(),
-                        'datePublished'                 => esc_html($date),
-                        'datePosted'                    => esc_html($date),
-                        'dateModified'                  => esc_html($modified_date),
-                        'expires'                  => esc_html($modified_date),
-                        'author'			=> saswp_get_author_details(),
-                        'publisher'			=> array(
-                            '@type'			=> 'Organization',
-                            'logo' 			=> array(
-                                '@type'		=> 'ImageObject',
-                                'url'		=> esc_url($logo),
-                                'width'		=> esc_attr($width),
-                                'height'	=> esc_attr($height),
-                                ),
-                            'name'			=> esc_attr($site_name),
-                        ),
-                                        
+                        'text'              => saswp_get_the_excerpt(),                                                                    
+                        'keywords'          => saswp_get_the_tags(),
+                        'datePublished'     => esc_html($date),
+                        'datePosted'        => esc_html($date),
+                        'dateModified'      => esc_html($modified_date),
+                        'expires'           => esc_html($modified_date),
+                        'author'			=> saswp_get_author_details()                                                                
                     );    
+
+                    if(!empty($publisher)){
+                        $input1 = array_merge($input1, $publisher);   
+                    }
                         break;    
                 
                 case 'WebPage':
@@ -4545,17 +4472,7 @@ Class saswp_output_service{
                 '@id'				=> trailingslashit(saswp_get_permalink()).'#webpage',
 				'name'				=> saswp_get_the_title(),
                 'url'				=> saswp_get_permalink(),
-                'lastReviewed'      => esc_html($modified_date),
-                'reviewedBy'        => array(
-                    '@type'			=> 'Organization',
-                    'logo' 			=> array(
-                        '@type'		=> 'ImageObject',
-                        'url'		=> esc_url($logo),
-                        'width'		=> esc_attr($width),
-                        'height'	=> esc_attr($height),
-                        ),
-                    'name'			=> esc_attr($site_name),
-                ), 
+                'lastReviewed'      => esc_html($modified_date),                
                 'inLanguage'                    => get_bloginfo('language'),
 				'description'                   => saswp_get_the_excerpt(),
 				'mainEntity'                    => array(
@@ -4567,22 +4484,14 @@ Class saswp_output_service{
                         'keywords'              => saswp_get_the_tags(),
 						'datePublished' 	=> esc_html($date),
 						'dateModified'		=> esc_html($modified_date),
-						'author'			=> saswp_get_author_details(),
-						'publisher'			=> array(
-							'@type'			=> 'Organization',
-							'logo' 			=> array(
-								'@type'		=> 'ImageObject',
-								'url'		=> esc_url($logo),
-								'width'		=> esc_attr($width),
-								'height'	=> esc_attr($height),
-								),
-							'name'			=> esc_attr($site_name),
-						),
-                                               
-					),
-					
-				
+						'author'			=> saswp_get_author_details()						                                               
+					)                    									
 				);
+
+                    if(!empty($publisher)){
+                        $input1['reviewedBy']              = $publisher['publisher'];  
+                        $input1['mainEntity']['publisher'] = $publisher['publisher'];   
+                    }
                     
                     break;
                     

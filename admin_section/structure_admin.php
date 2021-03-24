@@ -2025,8 +2025,7 @@ function saswp_create_resized_image_folder(){
   $upload_info = wp_upload_dir();
   $upload_dir  = $upload_info['basedir'];
   $upload_url  = $upload_info['baseurl'];  
-
-  $upload_main_url = $upload_info['url'];
+  
   $make_new_dir = $upload_dir . '/schema-and-structured-data-for-wp';
 
   if (! is_dir($make_new_dir)) {

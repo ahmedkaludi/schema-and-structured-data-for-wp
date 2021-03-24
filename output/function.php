@@ -1213,7 +1213,7 @@ function saswp_get_comments($post_id){
  */       
 function saswp_get_comments_with_rating(){
     
-        global $sd_data, $post;
+        global $post;
         
         $comments      = array();
         $ratings       = array();
@@ -2798,9 +2798,7 @@ function saswp_get_reviews_wp_theme(){
                 $comment_meta = explode( ',', $comment_meta );
 
                 $user_overall = 0;
-                $user_rates   = 0;
-                $counter      = 0;
-
+                $user_rates   = 0;                
 
                 $criterias = get_post_meta( get_the_ID(), 'reviews_score' );
                 $rate_criterias = array();
@@ -2880,17 +2878,51 @@ function saswp_get_reviews_wp_theme(){
     return $response_rv;
 
 }
-add_filter( 'the_content', 'saswp_featured_image_in_feed' );
 
-function saswp_featured_image_in_feed( $content ) {
+add_filter( 'the_excerpt_rss', 'saswp_featured_image_in_feed_excerpt' );
+
+function saswp_featured_image_in_feed_excerpt( $content ) {
+
+    global $post, $sd_data;
+    
+    if( is_feed() ) {
+
+        $use_excerpt = get_option('rss_use_excerpt');
+
+        if( $use_excerpt == 1 && (isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1) ){
+
+            if ( has_post_thumbnail( $post->ID ) ){
+                $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
+                $content = $image . $content;
+            }
+
+        }
+        
+    }
+
+    return $content;
+    
+}
+
+add_filter( 'the_content', 'saswp_featured_image_in_feed_content' );
+
+function saswp_featured_image_in_feed_content( $content ) {
 
     global $post, $sd_data;
 
-    if( is_feed() &&  isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1 ) {
-        if ( has_post_thumbnail( $post->ID ) ){
-            $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
-            $content = $image . $content;
+    if( is_feed() ) {
+
+        $use_excerpt = get_option('rss_use_excerpt');
+
+        if( $use_excerpt != 1 && (isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1) ){
+
+            if ( has_post_thumbnail( $post->ID ) ){
+                $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
+                $content = $image . $content;
+            }
+
         }
+        
     }
 
     return $content;
@@ -2900,39 +2932,26 @@ function saswp_get_loop_markup($i) {
 
     global $sd_data;
 
-    $response = array();
-    $site_name ='';
+    $response           = array();
+    $schema_properties  = array();
 
-    $schema_type        =  $sd_data['saswp_archive_schema_type'];
-
-    if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
-        $site_name = $sd_data['sd_name'];  
-    }else{
-        $site_name = get_bloginfo();    
-    }
-
-    $schema_properties = array();
-
-    $service_object     = new saswp_output_service();
-    $logo               = $service_object->saswp_get_publisher(true);   
+    $schema_type        =  $sd_data['saswp_archive_schema_type'];    
+    $service_object     = new saswp_output_service();    
+    $publisher_info     = $service_object->saswp_get_publisher();   
     $feature_image      = $service_object->saswp_get_fetaure_image();             
-                                                                                                      
-    $publisher_info['type']           = 'Organization';                                
-    $publisher_info['name']           = esc_attr($site_name);
-    $publisher_info['logo']['@type']  = 'ImageObject';
-    $publisher_info['logo']['url']    = isset($logo['url'])    ? esc_attr($logo['url']):'';
-    $publisher_info['logo']['width']  = isset($logo['width'])  ? esc_attr($logo['width']):'';
-    $publisher_info['logo']['height'] = isset($logo['height']) ? esc_attr($logo['height']):'';
-                                                                                                                                                                    
+                                                                                                                                                                                                                                                                              
     $schema_properties['@type']            = esc_attr($schema_type);
     $schema_properties['headline']         = saswp_get_the_title();
     $schema_properties['url']              = get_the_permalink();                                                                                                
     $schema_properties['datePublished']    = get_the_date('c');
     $schema_properties['dateModified']     = get_the_modified_date('c');
     $schema_properties['mainEntityOfPage'] = get_the_permalink();
-    $schema_properties['author']           = get_the_author();
-    $schema_properties['publisher']        = $publisher_info;                                
-      
+    $schema_properties['author']           = saswp_get_author_details();
+
+    if( isset($publisher_info['publisher']) ){
+        $schema_properties['publisher']        = $publisher_info['publisher'];                                
+    }
+          
     if(!empty($feature_image)){                            
         $schema_properties = array_merge($schema_properties, $feature_image);        
     }
@@ -3127,4 +3146,41 @@ function saswp_get_stamped_reviews($product_id){
     }
     
     return $response;
+}
+
+function saswp_get_ampforwp_story_images(){
+
+    $image_arr = array();
+    
+    if(class_exists('Ampforwp_Stories_Post_Type')){
+
+        $amp_story_meta = get_post_meta( get_the_ID(), 'ampforwp_stories', true );
+        $post_type      = get_post_type(get_the_ID());
+
+        if( !empty($amp_story_meta) && is_array($amp_story_meta) && $post_type == 'ampforwp_story' ) {
+                                                    
+            foreach ($amp_story_meta as $value) {
+                    
+                if( isset($value['design_type']) ){
+
+                    if( $value['design_type'] == 'design1'){
+                        $image_arr[] = saswp_get_image_by_url($value['dsg1_image_url']);
+                    }
+                    if($value['design_type'] == 'design2'){
+                        $image_arr[] = saswp_get_image_by_url($value['dsg2_image_url']);
+                    }
+                    if($value['design_type'] == 'design3'){
+                        $image_arr[] = saswp_get_image_by_url($value['dsg3_image_url']);
+                    }
+
+                }
+                
+            }
+                                                            
+        }
+
+    }
+
+    return $image_arr;
+    
 }

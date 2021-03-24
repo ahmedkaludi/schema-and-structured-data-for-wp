@@ -131,18 +131,7 @@ class saswp_reviews_admin {
 				$meta_value = isset($meta_field['default']); 
                                 
                         }
-                        
-                        if(isset($meta_field['attributes'])){
-                            
-                            if(array_key_exists('provider_type', $meta_field['attributes'])){
-                                
-                               $provider_type = $meta_field['attributes']['provider_type']; 
-                                
-                            }
-                            
-                            
-                        }
-                        
+                                                                        
 			switch ( $meta_field['type'] ) {
                             
 				case 'select':                                                                        

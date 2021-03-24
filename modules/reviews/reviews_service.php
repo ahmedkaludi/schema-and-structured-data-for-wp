@@ -196,17 +196,10 @@ class saswp_reviews_service {
                         
             foreach ($reviews as $review){
 
-                    $review_rating = $review['saswp_review_rating'];
+                        $review_rating = $review['saswp_review_rating'];
 
-                       $starating = saswp_get_rating_html_by_value($review_rating);
-
-                        $term      = get_term( $review['saswp_review_platform'], 'platform' );
-                        $term_slug  = ''; 
-                    
-                        if(is_object($term)){
-                            $term_slug = $term->slug; 
-                        }
-                        
+                        $starating = saswp_get_rating_html_by_value($review_rating);
+                                                                                                                   
                         $img_src = SASWP_DIR_URI.'/admin_section/images/default_user.jpg';
                                                 
                         if(isset($review['saswp_reviewer_image']) && $review['saswp_reviewer_image'] !=''){
