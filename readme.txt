@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.68
+Stable tag: 1.9.69
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.69 (24 March 2021) =
+
+* Added: Featured image in feed while using Summary option #1355
+* Fixed: Wrong output is coming for the "Cafe and Coffee Shop" schema type #1358
+* Fixed: The property type is not supported for an object of this type. #1359
+* Enhancement: Improve the "Photograph" schema type markup for the AMP Stories #1356
 
 = 1.9.68 (18 March 2021) =
 
