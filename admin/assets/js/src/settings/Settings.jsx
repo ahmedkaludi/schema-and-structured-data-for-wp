@@ -18,7 +18,7 @@ import MediaUpload from './../common/mediaUpload/MediaUpload';
 import Icon from '@duik/icon'
 
 
-const App = () => {
+const Settings = () => {
   
   const page = queryString.parse(window.location.search);   
   const {__} = wp.i18n; 
@@ -564,7 +564,7 @@ useEffect(() => {
     <form encType="multipart/form-data" method="post" id="saswp_settings_form">  
     
     {mainSpinner ? <MainSpinner /> : ''}
-    <div className="saswp-top-header"><div className="saswp-top-header-left"> <h3><Icon className="saswp-settings-large-icon">settings</Icon>Settings</h3></div><div> <a className="btn btn-success saswp-go-pro">GO PRO</a> </div></div>
+    <div className="saswp-top-header"><div className="saswp-top-header-left"> <h3><Icon className="saswp-settings-large-icon">settings</Icon>{__('Settings', 'schema-and-structured-data-for-wp')}</h3></div><div> <a className="btn btn-success saswp-go-pro">{__('GO PRO', 'schema-and-structured-data-for-wp')}</a> </div></div>
     <div className="saswp-settings-form-content">          
     <SettingsNavLink />                   
     <div className=""> 
@@ -576,8 +576,8 @@ useEffect(() => {
             <div className="card">
             <div className="card-body">
               <div>
-                <h3>General Settings</h3>
-                <p>This is the basic schema</p>                
+                <h3>{__('General Settings', 'schema-and-structured-data-for-wp')}</h3>
+                <p>{__('This is the basic schema', 'schema-and-structured-data-for-wp')}</p>                
               </div>
             </div>
             <div className="divider-horizontal"></div> 
@@ -585,27 +585,27 @@ useEffect(() => {
             {/* {KnowldegeGraph Starts here} */}
 
             <div className="card-body saswp-knowledge-card">    
-                  Knowldege Graph
-                  <a className="btn btn-default saswp-setup" onClick={handleOpenKnowledgeModal}>Setup</a>            
+                  {__('Knowldege Graph', 'schema-and-structured-data-for-wp')}
+                  <a className="btn btn-default saswp-setup" onClick={handleOpenKnowledgeModal}>{__('Setup', 'schema-and-structured-data-for-wp')}</a>            
                  
                 <Modal
                 isOpen={openKnowledgeModal}
                 handleClose={handleCloseKnowledgeModal}                  
                 >
                 <Modal.Header>
-                  <Modal.Title>Setup Knowledge Graph</Modal.Title>
+                  <Modal.Title>{__('Setup Knowledge Graph', 'schema-and-structured-data-for-wp')}</Modal.Title>
                 </Modal.Header>  
                 <Modal.Body>
                 
                 <table className="saswp-knowledge-table">
                   <tbody>
                     <tr>
-                      <td>Data Type</td>
+                      <td>{__('Data Type', 'schema-and-structured-data-for-wp')}</td>
                       <td>
                         <select name="saswp_kb_type" onChange={handleInputChange} value={userInput['saswp_kb_type']}>
-                        <option value="">Select an item</option>
-                        <option value="Organization">Organization</option>
-                        <option value="Person">Person</option>
+                        <option value="">{__('Select an item', 'schema-and-structured-data-for-wp')}</option>
+                        <option value="Organization">{__('Organization', 'schema-and-structured-data-for-wp')}</option>
+                        <option value="Person">{__('Person', 'schema-and-structured-data-for-wp')}</option>
                         </select>
                         </td>
                     </tr>
@@ -616,58 +616,58 @@ useEffect(() => {
                   <table className="saswp-knowledge-org saswp-knowledge-table">
                   <tbody>
                     <tr>
-                        <td>Organization Type</td>
+                        <td>{__('Organization Type', 'schema-and-structured-data-for-wp')}</td>
                         <td>
                           <select className="" name="saswp_organization_type" value={userInput['saswp_organization_type']} onChange={handleInputChange}>
-                          <option value="">Select (Optional)</option>
-                          <option value="Airline">Airline</option>
-                          <option value="Consortium">Consortium</option>
-                          <option value="Corporation">Corporation</option>
-                          <option value="EducationalOrganization">EducationalOrganization</option>
-                          <option value="GovernmentOrganization">GovernmentOrganization</option>
-                          <option value="LibrarySystem">LibrarySystem</option>
-                          <option value="MedicalOrganization">MedicalOrganization</option>
-                          <option value="NewsMediaOrganization">NewsMediaOrganization</option>
-                          <option value="NGO">NGO</option>
-                          <option value="PerformingGroup">PerformingGroup</option>
-                          <option value="SportsOrganization">SportsOrganization</option>
-                          <option value="WorkersUnion">WorkersUnion</option>
+                          <option value="">{__('Select (Optional)', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="Airline">{__('Airline', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="Consortium">{__('Consortium', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="Corporation">{__('Corporation', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="EducationalOrganization">{__('EducationalOrganization', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="GovernmentOrganization">{__('GovernmentOrganization', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="LibrarySystem">{__('LibrarySystem', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="MedicalOrganization">{__('MedicalOrganization', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="NewsMediaOrganization">{__('NewsMediaOrganization', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="NGO">{__('NGO', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="PerformingGroup">{__('PerformingGroup', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="SportsOrganization">{__('SportsOrganization', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="WorkersUnion">{__('WorkersUnion', 'schema-and-structured-data-for-wp')}</option>
                           </select>
                           </td>
                     </tr>
                     <tr>
-                        <td>Organization Name</td>
+                        <td>{__('Organization Name', 'schema-and-structured-data-for-wp')}</td>
                         <td><input name="sd_name" value={userInput['sd_name']} onChange={handleInputChange} placeholder="Organization Name" type="text" /></td>
                     </tr>
                     <tr>
-                        <td>Organization URL</td>
+                        <td>{__('Organization URL', 'schema-and-structured-data-for-wp')}</td>
                         <td><input name="sd_url" value={userInput['sd_url']} onChange={handleInputChange} placeholder="Organization Name" type="text" /></td>
                     </tr>
                     <tr>
-                        <td>Contact Type</td>
+                        <td>{__('Contact Type', 'schema-and-structured-data-for-wp')}</td>
                         <td>
                           <select className="" name="saswp_contact_type" value={userInput['saswp_contact_type']} onChange={handleInputChange}>                          
-                          <option value="">Select an item</option>
-                          <option value="customer support">Customer Support</option>
-                          <option value="technical support">Technical Support</option>
-                          <option value="billing support">Billing Support</option>
-                          <option value="bill payment">Bill payment</option>
-                          <option value="sales">Sales</option>
-                          <option value="reservations">Reservations</option>
-                          <option value="credit card support">Credit Card Support</option>
-                          <option value="emergency">Emergency</option>
-                          <option value="baggage tracking">Baggage Tracking</option>
-                          <option value="roadside assistance">Roadside Assistance</option>
-                          <option value="package tracking">Package Tracking</option>
+                          <option value="">{__('Select an item', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="customer support">{__('Customer Support', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="technical support">{__('Technical Support', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="billing support">{__('Billing Support', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="bill payment">{__('Bill payment', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="sales">{__('Sales', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="reservations">{__('Reservations', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="credit card support">{__('Credit Card Support', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="emergency">{__('Emergency', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="baggage tracking">{__('Baggage Tracking', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="roadside assistance">{__('Roadside Assistance', 'schema-and-structured-data-for-wp')}</option>
+                          <option value="package tracking">{__('Package Tracking', 'schema-and-structured-data-for-wp')}</option>
                           </select>
                           </td>
                     </tr>
                     <tr>
-                        <td>Contact Number</td>
+                        <td>{__('Contact Number', 'schema-and-structured-data-for-wp')}</td>
                         <td><input name="saswp_kb_telephone" value={userInput['saswp_kb_telephone']} onChange={handleInputChange} placeholder="+1-012-012-0124" type="text" /></td>
                     </tr>
                     <tr>
-                        <td>Contact URL</td>
+                        <td>{__('Contact URL', 'schema-and-structured-data-for-wp')}</td>
                         <td><input name="saswp_kb_contact_url" value={userInput['saswp_kb_contact_url']} onChange={handleInputChange} placeholder="https://www.example.com/contact" type="text" /></td>
                     </tr>
                     
@@ -681,25 +681,25 @@ useEffect(() => {
                   <table className="saswp-knowledge-person saswp-knowledge-table">
                   <tbody>
                     <tr>
-                      <td>Name</td>
+                      <td>{__('Name', 'schema-and-structured-data-for-wp')}</td>
                       <td><input name="sd-person-name" value={userInput['sd-person-name']} onChange={handleInputChange} placeholder="Name" type="text" /></td>
                     </tr>
                     <tr>
-                      <td>Job Title</td>
+                      <td>{__('Job Title', 'schema-and-structured-data-for-wp')}</td>
                       <td><input name="sd-person-job-title" value={userInput['sd-person-job-title']} onChange={handleInputChange} placeholder="Job Title" type="text" /></td>
                     </tr>
                     <tr>
-                      <td>Image</td>
+                      <td>{__('Image', 'schema-and-structured-data-for-wp')}</td>
                       <td>
                         <MediaUpload onSelection={handlePersonImage} src={userInput['sd-person-image']['url']}/>
                       </td>
                     </tr>
                     <tr>
-                      <td>Phone Number</td>
+                      <td>{__('Phone Number', 'schema-and-structured-data-for-wp')}</td>
                       <td><input name="sd-person-phone-number" value={userInput['sd-person-phone-number']} onChange={handleInputChange} placeholder="+1-012-012-0124" type="text" /></td>
                     </tr>
                     <tr>
-                      <td>URL</td>
+                      <td>{__('URL', 'schema-and-structured-data-for-wp')}</td>
                       <td><input name="sd-person-url" value={userInput['sd-person-url']} onChange={handleInputChange} placeholder="https://www.example.com/person" type="text" /></td>
                     </tr>
                   </tbody>
@@ -712,7 +712,7 @@ useEffect(() => {
                   (userInput['saswp_kb_type'] == 'Person'  || userInput['saswp_kb_type'] == 'Organization') ?
                   <table className="saswp-knowledge-table"><tbody>
                     <tr>
-                      <td>Logo</td>
+                      <td>{__('Logo', 'schema-and-structured-data-for-wp')}</td>
                       <td>
                       <MediaUpload onSelection={handleLogo} src={userInput['sd_logo']['url']} />
                       </td>
@@ -723,7 +723,7 @@ useEffect(() => {
                 
                 </Modal.Body>
                 <Modal.Footer>
-                  <a className="btn btn-success" onClick={handleKnowledgeSave}>OK</a>
+                  <a className="btn btn-success" onClick={handleKnowledgeSave}>{__('OK', 'schema-and-structured-data-for-wp')}</a>
                 </Modal.Footer>
               </Modal>     
               </div>  
@@ -734,15 +734,15 @@ useEffect(() => {
             {/* {Social Profile Starts here} */}
 
                 <div className="card-body saswp-social-card">    
-                  Social Profile          
-                  <a className="btn btn-default saswp-setup" onClick={handleOpenSocialModal}>Setup</a>            
+                   {__('Social Profile', 'schema-and-structured-data-for-wp')}         
+                  <a className="btn btn-default saswp-setup" onClick={handleOpenSocialModal}>{__('Setup', 'schema-and-structured-data-for-wp')}</a>            
                  
                 <Modal
                 isOpen={openSocialModal}
                 handleClose={handleCloseSocialModal}                
               >
                 <Modal.Header>
-                  <Modal.Title>Add Social Profiles</Modal.Title>
+                  <Modal.Title>{__('Add Social Profiles', 'schema-and-structured-data-for-wp')}</Modal.Title>
                 </Modal.Header>  
                 <Modal.Body>
                 
@@ -759,11 +759,11 @@ useEffect(() => {
                   :''
                 }
 
-                <a className="btn btn-success" onClick={addSocialInput}>Add More</a>
+                <a className="btn btn-success" onClick={addSocialInput}>{__('Add More', 'schema-and-structured-data-for-wp')}</a>
                   
                 </Modal.Body>
                 <Modal.Footer>
-                  <a className="btn btn-success" onClick={handleSocialSave}>OK</a>
+                  <a className="btn btn-success" onClick={handleSocialSave}>{__('OK', 'schema-and-structured-data-for-wp')}</a>
                 </Modal.Footer>
               </Modal>     
               </div>  
@@ -772,34 +772,33 @@ useEffect(() => {
             {/* {Default Data Starts here} */}
 
             <div className="card-body saswp-default-card">    
-                  Default Data          
-                  <a className="btn btn-default saswp-setup" onClick={handleOpenDefaultDataModal}>Setup</a>            
-                 
+                    {__('Default Data', 'schema-and-structured-data-for-wp')}        
+                  <a className="btn btn-default saswp-setup" onClick={handleOpenDefaultDataModal}>{__('Setup', 'schema-and-structured-data-for-wp')}</a>
                 <Modal
                 isOpen={openDefaultDataModal}
                 handleClose={handleCloseDefaultDataModal}                
               >
                 <Modal.Header>
-                  <Modal.Title>Add DefaultData</Modal.Title>
+                  <Modal.Title>{__('Add Default Data', 'schema-and-structured-data-for-wp')}</Modal.Title>
                 </Modal.Header>  
                 <Modal.Body>
                                 
                 <table className="saswp-knowledge-table">
                   <tbody>
                     <tr>
-                      <td>Default Image</td>
+                      <td>{__('Default Image', 'schema-and-structured-data-for-wp')}</td>
                       <td>
                         <MediaUpload onSelection={handleDefaultImage} src={userInput['sd_default_image']['url']}/>
-                        <p>This option will add a default review to a woocommerce product if reviews are not there</p>
+                        <p>{__('This option will add a default review to a woocommerce product if reviews are not there', 'schema-and-structured-data-for-wp')}</p>
                       </td>
                     </tr>
                     <tr>
-                      <td>Product Default Review</td>
+                      <td>{__('Product Default Review', 'schema-and-structured-data-for-wp')}</td>
                       <td>
                       <label className="form-check form-group toggle">
                         <input name="saswp_default_review" checked={userInput['saswp_default_review']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                         <span className="form-check-label"></span>
-                        <p>This option will add a default review to a woocommerce product if reviews are not there</p>
+                        <p>{__('This option will add a default review to a woocommerce product if reviews are not there', 'schema-and-structured-data-for-wp')}</p>
                       </label>
                       </td>
                     </tr>
@@ -824,13 +823,13 @@ useEffect(() => {
           <div className="card">
             <div className="card-body">
               <div>
-                <h3>Basic Schema</h3>
-                <p>This is the basic schema</p>
+                <h3>{__('Basic Schema', 'schema-and-structured-data-for-wp')}</h3>
+                <p>{__('This is the basic schema', 'schema-and-structured-data-for-wp')}</p>
               </div>
             </div>
             <div className="divider-horizontal"></div> 
             <div className="card-body">
-              <div>About Page    
+              <div>{__('About Page', 'schema-and-structured-data-for-wp')}
               <Select       
               Clearable ={true} 
               isSearchable ={true}     
@@ -841,7 +840,7 @@ useEffect(() => {
               onInputChange={handleAboutPageSearch}                                     
             />
               </div>
-              <div>Contact Page  
+              <div>{__('Contact Page', 'schema-and-structured-data-for-wp')}
               <Select       
               Clearable ={true}   
               isSearchable ={true}    
@@ -860,14 +859,14 @@ useEffect(() => {
                   
                 <label className="form-check form-group toggle">
                   <input name="saswp-website-schema" checked={userInput['saswp-website-schema']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Website Schema (Home)</span>
-                  <p className="form-check-description">Website schema description goes here</p>
+                  <span className="form-check-label">{__('Website Schema (Home)', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('Website schema description goes here', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
                 <input name="saswp_breadcrumb_schema" checked={userInput['saswp_breadcrumb_schema']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">BreadCrumbs</span>
-                  <p className="form-check-description">Website schema description goes here</p>
+                  <span className="form-check-label">{__('BreadCrumbs', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('Website schema description goes here', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 {/* <label className="form-check form-group toggle">
@@ -880,14 +879,14 @@ useEffect(() => {
                 <div className="form-group-container">
                 <label className="form-check form-group toggle">
                 <input name="saswp_archive_schema" checked={userInput['saswp_archive_schema']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Archive Schema</span>
-                  <p className="form-check-description">Website schema description goes here</p>
+                  <span className="form-check-label">{__('Archive Schema', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('Website schema description goes here', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
                 <input name="saswp_comments_schema" checked={userInput['saswp_comments_schema']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Comments Schema</span>
-                  <p className="form-check-description">Website schema description goes here</p>
+                  <span className="form-check-label">{__('Comments Schema', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('Website schema description goes here', 'schema-and-structured-data-for-wp')}</p>
                 </label>
                 
                 </div>
@@ -901,8 +900,8 @@ useEffect(() => {
           <div className="card">
             <div className="card-body">
               <div>
-                <h3>Features</h3>
-                <p>This is the basic schema</p>
+                <h3>{__('Features', 'schema-and-structured-data-for-wp')}</h3>
+                <p>{__('This is the basic schema', 'schema-and-structured-data-for-wp')}</p>
               </div>
             </div>
             <div className="divider-horizontal"></div> 
@@ -915,14 +914,14 @@ useEffect(() => {
 
                 <label className="form-check form-group toggle">
                 <input name="saswp-for-amp" checked={userInput['saswp-for-amp']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">AMP Support</span>
-                  <p className="form-check-description">Using this option, one can enable or disable schema markup on AMP Pages</p>
+                  <span className="form-check-label">{__('AMP Support', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('Using this option, one can enable or disable schema markup on AMP Pages', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
                 <input name="saswp-stars-rating" checked={userInput['saswp-stars-rating']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Stars Rating</span>
-                  <p className="form-check-description">This option adds rating field in wordpress default comment box <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">Learn More</a></p>
+                  <span className="form-check-label">{__('Stars Rating', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('This option adds rating field in wordpress default comment box', 'schema-and-structured-data-for-wp')} <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">{__('Learn More', 'schema-and-structured-data-for-wp')}</a></p>
                 </label>
                 
                 </div>
@@ -931,14 +930,14 @@ useEffect(() => {
 
                 <label className="form-check form-group toggle">
                 <input name="saswp-for-wordpress" checked={userInput['saswp-for-wordpress']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Non AMP Support</span>
-                  <p className="form-check-description">Using this option, one can enable or disable schema markup on Non AMP Pages</p>
+                  <span className="form-check-label">{__('Non AMP Support', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('Using this option, one can enable or disable schema markup on Non AMP Pages', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
                 <input name="saswp-review-module" checked={userInput['saswp-review-module']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Rating Box</span>
-                  <p className="form-check-description">This option enables the review metabox on every post/page. <a target="blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">Learn More</a></p>
+                  <span className="form-check-label">{__('Rating Box', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('This option enables the review metabox on every post/page.', 'schema-and-structured-data-for-wp')} <a target="blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">{__('Learn More', 'schema-and-structured-data-for-wp')}</a></p>
                 </label>
                 
                 </div>
@@ -954,8 +953,8 @@ useEffect(() => {
           <div className="saswp-settings-compatibility">
             <div className="card">
               <div className="card-body">
-                <h3>3rd Party compatibility</h3>
-                <p>This is description for 3rd party compatibility</p>
+                <h3>{__('3rd Party compatibility', 'schema-and-structured-data-for-wp')}</h3>
+                <p>{__('This is description for 3rd party compatibility', 'schema-and-structured-data-for-wp')}</p>
               </div>
               <div className="divider-horizontal"></div> 
               
@@ -1036,8 +1035,8 @@ useEffect(() => {
           <div className="card">
             <div className="card-body">
               <div>
-                <h3>Advanced Settings</h3>
-                <p>This allows you to enable advance option in schema</p>
+                <h3>{__('Advanced Settings', 'schema-and-structured-data-for-wp')}</h3>
+                <p>{__('This allows you to enable advance option in schema', 'schema-and-structured-data-for-wp')}</p>
               </div>
             </div>
             <div className="divider-horizontal"></div> 
@@ -1047,26 +1046,26 @@ useEffect(() => {
                 <div className="form-group-container">
                 <label className="form-check form-group toggle">
                 <input name="saswp-defragment" checked={userInput['saswp-defragment']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Defragment Schema Markup</span>
-                  <p className="form-check-description">It relates all schema markups on page to a main entity and merge all markup to a single markup. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/what-is-defragment-schema-markup-and-how-to-add-it/">Learn More</a></p>
+                  <span className="form-check-label">{__('Defragment Schema Markup', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('It relates all schema markups on page to a main entity and merge all markup to a single markup.', 'schema-and-structured-data-for-wp')} <a target="_blank" href="https://structured-data-for-wp.com/docs/article/what-is-defragment-schema-markup-and-how-to-add-it/">{__('Learn More', 'schema-and-structured-data-for-wp')}</a></p>
                 </label>
 
                 <label className="form-check form-group toggle">
                 <input name="saswp-markup-footer" checked={userInput['saswp-markup-footer']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Add Schema Markup in footer</span>
-                  <p className="form-check-description">By default schema markup will be added in header section</p>
+                  <span className="form-check-label">{__('Add Schema Markup in footer', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('By default schema markup will be added in header section', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
                 <input name="saswp-pretty-print" checked={userInput['saswp-pretty-print']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Pretty Print Schema Markup</span>
-                  <p className="form-check-description">By default schema markup will be minified format</p>
+                  <span className="form-check-label">{__('Pretty Print Schema Markup', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('By default schema markup will be minified format', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
                 <input name="saswp-microdata-cleanup" checked={userInput['saswp-microdata-cleanup']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">MicroData CleanUp</span>
-                  <p className="form-check-description">It removes all the microdata generated by third party plugins which cause validation error on google testing tool</p>
+                  <span className="form-check-label">{__('MicroData CleanUp', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('It removes all the microdata generated by third party plugins which cause validation error on google testing tool', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 </div>
@@ -1075,20 +1074,20 @@ useEffect(() => {
 
                 <label className="form-check form-group toggle">
                 <input name="saswp-other-images" checked={userInput['saswp-other-images']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Add All Available Images On Post</span>
-                  <p className="form-check-description">It adds all the available images on a post to schema markup</p>
+                  <span className="form-check-label">{__('Add All Available Images On Post', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('It adds all the available images on a post to schema markup', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
                 <input name="saswp-multiple-size-image" checked={userInput['saswp-multiple-size-image']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Allow Multiple Size Image Creation</span>
-                  <p className="form-check-description">According to Google, For best results, multiple high-resolution images with the following aspect ratios: 16x9, 4x3, and 1x1 should be there</p>
+                  <span className="form-check-label">{__('Allow Multiple Size Image Creation', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('According to Google, For best results, multiple high-resolution images with the following aspect ratios: 16x9, 4x3, and 1x1 should be there', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
                 <input name="saswp-rss-feed-image" checked={userInput['saswp-rss-feed-image']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Add Featured Image in RSS feed</span>
-                  <p className="form-check-description">Showing images alongside news/blogs if your website or blog appears in Google News</p>
+                  <span className="form-check-label">{__('Add Featured Image in RSS feed', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('Showing images alongside news/blogs if your website or blog appears in Google News', 'schema-and-structured-data-for-wp')}</p>
                 </label>
                 
                 </div>
@@ -1129,7 +1128,7 @@ useEffect(() => {
           <>
           <div className="card">
             <div className="card-body">
-              <p>If you have any query, please write the query in below box or email us at <a href="mailto:team@ampforwp.com">team@ampforwp.com</a>. We will reply to your email address shortly</p>
+              <p>{__('If you have any query, please write the query in below box or email us at', 'schema-and-structured-data-for-wp')} <a href="mailto:team@magazine3.com">team@magazine3.com</a>. {__('We will reply to your email address shortly', 'schema-and-structured-data-for-wp')}</p>
             </div>
             <div className="divider-horizontal"></div> 
             <div className="card-body saswp-support-section">
@@ -1149,19 +1148,19 @@ useEffect(() => {
               cols="60" 
               /></div>
               <div>
-              <span>Premium Customer ? </span>
+              <span>{__('Premium Customer ?', 'schema-and-structured-data-for-wp')} </span>
                 <select
                 value={supportUserType} 
                 onChange={event => setSupportUserType(event.target.value)}
                 name="saswp_query_premium_cus" 
                 >
-                <option>Select</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
+                <option>{__('Select', 'schema-and-structured-data-for-wp')}</option>
+                <option value="yes">{__('Yes', 'schema-and-structured-data-for-wp')}</option>
+                <option value="no">{__('No', 'schema-and-structured-data-for-wp')}</option>
               </select>
               </div>
               <div>
-              {isLoaded ? <a className="btn btn-success saswp-send-query" onClick={sendSupportQuery}>Send Message</a> : <Button success loading>Loading success</Button>}
+              {isLoaded ? <a className="btn btn-success saswp-send-query" onClick={sendSupportQuery}>{__('Send Message', 'schema-and-structured-data-for-wp')}</a> : <Button success loading>Loading success</Button>}
               </div>
               {supportSuccess ? 
               <div>
@@ -1190,30 +1189,29 @@ useEffect(() => {
           </div>  
           <div className="card">
           <div className="card-body">
-            <h2>Frequently Asked Questions.</h2>
+            <h2>{__('Frequently Asked Questions.', 'schema-and-structured-data-for-wp')}</h2>
           </div>
           <div className="divider-horizontal"></div> 
           <div className="card-body">
 
-          <h3>1Q) Is there a Documentation Available?</h3>
-          <p>A) The Documentation is always updated and available at <a target="_blank" href="http://structured-data-for-wp.com/docs/">http://structured-data-for-wp.com/docs/</a></p>
+          <h3>{__('1Q) Is there a Documentation Available?', 'schema-and-structured-data-for-wp')}</h3>
+          <p>{__('A) The Documentation is always updated and available at', 'schema-and-structured-data-for-wp')}  <a target="_blank" href="http://structured-data-for-wp.com/docs/">http://structured-data-for-wp.com/docs/</a></p>
 
-          <h3>2Q) How can I setup the Schema and Structured data for individual pages and posts?</h3>
-          <p>A) Just with one click on the Structured data option, you will find an add new options window in the structured data option panel. Secondly, you need to write the name of the title where, if you would like to set the individual Page/Post then you can set the Page/Post type equal to the Page/Post(Name).</p>
+          <h3>{__('2Q) How can I setup the Schema and Structured data for individual pages and posts?', 'schema-and-structured-data-for-wp')}</h3>
+          <p>{__('A) Just with one click on the Structured data option, you will find an add new options window in the structured data option panel. Secondly, you need to write the name of the title where, if you would like to set the individual Page/Post then you can set the Page/Post type equal to the Page/Post(Name).', 'schema-and-structured-data-for-wp')}</p>
 
-          <h3>3Q) How can I check the code whether the structured data is working or not?</h3>
-          <p>A) To check the code, the first step we need to take is to copy the code of a page or post then visit the <a target="_blank" href="https://search.google.com/test/rich-results">Structured data testing tool</a> by clicking on code snippet. Once we paste the snippet we can run the test.</p>
+          <h3>{__('3Q) How can I check the code whether the structured data is working or not?', 'schema-and-structured-data-for-wp')}</h3>
+          <p>{__('A) To check the code, the first step we need to take is to copy the code of a page or post then visit the', 'schema-and-structured-data-for-wp')} <a target="_blank" href="https://search.google.com/test/rich-results">{__('Structured data testing tool', 'schema-and-structured-data-for-wp')}</a>{__('by clicking on code snippet. Once we paste the snippet we can run the test.', 'schema-and-structured-data-for-wp')} </p>
 
-          <h3>4Q) How can I check whether the pages or posts are valid or not?</h3>
-          <p>A) To check the page and post validation, please visit the <a target="_blank" href="https://search.google.com/test/rich-results">Structured data testing tool</a> and paste the link of your website. Once we click on run test we can see the result whether the page or post is a valid one or not.</p>
+          <h3>{__('4Q) How can I check whether the pages or posts are valid or not?', 'schema-and-structured-data-for-wp')}</h3>
+          <p>{__('A) To check the page and post validation, please visit the', 'schema-and-structured-data-for-wp')} <a target="_blank" href="https://search.google.com/test/rich-results">{__('Structured data testing tool', 'schema-and-structured-data-for-wp')}</a> {__('and paste the link of your website. Once we click on run test we can see the result whether the page or post is a valid one or not.', 'schema-and-structured-data-for-wp')}</p>
 
-          <h3>5Q) Where should users contact if they faced any issues?</h3>
-          <p>A) We always welcome all our users to share their issues and get them fixed just with one click to the link <a href="mailto:team@ampforwp.com">team@ampforwp.com</a> or <a href="https://structured-data-for-wp.com/contact-us/" target="_blank">Support link</a></p>
+          <h3>{__('5Q) Where should users contact if they faced any issues?', 'schema-and-structured-data-for-wp')}</h3>
+          <p>{__('A) We always welcome all our users to share their issues and get them fixed just with one click to the link', 'schema-and-structured-data-for-wp')} <a href="mailto:team@magazine3.com">team@magazine3.com</a> or <a href="https://structured-data-for-wp.com/contact-us/" target="_blank">{__('Support link', 'schema-and-structured-data-for-wp')}</a></p>
           </div>
           </div>
           </>
-        );
-        break;
+        );        
       }
     })()}
     <div className="saswp-save-settings-btn">
@@ -1227,4 +1225,4 @@ useEffect(() => {
     </form>
   )
 }
-export default App;
+export default Settings;

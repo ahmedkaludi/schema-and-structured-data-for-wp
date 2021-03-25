@@ -1,11 +1,7 @@
 import React from 'react';
 import queryString from 'query-string'
-import {Link, Route} from 'react-router-dom';
-
-import ReviewsAccept from './reviews/ReviewsAccept';
-import ReviewsCollections from './reviews/ReviewsCollections';
+import {Route} from 'react-router-dom';
 import ReviewsCollectionsSingle from './reviews/ReviewsCollectionsSingle';
-import ReviewsFetch from './reviews/ReviewsFetch';
 import ReviewsMain from './reviews/ReviewsMain';
 import ReviewsSingle from './reviews/ReviewsSingle';
 

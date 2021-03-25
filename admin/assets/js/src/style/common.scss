@@ -27,6 +27,9 @@ position: relative;
     position: relative;
     cursor: pointer;
 }
+.saswp-more-action i{
+  float: right;
+}
 .saswp-date-container{
 position: relative;
 }
@@ -73,4 +76,41 @@ padding: 9px !important ;
 ul *:not(:last-child),
 ol *:not(:last-child) {
   margin-bottom: 0px !important; 
+}
+.saswp-main-nav-panel{
+  float: left;
+}
+.saswp-main-nav-content{
+  width: 76%;
+  float: right;
+}
+.saswp-divider-horizontal{
+    height: 1px;
+    width: 100%;
+    background: #414142;
+}
+.saswp-main-nav-panel .nav-section{
+  padding-bottom: 70px;
+}
+.saswp-upgrade-btn{
+  margin: 0 30px;
+}
+.saswp-main-nav-panel .nav-title{
+  display: flex;
+}
+.saswp-main-nav-panel .nav-title img{
+  margin-right: 3px;
+}
+.saswp-selected-place{
+  background: aqua; 
+  background: #e9f2ea;    
+  border-radius: 20px;
+  padding: 7px;
+  font-size: 12px;
+  color:#000000;
+  font-weight: 500;
+  box-shadow: green;
+  box-shadow: 0 1px 1px #c7ccc8;
+  margin: 4px;
+  display: inline-block;
 }

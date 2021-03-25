@@ -39,13 +39,13 @@ const SASWPLicense = (props) => {
     <>
     <div className="card">
       <div className="card-header">
-        <h3>License</h3>
+        <h3>{__('License', 'schema-and-structured-data-for-wp')}</h3>
       </div>
       <div className="divider-horizontal"></div>
       <div className="card-body">
         {proExtensions ?
         <>
-          <h4>Activate your license to get updates and support</h4>
+          <h4>{__('Activate your license to get updates and support', 'schema-and-structured-data-for-wp')}</h4>
           <table>
           <tbody>
             {proExtensions.map( (item, i) => {              

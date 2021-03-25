@@ -139,6 +139,7 @@ and open the template in the editor.
 .saswp-single-header-right{
     float: right;
     padding: 10px;
+    font-size: 25px;
 }
 .saswp-placement-row-table{
     width: 100%;
@@ -148,4 +149,7 @@ and open the template in the editor.
 }
 .saswp-placement-group{
     border-bottom: 1px solid #c7ccc8;    
+}
+.saswp-location-label{
+    text-transform: capitalize;
 }

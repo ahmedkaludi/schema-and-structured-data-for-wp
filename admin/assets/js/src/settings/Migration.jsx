@@ -1,7 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import queryString from 'query-string'
-import { Button } from '@duik/it';
-import { BrowserRouter as Router, Switch, Route, Link, matchPath } from 'react-router-dom';
+import React, { useState, useEffect} from 'react';
 import './Settings.scss';
 
 const Migration = (props) => {
@@ -93,11 +90,11 @@ const Migration = (props) => {
   return(
     <div className="card">
       <div className="card-body">
-        <h3>Migration</h3>
+        <h3>{__('Migration', 'schema-and-structured-data-for-wp')}</h3>
       </div>
       <div className="divider-horizontal"></div>
       <div className="card-body saswp-migration-body">
-      <div><span className="saswp-migration-label">Schema Plugin</span><a onClick={handleMigration} data-id="schema" className="btn btn-success saswp-migration-button">Import</a></div>
+      <div><span className="saswp-migration-label">Schema Plugin</span><a onClick={handleMigration} data-id="schema" className="btn btn-success saswp-migration-button">{__('Import', 'schema-and-structured-data-for-wp')}</a></div>
       <div>        
             <div><span>{actionMessage.schema}</span></div>
             <div><span>{importedMessage.schema}</span></div>
@@ -105,7 +102,7 @@ const Migration = (props) => {
       </div>
 
       <div className="card-body saswp-migration-body">
-      <div><span className="saswp-migration-label">Schema Pro</span><a onClick={handleMigration} data-id="schema_pro" className="btn btn-success saswp-migration-button">Import</a></div>
+      <div><span className="saswp-migration-label">Schema Pro</span><a onClick={handleMigration} data-id="schema_pro" className="btn btn-success saswp-migration-button">{__('Import', 'schema-and-structured-data-for-wp')}</a></div>
       <div>        
             <div><span>{actionMessage.schema_pro}</span></div>
             <div><span>{importedMessage.schema_pro}</span></div>
@@ -113,7 +110,7 @@ const Migration = (props) => {
       </div>
 
       <div className="card-body saswp-migration-body">
-      <div><span className="saswp-migration-label">WP SEO Schema</span><a onClick={handleMigration} data-id="wp_seo_schema" className="btn btn-success saswp-migration-button">Import</a></div>
+      <div><span className="saswp-migration-label">WP SEO Schema</span><a onClick={handleMigration} data-id="wp_seo_schema" className="btn btn-success saswp-migration-button">{__('Import', 'schema-and-structured-data-for-wp')}</a></div>
       <div>        
             <div><span>{actionMessage.wp_seo_schema}</span></div>
             <div><span>{importedMessage.wp_seo_schema}</span></div>
@@ -121,7 +118,7 @@ const Migration = (props) => {
       </div>
 
       <div className="card-body saswp-migration-body">
-      <div><span className="saswp-migration-label">SEO Pressor</span><a onClick={handleMigration} data-id="seo_pressor" className="btn btn-success saswp-migration-button">Import</a></div>
+      <div><span className="saswp-migration-label">SEO Pressor</span><a onClick={handleMigration} data-id="seo_pressor" className="btn btn-success saswp-migration-button">{__('Import', 'schema-and-structured-data-for-wp')}</a></div>
       <div>        
             <div><span>{actionMessage.seo_pressor}</span></div>
             <div><span>{importedMessage.seo_pressor}</span></div>
@@ -129,7 +126,7 @@ const Migration = (props) => {
       </div>
 
       <div className="card-body saswp-migration-body">
-      <div><span className="saswp-migration-label">WPSSO Core</span><a onClick={handleMigration} data-id="wpsso_core" className="btn btn-success saswp-migration-button">Import</a></div>
+      <div><span className="saswp-migration-label">WPSSO Core</span><a onClick={handleMigration} data-id="wpsso_core" className="btn btn-success saswp-migration-button">{__('Import', 'schema-and-structured-data-for-wp')}</a></div>
       <div>        
             <div><span>{actionMessage.wpsso_core}</span></div>
             <div><span>{importedMessage.wpsso_core}</span></div>
@@ -137,7 +134,7 @@ const Migration = (props) => {
       </div>
 
       <div className="card-body saswp-migration-body">
-      <div><span className="saswp-migration-label">Schema – All In One Schema Rich Snippets</span><a onClick={handleMigration} data-id="aiors" className="btn btn-success saswp-migration-button">Import</a></div>
+      <div><span className="saswp-migration-label">Schema – All In One Schema Rich Snippets</span><a onClick={handleMigration} data-id="aiors" className="btn btn-success saswp-migration-button">{__('Import', 'schema-and-structured-data-for-wp')}</a></div>
       <div>        
             <div><span>{actionMessage.aiors}</span></div>
             <div><span>{importedMessage.aiors}</span></div>
@@ -145,7 +142,7 @@ const Migration = (props) => {
       </div>
 
       <div className="card-body saswp-migration-body">
-      <div><span className="saswp-migration-label">WP Customer Reviews</span><a onClick={handleMigration} data-id="wp_custom_rv" className="btn btn-success saswp-migration-button">Import</a></div>
+      <div><span className="saswp-migration-label">WP Customer Reviews</span><a onClick={handleMigration} data-id="wp_custom_rv" className="btn btn-success saswp-migration-button">{__('Import', 'schema-and-structured-data-for-wp')}</a></div>
       <div>        
             <div><span>{actionMessage.wp_custom_rv}</span></div>
             <div><span>{importedMessage.wp_custom_rv}</span></div>
@@ -153,7 +150,7 @@ const Migration = (props) => {
       </div>
 
       <div className="card-body saswp-migration-body">
-      <div><span className="saswp-migration-label">Stars Rating</span><a onClick={handleMigration} data-id="starsrating" className="btn btn-success saswp-migration-button">Import</a></div>
+      <div><span className="saswp-migration-label">Stars Rating</span><a onClick={handleMigration} data-id="starsrating" className="btn btn-success saswp-migration-button">{__('Import', 'schema-and-structured-data-for-wp')}</a></div>
       <div>        
             <div><span>{actionMessage.starsrating}</span></div>
             <div><span>{importedMessage.starsrating}</span></div>
@@ -161,7 +158,7 @@ const Migration = (props) => {
       </div>
 
       <div className="card-body saswp-migration-body">
-      <div><span className="saswp-migration-label">FAQ Schema Markup – FAQ Structured Data</span><a onClick={handleMigration} data-id="schema_for_faqs" className="btn btn-success saswp-migration-button">Import</a></div>
+      <div><span className="saswp-migration-label">FAQ Schema Markup – FAQ Structured Data</span><a onClick={handleMigration} data-id="schema_for_faqs" className="btn btn-success saswp-migration-button">{__('Import', 'schema-and-structured-data-for-wp')}</a></div>
       <div>        
             <div><span>{actionMessage.schema_for_faqs}</span></div>
             <div><span>{importedMessage.schema_for_faqs}</span></div>

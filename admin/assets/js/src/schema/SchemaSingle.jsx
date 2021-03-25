@@ -42,16 +42,16 @@ const SchemaSingle = () => {
         
         const businessTypeVal   = {
                 automotivebusiness              : [                                                                
-                                        {value:'',label: 'Select Sub Business Type ( optional )'},
-                                        {value:'autobodyshop',label: 'Auto Body Shop'},
-                                        {value:'autodealer',label: 'Auto Dealer'},
-                                        {value:'autopartsstore',label: 'Auto Parts Store'},
-                                        {value:'autorental',label: 'Auto Rental'},
-                                        {value:'autorepair',label: 'Auto Repair'},
-                                        {value:'autowash',label: 'Auto Wash'},
-                                        {value:'gasstation',label: 'Gas Station'},
-                                        {value:'motorcycledealer',label: 'Motorcycle Dealer'},
-                                        {value:'motorcyclerepair',label: 'Motorcycle Repair'}
+                        {value:'',label: 'Select Sub Business Type ( optional )'},
+                        {value:'autobodyshop',label: 'Auto Body Shop'},
+                        {value:'autodealer',label: 'Auto Dealer'},
+                        {value:'autopartsstore',label: 'Auto Parts Store'},
+                        {value:'autorental',label: 'Auto Rental'},
+                        {value:'autorepair',label: 'Auto Repair'},
+                        {value:'autowash',label: 'Auto Wash'},
+                        {value:'gasstation',label: 'Gas Station'},
+                        {value:'motorcycledealer',label: 'Motorcycle Dealer'},
+                        {value:'motorcyclerepair',label: 'Motorcycle Repair'}
                 ],
                 emergencyservice                :[
                         {value:''               ,label: 'Select Sub Business Type ( optional )'},     
@@ -1081,7 +1081,7 @@ const SchemaSingle = () => {
         {mainSpinner ? <MainSpinner /> : ''}
         <form encType="multipart/form-data" method="post" id="saswp_schema_form">  
                 <div className="saswp-single-header">
-                        <div className="saswp-single-header-left"><h3>{schemaType} Schema Setup</h3></div>
+                        <div className="saswp-single-header-left"><h3>{schemaType} {__('Schema Setup', 'schema-and-structured-data-for-wp')}</h3></div>
                         <div className="saswp-single-header-right"><Link to={`admin.php?page=saswp`}>X</Link></div>
                         </div>
                 <div className="saswp-single-body">
@@ -1093,7 +1093,7 @@ const SchemaSingle = () => {
                         <table className="form-table">
                                 <tbody>
                                         <tr>
-                                                <td>Business Type</td>
+                                                <td>{__('Business Type', 'schema-and-structured-data-for-wp')}</td>
                                                 <td>                                                
                                                 <Select       
                                                         Clearable     = {true}      
@@ -1106,7 +1106,7 @@ const SchemaSingle = () => {
                                         </tr>
                                                 {postMeta.saswp_business_name ?
                                                 <tr>
-                                                <td>Sub Business Type</td>
+                                                <td>{__('Sub Business Type', 'schema-and-structured-data-for-wp')}</td>
                                                 <td>
                                                 <Select       
                                                         Clearable     = {true}
@@ -1125,8 +1125,8 @@ const SchemaSingle = () => {
                         : ''}                                
                         <div className="card">
                                 <div className="card-body">
-                                        <h3>Placement</h3>
-                                        <p>Where do you want to insert</p>
+                                        <h3>{__('Placement', 'schema-and-structured-data-for-wp')}</h3>
+                                        <p>{__('Where do you want to insert', 'schema-and-structured-data-for-wp')}</p>
                                 </div>                        
                                 <div className="divider-horizontal"></div>
 
@@ -1152,23 +1152,23 @@ const SchemaSingle = () => {
                                                                                                 <td>
                                                                                                 <select onChange={handleInputChange} value={item.key_1} name={`data_group_array[${key}][data_array][${i}][key_1]`} data-group={key} data-group_index={i} data-index={k} data-key={`key_1`} >
                                                                                                         <optgroup label="Basic">                                                                                                                
-                                                                                                                <option value="post_type"> Post Type </option>                                                                                                                
-                                                                                                                <option value="show_globally"> Show Globally </option>                                                                                                                
-                                                                                                                <option value="user_type"> Logged in User Type </option>                                                                                                                
-                                                                                                                <option value="homepage"> Homepage </option>
+                                                                                                                <option value="post_type"> {__('Post Type', 'schema-and-structured-data-for-wp')} </option>                                                                                                                
+                                                                                                                <option value="show_globally"> {__('Show Globally', 'schema-and-structured-data-for-wp')} </option>                                                                                                                
+                                                                                                                <option value="user_type"> {__('Logged in User Type', 'schema-and-structured-data-for-wp')} </option>                                                                                                                
+                                                                                                                <option value="homepage"> {__('Homepage', 'schema-and-structured-data-for-wp')} </option>
                                                                                                         </optgroup>          
                                                                                                         <optgroup label="Post">
-                                                                                                                <option value="post"> Post </option>                                                                                                                
-                                                                                                                <option value="post_category"> Post Category </option>                                                                                                                
-                                                                                                                <option value="post_format"> Post Format </option>
+                                                                                                                <option value="post"> {__('Post', 'schema-and-structured-data-for-wp')} </option>                                                                                                                
+                                                                                                                <option value="post_category"> {__('Post Category', 'schema-and-structured-data-for-wp')} </option>                                                                                                                
+                                                                                                                <option value="post_format"> {__('Post Format', 'schema-and-structured-data-for-wp')} </option>
                                                                                                         </optgroup>          
                                                                                                         <optgroup label="Page">                                                                                                                
-                                                                                                                <option value="page"> Page </option>                                                                                                                
-                                                                                                                <option value="page_template"> Page Template </option>
+                                                                                                                <option value="page"> {__('Page', 'schema-and-structured-data-for-wp')} </option>                                                                                                                
+                                                                                                                <option value="page_template"> {__('Page Template', 'schema-and-structured-data-for-wp')} </option>
                                                                                                         </optgroup>          
                                                                                                         <optgroup label="Other">                                                                                                                
-                                                                                                                <option   value="ef_taxonomy"> Taxonomy (Tag) </option>
-                                                                                                                <option   value="date"> Date </option>
+                                                                                                                <option   value="ef_taxonomy"> {__('Taxonomy (Tag)', 'schema-and-structured-data-for-wp')} </option>
+                                                                                                                <option   value="date"> {__('Date', 'schema-and-structured-data-for-wp')} </option>
                                                                                                         </optgroup>               
                                                                                                 </select>
 
@@ -1177,13 +1177,13 @@ const SchemaSingle = () => {
                                                                                                         {
                                                                                                               item.key_1 == 'date' ? 
                                                                                                                 <select onChange={handleInputChange} name={`data_group_array[${key}][data_array][${i}][key_2]`} value={item.key_2} data-group={key} data-group_index={i} data-index={k} data-key={`key_2`}>
-                                                                                                                        <option value="before_published">  Before Published  </option>        
-                                                                                                                        <option value="after_published">   After Published   </option>        
+                                                                                                                        <option value="before_published">{__('Before Published', 'schema-and-structured-data-for-wp')}</option>        
+                                                                                                                        <option value="after_published">{__('After Published', 'schema-and-structured-data-for-wp')}</option>        
                                                                                                                 </select>        
                                                                                                                :   
                                                                                                                <select onChange={handleInputChange} name={`data_group_array[${key}][data_array][${i}][key_2]`} value={item.key_2} data-group={key} data-group_index={i} data-index={k} data-key={`key_2`}>
-                                                                                                                        <option value="equal"> Equal to </option>        
-                                                                                                                        <option value="not_equal">  Not Equal to (Exclude)  </option>        
+                                                                                                                        <option value="equal">{__('Equal to', 'schema-and-structured-data-for-wp')}</option>        
+                                                                                                                        <option value="not_equal">{__('Not Equal to (Exclude)', 'schema-and-structured-data-for-wp')}</option>        
                                                                                                                 </select>        
                                                                                                         }                                                                                                
                                                                                                 </td>
@@ -1219,7 +1219,7 @@ const SchemaSingle = () => {
                                                                                                  }
 
                                                                                                 </td>
-                                                                                                <td><a onClick={handlePlacementAnd} data-group_index={i} data-index={k} className="btn btn-default">AND</a></td>
+                                                                                                <td><a onClick={handlePlacementAnd} data-group_index={i} data-index={k} className="btn btn-default">{__('AND', 'schema-and-structured-data-for-wp')}</a></td>
                                                                                                 <td><a data-group_index={i} data-index={k} onClick={handleRemovePlacementTr}><span className="dashicons dashicons-trash"></span></a></td>
                                                                                         </tr>)
                                                                                 })     
@@ -1233,7 +1233,7 @@ const SchemaSingle = () => {
                                                 }) : null
 
                                         }
-                                        <a onClick={handlePlacementOr} className="btn btn-default">OR</a>
+                                        <a onClick={handlePlacementOr} className="btn btn-default">{__('OR', 'schema-and-structured-data-for-wp')}</a>
                                         </div>
                                 </div>                        
 
@@ -1244,7 +1244,7 @@ const SchemaSingle = () => {
                         <div>
                                <div className="card">
                                        <div className="card-body">
-                                               <h3>Advanced Options</h3>
+                                               <h3>{__('Advanced Options', 'schema-and-structured-data-for-wp')}</h3>
                                        </div>
 
                                        {
@@ -1273,7 +1273,7 @@ const SchemaSingle = () => {
                                                <div>
                                                        <div className="divider-horizontal"></div>
                                        <div className="card-body">
-                                                <span>Add Reviews  </span> 
+                                                <span>{__('Add Reviews', 'schema-and-structured-data-for-wp')}</span> 
                                                 <span><label className="form-check form-group toggle">
                                                 <input checked={postMeta.saswp_enable_append_reviews == 1 ? true : false } onChange={handleInputChange}  name="saswp_enable_append_reviews" type="checkbox" className="form-check-input" />
                                                 <span className="form-check-label"></span>
@@ -1287,14 +1287,14 @@ const SchemaSingle = () => {
                                                         handleClose={handleCloseAddReviewModal}                  
                                                         >
                                                                 <Modal.Header>
-                                                                <Modal.Title>Attach reviews to this schema type</Modal.Title>
+                                                                <Modal.Title>{__('Attach reviews to this schema type', 'schema-and-structured-data-for-wp')}</Modal.Title>
                                                                 </Modal.Header>  
                                                                                                                                 
                                                                 <div>
                                                                         <nav className="tabs">
-                                                                                <a onClick={handleAddReviewTab} data-id="0" className={reviewTabStatus == 0 ? 'tab-item active' : 'tab-item'} >Reviews</a>
-                                                                                <a onClick={handleAddReviewTab} data-id="1" className={reviewTabStatus == 1 ? 'tab-item active' : 'tab-item'}>Collections</a>
-                                                                                <a onClick={handleAddReviewTab} data-id="2" className={reviewTabStatus == 2 ? 'tab-item active' : 'tab-item'}>Shortcode</a>
+                                                                                <a onClick={handleAddReviewTab} data-id="0" className={reviewTabStatus == 0 ? 'tab-item active' : 'tab-item'} >{__('Reviews', 'schema-and-structured-data-for-wp')}</a>
+                                                                                <a onClick={handleAddReviewTab} data-id="1" className={reviewTabStatus == 1 ? 'tab-item active' : 'tab-item'}>{__('Collections', 'schema-and-structured-data-for-wp')}</a>
+                                                                                <a onClick={handleAddReviewTab} data-id="2" className={reviewTabStatus == 2 ? 'tab-item active' : 'tab-item'}>{__('Shortcode', 'schema-and-structured-data-for-wp')}</a>
                                                                         </nav>        
                                                                         <div className="card-body">
                                                                                 
@@ -1308,7 +1308,7 @@ const SchemaSingle = () => {
                                                                                                         
                                                                                                         return(                                                                                                                
                                                                                                                 <div key={index} className="saswp-add-rv-loop">
-                                                                                                                <input data-id={list.post.post_id} onChange={handleReviewClick} checked={ (postMeta.saswp_attahced_reviews && (postMeta.saswp_attahced_reviews).includes(list.post.post_id)) ? true : false } className="saswp-attach-rv-checkbox" type="checkbox" />  <strong> {list.post_meta.saswp_reviewer_name} ( Rating - {list.post_meta.saswp_review_rating} ) <span className="saswp-g-plus"><img width="25" height="25" src= {list.post_meta.saswp_review_platform_image}/></span></strong>
+                                                                                                                <input data-id={list.post.post_id} onChange={handleReviewClick} checked={ (postMeta.saswp_attahced_reviews && (postMeta.saswp_attahced_reviews).includes(list.post.post_id)) ? true : false } className="saswp-attach-rv-checkbox" type="checkbox" />  <strong> {list.post_meta.saswp_reviewer_name} ( {__('Rating', 'schema-and-structured-data-for-wp')} - {list.post_meta.saswp_review_rating} ) <span className="saswp-g-plus"><img width="25" height="25" src= {list.post_meta.saswp_review_platform_image}/></span></strong>
                                                                                                                 </div>
                                                                                                                         
                                                                                                         )                                
@@ -1318,7 +1318,7 @@ const SchemaSingle = () => {
                                                                                                 : '' 
                                                                                         }
                                                                                         </>}
-                                                                                        {reviewToBeAddedFound > 10 ? <div><a onClick={handleLoadMoreReviews}>Load More...</a></div> : ''}
+                                                                                        {reviewToBeAddedFound > 10 ? <div><a onClick={handleLoadMoreReviews}>{__('Load More...', 'schema-and-structured-data-for-wp')}</a></div> : ''}
                                                                                         </div> : ''}    
                                                                                 
                                                                                 
@@ -1342,16 +1342,16 @@ const SchemaSingle = () => {
                                                                                                 : '' 
                                                                                         }
                                                                                         </>}
-                                                                                        {collectionToBeAddedFound > 10 ? <div><a onClick={handleLoadMoreCollection}>Load More...</a></div> : ''}
+                                                                                        {collectionToBeAddedFound > 10 ? <div><a onClick={handleLoadMoreCollection}>{__('Load More...', 'schema-and-structured-data-for-wp')}</a></div> : ''}
 
                                                                                         </div> : ''}                                                                                   
                                                                                                                                                                 
                                                                                 {reviewTabStatus == 2 ? 
                                                                                 <div className="saswp-rv-tab-content">
-                                                                                        <p> Output reviews in front and its schema markup in source by using below shortcode </p>
+                                                                                        <p> {__('Output reviews in front and its schema markup in source by using below shortcode', 'schema-and-structured-data-for-wp')} </p>
                                                                                         <strong>[saswp-reviews]</strong>
                                                                                         <br/>
-                                                                                        Or
+                                                                                        {__('Or', 'schema-and-structured-data-for-wp')}
                                                                                         <br/>
                                                                                         <strong>[saswp-reviews-collection id="your collection id"]</strong>                                                                                        
                                                                                 </div> : ''}
@@ -1369,12 +1369,12 @@ const SchemaSingle = () => {
                                                                         <span className="saswp-attached-rv-count">
                                                                                {
                                                                                        postMeta.saswp_attahced_reviews ? 
-                                                                                       <span>Attached {postMeta.saswp_attahced_reviews.length} Reviews </span>
+                                                                                       <span>{__('Attached', 'schema-and-structured-data-for-wp')} {postMeta.saswp_attahced_reviews.length} {__('Reviews', 'schema-and-structured-data-for-wp')} </span>
                                                                                        : ''                                                                                       
                                                                                } 
                                                                                {
                                                                                        postMeta.saswp_attached_collection ? 
-                                                                                       <span>, {postMeta.saswp_attached_collection.length} Collections</span>
+                                                                                       <span>, {postMeta.saswp_attached_collection.length} {__('Collections', 'schema-and-structured-data-for-wp')}</span>
                                                                                        : ''
                                                                                }
                                                                                 </span>
@@ -1394,7 +1394,7 @@ const SchemaSingle = () => {
                                                <div>
                                                        <div className="divider-horizontal"></div>
                                                 <div className="card-body">
-                                                                <span>ItemList  </span>                                               
+                                                                <span>{__('ItemList', 'schema-and-structured-data-for-wp')}  </span>                                               
                                                                 <span><label className="form-check form-group toggle">
                                                                 <input checked={postMeta.saswp_enable_itemlist_schema == 1 ? true : false } onChange={handleInputChange}  name="saswp_enable_itemlist_schema" type="checkbox" className="form-check-input" />
                                                                 <span className="form-check-label"></span>                                                
@@ -1434,7 +1434,7 @@ const SchemaSingle = () => {
                                                         <div>
                                                         <div className="divider-horizontal"></div>
                                                                 <div className="card-body">
-                                                                                <span>Speakable  </span>                                               
+                                                                                <span>{__('Speakable', 'schema-and-structured-data-for-wp')}  </span>                                               
                                                                                 <span><label className="form-check form-group toggle">
                                                                                 <input checked={postMeta.saswp_enable_speakable_schema == 1 ? true : false } onChange={handleInputChange}  name="saswp_enable_speakable_schema" type="checkbox" className="form-check-input" />
                                                                                 <span className="form-check-label"></span>                                                
@@ -1450,7 +1450,7 @@ const SchemaSingle = () => {
                                        <div className="divider-horizontal"></div>
                                        <div className="card-body">
                                                <div className="saswp-global-modify-top">
-                                                        <span>Modify Schema Output</span>                                                        
+                                                        <span>{__('Modify Schema Output', 'schema-and-structured-data-for-wp')}</span>                                                        
                                                          <span><label className="form-check form-group toggle">
                                                         <input checked={postMeta.schema_options.enable_custom_field == 1 ? true : false} onChange={handleInputChange}  name="enable_custom_field" type="checkbox" className="form-check-input" />
                                                         <span className="form-check-label"></span>                                                
@@ -1465,10 +1465,10 @@ const SchemaSingle = () => {
                                                                 {
                                                                         (schemaType == 'local_business' || schemaType == 'HowTo' || schemaType == 'FAQ') ? 
                                                                         <div className="saswp-enable-modify-schema">
-                                                                                <strong>Choose Method</strong>
+                                                                                <strong>{__('Choose Method', 'schema-and-structured-data-for-wp')}</strong>
                                                                                 <select onChange={handleInputChange} value={postMeta.schema_options.saswp_modify_method} name="saswp_modify_method" className="saswp-enable-modify-schema-output">
-                                                                                <option value="automatic">Automatic</option>
-                                                                                <option value="manual">Manual</option>
+                                                                                <option value="automatic">{__('Automatic', 'schema-and-structured-data-for-wp')}</option>
+                                                                                <option value="manual">{__('Manual', 'schema-and-structured-data-for-wp')}</option>
                                                                                 </select>                                    
                                                                         </div>
                                                                         : ''
@@ -1503,7 +1503,7 @@ const SchemaSingle = () => {
                                                                         :''
                                                                         }
                                                                              
-                                                                        <div> <a onClick={addTr} className="saswp-add-custom-fields btn btn-primary">Add Property</a> </div>     
+                                                                        <div> <a onClick={addTr} className="saswp-add-custom-fields btn btn-primary">{__('Add Property', 'schema-and-structured-data-for-wp')}</a> </div>     
                                                                         </div>     
                                                                 </div>
                                                                 }                                                                
@@ -1513,7 +1513,7 @@ const SchemaSingle = () => {
                                        </div>
                                        <div className="divider-horizontal"></div>
                                        <div className="card-body">
-                                                <span>Paywall </span>
+                                                <span>{__('Paywall', 'schema-and-structured-data-for-wp')} </span>
                                                 <span><label className="form-check form-group toggle">
                                                 <input checked={postMeta.schema_options.notAccessibleForFree == 1 ? true : false } onChange={handleInputChange}  name="notAccessibleForFree" type="checkbox" className="form-check-input" />
                                                 <span className="form-check-label"></span>                                                
@@ -1528,15 +1528,15 @@ const SchemaSingle = () => {
                                                                 <table>
                                                                  <tbody>
                                                                   <tr>
-                                                                          <td>Is accessible for free</td>
+                                                                          <td>{__('Is accessible for free', 'schema-and-structured-data-for-wp')}</td>
                                                                           <td>
                                                                           <select name="isAccessibleForFree" value={postMeta.schema_options.isAccessibleForFree} onChange={handleInputChange}>
-                                                                                <option value="False">False</option>
-                                                                                <option value="True">True</option>                                                                
+                                                                                <option value="False">{__('False', 'schema-and-structured-data-for-wp')}</option>
+                                                                                <option value="True">{__('True', 'schema-and-structured-data-for-wp')}</option>                                                                
                                                                           </select>
                                                                           </td>
                                                                   </tr>
-                                                                  <tr><td>Enter the class name of paywall section</td>
+                                                                  <tr><td>{__('Enter the class name of paywall section', 'schema-and-structured-data-for-wp')}</td>
                                                                           <td>
                                                                           <input type="text" name="paywall_class_name" value={postMeta.schema_options.paywall_class_name} onChange={handleInputChange} />
                                                                           </td>
@@ -1556,13 +1556,13 @@ const SchemaSingle = () => {
                                 {
                                 (postStatus == 'publish' || postStatus == 'draft') ? 
                                         <>
-                                        {isLoaded ? <a className="btn btn-success" onClick={publishPost}>Update</a> : <Button success loading>Loading success</Button>}
+                                        {isLoaded ? <a className="btn btn-success" onClick={publishPost}>{__('Update', 'schema-and-structured-data-for-wp')}</a> : <Button success loading>Loading success</Button>}
                                         </>       
                                 :
                                 <div>
                                         {isLoaded ? <>
-                                                <a className="btn btn-success" onClick={draftPost}>Draft</a>
-                                                <a className="btn btn-success" onClick={publishPost}>Publish</a>
+                                                <a className="btn btn-success" onClick={draftPost}>{__('Draft', 'schema-and-structured-data-for-wp')}</a>
+                                                <a className="btn btn-success" onClick={publishPost}>{__('Publish', 'schema-and-structured-data-for-wp')}</a>
                                         </> : <Button success loading>Loading success</Button>
                                         }
                                         

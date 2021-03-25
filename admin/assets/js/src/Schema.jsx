@@ -8,6 +8,7 @@ import SchemaSingle from './schema/SchemaSingle'
 
 
 const Schema = (props) => {
+  
   return(
     <div>        
     <Route render={props => {                                        

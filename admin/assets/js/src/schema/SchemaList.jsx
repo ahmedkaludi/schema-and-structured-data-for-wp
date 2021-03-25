@@ -12,8 +12,7 @@ import './Schema.scss';
 const SchemaList = () => {
 
     const {__} = wp.i18n; 
-    const page = queryString.parse(window.location.search); 
-
+    
     const [isLoaded, setIsLoaded]               = useState(true);  
     const [mainSpinner, setMainSpinner]         = useState(false);  
     const [partSpinner, setPartSpinner]         = useState(false);  
@@ -118,8 +117,8 @@ const SchemaList = () => {
 
             <div className="saswp-heading-top">
             <div>
-              <h3>Schema Types</h3>
-              <p>{postsCount} types</p>
+              <h3>{__('Schema Types', 'schema-and-structured-data-for-wp')}</h3>
+              <p>{postsCount} {__('types', 'schema-and-structured-data-for-wp')}</p>
             </div>
             <div>
             <Link className="btn btn-success"  to={'admin.php?page=saswp&path=schema_add&tab=popular_schema'}> <Icon style={{'marginRight':'7px'}}>plus_rounded</Icon>{__('Add New Schema', 'schema-and-structured-data-for-wp')}</Link>
@@ -127,8 +126,8 @@ const SchemaList = () => {
             </div>
 
             <div className="saswp-schema-list">
-                <div><p>NAME</p></div>
-                <div><p>TARGET LOCATION</p></div>
+                <div><p>{__('NAME', 'schema-and-structured-data-for-wp')}</p></div>
+                <div><p>{__('LOCATION', 'schema-and-structured-data-for-wp')}</p></div>
                 <div></div>
             </div>                          
           </div>
@@ -149,28 +148,28 @@ const SchemaList = () => {
             <Link to={`admin.php?page=saswp&path=schema_single&type=${item.post_meta.schema_type}&id=${item.post.post_id}`} className="quads-edit-btn"> <strong>{item.post_meta.schema_type}</strong>{item.post.post_status == 'draft' ? <span> ( Draft )</span> : ''}</Link>               
             </div>
             <div>
-            <span>Enable On : </span>
+            
             {
               ( typeof(item.post_meta) != 'undefined' && typeof(item.post_meta.target_enable) != 'undefined' && item.post_meta.target_enable) ?  
               <div>                
                 {
                   
                   item.post_meta.target_enable.map( (ktem, j) => {
-                  return(<span key={j}>{ktem}<span>,</span></span>)
+                  return(<span className="saswp-location-label" key={j}>{ktem}<span>, </span></span>)
                 })
                 }              
               </div>
               : null
             }
 
-            <span>Excluded From : </span>
+            
             {
               ( typeof(item.post_meta) != 'undefined' && typeof(item.post_meta.target_exclude) != 'undefined' && item.post_meta.target_exclude) ?  
               <div>                
                 {
                   
                   item.post_meta.target_exclude.map( (ktem, j) => {
-                  return(<span key={j}>{ktem}<span>,</span></span>)
+                  return(<span className="saswp-location-label" key={j}>{ktem}<span>, </span></span>)
                 })
                 }              
               </div>
@@ -193,7 +192,7 @@ const SchemaList = () => {
             </ul>
           </div>          
           </div>
-          : <div className="saswp-not-found">Schema not found. 
+          : <div className="saswp-not-found">{__('Schema not found', 'schema-and-structured-data-for-wp')} 
           <Link className="btn btn-success"  to={'admin.php?page=saswp&path=schema_add&tab=popular_schema'}>{__('Add New Schema', 'schema-and-structured-data-for-wp')}</Link>
           </div>  
           

@@ -49,8 +49,8 @@ const PremiumFeatures = () => {
                             </div>
                     </div>
                     <div className="saswp-sts-btn">                      
-                        <div> Status : <span>{item.status}</span></div>
-                        <div>{item.status == 'InActive' ? <a target="_blank" href={item.download} className="btn btn-success">Download</a> : '' }   </div>                                                                
+                        <div> {__('Status :', 'schema-and-structured-data-for-wp')} <span>{item.status}</span></div>
+                        <div>{item.status == 'InActive' ? <a target="_blank" href={item.download} className="btn btn-success">{__('Download', 'schema-and-structured-data-for-wp')}</a> : '' }   </div>
                     </div>
             </li>
   ));
