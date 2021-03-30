@@ -195,7 +195,8 @@ function saswp_home_interface_render($hook){
                 'trans_reviews'                => saswp_label_text('translation-reviews'),
                 'trans_self'                   => saswp_label_text('translation-self'),
                 'translable_txt'               => $translable_txt,
-                'is_pro_active'                => saswp_ext_installed_status()
+                'is_pro_active'                => saswp_ext_installed_status(),
+                'saswp_version'                => SASWP_VERSION
         );
 
         

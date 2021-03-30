@@ -51,7 +51,7 @@ const HomeNavLink = () => {
                     <div>                        
                         <span className="nav-title"> <img height="36" width="36" alt="Schema &#38; Structured Data" src={saswp_localize_data.plugin_url+'/admin_section/images/sd-logo-white.png'} />     Schema &#38; Structured Data</span>
                     </div>                    
-                    <div class="saswp-divider-horizontal"></div>
+                    <div className="saswp-divider-horizontal"></div>
                     <div className="nav-section">
                         <span className="nav-section-title">{__('Menu', 'schema-and-structured-data-for-wp')}</span>
                         <Link className={current.includes('schema') ? 'highlighted active nav-link' : 'nav-link'} to={`admin.php?page=saswp&path=schema`} ><span className="nav-link-text">{__('Schema Types', 'schema-and-structured-data-for-wp')}</span></Link>
@@ -61,7 +61,7 @@ const HomeNavLink = () => {
                         {/* <a onClick={MoveToOldInterface} href="" className="nav-link " data-id={`admin.php?page=saswp&path=settings`}>Free Vs Pro</a> */}                        
                         {saswp_localize_data.is_pro_active ? '': <a target="blank" href="https://structured-data-for-wp.com/pricing/" className="btn btn-success saswp-upgrade-btn">{__('UPGRADE TO PRO', 'schema-and-structured-data-for-wp')}</a>}
                     </div>
-                    <div class="saswp-divider-horizontal"></div>
+                    <div className="saswp-divider-horizontal"></div>
                     <div className="nav-section">
                         <span className="nav-section-title">{__('Support', 'schema-and-structured-data-for-wp')}</span>
                         <a href="https://structured-data-for-wp.com/contact-us/" target="_blank" className="nav-link">
@@ -71,6 +71,13 @@ const HomeNavLink = () => {
                         <span className="nav-link-text">{__('Knowledge Base', 'schema-and-structured-data-for-wp')}</span>
                         </a>
                     </div>
+
+                    <div className="saswp-divider-horizontal"></div>
+                    <div className="nav-section">
+                        <span className="nav-section-title">SASWP V {saswp_localize_data.saswp_version}</span>
+                        <p className="description">adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible)</p>                        
+                    </div>
+
                     </nav>
     );
 }

@@ -3,6 +3,8 @@ import './Settings.scss';
 
 const Migration = (props) => {
 
+  const {__}  = wp.i18n;    
+
   const [actionMessage, setActionMessage] = useState({
     schema            : '',
     schema_pro        : '',

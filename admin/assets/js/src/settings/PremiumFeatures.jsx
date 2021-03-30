@@ -4,7 +4,7 @@ import './Settings.scss';
 
 
 const PremiumFeatures = () => {
-
+  const {__}  = wp.i18n;    
   const [extensionList, setExtensionList] = useState([]);
   const [partSpinner, setPartSpinner]     = useState(false);  
 
