@@ -4,6 +4,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'ratingform'  =>  array(            
+            'name'       => 'Rating Form by SerdarG',
+            'free'       => 'rating-form/rf-init.php',                    
+            'opt_name'   => 'saswp-ratingform',
+            'part_in'    => 'free',
+        ),
+        'polylang'  =>  array(            
+            'name'       => 'Polylang',
+            'free'       => 'polylang/polylang.php',                    
+            'opt_name'   => 'saswp-polylang',
+            'part_in'    => 'pro',
+        ),
         'wpjobmanager'  =>  array(            
             'name'       => 'WP Job Manager',
             'free'       => 'wp-job-manager/wp-job-manager.php',                    
@@ -230,6 +242,12 @@ return array(
                     'opt_name'   => 'saswp-strong-testimonials',
                     'part_in'    => 'free',
         ),
+        'brb'  =>  array(
+            'name'       => 'Business Reviews Bundle',
+            'free'       => 'business-reviews-bundle/brb.php',            
+            'opt_name'   => 'saswp-brb',
+            'part_in'    => 'free',
+        ),
         'wordlift'  =>  array(            
                     'name'       => 'WordLift',
                     'free'       => 'wordlift/wordlift.php',            
@@ -247,6 +265,24 @@ return array(
                     'free'       => 'amp/amp.php',            
                     'opt_name'   => 'saswp-ampbyautomatic',
                     'part_in'    => 'free',
+        ),
+        'wpecommerce'  =>  array(            
+            'name'       => 'WP eCommerce',
+            'free'       => 'wp-e-commerce/wp-shopping-cart.php',            
+            'opt_name'   => 'saswp-wpecommerce',
+            'part_in'    => 'free',
+        ),
+        'wpreviewpro'  =>  array(            
+            'name'       => 'WP Review Pro',
+            'free'       => 'wp-review-pro/wp-review.php',            
+            'opt_name'   => 'saswp-wpreviewpro',
+            'part_in'    => 'free',
+        ),
+        'webstories'  =>  array(
+            'name'       => 'Web Stories',
+            'free'       => 'web-stories/web-stories.php',
+            'opt_name'   => 'saswp-webstories',
+            'part_in'    => 'free'
         ),
         'betteramp'  =>  array(            
                     'name'       => 'Better AMP',
@@ -277,6 +313,25 @@ return array(
                     'free'       => 'kk-star-ratings/index.php',            
                     'opt_name'   => 'saswp-kk-star-raring',
                     'part_in'    => 'free',
+        ),
+        'rmprating'  =>  array(            
+            'name'       => 'Rate my Post – WP Rating System',
+            'free'       => 'rate-my-post/rate-my-post.php',            
+            'opt_name'   => 'saswp-rmprating',
+            'part_in'    => 'free',
+        ),
+        'elementor'  =>  array(            
+            'name'       => 'Elementor Testimonial',
+            'free'       => 'elementor/elementor.php', 
+            'pro'        => 'elementor-pro/elementor-pro.php',           
+            'opt_name'   => 'saswp-elementor',
+            'part_in'    => 'free',
+        ),
+        'wpdiscuz'  =>  array(            
+            'name'       => 'Comments – wpDiscuz',
+            'free'       => 'wpdiscuz/class.WpdiscuzCore.php',            
+            'opt_name'   => 'saswp-wpdiscuz',
+            'part_in'    => 'free',
         ),
         'easy_testimonials'  =>  array(            
                     'name'       => 'Easy Testimonials',
@@ -409,12 +464,32 @@ return array(
                     'opt_name'   => 'saswp-dw-question-answer',
                     'part_in'    => 'free',
         ),
+        'wpqa' => array(            
+            'name'       => 'WPQA Builder',
+            'free'       => 'WPQA/wpqa.php',
+            'pro'        => 'WPQA/wpqa.php',
+            'opt_name'   => 'saswp-wpqa',
+            'part_in'    => 'pro',
+        ),
         'yoast_seo' => array(            
                     'name'       => 'Yoast Seo',
                     'free'       => 'wordpress-seo/wp-seo.php',
                     'pro'        => 'wordpress-seo-premium/wp-seo-premium.php',
                     'opt_name'   => 'saswp-yoast', 
                     'part_in'    => 'free',
+        ),
+        'metatagmanager' => array(            
+            'name'       => 'Meta Tag Manager',
+            'free'       => 'meta-tag-manager/meta-tag-manager.php',            
+            'opt_name'   => 'saswp-metatagmanager', 
+            'part_in'    => 'free',
+        ),
+        'slimseo' => array(            
+            'name'       => 'Slim Seo',
+            'free'       => 'slim-seo/slim-seo.php',
+            'pro'        => 'slim-seo-premium/slim-seo-premium.php',
+            'opt_name'   => 'saswp-slimseo', 
+            'part_in'    => 'free',
         ),
         'rank_math' => array(            
                     'name'       => 'Rank Math',
@@ -483,6 +558,12 @@ return array(
             'name'       => 'Yotpo: Product & Photo Reviews for WooCommerce',
             'free'       => 'yotpo-social-reviews-for-woocommerce/wc_yotpo.php',               
             'opt_name'   => 'saswp-yotpo',
+            'part_in'    => 'free',
+        ),
+        'ryviu' => array(            
+            'name'       => 'Ryviu – Product Reviews for WooCommerce',
+            'free'       => 'ryviu/ryviu.php',               
+            'opt_name'   => 'saswp-ryviu',
             'part_in'    => 'free',
         ),
         'wptastyrecipe' => array(            
@@ -565,6 +646,12 @@ return array(
                     'free'       => 'soledad',               
                     'opt_name'   => 'saswp-soledad',
                     'part_in'    => 'free',
+        ), 
+        'rannarecipe' => array(            
+            'name'       => 'Ranna - Food & Recipe',
+            'free'       => 'ranna',               
+            'opt_name'   => 'saswp-rannarecipe',
+            'part_in'    => 'free',
         ),  
         'wplms' => array(            
             'name'       => 'WPLMS',

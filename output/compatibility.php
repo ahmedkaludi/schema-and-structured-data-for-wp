@@ -219,7 +219,7 @@ class saswp_output_compatibility{
         remove_action('wp_head', 'Bhittani\StarRating\structured_data');
                         
     }
-
+    
     public function saswp_geodirectory_override(){                
         remove_action( 'wp_head', array( 'GeoDir_Post_Data', 'schema' ), 10 );                         
     }
@@ -263,7 +263,10 @@ class saswp_output_compatibility{
         add_filter('wpseo_json_ld_output', '__return_false');         
         $this->saswp_remove_yoast_product_schema();                
     }
-    
+    public function saswp_webstories_override(){        
+        add_filter('web_stories_enable_schemaorg_metadata', '__return_false');   
+    }
+        
     public function saswp_the_seo_framework_override(){        
         
         add_filter('the_seo_framework_receive_json_data', '__return_null');
@@ -348,6 +351,18 @@ class saswp_output_compatibility{
     public function kk_star_ratings_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-kk-star-raring');
     }
+    public function rmprating_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-rmprating');
+    }
+    public function elementor_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-elementor');
+    }
+    public function ratingform_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-ratingform');
+    }
+    public function wpdiscuz_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpdiscuz');
+    }
     public function easy_testimonials_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-easy-testimonials');
     }
@@ -429,8 +444,20 @@ class saswp_output_compatibility{
     public function dw_qna_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-dw-question-answer');
     }
+    public function wpqa_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpqa');
+    }
+    public function brb_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-brb');
+    }
     public function yoast_seo_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-yoast');
+    }
+    public function metatagmanager_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-metatagmanager');
+    }
+    public function slimseo_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-slimseo');
     }
     public function rank_math_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-rankmath');
@@ -483,6 +510,9 @@ class saswp_output_compatibility{
     public function yotpo_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-yotpo');
     }
+    public function ryviu_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-ryviu');
+    }
     public function wptastyrecipe_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wptastyrecipe');
     }
@@ -506,6 +536,15 @@ class saswp_output_compatibility{
     }
     public function ampbyautomatic_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-ampbyautomatic');
+    }
+    public function wpecommerce_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpecommerce');
+    }
+    public function wpreviewpro_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpreviewpro');
+    }
+    public function webstories_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-webstories');
     }
     public function betteramp_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-betteramp');
@@ -597,6 +636,9 @@ class saswp_output_compatibility{
     public function helpiefaq_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-helpiefaq');
     }
+    public function polylang_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-polylang');
+    }
     public function total_recipe_generator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-total-recipe-generator');
     }
@@ -621,4 +663,18 @@ class saswp_output_compatibility{
 if(class_exists('saswp_output_compatibility')){
    $obj_compatibility =  new saswp_output_compatibility();
    $obj_compatibility->saswp_service_compatibility_hooks();
+}
+
+//Remove Slim seo schema 
+
+add_action('slim_seo_init', 'saswp_override_slim_seo',1,10);
+
+function saswp_override_slim_seo($plugin){
+
+    global $sd_data;
+
+    if( isset($sd_data['saswp-slimseo']) && $sd_data['saswp-slimseo'] == 1){
+        $plugin->disable( 'schema' );
+    }
+
 }

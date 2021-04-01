@@ -32,12 +32,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 if(is_object($post)){
                         $post_id = $post->ID; 
                 }
+                $current_user       = null;
 
-                $current_user       = wp_get_current_user();
+                if( function_exists('wp_get_current_user') ){
+                        $current_user       = wp_get_current_user();
+                }
+                
                 $author_desc        = get_the_author_meta( 'user_description' );
                 $author_url         = get_the_author_meta( 'user_url' );                
 
-                if(function_exists('get_avatar_data')){
+                if(function_exists('get_avatar_data') && is_object($current_user) ){
                     $author_details	= get_avatar_data($current_user->ID);           
                 }
 
@@ -122,13 +126,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $meta_field[] = array(
                             'label'   => 'Business Name',
                             'id'      => 'local_business_name_'.$schema_id,
-                            'type'    => 'text',                             
+                            'type'    => 'text', 
+                                                        
                         );
                     
                         $meta_field[] = array(
-                           'label' => 'URL',
-                            'id' => 'local_business_name_url_'.$schema_id,
-                            'type' => 'text',
+                            'label'    => 'URL',
+                            'id'      => 'local_business_name_url_'.$schema_id,
+                            'type'    => 'text',
                             'default' => get_permalink()                            
                         );
                     
@@ -137,8 +142,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'local_business_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => is_object($post) ? $post->post_excerpt : ''                            
-                        );
-                    
+                        );                                            
                         $meta_field[] = array(
                             'label' => 'Street Address',
                             'id' => 'local_street_address_'.$schema_id,
@@ -164,7 +168,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                         
                         $meta_field[] = array(
-                                'label' => 'Latitude',
+                            'label' => 'Latitude',
                             'id' => 'local_latitude_'.$schema_id,
                             'type' => 'text',                         
                         );
@@ -238,7 +242,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'Additional Type',
                                 'id'    => 'local_additional_type_'.$schema_id,
                                 'type'  => 'text',                            
-                        );                                                
+                        );
+                        $meta_field[] = array(
+                                'label'   => 'Founder',
+                                'id'      => 'local_business_founder_'.$schema_id,
+                                'type'    => 'textarea',  
+                                'note'    => 'Note: If There are more than one founder, Separate founder list by comma ( , )'                                 
+                       );
+                       $meta_field[] = array(
+                               'label'   => 'Employee',
+                               'id'      => 'local_business_employee_'.$schema_id,
+                               'type'    => 'textarea',
+                               'note'    => 'Note: If There are more than one employee. Separate employee list by comma ( , )'                                   
+                       );                                                
                         $meta_field[] =   array(
                             'label' => 'Facebook',
                             'id' => 'local_facebook_'.$schema_id,
@@ -307,6 +323,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_permalink()
                     ),
                     array(
+                        'label'   => 'inLanguage',
+                        'id'      => 'saswp_blogposting_inlanguage_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_bloginfo('language'),
+                   ),
+                    array(
                             'label' => 'Headline',
                             'id' => 'saswp_blogposting_headline_'.$schema_id,
                             'type' => 'text',
@@ -316,13 +338,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_blogposting_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),                        
                     array(
                         'label'   => 'Article Body',
                         'id'      => 'saswp_blogposting_body_'.$schema_id,
                         'type'    => 'textarea',
-                        'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                        'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
                     ),
                     array(
                             'label' => 'Keywords',
@@ -343,6 +365,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_permalink()
                     ),
                     array(
+                        'label'   => 'Image',
+                        'id'      => 'saswp_blogposting_image_'.$schema_id,
+                        'type'    => 'media'                        
+                    ),
+                    array(
                             'label' => 'Date Published',
                             'id' => 'saswp_blogposting_date_published_'.$schema_id,
                             'type' => 'text',
@@ -354,6 +381,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',
                             'default' => get_the_modified_date("Y-m-d")
                     ),     
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_blogposting_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )                        
+                   ),
                     array(
                             'label' => 'Author Name',
                             'id' => 'saswp_blogposting_author_name_'.$schema_id,
@@ -424,6 +460,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'media',                            
                     ),    
                     array(
+                        'label'   => 'inLanguage',
+                        'id'      => 'saswp_newsarticle_inlanguage_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_bloginfo('language'),
+                    ),
+                    array(
                             'label' => 'Headline',
                             'id' => 'saswp_newsarticle_headline_'.$schema_id,
                             'type' => 'text',
@@ -445,7 +487,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_newsarticle_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
                             'label' => 'Keywords',
@@ -463,7 +505,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Article Body',
                             'id' => 'saswp_newsarticle_body_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                            'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
                     ),
                      array(
                             'label' => 'Name',
@@ -493,6 +535,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_newsarticle_main_entity_id_'.$schema_id,
                             'type' => 'text',
                             'default' => get_permalink()
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_newsarticle_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label' => 'Author Name',
@@ -557,8 +608,20 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_webpage_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
+                    array(
+                        'label'   => 'Webpage Section',
+                        'id'      => 'saswp_webpage_section_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                    ),    
+                    array(
+                        'label'   => 'Webpage Body',
+                        'id'      => 'saswp_webpage_body_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
+                    ),    
                     array(
                             'label' => 'Keywords',
                             'id' => 'saswp_webpage_keywords_'.$schema_id,
@@ -608,6 +671,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
                       ),
                     array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_webpage_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
                             'label' => 'Author Name',
                             'id' => 'saswp_webpage_author_name_'.$schema_id,
                             'type' => 'text',
@@ -645,6 +717,91 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     )    
                     );
                     break;
+
+                    case 'Photograph':                                        
+                        $meta_field = array( 
+						array(
+                                'label' => 'Headline',
+                                'id' => 'saswp_photograph_headline_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title()
+                        ),						
+                        array(
+                                'label'   => 'URL',
+                                'id'      => 'saswp_photograph_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_permalink(),
+                        ),    
+                        array(
+                                'label' => 'Image',
+                                'id' => 'saswp_photograph_image_'.$schema_id,
+                                'type' => 'media'                            
+                        ),
+                        array(
+                                'label'   => 'inLanguage',
+                                'id'      => 'saswp_photograph_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                        ),                        
+                        array(
+                                'label' => 'Description',
+                                'id' => 'saswp_photograph_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),                                                    
+                        array(
+                                'label' => 'Date Published',
+                                'id' => 'saswp_photograph_date_published_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ), 
+                        array(
+                                'label' => 'Date Modified',
+                                'id' => 'saswp_photograph_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_photograph_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label' => 'Author Name',
+                                'id' => 'saswp_photograph_author_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label' => 'Author Description',
+                                'id' => 'saswp_photograph_author_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_photograph_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),    
+                        array(
+                                'label' => 'Organization Name',
+                                'id' => 'saswp_photograph_organization_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ),
+                        array(
+                                'label' => 'Organization Logo',
+                                'id'    => 'saswp_photograph_organization_logo_'.$schema_id,
+                                'type'  => 'media',
+                                'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
+                        )                                           
+                        );
+                        break;
                 
                     case 'Article':                                        
                         $meta_field = array(
@@ -666,6 +823,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type' => 'media'                            
                         ),
                         array(
+                                'label'   => 'inLanguage',
+                                'id'      => 'saswp_article_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                        ),
+                        array(
                                 'label' => 'Headline',
                                 'id' => 'saswp_article_headline_'.$schema_id,
                                 'type' => 'text',
@@ -675,19 +838,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'Description',
                                 'id' => 'saswp_article_description_'.$schema_id,
                                 'type' => 'textarea',
-                                'default' => get_the_excerpt()
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
                         ),
                         array(
                                 'label'   => 'Article Section',
                                 'id'      => 'saswp_article_section_'.$schema_id,
                                 'type'    => 'textarea',
-                                'default' => get_the_excerpt()
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
                         ),    
                         array(
                                 'label'   => 'Article Body',
                                 'id'      => 'saswp_article_body_'.$schema_id,
                                 'type'    => 'textarea',
-                                'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                                'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
                         ),    
                         array(
                                 'label' => 'Keywords',
@@ -706,6 +869,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_article_date_modified_'.$schema_id,
                                 'type' => 'text',
                                 'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_article_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
                         ),
                         array(
                                 'label' => 'Author Name',
@@ -772,7 +944,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                             'label' => 'Description',
                                             'id' => 'saswp_special_announcement_description_'.$schema_id,
                                             'type' => 'textarea',
-                                            'default' => get_the_excerpt()
+                                            'default' => saswp_strip_all_tags(get_the_excerpt())
                                     ),
                                     array(
                                         'label' => 'Quarantine Guidelines',
@@ -839,6 +1011,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id' => 'saswp_special_announcement_image_'.$schema_id,
                                         'type' => 'media'                            
                                 ),                    
+                                array(
+                                        'label'   => 'Author Type',
+                                        'id'      => 'saswp_special_announcement_author_type_'.$schema_id,
+                                        'type'    => 'select',
+                                        'options' => array(
+                                                'Person'           => 'Person',
+                                                'Organization'     => 'Organization',                        
+                                )
+                                ),
                                 array(
                                         'label' => 'Author Name',
                                         'id' => 'saswp_special_announcement_author_name_'.$schema_id,
@@ -1147,6 +1328,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'media',                            
                     ),
                     array(
+                        'label'   => 'inLanguage',
+                        'id'      => 'saswp_tech_article_inlanguage_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_bloginfo('language'),
+                   ),
+                    array(
                             'label' => 'Headline',
                             'id' => 'saswp_tech_article_headline_'.$schema_id,
                             'type' => 'text',
@@ -1156,7 +1343,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_tech_article_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ) , 
                     array(
                             'label' => 'Keywords',
@@ -1175,6 +1362,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_tech_article_date_modified_'.$schema_id,
                             'type' => 'text',
                             'default' => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_tech_article_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label' => 'Author Name',
@@ -1207,10 +1403,9 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
                     ),
                     array(
-                        'label' => 'Speakable',
-                        'id' => 'saswp_tech_article_speakable_'.$schema_id,
-                        'type' => 'checkbox',
-
+                            'label' => 'Speakable',
+                            'id' => 'saswp_tech_article_speakable_'.$schema_id,
+                            'type' => 'checkbox'
                     )                        
                     );
                     break;
@@ -1330,7 +1525,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_dfp_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ) ,    
                     array(
                             'label' => 'URL',
@@ -1354,6 +1549,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_dfp_date_modified_'.$schema_id,
                             'type' => 'text',
                             'default' => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_dfp_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label' => 'Author Name',
@@ -1424,13 +1628,22 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswp_recipe_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
                             'label' => 'Main Entity Id',
                             'id' => 'saswp_recipe_main_entity_'.$schema_id,
                             'type' => 'text',
                             'default' => get_permalink()
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_recipe_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label' => 'Author Name',
@@ -1581,6 +1794,46 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         ),
                     ),
                     array(
+                        'label' => 'Cholesterol',
+                        'id'    => 'saswp_recipe_cholesterol_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Saturated Fat',
+                        'id'    => 'saswp_recipe_saturated_fat_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Unsaturated Fat',
+                        'id'    => 'saswp_recipe_unsaturated_fat_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Trans Fat',
+                        'id'    => 'saswp_recipe_trans_fat_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '270 grams'
+                        ),
+                    ),
+                    array(
+                        'label' => 'Serving Size',
+                        'id'    => 'saswp_recipe_serving_size_'.$schema_id,
+                        'type'  => 'text',
+                        'attributes' => array(
+                            'placeholder' => '370 grams'
+                        ),
+                    ),
+                    array(
                             'label' => 'Recipe Ingredient',
                             'id' => 'saswp_recipe_ingredient_'.$schema_id,
                             'type' => 'textarea',
@@ -1588,16 +1841,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'placeholder' => '2 cups of flour; 3/4 cup white sugar;'
                             ),
                             'note' => 'Note: Separate Ingredient list by semicolon ( ; )'  
-                    ), 
-                    array(
-                            'label' => 'Recipe Instructions',
-                            'id' => 'saswp_recipe_instructions_'.$schema_id,
-                            'type' => 'textarea',
-                            'attributes' => array(
-                                'placeholder' => 'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan; large bowl, combine flour, sugar, baking powder, and salt. pan.;'
-                            ),
-                            'note' => 'Note: Separate Instructions step by semicolon ( ; )'  
-                    ), 
+                    ),                     
                     array(
                             'label' => 'Video Name',
                             'id' => 'saswp_recipe_video_name_'.$schema_id,
@@ -1609,7 +1853,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Video Description',
                             'id' => 'saswp_recipe_video_description_'.$schema_id,
-                            'type' => 'text', 
+                            'type' => 'textarea', 
                             'attributes' => array(
                                 'placeholder' => 'Video Description'
                             ),
@@ -1651,7 +1895,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'attributes' => array(
                                 'placeholder' => 'PT1M33S'
                             ),
-                    ),   
+                    ), 
+                    array(
+                        'label' => 'Recipe Instructions',
+                        'id' => 'saswp_recipe_instructions_'.$schema_id,
+                        'type' => 'textarea',
+                        'attributes' => array(
+                            'placeholder' => 'Preheat the oven to 350 degrees F. Grease and flour a 9x9 inch pan; large bowl, combine flour, sugar, baking powder, and salt. pan.;'
+                        ),
+                        'note' => 'Note: Separate Instructions step by semicolon ( ; ). If you want to add images. Use below repeater "Add Recipe Instructions"'  
+                   ),   
                     array(
                         'label' => 'Aggregate Rating',
                         'id' => 'saswp_recipe_schema_enable_rating_'.$schema_id,
@@ -1769,7 +2022,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label'   => 'Description',
                                 'id'      => 'saswp_real_estate_listing_description_'.$schema_id,
                                 'type'    => 'textarea', 
-                                'default' => get_the_excerpt()
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
                         ), 
                         array(
                                 'label'    => 'Image',
@@ -1878,7 +2131,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                 'label'   => 'Description',
                                                 'id'      => 'saswp_audiobook_description_'.$schema_id,
                                                 'type'    => 'textarea',
-                                                'default' => get_the_excerpt()                                                                  
+                                                'default' => saswp_strip_all_tags(get_the_excerpt())                                                                  
                                         ),
                                         array(
                                                 'label'   => 'URL',
@@ -1902,6 +2155,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                 'id'         => 'saswp_audiobook_date_modified_'.$schema_id,
                                                 'type'       => 'text',
                                                 'default'    => get_the_modified_date("Y-m-d")                            
+                                        ),
+                                        array(
+                                                'label'   => 'Author Type',
+                                                'id'      => 'saswp_audiobook_author_type_'.$schema_id,
+                                                'type'    => 'select',
+                                                'options' => array(
+                                                        'Person'           => 'Person',
+                                                        'Organization'     => 'Organization',                        
+                                                )
                                         ),
                                         array(
                                                 'label'   => 'Author Name',
@@ -2381,7 +2643,24 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_price_'.$schema_id,
                             'type'    => 'text',
                             'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
-                     ),
+                       ),
+                        array(
+                                'label'   => 'High Price',
+                                'id'      => 'saswp_product_schema_high_price_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                        ),
+                        array(
+                                'label'   => 'Low Price',
+                                'id'      => 'saswp_product_schema_low_price_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                        ),
+                        array(
+                                'label'   => 'Offer Count',
+                                'id'      => 'saswp_product_schema_offer_count_'.$schema_id,
+                                'type'    => 'text',                                
+                        ),
                         array(
                             'label'   => 'Price Valid Until',
                             'id'      => 'saswp_product_schema_priceValidUntil_'.$schema_id,
@@ -2444,10 +2723,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_remove_warnings($product_details, 'product_gtin8', 'saswp_string')    
                        ),
                         array(
-                        'label'   => 'GTIN13',
-                        'id'      => 'saswp_product_schema_gtin13_'.$schema_id,
-                        'type'    => 'text',  
-                        'default' => saswp_remove_warnings($product_details, 'product_gtin13', 'saswp_string')    
+                                'label'   => 'GTIN13',
+                                'id'      => 'saswp_product_schema_gtin13_'.$schema_id,
+                                'type'    => 'text',  
+                                'default' => saswp_remove_warnings($product_details, 'product_gtin13', 'saswp_string')    
+                        ),
+                        array(
+                                'label'   => 'GTIN12',
+                                'id'      => 'saswp_product_schema_gtin12_'.$schema_id,
+                                'type'    => 'text',  
+                                'default' => saswp_remove_warnings($product_details, 'product_gtin12', 'saswp_string')    
+                        ),
+                        array(
+                                'label'   => 'Color',
+                                'id'      => 'saswp_product_schema_color_'.$schema_id,
+                                'type'    => 'text'                                
                         ),
                         array(
                             'label' => 'Seller Organization',
@@ -2486,14 +2776,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     $meta_field = array(
                     array(
                             'label' => 'Name',
-                            'id' => 'saswp_service_schema_name_'.$schema_id,
-                            'type' => 'text',                    
+                            'id'    => 'saswp_service_schema_name_'.$schema_id,
+                            'type'  => 'text',                    
                     ),
                     array(
                             'label' => 'URL',
-                            'id' => 'saswp_service_schema_url_'.$schema_id,
-                            'type' => 'text',                    
+                            'id'    => 'saswp_service_schema_url_'.$schema_id,
+                            'type'  => 'text',                    
                     ),    
+                    array(
+                        'label' => 'Image',
+                        'id' => 'saswp_service_schema_image_'.$schema_id,
+                        'type' => 'media',                            
+                     ),
                     array(
                             'label' => 'Service Type',
                             'id' => 'saswp_service_schema_type_'.$schema_id,
@@ -2519,12 +2814,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                      'PerformingGroup'              => 'Performing Group', 
                                      'SportsOrganization'           => 'Sports Organization',
                             ),                           
-                    ),    
-                    array(
-                            'label' => 'Image',
-                            'id' => 'saswp_service_schema_image_'.$schema_id,
-                            'type' => 'media',                            
-                    ),
+                    ),                        
                     array(
                             'label' => 'Locality',
                             'id' => 'saswp_service_schema_locality_'.$schema_id,
@@ -2544,6 +2834,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Telephone',
                             'id' => 'saswp_service_schema_telephone_'.$schema_id,
                             'type' => 'text',                            
+                    ), 
+                    array(
+                        'label' => 'Price Range',
+                        'id'    => 'saswp_service_schema_price_range_'.$schema_id,
+                        'type'  => 'text',                            
                     ),                    
                     array(
                             'label' => 'Description',
@@ -2580,6 +2875,111 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         )                        
                     );
                     break;
+
+                    case 'TaxiService':
+                    
+                        $meta_field = array(
+                        array(
+                                'label' => 'Name',
+                                'id'    => 'saswp_taxi_service_schema_name_'.$schema_id,
+                                'type'  => 'text',                    
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id'    => 'saswp_taxi_service_schema_url_'.$schema_id,
+                                'type'  => 'text',                    
+                        ),    
+                        array(
+                            'label' => 'Image',
+                            'id' => 'saswp_taxi_service_schema_image_'.$schema_id,
+                            'type' => 'media',                            
+                         ),
+                        array(
+                                'label' => 'Service Type',
+                                'id' => 'saswp_taxi_service_schema_type_'.$schema_id,
+                                'type' => 'text',                            
+                        ),
+                        array(
+                                'label' => 'Provider Name',
+                                'id' => 'saswp_taxi_service_schema_provider_name_'.$schema_id,
+                                'type' => 'text',                           
+                        ),
+                        array(
+                                'label' => 'Provider Type',
+                                'id' => 'saswp_taxi_service_schema_provider_type_'.$schema_id,
+                                'type' => 'select',
+                                'options' => array(
+                                         'Airline'                      => 'Airline',
+                                         'Corporation'                  => 'Corporation',
+                                         'EducationalOrganization'      => 'Educational Organization',
+                                         'GovernmentOrganization'       => 'Government Organization',
+                                         'LocalBusiness'                => 'Local Business',
+                                         'MedicalOrganization'          => 'Medical Organization',  
+                                         'NGO'                          => 'NGO', 
+                                         'PerformingGroup'              => 'Performing Group', 
+                                         'SportsOrganization'           => 'Sports Organization',
+                                ),                           
+                        ),                        
+                        array(
+                                'label' => 'Locality',
+                                'id' => 'saswp_taxi_service_schema_locality_'.$schema_id,
+                                'type' => 'text',                            
+                        ),
+                        array(
+                                'label' => 'Postal Code',
+                                'id' => 'saswp_taxi_service_schema_postal_code_'.$schema_id,
+                                'type' => 'text',                           
+                        ),
+                        array(
+                                'label' => 'Address Country',
+                                'id' => 'saswp_taxi_service_schema_country_'.$schema_id,
+                                'type' => 'text',                           
+                        ),    
+                        array(
+                                'label' => 'Telephone',
+                                'id' => 'saswp_taxi_service_schema_telephone_'.$schema_id,
+                                'type' => 'text',                            
+                        ), 
+                        array(
+                            'label' => 'Price Range',
+                            'id'    => 'saswp_taxi_service_schema_price_range_'.$schema_id,
+                            'type'  => 'text',                            
+                        ),                    
+                        array(
+                                'label' => 'Description',
+                                'id' => 'saswp_taxi_service_schema_description_'.$schema_id,
+                                'type' => 'textarea',                           
+                        ),
+                        array(
+                                'label' => 'Area Served (City)',
+                                'id' => 'saswp_taxi_service_schema_area_served_'.$schema_id,
+                                'type' => 'textarea',                           
+                                'note'   => 'Note: Enter all the City name in comma separated',
+                                'attributes' => array(
+                                    'placeholder' => 'New York, Los Angeles'
+                                ),
+                        ),
+                        array(
+                                'label' => 'Service Offer',
+                                'id' => 'saswp_taxi_service_schema_service_offer_'.$schema_id,
+                                'type' => 'textarea',                           
+                                'note'   => 'Note: Enter all the service offer in comma separated',
+                                'attributes' => array(
+                                    'placeholder' => 'Apartment light cleaning, carpet cleaning'
+                                )                                                        
+                            ),
+                            array(
+                                    'label' => 'Additional Type',
+                                    'id'    => 'saswp_taxi_service_schema_additional_type_'.$schema_id,
+                                    'type'  => 'text',                           
+                            ),
+                            array(
+                                    'label' => 'Service Output',
+                                    'id'    => 'saswp_taxi_service_schema_service_output_'.$schema_id,
+                                    'type'  => 'text',                           
+                            )                        
+                        );
+                        break;    
                 
                 case 'Review':
                                         
@@ -2593,7 +2993,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Review Description',
                             'id' => 'saswp_review_description_'.$schema_id,
                             'type' => 'textarea',                           
-                            'default' => get_the_excerpt()                         
+                            'default' => saswp_strip_all_tags(get_the_excerpt())                         
                         );                        
                         $meta_field[] = array(
                             'label' => 'Review Author',
@@ -2720,6 +3120,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_audio_schema_date_modified_'.$schema_id,
                             'type' => 'text',
                             'default' => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_audio_schema_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label' => 'Author Name',
@@ -2912,13 +3321,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Description',
                             'id'      => 'saswp_video_object_description_'.$schema_id,
                             'type'    => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
                             'label'   => 'Transcript',
                             'id'      => 'saswp_video_object_transcript_'.$schema_id,
                             'type'    => 'textarea',
-                            'default' => is_object($post) ? wp_strip_all_tags(strip_shortcodes($post->post_content)) : ''
+                            'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
                     ),
                     array(
                             'label'   => 'Name',
@@ -2946,7 +3355,10 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Duration',
                             'id' => 'saswp_video_object_duration_'.$schema_id,
-                            'type' => 'text'                            
+                            'type' => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'PT1H10M54S'
+                            )                                                         
                     ),    
                     array(
                             'label'   => 'Embed Url',
@@ -2959,6 +3371,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_video_object_main_entity_id_'.$schema_id,
                             'type'    => 'text',
                             'default' => get_permalink()
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswp_video_object_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label'   => 'Author Name',
@@ -3023,7 +3444,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Description',
                             'id' => 'saswpimage_object_description_'.$schema_id,
                             'type' => 'textarea',
-                            'default' => get_the_excerpt()
+                            'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
                             'label' => 'Name',
@@ -3047,6 +3468,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Content Location',
                             'id'    => 'saswpimage_object_content_location_'.$schema_id,
                             'type'  => 'text'                            
+                    ),
+                    array(
+                        'label'   => 'Author Type',
+                        'id'      => 'saswpimage_object_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),    
                     array(
                             'label' => 'Author Name',
@@ -3071,6 +3501,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswpimage_object_author_image_'.$schema_id,
                             'type'    => 'media',
                             'default' => isset($author_details['url']) ? $author_details['url'] : ''   
+                    ),
+                    array(
+                        'label'   => 'License',
+                        'id'      => 'saswpimage_object_license_'.$schema_id,
+                        'type'    => 'text',                        
                     ),
                     array(
                             'label'   => 'Organization Name',
@@ -3110,6 +3545,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_qa_date_created_'.$schema_id,
                             'type' => 'text',                           
                     ),    
+                    array(
+                            'label' => 'Author Type',
+                            'id'    => 'saswp_qa_question_author_type_'.$schema_id,
+                            'type'  => 'text',                           
+                    ),
                     array(
                             'label' => 'Author Name',
                             'id' => 'saswp_qa_question_author_name_'.$schema_id,
@@ -3321,6 +3761,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             
                     ),
                     array(
+                        'label'      => 'Author Type',
+                        'id'         => 'saswp_vg_schema_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                        
+                    ),
+                    array(
                             'label'      => 'Author Name',
                             'id'         => 'saswp_vg_schema_author_name_'.$schema_id,
                             'type'       => 'text',
@@ -3430,6 +3880,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Image',
                             'id'         => 'saswp_tvseries_schema_image_'.$schema_id,
                             'type'       => 'media'                            
+                    ),
+                    array(
+                        'label'      => 'Author Type',
+                        'id'         => 'saswp_tvseries_schema_author_type_'.$schema_id,
+                        'type'       => 'select',
+                        'options'   => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
                     ),
                     array(
                             'label'      => 'Author Name',
@@ -4307,9 +4766,27 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'options'    => array(
                                 'Full-Time'  => 'Full-Time',
                                 'Part-Time'  => 'Part-Time',
-                                'Contractor' => 'Contractor',       
+                                'Contractor' => 'Contractor',                                
+                                'Temporary'  => 'Temporary',
+                                'Seasonal'   => 'Seasonal',
+                                'Internship' => 'Internship',
                             )
-                    ), 
+                        ), 
+                    array(
+                                'label'      => 'Industry',
+                                'id'         => 'saswp_jobposting_schema_industry_'.$schema_id,
+                                'type'       => 'text',                             
+                        ),
+                    array(
+                                'label'      => 'Occupational Category',
+                                'id'         => 'saswp_jobposting_schema_occupational_category_'.$schema_id,
+                                'type'       => 'text',                             
+                        ),
+                     array(
+                                'label'      => 'Job Immediate Start',
+                                'id'         => 'saswp_jobposting_schema_jobimmediatestart_'.$schema_id,
+                                'type'       => 'text',                             
+                       ),
                     array(
                             'label'      => 'Hiring Organization Name',
                             'id'         => 'saswp_jobposting_schema_ho_name_'.$schema_id,
@@ -4350,6 +4827,22 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'         => 'saswp_jobposting_schema_country_'.$schema_id,
                             'type'       => 'text',                             
                     ),
+                    array(
+                                'label'      => 'GeoCoordinates Latitude',
+                                'id'         => 'saswp_jobposting_schema_latitude_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                        'placeholder' => '17.412'
+                                ), 
+                     ),
+                     array(
+                                'label'      => 'GeoCoordinates Longitude',
+                                'id'         => 'saswp_jobposting_schema_longitude_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                        'placeholder' => '78.433'
+                                ),
+                        ),
                     array(
                             'label'      => 'Base Salary Currency',
                             'id'         => 'saswp_jobposting_schema_bs_currency_'.$schema_id,
@@ -4439,6 +4932,42 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                     break;
 
+                    case 'BoatTrip':
+                    
+                        $meta_field = array(
+                        array(
+                                'label'      => 'Name',
+                                'id'         => 'saswp_boat_trip_schema_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'Name'
+                                ), 
+                        ),
+                        array(
+                                'label'      => 'Description',
+                                'id'         => 'saswp_boat_trip_schema_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'attributes' => array(
+                                    'placeholder' => 'Description'
+                                )
+                        ),
+                        array(
+                                'label'      => 'URL',
+                                'id'         => 'saswp_boat_trip_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink() 
+                        ),
+                        array(
+                                'label'      => 'Image',
+                                'id'         => 'saswp_boat_trip_schema_image_'.$schema_id,
+                                'type'       => 'media'                            
+                        )    
+                            
+                            
+                       );
+    
+                    break;
+
                     case 'FAQ':
                     
                         $meta_field = array(
@@ -4453,6 +4982,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_faq_keywords_'.$schema_id,
                                 'type'       => 'text',
                                 'default'    => saswp_get_the_tags()                            
+                        ),
+                        array(
+                                'label'      => 'Author Type',
+                                'id'         => 'saswp_faq_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                        )
                         ),
                         array(
                                 'label'      => 'Author',
@@ -4578,7 +5116,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text',                            
                     ),
                     array(
-                            'label'      => 'Company',
+                            'label'      => 'Company ( Works For )',
                             'id'         => 'saswp_person_schema_company_'.$schema_id,
                             'type'       => 'text',                            
                     ),
@@ -4590,6 +5128,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                         'label'      => 'Facebook',
                         'id'         => 'saswp_person_schema_facebook_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Youtube',
+                        'id'         => 'saswp_person_schema_youtube_'.$schema_id,
                         'type'       => 'text',                            
                     ),
                     array(
@@ -4700,6 +5243,280 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                    );
                     break;
 
+                    case 'Car':
+
+                        $meta_field = array(
+                                array(
+                                        'label'      => 'Name',
+                                        'id'         => 'saswp_car_schema_name_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Description',
+                                        'id'         => 'saswp_car_schema_description_'.$schema_id,
+                                        'type'       => 'textarea',                           
+                                ),
+                                array(
+                                        'label'      => 'URL',
+                                        'id'         => 'saswp_car_schema_url_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Model',
+                                        'id'         => 'saswp_car_schema_model_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Image',
+                                        'id'         => 'saswp_car_schema_image_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Body Type',
+                                        'id'         => 'saswp_car_schema_body_type_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Fuel Type',
+                                        'id'         => 'saswp_car_schema_fuel_type_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Fuel Efficiency',
+                                        'id'         => 'saswp_car_schema_fuel_efficiency_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Seating Capacity',
+                                        'id'         => 'saswp_car_schema_seating_capacity_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Number Of Doors',
+                                        'id'         => 'saswp_car_schema_number_of_doors_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Weight',
+                                        'id'         => 'saswp_car_schema_weight_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Width',
+                                        'id'         => 'saswp_car_schema_width_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Height',
+                                        'id'         => 'saswp_car_schema_height_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'SKU',
+                                        'id'         => 'saswp_car_schema_sku_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'MPN',
+                                        'id'         => 'saswp_car_schema_mpn_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Brand',
+                                        'id'         => 'saswp_car_schema_brand_name'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Manufacturer',
+                                        'id'         => 'saswp_car_schema_manufacturer_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                   array(
+                                        'label'   => 'Price',
+                                        'id'      => 'saswp_car_schema_price_'.$schema_id,
+                                        'type'    => 'text',                                        
+                                   ),
+                                    array(
+                                        'label'   => 'High Price',
+                                        'id'      => 'saswp_car_schema_high_price_'.$schema_id,
+                                        'type'    => 'text'                                            
+                                    ),
+                                    array(
+                                        'label'   => 'Low Price',
+                                        'id'      => 'saswp_car_schema_low_price_'.$schema_id,
+                                        'type'    => 'text'                                            
+                                    ),
+                                    array(
+                                        'label'   => 'Offer Count',
+                                        'id'      => 'saswp_car_schema_offer_count_'.$schema_id,
+                                        'type'    => 'text'
+                                    ),
+                                    array(
+                                        'label'   => 'Price Valid Until',
+                                        'id'      => 'saswp_car_schema_priceValidUntil_'.$schema_id,
+                                        'type'    => 'text'                                        
+                                   ),
+                                    array(
+                                        'label'   => 'Currency',
+                                        'id'      => 'saswp_car_schema_currency_'.$schema_id,
+                                        'type'    => 'text'                                        
+                                   ),
+                                array(
+                                        'label' => 'Aggregate Rating',
+                                        'id'    => 'saswp_car_schema_enable_rating_'.$schema_id,
+                                        'type'  => 'checkbox',                            
+                                ),
+                                array(
+                                        'label'   => 'Rating',
+                                        'id'      => 'saswp_car_schema_rating_value_'.$schema_id,
+                                        'type'    => 'text',                                        
+                                ),
+                                array(
+                                        'label'   => 'Rating Count',
+                                        'id'      => 'saswp_car_schema_rating_count_'.$schema_id,
+                                        'type'    => 'text',                            
+                                )                                    
+                               );
+
+                    break;
+
+                    case 'Vehicle':
+
+                        $meta_field = array(
+                                array(
+                                        'label'      => 'Name',
+                                        'id'         => 'saswp_vehicle_schema_name_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Description',
+                                        'id'         => 'saswp_vehicle_schema_description_'.$schema_id,
+                                        'type'       => 'textarea',                           
+                                ),
+                                array(
+                                        'label'      => 'URL',
+                                        'id'         => 'saswp_vehicle_schema_url_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Model',
+                                        'id'         => 'saswp_vehicle_schema_model_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Image',
+                                        'id'         => 'saswp_vehicle_schema_image_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Body Type',
+                                        'id'         => 'saswp_vehicle_schema_body_type_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Fuel Type',
+                                        'id'         => 'saswp_vehicle_schema_fuel_type_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Fuel Efficiency',
+                                        'id'         => 'saswp_vehicle_schema_fuel_efficiency_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Seating Capacity',
+                                        'id'         => 'saswp_vehicle_schema_seating_capacity_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Number Of Doors',
+                                        'id'         => 'saswp_vehicle_schema_number_of_doors_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Weight',
+                                        'id'         => 'saswp_vehicle_schema_weight_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Width',
+                                        'id'         => 'saswp_vehicle_schema_width_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Height',
+                                        'id'         => 'saswp_vehicle_schema_height_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'SKU',
+                                        'id'         => 'saswp_vehicle_schema_sku_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'MPN',
+                                        'id'         => 'saswp_vehicle_schema_mpn_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Brand',
+                                        'id'         => 'saswp_vehicle_schema_brand_name'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Manufacturer',
+                                        'id'         => 'saswp_vehicle_schema_manufacturer_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                   array(
+                                        'label'   => 'Price',
+                                        'id'      => 'saswp_vehicle_schema_price_'.$schema_id,
+                                        'type'    => 'text',                                        
+                                   ),
+                                    array(
+                                        'label'   => 'High Price',
+                                        'id'      => 'saswp_vehicle_schema_high_price_'.$schema_id,
+                                        'type'    => 'text'                                            
+                                    ),
+                                    array(
+                                        'label'   => 'Low Price',
+                                        'id'      => 'saswp_vehicle_schema_low_price_'.$schema_id,
+                                        'type'    => 'text'                                            
+                                    ),
+                                    array(
+                                        'label'   => 'Offer Count',
+                                        'id'      => 'saswp_vehicle_schema_offer_count_'.$schema_id,
+                                        'type'    => 'text'
+                                    ),
+                                    array(
+                                        'label'   => 'Price Valid Until',
+                                        'id'      => 'saswp_vehicle_schema_priceValidUntil_'.$schema_id,
+                                        'type'    => 'text'                                        
+                                   ),
+                                    array(
+                                        'label'   => 'Currency',
+                                        'id'      => 'saswp_vehicle_schema_currency_'.$schema_id,
+                                        'type'    => 'text'                                        
+                                   ),
+                                array(
+                                        'label' => 'Aggregate Rating',
+                                        'id'    => 'saswp_vehicle_schema_enable_rating_'.$schema_id,
+                                        'type'  => 'checkbox',                            
+                                ),
+                                array(
+                                        'label'   => 'Rating',
+                                        'id'      => 'saswp_vehicle_schema_rating_value_'.$schema_id,
+                                        'type'    => 'text',                                        
+                                ),
+                                array(
+                                        'label'   => 'Rating Count',
+                                        'id'      => 'saswp_vehicle_schema_rating_count_'.$schema_id,
+                                        'type'    => 'text',                            
+                                )                                    
+                               );
+
+                    break;
+                    
                     case 'CreativeWorkSeries':
                     
                         $meta_field = array(
@@ -4716,12 +5533,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         array(
                                 'label'      => 'Description',
                                 'id'         => 'saswp_cws_schema_description_'.$schema_id,
-                                'type'       => 'text',                           
+                                'type'       => 'textarea',                           
                         ),
                         array(
                                 'label'      => 'Keywords',
                                 'id'         => 'saswp_cws_schema_keywords_'.$schema_id,
                                 'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Image',
+                                'id'         => 'saswp_cws_schema_image_'.$schema_id,
+                                'type'       => 'media',                           
                         ),
                         array(
                                 'label'      => 'Start Date',
@@ -4744,7 +5566,24 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_cws_schema_date_modified_'.$schema_id,
                                 'type'       => 'text',
                                 'default'    => get_the_modified_date("Y-m-d")
-                        ),     
+                        ), 
+                        array(
+                                'label'      => 'In Language',
+                                'id'         => 'saswp_cws_schema_inlanguage_'.$schema_id,
+                                'type'       => 'text',       
+                                'attributes' => array(
+                                        'placeholder' => 'English'
+                                ),                    
+                        ),    
+                        array(
+                                'label'      => 'Author Type',
+                                'id'         => 'saswp_cws_schema_author_type_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                        )
+                        ),
                         array(
                                 'label'      => 'Author Name',
                                 'id'         => 'saswp_cws_schema_author_name_'.$schema_id,
@@ -4789,7 +5628,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label'      => 'Description',
                             'id'         => 'saswp_data_feed_schema_description_'.$schema_id,
-                            'type'       => 'text',                           
+                            'type'       => 'textarea',                           
                     ),
                     array(
                             'label'      => 'DateModified',
@@ -4886,6 +5725,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'media',                           
                     ),
                     array(
+                        'label'      => 'Author Type',
+                        'id'         => 'saswp_book_author_type_'.$schema_id,
+                        'type'       => 'select',
+                        'options'    => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )           
+                    ),
+                    array(
                             'label'      => 'Author',
                             'id'         => 'saswp_book_author_'.$schema_id,
                             'type'       => 'text',                           
@@ -4904,6 +5752,26 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Number Of Page',
                             'id'         => 'saswp_book_no_of_page_'.$schema_id,
                             'type'       => 'text',                           
+                    ),    
+                    array(
+                        'label'      => 'Book Format',
+                        'id'         => 'saswp_book_format_'.$schema_id,
+                        'type'       => 'select',                           
+                        'options'    => array(
+                                     'AudiobookFormat'   => 'AudiobookFormat',
+                                     'EBook'             => 'EBook',
+                                     'GraphicNovel'      => 'GraphicNovel',
+                                     'Hardcover'         => 'Hardcover',
+                                     'Paperback'         => 'Paperback' 
+                        )                         
+                    ),    
+                    array(
+                        'label'      => 'In Language',
+                        'id'         => 'saswp_book_inlanguage_'.$schema_id,
+                        'type'       => 'text',       
+                        'attributes' => array(
+                                'placeholder' => 'English'
+                        ),                    
                     ),    
                     array(
                             'label'      => 'Publisher',

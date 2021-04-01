@@ -5,6 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 $saswp_divi_faq = array();
 $with_aggregate = array(
+        'Car',
+        'Vehicle',
         'Book',                     
         'Course',                                         
         'HowTo',                    
@@ -45,13 +47,16 @@ $without_aggregate = array(
         'DiscussionForumPosting',
         'DataFeed',
         'FAQ',
+        'Photograph',
         'NewsArticle',
         'qanda',        
         'TechArticle',
         'WebPage',
         'JobPosting',
         'Service',
+        'TaxiService',
         'Trip',
+        'BoatTrip',
         'MedicalCondition',
         'TouristAttraction',
         'TouristDestination',

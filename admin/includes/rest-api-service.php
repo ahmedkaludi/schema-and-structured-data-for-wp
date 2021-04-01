@@ -75,8 +75,20 @@ class SASWP_Rest_Api_Service {
 
                 $resultset['settings']      = $saswp_option;
                 $resultset['compatibility'] = $response;
+
+                $nav_menu     = wp_get_nav_menus();
+                $nav_menu_arr = array();
+
+                if($nav_menu){
+                  foreach($nav_menu as $menu){
+                    $nav_menu_arr[] = array('name' => $menu->name, 'id' => $menu->term_id);
+                  }
+                }
+
+                $resultset['nav_menu']      = $nav_menu_arr;
+
       }
-      
+            
       return $resultset;
     }
     public function importFromFile($import_file){

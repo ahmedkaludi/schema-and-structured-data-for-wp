@@ -75,7 +75,7 @@ class saswp_view_common_class {
                      foreach ( $meta_fields as $meta_field ) {
                     
                     
-			$label = '<label for="' . $meta_field['name'] . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ) . '</label>';			
+			$label = '<label for="' . $meta_field['name'] . '">' . saswp_t_string( $meta_field['label'] ) . '</label>';			
 			                                                                        
 			switch ( $meta_field['type'] ) {
                                                             								                                
@@ -85,7 +85,7 @@ class saswp_view_common_class {
                                                 $img_prev = '';
                                                 $src      = '';
                                                 
-                                                if(wp_get_attachment_url($data[$meta_field['name'].'_id'])){
+                                                if( isset($data[$meta_field['name'].'_id']) && wp_get_attachment_url( $data[$meta_field['name'].'_id'] ) ){
                                                  
                                                 $src = wp_get_attachment_url(esc_attr($data[$meta_field['name'].'_id']));
                                                     
@@ -97,9 +97,15 @@ class saswp_view_common_class {
                                                 }
                                         
                                                 //$img_prev is already escapped
+                                                $img_val = '';
+
+                                                if( isset($data[$meta_field['name'].'_id']) ){
+                                                    $img_val = $data[$meta_field['name'].'_id'];
+                                                }
+                                                
                                                 $input = '<fieldset>
                                                         <input style="width:79%" type="text" id="'.esc_attr($name).'" name="'.esc_attr($name).'" value="'.esc_url($src).'">
-                                                        <input type="hidden" data-id="'.esc_attr($name).'_id" name="'.esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).'_id]'.'" id="'.esc_attr($name).'_id" value="'.esc_attr($data[$meta_field['name'].'_id']).'">
+                                                        <input type="hidden" data-id="'.esc_attr($name).'_id" name="'.esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).'_id]'.'" id="'.esc_attr($name).'_id" value="'.esc_attr($img_val).'">
                                                         <input data-id="media" style="width: 19%" class="button" id="'.esc_attr($name).'_button" name="'.esc_attr($name).'_button" type="button" value="Upload">
                                                         <div class="saswp_image_div_'.esc_attr($name).'">'.$img_prev.'</div>
                                                         </fieldset>';
@@ -109,14 +115,19 @@ class saswp_view_common_class {
                                                 break;
                                                 
                                 case 'textarea':
-					$input = sprintf(
-						'<textarea style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
-						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
-						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
-						esc_textarea($data[$meta_field['name']])
-					);
-                                        
-					break;                
+                                    $textarea_val = '';    
+                                    if( isset($data[$meta_field['name']]) ){
+                                        $textarea_val = $data[$meta_field['name']];
+                                    }
+
+                                $input = sprintf(
+                                    '<textarea style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
+                                    esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
+                                    esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
+                                    esc_textarea($textarea_val)
+                                );
+                                                    
+                                break;                
                                 
                                 case 'select':                                        
                                                                                      
@@ -132,19 +143,23 @@ class saswp_view_common_class {
 							'<option %s value="%s">%s</option>',
 							$data[$meta_field['name']] === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							esc_html__($value, 'schema-and-structured-data-for-wp' )
+							saswp_t_string($value )
 						);
 					}
 					$input .= '</select>';
 					break;  
                                         
                                 case 'checkbox':
+                                    $check_val = '';
+                                    if(isset($data[$meta_field['name']])){
+                                        $check_val = $data[$meta_field['name']];
+                                    }
                                                                         
 					$input = sprintf(
 						'<input id="%s" name="%s" type="checkbox" value="1" %s>', 
                                                 esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
                                                 esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
-						$data[$meta_field['name']] === '1' ? 'checked' : ''												
+                                                $check_val === '1' ? 'checked' : ''												
 						);
 					break;           
                                          
@@ -155,14 +170,14 @@ class saswp_view_common_class {
                                     if (saswp_is_date_field($meta_field['name'].'_'.$index.'_'.$schema_id)) {
                                                 $class='saswp-datepicker-picker';    
                                     }
-                                                                                                            
+                                    $data_value = isset($data[$meta_field['name']]) ? $data[$meta_field['name']] : '';
                                      $input = sprintf(
 						'<input class="%s"  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
                                                 $class,
 						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
 						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
 						esc_attr($meta_field['type']),
-						esc_attr($data[$meta_field['name']])                                            
+						esc_attr($data_value)                                            
                                              );
                                         
 					
@@ -257,7 +272,7 @@ class saswp_view_common_class {
                                 
                             }
                                                         
-                            $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'Add '.$btn_text, 'schema-and-structured-data-for-wp' ).'</a>';                                                                                                    
+                            $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.saswp_t_string( 'Add '.$btn_text ).'</a>';                                                                                                    
                             $tabs_fields .= '</div>';                                                                                                
                          
                         }
@@ -275,13 +290,19 @@ class saswp_view_common_class {
     public function saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null, $modified= null) { 
                                 
                 global $sd_data;                        
-                
-                $current_user   = wp_get_current_user();
+
                 $author_details = array();
-                
-                if(function_exists('get_avatar_data')){
-                    $author_details	= get_avatar_data($current_user->ID);                
-                }                                                
+
+                if( function_exists('wp_get_current_user') ) {
+
+                    $current_user   = wp_get_current_user();
+                                
+                    if(function_exists('get_avatar_data')){
+                        $author_details	= get_avatar_data($current_user->ID);                
+                    }
+
+                }
+
 		$output = '';                
                                 
 		foreach ( $saswp_meta_fields as $meta_field ) {
@@ -289,7 +310,7 @@ class saswp_view_common_class {
                         $input      = '';
                         $attributes = '';
                         
-			$label      = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $meta_field['label'], 'schema-and-structured-data-for-wp' ). '</label>';
+			$label      = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ). '</label>';
 			$meta_value = get_post_meta( $post_id, $meta_field['id'], true );
                                                 
 			if ( empty( $meta_value ) && isset($meta_field['default'])) {
@@ -432,7 +453,7 @@ class saswp_view_common_class {
 							'<option %s value="%s">%s</option>',
 							$meta_value === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							esc_html__($value, 'schema-and-structured-data-for-wp' )
+							saswp_t_string($value )
 						);
 					}
 					$input .= '</select>';

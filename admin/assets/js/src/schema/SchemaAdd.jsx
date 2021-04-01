@@ -141,7 +141,7 @@ const SchemaAdd = () => {
               <p>Choose the schema built for tech products photographers of the great details. Choose from hundreds of high quality effects built by other professional </p>
             </div>
             <div className="saswp-addschema-heading-right">
-              <a className="btn btn-success">Upgrade to PRO</a>
+              {saswp_localize_data.is_pro_active ? '' : <a className="btn btn-success">Upgrade to PRO</a>}              
               </div>
           </div>
           <div className="saswp-addschema-body">

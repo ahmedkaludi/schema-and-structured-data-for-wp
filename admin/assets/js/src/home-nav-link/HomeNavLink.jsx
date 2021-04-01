@@ -75,7 +75,7 @@ const HomeNavLink = () => {
                     <div className="saswp-divider-horizontal"></div>
                     <div className="nav-section">
                         <span className="nav-section-title">SASWP V {saswp_localize_data.saswp_version}</span>
-                        <p className="description">adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible)</p>                        
+                        <p className="description">Adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible)</p>                        
                     </div>
 
                     </nav>

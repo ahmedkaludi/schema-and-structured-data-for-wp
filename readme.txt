@@ -2,8 +2,8 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 5.5
-Stable tag: 1.9.49
+Tested up to: 5.7
+Stable tag: 1.9.69
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,234 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.69 (24 March 2021) =
+
+* Added: Featured image in feed while using Summary option #1355
+* Fixed: Wrong output is coming for the "Cafe and Coffee Shop" schema type #1358
+* Fixed: The property type is not supported for an object of this type. #1359
+* Enhancement: Improve the "Photograph" schema type markup for the AMP Stories #1356
+
+= 1.9.68 (18 March 2021) =
+
+* Fixed: Call to undefined function wp_get_current_user in /admin_section/settings.php(4060) #1347
+* Fixed: JobPosting Schema is not showing after modifying on post individually. #1349
+* Fixed: Warning: one of contentUrl or embedUrl must be provided warning. #1348
+* Fixed: Warning: Undefined variable $hook in \admin_section\settings.php on line 4108 #1346
+* Fixed: Collection page(Archive) schema is not being generated for "tag" pages. #1339
+* Fixed: Conflict with the forminator plugin #1340
+* Fixed: Warning: Undefined array key #1350
+* Fixed: Fatal error: Uncaught TypeError while saving post when WPGraphQL plugin is active #1352
+* Added: More EmplymentType option inside JobPosting Schema #1353
+
+= 1.9.67 (09 March 2021) =
+
+* Fixed: Fatal error occuring, when trying to activate elemtor plugin along with the saswp plugin(While using PHP 8 versioin) #1336
+* Fixed: Value for the Image Field is required in service schema #1337
+* Added: WorksFor Property added to Person schema #1145
+* Added: Photograph and ImageGallery schema #790
+* Added: TaxiService Schema #1083
+* Added: BoatTrip schema #1135
+
+
+= 1.9.66 (06 March 2021) =
+
+* Added: Compatibility with Rate My Post plugin ( https://wordpress.org/plugins/rate-my-post/ ) #378
+* Added: Two fields for the JobPosting schema type ( Job Immediate Start & Geo Coordinates ) #1331
+* Added: Colour property in product schema #920
+* Fixed: Warning: Undefined array key #1332
+
+= 1.9.65 (02 March 2021) =
+
+* Fixed: The script tag contains invalid JSON that cannot be parsed. #1328
+* Fixed: Service schema type's Image field is missing. #1329
+* Added: Vehicle schema type #629
+
+= 1.9.64 (23 Feb 2021) =
+
+* Added: Import reviews from CSV file #1128
+* Added: Sorting on reviews date column #1320
+* Added: Compatibility with the Ryviu – Product Reviews for WooCommerce ( https://wordpress.org/plugins/ryviu ) plugin. #1244
+* Fixed: Undefined property: WP_Error::$name in /admin_section/structure_admin.php on line 1322  #1325
+
+= 1.9.63.1 (17 Feb 2021) =
+
+* Fixed: Fatal error: Uncaught ArgumentCountError: Too few arguments to function saswp_reviews_service::saswp_review_desing_for_slider() #1323
+* Fixed: Remove extra slash from potentialAction property of website schema #1321
+
+= 1.9.63 (16 Feb 2021) =
+
+* Fixed: Filling up error log with PHP errors #1319
+* Fixed: wpDiscuz Comments on schema enabled pages are showing with HTML tags for bold/italic words #1317
+* Fixed: Sitelinks search box potentialAction property does not get correct url in polylang multilanguage site #1321
+* Added: An option to change the date format for the reviews showing through the collection #1307
+* Added: An image filed option in the recipe instruction. #1313
+* Added: Compatability with WP eCommerce ( https://wordpress.org/plugins/wp-e-commerce/ ) #1315
+
+
+= 1.9.62 (10 Feb 2021) =
+
+* Fixed: Change the 'type' of brand to Brand or Organization from Thing #1312
+* Fixed: Aggregate rating markup is not displaying when we add the data through the custom fields. #1310
+* Fixed: Service Schema Image Issue #1304
+* Fixed: PHP warning and error “Parameter must be an array or an object…” #1314
+* Fixed: rtrim expects parameter 1 to be string, object given #1316
+* Fixed: Validation issues with "HTML5 Responsive FAQ" plugin #1302
+* Fixed: URL property on the category page is not correct in the schema markup(creativework series schema) instead it is rendering the first post URL on that category page. #1157
+* Fixed: Rating message is not looking good #1164
+* Added: Youtube field option in the person schema. #1311
+* Added: Markup for autos (Car Schema) #1305
+* Added: Compatibility with WP Review Pro #1139
+* Enhancement: When yoast compatibility is on then breadcrumb should take category according to yoast #1308
+ 
+
+= 1.9.61 (28 Jan 2021) =
+
+* Fixed: The field to enter the license key is not showing after activating the "FAQ Schema Compatibility" plugin. #1303
+* Fixed: Warning error showing in the search console for the blogposting schema, if the user is modifying the schema type #1301
+* Fixed: Review date alignment is incorrect #1300
+* Fixed: Schema Organization adding latest post markup on Homepage #1288
+* Fixed: The warning error showing for the woocommerce products archive pages for the offer and description field #1290
+* Fixed: Author Field Issue for Webpage schema if "modify schema output" option is used in Post/page #1289
+* Fixed: Judge.me reviews are not updating in backend. #1232
+* Fixed: Fix the tabs so it's viewable in 1280 res screen #1299
+* Fixed: when we click on Logo setup notice, nothing happens #1297
+* Added: An option to add or remove category in breadcrumb #1292
+* Added: Compatible with wpqa-builder plugin( https://2code.info/wpqa-builder/ ) #1293
+* Added: Compatible with Business Reviews Bundle plugin( https://richplugins.com/business-reviews-bundle-wordpress-plugin ) #1225
+* Added: "Review Usage" box in review edit section. #1294
+* Enhancement: Remove "view post" from reivew custom post type #1295 
+* Enhancement: Name should be vertically middle in review list page #1296
+
+
+= 1.9.60 (15 Jan 2021) =
+
+* Fixed: The HTML tags are showing in the review box #1286
+* Fixed: If the"Product Default Review" option is enabled then the "Unspecified type"showing as the schema type #1268
+* Fixed: The arrow buttons in the gallery module of reviews(collection) are not working properly. #1272
+* Fixed: Reviews are not fetching. #1282
+* Fixed: Remove Divi builder unnecessary code from content #1271
+* Added: Re-captcha feature on the rating forms. #1257
+* Added: Compatible with webstories ( https://wordpress.org/plugins/web-stories/ ) #1267
+
+
+= 1.9.59 (06 Jan 2021) =
+
+* Fixed: The tax amount is not adding in the price field in the schema markup #1283
+* Fixed: The reviews added in the collection are not showing in correct sorting format in the frontend #1264
+* Fixed: When Elementor Testimonial compatibility is selected, local business schema type is missing its type(unspecified Type) #1270
+* Fixed: Trying to get property ‘post_parent’ of non-object #1279
+* Fixed: Image property is missing from BlogPosting schema #1277
+* Fixed: If the Valid through is empty in modify schema output it does not allow job posting to display #1276
+* Fixed: VideoObject is causing a validation error in AMP #1280
+* Fixed: Warnings and notices #1274
+* Enhancement: Remove special offer banner #1284
+
+
+= 1.9.58 (10 Dec 2020) =
+
+* Fixed: Display created schema title instead of schema type in post modified tabs #1266
+* Fixed: Unable to insert media images into post- conflict with Power builder by Templatemonster #1263
+
+= 1.9.57 (05 Dec 2020) =
+
+* Fixed: The price field not getting the taxable value for the product schema #1259
+* Fixed: inLanguage property is absent from NewsArticle and Article schema types? #1260
+* Fixed: Review schem mark up is not being fetched form the review collectioin badge type #1261
+* Fixed: If the "WPMU DEV SEO" plugin is active then showing the JS error in the console #1262
+* Added: Rating column in comments list when Stars Rating is enabled in the default comment form #1049 
+
+
+= 1.9.56 (25 Nov 2020) =
+
+* Added: option to add and remove single review in the collection #1239
+* Added: Industry and OccupationalCategory properties to JobPosting schema #1255
+* Added: Special banner for the Black Friday #1249
+* Fixed: Review checkbox not showing on private page #1254
+* Fixed: Homepage shows review and FAQ schema but both the schema's have been appiled to the post that is on the homepage and not on the homepage itself. #1243
+
+
+= 1.9.55 (23 Nov 2020) =
+
+* Fixed: ERROR: Image elements do not have explicit width and height,in light house test of perfomance. #1236
+* Fixed: rtl issue with stars #1233
+* Fixed: Error: Image elements do not have [alt] attributes, in light house test of accessibility #1235
+* Fixed: Issue - trying to get property ‘ID’ of non-object #1247
+* Fixed: Judge.me reviews are not updating in backend. #1232
+* Fixed: Image resizer is not working on multilingual site after last 2 updates #1246
+* Fixed: Undefined index: extension in /core/3rd-party/aqua_resizer.php on line 175 #1252
+* Fixed: Undefined offset: 0 in /output/output.php:164, /output/function.php:252 and /output/function.php:117 #1245
+* Added: Compatibility with Review testimonials Elementor widget #324
+* Added: Placement feature in Collections #1234
+* Added: Attribute `rel="noopener"` for google review grid #1242
+* Added: Compatibility with Rating Form ( https://codecanyon.net/item/rating-form/10357679 ) #422 
+* Enhancement: Added Option to optimize images in separate folder. #1251
+
+
+= 1.9.54.1 (11 Nov 2020) =
+
+* Added: Image missing in AMP after last update #1220
+
+= 1.9.54 (10 Nov 2020) =
+
+* Added: Rest api to show the headless output #1026
+* Added: Article body and Article Section properties to webpage schema #1147
+* Added: bookformat and inlanguage properties to Book Schema #1143
+* Added: Separate folder (schema-and-structured-data-for-wp) in uploads to store all resized images by this plugin. #807 
+* Added: A notice box has been added, if logo is not set. #1165
+* Added: Compatibility with Meta Tag Manager ( https://wordpress.org/plugins/meta-tag-manager/ )
+* Fixed: Warning Error: The text tag script type=application/ld+json contains html comments, which is disallowed #1140
+* Fixed: Woocommerce category schema has an issue when reviews collection is present #1182
+* Fixed: Excessive number of queries at each page load in admin pages #1227
+* Fixed: Issue with the image size when user inserting recipe by using WP recipe maker plugin. #1159
+
+
+= 1.9.53 (02 Nov 2020) =
+
+* Added: Support for "low price" and "high price" properties of the product schema #1133
+* Added: NutritionInformation all properties such as ( servingSize, fatContent, saturatedFatContent etc. ) in Recipe Schema #1070
+* Added: Properties ( employee & alumni ) in RealEstateAgent schema type. #1053
+* Added: Generate an id for the comment markup. #1057
+* Added: Price Range to the Service schema #1088
+* Added: License property for ImageObject Schema #1190
+* Added: Allow users to change the author from a person to an organization #749
+* Fixed: Undefined index: wpdiscuz plugins\schema-and-structured-data-for-wp\admin_section\common-function.php on line 3054 #1228
+
+
+= 1.9.52 (26 Oct 2020) =
+
+* Fixed: When city names added manually by separating with comma, in store schema, in output of schema markup all city name are showing as one value in areaServed property #1217
+* Fixed: Item list schema is getting generated on the product category pages even though the Archive option is unchecked. we need to connect it to that option. #1177
+* Fixed: When we click on avvo icon it redirecting to homepage (Reviews for Schema). #1216
+* Fixed: Fatal error: Uncaught Error: Call to undefined function mptt_get_event_data () #1222
+* Fixed: User ID Missing issue when fetching the "AVVO" reviews. #1187
+* Added: gtin12 property in product schema #1054
+
+
+= 1.9.51 (15 Oct 2020) =
+
+* Added: Option to show VideoObject json-LD, Only if video is available on the post #1197
+* Added: Compatibility with Slim SEO ( https://wordpress.org/plugins/slim-seo/ ) #1214
+* Added: Compatibility with Comments – wpDiscuz ( https://wordpress.org/plugins/wpdiscuz/ ) #1203
+* Fixed: Facebook user profile picture not showing  #1170
+* Fixed: The attribute 'href' may not appear in tag 'span' validation issue when the "Show form on button tap" shortcode is enabled #1192
+* Fixed: The Paywall functionality of the NewsArticle schema is not updating if the ACF Pro plugin is active #1195
+
+
+= 1.9.50 (08 Oct 2020) =
+
+* Fixed: Schema plugin option panel not saving if the Norebro theme is active #1212
+* Fixed: Duration is not detecting in the video object schema. #1202
+* Fixed: Display the right message after the user tries to fetch reviews.
+* Fixed: The field to enter the license key for the Job Posting schema plugin is not showing when it is active #1213
+* Fixed: HTML tags should not get strip form the description propety of the job posting schema type #1211
+* Fixed: Review count is showing as a minus value: Maximum Reviews Limits -10 #1201
+* Fixed: CLUTCH reviews - Displays message "Something went wrong while preparing database. #1198
+* Added: Compatibility with the "Ranna – Food & Recipe Blog Theme. #1206
+
+= 1.9.49.1 (15 Sept 2020) =
+
+* Fixed: Image size smaller than recommended" warnings in search console for the version 1.9.48 and above. #1200
 
 = 1.9.49 (03 Sept 2020) =
 

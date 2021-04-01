@@ -7,6 +7,17 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+.saswp-beta-notice{
+    background: #EE8E4A;
+    color: white;    
+    border-radius: 4px;
+    padding: 1px;
+    padding: 2px;
+    font-size: 11px;    
+}
+.saswp-settings-container .nav-tab-wrapper{
+    display: flex;
+}
 .saswp_review_form_toggle_check{
     margin:10px !important;   
 }
@@ -701,7 +712,9 @@ Compatibility tab css ends
 .saswp-knowledge-label label[for="saswp_search_box_schema_checkbox"] {
     padding-left: 10px;
 }
-
+.saswp-knowledge-label label[for="saswp_breadcrumb_remove_cat_checkbox"] {
+    padding-left: 10px;
+}
 .saswp-knowledge-label label[for="saswp-woocommerce-booking-checkbox"] {
     padding-left: 10px;
 }
@@ -1261,22 +1274,15 @@ Google review module ends here
     border-radius: 4px;
 }
 /** Notification CSS **/
-.updated.notice p{
-    display: flex;
+.updated.notice p{    
     width: 100%;
     align-items: center;
 }
 .updated.notice .dashicons-thumbs-up{
     margin-right:10px;
 }
-a.saswp-feedback-remindme, a.saswp-feedback-no-thanks{
-    display: inline-block;
+a.saswp-feedback-remindme, a.saswp-feedback-no-thanks{    
     cursor: pointer;
-}
-.saswp-feedback-remindme:after{
-    content:",";
-    display: inline-block;
-    margin-right:5px;    
 }
 a.saswp-revws-lnk{
     display: inline-block;
@@ -1290,10 +1296,26 @@ a.saswp-revws-lnk{
     line-height: 0.6;
     cursor: pointer;
 }
-.saswp-update-notice-btns{
+.saswp-update-notice-btns {
     display: inline-block;
     width: 100%;
     margin-bottom: 5px;
+}
+.saswp-update-notice-btns ul{
+    list-style: inside;
+    margin: 0 10px 20px 20px;
+}
+.saswp-notice-p{
+    font-size: 16px;
+    color: #28672d;
+}
+.saswp-update-notice-btns li a{
+    text-decoration:underline;
+}
+.saswp-update-notice-btns li{
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
 }
 .saswp-about-contact-page{
     width:75%; 
@@ -1347,19 +1369,61 @@ a.saswp-revws-lnk{
 /*
 Collection css starts here
 */
+.saswp-add-dynamic-section{
+    padding: 0px 30px;
+}
+.saswp-add-dynamic-btn{
+    text-align: center;
+    margin-bottom: 10px;
+}
+.saswp-add-single-rv{
+    margin-left: 10px !important;
+}
+.saswp-dynamic-platforms{
+    display: flex;
+    width: 100%;
+}
+.saswp-dynamic-platforms select{
+    margin-right: 10px;
+    width: 40%;
+}
+.saswp-add-rv-btn{
+    font-size: 25px;
+    margin-left: -8px;
+    padding-top: 15px;
+    cursor: pointer;
+}
+.saswp-remove-coll-rv{
+    position: absolute;
+    top: 2;
+    top: 0px;
+    right: 0px;
+}
+.saswp-rmv-coll-rv{
+    padding: 3px;
+    cursor: pointer;
+}
+.saswp-collection-placement-post{    
+    width: -webkit-fill-available;
+}
+.saswp-collection-placement-post td{
+    vertical-align: top;
+    width: -webkit-fill-available;
+}
+
 .saswp-grid-pagination{
-     display: inline-block;
-     padding: 20px;
+    display: inline-block;
+    padding: 20px;
 }
 .saswp-grid-pagination a{
-      color: black;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
 }
 .saswp-grid-pagination a.active {
-  background-color: #4CAF50;
-  color: white;
+    background-color: #4CAF50;
+    color: white;
 }
 .saswp-grid-pagination a:hover:not(.active) {
     background-color: #ddd;
@@ -1403,7 +1467,7 @@ Collection css starts here
     margin-top: 10px;
 }
 .saswp-collection-title input{
-    width: 100%;
+    width: 96%;
     padding: 3px 8px;
     font-size: 15px;
     line-height: 2;
@@ -1505,6 +1569,10 @@ Collection css starts here
 .saswp-rc-nm{
   width:100%;
   margin-left:10px;
+  text-align: initial;
+}
+.saswp_reviewer_image .saswp-rv-img span{
+  vertical-align: top;
 }
 .saswp-rc-cnt{
   position: static;
@@ -1560,6 +1628,7 @@ Collection css starts here
     grid-gap: 0px 5px;
     align-items: center;
     color:#666;
+    padding-bottom: 8px;
 }
 .saswp-dp-dtm{
     margin-top:13px;
@@ -1692,6 +1761,7 @@ Collection css starts here
     background: #f1f1f1;
     display: inline-block;
     border: 1px solid #ddd;
+    margin-left:75px;
 }
 
 /** Badges CSS **/
@@ -2412,3 +2482,17 @@ span.saswp-mines{
 .saswp-stars-post-table td{
 padding: 2px;
 }
+
+/* Offer Banner Starts Here */
+/* .saswp-offer-banner{
+    background: #ca4a1f;
+    color: #fff;
+    cursor: pointer;
+    border-color: #ca4a1f;
+}
+.saswp-offer-banner:hover{
+    background: hsl(15deg 73% 46%);
+    color: #fff;
+    cursor: pointer;
+} */
+/* Offer Banner Ends Here */

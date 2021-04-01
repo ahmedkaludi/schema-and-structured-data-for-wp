@@ -72,7 +72,9 @@ function saswp_schema_markup_hook_on_init() {
                     add_filter( 'wprm_recipe_metadata', '__return_false' );            
                 }                
             }
-                                    
+            if(isset($sd_data['saswp-webstories']) && $sd_data['saswp-webstories'] == 1){
+                    add_action('web_stories_story_head', 'saswp_schema_markup_output');                     
+            }                                               
             if(isset($sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
                 ob_start("saswp_remove_microdata");                
             }
@@ -176,8 +178,7 @@ function saswp_get_all_schema_markup_output() {
         $custom_output = '';
        
         $custom_markup            = '';
-        $output                   = '';
-        $post_specific_enable     = '';
+        $output                   = '';        
         $schema_output            = array();
         $kb_schema_output         = array(); 
         $item_list                = array();
@@ -196,15 +197,12 @@ function saswp_get_all_schema_markup_output() {
         $gutenberg_job            = array();
         $gutenberg_course         = array();
         
-        if(is_singular() || is_front_page() || (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) ){
-
+        if( !is_home() && ( is_singular() || is_front_page() || (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page())) ){
             
             $elementor_faq            = saswp_elementor_faq_schema();
             $elementor_qanda          = saswp_elementor_qanda_schema();
             $elementor_howto          = saswp_elementor_howto_schema();
-
             $divi_builder_faq         = saswp_divi_builder_faq_schema();
-
             $gutenberg_event          = saswp_gutenberg_event_schema();  
             $gutenberg_qanda          = saswp_gutenberg_qanda_schema();  
             $gutenberg_job            = saswp_gutenberg_job_schema();
@@ -499,7 +497,7 @@ function saswp_get_all_schema_markup_output() {
                     $final_output['@context']   = saswp_context_url();
 
                     $final_output['@graph'][]   = $kb_schema_output;
-                    $final_output['@graph'][]   = $kb_website_output;
+                    $final_output['@graph'][]   = $kb_website_output;                    
 
                     $final_output['@graph'][]   = $webpage;
                    
@@ -508,6 +506,9 @@ function saswp_get_all_schema_markup_output() {
                     }
                     
                     $final_output['@graph'][]   = $soutput;
+
+                    $final_output['@graph'] = array_filter($final_output['@graph']);
+                    $final_output['@graph'] = array_values($final_output['@graph']);
                         
                     $schema = saswp_json_print_format($final_output);
                     $output .= $schema; 
@@ -677,7 +678,7 @@ function saswp_paywall_data_for_login($content){
                     			
 			$redirect       =  home_url( $wp->request );
 			$breakedContent = explode("<!--more-->", $content);
-			$content        = $breakedContent[0].'<a href="'.esc_url(wp_login_url( $redirect )) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
+			$content        = $breakedContent[0].'<a href="'.esc_url(wp_login_url( $redirect )) .'">'.saswp_t_string( 'Login' ).'</a>';
                         
 		}elseif(strpos($content, '<!--more-->')!==false && is_user_logged_in()){
                     			
@@ -704,7 +705,7 @@ function saswp_memberpress_form_update($form){
 		},11); 
 		global $wp;
 		$redirect =  home_url( $wp->request );
-		$form = '<a class="amp-mem-login" href="'.esc_url(wp_login_url( $redirect )) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
+		$form = '<a class="amp-mem-login" href="'.esc_url(wp_login_url( $redirect )) .'">'.saswp_t_string( 'Login' ).'</a>';
 	}
         
 	return $form;
@@ -893,6 +894,171 @@ function saswp_extract_yet_another_stars_rating(){
 }
 
 /**
+ * Extracting the value of wpdiscuz plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
+function saswp_extract_wpdiscuz(){
+        
+    global $sd_data, $post;    
+    $star_rating = array();
+
+    if(isset($sd_data['saswp-wpdiscuz']) && $sd_data['saswp-wpdiscuz'] == 1 && is_plugin_active('wpdiscuz/class.WpdiscuzCore.php') ){
+           
+        $rating = (float) get_post_meta($post->ID, 'wpdiscuz_post_rating', true);
+        $count = (int) get_post_meta($post->ID, 'wpdiscuz_post_rating_count', true);
+         
+        if($rating){
+           
+            $star_rating['@type']        = 'AggregateRating';
+            $star_rating['bestRating']   = 5;
+            $star_rating['worstRating']  = 1;            
+            $star_rating['ratingCount'] = $count;
+            $star_rating['ratingValue'] = $rating;                                                           
+            
+            return $star_rating;
+            
+        }else{
+            
+            return array();    
+            
+        }
+        
+    }else{
+        
+        return array();
+        
+    }                        
+}
+
+/**
+ * Extracting the value of rating form plugins on current post
+ * @global type $sd_data
+ * @param type $id
+ * @return type array
+ */
+function saswp_extract_ratingform(){
+    
+    global $sd_data;    
+    $star_rating = array();
+
+    if(isset($sd_data['saswp-ratingform']) && $sd_data['saswp-ratingform'] == 1 && is_plugin_active('rating-form/rf-init.php')){                
+        
+        $total = get_post_meta(get_the_ID(), 'rf_total', true) ? ((int) get_post_meta(get_the_ID(), 'rf_total', true)) : 0;
+        $avg   = get_post_meta(get_the_ID(), 'rf_average', true) ? ((int) get_post_meta(get_the_ID(), 'rf_average', true)) : 0;
+        
+         
+        if( $total > 0 ){
+           
+            $star_rating['@type']        = 'AggregateRating';
+            $star_rating['bestRating']   = 5;
+            $star_rating['worstRating']  = 1;            
+            $star_rating['ratingCount'] = $total;
+            $star_rating['ratingValue'] = $avg;      
+            
+            return $star_rating;
+            
+        }else{
+            
+            return array();    
+            
+        }
+        
+    }else{
+        
+        return array();
+        
+    }                        
+}
+
+function saswp_get_elementor_testomonials(){
+
+            global $sd_data;    
+            
+            if( isset($sd_data['saswp-elementor']) && $sd_data['saswp-elementor'] == 1 && is_plugin_active('elementor/elementor.php') ){
+               
+                $alldata    = get_post_meta( get_the_ID(),'_elementor_data', true );
+                $alldata    = json_decode($alldata, true);
+            
+                $returnData = array();
+                $reviews = array();
+                $ratings = array();
+
+                if( !empty($alldata) && is_array($alldata) ) {
+            
+                    foreach ( $alldata as $element_data ) {
+                        $returnData[] = saswp_get_elementor_widget_data($element_data, 'testimonial');
+                    }
+                    
+                    if( !empty($returnData) && is_array($returnData)){
+
+                        foreach ( $returnData as $value ) {
+                        
+                            $reviews[] = array(
+                                '@type'         => 'Review',
+                                'author'        => array('@type'=> 'Person', 'name' => isset($value['settings']['testimonial_name']) ? $value['settings']['testimonial_name'] : ''),                            
+                                'description'   => isset($value['settings']['testimonial_content']) ? $value['settings']['testimonial_content'] : '',
+                                'reviewRating'  => array(
+                                                   '@type'	        => 'Rating',
+                                                   'bestRating'	    => '5',
+                                                   'ratingValue'	=> '5',
+                                                   'worstRating'	=> '1',
+                                      )
+                            );
+    
+                        }
+    
+                        $ratings['aggregateRating'] =  array(
+                            '@type'         => 'AggregateRating',
+                            'ratingValue'	=> '5',
+                            'reviewCount'   => count($returnData)
+                        );
+
+                    }                    
+
+                }
+                
+                return array('reviews' => $reviews, 'rating' => $ratings);
+
+            }
+                        
+}
+
+function saswp_extract_rmp_ratings(){
+        
+    global $sd_data;    
+    $star_rating = array();
+    if(isset($sd_data['saswp-rmprating']) && $sd_data['saswp-rmprating'] == 1 && is_plugin_active('rate-my-post/rate-my-post.php')){
+       
+        
+        $avg   = get_post_meta(get_the_ID(), 'rmp_avg_rating', true) ? ( get_post_meta(get_the_ID(), 'rmp_avg_rating', true)) : 0;
+        $votes = get_post_meta(get_the_ID(), 'rmp_vote_count', true) ? ((int) get_post_meta(get_the_ID(), 'rmp_vote_count', true)) : 0;
+                 
+        if($votes>0){
+                        
+            $star_rating['@type']       = 'AggregateRating';
+            $star_rating['bestRating']  = 5;
+            $star_rating['worstRating'] = 1;
+            $star_rating['ratingCount'] = $votes;
+            $star_rating['ratingValue'] = $avg;                                                           
+            
+            return $star_rating;
+            
+        }else{
+            
+            return array();    
+            
+        }
+        
+    }else{
+        
+        return array();
+        
+    }                        
+}
+
+/**
  * Extracting the value of star ratings plugins on current post
  * @global type $sd_data
  * @param type $id
@@ -1025,6 +1191,7 @@ function saswp_get_comments($post_id){
                 
         $comments[] = array (
                 '@type'       => 'Comment',
+                'id'          => trailingslashit(get_permalink()).'comment-'.$comment->comment_ID,
                 'dateCreated' => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
                 'description' => strip_tags($comment->comment_content),
                 'author'      => array (
@@ -1046,7 +1213,7 @@ function saswp_get_comments($post_id){
  */       
 function saswp_get_comments_with_rating(){
     
-        global $sd_data, $post;
+        global $post;
         
         $comments      = array();
         $ratings       = array();
@@ -1461,7 +1628,7 @@ function saswp_global_option(){
  */
 function saswp_get_the_tags(){
 
-    global $post;
+    global $post, $sd_data;
     $tag_str = '';
     
     if(is_object($post)){
@@ -1480,6 +1647,25 @@ function saswp_get_the_tags(){
         
         
     }    
+
+
+    if( isset($sd_data['saswp-metatagmanager']) && $sd_data['saswp-metatagmanager'] == 1 && class_exists('Meta_Tag_Manager') ){
+
+        $post_meta = get_post_meta(get_the_ID(), 'mtm_data', true);
+
+        if(is_array($post_meta)){
+
+            $meta_tag = array_column($post_meta, 'value');
+            $key      = array_search("keywords",$meta_tag);
+            
+            if(array_key_exists($key, $post_meta)){
+                $tag_str = $post_meta[$key]['content'];
+            }
+
+        }
+                                
+    }
+
     return $tag_str;
     
 }
@@ -1568,7 +1754,9 @@ function saswp_get_ids_from_content_by_type($type){
  * @since version 1.9.3
  */
 function saswp_wp_recipe_schema_json($recipe){
-            
+    
+            global $saswp_featured_image;
+
             if ( 'food' === $recipe->type() ) {
                     $metadata = WPRM_Metadata::get_food_metadata( $recipe );
             } elseif ( 'howto' === $recipe->type() ) {
@@ -1576,39 +1764,27 @@ function saswp_wp_recipe_schema_json($recipe){
             } else {
                     $metadata = array();
             } 
-            
-            if(isset($metadata['image']) && is_array($metadata['image'])){
-                
-                $image_list = array();
-                
-                foreach($metadata['image'] as $image_url){
-                    
-                    $image_size    = @getimagesize($image_url);
-                    
-                    if($image_size[0] < 1200 && $image_size[1] < 720){
-                                            
-                        $image_details = @saswp_aq_resize( $image_url, 1200, 720, true, false, true );
-                    
-                            if($image_details){
+                        
+            if( isset($metadata['image'][0]) && $metadata['image'][0]  != '' ) {
 
-                                $image['@type']  = 'ImageObject';
-                                $image['url']    = esc_url($image_details[0]);
-                                $image['width']  = esc_attr($image_details[1]);
-                                $image['height'] = esc_attr($image_details[2]); 
+                $image_size = @getimagesize($metadata['image'][0]);
 
-                                $image_list[] = $image;
-                            }
-                                                
-                    }                                        
+                if( !empty($image_size) ) {
+
+                    $image_arr  = array();
+
+                    $image_arr[0] = $metadata['image'][0];
+                    $image_arr[1] = $image_size[0];
+                    $image_arr[2] = $image_size[1];   
                     
+                    $saswp_featured_image = $image_arr;
+
                 }
                 
-                if($image_list){
-                    $metadata['image'] =  $image_list;
-                }
-               
             }
             
+            unset($metadata['image']);
+
             if(isset($metadata['video'])){
 
                 if(!$metadata['video']['description']){
@@ -1965,9 +2141,9 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
             $ratings       = array();            
             $arg  = array(  
                 'post_type' 		=>	'bne_testimonials',		
-		'order'			=> 	$atts['order'],
-		'orderby' 		=> 	$atts['orderby'],
-		'posts_per_page'	=> 	$atts['limit'],
+		        'order'			=> 	$atts['order'],
+		        'orderby' 		=> 	$atts['orderby'],
+		        'posts_per_page'	=> 	$atts['limit'],
              );    
 
             $testimonial = get_posts( $arg); 
@@ -2015,6 +2191,105 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
     
 }
 
+function saswp_get_brb_reviews(){
+
+    global $post, $sd_data;
+    $ratings = array();
+    $reviews = array();
+    
+    if(isset($sd_data['saswp-brb']) && $sd_data['saswp-brb'] == 1 && class_exists('WP_Business_Reviews_Bundle\Includes\Core')){
+        
+        if(is_object($post)){
+
+            $pattern = get_shortcode_regex();
+
+            if (   preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+                && array_key_exists( 2, $matches ) )
+            {
+
+                $testimo_str = ''; 
+           
+                if(in_array( 'brb_collection', $matches[2] )){
+                    $testimo_str = 'brb_collection';
+                }
+
+                if($testimo_str){
+                    
+                    foreach ($matches[0] as $match){
+
+                        $mached = rtrim($match, ']'); 
+                        $mached = ltrim($mached, '[');
+                        $mached = trim($mached);
+                        $atts   = shortcode_parse_atts('['.$mached.' ]'); 
+                                                
+                        if( isset($atts['id']) ){
+
+                            $args = array(
+                                'post_type'      => 'brb_collection',
+                                'p'              => $atts['id'],
+                                'posts_per_page' => 1,
+                                'no_found_rows'  => true,
+                            );
+                    
+                            $post_data	= get_posts($args);                
+                                
+                            if( isset($post_data[0]) ){
+
+                                $post_data[0];
+                                $core_obj     = new WP_Business_Reviews_Bundle\Includes\Core;
+                                $reviews_data = $core_obj->get_reviews($post_data[0]);
+
+                                if(!empty($reviews_data)){
+
+                                    $sumofrating = 0;
+                                    $avg_rating  = 1;
+
+                                    foreach ($reviews_data as $value){                                        
+                   
+                                        $sumofrating += 5;
+                   
+                                        $reviews[] = array(
+                                            '@type'         => 'Review',
+                                            'author'        => array('@type'=> 'Person', 'name' => $value->name),
+                                            'datePublished' => saswp_format_date_time($value->time),
+                                            'description'   => $value->text,
+                                            'reviewRating'  => array(
+                                                               '@type'	        => 'Rating',
+                                                               'bestRating'	    => '5',
+                                                               'ratingValue'	=> '5',
+                                                               'worstRating'	=> '1',
+                                                  )
+                                        ); 
+                   
+                                       }
+
+                                     if($sumofrating> 0){
+                                        $avg_rating = $sumofrating /  count($reviews); 
+                                      }
+                  
+                                      $ratings['aggregateRating'] =  array(
+                                                                      '@type'         => 'AggregateRating',
+                                                                      'ratingValue'	  => $avg_rating,
+                                                                      'reviewCount'   => count($reviews)
+                                                                    );
+                                }
+                                
+                            }                                                
+
+                        }                        
+                            break;
+                    }
+
+                }
+
+            }
+
+        }
+
+        return array('reviews' => $reviews, 'rating' => $ratings);
+
+    }
+}
 function saswp_get_strong_testimonials(){
     
     $testimonial = array();
@@ -2249,7 +2524,7 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
                  
                  foreach($attached_col as $col_id){
                      
-                     $collection_data = get_post_meta($col_id, $key='', true);
+                     $collection_data = get_post_meta($col_id);
                      
                      if(isset($collection_data['saswp_platform_ids'][0])){
                         $platform_ids  = unserialize($collection_data['saswp_platform_ids'][0]);                
@@ -2363,7 +2638,7 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
 
                     if($schema_options['saswp_modify_method'] == 'manual'){
                         
-                        $all_post_meta = get_post_meta($schema_post_id, $key='', true); 
+                        $all_post_meta = get_post_meta($schema_post_id); 
                         
                         switch ($schema_type) {
                             
@@ -2523,9 +2798,7 @@ function saswp_get_reviews_wp_theme(){
                 $comment_meta = explode( ',', $comment_meta );
 
                 $user_overall = 0;
-                $user_rates   = 0;
-                $counter      = 0;
-
+                $user_rates   = 0;                
 
                 $criterias = get_post_meta( get_the_ID(), 'reviews_score' );
                 $rate_criterias = array();
@@ -2605,17 +2878,51 @@ function saswp_get_reviews_wp_theme(){
     return $response_rv;
 
 }
-add_filter( 'the_content', 'saswp_featured_image_in_feed' );
 
-function saswp_featured_image_in_feed( $content ) {
+add_filter( 'the_excerpt_rss', 'saswp_featured_image_in_feed_excerpt' );
+
+function saswp_featured_image_in_feed_excerpt( $content ) {
+
+    global $post, $sd_data;
+    
+    if( is_feed() ) {
+
+        $use_excerpt = get_option('rss_use_excerpt');
+
+        if( $use_excerpt == 1 && (isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1) ){
+
+            if ( has_post_thumbnail( $post->ID ) ){
+                $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
+                $content = $image . $content;
+            }
+
+        }
+        
+    }
+
+    return $content;
+    
+}
+
+add_filter( 'the_content', 'saswp_featured_image_in_feed_content' );
+
+function saswp_featured_image_in_feed_content( $content ) {
 
     global $post, $sd_data;
 
-    if( is_feed() &&  isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1 ) {
-        if ( has_post_thumbnail( $post->ID ) ){
-            $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
-            $content = $image . $content;
+    if( is_feed() ) {
+
+        $use_excerpt = get_option('rss_use_excerpt');
+
+        if( $use_excerpt != 1 && (isset($sd_data['saswp-rss-feed-image']) && $sd_data['saswp-rss-feed-image'] == 1) ){
+
+            if ( has_post_thumbnail( $post->ID ) ){
+                $image  = get_the_post_thumbnail( $post->ID, 'full', array( 'style' => 'float:right; margin:0 0 10px 10px;' ) );
+                $content = $image . $content;
+            }
+
         }
+        
     }
 
     return $content;
@@ -2625,39 +2932,26 @@ function saswp_get_loop_markup($i) {
 
     global $sd_data;
 
-    $response = array();
-    $site_name ='';
+    $response           = array();
+    $schema_properties  = array();
 
-    $schema_type        =  $sd_data['saswp_archive_schema_type'];
-
-    if(isset($sd_data['sd_name']) && $sd_data['sd_name'] !=''){
-        $site_name = $sd_data['sd_name'];  
-    }else{
-        $site_name = get_bloginfo();    
-    }
-
-    $schema_properties = array();
-
-    $service_object     = new saswp_output_service();
-    $logo               = $service_object->saswp_get_publisher(true);   
+    $schema_type        =  $sd_data['saswp_archive_schema_type'];    
+    $service_object     = new saswp_output_service();    
+    $publisher_info     = $service_object->saswp_get_publisher();   
     $feature_image      = $service_object->saswp_get_fetaure_image();             
-                                                                                                      
-    $publisher_info['type']           = 'Organization';                                
-    $publisher_info['name']           = esc_attr($site_name);
-    $publisher_info['logo']['@type']  = 'ImageObject';
-    $publisher_info['logo']['url']    = isset($logo['url'])    ? esc_attr($logo['url']):'';
-    $publisher_info['logo']['width']  = isset($logo['width'])  ? esc_attr($logo['width']):'';
-    $publisher_info['logo']['height'] = isset($logo['height']) ? esc_attr($logo['height']):'';
-                                                                                                                                                                    
+                                                                                                                                                                                                                                                                              
     $schema_properties['@type']            = esc_attr($schema_type);
     $schema_properties['headline']         = saswp_get_the_title();
     $schema_properties['url']              = get_the_permalink();                                                                                                
     $schema_properties['datePublished']    = get_the_date('c');
     $schema_properties['dateModified']     = get_the_modified_date('c');
     $schema_properties['mainEntityOfPage'] = get_the_permalink();
-    $schema_properties['author']           = get_the_author();
-    $schema_properties['publisher']        = $publisher_info;                                
-      
+    $schema_properties['author']           = saswp_get_author_details();
+
+    if( isset($publisher_info['publisher']) ){
+        $schema_properties['publisher']        = $publisher_info['publisher'];                                
+    }
+          
     if(!empty($feature_image)){                            
         $schema_properties = array_merge($schema_properties, $feature_image);        
     }
@@ -2672,6 +2966,83 @@ function saswp_get_loop_markup($i) {
     return $response;
 }
 
+function saswp_get_ryviu_reviews ($product_id){
+    
+    $domain   = '';
+    $shop_url = site_url();
+    $domain   = str_replace(array('https://', 'http://'), '', $shop_url);    
+    $handle   = get_post_field( 'post_name', get_post() );
+    
+    $response = array();
+
+    if(!empty($domain)){
+
+        $i           = 1;
+        $loop_count  = 1; 
+        $sumofrating = 0;
+        $avg_rating  = 1;
+
+        do{
+            
+            $url  = esc_url( "https://app.ryviu.io/frontend/client/get-more-reviews?domain=".$domain );
+            $body = array(
+                "domain" 	    => $domain,                
+                "handle" 	    => $handle,                
+                "page" 		    => $i,
+                "product_id"    => $product_id,
+                "type"          => "load-more",                
+            );            
+            
+            $result = @wp_remote_post(
+                $url, [
+                    'headers'   => [ 'Content-Type' => 'application/json' ],
+                    'body'       => json_encode($body),
+                ]
+            );
+            
+            if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
+                
+                $reviews = json_decode(wp_remote_retrieve_body($result),true);
+                
+                if($reviews['more_reviews']){
+                    
+                    foreach ($reviews['more_reviews'] as  $value) {
+
+                        $response['reviews'][] = array(
+                            'author'        => $value['author'],
+                            'datePublished' => $value['created_at'],
+                            'description'   => $value['body_text'],
+                            'reviewRating'  => $value['rating'],
+                        ) ;
+
+                        $sumofrating += $value['rating'];
+
+                    }
+                    
+                    if( $sumofrating> 0 ){
+                       $avg_rating = $sumofrating /  $reviews['total']; 
+                    }
+
+                    $response['average'] = $avg_rating;
+                    $response['total']   = $reviews['total'];
+                    
+                    if($response['total'] > 10){
+                        $loop_count = ceil($response['total'] / 10);
+                    }
+
+                    
+                }
+            }
+
+            $i++;
+
+        } while ($i <= $loop_count);
+        
+    }
+    
+    return $response;
+
+}
 function saswp_get_yotpo_reviews($product_id){
 
     $yotpo_settings = get_option('yotpo_settings');
@@ -2775,4 +3146,41 @@ function saswp_get_stamped_reviews($product_id){
     }
     
     return $response;
+}
+
+function saswp_get_ampforwp_story_images(){
+
+    $image_arr = array();
+    
+    if(class_exists('Ampforwp_Stories_Post_Type')){
+
+        $amp_story_meta = get_post_meta( get_the_ID(), 'ampforwp_stories', true );
+        $post_type      = get_post_type(get_the_ID());
+
+        if( !empty($amp_story_meta) && is_array($amp_story_meta) && $post_type == 'ampforwp_story' ) {
+                                                    
+            foreach ($amp_story_meta as $value) {
+                    
+                if( isset($value['design_type']) ){
+
+                    if( $value['design_type'] == 'design1'){
+                        $image_arr[] = saswp_get_image_by_url($value['dsg1_image_url']);
+                    }
+                    if($value['design_type'] == 'design2'){
+                        $image_arr[] = saswp_get_image_by_url($value['dsg2_image_url']);
+                    }
+                    if($value['design_type'] == 'design3'){
+                        $image_arr[] = saswp_get_image_by_url($value['dsg3_image_url']);
+                    }
+
+                }
+                
+            }
+                                                            
+        }
+
+    }
+
+    return $image_arr;
+    
 }

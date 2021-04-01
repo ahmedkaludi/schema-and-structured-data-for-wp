@@ -111,9 +111,9 @@ useEffect(() => {
     <div className="card saswp-reviews-list-card">
         <div className="card-body">
          <div className="saswp-heading-top">
-             <div><h4>Review Items ({postsCount})</h4> </div>
+             <div>{postsCount > 0 ? <h4>Review Items ({postsCount})</h4> : ''} </div>
              <div>
-             <Link className="btn btn-success"  to={'admin.php?page=saswp&path=reviews_single'}><Icon style={{'marginRight': '7px'}}>plus_rounded</Icon>{__('Add Reviews', 'schema-and-structured-data-for-wp')}</Link>                                                                
+             <Link className="btn btn-success"  to={'admin.php?page=saswp&path=reviews_single'}><Icon style={{'marginRight': '7px'}}>plus_rounded</Icon>{__('Add Review', 'schema-and-structured-data-for-wp')}</Link>                                                                
              </div>
         </div>   
         
@@ -180,8 +180,8 @@ useEffect(() => {
             
           </div>          
           
-          : <div>Review not found. 
-            <Link className="btn btn-success"  to={'admin.php?page=saswp&path=reviews_add'}>{__('Add Review', 'schema-and-structured-data-for-wp')}</Link>
+          : <div className="saswp-not-found">Reviews not found. 
+            <Link className="btn btn-success"  to={'admin.php?page=saswp&path=reviews_single'}><Icon style={{'marginRight': '7px'}}>plus_rounded</Icon>{__('Add Review', 'schema-and-structured-data-for-wp')}</Link>
           </div>  
           
            } 

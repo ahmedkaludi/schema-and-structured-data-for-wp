@@ -24,25 +24,26 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
 
 $saswp_add_data_type_config = array(
 				'installer_dir' => 'admin_section',
-				'plugin_title'  => esc_html__( ucfirst( 'Schema & Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
+				'plugin_title'  => saswp_t_string( ucfirst( 'Schema & Structured Data for WP' )),
 				'start_steps'   => 1,
 				'total_steps'   => 3,
 				'installerpage' => 'saswp_add_new_data_type',
 				'dev_mode'      => false, 
 				'steps'         => array(
 								1=>array(
-								'title'=>esc_html__('Select Schema', 'schema-and-structured-data-for-wp'),
-								'description'=>esc_html__('Where would you like to enable the schema?','schema-and-structured-data-for-wp'),
+									
+								'title'=>saswp_t_string('Select Schema'),
+								'description'=>saswp_t_string('Where would you like to enable the schema?'),
 								
 								),
                                                                 2=>array(
-								'title'=>esc_html__('Placement', 'schema-and-structured-data-for-wp'),
-								'description'=>esc_html__('Where would you like this to be displayed?','schema-and-structured-data-for-wp'),
+								'title'=>saswp_t_string('Placement'),
+								'description'=>saswp_t_string('Where would you like this to be displayed?'),
 								
 								),
                                                                 3=>array(
-									'title'=>esc_html__('Enjoy', 'schema-and-structured-data-for-wp'),
-									'description'=>esc_html__('Navigate to ', 'schema-and-structured-data-for-wp'),
+									'title'=>saswp_t_string('Enjoy'),
+									'description'=>saswp_t_string('Navigate to '),
 									'fields'=>'',
 									),
 								
@@ -137,7 +138,7 @@ $saswp_add_data_type_config = array(
 		ob_start();
 		saswp_add_new_header(); ?>
 		<div class="merlin__wrapper">
-            <div class="saswp_install_wizard"><?php esc_html_e('ADD NEW SCHEMA','schema-and-structured-data-for-wp'); ?></div>
+            <div class="saswp_install_wizard"><?php esc_html_e('ADD NEW SCHEMA'); ?></div>
 			<div class="merlin__content merlin__content--<?php echo esc_attr( strtolower( $title ) ); ?>">
 				<?php
 				// Content Handlers.
@@ -155,7 +156,7 @@ $saswp_add_data_type_config = array(
 
 			</div>
 
-			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( 'edit.php?post_type=saswp' ) ), esc_html__( 'Return to dashboard', 'schema-and-structured-data-for-wp' ) ); ?>
+			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( 'edit.php?post_type=saswp' ) ), saswp_t_string( 'Return to dashboard' ) ); ?>
 
 		</div>
 
@@ -245,10 +246,10 @@ $saswp_add_data_type_config = array(
 			<footer class="merlin__content__footer">
 				<?php saswp_add_new_skip_button(); ?>
 				
-				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html__( 'Skip', 'schema-and-structured-data-for-wp' ); ?></a>
+				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo saswp_t_string( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html__( 'Next', 'schema-and-structured-data-for-wp' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo saswp_t_string( 'Next' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
@@ -316,10 +317,10 @@ $saswp_add_data_type_config = array(
 			<footer class="merlin__content__footer">
 				<?php saswp_add_new_skip_button(); ?>
 				
-				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html__( 'Skip', 'schema-and-structured-data-for-wp' ); ?></a>
+				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo saswp_t_string( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html__( 'Next', 'schema-and-structured-data-for-wp' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo saswp_t_string( 'Next' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
@@ -361,10 +362,10 @@ $saswp_add_data_type_config = array(
 			<footer class="merlin__content__footer">
 				<?php saswp_add_new_skip_button(); ?>
 				
-				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html__( 'Skip', 'schema-and-structured-data-for-wp' ); ?></a>
+				<a id="skip" href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo saswp_t_string( 'Skip' ); ?></a>
 				
 				<a href="<?php echo esc_url( saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="save_logo">
-					<span class="merlin__button--loading__text"><?php echo esc_html__( 'Next', 'schema-and-structured-data-for-wp' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
+					<span class="merlin__button--loading__text"><?php echo saswp_t_string( 'Next' ); ?></span><?php echo saswp_add_new_loading_spinner(); ?>
 				</a>
 				
 				<?php wp_nonce_field( 'saswp_add_new_nonce' ); ?>
@@ -490,7 +491,7 @@ $saswp_add_data_type_config = array(
 	
 	function saswp_add_new_skip_button(){
 		?>
-		<a href="<?php echo esc_url(  saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip"><?php echo esc_html__( 'Skip', 'schema-and-structured-data-for-wp' ); ?></a>
+		<a href="<?php echo esc_url(  saswp_add_new_step_next_link() ); ?>" class="merlin__button merlin__button--skip"><?php echo saswp_t_string( 'Skip' ); ?></a>
 		<?php
 	}
         
@@ -517,7 +518,7 @@ $saswp_add_data_type_config = array(
 
 			<div class="saswp_branding"></div>
 			
-			<h1><?php echo esc_html__( 'Schema Added Successfully. Have fun!', 'schema-and-structured-data-for-wp' ); ?></h1>		
+			<h1><?php echo saswp_t_string( 'Schema Added Successfully. Have fun!' ); ?></h1>		
 
 		</div> 
 
@@ -533,7 +534,7 @@ $saswp_add_data_type_config = array(
                         }
                         ?>
                         
-			<a href="<?php echo $lets_go; ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html__( 'Let\'s Go', 'schema-and-structured-data-for-wp' ); ?></a>
+			<a href="<?php echo $lets_go; ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo saswp_t_string( 'Let\'s Go' ); ?></a>
 			
 			
 			<ul class="merlin__drawer merlin__drawer--extras">
@@ -614,12 +615,12 @@ $saswp_add_data_type_config = array(
 	function saswp_add_new_makesvg( $args = array() ){
 		// Make sure $args are an array.
 		if ( empty( $args ) ) {
-			return __( 'Please define default parameters in the form of an array.', 'schema-and-structured-data-for-wp' );
+			return __( 'Please define default parameters in the form of an array.' );
 		}
 
 		// Define an icon.
 		if ( false === array_key_exists( 'icon', $args ) ) {
-			return __( 'Please define an SVG icon filename.', 'schema-and-structured-data-for-wp' );
+			return __( 'Please define an SVG icon filename.' );
 		}
 
 		// Set defaults.
@@ -653,12 +654,12 @@ $saswp_add_data_type_config = array(
 
 		// If there is a title, display it.
 		if ( $args['title'] ) {
-			$svg .= '<title>' . esc_html__( $args['title'], 'schema-and-structured-data-for-wp' ) . '</title>';
+			$svg .= '<title>' . saswp_t_string( $args['title'] ) . '</title>';
 		}
 
 		// If there is a description, display it.
 		if ( $args['desc'] ) {
-			$svg .= '<desc>' . esc_html__( $args['desc'], 'schema-and-structured-data-for-wp' ) . '</desc>';
+			$svg .= '<desc>' . saswp_t_string( $args['desc'] ) . '</desc>';
 		}
 
 		$svg .= '<use xlink:href="#icon-' . esc_html( $args['icon'] ) . '"></use>';

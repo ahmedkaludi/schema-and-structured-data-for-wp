@@ -81,10 +81,10 @@ class saswp_post_specific {
                 
                 if($meta_field){
                     foreach($meta_field as $field){
-                        $result = delete_post_meta($post_id, $field['id']); 
+                        delete_post_meta($post_id, $field['id']); 
                     }
                 }                             
-                echo json_encode(array('status'=> 't', 'msg'=>esc_html__( 'Schema has been restored', 'schema-and-structured-data-for-wp' )));                
+                echo json_encode(array('status'=> 't', 'msg'=>saswp_t_string( 'Schema has been restored' )));                
                 wp_die();
              
             }
@@ -260,13 +260,7 @@ class saswp_post_specific {
         public function saswp_post_specifc_add_meta_boxes() {
             
             global $post, $saswp_metaboxes;
-                        
-            $post_specific_id = '';            
-            
-            if(is_object($post)){
-                $post_specific_id = $post->ID;
-            }     
-                
+                                                         
             $show_post_types = get_post_types();
             unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
             
@@ -280,7 +274,7 @@ class saswp_post_specific {
                       
                          add_meta_box(
                                 'saswp_post_specific',
-                                esc_html__( 'Schema & Structured Data on this post', 'schema-and-structured-data-for-wp' ),
+                                saswp_t_string( 'Schema & Structured Data on this post' ),
                                 array( $this, 'saswp_post_meta_box_callback' ),
                                 $single_screen,
                                 'advanced',
@@ -302,13 +296,9 @@ class saswp_post_specific {
                return;  
             }
             $meta_name   = '';
-            $meta_array  = array();
-            $schema_id   = null;
+            $meta_array  = array();            
             $schema_type = '';
-            
-            if(isset($_GET['schema_id'])){
-                $schema_id = intval($_GET['schema_id']);
-            }
+                        
             if(isset($_GET['schema_type'])){
                 $schema_type = sanitize_text_field($_GET['schema_type']);
             }              
@@ -351,7 +341,7 @@ class saswp_post_specific {
              $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);   
              $custom_markp  = get_post_meta($post->ID, 'saswp_custom_schema_field', true);              
              $disable_btn.= '<div class="saswp-disable-btn-container">'
-                            . '<span class="saswp-disable-label">'.esc_html__( 'Disable custom schema on this page', 'schema-and-structured-data-for-wp' ).'</span>'
+                            . '<span class="saswp-disable-label">'.saswp_t_string( 'Disable custom schema on this page' ).'</span>'
                             . '<label class="saswp-switch">'
                             . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="custom" data-post-id="'.esc_attr($post->ID).'" '.( (isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'checked' : '' ).'>'
                             . '<span class="saswp-slider"></span>'
@@ -362,7 +352,7 @@ class saswp_post_specific {
                 $cus_schema .= '<div class="'.((isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'saswp_hide' : '').'"><textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="95">'
                             .  $custom_markp
                             .  '</textarea>';
-                $cus_schema .= '<span><strong>'.esc_html__( 'Note', 'schema-and-structured-data-for-wp' ).': </strong>'.esc_html__( 'Please enter the valid Json-ld. Whatever you enter will be added in page source', 'schema-and-structured-data-for-wp' ).'</span>';
+                $cus_schema .= '<span><strong>'.saswp_t_string( 'Note' ).': </strong>'.saswp_t_string( 'Please enter the valid Json-ld. Whatever you enter will be added in page source' ).'</span>';
                 $cus_schema .= '</div>';
                 $cus_schema .= $disable_btn;
                 $cus_schema .= '</div>';
@@ -445,7 +435,7 @@ class saswp_post_specific {
                              $setting_options  .= '<div class="saswp-ps-text '.( ($modify_this || $modified ) ? '' : 'saswp_hide').'">';
                          }
                          
-                         $setting_options  .= '<a class="button button-default saswp-restore-schema button" schema-id="'.esc_attr($schema->ID).'">'.esc_html__( 'Restore to Auto Fetch', 'schema-and-structured-data-for-wp' ).'</a>';                         
+                         $setting_options  .= '<a class="button button-default saswp-restore-schema button" schema-id="'.esc_attr($schema->ID).'">'.saswp_t_string( 'Restore to Auto Fetch' ).'</a>';                         
                          $setting_options  .= '</div>';
                                                   
                          if(!empty($disabled)){
@@ -463,15 +453,15 @@ class saswp_post_specific {
                              $schema_type_txt = 'Q&A';
                          }
                          
-                         $setting_options  .= '<span>'.esc_html__( $schema_type_txt.' schema is fetched automatically', 'schema-and-structured-data-for-wp' ).'</span><br><br>';
-                         $setting_options  .= '<a class="button button-default saswp-modify-schema button" schema-id="'.esc_attr($schema->ID).'">'.esc_html__( 'Modify '.$schema_type.' Schema Output', 'schema-and-structured-data-for-wp' ).'</a>';
+                         $setting_options  .= '<span>'.saswp_t_string( $schema_type_txt.' schema is fetched automatically' ).'</span><br><br>';
+                         $setting_options  .= '<a class="button button-default saswp-modify-schema button" schema-id="'.esc_attr($schema->ID).'">'.saswp_t_string( 'Modify '.$schema_type.' Schema Output' ).'</a>';
                          $setting_options  .= '</div>';                                                                  
                                         
                     $setting_options.= '</div>';                                                
                     $setting_options.= '</div>';
                      
                     $btn_in_loop = '<div class="saswp-disable-btn-container">'
-                            . '<span class="saswp-disable-label">'.esc_html__( 'Disable '.$schema_type_txt.' on this page', 'schema-and-structured-data-for-wp' ).'</span>'
+                            . '<span class="saswp-disable-label">'.saswp_t_string( 'Disable '.$schema_type_txt.' on this page' ).'</span>'
                             . '<label class="saswp-switch">'
                             . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$disabled.'>'
                             . '<span class="saswp-slider"></span>'
@@ -480,7 +470,7 @@ class saswp_post_specific {
                     
                      if($key==0){
                          
-                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.esc_attr(($schema_type == 'local_business'? 'LocalBusiness': ($schema_type =='qanda' ? 'Q&A' : $schema_type)).' '.$item_type ).'</a>'
+                     $tabs .='<li class="selected"><a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links selected">'.( get_the_title($schema->ID) != 'Untitled'  ? get_the_title($schema->ID) : esc_attr(($schema_type == 'local_business'? 'LocalBusiness': ($schema_type =='qanda' ? 'Q&A' : $schema_type)).' '.$item_type ) ).'</a>'
                              . '</li>';    
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper">';                                                                  
@@ -492,7 +482,7 @@ class saswp_post_specific {
                      }else{
                          
                      $tabs .='<li>'
-                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.esc_attr(($schema_type == 'local_business'? 'LocalBusiness': ($schema_type =='qanda' ? 'Q&A' : $schema_type)).' '.$item_type ).'</a>'
+                             . '<a saswp-schema-type="'.esc_attr($schema_type).'" data-id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-tab-links">'.( get_the_title($schema->ID) != 'Untitled'  ? get_the_title($schema->ID) : esc_attr(($schema_type == 'local_business'? 'LocalBusiness': ($schema_type =='qanda' ? 'Q&A' : $schema_type)).' '.$item_type ) ).'</a>'
                              . '</li>';   
                      
                      $tabs_fields .= '<div data-id="'.esc_attr($schema->ID).'" id="saswp_specific_'.esc_attr($schema->ID).'" class="saswp-post-specific-wrapper saswp_hide">';                                                                  
@@ -512,7 +502,7 @@ class saswp_post_specific {
                 $response_html .= $tabs;    
                 
                 $response_html .='<li>'
-                             . '<a class="saswp-tab-links" data-id="saswp_specific_custom">'.esc_html__( 'Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>'
+                             . '<a class="saswp-tab-links" data-id="saswp_specific_custom">'.saswp_t_string( 'Custom Schema' ).'</a>'
                              . '</li>';                
                 $response_html .= '</ul>';                
                 $response_html .= '</div>';                
@@ -529,10 +519,10 @@ class saswp_post_specific {
                  
                  
                 $response_html .= '<div class="saswp-tab saswp-post-specific-tab-wrapper">';
-                $response_html .= '<div><a href="'.esc_url( admin_url( 'edit.php?post_type=saswp' ) ).'" class="button button-default saswp-setup-schema-btn">'.esc_html__( 'Setup Schema', 'schema-and-structured-data-for-wp' ).'</div>';                
+                $response_html .= '<div><a href="'.esc_url( admin_url( 'edit.php?post_type=saswp' ) ).'" class="button button-default saswp-setup-schema-btn">'.saswp_t_string( 'Setup Schema' ).'</div>';                
 		$response_html .= '<ul class="saswp-tab-nav">';                
                 $response_html .= '<li class="selected">'
-                             . '<a class="saswp-tab-links" data-id="saswp_specific_custom">'.esc_html__( 'Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>'
+                             . '<a class="saswp-tab-links" data-id="saswp_specific_custom">'.saswp_t_string( 'Custom Schema' ).'</a>'
                              . '</li>';                
                 $response_html .= '</ul>';                
                 $response_html .= '</div>';                
@@ -544,42 +534,12 @@ class saswp_post_specific {
                 
              return $response_html;   
         }
-
-        public function saswp_post_meta_box_html($std_post){
                 
-                global $post;
-                
-                if(!is_object($post)){
-                    $post = $std_post;
-                }
-                                               
-                $response_html = '';                                
-                $schema_avail  = false;                
-                if($this->all_schema){
-                    
-                    foreach ($this->all_schema as $schema){
-                        
-                      $advnace_status = saswp_check_advance_display_status($schema->ID);
-                    
-                      if($advnace_status == 1){
-                          $schema_avail = true;
-                          break;
-                      }
-                                                
-                    }
-                    
-                }
-                 
-                $response_html .= $this->saswp_post_meta_box_fields($post);  
-                
-                return $response_html;
-        }
-        
         public function saswp_post_meta_box_callback() { 
                     
                 global $post;                 
 		        wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );  
-                echo $this->saswp_post_meta_box_html($post);                                             
+                echo $this->saswp_post_meta_box_fields($post);                                             
                                                                                                                                                                    		
         }        
         

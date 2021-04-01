@@ -18,6 +18,10 @@
 .saswp-settings-setup .saswp-setup{
     float: right;
 }
+.saswp-setup .alert-img{
+    vertical-align: middle;
+    margin-right: 4px;
+}
 .saswp-compatibility-tab{
     height: 65px;
     width: 100%;
@@ -155,4 +159,7 @@
 .modal-body{    
     overflow-y: scroll;    
     height: 400px;
+}
+.saswp-sub-element{
+    margin-left: 20px !important;
 }

@@ -149,10 +149,10 @@ function saswp_comment_rating_display_rating( $comment_text ){
 			$rating = get_comment_meta( get_comment_ID(), 'review_rating', true );
 		}
 		
-
-		return '<p>'.saswp_get_rating_html_by_value($rating).'</p><p>'.esc_html($comment_text).'</p>';
+		wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       
+		return '<p>'.saswp_get_rating_html_by_value($rating).'</p>'.$comment_text;
 	} else {
-		return '<p>'.$comment_text.'</p>';
+		return $comment_text;
 	}
 }
 
@@ -171,7 +171,7 @@ function saswp_comment_rating_display_average_rating() {
 			$average = $average_rate['average'];
 			$count   = $average_rate['count'];
 				
-			$custom_content  = '<div class="saswp-average-rating">'.esc_html__('Average','schema-and-structured-data-for-wp').' '. saswp_get_rating_html_by_value($average).' '.$average.' '. esc_html__('Based On','schema-and-structured-data-for-wp') .' '.$count.'</div>';
+			$custom_content  = '<div class="saswp-average-rating">'.saswp_t_string('Average').' '. saswp_get_rating_html_by_value($average).' '.esc_html($average).' '. saswp_t_string('Based On') .' '.esc_html($count).'</div>';
 
 			echo $custom_content;
 

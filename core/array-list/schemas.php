@@ -27,7 +27,8 @@ return array(
                 'Movie'                    => 'Movie',
                 'NewsArticle'              => 'NewsArticle',
                 'PodcastEpisode'           => 'PodcastEpisode',
-                'PodcastSeason'            => 'PodcastSeason',                                             
+                'PodcastSeason'            => 'PodcastSeason',
+                'Photograph'               => 'Photograph',                              
                 'qanda'                    => 'Q&A',   
                 'Review'                   => 'Review',
                 'Recipe'                   => 'Recipe',
@@ -49,7 +50,9 @@ return array(
             'ItemList'                    => 'ItemList', 
             'JobPosting'                  => 'JobPosting', 
             'Service'                     => 'Service',
-            'Trip'                        => 'Trip',    
+            'TaxiService'                 => 'TaxiService',
+            'Trip'                        => 'Trip',   
+            'BoatTrip'                    => 'BoatTrip',    
         ),
         'Media' =>  array(
              'AudioObject'              => 'AudioObject',
@@ -63,6 +66,8 @@ return array(
         ),                                                                                                                                                                                    
         'Product' => array(
             'Product'                  => 'Product',
+            'Car'                      => 'Car',
+            'Vehicle'                  => 'Vehicle'
         ),
         'Place' => array(
             'TouristAttraction'               => 'TouristAttraction',

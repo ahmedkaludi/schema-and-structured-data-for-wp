@@ -2,7 +2,18 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-return array(                
+return array(
+        array(
+            'add_on'      => 'ociaifs',
+            'key'         => 'ociaifs_for_saswp',
+            'name'        => '1 Click Indexing Api Integration For SASWP',
+            'path'        => '1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php',                        
+            'description' => 'The Indexing API allows you to directly notify Google when pages are added or removed. This allows Google to schedule pages for a fresh crawl, which can lead to higher quality user traffic in quick time.',                       
+            'image'       => SASWP_PLUGIN_URL.'/admin_section/images/indexing.png',
+            'status'      => 'InActive',
+            'background'  => '#9fa2f5',
+            'download'    => 'https://structured-data-for-wp.com/1-click-indexing-api-integration/'    
+        ),        
         array(
             'add_on'      => 'Woocommerce',  
             'key'         => 'woocommerce_compatibility_for_schema',
@@ -23,7 +34,7 @@ return array(
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/customer-review.png',
             'status'      => 'InActive',
             'background'  => '#509207',
-            'download'    => 'https://structured-data-for-wp.com/reviews-for-schema'
+            'download'    => 'https://structured-data-for-wp.com/reviews-for-schema'                      
         ),
         array(
             'add_on'      => 'Res',
@@ -34,7 +45,7 @@ return array(
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/real-estate-schema-wp.png',
             'status'      => 'InActive',
             'background'  => '#ace',
-            'download'    => 'https://structured-data-for-wp.com/extensions/real-estate-schema'
+            'download'    => 'https://structured-data-for-wp.com/extensions/real-estate-schema'                       
         ),
         array(
             'add_on'      => 'Cs',
@@ -45,7 +56,7 @@ return array(
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/course.png',
             'status'      => 'InActive',
             'background'  => '#dcb71d',
-            'download'    => 'https://structured-data-for-wp.com/course-schema'
+            'download'    => 'https://structured-data-for-wp.com/course-schema'                        
         ),
         array(
             'add_on'      => 'Es',
@@ -56,7 +67,7 @@ return array(
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/event.png',
             'status'      => 'InActive',
             'background'  => '#eae4ca',
-            'download'    => 'https://structured-data-for-wp.com/event-schema'
+            'download'    => 'https://structured-data-for-wp.com/event-schema'                        
         ),
         array(
             'add_on'      => 'qanda',
@@ -67,7 +78,7 @@ return array(
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/question.png',
             'status'      => 'InActive',
             'background'  => '#509207',
-            'download'    => 'https://structured-data-for-wp.com/qanda-schema-for-saswp'
+            'download'    => 'https://structured-data-for-wp.com/qanda-schema-for-saswp'                        
         ),
         array(
             'add_on'      => 'Faq',
@@ -78,7 +89,7 @@ return array(
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/faq.png',
             'status'      => 'InActive',
             'background'  => '#509207',
-            'download'    => 'https://structured-data-for-wp.com/faq-schema-compatibility'
+            'download'    => 'https://structured-data-for-wp.com/faq-schema-compatibility'                        
         ),
         array(
             'add_on'      => 'Jobposting',
@@ -89,7 +100,7 @@ return array(
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/jobposting.png',
             'status'      => 'InActive',
             'background'  => '#509207',
-            'download'    => 'https://structured-data-for-wp.com/jobposting-schema-compatibility'
+            'download'    => 'https://structured-data-for-wp.com/jobposting-schema-compatibility'                       
         ),
         array(
             'add_on'      => 'Rs',
@@ -100,7 +111,7 @@ return array(
             'image'       => SASWP_PLUGIN_URL.'/admin_section/images/recipe.png',
             'status'      => 'InActive',
             'background'  => '#509207',
-            'download'    => 'https://structured-data-for-wp.com/recipe-schema'
+            'download'    => 'https://structured-data-for-wp.com/recipe-schema'                       
         ),
         array(
             'add_on'      => 'Polylang',
@@ -116,6 +127,7 @@ return array(
         array(
             'key'        => 'saswp_pro_extension_manager',
             'name'       => 'SASWP Pro Extension Manager',
-            'path'       => 'saswp-pro-extension-manager/saswp-pro-extension-manager.php',   
-        )                                
+            'path'       => 'saswp-pro-extension-manager/saswp-pro-extension-manager.php',                        
+        )        
+                        
     );

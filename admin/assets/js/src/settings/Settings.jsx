@@ -23,7 +23,8 @@ const Settings = () => {
   const page = queryString.parse(window.location.search);   
   const {__} = wp.i18n; 
    
-  const [isLoaded, setIsLoaded]               = useState(true);  
+  const [isLoaded, setIsLoaded]               = useState(true);
+  const [isSaved, setIsSaved]                 = useState(true);  
   const [mainSpinner, setMainSpinner]         = useState(false);  
   const [partSpinner, setPartSpinner]         = useState(false);  
 
@@ -137,7 +138,8 @@ const Settings = () => {
     }            
   );
   
-  const [compatibility, setCompatibility] = useState([]);  
+  const [compatibility, setCompatibility]   = useState([]); 
+  const [navMenu, setNavMenu]               = useState([]);  
 
   const getSettings = () => {
     setIsLoaded(false);
@@ -159,6 +161,9 @@ const Settings = () => {
           if(result.compatibility){
             setCompatibility(result.compatibility);  
           }
+          if(result.nav_menu){            
+            setNavMenu(result.nav_menu);  
+          }          
           setIsLoaded(true);
           setMainSpinner(false);
         },        
@@ -271,7 +276,7 @@ const Settings = () => {
 
   const saveSettings = (event) => {                 
 
-    setIsLoaded(false);
+    setIsSaved(false);
     const formData = new FormData();
     
     formData.append("file", backupFile);
@@ -289,18 +294,7 @@ const Settings = () => {
     .then(res => res.json())
     .then(
       (result) => {  
-        setIsLoaded(true);
-          // if(result.status === 't'){              
-          //   if(result.file_status === 't'){               
-          //     this.setState({file_uploaded:true,button_spinner_toggle:false});
-          //     this.setState({settings_saved:true});
-          //   }else{
-              
-          //     this.setState({settings_saved:true, button_spinner_toggle:false});
-          //   }
-          // }else{
-          //   this.setState({settings_error:result.msg, button_spinner_toggle:false});
-          // }                               
+        setIsSaved(true);          
       },        
       (error) => {
        
@@ -564,7 +558,14 @@ useEffect(() => {
     <form encType="multipart/form-data" method="post" id="saswp_settings_form">  
     
     {mainSpinner ? <MainSpinner /> : ''}
-    <div className="saswp-top-header"><div className="saswp-top-header-left"> <h3><Icon className="saswp-settings-large-icon">settings</Icon>{__('Settings', 'schema-and-structured-data-for-wp')}</h3></div><div> <a className="btn btn-success saswp-go-pro">{__('GO PRO', 'schema-and-structured-data-for-wp')}</a> </div></div>
+    <div className="saswp-top-header">
+      <div className="saswp-top-header-left"> 
+      <h3><Icon className="saswp-settings-large-icon">settings</Icon>{__('Settings', 'schema-and-structured-data-for-wp')}</h3>
+      </div>
+      <div>
+      {saswp_localize_data.is_pro_active ? '' : <a href="https://structured-data-for-wp.com/pricing/" target="_blank" className="btn btn-success saswp-go-pro">{__('GO PRO', 'schema-and-structured-data-for-wp')}</a>}    
+      </div>
+      </div>
     <div className="saswp-settings-form-content">          
     <SettingsNavLink />                   
     <div className=""> 
@@ -586,8 +587,12 @@ useEffect(() => {
 
             <div className="card-body saswp-knowledge-card">    
                   {__('Knowldege Graph', 'schema-and-structured-data-for-wp')}
-                  <a className="btn btn-default saswp-setup" onClick={handleOpenKnowledgeModal}>{__('Setup', 'schema-and-structured-data-for-wp')}</a>            
-                 
+
+                  <div className="saswp-setup">
+                    {userInput['sd_logo']['url'] == '' ? <img className="alert-img" style={{width:'20px'}} src={saswp_localize_data.plugin_url+'/admin/assets/js/dist/images/exclamation-mark.png'}/> : ''}                    
+                    <a className="btn btn-default" onClick={handleOpenKnowledgeModal}>{__('Setup', 'schema-and-structured-data-for-wp')}</a>            
+                  </div>
+                                   
                 <Modal
                 isOpen={openKnowledgeModal}
                 handleClose={handleCloseKnowledgeModal}                  
@@ -771,9 +776,13 @@ useEffect(() => {
 
             {/* {Default Data Starts here} */}
 
-            <div className="card-body saswp-default-card">    
-                    {__('Default Data', 'schema-and-structured-data-for-wp')}        
-                  <a className="btn btn-default saswp-setup" onClick={handleOpenDefaultDataModal}>{__('Setup', 'schema-and-structured-data-for-wp')}</a>
+                <div className="card-body saswp-default-card">    
+                    {__('Default Data', 'schema-and-structured-data-for-wp')}  
+                  <div className="saswp-setup">
+                    {userInput['sd_default_image']['url'] == '' ? <img className="alert-img" style={{width:'20px'}} src={saswp_localize_data.plugin_url+'/admin/assets/js/dist/images/exclamation-mark.png'}/> : ''}                    
+                    <a className="btn btn-default" onClick={handleOpenDefaultDataModal}>{__('Setup', 'schema-and-structured-data-for-wp')}</a>
+                  </div>  
+                  
                 <Modal
                 isOpen={openDefaultDataModal}
                 handleClose={handleCloseDefaultDataModal}                
@@ -788,20 +797,26 @@ useEffect(() => {
                     <tr>
                       <td>{__('Default Image', 'schema-and-structured-data-for-wp')}</td>
                       <td>
-                        <MediaUpload onSelection={handleDefaultImage} src={userInput['sd_default_image']['url']}/>
-                        <p>{__('This option will add a default review to a woocommerce product if reviews are not there', 'schema-and-structured-data-for-wp')}</p>
+                        <MediaUpload onSelection={handleDefaultImage} src={userInput['sd_default_image']['url']}/>                        
                       </td>
                     </tr>
-                    <tr>
-                      <td>{__('Product Default Review', 'schema-and-structured-data-for-wp')}</td>
-                      <td>
-                      <label className="form-check form-group toggle">
-                        <input name="saswp_default_review" checked={userInput['saswp_default_review']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                        <span className="form-check-label"></span>
-                        <p>{__('This option will add a default review to a woocommerce product if reviews are not there', 'schema-and-structured-data-for-wp')}</p>
-                      </label>
-                      </td>
-                    </tr>
+                    {
+                      compatibility.map((item, index) => (  
+                        (item.active && item.opt_name == 'saswp-woocommerce') ? 
+                        <tr>
+                          <td>{__('Product Default Review', 'schema-and-structured-data-for-wp')}</td>
+                          <td>
+                          <label className="form-check form-group toggle">
+                            <input name="saswp_default_review" checked={userInput['saswp_default_review'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                            <span className="form-check-label"></span>
+                            <p>{__('This option will add a default review to a woocommerce product if reviews are not there', 'schema-and-structured-data-for-wp')}</p>
+                          </label>
+                          </td>
+                        </tr>    
+                        :''
+                      ))
+                    }
+                    
                   </tbody>
                 </table>  
                   
@@ -858,35 +873,72 @@ useEffect(() => {
                 <div className="form-group-container">
                   
                 <label className="form-check form-group toggle">
-                  <input name="saswp-website-schema" checked={userInput['saswp-website-schema']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                  <input name="saswp_website_schema" checked={userInput['saswp_website_schema'] == 1 ? true:false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Website Schema (Home)', 'schema-and-structured-data-for-wp')}</span>
-                  <p className="form-check-description">{__('Website schema description goes here', 'schema-and-structured-data-for-wp')}</p>
+                  <p className="form-check-description">{__('It enables Website schema to homepage', 'schema-and-structured-data-for-wp')}</p>
                 </label>
-
+                {
+                  userInput['saswp_website_schema'] == 1 ? 
+                    <label className="form-check form-group toggle saswp-sub-element">
+                      <input name="saswp_search_box_schema" checked={userInput['saswp_search_box_schema'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                      <span className="form-check-label">{__('Sitelinks Search Box', 'schema-and-structured-data-for-wp')}</span>                  
+                  </label>
+                  : ''
+                }
+                
                 <label className="form-check form-group toggle">
-                <input name="saswp_breadcrumb_schema" checked={userInput['saswp_breadcrumb_schema']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp_breadcrumb_schema" checked={userInput['saswp_breadcrumb_schema'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('BreadCrumbs', 'schema-and-structured-data-for-wp')}</span>
-                  <p className="form-check-description">{__('Website schema description goes here', 'schema-and-structured-data-for-wp')}</p>
+                  <p className="form-check-description">{__('It enables Breadcrumb schema globally', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
-                {/* <label className="form-check form-group toggle">
-                <input name="saswp-website-schema" checked={userInput['saswp-website-schema']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
-                  <span className="form-check-label">Navigation Schema</span>
-                  <p className="form-check-description">Website schema description goes here</p>
-                </label> */}
+                {
+                  userInput['saswp_breadcrumb_schema'] == 1 ? 
+                    <label className="form-check form-group toggle saswp-sub-element">
+                      <input name="saswp_breadcrumb_remove_cat" checked={userInput['saswp_breadcrumb_remove_cat'] == 1 ? true : false } onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                      <span className="form-check-label">{__('Exclude Category', 'schema-and-structured-data-for-wp')}</span>                  
+                  </label>
+                  : ''
+                }
+
+                {
+                  navMenu ? 
+                  <div className="form-group">
+                    <label>{__('Navigation Schema', 'schema-and-structured-data-for-wp')}</label>
+                    <div>
+                    <select name="saswp_site_navigation_menu" onChange={handleInputChange} value={userInput['saswp_site_navigation_menu']}>                        
+                        <option value="">{__('Select A Menu', 'schema-and-structured-data-for-wp')}</option>
+                        {                          
+                        navMenu.map((item, i) => (
+                          <option key={i} value={item.id}>{item.name}</option>  
+                        ))
+                        }                                                
+                      </select>                                
+                    </div>                                                    
+                  </div> 
+                  : ''
+                }                                 
                 </div>
 
                 <div className="form-group-container">
                 <label className="form-check form-group toggle">
-                <input name="saswp_archive_schema" checked={userInput['saswp_archive_schema']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp_archive_schema" checked={userInput['saswp_archive_schema'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Archive Schema', 'schema-and-structured-data-for-wp')}</span>
-                  <p className="form-check-description">{__('Website schema description goes here', 'schema-and-structured-data-for-wp')}</p>
-                </label>
-
+                  <p className="form-check-description">{__('It enables collectionPage schema for archive, tag and category', 'schema-and-structured-data-for-wp')}</p>
+                </label>   
+                 {userInput['saswp_archive_schema'] == 1 ? 
+                  <select className="saswp-sub-element" name="saswp_archive_schema_type" onChange={handleInputChange} value={userInput['saswp_archive_schema_type']}>                        
+                    <option value="Article">{__('Article', 'schema-and-structured-data-for-wp')}</option>
+                    <option value="BlogPosting">{__('BlogPosting', 'schema-and-structured-data-for-wp')}</option>
+                    <option value="NewsArticle">{__('NewsArticle', 'schema-and-structured-data-for-wp')}</option>
+                    <option value="WebPage">{__('WebPage', 'schema-and-structured-data-for-wp')}</option>
+                  </select>                                
+                 : ''} 
+                        
                 <label className="form-check form-group toggle">
-                <input name="saswp_comments_schema" checked={userInput['saswp_comments_schema']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp_comments_schema" checked={userInput['saswp_comments_schema'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Comments Schema', 'schema-and-structured-data-for-wp')}</span>
-                  <p className="form-check-description">{__('Website schema description goes here', 'schema-and-structured-data-for-wp')}</p>
+                  <p className="form-check-description">{__('It enables comment schema for the particular post', 'schema-and-structured-data-for-wp')}</p>
                 </label>
                 
                 </div>
@@ -894,9 +946,7 @@ useEffect(() => {
               </div>
             </div>
           </div>
-          
-          
-
+                    
           <div className="card">
             <div className="card-body">
               <div>
@@ -907,19 +957,17 @@ useEffect(() => {
             <div className="divider-horizontal"></div> 
             <div className="card-body">
               <div className="form-group-container-horizontal">
-
                   
-
                 <div className="form-group-container">                
 
                 <label className="form-check form-group toggle">
-                <input name="saswp-for-amp" checked={userInput['saswp-for-amp']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-for-amp" checked={userInput['saswp-for-amp'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('AMP Support', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('Using this option, one can enable or disable schema markup on AMP Pages', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
-                <input name="saswp-stars-rating" checked={userInput['saswp-stars-rating']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-stars-rating" checked={userInput['saswp-stars-rating'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Stars Rating', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('This option adds rating field in wordpress default comment box', 'schema-and-structured-data-for-wp')} <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">{__('Learn More', 'schema-and-structured-data-for-wp')}</a></p>
                 </label>
@@ -929,13 +977,13 @@ useEffect(() => {
                 <div className="form-group-container">
 
                 <label className="form-check form-group toggle">
-                <input name="saswp-for-wordpress" checked={userInput['saswp-for-wordpress']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-for-wordpress" checked={userInput['saswp-for-wordpress'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Non AMP Support', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('Using this option, one can enable or disable schema markup on Non AMP Pages', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
-                <input name="saswp-review-module" checked={userInput['saswp-review-module']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-review-module" checked={userInput['saswp-review-module'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Rating Box', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('This option enables the review metabox on every post/page.', 'schema-and-structured-data-for-wp')} <a target="blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">{__('Learn More', 'schema-and-structured-data-for-wp')}</a></p>
                 </label>
@@ -973,7 +1021,7 @@ useEffect(() => {
                     const active_list =  compatibility.map((item, index) => (  
                         item.active ? 
                         <label key={index} className="form-check form-group toggle">
-                        <input checked={item.status} onChange={handleCompatibilityChange} name={item.opt_name} type="checkbox" className="form-check-input" />
+                        <input checked={item.status == 1 ? true : false } onChange={handleCompatibilityChange} name={item.opt_name} type="checkbox" className="form-check-input" />
                         <span className="form-check-label">{item.name}</span>                      
                         </label>:''
                       ));
@@ -997,10 +1045,9 @@ useEffect(() => {
                     break;
                   case "all":
 
-                    const list =  compatibility.map((item, index) => (  
-
+                    const list =  compatibility.map((item, index) => (                        
                       <label key={index} className="form-check form-group toggle">
-                      <input checked={item.status} onChange={handleCompatibilityChange} name={item.opt_name} type="checkbox" className="form-check-input" />
+                      <input checked={item.status == 1 ? true : false } onChange={handleCompatibilityChange} name={item.opt_name} type="checkbox" className="form-check-input" />
                       <span className="form-check-label">{item.name}</span>                      
                       </label>
                       ));
@@ -1045,25 +1092,25 @@ useEffect(() => {
 
                 <div className="form-group-container">
                 <label className="form-check form-group toggle">
-                <input name="saswp-defragment" checked={userInput['saswp-defragment']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-defragment" checked={userInput['saswp-defragment'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Defragment Schema Markup', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('It relates all schema markups on page to a main entity and merge all markup to a single markup.', 'schema-and-structured-data-for-wp')} <a target="_blank" href="https://structured-data-for-wp.com/docs/article/what-is-defragment-schema-markup-and-how-to-add-it/">{__('Learn More', 'schema-and-structured-data-for-wp')}</a></p>
                 </label>
 
                 <label className="form-check form-group toggle">
-                <input name="saswp-markup-footer" checked={userInput['saswp-markup-footer']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-markup-footer" checked={userInput['saswp-markup-footer'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Add Schema Markup in footer', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('By default schema markup will be added in header section', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
-                <input name="saswp-pretty-print" checked={userInput['saswp-pretty-print']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-pretty-print" checked={userInput['saswp-pretty-print'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Pretty Print Schema Markup', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('By default schema markup will be minified format', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
-                <input name="saswp-microdata-cleanup" checked={userInput['saswp-microdata-cleanup']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-microdata-cleanup" checked={userInput['saswp-microdata-cleanup'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('MicroData CleanUp', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('It removes all the microdata generated by third party plugins which cause validation error on google testing tool', 'schema-and-structured-data-for-wp')}</p>
                 </label>
@@ -1073,19 +1120,19 @@ useEffect(() => {
                 <div className="form-group-container">                
 
                 <label className="form-check form-group toggle">
-                <input name="saswp-other-images" checked={userInput['saswp-other-images']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-other-images" checked={userInput['saswp-other-images'] == 1 ? true:false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Add All Available Images On Post', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('It adds all the available images on a post to schema markup', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
-                <input name="saswp-multiple-size-image" checked={userInput['saswp-multiple-size-image']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-multiple-size-image" checked={userInput['saswp-multiple-size-image'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Allow Multiple Size Image Creation', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('According to Google, For best results, multiple high-resolution images with the following aspect ratios: 16x9, 4x3, and 1x1 should be there', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
                 <label className="form-check form-group toggle">
-                <input name="saswp-rss-feed-image" checked={userInput['saswp-rss-feed-image']} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                <input name="saswp-rss-feed-image" checked={userInput['saswp-rss-feed-image'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Add Featured Image in RSS feed', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('Showing images alongside news/blogs if your website or blog appears in Google News', 'schema-and-structured-data-for-wp')}</p>
                 </label>
@@ -1215,7 +1262,7 @@ useEffect(() => {
       }
     })()}
     <div className="saswp-save-settings-btn">
-      {isLoaded ? <Button  success onClick={saveSettingsHandler}>              
+      {isSaved ? <Button  success onClick={saveSettingsHandler}>              
         {__('Save Settings', 'schema-and-structured-data-for-wp')}
       </Button> : <Button  success loading>  Loading success</Button>                      
       }

@@ -516,7 +516,7 @@ class SASWP_Gutenberg {
                 
                 if(!empty($attributes['tools'])){
                     
-                    echo '<h5>'.saswp_label_text('translation-tools').'</h5>';
+                    echo '<h5>'.saswp_t_string(saswp_label_text('translation-tools')).'</h5>';
                     
                     echo '<ul>';
                     foreach($attributes['tools'] as $val){
@@ -535,7 +535,7 @@ class SASWP_Gutenberg {
                 
                 if(!empty($attributes['materials'])){
                     
-                    echo '<h5>'.saswp_label_text('translation-materials').'</h5>';  
+                    echo '<h5>'.saswp_t_string(saswp_label_text('translation-materials')).'</h5>';  
                     
                     echo '<ul>';
                     foreach($attributes['materials'] as $val){

@@ -1,6 +1,78 @@
 var saswp_attached_rv  = [];  
 var saswp_attached_col = [];  
+var rmv_boolean        = false;
+var rmv_html           = '';
 jQuery(document).ready(function($){
+
+  function saswp_get_collection_condition_list_ajax(condition){
+
+    if(condition){
+
+      $.ajax({
+        url : ajaxurl,
+        method : "GET",
+        data: { 
+          action: "saswp_get_select2_data", 
+          type: condition,  
+          q: '',                      
+          saswp_security_nonce:saswp_localize_data.saswp_security_nonce
+        },
+        beforeSend: function(){ 
+
+        },
+        success: function(result){ 
+                    
+          if(result){
+
+            var html = '';
+
+              $.each(result, function(index, data){
+                html +='<option value="'+data.id+'">'+data.text+'</option>';      
+              });
+
+              $(".saswp-collection-where-data").html('');
+              $(".saswp-collection-where-data").append(html);
+              saswp_select2();
+          }
+
+        },
+        error: function(data){
+          console.log("Failed Ajax Request");
+          console.log(data);
+        }
+      }); 
+
+    }
+
+  }
+
+  $(document).on("change", ".saswp-collection-where", function(){
+
+    var current   = $(this);
+    var condition = $(this).val();   
+  
+      if(condition){
+
+        saswp_get_collection_condition_list_ajax(condition);
+
+      }
+    
+  });
+
+  $(".saswp-collection-display-method").change(function(){
+
+    var type = $(this).val();
+    
+    if(type == 'shortcode'){
+      $(".saswp-coll-where").addClass('saswp_hide');
+      $("#saswp-motivatebox").css("display", "block");
+    }else{
+      $(".saswp-coll-where").removeClass('saswp_hide');
+      $("#saswp-motivatebox").css("display", "none");
+    }
+
+  }).change();
+  
 
   $(document).on("click", ".saswp-dismiss-notices", function(){
     var current = $(this);
@@ -513,12 +585,18 @@ jQuery(document).ready(function($){
            || schematype == 'Review'
 
            ){
-
+                        
             $(".saswp-enable-append-reviews").parent().parent().show();
         }else{
             $(".saswp-enable-append-reviews").parent().parent().hide();
         }
 
+
+        if(schematype == 'VideoObject'){
+          $(".saswp-enable-markup-class").parent().parent().show();
+        }else{
+          $(".saswp-enable-markup-class").parent().parent().hide();
+        }
 
         if(schematype == 'local_business'){
          $(".saswp-option-table-class tr").eq(1).show();   
@@ -627,6 +705,12 @@ jQuery(document).ready(function($){
                 $(".saswp-enable-append-reviews").parent().parent().hide();
             }
             
+            if(schematype == 'VideoObject'){
+              $(".saswp-enable-markup-class").parent().parent().show();
+            }else{
+              $(".saswp-enable-markup-class").parent().parent().hide();
+            }
+            
             if(schematype == 'local_business'){
                 $(".saswp-"+businesstype+'-tr').show(); 
                 $(".saswp-business-text-field-tr").show(); 
@@ -731,6 +815,15 @@ jQuery(document).ready(function($){
                               $("#saswp-yotpo").val(1);                                
                             }else{
                               $("#saswp-yotpo").val(0);                                          
+                            }
+                      break;
+
+                      case 'saswp-ryviu-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ryviu").val(1);                                
+                            }else{
+                              $("#saswp-ryviu").val(0);                                          
                             }
                       break;
 
@@ -881,14 +974,26 @@ jQuery(document).ready(function($){
                               $("#saswp_search_box_schema").val(0);           
                             }
                       break;
+
+                      case 'saswp_breadcrumb_remove_cat_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_breadcrumb_remove_cat").val(1);             
+                            }else{
+                              $("#saswp_breadcrumb_remove_cat").val(0);           
+                            }
+                      break;
                       
                       case 'saswp_breadcrumb_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp_breadcrumb_schema").val(1);             
+                              $("#saswp_breadcrumb_schema").val(1);  
+                              $("#saswp_breadcrumb_remove_cat").parent().parent().show();             
                             }else{
                               $("#saswp_breadcrumb_schema").val(0);           
+                              $("#saswp_breadcrumb_remove_cat").parent().parent().hide();  
                             }
+
                       break;
                                                                   
                       case 'saswp_comments_schema_checkbox':
@@ -938,6 +1043,37 @@ jQuery(document).ready(function($){
                               $("#saswp-kk-star-raring").val(0);           
                             }
                       break;
+
+                      case 'saswp-rmprating-checkbox':
+                          
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-rmprating").val(1);             
+                            }else{
+                              $("#saswp-rmprating").val(0);           
+                            }
+                      break;
+
+                      case 'saswp-ratingform-checkbox':
+                          
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ratingform").val(1);             
+                            }else{
+                              $("#saswp-ratingform").val(0);           
+                            }
+                      break;
+
+                      case 'saswp-wpdiscuz-checkbox':
+                          
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpdiscuz").val(1);             
+                            }else{
+                              $("#saswp-wpdiscuz").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp-yet-another-stars-rating-checkbox':
                           
                           saswp_compatibliy_notes(current, id); 
@@ -962,6 +1098,15 @@ jQuery(document).ready(function($){
                               $("#saswp-woocommerce").val(1);                              
                             }else{
                               $("#saswp-woocommerce").val(0);                                         
+                            }
+                      break;
+
+                      case 'saswp-wpecommerce-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpecommerce").val(1);                              
+                            }else{
+                              $("#saswp-wpecommerce").val(0);                                         
                             }
                       break;
                       
@@ -1009,6 +1154,15 @@ jQuery(document).ready(function($){
                               $("#saswp-dw-question-answer").val(0);           
                             }
                       break;
+
+                      case 'saswp-wpqa-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpqa").val(1);             
+                            }else{
+                              $("#saswp-wpqa").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-wp-job-manager-checkbox':
                           saswp_compatibliy_notes(current, id); 
@@ -1025,6 +1179,33 @@ jQuery(document).ready(function($){
                               $("#saswp-yoast").val(1);             
                             }else{
                               $("#saswp-yoast").val(0);           
+                            }
+                      break;
+
+                      case 'saswp-polylang-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-polylang").val(1);             
+                            }else{
+                              $("#saswp-polylang").val(0);           
+                            }
+                      break;
+
+                      case 'saswp-metatagmanager-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-metatagmanager").val(1);             
+                            }else{
+                              $("#saswp-metatagmanager").val(0);           
+                            }
+                      break;
+
+                      case 'saswp-slimseo-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-slimseo").val(1);             
+                            }else{
+                              $("#saswp-slimseo").val(0);           
                             }
                       break;
                      
@@ -1473,6 +1654,16 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
+
+                      case 'saswp-brb-checkbox':
+                          
+                            if ($(this).is(':checked')) {
+                              $("#saswp-brb").val(1);                                
+                            }else{
+                              $("#saswp-brb").val(0);                                          
+                            }
+                            
+                      break;
                       
                       case 'saswp-testimonial-pro-checkbox':
                           
@@ -1506,10 +1697,87 @@ jQuery(document).ready(function($){
                       
                       case 'saswp-ampbyautomatic-checkbox':
                            saswp_compatibliy_notes(current, id); 
-                            if ($(this).is(':checked')) {              
+                            if ($(this).is(':checked')) {                                            
+
                               $("#saswp-ampbyautomatic").val(1);                                
                             }else{
                               $("#saswp-ampbyautomatic").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-wpreviewpro-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {                                            
+
+                              $("#saswp-wpreviewpro").val(1);                                
+                            }else{
+                              $("#saswp-wpreviewpro").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-webstories-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {                                            
+
+                              $("#saswp-webstories").val(1);                                
+                            }else{
+                              $("#saswp-webstories").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-resized-image-folder-checkbox':
+                      
+                            var resized_id = $("#saswp-resized-image-folder-checkbox");
+
+                            if ($(this).is(':checked')) {              
+
+                              $.ajax({
+                                type: "POST",    
+                                url:ajaxurl,                    
+                                dataType: "json",
+                                data:{action:"saswp_create_resized_image_folder", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                success:function(response){   
+                                  
+                                  if(response.status == 't'){
+                                    $("#saswp-resized-image-folder").val(1);                                
+                                  }else{
+                                    resized_id.prop("checked", false);
+                                    resized_id.next().text(response.message);
+                                    resized_id.next().css('color', 'red');
+                                  }
+
+                                },
+                                error: function(response){                    
+                                    resized_id.prop("checked", false);
+                                    resized_id.next().text(response);
+                                    resized_id.next().css('color', 'red');
+                                }
+                                });
+                                                                                         
+                            }else{
+                              $("#saswp-resized-image-folder").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-elementor-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-elementor").val(1);                                
+                            }else{
+                              $("#saswp-elementor").val(0);                                          
+                            }                            
+                      break;
+
+                      case 'saswp-rannarecipe-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-rannarecipe").val(1);                                
+                            }else{
+                              $("#saswp-rannarecipe").val(0);                                          
                             }
                             
                       break;
@@ -2185,7 +2453,7 @@ jQuery(document).ready(function($){
             var message     = $("#saswp_query_message").val();  
             var email       = $("#saswp_query_email").val();  
             var premium_cus = $("#saswp_query_premium_cus").val(); 
-            console.log(saswpIsEmail(email));
+            
             if($.trim(message) !='' && premium_cus && $.trim(email) !='' && saswpIsEmail(email) == true){
              $.ajax({
                             type: "POST",    
@@ -2424,6 +2692,8 @@ jQuery(document).ready(function($){
         
         if(hash == '#saswp-default-container'){
             $('.saswp-global-container:eq(2)').show();
+        }else if(hash == '#saswp-knowledge-container'){
+            $('.saswp-global-container:eq(1)').show();
         }else{
             $('.saswp-global-container:first').show();
         }
@@ -2780,6 +3050,7 @@ jQuery(document).ready(function($){
                 html += '<p>Use Below shortcode to show reviews form in your website. Using this you can accept reviews from your website directly</p>';
                 html += '<div class="saswp-show-form-on-tab"><strong>Simple Form</strong> <input value="[saswp-reviews-form]" type="text" readonly></div>';
                 html += '<div class="saswp-show-form-on-tab"><strong>Show form on button tap</strong> <input value="[saswp-reviews-form onbutton=&quot;1&quot;]" type="text" readonly></div>';
+                html += '<p><strong>Note:</strong> To enable google reCAPTCHA v2 add SITE KEY & SECRET KEY respectively as parameters in above shortcode. Eg <input value="[saswp-reviews-form site_key=&quot;your key&quot; secret_key=&quot;your key&quot;]" type="text" readonly>. To get keys <a target="_blank" href="https://www.google.com/recaptcha/admin/create">Click here.</a> You must choose reCAPTCHA type v2 </p>'
                 html += '</div>';
                 html += '</div>';
                 
@@ -2794,18 +3065,40 @@ jQuery(document).ready(function($){
             jQuery(jQuery(".wrap")).prepend(html);
             
         }
-                
+        // Offer Banner addition
+        // if('saswp_reviews' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'edit.php'){
+
+        //   var offer_banner = '<a style="background: #ca4a1f;color: #fff;border-color:#ca4a1f;" target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="page-title-action saswp-offer-banner">50% OFF for Limited time</a>';
+        //   jQuery(jQuery(".wrap .page-title-action")).after(offer_banner);
+
+        // }
+
+
+        // if('saswp' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'post.php'){
+
+        //   var offer_banner = '<a style="background: #ca4a1f;color: #fff;border-color:#ca4a1f;" target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="page-title-action saswp-offer-banner">50% OFF for Limited time</a>';
+        //   jQuery(jQuery(".wrap a")[0]).after(offer_banner);
+
+        // }
+
         if ('saswp' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'edit.php') {
         
+          // Offer Banner addition
+
+          //var offer_banner = '<a style="background: #ca4a1f;color: #fff;border-color:#ca4a1f;" target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="page-title-action saswp-offer-banner">50% OFF for Limited time</a>';
+          
+          //jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>"+offer_banner);
+
           jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>");
          
         }
         
         //star rating stars here
-            if(typeof(saswp_reviews_data) !== 'undefined'){
-            console.log(saswp_reviews_data.rating_val);
+            if(typeof(saswp_reviews_data) !== 'undefined'){                          
+
              $(".saswp-rating-div").rateYo({
               spacing: "5px",  
+              rtl:saswp_localize_data.is_rtl,
               rating: saswp_reviews_data.rating_val,                           
               readOnly: saswp_reviews_data.readonly,
               onSet: function (rating, rateYoInstance) {
@@ -2838,8 +3131,119 @@ jQuery(document).ready(function($){
             
             //Collection js start here
             
-               saswpCollectionSlider();
-               
+            saswpCollectionSlider();
+                                              
+            
+            
+
+            $(document).on("click", ".saswp-add-rv-btn", function(){
+
+              $(".saswp-dynamic-platforms").toggle();
+              
+            });
+
+            $(".saswp-rmv-coll-rv").on("click", function(){
+
+              rmv_boolean = rmv_boolean ? false : true;                             
+              
+              //var new_coll = saswp_total_collection.map(v => Object.assign(v, {is_remove: rmv_boolean}));
+
+              //if(new_coll){
+                
+                //saswp_total_collection = new_coll;
+                saswp_on_collection_design_change();
+
+                jQuery(jQuery(".saswp-add-dynamic-section")).remove();
+
+                if(rmv_boolean){
+                  var html ='';
+                  html +='<div class="saswp-add-dynamic-section">';
+                  html += '<div class="saswp-add-dynamic-btn">';
+                  html +='<span class="dashicons dashicons-plus-alt saswp-add-rv-btn"></span>';
+                  html += '</div>';
+                  html +='<div class="saswp-dynamic-platforms" style="display:none;">';
+                  var platforms_html = jQuery("#saswp-plaftorm-list").html();
+                  html +='<select name="saswp_dynamic_platforms" id="saswp_dynamic_platforms"><option value="">Choose Platform</option>'+platforms_html+'</select>';
+                  html +='</div>';                    
+                  html +='</div>';
+                
+                  jQuery(jQuery(".saswp-collection-preview")[0]).after(html);                
+                }
+                
+             // }              
+                            
+            }); 
+            $(document).on("change", "#saswp_dynamic_platforms", function(){
+
+              var platform_id = $(this).val();
+              
+              if(platform_id){
+                
+                jQuery.get(ajaxurl, 
+                  { action:"saswp_add_to_collection", rvcount:'', platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                  
+                   function(response){                                  
+         
+                   if(response['status']){   
+                           
+                        if(response['message']){
+
+                          var option = '';
+                          $.each(response['message'], function(i, e){
+                              option += '<option value="'+e.saswp_review_id+'">'+e.saswp_reviewer_name+' ( '+e.saswp_review_rating+' ) </option>';
+                          });
+
+                          if(option){
+                            var html  = '';
+                                html += '<select id="saswp_dynamic_reviews_list" class="saswp-select2">';
+                                html += option;
+                                html += '</select>';
+                                html += '<a class="button button-default saswp-add-single-rv">Add</a>';
+
+                                $("#saswp_dynamic_platforms").nextAll().remove();
+                                $("#saswp_dynamic_platforms").after(html);
+
+                                saswp_select2();
+                          }
+
+                        }                                                                                              
+                   }                                                                    
+                   
+                  },'json');
+
+              }
+                
+            });
+
+            $(document).on("click", ".saswp-add-single-rv", function(e) {
+              e.preventDefault();
+
+              var review_id   = $("#saswp_dynamic_reviews_list").val();
+              var platform_id = $("#saswp_dynamic_platforms").val();
+              var is_remove   = true;
+              if(review_id){
+                saswp_get_collection_data(null, platform_id, null, review_id, is_remove);
+              }
+              
+
+            });
+              
+            $(document).on("click" ,".saswp-remove-coll-rv", function(){
+
+                var review_id     = $(this).attr('data-id');                
+                var platform_id = $(this).attr('platform-id');                
+                
+                if(platform_id){
+
+                  var myarray = saswp_collection[platform_id].filter(function( obj ) {
+                    return obj.saswp_review_id != review_id;
+                  });
+                  saswp_collection[platform_id] = myarray;                
+                  saswp_on_collection_design_change();
+
+                }
+                                                                
+            })
                
             $(document).on("click", ".saswp-grid-page", function(e){
                 e.preventDefault();
@@ -2911,9 +3315,13 @@ jQuery(document).ready(function($){
                 
                 $(".saswp-coll-options").addClass('saswp_hide');
                 $(".saswp-collection-lp").css('height', 'auto'); 
-                
+                $(".saswp-rmv-coll-rv").hide();
+                $(".saswp-add-dynamic-section").hide();
+
                 if(design == 'grid'){
                     $(".saswp-grid-options").removeClass("saswp_hide");
+                    $(".saswp-rmv-coll-rv").show();
+                    $(".saswp-add-dynamic-section").show();
                 }
                 
                 if(design == 'gallery'){                    
@@ -2945,7 +3353,7 @@ jQuery(document).ready(function($){
                     
                     current.addClass('updating-message');
                     
-                    saswp_get_collection_data(rvcount, platform_id, current);
+                    saswp_get_collection_data(rvcount, platform_id, current, null);
                     
                 }else{
                     
@@ -2954,33 +3362,15 @@ jQuery(document).ready(function($){
                 }
                 
             });
-            
-            var collection_id  = $("#saswp_collection_id").val();
-            
-            if(collection_id){
+                        
+            var reviews_list   = $("#saswp_total_reviews_list").val();
+
+            if(reviews_list){
                 
-               $('.spinner').addClass('is-active');
-                
-                $.get(ajaxurl, 
-                             { action:"saswp_get_collection_platforms", collection_id:collection_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                             
-                              function(response){                                  
-                                                                                    
-                              if(response['status']){   
-                                      
-                                        var res_json = response['message'];
-                                        
-                                        $.each(res_json, function(i, e){
-                                            saswp_get_collection_data(e, i, null);
-                                        });
-                                                                                                                                                                                         
-                              }
-                              $('.spinner').removeClass('is-active');
-                                                                                                                     
-                             },'json');
-                
+              saswp_get_collection_data(null, null, null, null, reviews_list);
+                                           
             }
-            
+                                    
             //Collection js ends here
 
 
@@ -3029,7 +3419,7 @@ function copySelectionText(){
 return copysuccess
 }
 
-var motivatebox = document.getElementById('motivatebox')
+var motivatebox = document.getElementById('saswp-motivatebox')
  
 if(motivatebox){
 

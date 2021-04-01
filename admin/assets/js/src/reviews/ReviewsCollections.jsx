@@ -102,7 +102,7 @@ useEffect(() => {
     <div className="card saswp-reviews-list-card">
         <div className="card-body">
          <div className="saswp-heading-top">
-             <div><h4>Collections ({postsCount})</h4> </div>
+             <div>{postsCount > 0 ? <h4>Collections ({postsCount})</h4> : ''} </div>
              <div>
              <Link className="btn btn-success"  to={'admin.php?page=saswp&path=reviews_collections_single'}><Icon style={{'marginRight': '7px'}}>plus_rounded</Icon>{__('Create Collection', 'schema-and-structured-data-for-wp')}</Link>                                                                
              </div>
@@ -155,8 +155,8 @@ useEffect(() => {
             
           </div>          
           
-          : <div>Collection not found. 
-            <Link className="btn btn-success"  to={'admin.php?page=saswp&path=reviews_collections_single'}>{__('Create Collection', 'schema-and-structured-data-for-wp')}</Link>
+          : <div className="saswp-not-found">Collections not found. 
+            <Link className="btn btn-success"  to={'admin.php?page=saswp&path=reviews_collections_single'}><Icon style={{'marginRight': '7px'}}>plus_rounded</Icon>{__('Create Collection', 'schema-and-structured-data-for-wp')}</Link>
           </div>  
           
            } 

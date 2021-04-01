@@ -2,7 +2,6 @@
        var saswp_meta_fields      = [];
        var saswp_meta_list_fields = []; 
        var saswp_taxonomy_term    = []; 
-       
        var saswp_collection       = [];
        var saswp_total_collection = [];
        var saswp_total_reviews     = [];
@@ -16,10 +15,25 @@
            if(date_str){
                
              var date_string = new Date(date_str); 
-             
+             var d = date_string.getDate();
+             var m =  date_string.getMonth();
+                 m += 1;  // JavaScript months are 0-11
+             var y = date_string.getFullYear();
+
+             var formated_date = date_string.toLocaleDateString();
+
+             var date_format = jQuery(".saswp-collection-date-format").val();
+
+             if(date_format && date_format == 'Y-m-d'){
+                formated_date = y + "-" + m + "-" + d;
+             }
+             if(date_format && date_format == 'd-m-Y'){
+                formated_date = d + "-" + m + "-" + y;
+             }
+
                date_time = {
                    time : date_string.toLocaleTimeString(),
-                   date : date_string.toLocaleDateString()
+                   date : formated_date
                };
            }else{
               date_time = {
@@ -435,7 +449,14 @@
                                              
                if(saswp_collection[key]){
                    
-                   jQuery.each(saswp_collection[key], function(index, value){                                               
+                   jQuery.each(saswp_collection[key], function(index, value){      
+                    
+                        if(rmv_boolean){
+                            value.is_remove = true; 
+                        }else{
+                            value.is_remove = false; 
+                        }
+                    
                         saswp_total_collection.push(value);
                    
                     });
@@ -505,12 +526,15 @@
            
             var platform_list = '';
             
-            platform_list += '<div class="cancel-btn">';
-            platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span><span>('+rvcount+')</span>';
-            platform_list += '<input type="hidden" name="saswp_platform_ids['+key+']" value="'+rvcount+'">';
-            platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform"></a>';
-            platform_list += '</div>';
-            
+            if(rvcount > 0){
+                
+                platform_list += '<div class="cancel-btn">';
+                platform_list += '<span>'+jQuery("#saswp-plaftorm-list option[value="+key+"]").text()+'</span><span>('+rvcount+')</span>';
+                platform_list += '<input type="hidden" name="saswp_platform_ids['+key+']" value="'+rvcount+'">';
+                platform_list += '<a platform-id="'+key+'" class="button button-default saswp-remove-platform"></a>';
+                platform_list += '</div>';
+            }
+                        
             return platform_list;
                                    
        }
@@ -1068,7 +1092,7 @@
                    
                });
                
-               var html = '<input type="hidden" name="saswp_total_reviews" value="'+JSON.stringify(saswp_total_reviews)+'">';
+               var html = '<input type="hidden" id="saswp_total_reviews_list" name="saswp_total_reviews" value="'+JSON.stringify(saswp_total_reviews)+'">';
                
                jQuery(".saswp-total-reviews-list").html('');                
                jQuery(".saswp-total-reviews-list").append(html); 
@@ -1081,7 +1105,7 @@
                 var html          = '';                
                 var grid_cols     = '';
                 var page_count    = 0;
-                
+
                 if(saswp_total_collection.length > 0){
                     
                     page_count = Math.ceil(saswp_total_collection.length / perpage);
@@ -1135,9 +1159,14 @@
                             html += '</div>';
                             
                             html += '</div>';
-                            html +='<div class="saswp-rc-cnt">';
+                            html += '<div class="saswp-rc-cnt">';
                             html += '<p>'+value.saswp_review_text+'</p>';
                             html += '</div>';
+
+                            if(value.is_remove){
+                                html += '<span platform-id="'+value.saswp_review_platform+'" data-id="'+value.saswp_review_id+'" class="dashicons dashicons-remove saswp-remove-coll-rv"></span>';
+                            }
+                            
                             html += '</li>';
                                                                                   
                         });
@@ -1166,7 +1195,7 @@
                         html += '</div>';                        
                         
                     }
-                                   
+                                                    
                     html += '</div>';
                                                                                 
                 }
@@ -1258,22 +1287,31 @@
            
        }  
        
-       function saswp_get_collection_data(rvcount, platform_id, current = null){
+       function saswp_get_collection_data(rvcount, platform_id, current = null, review_id =  null, reviews_ids = null){
            
             jQuery.get(ajaxurl, 
-                             { action:"saswp_add_to_collection", rvcount:rvcount, platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                             { action:"saswp_add_to_collection", rvcount:rvcount, reviews_ids:reviews_ids, review_id:review_id, platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                              
                               function(response){                                  
                     
                               if(response['status']){   
-                                      
-                                        var res_json = response['message'];
-                                                                            
-                                        saswp_collection[platform_id] = res_json;
-                                      
-                                        saswp_collection[platform_id] = jQuery.extend(saswp_collection[platform_id], res_json);
-                                                                                                                                                                                                                                                                                                       
-                                        saswp_on_collection_design_change();
+                                                                      
+                                jQuery.each(response['message'], function(index, value){
+
+                                    var id = JSON.parse(value.saswp_review_platform);
+                                    var narr =  [];
+                                    narr.push(value);
+
+                                    if(typeof(saswp_collection[id]) == 'undefined'){
+                                        saswp_collection[id] = narr;
+                                    }else{
+                                        var result = [...new Set([...saswp_collection[id], ...narr])];
+                                        saswp_collection[id] = result;
+                                    }
+                                    
+                                 });
+
+                                saswp_on_collection_design_change();
                                                                             
                               }
                               
@@ -1284,6 +1322,7 @@
                              },'json');
            
        }
+       
        
 function saswpIsEmail(email) {
         var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;

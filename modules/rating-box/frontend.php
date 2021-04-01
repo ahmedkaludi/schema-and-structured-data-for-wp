@@ -149,9 +149,7 @@ Class saswp_rating_box_frontend{
             $saswp_review_details           = array();                      
             $saswp_review_item_feature      = array();
             $saswp_review_item_star_rating  = array();
-            $saswp_review_title             = '';
-            $saswp_review_description_title = '';
-            
+                                    
             $saswp_review_details           = get_post_meta(get_the_ID(), 'saswp_review_details', true);             
             $saswp_review_description       = get_post_meta( get_the_ID(), 'saswp-review-item-description', true );
             $saswp_review_props             = get_post_meta( get_the_ID(), 'saswp-review-item-props', true );
@@ -163,14 +161,7 @@ Class saswp_rating_box_frontend{
             }
             if(isset($saswp_review_details['saswp-review-item-star-rating'])){
                 $saswp_review_item_star_rating = $saswp_review_details['saswp-review-item-star-rating'];    
-            }
-            if(isset($saswp_review_details['saswp-review-item-title'])){
-                $saswp_review_title = $saswp_review_details['saswp-review-item-title'];    
-            }
-            if(isset($saswp_review_details['saswp-review-item-description-title'])){
-                $saswp_review_description_title = $saswp_review_details['saswp-review-item-description-title'];    
-            }
-           
+            }                                   
             if(isset($saswp_review_details['saswp-review-item-over-all'])){
                 $saswp_over_all_rating = (float)$saswp_review_details['saswp-review-item-over-all'];    
             }    
@@ -182,11 +173,11 @@ Class saswp_rating_box_frontend{
              $boxdata .='
                 <div class="saswp-pc-wrap">
                     <div class="saswp-lst">
-                        <span>'.saswp_label_text('translation-pros').'</span><br>
+                        <span>'.saswp_t_string(saswp_label_text('translation-pros')).'</span><br>
                          '.wpautop( stripslashes ( $saswp_review_props ) ).'
                     </div>
                     <div class="saswp-lst">   
-                        <span>'.saswp_label_text('translation-cons').'</span><br>
+                        <span>'.saswp_t_string(saswp_label_text('translation-cons')).'</span><br>
                         '.wpautop( stripslashes ( $saswp_review_cons ) ).'
                     </div>
                 </div>';   
@@ -198,7 +189,7 @@ Class saswp_rating_box_frontend{
                 $boxdata.='<table class="saswp-rvw">
                         <tbody>
                         <div class="saswp-rvw-hd">
-                            <span>'.saswp_label_text('translation-review-overview').'</span>
+                            <span>'.saswp_t_string(saswp_label_text('translation-review-overview')).'</span>
                         </div>';  
                   
                 if(isset($saswp_review_item_feature)){
@@ -215,7 +206,7 @@ Class saswp_rating_box_frontend{
                 }                                                                                                              
                 $boxdata.='<tr>
                             <td class="saswp-rvw-sm">
-                                <span>'.esc_html__('SUMMARY', 'schema-and-structured-data-for-wp').'</span>
+                                <span>'.saswp_t_string('SUMMARY').'</span>
                                 <div class="rvw-dsc">
                                 '.wpautop( stripslashes ( $saswp_review_description ) ).'
                                 </div>

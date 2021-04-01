@@ -15,7 +15,8 @@ if ( ! defined('ABSPATH') ) exit;
      * List of hooks used in this context
      */
     add_action( 'admin_init', 'saswp_import_all_settings_and_schema',9);
-    add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema');  
+    add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema'); 
+    add_action( 'wp_ajax_saswp_download_csv_review_format', 'saswp_download_csv_review_format');  
     add_action( 'plugins_loaded', 'saswp_defaultSettings' );
     add_action( 'wp_enqueue_scripts', 'saswp_frontend_enqueue' );
     add_action( 'amp_post_template_css','saswp_enqueue_amp_script');
@@ -178,6 +179,30 @@ if ( ! defined('ABSPATH') ) exit;
        }                                    
                                                              
     }   
+
+    function saswp_download_csv_review_format(){
+
+        if ( ! current_user_can( saswp_current_user_can() ) ) {
+            return;
+        }
+        if ( ! isset( $_GET['_wpnonce'] ) ){
+                return; 
+        }
+
+        if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
+                return;  
+        }
+                                                                   
+       $data = "Author, Author Url, Author Image, Date, Time, Rating, Title, Text, Platform, Language";
+
+       header('Content-Type: text/csv; charset=utf-8');
+       header('Content-disposition: attachment; filename=reviewscsv.csv');
+       echo $data;   
+                                     
+       wp_die();
+
+
+    }
     /**
      * We are here exporting all schema types and its settings as a backup file     
      * @global type $wpdb
@@ -218,7 +243,7 @@ if ( ! defined('ABSPATH') ) exit;
                         foreach($all_schema_post as $schema){    
 
                         $export_data[$schema->ID]['post']      = (array)$schema;                    
-                        $post_meta                             = get_post_meta($schema->ID, $key='', true );    
+                        $post_meta                             = get_post_meta($schema->ID);    
 
                         if($post_meta){
 
@@ -312,9 +337,8 @@ if ( ! defined('ABSPATH') ) exit;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
                 $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                 
-                $schema_post_meta       = get_post_meta($schema->ID, $key='', true ); 
-                $schema_post_types      = get_post_meta($schema->ID, $key='_schema_post_types', true );                  
-                $schema_post_meta_box   = get_post_meta($schema->ID, $key='_schema_post_meta_box', true );
+                $schema_post_meta       = get_post_meta($schema->ID); 
+                $schema_post_types      = get_post_meta($schema->ID, $key='_schema_post_types', true );                                  
                 
                 $data_group_array = array();
                 
@@ -336,12 +360,9 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     }                                        
                 }                                
-                $schema_type         ='';
-                $schema_article_type ='';                                                
                 
-                if(isset($schema_post_meta['_schema_type'])){
-                  $schema_type = $schema_post_meta['_schema_type'];  
-                }
+                $schema_article_type ='';                                                
+
                 if(isset($schema_post_meta['_schema_article_type'])){
                   $schema_article_type = $schema_post_meta['_schema_article_type'][0];  
                 }                      
@@ -362,8 +383,7 @@ if ( ! defined('ABSPATH') ) exit;
               //Importing settings starts here
                             
                 $schema_plugin_options = get_option('schema_wp_settings');                                      
-                $custom_logo_id        = get_theme_mod( 'custom_logo' );
-                $logo                  = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+                $custom_logo_id        = get_theme_mod( 'custom_logo' );                
                                 
                 $saswp_plugin_options = array(                    
                     'sd_logo'   => array(
@@ -1244,8 +1264,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $result  = $post_id;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
                 $wpdb->get_results("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
-                
-                $schema_post_meta           = get_post_meta($schema->ID, $key='', true );                 
+                                             
                 $schema_post_types          = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-type', true );                   
                 $schema_post_meta_box       = get_post_meta($schema->ID, $key='bsf-aiosrs-'.$schema_post_types, true );                
                 $schema_enable_location     = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-location', true );
@@ -1441,12 +1460,7 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     }                  
                 }                                
-                $schema_type  = '';  
-                $local_name   = '';
-                $local_image  = '';
-                $local_phone  = '';
-                $local_url    = '';
-                $local_url    = '';
+                $schema_type  = '';                  
                 
                 if(isset($schema_post_types)){
                     
@@ -1509,8 +1523,7 @@ if ( ! defined('ABSPATH') ) exit;
               
                 $schema_pro_general_settings = get_option('wp-schema-pro-general-settings');  
                 $schema_pro_social_profile   = get_option('wp-schema-pro-social-profiles');
-                $schema_pro_global_schemas   = get_option('wp-schema-pro-global-schemas');
-                $schema_pro_settings         = get_option('aiosrs-pro-settings');                                 
+                $schema_pro_global_schemas   = get_option('wp-schema-pro-global-schemas');                                             
                 $logo                        = wp_get_attachment_image_src( $schema_pro_general_settings['site-logo-custom'] , 'full' );
                              
                 $saswp_plugin_options = array(
@@ -1782,26 +1795,10 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp-other-images'        => 1,
                         'saswp_default_review'      => 1,
                         'saswp-multiple-size-image' => 1,
-                        'saswp_social_links'        => array(),
-                        'saswp_kb_type'             => '',
-                        'sd_about_page'             => '',
-                        'sd_contact_page'           => '', 
+                        'instant_indexing_action'   => 1,
+                        'instant_indexing'          => array('post' => 1, 'page' => 1)   
 
                 );	  
-
-                //Merge plugins array starts here
-
-                //Merge plugins array ends here
-
-                //Merge translation array starts here
-
-                global $translation_labels;
-
-                if(is_array($translation_labels) && !empty($translation_labels)){
-                    $defaults = array_merge($defaults, $translation_labels);
-                }
-
-                //Merge translation array ends here
                 
                 if(is_array($logo)){
 
@@ -1999,7 +1996,7 @@ if ( ! defined('ABSPATH') ) exit;
         
         if(is_object($post)){
             $content = get_post_field('post_content', $post->ID);            
-            $content = wp_strip_all_tags(strip_shortcodes($content));   
+            $content = wp_strip_all_tags($content);   
             $content = preg_replace('/\[.*?\]/','', $content);            
             $content = str_replace('=', '', $content); 
             $content = str_replace(array("\n","\r\n","\r"), ' ', $content);
@@ -2007,6 +2004,16 @@ if ( ! defined('ABSPATH') ) exit;
         
         return apply_filters('saswp_the_content' ,$content);
 
+    }
+
+    function saswp_strip_all_tags( $content ) {
+            
+            $content = wp_strip_all_tags($content);   
+            $content = preg_replace('/\[.*?\]/','', $content);            
+            $content = str_replace('=', '', $content); 
+            $content = str_replace(array("\n","\r\n","\r"), ' ', $content);
+
+            return $content;
     }
     /**
      * Here we are modifying the default excerpt
@@ -2054,6 +2061,16 @@ if ( ! defined('ABSPATH') ) exit;
 
                 $excerpt = $yoast_meta_des;
 
+            }
+
+        }
+
+        if(saswp_remove_warnings($sd_data, 'saswp-slimseo', 'saswp_string') == 1){
+
+            $slim_seo = get_post_meta( $post->ID, 'slim_seo', true );
+            
+            if(isset($slim_seo['description']) && $slim_seo['description'] != ''){
+                $excerpt = $slim_seo['description'];
             }
 
         }
@@ -2138,6 +2155,30 @@ if ( ! defined('ABSPATH') ) exit;
                 $excerpt = $c_excerpt;
             }
         
+        }
+
+        if( isset($sd_data['saswp-metatagmanager']) && $sd_data['saswp-metatagmanager'] == 1 && class_exists('Meta_Tag_Manager') ){
+
+            $post_meta = get_post_meta($post->ID, 'mtm_data', true);
+            
+            if(is_array($post_meta)){
+
+                $meta_tag = array_column($post_meta, 'value');
+            
+                $key      = array_search("description",$meta_tag);
+                
+                if(array_key_exists($key, $post_meta)){
+                    
+                    $c_excerpt = $post_meta[$key]['content'];
+                    
+                    if($c_excerpt){
+                        $excerpt = $c_excerpt;
+                    }
+
+                }
+
+            }            
+                            
         }
             
         }
@@ -2269,15 +2310,31 @@ if ( ! defined('ABSPATH') ) exit;
                                                                             
         }
         
+        //Slim Seo
+        if(saswp_remove_warnings($sd_data, 'saswp-slimseo', 'saswp_string') == 1){
+                          
+            
+            $slim_seo = get_post_meta( get_the_ID(), 'slim_seo', true );
+            
+            if(isset($slim_seo['title']) && $slim_seo['title'] != ''){
+                $title = $slim_seo['title'];
+            }
+            
+        }
+
         //The seo framework
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                           
+            if(is_object($post)){
+
                 $c_title = get_post_meta($post->ID, '_genesis_title', true);
                 
                 if($c_title){
                     $title = $c_title;
-                }                                
-                                      
+                }                
+
+            }
+                                                                                      
         }
         
         //SmartCrawl title
@@ -2642,7 +2699,7 @@ function saswp_get_taxonomy_term_list(){
            return;  
         }
         
-        $choices    = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
+        $choices    = array('all' => saswp_t_string('All'));
         $taxonomies = saswp_post_taxonomy_generator();        
         $choices    = array_merge($choices, $taxonomies);                                          
         echo wp_json_encode($choices);
@@ -2799,21 +2856,19 @@ function saswp_admin_notice(){
     
     $setup_notice = '<div class="updated notice message notice notice-alt saswp-setup-notice">'
                     . '<p>'
-                    . '<strong>'.esc_html__('Welcome to Schema & Structured Data For WP', 'schema-and-structured-data-for-wp').'</strong>'
-                    .' - '.esc_html__('You are almost ready :)', 'schema-and-structured-data-for-wp')
+                    . '<strong>'.saswp_t_string('Welcome to Schema & Structured Data For WP').'</strong>'
+                    .' - '.saswp_t_string('You are almost ready :)')
                     . '</p>'
                     . '<p>'
                     . '<a class="button button-primary" href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
-                    . esc_html__('Run the Setup Wizard', 'schema-and-structured-data-for-wp')
+                    . saswp_t_string('Run the Setup Wizard')
                     . '</a> '
                     .'<a class="button saswp-skip-button">'
-                    . esc_html__('Skip Setup', 'schema-and-structured-data-for-wp')
+                    . saswp_t_string('Skip Setup')
                     . '</a>'
                     . '</p>'
                     . '</div>';        
-    
-    
-          
+                                      
     $sd_data         = get_option('sd_data'); 
         
     if(($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') && !isset($sd_data['sd_initial_wizard_status'])){
@@ -2821,35 +2876,69 @@ function saswp_admin_notice(){
         echo $setup_notice;
         
     }     
-     //Feedback notice
+     //Feedback notice    
     $activation_date  =  get_option("saswp_activation_date");  
     $activation_never =  get_option("saswp_activation_never");      
     $next_days        =  strtotime("+7 day", strtotime($activation_date));
     $next_days        =  date('Y-m-d', $next_days);   
     $current_date     =  date("Y-m-d");
-    
+
+    $notice_msg = '';
+
+    if($activation_date){
+
+        $date1 = new DateTime($activation_date);
+        $date2 = new DateTime($current_date);
+        $diff = $date1->diff($date2);
+        
+        $notice_msg = ( ($diff->y > 0 ) ? $diff->y. ' years, ' : ''). ( ($diff->m > 0 ) ? $diff->m. ' month, ' : ''). ( ($diff->d > 0 ) ? floor($diff->d / 7). ' Week, ' : '');
+
+    }
+        
     if(($next_days < $current_date) && $activation_never !='never' ){
       ?>
-         <div class="updated notice message notice notice-alt saswp-feedback-notice">
-            <p><span class="dashicons dashicons-thumbs-up"></span> 
-            <?php echo esc_html__('You have been using the Schema & Structured Data for WP & AMP for some time. Now, Do you like it? If Yes.', 'schema-and-structured-data-for-wp') ?>
-            <a class="saswp-revws-lnk" target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"> <?php echo esc_html__('Rate Plugin', 'schema-and-structured-data-for-wp') ?></a>
-          </p>
+         <div class="updated notice message notice notice-alt saswp-feedback-notice">                         
+            <p class="saswp-notice-p">
+            <?php   echo saswp_t_string('Awesome, you\'ve been using '); 
+                    echo '<strong>' .saswp_t_string(' Schema & Structured Data '). '</strong>' ;
+                    echo saswp_t_string('plugin for more than '. $notice_msg);
+                    echo '<p class="saswp-notice-p">'.saswp_t_string('May we ask you to give it a 5-star rating on WordPress?').'</p>';                                     
+            ?>
+            <div>- SASWP dev team</div>
+            </p>                                                                        
+
             <div class="saswp-update-notice-btns">
-                <a  class="saswp-feedback-remindme"><?php echo esc_html__('Remind Me Later', 'schema-and-structured-data-for-wp') ?></a>
-                <a  class="saswp-feedback-no-thanks"><?php echo esc_html__('No Thanks', 'schema-and-structured-data-for-wp') ?></a>
+                <ul>
+                    <li><a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"><?php echo saswp_t_string('Ok, you deserve it') ?></a></li>
+                    <li><a  class="saswp-feedback-remindme"><?php echo saswp_t_string('Nope, May be later') ?></a></li>
+                    <li><a  class="saswp-feedback-no-thanks"><?php echo saswp_t_string('I already did') ?></a></li>
+                </ul>
             </div>
         </div>
         <?php
     }  
+    
+    if(isset($sd_data['sd_logo']['url']) && $sd_data['sd_logo']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
+
+        ?>
+        <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
+            <p>
+                  <span><?php echo saswp_t_string('Please setup Logo to avoid structured data validation issue.') ?> </span>                                               
+                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-knowledge-container' ) ); ?>"> <?php echo saswp_t_string('Please Setup') ?></a>
+            </p>
+        </div>
+
+      <?php   
         
+    }
+
     if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
 
         ?>
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
             <p>
-                  <span><?php echo esc_html__('You have not set up default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
-                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+                  <span><?php echo saswp_t_string('You have not set up default image in Schema & Structured Data For WP.') ?> </span>                                               
+                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo saswp_t_string('Please Setup') ?></a>
             </p>
         </div>
 
@@ -2862,7 +2951,7 @@ function saswp_admin_notice(){
         ?>
         <div class="updated notice is-dismissible message">
             <p>
-                  <span><?php echo esc_html__('You use Stars Rating plugin and has enabled Stars Rating option in Schema & Structured Data For WP & AMP. Use any one option for better comment form.', 'schema-and-structured-data-for-wp') ?> </span>                                                                
+                  <span><?php echo saswp_t_string('You use Stars Rating plugin and has enabled Stars Rating option in Schema & Structured Data For WP & AMP. Use any one option for better comment form.') ?> </span>                                                                
             </p>
         </div>
 
@@ -2878,9 +2967,9 @@ function saswp_admin_notice(){
         ?>
         <div class="updated notice message notice notice-alt saswp-feedback-notice">
            <p>
-           <?php echo esc_html__('You have disabled schema on AMP.', 'schema-and-structured-data-for-wp') ?>
-           &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=amp' ) ); ?>"> <?php echo esc_html__('Enable it', 'schema-and-structured-data-for-wp') ?></a>
-           <a notice-type="amp_enable" class="saswp-revws-lnk saswp-dismiss-notices"> <?php echo esc_html__('Dismiss', 'schema-and-structured-data-for-wp') ?></a>
+           <?php echo saswp_t_string('You have disabled schema on AMP.') ?>
+           &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=amp' ) ); ?>"> <?php echo saswp_t_string('Enable it') ?></a>
+           <a notice-type="amp_enable" class="saswp-revws-lnk saswp-dismiss-notices"> <?php echo saswp_t_string('Dismiss') ?></a>
          </p>           
        </div>
        <?php
@@ -2937,107 +3026,121 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
 function saswp_get_field_note($pname){
     
     $notes = array(  
-            'easy_recipe'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easyrecipe/">EasyRecipe</a>',
-            'total_recipe_generator'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/total-recipe-generator-wordpress-recipe-maker-with-schema-and-nutrition-facts-elementor-addon/21445400/">Total Recipe Generator</a>',
-            'yet_another_stars_rating'    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/yet-another-stars-rating/">Yet Another Stars Rating</a>',
-            'wp_customer_reviews'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-customer-reviews">WP Customer Reviews</a>',
-            'wordpress_news'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="#">Wordpress News</a>',
-            'strong_testimonials'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
-            'wp_event_aggregator'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-aggregator/">WP Event Aggregator</a>',
-            'stachethemes_event_calendar' => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="http://stachethemes.com/">Stachethemes Event Calendar</a>',
-            'timetable_event'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mp-timetable">Timetable and Event Schedule by MotoPress</a>',
-            'all_in_one_event_calendar'   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-event-calendar/">All In One Event Calendar</a>',
-            'xo_event_calendar'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/xo-event-calendar/">XO Event Calendar</a>',
-            'calendarize_it'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/calendarize-it-for-wordpress/2568439">Calendarize it! for WordPress</a>',
-            'events_schedule'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/events-schedule-wordpress-plugin/14907462">Events Schedule - WordPress Events Calendar Plugin</a>',
-            'woo_event_manager'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mage-eventpress/">WooCommerce Event Manager</a>',
-            'vs_event_list'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/very-simple-event-list/">Very Simple Event List</a>',
-            'event_on'                    => esc_html__('Event On','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.myeventon.com/">Event On</a>',
-            'wordlift'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
-            'ampforwp'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
-            'quickandeasyfaq'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/quick-and-easy-faqs/">Quick and Easy FAQs</a>',
-            'accordionfaq'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/responsive-accordion-and-collapse">Accordion FAQ</a>',
-            'webfaq10'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-wd/">10WebFAQ</a>',
-            'ultimatefaqs'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-faqs/">Ultimate FAQs</a>',
-            'easyaccordion'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-accordion-free/">Easy Accordion</a>',
-            'wpresponsivefaq'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/sp-faq">WP responsive FAQ with category plugin</a>',
-            'arconixfaq'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/arconix-faq/">Arconix FAQ</a>',
-            'faqconcertina'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-concertina/">FAQ Concertina</a>',
-            'masteraccordion'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-awesome-faq/">Master Accordion</a>',
-            'wpfaqschemamarkup'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-faq-schema-markup-for-seo/">WP FAQ Schema Markup for SEO</a>',
-            'faqschemaforpost'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-for-pages-and-posts/">FAQ Schema For Pages And Posts</a>',
-            'accordion'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accordions">Accordion By PickPlugins</a>',
-            'easyfaqs'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-faqs/">Easy FAQs</a>',
-            'html5responsivefaq'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/html5-responsive-faq/">HTML5 Responsive FAQ</a>',
-            'helpiefaq'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/helpie-faq/">Helpie FAQ – WordPress FAQ Accordion Plugin</a>',
-            'ampbyautomatic'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
-            'simplejobboard'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/simple-job-board/">Simple Job Board</a>',
-            'wpjobmanager'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">WP Job Manager</a>',
-            'wpjobopenings'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-job-openings/">WP Job Openings</a>',
-            'schemaforfaqs'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-markup-faq-structured-data/">FAQ Schema Markup</a>',
-            'betteramp'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">Better AMP</a>',
-            'wpamp'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
-            'ampwp'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
-            'kk_star_ratings'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
-            'simple_author_box'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/simple-author-box//">Simple Author Box</a>',
-            'wp_post_ratings'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
-            'bb_press'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
-            'woocommerce'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
-            'cooked'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
-            'the_events_calendar'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
-            'yoast_seo'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
-            'rank_math'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
-            'dw_qna'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
-            'sabaidiscuss'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://sabaidiscuss.com">SabaiDiscuss</a>',
-            'smart_crawl'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
-            'the_seo_framework'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
-            'seo_press'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
-            'aiosp'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
-            'squirrly_seo'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
-            'wp_recipe_maker'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
-            'wpzoom'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom">Recipe Card Blocks by WPZOOM</a>',        
-            'video_thumbnails'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/video-thumbnails/">Video Thumbnails</a>',        
-            'featured_video_plus'         => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/featured-video-plus/">Featured Video Plus</a>',        
-            'yotpo'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/yotpo-social-reviews-for-woocommerce/">Yotpo: Product & Photo Reviews for WooCommerce</a>',        
-            'starsrating'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/stars-rating">Stars Rating</a>',        
-            'ultimate_blocks'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-blocks">Ultimate Blocks – Gutenberg Blocks Plugin</a>',        
-            'wptastyrecipe'               => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.wptasty.com">WP Tasty Recipe</a>',        
-            'recipress'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipress">ReciPress</a>',        
-            'wp_ultimate_recipe'          => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-ultimate-recipe/">WP Ultimate Recipe</a>',        
-            'learn_press'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
-            'learn_dash'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
-            'lifter_lms'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
-            'senseilms'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/sensei-lms/">Sensei LMS</a>',
-            'wplms'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/wplms-learning-management-system/6780226">WPLMS</a>',
-            'wp_event_manager'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager/">WP Event Manager</a>',
-            'events_manager'              => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
-            'event_calendar_wd'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
-            'event_organiser'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',
-            'modern_events_calendar'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar Lite</a>',
-            'flex_mls_idx'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',        
-            'woocommerce_membership'      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-memberships">Woocommerce Membership</a>',
-            'woocommerce_bookings'        => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-bookings">Woocommerce Bookings</a>',        
-            'extra'                       => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
-            'homeland'                    => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
-            'ratency'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/ratency-review-magazine-theme/21303977">Ratency - Review & Magazine Theme</a>',            
-            'wpresidence'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
-            'reviews'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/reviews-products-and-services-review-wp-theme/13004739?s_rank=4">Reviews - Products And Services Review WP Theme</a>',            
-            'realhomes'                   => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
-            'myhome'                      => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://myhometheme.net/">My Home Theme</a>',
-            'realestate_5'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://myhometheme.net/">WP Pro Realstate 5</a>',
-            'geodirectory'                => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/geodirectory/">GeoDirectory – Business Directory</a>',
-            'classipress'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.appthemes.com/themes/classipress/">ClassiPress</a>',
-            'taqyeem'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
-            'wp_product_review'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-product-review/">WP Product Review</a>',
-            'stamped'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/stampedio-product-reviews">Stamped.io Product Reviews & UGC for WooCommerce</a>',
-            'soledad'                     => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
-            'zip_recipes'                 => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
-            'mediavine_create'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
-            'ht_recipes'                  => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
-            'easy_testimonials'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
-            'bne_testimonials'            => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
-            'testimonial_pro'             => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
-            'tevolution_events'           => esc_html__('Requires','schema-and-structured-data-for-wp').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>'
+            'polylang'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/polylang/">Polylang</a>',
+            'wpdiscuz'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wpdiscuz/">Comments – wpDiscuz</a>',
+            'rannarecipe'                 => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/ranna-food-recipe-wordpress-theme/25157340">Ranna - Food & Recipe</a>',
+            'easy_recipe'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/easyrecipe/">EasyRecipe</a>',
+            'total_recipe_generator'      => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/total-recipe-generator-wordpress-recipe-maker-with-schema-and-nutrition-facts-elementor-addon/21445400/">Total Recipe Generator</a>',
+            'yet_another_stars_rating'    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/yet-another-stars-rating/">Yet Another Stars Rating</a>',
+            'wp_customer_reviews'         => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-customer-reviews">WP Customer Reviews</a>',
+            'wordpress_news'              => saswp_t_string('Requires').' <a target="_blank" href="#">Wordpress News</a>',
+            'strong_testimonials'         => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
+            'brb'                         => saswp_t_string('Requires').' <a target="_blank" href="https://richplugins.com/business-reviews-bundle-wordpress-plugin">Business Reviews Bundle</a>',
+            'wp_event_aggregator'         => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-aggregator/">WP Event Aggregator</a>',
+            'stachethemes_event_calendar' => saswp_t_string('Requires').' <a target="_blank" href="http://stachethemes.com/">Stachethemes Event Calendar</a>',
+            'timetable_event'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/mp-timetable">Timetable and Event Schedule by MotoPress</a>',
+            'all_in_one_event_calendar'   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-event-calendar/">All In One Event Calendar</a>',
+            'xo_event_calendar'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/xo-event-calendar/">XO Event Calendar</a>',
+            'calendarize_it'              => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/calendarize-it-for-wordpress/2568439">Calendarize it! for WordPress</a>',
+            'events_schedule'             => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/events-schedule-wordpress-plugin/14907462">Events Schedule - WordPress Events Calendar Plugin</a>',
+            'woo_event_manager'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/mage-eventpress/">WooCommerce Event Manager</a>',
+            'vs_event_list'               => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/very-simple-event-list/">Very Simple Event List</a>',
+            'event_on'                    => saswp_t_string('Event On').' <a target="_blank" href="https://www.myeventon.com/">Event On</a>',
+            'wordlift'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
+            'ampforwp'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
+            'quickandeasyfaq'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/quick-and-easy-faqs/">Quick and Easy FAQs</a>',
+            'accordionfaq'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/responsive-accordion-and-collapse">Accordion FAQ</a>',
+            'webfaq10'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/faq-wd/">10WebFAQ</a>',
+            'ultimatefaqs'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-faqs/">Ultimate FAQs</a>',
+            'easyaccordion'               => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/easy-accordion-free/">Easy Accordion</a>',
+            'wpresponsivefaq'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/sp-faq">WP responsive FAQ with category plugin</a>',
+            'arconixfaq'                  => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/arconix-faq/">Arconix FAQ</a>',
+            'faqconcertina'               => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/faq-concertina/">FAQ Concertina</a>',
+            'masteraccordion'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-awesome-faq/">Master Accordion</a>',
+            'wpfaqschemamarkup'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-faq-schema-markup-for-seo/">WP FAQ Schema Markup for SEO</a>',
+            'faqschemaforpost'            => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-for-pages-and-posts/">FAQ Schema For Pages And Posts</a>',
+            'accordion'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/accordions">Accordion By PickPlugins</a>',
+            'easyfaqs'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/easy-faqs/">Easy FAQs</a>',
+            'html5responsivefaq'          => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/html5-responsive-faq/">HTML5 Responsive FAQ</a>',
+            'helpiefaq'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/helpie-faq/">Helpie FAQ – WordPress FAQ Accordion Plugin</a>',
+            'ampbyautomatic'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
+            'wpecommerce'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-e-commerce/">WP eCommerce</a>',
+            'wpreviewpro'                 => saswp_t_string('Requires').' <a target="_blank" href="https://mythemeshop.com/plugins/wordpress-review/">WP Review Pro</a>',
+            'webstories'                  => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/web-stories/">Web Stories</a>',
+            'simplejobboard'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/simple-job-board/">Simple Job Board</a>',
+            'wpjobmanager'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">WP Job Manager</a>',
+            'wpjobopenings'               => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-job-openings/">WP Job Openings</a>',
+            'schemaforfaqs'               => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-markup-faq-structured-data/">FAQ Schema Markup</a>',
+            'betteramp'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/better-amp/">Better AMP</a>',
+            'wpamp'                       => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
+            'ampwp'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
+            'kk_star_ratings'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'rmprating'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/rate-my-post">Rate my Post – WP Rating System</a>',
+            'elementor'                   => saswp_t_string('Requires').' <a target="_blank" href="https://elementor.com/widgets/testimonial-widget/">Elementor Testimonial</a>',
+            'ratingform'                  => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/rating-form/10357679/">Rating Form</a>',
+            'simple_author_box'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/simple-author-box//">Simple Author Box</a>',
+            'wp_post_ratings'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
+            'bb_press'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
+            'woocommerce'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
+            'cooked'                      => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
+            'the_events_calendar'         => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
+            'yoast_seo'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
+            'metatagmanager'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/meta-tag-manager/">Meta Tag Manager</a>',
+            'slimseo'                     => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/slim-seo/">Slim SEO</a>',
+            'rank_math'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
+            'dw_qna'                      => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
+            'wpqa'                        => saswp_t_string('Requires').' <a target="_blank" href="https://2code.info/wpqa-builder/">WPQA Builder Plugin</a>',
+            'sabaidiscuss'                => saswp_t_string('Requires').' <a target="_blank" href="https://sabaidiscuss.com">SabaiDiscuss</a>',
+            'smart_crawl'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
+            'the_seo_framework'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
+            'seo_press'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
+            'aiosp'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
+            'squirrly_seo'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
+            'wp_recipe_maker'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
+            'wpzoom'                      => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom">Recipe Card Blocks by WPZOOM</a>',        
+            'video_thumbnails'            => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/video-thumbnails/">Video Thumbnails</a>',        
+            'featured_video_plus'         => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/featured-video-plus/">Featured Video Plus</a>',        
+            'yotpo'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/yotpo-social-reviews-for-woocommerce/">Yotpo: Product & Photo Reviews for WooCommerce</a>',
+            'ryviu'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/ryviu">Ryviu – Product Reviews for WooCommerce</a>',
+            'starsrating'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/stars-rating">Stars Rating</a>',        
+            'ultimate_blocks'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-blocks">Ultimate Blocks – Gutenberg Blocks Plugin</a>',        
+            'wptastyrecipe'               => saswp_t_string('Requires').' <a target="_blank" href="https://www.wptasty.com">WP Tasty Recipe</a>',
+            'recipress'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/recipress">ReciPress</a>',
+            'wp_ultimate_recipe'          => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-ultimate-recipe/">WP Ultimate Recipe</a>',
+            'learn_press'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
+            'learn_dash'                  => saswp_t_string('Requires').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
+            'lifter_lms'                  => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
+            'senseilms'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/sensei-lms/">Sensei LMS</a>',
+            'wplms'                       => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/wplms-learning-management-system/6780226">WPLMS</a>',
+            'wp_event_manager'            => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager/">WP Event Manager</a>',
+            'events_manager'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
+            'event_calendar_wd'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
+            'event_organiser'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',
+            'modern_events_calendar'      => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar Lite</a>',
+            'flex_mls_idx'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',        
+            'woocommerce_membership'      => saswp_t_string('Requires').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-memberships">Woocommerce Membership</a>',
+            'woocommerce_bookings'        => saswp_t_string('Requires').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-bookings">Woocommerce Bookings</a>',        
+            'extra'                       => saswp_t_string('Requires').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
+            'homeland'                    => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
+            'ratency'                     => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/ratency-review-magazine-theme/21303977">Ratency - Review & Magazine Theme</a>',            
+            'wpresidence'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
+            'reviews'                     => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/reviews-products-and-services-review-wp-theme/13004739?s_rank=4">Reviews - Products And Services Review WP Theme</a>',            
+            'realhomes'                   => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
+            'myhome'                      => saswp_t_string('Requires').' <a target="_blank" href="https://myhometheme.net/">My Home Theme</a>',
+            'realestate_5'                => saswp_t_string('Requires').' <a target="_blank" href="https://myhometheme.net/">WP Pro Realstate 5</a>',
+            'geodirectory'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/geodirectory/">GeoDirectory – Business Directory</a>',
+            'classipress'                 => saswp_t_string('Requires').' <a target="_blank" href="https://www.appthemes.com/themes/classipress/">ClassiPress</a>',
+            'taqyeem'                     => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
+            'wp_product_review'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-product-review/">WP Product Review</a>',
+            'stamped'                     => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/stampedio-product-reviews">Stamped.io Product Reviews & UGC for WooCommerce</a>',
+            'soledad'                     => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
+            'zip_recipes'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
+            'mediavine_create'            => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
+            'ht_recipes'                  => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
+            'easy_testimonials'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
+            'bne_testimonials'            => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
+            'testimonial_pro'             => saswp_t_string('Requires').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
+            'tevolution_events'           => saswp_t_string('Requires').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>'
         
         );
           
@@ -3146,7 +3249,11 @@ function saswp_current_user_allowed(){
     
     global $sd_data;
     
-    if( is_user_logged_in() ) {
+    if(!function_exists('wp_get_current_user')) {                
+        require_once( ABSPATH . '/wp-includes/pluggable.php' );
+    } 
+
+    if( ( function_exists('is_user_logged_in') && is_user_logged_in() )  && function_exists('wp_get_current_user') ) {
     
     $currentUser     = wp_get_current_user();        
     $saswp_roles     = isset($sd_data['saswp-role-based-access']) ? $sd_data['saswp-role-based-access'] : array('administrator');
@@ -3166,7 +3273,7 @@ function saswp_current_user_allowed(){
             $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
         
             if( !empty($hasrole)){                                     
-                return $hasrole[0];
+                return reset($hasrole);
             }
 
         }        
@@ -3187,24 +3294,33 @@ function saswp_current_user_can(){
 function saswp_post_type_capabilities(){
         
         $caplist = array();
-    
-        $cap = saswp_current_user_can();
-    
-        if(!is_super_admin()){
-        
-            $caplist =  array(
-                'publish_posts'       => $cap,
-                'edit_posts'          => $cap,
-                'edit_others_posts'   => $cap,
-                'delete_posts'        => $cap,
-                'delete_others_posts' => $cap,
-                'read_private_posts'  => $cap,
-                'edit_post'           => $cap,
-                'delete_post'         => $cap,
-                'read_post'           => $cap,
-            ); 
             
+        if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user')) {                
+            require_once( ABSPATH . '/wp-includes/capabilities.php' );
+            require_once( ABSPATH . '/wp-includes/pluggable.php' );
         }
+
+        if( function_exists('is_super_admin') && function_exists('wp_get_current_user') ){
+
+            $cap = saswp_current_user_can();
+
+            if(!is_super_admin()){
+        
+                $caplist =  array(
+                    'publish_posts'       => $cap,
+                    'edit_posts'          => $cap,
+                    'edit_others_posts'   => $cap,
+                    'delete_posts'        => $cap,
+                    'delete_others_posts' => $cap,
+                    'read_private_posts'  => $cap,
+                    'edit_post'           => $cap,
+                    'delete_post'         => $cap,
+                    'read_post'           => $cap,
+                ); 
+                
+            }
+
+        }        
         
         return $caplist;      
 }
@@ -3354,15 +3470,19 @@ function saswp_get_video_metadata($content = ''){
            if($matches){
                
                foreach($matches as $match){
-                  
-                  $vurl     = $match[1].'youtube.com'.$match[2]; 
+                         
+                  $vurl     = 'https://youtube.com'.$match[2]; 
                   $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
                   $result   = @wp_remote_get($rulr);                                    
-                  $metadata = json_decode(wp_remote_retrieve_body($result),true);
+                  
+                  if(wp_remote_retrieve_response_code($result) == 200){
 
-                  $metadata['video_url'] = $vurl;                    
-                  $response[] = $metadata;
-                   
+                        $metadata = json_decode(wp_remote_retrieve_body($result),true);
+                        
+                        $metadata['video_url'] = $vurl;                    
+                        $response[] = $metadata;
+                        
+                  }                                                       
                }                              
            }
            
@@ -3384,19 +3504,30 @@ function saswp_get_video_metadata($content = ''){
                               
            } 
 
-           $attributes = saswp_get_gutenberg_block_data('core-embed/youtube');            
+
+           if(function_exists('has_block')){
+            
+            if( has_block('core-embed/youtube') ){
+                $attributes = saswp_get_gutenberg_block_data('core-embed/youtube');    
+            }
+
+            if( has_block('core/embed') ){
+                $attributes = saswp_get_gutenberg_block_data('core/embed');    
+            }
            
-           if(isset($attributes['attrs']['url'])){
+            if(isset($attributes['attrs']['url'])){
+ 
+                   $vurl     = $attributes['attrs']['url']; 
+                   $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                   $result   = @wp_remote_get($rulr);                                    
+                   $metadata = json_decode(wp_remote_retrieve_body($result),true);
+ 
+                   $metadata['video_url'] = $vurl;                    
+                   $response[0] = $metadata;
+            }
 
-                  $vurl = $attributes['attrs']['url']; 
-                  $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
-                  $result   = @wp_remote_get($rulr);                                    
-                  $metadata = json_decode(wp_remote_retrieve_body($result),true);
-
-                  $metadata['video_url'] = $vurl;                    
-                  $response[0] = $metadata;
            }
-                          
+                                     
         return $response;
 }
 
@@ -3587,7 +3718,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
       case "page_template" :
         $array_search = true;
         $choices[] = array('id' => 'default', 'text' => 'Default Template');
-        require_once ABSPATH . 'wp-admin/includes/admin.php';
+
         $templates = get_page_templates();
         
         if($saved_data){
@@ -3700,7 +3831,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
           if( is_multisite() ){
           
-            $choices['super_admin'] = esc_html__('Super Admin','schema-and-structured-data-for-wp');
+            $choices['super_admin'] = saswp_t_string('Super Admin');
             
           }
 
@@ -3749,15 +3880,14 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
       case "ef_taxonomy" :
         
         $args['public'] = true;
-        
+
         if(!empty($search) && $search != null){                
             $args['name'] = $search; 
-            
         }  
         if($saved_data){
             $args['name'] = $saved_data; 
         }      
-        
+
         $taxonomies = get_taxonomies( $args, 'objects');
         
         if($taxonomies){
@@ -3771,7 +3901,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
               }
 
         }
-        
+                                     
         break;      
 
         case "homepage":
@@ -3792,27 +3922,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
                 );     
             }
              
-        break; 
-        
-        case "show_globally":
-            $array_search = true; 
-            $choices = array(
-                array('id'  => 'true', 'text' => 'True'),
-                array('id'  => 'false', 'text' => 'False')                                         
-            );     
-            
-            if($saved_data == 'false'){
-                $choices = array(                    
-                    array('id'  => 'false', 'text' => 'False')                                         
-                );     
-            }
-            if($saved_data == 'true'){
-                $choices = array(
-                    array('id'  => 'true', 'text' => 'True'),                    
-                );     
-            }
-             
-        break; 
+        break;      
 
         case "all":
 
@@ -3885,7 +3995,6 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         
         return array('results' => $choices);
     }else{
-        
         return $choices;
     }    
  
@@ -3924,6 +4033,75 @@ function saswp_get_image_size_url( $image_id, $size = 'full', $image_sizes = arr
     }
 
     return $image_url;
+}
+
+function saswp_explode_comma_seprated ($data, $type) {
+
+    $response = array();
+
+    if($data){
+
+        $area_served = explode(',', $data);
+
+        if($area_served){
+
+            foreach ($area_served as  $value) {
+                $response[] = array(
+                '@type' => $type,
+                'name'  => $value
+            );      
+            }
+            
+        }
+
+    }
+    
+    return $response;
+}
+
+function saswp_t_string($string){
+
+    $settings       = saswp_defaultSettings();    
+
+    if(function_exists('pll__') && (isset($settings['saswp-polylang']) && $settings['saswp-polylang'] == 1) ){
+        return pll__($string);
+    }else{
+        return esc_html__( $string , 'schema-and-structured-data-for-wp');
+    }
+    
+}
+
+function saswp_get_elementor_widget_data($element_data, $widget_type){
+
+    if ( null!=$element_data['elType'] ) {
+
+      if ( 'widget' == $element_data['elType']) {
+
+                if( $element_data['widgetType'] == $widget_type ){
+                    return $element_type  = $element_data;
+                }else{
+                    return '';
+                }
+        
+      } else {
+
+                foreach($element_data['elements'] as $element_ot){
+                    return saswp_get_elementor_widget_data($element_ot, $widget_type);
+                }
+
+      }
+    }
+}
+
+function saswp_isset($str){
+
+    $result = false;
+
+    if(isset($str) && $str !=''){
+        $result = true;
+    }
+
+    return $result;
 }
 function saswp_sanitize_post_meta($key, $meta){
 

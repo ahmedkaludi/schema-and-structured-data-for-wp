@@ -728,7 +728,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				
 				<div class="notice notice-info updated put-dismiss-notice">
 					<p><?php echo '<strong>Love using Schema & Structured Data for WP & AMP?</strong>'; ?></p>
-					<p><?php echo esc_html( $notice_text ); ?> <a href="https://structured-data-for-wp.com/docs/article/usage-data-tracking/" target="_blank"><?php echo esc_html__( 'Learn more.', 'singularity' ); ?></a></p>
+					<p><?php echo esc_html( $notice_text ); ?> <a href="https://structured-data-for-wp.com/docs/article/usage-data-tracking/" target="_blank"><?php echo saswp_t_string( 'Learn more.' ); ?></a></p>
 					<p>
 						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php echo _e( 'Sure! I\'d love to help', 'singularity' ); ?></a>&nbsp;&nbsp;
 						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php echo _e( 'No thanks', 'singularity' ); ?></a>
