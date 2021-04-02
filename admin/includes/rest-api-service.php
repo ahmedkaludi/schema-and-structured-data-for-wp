@@ -73,6 +73,18 @@ class SASWP_Rest_Api_Service {
 
                 }
 
+                $about_page   = array();
+                $contact_page = array();
+
+                if(isset($saswp_option['sd_about_page'])){
+                  $about_page = $this->getConditionList('page', '', $saswp_option['sd_about_page']);                                                      
+                }
+                if(isset($saswp_option['sd_contact_page'])){
+                  $contact_page = $this->getConditionList('page', '', $saswp_option['sd_contact_page']);                                                      
+                }               
+                $saswp_option['sd_about_page_option']   = $about_page; 
+                $saswp_option['sd_contact_page_option'] = $contact_page; 
+                
                 $resultset['settings']      = $saswp_option;
                 $resultset['compatibility'] = $response;
 

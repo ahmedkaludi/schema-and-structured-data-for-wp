@@ -2,36 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './Settings.scss';
 
 const SettingsTools = (props) => {
+  
   const {__} = wp.i18n; 
-  
-  const getPremiumExtensions = () => {
-
-    let url = saswp_localize_data.rest_url + "saswp-route/get-premium-extensions";
-      
-      fetch(url, {
-        headers: {                    
-          'X-WP-Nonce': saswp_localize_data.nonce,
-        }
-      })
-      .then(res => res.json())
-      .then(
-        (result) => {                             
-          setExtensionList(result);
-        },        
-        (error) => {
-          // this.setState({
-          //   isLoaded: true,
-           
-          // });
-        }
-      );            
-
-  }
-
-  useEffect(() => {
-    getPremiumExtensions();
-  }, [])// pass in an empty array as a second argument
-  
+        
   return(
     <div className="card">
       <div className="card-body">

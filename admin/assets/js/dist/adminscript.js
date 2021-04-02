@@ -82919,16 +82919,6 @@ var Settings = function Settings() {
       contactPageList = _useState42[0],
       setContactPageList = _useState42[1];
 
-  var _useState43 = (0, _react.useState)({}),
-      _useState44 = _slicedToArray(_useState43, 2),
-      aboutPageValue = _useState44[0],
-      setAboutPageValue = _useState44[1];
-
-  var _useState45 = (0, _react.useState)({}),
-      _useState46 = _slicedToArray(_useState45, 2),
-      contactPageValue = _useState46[0],
-      setContactPageValue = _useState46[1];
-
   var getPageList = function getPageList(type, search, id) {
     setIsLoaded(false);
     var url = saswp_localize_data.rest_url + "saswp-route/get-page-list?search=" + search + "&id=" + id;
@@ -82942,24 +82932,11 @@ var Settings = function Settings() {
       setIsLoaded(true);
 
       if (result.status == 't') {
-        if (type === 'about' || type === 'contact') {
-          if (type == 'about') {
-            setAboutPageList(result.data);
-
-            if (id !== '') {
-              setAboutPageValue(result.data);
-            }
-          }
-
-          if (type == 'contact') {
-            setContactPageList(result.data);
-
-            if (id !== '') {
-              setContactPageValue(result.data);
-            }
-          }
-        } else {
+        if (type == 'about') {
           setAboutPageList(result.data);
+        }
+
+        if (type == 'contact') {
           setContactPageList(result.data);
         }
       }
@@ -82967,16 +82944,16 @@ var Settings = function Settings() {
   };
 
   var handleAboutPageChange = function handleAboutPageChange(option) {
-    setAboutPageValue(option);
     setUserInput({
-      'sd_about_page': option.value
+      'sd_about_page': option.value,
+      'sd_about_page_option': option
     });
   };
 
   var handleContactPageChange = function handleContactPageChange(option) {
-    setContactPageValue(option);
     setUserInput({
-      'sd_contact_page': option.value
+      'sd_contact_page': option.value,
+      'sd_contact_page_option': option
     });
   };
 
@@ -82993,22 +82970,10 @@ var Settings = function Settings() {
   };
 
   (0, _react.useEffect)(function () {
+    getPageList('about', '', '');
+    getPageList('contact', '', '');
     getSettings();
   }, []); // pass in an empty array as a second argument
-
-  (0, _react.useEffect)(function () {
-    if (userInput['sd_about_page'] !== '') {
-      getPageList('about', '', userInput['sd_about_page']);
-    } else {
-      getPageList('about', '', '');
-    }
-
-    if (userInput['sd_contact_page'] !== '') {
-      getPageList('contact', '', userInput['sd_contact_page']);
-    } else {
-      getPageList('contact', '', '');
-    }
-  }, [userInput]); // pass in an empty array as a second argument
 
   return /*#__PURE__*/_react["default"].createElement("form", {
     encType: "multipart/form-data",
@@ -83274,7 +83239,7 @@ var Settings = function Settings() {
           Clearable: true,
           isSearchable: true,
           name: "sd_about_page",
-          value: aboutPageValue,
+          value: userInput['sd_about_page_option'],
           options: aboutPageList,
           onChange: handleAboutPageChange,
           onInputChange: handleAboutPageSearch
@@ -83282,7 +83247,7 @@ var Settings = function Settings() {
           Clearable: true,
           isSearchable: true,
           name: "sd_contact_page",
-          value: contactPageValue,
+          value: userInput['sd_contact_page_option'],
           options: contactPageList,
           onChange: handleContactPageChange,
           onInputChange: handleContactPageSearch
@@ -84144,27 +84109,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var SettingsTools = function SettingsTools(props) {
   var __ = wp.i18n.__;
-
-  var getPremiumExtensions = function getPremiumExtensions() {
-    var url = saswp_localize_data.rest_url + "saswp-route/get-premium-extensions";
-    fetch(url, {
-      headers: {
-        'X-WP-Nonce': saswp_localize_data.nonce
-      }
-    }).then(function (res) {
-      return res.json();
-    }).then(function (result) {
-      setExtensionList(result);
-    }, function (error) {// this.setState({
-      //   isLoaded: true,
-      // });
-    });
-  };
-
-  (0, _react.useEffect)(function () {
-    getPremiumExtensions();
-  }, []); // pass in an empty array as a second argument
-
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {

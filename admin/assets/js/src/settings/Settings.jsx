@@ -516,9 +516,6 @@ const handleLogo =(data) =>{
 const [aboutPageList, setAboutPageList]     = useState([]);
 const [contactPageList, setContactPageList] = useState([]);
 
-const [aboutPageValue, setAboutPageValue] = useState({});
-const [contactPageValue, setContactPageValue] = useState({});
-
 const getPageList = (type, search, id) => {
   
   setIsLoaded(false);
@@ -534,31 +531,13 @@ const getPageList = (type, search, id) => {
         (result) => {         
           setIsLoaded(true);
           if(result.status == 't'){
-            
-            if(type === 'about' || type === 'contact'){
-
+                        
               if(type == 'about'){
-                
-                setAboutPageList(result.data);
-
-                if(id !== ''){
-                  setAboutPageValue(result.data);
-                }
-
+                setAboutPageList(result.data);                
               }
-              if(type == 'contact'){
-                
-                setContactPageList(result.data);
-
-                if(id !== ''){
-                  setContactPageValue(result.data);
-                }
-              }
-
-            }else{
-              setAboutPageList(result.data);
-              setContactPageList(result.data);
-            }            
+              if(type == 'contact'){                
+                setContactPageList(result.data);                
+              }                        
             
           }          
           
@@ -570,16 +549,12 @@ const getPageList = (type, search, id) => {
 
 }
 
-const handleAboutPageChange = (option) => {
-
-    setAboutPageValue(option);
-    setUserInput({ 'sd_about_page': option.value });
-     
+const handleAboutPageChange = (option) => {    
+    setUserInput({ 'sd_about_page': option.value, 'sd_about_page_option': option});     
 }
 
-const handleContactPageChange = (option) => {
-    setContactPageValue(option);              
-    setUserInput({ 'sd_contact_page': option.value });    
+const handleContactPageChange = (option) => {    
+    setUserInput({ 'sd_contact_page': option.value, 'sd_contact_page_option': option });    
 }
 
 const handleAboutPageSearch = (s) => {
@@ -596,27 +571,11 @@ const handleContactPageSearch = (s) => {
   
 }
 
-
 useEffect(() => {
+  getPageList('about', '', ''); 
+  getPageList('contact', '', '');    
   getSettings();         
 }, [])// pass in an empty array as a second argument
-
-useEffect(() => {
-  
-  if(userInput['sd_about_page'] !==''){
-    getPageList('about', '', userInput['sd_about_page']);    
-  }else{
-    getPageList('about', '', '');    
-  }
-  if(userInput['sd_contact_page'] !==''){
-    getPageList('contact', '', userInput['sd_contact_page']);
-  }else{
-    getPageList('contact', '', '');
-  }  
-    
-}, [userInput])// pass in an empty array as a second argument
-
-
 
   return(
     
@@ -914,7 +873,7 @@ useEffect(() => {
               Clearable ={true} 
               isSearchable ={true}     
               name="sd_about_page"              
-              value={aboutPageValue}
+              value={userInput['sd_about_page_option']}
               options={aboutPageList}
               onChange={handleAboutPageChange} 
               onInputChange={handleAboutPageSearch}                                     
@@ -925,7 +884,7 @@ useEffect(() => {
               Clearable ={true}   
               isSearchable ={true}    
               name="sd_contact_page"              
-              value={contactPageValue}
+              value={userInput['sd_contact_page_option']}
               options={contactPageList}
               onChange={handleContactPageChange} 
               onInputChange={handleContactPageSearch}                                     
