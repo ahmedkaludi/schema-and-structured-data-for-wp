@@ -176,6 +176,13 @@ class SASWP_Rest_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'saswp-route', 'create-resized-image-folder', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'createResizedImageFolder'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'saswp-route', 'get-schema-data-by-id', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getSchemaById'),
@@ -647,6 +654,13 @@ class SASWP_Rest_Api {
 
             return $response;
         }
+
+        public function createResizedImageFolder($request){
+
+            $response = saswp_create_resized_image_folder();
+            return $response;
+
+        }
         public function resetSettings($request){
 
                 $result = '';
@@ -952,12 +966,14 @@ class SASWP_Rest_Api {
 
             $response = array();
             
-            $mappings_file = SASWP_REVIEWS_DIR_NAME . '/admin/reviews_platform.php';
+            if(defined('SASWP_REVIEWS_DIR_NAME')){
+                $mappings_file = SASWP_REVIEWS_DIR_NAME . '/admin/reviews_platform.php';
 
-            if ( file_exists( $mappings_file ) ) {
-                $response = include $mappings_file;
+                if ( file_exists( $mappings_file ) ) {
+                    $response = include $mappings_file;
+                }
             }
-
+            
             return $response;
            
         }
@@ -1129,6 +1145,23 @@ class SASWP_Rest_Api {
             $response        = array();
             $parameters      = $request_data->get_params();
             $file            = $request_data->get_file_params();
+            
+            if( isset($file['reviewcsv']) ){
+
+                $fileInfo = wp_check_filetype(basename($file['reviewcsv']['name']));
+                
+                if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'csv') {
+        
+                    if(!empty($file['reviewcsv']["tmp_name"])){
+                        require_once ABSPATH . 'wp-admin/includes/file.php';
+                        $urls = wp_handle_upload($file['reviewcsv'], array('test_form' => FALSE));                      
+                        $url = $urls["url"];
+                        update_option('saswp_rv_csv_upload_url',esc_url($url));
+                        $response = array('file_status' => 't','status' => 't', 'msg' =>  __( 'file uploaded successfully', 'quick-adsense-reloaded' ));                                           
+                    }
+                }
+
+            }
             
             if(isset($file['file'])){
 

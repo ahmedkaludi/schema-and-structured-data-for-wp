@@ -2018,14 +2018,7 @@ function saswp_get_select2_data(){
         wp_die();
 }
 
-function saswp_create_resized_image_folder(){                  
-    
-  if ( ! isset( $_POST['saswp_security_nonce'] ) ){
-     return; 
-  }
-  if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
-     return;  
-  }    
+function saswp_create_resized_image_folder(){
 
   $response    = array();       
   $upload_info = wp_upload_dir();
@@ -2057,13 +2050,28 @@ function saswp_create_resized_image_folder(){
     $response = array('status' => 'f', 'message' => 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.');
   }
 
+  return $response;
+
+}
+
+function saswp_create_resized_image_folder_handler(){                  
+    
+  if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+     return; 
+  }
+  if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+     return;  
+  }    
+
+  $response = saswp_create_resized_image_folder();  
+
   wp_send_json( $response );
 
   wp_die();           
 
 }
 
-add_action('wp_ajax_saswp_create_resized_image_folder', 'saswp_create_resized_image_folder');
+add_action('wp_ajax_saswp_create_resized_image_folder', 'saswp_create_resized_image_folder_handler');
 
 // add async and defer attributes to enqueued scripts
 function saswp_script_loader_tag($tag, $handle, $src) {

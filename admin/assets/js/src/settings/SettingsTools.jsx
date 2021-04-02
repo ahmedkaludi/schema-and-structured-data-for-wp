@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import queryString from 'query-string'
-import { Button } from '@duik/it';
-import { BrowserRouter as Router, Switch, Route, Link, matchPath } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import './Settings.scss';
 
-
 const SettingsTools = (props) => {
-
-  const [extensionList, setExtensionList] = useState([]);
-
+  const {__} = wp.i18n; 
+  
   const getPremiumExtensions = () => {
 
     let url = saswp_localize_data.rest_url + "saswp-route/get-premium-extensions";
@@ -36,29 +31,11 @@ const SettingsTools = (props) => {
   useEffect(() => {
     getPremiumExtensions();
   }, [])// pass in an empty array as a second argument
-
-  const extensions =  extensionList.map((item, index) => (      
-    <li key={index}>                    
-                    <div className="saswp-features-ele">
-                        <div className="saswp-ele-ic" style={{background: item.background}}>
-                                <img src={item.image}/>
-                            </div>
-                            <div className="saswp-ele-tlt">
-                                    <h3>{item.name}</h3>
-                                    <p>{item.description}</p>
-                            </div>
-                    </div>
-                    <div className="saswp-sts-btn">                      
-                        <div> Status : <span>{item.status}</span></div>
-                        <div>{item.status == 'InActive' ? <a className="btn btn-success">Download</a> : '' }   </div>                                                                
-                    </div>
-            </li>
-  ));
-
+  
   return(
     <div className="card">
       <div className="card-body">
-        <h3>Tools</h3>
+        <h3>{__('Tools', 'schema-and-structured-data-for-wp')}</h3>
       </div>
       <div className="divider-horizontal"></div>
       <div className="card-body">
@@ -66,15 +43,15 @@ const SettingsTools = (props) => {
         <tbody>
         <tr>
           <td>
-          Export All Settings And Schema
+          {__('Export All Settings And Schema', 'schema-and-structured-data-for-wp')}
           </td>
           <td>
-            <a href={`${saswp_localize_data.rest_url}saswp-route/export-settings`} className="btn btn-success">Export</a>
+            <a href={`${saswp_localize_data.rest_url}saswp-route/export-settings`} className="btn btn-success">{__('Export', 'schema-and-structured-data-for-wp')}</a>
           </td>
         </tr>
         <tr>
           <td>
-          Import All Settings And Schema
+          {__('Import All Settings And Schema', 'schema-and-structured-data-for-wp')}
           </td>
           <td>
           <input type="file" name="import_file" onChange={props.handleInputChange}/>
@@ -82,23 +59,26 @@ const SettingsTools = (props) => {
         </tr>
         <tr>
           <td>
-          Reset Settings
+          {__('Reset Settings', 'schema-and-structured-data-for-wp')}
           </td>
           <td>
-            <a className="btn btn-success" onClick={props.resetSettings}>Reset</a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-          Data Tracking Allow
-          </td>
-          <td>
-            <a className="btn btn-success">Allow</a>
+            <a className="btn btn-success" onClick={props.resetSettings}>{__('Reset', 'schema-and-structured-data-for-wp')}</a>
           </td>
         </tr>
         <tr>
           <td>
-          Remove Data On Uninstall
+          {__('Data Tracking Allow', 'schema-and-structured-data-for-wp')}
+          <p>{__('We guarantee no sensitive data is collected ', 'schema-and-structured-data-for-wp')}
+                            <a target="_blank" href="https://structured-data-for-wp.com/docs/article/usage-data-tracking/">{__('Learn more', 'schema-and-structured-data-for-wp')}</a>
+                        </p>
+          </td>
+          <td>
+            <a href={saswp_localize_data.track_url} className="btn btn-success">{saswp_localize_data.track_text}</a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          {__('Remove Data On Uninstall', 'schema-and-structured-data-for-wp')}
           </td>
           <td>
                 <label className="form-check form-group toggle">

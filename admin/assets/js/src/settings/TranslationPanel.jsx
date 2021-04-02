@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Settings.scss';
 
 const TranslationPanel = (props) => {
-
+  const {__} = wp.i18n; 
   const [translation, setTranslation] = useState([]);
 
   const getTranslations = () => {
@@ -37,7 +37,7 @@ const TranslationPanel = (props) => {
     <>
     <div className="card">
       <div className="card-header">
-        <h3>Translation Panel</h3>
+        <h3>{__('Translation Panel', 'schema-and-structured-data-for-wp')}</h3>
       </div>
       <div className="divider-horizontal"></div>
       <div className="card-body">

@@ -86,7 +86,35 @@ class SASWP_Rest_Api_Service {
                 }
 
                 $resultset['nav_menu']      = $nav_menu_arr;
+                $post_types_arr             = array();
+                $post_types = get_post_types( array( 'public' => true ), 'objects' );
 
+                if($post_types){
+                  foreach($post_types as $type){
+                    if(!in_array($type->name, array('saswp_reviews', 'saswp-collections', 'attachment'))){
+                      $post_types_arr[] = array('name' => $type->name, 'label' => $type->label);
+                    }
+                    
+                  }
+                }
+
+                $resultset['post_types']      = $post_types_arr;
+
+                if( function_exists('is_super_admin') &&  is_super_admin() ){
+
+                    $userroles     = saswp_get_user_roles();
+                    $userroles_arr = array();
+    
+                    if($userroles){
+    
+                      foreach($userroles as $key => $val){
+                        $userroles_arr[] = array('label' => $val, 'value' => $key);
+                      }
+    
+                    }
+                }
+                                
+                $resultset['user_roles']      = $userroles_arr;
       }
             
       return $resultset;

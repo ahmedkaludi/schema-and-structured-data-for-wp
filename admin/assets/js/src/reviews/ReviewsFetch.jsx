@@ -159,10 +159,14 @@ const ReviewsFetch = () => {
       {image: saswp_localize_data.plugin_url+'/admin_section/images/reviews_platform_icon/zomato-img.png',
       name: 'Zomato' },
       {image: saswp_localize_data.plugin_url+'/admin_section/images/reviews_platform_icon/judge-me-img.png',
-      name: 'Judge.me' }    
+      name: 'Judge.me' },
+      {image: saswp_localize_data.plugin_url+'/admin_section/images/reviews_platform_icon/shopify-app-store-img.png',
+      name: 'Shopify App Store' },
+      {image: saswp_localize_data.plugin_url+'/admin_section/images/reviews_platform_icon/goodreads-img.png',
+      name: 'Goodreads' }    
   ];
-  const {__} = wp.i18n; 
 
+  const {__} = wp.i18n; 
   
   const [fetchMessage, setFetchMessage]   = useState([]);
   const [fetchLoaded, setFetchLoaded]     = useState([]);
@@ -172,6 +176,7 @@ const ReviewsFetch = () => {
   const [dottedSpinner, setDottedSpinner]       = useState(false);  
 
   const [platformsList, setPlatformsList]       = useState({});
+  const [reviewCSVFile, setReviewCSVFile]       = useState(null);
 
   const [userInput, setUserInput] = useReducer(
     (state, newState) => ({...state, ...newState}),
@@ -238,34 +243,38 @@ const ReviewsFetch = () => {
 
   const handleInputChange = evt => {
 
-     let { name, value, type } = evt.target;
-
-    console.log(name);
-    console.log(value);
-            
-    if(name == 'saswp_reviews_location_name'){
-      
-      let index = evt.currentTarget.dataset.id;
-      let clonedata = {...userInput};
-      clonedata['saswp_reviews_location_name'][index] = value;
-      setUserInput(clonedata);
-    
-    }else if(name.includes('reviewsforschema-')){
-      
-      let index     = evt.currentTarget.dataset.index;
-      let platform  = evt.currentTarget.dataset.platform;
-          name  = evt.currentTarget.dataset.name;
-          
-      let clonedata = {...userInput};
-          clonedata[platform][index][name] = value;
-          setUserInput(clonedata);      
-    }else{
-      if(type === "checkbox"){
-        value = evt.target.checked;
-      }
-      setUserInput({[name]: value});
-    }
+    let { name, value, type } = evt.target;
                 
+    if(type === 'file'){
+      let file = evt.target.files[0];
+      setReviewCSVFile(file);
+    }else{
+
+      if(name == 'saswp_reviews_location_name'){
+      
+        let index = evt.currentTarget.dataset.id;
+        let clonedata = {...userInput};
+        clonedata['saswp_reviews_location_name'][index] = value;
+        setUserInput(clonedata);
+      
+      }else if(name.includes('reviewsforschema-')){
+        
+        let index     = evt.currentTarget.dataset.index;
+        let platform  = evt.currentTarget.dataset.platform;
+            name  = evt.currentTarget.dataset.name;
+            
+        let clonedata = {...userInput};
+            clonedata[platform][index][name] = value;
+            setUserInput(clonedata);      
+      }else{
+        if(type === "checkbox"){
+          value = evt.target.checked;
+        }
+        setUserInput({[name]: value});
+      }
+
+    }
+                    
   }
   const handleAddPlatformField = (e) => {
 
@@ -308,7 +317,8 @@ const ReviewsFetch = () => {
 
     setIsLoaded(false);
     const formData = new FormData();
-        
+
+    formData.append("reviewcsv", reviewCSVFile);     
     formData.append("settings", JSON.stringify(userInput));    
     let url = saswp_localize_data.rest_url + 'saswp-route/update-settings';
     fetch(url,{
@@ -323,6 +333,9 @@ const ReviewsFetch = () => {
     .then(
       (result) => {  
         setIsLoaded(true);          
+        if(result.file_status){
+          location.reload();
+        }
       },        
       (error) => {
        
@@ -497,21 +510,38 @@ const ReviewsFetch = () => {
     <>    
     {mainSpinner ? <MainSpinner /> : ''}
     <form encType="multipart/form-data" method="post" id="saswp_settings_form">  
+    <div className="saswp-fetch-rv-container">
+    <div className="card">
+      <div className="card-body">
+        <table className="form-table saswp-fetch-rv-table">
+        <tr>
+              <td>{__('Upload Reviews From CSV', 'schema-and-structured-data-for-wp')}</td>
+              <td>
+                <input type="file" onChange={handleInputChange} name="saswp_upload_rv_csv" id="saswp_upload_rv_csv" multiple="false" accept=".csv" />
+                <p>{__('You must follow the format.', 'schema-and-structured-data-for-wp')} <a href={saswp_localize_data.review_csv_format_url}>{__('Click here', 'schema-and-structured-data-for-wp')}</a>  {__('to download the format', 'schema-and-structured-data-for-wp')}</p>
+              </td>
+        </tr>
+        </table>
+      </div>
+
+    </div>
+    </div>
+
     {saswp_localize_data.reviewsforschema == 'free' ?
     <div className="saswp-fetch-rv-container">
      <div className="card">
        <div className="card-body">
         <table className="form-table saswp-fetch-rv-table">
-          <tbody>
+          <tbody>            
         <tr>
-          <td>Google Review</td>
+          <td>{__('Google Review', 'schema-and-structured-data-for-wp')}</td>
           <td><input onChange={handleInputChange} checked={userInput['saswp-google-review'] == 1 ? true : false} type="checkbox" name="saswp-google-review" />
-          <p>This option enables the google review section. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-fetch-google-reviewfree-version/">Learn More</a></p>
+          <p>{__('This option enables the google review section.', 'schema-and-structured-data-for-wp')} <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-fetch-google-reviewfree-version/">{__('Learn More', 'schema-and-structured-data-for-wp')}</a></p>
           {
           userInput['saswp-google-review'] == 1 ? 
           <div>
             <div className="saswp-g-place-api">
-              <label>Google place API Key</label>
+              <label>{__('Google place API Key', 'schema-and-structured-data-for-wp')}</label>
               <input name="saswp_google_place_api_key" onChange={handleInputChange} value={userInput['saswp_google_place_api_key']} type="text" />                       
             </div>            
           {
@@ -521,12 +551,12 @@ const ReviewsFetch = () => {
               <tbody>
               {userInput.saswp_reviews_location_name.map( (item, i)=> {
                 return(<tr key={i}>
-                  <td>Place Id</td>
+                  <td>{__('Place Id', 'schema-and-structured-data-for-wp')}</td>
                   <td>{<input data-id={i} type="text" onChange={handleInputChange} name="saswp_reviews_location_name" value={item}/>}</td>
-                  <td>Reviews</td>
+                  <td>{__('Reviews', 'schema-and-structured-data-for-wp')}</td>
                   <td><input type="text" name="saswp_reviews_location_blocks" defaultValue="5" disabled="disabled" /></td>
                   <td>
-                    {fetchLoaded[i]  ? <Button success loading>Loading success</Button>  : <a data-id={i} className="btn btn-success saswp-fetch-g-reviews" onClick={handleFetchFreeReviews}>Fetch</a>}                    
+                    {fetchLoaded[i]  ? <Button success loading>Loading success</Button>  : <a data-id={i} className="btn btn-success saswp-fetch-g-reviews" onClick={handleFetchFreeReviews}>{__('Fetch', 'schema-and-structured-data-for-wp')}</a>}                    
                   </td>
                   <td><a data-id={i} onClick={handleRemoveLocation} className="saswp-remove-review-item button">X</a></td>
                   <td>{fetchMessage[i] ? <p className="saswp-rv-fetched-msg">{fetchMessage[i]}</p> : ''}</td>
@@ -535,9 +565,9 @@ const ReviewsFetch = () => {
             </tbody>
             </table>
             <div>
-              <a className="btn" onClick={handleAddLocation}>Add Location</a>
+              <a className="btn" onClick={handleAddLocation}>{__('Add Location', 'schema-and-structured-data-for-wp')}</a>
               <p>
-              <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder">Place ID Finder</a>
+              <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder">{__('Place ID Finder', 'schema-and-structured-data-for-wp')}</a>
               </p>
             </div>  
 
@@ -551,8 +581,8 @@ const ReviewsFetch = () => {
         </tbody>
         </table>        
         <div className="saswp-quick-links-div">
-          <h4>Quick Links</h4>          
-          <p><a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-reviews-with-collection-feature/">How to show reviews on the website</a></p>
+          <h4>{__('Quick Links', 'schema-and-structured-data-for-wp')}</h4>          
+          <p><a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-reviews-with-collection-feature/">{__('How to show reviews on the website', 'schema-and-structured-data-for-wp')}</a></p>
         </div>
         <div className="saswp-save-settings-btn">
           {isLoaded ?
@@ -567,11 +597,10 @@ const ReviewsFetch = () => {
      </div>
      <div className="card">
       <div className="card-body">
-      <h2>Get Your 5 Stars Reviews on Google SERPs</h2>      
-        <p className="saswp_desc">Automatically Fetch your customer reviews from 80+ Platforms and show them on your website with proper schema support. <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema">Learn More...</a></p>      
-
+      <h2>{__('Get Your 5 Stars Reviews on Google SERPs', 'schema-and-structured-data-for-wp')}</h2>      
+        <p className="saswp_desc">{__('Automatically Fetch your customer reviews from 80+ Platforms and show them on your website with proper schema support.', 'schema-and-structured-data-for-wp')} <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema">{__('Learn More...', 'schema-and-structured-data-for-wp')}</a></p>      
         <div className="saswp_cmpny_lst">
-        <span className="saswp_lst saswp_avlbl">Integrations Avaliable</span>
+        <span className="saswp_lst saswp_avlbl">{__('Integrations Avaliable', 'schema-and-structured-data-for-wp')}</span>
         <ul>
         {platforms.map( (item, i) => {
           return(
@@ -581,8 +610,8 @@ const ReviewsFetch = () => {
         </ul>
         </div>
         <div className="saswp-rev-btn">
-          <span>With our API service, you can fetch reviews from anywhere you want! and we are always increasing the number of integrations. You can also request for an integration as well.</span>
-          <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema">Get The Reviews Addon Now</a>
+          <span>{__('With our API service, you can fetch reviews from anywhere you want! and we are always increasing the number of integrations. You can also request for an integration as well.', 'schema-and-structured-data-for-wp')}</span>
+          <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema">{__('Get The Reviews Addon Now', 'schema-and-structured-data-for-wp')}</a>
         </div>
       </div>
      </div>
@@ -592,7 +621,7 @@ const ReviewsFetch = () => {
           <div className="card-body">
             <table className="form-table saswp-fetch-rv-table">
               <tbody>
-                <tr><td>Reviews Pro API Key</td><td>                
+                <tr><td>{__('Reviews Pro API Key', 'schema-and-structured-data-for-wp')}</td><td>                
                   {userInput['reviews_addon_license_key_status'] == 'active' ? <Icon>check</Icon> : <Icon>close</Icon>}
                   <input onChange={handleInputChange} value={userInput['reviews_addon_license_key']} type="text" placeholder="Enter License Key" name="reviews_addon_license_key" id="reviews_addon_license_key" />
                   {isLoaded ? <Button  success onClick={handleLicenseActivation}>
@@ -625,7 +654,7 @@ const ReviewsFetch = () => {
                             </td>
                             <td>
                             <div className="saswp-reviews-platform-fields">
-                              {userInput[platformsList[key]['name']] ? <div><p><strong>Note:</strong> If the reviews have not been fetched on first instance. We recommend you to fetch again with same reviews count after some time as it may take time to scrap the reviews on server.</p></div> : ''}                              
+                              {userInput[platformsList[key]['name']] ? <div><p><strong>{__('Note:', 'schema-and-structured-data-for-wp')}</strong> {__('If the reviews have not been fetched on first instance. We recommend you to fetch again with same reviews count after some time as it may take time to scrap the reviews on server.', 'schema-and-structured-data-for-wp')}</p></div> : ''}
                             {
                               (platformsList[key]['type'] == 'multi' && userInput[platformsList[key]['name']]) ? 
                               <>
@@ -636,7 +665,7 @@ const ReviewsFetch = () => {
                                   }                                
                                 </tbody>
                               </table>
-                                <a onClick={handleAddPlatformField} data-platform_id={platformsList[key]['id']} data-platform={key} className="btn btn-default">Add URL</a>
+                                <a onClick={handleAddPlatformField} data-platform_id={platformsList[key]['id']} data-platform={key} className="btn btn-default">{__('Add URL', 'schema-and-structured-data-for-wp')}</a>
                                 </>
                               : ''
                             }                            
@@ -654,8 +683,8 @@ const ReviewsFetch = () => {
              </div>           
 
           <div className="saswp-quick-links-div">
-          <h4>Quick Links</h4>          
-          <p><a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-reviews-with-collection-feature/">How to show reviews on the website</a></p>
+          <h4>{__('Quick Links', 'schema-and-structured-data-for-wp')}</h4>
+          <p><a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-display-reviews-with-collection-feature/">{__('How to show reviews on the website', 'schema-and-structured-data-for-wp')}</a></p>
           </div>
           <div className="saswp-save-settings-btn">
             {isLoaded ?

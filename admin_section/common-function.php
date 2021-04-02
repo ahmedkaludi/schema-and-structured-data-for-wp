@@ -48,7 +48,7 @@ if ( ! defined('ABSPATH') ) exit;
      * @return boolean
      */        
     function saswp_import_all_settings_and_schema(){
-                        
+                            
         if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
         }

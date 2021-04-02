@@ -427,7 +427,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 "use strict";
 
 var strictUriEncode = __webpack_require__(120);
-var objectAssign = __webpack_require__(17);
+var objectAssign = __webpack_require__(16);
 
 function encoderForArrayFormat(opts) {
 	switch (opts.arrayFormat) {
@@ -665,7 +665,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tiny_warning__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__babel_runtime_helpers_esm_extends__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_tiny_invariant__ = __webpack_require__(38);
 
 
@@ -1541,6 +1541,130 @@ Icon.displayName = "Icon";
 
 /***/ }),
 /* 15 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = _objectWithoutPropertiesLoose;
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+/***/ }),
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -2107,130 +2231,6 @@ __webpack_require__.r(__webpack_exports__);
 /***/ })
 /******/ ]);
 });
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-
-/* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = _objectWithoutPropertiesLoose;
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
 
 /***/ }),
 /* 19 */
@@ -17090,7 +17090,7 @@ BaseInput.displayName = 'BaseInput';
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ENTERING; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ENTERED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return EXITING; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
@@ -18249,7 +18249,7 @@ if (process.env.NODE_ENV === 'production') {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path_to_regexp___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_path_to_regexp__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_is__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_is___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_react_is__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_hoist_non_react_statics__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_hoist_non_react_statics__);
 
@@ -25341,7 +25341,7 @@ var classNamesShape = process.env.NODE_ENV !== 'production' ? __WEBPACK_IMPORTED
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(18);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_extends__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_esm_assertThisInitialized__ = __webpack_require__(178);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
@@ -26568,7 +26568,7 @@ _reactDom["default"].render( /*#__PURE__*/_react["default"].createElement(_react
  * LICENSE file in the root directory of this source tree.
  */
 
-var l=__webpack_require__(17),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113,z=n?Symbol.for("react.memo"):60115,A=n?Symbol.for("react.lazy"):
+var l=__webpack_require__(16),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113,z=n?Symbol.for("react.memo"):60115,A=n?Symbol.for("react.lazy"):
 60116,B="function"===typeof Symbol&&Symbol.iterator;function C(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}
 var D={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},E={};function F(a,b,c){this.props=a;this.context=b;this.refs=E;this.updater=c||D}F.prototype.isReactComponent={};F.prototype.setState=function(a,b){if("object"!==typeof a&&"function"!==typeof a&&null!=a)throw Error(C(85));this.updater.enqueueSetState(this,a,b,"setState")};F.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function G(){}G.prototype=F.prototype;function H(a,b,c){this.props=a;this.context=b;this.refs=E;this.updater=c||D}var I=H.prototype=new G;I.constructor=H;l(I,F.prototype);I.isPureReactComponent=!0;var J={current:null},K=Object.prototype.hasOwnProperty,L={key:!0,ref:!0,__self:!0,__source:!0};
@@ -26608,7 +26608,7 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(17);
+var _assign = __webpack_require__(16);
 var checkPropTypes = __webpack_require__(35);
 
 var ReactVersion = '16.13.1';
@@ -28523,7 +28523,7 @@ exports.version = ReactVersion;
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(0),n=__webpack_require__(17),r=__webpack_require__(61);function u(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}if(!aa)throw Error(u(227));
+var aa=__webpack_require__(0),n=__webpack_require__(16),r=__webpack_require__(61);function u(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}if(!aa)throw Error(u(227));
 function ba(a,b,c,d,e,f,g,h,k){var l=Array.prototype.slice.call(arguments,3);try{b.apply(c,l)}catch(m){this.onError(m)}}var da=!1,ea=null,fa=!1,ha=null,ia={onError:function(a){da=!0;ea=a}};function ja(a,b,c,d,e,f,g,h,k){da=!1;ea=null;ba.apply(ia,arguments)}function ka(a,b,c,d,e,f,g,h,k){ja.apply(this,arguments);if(da){if(da){var l=ea;da=!1;ea=null}else throw Error(u(198));fa||(fa=!0,ha=l)}}var la=null,ma=null,na=null;
 function oa(a,b,c){var d=a.type||"unknown-event";a.currentTarget=na(c);ka(d,b,void 0,a);a.currentTarget=null}var pa=null,qa={};
 function ra(){if(pa)for(var a in qa){var b=qa[a],c=pa.indexOf(a);if(!(-1<c))throw Error(u(96,a));if(!sa[c]){if(!b.extractEvents)throw Error(u(97,a));sa[c]=b;c=b.eventTypes;for(var d in c){var e=void 0;var f=c[d],g=b,h=d;if(ta.hasOwnProperty(h))throw Error(u(99,h));ta[h]=f;var k=f.phasedRegistrationNames;if(k){for(e in k)k.hasOwnProperty(e)&&ua(k[e],g,h);e=!0}else f.registrationName?(ua(f.registrationName,g,h),e=!0):e=!1;if(!e)throw Error(u(98,d,a));}}}}
@@ -29722,7 +29722,7 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var React = __webpack_require__(0);
-var _assign = __webpack_require__(17);
+var _assign = __webpack_require__(16);
 var Scheduler = __webpack_require__(61);
 var checkPropTypes = __webpack_require__(35);
 var tracing = __webpack_require__(107);
@@ -55389,7 +55389,7 @@ exports.isSuspense = isSuspense;
 
 
 var ReactIs = __webpack_require__(26);
-var assign = __webpack_require__(17);
+var assign = __webpack_require__(16);
 
 var ReactPropTypesSecret = __webpack_require__(36);
 var checkPropTypes = __webpack_require__(35);
@@ -57891,7 +57891,7 @@ var _MediaUpload = _interopRequireDefault(__webpack_require__(30));
 
 var _FieldGenerator = _interopRequireDefault(__webpack_require__(140));
 
-var _it = __webpack_require__(15);
+var _it = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -66390,7 +66390,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_extends__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
@@ -66863,7 +66863,7 @@ function removeClass(element, className) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(18);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectWithoutPropertiesLoose__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_inheritsLoose__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
@@ -67541,7 +67541,7 @@ var _Fomo = _interopRequireDefault(__webpack_require__(187));
 
 var _Gallery = _interopRequireDefault(__webpack_require__(188));
 
-var _it = __webpack_require__(15);
+var _it = __webpack_require__(18);
 
 var _Popup = _interopRequireDefault(__webpack_require__(189));
 
@@ -68950,17 +68950,18 @@ __webpack_require__(19);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var ReviewsAccept = function ReviewsAccept() {
+  var __ = wp.i18n.__;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "card saswp-reviews-list-card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
-  }, "Use Below shortcode to show reviews form in your website. Using this you can accept reviews from your website directly"), /*#__PURE__*/_react["default"].createElement("div", {
+  }, __(' Use Below shortcode to show reviews form in your website. Using this you can accept reviews from your website directly', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
-  }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Simple Form"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+  }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Simple Form', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
     value: "[saswp-reviews-form]",
     readOnly: true
-  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Show form on button tap"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Show form on button tap', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
     value: "[saswp-reviews-form onbutton=\"1\"]",
     readOnly: true
@@ -69709,7 +69710,7 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _it = __webpack_require__(15);
+var _it = __webpack_require__(18);
 
 var _DottedSpinner = _interopRequireDefault(__webpack_require__(13));
 
@@ -69977,6 +69978,12 @@ var ReviewsFetch = function ReviewsFetch() {
   }, {
     image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/judge-me-img.png',
     name: 'Judge.me'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/shopify-app-store-img.png',
+    name: 'Shopify App Store'
+  }, {
+    image: saswp_localize_data.plugin_url + '/admin_section/images/reviews_platform_icon/goodreads-img.png',
+    name: 'Goodreads'
   }];
   var __ = wp.i18n.__;
 
@@ -70009,6 +70016,11 @@ var ReviewsFetch = function ReviewsFetch() {
       _useState12 = _slicedToArray(_useState11, 2),
       platformsList = _useState12[0],
       setPlatformsList = _useState12[1];
+
+  var _useState13 = (0, _react.useState)(null),
+      _useState14 = _slicedToArray(_useState13, 2),
+      reviewCSVFile = _useState14[0],
+      setReviewCSVFile = _useState14[1];
 
   var _useReducer = (0, _react.useReducer)(function (state, newState) {
     return _objectSpread(_objectSpread({}, state), newState);
@@ -70062,31 +70074,34 @@ var ReviewsFetch = function ReviewsFetch() {
         name = _evt$target.name,
         value = _evt$target.value,
         type = _evt$target.type;
-    console.log(name);
-    console.log(value);
 
-    if (name == 'saswp_reviews_location_name') {
-      var index = evt.currentTarget.dataset.id;
-
-      var clonedata = _objectSpread({}, userInput);
-
-      clonedata['saswp_reviews_location_name'][index] = value;
-      setUserInput(clonedata);
-    } else if (name.includes('reviewsforschema-')) {
-      var _index = evt.currentTarget.dataset.index;
-      var platform = evt.currentTarget.dataset.platform;
-      name = evt.currentTarget.dataset.name;
-
-      var _clonedata = _objectSpread({}, userInput);
-
-      _clonedata[platform][_index][name] = value;
-      setUserInput(_clonedata);
+    if (type === 'file') {
+      var file = evt.target.files[0];
+      setReviewCSVFile(file);
     } else {
-      if (type === "checkbox") {
-        value = evt.target.checked;
-      }
+      if (name == 'saswp_reviews_location_name') {
+        var index = evt.currentTarget.dataset.id;
 
-      setUserInput(_defineProperty({}, name, value));
+        var clonedata = _objectSpread({}, userInput);
+
+        clonedata['saswp_reviews_location_name'][index] = value;
+        setUserInput(clonedata);
+      } else if (name.includes('reviewsforschema-')) {
+        var _index = evt.currentTarget.dataset.index;
+        var platform = evt.currentTarget.dataset.platform;
+        name = evt.currentTarget.dataset.name;
+
+        var _clonedata = _objectSpread({}, userInput);
+
+        _clonedata[platform][_index][name] = value;
+        setUserInput(_clonedata);
+      } else {
+        if (type === "checkbox") {
+          value = evt.target.checked;
+        }
+
+        setUserInput(_defineProperty({}, name, value));
+      }
     }
   };
 
@@ -70128,6 +70143,7 @@ var ReviewsFetch = function ReviewsFetch() {
   var saveSettings = function saveSettings(event) {
     setIsLoaded(false);
     var formData = new FormData();
+    formData.append("reviewcsv", reviewCSVFile);
     formData.append("settings", JSON.stringify(userInput));
     var url = saswp_localize_data.rest_url + 'saswp-route/update-settings';
     fetch(url, {
@@ -70141,6 +70157,10 @@ var ReviewsFetch = function ReviewsFetch() {
       return res.json();
     }).then(function (result) {
       setIsLoaded(true);
+
+      if (result.file_status) {
+        location.reload();
+      }
     }, function (error) {});
   };
 
@@ -70307,7 +70327,7 @@ var ReviewsFetch = function ReviewsFetch() {
     encType: "multipart/form-data",
     method: "post",
     id: "saswp_settings_form"
-  }, saswp_localize_data.reviewsforschema == 'free' ? /*#__PURE__*/_react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-fetch-rv-container"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card"
@@ -70315,17 +70335,34 @@ var ReviewsFetch = function ReviewsFetch() {
     className: "card-body"
   }, /*#__PURE__*/_react["default"].createElement("table", {
     className: "form-table saswp-fetch-rv-table"
-  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Google Review"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+  }, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Upload Reviews From CSV', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+    type: "file",
+    onChange: handleInputChange,
+    name: "saswp_upload_rv_csv",
+    id: "saswp_upload_rv_csv",
+    multiple: "false",
+    accept: ".csv"
+  }), /*#__PURE__*/_react["default"].createElement("p", null, __('You must follow the format.', 'schema-and-structured-data-for-wp'), " ", /*#__PURE__*/_react["default"].createElement("a", {
+    href: saswp_localize_data.review_csv_format_url
+  }, __('Click here', 'schema-and-structured-data-for-wp')), "  ", __('to download the format', 'schema-and-structured-data-for-wp')))))))), saswp_localize_data.reviewsforschema == 'free' ? /*#__PURE__*/_react["default"].createElement("div", {
+    className: "saswp-fetch-rv-container"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/_react["default"].createElement("table", {
+    className: "form-table saswp-fetch-rv-table"
+  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Google Review', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
     onChange: handleInputChange,
     checked: userInput['saswp-google-review'] == 1 ? true : false,
     type: "checkbox",
     name: "saswp-google-review"
-  }), /*#__PURE__*/_react["default"].createElement("p", null, "This option enables the google review section. ", /*#__PURE__*/_react["default"].createElement("a", {
+  }), /*#__PURE__*/_react["default"].createElement("p", null, __('This option enables the google review section.', 'schema-and-structured-data-for-wp'), " ", /*#__PURE__*/_react["default"].createElement("a", {
     target: "_blank",
     href: "https://structured-data-for-wp.com/docs/article/how-to-fetch-google-reviewfree-version/"
-  }, "Learn More")), userInput['saswp-google-review'] == 1 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
+  }, __('Learn More', 'schema-and-structured-data-for-wp'))), userInput['saswp-google-review'] == 1 ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-g-place-api"
-  }, /*#__PURE__*/_react["default"].createElement("label", null, "Google place API Key"), /*#__PURE__*/_react["default"].createElement("input", {
+  }, /*#__PURE__*/_react["default"].createElement("label", null, __('Google place API Key', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("input", {
     name: "saswp_google_place_api_key",
     onChange: handleInputChange,
     value: userInput['saswp_google_place_api_key'],
@@ -70333,13 +70370,13 @@ var ReviewsFetch = function ReviewsFetch() {
   })), userInput.saswp_reviews_location_name ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, userInput.saswp_reviews_location_name.map(function (item, i) {
     return /*#__PURE__*/_react["default"].createElement("tr", {
       key: i
-    }, /*#__PURE__*/_react["default"].createElement("td", null, "Place Id"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+    }, /*#__PURE__*/_react["default"].createElement("td", null, __('Place Id', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
       "data-id": i,
       type: "text",
       onChange: handleInputChange,
       name: "saswp_reviews_location_name",
       value: item
-    })), /*#__PURE__*/_react["default"].createElement("td", null, "Reviews"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+    })), /*#__PURE__*/_react["default"].createElement("td", null, __('Reviews', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
       type: "text",
       name: "saswp_reviews_location_blocks",
       defaultValue: "5",
@@ -70351,7 +70388,7 @@ var ReviewsFetch = function ReviewsFetch() {
       "data-id": i,
       className: "btn btn-success saswp-fetch-g-reviews",
       onClick: handleFetchFreeReviews
-    }, "Fetch")), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+    }, __('Fetch', 'schema-and-structured-data-for-wp'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
       "data-id": i,
       onClick: handleRemoveLocation,
       className: "saswp-remove-review-item button"
@@ -70361,15 +70398,15 @@ var ReviewsFetch = function ReviewsFetch() {
   }))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn",
     onClick: handleAddLocation
-  }, "Add Location"), /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("a", {
+  }, __('Add Location', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("a", {
     target: "_blank",
     href: "https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder"
-  }, "Place ID Finder")))) : null) : null)))), /*#__PURE__*/_react["default"].createElement("div", {
+  }, __('Place ID Finder', 'schema-and-structured-data-for-wp'))))) : null) : null)))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-quick-links-div"
-  }, /*#__PURE__*/_react["default"].createElement("h4", null, "Quick Links"), /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("a", {
+  }, /*#__PURE__*/_react["default"].createElement("h4", null, __('Quick Links', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("a", {
     target: "_blank",
     href: "https://structured-data-for-wp.com/docs/article/how-to-display-reviews-with-collection-feature/"
-  }, "How to show reviews on the website"))), /*#__PURE__*/_react["default"].createElement("div", {
+  }, __('How to show reviews on the website', 'schema-and-structured-data-for-wp')))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-save-settings-btn"
   }, isLoaded ? /*#__PURE__*/_react["default"].createElement(_it.Button, {
     success: true,
@@ -70381,16 +70418,16 @@ var ReviewsFetch = function ReviewsFetch() {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
-  }, /*#__PURE__*/_react["default"].createElement("h2", null, "Get Your 5 Stars Reviews on Google SERPs"), /*#__PURE__*/_react["default"].createElement("p", {
+  }, /*#__PURE__*/_react["default"].createElement("h2", null, __('Get Your 5 Stars Reviews on Google SERPs', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("p", {
     className: "saswp_desc"
-  }, "Automatically Fetch your customer reviews from 80+ Platforms and show them on your website with proper schema support. ", /*#__PURE__*/_react["default"].createElement("a", {
+  }, __('Automatically Fetch your customer reviews from 80+ Platforms and show them on your website with proper schema support.', 'schema-and-structured-data-for-wp'), " ", /*#__PURE__*/_react["default"].createElement("a", {
     target: "_blank",
     href: "https://structured-data-for-wp.com/reviews-for-schema"
-  }, "Learn More...")), /*#__PURE__*/_react["default"].createElement("div", {
+  }, __('Learn More...', 'schema-and-structured-data-for-wp'))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp_cmpny_lst"
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: "saswp_lst saswp_avlbl"
-  }, "Integrations Avaliable"), /*#__PURE__*/_react["default"].createElement("ul", null, platforms.map(function (item, i) {
+  }, __('Integrations Avaliable', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("ul", null, platforms.map(function (item, i) {
     return /*#__PURE__*/_react["default"].createElement("li", {
       key: i
     }, " ", /*#__PURE__*/_react["default"].createElement("img", {
@@ -70403,10 +70440,10 @@ var ReviewsFetch = function ReviewsFetch() {
     }, item.name));
   }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-rev-btn"
-  }, /*#__PURE__*/_react["default"].createElement("span", null, "With our API service, you can fetch reviews from anywhere you want! and we are always increasing the number of integrations. You can also request for an integration as well."), /*#__PURE__*/_react["default"].createElement("a", {
+  }, /*#__PURE__*/_react["default"].createElement("span", null, __('With our API service, you can fetch reviews from anywhere you want! and we are always increasing the number of integrations. You can also request for an integration as well.', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("a", {
     target: "_blank",
     href: "https://structured-data-for-wp.com/reviews-for-schema"
-  }, "Get The Reviews Addon Now"))))) : /*#__PURE__*/_react["default"].createElement("div", {
+  }, __('Get The Reviews Addon Now', 'schema-and-structured-data-for-wp')))))) : /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-fetch-rv-container"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card"
@@ -70414,7 +70451,7 @@ var ReviewsFetch = function ReviewsFetch() {
     className: "card-body"
   }, /*#__PURE__*/_react["default"].createElement("table", {
     className: "form-table saswp-fetch-rv-table"
-  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Reviews Pro API Key"), /*#__PURE__*/_react["default"].createElement("td", null, userInput['reviews_addon_license_key_status'] == 'active' ? /*#__PURE__*/_react["default"].createElement(_icon["default"], null, "check") : /*#__PURE__*/_react["default"].createElement(_icon["default"], null, "close"), /*#__PURE__*/_react["default"].createElement("input", {
+  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Reviews Pro API Key', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, userInput['reviews_addon_license_key_status'] == 'active' ? /*#__PURE__*/_react["default"].createElement(_icon["default"], null, "check") : /*#__PURE__*/_react["default"].createElement(_icon["default"], null, "close"), /*#__PURE__*/_react["default"].createElement("input", {
     onChange: handleInputChange,
     value: userInput['reviews_addon_license_key'],
     type: "text",
@@ -70446,7 +70483,7 @@ var ReviewsFetch = function ReviewsFetch() {
       checked: userInput[platformsList[key]['name']]
     }))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", {
       className: "saswp-reviews-platform-fields"
-    }, userInput[platformsList[key]['name']] ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("strong", null, "Note:"), " If the reviews have not been fetched on first instance. We recommend you to fetch again with same reviews count after some time as it may take time to scrap the reviews on server.")) : '', platformsList[key]['type'] == 'multi' && userInput[platformsList[key]['name']] ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("table", {
+    }, userInput[platformsList[key]['name']] ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("strong", null, __('Note:', 'schema-and-structured-data-for-wp')), " ", __('If the reviews have not been fetched on first instance. We recommend you to fetch again with same reviews count after some time as it may take time to scrap the reviews on server.', 'schema-and-structured-data-for-wp'))) : '', platformsList[key]['type'] == 'multi' && userInput[platformsList[key]['name']] ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("table", {
       "data-platform": key,
       className: "saswp-platform-table"
     }, /*#__PURE__*/_react["default"].createElement("tbody", null, reviewsFieldGenerator(platformsList[key], key))), /*#__PURE__*/_react["default"].createElement("a", {
@@ -70454,13 +70491,13 @@ var ReviewsFetch = function ReviewsFetch() {
       "data-platform_id": platformsList[key]['id'],
       "data-platform": key,
       className: "btn btn-default"
-    }, "Add URL")) : ''))))));
+    }, __('Add URL', 'schema-and-structured-data-for-wp'))) : ''))))));
   }) : null), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-quick-links-div"
-  }, /*#__PURE__*/_react["default"].createElement("h4", null, "Quick Links"), /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("a", {
+  }, /*#__PURE__*/_react["default"].createElement("h4", null, __('Quick Links', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement("a", {
     target: "_blank",
     href: "https://structured-data-for-wp.com/docs/article/how-to-display-reviews-with-collection-feature/"
-  }, "How to show reviews on the website"))), /*#__PURE__*/_react["default"].createElement("div", {
+  }, __('How to show reviews on the website', 'schema-and-structured-data-for-wp')))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-save-settings-btn"
   }, isLoaded ? /*#__PURE__*/_react["default"].createElement(_it.Button, {
     success: true,
@@ -70658,7 +70695,7 @@ var ReviewsList = function ReviewsList() {
     className: "card-body"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-heading-top"
-  }, /*#__PURE__*/_react["default"].createElement("div", null, postsCount > 0 ? /*#__PURE__*/_react["default"].createElement("h4", null, "Review Items (", postsCount, ")") : '', " "), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
+  }, /*#__PURE__*/_react["default"].createElement("div", null, postsCount > 0 ? /*#__PURE__*/_react["default"].createElement("h4", null, __('Review Items', 'schema-and-structured-data-for-wp'), " (", postsCount, ")") : '', " "), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
     className: "btn btn-success",
     to: 'admin.php?page=saswp&path=reviews_single'
   }, /*#__PURE__*/_react["default"].createElement(_icon["default"], {
@@ -70738,7 +70775,7 @@ var ReviewsList = function ReviewsList() {
     }, "more")));
   }))) : /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-not-found"
-  }, "Reviews not found.", /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
+  }, __('Reviews not found.', 'schema-and-structured-data-for-wp'), /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
     className: "btn btn-success",
     to: 'admin.php?page=saswp&path=reviews_single'
   }, /*#__PURE__*/_react["default"].createElement(_icon["default"], {
@@ -70786,7 +70823,7 @@ var _DottedSpinner = _interopRequireDefault(__webpack_require__(13));
 
 var _MainSpinner = _interopRequireDefault(__webpack_require__(11));
 
-var _it = __webpack_require__(15);
+var _it = __webpack_require__(18);
 
 var _reactStarRatings = _interopRequireDefault(__webpack_require__(50));
 
@@ -71036,7 +71073,7 @@ var ReviewsSingle = function ReviewsSingle() {
     className: "saswp-single-header"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-single-header-left"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Review Setup")), /*#__PURE__*/_react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, __('Review Setup', 'schema-and-structured-data-for-wp'))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-single-header-right"
   }, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
     to: "admin.php?page=saswp&path=reviews"
@@ -71046,16 +71083,16 @@ var ReviewsSingle = function ReviewsSingle() {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
-  }, "Review Content"), /*#__PURE__*/_react["default"].createElement("div", {
+  }, __('Review Content', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("div", {
     className: "divider-horizontal"
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
   }, /*#__PURE__*/_react["default"].createElement("table", {
     className: "saswp-table"
-  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Reviewer Image"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_MediaUpload["default"], {
+  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Reviewer Image', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_MediaUpload["default"], {
     onSelection: handleReviewImage,
     src: userInput.saswp_reviewer_image
-  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Rating"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_reactStarRatings["default"], {
+  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Rating', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_reactStarRatings["default"], {
     isAggregateRating: true,
     rating: Number(userInput.saswp_review_rating),
     starRatedColor: "#ffd700",
@@ -71065,38 +71102,38 @@ var ReviewsSingle = function ReviewsSingle() {
     name: "rating",
     starDimension: "30px",
     starSpacing: "5px"
-  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Review Date"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_reactDatepicker["default"], {
+  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Review Date', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_reactDatepicker["default"], {
     dateFormat: "yyyy-MM-dd",
     name: "saswp-review-date",
     selected: new Date(Date.parse(userInput.saswp_review_date)),
     onChange: handleDateChange
-  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Reviewer Name"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Reviewer Name', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
     value: userInput.saswp_reviewer_name,
     onChange: handleInputChange,
     type: "text",
     name: "saswp_reviewer_name"
-  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Review Text"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("textarea", {
+  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Review Text', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("textarea", {
     value: userInput.saswp_review_text,
     onChange: handleInputChange,
     name: "saswp_review_text",
     rows: "5"
-  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Review Link"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Review Link', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
     value: userInput.saswp_review_link,
     onChange: handleInputChange,
     type: "text",
     name: "saswp_review_link"
-  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Review Platform"), /*#__PURE__*/_react["default"].createElement("td", null, handlePlatformOption())))))), /*#__PURE__*/_react["default"].createElement("div", {
+  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Review Platform', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, handlePlatformOption())))))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-publish-button"
   }, postStatus == 'publish' || postStatus == 'draft' ? /*#__PURE__*/_react["default"].createElement("div", null, isLoaded ? /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn btn-success",
     onClick: publishPost
-  }, "Update") : /*#__PURE__*/_react["default"].createElement(_it.Button, {
+  }, __('Update', 'schema-and-structured-data-for-wp')) : /*#__PURE__*/_react["default"].createElement(_it.Button, {
     success: true,
     loading: true
   }, "Loading success")) : /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", null, isLoaded ? /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn btn-success",
     onClick: publishPost
-  }, "Update") : /*#__PURE__*/_react["default"].createElement(_it.Button, {
+  }, __('Update', 'schema-and-structured-data-for-wp')) : /*#__PURE__*/_react["default"].createElement(_it.Button, {
     success: true,
     loading: true
   }, "Loading success")))))));
@@ -82283,9 +82320,9 @@ var _SettingsTools = _interopRequireDefault(__webpack_require__(299));
 
 var _Migration = _interopRequireDefault(__webpack_require__(300));
 
-__webpack_require__(16);
+__webpack_require__(15);
 
-var _it = __webpack_require__(15);
+var _it = __webpack_require__(18);
 
 var _translationPanel = _interopRequireDefault(__webpack_require__(301));
 
@@ -82507,6 +82544,21 @@ var Settings = function Settings() {
       navMenu = _useState26[0],
       setNavMenu = _useState26[1];
 
+  var _useState27 = (0, _react.useState)([]),
+      _useState28 = _slicedToArray(_useState27, 2),
+      postTypes = _useState28[0],
+      setPostTypes = _useState28[1];
+
+  var _useState29 = (0, _react.useState)([]),
+      _useState30 = _slicedToArray(_useState29, 2),
+      userRoles = _useState30[0],
+      setUserRoles = _useState30[1];
+
+  var _useState31 = (0, _react.useState)(''),
+      _useState32 = _slicedToArray(_useState31, 2),
+      folderError = _useState32[0],
+      setFolderError = _useState32[1];
+
   var getSettings = function getSettings() {
     setIsLoaded(false);
     setMainSpinner(true);
@@ -82528,6 +82580,14 @@ var Settings = function Settings() {
 
       if (result.nav_menu) {
         setNavMenu(result.nav_menu);
+      }
+
+      if (result.post_types) {
+        setPostTypes(result.post_types);
+      }
+
+      if (result.user_roles) {
+        setUserRoles(result.user_roles);
       }
 
       setIsLoaded(true);
@@ -82568,12 +82628,62 @@ var Settings = function Settings() {
     if (type === 'file') {
       var file = evt.target.files[0];
       setBackupFile(file);
-    } else {
-      if (type === "checkbox") {
-        value = evt.target.checked;
-      }
+    } else if (type === 'select-multiple') {
+      var values = _toConsumableArray(evt.target.selectedOptions).map(function (opt) {
+        return opt.value;
+      });
 
-      setUserInput(_defineProperty({}, name, value));
+      setUserInput(_defineProperty({}, name, values));
+    } else {
+      if (name == 'saswp-stars-post-taype') {
+        var checkedval = evt.target.checked;
+
+        var clonedata = _objectSpread({}, userInput);
+
+        var index = clonedata['saswp-stars-post-taype'].indexOf(value);
+
+        if (checkedval) {
+          clonedata['saswp-stars-post-taype'].push(value);
+        } else {
+          if (index !== -1) {
+            clonedata['saswp-stars-post-taype'].splice(index, 1);
+          }
+        }
+
+        setUserInput(clonedata);
+      } else if (name == 'saswp-resized-image-folder') {
+        var _checkedval = evt.target.checked;
+
+        if (_checkedval) {
+          var url = saswp_localize_data.rest_url + "saswp-route/create-resized-image-folder";
+          fetch(url, {
+            method: "post",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'X-WP-Nonce': saswp_localize_data.nonce
+            }
+          }).then(function (res) {
+            return res.json();
+          }).then(function (result) {
+            if (result.status == 't') {
+              setUserInput(_defineProperty({}, name, _checkedval));
+            } else {
+              setFolderError(result.message);
+            }
+          }, function (error) {
+            setFolderError(error);
+          });
+        } else {
+          setUserInput(_defineProperty({}, name, value));
+        }
+      } else {
+        if (type === "checkbox") {
+          value = evt.target.checked;
+        }
+
+        setUserInput(_defineProperty({}, name, value));
+      }
     }
   };
 
@@ -82643,6 +82753,10 @@ var Settings = function Settings() {
       return res.json();
     }).then(function (result) {
       setIsSaved(true);
+
+      if (result.file_status) {
+        location.reload();
+      }
     }, function (error) {});
   };
 
@@ -82676,10 +82790,10 @@ var Settings = function Settings() {
     }
   };
 
-  var _useState27 = (0, _react.useState)(false),
-      _useState28 = _slicedToArray(_useState27, 2),
-      openDefaultDataModal = _useState28[0],
-      setOpenDefaultDataModal = _useState28[1];
+  var _useState33 = (0, _react.useState)(false),
+      _useState34 = _slicedToArray(_useState33, 2),
+      openDefaultDataModal = _useState34[0],
+      setOpenDefaultDataModal = _useState34[1];
 
   var handleDefaultDataSave = function handleDefaultDataSave(e) {
     e.preventDefault();
@@ -82694,10 +82808,10 @@ var Settings = function Settings() {
     setOpenDefaultDataModal(false);
   };
 
-  var _useState29 = (0, _react.useState)(false),
-      _useState30 = _slicedToArray(_useState29, 2),
-      openKnowledgeModal = _useState30[0],
-      setOpenKnowledgeModal = _useState30[1];
+  var _useState35 = (0, _react.useState)(false),
+      _useState36 = _slicedToArray(_useState35, 2),
+      openKnowledgeModal = _useState36[0],
+      setOpenKnowledgeModal = _useState36[1];
 
   var handleKnowledgeSave = function handleKnowledgeSave(e) {
     e.preventDefault();
@@ -82712,10 +82826,10 @@ var Settings = function Settings() {
     setOpenKnowledgeModal(false);
   };
 
-  var _useState31 = (0, _react.useState)(false),
-      _useState32 = _slicedToArray(_useState31, 2),
-      openSocialModal = _useState32[0],
-      setOpenSocialModal = _useState32[1];
+  var _useState37 = (0, _react.useState)(false),
+      _useState38 = _slicedToArray(_useState37, 2),
+      openSocialModal = _useState38[0],
+      setOpenSocialModal = _useState38[1];
 
   var handleSocialSave = function handleSocialSave(e) {
     e.preventDefault();
@@ -82795,25 +82909,25 @@ var Settings = function Settings() {
     });
   };
 
-  var _useState33 = (0, _react.useState)([]),
-      _useState34 = _slicedToArray(_useState33, 2),
-      aboutPageList = _useState34[0],
-      setAboutPageList = _useState34[1];
-
-  var _useState35 = (0, _react.useState)([]),
-      _useState36 = _slicedToArray(_useState35, 2),
-      contactPageList = _useState36[0],
-      setContactPageList = _useState36[1];
-
-  var _useState37 = (0, _react.useState)({}),
-      _useState38 = _slicedToArray(_useState37, 2),
-      aboutPageValue = _useState38[0],
-      setAboutPageValue = _useState38[1];
-
-  var _useState39 = (0, _react.useState)({}),
+  var _useState39 = (0, _react.useState)([]),
       _useState40 = _slicedToArray(_useState39, 2),
-      contactPageValue = _useState40[0],
-      setContactPageValue = _useState40[1];
+      aboutPageList = _useState40[0],
+      setAboutPageList = _useState40[1];
+
+  var _useState41 = (0, _react.useState)([]),
+      _useState42 = _slicedToArray(_useState41, 2),
+      contactPageList = _useState42[0],
+      setContactPageList = _useState42[1];
+
+  var _useState43 = (0, _react.useState)({}),
+      _useState44 = _slicedToArray(_useState43, 2),
+      aboutPageValue = _useState44[0],
+      setAboutPageValue = _useState44[1];
+
+  var _useState45 = (0, _react.useState)({}),
+      _useState46 = _slicedToArray(_useState45, 2),
+      contactPageValue = _useState46[0],
+      setContactPageValue = _useState46[1];
 
   var getPageList = function getPageList(type, search, id) {
     setIsLoaded(false);
@@ -83313,7 +83427,21 @@ var Settings = function Settings() {
         }, __('This option adds rating field in wordpress default comment box', 'schema-and-structured-data-for-wp'), " ", /*#__PURE__*/_react["default"].createElement("a", {
           target: "_blank",
           href: "https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/"
-        }, __('Learn More', 'schema-and-structured-data-for-wp'))))), /*#__PURE__*/_react["default"].createElement("div", {
+        }, __('Learn More', 'schema-and-structured-data-for-wp')))), userInput['saswp-stars-rating'] == 1 && postTypes ? postTypes.map(function (item, i) {
+          return /*#__PURE__*/_react["default"].createElement("label", {
+            key: i,
+            className: "form-check form-group toggle saswp-sub-element"
+          }, /*#__PURE__*/_react["default"].createElement("input", {
+            name: "saswp-stars-post-taype",
+            value: item.name,
+            checked: userInput['saswp-stars-post-taype'].includes(item.name) ? true : false,
+            onChange: handleInputChange,
+            type: "checkbox",
+            className: "form-check-input"
+          }), /*#__PURE__*/_react["default"].createElement("span", {
+            className: "form-check-label"
+          }, item.label));
+        }) : ''), /*#__PURE__*/_react["default"].createElement("div", {
           className: "form-group-container"
         }, /*#__PURE__*/_react["default"].createElement("label", {
           className: "form-check form-group toggle"
@@ -83490,7 +83618,20 @@ var Settings = function Settings() {
           className: "form-check-label"
         }, __('MicroData CleanUp', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("p", {
           className: "form-check-description"
-        }, __('It removes all the microdata generated by third party plugins which cause validation error on google testing tool', 'schema-and-structured-data-for-wp')))), /*#__PURE__*/_react["default"].createElement("div", {
+        }, __('It removes all the microdata generated by third party plugins which cause validation error on google testing tool', 'schema-and-structured-data-for-wp'))), userRoles.length > 0 ? /*#__PURE__*/_react["default"].createElement("div", {
+          className: "form-group"
+        }, /*#__PURE__*/_react["default"].createElement("label", null, __('Role Based Access', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("select", {
+          className: "input-group",
+          onChange: handleInputChange,
+          value: userInput['saswp-role-based-access'],
+          name: "saswp-role-based-access",
+          multiple: true
+        }, userRoles.map(function (item, index) {
+          return /*#__PURE__*/_react["default"].createElement("option", {
+            key: index,
+            value: item.value
+          }, item.label);
+        }))) : ''), /*#__PURE__*/_react["default"].createElement("div", {
           className: "form-group-container"
         }, /*#__PURE__*/_react["default"].createElement("label", {
           className: "form-check form-group toggle"
@@ -83528,7 +83669,21 @@ var Settings = function Settings() {
           className: "form-check-label"
         }, __('Add Featured Image in RSS feed', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("p", {
           className: "form-check-description"
-        }, __('Showing images alongside news/blogs if your website or blog appears in Google News', 'schema-and-structured-data-for-wp'))))))), /*#__PURE__*/_react["default"].createElement(_Migration["default"], null), /*#__PURE__*/_react["default"].createElement(_translationPanel["default"], {
+        }, __('Showing images alongside news/blogs if your website or blog appears in Google News', 'schema-and-structured-data-for-wp'))), /*#__PURE__*/_react["default"].createElement("label", {
+          className: "form-check form-group toggle"
+        }, /*#__PURE__*/_react["default"].createElement("input", {
+          name: "saswp-resized-image-folder",
+          checked: userInput['saswp-resized-image-folder'] == 1 ? true : false,
+          onChange: handleInputChange,
+          type: "checkbox",
+          className: "form-check-input"
+        }), /*#__PURE__*/_react["default"].createElement("span", {
+          className: "form-check-label"
+        }, __('Resized Images in Separate Folder', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description"
+        }, __('Store all resized images by SASWP in a separate folder "schema-and-structured-data-for-wp" for better management and optimization of images', 'schema-and-structured-data-for-wp')), folderError ? /*#__PURE__*/_react["default"].createElement("p", {
+          className: "form-check-description saswp-error"
+        }, folderError) : ''))))), /*#__PURE__*/_react["default"].createElement(_Migration["default"], null), /*#__PURE__*/_react["default"].createElement(_translationPanel["default"], {
           handleInputChange: handleInputChange,
           userInput: userInput
         }), /*#__PURE__*/_react["default"].createElement(_License["default"], {
@@ -83799,7 +83954,7 @@ var _react = _interopRequireWildcard(__webpack_require__(0));
 
 var _DottedSpinner = _interopRequireDefault(__webpack_require__(13));
 
-__webpack_require__(16);
+__webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -83902,13 +84057,14 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-__webpack_require__(16);
+__webpack_require__(15);
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 var SettingsServices = function SettingsServices() {
+  var __ = wp.i18n.__;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-pre-ftrs-wrap"
   }, /*#__PURE__*/_react["default"].createElement("ul", {
@@ -83924,11 +84080,11 @@ var SettingsServices = function SettingsServices() {
     src: "http://localhost/wordpress/wp-content/plugins/schema-and-structured-data-for-wp//admin_section/images/support-1.png"
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-ele-tlt"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Priority Support"), /*#__PURE__*/_react["default"].createElement("p", null, "We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team."))), /*#__PURE__*/_react["default"].createElement("a", {
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, __('Priority Support', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("p", null, __('We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team.', 'schema-and-structured-data-for-wp')))), /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn btn-success",
     target: "_blank",
     href: "https://structured-data-for-wp.com/priority-support//"
-  }, "Try it")), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
+  }, __('Try it', 'schema-and-structured-data-for-wp'))), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-features-ele"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-ele-ic saswp-ele-3",
@@ -83939,11 +84095,11 @@ var SettingsServices = function SettingsServices() {
     src: "http://localhost/wordpress/wp-content/plugins/schema-and-structured-data-for-wp//admin_section/images/news.png"
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-ele-tlt"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Google News Schema Setup"), /*#__PURE__*/_react["default"].createElement("p", null, "Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website."))), /*#__PURE__*/_react["default"].createElement("a", {
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, __('Google News Schema Setup', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("p", null, __('Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website.', 'schema-and-structured-data-for-wp')))), /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn btn-success",
     target: "_blank",
     href: "http://structured-data-for-wp.com/services/google-news-schema-setup/"
-  }, "Try it")), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
+  }, __('Try it', 'schema-and-structured-data-for-wp'))), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-features-ele"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-ele-ic saswp-ele-4",
@@ -83954,11 +84110,11 @@ var SettingsServices = function SettingsServices() {
     src: "http://localhost/wordpress/wp-content/plugins/schema-and-structured-data-for-wp//admin_section/images/schema-setup-icon.png"
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: "saswp-ele-tlt"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Structured Data Setup & Error Clean Up"), /*#__PURE__*/_react["default"].createElement("p", null, "We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers."))), /*#__PURE__*/_react["default"].createElement("a", {
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, __('Structured Data Setup', 'schema-and-structured-data-for-wp'), " & ", __('Error Clean Up', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("p", null, __('We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers.', 'schema-and-structured-data-for-wp')))), /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn btn-success",
     target: "_blank",
     href: "http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/"
-  }, "Try it"))));
+  }, __('Try it', 'schema-and-structured-data-for-wp')))));
 };
 
 var _default = SettingsServices;
@@ -83980,37 +84136,14 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _queryString = _interopRequireDefault(__webpack_require__(6));
-
-var _it = __webpack_require__(15);
-
-var _reactRouterDom = __webpack_require__(7);
-
-__webpack_require__(16);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+__webpack_require__(15);
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 var SettingsTools = function SettingsTools(props) {
-  var _useState = (0, _react.useState)([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      extensionList = _useState2[0],
-      setExtensionList = _useState2[1];
+  var __ = wp.i18n.__;
 
   var getPremiumExtensions = function getPremiumExtensions() {
     var url = saswp_localize_data.rest_url + "saswp-route/get-premium-extensions";
@@ -84032,49 +84165,33 @@ var SettingsTools = function SettingsTools(props) {
     getPremiumExtensions();
   }, []); // pass in an empty array as a second argument
 
-  var extensions = extensionList.map(function (item, index) {
-    return /*#__PURE__*/_react["default"].createElement("li", {
-      key: index
-    }, /*#__PURE__*/_react["default"].createElement("div", {
-      className: "saswp-features-ele"
-    }, /*#__PURE__*/_react["default"].createElement("div", {
-      className: "saswp-ele-ic",
-      style: {
-        background: item.background
-      }
-    }, /*#__PURE__*/_react["default"].createElement("img", {
-      src: item.image
-    })), /*#__PURE__*/_react["default"].createElement("div", {
-      className: "saswp-ele-tlt"
-    }, /*#__PURE__*/_react["default"].createElement("h3", null, item.name), /*#__PURE__*/_react["default"].createElement("p", null, item.description))), /*#__PURE__*/_react["default"].createElement("div", {
-      className: "saswp-sts-btn"
-    }, /*#__PURE__*/_react["default"].createElement("div", null, " Status : ", /*#__PURE__*/_react["default"].createElement("span", null, item.status)), /*#__PURE__*/_react["default"].createElement("div", null, item.status == 'InActive' ? /*#__PURE__*/_react["default"].createElement("a", {
-      className: "btn btn-success"
-    }, "Download") : '', "   ")));
-  });
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Tools")), /*#__PURE__*/_react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, __('Tools', 'schema-and-structured-data-for-wp'))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "divider-horizontal"
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
   }, /*#__PURE__*/_react["default"].createElement("table", {
     className: "saswp-tools-table"
-  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Export All Settings And Schema"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+  }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Export All Settings And Schema', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
     href: "".concat(saswp_localize_data.rest_url, "saswp-route/export-settings"),
     className: "btn btn-success"
-  }, "Export"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Import All Settings And Schema"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+  }, __('Export', 'schema-and-structured-data-for-wp')))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Import All Settings And Schema', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
     type: "file",
     name: "import_file",
     onChange: props.handleInputChange
-  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Reset Settings"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+  }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Reset Settings', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
     className: "btn btn-success",
     onClick: props.resetSettings
-  }, "Reset"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Data Tracking Allow"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+  }, __('Reset', 'schema-and-structured-data-for-wp')))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Data Tracking Allow', 'schema-and-structured-data-for-wp'), /*#__PURE__*/_react["default"].createElement("p", null, __('We guarantee no sensitive data is collected ', 'schema-and-structured-data-for-wp'), /*#__PURE__*/_react["default"].createElement("a", {
+    target: "_blank",
+    href: "https://structured-data-for-wp.com/docs/article/usage-data-tracking/"
+  }, __('Learn more', 'schema-and-structured-data-for-wp')))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+    href: saswp_localize_data.track_url,
     className: "btn btn-success"
-  }, "Allow"))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, "Remove Data On Uninstall"), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", {
+  }, saswp_localize_data.track_text))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, __('Remove Data On Uninstall', 'schema-and-structured-data-for-wp')), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", {
     className: "form-check form-group toggle"
   }, /*#__PURE__*/_react["default"].createElement("input", {
     name: "saswp_rmv_data_on_uninstall",
@@ -84106,7 +84223,7 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-__webpack_require__(16);
+__webpack_require__(15);
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -84299,7 +84416,7 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-__webpack_require__(16);
+__webpack_require__(15);
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -84318,6 +84435,8 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var TranslationPanel = function TranslationPanel(props) {
+  var __ = wp.i18n.__;
+
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       translation = _useState2[0],
@@ -84353,7 +84472,7 @@ var TranslationPanel = function TranslationPanel(props) {
     className: "card"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-header"
-  }, /*#__PURE__*/_react["default"].createElement("h3", null, "Translation Panel")), /*#__PURE__*/_react["default"].createElement("div", {
+  }, /*#__PURE__*/_react["default"].createElement("h3", null, __('Translation Panel', 'schema-and-structured-data-for-wp'))), /*#__PURE__*/_react["default"].createElement("div", {
     className: "divider-horizontal"
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "card-body"
@@ -84381,11 +84500,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(__webpack_require__(0));
 
-__webpack_require__(16);
+__webpack_require__(15);
 
 var _icon = _interopRequireDefault(__webpack_require__(14));
 
-var _it = __webpack_require__(15);
+var _it = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

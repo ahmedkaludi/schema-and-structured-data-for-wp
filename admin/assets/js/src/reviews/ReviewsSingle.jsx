@@ -210,22 +210,22 @@ const handlePlatformOption =  () => {
       {mainSpinner ? <MainSpinner /> : ''}
       <form encType="multipart/form-data" method="post" id="saswp_review_form">  
       <div className="saswp-single-header">
-          <div className="saswp-single-header-left"><h3>Review Setup</h3></div>
+          <div className="saswp-single-header-left"><h3>{__('Review Setup', 'schema-and-structured-data-for-wp')}</h3></div>
           <div className="saswp-single-header-right"><Link to={`admin.php?page=saswp&path=reviews`}><Icon>close</Icon></Link></div>
       </div>
       <div className="saswp-single-body">
         <div className="card">
           <div className="card-body">
-            Review Content
+          {__('Review Content', 'schema-and-structured-data-for-wp')}  
           </div>
           <div className="divider-horizontal"></div>
           <div className="card-body">
             <table className="saswp-table">
               <tbody>
-                <tr><td>Reviewer Image</td><td>
+                <tr><td>{__('Reviewer Image', 'schema-and-structured-data-for-wp')}</td><td>
                 <MediaUpload onSelection={handleReviewImage} src={userInput.saswp_reviewer_image}/>                  
                   </td></tr>    
-                <tr><td>Rating</td><td>
+                <tr><td>{__('Rating', 'schema-and-structured-data-for-wp')}</td><td>
 
                 <StarRatings
                   isAggregateRating={true}
@@ -240,7 +240,7 @@ const handlePlatformOption =  () => {
                 />
 
                 </td></tr>
-                <tr><td>Review Date</td><td>
+                <tr><td>{__('Review Date', 'schema-and-structured-data-for-wp')}</td><td>
                 <DatePicker      
                   dateFormat="yyyy-MM-dd"  
                   name="saswp-review-date"
@@ -248,14 +248,14 @@ const handlePlatformOption =  () => {
                   onChange={handleDateChange}
                 />                 
                   </td></tr>
-                  <tr><td>Reviewer Name</td><td><input value={userInput.saswp_reviewer_name} onChange={handleInputChange} type="text" name="saswp_reviewer_name" /></td></tr>
-                  <tr><td>Review Text</td><td>
+                  <tr><td>{__('Reviewer Name', 'schema-and-structured-data-for-wp')}</td><td><input value={userInput.saswp_reviewer_name} onChange={handleInputChange} type="text" name="saswp_reviewer_name" /></td></tr>
+                  <tr><td>{__('Review Text', 'schema-and-structured-data-for-wp')}</td><td>
                   <textarea value={userInput.saswp_review_text} onChange={handleInputChange} name="saswp_review_text" rows="5" />
                  </td></tr>
-                <tr><td>Review Link</td><td>
+                <tr><td>{__('Review Link', 'schema-and-structured-data-for-wp')}</td><td>
                   <input value={userInput.saswp_review_link} onChange={handleInputChange} type="text" name="saswp_review_link" />
                 </td></tr>
-                <tr><td>Review Platform</td>
+                <tr><td>{__('Review Platform', 'schema-and-structured-data-for-wp')}</td>
                   <td>                    
                     {handlePlatformOption()}                    
                   </td>
@@ -268,10 +268,10 @@ const handlePlatformOption =  () => {
         <div className="saswp-publish-button">
                                 {
                                 (postStatus == 'publish' || postStatus == 'draft') ? 
-                                <div>{isLoaded ? <a className="btn btn-success" onClick={publishPost}>Update</a> : <Button success loading>Loading success</Button>}</div>
+                                <div>{isLoaded ? <a className="btn btn-success" onClick={publishPost}>{__('Update', 'schema-and-structured-data-for-wp')}</a> : <Button success loading>Loading success</Button>}</div>
                                 :
                                 <div>                                        
-                                        <div>{isLoaded ? <a className="btn btn-success" onClick={publishPost}>Update</a> : <Button success loading>Loading success</Button>}</div>
+                                        <div>{isLoaded ? <a className="btn btn-success" onClick={publishPost}>{__('Update', 'schema-and-structured-data-for-wp')}</a> : <Button success loading>Loading success</Button>}</div>
                                 </div>
                                 }                                 
         </div>

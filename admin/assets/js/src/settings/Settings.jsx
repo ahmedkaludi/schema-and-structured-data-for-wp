@@ -140,6 +140,9 @@ const Settings = () => {
   
   const [compatibility, setCompatibility]   = useState([]); 
   const [navMenu, setNavMenu]               = useState([]);  
+  const [postTypes, setPostTypes]           = useState([]);  
+  const [userRoles, setUserRoles]           = useState([]);  
+  const [folderError, setFolderError]       = useState('');  
 
   const getSettings = () => {
     setIsLoaded(false);
@@ -161,8 +164,14 @@ const Settings = () => {
           if(result.compatibility){
             setCompatibility(result.compatibility);  
           }
-          if(result.nav_menu){            
+          if(result.nav_menu){
             setNavMenu(result.nav_menu);  
+          }
+          if(result.post_types){
+            setPostTypes(result.post_types);  
+          }
+          if(result.user_roles){
+            setUserRoles(result.user_roles);  
           }          
           setIsLoaded(true);
           setMainSpinner(false);
@@ -203,19 +212,72 @@ const Settings = () => {
 
   const handleInputChange = evt => {
 
-    let { name, value, type } = evt.target;
-
+    let { name, value, type } = evt.target;        
+    
     if(type === 'file'){
       let file = evt.target.files[0];
       setBackupFile(file);
+    }else if(type === 'select-multiple'){
+      const values = [...evt.target.selectedOptions].map(opt => opt.value);
+      setUserInput({[name]: values});
     }else{
+      
+      if(name == 'saswp-stars-post-taype'){
+        
+        let checkedval = evt.target.checked;
+        let clonedata  = {...userInput};
+        let index = clonedata['saswp-stars-post-taype'].indexOf(value);
+        
+        if(checkedval){
+          clonedata['saswp-stars-post-taype'].push(value);
+        }else{
+          if (index !== -1) {
+            clonedata['saswp-stars-post-taype'].splice(index, 1);          
+          }
+        }
+        
+        setUserInput(clonedata);
+        
+      } else if (name == 'saswp-resized-image-folder'){
+           let checkedval = evt.target.checked;
+            if(checkedval){
+              let url = saswp_localize_data.rest_url + "saswp-route/create-resized-image-folder";
+              fetch(url, {
+                method: "post",
+                headers: {                    
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'X-WP-Nonce': saswp_localize_data.nonce,
+                }                
+              })
+              .then(res => res.json())
+              .then(
+                (result) => {                      
 
-      if(type === "checkbox"){
-        value = evt.target.checked;
+                  if(result.status == 't'){                    
+                    setUserInput({[name]: checkedval});
+                  }else{
+                    setFolderError(result.message);
+                  }
+
+                },        
+                (error) => {
+                  setFolderError(error);
+                }
+              );
+              
+            }else{
+              setUserInput({[name]: value});
+            }
+
+      } else{
+
+        if(type === "checkbox"){
+          value = evt.target.checked;
+        }
+        setUserInput({[name]: value});
       }
-
-      setUserInput({[name]: value});
-
+      
     }
             
   }
@@ -294,7 +356,10 @@ const Settings = () => {
     .then(res => res.json())
     .then(
       (result) => {  
-        setIsSaved(true);          
+        setIsSaved(true);  
+        if(result.file_status){
+          location.reload();
+        }        
       },        
       (error) => {
        
@@ -971,7 +1036,15 @@ useEffect(() => {
                   <span className="form-check-label">{__('Stars Rating', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('This option adds rating field in wordpress default comment box', 'schema-and-structured-data-for-wp')} <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">{__('Learn More', 'schema-and-structured-data-for-wp')}</a></p>
                 </label>
-                
+
+                 { (userInput['saswp-stars-rating'] == 1 && postTypes) ?
+                      postTypes.map((item, i) => (
+                        <label key={i} className="form-check form-group toggle saswp-sub-element">
+                        <input name="saswp-stars-post-taype" value={item.name} checked={userInput['saswp-stars-post-taype'].includes(item.name) ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                          <span className="form-check-label">{item.label}</span>                        
+                        </label>
+                      ))
+                  : ''}                                 
                 </div>
 
                 <div className="form-group-container">
@@ -1115,6 +1188,18 @@ useEffect(() => {
                   <p className="form-check-description">{__('It removes all the microdata generated by third party plugins which cause validation error on google testing tool', 'schema-and-structured-data-for-wp')}</p>
                 </label>
 
+                {userRoles.length > 0 ? 
+                  <div className="form-group">
+                  <label>{__('Role Based Access', 'schema-and-structured-data-for-wp')}</label>
+                  <select className="input-group" onChange={handleInputChange} value={userInput['saswp-role-based-access']} name="saswp-role-based-access" multiple>
+                    {
+                       userRoles.map((item, index) => (                          
+                        <option key={index} value={item.value}>{item.label}</option>                        
+                      ))
+                    }
+                  </select>
+                  </div>                
+                : ''}                
                 </div>
 
                 <div className="form-group-container">                
@@ -1135,6 +1220,13 @@ useEffect(() => {
                 <input name="saswp-rss-feed-image" checked={userInput['saswp-rss-feed-image'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
                   <span className="form-check-label">{__('Add Featured Image in RSS feed', 'schema-and-structured-data-for-wp')}</span>
                   <p className="form-check-description">{__('Showing images alongside news/blogs if your website or blog appears in Google News', 'schema-and-structured-data-for-wp')}</p>
+                </label>
+
+                <label className="form-check form-group toggle">
+                <input name="saswp-resized-image-folder" checked={userInput['saswp-resized-image-folder'] == 1 ? true : false} onChange={handleInputChange} type="checkbox" className="form-check-input" />
+                  <span className="form-check-label">{__('Resized Images in Separate Folder', 'schema-and-structured-data-for-wp')}</span>
+                  <p className="form-check-description">{__('Store all resized images by SASWP in a separate folder "schema-and-structured-data-for-wp" for better management and optimization of images', 'schema-and-structured-data-for-wp')}</p>
+                  {folderError ? <p className="form-check-description saswp-error">{folderError}</p> : ''}
                 </label>
                 
                 </div>

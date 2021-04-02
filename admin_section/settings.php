@@ -166,8 +166,39 @@ function saswp_home_interface_render($hook){
         if ( is_plugin_active('reviews-for-schema/reviews-for-schema.php') ) {
                 $reviewsforschema = 'pro';
         }  
+        
+        $allow_tracking = get_option( 'wisdom_allow_tracking' );                            
+        $plugin         = basename( SASWP_DIR_NAME_FILE, '.php' );
+
+        if(isset($allow_tracking[$plugin])){
+
+                $track_url = add_query_arg( array(
+                        'plugin'        => $plugin,
+                        'plugin_action'	=> 'no'
+                ) );
+
+                $track_text = saswp_t_string( 'Disallow' );                        
+
+        }else{
+
+                $track_url = add_query_arg(array(
+                        'plugin' 		=> $plugin,
+                        'plugin_action'   	=> 'yes'
+                ));
+
+                $track_text = saswp_t_string( 'Allow' );
+
+        }
+
+        $is_super_admin = false;
+
+        if( function_exists('is_super_admin') &&  is_super_admin() ){
+                $is_super_admin = true;
+        }
             
         $data = array(
+                'track_url'                    => esc_url($track_url),
+                'track_text'                   => $track_text,
                 'reviewsforschema'             => $reviewsforschema,
                 'plugin_url'                   => SASWP_PLUGIN_URL,
                 'rest_url'                     => esc_url_raw( rest_url() ),
@@ -191,7 +222,9 @@ function saswp_home_interface_render($hook){
                 'trans_self'                   => saswp_label_text('translation-self'),
                 'translable_txt'               => $translable_txt,
                 'is_pro_active'                => saswp_ext_installed_status(),
-                'saswp_version'                => SASWP_VERSION
+                'saswp_version'                => SASWP_VERSION,
+                'review_csv_format_url'        => wp_nonce_url(admin_url('admin-ajax.php?action=saswp_download_csv_review_format'), '_wpnonce'),
+                'is_super_admin'               => $is_super_admin 
         );
 
         
