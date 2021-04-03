@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useReducer} from 'react';
 import queryString from 'query-string'
 import {Link} from 'react-router-dom';
-import './Schema.scss';
 import Select from "react-select";
 import {useHistory} from 'react-router-dom';
 import MainSpinner from './../common/main-spinner/MainSpinner';
@@ -10,6 +9,8 @@ import MediaUpload from './../common/mediaUpload/MediaUpload';
 import FieldGenerator from './../common/field-generator/FieldGenerator'
 import { Modal } from '@duik/it';
 import { Button } from '@duik/it'
+import Icon from '@duik/icon'
+import './Schema.scss';
 
 const SchemaSingle = () => {
 
@@ -17,22 +18,16 @@ const SchemaSingle = () => {
         const page = queryString.parse(window.location.search);  
         const history = useHistory();
 
-        const [isLoaded, setIsLoaded]               = useState(true);  
-        const [mainSpinner, setMainSpinner]         = useState(false);  
-        const [partSpinner, setPartSpinner]         = useState(false); 
-
-
+        const [isLoaded, setIsLoaded]                                       = useState(true);  
+        const [mainSpinner, setMainSpinner]                                 = useState(false);  
+        const [partSpinner, setPartSpinner]                                 = useState(false); 
         const [schemaType, setSchemaType]                                   = useState('');
         const [postStatus, setPostStatus]                                   = useState('');
         const [schemaID, setSchemaID]                                       = useState(null);
-        const [defaultPlacement, setDefaultPlacement]                       = useState({});
-                                
-        
-
+        const [defaultPlacement, setDefaultPlacement]                       = useState({});                                        
         const [metaFields, setMetaFields]                                   = useState([]);  
         const [modifyEntry, setModifyEntry]                                 = useState([]);        
         const [customFieldSearched, setCustomFieldSearched]                 = useState([]);       
-
         const [addReviewModal, setAddReviewModal]                           = useState(false); 
         const [reviewTabStatus, setReviewTabStatus]                         = useState(0); 
         const [reviewToBeAdded, setReviewToBeAdded]                         = useState([]);
@@ -1081,7 +1076,8 @@ const SchemaSingle = () => {
         {mainSpinner ? <MainSpinner /> : ''}
         <form encType="multipart/form-data" method="post" id="saswp_schema_form">  
                 <div className="saswp-single-header">
-                        <div className="saswp-single-header-left"><h3>{schemaType} {__('Schema Setup', 'schema-and-structured-data-for-wp')}</h3></div>
+                        <div className="saswp-single-header-left">
+                                <h3> <Icon className="saswp-edit-schema-icon">edit</Icon> {schemaType} {__('Schema Setup', 'schema-and-structured-data-for-wp')}</h3></div>
                         <div className="saswp-single-header-right"><Link to={`admin.php?page=saswp`}>X</Link></div>
                         </div>
                 <div className="saswp-single-body">
@@ -1194,6 +1190,7 @@ const SchemaSingle = () => {
                                                                                                          <input type="text" placeholder="2020-12-31" name={`data_group_array[${key}][data_array][${i}][key_3]`} value={item.key_3} onChange={handleInputChange} data-group={key} data-group_index={i} data-index={k} data-key={`key_3`} />
                                                                                                           : 
                                                                                                           <Select
+                                                                                                          className="saswp-placement-select2"
                                                                                                           isSearchable ={true}
                                                                                                           name={`data_group_array[${key}][data_array][${i}][key_3]`}
                                                                                                           value={item.key_3_saved}
@@ -1208,6 +1205,7 @@ const SchemaSingle = () => {
                                                                                                          (item.key_1 == 'ef_taxonomy') ?
                                                                                                                                                                                                                          
                                                                                                                  <Select
+                                                                                                                 className="saswp-placement-select2"
                                                                                                                  isSearchable ={true}
                                                                                                                  name={`data_group_array[${key}][data_array][${i}][key_4]`}
                                                                                                                  value={item.key_4_saved}
@@ -1233,7 +1231,7 @@ const SchemaSingle = () => {
                                                 }) : null
 
                                         }
-                                        <a onClick={handlePlacementOr} className="btn btn-default">{__('OR', 'schema-and-structured-data-for-wp')}</a>
+                                        <a onClick={handlePlacementOr} className="btn saswp-or-btn btn-default">{__('OR', 'schema-and-structured-data-for-wp')}</a>
                                         </div>
                                 </div>                        
 
@@ -1394,18 +1392,24 @@ const SchemaSingle = () => {
                                                <div>
                                                        <div className="divider-horizontal"></div>
                                                 <div className="card-body">
-                                                                <span>{__('ItemList', 'schema-and-structured-data-for-wp')}  </span>                                               
-                                                                <span><label className="form-check form-group toggle">
+                                                                {__('ItemList', 'schema-and-structured-data-for-wp')}  
+                                                                <div className="saswp-setup"><label className="form-check form-group toggle">
                                                                 <input checked={postMeta.saswp_enable_itemlist_schema == 1 ? true : false } onChange={handleInputChange}  name="saswp_enable_itemlist_schema" type="checkbox" className="form-check-input" />
                                                                 <span className="form-check-label"></span>                                                
                                                                 </label>
-                                                                </span>
-                                                                <span>?</span>
+                                                                <a href="https://structured-data-for-wp.com/docs/article/how-to-add-item-list-schema-with-data-automatically/" target="_blank"><span>?</span></a>
+                                                                </div>
+                                                                
 
                                                                 {
                                                                         postMeta.saswp_enable_itemlist_schema == 1 ?
                                                                         <div>
-                                                                                <select value={postMeta.saswp_item_list_tags} name="saswp_item_list_tags" onChange={handleInputChange}>
+                                                                                <table className="form-table">
+                                                                                 <tbody>
+                                                                                         <tr>
+                                                                                                 <td>Select The Tag</td>
+                                                                                                 <td>
+                                                                                                 <select value={postMeta.saswp_item_list_tags} name="saswp_item_list_tags" onChange={handleInputChange}>
                                                                                         <option value="h1">H1</option> 
                                                                                         <option value="h2">H2</option> 
                                                                                         <option value="h3">H3</option> 
@@ -1413,7 +1417,12 @@ const SchemaSingle = () => {
                                                                                         <option value="h5">H5</option> 
                                                                                         <option value="h6">H6</option> 
                                                                                         <option value="custom">Custom</option> 
-                                                                                </select>      
+                                                                                </select>
+                                                                                                 </td>
+                                                                                         </tr>
+                                                                                 </tbody>       
+                                                                                </table>
+                                                                                      
                                                                         {
                                                                         postMeta.saswp_item_list_tags == "custom" ? 
                                                                         <input type="text" name="saswp_item_list_custom" onChange={handleInputChange} value={postMeta.saswp_item_list_custom} />
@@ -1434,13 +1443,14 @@ const SchemaSingle = () => {
                                                         <div>
                                                         <div className="divider-horizontal"></div>
                                                                 <div className="card-body">
-                                                                                <span>{__('Speakable', 'schema-and-structured-data-for-wp')}  </span>                                               
-                                                                                <span><label className="form-check form-group toggle">
+                                                                                {__('Speakable', 'schema-and-structured-data-for-wp')}
+                                                                                <div className="saswp-setup"><label className="form-check form-group toggle">
                                                                                 <input checked={postMeta.saswp_enable_speakable_schema == 1 ? true : false } onChange={handleInputChange}  name="saswp_enable_speakable_schema" type="checkbox" className="form-check-input" />
                                                                                 <span className="form-check-label"></span>                                                
                                                                                 </label>
-                                                                                </span>
-                                                                                <span>?</span>
+                                                                                <a href="https://structured-data-for-wp.com/docs/article/how-to-setup-speakable-in-schema-in-wordpress/" target="_blank"><span>?</span></a>
+                                                                                </div>
+                                                                                
                                                                                 
                                                                 </div>
                                                         </div>
@@ -1449,14 +1459,58 @@ const SchemaSingle = () => {
                                                                               
                                        <div className="divider-horizontal"></div>
                                        <div className="card-body">
+                                                {__('Paywall', 'schema-and-structured-data-for-wp')}
+                                                <div className="saswp-setup"><label className="form-check form-group toggle">
+                                                <input checked={postMeta.schema_options.notAccessibleForFree == 1 ? true : false } onChange={handleInputChange}  name="notAccessibleForFree" type="checkbox" className="form-check-input" />
+                                                <span className="form-check-label"></span>                                                
+                                                </label>
+                                                <a href="https://structured-data-for-wp.com/docs/article/how-to-setup-paywall-schema-in-wordpress" target="_blank"><span>?</span></a>
+                                                </div>
+                                                
+
+                                                {
+                                                        postMeta.schema_options.notAccessibleForFree == 1 ?
+                                                        
+                                                        <div>
+                                                                <table className="form-table">
+                                                                 <tbody>
+                                                                  <tr>
+                                                                          <td>{__('Is accessible for free', 'schema-and-structured-data-for-wp')}</td>
+                                                                          <td>
+                                                                          <select name="isAccessibleForFree" value={postMeta.schema_options.isAccessibleForFree} onChange={handleInputChange}>
+                                                                                <option value="False">{__('False', 'schema-and-structured-data-for-wp')}</option>
+                                                                                <option value="True">{__('True', 'schema-and-structured-data-for-wp')}</option>                                                                
+                                                                          </select>
+                                                                          </td>
+                                                                  </tr>
+                                                                  <tr><td>{__('Enter the class name of paywall section', 'schema-and-structured-data-for-wp')}</td>
+                                                                          <td>
+                                                                          <input type="text" name="paywall_class_name" value={postMeta.schema_options.paywall_class_name} onChange={handleInputChange} />
+                                                                          </td>
+                                                                  </tr>       
+                                                                 </tbody>       
+                                                                </table>                                                                
+                                                                
+                                                        </div>
+                                                        
+                                                        : ''
+                                                }
+                                                                                                
+                                       </div>
+                                
+                                       
+                                       <div className="divider-horizontal"></div>
+                                       <div className="card-body">
                                                <div className="saswp-global-modify-top">
-                                                        <span>{__('Modify Schema Output', 'schema-and-structured-data-for-wp')}</span>                                                        
-                                                         <span><label className="form-check form-group toggle">
-                                                        <input checked={postMeta.schema_options.enable_custom_field == 1 ? true : false} onChange={handleInputChange}  name="enable_custom_field" type="checkbox" className="form-check-input" />
-                                                        <span className="form-check-label"></span>                                                
-                                                        </label>
-                                                        </span>
-                                                        <span>?</span>
+                                                        {__('Modify Schema Output', 'schema-and-structured-data-for-wp')}
+                                                        <div className="saswp-setup">
+                                                                <label className="form-check form-group toggle">
+                                                                <input checked={postMeta.schema_options.enable_custom_field == 1 ? true : false} onChange={handleInputChange}  name="enable_custom_field" type="checkbox" className="form-check-input" />
+                                                                <span className="form-check-label"></span>                                                
+                                                                </label>
+                                                                <a href="https://structured-data-for-wp.com/docs/article/how-to-modify-schema-output" target="_blank"><span>?</span></a>
+                                                        </div>
+                                                        
                                                </div>
 
                                                 {
@@ -1491,7 +1545,7 @@ const SchemaSingle = () => {
 
                                                                         {(modifyEntry.length > 0) ? 
 
-                                                                        <table className="saswp-custom-fields-table">
+                                                                        <table className="saswp-custom-fields-table form-table">
                                                                         <tbody>
                                                                                 {                                                                                        
                                                                                         modifyTr()
@@ -1511,45 +1565,8 @@ const SchemaSingle = () => {
                                                  : ''       
                                                 }                                                                                               
                                        </div>
-                                       <div className="divider-horizontal"></div>
-                                       <div className="card-body">
-                                                <span>{__('Paywall', 'schema-and-structured-data-for-wp')} </span>
-                                                <span><label className="form-check form-group toggle">
-                                                <input checked={postMeta.schema_options.notAccessibleForFree == 1 ? true : false } onChange={handleInputChange}  name="notAccessibleForFree" type="checkbox" className="form-check-input" />
-                                                <span className="form-check-label"></span>                                                
-                                                </label>
-                                                </span>
-                                                <span>?</span>
-
-                                                {
-                                                        postMeta.schema_options.notAccessibleForFree == 1 ?
-                                                        
-                                                        <div>
-                                                                <table>
-                                                                 <tbody>
-                                                                  <tr>
-                                                                          <td>{__('Is accessible for free', 'schema-and-structured-data-for-wp')}</td>
-                                                                          <td>
-                                                                          <select name="isAccessibleForFree" value={postMeta.schema_options.isAccessibleForFree} onChange={handleInputChange}>
-                                                                                <option value="False">{__('False', 'schema-and-structured-data-for-wp')}</option>
-                                                                                <option value="True">{__('True', 'schema-and-structured-data-for-wp')}</option>                                                                
-                                                                          </select>
-                                                                          </td>
-                                                                  </tr>
-                                                                  <tr><td>{__('Enter the class name of paywall section', 'schema-and-structured-data-for-wp')}</td>
-                                                                          <td>
-                                                                          <input type="text" name="paywall_class_name" value={postMeta.schema_options.paywall_class_name} onChange={handleInputChange} />
-                                                                          </td>
-                                                                  </tr>       
-                                                                 </tbody>       
-                                                                </table>                                                                
-                                                                
-                                                        </div>
-                                                        
-                                                        : ''
-                                                }
-                                                                                                
-                                       </div>
+                                       
+                                
                                 </div> 
                         </div>
                         <div className="saswp-publish-button">

@@ -827,7 +827,7 @@ useEffect(() => {
                     {
                       compatibility.map((item, index) => (  
                         (item.active && item.opt_name == 'saswp-woocommerce') ? 
-                        <tr>
+                        <tr key={index}>
                           <td>{__('Product Default Review', 'schema-and-structured-data-for-wp')}</td>
                           <td>
                           <label className="form-check form-group toggle">

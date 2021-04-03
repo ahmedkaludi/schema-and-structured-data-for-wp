@@ -189,14 +189,21 @@ function saswp_home_interface_render($hook){
                 $track_text = saswp_t_string( 'Allow' );
 
         }
+        
+                $saswp_posts = saswp_get_post_ids('saswp');
+                $count_posts = 0;        
+                if ( !empty($saswp_posts) ) {
+                        $count_posts = count($saswp_posts);
+                }                
+                $active_plugins_count = 0;
+                $active_plugins = saswp_compatible_active_list();
+                if(!empty($active_plugins)){
+                        $active_plugins_count = count($active_plugins);
+                }                        
 
-        $is_super_admin = false;
-
-        if( function_exists('is_super_admin') &&  is_super_admin() ){
-                $is_super_admin = true;
-        }
-            
         $data = array(
+                'active_plugins_count'         => $active_plugins_count,
+                'count_posts'                  => $count_posts,
                 'track_url'                    => esc_url($track_url),
                 'track_text'                   => $track_text,
                 'reviewsforschema'             => $reviewsforschema,
@@ -223,8 +230,7 @@ function saswp_home_interface_render($hook){
                 'translable_txt'               => $translable_txt,
                 'is_pro_active'                => saswp_ext_installed_status(),
                 'saswp_version'                => SASWP_VERSION,
-                'review_csv_format_url'        => wp_nonce_url(admin_url('admin-ajax.php?action=saswp_download_csv_review_format'), '_wpnonce'),
-                'is_super_admin'               => $is_super_admin 
+                'review_csv_format_url'        => wp_nonce_url(admin_url('admin-ajax.php?action=saswp_download_csv_review_format'), '_wpnonce')                
         );
 
         

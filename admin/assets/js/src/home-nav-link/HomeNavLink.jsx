@@ -1,7 +1,6 @@
 import React from 'react';
 import './HomeNavLink.scss';
 import queryString from 'query-string'
-import {useHistory } from 'react-router-dom';
 import {Link} from 'react-router-dom';
 
 const HomeNavLink = () => {
@@ -32,8 +31,7 @@ const HomeNavLink = () => {
           })
           .then(res => res.json())
           .then(
-          (result) => {    
-              console.log(result);
+          (result) => {                  
               if(result.status =='t'){
                   window.location.replace(result.url);
               }
@@ -54,7 +52,9 @@ const HomeNavLink = () => {
                     <div className="saswp-divider-horizontal"></div>
                     <div className="nav-section">
                         <span className="nav-section-title">{__('Menu', 'schema-and-structured-data-for-wp')}</span>
-                        <Link className={current.includes('schema') ? 'highlighted active nav-link' : 'nav-link'} to={`admin.php?page=saswp&path=schema`} ><span className="nav-link-text">{__('Schema Types', 'schema-and-structured-data-for-wp')}</span></Link>
+                        <Link className={current.includes('schema') ? 'highlighted active nav-link' : 'nav-link'} to={`admin.php?page=saswp&path=schema`} ><span className="nav-link-text">{__('Schema Types', 'schema-and-structured-data-for-wp')}</span>
+                        {(saswp_localize_data.count_posts > 0 ) ? <span className="nav-link-right-el nav-link-round-circle">{saswp_localize_data.count_posts}</span> : ''}
+                        </Link>
                         <Link className={current.includes('reviews') ? 'highlighted active nav-link' : 'nav-link'} to={`admin.php?page=saswp&path=reviews`} ><span className="nav-link-text">{__('Reviews', 'schema-and-structured-data-for-wp')}</span></Link>
                         <Link className={current.includes('settings') ? 'highlighted active nav-link' : 'nav-link'} to={`admin.php?page=saswp&path=settings`}><span className="nav-link-text">{__('Settings', 'schema-and-structured-data-for-wp')}</span></Link>
                         <a onClick={MoveToOldInterface} href="" className={"nav-link"} data-id={`old`} ><span className="nav-link-text">{__('Move to Old Interface', 'schema-and-structured-data-for-wp')}</span></a>

@@ -123,11 +123,6 @@ const SchemaAdd = () => {
           
         }
 
-        // useEffect(() => {
-        //   setName({firstName: 'Shedrack', surname: 'Akintayo'})
-        //   setTitle({'My Full Name'}) //Set Title
-        // }, [])// pass in an empty array as a second argument
-
         return (                                        
           <div className="saswp-addschema-page">
 
@@ -136,12 +131,12 @@ const SchemaAdd = () => {
           </div>
           <div className="saswp-addschema-heading">
             <div className="saswp-addschema-heading-left">
-              <p>60 TYPES</p>
-              <h2>Add New Schema Type</h2>
-              <p>Choose the schema built for tech products photographers of the great details. Choose from hundreds of high quality effects built by other professional </p>
+              <p>{allSchema.length}{__(' TYPES', 'schema-and-structured-data-for-wp')}</p>
+              <h2>{__('Add New Schema Type', 'schema-and-structured-data-for-wp')}</h2>
+              <p>{__('Choose the right schema type for your website from the below list.', 'schema-and-structured-data-for-wp')}</p>
             </div>
             <div className="saswp-addschema-heading-right">
-              {saswp_localize_data.is_pro_active ? '' : <a className="btn btn-success">Upgrade to PRO</a>}              
+              {saswp_localize_data.is_pro_active ? '' : <a className="btn btn-success">{__('Upgrade to PRO', 'schema-and-structured-data-for-wp')}</a>}              
               </div>
           </div>
           <div className="saswp-addschema-body">

@@ -125,13 +125,13 @@ useEffect(() => {
                       
         {partSpinner ?         
           <DottedSpinner /> :
-        <div>
+        <div>          
         { postsData.map((item, index) => (  
               
           <div key={index} className="card-body saswp-review-card">
             <div><input type="checkbox"/></div>
             <div className="saswp-review-avatar">        
-        <Link to={`admin.php?page=saswp&path=reviews_single&id=${item.post.post_id}`} className="quads-edit-btn">
+            <Link to={`admin.php?page=saswp&path=reviews_single&id=${item.post.post_id}`} className="quads-edit-btn">
             <span className="avatar">
                 <span className="avatar-image-wrapper">
                     <img alt="" className="avatar-image" src={item.post_meta.saswp_reviewer_image}/>
@@ -142,7 +142,10 @@ useEffect(() => {
                     </span>
                     <span className="avatar-text-bottom">
                     <span className="">{item.post_meta.saswp_review_date}</span>
-                    <span className=""><img className="saswp-review-list-img" src={item.post_meta.saswp_review_platform_image}/></span>
+                    <span className="">
+                      <img className="saswp-review-list-img" src={item.post_meta.saswp_review_platform_image}/>
+                        <span className="saswp-platform-name">{item.post_meta.saswp_review_platform_name}</span>
+                      </span>
                     <span className="">
 
                     <StarRatings                    

@@ -514,6 +514,7 @@ const ReviewsFetch = () => {
     <div className="card">
       <div className="card-body">
         <table className="form-table saswp-fetch-rv-table">
+          <tbody>
         <tr>
               <td>{__('Upload Reviews From CSV', 'schema-and-structured-data-for-wp')}</td>
               <td>
@@ -521,6 +522,7 @@ const ReviewsFetch = () => {
                 <p>{__('You must follow the format.', 'schema-and-structured-data-for-wp')} <a href={saswp_localize_data.review_csv_format_url}>{__('Click here', 'schema-and-structured-data-for-wp')}</a>  {__('to download the format', 'schema-and-structured-data-for-wp')}</p>
               </td>
         </tr>
+        </tbody>
         </table>
       </div>
 

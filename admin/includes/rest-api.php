@@ -817,8 +817,7 @@ class SASWP_Rest_Api {
         }        
         
         public function getSettings($request_data){
-
-                $parameters = $request_data->get_params();
+                
                 $response   = $this->api_service->getSettings();
 
                 return  $response;
@@ -953,11 +952,6 @@ class SASWP_Rest_Api {
 
             $response = array();
 
-            
-            
-
-
-            
             return $response;
             
         }

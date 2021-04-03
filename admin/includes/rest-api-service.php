@@ -753,9 +753,7 @@ class SASWP_Rest_Api_Service {
   public function getReviewsList($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null){
             
     $response   = array();                                
-    $arg        = array();
-    $meta_query = array();
-    $posts_data = array();
+    $arg        = array();    
     
     $arg['post_type']      = $post_type;
     $arg['posts_per_page'] = -1;  
@@ -919,7 +917,9 @@ class SASWP_Rest_Api_Service {
                   $term     = get_term( $platform, 'platform' );
 
                   if(isset($term->slug)){
-                        
+
+                    $post_meta['saswp_review_platform_name'] =  $term->name;
+
                     if($term->slug == 'self'){
                         
                          $service_object     = new saswp_output_service();
@@ -1109,9 +1109,13 @@ class SASWP_Rest_Api_Service {
       }                        
             
       if($post_meta){
-          
+        
+        if($post_meta['saswp_reviewer_image'] == ''){
+          $post_meta['saswp_reviewer_image'] = SASWP_DIR_URI.'/admin_section/images/default_user.jpg';
+        }
+
           foreach($post_meta as $key => $val){
-              
+                                      
               $filterd_meta = saswp_sanitize_post_meta($key, $val);
 
               update_post_meta($schema_id, $key, $filterd_meta);

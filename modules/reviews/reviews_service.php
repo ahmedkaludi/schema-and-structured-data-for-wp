@@ -117,9 +117,9 @@ class saswp_reviews_service {
                 
                 if( (function_exists('is_user_logged_in') && is_user_logged_in() ) && function_exists('wp_get_current_user') ){
                     
-                     $current_user = wp_get_current_user();
+                     $current_user           = wp_get_current_user();
                      $postarr['post_author'] = $current_user->ID;
-                     $rv_image     = get_avatar_url($current_user->ID, array('size' => 300));                     
+                     $rv_image               = get_avatar_url($current_user->ID, array('size' => 300));                     
                     
                 }
                 

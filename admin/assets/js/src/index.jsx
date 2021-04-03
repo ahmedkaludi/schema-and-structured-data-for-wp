@@ -9,43 +9,30 @@ import './style/common.scss'
 import '@duik/it/dist/styles.css'
 import '@duik/icon/dist/styles.css'
 import { createBrowserHistory } from 'history';
-import HomeNavLink from './home-nav-link/HomeNavLink';
-
+import HomeComponent from './home';
+import SchemaAdd from './schema/SchemaAdd';
 const history = createBrowserHistory();
 
-const HomeComponent = () => {
+const IndexComponent = () => {
                                                                                                  
-        return (<>            
-                    <div className="saswp-main-nav-panel">
-                    <Switch>
-                         <HomeNavLink />
-                    </Switch>
-                    </div>
-                    <div className="saswp-main-nav-content">
+        return (<>                                                    
                         <Switch>
                             <Route render={props => {                                        
 
                                 const page = queryString.parse(window.location.search); 
                                                                    
-                                    if(typeof(page.path)  == 'undefined' || page.path.includes('schema')) {                           
-                                        return <Schema  {...props}/>;                         
-                                    }                                                            
-                                    else if( page.path.includes('reviews') ) {
-                                        return <Reviews  {...props}/>;
-                                    }
-                                    else if(page.path.includes('settings')) {                                        
-                                        return <Settings  {...props}/>;
-                                    }
-                                    else{
-                                        return null;
-                                    }                    
+                                if( typeof(page.path) != 'undefined' && page.path.includes('schema_add') ) {
+                                     return <SchemaAdd  {...props}/>;
+                                }else{
+                                    return <HomeComponent  {...props}/>;
+                                }
+                                                      
                                 }}/>            
-                    </Switch> 
-                    </div>                                                                                                           
+                    </Switch>                     
                 </>);
     
 }
 
 ReactDOM.render(    
-    <Router history={history}><HomeComponent /></Router>, document.getElementById('saswp-home-page')
+    <Router history={history}><IndexComponent /></Router>, document.getElementById('saswp-home-page')
 );

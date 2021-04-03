@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.9.49
+Version: 1.9.69
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.9.49');
+define('SASWP_VERSION', '1.9.69');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -37,7 +37,6 @@ require_once SASWP_DIR_NAME .'/output/other-schema.php';
 require_once SASWP_DIR_NAME .'/output/gutenberg.php';
 require_once SASWP_DIR_NAME .'/output/elementor.php';
 require_once SASWP_DIR_NAME .'/output/divi-builder.php';
-
 
 if ( ! function_exists( 'is_plugin_active' ) )
      require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
@@ -88,6 +87,11 @@ require_once SASWP_DIR_NAME.'/modules/rating-box/backend.php';
 require_once SASWP_DIR_NAME.'/modules/rating-box/frontend.php'; 
 require_once SASWP_DIR_NAME.'/output/service.php'; 
 require_once SASWP_DIR_NAME.'/output/compatibility.php'; 
+
+//Loading api files
+
+require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api.php';
+
 //Loading Reviews files
 require_once SASWP_DIR_NAME.'/modules/divi-builder/extension.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_admin.php'; 
@@ -126,7 +130,8 @@ function saswp_add_plugin_meta_links($meta_fields, $file) {
                        
       $forum_url  = "https://structured-data-for-wp.com/contact-us/";
       
-      $meta_fields[] = "<a href='" . esc_url($forum_url) . "' target='_blank'>" . esc_html__('Technical Support', 'schema-and-structured-data-for-wp') . "</a>";                
+      $meta_fields[] = "<a href='" . esc_url($forum_url) . "' target='_blank'>" . saswp_t_string( 'Technical Support' ) . "</a>";
+      
     }
 
     return $meta_fields;
