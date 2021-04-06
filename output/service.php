@@ -1117,6 +1117,11 @@ Class saswp_output_service{
                         }
                         if(isset($custom_fields['saswp_article_date_modified'])){
                          $input1['dateModified'] =    $custom_fields['saswp_article_date_modified'];
+                        }
+                        if(isset($custom_fields['saswp_article_editor_name']) && $custom_fields['saswp_article_editor_name'] != '') {
+                            $input1['editor'] = array();
+                            $input1['editor']['@type'] = 'Person';
+                            $input1['editor']['name']  =  $custom_fields['saswp_article_editor_name'];
                         }                    
                         if(isset($custom_fields['saswp_article_author_type'])){
                             $input1['author']['@type'] =    $custom_fields['saswp_article_author_type'];
@@ -1410,6 +1415,11 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_date_modified'])){
                      $input1['dateModified'] =    $custom_fields['saswp_blogposting_date_modified'];
                     }
+                    if(isset($custom_fields['saswp_blogposting_editor_name']) && $custom_fields['saswp_blogposting_editor_name'] != '') {
+                        $input1['editor'] = array();
+                        $input1['editor']['@type'] = 'Person';
+                        $input1['editor']['name']  =  $custom_fields['saswp_blogposting_editor_name'];
+                    }
                     if(isset($custom_fields['saswp_blogposting_author_type'])){
                      $input1['author']['@type'] =    $custom_fields['saswp_blogposting_author_type'];
                     }
@@ -1587,6 +1597,11 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_newsarticle_main_entity_id'])){
                        $input1['mainEntity']['@id'] =    $custom_fields['saswp_newsarticle_main_entity_id'];  
+                    }
+                    if(isset($custom_fields['saswp_newsarticle_editor_name']) && $custom_fields['saswp_newsarticle_editor_name'] != '') {
+                        $input1['editor'] = array();
+                        $input1['editor']['@type'] = 'Person';
+                        $input1['editor']['name']  =  $custom_fields['saswp_newsarticle_editor_name'];
                     }
                     if(isset($custom_fields['saswp_newsarticle_author_type'])){
                         $input1['author']['@type'] =    $custom_fields['saswp_newsarticle_author_type']; 
@@ -1859,6 +1874,11 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_tech_article_date_modified'])){
                      $input1['dateModified'] =    $custom_fields['saswp_tech_article_date_modified'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_editor_name']) && $custom_fields['saswp_tech_article_editor_name'] != '') {
+                        $input1['editor'] = array();
+                        $input1['editor']['@type'] = 'Person';
+                        $input1['editor']['name']  =  $custom_fields['saswp_tech_article_editor_name'];
                     }
                     if(isset($custom_fields['saswp_tech_article_author_type'])){
                         $input1['author']['@type'] =    $custom_fields['saswp_tech_article_author_type'];
@@ -4405,7 +4425,8 @@ Class saswp_output_service{
                     'keywords'          => saswp_get_the_tags(),
 					'datePublished'     => esc_html($date),
 					'dateModified'      => esc_html($modified_date),
-					'author'			=> saswp_get_author_details()					                                    
+					'author'			=> saswp_get_author_details(),
+                    'editor'			=> saswp_get_author_details()
 				);
 
                 if($schema_type == 'Photograph'){
