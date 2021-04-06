@@ -206,7 +206,7 @@ Class saswp_rating_box_frontend{
                 }                                                                                                              
                 $boxdata.='<tr>
                             <td class="saswp-rvw-sm">
-                                <span>'.saswp_t_string('SUMMARY').'</span>
+                                <span>'.saswp_t_string(saswp_label_text('translation-summary')).'</span>
                                 <div class="rvw-dsc">
                                 '.wpautop( stripslashes ( $saswp_review_description ) ).'
                                 </div>
