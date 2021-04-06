@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useReducer} from 'react';
 import './Reviews.scss';
+import { useHistory } from 'react-router-dom';
 import DottedSpinner from './../common/dotted-spinner/DottedSpinner';
 import MainSpinner from './../common/main-spinner/MainSpinner';
 import Icon from '@duik/icon'
@@ -21,6 +22,8 @@ $(document).on("click", ".saswp-accordion", function(){
 
 
 const ReviewsCollectionsSingle = () => {
+
+  const history = useHistory();
 
   const [mainSpinner, setMainSpinner]                             = useState(false);  
   const [dottedSpinner, setDottedSpinner]                         = useState(false); 
@@ -59,15 +62,18 @@ const ReviewsCollectionsSingle = () => {
       saswp_platform_ids:               {},
       saswp_total_reviews:              [],
       saswp_review_platform:             '',
-      saswp_review_count:               5                
+      saswp_review_count:               5,
+      saswp_collection_date_format:     '',
+      saswp_collection_where:            [],
+      saswp_collection_where_data:       [],
+
     }
   );
 
   
   const prepareGridData = () => {
   
-    let grid_col   = collectionArray; 
-    
+    let grid_col   = collectionArray;     
     let per_page   = postMeta.saswp_collection_per_page;
     let page_count = Math.ceil(collectionArray.length / per_page);  
     let next_page  = per_page;
@@ -123,7 +129,7 @@ const ReviewsCollectionsSingle = () => {
             setCollectionObject(prevState => ({ ...prevState, [platform_id]: data}));          
             
             let rvcount = [{platform_id : platform_id, platform_name: data[0].saswp_review_platform_name, review_count: data.length}];
-  
+            
             setAddedReviews( (prevState) => ([ ...prevState, ...rvcount ]));  
           }
   
@@ -151,7 +157,7 @@ const ReviewsCollectionsSingle = () => {
         
         if(result.post_meta){
           setPostMeta(result.post_meta);          
-
+            
           if(result.post_meta.saswp_platform_ids){
             Object.keys(result.post_meta.saswp_platform_ids).map(function(key) {  
               getReviewsByPlatformId(result.post_meta.saswp_platform_ids[key], key, '');                    
@@ -389,7 +395,7 @@ useEffect(() => {
     
     handleCollectionSorting(postMeta.saswp_collection_sorting);
     prepareGridData();
-        
+      
   }, [postMeta]);
   
    
@@ -399,7 +405,7 @@ useEffect(() => {
       
       <form encType="multipart/form-data" method="post" id="saswp_review_form">
       <div className="saswp-single-header">
-          <div className="saswp-single-header-left"><h3>Collection Setup</h3></div>
+          <div className="saswp-single-header-left"><h3>{__('Collection Setup', 'schema-and-structured-data-for-wp')}</h3></div>
           <div className="saswp-single-header-right"><Link to={`admin.php?page=saswp&path=reviews_collections`}><Icon>close</Icon></Link></div>
       </div>
 
@@ -495,12 +501,12 @@ useEffect(() => {
       <div className="saswp-collection-settings">
                             <ul>
                                 <li>
-                                    <a className="saswp-accordion">Reviews Source</a>
+                                    <a className="saswp-accordion">{__('Reviews Source', 'schema-and-structured-data-for-wp')}</a>
                                     <div className="saswp-accordion-panel">
-                                                                              <div className="saswp-plf-lst-rv-cnt">
-                                                                              {handlePlatformOption()}  
+                                        <div className="saswp-plf-lst-rv-cnt">
+                                          {handlePlatformOption()}  
                                         <input type="number" id="saswp_review_count" name="saswp_review_count" min="0" onChange={handlePostMetaChange} value={postMeta.saswp_review_count} />
-                                        <a className="button button-default saswp-add-to-collection" onClick={handleFetchReviews}>Add</a>
+                                        <a className="button button-default saswp-add-to-collection" onClick={handleFetchReviews}>{__('Add', 'schema-and-structured-data-for-wp')}</a>
                                       </div>
                                       <div className="saswp-platform-added-list">
 
@@ -522,32 +528,32 @@ useEffect(() => {
                                     </div>
                                 </li>
                                 <li>                                     
-                                    <a className="saswp-accordion">Presentation</a>
+                                    <a className="saswp-accordion">{__('Presentation', 'schema-and-structured-data-for-wp')}</a>
                                     <div className="saswp-accordion-panel">
                                         <div className="saswp-dp-dsg">
-                                        <label>Design</label>  
+                                        <label>{__('Design', 'schema-and-structured-data-for-wp')}</label>  
                                         <select onChange={handlePostMetaChange} value={postMeta.saswp_collection_design} name="saswp_collection_design" className="saswp-collection-desing saswp-coll-settings-options">
-                                            <option value="grid">Grid</option>
-                                            <option value="gallery">Gallery</option>
-                                            <option value="badge">Badge</option>
-                                            <option value="popup">PopUp</option>
-                                            <option value="fomo">Fomo</option>                                    
+                                            <option value="grid">{__('Grid', 'schema-and-structured-data-for-wp')}</option>
+                                            <option value="gallery">{__('Gallery', 'schema-and-structured-data-for-wp')}</option>
+                                            <option value="badge">{__('Badge', 'schema-and-structured-data-for-wp')}</option>
+                                            <option value="popup">{__('PopUp', 'schema-and-structured-data-for-wp')}</option>
+                                            <option value="fomo">{__('Fomo', 'schema-and-structured-data-for-wp')}</option>
                                          </select>
                                         </div>
                                         {postMeta.saswp_collection_design == 'grid' ? 
                                           <>
                                         <div className="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
-                                        <label>Columns</label>
-                                        <input onChange={handlePostMetaChange} value={postMeta.saswp_collection_cols} type="number" id="saswp-collection-cols" name="saswp_collection_cols" min="1" className="saswp-number-change saswp-coll-settings-options saswp-coll-options saswp-grid-options" />    
+                                        <label>{__('Columns', 'schema-and-structured-data-for-wp')}</label>
+                                        <input onChange={handlePostMetaChange} value={postMeta.saswp_collection_cols} type="number" id="saswp-collection-cols" name="saswp_collection_cols" min="1" className="saswp-number-change saswp-coll-settings-options saswp-coll-options saswp-grid-options" />
                                         </div>                                        
                                         <div className="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
-                                            <span>Pagination</span>
+                                            <span>{__('Pagination', 'schema-and-structured-data-for-wp')}</span>
                                             <span><input onChange={handlePostMetaChange} checked={postMeta.saswp_collection_pagination} name="saswp_collection_pagination" type="checkbox" id="saswp-coll-pagination" className="saswp-coll-settings-options" /></span>
                                         </div> 
                                         {postMeta.saswp_collection_pagination ?
 
                                         <div className="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm _imp">
-                                          <label>Per Page</label>
+                                          <label>{__('Per Page', 'schema-and-structured-data-for-wp')}</label>
                                           <input onChange={handlePostMetaChange} value={postMeta.saswp_collection_per_page} name="saswp_collection_per_page" type="number" min="1" id="saswp-coll-per-page" className="saswp-coll-settings-options" />
                                         </div>  
                                          : ''}                                                                               
@@ -557,22 +563,22 @@ useEffect(() => {
                                         {postMeta.saswp_collection_design == 'gallery' ? 
                                         <>
                                         <div className="saswp-dp-dsg saswp-dp-dtm saswp-slider-options saswp-coll-options ">
-                                         <label>Slider Type</label>
+                                         <label>{__('Slider Type', 'schema-and-structured-data-for-wp')}</label>
                                         <select onChange={handlePostMetaChange} value={postMeta.saswp_collection_gallery_type} name="saswp_collection_gallery_type" id="saswp_collection_gallery_type" className="saswp-slider-type saswp-slider-options  saswp-coll-settings-options saswp-coll-options">
-                                            <option value="slider">Slider</option>
-                                            <option value="carousel">Carousel</option>
+                                            <option value="slider">{__('Slider', 'schema-and-structured-data-for-wp')}</option>
+                                            <option value="carousel">{__('Carousel', 'schema-and-structured-data-for-wp')}</option>
                                         </select>
                                         </div>
                                         <div className="saswp-slider-display saswp-slider-options  saswp-coll-settings-options saswp-coll-options">
-                                            <span><input type="checkbox" id="saswp_gallery_arrow" name="saswp_gallery_arrow" onChange={handlePostMetaChange} checked={postMeta.saswp_gallery_arrow} /> Arrows</span>
-                                            <span><input type="checkbox" id="saswp_gallery_dots" name="saswp_gallery_dots" onChange={handlePostMetaChange} checked={postMeta.saswp_gallery_dots}  /> Dots</span>
+                                            <span><input type="checkbox" id="saswp_gallery_arrow" name="saswp_gallery_arrow" onChange={handlePostMetaChange} checked={postMeta.saswp_gallery_arrow} /> {__('Arrows', 'schema-and-structured-data-for-wp')}</span>
+                                            <span><input type="checkbox" id="saswp_gallery_dots" name="saswp_gallery_dots" onChange={handlePostMetaChange} checked={postMeta.saswp_gallery_dots}  /> {__('Dots', 'schema-and-structured-data-for-wp')}</span>
                                         </div>
                                         </>
                                         : ''}                                        
                                         {postMeta.saswp_collection_design == 'fomo' ? 
                                           <div className="saswp-fomo-options  saswp-coll-options"> 
                                             <div className="saswp-dp-dsg saswp-dp-dtm">
-                                            <span>Delay Time In Sec                                            </span>
+                                            <span>{__('Delay Time In Sec', 'schema-and-structured-data-for-wp')}</span>
                                             <input type="number" id="saswp_fomo_interval" name="saswp_fomo_interval" className="saswp-number-change" min="1" onChange={handlePostMetaChange} value={postMeta.saswp_fomo_interval} /> 
                                           </div>                                                                           
                                           </div>
@@ -581,29 +587,28 @@ useEffect(() => {
                                     </div>
                                 </li>
                               <li>
-
-                                <a className="saswp-accordion">Filter</a>
+                                <a className="saswp-accordion">{__('Filter', 'schema-and-structured-data-for-wp')}</a>
                                 <div className="saswp-accordion-panel">
                                     <div className="saswp-dp-dsg">
-                                        <label>Sorting</label>  
-                                        <select onChange={handlePostMetaChange} value={postMeta.saswp_collection_sorting} name="saswp_collection_sorting" className="saswp-collection-sorting saswp-coll-settings-options">                                      
-                                          <option value="recent">Recent</option>
-                                          <option value="oldest">Oldest</option>
-                                          <option value="newest">Newest</option>
-                                          <option value="highest">Highest Rating</option>
-                                          <option value="lowest">Lowest Rating</option>
-                                          <option value="random">Random</option>                                        
+                                        <label>{__('Sorting', 'schema-and-structured-data-for-wp')}</label>  
+                                        <select onChange={handlePostMetaChange} value={postMeta.saswp_collection_sorting} name="saswp_collection_sorting" className="saswp-collection-sorting saswp-coll-settings-options">
+                                          <option value="recent">{__('Recent', 'schema-and-structured-data-for-wp')}</option>
+                                          <option value="oldest">{__('Oldest', 'schema-and-structured-data-for-wp')}</option>
+                                          <option value="newest">{__('Newest', 'schema-and-structured-data-for-wp')}</option>
+                                          <option value="highest">{__('Highest Rating', 'schema-and-structured-data-for-wp')}</option>
+                                          <option value="lowest">{__('Lowest Rating', 'schema-and-structured-data-for-wp')}</option>
+                                          <option value="random">{__('Random', 'schema-and-structured-data-for-wp')}</option>
                                           </select>
                                     </div>
                                 </div>
                               </li>
                               <li>
-                                <a className="saswp-accordion">Display</a>
+                                <a className="saswp-accordion">{__('Display', 'schema-and-structured-data-for-wp')}</a>
                                 <div className="saswp-accordion-panel">
                                     <div className="saswp-dp-dsg">
-                                        <label>Display Type</label>
+                                        <label>{__('Display Type', 'schema-and-structured-data-for-wp')}</label>
                                         <select className="saswp-collection-display-method" name="saswp_collection_display_type">
-                                            <option value="shortcode">Shortcode</option> 
+                                            <option value="shortcode">{__('Shortcode', 'schema-and-structured-data-for-wp')}</option> 
                                         </select>
                                     </div>
                                     
@@ -617,19 +622,13 @@ useEffect(() => {
                               </li>
                             </ul>
                             <div className="saswp-sv-btn">
-
-                            <div>{isLoaded ? <a className="btn btn-success" onClick={handleSaveCollection}>Save</a> : <Button success loading>Loading success</Button>}</div>                                
+                            <div>{isLoaded ? <a className="btn btn-success" onClick={handleSaveCollection}>{__('Save', 'schema-and-structured-data-for-wp')}</a> : <Button success loading>Loading success</Button>}</div>
                             </div>   
-      </div>
-
-
-      </div>
-      </div>
-
-      </form>  
-      
-
-    </div>
+                          </div>
+                        </div>
+                      </div>
+                  </form>        
+                </div>
   )
 }
 export default ReviewsCollectionsSingle;
