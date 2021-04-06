@@ -131,7 +131,7 @@ useEffect(() => {
           <div key={index} className="card-body saswp-review-card">
             <div><input type="checkbox"/></div>
             <div className="saswp-review-avatar">        
-            <Link to={`admin.php?page=saswp&path=reviews_single&id=${item.post.post_id}`} className="quads-edit-btn">
+            <Link to={`admin.php?page=saswp&path=reviews_single&id=${item.post.post_id}`} className="saswp-edit-btn">
             <span className="avatar">
                 <span className="avatar-image-wrapper">
                     <img alt="" className="avatar-image" src={item.post_meta.saswp_reviewer_image}/>

@@ -3704,7 +3704,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
             $args['name'] = $saved_data; 
           }
           $choices = get_post_types( $args, 'names');    
-          unset($choices['attachment'], $choices['amp_acf'], $choices['quads-ads']);                    
+          unset($choices['attachment'], $choices['amp_acf'], $choices['saswp-ads']);                    
           
           if($choices){
             foreach($choices as $key =>$value){

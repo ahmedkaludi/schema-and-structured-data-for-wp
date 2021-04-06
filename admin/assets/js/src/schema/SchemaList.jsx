@@ -145,7 +145,7 @@ const SchemaList = () => {
 
             <li key={index} className="saswp-schema-list">
             <div>
-            <Link to={`admin.php?page=saswp&path=schema_single&type=${item.post_meta.schema_type}&id=${item.post.post_id}`} className="quads-edit-btn"> <strong>{item.post_meta.schema_type}</strong>{item.post.post_status == 'draft' ? <span> ( Draft )</span> : ''}</Link>               
+            <Link to={`admin.php?page=saswp&path=schema_single&type=${item.post_meta.schema_type}&id=${item.post.post_id}`} className="saswp-edit-btn"> <strong>{item.post_meta.schema_type}</strong>{item.post.post_status == 'draft' ? <span> ( Draft )</span> : ''}</Link>               
             </div>
             <div>
             

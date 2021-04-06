@@ -57732,7 +57732,7 @@ var SchemaList = function SchemaList() {
       className: "saswp-schema-list"
     }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
       to: "admin.php?page=saswp&path=schema_single&type=".concat(item.post_meta.schema_type, "&id=").concat(item.post.post_id),
-      className: "quads-edit-btn"
+      className: "saswp-edit-btn"
     }, " ", /*#__PURE__*/_react["default"].createElement("strong", null, item.post_meta.schema_type), item.post.post_status == 'draft' ? /*#__PURE__*/_react["default"].createElement("span", null, " ( Draft )") : '')), /*#__PURE__*/_react["default"].createElement("div", null, typeof item.post_meta != 'undefined' && typeof item.post_meta.target_enable != 'undefined' && item.post_meta.target_enable ? /*#__PURE__*/_react["default"].createElement("div", null, item.post_meta.target_enable.map(function (ktem, j) {
       return /*#__PURE__*/_react["default"].createElement("span", {
         className: "saswp-location-label",
@@ -69185,7 +69185,7 @@ var ReviewsCollections = function ReviewsCollections() {
       className: "saswp-review-avatar"
     }, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
       to: "admin.php?page=saswp&path=reviews_collections_single&id=".concat(item.post.post_id),
-      className: "quads-edit-btn"
+      className: "saswp-edit-btn"
     }, /*#__PURE__*/_react["default"].createElement("span", {
       className: "avatar"
     }, /*#__PURE__*/_react["default"].createElement("span", {
@@ -70732,7 +70732,7 @@ var ReviewsList = function ReviewsList() {
       className: "saswp-review-avatar"
     }, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
       to: "admin.php?page=saswp&path=reviews_single&id=".concat(item.post.post_id),
-      className: "quads-edit-btn"
+      className: "saswp-edit-btn"
     }, /*#__PURE__*/_react["default"].createElement("span", {
       className: "avatar"
     }, /*#__PURE__*/_react["default"].createElement("span", {

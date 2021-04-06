@@ -291,7 +291,7 @@ class SASWP_Rest_Api_Service {
                 $args['name'] = $search; 
               }              
               $choices = get_post_types( $args, 'names', 'and' );    
-              unset($choices['attachment'], $choices['amp_acf'], $choices['quads-ads']);
+              unset($choices['attachment'], $choices['amp_acf'], $choices['saswp-ads']);
 
               if($choices){
                 foreach($choices as $key =>$value){
@@ -414,7 +414,7 @@ class SASWP_Rest_Api_Service {
             }else if($condition == 'taxonomy'){
 
               $choices    = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
-              $taxonomies = $this->quads_post_taxonomy_generator();        
+              $taxonomies = $this->saswp_post_taxonomy_generator();        
               $choices    = array_merge($choices, $taxonomies);
 
             }else{
@@ -458,7 +458,7 @@ class SASWP_Rest_Api_Service {
               $args['name__like'] = $search;
             }         
 
-            $taxonomies = $this->quads_post_taxonomy_generator();
+            $taxonomies = $this->saswp_post_taxonomy_generator();
 
             foreach($taxonomies as $key => $val){
 
@@ -486,7 +486,7 @@ class SASWP_Rest_Api_Service {
      return $choices;
     }
 
-    public function quads_post_taxonomy_generator(){
+    public function saswp_post_taxonomy_generator(){
     
         $taxonomies = '';  
         $choices    = array();
@@ -982,30 +982,7 @@ class SASWP_Rest_Api_Service {
 
         return $response;
     }
-
-    public function validateAdsTxt($content){
-        
-        $sanitized = array();
-        $errors    = array();  
-
-        if($content){
-          
-          $lines     = preg_split( '/\r\n|\r|\n/', $content );                  
-
-            foreach ( $lines as $i => $line ) {
-              $line_number = $i + 1;
-              $result      = quads_validate_ads_txt_line( $line, $line_number );
-          
-              $sanitized[] = $result['sanitized'];
-              if ( ! empty( $result['errors'] ) ) {
-                $errors = array_merge( $errors, $result['errors'] );
-              }
-            }               
-            $sanitized = implode( PHP_EOL, $sanitized );             
-        }        
-        return array('errors' => $errors, 'sanitized_content' => $sanitized);
-
-    }
+    
     public function updateSchema($parameters){
             
             $post_meta      = $parameters['post_meta'];                                                                   

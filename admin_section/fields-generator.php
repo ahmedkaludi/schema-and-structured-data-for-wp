@@ -4,16 +4,13 @@
  *
  * @author   Magazine3
  * @category Admin
- * @path     google_review/google_review
+ * @path     admin_section/fields-generator
  * @Version 1.8
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-/*
-  Metabox to show ads type such as custom and adsense 
- */
 class saswp_fields_generator {
 
     public $platforms = array(

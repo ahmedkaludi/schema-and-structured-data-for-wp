@@ -147,14 +147,7 @@ class SASWP_Rest_Api {
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
-            ));
-            register_rest_route( 'saswp-route', 'validate-ads-txt', array(
-                'methods'    => 'POST',
-                'callback'   => array($this, 'validateAdsTxt'),
-                'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
-                }
-            ));
+            ));            
             register_rest_route( 'saswp-route', 'send-customer-query', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'sendCustomerQuery'),
@@ -271,28 +264,14 @@ class SASWP_Rest_Api {
             register_rest_route( 'saswp-route', 'export-settings', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'exportSettings')                
-            ));
-            register_rest_route( 'saswp-route', 'get-quads-info', array(
-                'methods'    => 'GET',
-                'callback'   => array($this, 'getQuadsInfo'),
-                'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
-                }
-            ));
+            ));            
             register_rest_route( 'saswp-route', 'get-user-role', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getUserRole'),
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
-            ));
-            register_rest_route( 'saswp-route', 'get-tags', array(
-                'methods'    => 'GET',
-                'callback'   => array($this, 'getTags'),
-                'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
-                }
-            ));
+            ));           
             register_rest_route( 'saswp-route', 'get-plugins', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getPlugins'),
@@ -359,7 +338,7 @@ class SASWP_Rest_Api {
                 $mode   = sanitize_text_field($parameters['mode']);
             }
 
-            $response = update_option('quads-mode', $mode);            
+            $response = update_option('saswp-mode', $mode);            
 
             return array('status' => 't');                        
 
@@ -501,28 +480,7 @@ class SASWP_Rest_Api {
             return $response;
 
         }
-        public function getTags($request){
-
-            $response = array();
-            $search   = '';
-
-            $parameters = $request->get_params();
-
-            if(isset($parameters['search'])){
-                $search   = $parameters['search'];
-            }
-
-            $response = $this->api_service->getConditionList('tags', $search, $saved_data, 'diff');
-            if($response){
-                return array('status' => 't', 'data' => $response);
-            }else{
-                return array('status' => 'f', 'data' => 'data not found');
-            }
-            
-            return $response;
-
-        }
-
+        
         public function getUserRole($request){
 
             $response = array();
@@ -543,12 +501,7 @@ class SASWP_Rest_Api {
             }
             
             return $response;
-        }
-        public function getQuadsInfo(){
-            require_once SASWP_DIR_NAME . 'includes/admin/tools.php';
-            $info = quads_tools_sysinfo_get();
-            return array('info' => $info);
-        }
+        }        
         public function exportSettings(){
             
             $post_type = array('saswp_reviews', 'saswp', 'saswp-collections');
@@ -797,23 +750,6 @@ class SASWP_Rest_Api {
              }else{
                 return array('status'=>'f', 'msg' => 'Please provide message and email');
              }
-        }
-        public function validateAdsTxt($request){
-
-            $response = array();
-
-            $parameters = $request->get_params();
-
-            if($parameters[0]){
-                $result = $this->api_service->validateAdsTxt($parameters[0]);
-                if($result['errors']){
-                    $response['errors'] = $result['errors'];
-                }else{
-                    $response['valid'] = true;
-                }
-            }
-            return $response;
-           
         }        
         
         public function getSettings($request_data){
@@ -1087,7 +1023,7 @@ class SASWP_Rest_Api {
             if( isset($parameters['schema_id']) && isset($parameters['schema_type']) ){
                 $response = saswp_get_fields_by_schema_type($parameters['schema_id'], null, $parameters['schema_type'], 'manual');
             }else{
-                $response = array('status' => 'f', 'msg' =>  __( 'Schema Type and ID are required', 'quick-adsense-reloaded' ));                   
+                $response = array('status' => 'f', 'msg' =>  __( 'Schema Type and ID are required', 'schema-and-structured-data-for-wp' ));                   
             }
             
             return $response;
@@ -1151,7 +1087,7 @@ class SASWP_Rest_Api {
                         $urls = wp_handle_upload($file['reviewcsv'], array('test_form' => FALSE));                      
                         $url = $urls["url"];
                         update_option('saswp_rv_csv_upload_url',esc_url($url));
-                        $response = array('file_status' => 't','status' => 't', 'msg' =>  __( 'file uploaded successfully', 'quick-adsense-reloaded' ));                                           
+                        $response = array('file_status' => 't','status' => 't', 'msg' =>  __( 'file uploaded successfully', 'schema-and-structured-data-for-wp' ));                                           
                     }
                 }
 
@@ -1161,19 +1097,19 @@ class SASWP_Rest_Api {
 
                 $parts = explode( '.',$file['file']['name'] );                
                 if( end($parts) != 'json' ) {
-                    $response = array('status' => 'f', 'msg' =>  __( 'Please upload a valid .json file', 'quick-adsense-reloaded' ));                   
+                    $response = array('status' => 'f', 'msg' =>  __( 'Please upload a valid .json file', 'schema-and-structured-data-for-wp' ));                   
                 }
               
                 $import_file = $file['file']['tmp_name'];
                 if( empty( $import_file ) ) {
-                    $response = array('status' => 'f', 'msg' =>  __( 'Please upload a file to import', 'quick-adsense-reloaded' ));                                       
+                    $response = array('status' => 'f', 'msg' =>  __( 'Please upload a file to import', 'schema-and-structured-data-for-wp' ));                                       
                 }
                                                 
                 if($import_file){
                     $result      = $this->api_service->importFromFile($import_file);    
-                    $response = array('file_status' => 't','status' => 't', 'msg' =>  __( 'file uploaded successfully', 'quick-adsense-reloaded' ));                                       
+                    $response = array('file_status' => 't','status' => 't', 'msg' =>  __( 'file uploaded successfully', 'schema-and-structured-data-for-wp' ));                                       
                 }else{
-                    $response = array('status' => 'f', 'msg' =>  __( 'File not found', 'quick-adsense-reloaded' ));                   
+                    $response = array('status' => 'f', 'msg' =>  __( 'File not found', 'schema-and-structured-data-for-wp' ));                   
                 }
                                                 
             }else{
@@ -1181,7 +1117,7 @@ class SASWP_Rest_Api {
                 if($parameters){
                     $result      = $this->api_service->updateSettings($parameters);
                     if($result){
-                        $response = array('status' => 't', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));                                               
+                        $response = array('status' => 't', 'msg' =>  __( 'Settings has been saved successfully', 'schema-and-structured-data-for-wp' ));                                               
                     }
                 }
             }

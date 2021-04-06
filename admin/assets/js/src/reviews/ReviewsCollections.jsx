@@ -122,7 +122,7 @@ useEffect(() => {
           <div key={index} className="card-body saswp-review-card">
             <div><input type="checkbox"/></div>
             <div className="saswp-review-avatar">        
-        <Link to={`admin.php?page=saswp&path=reviews_collections_single&id=${item.post.post_id}`} className="quads-edit-btn">
+        <Link to={`admin.php?page=saswp&path=reviews_collections_single&id=${item.post.post_id}`} className="saswp-edit-btn">
             <span className="avatar">
                 <span className="avatar-image-wrapper">
                     {item.post_meta.saswp_collection_images.map((item, index) => (
