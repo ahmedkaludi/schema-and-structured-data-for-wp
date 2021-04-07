@@ -3470,19 +3470,21 @@ function saswp_get_video_metadata($content = ''){
            if($matches){
                
                foreach($matches as $match){
-                         
+
                   $vurl     = 'https://youtube.com'.$match[2]; 
                   $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
                   $result   = @wp_remote_get($rulr);                                    
-                  
-                  if(wp_remote_retrieve_response_code($result) == 200){
+                  $metadata = array();
 
-                        $metadata = json_decode(wp_remote_retrieve_body($result),true);
-                        
-                        $metadata['video_url'] = $vurl;                    
-                        $response[] = $metadata;
-                        
-                  }                                                       
+                  if(wp_remote_retrieve_response_code($result) == 200) {
+
+                        $metadata = json_decode(wp_remote_retrieve_body($result),true);                                                
+
+                  }
+
+                  $metadata['video_url'] = $vurl;
+                  $response[] = $metadata;
+
                }                              
            }
            
