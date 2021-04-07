@@ -1211,29 +1211,29 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 if(isset($_POST['saswp_business_name'])){
                     update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );   
                 }else{
-                    update_post_meta( $post_id, 'saswp_business_name', '' );   
+                    delete_post_meta( $post_id, 'saswp_business_name');   
                 }
                 if(isset($_POST['saswp_enable_speakable_schema'])){
                     update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
                 }else{
-                    update_post_meta( $post_id, 'saswp_enable_speakable_schema', '0' );                                                                       
+                    delete_post_meta( $post_id, 'saswp_enable_speakable_schema');                                                                       
                 }
                 if(isset($_POST['saswp_enable_videoobject'])){
                     update_post_meta( $post_id, 'saswp_enable_videoobject', intval($_POST['saswp_enable_videoobject']) );                                                                       
                 }else{
-                    update_post_meta( $post_id, 'saswp_enable_videoobject', '0' );                                                                       
+                    delete_post_meta( $post_id, 'saswp_enable_videoobject');                                                                       
                 }
 
                 if(isset($_POST['saswp_enable_append_reviews'])){
                     update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
                 }else{
-                    update_post_meta( $post_id, 'saswp_enable_append_reviews', 0);                                                                       
+                    delete_post_meta( $post_id, 'saswp_enable_append_reviews');                                                                       
                 }
 
                 if(isset($_POST['saswp_enable_itemlist_schema'])){
                     update_post_meta( $post_id, 'saswp_enable_itemlist_schema', intval($_POST['saswp_enable_itemlist_schema']) );                                                                       
                 }else{
-                    update_post_meta( $post_id, 'saswp_enable_itemlist_schema', '0' );                                                                       
+                    delete_post_meta( $post_id, 'saswp_enable_itemlist_schema');                                                                       
                 }
                 
                 update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       

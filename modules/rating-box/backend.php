@@ -216,13 +216,13 @@ class saswp_rating_box_backend {
                 if(isset($_POST['saswp-review-item-enable'])){
                     $saswp_review_details['saswp-review-item-enable'] = sanitize_text_field($_POST['saswp-review-item-enable']);
                 }
-                if(isset($_POST['saswp-review-item-description'])){
+                if(isset($_POST['saswp-review-item-description']) && $_POST['saswp-review-item-description'] != '' ){
                     update_post_meta( $post_id, 'saswp-review-item-description', wp_kses_post( wp_unslash( $_POST['saswp-review-item-description'] )) );                    
                 }
-                if(isset($_POST['saswp-review-item-props'])){
-                    update_post_meta( $post_id, 'saswp-review-item-props', wp_kses_post( wp_unslash( $_POST['saswp-review-item-props'] )) );                    
+                if(isset($_POST['saswp-review-item-props']) && $_POST['saswp-review-item-props'] !='' ){
+                    update_post_meta( $post_id, 'saswp-review-item-props', wp_kses_post( wp_unslash( $_POST['saswp-review-item-props'] )) );
                 }
-                if(isset($_POST['saswp-review-item-cons'])){
+                if(isset($_POST['saswp-review-item-cons']) && $_POST['saswp-review-item-cons'] != ''){
                     update_post_meta( $post_id, 'saswp-review-item-cons', wp_kses_post( wp_unslash( $_POST['saswp-review-item-cons'] )) );                    
                 }                          
                 if(!empty($saswp_review_details)){
