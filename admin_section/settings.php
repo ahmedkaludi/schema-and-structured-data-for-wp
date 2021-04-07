@@ -2136,6 +2136,19 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+
+        $cmp = array(
+                'label'  => 'CMP – Coming Soon & Maintenance Plugin',
+                'id'     => 'saswp-cmp-checkbox',                        
+                'name'   => 'saswp-cmp-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('cmp'),
+                'hidden' => array(
+                        'id'   => 'saswp-cmp',
+                        'name' => 'sd_data[saswp-cmp]',                             
+                )
+        );        
         $wpecommerce = array(
                 'label'  => 'WP eCommerce',
                 'id'     => 'saswp-wpecommerce-checkbox',                        
@@ -3655,6 +3668,7 @@ function saswp_compatibility_page_callback(){
         $meta_fields = array(
                 $ampforwp,
                 $ampbyautomatic,
+                $cmp,
                 $betteramp,
                 $wpamp,
                 $ampwp,
