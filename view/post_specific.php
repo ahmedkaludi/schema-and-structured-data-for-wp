@@ -75,7 +75,7 @@ class saswp_post_specific {
                 $post_id        = intval($_POST['post_id']);
                 $schema_id      = intval($_POST['schema_id']);            
              
-                update_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id, 0); 
+                delete_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id); 
 
                 $meta_field = saswp_get_fields_by_schema_type($schema_id);
                 
@@ -559,8 +559,11 @@ class saswp_post_specific {
                 $allowed_html = saswp_expanded_allowed_tags(); 
                                                  
                 $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
-                update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
-                                                                               
+
+                if(!empty($custom_schema)){
+                    update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
+                }
+                                                                                               
                 $this->_common_view->saswp_save_common_view($post_id, $this->all_schema);
 	}
         

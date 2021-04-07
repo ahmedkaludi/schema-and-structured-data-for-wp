@@ -616,36 +616,41 @@ class saswp_view_common_class {
                             
 				switch ( $meta_field['type'] ) {
                                     
-                                        case 'media':                                                                                                  
-                                                $media_key       = $meta_field['id'].'_detail';                                                                                            
-                                                $media_height    = sanitize_text_field( $post_meta[ $meta_field['id'].'_height' ] );
-                                                $media_width     = sanitize_text_field( $post_meta[ $meta_field['id'].'_width' ] );
-                                                $media_thumbnail = sanitize_text_field( $post_meta[ $meta_field['id'].'_thumbnail' ] );
-                                                
-                                                $media_detail = array(                                                    
-                                                        'height'    => $media_height,
-                                                        'width'     => $media_width,
-                                                        'thumbnail' => $media_thumbnail,
-                                                );
-                                                
-                                                update_post_meta( $post_id, $media_key, $media_detail);                                                    
-                                                break;
+                    case 'media':                                                                                                  
+                            $media_key       = $meta_field['id'].'_detail';
+                            $media_height    = sanitize_text_field( $post_meta[ $meta_field['id'].'_height' ] );
+                            $media_width     = sanitize_text_field( $post_meta[ $meta_field['id'].'_width' ] );
+                            $media_thumbnail = sanitize_text_field( $post_meta[ $meta_field['id'].'_thumbnail' ] );
+                            
+                            if($media_height && $media_width && $media_thumbnail){
+
+                                $media_detail = array(                                                    
+                                    'height'    => $media_height,
+                                    'width'     => $media_width,
+                                    'thumbnail' => $media_thumbnail,
+                                );
+                            
+                                update_post_meta( $post_id, $media_key, $media_detail);
+
+                            }
+                            
+                            break;
 					case 'email':
 						$post_meta[ $meta_field['id'] ] = sanitize_email( $post_meta[ $meta_field['id'] ] );
 						break;
 					case 'text':
 						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );
 						break;
-                                        case 'textarea':
+                    case 'textarea':
 						$post_meta[ $meta_field['id'] ] = sanitize_textarea_field( $post_meta[ $meta_field['id'] ] );
 						break;    
-                                        default:
+                    default:
 						$post_meta[ $meta_field['id'] ] = wp_unslash( $post_meta[ $meta_field['id'] ] );						
                                             
 				}
 				update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
 			} else if ( $meta_field['type'] === 'checkbox' ) {
-				update_post_meta( $post_id, $meta_field['id'], '0' );
+				delete_post_meta( $post_id, $meta_field['id']);
 			}
 		    }
             
@@ -669,7 +674,7 @@ class saswp_view_common_class {
                                                                       
                  foreach($all_schema as $schema){
                    
-                     if(isset($_POST['saswp_modify_this_schema_'.$schema->ID])){
+                     if( isset($_POST['saswp_modify_this_schema_'.$schema->ID]) && !empty($_POST['saswp_modify_this_schema_'.$schema->ID]) ){
                          update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
                      }
                                   

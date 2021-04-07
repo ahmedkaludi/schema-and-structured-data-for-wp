@@ -85,6 +85,7 @@ $translation_labels = array(
     'translation-based-on'        => 'Based On',
     'translation-reviews'         => 'Reviews',
     'translation-self'            => 'Self',
+    'translation-summary'         => 'SUMMARY',
 );          
 $saswp_post_reviews = array();
 $saswp_elementor_faq = array();

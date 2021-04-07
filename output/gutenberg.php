@@ -746,9 +746,9 @@ function saswp_gutenberg_faq_schema(){
 
                                    $supply_data = array();
                                    $supply_data['@type']                   = 'Question';
-                                   $supply_data['name']                    = $val['question'][0];
+                                   $supply_data['name']                    = htmlspecialchars($val['question'][0]);
                                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
-                                   $supply_data['acceptedAnswer']['text']  = $val['answer'][0];
+                                   $supply_data['acceptedAnswer']['text']  = htmlspecialchars($val['answer'][0]);
 
                                     if(isset($val['answer'][1]['key']) && $val['answer'][1]['key'] !=''){
 
@@ -782,9 +782,9 @@ function saswp_gutenberg_faq_schema(){
 
                                    $supply_data = array();
                                    $supply_data['@type']                   = 'Question';
-                                   $supply_data['name']                    = $val['title'];
+                                   $supply_data['name']                    = htmlspecialchars($val['title']);
                                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
-                                   $supply_data['acceptedAnswer']['text']  = $val['description'];
+                                   $supply_data['acceptedAnswer']['text']  = htmlspecialchars($val['description']);
 
                                     if(isset($val['imageId']) && $val['imageId'] !=''){
 
@@ -930,7 +930,7 @@ function saswp_gutenberg_qanda_schema(){
             foreach($accepted_answer as $answer){
                 $accepted_json[] = array(
                     '@type'         => 'Answer',
-                    'text'          => $answer['text'],
+                    'text'          => htmlspecialchars($answer['text']),
                     'dateCreated'   => $answer['date_created_iso'],
                     'upvoteCount'   => $answer['vote'],
                     'url'           => $answer['url'],
@@ -948,7 +948,7 @@ function saswp_gutenberg_qanda_schema(){
             foreach($suggested_answer as $answer){
                 $suggested_json[] = array(
                     '@type'         => 'Answer',
-                    'text'          => $answer['text'],
+                    'text'          => htmlspecialchars($answer['text']),
                     'dateCreated'   => $answer['date_created_iso'],
                     'upvoteCount'   => $answer['vote'],
                     'url'           => $answer['url'],

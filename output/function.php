@@ -28,6 +28,11 @@ function saswp_schema_markup_hook_on_init() {
                add_action( 'better-amp/template/footer', 'saswp_schema_markup_output', 1, 1 );
                add_action( 'amphtml_template_footer', 'saswp_schema_markup_output');
                add_action( 'amp_wp_template_footer', 'saswp_schema_markup_output');
+
+               if(isset($sd_data['saswp-cmp']) && $sd_data['saswp-cmp'] == 1){
+                    add_action( 'cmp-after-footer-scripts', 'saswp_schema_markup_output');  
+               }
+               
                
             }else{
                 
@@ -36,7 +41,11 @@ function saswp_schema_markup_hook_on_init() {
                add_action( 'amp_post_template_head' , 'saswp_schema_markup_output' );
                add_action( 'amphtml_template_head', 'saswp_schema_markup_output');
                add_action( 'amp_wp_template_head', 'saswp_schema_markup_output');
-               
+
+               if(isset($sd_data['saswp-cmp']) && $sd_data['saswp-cmp'] == 1){
+                    add_action( 'cmp-before-header-scripts', 'saswp_schema_markup_output');  
+               }
+                              
             }               
             
             add_action('cooked_amp_head', 'saswp_schema_markup_output');

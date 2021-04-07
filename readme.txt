@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.69
+Stable tag: 1.9.70
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.70 (07 April 2021) =
+
+* Fixed: Stop creation of empty custom fields for product pages #1368
+* Fixed: Bad escaping sequence in json-ld for faq block #1371
+* Fixed: Search Console Problems with Videos #1363
+* Added: "Summary" key word in the Translation panel. #1370
+* Added: editor property in the article schema. #1369
+* Added: Compatible with CMP – Coming Soon & Maintenance Plugin by NiteoThemes ( https://wordpress.org/plugins/cmp-coming-soon-maintenance ) #1367
+
 
 = 1.9.69 (24 March 2021) =
 

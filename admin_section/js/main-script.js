@@ -1706,6 +1706,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-cmp-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {
+                              $("#saswp-cmp").val(1);                                
+                            }else{
+                              $("#saswp-cmp").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-wpreviewpro-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {                                            

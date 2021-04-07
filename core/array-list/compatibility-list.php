@@ -266,6 +266,12 @@ return array(
                     'opt_name'   => 'saswp-ampbyautomatic',
                     'part_in'    => 'free',
         ),
+        'cmp'       =>  array(            
+                    'name'       => 'CMP – Coming Soon & Maintenance Plugin',
+                    'free'       => 'cmp-coming-soon-maintenance/niteo-cmp.php',            
+                    'opt_name'   => 'saswp-cmp',
+                    'part_in'    => 'free',
+        ),
         'wpecommerce'  =>  array(            
             'name'       => 'WP eCommerce',
             'free'       => 'wp-e-commerce/wp-shopping-cart.php',            

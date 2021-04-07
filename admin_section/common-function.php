@@ -3064,6 +3064,7 @@ function saswp_get_field_note($pname){
             'html5responsivefaq'          => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/html5-responsive-faq/">HTML5 Responsive FAQ</a>',
             'helpiefaq'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/helpie-faq/">Helpie FAQ – WordPress FAQ Accordion Plugin</a>',
             'ampbyautomatic'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
+            'cmp'                         => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/cmp-coming-soon-maintenance/">CMP – Coming Soon & Maintenance Plugin</a>',
             'wpecommerce'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-e-commerce/">WP eCommerce</a>',
             'wpreviewpro'                 => saswp_t_string('Requires').' <a target="_blank" href="https://mythemeshop.com/plugins/wordpress-review/">WP Review Pro</a>',
             'webstories'                  => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/web-stories/">Web Stories</a>',
@@ -3470,19 +3471,21 @@ function saswp_get_video_metadata($content = ''){
            if($matches){
                
                foreach($matches as $match){
-                         
+
                   $vurl     = 'https://youtube.com'.$match[2]; 
                   $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
                   $result   = @wp_remote_get($rulr);                                    
-                  
-                  if(wp_remote_retrieve_response_code($result) == 200){
+                  $metadata = array();
 
-                        $metadata = json_decode(wp_remote_retrieve_body($result),true);
-                        
-                        $metadata['video_url'] = $vurl;                    
-                        $response[] = $metadata;
-                        
-                  }                                                       
+                  if(wp_remote_retrieve_response_code($result) == 200) {
+
+                        $metadata = json_decode(wp_remote_retrieve_body($result),true);                                                
+
+                  }
+
+                  $metadata['video_url'] = $vurl;
+                  $response[] = $metadata;
+
                }                              
            }
            

@@ -537,6 +537,9 @@ class saswp_output_compatibility{
     public function ampbyautomatic_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-ampbyautomatic');
     }
+    public function cmp_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-cmp');
+    }
     public function wpecommerce_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-wpecommerce');
     }
