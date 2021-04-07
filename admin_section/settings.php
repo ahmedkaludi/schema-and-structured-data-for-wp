@@ -4081,6 +4081,9 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         
         wp_dequeue_script( 'select2' );
         wp_deregister_script( 'select2' );
+         
+        // Dequeue mediclinic theme's select2 on schema dashboard to remove conflict.
+        wp_dequeue_script( 'mkdf-select2-script' );        
 
         wp_dequeue_script( 'wds-shared-ui' );
         wp_deregister_script( 'wds-shared-ui' );
