@@ -1179,8 +1179,11 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
             'openingHours'                => $operation_days,                                                                                                     
             );
 
-            $input1 = saswp_get_modified_image('local_business_logo_'.$schema_id.'_detail', $input1);
-            
+                $input1 = saswp_get_modified_image('local_business_logo_'.$schema_id.'_detail', $input1);
+
+                if(isset($all_post_meta['local_business_logo_'.$schema_id][0]) && $all_post_meta['local_business_logo_'.$schema_id][0] !='' ){
+                    $input1['image'] = $all_post_meta['local_business_logo_'.$schema_id][0];   
+                }
                 if(isset($all_post_meta['local_additional_type_'.$schema_id][0])){
                     $input1['additionalType'] = $all_post_meta['local_additional_type_'.$schema_id][0];   
                 }
