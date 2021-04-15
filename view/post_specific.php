@@ -328,8 +328,14 @@ class saswp_post_specific {
             wp_die();
         }
         
-        public function saswp_post_meta_box_fields($post){    
+        public function saswp_post_meta_box_fields( $original_post = null ){  
             
+            global $post;
+
+             if($original_post != null){
+                $post = $original_post;
+             }
+			            
              $response_html     = '';
              $disable_btn       = '';
              $cus_schema        = '';
@@ -535,9 +541,8 @@ class saswp_post_specific {
              return $response_html;   
         }
                 
-        public function saswp_post_meta_box_callback() { 
-                    
-                global $post;                 
+        public function saswp_post_meta_box_callback($post) { 
+                                                 
 		        wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );  
                 echo $this->saswp_post_meta_box_fields($post);                                             
                                                                                                                                                                    		
