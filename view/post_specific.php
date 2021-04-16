@@ -45,7 +45,7 @@ class saswp_post_specific {
                 
                 add_action( 'wp_ajax_saswp_get_item_reviewed_fields', array($this, 'saswp_get_item_reviewed_fields')) ;
                            
-		        add_action( 'add_meta_boxes', array( $this, 'saswp_post_specifc_add_meta_boxes' ) );		
+		        add_action( 'add_meta_boxes', array( $this, 'saswp_post_specifc_add_meta_boxes' ),10,2 );		
 		        add_action( 'save_post', array( $this, 'saswp_post_specific_save_fields' ) );
                 add_action( 'wp_ajax_saswp_get_sub_business_ajax', array($this,'saswp_get_sub_business_ajax'));
                 
@@ -257,9 +257,9 @@ class saswp_post_specific {
                                                                                                                       
         }
 
-        public function saswp_post_specifc_add_meta_boxes() {
+        public function saswp_post_specifc_add_meta_boxes($post_type, $post) {
             
-            global $post, $saswp_metaboxes;
+            global $saswp_metaboxes;
                                                          
             $show_post_types = get_post_types();
             unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
@@ -328,14 +328,8 @@ class saswp_post_specific {
             wp_die();
         }
         
-        public function saswp_post_meta_box_fields( $original_post = null ){  
-            
-            global $post;
-
-             if($original_post != null){
-                $post = $original_post;
-             }
-			            
+        public function saswp_post_meta_box_fields($post){  
+                        			            
              $response_html     = '';
              $disable_btn       = '';
              $cus_schema        = '';
@@ -367,7 +361,7 @@ class saswp_post_specific {
                     
                  foreach($this->all_schema as $key => $schema){
                      
-                      $advnace_status = saswp_check_advance_display_status($schema->ID);
+                      $advnace_status = saswp_check_advance_display_status($schema->ID, $post);
                                           
                       if($advnace_status !== 1){
                           continue;
