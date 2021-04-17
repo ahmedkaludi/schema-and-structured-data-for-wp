@@ -1792,6 +1792,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-jetpackrecipe-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-jetpackrecipe").val(1);                                
+                            }else{
+                              $("#saswp-jetpackrecipe").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-quickandeasyfaq-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

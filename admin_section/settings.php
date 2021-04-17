@@ -2136,6 +2136,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+        $jetpackrecipe = array(
+                'label'  => 'JetPack Recipes',
+                'id'     => 'saswp-jetpackrecipe-checkbox',                        
+                'name'   => 'saswp-jetpackrecipe-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('jetpackrecipe'),
+                'hidden' => array(
+                        'id'   => 'saswp-jetpackrecipe',
+                        'name' => 'sd_data[saswp-jetpackrecipe]',                             
+                )
+        );
 
         $cmp = array(
                 'label'  => 'CMP – Coming Soon & Maintenance Plugin',
@@ -3651,7 +3663,8 @@ function saswp_compatibility_page_callback(){
          }
          
          if(!is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){
-                          
+
+             $jetpackrecipe['note']              = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';                          
              $zip_recipes['note']                = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $wp_ultimate_recipe['note']         = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
              $mediavine_create['note']           = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
@@ -3710,6 +3723,7 @@ function saswp_compatibility_page_callback(){
                 $squirrly_seo,                
                 $recipe_maker,
                 $recipress,
+                $jetpackrecipe,
                 $wpzoom,
                 $video_thumbnails,
                 $featured_video_plus,
