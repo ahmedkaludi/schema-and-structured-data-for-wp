@@ -56,7 +56,7 @@ class SASWP_Reviews_Collection {
 
         
         public function saswp_collection_logic_checker($collection_id){
-
+            global $post;    
             $response = false;
 
             $where        = get_post_meta($collection_id, 'saswp_collection_where', true);
@@ -70,7 +70,7 @@ class SASWP_Reviews_Collection {
                 $input['key_2'] = 'equal';
                 $input['key_3'] = $where_data[0];
 
-                $response = saswp_comparison_logic_checker($input);
+                $response = saswp_comparison_logic_checker($input, $post);
                 
             }
 

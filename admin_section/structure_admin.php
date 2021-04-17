@@ -148,10 +148,10 @@ add_action( 'plugins_loaded', 'saswp_load_plugin_textdomain' );
 
 
 
-function saswp_check_advance_display_status($post_id){
+function saswp_check_advance_display_status($post_id, $post){
               
           $unique_checker = '';
-          $resultset = saswp_generate_field_data( $post_id );
+          $resultset = saswp_generate_field_data( $post_id, $post );
           
           if($resultset){
               
@@ -199,7 +199,7 @@ function saswp_check_advance_display_status($post_id){
 }
 
 function saswp_get_all_schema_posts(){
-    
+    global $post;
     $schema_id_array = array();
 
     $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
@@ -219,7 +219,7 @@ function saswp_get_all_schema_posts(){
       
       foreach ($schema_id_array as $post_id){ 
         
-          $unique_checker = saswp_check_advance_display_status($post_id);
+          $unique_checker = saswp_check_advance_display_status($post_id, $post);
                                         
           if ( $unique_checker === 1 || $unique_checker === true || $unique_checker == 'notset') {
               
@@ -265,7 +265,7 @@ function saswp_get_all_schema_posts(){
    return false;
 }
 
-function saswp_generate_field_data( $post_id ){
+function saswp_generate_field_data( $post_id, $post ){
     
       $data_group_array = get_post_meta( $post_id, 'data_group_array', true);  
       
@@ -276,7 +276,13 @@ function saswp_generate_field_data( $post_id ){
         foreach ($data_group_array as $group){
 
           if(is_array($group['data_array'])){
-            $output[] = array_map('saswp_comparison_logic_checker', $group['data_array']);     
+            
+            $inner_output = array();
+
+            foreach($group['data_array'] as $value){
+              $inner_output[] = saswp_comparison_logic_checker($value, $post); 
+            }
+            $output[] = $inner_output;            
           }
            
         }   
@@ -287,9 +293,8 @@ function saswp_generate_field_data( $post_id ){
       
 }
 
-function saswp_comparison_logic_checker($input){
-    
-        global $post;              
+function saswp_comparison_logic_checker($input, $post){
+            
         $type       = isset($input['key_1']) ? $input['key_1'] : '';
         $comparison = isset($input['key_2']) ? $input['key_2'] : '';
         $data       = isset($input['key_3']) ? $input['key_3'] : '';

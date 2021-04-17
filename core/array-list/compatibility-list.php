@@ -597,6 +597,12 @@ return array(
                     'opt_name'   => 'saswp-zip-recipes',
                     'part_in'    => 'pro',
         ),
+        'jetpackrecipe' => array(
+            'name'       => 'JetPack Recipes',
+            'free'       => 'jetpack/jetpack.php',                     
+            'opt_name'   => 'saswp-jetpackrecipe',
+            'part_in'    => 'pro',
+        ),
         'mediavine_create' => array(            
                     'name'       => 'Create by Mediavine',
                     'free'       => 'mediavine-create/mediavine-create.php',                     
