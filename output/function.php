@@ -1232,7 +1232,8 @@ function saswp_get_comments_with_rating(){
         $post_comments = get_comments( array( 
             'post_id' => $post->ID,                                            
             'status'  => 'approve',
-            'type'    => 'comment' 
+            'type'    => 'comment',
+            'parent'  => 0 
         ) 
       );                                                                                                                                                                              
       
