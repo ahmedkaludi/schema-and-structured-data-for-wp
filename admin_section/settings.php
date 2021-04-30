@@ -2136,6 +2136,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampbyautomatic]',                             
                         )
                 );
+        $wpreviewslider = array(
+                'label'  => 'WP Review Slider',
+                'id'     => 'saswp-wpreviewslider-checkbox',                        
+                'name'   => 'saswp-wpreviewslider-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpreviewslider'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpreviewslider',
+                        'name' => 'sd_data[saswp-wpreviewslider]',                             
+                )
+        );        
         $jetpackrecipe = array(
                 'label'  => 'JetPack Recipes',
                 'id'     => 'saswp-jetpackrecipe-checkbox',                        
@@ -3630,6 +3642,10 @@ function saswp_compatibility_page_callback(){
                 $webfaq10['note']             = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
 
          }
+         if(!is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
+                          
+                $wpreviewslider['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema/">Reviews For Schema</a>';
+         }
          if(!is_plugin_active('polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php')){
                           
                 $polylang['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/polylang-compatibility-for-saswp/">Polylang Compatibility For SASWP Addon</a>';                        
@@ -3693,6 +3709,7 @@ function saswp_compatibility_page_callback(){
                 $wpdiscuz,
                 $yasr,
                 $wp_customer_review,
+                $wpreviewslider,
                 $simple_author_box,  
                 $wppostratings,
                 $wpreviewpro,

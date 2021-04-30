@@ -2139,6 +2139,7 @@ function saswp_schema_output() {
                                           
                                     }
                         
+                                    $input1 = apply_filters('saswp_modify_reviews_schema', $input1);
                         }                                                
                                 
                         //Check for Featured Image
