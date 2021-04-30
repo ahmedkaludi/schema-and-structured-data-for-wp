@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.71
+Stable tag: 1.9.72
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.72 (30 April 2021) =
+
+* Fixed: The reply to review should not be counted as a separate review count #1392
+* Fixed: Escaping of html in json string missing for FAQ schema which cause invalid json issue #1388
+* Fixed: Warning: htmlspecialchars() expects parameter 1 to be string, array given in /output/gutenberg.php #1385
+* Added: Compatibility with WP Review Slider Pro (Premium) plugin #1387
 
 = 1.9.71 (17 April 2021) =
 
