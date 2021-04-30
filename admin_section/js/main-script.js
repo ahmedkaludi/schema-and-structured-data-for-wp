@@ -1695,6 +1695,17 @@ jQuery(document).ready(function($){
                             
                       break;
                       
+                      case 'saswp-wpreviewslider-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {                                            
+
+                              $("#saswp-wpreviewslider").val(1);                                
+                            }else{
+                              $("#saswp-wpreviewslider").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-ampbyautomatic-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {                                            

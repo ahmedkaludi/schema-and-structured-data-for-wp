@@ -266,6 +266,13 @@ return array(
                     'opt_name'   => 'saswp-ampbyautomatic',
                     'part_in'    => 'free',
         ),
+        'wpreviewslider'  =>  array(            
+            'name'       => 'WP Review Slider',
+            'free'       => 'wp-facebook-reviews/wp-fb-reviews.php',
+            'pro'        => 'wp-review-slider-pro/wp-review-slider-pro.php',            
+            'opt_name'   => 'saswp-wpreviewslider',
+            'part_in'    => 'pro',
+        ),
         'cmp'       =>  array(            
                     'name'       => 'CMP – Coming Soon & Maintenance Plugin',
                     'free'       => 'cmp-coming-soon-maintenance/niteo-cmp.php',            
