@@ -869,6 +869,10 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                                      'name'  => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_brand_name_'.$schema_id, 'saswp_array'),
                                                     )    
             ); 
+
+            if( isset($all_post_meta['saswp_product_schema_id_'.$schema_id]) && $all_post_meta['saswp_product_schema_id_'.$schema_id] != '' ){
+                    $input1['@id'] = $all_post_meta['saswp_product_schema_id_'.$schema_id];
+            }
             
             $input1 = saswp_get_modified_image('saswp_product_schema_image_'.$schema_id.'_detail', $input1);
             

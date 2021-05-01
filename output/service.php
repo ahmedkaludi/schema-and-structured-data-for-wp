@@ -2163,6 +2163,9 @@ Class saswp_output_service{
                     break;
                 
                 case 'Product':                                                                                                  
+                    if(isset($custom_fields['saswp_product_schema_id'])){
+                     $input1['@id'] =    $custom_fields['saswp_product_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_product_schema_url'])){
                      $input1['url'] =    saswp_validate_url($custom_fields['saswp_product_schema_url']);
                     }

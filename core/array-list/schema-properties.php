@@ -2631,13 +2631,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         
                     }
                     
-                    $meta_field = array(
-                        
+                    $meta_field = array(                        
                     array(
                             'label'   => 'Name',
                             'id'      => 'saswp_product_schema_name_'.$schema_id,
                             'type'    => 'text',     
                             'default' => saswp_remove_warnings($product_details, 'product_name', 'saswp_string')
+                    ),
+                    array(
+                            'label'   => 'ID',
+                            'id'      => 'saswp_product_schema_id_'.$schema_id,
+                            'type'    => 'text'                        
                     ),
                     array(
                             'label'   => 'URL',
