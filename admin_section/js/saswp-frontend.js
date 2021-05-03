@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){  
 
     jQuery("#saswp-comment-rating-div").rateYo({              
-              rating : 5,                 
+              rating : saswp_localize_front_data.rateyo_default_rating,                 
               spacing: "5px",                          
               onSet: function (rating, rateYoInstance) {
                 $(this).next().next().val(rating);                

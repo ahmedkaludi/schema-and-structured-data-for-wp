@@ -345,7 +345,7 @@ class saswp_fields_generator {
                             
                             foreach ($attribute as $key => $attr ){
 
-                                $attribute_str .=''.esc_attr($key).'="'.esc_attr($attr).'"';
+                                $attribute_str .=''.esc_attr($key).'="'.esc_attr($attr).'" ';
                            
                             }
                         

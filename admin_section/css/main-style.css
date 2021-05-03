@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : Jul 27, 2018, 5:36:26 PM
     Author     : Magazine3
 */
+#saswp-default-rating{
+    width: 100px !important;
+}
 .saswp-settings-container .nav-tab-wrapper{
     display: flex;
 }

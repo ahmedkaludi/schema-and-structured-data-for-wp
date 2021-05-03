@@ -1651,7 +1651,9 @@ if ( ! defined('ABSPATH') ) exit;
                         'value'        => array(),
                         'type'         => array(),
                         'style'        => array(),                    
-                        'width'        => array(),                    
+                        'width'        => array(),
+                        'min'          => array(),
+                        'max'          => array(),                    
                 );
                 $my_allowed['script'] = array(
                         'class'        => array(),
@@ -1795,6 +1797,7 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp-other-images'        => 1,
                         'saswp_default_review'      => 1,
                         'saswp-multiple-size-image' => 1,
+                        'saswp-default-rating'      => 5,
                         'instant_indexing_action'   => 1,
                         'instant_indexing'          => array('post' => 1, 'page' => 1)   
 

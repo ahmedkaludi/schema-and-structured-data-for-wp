@@ -2046,6 +2046,18 @@ function saswp_review_page_callback(){
                                 'id'   => 'saswp-stars-rating',
                                 'name' => 'sd_data[saswp-stars-rating]',                             
                         )
+                ),
+                array(
+                        'label'  => 'Default Rating',
+                        'id'     => 'saswp-default-rating',                        
+                        'name'   => 'sd_data[saswp-default-rating]',
+                        'type'   => 'number',
+                        'class'  => 'regular-text',
+                        'note'   => 'Option to set default rating to rating field. If user does not choose rating this value will be submited',                        
+                        'attributes' => array(
+                                'max' => '5',
+                                'min' => '1'                                
+                        )
                 )
            );  
        
