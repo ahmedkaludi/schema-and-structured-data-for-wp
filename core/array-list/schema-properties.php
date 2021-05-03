@@ -4831,32 +4831,42 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'media',                             
                     ),
                     array(
-                            'label'      => 'Street Address',
+                        'label'      => 'Applicants can apply from ( Country ) ',
+                        'id'         => 'saswp_jobposting_schema_applicant_location_requirements_'.$schema_id,
+                        'type'       => 'text',                             
+                    ),
+                    array(
+                        'label'      => 'Job Location Type',
+                        'id'         => 'saswp_jobposting_schema_job_location_type_'.$schema_id,
+                        'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Job Location Street Address',
                             'id'         => 'saswp_jobposting_schema_street_address_'.$schema_id,
                             'type'       => 'text',                             
                     ),
                     array(
-                            'label'      => 'Address Locality',
+                            'label'      => 'Job Location Locality',
                             'id'         => 'saswp_jobposting_schema_locality_'.$schema_id,
                             'type'       => 'text',                             
                     ),
                     array(
-                            'label'      => 'Address Region',
+                            'label'      => 'Job Location Region',
                             'id'         => 'saswp_jobposting_schema_region_'.$schema_id,
                             'type'       => 'text',                             
                     ),
                     array(
-                            'label'      => 'Address Postal Code',
+                            'label'      => 'Job Location Postal Code',
                             'id'         => 'saswp_jobposting_schema_postalcode_'.$schema_id,
                             'type'       => 'text',                             
                     ),
                     array(
-                            'label'      => 'Address Country',
+                            'label'      => 'Job Location Country',
                             'id'         => 'saswp_jobposting_schema_country_'.$schema_id,
                             'type'       => 'text',                             
                     ),
                     array(
-                                'label'      => 'GeoCoordinates Latitude',
+                                'label'      => 'Job Location GeoCoordinates Latitude',
                                 'id'         => 'saswp_jobposting_schema_latitude_'.$schema_id,
                                 'type'       => 'text',
                                 'attributes' => array(
@@ -4864,7 +4874,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 ), 
                      ),
                      array(
-                                'label'      => 'GeoCoordinates Longitude',
+                                'label'      => 'Job Location GeoCoordinates Longitude',
                                 'id'         => 'saswp_jobposting_schema_longitude_'.$schema_id,
                                 'type'       => 'text',
                                 'attributes' => array(

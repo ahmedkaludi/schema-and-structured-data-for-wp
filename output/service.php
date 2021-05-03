@@ -3542,6 +3542,13 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_jobposting_schema_ho_logo'])){
                      $input1['hiringOrganization']['logo'] =    $custom_fields['saswp_jobposting_schema_ho_logo'];
                     }
+                    if(isset($custom_fields['saswp_jobposting_schema_applicant_location_requirements'])){
+                     $input1['applicantLocationRequirements']['@type'] = 'Country';
+                     $input1['applicantLocationRequirements']['name']  = $custom_fields['saswp_jobposting_schema_applicant_location_requirements'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_job_location_type'])){
+                     $input1['jobLocationType']  = $custom_fields['saswp_jobposting_schema_job_location_type'];
+                    }
                     if(isset($custom_fields['saswp_jobposting_schema_street_address'])){
                      $input1['jobLocation']['address']['streetAddress'] =    $custom_fields['saswp_jobposting_schema_street_address'];
                     }
