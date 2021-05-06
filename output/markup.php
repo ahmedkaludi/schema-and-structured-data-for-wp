@@ -870,6 +870,16 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                                     )    
             ); 
 
+            if( isset($all_post_meta['saswp_product_schema_brand_url_'.$schema_id]) && $all_post_meta['saswp_product_schema_brand_url_'.$schema_id] != '' ){
+                $input1['brand']['url'] = $all_post_meta['saswp_product_schema_brand_url_'.$schema_id];
+            }
+            if( isset($all_post_meta['saswp_product_schema_brand_image_'.$schema_id]) && $all_post_meta['saswp_product_schema_brand_image_'.$schema_id] != '' ){
+                $input1['brand']['image'] = $all_post_meta['saswp_product_schema_brand_image_'.$schema_id];
+            }
+            if( isset($all_post_meta['saswp_product_schema_brand_logo_'.$schema_id]) && $all_post_meta['saswp_product_schema_brand_logo_'.$schema_id] != '' ){
+                $input1['brand']['logo'] = $all_post_meta['saswp_product_schema_brand_logo_'.$schema_id];
+            }
+
             if( isset($all_post_meta['saswp_product_schema_id_'.$schema_id]) && $all_post_meta['saswp_product_schema_id_'.$schema_id] != '' ){
                     $input1['@id'] = $all_post_meta['saswp_product_schema_id_'.$schema_id];
             }

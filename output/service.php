@@ -2174,8 +2174,20 @@ Class saswp_output_service{
                     }
                     
                     if(isset($custom_fields['saswp_product_schema_brand_name'])){
+                        
                      $input1['brand']['@type'] =    'Brand';
                      $input1['brand']['name']  =    $custom_fields['saswp_product_schema_brand_name'];
+
+                       if(isset($custom_fields['saswp_product_schema_brand_url'])){
+                        $input1['brand']['url'] =    $custom_fields['saswp_product_schema_brand_url'];
+                       }
+                       if(isset($custom_fields['saswp_product_schema_brand_image'])){
+                        $input1['brand']['image'] =    $custom_fields['saswp_product_schema_brand_image'];
+                       }
+                       if(isset($custom_fields['saswp_product_schema_brand_logo'])){
+                        $input1['brand']['logo'] =    $custom_fields['saswp_product_schema_brand_logo'];
+                       }   
+
                     }
                     
                     if(isset($custom_fields['saswp_product_schema_mpn'])){

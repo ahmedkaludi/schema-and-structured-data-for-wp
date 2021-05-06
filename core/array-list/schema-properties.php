@@ -2659,18 +2659,33 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'    => 'Image',
                             'id'       => 'saswp_product_schema_image_'.$schema_id,
                             'type'     => 'media',                           
-                     ),
-                         array(
-                            'label'    => 'Brand Name',
-                            'id'       => 'saswp_product_schema_brand_name_'.$schema_id,
-                            'type'     => 'text',
-                             'default' => saswp_remove_warnings($product_details, 'product_brand', 'saswp_string')
-                     ),
+                        ),
                         array(
-                            'label'   => 'Price',
-                            'id'      => 'saswp_product_schema_price_'.$schema_id,
-                            'type'    => 'text',
-                            'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                                'label'    => 'Brand Name',
+                                'id'       => 'saswp_product_schema_brand_name_'.$schema_id,
+                                'type'     => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_brand', 'saswp_string')
+                        ),
+                        array(
+                                'label'    => 'Brand URL',
+                                'id'       => 'saswp_product_schema_brand_url_'.$schema_id,
+                                'type'     => 'text'                                 
+                        ),
+                        array(
+                                'label'    => 'Brand Image',
+                                'id'       => 'saswp_product_schema_brand_image_'.$schema_id,
+                                'type'     => 'media'                               
+                        ),
+                        array(
+                                'label'    => 'Brand Logo',
+                                'id'       => 'saswp_product_schema_brand_logo_'.$schema_id,
+                                'type'     => 'media'                               
+                        ),                        
+                        array(
+                                'label'   => 'Price',
+                                'id'      => 'saswp_product_schema_price_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
                        ),
                         array(
                                 'label'   => 'High Price',
