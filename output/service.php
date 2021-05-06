@@ -4351,7 +4351,7 @@ Class saswp_output_service{
                         
                         $accepted_answer['@type']       = 'Answer';
                         $accepted_answer['upvoteCount'] = get_post_meta( $answer->ID, '_dwqa_votes', true );
-                        $accepted_answer['url']         = get_permalink($answer->ID);
+                        $accepted_answer['url']         = get_permalink();
                         $accepted_answer['text']        = wp_strip_all_tags($answer->post_content);
                         $accepted_answer['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z", $answer);
                         $accepted_answer['author']      = array('@type' => 'Person', 'name' => $authorname);
@@ -4361,7 +4361,7 @@ Class saswp_output_service{
                         $suggested_answer[] =  array(
                             '@type'       => 'Answer',
                             'upvoteCount' => get_post_meta( $answer->ID, '_dwqa_votes', true ),
-                            'url'         => get_permalink($answer->ID),
+                            'url'         => get_permalink(),
                             'text'        => wp_strip_all_tags($answer->post_content),
                             'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
                             'author'      => array('@type' => 'Person', 'name' => $authorname),
