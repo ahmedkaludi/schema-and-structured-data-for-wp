@@ -110,6 +110,7 @@ require_once SASWP_DIR_NAME.'/modules/elementor/elementor-loader.php';
 
 //Loading Third party files
 require_once SASWP_DIR_NAME.'/core/3rd-party/aqua_resizer.php';
+require_once SASWP_DIR_NAME.'/core/3rd-party/youtube.php';
 /**
  * set user defined message on plugin activate
  */

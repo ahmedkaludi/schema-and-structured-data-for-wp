@@ -1441,6 +1441,17 @@ function saswp_import_callback(){
                         )
                 ),
                 array(
+			'label'  => 'YouTube API Key',
+			'id'     => 'saswp-youtube-api',
+                        'name'   => 'sd_data[saswp-youtube-api]',
+                        'class'  => 'regular-text',                        
+			'type'   => 'text',
+                        'note'   => 'This option only works with VideoObject schema. 1.) Create a new project here: <a href="https://console.developers.google.com/project" target="_blank">Click here.</a> 2.) Enable "YouTube Data API" under "APIs & auth" -> APIs. 3.) Create a new server key under "APIs & auth" -> Credentials.',   
+                        'attributes' => array(
+                                    'placeholder' => 'AIzaSyB_WQM0iHROprml62RQj1rEYqDyUC6ddfe'
+                            )
+		    ),
+                array(
                         'label'  => 'Add Featured Image in RSS feed',
                         'id'     => 'saswp-rss-feed-image-checkbox',                        
                         'name'   => 'saswp-rss-feed-image-checkbox',
