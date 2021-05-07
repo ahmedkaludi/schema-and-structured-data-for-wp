@@ -1694,6 +1694,9 @@ function saswp_schema_output() {
                                     'author'			            => saswp_get_author_details()						                                                                                                      
                                 );
                                 
+                                if(isset($video_links[0]['duration'])){                                                                        
+                                    $input1['duration']   = $video_links[0]['duration'];                                    
+                                }
                                 if(isset($video_links[0]['video_url'])){
                                     
                                     $input1['contentUrl'] = saswp_validate_url($video_links[0]['video_url']);

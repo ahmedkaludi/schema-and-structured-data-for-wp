@@ -2036,14 +2036,14 @@ Class saswp_output_service{
                     }
 
                     if(isset($custom_fields['saswp_recipe_preptime'])){
-                     $input1['prepTime'] =    $custom_fields['saswp_recipe_preptime'];
+                     $input1['prepTime'] =    saswp_format_time_to_ISO_8601($custom_fields['saswp_recipe_preptime']);
                     }
                     if(isset($custom_fields['saswp_recipe_cooktime'])){
-                     $input1['cookTime'] =    $custom_fields['saswp_recipe_cooktime'];
+                     $input1['cookTime'] =    saswp_format_time_to_ISO_8601($custom_fields['saswp_recipe_cooktime']);
                     }
                     
                     if(isset($custom_fields['saswp_recipe_totaltime'])){
-                     $input1['totalTime'] =    $custom_fields['saswp_recipe_totaltime'];
+                     $input1['totalTime'] =    saswp_format_time_to_ISO_8601($custom_fields['saswp_recipe_totaltime']);
                     }
                     if(isset($custom_fields['saswp_recipe_keywords'])){
                      $input1['keywords'] =    $custom_fields['saswp_recipe_keywords'];
@@ -2163,6 +2163,9 @@ Class saswp_output_service{
                     break;
                 
                 case 'Product':                                                                                                  
+                    if(isset($custom_fields['saswp_product_schema_id'])){
+                     $input1['@id'] =    $custom_fields['saswp_product_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_product_schema_url'])){
                      $input1['url'] =    saswp_validate_url($custom_fields['saswp_product_schema_url']);
                     }
@@ -2171,8 +2174,20 @@ Class saswp_output_service{
                     }
                     
                     if(isset($custom_fields['saswp_product_schema_brand_name'])){
+                        
                      $input1['brand']['@type'] =    'Brand';
                      $input1['brand']['name']  =    $custom_fields['saswp_product_schema_brand_name'];
+
+                       if(isset($custom_fields['saswp_product_schema_brand_url'])){
+                        $input1['brand']['url'] =    $custom_fields['saswp_product_schema_brand_url'];
+                       }
+                       if(isset($custom_fields['saswp_product_schema_brand_image'])){
+                        $input1['brand']['image'] =    $custom_fields['saswp_product_schema_brand_image'];
+                       }
+                       if(isset($custom_fields['saswp_product_schema_brand_logo'])){
+                        $input1['brand']['logo'] =    $custom_fields['saswp_product_schema_brand_logo'];
+                       }   
+
                     }
                     
                     if(isset($custom_fields['saswp_product_schema_mpn'])){
@@ -3539,6 +3554,13 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_jobposting_schema_ho_logo'])){
                      $input1['hiringOrganization']['logo'] =    $custom_fields['saswp_jobposting_schema_ho_logo'];
                     }
+                    if(isset($custom_fields['saswp_jobposting_schema_applicant_location_requirements'])){
+                     $input1['applicantLocationRequirements']['@type'] = 'Country';
+                     $input1['applicantLocationRequirements']['name']  = $custom_fields['saswp_jobposting_schema_applicant_location_requirements'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_job_location_type'])){
+                     $input1['jobLocationType']  = $custom_fields['saswp_jobposting_schema_job_location_type'];
+                    }
                     if(isset($custom_fields['saswp_jobposting_schema_street_address'])){
                      $input1['jobLocation']['address']['streetAddress'] =    $custom_fields['saswp_jobposting_schema_street_address'];
                     }
@@ -4329,7 +4351,7 @@ Class saswp_output_service{
                         
                         $accepted_answer['@type']       = 'Answer';
                         $accepted_answer['upvoteCount'] = get_post_meta( $answer->ID, '_dwqa_votes', true );
-                        $accepted_answer['url']         = get_permalink($answer->ID);
+                        $accepted_answer['url']         = get_permalink();
                         $accepted_answer['text']        = wp_strip_all_tags($answer->post_content);
                         $accepted_answer['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z", $answer);
                         $accepted_answer['author']      = array('@type' => 'Person', 'name' => $authorname);
@@ -4339,7 +4361,7 @@ Class saswp_output_service{
                         $suggested_answer[] =  array(
                             '@type'       => 'Answer',
                             'upvoteCount' => get_post_meta( $answer->ID, '_dwqa_votes', true ),
-                            'url'         => get_permalink($answer->ID),
+                            'url'         => get_permalink(),
                             'text'        => wp_strip_all_tags($answer->post_content),
                             'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
                             'author'      => array('@type' => 'Person', 'name' => $authorname),

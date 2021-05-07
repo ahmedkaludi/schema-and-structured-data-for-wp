@@ -692,14 +692,14 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
 
             $input1 = array(
-            '@context'			=> saswp_context_url(),
-            '@type'				=> 'Recipe' ,
-            '@id'               => trailingslashit(get_permalink()).'#recipe',    
-            'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_url_'.$schema_id, 'saswp_array'),
-            'name'			    => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),                       
-            'prepTime'                       => saswp_remove_warnings($all_post_meta, 'saswp_recipe_preptime_'.$schema_id, 'saswp_array'),  
-            'cookTime'                       => saswp_remove_warnings($all_post_meta, 'saswp_recipe_cooktime_'.$schema_id, 'saswp_array'),  
-            'totalTime'                      => saswp_remove_warnings($all_post_meta, 'saswp_recipe_totaltime_'.$schema_id, 'saswp_array'),  
+            '@context'			             => saswp_context_url(),
+            '@type'				             => 'Recipe' ,
+            '@id'                            => trailingslashit(get_permalink()).'#recipe',    
+            'url'				             => saswp_remove_warnings($all_post_meta, 'saswp_recipe_url_'.$schema_id, 'saswp_array'),
+            'name'			                 => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),                       
+            'prepTime'                       => saswp_format_time_to_ISO_8601(saswp_remove_warnings($all_post_meta, 'saswp_recipe_preptime_'.$schema_id, 'saswp_array')),  
+            'cookTime'                       => saswp_format_time_to_ISO_8601(saswp_remove_warnings($all_post_meta, 'saswp_recipe_cooktime_'.$schema_id, 'saswp_array')),  
+            'totalTime'                      => saswp_format_time_to_ISO_8601(saswp_remove_warnings($all_post_meta, 'saswp_recipe_totaltime_'.$schema_id, 'saswp_array')),  
             'keywords'                       => saswp_remove_warnings($all_post_meta, 'saswp_recipe_keywords_'.$schema_id, 'saswp_array'),  
             'recipeYield'                    => saswp_remove_warnings($all_post_meta, 'saswp_recipe_recipeyield_'.$schema_id, 'saswp_array'),  
             'recipeCategory'                 => saswp_remove_warnings($all_post_meta, 'saswp_recipe_category_'.$schema_id, 'saswp_array'),
@@ -869,6 +869,20 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                                      'name'  => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_brand_name_'.$schema_id, 'saswp_array'),
                                                     )    
             ); 
+
+            if( isset($all_post_meta['saswp_product_schema_brand_url_'.$schema_id]) && $all_post_meta['saswp_product_schema_brand_url_'.$schema_id] != '' ){
+                $input1['brand']['url'] = $all_post_meta['saswp_product_schema_brand_url_'.$schema_id];
+            }
+            if( isset($all_post_meta['saswp_product_schema_brand_image_'.$schema_id]) && $all_post_meta['saswp_product_schema_brand_image_'.$schema_id] != '' ){
+                $input1['brand']['image'] = $all_post_meta['saswp_product_schema_brand_image_'.$schema_id];
+            }
+            if( isset($all_post_meta['saswp_product_schema_brand_logo_'.$schema_id]) && $all_post_meta['saswp_product_schema_brand_logo_'.$schema_id] != '' ){
+                $input1['brand']['logo'] = $all_post_meta['saswp_product_schema_brand_logo_'.$schema_id];
+            }
+
+            if( isset($all_post_meta['saswp_product_schema_id_'.$schema_id]) && $all_post_meta['saswp_product_schema_id_'.$schema_id] != '' ){
+                    $input1['@id'] = $all_post_meta['saswp_product_schema_id_'.$schema_id];
+            }
             
             $input1 = saswp_get_modified_image('saswp_product_schema_image_'.$schema_id.'_detail', $input1);
             
@@ -2035,20 +2049,68 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
 
     }
 
-    $input1['jobLocation']['@type']                        = 'Place';
-    $input1['jobLocation']['address']['@type']             = 'PostalAddress';                            
-    $input1['jobLocation']['address']['streetAddress']     = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_street_address_'.$schema_id, 'saswp_array');
-    $input1['jobLocation']['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_locality_'.$schema_id, 'saswp_array');
-    $input1['jobLocation']['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_region_'.$schema_id, 'saswp_array');
-    $input1['jobLocation']['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_country_'.$schema_id, 'saswp_array');
-    $input1['jobLocation']['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_postalcode_'.$schema_id, 'saswp_array');
+    if( isset($all_post_meta['saswp_jobposting_schema_job_location_type_'.$schema_id][0]) ){
+        $input1['jobLocationType']                       = $all_post_meta['saswp_jobposting_schema_job_location_type_'.$schema_id][0];
+    }
+
+    if( isset($all_post_meta['saswp_jobposting_schema_applicant_location_requirements_'.$schema_id][0]) ){
+        $input1['applicantLocationRequirements']['@type']     = 'Country';
+        $input1['applicantLocationRequirements']['name']     = $all_post_meta['saswp_jobposting_schema_applicant_location_requirements_'.$schema_id][0];
+    }
+
+    $job_location_arr = array();
+    $job_location     = array();
+
+    $job_location_arr['@type']                        = 'Place';
+    $job_location_arr['address']['@type']             = 'PostalAddress';                            
+    $job_location_arr['address']['streetAddress']     = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_street_address_'.$schema_id, 'saswp_array');
+    $job_location_arr['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_locality_'.$schema_id, 'saswp_array');
+    $job_location_arr['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_region_'.$schema_id, 'saswp_array');
+    $job_location_arr['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_country_'.$schema_id, 'saswp_array');
+    $job_location_arr['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_postalcode_'.$schema_id, 'saswp_array');
 
     if(isset($all_post_meta['saswp_jobposting_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_jobposting_schema_longitude_'.$schema_id][0])){
 
-        $input1['jobLocation']['geo']['@type']     = 'GeoCoordinates';
-        $input1['jobLocation']['geo']['latitude']  = $all_post_meta['saswp_jobposting_schema_latitude_'.$schema_id][0];
-        $input1['jobLocation']['geo']['longitude'] = $all_post_meta['saswp_jobposting_schema_longitude_'.$schema_id][0];
+        $job_location_arr['geo']['@type']     = 'GeoCoordinates';
+        $job_location_arr['geo']['latitude']  = $all_post_meta['saswp_jobposting_schema_latitude_'.$schema_id][0];
+        $job_location_arr['geo']['longitude'] = $all_post_meta['saswp_jobposting_schema_longitude_'.$schema_id][0];
     }
+
+    $job_location[] = $job_location_arr;
+
+    $joblocation_meta  = get_post_meta($schema_post_id, 'joblocation_'.$schema_id, true);
+
+    if(!empty($joblocation_meta)){
+
+        foreach($joblocation_meta as $value){
+                
+            $supply_data = array();
+
+            $supply_data['@type']                        = 'Place';
+            $supply_data['address']['@type']             = 'PostalAddress';                            
+            $supply_data['address']['streetAddress']     = $value['saswp_jobposting_street_address'];
+            $supply_data['address']['addressLocality']   = $value['saswp_jobposting_locality'];
+            $supply_data['address']['addressRegion']     = $value['saswp_jobposting_region'];
+            $supply_data['address']['addressCountry']    = $value['saswp_jobposting_country'];
+            $supply_data['address']['PostalCode']        = $value['saswp_jobposting_postalcode'];
+
+            if( isset($value['saswp_jobposting_latitude']) && isset($value['saswp_jobposting_longitude']) ){
+
+                $supply_data['geo']['@type']     = 'GeoCoordinates';
+                $supply_data['geo']['latitude']  = $value['saswp_jobposting_latitude'];
+                $supply_data['geo']['longitude'] = $value['saswp_jobposting_longitude'];
+
+            }            
+
+            $job_location[] =  $supply_data;
+        }                       
+
+    }
+
+    if(!empty($job_location)){
+        $input1['jobLocation'] = $job_location;
+    }
+
     if( isset($all_post_meta['saswp_jobposting_schema_jobimmediatestart_'.$schema_id][0]) ){
         $input1['jobImmediateStart'] = $all_post_meta['saswp_jobposting_schema_jobimmediatestart_'.$schema_id][0];
     }

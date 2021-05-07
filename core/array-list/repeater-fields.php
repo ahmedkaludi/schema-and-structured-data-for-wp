@@ -40,6 +40,9 @@ return array( 'schema_type_element' => array(
 							   'performer'     => 'performer', 
 							   'organizer'     => 'organizer',                                                
 						),
+						'JobPosting' => array(
+							'joblocation'     => 'joblocation'							                                             
+					    ),
 						'qanda' => array(
 							'accepted_answer'  => 'accepted_answer',
 							'suggested_answer' => 'suggested_answer' 							
@@ -232,6 +235,43 @@ return array( 'schema_type_element' => array(
 								'name'      => 'saswp_event_organizer_email',
 								'type'      => 'text',                        
 							),							                                                            
+						),
+						'joblocation' => array(                    						
+							array(
+								'label'     => 'Street Address',
+								'name'      => 'saswp_jobposting_street_address',
+								'type'      => 'text'                        
+							),
+							array(
+								'label'     => 'Locality',
+								'name'      => 'saswp_jobposting_locality',
+								'type'      => 'text'                        
+							),
+							array(
+								'label'     => 'Region',
+								'name'      => 'saswp_jobposting_region',
+								'type'      => 'text'
+							),
+							array(
+								'label'     => 'Postal Code',
+								'name'      => 'saswp_jobposting_postalcode',
+								'type'      => 'text'                        
+							),							                   
+							array(
+								'label'     => 'Country',
+								'name'      => 'saswp_jobposting_country',
+								'type'      => 'text'
+							),
+							array(
+								'label'     => 'GeoCoordinates Latitude',
+								'name'      => 'saswp_jobposting_latitude',
+								'type'      => 'text'                        
+							),
+							array(
+								'label'     => 'GeoCoordinates Longitude',
+								'name'      => 'saswp_jobposting_longitude',
+								'type'      => 'text'                        
+							)							                                                            
 						),
 
                     'howto_supply' => array(                    

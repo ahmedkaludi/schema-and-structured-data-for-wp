@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.72
+Stable tag: 1.9.73
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.73 (07 May 2021) =
+
+* Added: ID property in the product schema. #1376
+* Added: Enter multiple jobLocation with an array on individual post #1373
+* Added: applicantLocationRequirements and jobLocationType properties to JobPosting #1373
+* Added: Option to select the default value for star rating option #1386
+* Added: Brand URL, Brand Logo, and Brand Image properties to Product Schema #1390
+* Fixed: If a user enter any time format in a custom advanced field, it should be automatically converted to ISO format recommended by schema.org #1378
+* Fixed:  Need to show the title URL under the suggested answer for the Q&A schema. #1391
+* Fixed: Inf and NaN cannot be JSON encoded #1399
+* Fixed: "Thumbnail URL" and "Duration" field data are not fetching automatically. #1389
+
 
 = 1.9.72 (30 April 2021) =
 

@@ -2631,13 +2631,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         
                     }
                     
-                    $meta_field = array(
-                        
+                    $meta_field = array(                        
                     array(
                             'label'   => 'Name',
                             'id'      => 'saswp_product_schema_name_'.$schema_id,
                             'type'    => 'text',     
                             'default' => saswp_remove_warnings($product_details, 'product_name', 'saswp_string')
+                    ),
+                    array(
+                            'label'   => 'ID',
+                            'id'      => 'saswp_product_schema_id_'.$schema_id,
+                            'type'    => 'text'                        
                     ),
                     array(
                             'label'   => 'URL',
@@ -2655,18 +2659,33 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'    => 'Image',
                             'id'       => 'saswp_product_schema_image_'.$schema_id,
                             'type'     => 'media',                           
-                     ),
-                         array(
-                            'label'    => 'Brand Name',
-                            'id'       => 'saswp_product_schema_brand_name_'.$schema_id,
-                            'type'     => 'text',
-                             'default' => saswp_remove_warnings($product_details, 'product_brand', 'saswp_string')
-                     ),
+                        ),
                         array(
-                            'label'   => 'Price',
-                            'id'      => 'saswp_product_schema_price_'.$schema_id,
-                            'type'    => 'text',
-                            'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                                'label'    => 'Brand Name',
+                                'id'       => 'saswp_product_schema_brand_name_'.$schema_id,
+                                'type'     => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_brand', 'saswp_string')
+                        ),
+                        array(
+                                'label'    => 'Brand URL',
+                                'id'       => 'saswp_product_schema_brand_url_'.$schema_id,
+                                'type'     => 'text'                                 
+                        ),
+                        array(
+                                'label'    => 'Brand Image',
+                                'id'       => 'saswp_product_schema_brand_image_'.$schema_id,
+                                'type'     => 'media'                               
+                        ),
+                        array(
+                                'label'    => 'Brand Logo',
+                                'id'       => 'saswp_product_schema_brand_logo_'.$schema_id,
+                                'type'     => 'media'                               
+                        ),                        
+                        array(
+                                'label'   => 'Price',
+                                'id'      => 'saswp_product_schema_price_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
                        ),
                         array(
                                 'label'   => 'High Price',
@@ -4827,32 +4846,42 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'media',                             
                     ),
                     array(
-                            'label'      => 'Street Address',
+                        'label'      => 'Applicants can apply from ( Country ) ',
+                        'id'         => 'saswp_jobposting_schema_applicant_location_requirements_'.$schema_id,
+                        'type'       => 'text',                             
+                    ),
+                    array(
+                        'label'      => 'Job Location Type',
+                        'id'         => 'saswp_jobposting_schema_job_location_type_'.$schema_id,
+                        'type'       => 'text',                             
+                    ),
+                    array(
+                            'label'      => 'Job Location Street Address',
                             'id'         => 'saswp_jobposting_schema_street_address_'.$schema_id,
                             'type'       => 'text',                             
                     ),
                     array(
-                            'label'      => 'Address Locality',
+                            'label'      => 'Job Location Locality',
                             'id'         => 'saswp_jobposting_schema_locality_'.$schema_id,
                             'type'       => 'text',                             
                     ),
                     array(
-                            'label'      => 'Address Region',
+                            'label'      => 'Job Location Region',
                             'id'         => 'saswp_jobposting_schema_region_'.$schema_id,
                             'type'       => 'text',                             
                     ),
                     array(
-                            'label'      => 'Address Postal Code',
+                            'label'      => 'Job Location Postal Code',
                             'id'         => 'saswp_jobposting_schema_postalcode_'.$schema_id,
                             'type'       => 'text',                             
                     ),
                     array(
-                            'label'      => 'Address Country',
+                            'label'      => 'Job Location Country',
                             'id'         => 'saswp_jobposting_schema_country_'.$schema_id,
                             'type'       => 'text',                             
                     ),
                     array(
-                                'label'      => 'GeoCoordinates Latitude',
+                                'label'      => 'Job Location GeoCoordinates Latitude',
                                 'id'         => 'saswp_jobposting_schema_latitude_'.$schema_id,
                                 'type'       => 'text',
                                 'attributes' => array(
@@ -4860,7 +4889,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 ), 
                      ),
                      array(
-                                'label'      => 'GeoCoordinates Longitude',
+                                'label'      => 'Job Location GeoCoordinates Longitude',
                                 'id'         => 'saswp_jobposting_schema_longitude_'.$schema_id,
                                 'type'       => 'text',
                                 'attributes' => array(
