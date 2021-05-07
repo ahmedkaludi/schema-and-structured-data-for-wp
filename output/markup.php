@@ -692,14 +692,14 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
 
             $input1 = array(
-            '@context'			=> saswp_context_url(),
-            '@type'				=> 'Recipe' ,
-            '@id'               => trailingslashit(get_permalink()).'#recipe',    
-            'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_url_'.$schema_id, 'saswp_array'),
-            'name'			    => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),                       
-            'prepTime'                       => saswp_remove_warnings($all_post_meta, 'saswp_recipe_preptime_'.$schema_id, 'saswp_array'),  
-            'cookTime'                       => saswp_remove_warnings($all_post_meta, 'saswp_recipe_cooktime_'.$schema_id, 'saswp_array'),  
-            'totalTime'                      => saswp_remove_warnings($all_post_meta, 'saswp_recipe_totaltime_'.$schema_id, 'saswp_array'),  
+            '@context'			             => saswp_context_url(),
+            '@type'				             => 'Recipe' ,
+            '@id'                            => trailingslashit(get_permalink()).'#recipe',    
+            'url'				             => saswp_remove_warnings($all_post_meta, 'saswp_recipe_url_'.$schema_id, 'saswp_array'),
+            'name'			                 => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),                       
+            'prepTime'                       => saswp_format_time_to_ISO_8601(saswp_remove_warnings($all_post_meta, 'saswp_recipe_preptime_'.$schema_id, 'saswp_array')),  
+            'cookTime'                       => saswp_format_time_to_ISO_8601(saswp_remove_warnings($all_post_meta, 'saswp_recipe_cooktime_'.$schema_id, 'saswp_array')),  
+            'totalTime'                      => saswp_format_time_to_ISO_8601(saswp_remove_warnings($all_post_meta, 'saswp_recipe_totaltime_'.$schema_id, 'saswp_array')),  
             'keywords'                       => saswp_remove_warnings($all_post_meta, 'saswp_recipe_keywords_'.$schema_id, 'saswp_array'),  
             'recipeYield'                    => saswp_remove_warnings($all_post_meta, 'saswp_recipe_recipeyield_'.$schema_id, 'saswp_array'),  
             'recipeCategory'                 => saswp_remove_warnings($all_post_meta, 'saswp_recipe_category_'.$schema_id, 'saswp_array'),

@@ -4174,3 +4174,41 @@ function saswp_get_youtube_vid($url){
     return $youtube_id;
 
 }
+
+function saswp_format_time_to_ISO_8601($string) {
+
+    $response = '';   
+    $exploded = explode(" ", trim($string));
+     
+    if( !empty($exploded) && is_array($exploded) ) {
+        
+        if(count($exploded) > 1){
+
+            $response = 'PT';    
+            $arr_count = count($exploded);
+            $arr_count = $arr_count - 1;         
+        
+            for ($i=0; $i < $arr_count; $i++){
+                
+                if( strpos($exploded[($i+1)], 'hr') !== false || strpos($exploded[($i+1)], 'hour') !== false ){
+                    $response .= $exploded[$i].'H';
+                }
+                if( strpos($exploded[($i+1)], 'min') !== false || strpos($exploded[($i+1)], 'minute') !== false ){
+                    $response .= $exploded[$i].'M';
+                }
+                if( strpos($exploded[($i+1)], 'sec') !== false || strpos($exploded[($i+1)], 'second') !== false ){
+                    $response .= $exploded[$i].'S';
+                }
+
+            }
+
+        }        
+                    
+    }
+    
+    if($response){
+        return $response;
+    }
+   
+    return $string;
+}

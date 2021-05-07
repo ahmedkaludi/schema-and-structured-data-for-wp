@@ -2036,14 +2036,14 @@ Class saswp_output_service{
                     }
 
                     if(isset($custom_fields['saswp_recipe_preptime'])){
-                     $input1['prepTime'] =    $custom_fields['saswp_recipe_preptime'];
+                     $input1['prepTime'] =    saswp_format_time_to_ISO_8601($custom_fields['saswp_recipe_preptime']);
                     }
                     if(isset($custom_fields['saswp_recipe_cooktime'])){
-                     $input1['cookTime'] =    $custom_fields['saswp_recipe_cooktime'];
+                     $input1['cookTime'] =    saswp_format_time_to_ISO_8601($custom_fields['saswp_recipe_cooktime']);
                     }
                     
                     if(isset($custom_fields['saswp_recipe_totaltime'])){
-                     $input1['totalTime'] =    $custom_fields['saswp_recipe_totaltime'];
+                     $input1['totalTime'] =    saswp_format_time_to_ISO_8601($custom_fields['saswp_recipe_totaltime']);
                     }
                     if(isset($custom_fields['saswp_recipe_keywords'])){
                      $input1['keywords'] =    $custom_fields['saswp_recipe_keywords'];
