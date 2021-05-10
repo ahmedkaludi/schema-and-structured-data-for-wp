@@ -2697,7 +2697,15 @@ Class saswp_output_service{
                      $input1['uploadDate'] =    $custom_fields['saswp_video_object_upload_date'];
                     }
                     if(isset($custom_fields['saswp_video_object_thumbnail_url'])){
-                     $input1['thumbnailUrl'] =    saswp_validate_url($custom_fields['saswp_video_object_thumbnail_url']);
+
+                      if(is_array($custom_fields['saswp_video_object_thumbnail_url'])){
+                        $input1['thumbnailUrl'] =    $custom_fields['saswp_video_object_thumbnail_url']['url'];
+                      }  
+
+                      if(is_string($custom_fields['saswp_video_object_thumbnail_url'])){
+                        $input1['thumbnailUrl'] = $custom_fields['saswp_video_object_thumbnail_url'];
+                      }
+                                           
                     }                                        
                     if(isset($custom_fields['saswp_video_object_content_url']) && wp_http_validate_url($custom_fields['saswp_video_object_content_url']) ){
                      $input1['contentUrl'] =    saswp_validate_url($custom_fields['saswp_video_object_content_url']);
