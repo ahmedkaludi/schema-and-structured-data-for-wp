@@ -3937,11 +3937,15 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_video_object_author_description_'.$schema_id, 'saswp_array');
         $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_video_object_author_url_'.$schema_id, 'saswp_array');       
 
-        $input1['author']['image']['@type']   = 'ImageObject';
-        $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_video_object_author_image_'.$schema_id, 'saswp_array');       
-        $input1['author']['image']['height']  = $author_image['height'];
-        $input1['author']['image']['width']   = $author_image['width'];
-    
+        if(!empty($author_image) && is_array($author_image)){
+
+            $input1['author']['image']['@type']   = 'ImageObject';
+            $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_video_object_author_image_'.$schema_id, 'saswp_array');       
+            $input1['author']['image']['height']  = $author_image['height'];
+            $input1['author']['image']['width']   = $author_image['width'];
+
+        }
+            
         if(isset($all_post_meta['saswp_video_object_duration_'.$schema_id][0]) ) {
             $input1['duration']   = $all_post_meta['saswp_video_object_duration_'.$schema_id][0];        
         }    

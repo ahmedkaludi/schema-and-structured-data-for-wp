@@ -3472,13 +3472,13 @@ function saswp_get_video_metadata($content = ''){
                           
             }
            
-           preg_match_all( '/src\=\"(.*?)youtube\.com(.*?)\"/s', $content, $matches, PREG_SET_ORDER );
+           @preg_match_all( '@(https?://)?(?:www\.)?(youtu(?:\.be/([-\w]+)|be\.com/watch\?v=([-\w]+)))\S*@im', $content, $matches, PREG_SET_ORDER );
            
            if($matches){
                
                foreach($matches as $match){
 
-                  $vurl     = 'https://youtube.com'.$match[2]; 
+                  $vurl     = $match[0]; 
                   $metadata = array();  
                   if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
 
