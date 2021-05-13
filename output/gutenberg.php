@@ -784,7 +784,7 @@ function saswp_gutenberg_faq_schema(){
                                    $supply_data['@type']                   = 'Question';
                                    $supply_data['name']                    = htmlspecialchars($val['title'], ENT_QUOTES, 'UTF-8');
                                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
-                                   $supply_data['acceptedAnswer']['text']  = htmlspecialchars($val['description'], ENT_QUOTES, 'UTF-8');
+                                   $supply_data['acceptedAnswer']['text']  = htmlspecialchars(do_shortcode($val['description']), ENT_QUOTES, 'UTF-8');
 
                                     if(isset($val['imageId']) && $val['imageId'] !=''){
 

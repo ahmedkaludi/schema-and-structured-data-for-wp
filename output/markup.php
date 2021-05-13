@@ -1963,7 +1963,7 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
             $supply_data['@type']                   = 'Question';
             $supply_data['name']                    = $val['saswp_faq_question_name'];
             $supply_data['acceptedAnswer']['@type'] = 'Answer';
-            $supply_data['acceptedAnswer']['text']  = $val['saswp_faq_question_answer'];
+            $supply_data['acceptedAnswer']['text']  = do_shortcode($val['saswp_faq_question_answer']);
 
            $faq_question_arr[] =  $supply_data;
         }
