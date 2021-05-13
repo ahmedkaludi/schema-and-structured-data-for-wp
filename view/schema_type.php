@@ -146,9 +146,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $item_list_custom    = '';
                     $append_reviews      = '';  
                     $event_type          = '';
+                    $post_id             = null;
 
                     if($post){
             
+                        $post_id           = $post->ID;
                         $schema_options    = get_post_meta($post->ID, 'schema_options', true);            
                         $meta_list         = get_post_meta($post->ID, 'saswp_meta_list_val', true);                         
                         $fixed_text        = get_post_meta($post->ID, 'saswp_fixed_text', true);  
@@ -546,10 +548,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                     <td><?php echo saswp_t_string('Item Type' ); ?></td>
                     <td>
 
-                        <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_itemlist_item_type" class="saswp-itemlist-item-type-list">
+                        <select data-id="<?php echo esc_attr($post_id);  ?>" name="saswp_itemlist_item_type" class="saswp-itemlist-item-type-list">
                         <?php
                         
-                          $item = get_post_meta($post->ID, 'saswp_itemlist_item_type', true);                                                                                        
+                          $item = get_post_meta($post_id, 'saswp_itemlist_item_type', true);  
+
                           foreach ($item_list_item as $key => $value) {
                             $sel = '';
                             if($item == $key){
@@ -568,10 +571,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                     <td><?php echo saswp_t_string('Item Reviewed Type' ); ?></td>
                     <td>
 
-                        <select data-id="<?php if(is_object($post)){ echo esc_attr($post->ID); }  ?>" name="saswp_review_item_reviewed_<?php echo $post->ID; ?>" class="saswp-item-reivewed-list">
+                        <select data-id="<?php echo esc_attr($post_id);  ?>" name="saswp_review_item_reviewed_<?php echo $post_id; ?>" class="saswp-item-reivewed-list">
                         <?php
                         
-                          $item = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);                                                                                        
+                          $item = get_post_meta($post_id, 'saswp_review_item_reviewed_'.$post_id, true);                                                                                        
                           foreach ($item_reviewed as $key => $value) {
                             $sel = '';
                             if($item == $key){
@@ -664,13 +667,13 @@ function saswp_schema_type_meta_box_callback( $post) {
                         <?php 
                         
                                 $attached_rv_json = '';
-                                $attached_rv      = get_post_meta($post->ID, 'saswp_attahced_reviews', true);     
+                                $attached_rv      = get_post_meta($post_id, 'saswp_attahced_reviews', true);     
                                 if($attached_rv){
                                     $attached_rv_json = json_encode($attached_rv);
                                 }
                                 
                                 $attached_col_json = '';
-                                $attached_col      = get_post_meta($post->ID, 'saswp_attached_collection', true);     
+                                $attached_col      = get_post_meta($post_id, 'saswp_attached_collection', true);     
                                 if($attached_col){
                                     $attached_col_json = json_encode($attached_col);
                                 }
@@ -757,7 +760,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             </div>
                               
                             <div class="saswp-global-container" id="saswp-add-rv-collection">
-                                <div class="saswp-add-rv-note"><strong>Note:</strong> <span><?php echo saswp_t_string( 'The attached collection will only be added in Json-ld' );?></span> </div>
+                                <div class="saswp-add-rv-note"><strong><?php echo saswp_t_string( 'Note:' );?></strong> <span><?php echo saswp_t_string( 'The attached collection will only be added in Json-ld' );?></span> </div>
                                 <div data-type="collection" class="saswp-add-rv-automatic-list">
                                 
                                 <?php 
@@ -1081,19 +1084,19 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $output = '';
                                 $common_obj = new saswp_view_common_class();
                                 
-                                $schema_type    = get_post_meta($post->ID, 'schema_type', true);
+                                $schema_type    = get_post_meta($post_id, 'schema_type', true);
 
-                                $schema_fields = saswp_get_fields_by_schema_type($post->ID, null, $schema_type, 'manual');
-                                $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post->ID, $post->ID, null, null, 1);
+                                $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
+                                $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
                                 
                                 if($schema_type == 'Review'){
                                                                         
-                                    $item_reviewed     = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);                         
+                                    $item_reviewed     = get_post_meta($post_id, 'saswp_review_item_reviewed_'.$post_id, true);                         
                                     if(!$item_reviewed){
                                         $item_reviewed = 'Book';
                                     }
-                                    $response          = saswp_get_fields_by_schema_type($post->ID, null, $item_reviewed);                                                                                                        
-                                    $output           .= $common_obj->saswp_saswp_post_specific($schema_type, $response, $post->ID, $post->ID ,$item_reviewed, null, 1);
+                                    $response          = saswp_get_fields_by_schema_type($post_id, null, $item_reviewed);                                                                                                        
+                                    $output           .= $common_obj->saswp_saswp_post_specific($schema_type, $response, $post_id, $post_id ,$item_reviewed, null, 1);
 
                                 }
                                                                 
@@ -1204,9 +1207,19 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 if ( ! isset( $_POST['saswp_schema_type_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_type_nonce'], 'saswp_schema_type_nonce' ) ) return;
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return;
                                                 
-                update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );                
-                update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
-                update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
+                update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
+                                
+                if(isset($_POST['saswp_business_type'])){
+                    update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
+                }else{
+                    delete_post_meta( $post_id, 'saswp_business_type');   
+                }
+
+                if(isset($_POST['saswp_event_type'])){
+                    update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
+                }else{
+                    delete_post_meta( $post_id, 'saswp_event_type');   
+                }
 
                 if(isset($_POST['saswp_business_name'])){
                     update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );   
@@ -1235,12 +1248,28 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 }else{
                     delete_post_meta( $post_id, 'saswp_enable_itemlist_schema');                                                                       
                 }
-                
-                update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
-                update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
-                update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       
-                update_post_meta( $post_id, 'saswp_itemlist_item_type', sanitize_text_field($_POST['saswp_itemlist_item_type']) );                                                                       
-                                                
+
+                if(isset($_POST['saswp_item_list_tags'])){
+                    update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
+                }else{
+                    delete_post_meta( $post_id, 'saswp_item_list_tags');                                                                       
+                }
+                if(isset($_POST['saswp_item_list_custom'])){
+                    update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
+                }else{
+                    delete_post_meta( $post_id, 'saswp_item_list_custom');                                                                       
+                }
+                if(isset($_POST['saswp_review_item_reviewed_'.$post_id])){
+                    update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       
+                }else{
+                    delete_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id);                                                                       
+                }
+                if(isset($_POST['saswp_itemlist_item_type'])){
+                    update_post_meta( $post_id, 'saswp_itemlist_item_type', sanitize_text_field($_POST['saswp_itemlist_item_type']) );                                                                       
+                }else{
+                    delete_post_meta( $post_id, 'saswp_itemlist_item_type');                                                                       
+                }
+                                                                                                                                                
                 update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
                 update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
                 
