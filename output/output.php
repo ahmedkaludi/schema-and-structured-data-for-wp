@@ -2434,6 +2434,21 @@ function saswp_woocommerce_shop_page(){
     
 }
 
+function saswp_taxonomy_schema_output(){
+
+    $input1 = array();    
+
+    if( is_category() || is_tag() || is_tax() || ( function_exists('is_product_category') && is_product_category() ) ){
+
+        $term_id = get_queried_object_id();
+        $input1  = get_term_meta( $term_id, 'saswp_custom_schema_field', true );        
+
+    }    
+
+    return $input1;
+
+}
+
 /**
  * Function generates archive page schema markup in the form of CollectionPage schema type
  * @global type $query_string

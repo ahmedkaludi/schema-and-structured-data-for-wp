@@ -78,6 +78,7 @@ require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
 require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';  
 //Loading View files
+require_once SASWP_DIR_NAME.'/view/taxonomy.php';
 require_once SASWP_DIR_NAME.'/view/help.php';  
 require_once SASWP_DIR_NAME.'/view/schema_type.php';  
 require_once SASWP_DIR_NAME.'/view/paywall.php';  
