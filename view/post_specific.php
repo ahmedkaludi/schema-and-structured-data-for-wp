@@ -561,6 +561,8 @@ class saswp_post_specific {
 
                 if(!empty($custom_schema)){
                     update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
+                }else{
+                    delete_post_meta( $post_id, 'saswp_custom_schema_field');  
                 }
                                                                                                
                 $this->_common_view->saswp_save_common_view($post_id, $this->all_schema);

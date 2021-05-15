@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.73
+Stable tag: 1.9.74
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.74 (15 May 2021) =
+
+* Fixed: Custom schema's data is not cleared when the post/page is updated. #1411
+* Fixed: php8.0.3 incompatability #1409
+* Fixed: Product ID Error: Added empty array which cause invalid Json-LD error #1407
+* Fixed: "Thumbnail URL" data is not fetched automatically in VideoObject schema #1405
+* Fixed: EmbedUrl property has error( value url) in the video object schema for specific content #1402
+* Fixed: Shortcode should be rendered its value when present in faq content #1404
+* Fixed: Fatal error: Uncaught Error: Call to a member function get_bookings() on null in event-schema-for-saswp/output/service.php:8 #1410
+* Added: A custom field on each page individually in the Woocommerce product categories to add custom Json-LD. #1400
+* Added: Compatability with YITH google product feed and product feed pro #1408
 
 = 1.9.73 (07 May 2021) =
 

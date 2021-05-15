@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.9.73
+Version: 1.9.74
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.9.73');
+define('SASWP_VERSION', '1.9.74');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -78,6 +78,7 @@ require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
 require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';  
 //Loading View files
+require_once SASWP_DIR_NAME.'/view/taxonomy.php';
 require_once SASWP_DIR_NAME.'/view/help.php';  
 require_once SASWP_DIR_NAME.'/view/schema_type.php';  
 require_once SASWP_DIR_NAME.'/view/paywall.php';  

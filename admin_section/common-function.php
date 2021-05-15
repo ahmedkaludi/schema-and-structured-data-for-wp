@@ -1874,7 +1874,7 @@ if ( ! defined('ABSPATH') ) exit;
          
          }         
         
-         if($sd_data['saswp-review-module']== 1 && $saswp_rv_item_enable == 1){  
+         if( ( isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1 ) && $saswp_rv_item_enable == 1){  
              
               $rating_module_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/rating-module.css';  
               echo @file_get_contents($rating_module_css);
@@ -3254,6 +3254,7 @@ function saswp_get_capability_by_role($role){
 function saswp_current_user_allowed(){
     
     global $sd_data;
+    $currentuserrole = array();
     
     if(!function_exists('wp_get_current_user')) {                
         require_once( ABSPATH . '/wp-includes/pluggable.php' );
@@ -3269,7 +3270,7 @@ function saswp_current_user_allowed(){
         if($currentUser->roles){
                 $currentuserrole = (array) $currentUser->roles;
         }else{
-            if($currentUser->caps['administrator']){
+            if( isset($currentUser->caps['administrator']) ){
                     $currentuserrole = array('administrator');
             }	
         }
@@ -3472,13 +3473,13 @@ function saswp_get_video_metadata($content = ''){
                           
             }
            
-           preg_match_all( '/src\=\"(.*?)youtube\.com(.*?)\"/s', $content, $matches, PREG_SET_ORDER );
+           @preg_match_all( '@(https?://)?(?:www\.)?(youtu(?:\.be/([-\w]+)|be\.com/watch\?v=([-\w]+)))\S*@im', $content, $matches, PREG_SET_ORDER );
            
            if($matches){
                
                foreach($matches as $match){
 
-                  $vurl     = 'https://youtube.com'.$match[2]; 
+                  $vurl     = $match[0]; 
                   $metadata = array();  
                   if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
 

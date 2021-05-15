@@ -642,7 +642,7 @@ function saswp_comparison_logic_checker($input, $post){
 
             }else{
               
-              if($input['key_4'] == 'all'){
+              if( isset($input['key_4']) && $input['key_4'] == 'all' ) {
               
                 if ( $comparison == 'equal' ) {
                   if ( $post_terms ) {

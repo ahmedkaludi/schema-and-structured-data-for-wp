@@ -870,18 +870,18 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                                     )    
             ); 
 
-            if( isset($all_post_meta['saswp_product_schema_brand_url_'.$schema_id]) && $all_post_meta['saswp_product_schema_brand_url_'.$schema_id] != '' ){
-                $input1['brand']['url'] = $all_post_meta['saswp_product_schema_brand_url_'.$schema_id];
+            if( isset($all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0] != '' ){
+                $input1['brand']['url'] = $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0];
             }
-            if( isset($all_post_meta['saswp_product_schema_brand_image_'.$schema_id]) && $all_post_meta['saswp_product_schema_brand_image_'.$schema_id] != '' ){
-                $input1['brand']['image'] = $all_post_meta['saswp_product_schema_brand_image_'.$schema_id];
+            if( isset($all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0] != '' ){
+                $input1['brand']['image'] = $all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0];
             }
-            if( isset($all_post_meta['saswp_product_schema_brand_logo_'.$schema_id]) && $all_post_meta['saswp_product_schema_brand_logo_'.$schema_id] != '' ){
-                $input1['brand']['logo'] = $all_post_meta['saswp_product_schema_brand_logo_'.$schema_id];
+            if( isset($all_post_meta['saswp_product_schema_brand_logo_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_brand_logo_'.$schema_id][0] != '' ){
+                $input1['brand']['logo'] = $all_post_meta['saswp_product_schema_brand_logo_'.$schema_id][0];
             }
 
-            if( isset($all_post_meta['saswp_product_schema_id_'.$schema_id]) && $all_post_meta['saswp_product_schema_id_'.$schema_id] != '' ){
-                    $input1['@id'] = $all_post_meta['saswp_product_schema_id_'.$schema_id];
+            if( isset($all_post_meta['saswp_product_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_id_'.$schema_id][0] != '' ){
+                    $input1['@id'] = $all_post_meta['saswp_product_schema_id_'.$schema_id][0];
             }
             
             $input1 = saswp_get_modified_image('saswp_product_schema_image_'.$schema_id.'_detail', $input1);
@@ -1963,7 +1963,7 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
             $supply_data['@type']                   = 'Question';
             $supply_data['name']                    = $val['saswp_faq_question_name'];
             $supply_data['acceptedAnswer']['@type'] = 'Answer';
-            $supply_data['acceptedAnswer']['text']  = $val['saswp_faq_question_answer'];
+            $supply_data['acceptedAnswer']['text']  = do_shortcode($val['saswp_faq_question_answer']);
 
            $faq_question_arr[] =  $supply_data;
         }
@@ -3937,11 +3937,15 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_video_object_author_description_'.$schema_id, 'saswp_array');
         $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_video_object_author_url_'.$schema_id, 'saswp_array');       
 
-        $input1['author']['image']['@type']   = 'ImageObject';
-        $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_video_object_author_image_'.$schema_id, 'saswp_array');       
-        $input1['author']['image']['height']  = $author_image['height'];
-        $input1['author']['image']['width']   = $author_image['width'];
-    
+        if(!empty($author_image) && is_array($author_image)){
+
+            $input1['author']['image']['@type']   = 'ImageObject';
+            $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_video_object_author_image_'.$schema_id, 'saswp_array');       
+            $input1['author']['image']['height']  = $author_image['height'];
+            $input1['author']['image']['width']   = $author_image['width'];
+
+        }
+            
         if(isset($all_post_meta['saswp_video_object_duration_'.$schema_id][0]) ) {
             $input1['duration']   = $all_post_meta['saswp_video_object_duration_'.$schema_id][0];        
         }    
