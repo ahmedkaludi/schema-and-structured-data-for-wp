@@ -62,7 +62,11 @@ function saswp_check_starsrating_status(){
 //Get the average rating of a post.
 function saswp_comment_rating_get_average_ratings( $id ) {
 
-	$comments = get_approved_comments( $id );
+	$args = array(
+		'parent'  => 0 
+	);
+
+	$comments           = get_approved_comments( $id, $args );
 	$stars_rating_moved = get_option('saswp_imported_starsrating');
 
 	if ( $comments ) {
