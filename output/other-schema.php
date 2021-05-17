@@ -109,23 +109,28 @@ function saswp_taqyeem_review_rich_snippet(){
 
 add_action( 'amp_post_template_footer', 'saswp_wordlift_amp_schema' );
 
-function saswp_wordlift_amp_schema( $amp_template ) {
+function saswp_wordlift_amp_schema() {
 
     global $sd_data;
-
-    $metadata = $amp_template->get( 'metadata' );
     
-    if ( empty( $metadata ) ) {
-       return;
-    }
-
     if(isset($sd_data['saswp-wordlift']) && $sd_data['saswp-wordlift'] == 1 && class_exists('Wordlift\Jsonld\Jsonld_Adapter')){
 
-        ?>
-        <script type="application/ld+json" id="wl-jsonld"><?php echo wp_json_encode( $metadata,JSON_UNESCAPED_UNICODE); ?></script>
-        <?php
+        if( function_exists('amp_get_schemaorg_metadata') ){
 
+            $metadata = amp_get_schemaorg_metadata();            
+
+            if(!empty($metadata)){
+                
+                echo '<script type="application/ld+json" id="wl-jsonld">';
+                echo wp_json_encode( $metadata, JSON_UNESCAPED_UNICODE);
+                echo '</script>';
+
+            }
+
+        }
+                
     } 
+    
 }
 
 add_filter('saswp_modify_recipe_schema_output', 'saswp_wp_recipe_maker_json_ld',10,1);
