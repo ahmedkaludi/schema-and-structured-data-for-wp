@@ -518,6 +518,12 @@ function saswp_comparison_logic_checker($input, $post){
           if(ampforwp_is_front_page()){
               
                 $current_post = $redux_builder_amp['amp-frontpage-select-option-pages'];  
+
+                if(empty($current_post)){
+                  if(is_object($post)){
+                    $current_post = $post->ID;   
+                  }
+                }
           
           } else{
               
