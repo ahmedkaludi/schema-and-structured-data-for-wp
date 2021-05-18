@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.74
+Stable tag: 1.9.75
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.75 (18 May 2021) =
+
+* Fixed: When the Polylang plugin is active with the front page setup, placement is not working properly. #1420
+* Fixed: Reply to the comment not be counted as a separate rating review count #1416
+* Fixed: Incompatibility with AMP plugin after releasing of new version of AMP #1413 
+* Added: ProviderMobility property for Services schema. #1418
 
 = 1.9.74 (15 May 2021) =
 
