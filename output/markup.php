@@ -4122,6 +4122,10 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
             $input1['serviceOutput']         = $all_post_meta['saswp_service_schema_service_output_'.$schema_id][0];
         }
 
+        if(isset($all_post_meta['saswp_service_schema_provider_mobility_'.$schema_id][0])){
+            $input1['providerMobility']         = $all_post_meta['saswp_service_schema_provider_mobility_'.$schema_id][0];
+        }
+
         if(isset($all_post_meta['saswp_service_schema_provider_type_'.$schema_id][0])){
 
              $input1['provider']['@type']                      = $all_post_meta['saswp_service_schema_provider_type_'.$schema_id][0];

@@ -2838,6 +2838,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',                            
                     ),
                     array(
+                        'label' => 'Provider Mobility',
+                        'id'    => 'saswp_service_schema_provider_mobility_'.$schema_id,
+                        'type'  => 'text',                            
+                    ),
+                    array(
                             'label' => 'Provider Name',
                             'id' => 'saswp_service_schema_provider_name_'.$schema_id,
                             'type' => 'text',                           
