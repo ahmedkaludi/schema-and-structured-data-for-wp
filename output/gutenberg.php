@@ -746,9 +746,9 @@ function saswp_gutenberg_faq_schema(){
 
                                    $supply_data = array();
                                    $supply_data['@type']                   = 'Question';
-                                   $supply_data['name']                    = (isset($val['question'][0]) && is_string($val['question'][0]) ) ? htmlspecialchars($val['question'][0], ENT_QUOTES, 'UTF-8') : '';
+                                   $supply_data['name']                    = (isset($val['jsonQuestion']) && is_string($val['jsonQuestion']) ) ? htmlspecialchars($val['jsonQuestion'], ENT_QUOTES, 'UTF-8') : '';
                                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
-                                   $supply_data['acceptedAnswer']['text']  = (isset($val['answer'][0]) && is_string($val['answer'][0]) ) ? htmlspecialchars($val['answer'][0], ENT_QUOTES, 'UTF-8') : '';
+                                   $supply_data['acceptedAnswer']['text']  = (isset($val['jsonAnswer']) && is_string($val['jsonAnswer']) ) ? htmlspecialchars($val['jsonAnswer'], ENT_QUOTES, 'UTF-8') : '';
 
                                     if(isset($val['answer'][1]['key']) && $val['answer'][1]['key'] !=''){
 
