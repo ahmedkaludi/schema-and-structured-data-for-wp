@@ -395,7 +395,39 @@ class SASWP_Gutenberg {
                         
                       if($item['title'] || $item['description']){
                         echo '<li>'; 
-                        echo '<strong class="saswp-faq-question-title">'. html_entity_decode(esc_attr($item['title'])).'</strong>';
+
+                        if(isset($attributes['headingTag'])){
+
+                            switch ($attributes['headingTag']) {
+
+                                case 'h1':
+                                        echo '<h1>'. html_entity_decode(esc_attr($item['title'])).'</h1>';
+                                    break;
+                                case 'h2':
+                                        echo '<h2>'. html_entity_decode(esc_attr($item['title'])).'</h2>';
+                                    break;
+                                case 'h3':
+                                        echo '<h3>'. html_entity_decode(esc_attr($item['title'])).'</h3>';
+                                    break;
+                                case 'h4':
+                                        echo '<h4>'. html_entity_decode(esc_attr($item['title'])).'</h4>';
+                                    break;
+                                case 'h5':
+                                        echo '<h5>'. html_entity_decode(esc_attr($item['title'])).'</h5>';
+                                    break;
+                                case 'h6':
+                                        echo '<h6>'. html_entity_decode(esc_attr($item['title'])).'</h6>';
+                                    break;    
+
+                                default:
+                                echo '<h3>'. html_entity_decode(esc_attr($item['title'])).'</h3>';
+                                    break;
+                            }
+
+                        }else{
+                            echo '<strong class="saswp-faq-question-title">'. html_entity_decode(esc_attr($item['title'])).'</strong>';    
+                        }
+                                                
                         echo '<p class="saswp-faq-answer-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';
                         echo '</li>';
                       }  
