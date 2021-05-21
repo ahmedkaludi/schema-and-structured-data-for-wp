@@ -353,7 +353,7 @@ function saswp_insert_platform_terms(){
 
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if($platform_inserted != 83){
+    if($platform_inserted != 84){
         
         $term_array = array(    
             'Self',
@@ -374,6 +374,7 @@ function saswp_insert_platform_terms(){
             'AlternativeTo', 
             'Amazon',
             'BBB',
+            'bidvine',
             'BestBuy',
             'Booking.com',
             'advieskeuze.nl', 
@@ -463,8 +464,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 83){
-            set_transient('saswp_platform_inserted', 83,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 84){
+            set_transient('saswp_platform_inserted', 84,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }
