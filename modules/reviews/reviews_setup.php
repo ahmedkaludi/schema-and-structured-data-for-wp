@@ -181,9 +181,13 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     break;
                 case 'saswp_review_place_id' :
                     
-                    $name = get_post_meta( $post_id, $key='saswp_review_location_id', true);
-                    echo '<a target="_blank" href="'.esc_url(get_permalink($name)).'">'.esc_attr($name).'</a>';
-                                                                                                                                                            
+                    $name = get_post_meta( $post_id, 'saswp_review_location_id', true);
+                    if(saswp_validate_url($name)){
+                        echo '<a target="_blank" href="'.esc_url($name).'">'.esc_attr($name).'</a>';
+                    }else{
+                        echo '<a target="_blank" href="'.esc_url(get_permalink($name)).'">'.esc_attr($name).'</a>';
+                    }
+                                                                                                                                                                                
                     break; 
                 case 'saswp_review_shortcode' :
                                         
