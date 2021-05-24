@@ -353,7 +353,7 @@ function saswp_insert_platform_terms(){
 
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if($platform_inserted != 84){
+    if($platform_inserted != 85){
         
         $term_array = array(    
             'Self',
@@ -377,6 +377,7 @@ function saswp_insert_platform_terms(){
             'bidvine',
             'BestBuy',
             'Booking.com',
+            'Bark.com',
             'advieskeuze.nl', 
             'Capterra', 
             'CarGurus',
@@ -465,7 +466,7 @@ function saswp_insert_platform_terms(){
         }
 
         if(count($term_ids)  == 84){
-            set_transient('saswp_platform_inserted', 84,  24*7*HOUR_IN_SECONDS ); 
+            set_transient('saswp_platform_inserted', 85,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }
