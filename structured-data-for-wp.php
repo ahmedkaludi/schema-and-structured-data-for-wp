@@ -92,6 +92,7 @@ require_once SASWP_DIR_NAME.'/output/compatibility.php';
 //Loading api files
 
 require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api.php';
+require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/wpgraphql.php';
 
 //Loading Reviews files
 require_once SASWP_DIR_NAME.'/modules/divi-builder/extension.php'; 
