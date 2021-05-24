@@ -246,7 +246,16 @@ class saswp_fields_generator {
             "name"  => "Shopify App Store"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/goodreads-img.png",
-            "name"  => "Goodreads")
+            "name"  => "Goodreads"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/bark-com-img.png",
+            "name"  => "bark.com"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/advieskeuze-nl-img.png",
+            "name"  => "Advieskeuze.nl"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/bidvine-img.png",
+            "name"  => "bidvine")
 );
     
     public function saswp_tooltip_message($meta_field_id){
