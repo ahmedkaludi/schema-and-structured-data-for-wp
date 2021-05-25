@@ -619,15 +619,19 @@ function saswp_comparison_logic_checker($input, $post){
 
                   $terms           = wp_get_post_terms( $post->ID ,$data);
                 
-                  if(count($terms)>0){
-                                                      
-                    foreach ($terms as $key => $termvalue) {
-                        
-                      $termChoices[] = $termvalue->slug;
-                      
-                    } 
+                  if(!is_wp_error($terms)){
                     
-                  }
+                    if(count($terms)>0){
+                                                      
+                      foreach ($terms as $key => $termvalue) {
+                          
+                        $termChoices[] = $termvalue->slug;
+                        
+                      } 
+                      
+                    }
+
+                  }                  
 
                 }                
 
