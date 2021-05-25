@@ -255,7 +255,10 @@ class saswp_fields_generator {
             "name"  => "Advieskeuze.nl"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/bidvine-img.png",
-            "name"  => "bidvine")
+            "name"  => "bidvine"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/podcasts-img.png",
+            "name"  => "Podcasts")    
 );
     
     public function saswp_tooltip_message($meta_field_id){

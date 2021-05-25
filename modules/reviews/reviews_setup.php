@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
 
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if($platform_inserted != 85){
+    if($platform_inserted != 86){
         
         $term_array = array(    
             'Self',
@@ -422,6 +422,7 @@ function saswp_insert_platform_terms(){
             'Opentable', 
             'ProductHunt',
             'Playstore',
+            'Podcasts',
             'RateMDs', 
             'ReserveOut',
             'Rotten Tomatoes',
@@ -469,8 +470,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 84){
-            set_transient('saswp_platform_inserted', 85,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 86){
+            set_transient('saswp_platform_inserted', 86,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }
