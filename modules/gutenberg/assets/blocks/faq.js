@@ -12,6 +12,8 @@
     var InspectorControls = editor.InspectorControls;
     var ToggleControl     = components.ToggleControl;
     var PanelBody         = components.PanelBody;
+    var SelectControl     = components.SelectControl;
+    
             
     blocks.registerBlockType( 'saswp/faq-block', {
         title: __('FAQ (SASWP)', 'schema-and-structured-data-for-wp'),
@@ -28,6 +30,10 @@
             alignment: {
                 type: 'string',
                 default: 'none'
+            },
+            headingTag: {
+              type: 'string',
+              default: 'h3'
             },
             toggleList: {
                 type: 'boolean',
@@ -337,7 +343,7 @@
                           ( parseInt(item.index) + 1) + "."
                           ),  
                           el( RichText, {                
-                          tagName: 'p',
+                          tagName: attributes.headingTag,
                           className:'saswp-faq-step-title',
                           placeholder: __('Enter a question', 'schema-and-structured-data-for-wp'), 
                           style: { textAlign: alignment },
@@ -404,7 +410,22 @@
                       return (value == true ? 'Showing step item as an unordered list': 'Showing step item as an ordered list');
                     }
                 },
-                )
+                ),
+                el(SelectControl,{
+                  value : attributes.headingTag,
+                  label: __('Heading Tag', 'schema-and-structured-data-for-wp'),
+                  options:[                    
+                    { label: 'H1', value: 'h1' },
+                    { label: 'H2', value: 'h2' },
+                    { label: 'H3', value: 'h3' },
+                    { label: 'H4', value: 'h4' },
+                    { label: 'H5', value: 'h5' },
+                    { label: 'H6', value: 'h6' },
+                  ] ,
+                  onChange: function(value){
+                       props.setAttributes( { headingTag: value } ); 
+                  }
+                }),
                 )
                 ),
                 el(

@@ -181,9 +181,13 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     break;
                 case 'saswp_review_place_id' :
                     
-                    $name = get_post_meta( $post_id, $key='saswp_review_location_id', true);
-                    echo '<a target="_blank" href="'.esc_url(get_permalink($name)).'">'.esc_attr($name).'</a>';
-                                                                                                                                                            
+                    $name = get_post_meta( $post_id, 'saswp_review_location_id', true);
+                    if(saswp_validate_url($name)){
+                        echo '<a target="_blank" href="'.esc_url($name).'">'.esc_attr($name).'</a>';
+                    }else{
+                        echo '<a target="_blank" href="'.esc_url(get_permalink($name)).'">'.esc_attr($name).'</a>';
+                    }
+                                                                                                                                                                                
                     break; 
                 case 'saswp_review_shortcode' :
                                         
@@ -353,7 +357,7 @@ function saswp_insert_platform_terms(){
 
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if($platform_inserted != 82){
+    if($platform_inserted != 86){
         
         $term_array = array(    
             'Self',
@@ -374,8 +378,11 @@ function saswp_insert_platform_terms(){
             'AlternativeTo', 
             'Amazon',
             'BBB',
+            'bidvine',
             'BestBuy',
-            'Booking.com', 
+            'Booking.com',
+            'Bark.com',
+            'advieskeuze.nl', 
             'Capterra', 
             'CarGurus',
             'Cars.com', 
@@ -415,6 +422,7 @@ function saswp_insert_platform_terms(){
             'Opentable', 
             'ProductHunt',
             'Playstore',
+            'Podcasts',
             'RateMDs', 
             'ReserveOut',
             'Rotten Tomatoes',
@@ -462,8 +470,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 82){
-            set_transient('saswp_platform_inserted', 82,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 86){
+            set_transient('saswp_platform_inserted', 86,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

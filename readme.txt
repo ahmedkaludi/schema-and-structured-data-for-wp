@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.75
+Stable tag: 1.9.76
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.76 (25 May 2021) =
+
+* Added: An option for changing the FAQ (SASWP) text to H1 H2 H3 #1382
+* Added: Tutorial Links in every review platform fetch section. #1351
+* Added: bidvine.com review platform. #1341
+* Added: bark.com review platform. #1342
+* Added: Apple Podcasts review platform. #1334
+* Added: advieskeuze.nl review platform. #1419
+* Added: Add Support for WP GraphQL plugin ( https://wordpress.org/plugins/wp-graphql ) #1343
+* Fixed: Event validation issue with Event manager plugin #1422
+* Fixed: Compatibility issue: Error in FQA schema, setup by Yoast gutenberg block #1423
 
 = 1.9.75 (18 May 2021) =
 
