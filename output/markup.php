@@ -4143,6 +4143,12 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['provider']['image']                      = $all_post_meta['saswp_service_schema_image_'.$schema_id][0];             
              }
 
+             if(isset($all_post_meta['saswp_service_schema_enable_rating_'.$schema_id]) && isset($all_post_meta['saswp_service_schema_rating_value_'.$schema_id]) && isset($all_post_meta['saswp_service_schema_rating_count_'.$schema_id])){
+                $input1['provider']['aggregateRating']['@type']         = 'aggregateRating';
+                $input1['provider']['aggregateRating']['ratingValue']   = $all_post_meta['saswp_service_schema_rating_value_'.$schema_id][0];
+                $input1['provider']['aggregateRating']['ratingCount']   = $all_post_meta['saswp_service_schema_rating_count_'.$schema_id][0];                                
+            }
+
         }
 
         if( isset($all_post_meta['saswp_service_schema_image_'.$schema_id][0]) && !empty($all_post_meta['saswp_service_schema_image_'.$schema_id][0]) ){

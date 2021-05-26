@@ -2605,7 +2605,12 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_service_schema_telephone'])){
                       $input1['provider']['address']['telephone'] =    $custom_fields['saswp_service_schema_telephone'];
-                    }                    
+                    }          
+                    if(isset($custom_fields['saswp_service_schema_rating_value']) && isset($custom_fields['saswp_service_schema_rating_count'])){
+                        $input1['provider']['aggregateRating']['@type']         = 'aggregateRating';                        
+                        $input1['provider']['aggregateRating']['ratingValue']   = $custom_fields['saswp_service_schema_rating_value'];
+                        $input1['provider']['aggregateRating']['reviewCount']   = $custom_fields['saswp_service_schema_rating_count'];                                
+                    }          
                     if(isset($custom_fields['saswp_service_schema_description'])){
                       $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_service_schema_description'] ));
                     }

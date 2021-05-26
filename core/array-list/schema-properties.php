@@ -2920,7 +2920,23 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'Service Output',
                                 'id'    => 'saswp_service_schema_service_output_'.$schema_id,
                                 'type'  => 'text',                           
-                        )                        
+                        ),                                                
+                        array(
+                                'label' => 'Aggregate Rating',
+                                'id'    => 'saswp_service_schema_enable_rating_'.$schema_id,
+                                'type'  => 'checkbox',                           
+                            ),
+                        array(
+                                'label' => 'Rating',
+                                'id'    => 'saswp_service_schema_rating_value_'.$schema_id,
+                                'type'  => 'text',                           
+                            ),
+                        array(
+                                'label' => 'Rating Count',
+                                'id'    => 'saswp_service_schema_rating_count_'.$schema_id,
+                                'type'  => 'text',                            
+                        )
+                            
                     );
                     break;
 
