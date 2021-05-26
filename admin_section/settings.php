@@ -1005,6 +1005,8 @@ function saswp_general_page_callback(){
                          $saved_choices = array();
                          $choices  = saswp_get_condition_list('page');               
                          
+                         $choose_page[0] = array('id' => '', 'text' => 'Select Page');
+                         $choices     = array_merge($choose_page, $choices);                             
                          if ( isset($settings['sd_about_page']) && $settings['sd_about_page'] !=  '' ) {
                                 $saved_choices = saswp_get_condition_list('page', '', $settings['sd_about_page']);                        
                          }
@@ -1041,7 +1043,8 @@ function saswp_general_page_callback(){
                          <?php 
                          $saved_choices = array();
                          $choices  = saswp_get_condition_list('page');               
-                         
+                         $choose_page[0] = array('id' => '', 'text' => 'Select Page');
+                         $choices     = array_merge($choose_page, $choices);                             
                          if ( isset($settings['sd_contact_page']) && $settings['sd_contact_page'] !=  '' ) {
                                 $saved_choices = saswp_get_condition_list('page', '', $settings['sd_contact_page']);                        
                          }
