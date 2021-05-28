@@ -334,7 +334,13 @@ function saswp_comparison_logic_checker($input, $post){
              }
          }
            
-        break;  
+        break; 
+        
+        case 'languages_polylang':  
+          
+             $result = apply_filters('saswp_get_languages_polylang_logic', $data, $comparison);             
+           
+        break; 
         // Basic Controls ------------ 
           // Posts Type
         case 'post_type':   
@@ -784,7 +790,7 @@ if(is_admin()){
 
     <?php 
     // Type Select    
-      $choices = array(
+      $choices = apply_filters('saswp_add_more_placement', array(
         saswp_t_string("Basic") => array(        
           'post_type'           =>  saswp_t_string("Post Type"),
           'show_globally'       =>  saswp_t_string("Show Globally"),    
@@ -802,10 +808,9 @@ if(is_admin()){
         ),
         saswp_t_string("Other") => array( 
           'ef_taxonomy'         =>  saswp_t_string("Taxonomy (Tag)"), 
-          'date'                =>  saswp_t_string("Date"), 
-
+          'date'                =>  saswp_t_string("Date")           
         )
-      ); 
+      )); 
 
       $comparison = array(
         'equal'                =>  saswp_t_string( 'Equal to'), 

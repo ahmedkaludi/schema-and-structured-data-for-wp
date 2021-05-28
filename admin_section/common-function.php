@@ -3751,8 +3751,15 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
     switch($condition){
     
-      case "post_type":
+      case "languages_polylang":
         
+        $array_search = true;             
+        $choices = apply_filters('saswp_set_languages_polylang_condition', $saved_data);
+                                                       
+        break;
+
+      case "post_type":
+           
           $post_type = array();
           $args['public'] = true;
             
