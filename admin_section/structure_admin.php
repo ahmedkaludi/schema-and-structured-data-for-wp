@@ -341,6 +341,12 @@ function saswp_comparison_logic_checker($input, $post){
              $result = apply_filters('saswp_get_languages_polylang_logic', $data, $comparison);             
            
         break; 
+
+        case 'languages_wpml':  
+          
+             $result = apply_filters('saswp_get_languages_wpml_logic', $data, $comparison);             
+        
+        break; 
         // Basic Controls ------------ 
           // Posts Type
         case 'post_type':   
@@ -1723,6 +1729,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 $item_name = array(                       
                        'jobposting'   => 'JobPosting Schema Compatibility',
                        'polylang'     => 'Polylang Compatibility For SASWP',
+                       'wpml'         => 'WPML Schema Compatibility',
                        'woocommerce'  => 'Woocommerce compatibility for Schema',
                        'reviews'      => 'Reviews for schema',
                        'res'          => 'Real Estate Schema',

@@ -446,6 +446,37 @@ function saswp_premium_features_callback(){ ?>
                     </div>
             </li>
 
+            <li>
+                            
+                            <?php
+                            
+                            $cooked_active_text = '';
+                            
+                            if(is_plugin_active('wpml-schema-compatibility/wpml-schema-compatibility.php')){
+                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
+                            }else{
+                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
+                            }
+                            
+                            ?> 
+                                            
+                    <div class="saswp-features-ele">
+                        <div class="saswp-ele-ic" style="background: #33879e;">
+                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/wpml.png">
+                            </div>
+                            <div class="saswp-ele-tlt">
+                                    <h3><?php echo saswp_t_string('WPML Schema Compatibility') ?></h3>
+                                    <p><?php echo saswp_t_string('Get Multi-Currency in schema on Woocommerce Product and set placement based on languages for easy display of schema') ?></p>
+                            </div>
+                    </div>
+                    <div class="saswp-sts-btn">
+                        
+                        <?php echo $cooked_active_text; ?>
+                                                                                                                                               
+                    </div>
+            </li>
+
                 <li>
                             
                             <?php
@@ -466,7 +497,7 @@ function saswp_premium_features_callback(){ ?>
                                 <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/polylang.png">
                             </div>
                             <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('Polylang Compatibility') ?></h3>
+                                    <h3><?php echo saswp_t_string('Polylang Schema Compatibility') ?></h3>
                                     <p><?php echo saswp_t_string('It adds all the static labels from this plugin to Polylang Strings Translations dashboard where user can translate it') ?></p>
                             </div>
                     </div>
@@ -1709,6 +1740,12 @@ function saswp_import_callback(){
                 $add_on[] = 'Polylang';           
                                            
         }
+
+        if(is_plugin_active('wpml-schema-compatibility/wpml-schema-compatibility.php')){
+                      
+                $add_on[] = 'WPML';           
+                                           
+        }
         
         if(is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){
                       
@@ -2285,7 +2322,20 @@ function saswp_compatibility_page_callback(){
                         'id'   => 'saswp-polylang',
                         'name' => 'sd_data[saswp-polylang]',                             
                 )
-        );        
+        );  
+        
+        $wpml = array(
+                'label'  => 'WPML',
+                'id'     => 'saswp-wpml-checkbox',                        
+                'name'   => 'saswp-wpml-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpml'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpml',
+                        'name' => 'sd_data[saswp-wpml]',                             
+                )
+        );  
 
         $simplejobboard        = array(
                 'label'  => 'Simple Job Board',
@@ -3676,6 +3726,10 @@ function saswp_compatibility_page_callback(){
                           
                 $polylang['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/polylang-compatibility-for-saswp/">Polylang Compatibility For SASWP Addon</a>';                        
          }
+         if(!is_plugin_active('wpml-schema-compatibility/wpml-schema-compatibility.php')){
+                          
+                $wpml['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/wpml-schema-compatibility">WPML Schema Compatibility Addon</a>';                        
+         }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
                           
                 $sabaidiscuss['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
@@ -3757,6 +3811,7 @@ function saswp_compatibility_page_callback(){
                 $sabaidiscuss,                
                 $yoast,
                 $polylang,
+                $wpml,
                 $metatagmanager,
                 $slimseo,
                 $smart_crawl,

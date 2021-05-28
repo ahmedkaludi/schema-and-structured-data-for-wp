@@ -645,6 +645,9 @@ class saswp_output_compatibility{
     public function polylang_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-polylang');
     }
+    public function wpml_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpml');
+    }
     public function total_recipe_generator_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-total-recipe-generator');
     }

@@ -16,6 +16,13 @@ return array(
             'opt_name'   => 'saswp-polylang',
             'part_in'    => 'pro',
         ),
+        'wpml'  =>  array(            
+            'name'       => 'WPML',
+            'free'       => 'wpml-string-translation/plugin.php',
+            'pro'        => 'wpml-translation-management/plugin.php',                    
+            'opt_name'   => 'saswp-wpml',
+            'part_in'    => 'pro',
+        ),
         'wpjobmanager'  =>  array(            
             'name'       => 'WP Job Manager',
             'free'       => 'wp-job-manager/wp-job-manager.php',                    
