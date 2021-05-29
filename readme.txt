@@ -130,6 +130,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Angie's List Reviews Integration. #863
 * Fixed: Issue with H3 tag in FAQ (SASWP) #1432
 * Fixed: WPML Translatater Not Working with our Schema [WPML Adon] #1427
+* Fixed: ProfilePress plugin and newsgem are loading select2 on schema admin panel which cause conflict #1434
 
 = 1.9.76 (25 May 2021) =
 
