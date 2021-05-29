@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.76
+Stable tag: 1.9.77
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.77 (29 May 2021) =
+
+* Added: Created an option to add schema for a selected language. [Polylang addon] #1425
+* Added: Option to disable contact or about page schema #1428
+* Added: aggregateRating property in service schema #1395
+* Added: Add makeoffer and its sub fields in local business schema type #1379
+* Fixed: If anyone click on reviews,it should be redirect to reviews page. #1426
+* Fixed: Angie's List Reviews Integration. #863
+* Fixed: Issue with H3 tag in FAQ (SASWP) #1432
+* Fixed: WPML Translatater Not Working with our Schema [WPML Adon] #1427
 
 = 1.9.76 (25 May 2021) =
 
