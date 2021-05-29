@@ -1877,7 +1877,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
             }
 
             $response.= '<div class="saswp-tools-field-title">';
+               
+                if($label == true && $on == 'WPML'){
+                        
+                        $response.= '<div class="" style="display:inline-block">';
+                        $response.= '<strong>'.saswp_t_string(''.$on.' Schema Compatibility').'</strong>';
+                        $response.= '</div>';
                 
+                }
                if($label == true && $on == 'Cooked'){
                    
                     $response.= '<div class="" style="display:inline-block">';
