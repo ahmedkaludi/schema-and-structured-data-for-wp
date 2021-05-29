@@ -4254,6 +4254,8 @@ function saswp_dequeue_other_select2_on_saswp_screen(){
         if($saswp_metaboxes || $post_type == 'saswp' || $post_type == 'saswp-collections' || $post_type == 'saswp_reviews' || $hook == 'saswp_page_structured_data_options' || $hook == 'saswp_page_collection' ){
 
                 wp_dequeue_script( 'forminator-shared-ui' ); 
+                wp_dequeue_script( 'select-two-min-js' );
+		wp_dequeue_script( 'ppress-select2' );			
         	                                        
         }  
           
