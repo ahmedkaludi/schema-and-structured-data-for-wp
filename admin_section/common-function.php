@@ -3029,6 +3029,7 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
 function saswp_get_field_note($pname){
     
     $notes = array(  
+            'wpml'                        => saswp_t_string('Requires').' <a target="_blank" href="https://wpml.org">WPML</a>',
             'polylang'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/polylang/">Polylang</a>',
             'wpdiscuz'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wpdiscuz/">Comments – wpDiscuz</a>',
             'rannarecipe'                 => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/ranna-food-recipe-wordpress-theme/25157340">Ranna - Food & Recipe</a>',
@@ -3751,8 +3752,22 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
     switch($condition){
     
-      case "post_type":
+      case "languages_polylang":
         
+        $array_search = true;             
+        $choices = apply_filters('saswp_set_languages_polylang_condition', $saved_data);
+                                                       
+        break;
+
+       case "languages_wpml":
+        
+        $array_search = true;             
+        $choices = apply_filters('saswp_set_languages_wpml_condition', $saved_data);
+                                                        
+        break;   
+
+      case "post_type":
+           
           $post_type = array();
           $args['public'] = true;
             

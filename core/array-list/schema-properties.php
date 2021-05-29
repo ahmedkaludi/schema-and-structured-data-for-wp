@@ -215,14 +215,22 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'placeholder' => 'Example, Example2'
                             ),
                             'note' => 'Note: Separate area served list by comma ( , )'                     
+                        );                        
+                        $meta_field[] = array(
+                               'label' => 'Service Offered Name',
+                               'id' => 'local_service_offered_name_'.$schema_id,
+                               'type' => 'text',                            
                         );
-                                                                        
+                        $meta_field[] = array(
+                                'label' => 'Service Offered URL',
+                                'id' => 'local_service_offered_url_'.$schema_id,
+                                'type' => 'text',                            
+                        );                           
                         $meta_field[] = array(
                              'label' => 'Price Range',
                             'id' => 'local_price_range_'.$schema_id,
                             'type' => 'text',                            
-                        );
-                       
+                        );                       
                         $meta_field[] = array(
                             'label' => 'Menu',
                             'id' => 'local_menu_'.$schema_id,
@@ -2920,7 +2928,23 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'Service Output',
                                 'id'    => 'saswp_service_schema_service_output_'.$schema_id,
                                 'type'  => 'text',                           
-                        )                        
+                        ),                                                
+                        array(
+                                'label' => 'Aggregate Rating',
+                                'id'    => 'saswp_service_schema_enable_rating_'.$schema_id,
+                                'type'  => 'checkbox',                           
+                            ),
+                        array(
+                                'label' => 'Rating',
+                                'id'    => 'saswp_service_schema_rating_value_'.$schema_id,
+                                'type'  => 'text',                           
+                            ),
+                        array(
+                                'label' => 'Rating Count',
+                                'id'    => 'saswp_service_schema_rating_count_'.$schema_id,
+                                'type'  => 'text',                            
+                        )
+                            
                     );
                     break;
 

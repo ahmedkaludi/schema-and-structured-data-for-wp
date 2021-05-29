@@ -32,8 +32,7 @@
                 default: 'none'
             },
             headingTag: {
-              type: 'string',
-              default: 'h3'
+              type: 'string'              
             },
             toggleList: {
                 type: 'boolean',

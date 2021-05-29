@@ -1338,7 +1338,19 @@ Class saswp_output_service{
                      $input1['geo']['latitude']  =    $custom_fields['local_latitude'];
                      $input1['geo']['longitude'] =    $custom_fields['local_longitude'];
                      
-                    }                                        
+                    }      
+                    if(isset($custom_fields['local_service_offered_name'])){                    
+                        $input1['makesOffer']['@type'] = 'Offer';
+                        $input1['makesOffer']['@id']   = '#service';
+                        $input1['makesOffer']['itemOffered']['@type'] = 'Service';
+                        $input1['makesOffer']['itemOffered']['name'] = $custom_fields['local_service_offered_name'];                     
+                        if(isset($custom_fields['local_service_offered_url'])){                                             
+                            $input1['makesOffer']['itemOffered']['url']  = $custom_fields['local_service_offered_url']; 
+                        }
+                        $input1['makesOffer']['itemOffered']['areaServed'] = saswp_explode_comma_seprated( $custom_fields['local_area_served'], 'Place' );
+                        
+                    }
+
                     if(isset($custom_fields['local_business_founder'])){
                         $input1['founder'] =    saswp_explode_comma_seprated($custom_fields['local_business_founder'], 'Person');
                     }
@@ -2605,7 +2617,12 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_service_schema_telephone'])){
                       $input1['provider']['address']['telephone'] =    $custom_fields['saswp_service_schema_telephone'];
-                    }                    
+                    }          
+                    if(isset($custom_fields['saswp_service_schema_rating_value']) && isset($custom_fields['saswp_service_schema_rating_count'])){
+                        $input1['provider']['aggregateRating']['@type']         = 'aggregateRating';                        
+                        $input1['provider']['aggregateRating']['ratingValue']   = $custom_fields['saswp_service_schema_rating_value'];
+                        $input1['provider']['aggregateRating']['reviewCount']   = $custom_fields['saswp_service_schema_rating_count'];                                
+                    }          
                     if(isset($custom_fields['saswp_service_schema_description'])){
                       $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_service_schema_description'] ));
                     }

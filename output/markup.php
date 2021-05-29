@@ -1224,7 +1224,19 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                 if(isset($all_post_meta['local_business_employee_'.$schema_id][0])){                    
                     $input1['employee'] = saswp_explode_comma_seprated( $all_post_meta['local_business_employee_'.$schema_id][0], 'Person' );
                 }
-               
+
+                if(isset($all_post_meta['local_service_offered_name_'.$schema_id][0])){                    
+                    $input1['makesOffer']['@type'] = 'Offer';
+                    $input1['makesOffer']['@id']   = '#service';
+                    $input1['makesOffer']['itemOffered']['@type'] = 'Service';
+                    $input1['makesOffer']['itemOffered']['name'] = $all_post_meta['local_service_offered_name_'.$schema_id][0];                     
+                    if(isset($all_post_meta['local_service_offered_url_'.$schema_id][0])){                                             
+                        $input1['makesOffer']['itemOffered']['url']  = $all_post_meta['local_service_offered_url_'.$schema_id][0]; 
+                    }
+                    $input1['makesOffer']['itemOffered']['areaServed'] = saswp_explode_comma_seprated( $all_post_meta['local_area_served_'.$schema_id][0], 'Place' );                                                       
+                    
+                }
+                               
                 //social fields starts here
 
                 $local_social = array();
@@ -4142,6 +4154,12 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
              if( isset($all_post_meta['saswp_service_schema_image_'.$schema_id][0]) && !empty($all_post_meta['saswp_service_schema_image_'.$schema_id][0]) ){
                 $input1['provider']['image']                      = $all_post_meta['saswp_service_schema_image_'.$schema_id][0];             
              }
+
+             if(isset($all_post_meta['saswp_service_schema_enable_rating_'.$schema_id]) && isset($all_post_meta['saswp_service_schema_rating_value_'.$schema_id]) && isset($all_post_meta['saswp_service_schema_rating_count_'.$schema_id])){
+                $input1['provider']['aggregateRating']['@type']         = 'aggregateRating';
+                $input1['provider']['aggregateRating']['ratingValue']   = $all_post_meta['saswp_service_schema_rating_value_'.$schema_id][0];
+                $input1['provider']['aggregateRating']['ratingCount']   = $all_post_meta['saswp_service_schema_rating_count_'.$schema_id][0];                                
+            }
 
         }
 

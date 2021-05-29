@@ -1193,6 +1193,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-wpml-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpml").val(1);             
+                            }else{
+                              $("#saswp-wpml").val(0);           
+                            }
+                      break;
+
                       case 'saswp-metatagmanager-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

@@ -14,6 +14,11 @@ return array(
             'path'       => 'polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php',                        
         ),
         array(
+            'key'        => 'wpml_schema_compatibility',
+            'name'       => 'WPML Schema Compatibility',
+            'path'       => 'wpml-schema-compatibility/wpml-schema-compatibility.php',                        
+        ),
+        array(
             'key'        => 'saswp_pro_extension_manager',
             'name'       => 'SASWP Pro Extension Manager',
             'path'       => 'saswp-pro-extension-manager/saswp-pro-extension-manager.php',                        

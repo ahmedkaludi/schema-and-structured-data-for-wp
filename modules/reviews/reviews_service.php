@@ -1122,10 +1122,12 @@ class saswp_reviews_service {
                         $review_count   = 0;                        
                         $sum_of_rating  = 0;
                         $average_rating = 1;
+                        $source_url     = '';
                         
                         foreach ($platform_wise as $key => $value){
                             
                             $platform_name  = $value['saswp_review_platform_name'];
+                            $source_url     = $value['saswp_review_location_id'];
 
                             if($platform_name == 'Self'){
                                 $platform_name = saswp_t_string(saswp_label_text('translation-self'));
@@ -1144,7 +1146,7 @@ class saswp_reviews_service {
                         }
                             
                       $html .= '<li>';                       
-                      $html .= '<a href="#">'; 
+                      $html .= '<a target="_blank" href="'.esc_url($source_url).'">'; 
                       $html .= '<div class="saswp-r3-lg">';
                       $html .= '<span>';
                       $html .= '<img alt="'.esc_attr($platform_name).'" src="'.esc_url($platform_icon).'"/>';

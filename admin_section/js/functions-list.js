@@ -815,8 +815,11 @@
                         var review_count   = 0;                        
                         var sum_of_rating  = 0;
                         var average_rating = 1;
+                        var source_url     = '';
                         
                         jQuery.each(saswp_collection[key], function(index, value){
+                                                        
+                            source_url    = value.saswp_review_location_id;
                             platform_icon = value.saswp_review_platform_icon;
                             platform_name = value.saswp_review_platform_name;
 
@@ -836,7 +839,7 @@
                         if(saswp_collection[key]){
                             
                             html += '<li>';                       
-                      html += '<a href="#">'; 
+                      html += '<a target="_blank" href="'+source_url+'">'; 
 
                         html += '<div class="saswp-r3-lg">';
                           html += '<span>';
