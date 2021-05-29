@@ -17,8 +17,8 @@ return array(
             'part_in'    => 'pro',
         ),
         'wpml'  =>  array(            
-            'name'       => 'WPML',
-            'free'       => 'wpml-string-translation/plugin.php',
+            'name'       => 'WPML Multilingual CMS',
+            'free'       => 'sitepress-multilingual-cms/sitepress.php',
             'pro'        => 'wpml-translation-management/plugin.php',                    
             'opt_name'   => 'saswp-wpml',
             'part_in'    => 'pro',
