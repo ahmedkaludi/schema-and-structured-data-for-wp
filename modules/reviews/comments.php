@@ -150,7 +150,7 @@ function saswp_comment_rating_save_comment_rating( $comment_id ) {
 //Display the rating on a submitted comment.
 add_filter( 'comment_text', 'saswp_comment_rating_display_rating', 10, 2);
 
-function saswp_comment_rating_display_rating( $comment_text, $comment ){
+function saswp_comment_rating_display_rating( $comment_text = null, $comment = null ){
 	
 	if ( saswp_check_stars_rating() &&  '0' == $comment->comment_parent ) {
 		$stars_rating_moved = get_option('saswp_imported_starsrating');
