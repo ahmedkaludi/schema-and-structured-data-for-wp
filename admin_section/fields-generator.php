@@ -258,7 +258,10 @@ class saswp_fields_generator {
             "name"  => "bidvine"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/podcasts-img.png",
-            "name"  => "Podcasts")    
+            "name"  => "Podcasts"),   
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/productreview-img.png",
+            "name"  => "productreview.com.au")        
 );
     
     public function saswp_tooltip_message($meta_field_id){

@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
 
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if($platform_inserted != 86){
+    if($platform_inserted != 87){
         
         $term_array = array(    
             'Self',
@@ -421,6 +421,7 @@ function saswp_insert_platform_terms(){
             'OpenRice', 
             'Opentable', 
             'ProductHunt',
+            'ProductReview',
             'Playstore',
             'Podcasts',
             'RateMDs', 
@@ -470,8 +471,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 86){
-            set_transient('saswp_platform_inserted', 86,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 87){
+            set_transient('saswp_platform_inserted', 87,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }
