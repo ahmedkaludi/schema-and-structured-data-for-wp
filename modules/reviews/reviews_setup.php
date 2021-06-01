@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
 
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if($platform_inserted != 87){
+    if($platform_inserted != 88){
         
         $term_array = array(    
             'Self',
@@ -430,6 +430,7 @@ function saswp_insert_platform_terms(){
             'Sitejabber', 
             'Siftery', 
             'Steam',
+            'StyleSeat',
             'SoftwareAdvice',
             'Shopify App Store',                     
             'Shopper Approved',
@@ -471,8 +472,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 87){
-            set_transient('saswp_platform_inserted', 87,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 88){
+            set_transient('saswp_platform_inserted', 88,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

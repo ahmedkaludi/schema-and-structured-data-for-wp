@@ -261,7 +261,10 @@ class saswp_fields_generator {
             "name"  => "Podcasts"),   
         array(
             "image" => "/admin_section/images/reviews_platform_icon/productreview-img.png",
-            "name"  => "productreview.com.au")        
+            "name"  => "productreview.com.au"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/styleseat-img.png",
+            "name"  => "styleseat.com")            
 );
     
     public function saswp_tooltip_message($meta_field_id){
