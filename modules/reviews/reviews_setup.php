@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
 
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if($platform_inserted != 88){
+    if($platform_inserted != 89){
         
         $term_array = array(    
             'Self',
@@ -416,7 +416,8 @@ function saswp_insert_platform_terms(){
             'Judge.me',
             'Lawyers.com', 
             'Lending Tree', 
-            'Martindale', 
+            'Martindale',
+            'mariages.net', 
             'Newegg', 
             'OpenRice', 
             'Opentable', 
@@ -472,8 +473,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 88){
-            set_transient('saswp_platform_inserted', 88,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 89){
+            set_transient('saswp_platform_inserted', 89,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

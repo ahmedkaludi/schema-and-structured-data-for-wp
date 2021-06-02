@@ -264,8 +264,11 @@ class saswp_fields_generator {
             "name"  => "productreview.com.au"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/styleseat-img.png",
-            "name"  => "styleseat.com")            
-);
+            "name"  => "styleseat.com"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/mariages_net-img.png",
+            "name"  => "mariages.net")                
+    );
     
     public function saswp_tooltip_message($meta_field_id){
         
