@@ -266,8 +266,11 @@ class saswp_fields_generator {
             "image" => "/admin_section/images/reviews_platform_icon/styleseat-img.png",
             "name"  => "styleseat.com"),
         array(
-            "image" => "/admin_section/images/reviews_platform_icon/mariages_net-img.png",
-            "name"  => "mariages.net")                
+            "image" => "/admin_section/images/reviews_platform_icon/mariages-net-img.png",
+            "name"  => "mariages.net"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/zankyou-img.png",
+            "name"  => "zankyou")                
     );
     
     public function saswp_tooltip_message($meta_field_id){
