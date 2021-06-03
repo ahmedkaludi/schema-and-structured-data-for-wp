@@ -839,11 +839,11 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format){
+    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr = null){
         
            $html          = '';                
            $grid_cols     = '';
-
+           $perpage_break = $perpage; 
            if($collection){
                
                $page_count = ceil($total_reviews_count / $perpage);               
@@ -859,7 +859,10 @@ class saswp_reviews_service {
                 }else{
                 $html .= '<ul style="grid-template-columns:'.esc_attr($grid_cols).';overflow-x:hidden;">';     
                 }                               
-               
+                                
+               $k = 1;
+               $break = 1; 
+
                foreach ($collection as $value){
                         
                        $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format ); 
@@ -872,8 +875,25 @@ class saswp_reviews_service {
 
                        }
 
+                       if($pagination_wpr && $pagination){
 
-                       $html .= '<li>';                       
+                          if($break == 1){
+                            $html .= '<li data-id="'.esc_attr($break).'">';                       
+                           }else{
+                            $html .= '<li data-id="'.esc_attr($break).'" class="saswp_grid_dp_none">';                       
+                           }
+                           
+                           if($perpage == $k){
+                            $break++;  
+                            $perpage += $perpage_break;                     
+                           }   
+                           
+                           $k++;     
+
+                       }else{
+                             $html .= '<li>';                       
+                       }                                             
+                       
                        $html .= '<div class="saswp-rc">';
                        $html .= '<div class="saswp-rc-a">';
                        $html .= '<div class="saswp-r1-aimg">';
@@ -900,7 +920,7 @@ class saswp_reviews_service {
 
                $html .= '</ul>';
                
-               if($page_count > 0 && $pagination){
+               if(($page_count > 0 && $pagination ) && !$pagination_wpr){
                    
                         $current_url = saswp_get_current_url();
                         
@@ -913,9 +933,9 @@ class saswp_reviews_service {
                         for($i=1; $i <= $page_count; $i++){
                             
                             if($i == $data_id){
-                                $html .= '<a class="active saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.$i.'</a>';    
+                                $html .= '<a class="active saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.esc_attr($i).'</a>';    
                             }else{
-                                $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.$i.'</a>';    
+                                $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.esc_attr($i).'</a>';    
                             }
                             
                         }      
@@ -924,7 +944,28 @@ class saswp_reviews_service {
                         
                         $html .= '</div>';                        
                         
-                    }
+                }
+
+                if(($page_count > 0 && $pagination ) && $pagination_wpr){
+
+                        $html .= '<div class="saswp-grid-pagination saswp-grid-wpr">';                    
+                        $html .= '<a data-id="1" class="saswp-grid-page" href="#">&laquo;</a>'; 
+                        
+                        for($i=1; $i <= $page_count; $i++){
+                            
+                            if($i == 1){
+                                $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page active" href="#">'.esc_attr($i).'</a>';    
+                            }else{
+                                $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page" href="#">'.esc_attr($i).'</a>';    
+                            }
+                            
+                        }      
+                        
+                        $html .= '<a data-id="'.esc_attr($page_count).'" class="saswp-grid-page" href="#">&raquo;</a>';                                     
+                        
+                        $html .= '</div>';  
+
+                }
                                              
                $html .= '</div>';
                
