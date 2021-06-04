@@ -273,7 +273,10 @@ class saswp_fields_generator {
             "name"  => "zankyou"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/serviceseeking-img.png",
-            "name"  => "serviceseeking.com.au")                    
+            "name"  => "serviceseeking.com.au"),   
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/solarquotes-img.png",
+            "name"  => "solarquotes.com.au")                        
     );
     
     public function saswp_tooltip_message($meta_field_id){

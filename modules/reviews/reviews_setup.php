@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
 
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 91 ){
+    if( $platform_inserted != 92 ){
         
         $term_array = array(    
             'Self',
@@ -436,6 +436,7 @@ function saswp_insert_platform_terms(){
             'Shopify App Store',                     
             'Shopper Approved',
             'Serviceseeking',
+            'solarquotes',
             'Talabat', 
             'The Knot', 
             'Thumbtack', 
@@ -475,8 +476,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 91){
-            set_transient('saswp_platform_inserted', 91,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 92){
+            set_transient('saswp_platform_inserted', 92,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }
