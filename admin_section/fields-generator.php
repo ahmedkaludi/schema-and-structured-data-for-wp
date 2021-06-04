@@ -270,7 +270,10 @@ class saswp_fields_generator {
             "name"  => "mariages.net"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/zankyou-img.png",
-            "name"  => "zankyou")                
+            "name"  => "zankyou"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/serviceseeking-img.png",
+            "name"  => "serviceseeking.com.au")                    
     );
     
     public function saswp_tooltip_message($meta_field_id){
