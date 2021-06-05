@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
 
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 92 ){
+    if( $platform_inserted != 93 ){
         
         $term_array = array(    
             'Self',
@@ -420,7 +420,8 @@ function saswp_insert_platform_terms(){
             'mariages.net', 
             'Newegg', 
             'OpenRice', 
-            'Opentable', 
+            'Opentable',
+            'Oneflare', 
             'ProductHunt',
             'ProductReview',
             'Playstore',
@@ -476,8 +477,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 92){
-            set_transient('saswp_platform_inserted', 92,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 93){
+            set_transient('saswp_platform_inserted', 93,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

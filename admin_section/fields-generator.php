@@ -276,7 +276,11 @@ class saswp_fields_generator {
             "name"  => "serviceseeking.com.au"),   
         array(
             "image" => "/admin_section/images/reviews_platform_icon/solarquotes-img.png",
-            "name"  => "solarquotes.com.au")                        
+            "name"  => "solarquotes.com.au"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/oneflare-img.png",
+            "name"  => "oneflare.com.au")    
+
     );
     
     public function saswp_tooltip_message($meta_field_id){
