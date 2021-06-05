@@ -394,8 +394,12 @@ class SASWP_Gutenberg {
                     foreach($attributes['items'] as $item){
                         
                       if($item['title'] || $item['description']){
-                        echo '<li>'; 
 
+                        if(!empty($item['questionID'])){
+                            echo '<li id="'.esc_attr($item['questionID']).'">'; 
+                        }else{
+                            echo '<li>'; 
+                        }                        
                         if(isset($attributes['headingTag'])){
 
                             switch ($attributes['headingTag']) {
