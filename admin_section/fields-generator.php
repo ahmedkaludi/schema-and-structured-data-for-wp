@@ -282,7 +282,10 @@ class saswp_fields_generator {
             "name"  => "oneflare.com.au"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/airbnb-experiences-img.png",
-            "name"  => "Airbnb Experiences")        
+            "name"  => "Airbnb Experiences"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/hipages-img.png",
+            "name"  => "Hipages")             
 
     );
     
