@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
     
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 95 ){
+    if( $platform_inserted != 96 ){
             
         $term_array = array(    
             'Self',
@@ -447,6 +447,7 @@ function saswp_insert_platform_terms(){
             'TrustedShops', 
             'Trustpilot', 
             'TrustRadius', 
+            'Upwork',
             'Vitals', 
             'Walmart', 
             'WeddingWire',
@@ -479,8 +480,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 95){
-            set_transient('saswp_platform_inserted', 95,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 96){
+            set_transient('saswp_platform_inserted', 96,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

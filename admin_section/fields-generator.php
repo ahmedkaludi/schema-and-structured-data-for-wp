@@ -285,7 +285,10 @@ class saswp_fields_generator {
             "name"  => "Airbnb Experiences"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/hipages-img.png",
-            "name"  => "Hipages")             
+            "name"  => "Hipages"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/upwork-img.png",
+            "name"  => "Upwork")                              
 
     );
     
