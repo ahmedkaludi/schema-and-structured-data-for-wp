@@ -279,7 +279,10 @@ class saswp_fields_generator {
             "name"  => "solarquotes.com.au"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/oneflare-img.png",
-            "name"  => "oneflare.com.au")    
+            "name"  => "oneflare.com.au"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/airbnb-experiences-img.png",
+            "name"  => "Airbnb Experiences")        
 
     );
     
