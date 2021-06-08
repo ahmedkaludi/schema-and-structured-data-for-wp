@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
     
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 96 ){
+    if( $platform_inserted != 97 ){
             
         $term_array = array(    
             'Self',
@@ -400,6 +400,7 @@ function saswp_insert_platform_terms(){
             'Etsy', 
             'Foursquare',
             'Flipkart',
+            'Freelancer',
             'G2Crowd', 
             'Gearbest',
             'Gartner',
@@ -480,8 +481,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 96){
-            set_transient('saswp_platform_inserted', 96,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 97){
+            set_transient('saswp_platform_inserted', 97,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

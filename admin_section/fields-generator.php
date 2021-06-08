@@ -288,7 +288,10 @@ class saswp_fields_generator {
             "name"  => "Hipages"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/upwork-img.png",
-            "name"  => "Upwork")                              
+            "name"  => "Upwork"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/freelancer-img.png",
+            "name"  => "freelancer.com")                                  
 
     );
     
