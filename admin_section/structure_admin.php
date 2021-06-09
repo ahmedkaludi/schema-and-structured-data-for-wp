@@ -687,10 +687,13 @@ function saswp_comparison_logic_checker($input, $post){
                 }
 
                 if ( $comparison == 'not_equal') { 
+                  if(is_array($taxonomy_names)){
                     $checker =  in_array($data, $taxonomy_names);       
                     if ( ! $checker ) {
                         $result = true;
                     }
+                  }
+                    
                 }
 
               }

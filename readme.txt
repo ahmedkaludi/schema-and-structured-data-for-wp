@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.77
+Stable tag: 1.9.78
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,26 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.78 (09 Jun 2021) =
+
+* Added: freelancer.com review platform. #1342
+* Added: Upwork review platform. #1189
+* Added: Airbnb Experiences review platform. #824
+* Added: solarquotes.com.au review platform. #1207
+* Added: serviceseeking.com.au review platform. #1208
+* Added: productreview.com.au review platform. #1183
+* Added: styleseat.com review platform. #1231
+* Added: mariage.net review platform. #1196
+* Added: zankyou.com review platform. #1196
+* Added: oneflare.com.au review platform. #1209
+* Added: hipages.com.au review platform. #1210
+* Added: Shopper Approved (product) review platform. #1079
+* Added: Carousel feature for the grid layout of the collection #1345
+* Added: Pagejumps to FAQ questions #1058
+* Added: Feature support for polylang extension with schema #1431
+* Fixed: PHP Fatal error: when "Data types for Adventure Tours theme" plugin activated. #1437
+* Fixed: Additional properties are not rendering for a simple product type #1433
 
 = 1.9.77 (29 May 2021) =
 

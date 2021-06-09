@@ -921,6 +921,9 @@ span.saswp-mines{
 .saswp-dp-dsg.saswp_hide{
     display: none;
 }
+.saswp_grid_dp_none{
+  display: none;
+}
 .entry .entry-content a {
     text-decoration: none !important;
 }

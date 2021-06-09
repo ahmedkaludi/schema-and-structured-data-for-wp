@@ -258,8 +258,42 @@ class saswp_fields_generator {
             "name"  => "bidvine"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/podcasts-img.png",
-            "name"  => "Podcasts")    
-);
+            "name"  => "Podcasts"),   
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/productreview-img.png",
+            "name"  => "productreview.com.au"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/styleseat-img.png",
+            "name"  => "styleseat.com"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/mariages-net-img.png",
+            "name"  => "mariages.net"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/zankyou-img.png",
+            "name"  => "zankyou"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/serviceseeking-img.png",
+            "name"  => "serviceseeking.com.au"),   
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/solarquotes-img.png",
+            "name"  => "solarquotes.com.au"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/oneflare-img.png",
+            "name"  => "oneflare.com.au"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/airbnb-experiences-img.png",
+            "name"  => "Airbnb Experiences"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/hipages-img.png",
+            "name"  => "Hipages"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/upwork-img.png",
+            "name"  => "Upwork"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/freelancer-img.png",
+            "name"  => "freelancer.com")                                  
+
+    );
     
     public function saswp_tooltip_message($meta_field_id){
         

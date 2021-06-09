@@ -13,6 +13,7 @@
     var ToggleControl     = components.ToggleControl;
     var PanelBody         = components.PanelBody;
     var SelectControl     = components.SelectControl;
+    var TextControl       = components.TextControl;
     
             
     blocks.registerBlockType( 'saswp/faq-block', {
@@ -49,6 +50,9 @@
                 description: {
                   type: 'string',                  
                   selector: '.description'
+                },
+                questionID: {
+                  type: 'string',                                    
                 },
                 imageId: {
                   type: 'integer'                
@@ -367,7 +371,8 @@
                           style: { textAlign: alignment },
                           value: item.description,
                           autoFocus: true,
-                          onChange: function( value ) {                                
+                          onChange: function( value ) {
+
                             var newObject = Object.assign({}, item, {
                               description: value
                             });
@@ -376,10 +381,31 @@
                                 return itemFilter.index != item.index;
                               })), [newObject])
                             });
+
                           }
                         }            
                       ),                      
                       el('div', {className:'saswp-faq-step-controls-container'},                        
+                        item.isSelected ?
+                        el(TextControl,
+                          {                             
+                            className:'saswp-faq-question-id',
+                            value: item.questionID,
+                            placeholder: __('Question ID (Optional)', 'schema-and-structured-data-for-wp'), 
+                            onChange: function(value){
+                             
+                              var newObject = Object.assign({}, item, {
+                                questionID: value
+                              });
+                              return props.setAttributes({
+                                items: [].concat(_cloneArray(props.attributes.items.filter(function (itemFilter) {
+                                  return itemFilter.index != item.index;
+                                })), [newObject])
+                              });
+                           }
+                          }                          
+                          )
+                        : '',
                         saswpGetMover(item),
                         saswpGetButtons(item)        
                       )

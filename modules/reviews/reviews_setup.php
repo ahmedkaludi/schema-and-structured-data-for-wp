@@ -354,11 +354,11 @@ function saswp_create_platform_custom_taxonomy() {
 function saswp_insert_platform_terms(){
 
     $term_ids = array();
-
+    
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if($platform_inserted != 86){
-        
+    if( $platform_inserted != 97 ){
+            
         $term_array = array(    
             'Self',
             'Agoda', 
@@ -373,7 +373,8 @@ function saswp_insert_platform_terms(){
             'Yelp', 
             'Zillow', 
             'Zomato',                        
-            'Airbnb', 
+            'Airbnb',
+            'Airbnb Experiences', 
             'AliExpress', 
             'AlternativeTo', 
             'Amazon',
@@ -399,6 +400,7 @@ function saswp_insert_platform_terms(){
             'Etsy', 
             'Foursquare',
             'Flipkart',
+            'Freelancer',
             'G2Crowd', 
             'Gearbest',
             'Gartner',
@@ -407,7 +409,8 @@ function saswp_insert_platform_terms(){
             'HomeAdvisor', 
             'Homestars', 
             'Houzz', 
-            'Hotels.com', 
+            'Hotels.com',
+            'Hipages', 
             'HungerStation',
             'Indeed',
             'IMDB',
@@ -416,11 +419,14 @@ function saswp_insert_platform_terms(){
             'Judge.me',
             'Lawyers.com', 
             'Lending Tree', 
-            'Martindale', 
+            'Martindale',
+            'mariages.net', 
             'Newegg', 
             'OpenRice', 
-            'Opentable', 
+            'Opentable',
+            'Oneflare', 
             'ProductHunt',
+            'ProductReview',
             'Playstore',
             'Podcasts',
             'RateMDs', 
@@ -429,9 +435,12 @@ function saswp_insert_platform_terms(){
             'Sitejabber', 
             'Siftery', 
             'Steam',
+            'StyleSeat',
             'SoftwareAdvice',
             'Shopify App Store',                     
             'Shopper Approved',
+            'Serviceseeking',
+            'solarquotes',
             'Talabat', 
             'The Knot', 
             'Thumbtack', 
@@ -439,13 +448,15 @@ function saswp_insert_platform_terms(){
             'TrustedShops', 
             'Trustpilot', 
             'TrustRadius', 
+            'Upwork',
             'Vitals', 
             'Walmart', 
             'WeddingWire',
             'Wish',
             'Yell', 
             'YellowPages', 
-            'ZocDoc'                     
+            'ZocDoc',
+            'zankyou'                     
         );
 
         foreach($term_array as $term){
@@ -470,8 +481,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 86){
-            set_transient('saswp_platform_inserted', 86,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 97){
+            set_transient('saswp_platform_inserted', 97,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

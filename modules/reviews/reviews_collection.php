@@ -344,6 +344,7 @@ class SASWP_Reviews_Collection {
                 $collection           = array();                  
                 $platform_id          = array();
                 $pagination           = null;
+                $pagination_wpr       = null;
                 $perpage              = null;
                 $data_id              = null;
                 $dots = $f_interval = $f_visibility = $arrow = 1;
@@ -409,6 +410,9 @@ class SASWP_Reviews_Collection {
                 if(isset($collection_data['saswp_collection_pagination'][0])){
                     $pagination  = $collection_data['saswp_collection_pagination'][0];                
                 }
+                if(isset($collection_data['saswp_collection_pagination_wpr'][0])){
+                    $pagination_wpr  = $collection_data['saswp_collection_pagination_wpr'][0];                
+                }
                 if(isset($collection_data['saswp_platform_ids'][0])){
                     $perpage  = $collection_data['saswp_collection_per_page'][0];                
                 }
@@ -426,7 +430,7 @@ class SASWP_Reviews_Collection {
                         $nextpage = $perpage;
                         $offset   = 0;
 
-                        if($pagination){
+                        if($pagination && !$pagination_wpr){
 
                             $data_id = 1; 
                             
@@ -481,7 +485,7 @@ class SASWP_Reviews_Collection {
                     
                     case "grid":
                         
-                        $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format);
+                        $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr );
                         
                         break;
                         
@@ -682,6 +686,10 @@ class SASWP_Reviews_Collection {
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
                                             <span><?php echo saswp_t_string( 'Pagination' ); ?></span>
                                             <span><input name="saswp_collection_pagination" type="checkbox" id="saswp-coll-pagination" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_pagination'][0]) && $post_meta['saswp_collection_pagination'][0] == 1 ? 'checked' : '' ); ?>></span>
+                                        </div>
+                                        <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
+                                            <span><?php echo saswp_t_string( 'Without Page Reload' ); ?></span>
+                                            <span><input name="saswp_collection_pagination_wpr" type="checkbox" id="saswp-coll-pagination-wpr" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_pagination_wpr'][0]) && $post_meta['saswp_collection_pagination_wpr'][0] == 1 ? 'checked' : '' ); ?>></span>
                                         </div>
                                         
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm saswp_hide_imp">
@@ -896,6 +904,7 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_gallery_arrow']           = isset($_POST['saswp_gallery_arrow']) ? intval($_POST['saswp_gallery_arrow']) : '';
             $post_meta['saswp_gallery_dots']            = isset($_POST['saswp_gallery_dots']) ? intval($_POST['saswp_gallery_dots']) : '';            
             $post_meta['saswp_collection_pagination']   = isset($_POST['saswp_collection_pagination']) ? intval($_POST['saswp_collection_pagination']) : '';            
+            $post_meta['saswp_collection_pagination_wpr'] = isset($_POST['saswp_collection_pagination_wpr']) ? intval($_POST['saswp_collection_pagination_wpr']) : '';            
             $post_meta['saswp_collection_per_page']     = isset($_POST['saswp_collection_per_page']) ? intval($_POST['saswp_collection_per_page']) : '';            
             $post_meta['saswp_fomo_interval']           = isset($_POST['saswp_fomo_interval']) ? intval($_POST['saswp_fomo_interval']) : '';
             $post_meta['saswp_fomo_visibility']         = isset($_POST['saswp_fomo_visibility']) ? intval($_POST['saswp_fomo_visibility']) : '';                                                        

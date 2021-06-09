@@ -173,6 +173,22 @@ jQuery(document).ready(function($){
                     $(".saswp-open-class").css('width', '300px');
                 }
                                                                                 
-    });    
+    });   
+	
+	$(".saswp-grid-wpr .saswp-grid-page").on("click", function(e){
+		e.preventDefault();
+
+		$(".saswp-grid-page").removeClass('active');
+
+		if(!$(this).hasClass('active')){
+			$(this).addClass('active');
+		}
+
+		var data_id = $(this).attr('data-id');
+
+		$('.saswp-r1 li').addClass('saswp_grid_dp_none');
+		$('.saswp-r1 li[data-id="'+data_id+'"]').removeClass('saswp_grid_dp_none');
+		
+	});
     
 });  

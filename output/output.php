@@ -2663,11 +2663,15 @@ function saswp_author_output(){
  */
 function saswp_about_page_output(){
 
-	global $sd_data;   
+	    global $sd_data;   
         $feature_image = array();
         $publisher     = array();
+        $page_ids      = array();
+        $page_ids[]    = get_the_ID();
+        $page_ids      = apply_filters( 'saswp_modify_about_page_ids', $page_ids);
         
-	if((isset($sd_data['sd_about_page'])) && $sd_data['sd_about_page'] == get_the_ID()){   
+                                
+	if((isset($sd_data['sd_about_page'])) && in_array($sd_data['sd_about_page'], $page_ids) ){   
             
                         $service_object     = new saswp_output_service();
                         $feature_image      = $service_object->saswp_get_fetaure_image();
@@ -2710,8 +2714,11 @@ function saswp_contact_page_output(){
 	global $sd_data;	        	        
         $feature_image = array();
         $publisher     = array();
+        $page_ids      = array();
+        $page_ids[]    = get_the_ID();
+        $page_ids      = apply_filters( 'saswp_modify_contact_page_ids', $page_ids);
         
-	if(isset($sd_data['sd_contact_page']) && $sd_data['sd_contact_page'] == get_the_ID()){
+	if(isset($sd_data['sd_contact_page']) && in_array($sd_data['sd_contact_page'], $page_ids)){
                         
                         $service_object     = new saswp_output_service();
                         $feature_image      = $service_object->saswp_get_fetaure_image();

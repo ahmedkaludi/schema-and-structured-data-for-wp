@@ -8,6 +8,9 @@ and open the template in the editor.
     Author     : acer
 */
 
+.saswp-faq-question-id .components-base-control__field{
+    margin-bottom: auto;
+}
 .saswp-how-to-step-button:hover{
      color: #0085ba !important;
      box-shadow: none !important;
