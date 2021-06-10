@@ -67,8 +67,12 @@ function saswp_kb_schema_output() {
                         '@id'                   => $site_url.'#Organization',
                         'name'			=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string'),
                         'url'			=> saswp_remove_warnings($sd_data, 'sd_url', 'saswp_string'),
-                        'sameAs'		=> isset($sd_data['saswp_social_links']) ? $sd_data['saswp_social_links'] : array(),                                        		
+                        'sameAs'		=> isset($sd_data['saswp_social_links']) ? $sd_data['saswp_social_links'] : array()
 		);
+
+                if(!empty($sd_data['sd_legal_name'])){
+                    $input['legalName'] = $sd_data['sd_legal_name'];
+                }
                 
                 if($logo !='' && $width !='' && $height !=''){
                     

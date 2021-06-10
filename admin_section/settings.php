@@ -1159,7 +1159,16 @@ function saswp_general_page_callback(){
                                 'placeholder' => 'Organization Name'
                             )
 		),
-                               
+                array(
+			'label' => 'Organization LegalName',
+			'id'    => 'sd_legal_name',
+                        'name'  => 'sd_data[sd_legal_name]',
+                        'class' => 'regular-text saswp_org_fields',                        
+			'type'  => 'text',
+                        'attributes' => array(
+                                'placeholder' => 'Organization LegalName'
+                            )
+		),                               
                 array(
 			'label' => 'Organization URL',
 			'id'    => 'sd_url',
