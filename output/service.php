@@ -4695,8 +4695,13 @@ Class saswp_output_service{
             
             global $post, $sd_data, $saswp_featured_image;
 
-            $input2          = array();             
-            $multiple_size   = false;
+            $input2              = array();
+            $image_resize        = false;
+            $multiple_size       = false;
+
+            if( (isset($sd_data['saswp-image-resizing']) && $sd_data['saswp-image-resizing'] == 1) || !isset($sd_data['saswp-image-resizing'])){
+                $image_resize = true;
+            }
 
             if( (isset($sd_data['saswp-multiple-size-image']) && $sd_data['saswp-multiple-size-image'] == 1) || !isset($sd_data['saswp-multiple-size-image'])){
                 $multiple_size = true;
@@ -4706,106 +4711,113 @@ Class saswp_output_service{
                 $image_id 	            = get_post_thumbnail_id();
                 $saswp_featured_image   = wp_get_attachment_image_src($image_id, 'full');            
             }
-	        $image_details = $saswp_featured_image;                       
+	        $image_details = $saswp_featured_image;    
+
             if( is_array($image_details) && !empty($image_details)){                                
-                                                                                                                    
-                                        if( ( (isset($image_details[1]) && ($image_details[1] < 1200)) || (isset($image_details[2]) && ($image_details[2] < 675)) ) && function_exists('saswp_aq_resize')){
+                                                                                    
+                                        if($image_resize){
+
+                                            if( ( (isset($image_details[1]) && ($image_details[1] < 1200)) || (isset($image_details[2]) && ($image_details[2] < 675)) ) && function_exists('saswp_aq_resize')){
                                                 
-                                            $targetHeight = 1200;
-                                            
-                                            if( ($image_details[1] > 0) && ($image_details[2] > 0) ){                                            
-                                                $img_ratio    = $image_details[1] / $image_details[2];
-                                                $targetHeight = 1200 / $img_ratio;                                                
-                                            }
-                                            
-                                            if($multiple_size){
-
-                                                if($targetHeight < 675){
-
-                                                    $width  = array(1200, 1200, 1200);
-                                                    $height = array(900, 720, 675);
-
-                                                }else{
-
-                                                    $width  = array(1200, 1200, 1200);
-                                                    $height = array($targetHeight, 900, 675);
-
+                                                $targetHeight = 1200;
+                                                
+                                                if( ($image_details[1] > 0) && ($image_details[2] > 0) ){                                            
+                                                    $img_ratio    = $image_details[1] / $image_details[2];
+                                                    $targetHeight = 1200 / $img_ratio;                                                
                                                 }
                                                 
-                                            }else{
-
-                                                if($targetHeight < 675){
-
-                                                    $width  = array(1200);
-                                                    $height = array(720);
-
-                                                }else{
-
-                                                    $width  = array(1200);
-                                                    $height = array($targetHeight);
-                                                    
-                                                }
-                                                
-                                            }                                                                                        
-                                            
-                                            for($i = 0; $i < count($width); $i++){
-                                                
-                                                $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
-                                                
-                                                if(isset($resize_image[0]) && $resize_image[0] !='' && isset($resize_image[1]) && isset($resize_image[2]) ){
-                                                                                                                                                        
-                                                    $input2['image'][$i]['@type']  = 'ImageObject';
-                                                    
-                                                    if($i == 0){                                                        
-                                                        $input2['image'][$i]['@id']    = saswp_get_permalink().'#primaryimage';                                                        
+                                                if($multiple_size){
+    
+                                                    if($targetHeight < 675){
+    
+                                                        $width  = array(1200, 1200, 1200);
+                                                        $height = array(900, 720, 675);
+    
+                                                    }else{
+    
+                                                        $width  = array(1200, 1200, 1200);
+                                                        $height = array($targetHeight, 900, 675);
+    
                                                     }
                                                     
-                                                    $input2['image'][$i]['url']    = esc_url($resize_image[0]);
-                                                    $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
-                                                    $input2['image'][$i]['height'] = esc_attr($resize_image[2]);  
-                                                    
-                                                }                                                                                                                                                                                                
-                                            }
-                                            
-                                            if(!empty($input2)){
-                                                foreach($input2 as $arr){
-                                                    $input2['image'] = array_values($arr);
-                                                }
-                                            }
-                                                                                                                                                                                                                            
-                                        }else{
-                                                       
-                                            if($multiple_size){
-                                                $width  = array($image_details[1], 1200, 1200);
-                                                $height = array($image_details[2], 900, 675);
-                                            }else{
-                                                $width  = array($image_details[1]);
-                                                $height = array($image_details[2]);
-                                            }  
-                                                                                               
-                                               for($i = 0; $i < count($width); $i++){
-                                                    
-                                                        $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
-													
-                                                        if(isset($resize_image[0]) && $resize_image[0] != '' && isset($resize_image[1]) && isset($resize_image[2]) ){
-
-                                                                $input2['image'][$i]['@type']  = 'ImageObject';
-                                                                
-                                                                if($i == 0){
+                                                }else{
+    
+                                                    if($targetHeight < 675){
+    
+                                                        $width  = array(1200);
+                                                        $height = array(720);
+    
+                                                    }else{
+    
+                                                        $width  = array(1200);
+                                                        $height = array($targetHeight);
                                                         
-                                                                $input2['image'][$i]['@id']    = saswp_get_permalink().'#primaryimage'; 
-                                                                
-                                                                }
-                                                                
-                                                                $input2['image'][$i]['url']    = esc_url($resize_image[0]);
-                                                                $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
-                                                                $input2['image'][$i]['height'] = esc_attr($resize_image[2]);
-
+                                                    }
+                                                    
+                                                }                                                                                        
+                                                
+                                                for($i = 0; $i < count($width); $i++){
+                                                    
+                                                    $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
+                                                    
+                                                    if(isset($resize_image[0]) && $resize_image[0] !='' && isset($resize_image[1]) && isset($resize_image[2]) ){
+                                                                                                                                                            
+                                                        $input2['image'][$i]['@type']  = 'ImageObject';
+                                                        
+                                                        if($i == 0){                                                        
+                                                            $input2['image'][$i]['@id']    = saswp_get_permalink().'#primaryimage';                                                        
                                                         }
-                                                                                                        
-                                                }                                                                                                                                                                                        
-                                            
-                                        } 
+                                                        
+                                                        $input2['image'][$i]['url']    = esc_url($resize_image[0]);
+                                                        $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
+                                                        $input2['image'][$i]['height'] = esc_attr($resize_image[2]);  
+                                                        
+                                                    }                                                                                                                                                                                                
+                                                }
+                                                
+                                                if(!empty($input2)){
+                                                    foreach($input2 as $arr){
+                                                        $input2['image'] = array_values($arr);
+                                                    }
+                                                }
+                                                                                                                                                                                                                                
+                                            }else{
+    
+    
+                                                           
+                                                if($multiple_size){
+                                                    $width  = array($image_details[1], 1200, 1200);
+                                                    $height = array($image_details[2], 900, 675);
+                                                }else{
+                                                    $width  = array($image_details[1]);
+                                                    $height = array($image_details[2]);
+                                                }  
+                                                                                                   
+                                                   for($i = 0; $i < count($width); $i++){
+                                                        
+                                                            $resize_image = saswp_aq_resize( $image_details[0], $width[$i], $height[$i], true, false, true );
+                                                        
+                                                            if(isset($resize_image[0]) && $resize_image[0] != '' && isset($resize_image[1]) && isset($resize_image[2]) ){
+    
+                                                                    $input2['image'][$i]['@type']  = 'ImageObject';
+                                                                    
+                                                                    if($i == 0){
+                                                            
+                                                                    $input2['image'][$i]['@id']    = saswp_get_permalink().'#primaryimage'; 
+                                                                    
+                                                                    }
+                                                                    
+                                                                    $input2['image'][$i]['url']    = esc_url($resize_image[0]);
+                                                                    $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
+                                                                    $input2['image'][$i]['height'] = esc_attr($resize_image[2]);
+    
+                                                            }
+                                                                                                            
+                                                    }                                                                                                                                                                                        
+                                                
+                                            }
+
+                                        }                                                                                         
                                         
                                         if(empty($input2) && isset($image_details[0]) && $image_details[0] !='' && isset($image_details[1]) && isset($image_details[2]) ){
                                             

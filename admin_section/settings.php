@@ -1458,7 +1458,19 @@ function saswp_import_callback(){
                              'id'   => 'saswp-other-images',
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
-                ),                
+                ),  
+                array(
+                        'label'  => 'Allow Image Resizing',
+                        'id'     => 'saswp-image-resizing-checkbox',                        
+                        'name'   => 'saswp-image-resizing-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'If the featured image do not match with google image guidlines. This option creates a copy of the image and resize it as per google guidlines',
+                        'hidden' => array(
+                                'id'   => 'saswp-image-resizing',
+                                'name' => 'sd_data[saswp-image-resizing]',                             
+                        )
+                ),              
                 array(
                         'label'  => 'Allow Multiple Size Image Creation',
                         'id'     => 'saswp-multiple-size-image-checkbox',                        

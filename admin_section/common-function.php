@@ -1779,11 +1779,10 @@ if ( ! defined('ABSPATH') ) exit;
                 if($user_id > 0){
 
                     $user_info = get_userdata($user_id);
-                    $username = $user_info->data->display_name;
+                    $username  = $user_info->data->display_name;
 
                 }
-                $defaults = array(
-                                                                                                
+                $defaults = array(                                                                                                
                         'saswp_kb_type'             => 'Organization',    
                         'sd_name'                   => $sd_name,   
                         'sd_alt_name'               => $sd_name,
@@ -1797,10 +1796,10 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp-other-images'        => 1,
                         'saswp_default_review'      => 1,
                         'saswp-multiple-size-image' => 1,
+                        'saswp-image-resizing'      => 1,
                         'saswp-default-rating'      => 5,
                         'instant_indexing_action'   => 1,
                         'instant_indexing'          => array('post' => 1, 'page' => 1)   
-
                 );	  
                 
                 if(is_array($logo)){

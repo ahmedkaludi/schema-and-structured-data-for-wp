@@ -1646,6 +1646,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-image-resizing-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-image-resizing").val(1);                                
+                            }else{
+                              $("#saswp-image-resizing").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-multiple-size-image-checkbox':
                           
                             if ($(this).is(':checked')) {              
