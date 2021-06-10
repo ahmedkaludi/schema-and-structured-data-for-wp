@@ -1014,6 +1014,10 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                       }
                                          $input1['review'] =  $reviews;
                                 }
+
+                if(!isset($input1['review'])){
+                    $input1 = saswp_append_fetched_reviews($input1); 
+                }
     
     return $input1;
     
@@ -1294,6 +1298,10 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                                            "ratingValue" => saswp_remove_warnings($all_post_meta, 'local_rating_'.$schema_id, 'saswp_array'),
                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'local_review_count_'.$schema_id, 'saswp_array')
                         );                                       
+                }
+
+                if(!isset($input1['review'])){
+                    $input1 = saswp_append_fetched_reviews($input1); 
                 }
     
     return $input1;
