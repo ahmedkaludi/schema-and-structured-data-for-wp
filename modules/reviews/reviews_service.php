@@ -195,7 +195,7 @@ class saswp_reviews_service {
         if($reviews){
                         
             foreach ($reviews as $review){
-
+                        
                         $review_rating = $review['saswp_review_rating'];
 
                         $starating = saswp_get_rating_html_by_value($review_rating);
@@ -204,6 +204,14 @@ class saswp_reviews_service {
                                                 
                         if(isset($review['saswp_reviewer_image']) && $review['saswp_reviewer_image'] !=''){
                             $img_src = $review['saswp_reviewer_image'];
+                        }
+
+                        $link = '';
+
+                        if(!empty($review['saswp_review_link'])){
+                            $link = $review['saswp_review_link'];
+                        }else{
+                            $link = $review['saswp_review_location_id'];
                         }
                                                                         
                         $output.= '<div class="saswp-g-review-panel">
@@ -214,12 +222,12 @@ class saswp_reviews_service {
                                 <div class="saswp-rv-cnt">
                                     <div class="saswp-r5-rng">
                                         <div class="saswp-str">
-                                            <a target="_blank" href="'.esc_url($review['saswp_review_link']).'"><span class="saswp-athr">'.esc_attr($review['saswp_reviewer_name']).'</span></a>
+                                            <a target="_blank" href="'.esc_url($link).'"><span class="saswp-athr">'.esc_attr($review['saswp_reviewer_name']).'</span></a>
                                             '.$starating.'
                                             <div>'.(isset($review['saswp_review_date']) ? esc_attr($review['saswp_review_date']) : '').'</div>                                  
                                         </div> 
                                         <span class="saswp-g-plus">
-                                            <a target="_blank" href="'.esc_attr($review['saswp_review_link']).'"><img alt="'.esc_attr($review['saswp_reviewer_name']).'" width="20" height="20" src="'.esc_url($review['saswp_review_platform_icon']).'"></a>
+                                            <a target="_blank" href="'.esc_attr($link).'"><img alt="'.esc_attr($review['saswp_reviewer_name']).'" width="20" height="20" src="'.esc_url($review['saswp_review_platform_icon']).'"></a>
                                         </span>
                                     </div>                                                
                                    <div class="saswp-rv-txt"> <p>'.wp_strip_all_tags(html_entity_decode($review['saswp_review_text'])).'</p></div>
@@ -867,13 +875,19 @@ class saswp_reviews_service {
                         
                        $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format ); 
                     
-                       $review_link = $value['saswp_review_link'];
+                       $review_link = '';
+
+                       if(!empty($value['saswp_review_link'])){
+                            $review_link = $value['saswp_review_link'];
+                       }else{
+                            $review_link = $value['saswp_review_location_id'];
+                       }
 
                        if($value['saswp_review_platform_name'] == 'Avvo' && $review_link == ''){
                         
                             $review_link = $value['saswp_review_location_id'].'#client_reviews';
 
-                       }
+                       }                       
 
                        if($pagination_wpr && $pagination){
 
