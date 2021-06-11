@@ -365,6 +365,74 @@ function saswp_wpecommerce_product_schema($input1){
 
 }
 
+add_filter('saswp_modify_book_schema_output', 'saswp_add_novelist_schema',10,1);
+
+function saswp_add_novelist_schema( $input1 ){
+
+    global $sd_data, $post, $wpdb;
+
+    if( isset($sd_data['saswp-novelist']) && $sd_data['saswp-novelist'] == 1 ){
+
+        if(get_post_type() != 'book'){
+            return $input1;
+        }
+
+        $genres     =  wp_get_post_terms( $post->ID , 'novelist-genre');
+        $genres_str = '';      
+
+        if(!is_wp_error($genres)){
+        
+            if(count($genres)>0){
+                                                
+                foreach ($genres as $genre) {
+                    
+                    $genres_str .= $genre->name.', '; 
+                
+                } 
+                
+            }
+
+        }
+
+        $post_meta = get_post_meta($post->ID);        
+
+        $input1['headline']                 = saswp_get_the_title();    
+        $input1['genre']                    = $genres_str;         
+        $input1['datePublished']            = get_the_date("c");   
+        $input1['dateModified']             = get_the_modified_date("c"); 
+        $input1['editor']                   = saswp_get_author_details();   
+        $input1['author']                   = saswp_get_author_details();         
+        
+        if(!empty($post_meta['novelist_excerpt'][0])){
+            $input1['description']              = $post_meta['novelist_excerpt'][0];               
+        }
+        
+        if(!empty($post_meta['novelist_isbn'][0])){
+            $input1['isbn']                     = $post_meta['novelist_isbn'][0]; 
+        }                
+
+        if(!empty($post_meta['novelist_pages'][0])){
+            $input1['numberOfPages']            = $post_meta['novelist_pages'][0];        
+        }                                
+
+        if(!empty($post_meta['novelist_publisher'][0])){
+            $input1['publisher']                = array(
+                        '@type' => 'Organization',
+                        'name'  => $post_meta['novelist_publisher'][0]
+            );
+        }
+        
+        if(!empty($post_meta['novelist_contributors'][0])){
+            $input1['contributor']                = array(
+                '@type' => 'Organization',
+                'name'  => $post_meta['novelist_contributors'][0]
+            );                                        
+        }        
+    }
+
+    return $input1;
+}
+
 add_filter('saswp_modify_book_schema_output', 'saswp_add_mooberrybm_schema',10,1);
 
 function saswp_add_mooberrybm_schema( $input1 ){

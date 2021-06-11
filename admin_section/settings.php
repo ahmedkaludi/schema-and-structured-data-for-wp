@@ -2631,6 +2631,19 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-mooberrybm]',                             
                 )
         );
+
+        $novelist = array(
+                'label'  => 'Novelist',
+                'id'     => 'saswp-novelist-checkbox',                        
+                'name'   => 'saswp-novelist-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('novelist'),
+                'hidden' => array(
+                        'id'   => 'saswp-novelist',
+                        'name' => 'sd_data[saswp-novelist]',                             
+                )
+        );
                         
         $total_recipe_generator = array(
 			'label'  => 'Total Recipe Generator',
@@ -3942,6 +3955,7 @@ function saswp_compatibility_page_callback(){
                 $easyaccordion,
                 $helpiefaq,
                 $mooberrybm,
+                $novelist,
                 $flex_lmx
                 
 	);  

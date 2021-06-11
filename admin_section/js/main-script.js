@@ -2014,6 +2014,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-novelist-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-novelist").val(1);                                
+                            }else{
+                              $("#saswp-novelist").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-accordionfaq-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

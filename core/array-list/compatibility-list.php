@@ -125,6 +125,12 @@ return array(
             'opt_name'   => 'saswp-mooberrybm',
             'part_in'    => 'free',
         ),
+        'novelist'  =>  array(            
+            'name'       => 'Novelist',
+            'free'       => 'novelist/novelist.php',                    
+            'opt_name'   => 'saswp-novelist',
+            'part_in'    => 'free',
+        ),
         'accordionfaq'  =>  array(            
             'name'       => 'Accordion FAQ',
             'free'       => 'responsive-accordion-and-collapse/responsive-accordion.php',                    
