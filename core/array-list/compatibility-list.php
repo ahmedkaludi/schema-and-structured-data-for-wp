@@ -119,6 +119,12 @@ return array(
             'opt_name'   => 'saswp-helpiefaq',
             'part_in'    => 'pro',
         ),
+        'mooberrybm'  =>  array(            
+            'name'       => 'Mooberry Book Manager',
+            'free'       => 'mooberry-book-manager/mooberry-book-manager.php',                    
+            'opt_name'   => 'saswp-mooberrybm',
+            'part_in'    => 'free',
+        ),
         'accordionfaq'  =>  array(            
             'name'       => 'Accordion FAQ',
             'free'       => 'responsive-accordion-and-collapse/responsive-accordion.php',                    

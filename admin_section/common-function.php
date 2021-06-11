@@ -3066,6 +3066,7 @@ function saswp_get_field_note($pname){
             'easyfaqs'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/easy-faqs/">Easy FAQs</a>',
             'html5responsivefaq'          => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/html5-responsive-faq/">HTML5 Responsive FAQ</a>',
             'helpiefaq'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/helpie-faq/">Helpie FAQ – WordPress FAQ Accordion Plugin</a>',
+            'mooberrybm'                  => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/mooberry-book-manager/">Mooberry Book Manager</a>',
             'ampbyautomatic'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
             'wpreviewslider'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-facebook-reviews/">WP Review Slider</a>',
             'jetpackrecipe'               => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/jetpack/">JetPack Recipe</a>',

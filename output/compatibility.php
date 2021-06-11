@@ -642,6 +642,9 @@ class saswp_output_compatibility{
     public function helpiefaq_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-helpiefaq');
     }
+    public function mooberrybm_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-mooberrybm');
+    }
     public function polylang_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-polylang');
     }

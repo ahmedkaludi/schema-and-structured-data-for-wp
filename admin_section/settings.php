@@ -2618,6 +2618,19 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-helpiefaq]',                             
                 )
         );
+
+        $mooberrybm = array(
+                'label'  => 'Mooberry Book Manager',
+                'id'     => 'saswp-mooberrybm-checkbox',                        
+                'name'   => 'saswp-mooberrybm-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('mooberrybm'),
+                'hidden' => array(
+                        'id'   => 'saswp-mooberrybm',
+                        'name' => 'sd_data[saswp-mooberrybm]',                             
+                )
+        );
                         
         $total_recipe_generator = array(
 			'label'  => 'Total Recipe Generator',
@@ -3928,6 +3941,7 @@ function saswp_compatibility_page_callback(){
                 $wpresponsivefaq,
                 $easyaccordion,
                 $helpiefaq,
+                $mooberrybm,
                 $flex_lmx
                 
 	);  

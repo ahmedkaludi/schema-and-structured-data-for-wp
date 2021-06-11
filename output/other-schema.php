@@ -364,3 +364,180 @@ function saswp_wpecommerce_product_schema($input1){
     return $input1;
 
 }
+
+add_filter('saswp_modify_book_schema_output', 'saswp_add_mooberrybm_schema',10,1);
+
+function saswp_add_mooberrybm_schema( $input1 ){
+
+    global $sd_data, $post, $wpdb;
+
+    if( isset($sd_data['saswp-mooberrybm']) && $sd_data['saswp-mooberrybm'] == 1 ){
+
+        if(get_post_type() != 'mbdb_book'){
+            return $input1;
+        }
+
+        $tags    =  wp_get_post_terms( $post->ID , 'mbdb_tag');
+        $tag_str = '';    
+
+        if(!is_wp_error($tags)){
+        
+            if(count($tags)>0){
+                                                
+                foreach ($tags as $tag) {
+                    
+                    $tag_str .= $tag->name.', '; 
+                
+                } 
+                
+            }
+
+        }
+
+        $genres     =  wp_get_post_terms( $post->ID , 'mbdb_genre');
+        $genres_str = '';      
+        if(!is_wp_error($genres)){
+        
+            if(count($genres)>0){
+                                                
+                foreach ($genres as $genre) {
+                    
+                    $genres_str .= $genre->name.', '; 
+                
+                } 
+                
+            }
+
+        }
+
+        $illustrators     =  wp_get_post_terms( $post->ID , 'mbdb_illustrator');
+        $illustrator_arr  = array();
+
+        if(!is_wp_error($illustrators)){
+        
+            if(count($illustrators)>0){
+                                                
+                foreach ($illustrators as $illu) {
+                    
+                    $illustrator_arr[] = array(
+                        '@type' => 'Person',
+                        'name'  => $illu->name,
+                    );
+                
+                } 
+                
+            }
+
+        }
+
+        $editors       =  wp_get_post_terms( $post->ID , 'mbdb_editor');
+        $editors_arr  = array();
+
+        if(!is_wp_error($editors)){
+        
+            if(count($editors)>0){
+                                                
+                foreach ($editors as $editor) {
+                    
+                    $editors_arr[] = array(
+                        '@type' => 'Person',
+                        'name'  => $editor->name,
+                    );
+                
+                } 
+                
+            }
+
+        }
+
+        $editions = get_post_meta($post->ID, '_mbdb_editions', true);   
+        
+        $editions_arr = array();
+
+        $format = array('Hardcover', 'Paperback', 'ePub', 'Kindle', 'PDF', 'Audiobook');
+
+        if(!empty($editions)){
+            foreach ($editions as $value) {
+
+                $editions_arr[] = array(
+                    '@type'         => 'Book',
+                    'isbn'          => $value['_mbdb_isbn'],
+                    'bookEdition'   => $value['_mbdb_edition_title'],
+                    'bookFormat'    => $format[$value['_mbdb_format']],
+                    'inLanguage'    => $value['_mbdb_language'],
+                    'numberOfPages' => $value['_mbdb_length'],
+                    'offers'      => array(
+                                        '@type'         => 'Offer',
+                                        'price'         => $value['_mbdb_retail_price'],
+                                        'priceCurrency' => $value['_mbdb_currency']
+                                    ),
+                );                    
+            }
+        }
+        
+        $publisher = array();
+        $imprint   = array();
+        $book_table = $wpdb->get_row("select * from {$wpdb->prefix}mbdb_books where book_id = '{$post->ID}'", 'ARRAY_A');  
+        
+        if(!empty($book_table)){
+
+        $mbdb_options   = get_option('mbdb_options');                        
+
+        if(!empty($mbdb_options['publishers'])){
+
+            foreach ($mbdb_options['publishers'] as $value) {
+
+                if($value['uniqueID'] == $book_table['publisher_id']){
+                    $publisher['@type'] = 'Organization';
+                    $publisher['name']  = $value['name'];
+                    $publisher['url']   = $value['website'];
+                    break;
+                }
+
+            }
+
+        }
+
+        if(!empty($mbdb_options['imprints'])){
+
+            foreach ($mbdb_options['imprints'] as $value) {
+
+                if($value['uniqueID'] == $book_table['imprint_id']){
+                    $imprint['@type'] = 'Organization';
+                    $imprint['name']  = $value['name'];
+                    $imprint['url']   = $value['website'];
+                    break;
+                }
+
+            }
+
+        }
+
+        }
+                        
+        $input1['headline']                 = saswp_get_the_title();
+        $input1['alternativeHeadline']      = $book_table['subtitle'];
+        $input1['description']              = $book_table['summary'];               
+        $input1['genre']                    = $genres_str;
+        $input1['keywords']                 = $tag_str; 
+        $input1['illustrator']              = $illustrator_arr; 
+        $input1['editor']                   = $editors_arr;   
+        $input1['author']                   = saswp_get_author_details();         
+        $input1['datePublished']            = get_the_date("c");   
+        $input1['dateModified']             = get_the_modified_date("c"); 
+
+        if(!empty($editions_arr)){
+            $input1['workExample']   = $editions_arr; 
+        }
+
+        if(!empty($publisher)){
+            $input1['publisher']            = $publisher;   
+        }
+        if(!empty($imprint)){
+            $input1['publisherImprint']     = $imprint;   
+        }                       
+           
+    }
+    
+    return $input1;
+}

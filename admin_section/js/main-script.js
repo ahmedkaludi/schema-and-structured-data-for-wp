@@ -2004,6 +2004,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-mooberrybm-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-mooberrybm").val(1);                                
+                            }else{
+                              $("#saswp-mooberrybm").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-accordionfaq-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
