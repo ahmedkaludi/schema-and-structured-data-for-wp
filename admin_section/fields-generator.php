@@ -709,12 +709,12 @@ class saswp_fields_generator {
                         if($meta_field['id'] == 'saswp-reviews-module-section'){
                             $output .= '<li class="saswp-rev-mod">'                                                                
                                 .  '<div class="saswp-knowledge-label">'.$label.'</div>'
-                                .  '<div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p>'.$subfields.'</div>'                                                               
+                                .  '<div class="saswp-knowledge-field">'.$input.'<p class="saswp-note-p">'.$note.'</p>'.$subfields.'</div>'                                                               
                                 .  '</li>';
                         }else{
                             $output .= '<li>'                                                                
                                 .  '<div class="saswp-knowledge-label">'.$label.'</div>'
-                                .  '<div class="saswp-knowledge-field">'.$input.'<p class="">'.$note.'</p>'.$subfields.'</div>'
+                                .  '<div class="saswp-knowledge-field">'.$input.'<p class="saswp-note-p">'.$note.'</p>'.$subfields.'</div>'
                                                                
                                 .  '</li>';    
                         }
