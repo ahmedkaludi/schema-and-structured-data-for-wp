@@ -2302,7 +2302,7 @@ function saswp_woocommerce_category_schema(){
     
     global $query_string, $sd_data; 
     
-    if ( function_exists('is_product_category') && is_product_category() &&  ( isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1 )  ) {
+    if ( function_exists('is_product_category') && is_product_category() &&  ( (isset($sd_data['saswp_woocommerce_archive']) && $sd_data['saswp_woocommerce_archive'] == 1) || !isset($sd_data['saswp_woocommerce_archive'])) ) {
             		
                 $list_item     = array();
                 $term          = get_queried_object();
@@ -2370,7 +2370,7 @@ function saswp_woocommerce_shop_page(){
     $collection     = array();
     $itemlist_arr   = array();
         
-    if(function_exists('is_shop') && function_exists('woocommerce_get_loop_display_mode') && is_shop() && (isset( $sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1 ) ){
+    if(function_exists('is_shop') && function_exists('woocommerce_get_loop_display_mode') && is_shop() && (  (isset( $sd_data['saswp_woocommerce_archive']) && $sd_data['saswp_woocommerce_archive'] == 1) || !isset( $sd_data['saswp_woocommerce_archive']) ) ){
         
         $display_type = woocommerce_get_loop_display_mode();
         $parent_id    = is_product_category() ? get_queried_object_id() : 0;

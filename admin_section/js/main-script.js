@@ -1103,6 +1103,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp_woocommerce_archive_checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_woocommerce_archive").val(1);                              
+                            }else{
+                              $("#saswp_woocommerce_archive").val(0);                                         
+                            }
+                      break;
+
                       case 'saswp-wpecommerce-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

@@ -1797,6 +1797,7 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp_default_review'      => 1,
                         'saswp-multiple-size-image' => 1,
                         'saswp-image-resizing'      => 1,
+                        'saswp_woocommerce_archive' => 1,
                         'saswp-default-rating'      => 5,
                         'instant_indexing_action'   => 1,
                         'instant_indexing'          => array('post' => 1, 'page' => 1)   

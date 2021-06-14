@@ -910,88 +910,105 @@ function saswp_general_page_callback(){
         $field_objs = new saswp_fields_generator(); 
         $nav_menu   = wp_get_nav_menus();
         
-        $meta_fields_default = array(	
-                array(
-			'label'  => 'Website Schema (HomePage)',
-			'id'     => 'saswp_website_schema_checkbox', 
-                        'name'   => 'saswp_website_schema_checkbox',
-			'type'   => 'checkbox',
+        $meta_fields_default[] =  array(
+                'label'  => 'Website Schema (HomePage)',
+                'id'     => 'saswp_website_schema_checkbox', 
+                'name'   => 'saswp_website_schema_checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',                        
+                'hidden' => array(
+                     'id'   => 'saswp_website_schema',
+                     'name' => 'sd_data[saswp_website_schema]',                             
+                )
+        );
+
+        $meta_fields_default[] = array(
+                'label'  => 'Sitelinks Search Box',
+                'id'     => 'saswp_search_box_schema_checkbox', 
+                'name'   => 'saswp_search_box_schema_checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',                         
+                'hidden' => array(
+                        'id'   => 'saswp_search_box_schema',
+                        'name' => 'sd_data[saswp_search_box_schema]',                             
+                )
+        );
+                        
+        $meta_fields_default[] =  array(
+                'label'  => 'Archive',
+                'id'     => 'saswp_archive_schema_checkbox', 
+                'name'   => 'saswp_archive_schema_checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',                        
+                'hidden' => array(
+                        'id'   => 'saswp_archive_schema',
+                        'name' => 'sd_data[saswp_archive_schema]',                             
+                )
+        );               
+        $meta_fields_default[] = array(
+                'label'   => 'Schema Type',
+                'id'      => 'saswp_archive_schema_type',
+                'name'    => 'sd_data[saswp_archive_schema_type]',
+                'class'   => 'saswp_archive_schema_type_class',
+                'type'    => 'select',
+                'options' => array(                                
+                                'Article'          => 'Article',                                     
+                                'BlogPosting'      => 'BlogPosting',                                     
+                                'NewsArticle'      => 'NewsArticle',                                                                                                                                                                                                                                                                   
+                                'WebPage'          => 'WebPage' 
+                )
+        );
+        if(is_plugin_active('woocommerce/woocommerce.php')){
+
+                $meta_fields_default[] =   array(
+                        'label'  => 'WooCommerce Archive',
+                        'id'     => 'saswp_woocommerce_archive_checkbox', 
+                        'name'   => 'saswp_woocommerce_archive_checkbox',
+                        'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',                        
                         'hidden' => array(
-                             'id'   => 'saswp_website_schema',
-                             'name' => 'sd_data[saswp_website_schema]',                             
+                                'id'   => 'saswp_woocommerce_archive',
+                                'name' => 'sd_data[saswp_woocommerce_archive]',                             
                         )
-		),
-                array(
-			'label'  => 'Sitelinks Search Box',
-			'id'     => 'saswp_search_box_schema_checkbox', 
-                        'name'   => 'saswp_search_box_schema_checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                         
-                        'hidden' => array(
-                             'id'   => 'saswp_search_box_schema',
-                             'name' => 'sd_data[saswp_search_box_schema]',                             
-                        )
-		),
-		array(
-			'label'  => 'Archive',
-			'id'     => 'saswp_archive_schema_checkbox', 
-                        'name'   => 'saswp_archive_schema_checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
-                        'hidden' => array(
-                             'id'   => 'saswp_archive_schema',
-                             'name' => 'sd_data[saswp_archive_schema]',                             
-                        )
-		),
-                array(
-			'label'   => 'Schema Type',
-			'id'      => 'saswp_archive_schema_type',
-                        'name'    => 'sd_data[saswp_archive_schema_type]',
-                        'class'   => 'saswp_archive_schema_type_class',
-			'type'    => 'select',
-			'options' => array(                                
-				     'Article'          => 'Article',                                     
-                                     'BlogPosting'      => 'BlogPosting',                                     
-                                     'NewsArticle'      => 'NewsArticle',                                                                                                                                                                                                                                                                   
-                                     'WebPage'          => 'WebPage' 
-			)
-                   ),
-                array(
-			'label'  => 'BreadCrumbs',
-			'id'     => 'saswp_breadcrumb_schema_checkbox', 
-                        'name'   => 'saswp_breadcrumb_schema_checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
-                        'hidden' => array(
-                             'id'   => 'saswp_breadcrumb_schema',
-                             'name' => 'sd_data[saswp_breadcrumb_schema]',                             
-                        )
-                ),
-                array(
-			'label'  => 'Exclude Category',
-			'id'     => 'saswp_breadcrumb_remove_cat_checkbox', 
-                        'name'   => 'saswp_breadcrumb_remove_cat_checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
-                        'hidden' => array(
-                             'id'   => 'saswp_breadcrumb_remove_cat',
-                             'name' => 'sd_data[saswp_breadcrumb_remove_cat]',                             
-                        )
-		),
-                array(
-			'label'  => 'Comments',
-			'id'     => 'saswp_comments_schema_checkbox', 
-                        'name'   => 'saswp_comments_schema_checkbox',
-			'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',                        
-                        'hidden' => array(
-                             'id'   => 'saswp_comments_schema',
-                             'name' => 'sd_data[saswp_comments_schema]',                             
-                        )
-		)
-                                
-            );
+                );
+                
+        }                                      
+
+        $meta_fields_default[] = array(
+                'label'  => 'BreadCrumbs',
+                'id'     => 'saswp_breadcrumb_schema_checkbox', 
+                'name'   => 'saswp_breadcrumb_schema_checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',                        
+                'hidden' => array(
+                        'id'   => 'saswp_breadcrumb_schema',
+                        'name' => 'sd_data[saswp_breadcrumb_schema]',                             
+                )
+        );
+        $meta_fields_default[] = array(
+                'label'  => 'Exclude Category',
+                'id'     => 'saswp_breadcrumb_remove_cat_checkbox', 
+                'name'   => 'saswp_breadcrumb_remove_cat_checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',                        
+                'hidden' => array(
+                        'id'   => 'saswp_breadcrumb_remove_cat',
+                        'name' => 'sd_data[saswp_breadcrumb_remove_cat]',                             
+                )
+        );
+
+        $meta_fields_default[] = array(
+                'label'  => 'Comments',
+                'id'     => 'saswp_comments_schema_checkbox', 
+                'name'   => 'saswp_comments_schema_checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',                        
+                'hidden' => array(
+                        'id'   => 'saswp_comments_schema',
+                        'name' => 'sd_data[saswp_comments_schema]',                             
+                )
+         );
+        
             if($nav_menu){
                 
              $options = array();
