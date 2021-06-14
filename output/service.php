@@ -3219,6 +3219,13 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_person_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_person_schema_name'];
                     }
+                    if(isset($custom_fields['saswp_person_schema_family_name'])){
+                     $input1['familyName'] =    $custom_fields['saswp_person_schema_family_name'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_spouse'])){
+                        $input1['spouse']['@type'] = 'Person';
+                        $input1['spouse']['name']  =    $custom_fields['saswp_person_schema_spouse'];
+                    }
                     if(isset($custom_fields['saswp_person_schema_description'])){
                      $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_person_schema_description'] ));
                     }
@@ -3240,6 +3247,26 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_person_schema_country'])){
                      $input1['address']['addressCountry'] =    $custom_fields['saswp_person_schema_country'];
                     }
+                    if(isset($custom_fields['saswp_person_schema_b_street_address'])){
+                        $input1['location']['@type'] = 'Place';
+                        $input1['location']['address']['streetAddress'] =    $custom_fields['saswp_person_schema_b_street_address'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_b_locality'])){
+                        $input1['location']['@type'] = 'Place';
+                        $input1['location']['address']['addressLocality'] =    $custom_fields['saswp_person_schema_b_locality'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_b_region'])){
+                        $input1['location']['@type'] = 'Place';
+                        $input1['location']['address']['addressRegion'] =    $custom_fields['saswp_person_schema_b_region'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_b_postal_code'])){
+                        $input1['location']['@type'] = 'Place';
+                        $input1['location']['address']['PostalCode']  =    $custom_fields['saswp_person_schema_b_postal_code'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_b_country'])){
+                        $input1['location']['@type'] = 'Place';
+                        $input1['location']['address']['addressCountry'] =    $custom_fields['saswp_person_schema_b_country'];
+                    }
                     if(isset($custom_fields['saswp_person_schema_email'])){
                      $input1['email'] =    $custom_fields['saswp_person_schema_email'];
                     }
@@ -3251,6 +3278,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_person_schema_date_of_birth'])){
                      $input1['birthDate'] =    $custom_fields['saswp_person_schema_date_of_birth'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_date_of_death'])){
+                        $input1['deathDate'] =    $custom_fields['saswp_person_schema_date_of_death'];
                     }                    
                     if(isset($custom_fields['saswp_person_schema_nationality'])){
                      $input1['nationality'] =    $custom_fields['saswp_person_schema_nationality'];
@@ -3335,6 +3365,12 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_person_schema_youtube'])){
                         $sameas[] =    $custom_fields['saswp_person_schema_youtube'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_instagram'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_instagram'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_snapchat'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_snapchat'];
                     }
                     if($sameas){
                         $input1['sameAs'] = $sameas;

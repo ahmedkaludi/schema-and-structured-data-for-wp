@@ -5116,6 +5116,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text',                           
                     ),
                     array(
+                            'label'      => 'Family Name',
+                            'id'         => 'saswp_person_schema_family_name_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
                             'label'      => 'Description',
                             'id'         => 'saswp_person_schema_description_'.$schema_id,
                             'type'       => 'textarea',                           
@@ -5172,10 +5177,41 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                     'Female' => 'Female',    
                             )
                     ),
-                    array(
+                        array(
                             'label'      => 'Date Of Birth',
                             'id'         => 'saswp_person_schema_date_of_birth_'.$schema_id,
                             'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Street Address',
+                            'id'         => 'saswp_person_schema_b_street_address_'.$schema_id,
+                            'type'       => 'text',                       
+                        ),
+                        array(
+                                'label'      => 'Birth Place Locality',
+                                'id'         => 'saswp_person_schema_b_locality_'.$schema_id,
+                                'type'       => 'text',
+                        
+                        ),
+                        array(
+                                'label'      => 'Birth Place Region',
+                                'id'         => 'saswp_person_schema_b_region_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Birth Place Postal Code',
+                                'id'         => 'saswp_person_schema_b_postal_code_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Birth Place Country',
+                                'id'         => 'saswp_person_schema_b_country_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                    array(
+                           'label'      => 'Date of death',
+                           'id'         => 'saswp_person_schema_date_of_death_'.$schema_id,
+                           'type'       => 'text',                            
                     ),
                     array(
                             'label'      => 'Member Of',
@@ -5185,6 +5221,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label'      => 'Nationality',
                             'id'         => 'saswp_person_schema_nationality_'.$schema_id,
+                            'type'       => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Spouse',
+                            'id'         => 'saswp_person_schema_spouse_'.$schema_id,
                             'type'       => 'text',                            
                     ),
                     array(
@@ -5225,6 +5266,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                         'label'      => 'LinkedIn',
                         'id'         => 'saswp_person_schema_linkedin_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Instagram',
+                        'id'         => 'saswp_person_schema_instagram_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Snapchat',
+                        'id'         => 'saswp_person_schema_snapchat_'.$schema_id,
                         'type'       => 'text',                            
                     ),
                     array(
