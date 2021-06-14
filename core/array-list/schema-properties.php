@@ -3542,6 +3542,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'  => 'text'                            
                     ),
                     array(
+                            'label' => 'Acquire License Page ',
+                            'id'    => 'saswpimage_object_acquire_license_page_'.$schema_id,
+                            'type'  => 'text'                            
+                    ),
+                    array(
                         'label'   => 'Author Type',
                         'id'      => 'saswpimage_object_author_type_'.$schema_id,
                         'type'    => 'select',

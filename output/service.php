@@ -2775,6 +2775,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswpimage_object_license'])){
                      $input1['license'] =  $custom_fields['saswpimage_object_license'];
+                    }
+                    if(isset($custom_fields['saswpimage_object_acquire_license_page'])){
+                     $input1['acquireLicensePage'] =  $custom_fields['saswpimage_object_acquire_license_page'];
                     }                    
                     if(isset($custom_fields['saswpimage_object_upload_date'])){
                      $input1['uploadDate'] =    $custom_fields['saswpimage_object_upload_date'];
