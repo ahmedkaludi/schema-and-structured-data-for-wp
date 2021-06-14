@@ -547,6 +547,9 @@ Compatibility tab css starts here
     display:inline-block;
     width:400px;
 }
+.saswp-clear-images{
+    margin-left: 10px !important;
+}
 .saswp_image_thumbnail{
     padding-top: 5px;
     display: inline-block;

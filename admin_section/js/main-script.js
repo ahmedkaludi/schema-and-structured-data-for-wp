@@ -1793,7 +1793,8 @@ jQuery(document).ready(function($){
                                 success:function(response){   
                                   
                                   if(response.status == 't'){
-                                    $("#saswp-resized-image-folder").val(1);                                
+                                    $("#saswp-resized-image-folder").val(1);
+                                    $("#saswp-resized-image-folder-checkbox").after('<a class="saswp-clear-images button button-default">Clear Images</a>');                                  
                                   }else{
                                     resized_id.prop("checked", false);
                                     resized_id.next().text(response.message);
@@ -1809,7 +1810,8 @@ jQuery(document).ready(function($){
                                 });
                                                                                          
                             }else{
-                              $("#saswp-resized-image-folder").val(0);                                          
+                              $("#saswp-resized-image-folder").val(0);  
+                              $(".saswp-clear-images").remove();                                        
                             }
                             
                       break;
@@ -3143,6 +3145,39 @@ jQuery(document).ready(function($){
         //   jQuery(jQuery(".wrap a")[0]).after(offer_banner);
 
         // }
+                    
+          jQuery(document).on("click", ".saswp-clear-images", function(e){            
+
+            e.preventDefault();
+            var current     = $(this);
+            var saswp_confirm = confirm("Are you sure? It will remove all the resized images");
+
+            if(saswp_confirm == true){
+
+              current.addClass('updating-message');
+
+              $.ajax({
+                type: "POST",    
+                url:ajaxurl,                    
+                dataType: "json",
+                data:{action:"saswp_clear_resized_image_folder", saswp_security_nonce:saswp_localize_data.saswp_security_nonce },
+                success:function(response){   
+                  
+                  current.removeClass('updating-message');
+
+                  if(response.status != 't'){
+                    alert('something went wrong')                    
+                  }
+                    
+                },
+                error: function(response){                    
+                   console.log(response);
+                }
+                });
+
+            }
+                        
+          });
 
         if ('saswp' == saswp_localize_data.post_type && saswp_localize_data.page_now == 'edit.php') {
         
