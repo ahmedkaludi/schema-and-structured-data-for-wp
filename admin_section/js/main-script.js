@@ -2790,26 +2790,7 @@ jQuery(document).ready(function($){
             $('#'+t).show();
          }
         });
-        
-        
-        // $('#saswp-tools-tabs .saswp-tools-tab-nav:first').addClass('saswp-global-selected');
-
-        // $('.saswp-tools-container').hide();
-        // $('.saswp-tools-container:first').show();
-        
-        // $('#saswp-tools-tabs .saswp-tools-tab-nav').click(function(){
-        //     var t = $(this).attr('data-id');
-            
-        //   if(!$(this).hasClass('saswp-global-selected')){ 
-        //     $('#saswp-tools-tabs .saswp-tools-tab-nav').removeClass('saswp-global-selected');           
-        //     $(this).addClass('saswp-global-selected');
-
-        //     $('.saswp-tools-container').hide();
-        //     $('#'+t).show();
-        //  }
-        // });
-        
-        
+                                        
         $('#saswp-review-tabs a:first').addClass('saswp-global-selected');
         $('.saswp-review-container').hide();
         $('.saswp-review-container:first').show();
