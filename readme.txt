@@ -123,6 +123,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 = 1.9.79 (15 Jun 2021) =
 
 * Fixed: Bark reviews do not redirect to their origin reviews url #1445
+* Fixed: If schema types are set up in different languages as per polylang the schema is not loading correctly #1449
 * Fixed: Need to fetch the reviews which is present on the page when schema is modified on the page/post or in the respective schema type #1442
 * Added: LegalName properties to KnowledgeGraph Organization schema #1443
 * Added: Need option for enabling/disabling the extra image generation process by saswp #1439
