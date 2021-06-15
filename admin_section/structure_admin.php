@@ -45,13 +45,15 @@ function saswp_get_saved_schema_ids(){
 
     if(!$all_schemas){
 
-      $all_schemas = get_posts(
-        array(
-                'post_type' 	 => 'saswp',
-                'posts_per_page'     => -1,   
-                'post_status'        => 'publish',
-        )
-     );   
+      $args['post_type']      = 'saswp';
+      $args['posts_per_page'] = -1;
+      $args['post_status']    = 'publish';
+
+      if(function_exists('pll_register_string')){
+        $args['lang'] = '';
+      }
+            
+      $all_schemas = get_posts($args);   
 
     }
 
@@ -63,8 +65,7 @@ function saswp_get_saved_schema_ids(){
         
       }
       
-    }    
-    
+    }        
     return $schema_ids;
 
 }
