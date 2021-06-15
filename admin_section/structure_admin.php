@@ -44,14 +44,17 @@ function saswp_get_saved_schema_ids(){
     $schema_ids = array();
 
     if(!$all_schemas){
+      
+      $args = array();
+      $args['post_type']      = 'saswp';
+      $args['posts_per_page'] = -1;
+      $args['post_status']    = 'publish';
 
-      $all_schemas = get_posts(
-        array(
-                'post_type' 	 => 'saswp',
-                'posts_per_page'     => -1,   
-                'post_status'        => 'publish',
-        )
-     );   
+      if(function_exists('pll_register_string')){
+        $args['lang'] = '';
+      }
+            
+      $all_schemas = get_posts($args);   
 
     }
 
@@ -63,8 +66,7 @@ function saswp_get_saved_schema_ids(){
         
       }
       
-    }    
-    
+    }        
     return $schema_ids;
 
 }
@@ -2042,6 +2044,44 @@ function saswp_get_select2_data(){
         wp_die();
 }
 
+function saswp_clear_resized_image_folder(){
+
+  if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+      return; 
+  }
+  if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+      return;  
+  }
+
+  $response    = array(); 
+  
+  $upload_info = wp_upload_dir();
+  $upload_dir  = $upload_info['basedir'];    
+  
+  $folder = $upload_dir . '/schema-and-structured-data-for-wp';
+
+  $files = glob($folder . '/*');
+
+  if($files){
+    //Loop through the file list.
+    foreach($files as $file){
+      //Make sure that this is a file and not a directory.
+      if(is_file($file)){
+          //Use the unlink function to delete the file.
+          unlink($file);
+      }
+    }
+
+  }  
+
+  $response = array('status' => 't');
+
+  wp_send_json( $response );
+
+  wp_die();           
+
+}
+
 function saswp_create_resized_image_folder(){                  
     
   if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -2088,6 +2128,7 @@ function saswp_create_resized_image_folder(){
 }
 
 add_action('wp_ajax_saswp_create_resized_image_folder', 'saswp_create_resized_image_folder');
+add_action('wp_ajax_saswp_clear_resized_image_folder', 'saswp_clear_resized_image_folder');
 
 // add async and defer attributes to enqueued scripts
 function saswp_script_loader_tag($tag, $handle, $src) {

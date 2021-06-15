@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.78
+Stable tag: 1.9.79
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,22 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.79 (15 Jun 2021) =
+
+* Fixed: Bark reviews do not redirect to their origin reviews url #1445
+* Fixed: If schema types are set up in different languages as per polylang the schema is not loading correctly #1449
+* Fixed: Need to fetch the reviews which is present on the page when schema is modified on the page/post or in the respective schema type #1442
+* Added: LegalName properties to KnowledgeGraph Organization schema #1443
+* Added: Need option for enabling/disabling the extra image generation process by saswp #1439
+* Added: An option to enable disable woocommerce Archive schema #1441
+* Added: Option for Removal of automatically generated thumbnails by SASWP #1438
+* Added: birthPlace, deathDate, familyName, Spouse, Instagram and Snapchat properties to Person Schema #1275
+* Added: AcquireLicensePage property to ImageObject schema #1446
+* Added: Jumblinks to sections in Advanced tab #832
+* Added: Compatibility with Mooberry Book Manager ( https://wordpress.org/plugins/mooberry-book-manager/ ) #1440
+* Added: Compatibility with Novelist ( https://wordpress.org/plugins/novelist/ ) #1440
+
 
 = 1.9.78 (09 Jun 2021) =
 

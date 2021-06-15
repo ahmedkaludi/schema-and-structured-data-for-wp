@@ -1014,6 +1014,10 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                       }
                                          $input1['review'] =  $reviews;
                                 }
+
+                if(!isset($input1['review'])){
+                    $input1 = saswp_append_fetched_reviews($input1); 
+                }
     
     return $input1;
     
@@ -1294,6 +1298,10 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                                            "ratingValue" => saswp_remove_warnings($all_post_meta, 'local_rating_'.$schema_id, 'saswp_array'),
                                            "reviewCount" => saswp_remove_warnings($all_post_meta, 'local_review_count_'.$schema_id, 'saswp_array')
                         );                                       
+                }
+
+                if(!isset($input1['review'])){
+                    $input1 = saswp_append_fetched_reviews($input1); 
                 }
     
     return $input1;
@@ -1693,9 +1701,11 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         
         $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_url_'.$schema_id, 'saswp_array');                            
         $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_name_'.$schema_id, 'saswp_array');                                                        
+        $input1['familyName']            = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_family_name_'.$schema_id, 'saswp_array');                                                        
         $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_description_'.$schema_id, 'saswp_array');                                                        
         $input1['gender']                = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_gender_'.$schema_id, 'saswp_array');                                                        
         $input1['birthDate']             = isset($all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id][0])&& $all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id][0])):'';
+        $input1['deathDate']             = isset($all_post_meta['saswp_person_schema_date_of_death_'.$schema_id][0])&& $all_post_meta['saswp_person_schema_date_of_death_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_person_schema_date_of_death_'.$schema_id][0])):'';
         $input1['nationality']           = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_nationality_'.$schema_id, 'saswp_array');                                                        
         $input1['jobTitle']              = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_job_title_'.$schema_id, 'saswp_array');                                                        
 
@@ -1718,6 +1728,32 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         $input1['email']                        = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_email_'.$schema_id, 'saswp_array');                                                        
 
         $input1 = saswp_get_modified_image('saswp_trip_schema_image_'.$schema_id.'_detail', $input1);
+
+        if(isset($all_post_meta['saswp_person_schema_spouse_'.$schema_id][0])){
+            $input1['spouse']['@type']       =  'Person';
+            $input1['spouse']['name']        = $all_post_meta['saswp_person_schema_spouse_'.$schema_id][0];
+        }        
+
+        if(isset($all_post_meta['saswp_person_schema_b_street_address_'.$schema_id])){
+            $input1['location']['@type'] = 'Place';
+            $input1['location']['address']['streetAddress'] =    $all_post_meta['saswp_person_schema_b_street_address_'.$schema_id];
+        }
+        if(isset($all_post_meta['saswp_person_schema_b_locality_'.$schema_id])){
+            $input1['location']['@type'] = 'Place';
+            $input1['location']['address']['addressLocality'.$schema_id] =    $all_post_meta['saswp_person_schema_b_locality_'.$schema_id];
+        }
+        if(isset($all_post_meta['saswp_person_schema_b_region_'.$schema_id])){
+            $input1['location']['@type'] = 'Place';
+            $input1['location']['address']['addressRegion'.$schema_id] =    $all_post_meta['saswp_person_schema_b_region_'.$schema_id];
+        }
+        if(isset($all_post_meta['saswp_person_schema_b_postal_code_'.$schema_id])){
+            $input1['location']['@type'] = 'Place';
+            $input1['location']['address']['PostalCode']  =    $all_post_meta['saswp_person_schema_b_postal_code_'.$schema_id];
+        }
+        if(isset($all_post_meta['saswp_person_schema_b_country_'.$schema_id])){
+            $input1['location']['@type'] = 'Place';
+            $input1['location']['address']['addressCountry'] =    $all_post_meta['saswp_person_schema_b_country_'.$schema_id];
+        }
 
         if(isset($all_post_meta['saswp_person_schema_award_'.$schema_id][0])){
             $input1['award']        = $all_post_meta['saswp_person_schema_award_'.$schema_id][0];
@@ -1757,6 +1793,12 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         }
         if(isset($all_post_meta['saswp_person_schema_youtube_'.$schema_id][0])){
             $sameas[]        = $all_post_meta['saswp_person_schema_youtube_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_instagram_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_instagram_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_snapchat_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_snapchat_'.$schema_id][0];
         }
         if($sameas){
             $input1['sameAs'] = $sameas;
@@ -3990,6 +4032,7 @@ function saswp_image_object_schema_markup($schema_id, $schema_post_id, $all_post
         'description'                   => saswp_remove_warnings($all_post_meta, 'saswpimage_object_description_'.$schema_id, 'saswp_array'),
         'name'				            => saswp_remove_warnings($all_post_meta, 'saswpimage_object_name_'.$schema_id, 'saswp_array'),
         'license'				        => saswp_remove_warnings($all_post_meta, 'saswpimage_object_license_'.$schema_id, 'saswp_array'),
+        'acquireLicensePage'	        => saswp_remove_warnings($all_post_meta, 'saswpimage_object_acquire_license_page_'.$schema_id, 'saswp_array'),
         'uploadDate'                    => isset($all_post_meta['saswpimage_object_upload_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswpimage_object_upload_date_'.$schema_id][0])):'',						
         'contentUrl'                    => saswp_remove_warnings($all_post_meta, 'saswpimage_object_content_url_'.$schema_id, 'saswp_array'),
         'contentLocation'                    => saswp_remove_warnings($all_post_meta, 'saswpimage_object_content_location_'.$schema_id, 'saswp_array'),						        
