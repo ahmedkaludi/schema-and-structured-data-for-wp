@@ -44,7 +44,8 @@ function saswp_get_saved_schema_ids(){
     $schema_ids = array();
 
     if(!$all_schemas){
-
+      
+      $args = array();
       $args['post_type']      = 'saswp';
       $args['posts_per_page'] = -1;
       $args['post_status']    = 'publish';
