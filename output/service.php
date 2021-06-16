@@ -1142,6 +1142,65 @@ Class saswp_output_service{
                         }                    
                         break; 
 
+                    case 'CreativeWork':      
+                    
+                        if(isset($custom_fields['saswp_creativework_main_entity_of_page'])){
+                            $input1['mainEntityOfPage'] =    $custom_fields['saswp_creativework_main_entity_of_page'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_image'])){
+                            $input1['image'] =    $custom_fields['saswp_creativework_image'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_url'])){
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_creativework_url']);
+                        }
+                        if(isset($custom_fields['saswp_creativework_body'])){
+                            $input1['articleBody'] =    $custom_fields['saswp_creativework_body'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_keywords'])){
+                            $input1['keywords'] =    $custom_fields['saswp_creativework_keywords'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_section'])){
+                            $input1['articleSection'] =    $custom_fields['saswp_creativework_section'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_inlanguage'])){
+                            $input1['inLanguage'] =    $custom_fields['saswp_creativework_inlanguage'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_headline'])){
+                            $input1['headline'] =    $custom_fields['saswp_creativework_headline'];
+                        }                    
+                        if(isset($custom_fields['saswp_creativework_description'])){
+                            $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_creativework_description'] ));
+                        }
+                        if(isset($custom_fields['saswp_creativework_date_published'])){
+                            $input1['datePublished'] =    $custom_fields['saswp_creativework_date_published'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_date_modified'])){
+                            $input1['dateModified'] =    $custom_fields['saswp_creativework_date_modified'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_editor_name']) && $custom_fields['saswp_creativework_editor_name'] != '') {
+                            $input1['editor'] = array();
+                            $input1['editor']['@type'] = 'Person';
+                            $input1['editor']['name']  =  $custom_fields['saswp_creativework_editor_name'];
+                        }                    
+                        if(isset($custom_fields['saswp_creativework_author_type'])){
+                            $input1['author']['@type'] =    $custom_fields['saswp_creativework_author_type'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_author_name'])){
+                            $input1['author']['name'] =    $custom_fields['saswp_creativework_author_name'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_author_description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_creativework_author_description'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_author_url'])){
+                            $input1['author']['url'] =    $custom_fields['saswp_creativework_author_url'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_organization_logo']) && isset($custom_fields['saswp_creativework_organization_name'])){
+                            $input1['publisher']['@type']       =    'Organization';
+                            $input1['publisher']['name']        =    $custom_fields['saswp_creativework_organization_name'];
+                            $input1['publisher']['logo']        =    $custom_fields['saswp_creativework_organization_logo'];
+                        }                    
+                        break; 
+
                 case 'Photograph':      
                                          
                        if(isset($custom_fields['saswp_photograph_image'])){
@@ -4495,7 +4554,8 @@ Class saswp_output_service{
                 case 'TechArticle':  
                 case 'Photograph':  
                 case 'Blogposting':
-                case 'BlogPosting': 
+                case 'BlogPosting':
+                case 'CreativeWork': 
                                          
                     $input1 = array(
 					'@context'			=> saswp_context_url(),

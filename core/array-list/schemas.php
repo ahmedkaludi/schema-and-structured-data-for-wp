@@ -14,6 +14,7 @@ return array(
                 'Audiobook'                => 'Audiobook',                
                 'BlogPosting'              => 'BlogPosting',
                 'Book'                     => 'Book',
+                'CreativeWork'             => 'CreativeWork',
                 'Course'                   => 'Course',
                 'CreativeWorkSeries'       => 'CreativeWorkSeries',
                 'DiscussionForumPosting'   => 'DiscussionForumPosting',
