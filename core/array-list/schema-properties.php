@@ -635,13 +635,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'      => 'saswp_webpage_section_'.$schema_id,
                         'type'    => 'textarea',
                         'default' => saswp_strip_all_tags(get_the_excerpt())
-                    ),    
-                    array(
-                        'label'   => 'Webpage Body',
-                        'id'      => 'saswp_webpage_body_'.$schema_id,
-                        'type'    => 'textarea',
-                        'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
-                    ),    
+                    ),                           
                     array(
                             'label' => 'Keywords',
                             'id' => 'saswp_webpage_keywords_'.$schema_id,
