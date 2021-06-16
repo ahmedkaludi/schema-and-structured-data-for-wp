@@ -38,7 +38,8 @@ return array(
                 'SoftwareApplication'      => 'SoftwareApplication',
                 'SpecialAnnouncement'      => 'SpecialAnnouncement',
                 'MobileApplication'        => 'MobileApplication',       
-                'TechArticle'              => 'TechArticle',                                                                                        
+                'TechArticle'              => 'TechArticle', 
+                'VisualArtwork'            => 'VisualArtwork',                                           
                 'WebPage'                  => 'WebPage'                                                                
         ),
         'Event' => array(

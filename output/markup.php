@@ -3532,6 +3532,52 @@ function saswp_special_announcement_schema_markup($schema_id, $schema_post_id, $
 
 }
 
+function saswp_visualartwork_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();    
+
+    $input1 = array(
+            '@context'			            => saswp_context_url(),
+            '@type'				            => 'VisualArtwork',
+            '@id'                           => trailingslashit(get_permalink()).'#VisualArtwork',
+            'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_url_'.$schema_id, 'saswp_array'),            
+            'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_image'.$schema_id, 'saswp_array'),
+            'name'			                => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_name_'.$schema_id, 'saswp_array'),
+            'alternateName'			        => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_alternate_name_'.$schema_id, 'saswp_array'),
+            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_description_'.$schema_id, 'saswp_array'),            
+            'dateCreated'                   => isset($all_post_meta['saswp_visualartwork_date_created_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_visualartwork_date_created_'.$schema_id][0], get_post_time('h:i:s')):'',            
+            'artform'                       => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_artform_'.$schema_id, 'saswp_array'),            
+            'artEdition'                    => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_artedition_'.$schema_id, 'saswp_array'),            
+            'artworkSurface'                => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_artwork_surface_'.$schema_id, 'saswp_array'),            
+
+    );
+    
+    if(isset( $all_post_meta['saswp_visualartwork_artmedium_'.$schema_id][0] )){
+        $input1['artMedium']       = explode(',', $all_post_meta['saswp_visualartwork_artmedium_'.$schema_id][0]);
+    }
+    if(isset( $all_post_meta['saswp_visualartwork_width_'.$schema_id][0] )){
+        $input1['width']['@type']       = 'Distance';
+        $input1['width']['name']       = $all_post_meta['saswp_visualartwork_width_'.$schema_id][0];
+    }
+    if(isset( $all_post_meta['saswp_visualartwork_height_'.$schema_id][0] )){
+        $input1['height']['@type']       = 'Distance';
+        $input1['height']['name']       = $all_post_meta['saswp_visualartwork_height_'.$schema_id][0];
+    }
+
+    $input1['creator']['@type']       = 'Person';
+
+    if(isset( $all_post_meta['saswp_photograph_author_type_'.$schema_id][0] )){
+        $input1['creator']['@type']       = $all_post_meta['saswp_photograph_author_type_'.$schema_id][0];
+    }  
+
+    $input1['creator']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_photograph_author_name_'.$schema_id, 'saswp_array');
+    $input1['creator']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_photograph_author_description_'.$schema_id, 'saswp_array');
+    $input1['creator']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_photograph_author_url_'.$schema_id, 'saswp_array');   
+                
+    return $input1;
+
+}
+
 function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();

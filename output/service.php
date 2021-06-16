@@ -1201,6 +1201,62 @@ Class saswp_output_service{
                         }                    
                         break; 
 
+                    case 'VisualArtwork':      
+                                                                
+                        if(isset($custom_fields['saswp_visualartwork_url'])){
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_visualartwork_url']);
+                        }                                               
+                        if(isset($custom_fields['saswp_visualartwork_name'])){
+                            $input1['name'] =    $custom_fields['saswp_visualartwork_name'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_alternate_name'])){
+                            $input1['alternateName'] =    $custom_fields['saswp_visualartwork_alternate_name'];
+                        }                    
+                        if(isset($custom_fields['saswp_visualartwork_description'])){
+                            $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_visualartwork_description'] ));
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_date_created'])){
+                            $input1['dateCreated'] =    $custom_fields['saswp_visualartwork_date_created'];
+                        } 
+                        if(isset($custom_fields['saswp_visualartwork_image'])){
+                            $input1['image'] =    $custom_fields['saswp_visualartwork_image'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_artform'])){
+                            $input1['artform'] =    $custom_fields['saswp_visualartwork_artform'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_artedition'])){
+                            $input1['artEdition'] =    $custom_fields['saswp_visualartwork_artedition'];
+                        } 
+                        if(isset($custom_fields['saswp_visualartwork_artwork_surface'])){
+                            $input1['artworkSurface'] =    $custom_fields['saswp_visualartwork_artwork_surface'];
+                        } 
+                        if(isset($custom_fields['saswp_visualartwork_artmedium'])){                            
+                            $input1['artMedium'] = explode(',', $custom_fields['saswp_visualartwork_artmedium']);    
+                        }                        
+                        if(isset($custom_fields['saswp_visualartwork_width'])){
+                            $input1['width']['@type'] =    'Distance';
+                            $input1['width']['name']  =    $custom_fields['saswp_visualartwork_width'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_height'])){
+                            $input1['height']['@type'] =    'Distance';
+                            $input1['height']['name']  =    $custom_fields['saswp_visualartwork_height'];
+                        }
+
+                        if(isset($custom_fields['saswp_visualartwork_author_type'])){
+                            $input1['creator']['@type'] =    $custom_fields['saswp_visualartwork_author_type'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_author_name'])){
+                            $input1['creator']['name'] =    $custom_fields['saswp_visualartwork_author_name'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_author_description'])){
+                            $input1['creator']['description'] =    $custom_fields['saswp_visualartwork_author_description'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_author_url'])){
+                            $input1['creator']['url'] =    $custom_fields['saswp_visualartwork_author_url'];
+                        }
+                         
+                        
+                        break;         
                 case 'Photograph':      
                                          
                        if(isset($custom_fields['saswp_photograph_image'])){

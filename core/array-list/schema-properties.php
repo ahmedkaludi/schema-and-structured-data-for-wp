@@ -938,6 +938,110 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                         break;
 
+                        case 'VisualArtwork':                                        
+                                $meta_field = array(                               
+                                array(
+                                        'label'   => 'URL',
+                                        'id'      => 'saswp_visualartwork_url_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_permalink(),
+                                ),
+                                array(
+                                        'label'   => 'Name',
+                                        'id'      => 'saswp_visualartwork_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_permalink(),
+                                ), 
+                                array(
+                                        'label'   => 'Alternate Name',
+                                        'id'      => 'saswp_visualartwork_alternate_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_permalink(),
+                                ),                                                                                                    
+                                array(
+                                        'label'   => 'Description',
+                                        'id'      => 'saswp_visualartwork_description_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                                ),
+                                array(
+                                        'label'   => 'Art form',
+                                        'id'      => 'saswp_visualartwork_artform_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                ),
+                                array(
+                                        'label'   => 'Art Edition',
+                                        'id'      => 'saswp_visualartwork_artedition_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                ),
+                                array(
+                                        'label'   => 'Art Work Surface',
+                                        'id'      => 'saswp_visualartwork_artwork_surface_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                ),
+                                array(
+                                        'label'   => 'Width',
+                                        'id'      => 'saswp_visualartwork_width_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                ),
+                                array(
+                                        'label'   => 'Height',
+                                        'id'      => 'saswp_visualartwork_height_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                ),
+                                array(
+                                        'label'   => 'Art Medium',
+                                        'id'      => 'saswp_visualartwork_artmedium_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => '',
+                                        'note'    => 'Note: If There are more than one artmedium, Separate artmedium list by comma ( , )'                                 
+                                ),
+                                array(
+                                        'label'   => 'Image',
+                                        'id'      => 'saswp_visualartwork_image_'.$schema_id,
+                                        'type'    => 'media'                            
+                                ),                                                                        
+                                array(
+                                        'label'   => 'Date Created',
+                                        'id'      => 'saswp_visualartwork_date_created_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_the_date("Y-m-d")
+                                ),                                 
+                                array(
+                                        'label'   => 'Creator Type',
+                                        'id'      => 'saswp_visualartwork_author_type_'.$schema_id,
+                                        'type'    => 'select',
+                                        'options' => array(
+                                                'Person'           => 'Person',
+                                                'Organization'     => 'Organization',                        
+                                        )
+                                ),
+                                array(
+                                        'label'   => 'Creator Name',
+                                        'id'      => 'saswp_visualartwork_author_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => is_object($current_user) ? $current_user->display_name : ''
+                                ),
+                                array(
+                                        'label'   => 'Creator Description',
+                                        'id'      => 'saswp_visualartwork_author_description_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => $author_desc
+                                ),
+                                array(
+                                        'label'   => 'Creator URL',
+                                        'id'      => 'saswp_visualartwork_author_url_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => $author_url
+                                )                                                                                      
+                                );
+                                break;
+
                         case 'CreativeWork':                                        
                                 $meta_field = array(
                                 array(
@@ -1051,7 +1155,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
                                 )                                                      
                                 );
-                                break;
+                        break;        
 
                         case 'SpecialAnnouncement':    
                                 
