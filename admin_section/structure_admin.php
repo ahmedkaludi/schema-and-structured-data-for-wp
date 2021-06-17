@@ -1743,7 +1743,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'rs'           => 'Recipe Schema',
                        'qanda'        => 'Q&A Schema Compatibility',
                        'faq'          => 'FAQ Schema Compatibility',
-                       'ociaifs'      => '1 Click Indexing Api Integration For SASWP'
+                       'ociaifs'      => '1-Click Indexing API Integration'
                 );
                                                                             
                 $edd_action = '';
