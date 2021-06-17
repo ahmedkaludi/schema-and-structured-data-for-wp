@@ -4230,3 +4230,56 @@ function saswp_format_time_to_ISO_8601($string) {
    
     return $string;
 }
+
+function saswp_prepend_schema_org( $short_str ){
+
+    $response = '';
+
+    switch (strtolower($short_str)) {
+        
+        case 'instock':
+            $response = 'https://schema.org/InStock';    
+        break;
+
+        case 'soldout':
+            $response = 'https://schema.org/SoldOut';    
+        break;
+
+        case 'presale':
+            $response = 'https://schema.org/PreSale';    
+        break;
+
+        case 'onlineonly':
+            $response = 'https://schema.org/OnlineOnly';    
+        break;
+
+        case 'limitedavailability':
+            $response = 'https://schema.org/LimitedAvailability';    
+        break;
+
+        case 'instoreonly':
+            $response = 'https://schema.org/InStoreOnly';    
+        break;
+
+        case 'outofstock':
+            $response = 'https://schema.org/OutOfStock';    
+        break;
+        
+        case 'discontinued':
+            $response = 'https://schema.org/Discontinued';    
+        break;
+       
+        case 'onbackorder':
+            $response = 'https://schema.org/BackOrder';    
+        break;
+        case 'preorder':
+            $response = 'https://schema.org/PreOrder';
+        break;
+
+        default:
+            
+            break;
+    }
+
+    return $response;
+}

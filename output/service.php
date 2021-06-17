@@ -4098,11 +4098,7 @@ Class saswp_output_service{
                  $product_details['product_mpn'] = get_the_ID();
              }
                                
-             if(strtolower( $product->get_stock_status() ) == 'onbackorder'){
-                 $product_details['product_availability'] = 'PreOrder';
-             }else{
-                 $product_details['product_availability'] = $product->get_stock_status();
-             }
+             $product_details['product_availability'] = saswp_prepend_schema_org($product->get_stock_status());
              
              $woo_price = $product->get_price();
 
