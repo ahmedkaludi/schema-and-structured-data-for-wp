@@ -2123,16 +2123,16 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_recipe_name'])){
                      $input1['name'] =    $custom_fields['saswp_recipe_name'];
                     }
+                    if(isset($custom_fields['saswp_recipe_description'])){
+                        $input1['description'] =  wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_recipe_description'] ))  ;
+                    }
                     if(isset($custom_fields['saswp_recipe_date_published'])){
                      $input1['datePublished'] =    $custom_fields['saswp_recipe_date_published'];
                     }
                     
                     if(isset($custom_fields['saswp_recipe_date_modified'])){
                      $input1['dateModified'] =    $custom_fields['saswp_recipe_date_modified'];
-                    }
-                    if(isset($custom_fields['saswp_recipe_description'])){
-                     $input1['description'] =  wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_recipe_description'] ))  ;
-                    }
+                    }                    
                     if(isset($custom_fields['saswp_recipe_main_entity'])){
                      $input1['mainEntity']['@id'] =    $custom_fields['saswp_recipe_main_entity'];
                     }

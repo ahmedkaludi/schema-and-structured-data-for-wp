@@ -1853,6 +1853,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_get_the_title()
                     ),
                     array(
+                        'label' => 'Description',
+                        'id' => 'saswp_recipe_description_'.$schema_id,
+                        'type' => 'textarea',
+                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                    ),
+                    array(
                         'label' => 'Image',
                         'id' => 'saswp_recipe_image_'.$schema_id,
                         'type' => 'media'                        
@@ -1868,13 +1874,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_recipe_date_modified_'.$schema_id,
                             'type' => 'text',
                             'default' => get_the_modified_date("Y-m-d")
-                    ),
-                    array(
-                            'label' => 'Description',
-                            'id' => 'saswp_recipe_description_'.$schema_id,
-                            'type' => 'textarea',
-                            'default' => saswp_strip_all_tags(get_the_excerpt())
-                    ),
+                    ),                    
                     array(
                             'label' => 'Main Entity Id',
                             'id' => 'saswp_recipe_main_entity_'.$schema_id,
