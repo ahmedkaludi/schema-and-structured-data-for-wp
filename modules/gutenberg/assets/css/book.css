@@ -1,0 +1,29 @@
+.saswp-book-field-label{
+    font-weight: 700;
+}
+.saswp-book-field{
+    display: inline;
+}
+.saswp-book-field-banner{
+    height: 200px;
+    width: 200px;
+    text-align: center;
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+}
+
+.saswp-book-block-stars::before{
+    color: #eba845 !important;
+}
+.saswp-book-block-stars{
+    margin-top: 10px;
+}
+.saswp-book-banner-div{
+    position: relative;
+}
+.saswp-book-field-banner{
+    float: left;    
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
