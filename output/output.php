@@ -660,11 +660,13 @@ function saswp_schema_output() {
                             break;
                         
                             case 'Person':
-                                                                                                                                                                     
-                                $input1['@context']              = saswp_context_url();
-                                $input1['@type']                 = 'Person';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Person';                                                        
-                                $input1['name']                  = saswp_get_the_title();
+
+                                $author_id = get_the_author_meta( 'ID' );
+
+                                $input1['@context']              = saswp_context_url();                                                               
+                                $input1                          = array_merge($input1, saswp_get_author_details());                                                                                                                                                               
+                                $input1['url']                   = get_the_author_meta('user_url', $author_id);  
+                                
                                 $input1['address']['@type']      = 'PostalAddress';             
 
                                 $input1 = apply_filters('saswp_modify_person_schema_output', $input1 );

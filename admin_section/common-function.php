@@ -3981,6 +3981,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         break;      
 
         case "homepage":
+        case "author":
             $array_search = true; 
             $choices = array(
                 array('id'  => 'true', 'text' => 'True'),
