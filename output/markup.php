@@ -351,10 +351,10 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
             $input1 = array();
                 
             $input1 = array(
-            '@context'			=> saswp_context_url(),
-            '@type'				=> (isset($all_post_meta['saswp_event_schema_type_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_type_'.$schema_id][0] !='') ? $all_post_meta['saswp_event_schema_type_'.$schema_id][0] : 'Event' ,            
-            'name'			    => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_name_'.$schema_id, 'saswp_array'),
-            'description'       => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_description_'.$schema_id, 'saswp_array')
+                '@context'			=> saswp_context_url(),
+                '@type'				=> (isset($all_post_meta['saswp_event_schema_type_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_type_'.$schema_id][0] !='') ? $all_post_meta['saswp_event_schema_type_'.$schema_id][0] : 'Event' ,            
+                'name'			    => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_name_'.$schema_id, 'saswp_array'),
+                'description'       => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_description_'.$schema_id, 'saswp_array')
             );
 
             $input1                          = saswp_get_modified_image('saswp_event_schema_image_'.$schema_id.'_detail', $input1);
@@ -440,33 +440,52 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                     $input1['previousStartDate']        = saswp_format_date_time($date, $time);
 
                 }
-
+                $start_date = '';
+                $start_time = '';
                 if(isset($all_post_meta['saswp_event_schema_start_date_'.$schema_id][0])){
-                    
-                    $date = $time = '';
-                    
-                    $date = $all_post_meta['saswp_event_schema_start_date_'.$schema_id][0];
+                                                           
+                    $start_date = $all_post_meta['saswp_event_schema_start_date_'.$schema_id][0];
                     
                     if(isset($all_post_meta['saswp_event_schema_start_time_'.$schema_id][0])){
-                        $time  = $all_post_meta['saswp_event_schema_start_time_'.$schema_id][0];    
+                        $start_time  = $all_post_meta['saswp_event_schema_start_time_'.$schema_id][0];    
                     }
-                    
-                    $input1['startDate']        = saswp_format_date_time($date, $time);
+                                        
+                    $input1['startDate']        = saswp_format_date_time($start_date, $start_time);
                     
                 }
-                
+                $end_date = '';
+                $end_time = '';
                 if(isset($all_post_meta['saswp_event_schema_end_date_'.$schema_id][0])){
-                    
-                    $date = $time = '';
-                    
-                    $date = $all_post_meta['saswp_event_schema_end_date_'.$schema_id][0];
+                                                            
+                    $end_date = $all_post_meta['saswp_event_schema_end_date_'.$schema_id][0];
                     
                     if(isset($all_post_meta['saswp_event_schema_end_time_'.$schema_id][0])){
-                        $time  = $all_post_meta['saswp_event_schema_end_time_'.$schema_id][0];    
+                        $end_time  = $all_post_meta['saswp_event_schema_end_time_'.$schema_id][0];    
                     }
                     
-                    $input1['endDate']        = saswp_format_date_time($date, $time);
+                    $input1['endDate']        = saswp_format_date_time($end_date, $end_time);
                     
+                }
+
+                if(!empty($all_post_meta['saswp_event_schema_schedule_repeat_frequency_'.$schema_id][0])){
+
+                    $input1['eventSchedule']['@type']           = 'Schedule';
+                    $input1['eventSchedule']['startDate']       = $start_date;
+                    $input1['eventSchedule']['endDate']         = $end_date;
+                    $input1['eventSchedule']['startTime']       = $start_time;
+                    $input1['eventSchedule']['endTime']         = $end_time;
+                    $input1['eventSchedule']['repeatFrequency'] = $all_post_meta['saswp_event_schema_schedule_repeat_frequency_'.$schema_id][0];
+
+                    if(!empty($all_post_meta['saswp_event_schema_schedule_by_day_'.$schema_id][0])){
+                        $input1['eventSchedule']['byDay'] = explode(',', $all_post_meta['saswp_event_schema_schedule_by_day_'.$schema_id][0]);
+                    }
+                    if(!empty($all_post_meta['saswp_event_schema_schedule_timezone_'.$schema_id][0])){
+                        $input1['eventSchedule']['scheduleTimezone'] = $all_post_meta['saswp_event_schema_schedule_timezone_'.$schema_id][0];
+                    }
+                    if(!empty($all_post_meta['saswp_event_schema_schedule_by_month_day_'.$schema_id][0])){
+                        $input1['eventSchedule']['byMonthDay'] = explode(',', $all_post_meta['saswp_event_schema_schedule_by_month_day_'.$schema_id][0]);
+                    }   
+
                 }
 
                     //Performer starts here

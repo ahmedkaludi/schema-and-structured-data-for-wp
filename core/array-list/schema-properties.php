@@ -1480,6 +1480,42 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type' => 'text',                                
                         ),                        
                         array(
+                                'label'   => 'Schedule Repeat Frequency',
+                                'id'      => 'saswp_event_schema_schedule_repeat_frequency_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ''      => 'Choose',
+                                        'P1W'   => 'Weekly',
+                                        'P1M'   => 'Monthly',
+                                        'P1D'   => 'EveryDay',                                        
+                               )                                
+                        ),
+                        array(
+                                'label' => 'Schedule byDay',
+                                'id'    => 'saswp_event_schema_schedule_by_day_'.$schema_id,
+                                'type'  => 'textarea',
+                                'attributes' => array(
+                                        'placeholder' => 'Monday, Wednesday'
+                                 ),
+                                'note' => 'Note: Separate it by comma ( , )'                                  
+                        ),
+                        array(
+                                'label' => 'Schedule byMonthDay',
+                                'id'    => 'saswp_event_schema_schedule_by_month_day_'.$schema_id,
+                                'type'  => 'text',
+                                'attributes' => array(
+                                        'placeholder' => '1, 13, 24'
+                                 )                                                                 
+                        ),
+                        array(
+                                'label'  => 'Schedule Timezone',
+                                'id'     => 'saswp_event_schema_schedule_timezone_'.$schema_id,
+                                'type'   => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'Europe/London'
+                                 ),                                
+                        ),
+                        array(
                                 'label' => 'Image',
                                 'id' => 'saswp_event_schema_image_'.$schema_id,
                                 'type' => 'media',                                
