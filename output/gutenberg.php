@@ -1016,7 +1016,7 @@ function saswp_gutenberg_book_schema(){
             $input1['numberOfPages']  = $data['pages'];
         }
         if(!empty($data['format'])){            
-            $input1['format']  = $data['format'];
+            $input1['bookFormat']  = $data['format'];
         }
         if(!empty($data['genre'])){            
             $input1['genre']  = $data['genre'];
