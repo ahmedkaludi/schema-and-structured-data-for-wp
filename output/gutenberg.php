@@ -996,8 +996,11 @@ function saswp_gutenberg_book_schema(){
         $input1['@type']                 = 'Book';
         $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Book';  
         $input1['name']                  = $data['title'] ? $data['title'] : saswp_get_the_title(); 
-        $input1['description']           = $data['description'] ? wp_strip_all_tags($data['description']) : saswp_get_the_excerpt();
 
+        if(!empty($data['description'])){
+            $input1['description']           = wp_strip_all_tags($data['description']);
+        }
+        
         if(!empty($data['release_date'])){            
             $input1['datePublished']  = saswp_format_date_time($data['release_date']);
         }
