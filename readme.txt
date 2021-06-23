@@ -134,8 +134,6 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: Integration with multi-currency plugin for woocommerce. #1160
 
 
-== Changelog ==
-
 = 1.9.79 (15 Jun 2021) =
 
 * Fixed: Bark reviews do not redirect to their origin reviews url #1445
