@@ -133,6 +133,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: Visual Artwork schema #1377
 * Added: Integration with multi-currency plugin for woocommerce. #1160
 
+
 == Changelog ==
 
 = 1.9.79 (15 Jun 2021) =
