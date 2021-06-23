@@ -982,6 +982,55 @@ function saswp_gutenberg_qanda_schema(){
         
 }
 
+function saswp_gutenberg_book_schema(){
+
+    $input1 = array();
+
+    $attributes = saswp_get_gutenberg_block_data('saswp/book-block');
+
+    if(isset($attributes['attrs'])){
+
+        $data = $attributes['attrs'];
+
+        $input1['@context']              = saswp_context_url();
+        $input1['@type']                 = 'Book';
+        $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Book';  
+        $input1['name']                  = $data['title'] ? $data['title'] : saswp_get_the_title(); 
+
+        if(!empty($data['description'])){
+            $input1['description']           = wp_strip_all_tags($data['description']);
+        }
+        
+        if(!empty($data['release_date'])){            
+            $input1['datePublished']  = saswp_format_date_time($data['release_date']);
+        }
+        if(!empty($data['author'])){
+            $input1['author']['@type'] = 'Person';
+            $input1['author']['name']  = $data['author'];
+        }
+        if(!empty($data['publisher'])){
+            $input1['publisher']['@type'] = 'Organization';
+            $input1['publisher']['name']  = $data['publisher'];
+        }
+        if(!empty($data['pages'])){            
+            $input1['numberOfPages']  = $data['pages'];
+        }
+        if(!empty($data['format'])){            
+            $input1['bookFormat']  = $data['format'];
+        }
+        if(!empty($data['genre'])){            
+            $input1['genre']  = $data['genre'];
+        }
+        if(!empty($data['rating'])){            
+            $input1['aggregateRating']['@type']       = 'AggregateRating';
+            $input1['aggregateRating']['ratingValue'] = $data['rating'];
+            $input1['aggregateRating']['reviewCount'] = 1;
+        }        
+    }
+
+    return $input1;
+}
+
 function saswp_gutenberg_job_schema(){
     
     $input1 = array();

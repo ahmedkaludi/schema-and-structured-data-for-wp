@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.7
-Stable tag: 1.9.79
+Stable tag: 1.9.80
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.80 (23 Jun 2021) =
+
+* Fixed: Item name mismatches when We try to activate "1-Click Indexing API Integration" extension. #1454
+* Fixed: Validation error in GSC: Unparable structured data (incorrect value type) #1452
+* Fixed: Availability should have full string like what mentioned in google example. Such as "https://schema.org/InStock" #1453
+* Fixed: Recipe schema's properties should be in proper order #1450
+* Added: Schedule property to Event schema #1044
+* Added: Author placement option #1281
+* Added: Book Guteberg block #930
+* Added: Creative Work schema #1204
+* Added: Visual Artwork schema #1377
+* Added: Integration with multi-currency plugin for woocommerce. #1160
+
 
 = 1.9.79 (15 Jun 2021) =
 

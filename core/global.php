@@ -42,6 +42,8 @@ $without_aggregate = array(
         'House',
         'SingleFamilyResidence',
         'Article',
+        'CreativeWork',
+        'VisualArtwork',
         'BlogPosting',
         'Blogposting',
         'DiscussionForumPosting',

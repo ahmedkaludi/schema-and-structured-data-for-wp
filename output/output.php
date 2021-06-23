@@ -660,11 +660,13 @@ function saswp_schema_output() {
                             break;
                         
                             case 'Person':
-                                                                                                                                                                     
-                                $input1['@context']              = saswp_context_url();
-                                $input1['@type']                 = 'Person';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Person';                                                        
-                                $input1['name']                  = saswp_get_the_title();
+
+                                $author_id = get_the_author_meta( 'ID' );
+
+                                $input1['@context']              = saswp_context_url();                                                               
+                                $input1                          = array_merge($input1, saswp_get_author_details());                                                                                                                                                               
+                                $input1['url']                   = get_the_author_meta('user_url', $author_id);  
+                                
                                 $input1['address']['@type']      = 'PostalAddress';             
 
                                 $input1 = apply_filters('saswp_modify_person_schema_output', $input1 );
@@ -1283,6 +1285,51 @@ function saswp_schema_output() {
 			                                
                             break;
                             
+                            case 'VisualArtwork':
+                                                                
+                                $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> $schema_type ,
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#VisualArtwork',     
+                                    'url'				=> trailingslashit(saswp_get_current_url()),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title(),
+                                    'dateCreated'       => esc_html($date),                                    
+                                    'creator'			=> saswp_get_author_details()			
+                                );
+                                                                				                                                                                                                                
+                                $input1 = apply_filters('saswp_modify_visualartwork_schema_output', $input1 );  
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_visualartwork_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			                                
+                            break;
+
+                            case 'CreativeWork':
+                                                                
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
+                                
+                                $mainentity = saswp_get_mainEntity($schema_post_id);
+                                
+                                if($mainentity){
+                                   $input1['mainEntity'] = $mainentity;                                     
+                                }
+				                                                                                                                                
+                                $input1 = apply_filters('saswp_modify_creativework_schema_output', $input1 );  
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_creativework_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			                                
+                            break;
+
                             case 'Article':
                                                                 
                                 $input1 = $service_object->saswp_schema_markup_generator($schema_type);

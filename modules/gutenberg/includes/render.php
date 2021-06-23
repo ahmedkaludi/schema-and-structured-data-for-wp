@@ -210,7 +210,91 @@ class SASWP_Gutenberg_Render {
         
         return $response;
     }
-    
+    public function book_block_data($attributes){
+        
+        ?>
+        <div class="saswp-book-block-container">
+            <div class="saswp-book-field-banner">
+                <div class="saswp-book-banner-div">
+                    <img src="<?php echo esc_url($attributes['banner_url']) ?>" />
+                </div>
+            </div>
+            <div class="saswp-book-field-container">
+
+                <div class="saswp-book-block-field">
+                 <span class="saswp-book-field-label"><?php echo saswp_t_string('Title'); ?> : </span>
+                 <div class="saswp-book-field"><?php echo (!empty($attributes['title']) ? esc_html($attributes['title']) : '' ) ?></div>   
+                </div>
+
+                <div class="saswp-book-block-field">
+                 <span class="saswp-book-field-label"><?php echo saswp_t_string('Series'); ?> : </span>
+                 <div class="saswp-book-field"><?php echo (!empty($attributes['series']) ? esc_html($attributes['series']) : '' ) ?></div>   
+                </div>
+
+                <div class="saswp-book-block-field">
+                 <span class="saswp-book-field-label"><?php echo saswp_t_string('Author'); ?> : </span>
+                 <div class="saswp-book-field"><?php echo (!empty($attributes['author']) ? esc_html($attributes['author']) : '' ) ?></div>   
+                </div>
+
+                <div class="saswp-book-block-field">
+                 <span class="saswp-book-field-label"><?php echo saswp_t_string('Genre'); ?> : </span>
+                 <div class="saswp-book-field"><?php echo (!empty($attributes['genre']) ? esc_html($attributes['genre']) : '' ) ?></div>   
+                </div>
+
+                <div class="saswp-book-block-field">
+                 <span class="saswp-book-field-label"><?php echo saswp_t_string('Publisher'); ?> : </span>
+                 <div class="saswp-book-field"><?php echo (!empty($attributes['publisher']) ? esc_html($attributes['publisher']) : '' ) ?></div>   
+                </div>
+
+                <div class="saswp-book-block-field">
+                 <span class="saswp-book-field-label"><?php echo saswp_t_string('Release Date'); ?> : </span>
+                 <div class="saswp-book-field"><?php echo (!empty($attributes['release_date']) ? esc_html($attributes['release_date']) : '' ) ?></div>   
+                </div>
+
+                <div class="saswp-book-block-field">
+                 <span class="saswp-book-field-label"><?php echo saswp_t_string('Format'); ?> : </span>
+                 <div class="saswp-book-field"><?php echo (!empty($attributes['format']) ? esc_html($attributes['format']) : '' ) ?></div>   
+                </div>
+
+                <div class="saswp-book-block-field">
+                 <span class="saswp-book-field-label"><?php echo saswp_t_string('Pages'); ?> : </span>
+                 <div class="saswp-book-field"><?php echo (!empty($attributes['pages']) ? esc_html($attributes['pages']) : '' ) ?></div>   
+                </div>
+
+                <div class="saswp-book-block-field">
+                 <span class="saswp-book-field-label"><?php echo saswp_t_string('Source'); ?> : </span>
+                 <div class="saswp-book-field"><?php echo (!empty($attributes['source']) ? esc_html($attributes['source']) : '' ) ?></div>   
+                </div>
+
+                <div class="saswp-book-block-field">
+                 <span class="saswp-book-field-label"><?php echo saswp_t_string('Rating'); ?> : </span>
+                 <div class="saswp-book-field">
+                <?php
+                        if(isset($attributes['rating'])){
+                            for($i = 1; $i <= 5; $i++){
+
+                                if($i <= $attributes['rating']){
+                                    echo '<span class="saswp-book-block-stars dashicons dashicons-star-filled"></span>';   
+                                }else{
+                                    echo '<span class="saswp-book-block-stars dashicons dashicons-star-empty"></span>';   
+                                }
+                                 
+                            }
+                        }
+                            
+                ?>
+                 </div>   
+                </div>
+
+                <div class="saswp-book-block-field">
+                 <p><?php echo (!empty($attributes['description']) ? esc_html($attributes['description']) : '' ) ?></p>
+                </div>
+                
+            </div>
+        </div>
+        <?php    
+                              
+    }
     public function course_block_data($attributes){
         
         $response = '';

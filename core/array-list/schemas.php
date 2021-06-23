@@ -14,6 +14,7 @@ return array(
                 'Audiobook'                => 'Audiobook',                
                 'BlogPosting'              => 'BlogPosting',
                 'Book'                     => 'Book',
+                'CreativeWork'             => 'CreativeWork',
                 'Course'                   => 'Course',
                 'CreativeWorkSeries'       => 'CreativeWorkSeries',
                 'DiscussionForumPosting'   => 'DiscussionForumPosting',
@@ -37,7 +38,8 @@ return array(
                 'SoftwareApplication'      => 'SoftwareApplication',
                 'SpecialAnnouncement'      => 'SpecialAnnouncement',
                 'MobileApplication'        => 'MobileApplication',       
-                'TechArticle'              => 'TechArticle',                                                                                        
+                'TechArticle'              => 'TechArticle', 
+                'VisualArtwork'            => 'VisualArtwork',                                           
                 'WebPage'                  => 'WebPage'                                                                
         ),
         'Event' => array(

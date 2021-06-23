@@ -635,13 +635,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'      => 'saswp_webpage_section_'.$schema_id,
                         'type'    => 'textarea',
                         'default' => saswp_strip_all_tags(get_the_excerpt())
-                    ),    
-                    array(
-                        'label'   => 'Webpage Body',
-                        'id'      => 'saswp_webpage_body_'.$schema_id,
-                        'type'    => 'textarea',
-                        'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
-                    ),    
+                    ),                           
                     array(
                             'label' => 'Keywords',
                             'id' => 'saswp_webpage_keywords_'.$schema_id,
@@ -943,6 +937,225 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         )                        
                         );
                         break;
+
+                        case 'VisualArtwork':                                        
+                                $meta_field = array(                               
+                                array(
+                                        'label'   => 'URL',
+                                        'id'      => 'saswp_visualartwork_url_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_permalink(),
+                                ),
+                                array(
+                                        'label'   => 'Name',
+                                        'id'      => 'saswp_visualartwork_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_permalink(),
+                                ), 
+                                array(
+                                        'label'   => 'Alternate Name',
+                                        'id'      => 'saswp_visualartwork_alternate_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_permalink(),
+                                ),                                                                                                    
+                                array(
+                                        'label'   => 'Description',
+                                        'id'      => 'saswp_visualartwork_description_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                                ),
+                                array(
+                                        'label'   => 'Art form',
+                                        'id'      => 'saswp_visualartwork_artform_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                ),
+                                array(
+                                        'label'   => 'Art Edition',
+                                        'id'      => 'saswp_visualartwork_artedition_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                ),
+                                array(
+                                        'label'   => 'Art Work Surface',
+                                        'id'      => 'saswp_visualartwork_artwork_surface_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                ),
+                                array(
+                                        'label'   => 'Width',
+                                        'id'      => 'saswp_visualartwork_width_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                ),
+                                array(
+                                        'label'   => 'Height',
+                                        'id'      => 'saswp_visualartwork_height_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                ),
+                                array(
+                                        'label'   => 'Art Medium',
+                                        'id'      => 'saswp_visualartwork_artmedium_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => '',
+                                        'note'    => 'Note: If There are more than one artmedium, Separate artmedium list by comma ( , )'                                 
+                                ),
+                                array(
+                                        'label'   => 'Image',
+                                        'id'      => 'saswp_visualartwork_image_'.$schema_id,
+                                        'type'    => 'media'                            
+                                ),                                                                        
+                                array(
+                                        'label'   => 'Date Created',
+                                        'id'      => 'saswp_visualartwork_date_created_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_the_date("Y-m-d")
+                                ),                                 
+                                array(
+                                        'label'   => 'Creator Type',
+                                        'id'      => 'saswp_visualartwork_author_type_'.$schema_id,
+                                        'type'    => 'select',
+                                        'options' => array(
+                                                'Person'           => 'Person',
+                                                'Organization'     => 'Organization',                        
+                                        )
+                                ),
+                                array(
+                                        'label'   => 'Creator Name',
+                                        'id'      => 'saswp_visualartwork_author_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => is_object($current_user) ? $current_user->display_name : ''
+                                ),
+                                array(
+                                        'label'   => 'Creator Description',
+                                        'id'      => 'saswp_visualartwork_author_description_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => $author_desc
+                                ),
+                                array(
+                                        'label'   => 'Creator URL',
+                                        'id'      => 'saswp_visualartwork_author_url_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => $author_url
+                                )                                                                                      
+                                );
+                                break;
+
+                        case 'CreativeWork':                                        
+                                $meta_field = array(
+                                array(
+                                        'label'   => 'Main Entity Of Page',
+                                        'id'      => 'saswp_creativework_main_entity_of_page_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_permalink()
+                                ),
+                                array(
+                                        'label'   => 'URL',
+                                        'id'      => 'saswp_creativework_url_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_permalink(),
+                                ),    
+                                array(
+                                        'label'   => 'Image',
+                                        'id'      => 'saswp_creativework_image_'.$schema_id,
+                                        'type'    => 'media'                            
+                                ),
+                                array(
+                                        'label'   => 'inLanguage',
+                                        'id'      => 'saswp_creativework_inlanguage_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_bloginfo('language'),
+                                ),
+                                array(
+                                        'label'   => 'Headline',
+                                        'id'      => 'saswp_creativework_headline_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => saswp_get_the_title()
+                                ),
+                                array(
+                                        'label'   => 'Description',
+                                        'id'      => 'saswp_creativework_description_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                                ),
+                                array(
+                                        'label'   => 'Article Section',
+                                        'id'      => 'saswp_creativework_section_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                                ),    
+                                array(
+                                        'label'   => 'Article Body',
+                                        'id'      => 'saswp_creativework_body_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
+                                ),    
+                                array(
+                                        'label'   => 'Keywords',
+                                        'id'      => 'saswp_creativework_keywords_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => saswp_get_the_tags()
+                                ),    
+                                array(
+                                        'label'   => 'Date Published',
+                                        'id'      => 'saswp_creativework_date_published_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_the_date("Y-m-d")
+                                ), 
+                                array(
+                                        'label'   => 'Date Modified',
+                                        'id'      => 'saswp_creativework_date_modified_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_the_modified_date("Y-m-d")
+                                ),
+                                array(
+                                        'label'   => 'Author Type',
+                                        'id'      => 'saswp_creativework_author_type_'.$schema_id,
+                                        'type'    => 'select',
+                                        'options' => array(
+                                                'Person'           => 'Person',
+                                                'Organization'     => 'Organization',                        
+                                        )
+                                ),
+                                array(
+                                        'label'   => 'Author Name',
+                                        'id'      => 'saswp_creativework_author_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => is_object($current_user) ? $current_user->display_name : ''
+                                ),
+                                array(
+                                        'label'   => 'Author Description',
+                                        'id'      => 'saswp_creativework_author_description_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => $author_desc
+                                ),
+                                array(
+                                        'label'   => 'Author URL',
+                                        'id'      => 'saswp_creativework_author_url_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => $author_url
+                                ),
+                                array(
+                                        'label'   => 'Editor Name',
+                                        'id'      => 'saswp_creativework_editor_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => is_object($current_user) ? $current_user->display_name : ''
+                                ),    
+                                array(
+                                        'label'   => 'Organization Name',
+                                        'id'      => 'saswp_creativework_organization_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                                ),
+                                array(
+                                        'label'   => 'Organization Logo',
+                                        'id'      => 'saswp_creativework_organization_logo_'.$schema_id,
+                                        'type'    => 'media',
+                                        'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
+                                )                                                      
+                                );
+                        break;        
 
                         case 'SpecialAnnouncement':    
                                 
@@ -1266,6 +1479,42 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_event_schema_end_time_'.$schema_id,
                                 'type' => 'text',                                
                         ),                        
+                        array(
+                                'label'   => 'Schedule Repeat Frequency',
+                                'id'      => 'saswp_event_schema_schedule_repeat_frequency_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ''      => 'Choose',
+                                        'P1W'   => 'Weekly',
+                                        'P1M'   => 'Monthly',
+                                        'P1D'   => 'EveryDay',                                        
+                               )                                
+                        ),
+                        array(
+                                'label' => 'Schedule byDay',
+                                'id'    => 'saswp_event_schema_schedule_by_day_'.$schema_id,
+                                'type'  => 'textarea',
+                                'attributes' => array(
+                                        'placeholder' => 'Monday, Wednesday'
+                                 ),
+                                'note' => 'Note: Separate it by comma ( , )'                                  
+                        ),
+                        array(
+                                'label' => 'Schedule byMonthDay',
+                                'id'    => 'saswp_event_schema_schedule_by_month_day_'.$schema_id,
+                                'type'  => 'text',
+                                'attributes' => array(
+                                        'placeholder' => '1, 13, 24'
+                                 )                                                                 
+                        ),
+                        array(
+                                'label'  => 'Schedule Timezone',
+                                'id'     => 'saswp_event_schema_schedule_timezone_'.$schema_id,
+                                'type'   => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'Europe/London'
+                                 ),                                
+                        ),
                         array(
                                 'label' => 'Image',
                                 'id' => 'saswp_event_schema_image_'.$schema_id,
@@ -1640,6 +1889,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_get_the_title()
                     ),
                     array(
+                        'label' => 'Description',
+                        'id' => 'saswp_recipe_description_'.$schema_id,
+                        'type' => 'textarea',
+                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                    ),
+                    array(
                         'label' => 'Image',
                         'id' => 'saswp_recipe_image_'.$schema_id,
                         'type' => 'media'                        
@@ -1655,13 +1910,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_recipe_date_modified_'.$schema_id,
                             'type' => 'text',
                             'default' => get_the_modified_date("Y-m-d")
-                    ),
-                    array(
-                            'label' => 'Description',
-                            'id' => 'saswp_recipe_description_'.$schema_id,
-                            'type' => 'textarea',
-                            'default' => saswp_strip_all_tags(get_the_excerpt())
-                    ),
+                    ),                    
                     array(
                             'label' => 'Main Entity Id',
                             'id' => 'saswp_recipe_main_entity_'.$schema_id,

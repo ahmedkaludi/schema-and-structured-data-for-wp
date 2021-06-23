@@ -1913,6 +1913,13 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
 
             $response.= '<div class="saswp-tools-field-title">';
                
+                if($label == true && $on == 'OCIAIFS'){
+                                
+                        $response.= '<div class="saswp-license-label">';
+                        $response.= '<strong>'.saswp_t_string('1-Click Indexing API Integration').'</strong>';
+                        $response.= '</div>';
+                
+                }
                 if($label == true && $on == 'Polylang'){
                                 
                         $response.= '<div class="saswp-license-label">';

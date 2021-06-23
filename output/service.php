@@ -1142,6 +1142,121 @@ Class saswp_output_service{
                         }                    
                         break; 
 
+                    case 'CreativeWork':      
+                    
+                        if(isset($custom_fields['saswp_creativework_main_entity_of_page'])){
+                            $input1['mainEntityOfPage'] =    $custom_fields['saswp_creativework_main_entity_of_page'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_image'])){
+                            $input1['image'] =    $custom_fields['saswp_creativework_image'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_url'])){
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_creativework_url']);
+                        }
+                        if(isset($custom_fields['saswp_creativework_body'])){
+                            $input1['articleBody'] =    $custom_fields['saswp_creativework_body'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_keywords'])){
+                            $input1['keywords'] =    $custom_fields['saswp_creativework_keywords'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_section'])){
+                            $input1['articleSection'] =    $custom_fields['saswp_creativework_section'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_inlanguage'])){
+                            $input1['inLanguage'] =    $custom_fields['saswp_creativework_inlanguage'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_headline'])){
+                            $input1['headline'] =    $custom_fields['saswp_creativework_headline'];
+                        }                    
+                        if(isset($custom_fields['saswp_creativework_description'])){
+                            $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_creativework_description'] ));
+                        }
+                        if(isset($custom_fields['saswp_creativework_date_published'])){
+                            $input1['datePublished'] =    $custom_fields['saswp_creativework_date_published'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_date_modified'])){
+                            $input1['dateModified'] =    $custom_fields['saswp_creativework_date_modified'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_editor_name']) && $custom_fields['saswp_creativework_editor_name'] != '') {
+                            $input1['editor'] = array();
+                            $input1['editor']['@type'] = 'Person';
+                            $input1['editor']['name']  =  $custom_fields['saswp_creativework_editor_name'];
+                        }                    
+                        if(isset($custom_fields['saswp_creativework_author_type'])){
+                            $input1['author']['@type'] =    $custom_fields['saswp_creativework_author_type'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_author_name'])){
+                            $input1['author']['name'] =    $custom_fields['saswp_creativework_author_name'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_author_description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_creativework_author_description'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_author_url'])){
+                            $input1['author']['url'] =    $custom_fields['saswp_creativework_author_url'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_organization_logo']) && isset($custom_fields['saswp_creativework_organization_name'])){
+                            $input1['publisher']['@type']       =    'Organization';
+                            $input1['publisher']['name']        =    $custom_fields['saswp_creativework_organization_name'];
+                            $input1['publisher']['logo']        =    $custom_fields['saswp_creativework_organization_logo'];
+                        }                    
+                        break; 
+
+                    case 'VisualArtwork':      
+                                                                
+                        if(isset($custom_fields['saswp_visualartwork_url'])){
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_visualartwork_url']);
+                        }                                               
+                        if(isset($custom_fields['saswp_visualartwork_name'])){
+                            $input1['name'] =    $custom_fields['saswp_visualartwork_name'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_alternate_name'])){
+                            $input1['alternateName'] =    $custom_fields['saswp_visualartwork_alternate_name'];
+                        }                    
+                        if(isset($custom_fields['saswp_visualartwork_description'])){
+                            $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_visualartwork_description'] ));
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_date_created'])){
+                            $input1['dateCreated'] =    $custom_fields['saswp_visualartwork_date_created'];
+                        } 
+                        if(isset($custom_fields['saswp_visualartwork_image'])){
+                            $input1['image'] =    $custom_fields['saswp_visualartwork_image'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_artform'])){
+                            $input1['artform'] =    $custom_fields['saswp_visualartwork_artform'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_artedition'])){
+                            $input1['artEdition'] =    $custom_fields['saswp_visualartwork_artedition'];
+                        } 
+                        if(isset($custom_fields['saswp_visualartwork_artwork_surface'])){
+                            $input1['artworkSurface'] =    $custom_fields['saswp_visualartwork_artwork_surface'];
+                        } 
+                        if(isset($custom_fields['saswp_visualartwork_artmedium'])){                            
+                            $input1['artMedium'] = explode(',', $custom_fields['saswp_visualartwork_artmedium']);    
+                        }                        
+                        if(isset($custom_fields['saswp_visualartwork_width'])){
+                            $input1['width']['@type'] =    'Distance';
+                            $input1['width']['name']  =    $custom_fields['saswp_visualartwork_width'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_height'])){
+                            $input1['height']['@type'] =    'Distance';
+                            $input1['height']['name']  =    $custom_fields['saswp_visualartwork_height'];
+                        }
+
+                        if(isset($custom_fields['saswp_visualartwork_author_type'])){
+                            $input1['creator']['@type'] =    $custom_fields['saswp_visualartwork_author_type'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_author_name'])){
+                            $input1['creator']['name'] =    $custom_fields['saswp_visualartwork_author_name'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_author_description'])){
+                            $input1['creator']['description'] =    $custom_fields['saswp_visualartwork_author_description'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_author_url'])){
+                            $input1['creator']['url'] =    $custom_fields['saswp_visualartwork_author_url'];
+                        }
+                         
+                        
+                        break;         
                 case 'Photograph':      
                                          
                        if(isset($custom_fields['saswp_photograph_image'])){
@@ -1667,11 +1782,7 @@ Class saswp_output_service{
 
                     if(isset($custom_fields['saswp_webpage_section'])){
                         $input1['mainEntity']['articleSection'] =    $custom_fields['saswp_webpage_section'];
-                    }
-                    if(isset($custom_fields['saswp_webpage_body'])){
-                        $input1['mainEntity']['articleBody'] =    $custom_fields['saswp_webpage_body'];
-                    }
-                    
+                    }                                        
                     if(isset($custom_fields['saswp_webpage_keywords'])){
                         $input1['mainEntity']['keywords'] =    $custom_fields['saswp_webpage_keywords'];
                     }
@@ -2012,16 +2123,16 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_recipe_name'])){
                      $input1['name'] =    $custom_fields['saswp_recipe_name'];
                     }
+                    if(isset($custom_fields['saswp_recipe_description'])){
+                        $input1['description'] =  wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_recipe_description'] ))  ;
+                    }
                     if(isset($custom_fields['saswp_recipe_date_published'])){
                      $input1['datePublished'] =    $custom_fields['saswp_recipe_date_published'];
                     }
                     
                     if(isset($custom_fields['saswp_recipe_date_modified'])){
                      $input1['dateModified'] =    $custom_fields['saswp_recipe_date_modified'];
-                    }
-                    if(isset($custom_fields['saswp_recipe_description'])){
-                     $input1['description'] =  wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_recipe_description'] ))  ;
-                    }
+                    }                    
                     if(isset($custom_fields['saswp_recipe_main_entity'])){
                      $input1['mainEntity']['@id'] =    $custom_fields['saswp_recipe_main_entity'];
                     }
@@ -3987,11 +4098,7 @@ Class saswp_output_service{
                  $product_details['product_mpn'] = get_the_ID();
              }
                                
-             if(strtolower( $product->get_stock_status() ) == 'onbackorder'){
-                 $product_details['product_availability'] = 'PreOrder';
-             }else{
-                 $product_details['product_availability'] = $product->get_stock_status();
-             }
+             $product_details['product_availability'] = saswp_prepend_schema_org($product->get_stock_status());
              
              $woo_price = $product->get_price();
 
@@ -4499,7 +4606,8 @@ Class saswp_output_service{
                 case 'TechArticle':  
                 case 'Photograph':  
                 case 'Blogposting':
-                case 'BlogPosting': 
+                case 'BlogPosting':
+                case 'CreativeWork': 
                                          
                     $input1 = array(
 					'@context'			=> saswp_context_url(),
@@ -4589,8 +4697,7 @@ Class saswp_output_service{
 						'@type'			=> 'Article',
 						'mainEntityOfPage'	=> saswp_get_permalink(),						
 						'headline'		=> saswp_get_the_title(),
-						'description'		=> saswp_get_the_excerpt(),
-                        'articleBody'           => saswp_get_the_content(),
+						'description'		=> saswp_get_the_excerpt(),                        
                         'keywords'              => saswp_get_the_tags(),
 						'datePublished' 	=> esc_html($date),
 						'dateModified'		=> esc_html($modified_date),

@@ -31,6 +31,15 @@ class SASWP_Gutenberg {
                 'editor'       => 'saswp-gutenberg-css-reg-editor',
                 'local'        => array()            
             ),
+            'book' => array(            
+                'handler'      => 'saswp-book-js-reg',                
+                'local_var'    => 'saswpGutenbergBook',
+                'block_name'   => 'book-block',
+                'render_func'  => 'render_book_data',
+                'style'        => 'saswp-g-book-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
             'course' => array(            
                 'handler'      => 'saswp-course-js-reg',                
                 'local_var'    => 'saswpGutenbergCourse',
@@ -140,6 +149,10 @@ class SASWP_Gutenberg {
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/course.css';              
                                 echo @file_get_contents($amp_css);
                             }
+                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/book-block'){
+                                $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/book.css';              
+                                echo @file_get_contents($amp_css);
+                            }
                             
                         }
                         
@@ -198,6 +211,16 @@ class SASWP_Gutenberg {
                                                 array()                        
                                            );
                                            
+                                       }
+
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/book-block'){
+                                           
+                                        wp_enqueue_style(
+                                             'saswp-g-book-css',
+                                             SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/book.css',
+                                             array()                        
+                                        );
+                                        
                                        }
 
                                    }
@@ -297,6 +320,21 @@ class SASWP_Gutenberg {
             
         }
         
+        public function render_book_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			    ob_end_clean();                                                                       
+			    return '';
+            }
+            
+            echo $this->render->book_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
+
         public function render_course_data($attributes){
             
             ob_start();

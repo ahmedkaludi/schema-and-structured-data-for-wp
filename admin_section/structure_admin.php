@@ -400,6 +400,27 @@ function saswp_comparison_logic_checker($input, $post){
 
         break;
 
+        case 'author':    
+          
+          $author ='false';  
+        
+          if( is_author() ){
+             $author = 'true';  
+          }
+                    
+          if ( $comparison == 'equal' ) {
+              if ( $author == $data ) {
+                $result = true;
+              }
+          }
+          if ( $comparison == 'not_equal') {              
+              if ( $author != $data ) {
+                $result = true;
+              }
+          }
+
+        break;
+
       // Logged in User Type
         case 'user_type':            
             if ( $comparison == 'equal') {
@@ -806,7 +827,8 @@ if(is_admin()){
           'post_type'           =>  saswp_t_string("Post Type"),
           'show_globally'       =>  saswp_t_string("Show Globally"),    
           'user_type'           =>  saswp_t_string("Logged in User Type"),
-          'homepage'            =>  saswp_t_string("Homepage"),  
+          'homepage'            =>  saswp_t_string("Homepage"), 
+          'author'              =>  saswp_t_string("Author"),  
         ),
         saswp_t_string("Post") => array(
           'post'                =>  saswp_t_string("Post"),
@@ -1743,7 +1765,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'rs'           => 'Recipe Schema',
                        'qanda'        => 'Q&A Schema Compatibility',
                        'faq'          => 'FAQ Schema Compatibility',
-                       'ociaifs'      => '1 Click Indexing Api Integration For SASWP'
+                       'ociaifs'      => '1-Click Indexing API Integration'
                 );
                                                                             
                 $edd_action = '';

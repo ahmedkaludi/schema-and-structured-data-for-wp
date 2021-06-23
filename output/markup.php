@@ -351,10 +351,10 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
             $input1 = array();
                 
             $input1 = array(
-            '@context'			=> saswp_context_url(),
-            '@type'				=> (isset($all_post_meta['saswp_event_schema_type_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_type_'.$schema_id][0] !='') ? $all_post_meta['saswp_event_schema_type_'.$schema_id][0] : 'Event' ,            
-            'name'			    => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_name_'.$schema_id, 'saswp_array'),
-            'description'       => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_description_'.$schema_id, 'saswp_array')
+                '@context'			=> saswp_context_url(),
+                '@type'				=> (isset($all_post_meta['saswp_event_schema_type_'.$schema_id][0]) && $all_post_meta['saswp_event_schema_type_'.$schema_id][0] !='') ? $all_post_meta['saswp_event_schema_type_'.$schema_id][0] : 'Event' ,            
+                'name'			    => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_name_'.$schema_id, 'saswp_array'),
+                'description'       => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_description_'.$schema_id, 'saswp_array')
             );
 
             $input1                          = saswp_get_modified_image('saswp_event_schema_image_'.$schema_id.'_detail', $input1);
@@ -440,33 +440,52 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                     $input1['previousStartDate']        = saswp_format_date_time($date, $time);
 
                 }
-
+                $start_date = '';
+                $start_time = '';
                 if(isset($all_post_meta['saswp_event_schema_start_date_'.$schema_id][0])){
-                    
-                    $date = $time = '';
-                    
-                    $date = $all_post_meta['saswp_event_schema_start_date_'.$schema_id][0];
+                                                           
+                    $start_date = $all_post_meta['saswp_event_schema_start_date_'.$schema_id][0];
                     
                     if(isset($all_post_meta['saswp_event_schema_start_time_'.$schema_id][0])){
-                        $time  = $all_post_meta['saswp_event_schema_start_time_'.$schema_id][0];    
+                        $start_time  = $all_post_meta['saswp_event_schema_start_time_'.$schema_id][0];    
                     }
-                    
-                    $input1['startDate']        = saswp_format_date_time($date, $time);
+                                        
+                    $input1['startDate']        = saswp_format_date_time($start_date, $start_time);
                     
                 }
-                
+                $end_date = '';
+                $end_time = '';
                 if(isset($all_post_meta['saswp_event_schema_end_date_'.$schema_id][0])){
-                    
-                    $date = $time = '';
-                    
-                    $date = $all_post_meta['saswp_event_schema_end_date_'.$schema_id][0];
+                                                            
+                    $end_date = $all_post_meta['saswp_event_schema_end_date_'.$schema_id][0];
                     
                     if(isset($all_post_meta['saswp_event_schema_end_time_'.$schema_id][0])){
-                        $time  = $all_post_meta['saswp_event_schema_end_time_'.$schema_id][0];    
+                        $end_time  = $all_post_meta['saswp_event_schema_end_time_'.$schema_id][0];    
                     }
                     
-                    $input1['endDate']        = saswp_format_date_time($date, $time);
+                    $input1['endDate']        = saswp_format_date_time($end_date, $end_time);
                     
+                }
+
+                if(!empty($all_post_meta['saswp_event_schema_schedule_repeat_frequency_'.$schema_id][0])){
+
+                    $input1['eventSchedule']['@type']           = 'Schedule';
+                    $input1['eventSchedule']['startDate']       = $start_date;
+                    $input1['eventSchedule']['endDate']         = $end_date;
+                    $input1['eventSchedule']['startTime']       = $start_time;
+                    $input1['eventSchedule']['endTime']         = $end_time;
+                    $input1['eventSchedule']['repeatFrequency'] = $all_post_meta['saswp_event_schema_schedule_repeat_frequency_'.$schema_id][0];
+
+                    if(!empty($all_post_meta['saswp_event_schema_schedule_by_day_'.$schema_id][0])){
+                        $input1['eventSchedule']['byDay'] = explode(',', $all_post_meta['saswp_event_schema_schedule_by_day_'.$schema_id][0]);
+                    }
+                    if(!empty($all_post_meta['saswp_event_schema_schedule_timezone_'.$schema_id][0])){
+                        $input1['eventSchedule']['scheduleTimezone'] = $all_post_meta['saswp_event_schema_schedule_timezone_'.$schema_id][0];
+                    }
+                    if(!empty($all_post_meta['saswp_event_schema_schedule_by_month_day_'.$schema_id][0])){
+                        $input1['eventSchedule']['byMonthDay'] = explode(',', $all_post_meta['saswp_event_schema_schedule_by_month_day_'.$schema_id][0]);
+                    }   
+
                 }
 
                     //Performer starts here
@@ -696,7 +715,8 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             '@type'				             => 'Recipe' ,
             '@id'                            => trailingslashit(get_permalink()).'#recipe',    
             'url'				             => saswp_remove_warnings($all_post_meta, 'saswp_recipe_url_'.$schema_id, 'saswp_array'),
-            'name'			                 => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),                       
+            'name'			                 => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),
+            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_recipe_description_'.$schema_id, 'saswp_array'),                       
             'prepTime'                       => saswp_format_time_to_ISO_8601(saswp_remove_warnings($all_post_meta, 'saswp_recipe_preptime_'.$schema_id, 'saswp_array')),  
             'cookTime'                       => saswp_format_time_to_ISO_8601(saswp_remove_warnings($all_post_meta, 'saswp_recipe_cooktime_'.$schema_id, 'saswp_array')),  
             'totalTime'                      => saswp_format_time_to_ISO_8601(saswp_remove_warnings($all_post_meta, 'saswp_recipe_totaltime_'.$schema_id, 'saswp_array')),  
@@ -707,8 +727,7 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             'recipeIngredient'               => $ingredient, 
             'recipeInstructions'             => $instruction,                                                                                                                                                                                 
             'datePublished'                 => isset($all_post_meta['saswp_recipe_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_published_'.$schema_id][0])):'',
-            'dateModified'                  => isset($all_post_meta['saswp_recipe_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_modified_'.$schema_id][0])):'',
-            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_recipe_description_'.$schema_id, 'saswp_array'),
+            'dateModified'                  => isset($all_post_meta['saswp_recipe_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_modified_'.$schema_id][0])):'',            
             'mainEntity'                    => array(
                             '@type'				=> 'WebPage',
                             '@id'				=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_main_entity_'.$schema_id, 'saswp_array'),						
@@ -3370,8 +3389,7 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
                         'headline'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_headline_'.$schema_id, 'saswp_array'),
                         'description'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_description_'.$schema_id, 'saswp_array'),
                         'keywords'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_keywords_'.$schema_id, 'saswp_array'),
-                        'articleSection'	=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_section_'.$schema_id, 'saswp_array'),
-                        'articleBody'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_body_'.$schema_id, 'saswp_array'),
+                        'articleSection'	=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_section_'.$schema_id, 'saswp_array'),                        
                         'datePublished' 	=> isset($all_post_meta['saswp_webpage_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
                         'dateModified'		=> isset($all_post_meta['saswp_webpage_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',                        
                         'publisher'			=> array(
@@ -3533,6 +3551,52 @@ function saswp_special_announcement_schema_markup($schema_id, $schema_post_id, $
 
 }
 
+function saswp_visualartwork_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();    
+
+    $input1 = array(
+            '@context'			            => saswp_context_url(),
+            '@type'				            => 'VisualArtwork',
+            '@id'                           => trailingslashit(get_permalink()).'#VisualArtwork',
+            'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_url_'.$schema_id, 'saswp_array'),            
+            'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_image'.$schema_id, 'saswp_array'),
+            'name'			                => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_name_'.$schema_id, 'saswp_array'),
+            'alternateName'			        => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_alternate_name_'.$schema_id, 'saswp_array'),
+            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_description_'.$schema_id, 'saswp_array'),            
+            'dateCreated'                   => isset($all_post_meta['saswp_visualartwork_date_created_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_visualartwork_date_created_'.$schema_id][0], get_post_time('h:i:s')):'',            
+            'artform'                       => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_artform_'.$schema_id, 'saswp_array'),            
+            'artEdition'                    => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_artedition_'.$schema_id, 'saswp_array'),            
+            'artworkSurface'                => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_artwork_surface_'.$schema_id, 'saswp_array'),            
+
+    );
+    
+    if(isset( $all_post_meta['saswp_visualartwork_artmedium_'.$schema_id][0] )){
+        $input1['artMedium']       = explode(',', $all_post_meta['saswp_visualartwork_artmedium_'.$schema_id][0]);
+    }
+    if(isset( $all_post_meta['saswp_visualartwork_width_'.$schema_id][0] )){
+        $input1['width']['@type']       = 'Distance';
+        $input1['width']['name']       = $all_post_meta['saswp_visualartwork_width_'.$schema_id][0];
+    }
+    if(isset( $all_post_meta['saswp_visualartwork_height_'.$schema_id][0] )){
+        $input1['height']['@type']       = 'Distance';
+        $input1['height']['name']       = $all_post_meta['saswp_visualartwork_height_'.$schema_id][0];
+    }
+
+    $input1['creator']['@type']       = 'Person';
+
+    if(isset( $all_post_meta['saswp_photograph_author_type_'.$schema_id][0] )){
+        $input1['creator']['@type']       = $all_post_meta['saswp_photograph_author_type_'.$schema_id][0];
+    }  
+
+    $input1['creator']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_photograph_author_name_'.$schema_id, 'saswp_array');
+    $input1['creator']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_photograph_author_description_'.$schema_id, 'saswp_array');
+    $input1['creator']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_photograph_author_url_'.$schema_id, 'saswp_array');   
+                
+    return $input1;
+
+}
+
 function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
@@ -3652,6 +3716,72 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
     
     return $input1;
     
+}
+
+function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+
+    $slogo = get_post_meta( get_the_ID(), 'saswp_creativework_organization_logo_'.$schema_id.'_detail',true);
+
+    $input1 = array(
+            '@context'			            => saswp_context_url(),
+            '@type'				            => 'CreativeWork',
+            '@id'                           => trailingslashit(get_permalink()).'#CreativeWork',
+            'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_creativework_url_'.$schema_id, 'saswp_array'),
+            'inLanguage'                    => saswp_remove_warnings($all_post_meta, 'saswp_creativework_inlanguage_'.$schema_id, 'saswp_array'),
+            'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_creativework_main_entity_of_page_'.$schema_id, 'saswp_array'),
+            'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_creativework_image_'.$schema_id, 'saswp_array'),
+            'headline'			            => saswp_remove_warnings($all_post_meta, 'saswp_creativework_headline_'.$schema_id, 'saswp_array'),
+            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_creativework_description_'.$schema_id, 'saswp_array'),
+            'articleSection'                => saswp_remove_warnings($all_post_meta, 'saswp_creativework_section_'.$schema_id, 'saswp_array'),
+            'articleBody'                   => isset($all_post_meta['saswp_creativework_body_'.$schema_id][0]) ? wp_strip_all_tags(strip_shortcodes($all_post_meta['saswp_creativework_body_'.$schema_id][0])) : '',
+            'keywords'		                => saswp_remove_warnings($all_post_meta, 'saswp_creativework_keywords_'.$schema_id, 'saswp_array'),                
+            'datePublished'                 => isset($all_post_meta['saswp_creativework_date_published_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_creativework_date_published_'.$schema_id][0], get_post_time('h:i:s')):'',
+            'dateModified'                  => isset($all_post_meta['saswp_creativework_date_modified_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_creativework_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')):'',                                
+
+    );
+
+    $input1['author']['@type']       = 'Person';
+
+    if(isset( $all_post_meta['saswp_creativework_author_type_'.$schema_id][0] )){
+        $input1['author']['@type']       = $all_post_meta['saswp_creativework_author_type_'.$schema_id][0];
+    }  
+
+    $input1['author']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_name_'.$schema_id, 'saswp_array');
+    $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_description_'.$schema_id, 'saswp_array');
+    $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_url_'.$schema_id, 'saswp_array');   
+
+    if(isset($all_post_meta['saswp_creativework_organization_logo_'.$schema_id][0]) || isset($all_post_meta['saswp_creativework_organization_name_'.$schema_id][0])){
+    
+        $input1['publisher']['@type']          = 'Organization';
+        $input1['publisher']['logo']['@type']  = 'ImageObject';
+        $input1['publisher']['logo']['url']    = saswp_remove_warnings($all_post_meta, 'saswp_creativework_organization_logo_'.$schema_id, 'saswp_array');
+        $input1['publisher']['logo']['width']  = saswp_remove_warnings($slogo, 'width', 'saswp_string');
+        $input1['publisher']['logo']['height'] = saswp_remove_warnings($slogo, 'height', 'saswp_string');
+        $input1['publisher']['name']           = saswp_remove_warnings($all_post_meta, 'saswp_creativework_organization_name_'.$schema_id, 'saswp_array');
+        
+    }
+    
+    $itemlist  = get_post_meta($schema_post_id, 'article_items_'.$schema_id, true);
+
+    if($itemlist){
+
+        $list_arr = array();
+
+        foreach ($itemlist as $list){
+            $list_arr[] = $list['saswp_creativework_items_name'];
+        }
+
+        $input1['mainEntity']['@type']            = 'ItemList';
+        $input1['mainEntity']['itemListElement']  = $list_arr;                 
+        $input1['mainEntity']['itemListOrder']    = 'http://schema.org/ItemListOrderAscending ';
+        $input1['mainEntity']['name']             = saswp_get_the_title();
+
+    }       
+
+    return $input1;
+
 }
 
 function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post_meta){
