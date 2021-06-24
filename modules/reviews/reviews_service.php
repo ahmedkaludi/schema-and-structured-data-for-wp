@@ -1183,6 +1183,10 @@ class saswp_reviews_service {
                             
                             $platform_name  = $value['saswp_review_platform_name'];
                             $source_url     = $value['saswp_review_location_id'];
+                            
+                            if($platform_name == 'Google'){
+                                $source_url = 'https://search.google.com/local/reviews?placeid='.$source_url;
+                            }
 
                             if($platform_name == 'Self'){
                                 $platform_name = saswp_t_string(saswp_label_text('translation-self'));
