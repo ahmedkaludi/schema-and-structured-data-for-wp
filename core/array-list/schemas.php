@@ -49,12 +49,13 @@ return array(
              'VideoGame'                => 'VideoGame'                                         
          ),
         'Intangible' => array(
-            'ItemList'                    => 'ItemList', 
-            'JobPosting'                  => 'JobPosting', 
-            'Service'                     => 'Service',
-            'TaxiService'                 => 'TaxiService',
-            'Trip'                        => 'Trip',   
-            'BoatTrip'                    => 'BoatTrip',    
+            'ItemList'                       => 'ItemList', 
+            'JobPosting'                     => 'JobPosting', 
+            'Service'                        => 'Service',
+            'TaxiService'                    => 'TaxiService',
+            'Trip'                           => 'Trip',   
+            'BoatTrip'                       => 'BoatTrip',  
+            'EducationalOccupationalProgram' =>  'EducationalOccupationalProgram',
         ),
         'Media' =>  array(
              'AudioObject'              => 'AudioObject',

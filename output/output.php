@@ -1124,6 +1124,24 @@ function saswp_schema_output() {
                                 
                             break;
                         
+                            case 'EducationalOccupationalProgram':
+                                                                                           
+                                $input1['@context'] =  saswp_context_url();
+                                $input1['@type']    =  'EducationalOccupationalProgram';
+                                $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#EducationalOccupationalProgram';
+                                $input1['url']		= trailingslashit(saswp_get_permalink());
+                                                                                                                                                                                                                   
+                                $input1 = apply_filters('saswp_modify_eop_schema_output', $input1 );
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_eop_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+                        
+                            break;
+
                             case 'Event':
                                 
                                 $event_type         = get_post_meta($schema_post_id, 'saswp_event_type', true);  

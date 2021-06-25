@@ -40,6 +40,10 @@ return array( 'schema_type_element' => array(
 							   'performer'     => 'performer', 
 							   'organizer'     => 'organizer',                                                
 						),
+						'EducationalOccupationalProgram' => array(
+							'eopidentifier'     => 'eopidentifier', 
+							'eopoffer'          => 'eopoffer',                                                
+					    ),
 						'JobPosting' => array(
 							'joblocation'     => 'joblocation'							                                             
 					    ),
@@ -88,6 +92,36 @@ return array( 'schema_type_element' => array(
 						                                                                          
                     ),
     'meta_name' => array(
+		'eopidentifier' => array(                    
+			array(
+				'label'     => 'Property ID',
+				'name'      => 'saswp_eopidentifier_property_id',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Value',
+				'name'      => 'saswp_eopidentifier_property_value',
+				'type'      => 'text',                        
+			) 
+		),
+		'eopoffer' => array(                    
+			array(
+				'label'     => 'Category',
+				'name'      => 'saswp_eopoffer_category',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Price',
+				'name'      => 'saswp_eopoffer_price',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Price Currency',
+				'name'      => 'saswp_eopoffer_price_currency',
+				'type'      => 'text',                        
+			)
+			 
+		),
                      'movie_actor' => array(                    
                         array(
                             'label'     => 'Name',
@@ -192,26 +226,26 @@ return array( 'schema_type_element' => array(
 		    )    
                     ),
                     'performer' => array(                    
-                    array(
-			'label'     => 'Performer Type',
-			'name'      => 'saswp_event_performer_type',
-			'type'      => 'select',
-                        'options'   => array(                                                                                              
-								'Person'           => 'Person',
-								'Organization'     => 'Organization',
-								'MusicGroup'       => 'MusicGroup'
-                        )
-		    ),
-                    array(
-			'label'     => 'Performer Name',
-			'name'      => 'saswp_event_performer_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Performer URL',
-			'name'      => 'saswp_event_performer_url',
-			'type'      => 'text',                        
-		    )                                                            
+            	        array(
+							'label'     => 'Performer Type',
+							'name'      => 'saswp_event_performer_type',
+							'type'      => 'select',
+										'options'   => array(                                                                                              
+												'Person'           => 'Person',
+												'Organization'     => 'Organization',
+												'MusicGroup'       => 'MusicGroup'
+										)
+							),
+									array(
+							'label'     => 'Performer Name',
+							'name'      => 'saswp_event_performer_name',
+							'type'      => 'text',                        
+							),
+									array(
+							'label'     => 'Performer URL',
+							'name'      => 'saswp_event_performer_url',
+							'type'      => 'text',                        
+							)                                                            
 					),
 					
 					'organizer' => array(                    						

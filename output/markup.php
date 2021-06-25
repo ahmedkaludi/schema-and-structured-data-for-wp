@@ -346,6 +346,129 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     return $input1;
 }
 
+function saswp_eop_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+
+            $input1 = array();
+           
+            $input1['@context']                     = saswp_context_url();
+            $input1['@type']                        = 'EducationalOccupationalProgram';
+            $input1['@id']                          = trailingslashit(get_permalink()).'#EducationalOccupationalProgram'; 
+            $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_eop_name_'.$schema_id, 'saswp_array');
+            $input1['url']                          = saswp_remove_warnings($all_post_meta, 'saswp_eop_url_'.$schema_id, 'saswp_array');                            
+            $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_eop_description_'.$schema_id, 'saswp_array');
+           
+            $howto_image = get_post_meta( get_the_ID(), 'saswp_eop_image_'.$schema_id.'_detail',true); 
+            
+          if(!(empty($howto_image))){
+
+            $input1['image']['@type']        = 'ImageObject';
+            $input1['image']['url']          = isset($howto_image['thumbnail']) ? esc_url($howto_image['thumbnail']):'';
+            $input1['image']['height']       = isset($howto_image['width'])     ? esc_attr($howto_image['width'])   :'';
+            $input1['image']['width']        = isset($howto_image['height'])    ? esc_attr($howto_image['height'])  :'';
+
+          }
+
+          $input1['provider']['@type']                        = 'EducationalOrganization';
+          $input1['provider']['address']['name']              = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_name_'.$schema_id, 'saswp_array');
+          $input1['provider']['address']['streetAddress']     = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_street_address_'.$schema_id, 'saswp_array');
+          $input1['provider']['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_address_country_'.$schema_id, 'saswp_array');
+          $input1['provider']['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_address_locality_'.$schema_id, 'saswp_array');
+          $input1['provider']['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_address_region_'.$schema_id, 'saswp_array');
+          $input1['provider']['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_postal_code_'.$schema_id, 'saswp_array');
+
+          $input1['provider']['contactPoint']['@type'] = 'ContactPoint';
+          $input1['provider']['contactPoint']['contactType'] = 'Admissions';
+          $input1['provider']['contactPoint']['telephone']         = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_telephone_'.$schema_id, 'saswp_array');                                                                  
+          
+          if( isset($all_post_meta['saswp_eop_time_to_complete_'.$schema_id][0]) ){
+            $input1['timeToComplete']         = $all_post_meta['saswp_eop_time_to_complete_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_occupational_category_'.$schema_id][0]) ){
+            $input1['occupationalCategory']         = explode(',', $all_post_meta['saswp_eop_occupational_category_'.$schema_id][0]);            
+          }
+          if( isset($all_post_meta['saswp_eop_occupational_credential_awarded_'.$schema_id][0]) ){
+            $input1['occupationalCredentialAwarded']['@type']                      = 'EducationalOccupationalCredential';
+            $input1['occupationalCredentialAwarded']['credentialCategory']         = saswp_format_date_time($all_post_meta['saswp_eop_occupational_credential_awarded_'.$schema_id][0]);            
+          }
+          if( isset($all_post_meta['saswp_eop_program_prerequisites_'.$schema_id][0]) ){
+            $input1['programPrerequisites']['@type'] = 'EducationalOccupationalCredential';
+            $input1['programPrerequisites']          = $all_post_meta['saswp_eop_program_prerequisites_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_application_start_date_'.$schema_id][0]) ){
+            $input1['applicationStartDate']         = $all_post_meta['saswp_eop_application_start_date_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_application_deadline_'.$schema_id][0]) ){
+            $input1['applicationDeadline']         = $all_post_meta['saswp_eop_application_deadline_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_start_date_'.$schema_id][0]) ){
+            $input1['startDate']         = $all_post_meta['saswp_eop_start_date_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_end_date_'.$schema_id][0]) ){
+            $input1['endDate']         = $all_post_meta['saswp_eop_end_date_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_day_of_week_'.$schema_id][0]) ){
+            $input1['dayOfWeek']         = explode(',' ,$all_post_meta['saswp_eop_day_of_week_'.$schema_id][0]);            
+          }
+          if( isset($all_post_meta['saswp_eop_time_of_day_'.$schema_id][0]) ){
+            $input1['timeOfDay']         = $all_post_meta['saswp_eop_time_of_day_'.$schema_id][0];            
+          }          
+          if( isset($all_post_meta['saswp_eop_number_of_credits_'.$schema_id][0]) ){
+            $input1['numberOfCredits']         = $all_post_meta['saswp_eop_number_of_credits_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_typical_credits_per_term_'.$schema_id][0]) ){
+            $input1['typicalCreditsPerTerm']         = $all_post_meta['saswp_eop_typical_credits_per_term_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_term_duration_'.$schema_id][0]) ){
+            $input1['termDuration']         = $all_post_meta['saswp_eop_term_duration_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_terms_per_year_'.$schema_id][0]) ){
+            $input1['termsPerYear']         = $all_post_meta['saswp_eop_terms_per_year_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_maximum_enrollment_'.$schema_id][0]) ){
+            $input1['maximumEnrollment']         = $all_post_meta['saswp_eop_maximum_enrollment_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_educational_program_mode_'.$schema_id][0]) ){
+            $input1['educationalProgramMode']         = $all_post_meta['saswp_eop_educational_program_mode_'.$schema_id][0];            
+          }
+          if( isset($all_post_meta['saswp_eop_financial_aid_eligible_'.$schema_id][0]) ){
+            $input1['financialAidEligible']         = $all_post_meta['saswp_eop_financial_aid_eligible_'.$schema_id][0];            
+          }
+
+          $identifier    = get_post_meta($schema_post_id, 'eopidentifier_'.$schema_id, true);
+          
+          if(!empty($identifier)){
+              $data = array();
+              foreach ($identifier as $value) {
+                  $data[] = array(
+                      '@type'      => 'PropertyValue',
+                      'propertyID' => $value['saswp_eopidentifier_property_id'],
+                      'value'      => $value['saswp_eopidentifier_property_value']
+                  );
+              }
+              $input1['identifier'] = $data;
+          }
+
+          $offer    = get_post_meta($schema_post_id, 'eopoffer_'.$schema_id, true);
+          
+          if(!empty($offer)){
+              $data = array();
+              foreach ($offer as $value) {
+                  $data[] = array(
+                      '@type'      => 'Offer',
+                      'category'   => $value['saswp_eopoffer_category'],
+                      'priceSpecification' => array(
+                          '@type'         => 'PriceSpecification',
+                          'price'         => $value['saswp_eopoffer_price'],
+                          'priceCurrency' => $value['saswp_eopoffer_price_currency']
+                      )                      
+                  );
+              }
+              $input1['offers'] = $data;
+          }
+                                                  
+        return $input1;
+
+}
 function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();
