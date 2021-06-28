@@ -73,11 +73,9 @@ return array( 'schema_type_element' => array(
                                'additional-property' => 'additional_property',
                                                               
                         ),
-                        'MedicalCondition' => array(
-                               'mc-cause'       => 'mc_cause', 
+                        'MedicalCondition' => array(                               
                                'mc-symptom'     => 'mc_symptom', 
-                               'mc-risk_factor' => 'mc_risk_factor', 
-
+                               'mc-risk_factor' => 'mc_risk_factor'
                         ),
                         'TVSeries' => array(
                                'tvseries-actor'  => 'tvseries_actor',
@@ -499,14 +497,7 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_mc_risk_factor_name',
 			'type'      => 'text',                        
 		    )                                                           
-                    ),
-                    'mc_cause' => array(                    
-                    array(
-			'label'     => 'Cause',
-			'name'      => 'saswp_mc_cause_name',
-			'type'      => 'text',                        
-		    )                                                           
-                    ),                                    
+                    ),                                                        
                     'tvseries_actor' => array(                    
                     array(
 			'label'     => 'Actor Name',

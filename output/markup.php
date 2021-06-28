@@ -2756,9 +2756,8 @@ function saswp_tv_series_schema_markup($schema_id, $schema_post_id, $all_post_me
 
 function saswp_medical_condition_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
-    $input1 = array();
-        
-    $cause       = get_post_meta($schema_post_id, 'mc_cause_'.$schema_id, true);              
+    $input1      = array();
+                    
     $symptom     = get_post_meta($schema_post_id, 'mc_symptom_'.$schema_id, true);              
     $riskfactro  = get_post_meta($schema_post_id, 'mc_risk_factor_'.$schema_id, true);              
 
@@ -2793,21 +2792,7 @@ function saswp_medical_condition_schema_markup($schema_id, $schema_post_id, $all
     $input1['code']['@type']                = 'MedicalCode';
     $input1['code']['code']                 = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_medical_code_'.$schema_id, 'saswp_array');                            
     $input1['code']['codingSystem']         = saswp_remove_warnings($all_post_meta, 'saswp_mc_schema_coding_system_'.$schema_id, 'saswp_array');                            
-
-    $cause_arr = array();
-    if(!empty($cause)){
-
-        foreach($cause as $val){
-
-            $supply_data = array();
-            $supply_data['@type'] = 'MedicalCause';
-            $supply_data['name'] = $val['saswp_mc_cause_name'];
-
-           $cause_arr[] =  $supply_data;
-        }
-       $input1['cause'] = $cause_arr;
-    }
-
+        
     $symptom_arr = array();
     if(!empty($symptom)){
 
