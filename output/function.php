@@ -1483,7 +1483,13 @@ function saswp_remove_microdata($content){
         $content = preg_replace('/itemprop=\"(worstRating|ratingValue|bestRating|aggregateRating|ratingCount|reviewBody|review|name|datePublished|author|reviewRating)\"/', "", $content);
         $content = preg_replace('/itemscope\=\"(.*?)\"/', "", $content);
         $content = preg_replace("/itemscope\='(.*?)\'/", "", $content);
-        $content = preg_replace('/itemscope/', "", $content);
+        $content = preg_replace('/itemscope/', "", $content);        
+        $content = preg_replace('/itemprop\=\"(.*?)\"/', "", $content);
+        $content = preg_replace("/itemprop\='(.*?)\'/", "", $content);
+        $content = preg_replace('/itemprop/', "", $content);
+        $content = preg_replace('/itemtype\=\"(.*?)\"/', "", $content);
+        $content = preg_replace("/itemtype\='(.*?)\'/", "", $content);
+        $content = preg_replace('/itemtype/', "", $content);
         $content = preg_replace('/hreview-aggregate/', "", $content);
         $content = preg_replace('/hrecipe/', "", $content);
         
