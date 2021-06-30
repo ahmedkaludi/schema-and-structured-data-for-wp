@@ -997,6 +997,12 @@ class saswp_reviews_service {
                     $review_link = $value['saswp_review_location_id'].'#client_reviews';
 
                 }
+                
+                if($value['saswp_review_platform_name'] == 'Bark.com' && $review_link == ''){
+                
+                    $review_link = $value['saswp_review_location_id'].'#parent-reviews';
+
+                }
         
                 $html = '';
                 $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format); 

@@ -40,6 +40,15 @@ class SASWP_Gutenberg {
                 'editor'       => 'saswp-gutenberg-css-reg-editor',
                 'local'        => array()            
             ),
+            'recipe' => array(
+                'handler'      => 'saswp-recipe-js-reg',                
+                'local_var'    => 'saswpGutenbergRecipe',
+                'block_name'   => 'recipe-block',
+                'render_func'  => 'render_recipe_data',
+                'style'        => 'saswp-g-recipe-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
             'course' => array(            
                 'handler'      => 'saswp-course-js-reg',                
                 'local_var'    => 'saswpGutenbergCourse',
@@ -153,6 +162,10 @@ class SASWP_Gutenberg {
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/book.css';              
                                 echo @file_get_contents($amp_css);
                             }
+                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/recipe-block'){
+                                $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/recipe.css';              
+                                echo @file_get_contents($amp_css);
+                            }
                             
                         }
                         
@@ -218,6 +231,15 @@ class SASWP_Gutenberg {
                                         wp_enqueue_style(
                                              'saswp-g-book-css',
                                              SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/book.css',
+                                             array()                        
+                                        );
+                                        
+                                       }
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/recipe-block'){
+                                           
+                                        wp_enqueue_style(
+                                             'saswp-g-recipe-css',
+                                             SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/recipe.css',
                                              array()                        
                                         );
                                         
@@ -330,6 +352,21 @@ class SASWP_Gutenberg {
             }
             
             echo $this->render->book_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
+
+        public function render_recipe_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			    ob_end_clean();                                                                       
+			    return '';
+            }
+            
+            echo $this->render->recipe_block_data($attributes);
             
             return ob_get_clean();
             
