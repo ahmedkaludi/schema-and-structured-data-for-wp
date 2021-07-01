@@ -1222,7 +1222,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Notice: Undefined variable: custom_markup #308
 * Bug Fixed: JS and CSS should be included where it's need. #294
 * Bug Fixed: Remove duplicate queries #296
-* Bug Fixed: Google Review Module ( update_post_meta was called earlier than its actually call ) #307
+* Bug Fixed: Google Review Module ( saswp_update_post_meta was called earlier than its actually call ) #307
 * Bug Fixed: When extensions are active then it should show #313
 * Bug Fixed: Compatibility conflicts with WooCommerce SEO #312
 * Bug Fixed: '@type' => 'VideoObject' is missing in recipe schema video entity #314

@@ -27,8 +27,8 @@ define('SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 define('SASWP_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('SASWP_EDD_STORE_URL', 'http://structured-data-for-wp.com/');
 
-//define('SASWP_ENVIRONMENT', 'development');
-define('SASWP_ENVIRONMENT', 'production');
+define('SASWP_ENVIRONMENT', 'development');
+//define('SASWP_ENVIRONMENT', 'production');
 // including the output file
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
@@ -78,7 +78,7 @@ require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
 require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';  
 //Loading View files
-require_once SASWP_DIR_NAME.'/view/taxonomy.php';
+
 require_once SASWP_DIR_NAME.'/view/help.php';  
 require_once SASWP_DIR_NAME.'/view/schema_type.php';  
 require_once SASWP_DIR_NAME.'/view/paywall.php';  
@@ -153,3 +153,4 @@ if( ! function_exists( 'saswp_start_plugin_tracking' ) ) {
   
   saswp_start_plugin_tracking();
 }
+

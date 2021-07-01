@@ -422,14 +422,14 @@ $saswp_add_data_type_config = array(
                                         )
                                       )               
 									 );
-			        update_post_meta( $post_id, 'data_group_array', $post_data_array);					
+			        saswp_update_post_meta( $post_id, 'data_group_array', $post_data_array);					
 				}                                
 
                 set_transient('saswp_last_post_id', json_encode(array('post_id'=>$post_id))); 
                 
 				}    
 				if(isset($_POST['saswp_review_item_reviewed_'])){
-					update_post_meta(
+					saswp_update_post_meta(
 						$post_id, 
 						'saswp_review_item_reviewed_'.$post_id, 
 						sanitize_text_field($_POST['saswp_review_item_reviewed_']) 
@@ -472,7 +472,7 @@ $saswp_add_data_type_config = array(
                 
                 $post_data_group_array = saswp_sanitize_multi_array($post_data_group_array, 'data_array'); 
                 
-                update_post_meta(
+                saswp_update_post_meta(
                     $post_id, 
                     'data_group_array', 
                     $post_data_group_array 

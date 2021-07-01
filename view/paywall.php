@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         function saswp_schema_options_get_meta( $value ) {
             global $post;
             
-            $field = get_post_meta( $post->ID, $value, true );
+            $field = saswp_get_post_meta( $post->ID, $value, true );
            
             if ( ! empty( $field ) ) {
                     return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             
                 wp_nonce_field( 'saswp_schema_options_nonce', 'saswp_schema_options_nonce' ); 
                 
-                $schema_options    = get_post_meta($post->ID, 'schema_options', true);
+                $schema_options    = saswp_get_post_meta($post->ID, 'schema_options', true);
                                                                 
                 ?>    
                 
@@ -109,10 +109,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                                 'saswp_modify_method'   => $saswp_modify_method
                                             );   
                                             
-                 update_post_meta( $post_id, 'schema_options', $saswp_schema_options);                 
-                 update_post_meta( $post_id, 'saswp_meta_list_val', $meta_list);
-                 update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);
-                 update_post_meta( $post_id, 'saswp_taxonomy_term', $taxonomy_term);
-                 update_post_meta( $post_id, 'saswp_fixed_image', $fixed_image);
-                 update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);                              
+                 saswp_update_post_meta( $post_id, 'schema_options', $saswp_schema_options);                 
+                 saswp_update_post_meta( $post_id, 'saswp_meta_list_val', $meta_list);
+                 saswp_update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);
+                 saswp_update_post_meta( $post_id, 'saswp_taxonomy_term', $taxonomy_term);
+                 saswp_update_post_meta( $post_id, 'saswp_fixed_image', $fixed_image);
+                 saswp_update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);                              
 }    

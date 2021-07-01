@@ -127,9 +127,9 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                 
                 case 'saswp_reviewer_image' :
                     
-                    $name = get_post_meta( $post_id, $key='saswp_reviewer_name', true);                      
+                    $name = saswp_get_post_meta( $post_id, $key='saswp_reviewer_name', true);                      
                     
-                    $image_url = get_post_meta( $post_id, $key='saswp_reviewer_image', true);
+                    $image_url = saswp_get_post_meta( $post_id, $key='saswp_reviewer_image', true);
                     if(!$image_url){
                         $image_url = SASWP_PLUGIN_URL.'/admin_section/images/default_user.jpg';
                     }
@@ -144,13 +144,13 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     break;                 
                 case 'saswp_review_rating' :
                     
-                    $rating_val = get_post_meta( $post_id, $key='saswp_review_rating', true);                   
+                    $rating_val = saswp_get_post_meta( $post_id, $key='saswp_review_rating', true);                   
                     echo saswp_get_rating_html_by_value($rating_val);                                                                                                                                       
                     
                     break;
                 case 'saswp_review_platform' :
                     
-                    $platform = get_post_meta( $post_id, $key='saswp_review_platform', true);  
+                    $platform = saswp_get_post_meta( $post_id, $key='saswp_review_platform', true);  
                     $term     = get_term( $platform, 'platform' );
                     
                     if(isset($term->slug)){
@@ -175,13 +175,13 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     break;
                 case 'saswp_review_date' :
                     
-                    $name = get_post_meta( $post_id, $key='saswp_review_date', true);
+                    $name = saswp_get_post_meta( $post_id, $key='saswp_review_date', true);
                     echo esc_attr($name);
                                                                                                                                                             
                     break;
                 case 'saswp_review_place_id' :
                     
-                    $name = get_post_meta( $post_id, 'saswp_review_location_id', true);
+                    $name = saswp_get_post_meta( $post_id, 'saswp_review_location_id', true);
                     if(saswp_validate_url($name)){
                         echo '<a target="_blank" href="'.esc_url($name).'">'.esc_attr($name).'</a>';
                     }else{
@@ -293,7 +293,7 @@ function saswp_enqueue_rateyo_script( $hook ) {
         if($post_type =='saswp_reviews'){
             
             $rating_val= 0;
-            $rv_rating = get_post_meta( get_the_ID(), $key='saswp_review_rating', true);
+            $rv_rating = saswp_get_post_meta( get_the_ID(), $key='saswp_review_rating', true);
             if($rv_rating){
                 $rating_val = $rv_rating;
             }

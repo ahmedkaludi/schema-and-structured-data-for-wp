@@ -125,7 +125,7 @@ Class saswp_output_service{
             
             global $post;
             
-            $fixed_image       = get_post_meta($schema_post_id, 'saswp_fixed_image', true) ;            
+            $fixed_image       = saswp_get_post_meta($schema_post_id, 'saswp_fixed_image', true) ;            
                         
             $response = null;
             
@@ -180,7 +180,7 @@ Class saswp_output_service{
                     break;
                 case 'manual_text':    
                     
-                    $fixed_text        = get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
+                    $fixed_text        = saswp_get_post_meta($schema_post_id, 'saswp_fixed_text', true) ; 
 
                     if(isset($fixed_text[$key])){
                         
@@ -212,7 +212,7 @@ Class saswp_output_service{
                     
                     $response = '';
                     
-                    $taxonomy_term       = get_post_meta( $schema_post_id, 'saswp_taxonomy_term', true) ; 
+                    $taxonomy_term       = saswp_get_post_meta( $schema_post_id, 'saswp_taxonomy_term', true) ; 
                                         
                     if($taxonomy_term[$key] == 'all'){
                         
@@ -254,8 +254,8 @@ Class saswp_output_service{
                     
                 case 'custom_field':
                     
-                    $cus_field   = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true);                    
-                    $response    = get_post_meta($post->ID, $cus_field[$key], true); 
+                    $cus_field   = saswp_get_post_meta($schema_post_id, 'saswp_custom_meta_field', true);                    
+                    $response    = saswp_get_post_meta($post->ID, $cus_field[$key], true); 
                     
                     break;
                 case 'fixed_image':                    
@@ -319,7 +319,7 @@ Class saswp_output_service{
 
                             if($acf_obj['type'] == 'image'){
                                 
-                                $image_id           = get_post_meta($post->ID, $field, true );                                
+                                $image_id           = saswp_get_post_meta($post->ID, $field, true );                                
                                 $response           = saswp_get_image_by_id($image_id);                    
                                                                                                             
                             }else if($acf_obj['type'] == 'repeater'){
@@ -333,15 +333,15 @@ Class saswp_output_service{
                                 }                                
                                                                 
                             }else{
-                                $response = get_post_meta($post->ID, $field, true );
+                                $response = saswp_get_post_meta($post->ID, $field, true );
                             }
 
                         }else{
-                            $response = get_post_meta($post->ID, $field, true );
+                            $response = saswp_get_post_meta($post->ID, $field, true );
                         }
                         
                     }else{
-                        $response = get_post_meta($post->ID, $field, true );
+                        $response = saswp_get_post_meta($post->ID, $field, true );
                     }                    
                     
                     break;
@@ -358,7 +358,7 @@ Class saswp_output_service{
          */
         public function saswp_replace_with_custom_fields_value($input1, $schema_post_id){
                                                  
-            $custom_fields    = get_post_meta($schema_post_id, 'saswp_meta_list_val', true);            
+            $custom_fields    = saswp_get_post_meta($schema_post_id, 'saswp_meta_list_val', true);            
             $allowed_html     = saswp_expanded_allowed_tags();
             $review_markup    = array();
             $review_response  = array();
@@ -372,12 +372,12 @@ Class saswp_output_service{
                                                            
                 }   
                 
-                $schema_type      = get_post_meta( $schema_post_id, 'schema_type', true);                                     
+                $schema_type      = saswp_get_post_meta( $schema_post_id, 'schema_type', true);                                     
             
                 if($schema_type == 'Review'){
 
                     $main_schema_type = $schema_type;                                                                                  
-                    $schema_type = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
+                    $schema_type = saswp_get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
                                         
                     if(isset($custom_fields['saswp_review_name'])){
                         $review_markup['name']                       =    $custom_fields['saswp_review_name'];
@@ -4011,7 +4011,7 @@ Class saswp_output_service{
 
              //product categories ends here 
                 
-             $gtin = get_post_meta($post_id, $key='hwp_product_gtin', true);
+             $gtin = saswp_get_post_meta($post_id, $key='hwp_product_gtin', true);
              
              if($gtin !=''){
                  
@@ -4020,7 +4020,7 @@ Class saswp_output_service{
              }  
              
              $brand = '';
-             $brand = get_post_meta($post_id, $key='hwp_product_brand', true);
+             $brand = saswp_get_post_meta($post_id, $key='hwp_product_brand', true);
              
              if($brand !=''){
                  
@@ -4184,10 +4184,10 @@ Class saswp_output_service{
                         
                         foreach($post_meta as $key => $val){
                   
-                               $rv[$val] = get_post_meta($me_post->ID, $key, true );  
+                               $rv[$val] = saswp_get_post_meta($me_post->ID, $key, true );  
                                
                                if($val == 'reviewRating'){
-                                   $sumofrating += get_post_meta($me_post->ID, $key, true ); 
+                                   $sumofrating += saswp_get_post_meta($me_post->ID, $key, true ); 
                                }
                                
                                    
@@ -4305,7 +4305,7 @@ Class saswp_output_service{
                 $item_enable            = 0;
                 $review_count           = "1";
 
-                $rating_box   = get_post_meta($post_id, 'saswp_review_details', true); 
+                $rating_box   = saswp_get_post_meta($post_id, 'saswp_review_details', true); 
 
                 if(isset($rating_box['saswp-review-item-over-all'])){
 
@@ -4348,7 +4348,7 @@ Class saswp_output_service{
             $post_review_title  = '';
             $post_review_desc   = '';
             
-            $post_meta   = get_post_meta($post_id);                                       
+            $post_meta   = saswp_get_post_meta($post_id);                                       
             
             if(isset($post_meta['_post_review_box_breakdowns_score'])){
                 
@@ -4466,7 +4466,7 @@ Class saswp_output_service{
                 
                 if($post_type =='dwqa-question' && isset($sd_data['saswp-dw-question-answer']) && $sd_data['saswp-dw-question-answer'] ==1 && (is_plugin_active('dw-question-answer/dw-question-answer.php') || is_plugin_active('dw-question-answer-pro/dw-question-answer.php')) ){
                  
-                $post_meta      = get_post_meta($post_id);
+                $post_meta      = saswp_get_post_meta($post_id);
                 
                 if(isset($post_meta['_dwqa_best_answer'])){
                     
@@ -4476,7 +4476,7 @@ Class saswp_output_service{
                                                                                                                                               
                 $dw_qa['@type']       = 'Question';
                 $dw_qa['name']        = saswp_get_the_title(); 
-                $dw_qa['upvoteCount'] = get_post_meta( $post_id, '_dwqa_votes', true );                                             
+                $dw_qa['upvoteCount'] = saswp_get_post_meta( $post_id, '_dwqa_votes', true );                                             
                 
                 $args = array(
                     'p'         => $post_id, // ID of a page, post, or custom type
@@ -4521,7 +4521,7 @@ Class saswp_output_service{
                     if(is_object($authorinfo)){
                         $authorname = $authorinfo->data->user_nicename;
                     }else{
-                        $anonymous_name = get_post_meta( $answer->ID, '_dwqa_anonymous_name', true );
+                        $anonymous_name = saswp_get_post_meta( $answer->ID, '_dwqa_anonymous_name', true );
                         if($anonymous_name && $anonymous_name !=''){
                             $authorname = $anonymous_name;
                         }
@@ -4530,7 +4530,7 @@ Class saswp_output_service{
                     if($answer->ID == $best_answer_id){
                         
                         $accepted_answer['@type']       = 'Answer';
-                        $accepted_answer['upvoteCount'] = get_post_meta( $answer->ID, '_dwqa_votes', true );
+                        $accepted_answer['upvoteCount'] = saswp_get_post_meta( $answer->ID, '_dwqa_votes', true );
                         $accepted_answer['url']         = get_permalink();
                         $accepted_answer['text']        = wp_strip_all_tags($answer->post_content);
                         $accepted_answer['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z", $answer);
@@ -4540,7 +4540,7 @@ Class saswp_output_service{
                         
                         $suggested_answer[] =  array(
                             '@type'       => 'Answer',
-                            'upvoteCount' => get_post_meta( $answer->ID, '_dwqa_votes', true ),
+                            'upvoteCount' => saswp_get_post_meta( $answer->ID, '_dwqa_votes', true ),
                             'url'         => get_permalink(),
                             'text'        => wp_strip_all_tags($answer->post_content),
                             'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),

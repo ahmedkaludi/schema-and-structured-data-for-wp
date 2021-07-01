@@ -174,7 +174,7 @@ class saswp_reviews_service {
                 if($post_id && !empty($review_meta) && is_array($review_meta)){
                                         
                     foreach ($review_meta as $key => $val){                     
-                        update_post_meta($post_id, $key, $val);  
+                        saswp_update_post_meta($post_id, $key, $val);  
                     }
             
                  }
@@ -505,7 +505,7 @@ class saswp_reviews_service {
                 if($post_id && !empty($review_meta) && is_array($review_meta)){
                                         
                     foreach ($review_meta as $key => $val){                     
-                        update_post_meta($post_id, $key, $val);  
+                        saswp_update_post_meta($post_id, $key, $val);  
                     }
             
                  }
@@ -572,7 +572,7 @@ class saswp_reviews_service {
                 if($post_id && !empty($review_meta) && is_array($review_meta)){
                                         
                     foreach ($review_meta as $key => $val){                     
-                        update_post_meta($post_id, $key, $val);  
+                        saswp_update_post_meta($post_id, $key, $val);  
                     }
             
                 }
@@ -726,7 +726,7 @@ class saswp_reviews_service {
                 
                 foreach($post_meta as $meta_key){
                     
-                    $review_data[$meta_key] = get_post_meta($rv_post->ID, $meta_key, true ); 
+                    $review_data[$meta_key] = saswp_get_post_meta($rv_post->ID, $meta_key, true ); 
                                                                                
                 }
                 
@@ -1517,10 +1517,10 @@ class saswp_reviews_service {
 
             foreach ($post_ids as $value) {
 
-                $rating = get_post_meta($value, 'saswp_review_rating', true);
+                $rating = saswp_get_post_meta($value, 'saswp_review_rating', true);
 
                 if(is_numeric($rating)){
-                    $avg += get_post_meta($value, 'saswp_review_rating', true);
+                    $avg += saswp_get_post_meta($value, 'saswp_review_rating', true);
                 }
                                 
             }

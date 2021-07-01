@@ -124,10 +124,10 @@ if ( ! defined('ABSPATH') ) exit;
                     if(is_array($meta)){    
                         
                         $meta = wp_unslash($meta);
-                        update_post_meta($post_id, $key, $meta);
+                        saswp_update_post_meta($post_id, $key, $meta);
                         
                     }else{
-                        update_post_meta($post_id, $key, sanitize_text_field($meta));
+                        saswp_update_post_meta($post_id, $key, sanitize_text_field($meta));
                     }
                                                             
                 }
@@ -243,7 +243,7 @@ if ( ! defined('ABSPATH') ) exit;
                         foreach($all_schema_post as $schema){    
 
                         $export_data[$schema->ID]['post']      = (array)$schema;                    
-                        $post_meta                             = get_post_meta($schema->ID);    
+                        $post_meta                             = saswp_get_post_meta($schema->ID);    
 
                         if($post_meta){
 
@@ -337,8 +337,8 @@ if ( ! defined('ABSPATH') ) exit;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
                 $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                 
-                $schema_post_meta       = get_post_meta($schema->ID); 
-                $schema_post_types      = get_post_meta($schema->ID, $key='_schema_post_types', true );                                  
+                $schema_post_meta       = saswp_get_post_meta($schema->ID); 
+                $schema_post_types      = saswp_get_post_meta($schema->ID, $key='_schema_post_types', true );                                  
                 
                 $data_group_array = array();
                 
@@ -373,7 +373,7 @@ if ( ! defined('ABSPATH') ) exit;
                 );
                 
                 foreach ($saswp_meta_key as $key => $val){                     
-                    update_post_meta($post_id, $key, $val);  
+                    saswp_update_post_meta($post_id, $key, $val);  
                 }                                                        
                 if(is_wp_error($result)){
                     $errorDesc[] = $result->get_error_message();
@@ -504,7 +504,7 @@ if ( ! defined('ABSPATH') ) exit;
             
             foreach ($post_ids as $id) {
             
-                $schema_for_faqs = get_post_meta($id, 'schema_faqs_ques_ans_data', true);
+                $schema_for_faqs = saswp_get_post_meta($id, 'schema_faqs_ques_ans_data', true);
     
                 if($schema_for_faqs){
     
@@ -527,13 +527,13 @@ if ( ! defined('ABSPATH') ) exit;
                             }                        
                         }
                         //array is sanitize above
-                        update_post_meta($id, 'faq_question_'.$schema_id, $saswp_faq);
-                        update_post_meta($id, 'saswp_modify_this_schema_'.$schema_id, 1); 
+                        saswp_update_post_meta($id, 'faq_question_'.$schema_id, $saswp_faq);
+                        saswp_update_post_meta($id, 'saswp_modify_this_schema_'.$schema_id, 1); 
     
                     }else{
                         $schema_enable = array();
                         $schema_enable[$schema_id] = 0;                                   
-                        update_post_meta($id, 'saswp_enable_disable_schema', $schema_enable);  
+                        saswp_update_post_meta($id, 'saswp_enable_disable_schema', $schema_enable);  
                     }
                 }
     
@@ -579,7 +579,7 @@ if ( ! defined('ABSPATH') ) exit;
                     $review_post['post_type'] = 'saswp_reviews';                    
                     $post_id = wp_insert_post($review_post);
                                         
-                    $wp_post_meta = get_post_meta($wp_post_id, '', true);
+                    $wp_post_meta = saswp_get_post_meta($wp_post_id, '', true);
                                  
                     $term     = get_term_by( 'slug','google', 'platform' );
                     
@@ -607,7 +607,7 @@ if ( ! defined('ABSPATH') ) exit;
                     if($post_id && !empty($review_meta) && is_array($review_meta)){
 
                         foreach ($review_meta as $key => $val){                     
-                            update_post_meta($post_id, $key, $val);  
+                            saswp_update_post_meta($post_id, $key, $val);  
                         }
 
                     }
@@ -675,7 +675,7 @@ if ( ! defined('ABSPATH') ) exit;
                         $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
 
                         foreach ($saswp_meta_key as $key => $val){                     
-                            update_post_meta($post_id, $key, $val);  
+                            saswp_update_post_meta($post_id, $key, $val);  
                         }  
                         
                          $schema_options = array();
@@ -762,9 +762,9 @@ if ( ! defined('ABSPATH') ) exit;
                                  break;
                          }
                          
-                         update_post_meta( $post_id, 'schema_options', $schema_options);                 
-                         update_post_meta( $post_id, 'saswp_meta_list_val', $meta_list);
-                         update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);   
+                         saswp_update_post_meta( $post_id, 'schema_options', $schema_options);                 
+                         saswp_update_post_meta( $post_id, 'saswp_meta_list_val', $meta_list);
+                         saswp_update_post_meta( $post_id, 'saswp_fixed_text', $fixed_text);   
                         
                     }                                    
           
@@ -865,7 +865,7 @@ if ( ! defined('ABSPATH') ) exit;
                     $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
                                                          
                     foreach ($saswp_meta_key as $key => $val){                     
-                        update_post_meta($post_id, $key, $val);  
+                        saswp_update_post_meta($post_id, $key, $val);  
                     }
           
            if ( count($errorDesc) ){
@@ -1040,7 +1040,7 @@ if ( ! defined('ABSPATH') ) exit;
                      );
                 
                     foreach ($saswp_meta_key as $key => $val){                     
-                        update_post_meta($post_id, $key, $val);  
+                        saswp_update_post_meta($post_id, $key, $val);  
                     }
                     if(is_wp_error($result)){
                         $errorDesc[] = $result->get_error_message();
@@ -1146,7 +1146,7 @@ if ( ! defined('ABSPATH') ) exit;
                      );
                 
                     foreach ($saswp_meta_key as $key => $val){                     
-                        update_post_meta($post_id, $key, $val);  
+                        saswp_update_post_meta($post_id, $key, $val);  
                     }
                     if(is_wp_error($result)){
                         $errorDesc[] = $result->get_error_message();
@@ -1265,10 +1265,10 @@ if ( ! defined('ABSPATH') ) exit;
                 $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
                 $wpdb->get_results("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
                                              
-                $schema_post_types          = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-type', true );                   
-                $schema_post_meta_box       = get_post_meta($schema->ID, $key='bsf-aiosrs-'.$schema_post_types, true );                
-                $schema_enable_location     = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-location', true );
-                $schema_exclude_location    = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-exclusion', true );
+                $schema_post_types          = saswp_get_post_meta($schema->ID, $key='bsf-aiosrs-schema-type', true );                   
+                $schema_post_meta_box       = saswp_get_post_meta($schema->ID, $key='bsf-aiosrs-'.$schema_post_types, true );                
+                $schema_enable_location     = saswp_get_post_meta($schema->ID, $key='bsf-aiosrs-schema-location', true );
+                $schema_exclude_location    = saswp_get_post_meta($schema->ID, $key='bsf-aiosrs-schema-exclusion', true );
                 
                 $data_array = array();
                 
@@ -1512,7 +1512,7 @@ if ( ! defined('ABSPATH') ) exit;
                 
                 foreach ($saswp_meta_key as $key => $val){   
                     
-                    update_post_meta($post_id, $key, $val);  
+                    saswp_update_post_meta($post_id, $key, $val);  
                     
                 }   
                 if(is_wp_error($result)){
@@ -1839,7 +1839,7 @@ if ( ! defined('ABSPATH') ) exit;
 
           if(isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
 
-                    $review_details     = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));
+                    $review_details     = esc_sql ( saswp_get_post_meta(get_the_ID(), 'saswp_review_details', true));
 
                     if(isset($review_details['saswp-review-item-enable'])){
 
@@ -1864,7 +1864,7 @@ if ( ! defined('ABSPATH') ) exit;
      
          global $sd_data;  
         
-         $saswp_review_details = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+         $saswp_review_details = esc_sql ( saswp_get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
         
          $saswp_rv_item_enable = 0;
         
@@ -2070,7 +2070,7 @@ if ( ! defined('ABSPATH') ) exit;
 
         if(saswp_remove_warnings($sd_data, 'saswp-slimseo', 'saswp_string') == 1){
 
-            $slim_seo = get_post_meta( $post->ID, 'slim_seo', true );
+            $slim_seo = saswp_get_post_meta( $post->ID, 'slim_seo', true );
             
             if(isset($slim_seo['description']) && $slim_seo['description'] != ''){
                 $excerpt = $slim_seo['description'];
@@ -2142,7 +2142,7 @@ if ( ! defined('ABSPATH') ) exit;
                 
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                             
-                $c_excerpt = get_post_meta($post->ID, '_genesis_description', true);
+                $c_excerpt = saswp_get_post_meta($post->ID, '_genesis_description', true);
                 
                 if($c_excerpt){
                     $excerpt = $c_excerpt;
@@ -2162,7 +2162,7 @@ if ( ! defined('ABSPATH') ) exit;
 
         if( isset($sd_data['saswp-metatagmanager']) && $sd_data['saswp-metatagmanager'] == 1 && class_exists('Meta_Tag_Manager') ){
 
-            $post_meta = get_post_meta($post->ID, 'mtm_data', true);
+            $post_meta = saswp_get_post_meta($post->ID, 'mtm_data', true);
             
             if(is_array($post_meta)){
 
@@ -2317,7 +2317,7 @@ if ( ! defined('ABSPATH') ) exit;
         if(saswp_remove_warnings($sd_data, 'saswp-slimseo', 'saswp_string') == 1){
                           
             
-            $slim_seo = get_post_meta( get_the_ID(), 'slim_seo', true );
+            $slim_seo = saswp_get_post_meta( get_the_ID(), 'slim_seo', true );
             
             if(isset($slim_seo['title']) && $slim_seo['title'] != ''){
                 $title = $slim_seo['title'];
@@ -2330,7 +2330,7 @@ if ( ! defined('ABSPATH') ) exit;
                           
             if(is_object($post)){
 
-                $c_title = get_post_meta($post->ID, '_genesis_title', true);
+                $c_title = saswp_get_post_meta($post->ID, '_genesis_title', true);
                 
                 if($c_title){
                     $title = $c_title;
@@ -3699,9 +3699,9 @@ function saswp_insert_schema_type($title){
     );                               
    
   $schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
-  update_post_meta( $insertedPageId, 'data_group_array', $post_data_array);
-  update_post_meta( $insertedPageId, 'schema_type', 'FAQ');
-  update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
+  saswp_update_post_meta( $insertedPageId, 'data_group_array', $post_data_array);
+  saswp_update_post_meta( $insertedPageId, 'schema_type', 'FAQ');
+  saswp_update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
 
   }
 
@@ -3725,7 +3725,7 @@ function saswp_get_posts_by_arg($arg){
               $data['post_title']    =  get_the_title();
               $data['post_status']   =  get_post_status();
               $data['post_modified'] =  get_the_date('M, d Y');
-              $post_meta             = get_post_meta(get_the_ID(), '', true);
+              $post_meta             = saswp_get_post_meta(get_the_ID(), '', true);
               if($post_meta){
                   foreach($post_meta as $key => $val ){
                       $post_meta[$key] = $val[0];
@@ -4283,4 +4283,32 @@ function saswp_prepend_schema_org( $short_str ){
     }
 
     return $response;
+}
+
+function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){
+
+    if(get_post_type($post_id)){
+        return update_post_meta($post_id, $meta_key, $meta_value);
+    }else{
+        return update_term_meta($post_id, $meta_key, $meta_value);
+    }
+
+}
+function saswp_get_post_meta( $post_id, $key=null, $single = null ){
+
+    if(get_post_type($post_id)){
+        return get_post_meta($post_id, $key, $single);
+    }else{
+        return get_term_meta($post_id, $key, $single);
+    }
+        
+}
+
+function saswp_delete_post_meta( $post_id, $meta_key, $meta_value = null ){
+
+    if(get_post_type($post_id)){
+        return delete_post_meta( $post_id, $meta_key, $meta_value );
+    }else{
+        return delete_term_meta( $post_id, $meta_key, $meta_value );
+    }
 }

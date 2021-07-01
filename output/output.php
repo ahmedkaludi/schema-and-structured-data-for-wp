@@ -163,8 +163,8 @@ function saswp_schema_output() {
         $date 		        = get_the_date("c");
         $modified_date 	    = get_the_modified_date("c");        
         $modify_option      = get_option('modify_schema_post_enable_'.get_the_ID()); 
-        $schema_enable      = get_post_meta(get_the_ID(), 'saswp_enable_disable_schema', true); 
-        $all_post_meta      = get_post_meta(get_the_ID());                
+        $schema_enable      = saswp_get_post_meta(get_the_ID(), 'saswp_enable_disable_schema', true); 
+        $all_post_meta      = saswp_get_post_meta(get_the_ID());                
         $publisher          = $service_object->saswp_get_publisher();
         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
         $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
@@ -180,11 +180,11 @@ function saswp_schema_output() {
 
                         $schema_type        = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
                         $schema_post_id     = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
-                        $enable_videoobject = get_post_meta($schema_post_id, 'saswp_enable_videoobject', true);
+                        $enable_videoobject = saswp_get_post_meta($schema_post_id, 'saswp_enable_videoobject', true);
                         
                         $input1         = array();
                                                                                                                                                                    				   		                                                                                           		                        			                                                                                              
-                        $modified_schema    = get_post_meta(get_the_ID(), 'saswp_modify_this_schema_'.$schema_post_id, true);
+                        $modified_schema    = saswp_get_post_meta(get_the_ID(), 'saswp_modify_this_schema_'.$schema_post_id, true);
                                                                             
                         if($modify_option == 'enable' && (isset($schema_enable[$schema_post_id]) && $schema_enable[$schema_post_id] == 1)){
                      
@@ -1144,7 +1144,7 @@ function saswp_schema_output() {
 
                             case 'Event':
                                 
-                                $event_type         = get_post_meta($schema_post_id, 'saswp_event_type', true);  
+                                $event_type         = saswp_get_post_meta($schema_post_id, 'saswp_event_type', true);  
                             
                                 $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $event_type ? $event_type : $schema_type;
@@ -1689,7 +1689,7 @@ function saswp_schema_output() {
                             case 'Review':
                                                                                             
                                 $review_markup = $service_object->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                
-                                $item_reviewed = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
+                                $item_reviewed = saswp_get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
                                 
                                 if($item_reviewed == 'local_business'){
                                     $item_reviewed = 'LocalBusiness';
@@ -1857,8 +1857,8 @@ function saswp_schema_output() {
                         
                             case 'local_business':
                                 
-                                $business_type    = get_post_meta($schema_post_id, 'saswp_business_type', true);                                 
-                                $business_name    = get_post_meta($schema_post_id, 'saswp_business_name', true);                                                                
+                                $business_type    = saswp_get_post_meta($schema_post_id, 'saswp_business_type', true);                                 
+                                $business_name    = saswp_get_post_meta($schema_post_id, 'saswp_business_name', true);                                                                
                                                                                                 
                                 if($business_name){
                                     
@@ -1912,7 +1912,7 @@ function saswp_schema_output() {
                         
                         if($schema_type == 'TechArticle' || $schema_type == 'Article' || $schema_type == 'Blogposting' || $schema_type == 'BlogPosting' || $schema_type == 'NewsArticle' || $schema_type == 'WebPage'){
                                            
-                              $speakable_status = get_post_meta($schema_post_id, 'saswp_enable_speakable_schema', true);
+                              $speakable_status = saswp_get_post_meta($schema_post_id, 'saswp_enable_speakable_schema', true);
                             
                               if($speakable_status){
                             
