@@ -3979,9 +3979,15 @@ Class saswp_output_service{
                                     if($variations){
     
                                             foreach($variations as $value){
-    
+
+                                                $product_variation = wc_get_product( $value['variation_id'] ); 
+                                                $p_inc_tax = $product_variation->get_price_including_tax(); 
+
+                                                if($p_inc_tax){
+                                                    $varible_prices[] = $p_inc_tax; 
+                                                }else{
                                                     $varible_prices[] = $value['display_price']; 
-    
+                                                }                                                       
                                             }
                                     }
     
