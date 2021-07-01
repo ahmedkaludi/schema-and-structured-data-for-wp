@@ -228,17 +228,17 @@ class SASWP_Gutenberg_Render {
             
             <div class="saswp-recipe-block-heading">
                  <h4></h4>   
-                 <span class="saswp-recipe-block-author"><?php echo saswp_t_string('Recipe By') ?> <?php echo esc_html($attributes['author']); ?></span>
+                 <span class="saswp-recipe-block-author"><?php echo saswp_t_string('Recipe By') ?> <?php echo (!empty($attributes['author']) ? esc_html($attributes['author']) : '') ; ?></span>
                  <div class="saswp-r-course-section">
                   <span class="saswp-recipe-block-course">
-                    <?php echo saswp_t_string('Course') ?>: <strong><?php echo esc_html($attributes['course']); ?></strong>
+                    <?php echo saswp_t_string('Course') ?>: <strong><?php echo (!empty($attributes['course']) ? esc_html($attributes['course']) : '') ; ?></strong>
                   </span>   
                   <span class="saswp-recipe-block-cuisine">
-                  <?php echo saswp_t_string('Cusine') ?>:<strong><?php echo esc_html($attributes['cuisine']); ?></strong>
+                  <?php echo saswp_t_string('Cusine') ?>:<strong><?php echo (!empty($attributes['cuisine']) ? esc_html($attributes['cuisine']) : '') ; ?></strong>
 
                   </span>   
                   <span class="saswp-recipe-block-difficulty">
-                  <?php echo saswp_t_string('Difficulty') ?>:<strong><?php echo esc_html($attributes['difficulty']); ?></strong>
+                  <?php echo saswp_t_string('Difficulty') ?>:<strong><?php echo (!empty($attributes['difficulty']) ? esc_html($attributes['difficulty']) : '') ; ?></strong>
                   </span>   
                  </div>
             </div>
@@ -247,22 +247,22 @@ class SASWP_Gutenberg_Render {
 
                     <div class="saswp-recipe-block-details-item">
                     <p class="saswp-r-b-label"><?php echo saswp_t_string('Servings') ?></p>                    
-                    <p class="saswp-r-b-unit"><?php echo esc_html($attributes['servings']); ?> <?php echo saswp_t_string('minutes') ?></p>
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['servings']) ? esc_html($attributes['servings']) : '') ; ?> <?php echo saswp_t_string('minutes') ?></p>
                     </div>
 
                     <div class="saswp-recipe-block-details-item">
                     <p class="saswp-r-b-label"><?php echo saswp_t_string('Preparing Time') ?></p>                    
-                    <p class="saswp-r-b-unit"><?php echo esc_html($attributes['pre_time']); ?> <?php echo saswp_t_string('minutes') ?></p>
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['pre_time']) ? esc_html($attributes['pre_time']) : '') ; ?> <?php echo saswp_t_string('minutes') ?></p>
                     </div>
 
                     <div class="saswp-recipe-block-details-item">
                     <p class="saswp-r-b-label"><?php echo saswp_t_string('Cooking Time') ?></p>                    
-                    <p class="saswp-r-b-unit"><?php echo esc_html($attributes['cook_time']); ?> <?php echo saswp_t_string('minutes') ?></p>
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['cook_time']) ? esc_html($attributes['cook_time']) : '') ; ?> <?php echo saswp_t_string('minutes') ?></p>
                     </div>
 
                     <div class="saswp-recipe-block-details-item">
                     <p class="saswp-r-b-label"><?php echo saswp_t_string('Calories') ?></p>                    
-                    <p class="saswp-r-b-unit"><?php echo esc_html($attributes['calories']); ?> <?php echo saswp_t_string('kcal') ?></p>
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['calories']) ? esc_html($attributes['calories']) : '') ; ?> <?php echo saswp_t_string('kcal') ?></p>
                     </div>
 
 
