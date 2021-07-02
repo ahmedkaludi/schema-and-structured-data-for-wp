@@ -4973,11 +4973,11 @@ Class saswp_output_service{
                                         
                                         if(empty($input2) && isset($image_details[0]) && $image_details[0] !='' && isset($image_details[1]) && isset($image_details[2]) ){
                                             
-                                                $input2['image']['@type']  = 'ImageObject';
-                                                $input2['image']['@id']    = saswp_get_permalink().'#primaryimage';
-                                                $input2['image']['url']    = esc_url($image_details[0]);
-                                                $input2['image']['width']  = esc_attr($image_details[1]);
-                                                $input2['image']['height'] = esc_attr($image_details[2]);
+                                                $input2['image'][0]['@type']  = 'ImageObject';
+                                                $input2['image'][0]['@id']    = saswp_get_permalink().'#primaryimage';
+                                                $input2['image'][0]['url']    = esc_url($image_details[0]);
+                                                $input2['image'][0]['width']  = esc_attr($image_details[1]);
+                                                $input2['image'][0]['height'] = esc_attr($image_details[2]);
                                             
                                         }
                                                                                                                                                                                                                                          
