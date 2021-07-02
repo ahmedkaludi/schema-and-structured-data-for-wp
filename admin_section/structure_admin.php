@@ -652,6 +652,11 @@ function saswp_comparison_logic_checker($input, $post){
                 $queried_obj   = get_queried_object();
                 $termChoices[] = $queried_obj->slug;
 
+              }else if( isset($_GET['tag_ID'] ) && is_admin() ){
+
+                $term_object = get_term( intval($_GET['tag_ID']) );
+                $termChoices[] = $term_object->slug;
+
               }else{
 
                 if( is_object($post) ) {
@@ -690,6 +695,13 @@ function saswp_comparison_logic_checker($input, $post){
             }
 
             }else{
+
+              if( isset($_GET['tag_ID'] ) && is_admin() ){
+
+                $term_object  = get_term( intval($_GET['tag_ID']) );
+                $post_terms[] = $term_object->slug;
+
+              }
               
               if( isset($input['key_4']) && $input['key_4'] == 'all' ) {
               
@@ -1222,7 +1234,7 @@ function saswp_custom_breadcrumbs() {
 
               if ( class_exists('WPSEO_Primary_Term') && ( isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 ) ) {
 
-                $wpseo_primary_term = new WPSEO_Primary_Term( 'category', get_the_id() );
+                $wpseo_primary_term = new WPSEO_Primary_Term( 'category', saswp_get_the_ID() );
                 $wpseo_primary_term = $wpseo_primary_term->get_primary_term();
                 $term_yoast = get_term( $wpseo_primary_term );
                 

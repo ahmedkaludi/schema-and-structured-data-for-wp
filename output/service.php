@@ -50,7 +50,7 @@ Class saswp_output_service{
 					while ( $the_query->have_posts() ) :
 						$the_query->the_post();
 
-						$post_id = get_the_id();
+						$post_id = saswp_get_the_ID();
 						
 						$acf_fields = apply_filters( 'acf/field_group/get_fields', array(), $post_id ); // WPCS: XSS OK.						
 
@@ -4101,7 +4101,7 @@ Class saswp_output_service{
              }
                 
              if(!isset($product_details['product_mpn'])){
-                 $product_details['product_mpn'] = get_the_ID();
+                 $product_details['product_mpn'] = saswp_get_the_ID();
              }
                                
              $product_details['product_availability'] = saswp_prepend_schema_org($product->get_stock_status());
@@ -4129,7 +4129,7 @@ Class saswp_output_service{
                 $product_details['product_price']           = $woo_price;
              }
                           
-             $product_details['product_sku']             = $product->get_sku() ? $product->get_sku(): get_the_ID();             
+             $product_details['product_sku']             = $product->get_sku() ? $product->get_sku(): saswp_get_the_ID();             
              
              if(isset($date_on_sale)){
                  
@@ -4661,7 +4661,7 @@ Class saswp_output_service{
                 }
                 
                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] == 1){
-                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                    $input1['comment'] = saswp_get_comments(saswp_get_the_ID());
                 }
 
                     break;
@@ -4725,7 +4725,7 @@ Class saswp_output_service{
                 case 'Car':
                 case 'Vehicle':    
                                                                         
-                        $product_details = $this->saswp_woocommerce_product_details(get_the_ID());  
+                        $product_details = $this->saswp_woocommerce_product_details(saswp_get_the_ID());  
 
                         if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
 

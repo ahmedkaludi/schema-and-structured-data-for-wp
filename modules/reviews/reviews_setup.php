@@ -293,7 +293,7 @@ function saswp_enqueue_rateyo_script( $hook ) {
         if($post_type =='saswp_reviews'){
             
             $rating_val= 0;
-            $rv_rating = saswp_get_post_meta( get_the_ID(), $key='saswp_review_rating', true);
+            $rv_rating = saswp_get_post_meta( saswp_get_the_ID(), $key='saswp_review_rating', true);
             if($rv_rating){
                 $rating_val = $rv_rating;
             }

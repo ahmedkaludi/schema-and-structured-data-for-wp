@@ -328,8 +328,8 @@ function saswp_wpecommerce_product_schema($input1){
 
     if( isset($sd_data['saswp-wpecommerce']) && $sd_data['saswp-wpecommerce'] == 1 && function_exists('wpsc_the_product_description') && get_post_type() == 'wpsc-product' ){
 
-            $price = saswp_get_post_meta( get_the_ID(), '_wpsc_special_price', true );
-            $cal_price = wpsc_calculate_price(get_the_ID());
+            $price = saswp_get_post_meta( saswp_get_the_ID(), '_wpsc_special_price', true );
+            $cal_price = wpsc_calculate_price(saswp_get_the_ID());
 			$currargs = array(
 				'display_currency_symbol' => false,
 				'display_decimal_point'   => false,

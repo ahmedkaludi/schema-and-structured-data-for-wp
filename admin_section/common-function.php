@@ -1839,7 +1839,7 @@ if ( ! defined('ABSPATH') ) exit;
 
           if(isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
 
-                    $review_details     = esc_sql ( saswp_get_post_meta(get_the_ID(), 'saswp_review_details', true));
+                    $review_details     = esc_sql ( saswp_get_post_meta(saswp_get_the_ID(), 'saswp_review_details', true));
 
                     if(isset($review_details['saswp-review-item-enable'])){
 
@@ -1864,7 +1864,7 @@ if ( ! defined('ABSPATH') ) exit;
      
          global $sd_data;  
         
-         $saswp_review_details = esc_sql ( saswp_get_post_meta(get_the_ID(), 'saswp_review_details', true)); 
+         $saswp_review_details = esc_sql ( saswp_get_post_meta(saswp_get_the_ID(), 'saswp_review_details', true)); 
         
          $saswp_rv_item_enable = 0;
         
@@ -1929,7 +1929,7 @@ if ( ! defined('ABSPATH') ) exit;
 
             if(!$aurthor_name){
 
-                $author_id    = get_post_field ('post_author', get_the_ID());
+                $author_id    = get_post_field ('post_author', saswp_get_the_ID());
                 $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
 
             } 
@@ -2317,7 +2317,7 @@ if ( ! defined('ABSPATH') ) exit;
         if(saswp_remove_warnings($sd_data, 'saswp-slimseo', 'saswp_string') == 1){
                           
             
-            $slim_seo = saswp_get_post_meta( get_the_ID(), 'slim_seo', true );
+            $slim_seo = saswp_get_post_meta( saswp_get_the_ID(), 'slim_seo', true );
             
             if(isset($slim_seo['title']) && $slim_seo['title'] != ''){
                 $title = $slim_seo['title'];
@@ -3640,7 +3640,7 @@ function saswp_update_global_post(){
   
   if( (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) && (function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint()) ){
 
-    $page_id = ampforwp_get_the_ID();  
+    $page_id = ampforwp_saswp_get_the_ID();  
     
     if($page_id){
 
@@ -3721,11 +3721,11 @@ function saswp_get_posts_by_arg($arg){
           $post_meta = array();        
           while($meta_query->have_posts()) {
               $meta_query->the_post();
-              $data['post_id']       =  get_the_ID();
+              $data['post_id']       =  saswp_get_the_ID();
               $data['post_title']    =  get_the_title();
               $data['post_status']   =  get_post_status();
               $data['post_modified'] =  get_the_date('M, d Y');
-              $post_meta             = saswp_get_post_meta(get_the_ID(), '', true);
+              $post_meta             = saswp_get_post_meta(saswp_get_the_ID(), '', true);
               if($post_meta){
                   foreach($post_meta as $key => $val ){
                       $post_meta[$key] = $val[0];
@@ -4287,7 +4287,7 @@ function saswp_prepend_schema_org( $short_str ){
 
 function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){
 
-    if(get_post_type($post_id)){
+    if(saswp_post_exists($post_id)){
         return update_post_meta($post_id, $meta_key, $meta_value);
     }else{
         return update_term_meta($post_id, $meta_key, $meta_value);
@@ -4296,7 +4296,7 @@ function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){
 }
 function saswp_get_post_meta( $post_id, $key=null, $single = null ){
 
-    if(get_post_type($post_id)){
+    if(saswp_post_exists($post_id)){
         return get_post_meta($post_id, $key, $single);
     }else{
         return get_term_meta($post_id, $key, $single);
@@ -4306,9 +4306,23 @@ function saswp_get_post_meta( $post_id, $key=null, $single = null ){
 
 function saswp_delete_post_meta( $post_id, $meta_key, $meta_value = null ){
 
-    if(get_post_type($post_id)){
+    if(saswp_post_exists($post_id)){
         return delete_post_meta( $post_id, $meta_key, $meta_value );
     }else{
         return delete_term_meta( $post_id, $meta_key, $meta_value );
     }
+}
+function saswp_get_the_ID(){
+
+    $id =  get_the_ID();
+
+    if( is_tax() || is_category() ){
+        $id = get_queried_object_id();
+    }
+
+    if( isset($_GET['tag_ID'] ) && is_admin() ){
+        $id = intval($_GET['tag_ID']);
+    }
+    
+    return $id;
 }

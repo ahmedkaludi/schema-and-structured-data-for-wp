@@ -445,7 +445,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 
                 case 'NewsArticle':
                     
-                    $category_detail=get_the_category(get_the_ID());//$post->ID
+                    $category_detail=get_the_category(saswp_get_the_ID());//$post->ID
                     $article_section = '';
                     
                     foreach($category_detail as $cd){
@@ -1404,7 +1404,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         case 'SpecialAnnouncement':    
                                 
-                                $category_detail =get_the_category(get_the_ID());//$post->ID
+                                $category_detail =get_the_category(saswp_get_the_ID());//$post->ID
                                 $article_section = '';
                                 
                                 if($category_detail){

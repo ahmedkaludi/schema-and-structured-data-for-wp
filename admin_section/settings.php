@@ -4209,7 +4209,7 @@ function saswp_enqueue_style_js( $hook ) {
             $all_schema_array = include $mappings_file;
         }
         
-        $post_id = get_the_ID();
+        $post_id = saswp_get_the_ID();
 
         if(isset($_GET['tag_ID'])){
                 $post_id = intval($_GET['tag_ID']);
