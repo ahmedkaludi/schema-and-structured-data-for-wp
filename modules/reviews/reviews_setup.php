@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
     
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 97 ){
+    if( $platform_inserted != 98 ){
             
         $term_array = array(    
             'Self',
@@ -368,6 +368,7 @@ function saswp_insert_platform_terms(){
             'Expedia', 
             'Facebook', 
             'Google', 
+            'Google Shopping', 
             'Goodreads',
             'TripAdvisor', 
             'Yelp', 
@@ -481,8 +482,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 97){
-            set_transient('saswp_platform_inserted', 97,  24*7*HOUR_IN_SECONDS ); 
+        if(count($term_ids)  == 98){
+            set_transient('saswp_platform_inserted', 98,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }
