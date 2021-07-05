@@ -4192,10 +4192,25 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text', 
                             
                     ),
-                        array(
-                            'label'      => 'Date Modified',
-                            'id'         => 'saswp_howto_ec_schema_date_modified_'.$schema_id,
-                            'type'       => 'text',                             
+                    array(
+                                'label'      => 'Date Modified',
+                                'id'         => 'saswp_howto_ec_schema_date_modified_'.$schema_id,
+                                'type'       => 'text',                             
+                    ),
+                    array(
+                        'label'      => 'Supplies',
+                        'id'         => 'saswp_howto_schema_supplies_'.$schema_id,
+                        'type'       => 'repeater'                                                     
+                    ),
+                    array(
+                        'label'      => 'Tools',
+                        'id'         => 'saswp_howto_schema_tools_'.$schema_id,
+                        'type'       => 'repeater'                                                     
+                    ),
+                    array(
+                        'label'      => 'Steps',
+                        'id'         => 'saswp_howto_schema_steps_'.$schema_id,
+                        'type'       => 'repeater'                                                     
                     )
                    );
                     break;
@@ -5596,6 +5611,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_faq_date_modified_'.$schema_id,
                                 'type'       => 'text',
                                 'default'    => get_the_modified_date("Y-m-d")                            
+                        ),
+                        array(
+                                'label'      => 'MainEntity (Questions & Answers) ',
+                                'id'         => 'saswp_faq_main_entity_'.$schema_id,
+                                'type'       => 'repeater'                                                     
                         )                                                    
                        );                                                                 
                        

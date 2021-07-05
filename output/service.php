@@ -121,7 +121,7 @@ Class saswp_output_service{
          * @param type $schema_post_id
          * @return type array or string
          */        
-        public function saswp_get_meta_list_value($key, $field, $schema_post_id){
+        public function saswp_get_meta_list_value($key, $field, $schema_post_id, $schema_type){
             
             global $post;
             
@@ -130,6 +130,9 @@ Class saswp_output_service{
             $response = null;
             
             switch ($field) {
+                case 'blogname':
+                    $response   = get_bloginfo();                    
+                break;
                 case 'blogname':
                     $response   = get_bloginfo();                    
                     break;
@@ -324,13 +327,149 @@ Class saswp_output_service{
                                                                                                             
                             }else if($acf_obj['type'] == 'repeater'){
                                                                                                 
-                                if(isset($acf_obj['value'])){
-                                    foreach($acf_obj['value'] as $value){
-                                        foreach ($value as $val){
-                                         $response[] = $val;   
+                                switch ($schema_type) {
+
+                                    case 'FAQ':
+                                                                                                                        
+                                        if(isset($acf_obj['value'])){
+
+                                            foreach($acf_obj['value'] as $value){
+
+                                                $main_entity = array();
+
+                                                $ar_values = array_values($value);
+                                                
+                                                $main_entity['@type']                   = 'Question';
+                                              
+                                                if(!empty($ar_values[0])){
+                                                    $main_entity['name'] = $ar_values[0]; 
+                                                }
+                                                $main_entity['acceptedAnswer']['@type'] = 'Answer';
+                                                if(!empty($ar_values[1])){
+                                                    $main_entity['acceptedAnswer']['text'] = $ar_values[1];
+                                                }
+                                                if(!empty($ar_values[2]['url'])){
+                                                    $main_entity['acceptedAnswer']['image'] = $ar_values[2]['url'];
+                                                }
+                                                
+                                                $response [] = $main_entity;                                   
+                                               
+                                            }
+                                            
                                         }
-                                    }
-                                }                                
+
+                                        break;
+
+                                        case 'HowTo':
+                                                                                        
+                                            if(strpos($acf_obj['name'], "tool") !== false){
+
+                                                if(isset($acf_obj['value'])){
+    
+                                                    foreach($acf_obj['value'] as $value){
+        
+                                                        $main_entity = array();
+        
+                                                        $ar_values = array_values($value);
+                                                        
+                                                        $main_entity['@type']                   = 'HowToTool';
+                                                      
+                                                        if(!empty($ar_values[0])){
+                                                            $main_entity['name'] = $ar_values[0]; 
+                                                        }
+                                                        if(!empty($ar_values[1])){
+                                                            $main_entity['url'] = $ar_values[1]; 
+                                                        }                                                        
+                                                        if(!empty($ar_values[2]['url'])){
+                                                            $main_entity['image'] = $ar_values[2]['url'];
+                                                        }
+                                                        
+                                                        $response [] = $main_entity;                                   
+                                                       
+                                                    }
+                                                    
+                                                }
+
+                                            }
+
+                                            if(strpos($acf_obj['name'], "supp") !== false){
+                                                
+                                                if(isset($acf_obj['value'])){
+    
+                                                    foreach($acf_obj['value'] as $value){
+        
+                                                        $main_entity = array();
+        
+                                                        $ar_values = array_values($value);
+                                                        
+                                                        $main_entity['@type']                   = 'HowToSupply';
+                                                      
+                                                        if(!empty($ar_values[0])){
+                                                            $main_entity['name'] = $ar_values[0]; 
+                                                        }
+                                                        if(!empty($ar_values[1])){
+                                                            $main_entity['url'] = $ar_values[1]; 
+                                                        }                                                        
+                                                        if(!empty($ar_values[2]['url'])){
+                                                            $main_entity['image'] = $ar_values[2]['url'];
+                                                        }
+                                                        
+                                                        $response [] = $main_entity;                                   
+                                                       
+                                                    }
+                                                    
+                                                }
+
+                                            }
+
+                                            if(strpos($acf_obj['name'], "step") !== false){
+
+                                                if(isset($acf_obj['value'])){
+    
+                                                    foreach($acf_obj['value'] as $value){
+        
+                                                        $main_entity = array();
+        
+                                                        $ar_values = array_values($value);
+                                                        
+                                                        $main_entity['@type']                   = 'HowToStep';
+                                                      
+                                                        if(!empty($ar_values[0])){
+                                                            $main_entity['name'] = $ar_values[0]; 
+                                                        }
+                                                        if(!empty($ar_values[1])){
+                                                            $main_entity['url'] = $ar_values[1]; 
+                                                        }
+                                                        if(!empty($ar_values[2])){
+                                                            $main_entity['text'] = $ar_values[2]; 
+                                                        }                                                        
+                                                        if(!empty($ar_values[3]['url'])){
+                                                            $main_entity['image'] = $ar_values[3]['url'];
+                                                        }
+                                                        
+                                                        $response [] = $main_entity;                                   
+                                                       
+                                                    }
+                                                    
+                                                }
+
+                                            }
+                                                
+                                            break;
+                                        
+                                    
+                                    default:
+
+                                        if(isset($acf_obj['value'])){
+                                            foreach($acf_obj['value'] as $value){
+                                                foreach ($value as $val){
+                                                $response[] = $val;   
+                                                }
+                                            }
+                                        }   
+
+                                        break;
+                                }                             
                                                                 
                             }else{
                                 $response = saswp_get_post_meta($post->ID, $field, true );
@@ -365,15 +504,15 @@ Class saswp_output_service{
             $main_schema_type = '';
                                                           
             if(!empty($custom_fields)){
-                
+
+                $schema_type      = saswp_get_post_meta( $schema_post_id, 'schema_type', true);     
+
                 foreach ($custom_fields as $key => $field){
                                                                                                                                          
-                    $custom_fields[$key] = $this->saswp_get_meta_list_value($key, $field, $schema_post_id);                                           
+                    $custom_fields[$key] = $this->saswp_get_meta_list_value($key, $field, $schema_post_id, $schema_type);                                           
                                                            
                 }   
-                
-                $schema_type      = saswp_get_post_meta( $schema_post_id, 'schema_type', true);                                     
-            
+                                                                            
                 if($schema_type == 'Review'){
 
                     $main_schema_type = $schema_type;                                                                                  
@@ -1408,6 +1547,16 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_howto_schema_image'])){
                      $input1['image'] =    $custom_fields['saswp_howto_schema_image'];
+                    }
+
+                    if(isset($custom_fields['saswp_howto_schema_supplies'])){                                                                                                                    
+                        $input1['supply'] =    $custom_fields['saswp_howto_schema_supplies'];
+                    }
+                    if(isset($custom_fields['saswp_howto_schema_tools'])){                                                                                                                    
+                        $input1['tool'] =    $custom_fields['saswp_howto_schema_tools'];
+                    }
+                    if(isset($custom_fields['saswp_howto_schema_steps'])){                                                                                                                    
+                        $input1['step'] =    $custom_fields['saswp_howto_schema_steps'];
                     }
                                                             
                     break;     
@@ -3072,6 +3221,10 @@ Class saswp_output_service{
                        }
                        
                        $input1['author']['name']              =    $custom_fields['saswp_faq_author'];                                              
+                    }
+
+                    if(isset($custom_fields['saswp_faq_main_entity'])){                                                                                                                    
+                        $input1['mainEntity'] =    $custom_fields['saswp_faq_main_entity'];
                     }
                                                              
                 break;

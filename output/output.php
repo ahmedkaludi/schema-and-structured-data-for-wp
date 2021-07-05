@@ -233,7 +233,7 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_faq_schema_markup($schema_post_id, saswp_get_the_ID(), $all_post_meta);
                                 }
-                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                              
                             break;
                         
                             case 'VideoGame':
@@ -320,6 +320,8 @@ function saswp_schema_output() {
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'HowTo';
                                 $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';                                                                                                                                                    
+                                $input1['name']                  = saswp_get_the_title();
+                                $input1['description']           = saswp_get_the_excerpt();
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 
@@ -331,7 +333,7 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_howto_schema_markup($schema_post_id, saswp_get_the_ID(), $all_post_meta);
                                 }
-                            
+                                
                             break;
                         
                             case 'Trip':

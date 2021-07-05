@@ -309,23 +309,28 @@ class saswp_view_common_class {
                     
                         $input      = '';
                         $attributes = '';
-                        
-			$label      = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ). '</label>';
-			$meta_value = saswp_get_post_meta( $post_id, $meta_field['id'], true );
-                                                
-			if ( empty( $meta_value ) && isset($meta_field['default'])) {
-                            
-				$meta_value = $meta_field['default'];                                 
+                        $label      = '';
+                        $meta_value = array();
+
+                        if($meta_field['type'] != 'repeater'){
+                            $label      = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ). '</label>';
+			                $meta_value = saswp_get_post_meta( $post_id, $meta_field['id'], true );
                         }
+			                                                
+                    if ( empty( $meta_value ) && isset($meta_field['default'])) {
+                                    
+                        $meta_value = $meta_field['default'];                                 
                         
-                        if(isset($meta_field['attributes'])){
+                    }
+                                
+                    if(isset($meta_field['attributes'])){
+                        
+                        foreach ($meta_field['attributes'] as $key => $attr ){
                             
-                            foreach ($meta_field['attributes'] as $key => $attr ){
-                                
-                                           $attributes .=''.esc_attr($key).'="'.esc_attr($attr).'"';
-                                }
-                                
-                        }                        
+                                    $attributes .=''.esc_attr($key).'="'.esc_attr($attr).'"';
+                            }
+                            
+                    }                        
                         
 			switch ( $meta_field['type'] ) {
                             
@@ -476,7 +481,7 @@ class saswp_view_common_class {
 						);
 					break;        
                                         
-                                case 'multiselect':                                       
+                case 'multiselect':                                       
 					$input = sprintf(
 						'<select multiple id="%s" name="%s[]">',
 						$meta_field['id'],
