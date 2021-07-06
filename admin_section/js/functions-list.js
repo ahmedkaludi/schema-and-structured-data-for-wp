@@ -1102,7 +1102,8 @@
            }
                       
        }
-       
+
+      
        function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage){
                 
                 var html          = '';                
@@ -1183,12 +1184,21 @@
                         html += '<div class="saswp-grid-pagination">';                    
                         html += '<a class="saswp-grid-page" data-id="1" href="#">&laquo;</a>'; 
                         
+                        var min = (parseInt(saswp_grid_page) - 3);
+                        var max = (parseInt(saswp_grid_page) + 3);
+
                         for(var i=1; i <= page_count; i++){
+
+                            var hide_class = 'saswp_hide';
+                            
+                            if (i > min && i < max){				
+                                hide_class = '';
+                            }
                             
                             if(i == saswp_grid_page){
-                                html += '<a class="active saswp-grid-page" data-id="'+i+'" href="#">'+i+'</a>';    
+                                html += '<a class="active saswp-grid-page '+hide_class+'" data-id="'+i+'" href="#">'+i+'</a>';    
                             }else{
-                                html += '<a class="saswp-grid-page" data-id="'+i+'" href="#">'+i+'</a>';    
+                                html += '<a class="saswp-grid-page '+hide_class+'" data-id="'+i+'" href="#">'+i+'</a>';    
                             }
                             
                         }      
@@ -1204,6 +1214,7 @@
                 }
                     jQuery(".saswp-collection-preview").html('');                    
                     jQuery(".saswp-collection-preview").append(html);
+                   
                                                                                                 
             }     
             

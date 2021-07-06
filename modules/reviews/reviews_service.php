@@ -940,20 +940,28 @@ class saswp_reviews_service {
                         
                         if(strpos($current_url, "?rv_page") !== false){
                             $current_url = substr($current_url, 0, strpos($current_url, "?rv_page"));
-                        }                        
+                        }        
+                        
+                        $sidenr = 1;
+
+                        if(isset($_GET['rv_page'])){
+                            $sidenr = intval($_GET['rv_page']);   
+                        }
+                        
+                        list($min,$max) = saswp_get_page_range($sidenr, $page_count);
+                         
                         $html .= '<div class="saswp-grid-pagination">';                    
                         $html .= '<a class="saswp-grid-page" data-id="1" href="'.esc_url($current_url).'">&laquo;</a>'; 
                         
-                        for($i=1; $i <= $page_count; $i++){
+                        foreach (range($min, $max) as $number) {
                             
-                            if($i == $data_id){
-                                $html .= '<a class="active saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.esc_attr($i).'</a>';    
+                            if($number == $data_id){
+                                $html .= '<a class="active saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$number).'">'.esc_attr($number).'</a>';    
                             }else{
-                                $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.esc_attr($i).'</a>';    
+                                $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$number).'">'.esc_attr($number).'</a>';    
                             }
-                            
-                        }      
-                        
+                        }
+                                                
                         $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$page_count).'">&raquo;</a>';                                     
                         
                         $html .= '</div>';                        
@@ -963,7 +971,7 @@ class saswp_reviews_service {
                 if(($page_count > 0 && $pagination ) && $pagination_wpr){
 
                         $html .= '<div class="saswp-grid-pagination saswp-grid-wpr">';                    
-                        $html .= '<a data-id="1" class="saswp-grid-page" href="#">&laquo;</a>'; 
+                        $html .= '<a data-id="1" class="saswp-grid-page saswp-pagination-first-last" href="#">&laquo;</a>'; 
                         
                         for($i=1; $i <= $page_count; $i++){
                             
@@ -975,7 +983,7 @@ class saswp_reviews_service {
                             
                         }      
                         
-                        $html .= '<a data-id="'.esc_attr($page_count).'" class="saswp-grid-page" href="#">&raquo;</a>';                                     
+                        $html .= '<a data-id="'.esc_attr($page_count).'" class="saswp-grid-page saswp-pagination-first-last" href="#">&raquo;</a>';                                     
                         
                         $html .= '</div>';  
 

@@ -4326,3 +4326,26 @@ function saswp_get_the_ID(){
     
     return $id;
 }
+
+function saswp_get_page_range($current, $max, $total_pages = 5) {
+
+    $desired_pages = $max < $total_pages ? $max : $total_pages;
+
+    $middle = ceil($desired_pages/2);
+    if ($current <= $middle){
+        return [1, $desired_pages];
+    }
+    if ($current > $middle && $current <= ($max - $middle)) {
+        return [
+            $current - $middle,
+            $current + $middle
+        ];
+    }
+    if ($current <= $max ) {
+        return [
+            $current - ($desired_pages - 1),
+            $max
+        ];
+    }
+
+}

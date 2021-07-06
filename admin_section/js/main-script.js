@@ -3345,7 +3345,7 @@ jQuery(document).ready(function($){
                
             $(document).on("click", ".saswp-grid-page", function(e){
                 e.preventDefault();
-                saswp_grid_page  = $(this).attr('data-id');
+                saswp_grid_page  = $(this).attr('data-id');               
                 saswp_on_collection_design_change();                                    
             });                  
                
@@ -3467,8 +3467,7 @@ jQuery(document).ready(function($){
                 
               saswp_get_collection_data(null, null, null, null, reviews_list);
                                            
-            }
-                                    
+            }                   
             //Collection js ends here
 
 

@@ -331,7 +331,7 @@ Class saswp_output_service{
 
                                     case 'FAQ':
                                                                                                                         
-                                        if(isset($acf_obj['value'])){
+                                        if(!empty($acf_obj['value'])){
 
                                             foreach($acf_obj['value'] as $value){
 
@@ -364,7 +364,7 @@ Class saswp_output_service{
                                                                                         
                                             if(strpos($acf_obj['name'], "tool") !== false){
 
-                                                if(isset($acf_obj['value'])){
+                                                if(!empty($acf_obj['value'])){
     
                                                     foreach($acf_obj['value'] as $value){
         
@@ -394,7 +394,7 @@ Class saswp_output_service{
 
                                             if(strpos($acf_obj['name'], "supp") !== false){
                                                 
-                                                if(isset($acf_obj['value'])){
+                                                if(!empty($acf_obj['value'])){
     
                                                     foreach($acf_obj['value'] as $value){
         
@@ -424,7 +424,7 @@ Class saswp_output_service{
 
                                             if(strpos($acf_obj['name'], "step") !== false){
 
-                                                if(isset($acf_obj['value'])){
+                                                if(!empty($acf_obj['value'])){
     
                                                     foreach($acf_obj['value'] as $value){
         

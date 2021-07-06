@@ -175,6 +175,27 @@ jQuery(document).ready(function($){
                                                                                 
     });   
 	
+	
+	function saswp_show_page(page){
+		
+		$(".saswp-grid-page").hide();
+		$(".saswp-pagination-first-last").show();		
+		
+		var min = (parseInt(page) - 3);
+		var max = (parseInt(page) + 3);
+		
+		$(".saswp-grid-wpr a").each(function(n) {
+						
+			if (n > min && n < max){				
+				$(this).show();
+			}
+				
+		});
+
+	}
+
+	saswp_show_page(1);
+
 	$(".saswp-grid-wpr .saswp-grid-page").on("click", function(e){
 		e.preventDefault();
 
@@ -185,7 +206,7 @@ jQuery(document).ready(function($){
 		}
 
 		var data_id = $(this).attr('data-id');
-
+		saswp_show_page(data_id);
 		$('.saswp-r1 li').addClass('saswp_grid_dp_none');
 		$('.saswp-r1 li[data-id="'+data_id+'"]').removeClass('saswp_grid_dp_none');
 		
