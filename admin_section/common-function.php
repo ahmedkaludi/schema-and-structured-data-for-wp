@@ -2898,7 +2898,7 @@ function saswp_admin_notice(){
 
     }
         
-    if(($next_days < $current_date) && $activation_never !='never' ){
+    if(($next_days < $current_date) && $activation_never !='never' && $notice_msg ){
       ?>
          <div class="updated notice message notice notice-alt saswp-feedback-notice">                         
             <p class="saswp-notice-p">
