@@ -206,6 +206,7 @@ function saswp_get_all_schema_markup_output() {
         $gutenberg_job            = array();
         $gutenberg_book           = array();
         $gutenberg_course         = array();
+        $kb_website_output        = array();
         
         if( !is_home() && ( is_singular() || is_front_page() || (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page())) ){
             
