@@ -4109,7 +4109,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Question Upvote Count',
                             'id' => 'saswp_qa_upvote_count_'.$schema_id,
-                            'type' => 'text',                           
+                            'type' => 'number',                           
                     ),
                     array(
                             'label' => 'Question Date Created',
@@ -4119,7 +4119,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Author Type',
                             'id'    => 'saswp_qa_question_author_type_'.$schema_id,
-                            'type'  => 'text',                           
+                            'type'  => 'select',
+                            'options' => array(
+                                    'Person'       => 'Person',
+                                    'Organization' => 'Organization'
+                            )                           
                     ),
                     array(
                             'label' => 'Author Name',
@@ -4129,7 +4133,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                         'label' => 'Answer Count',
                         'id'    => 'saswp_qa_answer_count_'.$schema_id,
-                        'type'  => 'text',                           
+                        'type'  => 'number',                           
                     )                                            
                         
                    );

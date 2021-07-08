@@ -2847,15 +2847,13 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1['mainEntity']['dateCreated']   = isset($all_post_meta['saswp_qa_date_created_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_qa_date_created_'.$schema_id][0])):'';
 
         $input1['mainEntity']['author']['@type']  = 'Person';
-
+       
         if(isset($all_post_meta['saswp_qa_question_author_type_'.$schema_id][0])){
             $input1['mainEntity']['author']['@type']  = $all_post_meta['saswp_qa_question_author_type_'.$schema_id][0];
         }
 
         $input1['mainEntity']['author']['name']   =  saswp_remove_warnings($all_post_meta, 'saswp_qa_question_author_name_'.$schema_id, 'saswp_array');
-
-        $input1['mainEntity']['author']        = array('@type' => 'Person','name' =>saswp_remove_warnings($all_post_meta, 'saswp_qa_question_author_name_'.$schema_id, 'saswp_array'));
-
+        
         $input1['mainEntity']['answerCount']   = saswp_remove_warnings($all_post_meta, 'saswp_qa_answer_count_'.$schema_id, 'saswp_array');
         
         $answer    = saswp_get_post_meta($schema_post_id, 'accepted_answer_'.$schema_id, true);
@@ -2874,7 +2872,14 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                     $supply_data['url']         = $val['saswp_qa_accepted_answer_url'];
                     $supply_data['text']        = $val['saswp_qa_accepted_answer_text'];
                     $supply_data['dateCreated'] = saswp_format_date_time($val['saswp_qa_accepted_answer_date_created']);
-                    $supply_data['author']      = $val['saswp_qa_accepted_author_name'];                    
+
+                    $supply_data['author']['@type'] = 'Person';
+
+                    if(!empty($val['saswp_qa_accepted_author_type'])){
+                        $supply_data['author']['@type'] = $val['saswp_qa_accepted_author_type'];
+                    }
+
+                    $supply_data['author']['name']      = $val['saswp_qa_accepted_author_name'];                    
                 }
 
                $answer_arr[] =  $supply_data;
@@ -2898,7 +2903,14 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                     $supply_data['url']         = $val['saswp_qa_suggested_answer_url'];
                     $supply_data['text']        = $val['saswp_qa_suggested_answer_text'];
                     $supply_data['dateCreated'] = saswp_format_date_time($val['saswp_qa_suggested_answer_date_created']);
-                    $supply_data['author']      = $val['saswp_qa_suggested_author_name'];                    
+
+                    $supply_data['author']['@type'] = 'Person';
+
+                    if(!empty($val['saswp_qa_suggested_author_type'])){
+                        $supply_data['author']['@type'] = $val['saswp_qa_suggested_author_type'];
+                    }
+
+                    $supply_data['author']['name']      = $val['saswp_qa_suggested_author_name'];                    
                 }
 
                $answer_arr[] =  $supply_data;

@@ -345,6 +345,15 @@ return array( 'schema_type_element' => array(
 								'type'      => 'text',                        
 						),
 						array(
+							'label'     => 'Accepted Answer Author Type',
+							'name'      => 'saswp_qa_accepted_author_type',
+							'type'      => 'select',
+							'options'   => array(
+								'Person' 		=> 'Person',
+								'Organization'  => 'Organization'
+							)                       
+						),
+						array(
 								'label'     => 'Accepted Answer Author Name',
 								'name'      => 'saswp_qa_accepted_author_name',
 								'type'      => 'text',                        
@@ -372,10 +381,19 @@ return array( 'schema_type_element' => array(
 								'type'      => 'text',                        
 						),
 						array(
+							'label'     => 'Accepted Answer Author Type',
+							'name'      => 'saswp_qa_suggested_author_type',
+							'type'      => 'select',
+							'options'   => array(
+								'Person' 		=> 'Person',
+								'Organization'  => 'Organization'
+							)                       
+						),
+						array(
 								'label'     => 'suggested Answer Author Name',
 								'name'      => 'saswp_qa_suggested_author_name',
 								'type'      => 'text',                        
-							)                                        
+						)                                        
                     ),
                     'howto_tool' => array(                    
                     array(
