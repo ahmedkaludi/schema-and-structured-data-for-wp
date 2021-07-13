@@ -2880,7 +2880,7 @@ function saswp_admin_notice(){
         
     }     
      //Feedback notice    
-    $activation_date  =  get_option("saswp_activation_date");  
+    //$activation_date  =  get_option("saswp_activation_date");  
     $activation_never =  get_option("saswp_activation_never");      
     $next_days        =  strtotime("+7 day", strtotime($activation_date));
     $next_days        =  date('Y-m-d', $next_days);   

@@ -37,7 +37,13 @@ function saswp_add_all_meta_boxes() {
             'normal',
             'high'
     );
-    
+    add_meta_box( 'saswp_location_meta_box', 
+                saswp_t_string('Front End' ), 
+                'saswp_location_meta_box_cb', 
+                'saswp', 
+                'side', 'low' 
+                );
+
     add_meta_box( 'saswp_help_meta_box', 
                 saswp_t_string('Help' ), 
                 'saswp_help_meta_box_cb', 
@@ -1208,7 +1214,13 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return;
                                                 
                 saswp_update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
-                                
+                
+                if(isset($_POST['saswp_loc_display_on_front'])){
+                    saswp_update_post_meta( $post_id, 'saswp_loc_display_on_front', intval( $_POST['saswp_loc_display_on_front'] ) );
+                }else{
+                    saswp_delete_post_meta( $post_id, 'saswp_loc_display_on_front');   
+                }
+                
                 if(isset($_POST['saswp_business_type'])){
                     saswp_update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
                 }else{

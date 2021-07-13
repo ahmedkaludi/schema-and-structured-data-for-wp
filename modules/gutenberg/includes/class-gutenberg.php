@@ -31,6 +31,15 @@ class SASWP_Gutenberg {
                 'editor'       => 'saswp-gutenberg-css-reg-editor',
                 'local'        => array()            
             ),
+            'location' => array(            
+                'handler'      => 'saswp-location-js-reg',                
+                'local_var'    => 'saswpGutenbergLocation',
+                'block_name'   => 'location-block',
+                'render_func'  => 'render_location_data',
+                'style'        => 'saswp-g-location-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
             'book' => array(            
                 'handler'      => 'saswp-book-js-reg',                
                 'local_var'    => 'saswpGutenbergBook',
@@ -288,7 +297,20 @@ class SASWP_Gutenberg {
                                     $block['local']['collection_not_found']      = true;
                                     $block['local']['collection_url']            = wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce');
                                 }
+                            }
+
+                            if($key == 'location'){
+                                
+                                $review_service = new saswp_reviews_service();
+                                $col_opt  = $review_service->saswp_get_collection_list();
+                                       
+                               if($col_opt){                                    
+                                   $block['local']['location'] = $col_opt;
+                               }else{
+                                   $block['local']['location_not_found']      = true;
+                                   $block['local']['location_url']            = admin_url('edit.php?post_type=saswp');
                                }
+                           }
                                                     
                             wp_localize_script( $block['handler'], $block['local_var'], $block['local'] );
                          
@@ -337,6 +359,22 @@ class SASWP_Gutenberg {
             }
             
             echo $this->render->collection_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
+
+        public function render_location_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            echo $this->render->location_block_data($attributes);
             
             return ob_get_clean();
             

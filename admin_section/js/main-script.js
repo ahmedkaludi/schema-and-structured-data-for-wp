@@ -4,6 +4,16 @@ var rmv_boolean        = false;
 var rmv_html           = '';
 jQuery(document).ready(function($){
 
+ $(document).on("click", '#saswp_loc_display_on_front', function(){ 
+  
+      if( $(this).is(":checked") ){
+        $(".saswp-front-location-inst").removeClass('saswp_hide');        
+      }else{
+        $(".saswp-front-location-inst").addClass('saswp_hide');
+      }
+                       
+});
+
   function saswp_get_collection_condition_list_ajax(condition){
 
     if(condition){

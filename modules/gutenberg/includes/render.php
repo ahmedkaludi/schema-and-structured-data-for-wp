@@ -442,5 +442,23 @@ class SASWP_Gutenberg_Render {
         return do_shortcode('[saswp-reviews-collection id="'.$collection_id.'"]');
         
     }
+
+    public function location_block_data($attributes){
+                
+        $collection_id = null; 
+        
+        if(isset($attributes['id'])){            
+            $collection_id = $attributes['id'];                        
+        }else{
+             $review_service = new saswp_reviews_service();
+             $col_opt  = $review_service->saswp_get_collection_list(1);
+             if(isset($col_opt[0]['value'])){
+                 $collection_id = $col_opt[0]['value'];
+             }
+        }
+                
+        return do_shortcode('[saswp-location id="'.$collection_id.'"]');
+        
+    }
     
 }
