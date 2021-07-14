@@ -1,5 +1,5 @@
 
-( function( blocks, element, components, i18n) {
+( function( blocks, element, editor, components, i18n ) {
             
     const el               = element.createElement;    
     const { __ }           = i18n;        
@@ -7,7 +7,7 @@
                 
     blocks.registerBlockType( 'saswp/location-block', {
         title: __('Location (SASWP)', 'schema-and-structured-data-for-wp'),
-        icon:     'admin-comments',
+        icon:     'dashicons dashicons-location',
         category: 'saswp-blocks',
         keywords: ['schema', 'structured data', 'Location', 'location'],
         
@@ -38,7 +38,7 @@
                 if(saswpGutenbergLocation.location_not_found){
                     
                     collection =   el('div',{className:'saswp-collection-not-found'},
-                    __('Collection not found ', 'schema-and-structured-data-for-wp'),
+                    __('Location not found ', 'schema-and-structured-data-for-wp'),
                     el('a',{
                         href:saswpGutenbergLocation.location_url
                     },

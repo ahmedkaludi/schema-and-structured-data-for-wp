@@ -445,19 +445,18 @@ class SASWP_Gutenberg_Render {
 
     public function location_block_data($attributes){
                 
-        $collection_id = null; 
+        $location_id = null; 
         
         if(isset($attributes['id'])){            
-            $collection_id = $attributes['id'];                        
-        }else{
-             $review_service = new saswp_reviews_service();
-             $col_opt  = $review_service->saswp_get_collection_list(1);
+            $location_id = $attributes['id'];                        
+        }else{             
+             $col_opt  = saswp_get_location_list();
              if(isset($col_opt[0]['value'])){
-                 $collection_id = $col_opt[0]['value'];
+                 $location_id = $col_opt[0]['value'];
              }
         }
                 
-        return do_shortcode('[saswp-location id="'.$collection_id.'"]');
+        return do_shortcode('[saswp-location id="'.$location_id.'"]');
         
     }
     

@@ -607,8 +607,9 @@ jQuery(document).ready(function($){
         }else{
           $(".saswp-enable-markup-class").parent().parent().hide();
         }
-
+        $("#saswp_location_meta_box").addClass('saswp_hide');
         if(schematype == 'local_business'){
+          $("#saswp_location_meta_box").removeClass('saswp_hide');
          $(".saswp-option-table-class tr").eq(1).show();   
          $(".saswp-business-text-field-tr").show();
          $(".saswp-option-table-class tr").find('select').attr('disabled', false);            
@@ -720,11 +721,12 @@ jQuery(document).ready(function($){
             }else{
               $(".saswp-enable-markup-class").parent().parent().hide();
             }
-            
+            $("#saswp_location_meta_box").addClass('saswp_hide');
             if(schematype == 'local_business'){
                 $(".saswp-"+businesstype+'-tr').show(); 
                 $(".saswp-business-text-field-tr").show(); 
-                $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false);            
+                $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false);   
+                $("#saswp_location_meta_box").removeClass('saswp_hide');         
             } 
                           
              if(schematype == 'Review'){            

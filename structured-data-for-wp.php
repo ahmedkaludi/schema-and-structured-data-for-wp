@@ -33,7 +33,6 @@ define('SASWP_ENVIRONMENT', 'development');
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
 require_once SASWP_DIR_NAME .'/output/markup.php';
-require_once SASWP_DIR_NAME .'/output/location.php';
 require_once SASWP_DIR_NAME .'/output/other-schema.php';
 require_once SASWP_DIR_NAME .'/output/gutenberg.php';
 require_once SASWP_DIR_NAME .'/output/elementor.php';
@@ -75,6 +74,7 @@ if ( ! function_exists('saswp_non_amp') ){
 require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
+require_once SASWP_DIR_NAME .'/output/location.php';
 require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
 require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';  

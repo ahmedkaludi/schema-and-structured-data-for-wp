@@ -300,9 +300,8 @@ class SASWP_Gutenberg {
                             }
 
                             if($key == 'location'){
-                                
-                                $review_service = new saswp_reviews_service();
-                                $col_opt  = $review_service->saswp_get_collection_list();
+                                                                
+                                $col_opt  = saswp_get_location_list();
                                        
                                if($col_opt){                                    
                                    $block['local']['location'] = $col_opt;
