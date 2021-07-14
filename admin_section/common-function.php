@@ -2880,7 +2880,7 @@ function saswp_admin_notice(){
         
     }     
      //Feedback notice    
-    //$activation_date  =  get_option("saswp_activation_date");  
+    $activation_date  =  get_option("saswp_activation_date");  
     $activation_never =  get_option("saswp_activation_never");      
     $next_days        =  strtotime("+7 day", strtotime($activation_date));
     $next_days        =  date('Y-m-d', $next_days);   
@@ -2894,8 +2894,7 @@ function saswp_admin_notice(){
         $date2 = new DateTime($current_date);
         $diff = $date1->diff($date2);
         
-        $notice_msg = ( ($diff->y > 0 ) ? $diff->y. ' years, ' : ''). ( ($diff->m > 0 ) ? $diff->m. ' month, ' : ''). ( ($diff->d > 0 ) ? floor($diff->d / 7). ' Week, ' : '');
-
+        $notice_msg = ( ($diff->y > 0 ) ? $diff->y. ' years, ' : ''). ( ($diff->m > 0 ) ? $diff->m. ' month, ' : ''). ( ($diff->d > 0 ) ? floor($diff->d / 7). ' Week, ' : '');        
     }
         
     if(($next_days < $current_date) && $activation_never !='never' && $notice_msg ){
@@ -4287,30 +4286,43 @@ function saswp_prepend_schema_org( $short_str ){
 
 function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){
 
-    if(saswp_post_exists($post_id)){
-        return update_post_meta($post_id, $meta_key, $meta_value);
-    }else{
-        return update_term_meta($post_id, $meta_key, $meta_value);
-    }
+    if($post_id){
 
+        if(saswp_post_exists($post_id)){
+            return update_post_meta($post_id, $meta_key, $meta_value);
+        }else{
+            return update_term_meta($post_id, $meta_key, $meta_value);
+        }
+
+    }
+    
 }
 function saswp_get_post_meta( $post_id, $key=null, $single = null ){
 
-    if(saswp_post_exists($post_id)){
-        return get_post_meta($post_id, $key, $single);
-    }else{
-        return get_term_meta($post_id, $key, $single);
+    if($post_id){
+
+        if(saswp_post_exists($post_id)){
+            return get_post_meta($post_id, $key, $single);
+        }else{
+            return get_term_meta($post_id, $key, $single);
+        }
+
     }
-        
+            
 }
 
 function saswp_delete_post_meta( $post_id, $meta_key, $meta_value = null ){
 
-    if(saswp_post_exists($post_id)){
-        return delete_post_meta( $post_id, $meta_key, $meta_value );
-    }else{
-        return delete_term_meta( $post_id, $meta_key, $meta_value );
+    if($post_id){
+
+        if(saswp_post_exists($post_id)){
+            return delete_post_meta( $post_id, $meta_key, $meta_value );
+        }else{
+            return delete_term_meta( $post_id, $meta_key, $meta_value );
+        }
+
     }
+    
 }
 function saswp_get_the_ID(){
 

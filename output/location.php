@@ -148,7 +148,7 @@ function saswp_location_shortcode_render($attr){
 
 function saswp_add_location_content( $post_id ){
     
-    $post_meta = get_post_meta($post_id);
+    $post_meta = saswp_get_post_meta($post_id);
     
     $html  = '<div class="saswp-location-container">';
 
