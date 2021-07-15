@@ -59,8 +59,8 @@ class SASWP_Reviews_Collection {
             global $post;    
             $response = false;
 
-            $where        = get_post_meta($collection_id, 'saswp_collection_where', true);
-            $where_data   = get_post_meta($collection_id, 'saswp_collection_where_data', true);
+            $where        = saswp_get_post_meta($collection_id, 'saswp_collection_where', true);
+            $where_data   = saswp_get_post_meta($collection_id, 'saswp_collection_where_data', true);
             
             if(isset($where[0])){
 
@@ -261,7 +261,7 @@ class SASWP_Reviews_Collection {
             
             if($collection_id){
                 
-            $reviews_list = get_post_meta($collection_id, 'saswp_platform_ids', true);
+            $reviews_list = saswp_get_post_meta($collection_id, 'saswp_platform_ids', true);
              
             if($reviews_list){
                 
@@ -350,7 +350,7 @@ class SASWP_Reviews_Collection {
                 $dots = $f_interval = $f_visibility = $arrow = 1;
                 $g_type = $design = $cols = $sorting = $date_format = '';
                 
-                $collection_data = get_post_meta($attr['id']);
+                $collection_data = saswp_get_post_meta($attr['id']);
                 
                 if(isset($collection_data['saswp_collection_design'][0])){
                     $design        = $collection_data['saswp_collection_design'][0];
@@ -542,7 +542,7 @@ class SASWP_Reviews_Collection {
 
                 $post_id = intval($_GET['post_id']);
 
-                $post_meta = get_post_meta($post_id);            
+                $post_meta = saswp_get_post_meta($post_id);            
 
 
             } else{
@@ -917,7 +917,7 @@ class SASWP_Reviews_Collection {
                 
                 foreach($post_meta as $meta_key => $meta_val){
                     
-                    update_post_meta($post_id, $meta_key, $meta_val); 
+                    saswp_update_post_meta($post_id, $meta_key, $meta_val); 
                     
                 }
                 

@@ -31,12 +31,30 @@ class SASWP_Gutenberg {
                 'editor'       => 'saswp-gutenberg-css-reg-editor',
                 'local'        => array()            
             ),
+            'location' => array(            
+                'handler'      => 'saswp-location-js-reg',                
+                'local_var'    => 'saswpGutenbergLocation',
+                'block_name'   => 'location-block',
+                'render_func'  => 'render_location_data',
+                'style'        => 'saswp-g-location-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
             'book' => array(            
                 'handler'      => 'saswp-book-js-reg',                
                 'local_var'    => 'saswpGutenbergBook',
                 'block_name'   => 'book-block',
                 'render_func'  => 'render_book_data',
                 'style'        => 'saswp-g-book-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local'        => array()            
+            ),
+            'recipe' => array(
+                'handler'      => 'saswp-recipe-js-reg',                
+                'local_var'    => 'saswpGutenbergRecipe',
+                'block_name'   => 'recipe-block',
+                'render_func'  => 'render_recipe_data',
+                'style'        => 'saswp-g-recipe-css',
                 'editor'       => 'saswp-gutenberg-css-reg-editor',
                 'local'        => array()            
             ),
@@ -153,6 +171,10 @@ class SASWP_Gutenberg {
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/book.css';              
                                 echo @file_get_contents($amp_css);
                             }
+                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/recipe-block'){
+                                $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/recipe.css';              
+                                echo @file_get_contents($amp_css);
+                            }
                             
                         }
                         
@@ -222,6 +244,15 @@ class SASWP_Gutenberg {
                                         );
                                         
                                        }
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/recipe-block'){
+                                           
+                                        wp_enqueue_style(
+                                             'saswp-g-recipe-css',
+                                             SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/recipe.css',
+                                             array()                        
+                                        );
+                                        
+                                       }
 
                                    }
 
@@ -266,7 +297,19 @@ class SASWP_Gutenberg {
                                     $block['local']['collection_not_found']      = true;
                                     $block['local']['collection_url']            = wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce');
                                 }
+                            }
+
+                            if($key == 'location'){
+                                                                
+                                $col_opt  = saswp_get_location_list();
+                                       
+                               if($col_opt){                                    
+                                   $block['local']['location'] = $col_opt;
+                               }else{
+                                   $block['local']['location_not_found']      = true;
+                                   $block['local']['location_url']            = admin_url('edit.php?post_type=saswp');
                                }
+                           }
                                                     
                             wp_localize_script( $block['handler'], $block['local_var'], $block['local'] );
                          
@@ -319,6 +362,22 @@ class SASWP_Gutenberg {
             return ob_get_clean();
             
         }
+
+        public function render_location_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			ob_end_clean();
+                                                                       
+			return '';
+            }
+            
+            echo $this->render->location_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
         
         public function render_book_data($attributes){
             
@@ -330,6 +389,21 @@ class SASWP_Gutenberg {
             }
             
             echo $this->render->book_block_data($attributes);
+            
+            return ob_get_clean();
+            
+        }
+
+        public function render_recipe_data($attributes){
+            
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+			    ob_end_clean();                                                                       
+			    return '';
+            }
+            
+            echo $this->render->recipe_block_data($attributes);
             
             return ob_get_clean();
             

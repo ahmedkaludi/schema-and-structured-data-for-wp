@@ -4,6 +4,16 @@ var rmv_boolean        = false;
 var rmv_html           = '';
 jQuery(document).ready(function($){
 
+ $(document).on("click", '#saswp_loc_display_on_front', function(){ 
+  
+      if( $(this).is(":checked") ){
+        $(".saswp-front-location-inst").removeClass('saswp_hide');        
+      }else{
+        $(".saswp-front-location-inst").addClass('saswp_hide');
+      }
+                       
+});
+
   function saswp_get_collection_condition_list_ajax(condition){
 
     if(condition){
@@ -597,8 +607,9 @@ jQuery(document).ready(function($){
         }else{
           $(".saswp-enable-markup-class").parent().parent().hide();
         }
-
+        $("#saswp_location_meta_box").addClass('saswp_hide');
         if(schematype == 'local_business'){
+          $("#saswp_location_meta_box").removeClass('saswp_hide');
          $(".saswp-option-table-class tr").eq(1).show();   
          $(".saswp-business-text-field-tr").show();
          $(".saswp-option-table-class tr").find('select').attr('disabled', false);            
@@ -710,11 +721,12 @@ jQuery(document).ready(function($){
             }else{
               $(".saswp-enable-markup-class").parent().parent().hide();
             }
-            
+            $("#saswp_location_meta_box").addClass('saswp_hide');
             if(schematype == 'local_business'){
                 $(".saswp-"+businesstype+'-tr').show(); 
                 $(".saswp-business-text-field-tr").show(); 
-                $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false);            
+                $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false);   
+                $("#saswp_location_meta_box").removeClass('saswp_hide');         
             } 
                           
              if(schematype == 'Review'){            
@@ -3345,7 +3357,7 @@ jQuery(document).ready(function($){
                
             $(document).on("click", ".saswp-grid-page", function(e){
                 e.preventDefault();
-                saswp_grid_page  = $(this).attr('data-id');
+                saswp_grid_page  = $(this).attr('data-id');               
                 saswp_on_collection_design_change();                                    
             });                  
                
@@ -3467,8 +3479,7 @@ jQuery(document).ready(function($){
                 
               saswp_get_collection_data(null, null, null, null, reviews_list);
                                            
-            }
-                                    
+            }                   
             //Collection js ends here
 
 

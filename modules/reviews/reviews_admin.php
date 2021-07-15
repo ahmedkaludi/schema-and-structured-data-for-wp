@@ -125,7 +125,7 @@ class saswp_reviews_admin {
                       $label =  $meta_field['label']; 
                     }
 			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $label ) . '</label>';
-			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
+			$meta_value = saswp_get_post_meta( $post->ID, $meta_field['id'], true );
                         
 			if ( empty( $meta_value ) ) {
 				$meta_value = isset($meta_field['default']); 
@@ -175,7 +175,7 @@ class saswp_reviews_admin {
                                         $media_value = array();
                                         $media_key   = $meta_field['id'].'_detail';
                                         
-                                        $media_value_meta = get_post_meta( $post->ID, $media_key, true );   
+                                        $media_value_meta = saswp_get_post_meta( $post->ID, $media_key, true );   
                                         
                                         if(!empty($media_value_meta)){
                                             $media_value = $media_value_meta;  
@@ -301,15 +301,15 @@ class saswp_reviews_admin {
                                                                 'thumbnail' => $media_thumbnail,
                                                         );
 
-                                                        update_post_meta( $post_id, $media_key, $media_detail);   
+                                                        saswp_update_post_meta( $post_id, $media_key, $media_detail);   
                                                 break;
 						default:     
 							$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );
 					}
-                                        update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
+                                        saswp_update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
 					
 				} else if ( $meta_field['type'] === 'checkbox' ) {
-					update_post_meta( $post_id, $meta_field['id'], '0' );
+					saswp_update_post_meta( $post_id, $meta_field['id'], '0' );
 				}
 			}
        	

@@ -1,0 +1,151 @@
+/* 
+    Recipe Block css starst here
+*/
+.saswp-recipe-block-container{
+    padding: 20px 25px 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 0px 15px rgb(0 0 0 / 10%);
+    box-shadow: 0 0px 15px rgb(0 0 0 / 10%);
+    border-radius: 5px 5px 0 0;
+}
+.saswp-recipe-block-author{
+    display: block;
+    color: #5b5d61;
+    font-size: 14px;
+    font-weight: normal;    
+    margin: 0 0 12px;
+    padding: 0 0 12px;
+    border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+.saswp-recipe-block-course{
+    font-size: 14px;
+    color: #5b5d61;
+}
+.saswp-r-course-section strong{
+    margin-left: 8px;
+}
+.saswp-recipe-block-cuisine::before{
+    content: " | ";
+    color: #B6BABB;
+    margin: 0 12px;
+    font-style: normal;
+    opacity: .5;
+}
+.saswp-recipe-block-cuisine{
+    font-size: 14px;
+    color: #5b5d61;
+}
+.saswp-recipe-block-difficulty::before{
+    content: " | ";
+    color: #B6BABB;
+    margin: 0 12px;
+    font-style: normal;
+    opacity: .5;
+}
+.saswp-recipe-block-difficulty{
+    font-size: 14px;
+    color: #5b5d61;
+}
+.saswp-recipe-block-details{
+    margin-bottom: 15px;
+    clear: both;
+}
+.saswp-recipe-block-details-items{
+    font-size: 0;
+    border-left: 1px dashed rgba(0,0,0,0.1);
+    border-top: 1px dashed rgba(0,0,0,0.1);
+    text-align: center;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.saswp-recipe-block-details-item{
+    flex: 1 0 25%;
+    padding: 10px 1.5%;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-right: 1px dashed rgba(0,0,0,0.1);
+    border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+.saswp-r-b-icon{
+    opacity: .7;
+    margin: 0 auto;
+    height: 35px;
+    line-height: 35px;
+    font-size: 16px;
+    color: #6d767f;
+}
+.saswp-r-b-label{
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important ;
+}
+.saswp-r-b-input{
+    margin-top: 0;
+    margin-bottom: 0;    
+    margin-right: 5px;
+    display: inline-block;
+    line-height: 1.4;
+    width: 50px;
+    font-size: 13px;
+}
+.saswp-r-b-unit{
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;    
+    display: inline-block;
+    line-height: 1.4;
+    font-size: 14px !important;
+}
+.saswp-recipe-b-notes{
+    background: #fbf9e7;
+}
+.saswp-r-b-direction-item{
+    border-bottom: 1px solid #e9e5c9;
+    position: relative;
+}
+
+.saswp-recipe-field-banner img{
+    width: 100%;
+    
+}
+.saswp-recipe-field-banner .components-button{
+    margin-top: 85px !important;
+}
+.saswp-recipe-field-banner{    
+    min-height: 200px;
+    background: #ccc;
+    text-align: center;    
+    justify-content: center;  
+    align-items: center;    
+}
+.saswp-recipe-block-author{
+    display: flex;
+}
+.saswp-recipe-block-author input{
+    margin-left: 3px;
+}
+.saswp-r-course-section{
+    display: flex;    
+}
+.saswp-r-course-section input{
+    width: 120px !important;
+    margin-left: 8px !important;
+}
+.saswp-recipe-block-course{
+    display: flex;
+}
+.saswp-recipe-block-cuisine{
+    display: flex;
+}
+.saswp-recipe-block-difficulty{
+    display: flex;
+}
+/* 
+    Recipe Block css ens here
+*/

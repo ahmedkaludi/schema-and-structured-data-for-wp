@@ -227,7 +227,7 @@ function saswp_get_all_schema_posts(){
               
               $conditions = array();
               
-              $data_group_array = get_post_meta( $post_id, 'data_group_array', true);                                         
+              $data_group_array = saswp_get_post_meta( $post_id, 'data_group_array', true);                                         
               
               if(isset($data_group_array['group-0'])){
                   
@@ -249,8 +249,8 @@ function saswp_get_all_schema_posts(){
               }
               
               $returnData[] = array(
-                    'schema_type'      => get_post_meta( $post_id, 'schema_type', true),
-                    'schema_options'   => get_post_meta( $post_id, 'schema_options', true),
+                    'schema_type'      => saswp_get_post_meta( $post_id, 'schema_type', true),
+                    'schema_options'   => saswp_get_post_meta( $post_id, 'schema_options', true),
                     'conditions'       => $conditions,
                     'post_id'          => $post_id,
                   );
@@ -269,7 +269,7 @@ function saswp_get_all_schema_posts(){
 
 function saswp_generate_field_data( $post_id, $post ){
     
-      $data_group_array = get_post_meta( $post_id, 'data_group_array', true);  
+      $data_group_array = saswp_get_post_meta( $post_id, 'data_group_array', true);  
       
       $output = array();
       
@@ -484,7 +484,11 @@ function saswp_comparison_logic_checker($input, $post){
         case 'post_category':
 
           global $cat_id_obj;
-          $cat_id_arr = array();          
+          $cat_id_arr = array();  
+          
+          if(isset($_GET['tag_ID'] ) && is_admin()){
+            $cat_id_arr[] = intval($_GET['tag_ID'] );
+          }
           
           if(is_object($post)){
 
@@ -648,6 +652,11 @@ function saswp_comparison_logic_checker($input, $post){
                 $queried_obj   = get_queried_object();
                 $termChoices[] = $queried_obj->slug;
 
+              }else if( isset($_GET['tag_ID'] ) && is_admin() ){
+
+                $term_object = get_term( intval($_GET['tag_ID']) );
+                $termChoices[] = $term_object->slug;
+
               }else{
 
                 if( is_object($post) ) {
@@ -686,6 +695,13 @@ function saswp_comparison_logic_checker($input, $post){
             }
 
             }else{
+
+              if( isset($_GET['tag_ID'] ) && is_admin() ){
+
+                $term_object  = get_term( intval($_GET['tag_ID']) );
+                $post_terms[] = $term_object->slug;
+
+              }
               
               if( isset($input['key_4']) && $input['key_4'] == 'all' ) {
               
@@ -795,7 +811,7 @@ if(is_admin()){
   
   function saswp_select_callback($post) {
     
-    $data_group_array =  get_post_meta($post->ID, 'data_group_array', true );     
+    $data_group_array =  saswp_get_post_meta($post->ID, 'data_group_array', true );     
                 
     $data_group_array = is_array($data_group_array)? array_values($data_group_array): array();  
     
@@ -1059,7 +1075,7 @@ function saswp_dequeue_script() {
         
       $post_data_group_array = saswp_sanitize_multi_array($post_data_group_array, 'data_array'); 
       
-      update_post_meta(
+      saswp_update_post_meta(
         $post_id, 
         'data_group_array', 
         $post_data_group_array 
@@ -1079,7 +1095,7 @@ function saswp_post_type_generator(){
     $post_types = get_post_types( array( 'public' => true ), 'names' );
 
     // Remove Unsupported Post types
-    unset($post_types['attachment'], $post_types['amp_acf']);
+    unset($post_types['attachment'], $post_types['amp_acf'], $post_types['saswp-collections'], $post_types['saswp_reviews'], $post_types['saswp_reviews_server'], $post_types['saswp'] );
 
     return $post_types;
 }
@@ -1218,7 +1234,7 @@ function saswp_custom_breadcrumbs() {
 
               if ( class_exists('WPSEO_Primary_Term') && ( isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 ) ) {
 
-                $wpseo_primary_term = new WPSEO_Primary_Term( 'category', get_the_id() );
+                $wpseo_primary_term = new WPSEO_Primary_Term( 'category', saswp_get_the_ID() );
                 $wpseo_primary_term = $wpseo_primary_term->get_primary_term();
                 $term_yoast = get_term( $wpseo_primary_term );
                 
@@ -1403,13 +1419,13 @@ function saswp_custom_column_set( $column, $post_id ) {
                 
                 case 'saswp_schema_type' :
                     
-                    $schema_type = get_post_meta( $post_id, $key='schema_type', true);
+                    $schema_type = saswp_get_post_meta( $post_id, $key='schema_type', true);
                      $url = admin_url( 'post.php?post='.$post_id.'&action=edit' );
                     
                     if($schema_type == 'local_business'){
 
-                      $business_type     = get_post_meta($post_id, 'saswp_business_type', true);
-                      $business_name     = get_post_meta($post_id, 'saswp_business_name', true);
+                      $business_type     = saswp_get_post_meta($post_id, 'saswp_business_type', true);
+                      $business_name     = saswp_get_post_meta($post_id, 'saswp_business_name', true);
 
                       if($business_name){
                           echo '<strong><a class="row-title" href="'.esc_url($url).'">LocalBusiness ('.esc_html($business_name).')</a></strong>';   
@@ -1431,7 +1447,7 @@ function saswp_custom_column_set( $column, $post_id ) {
                     
                     $enabled ='';
                     $exclude ='';
-                    $data_group_array = get_post_meta( $post_id, $key='data_group_array', true);
+                    $data_group_array = saswp_get_post_meta( $post_id, $key='data_group_array', true);
                    
                     
                     if($data_group_array){
@@ -1986,7 +2002,7 @@ function saswp_review_module_upgradation(){
                         
                                 foreach($posts_list as $list){
 
-                                    $g_place_id = get_post_meta($list->ID, $key='saswp_google_place_id', true);
+                                    $g_place_id = saswp_get_post_meta($list->ID, $key='saswp_google_place_id', true);
                                     
                                     if($g_place_id){
                                         $service->saswp_get_free_reviews_data($g_place_id, $g_review_api); 

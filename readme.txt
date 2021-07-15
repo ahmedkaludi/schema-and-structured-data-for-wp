@@ -2,8 +2,8 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 5.7
-Stable tag: 1.9.80
+Tested up to: 5.8
+Stable tag: 1.9.82
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,28 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.82 (15 July 2021) =
+
+* Added: Option to show LocalBusiness as page content using shortcode, Gutenberg block and widget.
+* Added: Job Training Schema type #503
+* Added: Recipe Schema Block #164
+* Added: Support for structure data on taxonomies page #983
+* Added: Author type option for accepted answer and suggested answer in the Q&A schema #1469
+* Added: The support of ACF repeater fields for HowTo and FAQ schema #1163.
+* Fixed: Conflict Issue with Popup maker plugin #1478
+* Fixed: Debug Warnings #1471
+* Fixed: Improve pagination for the review widget #1042
+
+
+= 1.9.81 (04 JULY 2021) =
+
+* Fixed: Google review page redirect to wrong url, it should redirect to Google review page url. #1457
+* Fixed: When the “Defragment Schema Markup” option is enabled knowledge graph markup is displaying on the category post and pages. #1455
+* Fixed: Microdata cleaner option does not remove single itemtype, itemprop #1463
+* Fixed: Remove the cause property in the Medical condition schema type #1462
+* Fixed: Errors in NewsArticle (The property 2 is not recognised by the schema) #1468
+* Added: Google Shopping reviews platform #1448
 
 = 1.9.80 (23 Jun 2021) =
 
@@ -1222,7 +1244,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Bug Fixed: Notice: Undefined variable: custom_markup #308
 * Bug Fixed: JS and CSS should be included where it's need. #294
 * Bug Fixed: Remove duplicate queries #296
-* Bug Fixed: Google Review Module ( update_post_meta was called earlier than its actually call ) #307
+* Bug Fixed: Google Review Module ( saswp_update_post_meta was called earlier than its actually call ) #307
 * Bug Fixed: When extensions are active then it should show #313
 * Bug Fixed: Compatibility conflicts with WooCommerce SEO #312
 * Bug Fixed: '@type' => 'VideoObject' is missing in recipe schema video entity #314

@@ -37,7 +37,13 @@ function saswp_add_all_meta_boxes() {
             'normal',
             'high'
     );
-    
+    add_meta_box( 'saswp_location_meta_box', 
+                saswp_t_string('Front End' ), 
+                'saswp_location_meta_box_cb', 
+                'saswp', 
+                'side', 'low' 
+                );
+
     add_meta_box( 'saswp_help_meta_box', 
                 saswp_t_string('Help' ), 
                 'saswp_help_meta_box_cb', 
@@ -101,7 +107,7 @@ function saswp_schema_type_get_meta( $value ) {
 
     global $post;
 
-    $field = get_post_meta( $post->ID, $value, true );
+    $field = saswp_get_post_meta( $post->ID, $value, true );
 
     if ( ! empty( $field ) ) {
             return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
@@ -151,22 +157,22 @@ function saswp_schema_type_meta_box_callback( $post) {
                     if($post){
             
                         $post_id           = $post->ID;
-                        $schema_options    = get_post_meta($post->ID, 'schema_options', true);            
-                        $meta_list         = get_post_meta($post->ID, 'saswp_meta_list_val', true);                         
-                        $fixed_text        = get_post_meta($post->ID, 'saswp_fixed_text', true);  
-                        $taxonomy_term     = get_post_meta($post->ID, 'saswp_taxonomy_term', true);  
-                        $fixed_image       = get_post_meta($post->ID, 'saswp_fixed_image', true);  
-                        $cus_field         = get_post_meta($post->ID, 'saswp_custom_meta_field', true); 
-                        $schema_type       = get_post_meta($post->ID, 'schema_type', true);     
-                        $append_reviews    = get_post_meta($post->ID, 'saswp_enable_append_reviews', true);
-                        $event_type        = get_post_meta($post->ID, 'saswp_event_type', true);                         
-                        $speakable         = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
-                        $enable_videoobject= get_post_meta($post->ID, 'saswp_enable_videoobject', true);
-                        $item_list_enable  = get_post_meta($post->ID, 'saswp_enable_itemlist_schema', true);
-                        $item_list_tags    = get_post_meta($post->ID, 'saswp_item_list_tags', true);
-                        $item_list_custom  = get_post_meta($post->ID, 'saswp_item_list_custom', true);
-                        $business_type     = get_post_meta($post->ID, 'saswp_business_type', true);
-                        $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
+                        $schema_options    = saswp_get_post_meta($post->ID, 'schema_options', true);            
+                        $meta_list         = saswp_get_post_meta($post->ID, 'saswp_meta_list_val', true);                         
+                        $fixed_text        = saswp_get_post_meta($post->ID, 'saswp_fixed_text', true);  
+                        $taxonomy_term     = saswp_get_post_meta($post->ID, 'saswp_taxonomy_term', true);  
+                        $fixed_image       = saswp_get_post_meta($post->ID, 'saswp_fixed_image', true);  
+                        $cus_field         = saswp_get_post_meta($post->ID, 'saswp_custom_meta_field', true); 
+                        $schema_type       = saswp_get_post_meta($post->ID, 'schema_type', true);     
+                        $append_reviews    = saswp_get_post_meta($post->ID, 'saswp_enable_append_reviews', true);
+                        $event_type        = saswp_get_post_meta($post->ID, 'saswp_event_type', true);                         
+                        $speakable         = saswp_get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
+                        $enable_videoobject= saswp_get_post_meta($post->ID, 'saswp_enable_videoobject', true);
+                        $item_list_enable  = saswp_get_post_meta($post->ID, 'saswp_enable_itemlist_schema', true);
+                        $item_list_tags    = saswp_get_post_meta($post->ID, 'saswp_item_list_tags', true);
+                        $item_list_custom  = saswp_get_post_meta($post->ID, 'saswp_item_list_custom', true);
+                        $business_type     = saswp_get_post_meta($post->ID, 'saswp_business_type', true);
+                        $business_name     = saswp_get_post_meta($post->ID, 'saswp_business_name', true);
                                                                                                  
                         if($schema_type != 'local_business'){
 
@@ -551,7 +557,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         <select data-id="<?php echo esc_attr($post_id);  ?>" name="saswp_itemlist_item_type" class="saswp-itemlist-item-type-list">
                         <?php
                         
-                          $item = get_post_meta($post_id, 'saswp_itemlist_item_type', true);  
+                          $item = saswp_get_post_meta($post_id, 'saswp_itemlist_item_type', true);  
 
                           foreach ($item_list_item as $key => $value) {
                             $sel = '';
@@ -574,7 +580,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         <select data-id="<?php echo esc_attr($post_id);  ?>" name="saswp_review_item_reviewed_<?php echo $post_id; ?>" class="saswp-item-reivewed-list">
                         <?php
                         
-                          $item = get_post_meta($post_id, 'saswp_review_item_reviewed_'.$post_id, true);                                                                                        
+                          $item = saswp_get_post_meta($post_id, 'saswp_review_item_reviewed_'.$post_id, true);                                                                                        
                           foreach ($item_reviewed as $key => $value) {
                             $sel = '';
                             if($item == $key){
@@ -667,13 +673,13 @@ function saswp_schema_type_meta_box_callback( $post) {
                         <?php 
                         
                                 $attached_rv_json = '';
-                                $attached_rv      = get_post_meta($post_id, 'saswp_attahced_reviews', true);     
+                                $attached_rv      = saswp_get_post_meta($post_id, 'saswp_attahced_reviews', true);     
                                 if($attached_rv){
                                     $attached_rv_json = json_encode($attached_rv);
                                 }
                                 
                                 $attached_col_json = '';
-                                $attached_col      = get_post_meta($post_id, 'saswp_attached_collection', true);     
+                                $attached_col      = saswp_get_post_meta($post_id, 'saswp_attached_collection', true);     
                                 if($attached_col){
                                     $attached_col_json = json_encode($attached_col);
                                 }
@@ -887,11 +893,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                             $review_fields = array();                            
                             $service       = new saswp_output_service();
                                                         
-                            $schema_type    = get_post_meta($post->ID, 'schema_type', true);
+                            $schema_type    = saswp_get_post_meta($post->ID, 'schema_type', true);
                             
                             if($schema_type == 'Review'){
                                 
-                                $item_reviewed = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);                                                                
+                                $item_reviewed = saswp_get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);                                                                
                                 $schema_type   = $item_reviewed;
                                 
                                 $review_fields['saswp_review_name']           = 'Review Name';
@@ -1084,14 +1090,14 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $output = '';
                                 $common_obj = new saswp_view_common_class();
                                 
-                                $schema_type    = get_post_meta($post_id, 'schema_type', true);
+                                $schema_type    = saswp_get_post_meta($post_id, 'schema_type', true);
 
                                 $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
                                 $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
                                 
                                 if($schema_type == 'Review'){
                                                                         
-                                    $item_reviewed     = get_post_meta($post_id, 'saswp_review_item_reviewed_'.$post_id, true);                         
+                                    $item_reviewed     = saswp_get_post_meta($post_id, 'saswp_review_item_reviewed_'.$post_id, true);                         
                                     if(!$item_reviewed){
                                         $item_reviewed = 'Book';
                                     }
@@ -1207,71 +1213,77 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
                 if ( ! isset( $_POST['saswp_schema_type_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_type_nonce'], 'saswp_schema_type_nonce' ) ) return;
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return;
                                                 
-                update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
-                                
-                if(isset($_POST['saswp_business_type'])){
-                    update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
+                saswp_update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
+                
+                if(isset($_POST['saswp_loc_display_on_front'])){
+                    saswp_update_post_meta( $post_id, 'saswp_loc_display_on_front', intval( $_POST['saswp_loc_display_on_front'] ) );
                 }else{
-                    delete_post_meta( $post_id, 'saswp_business_type');   
+                    saswp_delete_post_meta( $post_id, 'saswp_loc_display_on_front');   
+                }
+                
+                if(isset($_POST['saswp_business_type'])){
+                    saswp_update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
+                }else{
+                    saswp_delete_post_meta( $post_id, 'saswp_business_type');   
                 }
 
                 if(isset($_POST['saswp_event_type'])){
-                    update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
+                    saswp_update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
                 }else{
-                    delete_post_meta( $post_id, 'saswp_event_type');   
+                    saswp_delete_post_meta( $post_id, 'saswp_event_type');   
                 }
 
                 if(isset($_POST['saswp_business_name'])){
-                    update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );   
+                    saswp_update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );   
                 }else{
-                    delete_post_meta( $post_id, 'saswp_business_name');   
+                    saswp_delete_post_meta( $post_id, 'saswp_business_name');   
                 }
                 if(isset($_POST['saswp_enable_speakable_schema'])){
-                    update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
+                    saswp_update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
                 }else{
-                    delete_post_meta( $post_id, 'saswp_enable_speakable_schema');                                                                       
+                    saswp_delete_post_meta( $post_id, 'saswp_enable_speakable_schema');                                                                       
                 }
                 if(isset($_POST['saswp_enable_videoobject'])){
-                    update_post_meta( $post_id, 'saswp_enable_videoobject', intval($_POST['saswp_enable_videoobject']) );                                                                       
+                    saswp_update_post_meta( $post_id, 'saswp_enable_videoobject', intval($_POST['saswp_enable_videoobject']) );                                                                       
                 }else{
-                    delete_post_meta( $post_id, 'saswp_enable_videoobject');                                                                       
+                    saswp_delete_post_meta( $post_id, 'saswp_enable_videoobject');                                                                       
                 }
 
                 if(isset($_POST['saswp_enable_append_reviews'])){
-                    update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
+                    saswp_update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
                 }else{
-                    delete_post_meta( $post_id, 'saswp_enable_append_reviews');                                                                       
+                    saswp_delete_post_meta( $post_id, 'saswp_enable_append_reviews');                                                                       
                 }
 
                 if(isset($_POST['saswp_enable_itemlist_schema'])){
-                    update_post_meta( $post_id, 'saswp_enable_itemlist_schema', intval($_POST['saswp_enable_itemlist_schema']) );                                                                       
+                    saswp_update_post_meta( $post_id, 'saswp_enable_itemlist_schema', intval($_POST['saswp_enable_itemlist_schema']) );                                                                       
                 }else{
-                    delete_post_meta( $post_id, 'saswp_enable_itemlist_schema');                                                                       
+                    saswp_delete_post_meta( $post_id, 'saswp_enable_itemlist_schema');                                                                       
                 }
 
                 if(isset($_POST['saswp_item_list_tags'])){
-                    update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
+                    saswp_update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
                 }else{
-                    delete_post_meta( $post_id, 'saswp_item_list_tags');                                                                       
+                    saswp_delete_post_meta( $post_id, 'saswp_item_list_tags');                                                                       
                 }
                 if(isset($_POST['saswp_item_list_custom'])){
-                    update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
+                    saswp_update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
                 }else{
-                    delete_post_meta( $post_id, 'saswp_item_list_custom');                                                                       
+                    saswp_delete_post_meta( $post_id, 'saswp_item_list_custom');                                                                       
                 }
                 if(isset($_POST['saswp_review_item_reviewed_'.$post_id])){
-                    update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       
+                    saswp_update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       
                 }else{
-                    delete_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id);                                                                       
+                    saswp_delete_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id);                                                                       
                 }
                 if(isset($_POST['saswp_itemlist_item_type'])){
-                    update_post_meta( $post_id, 'saswp_itemlist_item_type', sanitize_text_field($_POST['saswp_itemlist_item_type']) );                                                                       
+                    saswp_update_post_meta( $post_id, 'saswp_itemlist_item_type', sanitize_text_field($_POST['saswp_itemlist_item_type']) );                                                                       
                 }else{
-                    delete_post_meta( $post_id, 'saswp_itemlist_item_type');                                                                       
+                    saswp_delete_post_meta( $post_id, 'saswp_itemlist_item_type');                                                                       
                 }
                                                                                                                                                 
-                update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
-                update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
+                saswp_update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
+                saswp_update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
                 
                 $common_obj = new saswp_view_common_class();
                 

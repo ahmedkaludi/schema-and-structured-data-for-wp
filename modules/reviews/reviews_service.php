@@ -174,7 +174,7 @@ class saswp_reviews_service {
                 if($post_id && !empty($review_meta) && is_array($review_meta)){
                                         
                     foreach ($review_meta as $key => $val){                     
-                        update_post_meta($post_id, $key, $val);  
+                        saswp_update_post_meta($post_id, $key, $val);  
                     }
             
                  }
@@ -505,7 +505,7 @@ class saswp_reviews_service {
                 if($post_id && !empty($review_meta) && is_array($review_meta)){
                                         
                     foreach ($review_meta as $key => $val){                     
-                        update_post_meta($post_id, $key, $val);  
+                        saswp_update_post_meta($post_id, $key, $val);  
                     }
             
                  }
@@ -572,7 +572,7 @@ class saswp_reviews_service {
                 if($post_id && !empty($review_meta) && is_array($review_meta)){
                                         
                     foreach ($review_meta as $key => $val){                     
-                        update_post_meta($post_id, $key, $val);  
+                        saswp_update_post_meta($post_id, $key, $val);  
                     }
             
                 }
@@ -726,7 +726,7 @@ class saswp_reviews_service {
                 
                 foreach($post_meta as $meta_key){
                     
-                    $review_data[$meta_key] = get_post_meta($rv_post->ID, $meta_key, true ); 
+                    $review_data[$meta_key] = saswp_get_post_meta($rv_post->ID, $meta_key, true ); 
                                                                                
                 }
                 
@@ -940,20 +940,28 @@ class saswp_reviews_service {
                         
                         if(strpos($current_url, "?rv_page") !== false){
                             $current_url = substr($current_url, 0, strpos($current_url, "?rv_page"));
-                        }                        
+                        }        
+                        
+                        $sidenr = 1;
+
+                        if(isset($_GET['rv_page'])){
+                            $sidenr = intval($_GET['rv_page']);   
+                        }
+                        
+                        list($min,$max) = saswp_get_page_range($sidenr, $page_count);
+                         
                         $html .= '<div class="saswp-grid-pagination">';                    
                         $html .= '<a class="saswp-grid-page" data-id="1" href="'.esc_url($current_url).'">&laquo;</a>'; 
                         
-                        for($i=1; $i <= $page_count; $i++){
+                        foreach (range($min, $max) as $number) {
                             
-                            if($i == $data_id){
-                                $html .= '<a class="active saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.esc_attr($i).'</a>';    
+                            if($number == $data_id){
+                                $html .= '<a class="active saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$number).'">'.esc_attr($number).'</a>';    
                             }else{
-                                $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$i).'">'.esc_attr($i).'</a>';    
+                                $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$number).'">'.esc_attr($number).'</a>';    
                             }
-                            
-                        }      
-                        
+                        }
+                                                
                         $html .= '<a class="saswp-grid-page" href="'.esc_url($current_url.'?rv_page='.$page_count).'">&raquo;</a>';                                     
                         
                         $html .= '</div>';                        
@@ -963,7 +971,7 @@ class saswp_reviews_service {
                 if(($page_count > 0 && $pagination ) && $pagination_wpr){
 
                         $html .= '<div class="saswp-grid-pagination saswp-grid-wpr">';                    
-                        $html .= '<a data-id="1" class="saswp-grid-page" href="#">&laquo;</a>'; 
+                        $html .= '<a data-id="1" class="saswp-grid-page saswp-pagination-first-last" href="#">&laquo;</a>'; 
                         
                         for($i=1; $i <= $page_count; $i++){
                             
@@ -975,7 +983,7 @@ class saswp_reviews_service {
                             
                         }      
                         
-                        $html .= '<a data-id="'.esc_attr($page_count).'" class="saswp-grid-page" href="#">&raquo;</a>';                                     
+                        $html .= '<a data-id="'.esc_attr($page_count).'" class="saswp-grid-page saswp-pagination-first-last" href="#">&raquo;</a>';                                     
                         
                         $html .= '</div>';  
 
@@ -995,6 +1003,12 @@ class saswp_reviews_service {
                 if($value['saswp_review_platform_name'] == 'Avvo' && $review_link == ''){
                 
                     $review_link = $value['saswp_review_location_id'].'#client_reviews';
+
+                }
+                
+                if($value['saswp_review_platform_name'] == 'Bark.com' && $review_link == ''){
+                
+                    $review_link = $value['saswp_review_location_id'].'#parent-reviews';
 
                 }
         
@@ -1183,6 +1197,10 @@ class saswp_reviews_service {
                             
                             $platform_name  = $value['saswp_review_platform_name'];
                             $source_url     = $value['saswp_review_location_id'];
+                            
+                            if($platform_name == 'Google'){
+                                $source_url = 'https://search.google.com/local/reviews?placeid='.$source_url;
+                            }
 
                             if($platform_name == 'Self'){
                                 $platform_name = saswp_t_string(saswp_label_text('translation-self'));
@@ -1507,10 +1525,10 @@ class saswp_reviews_service {
 
             foreach ($post_ids as $value) {
 
-                $rating = get_post_meta($value, 'saswp_review_rating', true);
+                $rating = saswp_get_post_meta($value, 'saswp_review_rating', true);
 
                 if(is_numeric($rating)){
-                    $avg += get_post_meta($value, 'saswp_review_rating', true);
+                    $avg += saswp_get_post_meta($value, 'saswp_review_rating', true);
                 }
                                 
             }

@@ -17,9 +17,12 @@ function saswp_gutenberg_recipe_schema(){
     $input1 = array();
 
     if( (isset($sd_data['saswp-wpzoom']) && $sd_data['saswp-wpzoom'] == 1) && class_exists('WPZOOM_Structured_Data_Helpers') && class_exists('WPZOOM_Helpers') ){
-
+    $attributes    = array();
     $recipe_block = saswp_get_gutenberg_block_data('wpzoom-recipe-card/block-recipe-card');     
-    $attributes = $recipe_block['attrs'];
+
+    if(isset($recipe_block['attrs'])){
+        $attributes = $recipe_block['attrs'];
+    }    
     
     $service_object          = new saswp_output_service();   
     $structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
@@ -182,18 +185,21 @@ function saswp_gutenberg_recipe_schema(){
         $input1['recipeInstructions'] = $groups_section;
     }
 
-    $image_details   = saswp_get_image_by_id($attributes['image']['id']); 
+    if(isset($attributes['image']['id'])){
 
-    if($image_details){
-        $input1['image'] = $image_details;
-    }else{
-        if(!empty($feature_image)){
-                
-            $input1 = array_merge($input1, $feature_image);   
+        $image_details   = saswp_get_image_by_id($attributes['image']['id']); 
+
+        if($image_details){
+            $input1['image'] = $image_details;
+        }else{
+            if(!empty($feature_image)){
                     
+                $input1 = array_merge($input1, $feature_image);   
+                        
+            }
         }
-    }
-    
+
+    }        
     
     //video json
 
@@ -284,8 +290,8 @@ function saswp_gutenberg_recipe_schema(){
         }
     }
 
-        $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
-        $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
+        $extra_theme_review = $service_object->saswp_extra_theme_review_details(saswp_get_the_ID());
+        $aggregateRating    = $service_object->saswp_rating_box_rating_markup(saswp_get_the_ID());
 				
 		if(!empty($aggregateRating)){
                 $input1['aggregateRating'] = $aggregateRating;
@@ -294,7 +300,84 @@ function saswp_gutenberg_recipe_schema(){
             $input1 = array_merge($input1, $extra_theme_review);
         }
         
-        $input1 = saswp_append_fetched_reviews($input1, get_the_ID());
+        $input1 = saswp_append_fetched_reviews($input1, saswp_get_the_ID());
+
+    }else{
+
+        
+        $attributes = saswp_get_gutenberg_block_data('saswp/recipe-block');
+
+        if(isset($attributes['attrs'])){
+
+            $data = $attributes['attrs'];            
+
+            $input1['@context']              = saswp_context_url();
+            $input1['@type']                 = 'Recipe';
+            $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Recipe';
+            $input1['name']                  = isset($data['title']) ? $data['title'] : saswp_get_the_title();                           
+            $input1['datePublished']         = get_the_date("c");
+            $input1['dateModified']          = get_the_modified_date("c");            
+            $input1['author']                = isset($data['author']) ? $data['author'] : saswp_get_author_details();
+
+            $keywords = array();
+
+            if(!empty($data['cook_time'])){
+                $input1['cookTime']             = 'PT'.$data['cook_time'].'M';
+            }
+            if(!empty($data['pre_time'])){
+                $input1['prepTime']             = 'PT'.$data['pre_time'].'M';
+            }
+            if(!empty($data['cuisine'])){
+                $keywords[] = $data['cuisine']; 
+                $input1['recipeCuisine']        = $data['cuisine'];
+            }
+            if(!empty($data['calories'])){
+                $input1['nutrition']['@type']   = 'NutritionInformation';
+                $input1['nutrition']['calories'] = $data['calories'];
+            }
+            if(!empty($data['servings'])){
+                $keywords[] = $data['servings']; 
+                $input1['recipeYield']           = $data['servings'];
+            }
+            if(!empty($data['course'])){
+                $keywords[] = $data['course']; 
+                $input1['recipeCategory']        = $data['course'];
+            }
+            if(!empty($data['banner_url'])){
+                $input1['image']        = $data['banner_url'];
+            }
+
+            $input1['keywords']              = isset($keywords) ? $keywords :  saswp_get_the_tags();    
+
+            if(!empty($data['notes'])){
+                $ing = '';
+                foreach ($data['notes'] as $value) {
+                    $ing .= $value['name']. ', ';
+                }
+                $input1['description'] = $ing;
+            }
+
+            if(!empty($data['ingredients'])){
+                $ing = array();
+                foreach ($data['ingredients'] as $value) {
+                    $ing[] = $value['name'];
+                }
+                $input1['recipeIngredient'] = $ing;
+            }
+
+            if(!empty($data['directions'])){
+                $ing = array();
+                foreach ($data['directions'] as $value) {
+                    $ing[] = array(
+                        '@type' => 'HoWToStep',
+                        'name'  => $value['name'],
+                        'text'  => $value['text'], 
+                    );
+                }
+                $input1['recipeInstructions'] = $ing;
+            }
+
+        }
 
     }    
                                     
@@ -707,8 +790,8 @@ function saswp_gutenberg_how_to_schema(){
                 
                 $service_object     = new saswp_output_service();
 
-                $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
-                $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
+                $extra_theme_review = $service_object->saswp_extra_theme_review_details(saswp_get_the_ID());
+                $aggregateRating    = $service_object->saswp_rating_box_rating_markup(saswp_get_the_ID());
 				
                 if(!empty($aggregateRating)){
                         $input1['aggregateRating'] = $aggregateRating;
@@ -717,7 +800,7 @@ function saswp_gutenberg_how_to_schema(){
                     $input1 = array_merge($input1, $extra_theme_review);
                 }
         
-                $input1 = saswp_append_fetched_reviews($input1, get_the_ID());
+                $input1 = saswp_append_fetched_reviews($input1, saswp_get_the_ID());
                 
             }    
                                 

@@ -2484,7 +2484,21 @@ span.saswp-mines{
 .saswp-stars-post-table td{
 padding: 2px;
 }
-
+.saswp-modify-schema-on-taxonomy td{
+    background: #fff;
+}
+.saswp-modify-schema-on-taxonomy .form-table th{
+    width: auto !important;
+}
+.saswp-modify-schema-on-taxonomy #saswp_specific_custom textarea{
+    width: 100% !important;
+}
+.saswp-modify-schema-on-taxonomy .form-table fieldset input[type="text"]{
+    width: 75% !important;
+}
+.saswp-modify-schema-on-taxonomy .form-table fieldset input[type="button"]{
+    width: 24% !important;
+}
 /* Offer Banner Starts Here */
 /* .saswp-offer-banner{
     background: #ca4a1f;

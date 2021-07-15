@@ -210,6 +210,108 @@ class SASWP_Gutenberg_Render {
         
         return $response;
     }
+
+    public function recipe_block_data($attributes){
+        
+        ?>
+        <div class="saswp-recipe-block-container">
+
+        <?php if(isset($attributes['banner_url'])){
+
+            echo '<div class="saswp-recipe-field-banner">
+            <div class="saswp-book-banner-div">
+                <img src="'.esc_url($attributes['banner_url']).'">
+            </div>
+            </div>';
+
+        } ?>
+            
+            <div class="saswp-recipe-block-heading">
+                 <h4></h4>   
+                 <span class="saswp-recipe-block-author"><?php echo saswp_t_string('Recipe By') ?> <?php echo (!empty($attributes['author']) ? esc_html($attributes['author']) : '') ; ?></span>
+                 <div class="saswp-r-course-section">
+                  <span class="saswp-recipe-block-course">
+                    <?php echo saswp_t_string('Course') ?>: <strong><?php echo (!empty($attributes['course']) ? esc_html($attributes['course']) : '') ; ?></strong>
+                  </span>   
+                  <span class="saswp-recipe-block-cuisine">
+                  <?php echo saswp_t_string('Cusine') ?>:<strong><?php echo (!empty($attributes['cuisine']) ? esc_html($attributes['cuisine']) : '') ; ?></strong>
+
+                  </span>   
+                  <span class="saswp-recipe-block-difficulty">
+                  <?php echo saswp_t_string('Difficulty') ?>:<strong><?php echo (!empty($attributes['difficulty']) ? esc_html($attributes['difficulty']) : '') ; ?></strong>
+                  </span>   
+                 </div>
+            </div>
+            <div class="saswp-recipe-block-details">
+                <div class="saswp-recipe-block-details-items">
+
+                    <div class="saswp-recipe-block-details-item">
+                    <p class="saswp-r-b-label"><?php echo saswp_t_string('Servings') ?></p>                    
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['servings']) ? esc_html($attributes['servings']) : '') ; ?> <?php echo saswp_t_string('minutes') ?></p>
+                    </div>
+
+                    <div class="saswp-recipe-block-details-item">
+                    <p class="saswp-r-b-label"><?php echo saswp_t_string('Preparing Time') ?></p>                    
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['pre_time']) ? esc_html($attributes['pre_time']) : '') ; ?> <?php echo saswp_t_string('minutes') ?></p>
+                    </div>
+
+                    <div class="saswp-recipe-block-details-item">
+                    <p class="saswp-r-b-label"><?php echo saswp_t_string('Cooking Time') ?></p>                    
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['cook_time']) ? esc_html($attributes['cook_time']) : '') ; ?> <?php echo saswp_t_string('minutes') ?></p>
+                    </div>
+
+                    <div class="saswp-recipe-block-details-item">
+                    <p class="saswp-r-b-label"><?php echo saswp_t_string('Calories') ?></p>                    
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['calories']) ? esc_html($attributes['calories']) : '') ; ?> <?php echo saswp_t_string('kcal') ?></p>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="saswp-recipe-block-ingredients">
+                <h4><?php echo saswp_t_string('INGREDIENTS') ?></h4>
+
+                <?php if(isset($attributes['ingredients'])){
+                    echo '<ol class="saswp-dirction-ul">';
+                    foreach ($attributes['ingredients'] as $value) {
+                        echo '<li class="saswp-r-b-direction-item"><p>'.esc_html($value['name']).'</p></li>';
+                    }
+                    echo '</ol>';
+
+                } ?>
+               
+            </div>
+            <div class="saswp-recipe-block-direction">
+            <h4><?php echo saswp_t_string('DIRECTION') ?></h4>
+               
+            <?php if(isset($attributes['ingredients'])){
+                    echo '<ol class="saswp-dirction-ul">';
+                    foreach ($attributes['directions'] as $value) {
+                        echo '<li class="saswp-r-b-direction-item"><strong>'.esc_html($value['name']).'</strong><p>'.esc_html($value['text']).'</p></li>';
+                    }
+                    echo '</ol>';
+
+                } ?>
+
+            </div>
+            <div class="saswp-recipe-block-notes">
+                <h4><?php echo saswp_t_string('NOTES') ?></h4>
+                
+                <?php if(isset($attributes['notes'])){
+                    echo '<ol class="saswp-dirction-ul">';
+                    foreach ($attributes['notes'] as $value) {
+                        echo '<p>'.esc_html($value['text']).'</p>';
+                    }
+                    echo '</ol>';
+
+                } ?>
+
+            </div>
+        </div>
+        <?php
+
+    }
+
     public function book_block_data($attributes){
         
         ?>
@@ -338,6 +440,23 @@ class SASWP_Gutenberg_Render {
         }
                 
         return do_shortcode('[saswp-reviews-collection id="'.$collection_id.'"]');
+        
+    }
+
+    public function location_block_data($attributes){
+                
+        $location_id = null; 
+        
+        if(isset($attributes['id'])){            
+            $location_id = $attributes['id'];                        
+        }else{             
+             $col_opt  = saswp_get_location_list();
+             if(isset($col_opt[0]['value'])){
+                 $location_id = $col_opt[0]['value'];
+             }
+        }
+                
+        return do_shortcode('[saswp-location id="'.$location_id.'"]');
         
     }
     

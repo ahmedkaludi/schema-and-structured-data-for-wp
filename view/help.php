@@ -31,3 +31,27 @@ function saswp_disable_new_posts() {
         
 }
 add_action('admin_menu', 'saswp_disable_new_posts'); 	
+
+function saswp_location_meta_box_cb($post){
+
+	$location     = saswp_get_post_meta($post->ID, 'saswp_loc_display_on_front', true);
+
+	?>
+
+	<ul>
+		<li>
+			<label><input name="saswp_loc_display_on_front" id="saswp_loc_display_on_front" type="checkbox" value="1" <?php echo (  $location == 1  ? 'checked' : '' ); ?> /> <?php echo saswp_t_string('Display On Page Content'); ?>   </label>
+		</li>
+	</ul>
+	<div class="saswp-front-location-inst <?php echo (  $location == 1  ? '' : 'saswp_hide' ); ?>">
+		<p><?php echo saswp_t_string('There are three ways to display it.'); ?></p>
+		<ul>
+		<li><?php echo saswp_t_string('1. Using Gutenberg Block'); ?> <a target="_blank" href="https://structured-data-for-wp.com/docs/" ><?php echo saswp_t_string('Learn More'); ?></a></li>
+		<li><?php echo saswp_t_string('2. Using Widget'); ?> <a target="_blank" href="https://structured-data-for-wp.com/docs/" ><?php echo saswp_t_string('Learn More'); ?></a></li>
+		<li><?php echo saswp_t_string('3. Using shortcode'); ?> <a target="_blank" href="https://structured-data-for-wp.com/docs/" ><?php echo saswp_t_string('Learn More'); ?></a></li>
+		<li><?php echo saswp_t_string('Shortcode'); ?> <input type="text" value='[saswp-location id="<?php echo get_the_ID(); ?>"]' readonly /></li>
+		</ul>
+	</div>
+		
+	<?php    		
+}

@@ -421,9 +421,9 @@
                                            );
                                         $data_group_array = saswp_sanitize_multi_array($data_group_array, 'data_array');
 					$schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
-					update_post_meta( $insertedPageId, 'data_group_array', $data_group_array);
-					update_post_meta( $insertedPageId, 'schema_type', $schemaType);
-					update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
+					saswp_update_post_meta( $insertedPageId, 'data_group_array', $data_group_array);
+					saswp_update_post_meta( $insertedPageId, 'schema_type', $schemaType);
+					saswp_update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
                                         
 					}
 				}
@@ -771,7 +771,8 @@ function saswp_select_schema_fields_callback(){
 	$returnHtml = $post_types = '';
         $post_types = get_post_types( array( 'public' => true ), 'names' );
     // Remove Unsupported Post types
-        unset($post_types['attachment'], $post_types['amp_acf'], $post_types['saswp']);
+	
+	unset($post_types['attachment'], $post_types['amp_acf'], $post_types['saswp-collections'], $post_types['saswp_reviews'], $post_types['saswp_reviews_server'], $post_types['saswp'] );
         $option = '';
         
         if(count($post_types)>0){

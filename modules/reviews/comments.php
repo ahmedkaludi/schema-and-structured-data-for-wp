@@ -41,7 +41,7 @@ function saswp_check_starsrating_status(){
 		if(isset($sd_data['saswp-starsrating']) && $sd_data['saswp-starsrating'] == 1){
 
 			$enabled_posts = get_option( 'enabled_post_types' );
-			$post_status   = get_post_meta( get_the_ID(), 'sr-comments-rating', true );
+			$post_status   = saswp_get_post_meta( saswp_get_the_ID(), 'sr-comments-rating', true );
 
 			if ( ! is_array( $enabled_posts ) ) {
 				$enabled_posts = (array) $enabled_posts;

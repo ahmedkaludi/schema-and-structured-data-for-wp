@@ -49,7 +49,7 @@ Class saswp_rating_box_frontend{
             
                         if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
                           
-                            $saswp_review_details           = get_post_meta(get_the_ID(), 'saswp_review_details', true);    
+                            $saswp_review_details           = saswp_get_post_meta(saswp_get_the_ID(), 'saswp_review_details', true);    
                                                                         
                         if(isset($saswp_review_details['saswp-review-item-enable'])){
                           
@@ -67,7 +67,7 @@ Class saswp_rating_box_frontend{
                         
                         if(!$aurthor_name){
 				
-                        $author_id    = get_post_field ('post_author', get_the_ID());
+                        $author_id    = get_post_field ('post_author', saswp_get_the_ID());
 		        $aurthor_name = get_the_author_meta( 'display_name' , $author_id ); 
                         
 			}
@@ -115,7 +115,7 @@ Class saswp_rating_box_frontend{
                                         'worstRating' => 1,
                                         'bestRating'  => 5,
                                         'ratingValue' => esc_attr($total_score),
-                                        'description' => strip_tags(get_post_meta( get_the_ID(), 'saswp-review-item-description', true )),
+                                        'description' => strip_tags(saswp_get_post_meta( saswp_get_the_ID(), 'saswp-review-item-description', true )),
                                      ); 
                             
                             if(!empty($input1)){
@@ -150,10 +150,10 @@ Class saswp_rating_box_frontend{
             $saswp_review_item_feature      = array();
             $saswp_review_item_star_rating  = array();
                                     
-            $saswp_review_details           = get_post_meta(get_the_ID(), 'saswp_review_details', true);             
-            $saswp_review_description       = get_post_meta( get_the_ID(), 'saswp-review-item-description', true );
-            $saswp_review_props             = get_post_meta( get_the_ID(), 'saswp-review-item-props', true );
-            $saswp_review_cons              = get_post_meta( get_the_ID(), 'saswp-review-item-cons', true );
+            $saswp_review_details           = saswp_get_post_meta(saswp_get_the_ID(), 'saswp_review_details', true);             
+            $saswp_review_description       = saswp_get_post_meta( saswp_get_the_ID(), 'saswp-review-item-description', true );
+            $saswp_review_props             = saswp_get_post_meta( saswp_get_the_ID(), 'saswp-review-item-props', true );
+            $saswp_review_cons              = saswp_get_post_meta( saswp_get_the_ID(), 'saswp-review-item-cons', true );
             $saswp_over_all_rating          = 0;
             
             if(isset($saswp_review_details['saswp-review-item-feature'])){
@@ -237,7 +237,7 @@ Class saswp_rating_box_frontend{
         public function saswp_display_review_box($content){
             
             global $sd_data;  
-            $saswp_review_details     =  get_post_meta(get_the_ID(), 'saswp_review_details', true); 
+            $saswp_review_details     =  saswp_get_post_meta(saswp_get_the_ID(), 'saswp_review_details', true); 
             $saswp_review_item_enable = 0;
             
             if(isset($saswp_review_details['saswp-review-item-enable'])){

@@ -24,7 +24,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             if($review_type){
                 $schema_type = $review_type;
             }else{
-                $schema_type        = get_post_meta($schema_id, 'schema_type', true); 
+                $schema_type        = saswp_get_post_meta($schema_id, 'schema_type', true); 
             }
             
             if($manual == null){
@@ -45,11 +45,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     $author_details	= get_avatar_data($current_user->ID);           
                 }
 
-                $business_type      = get_post_meta($schema_id, 'saswp_business_type', true);             
-                $business_name      = get_post_meta($schema_id, 'saswp_business_name', true); 
+                $business_type      = saswp_get_post_meta($schema_id, 'saswp_business_type', true);             
+                $business_name      = saswp_get_post_meta($schema_id, 'saswp_business_name', true); 
                 $saswp_business_type_key   = 'saswp_business_type_'.$schema_id;
-                $saved_business_type       = get_post_meta( $post_id, $saswp_business_type_key, true );
-                $saved_saswp_business_name = get_post_meta( $post_id, 'saswp_business_name_'.$schema_id, true );    
+                $saved_business_type       = saswp_get_post_meta( $post_id, $saswp_business_type_key, true );
+                $saved_saswp_business_name = saswp_get_post_meta( $post_id, 'saswp_business_name_'.$schema_id, true );    
 
                 if($saved_business_type){
                   $business_type = $saved_business_type;
@@ -445,7 +445,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 
                 case 'NewsArticle':
                     
-                    $category_detail=get_the_category(get_the_ID());//$post->ID
+                    $category_detail=get_the_category(saswp_get_the_ID());//$post->ID
                     $article_section = '';
                     
                     foreach($category_detail as $cd){
@@ -1042,6 +1042,251 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 );
                                 break;
 
+                        case 'EducationalOccupationalProgram':                                        
+                                $meta_field = array(                                
+                                array(
+                                        'label'   => 'Name',
+                                        'id'      => 'saswp_eop_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                                ),
+                                array(
+                                        'label'   => 'Description',
+                                        'id'      => 'saswp_eop_description_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                                ),
+                                array(
+                                        'label'   => 'URL',
+                                        'id'      => 'saswp_eop_url_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_permalink(),
+                                ),    
+                                array(
+                                        'label'   => 'Image',
+                                        'id'      => 'saswp_eop_image_'.$schema_id,
+                                        'type'    => 'media'                            
+                                ),
+                                array(
+                                        'label'   => 'Time To Complete',
+                                        'id'      => 'saswp_eop_time_to_complete_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'P2Y'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Occupational Category',
+                                        'id'      => 'saswp_eop_occupational_category_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'attributes' => array(
+                                                'placeholder' => '15-1111, 15-1121, 15-1122, 15-1131'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Occupational Credential Awarded',
+                                        'id'      => 'saswp_eop_occupational_credential_awarded_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'Associate Degree'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Program Prerequisites',
+                                        'id'      => 'saswp_eop_program_prerequisites_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'HighSchool'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Application StartDate',
+                                        'id'      => 'saswp_eop_application_start_date_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '2019-05-14'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Application Deadline',
+                                        'id'      => 'saswp_eop_application_deadline_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '2019-09-14'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Start Date',
+                                        'id'      => 'saswp_eop_start_date_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '2019-10-01'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'End Date',
+                                        'id'      => 'saswp_eop_end_date_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '2021-10-01'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Day Of Week',
+                                        'id'      => 'saswp_eop_day_of_week_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'attributes' => array(
+                                                'placeholder' => 'Wednesday, Thursday'
+                                         ),
+                                        'note' => 'Note: Separate it by comma ( , )' ,
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Time Of Day',
+                                        'id'      => 'saswp_eop_time_of_day_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'Morning'
+                                         ),                                        
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Number Of Credits',
+                                        'id'      => 'saswp_eop_number_of_credits_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '30'
+                                         ),                                        
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Typical Credits PerTerm',
+                                        'id'      => 'saswp_eop_typical_credits_per_term_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '12'
+                                         ),                                        
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Term Duration',
+                                        'id'      => 'saswp_eop_term_duration_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'P4M'
+                                         ),                                        
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Terms PerYear',
+                                        'id'      => 'saswp_eop_terms_per_year_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '2'
+                                         ),                                        
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Maximum Enrollment',
+                                        'id'      => 'saswp_eop_maximum_enrollment_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '30'
+                                         ),                                        
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Educational Program Mode',
+                                        'id'      => 'saswp_eop_educational_program_mode_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'IN_PERSON'
+                                         ),                                        
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Financial Aid Eligible',
+                                        'id'      => 'saswp_eop_financial_aid_eligible_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'PUBLIC_AID'
+                                         ),                                        
+                                        'default' => ''
+                                ), 
+                                array(
+                                        'label'   => 'Provider Name',
+                                        'id'      => 'saswp_eop_provider_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'ACME Community College'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Provider Street Address',
+                                        'id'      => 'saswp_eop_provider_street_address_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '123 Main Street'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Provider Address Locality',
+                                        'id'      => 'saswp_eop_provider_address_locality_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'Boston'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Provider Address Region',
+                                        'id'      => 'saswp_eop_provider_address_region_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'MA'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Provider Address Country',
+                                        'id'      => 'saswp_eop_provider_address_country_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'US'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Provider postalCode',
+                                        'id'      => 'saswp_eop_provider_postal_code_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '02134'
+                                         ),
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'Provider Telephone',
+                                        'id'      => 'saswp_eop_provider_telephone_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '+1-555-123-4567'
+                                         ),
+                                        'default' => ''
+                                )
+                                );
+                        break;  
+
                         case 'CreativeWork':                                        
                                 $meta_field = array(
                                 array(
@@ -1159,7 +1404,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         case 'SpecialAnnouncement':    
                                 
-                                $category_detail =get_the_category(get_the_ID());//$post->ID
+                                $category_detail =get_the_category(saswp_get_the_ID());//$post->ID
                                 $article_section = '';
                                 
                                 if($category_detail){
@@ -1343,7 +1588,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 
                 case 'Event':
                     
-                    $event_type        = get_post_meta($schema_id, 'saswp_event_type', true);                         
+                    $event_type        = saswp_get_post_meta($schema_id, 'saswp_event_type', true);                         
                         
                     $meta_field = array(
                         array(
@@ -3864,7 +4109,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Question Upvote Count',
                             'id' => 'saswp_qa_upvote_count_'.$schema_id,
-                            'type' => 'text',                           
+                            'type' => 'number',                           
                     ),
                     array(
                             'label' => 'Question Date Created',
@@ -3874,7 +4119,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Author Type',
                             'id'    => 'saswp_qa_question_author_type_'.$schema_id,
-                            'type'  => 'text',                           
+                            'type'  => 'select',
+                            'options' => array(
+                                    'Person'       => 'Person',
+                                    'Organization' => 'Organization'
+                            )                           
                     ),
                     array(
                             'label' => 'Author Name',
@@ -3884,7 +4133,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                         'label' => 'Answer Count',
                         'id'    => 'saswp_qa_answer_count_'.$schema_id,
-                        'type'  => 'text',                           
+                        'type'  => 'number',                           
                     )                                            
                         
                    );
@@ -3947,10 +4196,25 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text', 
                             
                     ),
-                        array(
-                            'label'      => 'Date Modified',
-                            'id'         => 'saswp_howto_ec_schema_date_modified_'.$schema_id,
-                            'type'       => 'text',                             
+                    array(
+                                'label'      => 'Date Modified',
+                                'id'         => 'saswp_howto_ec_schema_date_modified_'.$schema_id,
+                                'type'       => 'text',                             
+                    ),
+                    array(
+                        'label'      => 'Supplies',
+                        'id'         => 'saswp_howto_schema_supplies_'.$schema_id,
+                        'type'       => 'repeater'                                                     
+                    ),
+                    array(
+                        'label'      => 'Tools',
+                        'id'         => 'saswp_howto_schema_tools_'.$schema_id,
+                        'type'       => 'repeater'                                                     
+                    ),
+                    array(
+                        'label'      => 'Steps',
+                        'id'         => 'saswp_howto_schema_steps_'.$schema_id,
+                        'type'       => 'repeater'                                                     
                     )
                    );
                     break;
@@ -5351,6 +5615,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_faq_date_modified_'.$schema_id,
                                 'type'       => 'text',
                                 'default'    => get_the_modified_date("Y-m-d")                            
+                        ),
+                        array(
+                                'label'      => 'MainEntity (Questions & Answers) ',
+                                'id'         => 'saswp_faq_main_entity_'.$schema_id,
+                                'type'       => 'repeater'                                                     
                         )                                                    
                        );                                                                 
                        

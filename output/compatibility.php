@@ -193,7 +193,7 @@ class saswp_output_compatibility{
                     
                   while ( $my_posts->have_posts() ) : $my_posts->the_post();                 
                   $shortcode_opt['tpro_schema_markup'] = '';
-                  update_post_meta(get_the_id(), 'sp_tpro_shortcode_options',$shortcode_opt);                    
+                  saswp_update_post_meta(saswp_get_the_ID(), 'sp_tpro_shortcode_options',$shortcode_opt);                    
                   endwhile;
                   
                   wp_reset_postdata();

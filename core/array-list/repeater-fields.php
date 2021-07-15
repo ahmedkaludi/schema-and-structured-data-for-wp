@@ -40,6 +40,10 @@ return array( 'schema_type_element' => array(
 							   'performer'     => 'performer', 
 							   'organizer'     => 'organizer',                                                
 						),
+						'EducationalOccupationalProgram' => array(
+							'eopidentifier'     => 'eopidentifier', 
+							'eopoffer'          => 'eopoffer',                                                
+					    ),
 						'JobPosting' => array(
 							'joblocation'     => 'joblocation'							                                             
 					    ),
@@ -69,11 +73,9 @@ return array( 'schema_type_element' => array(
                                'additional-property' => 'additional_property',
                                                               
                         ),
-                        'MedicalCondition' => array(
-                               'mc-cause'       => 'mc_cause', 
+                        'MedicalCondition' => array(                               
                                'mc-symptom'     => 'mc_symptom', 
-                               'mc-risk_factor' => 'mc_risk_factor', 
-
+                               'mc-risk_factor' => 'mc_risk_factor'
                         ),
                         'TVSeries' => array(
                                'tvseries-actor'  => 'tvseries_actor',
@@ -88,6 +90,36 @@ return array( 'schema_type_element' => array(
 						                                                                          
                     ),
     'meta_name' => array(
+		'eopidentifier' => array(                    
+			array(
+				'label'     => 'Property ID',
+				'name'      => 'saswp_eopidentifier_property_id',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Value',
+				'name'      => 'saswp_eopidentifier_property_value',
+				'type'      => 'text',                        
+			) 
+		),
+		'eopoffer' => array(                    
+			array(
+				'label'     => 'Category',
+				'name'      => 'saswp_eopoffer_category',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Price',
+				'name'      => 'saswp_eopoffer_price',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Price Currency',
+				'name'      => 'saswp_eopoffer_price_currency',
+				'type'      => 'text',                        
+			)
+			 
+		),
                      'movie_actor' => array(                    
                         array(
                             'label'     => 'Name',
@@ -192,26 +224,26 @@ return array( 'schema_type_element' => array(
 		    )    
                     ),
                     'performer' => array(                    
-                    array(
-			'label'     => 'Performer Type',
-			'name'      => 'saswp_event_performer_type',
-			'type'      => 'select',
-                        'options'   => array(                                                                                              
-								'Person'           => 'Person',
-								'Organization'     => 'Organization',
-								'MusicGroup'       => 'MusicGroup'
-                        )
-		    ),
-                    array(
-			'label'     => 'Performer Name',
-			'name'      => 'saswp_event_performer_name',
-			'type'      => 'text',                        
-		    ),
-                    array(
-			'label'     => 'Performer URL',
-			'name'      => 'saswp_event_performer_url',
-			'type'      => 'text',                        
-		    )                                                            
+            	        array(
+							'label'     => 'Performer Type',
+							'name'      => 'saswp_event_performer_type',
+							'type'      => 'select',
+										'options'   => array(                                                                                              
+												'Person'           => 'Person',
+												'Organization'     => 'Organization',
+												'MusicGroup'       => 'MusicGroup'
+										)
+							),
+									array(
+							'label'     => 'Performer Name',
+							'name'      => 'saswp_event_performer_name',
+							'type'      => 'text',                        
+							),
+									array(
+							'label'     => 'Performer URL',
+							'name'      => 'saswp_event_performer_url',
+							'type'      => 'text',                        
+							)                                                            
 					),
 					
 					'organizer' => array(                    						
@@ -313,6 +345,15 @@ return array( 'schema_type_element' => array(
 								'type'      => 'text',                        
 						),
 						array(
+							'label'     => 'Accepted Answer Author Type',
+							'name'      => 'saswp_qa_accepted_author_type',
+							'type'      => 'select',
+							'options'   => array(
+								'Person' 		=> 'Person',
+								'Organization'  => 'Organization'
+							)                       
+						),
+						array(
 								'label'     => 'Accepted Answer Author Name',
 								'name'      => 'saswp_qa_accepted_author_name',
 								'type'      => 'text',                        
@@ -340,10 +381,19 @@ return array( 'schema_type_element' => array(
 								'type'      => 'text',                        
 						),
 						array(
+							'label'     => 'Accepted Answer Author Type',
+							'name'      => 'saswp_qa_suggested_author_type',
+							'type'      => 'select',
+							'options'   => array(
+								'Person' 		=> 'Person',
+								'Organization'  => 'Organization'
+							)                       
+						),
+						array(
 								'label'     => 'suggested Answer Author Name',
 								'name'      => 'saswp_qa_suggested_author_name',
 								'type'      => 'text',                        
-							)                                        
+						)                                        
                     ),
                     'howto_tool' => array(                    
                     array(
@@ -465,14 +515,7 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_mc_risk_factor_name',
 			'type'      => 'text',                        
 		    )                                                           
-                    ),
-                    'mc_cause' => array(                    
-                    array(
-			'label'     => 'Cause',
-			'name'      => 'saswp_mc_cause_name',
-			'type'      => 'text',                        
-		    )                                                           
-                    ),                                    
+                    ),                                                        
                     'tvseries_actor' => array(                    
                     array(
 			'label'     => 'Actor Name',
