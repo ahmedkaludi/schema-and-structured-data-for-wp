@@ -133,7 +133,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Improve pagination for the review widget #1042
 
 
-= 1.9.81 (04 JULY 2021)
+= 1.9.81 (04 JULY 2021) =
 
 * Fixed: Google review page redirect to wrong url, it should redirect to Google review page url. #1457
 * Fixed: When the “Defragment Schema Markup” option is enabled knowledge graph markup is displaying on the category post and pages. #1455
