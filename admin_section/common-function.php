@@ -3639,7 +3639,7 @@ function saswp_update_global_post(){
   
   if( (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) && (function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint()) ){
 
-    $page_id = ampforwp_saswp_get_the_ID();  
+    $page_id = ampforwp_get_the_ID();  
     
     if($page_id){
 
