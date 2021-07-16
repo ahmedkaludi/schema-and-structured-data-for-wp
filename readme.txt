@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 1.9.82
+Stable tag: 1.9.82.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.82.1 (16 July 2021) =
+
+* Fixed: Call to undefined function ampforwp_saswp_get_the_ID() #1483
+* Fixed: Fatal error: Uncaught Error: Call to undefined method WC_Product_Simple::get_available_variations() #1481
+
 
 = 1.9.82 (15 July 2021) =
 
