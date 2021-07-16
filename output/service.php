@@ -4123,27 +4123,31 @@ Class saswp_output_service{
                              
                         if(method_exists('WC_Product_Simple', 'get_type')){
 
-                            if($product->get_type() == 'variable'){
+                            if($product->get_type() == 'variable' && class_exists('WC_Product_Variable') ){
 
                                 $product_id_some = $woocommerce->product_factory->get_product();
-    
-                                $variations  = $product_id_some->get_available_variations(); 
                                 
-                                    if($variations){
-    
-                                            foreach($variations as $value){
+                                if($product_id_some instanceof WC_Product_Variable) {
+                                    
+                                    $variations  = $product_id_some->get_available_variations(); 
+                                    
+                                        if($variations){
+        
+                                                foreach($variations as $value){
 
-                                                $product_variation = wc_get_product( $value['variation_id'] ); 
-                                                $p_inc_tax = $product_variation->get_price_including_tax(); 
+                                                    $product_variation = wc_get_product( $value['variation_id'] ); 
+                                                    $p_inc_tax = $product_variation->get_price_including_tax(); 
 
-                                                if($p_inc_tax){
-                                                    $varible_prices[] = $p_inc_tax; 
-                                                }else{
-                                                    $varible_prices[] = $value['display_price']; 
-                                                }                                                       
-                                            }
-                                    }
-    
+                                                    if($p_inc_tax){
+                                                        $varible_prices[] = $p_inc_tax; 
+                                                    }else{
+                                                        $varible_prices[] = $value['display_price']; 
+                                                    }                                                       
+                                                }
+                                        }
+
+                                }
+                                    
                             }
                             
                         }                                        
