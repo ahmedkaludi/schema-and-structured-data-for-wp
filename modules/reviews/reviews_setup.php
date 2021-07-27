@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
     
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 98 ){
+    if( $platform_inserted != 99 ){
             
         $term_array = array(    
             'Self',
@@ -365,7 +365,8 @@ function saswp_insert_platform_terms(){
             'Avvo', 
             'Angies List',
             'Apple AppStore',
-            'Expedia', 
+            'Expedia',
+            'Feefo', 
             'Facebook', 
             'Google', 
             'Google Shopping', 
@@ -482,8 +483,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 98){
-            set_transient('saswp_platform_inserted', 98,  24*7*HOUR_IN_SECONDS ); 
+        if( count($term_ids)  == 99 ){
+            set_transient( 'saswp_platform_inserted', 99,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }
