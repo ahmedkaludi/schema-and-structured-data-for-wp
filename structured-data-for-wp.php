@@ -30,6 +30,7 @@ define('SASWP_EDD_STORE_URL', 'http://structured-data-for-wp.com/');
 //define('SASWP_ENVIRONMENT', 'development');
 define('SASWP_ENVIRONMENT', 'production');
 // including the output file
+require_once SASWP_DIR_NAME .'/core/queries_function.php';
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
 require_once SASWP_DIR_NAME .'/output/markup.php';
@@ -106,7 +107,6 @@ require_once SASWP_DIR_NAME.'/modules/reviews/reviews_collection.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_form.php';
 require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
 require_once SASWP_DIR_NAME.'/core/global.php';
-require_once SASWP_DIR_NAME.'/core/queries_function.php';
 //Module files load
 require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-gutenberg.php';
 require_once SASWP_DIR_NAME.'/modules/elementor/elementor-loader.php';
