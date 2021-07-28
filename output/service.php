@@ -4881,8 +4881,8 @@ Class saswp_output_service{
                 case 'Book':
                 case 'Car':
                 case 'Vehicle':    
-                                                                        
-                        $product_details = $this->saswp_woocommerce_product_details(saswp_get_the_ID());  
+                                                                    
+                        $product_details = $this->saswp_woocommerce_product_details(get_the_ID());  
 
                         if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
 
