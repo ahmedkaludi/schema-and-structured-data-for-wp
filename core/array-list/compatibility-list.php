@@ -4,6 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'autolistings'  =>  array(            
+            'name'       => 'Auto Listings',
+            'free'       => 'auto-listings/auto-listings.php',                    
+            'opt_name'   => 'saswp-autolistings',
+            'part_in'    => 'pro',
+        ),
         'ratingform'  =>  array(            
             'name'       => 'Rating Form by SerdarG',
             'free'       => 'rating-form/rf-init.php',                    

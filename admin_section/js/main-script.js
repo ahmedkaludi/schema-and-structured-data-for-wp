@@ -1214,6 +1214,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-autolistings-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-autolistings").val(1);             
+                            }else{
+                              $("#saswp-autolistings").val(0);           
+                            }
+                      break;
+
                       case 'saswp-wpml-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

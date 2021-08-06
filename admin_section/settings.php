@@ -421,6 +421,37 @@ function saswp_premium_features_callback(){ ?>
                             
                             $cooked_active_text = '';
                             
+                            if(is_plugin_active('classifieds-plugin-compatibility/classifieds-plugin-compatibility.php')){
+                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
+                            }else{
+                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
+                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
+                            }
+                            
+                            ?> 
+                                            
+                    <div class="saswp-features-ele">
+                        <div class="saswp-ele-ic" style="background: #9fa2f5;">
+                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/cpc.png">
+                            </div>
+                            <div class="saswp-ele-tlt">
+                                    <h3><?php echo saswp_t_string('Classifieds Plugin Compatibility') ?></h3>
+                                    <p><?php echo saswp_t_string('Classifieds Plugin Compatibility generated schema markup automatically for classified theme and plugin with just few steps click.') ?></p>
+                            </div>
+                    </div>
+                    <div class="saswp-sts-btn">
+                        
+                        <?php echo $cooked_active_text; ?>
+                                                                                                                                               
+                    </div>
+            </li>
+
+                <li>
+                            
+                            <?php
+                            
+                            $cooked_active_text = '';
+                            
                             if(is_plugin_active('1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php')){                                        
                                 $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
                             }else{
@@ -1807,6 +1838,11 @@ echo '</ul>';
                 $add_on[] = 'Polylang';           
                                            
         }
+        if(is_plugin_active('classifieds-plugin-compatibility/classifieds-plugin-compatibility.php')){
+                      
+                $add_on[] = 'CPC';           
+                                           
+        }
 
         if(is_plugin_active('wpml-schema-compatibility/wpml-schema-compatibility.php')){
                       
@@ -1924,6 +1960,13 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                                 
                         $response.= '<div class="saswp-license-label">';
                         $response.= '<strong>'.saswp_t_string(''.$on.' Schema Compatibility').'</strong>';
+                        $response.= '</div>';
+                
+                }
+                if($label == true && $on == 'CPC'){
+                                
+                        $response.= '<div class="saswp-license-label">';
+                        $response.= '<strong>'.saswp_t_string('Classifieds Plugin Compatibility').'</strong>';
                         $response.= '</div>';
                 
                 }
@@ -2378,7 +2421,20 @@ function saswp_compatibility_page_callback(){
                         'id'   => 'saswp-polylang',
                         'name' => 'sd_data[saswp-polylang]',                             
                 )
-        );  
+        ); 
+        
+        $autolistings = array(
+                'label'  => 'Auto Listings',
+                'id'     => 'saswp-autolistings-checkbox',                        
+                'name'   => 'saswp-autolistings-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('autolistings'),
+                'hidden' => array(
+                        'id'   => 'saswp-autolistings',
+                        'name' => 'sd_data[saswp-autolistings]',                             
+                )
+        ); 
         
         $wpml = array(
                 'label'  => 'WPML',
@@ -3808,6 +3864,10 @@ function saswp_compatibility_page_callback(){
                           
                 $polylang['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/polylang-compatibility-for-saswp/">Polylang Compatibility For SASWP Addon</a>';                        
          }
+         if(!is_plugin_active('classifieds-plugin-compatibility/classifieds-plugin-compatibility.php')){
+                          
+                $autolistings['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/classifieds-plugin-compatibility/">Classifieds Plugin Compatibility Addon</a>';
+         }
          if(!is_plugin_active('wpml-schema-compatibility/wpml-schema-compatibility.php')){
                           
                 $wpml['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/wpml-schema-compatibility">WPML Schema Compatibility Addon</a>';                        
@@ -3893,6 +3953,7 @@ function saswp_compatibility_page_callback(){
                 $sabaidiscuss,                
                 $yoast,
                 $polylang,
+                $autolistings,
                 $wpml,
                 $metatagmanager,
                 $slimseo,

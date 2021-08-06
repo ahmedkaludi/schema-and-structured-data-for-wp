@@ -3030,6 +3030,7 @@ function saswp_get_field_note($pname){
     $notes = array(  
             'wpml'                        => saswp_t_string('Requires').' <a target="_blank" href="https://wpml.org">WPML</a>',
             'polylang'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/polylang/">Polylang</a>',
+            'autolistings'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/auto-listings">Auto Listings</a>',
             'wpdiscuz'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wpdiscuz/">Comments – wpDiscuz</a>',
             'rannarecipe'                 => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/ranna-food-recipe-wordpress-theme/25157340">Ranna - Food & Recipe</a>',
             'easy_recipe'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/easyrecipe/">EasyRecipe</a>',
