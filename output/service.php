@@ -258,8 +258,18 @@ Class saswp_output_service{
                 case 'custom_field':
                     
                     $cus_field   = saswp_get_post_meta($schema_post_id, 'saswp_custom_meta_field', true);                    
-                    $response    = saswp_get_post_meta($post->ID, $cus_field[$key], true); 
-                    
+
+                    if(strpos($cus_field[$key], "image") !== false){
+                        $response    = saswp_get_post_meta($post->ID, $cus_field[$key], true);                         
+                        if(is_numeric($response)){
+                            $response = saswp_get_image_by_id($response);
+                        }else{
+                            $response    = saswp_get_post_meta($post->ID, $cus_field[$key], true);     
+                        }
+                    }else{
+                        $response    = saswp_get_post_meta($post->ID, $cus_field[$key], true); 
+                    }
+                                                                                
                     break;
                 case 'fixed_image':                    
                     
