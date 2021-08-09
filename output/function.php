@@ -501,16 +501,24 @@ function saswp_get_all_schema_markup_output() {
                     
                         if($kb_website_output){
                             
-                            $kb_website_output['publisher'] = array(
-                            '@id' => isset($kb_schema_output['@id']) ? $kb_schema_output['@id'] : ''
-                            );                            
+                            if(!empty($kb_schema_output['@id'])){
+
+                                    $kb_website_output['publisher'] = array(
+                                        '@id' => $kb_schema_output['@id']
+                                    );
+                            }
+                                                        
                         }
                         if($sd_data['saswp_kb_type'] == 'Organization'){                                                                             
                             
-                            $soutput['publisher'] = array(
-                                '@id' => isset($kb_schema_output['@id']) ? $kb_schema_output['@id'] : ''
-                            );
-                            
+                            if(!empty($kb_schema_output['@id'])){
+
+                                $soutput['publisher'] = array(
+                                    '@id' => $kb_schema_output['@id']
+                                );
+
+                            }
+                                                        
                         }
                         
                     }
