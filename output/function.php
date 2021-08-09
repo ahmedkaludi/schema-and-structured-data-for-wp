@@ -2610,7 +2610,7 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
 function saswp_get_mainEntity($schema_id){
     
         global $post;
-        
+        $post_content = do_shortcode($post->post_content);
         $response  = array();
         
         $item_list_enable     = saswp_get_post_meta($schema_id, 'saswp_enable_itemlist_schema', true);
@@ -2625,7 +2625,7 @@ function saswp_get_mainEntity($schema_id){
                 
                 $regex = '/<([0-9a-z]*)\sclass="'.$item_list_custom.'"[^>]*>(.*?)<\/\1>/';
                 
-                preg_match_all( $regex, $post->post_content, $matches , PREG_SET_ORDER );
+                preg_match_all( $regex, $post_content, $matches , PREG_SET_ORDER );
                                 
                 foreach($matches as $match){
                     $listitem[] = $match[2];
@@ -2635,7 +2635,7 @@ function saswp_get_mainEntity($schema_id){
                                 
                 $regex = '/<'.$item_list_tags.'>(.*?)<\/'.$item_list_tags.'>/';
                 
-                preg_match_all( $regex, $post->post_content, $matches , PREG_SET_ORDER );
+                preg_match_all( $regex, $post_content, $matches , PREG_SET_ORDER );
                 
                 if($matches){
                     foreach($matches as $match){

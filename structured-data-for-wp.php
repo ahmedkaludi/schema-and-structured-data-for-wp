@@ -154,4 +154,3 @@ if( ! function_exists( 'saswp_start_plugin_tracking' ) ) {
   
   saswp_start_plugin_tracking();
 }
-
