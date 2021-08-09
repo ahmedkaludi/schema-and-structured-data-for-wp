@@ -1348,7 +1348,10 @@ function saswp_list_items_generator(){
 		global $sd_data;
 		$bc_titles = array();
 		$bc_links  = array();
-                
+
+        if(empty($sd_data['links'])){
+            saswp_custom_breadcrumbs();
+        }                 
         if(isset($sd_data['titles']) && !empty($sd_data['titles'])){		
 			$bc_titles = $sd_data['titles'];
 		}
