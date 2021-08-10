@@ -2613,8 +2613,13 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
 function saswp_get_mainEntity($schema_id){
     
         global $post;
-        $post_content = do_shortcode($post->post_content);
+        
+        $post_content = '';                
         $response  = array();
+
+        if(is_object($post)){
+            $post_content = do_shortcode($post->post_content);
+        }
         
         $item_list_enable     = get_post_meta($schema_id, 'saswp_enable_itemlist_schema', true);
         $item_list_tags       = get_post_meta($schema_id, 'saswp_item_list_tags', true);
