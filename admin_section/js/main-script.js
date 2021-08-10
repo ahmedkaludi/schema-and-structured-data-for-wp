@@ -2406,7 +2406,7 @@ jQuery(document).ready(function($){
                     current.addClass('updating-message');
 
                     $.post(ajaxurl, 
-                      { action:"saswp_modify_schema_post_restore", schema_id:schema_id, post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                      { action:"saswp_modify_schema_post_restore", tag_ID:saswp_localize_data.tag_ID, schema_id:schema_id, post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                        function(response){    
                         current.removeClass('updating-message');                                               
 

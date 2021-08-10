@@ -99,17 +99,17 @@ class saswp_post_specific {
             if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }  
-            
+                
                 $post_id        = intval($_POST['post_id']);
                 $schema_id      = intval($_POST['schema_id']);            
              
-                delete_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id); 
+                saswp_delete_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id); 
 
                 $meta_field = saswp_get_fields_by_schema_type($schema_id);
                 
                 if($meta_field){
                     foreach($meta_field as $field){
-                        delete_post_meta($post_id, $field['id']); 
+                        saswp_delete_post_meta($post_id, $field['id']); 
                     }
                 }                             
                 echo json_encode(array('status'=> 't', 'msg'=>saswp_t_string( 'Schema has been restored' )));                
