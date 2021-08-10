@@ -9,6 +9,11 @@ return array(
             'path'       => '1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php',                        
         ),
         array(
+            'key'        => 'classifieds_plugin_compatibility',
+            'name'       => 'Classifieds Plugin Compatibility',
+            'path'       => 'classifieds-plugin-compatibility/classifieds-plugin-compatibility.php',                        
+        ),
+        array(
             'key'        => 'polylang_compatibility_for_saswp',
             'name'       => 'Polylang Compatibility For SASWP',
             'path'       => 'polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php',                        

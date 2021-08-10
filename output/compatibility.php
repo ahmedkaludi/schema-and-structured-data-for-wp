@@ -193,7 +193,7 @@ class saswp_output_compatibility{
                     
                   while ( $my_posts->have_posts() ) : $my_posts->the_post();                 
                   $shortcode_opt['tpro_schema_markup'] = '';
-                  saswp_update_post_meta(saswp_get_the_ID(), 'sp_tpro_shortcode_options',$shortcode_opt);                    
+                  update_post_meta(get_the_ID(), 'sp_tpro_shortcode_options',$shortcode_opt);                    
                   endwhile;
                   
                   wp_reset_postdata();
@@ -650,6 +650,9 @@ class saswp_output_compatibility{
     }
     public function polylang_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-polylang');
+    }
+    public function autolistings_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-autolistings');
     }
     public function wpml_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-wpml');

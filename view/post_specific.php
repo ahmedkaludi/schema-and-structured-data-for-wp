@@ -74,7 +74,7 @@ class saswp_post_specific {
 
             $post['ID'] = $term->term_id;            
             $post       = (object)$post;            
-
+            
             ?>
             <tr class="saswp-modify-schema-on-taxonomy">
             <th>Schema & Structured Data for WP & AMP</th>
@@ -99,7 +99,7 @@ class saswp_post_specific {
             if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }  
-            
+                
                 $post_id        = intval($_POST['post_id']);
                 $schema_id      = intval($_POST['schema_id']);            
              
@@ -174,7 +174,7 @@ class saswp_post_specific {
              $modified       = false;
              
              saswp_update_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id, 1); 
-             $schema_type       = saswp_get_post_meta($schema_id, 'schema_type', true); 
+             $schema_type       = get_post_meta($schema_id, 'schema_type', true); 
              $response = $this->saswp_get_schema_fields_on_ajax($post_id, $schema_id);                                            
              $saswp_meta_fields = array_filter($response); 
              
@@ -182,7 +182,7 @@ class saswp_post_specific {
 
              if($schema_type == 'Review'){
                         
-                $item_reviewed     = saswp_get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$schema_id, true);                         
+                $item_reviewed     = saswp_get_post_meta($post_id, 'saswp_review_item_reviewed_'.$schema_id, true);                         
                 if(!$item_reviewed){
                     $item_reviewed = 'Book';
                 }
@@ -221,7 +221,7 @@ class saswp_post_specific {
             $post_id       = intval($_GET['post_id']);  
             $modify_this   = intval($_GET['modify_this']);
             
-            $schema_enable     = saswp_get_post_meta($post_id, 'saswp_enable_disable_schema', true); 
+            $schema_enable     = get_post_meta($post_id, 'saswp_enable_disable_schema', true); 
                         
             if(isset($schema_enable[$schema_id]) && $schema_enable[$schema_id] == 0){                        
                         $disabled = 'checked';                         
@@ -252,7 +252,7 @@ class saswp_post_specific {
                 $schema_id     = sanitize_text_field($_POST['schema_id']);
                 $status        = sanitize_text_field($_POST['status']);
                               
-                $schema_enable_status = saswp_get_post_meta($post_id, 'saswp_enable_disable_schema', true);     
+                $schema_enable_status = get_post_meta($post_id, 'saswp_enable_disable_schema', true);     
                                
                 if(is_array($schema_enable_status)){
                    
@@ -260,13 +260,13 @@ class saswp_post_specific {
                    
                 }else{
                     
-                    saswp_delete_post_meta($post_id, 'saswp_enable_disable_schema');
+                    delete_post_meta($post_id, 'saswp_enable_disable_schema');
                     
                 } 
                                 
                 $schema_enable[$schema_id] = $status;   
                                 
-                saswp_update_post_meta( $post_id, 'saswp_enable_disable_schema', $schema_enable);                   
+                update_post_meta( $post_id, 'saswp_enable_disable_schema', $schema_enable);                   
                 
                 echo json_encode(array('status'=>'t'));
                 wp_die();                        
@@ -428,7 +428,7 @@ class saswp_post_specific {
                      }
                      
                      $modify_this       = saswp_get_post_meta($post->ID, 'saswp_modify_this_schema_'.$schema->ID, true);                                          
-                     $schema_type       = saswp_get_post_meta($schema->ID, 'schema_type', true);  
+                     $schema_type       = get_post_meta($schema->ID, 'schema_type', true);  
                      $response          = @saswp_get_fields_by_schema_type($schema->ID);                       
                      $saswp_meta_fields = array_filter($response); 
                      if($modify_this){
@@ -437,7 +437,7 @@ class saswp_post_specific {
                      
                      
                      if($schema_type == 'ItemList'){
-                         $item_type         = '('.saswp_get_post_meta($schema->ID, 'saswp_itemlist_item_type', true).')';
+                         $item_type         = '('.get_post_meta($schema->ID, 'saswp_itemlist_item_type', true).')';
                      }
                      
                      if($schema_type == 'Review' && $modify_this){
@@ -581,7 +581,7 @@ class saswp_post_specific {
         
 
     public function saswp_save_term_fields( $post_id ) {
-
+            
         if ( ! isset( $_POST['taxonomy_specific_nonce'] ) ) return $post_id;
 
 		if ( !wp_verify_nonce( $_POST['taxonomy_specific_nonce'], 'taxonomy_specific_nonce_data' ) ) return $post_id;	
@@ -591,9 +591,9 @@ class saswp_post_specific {
         $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
 
         if(!empty($custom_schema)){
-            saswp_update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
+            update_term_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
         }else{
-            saswp_delete_post_meta( $post_id, 'saswp_custom_schema_field');  
+            delete_term_meta( $post_id, 'saswp_custom_schema_field');  
         }
                                                                                        
         $this->_common_view->saswp_save_common_view($post_id, $this->all_schema);
@@ -617,9 +617,9 @@ class saswp_post_specific {
                 $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
 
                 if(!empty($custom_schema)){
-                    saswp_update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
+                    update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
                 }else{
-                    saswp_delete_post_meta( $post_id, 'saswp_custom_schema_field');  
+                    delete_post_meta( $post_id, 'saswp_custom_schema_field');  
                 }
                                                                                                
                 $this->_common_view->saswp_save_common_view($post_id, $this->all_schema);

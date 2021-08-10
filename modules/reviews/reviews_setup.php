@@ -127,9 +127,9 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                 
                 case 'saswp_reviewer_image' :
                     
-                    $name = saswp_get_post_meta( $post_id, $key='saswp_reviewer_name', true);                      
+                    $name = get_post_meta( $post_id, $key='saswp_reviewer_name', true);                      
                     
-                    $image_url = saswp_get_post_meta( $post_id, $key='saswp_reviewer_image', true);
+                    $image_url = get_post_meta( $post_id, $key='saswp_reviewer_image', true);
                     if(!$image_url){
                         $image_url = SASWP_PLUGIN_URL.'/admin_section/images/default_user.jpg';
                     }
@@ -144,13 +144,13 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     break;                 
                 case 'saswp_review_rating' :
                     
-                    $rating_val = saswp_get_post_meta( $post_id, $key='saswp_review_rating', true);                   
+                    $rating_val = get_post_meta( $post_id, $key='saswp_review_rating', true);                   
                     echo saswp_get_rating_html_by_value($rating_val);                                                                                                                                       
                     
                     break;
                 case 'saswp_review_platform' :
                     
-                    $platform = saswp_get_post_meta( $post_id, $key='saswp_review_platform', true);  
+                    $platform = get_post_meta( $post_id, $key='saswp_review_platform', true);  
                     $term     = get_term( $platform, 'platform' );
                     
                     if(isset($term->slug)){
@@ -175,13 +175,13 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     break;
                 case 'saswp_review_date' :
                     
-                    $name = saswp_get_post_meta( $post_id, $key='saswp_review_date', true);
+                    $name = get_post_meta( $post_id, $key='saswp_review_date', true);
                     echo esc_attr($name);
                                                                                                                                                             
                     break;
                 case 'saswp_review_place_id' :
                     
-                    $name = saswp_get_post_meta( $post_id, 'saswp_review_location_id', true);
+                    $name = get_post_meta( $post_id, 'saswp_review_location_id', true);
                     if(saswp_validate_url($name)){
                         echo '<a target="_blank" href="'.esc_url($name).'">'.esc_attr($name).'</a>';
                     }else{
@@ -293,7 +293,7 @@ function saswp_enqueue_rateyo_script( $hook ) {
         if($post_type =='saswp_reviews'){
             
             $rating_val= 0;
-            $rv_rating = saswp_get_post_meta( saswp_get_the_ID(), $key='saswp_review_rating', true);
+            $rv_rating = get_post_meta( get_the_ID(), $key='saswp_review_rating', true);
             if($rv_rating){
                 $rating_val = $rv_rating;
             }
@@ -357,7 +357,7 @@ function saswp_insert_platform_terms(){
     
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 98 ){
+    if( $platform_inserted != 99 ){
             
         $term_array = array(    
             'Self',
@@ -365,7 +365,8 @@ function saswp_insert_platform_terms(){
             'Avvo', 
             'Angies List',
             'Apple AppStore',
-            'Expedia', 
+            'Expedia',
+            'Feefo', 
             'Facebook', 
             'Google', 
             'Google Shopping', 
@@ -482,8 +483,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if(count($term_ids)  == 98){
-            set_transient('saswp_platform_inserted', 98,  24*7*HOUR_IN_SECONDS ); 
+        if( count($term_ids)  == 99 ){
+            set_transient( 'saswp_platform_inserted', 99,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

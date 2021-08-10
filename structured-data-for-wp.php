@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.9.82
+Version: 1.9.83
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.9.82');
+define('SASWP_VERSION', '1.9.83');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -30,6 +30,7 @@ define('SASWP_EDD_STORE_URL', 'http://structured-data-for-wp.com/');
 //define('SASWP_ENVIRONMENT', 'development');
 define('SASWP_ENVIRONMENT', 'production');
 // including the output file
+require_once SASWP_DIR_NAME .'/core/queries_function.php';
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
 require_once SASWP_DIR_NAME .'/output/markup.php';
@@ -106,7 +107,6 @@ require_once SASWP_DIR_NAME.'/modules/reviews/reviews_collection.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_form.php';
 require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
 require_once SASWP_DIR_NAME.'/core/global.php';
-require_once SASWP_DIR_NAME.'/core/queries_function.php';
 //Module files load
 require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-gutenberg.php';
 require_once SASWP_DIR_NAME.'/modules/elementor/elementor-loader.php';
@@ -154,4 +154,3 @@ if( ! function_exists( 'saswp_start_plugin_tracking' ) ) {
   
   saswp_start_plugin_tracking();
 }
-

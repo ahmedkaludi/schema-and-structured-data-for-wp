@@ -1214,6 +1214,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-autolistings-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-autolistings").val(1);             
+                            }else{
+                              $("#saswp-autolistings").val(0);           
+                            }
+                      break;
+
                       case 'saswp-wpml-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
@@ -2369,7 +2378,7 @@ jQuery(document).ready(function($){
                     current.addClass('updating-message');
 
                     $.get(ajaxurl, 
-                      { action:"saswp_modify_schema_post_enable", schema_id:schema_id, post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                      { action:"saswp_modify_schema_post_enable",tag_ID:saswp_localize_data.tag_ID, schema_id:schema_id, post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                        function(response){                           
                                                   
                         $(".saswp-post-specific-wrapper[data-id="+schema_id+"] .saswp-post-specific-setting").after(response);
@@ -2397,7 +2406,7 @@ jQuery(document).ready(function($){
                     current.addClass('updating-message');
 
                     $.post(ajaxurl, 
-                      { action:"saswp_modify_schema_post_restore", schema_id:schema_id, post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                      { action:"saswp_modify_schema_post_restore", tag_ID:saswp_localize_data.tag_ID, schema_id:schema_id, post_id: saswp_localize_data.post_id,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                        function(response){    
                         current.removeClass('updating-message');                                               
 

@@ -24,7 +24,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             if($review_type){
                 $schema_type = $review_type;
             }else{
-                $schema_type        = saswp_get_post_meta($schema_id, 'schema_type', true); 
+                $schema_type        = get_post_meta($schema_id, 'schema_type', true); 
             }
             
             if($manual == null){
@@ -45,11 +45,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     $author_details	= get_avatar_data($current_user->ID);           
                 }
 
-                $business_type      = saswp_get_post_meta($schema_id, 'saswp_business_type', true);             
-                $business_name      = saswp_get_post_meta($schema_id, 'saswp_business_name', true); 
+                $business_type      = get_post_meta($schema_id, 'saswp_business_type', true);             
+                $business_name      = get_post_meta($schema_id, 'saswp_business_name', true); 
                 $saswp_business_type_key   = 'saswp_business_type_'.$schema_id;
-                $saved_business_type       = saswp_get_post_meta( $post_id, $saswp_business_type_key, true );
-                $saved_saswp_business_name = saswp_get_post_meta( $post_id, 'saswp_business_name_'.$schema_id, true );    
+                $saved_business_type       = get_post_meta( $post_id, $saswp_business_type_key, true );
+                $saved_saswp_business_name = get_post_meta( $post_id, 'saswp_business_name_'.$schema_id, true );    
 
                 if($saved_business_type){
                   $business_type = $saved_business_type;
@@ -445,7 +445,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 
                 case 'NewsArticle':
                     
-                    $category_detail=get_the_category(saswp_get_the_ID());//$post->ID
+                    $category_detail=get_the_category(get_the_ID());//$post->ID
                     $article_section = '';
                     
                     foreach($category_detail as $cd){
@@ -1404,7 +1404,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         case 'SpecialAnnouncement':    
                                 
-                                $category_detail =get_the_category(saswp_get_the_ID());//$post->ID
+                                $category_detail =get_the_category(get_the_ID());//$post->ID
                                 $article_section = '';
                                 
                                 if($category_detail){
@@ -1588,7 +1588,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 
                 case 'Event':
                     
-                    $event_type        = saswp_get_post_meta($schema_id, 'saswp_event_type', true);                         
+                    $event_type        = get_post_meta($schema_id, 'saswp_event_type', true);                         
                         
                     $meta_field = array(
                         array(

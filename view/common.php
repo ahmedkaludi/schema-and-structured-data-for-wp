@@ -50,7 +50,7 @@ class saswp_view_common_class {
                 $response    = '';
                 $output      = '';    
         
-                $item_type = saswp_get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
+                $item_type = get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
                 
                 if($meta_name == 'itemlist_item'){
                     
@@ -210,7 +210,7 @@ class saswp_view_common_class {
                     if($type_fields){
                        
                     if($schema_type == 'ItemList'){
-                         $itemlist_sub_type     = saswp_get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
+                         $itemlist_sub_type     = get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
                          $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
                         
                     }else{
@@ -607,9 +607,7 @@ class saswp_view_common_class {
                         $tabs_fields .=  $this->saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema, $modify_this, $modified); 
                         
                      }
-                     
-                
-                
+                                                     
                 return $tabs_fields;                                               
 	}	
      
@@ -680,7 +678,7 @@ class saswp_view_common_class {
                  foreach($all_schema as $schema){
                    
                      if( isset($_POST['saswp_modify_this_schema_'.$schema->ID]) && !empty($_POST['saswp_modify_this_schema_'.$schema->ID]) ){
-                         saswp_update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
+                        saswp_update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
                      }
                                   
                      foreach ($this->schema_type_element as $element){

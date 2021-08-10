@@ -290,8 +290,8 @@ function saswp_gutenberg_recipe_schema(){
         }
     }
 
-        $extra_theme_review = $service_object->saswp_extra_theme_review_details(saswp_get_the_ID());
-        $aggregateRating    = $service_object->saswp_rating_box_rating_markup(saswp_get_the_ID());
+        $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
+        $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
 				
 		if(!empty($aggregateRating)){
                 $input1['aggregateRating'] = $aggregateRating;
@@ -300,7 +300,7 @@ function saswp_gutenberg_recipe_schema(){
             $input1 = array_merge($input1, $extra_theme_review);
         }
         
-        $input1 = saswp_append_fetched_reviews($input1, saswp_get_the_ID());
+        $input1 = saswp_append_fetched_reviews($input1, get_the_ID());
 
     }else{
 
@@ -790,8 +790,8 @@ function saswp_gutenberg_how_to_schema(){
                 
                 $service_object     = new saswp_output_service();
 
-                $extra_theme_review = $service_object->saswp_extra_theme_review_details(saswp_get_the_ID());
-                $aggregateRating    = $service_object->saswp_rating_box_rating_markup(saswp_get_the_ID());
+                $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
+                $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
 				
                 if(!empty($aggregateRating)){
                         $input1['aggregateRating'] = $aggregateRating;
@@ -800,7 +800,7 @@ function saswp_gutenberg_how_to_schema(){
                     $input1 = array_merge($input1, $extra_theme_review);
                 }
         
-                $input1 = saswp_append_fetched_reviews($input1, saswp_get_the_ID());
+                $input1 = saswp_append_fetched_reviews($input1, get_the_ID());
                 
             }    
                                 
