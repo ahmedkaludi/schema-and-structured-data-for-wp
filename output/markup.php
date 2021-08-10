@@ -3255,7 +3255,7 @@ function saswp_car_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_car_schema_name_'.$schema_id, 'saswp_array'),
     'sku'                           => saswp_remove_warnings($all_post_meta, 'saswp_car_schema_sku_'.$schema_id, 'saswp_array'),
     'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_car_schema_description_'.$schema_id, 'saswp_array'),
-    'brand'                         => array('@type' => 'Thing',
+    'brand'                         => array('@type' => 'Brand',
                                              'name'  => saswp_remove_warnings($all_post_meta, 'saswp_car_schema_brand_name_'.$schema_id, 'saswp_array'),
                                             )    
     ); 
