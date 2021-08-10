@@ -117,8 +117,8 @@ function saswp_get_location_list(){
 
                 foreach($schema_id_array as $col){
 
-                    $schema_type   = saswp_get_post_meta($col, 'schema_type', true);
-                    $display_front = saswp_get_post_meta($col, 'saswp_loc_display_on_front', true);
+                    $schema_type   = get_post_meta($col, 'schema_type', true);
+                    $display_front = get_post_meta($col, 'saswp_loc_display_on_front', true);
 
                     if( $schema_type == 'local_business' && $display_front ){
                         $col_opt[] = array(
@@ -148,7 +148,7 @@ function saswp_location_shortcode_render($attr){
 
 function saswp_add_location_content( $post_id ){
     
-    $post_meta = saswp_get_post_meta($post_id);
+    $post_meta = get_post_meta($post_id);
     
     $html  = '<div class="saswp-location-container">';
 

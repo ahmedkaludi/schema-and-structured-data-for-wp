@@ -34,7 +34,7 @@ add_action('admin_menu', 'saswp_disable_new_posts');
 
 function saswp_location_meta_box_cb($post){
 
-	$location     = saswp_get_post_meta($post->ID, 'saswp_loc_display_on_front', true);
+	$location     = get_post_meta($post->ID, 'saswp_loc_display_on_front', true);
 
 	?>
 

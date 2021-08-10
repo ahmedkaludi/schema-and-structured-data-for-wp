@@ -259,7 +259,7 @@ function saswp_get_all_schema_markup_output() {
         $custom_markup             = saswp_taxonomy_schema_output();  
 
         if(is_singular()){
-            $custom_markup         = saswp_get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+            $custom_markup         = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
         }
    
         $schema_output              = saswp_schema_output();                  
@@ -819,8 +819,8 @@ function saswp_extract_taqyeem_ratings(){
     
     if(isset($sd_data['saswp-taqyeem']) && $sd_data['saswp-taqyeem'] == 1 && function_exists('taqyeem_review_get_rich_snippet')){
        
-        $rate  = saswp_get_post_meta( $post->ID, 'tie_user_rate', true );
-		$count = saswp_get_post_meta( $post->ID, 'tie_users_num', true );
+        $rate  = get_post_meta( $post->ID, 'tie_user_rate', true );
+		$count = get_post_meta( $post->ID, 'tie_users_num', true );
          
         if( ! empty( $rate ) && ! empty( $count ) ){
 
@@ -833,7 +833,7 @@ function saswp_extract_taqyeem_ratings(){
             
         }else{
 
-            $total_score = (int) saswp_get_post_meta( $post->ID, 'taq_review_score', true );
+            $total_score = (int) get_post_meta( $post->ID, 'taq_review_score', true );
 
             if( ! empty( $total_score ) && $total_score > 0 ){
                 $total_score = round( ($total_score*5)/100, 1 );
@@ -856,7 +856,7 @@ function saswp_ratency_rating_box_rating(){
 
     if( isset($sd_data['saswp-ratency']) && $sd_data['saswp-ratency'] == 1 ){
                        
-        $ratency_total_rv = saswp_get_post_meta($post->ID, 'progression_studios_review_total', true);
+        $ratency_total_rv = get_post_meta($post->ID, 'progression_studios_review_total', true);
          
         if( $ratency_total_rv ){
                        
@@ -935,8 +935,8 @@ function saswp_extract_wpdiscuz(){
 
     if(isset($sd_data['saswp-wpdiscuz']) && $sd_data['saswp-wpdiscuz'] == 1 && is_plugin_active('wpdiscuz/class.WpdiscuzCore.php') ){
            
-        $rating = (float) saswp_get_post_meta($post->ID, 'wpdiscuz_post_rating', true);
-        $count = (int) saswp_get_post_meta($post->ID, 'wpdiscuz_post_rating_count', true);
+        $rating = (float) get_post_meta($post->ID, 'wpdiscuz_post_rating', true);
+        $count = (int) get_post_meta($post->ID, 'wpdiscuz_post_rating_count', true);
          
         if($rating){
            
@@ -974,8 +974,8 @@ function saswp_extract_ratingform(){
 
     if(isset($sd_data['saswp-ratingform']) && $sd_data['saswp-ratingform'] == 1 && is_plugin_active('rating-form/rf-init.php')){                
         
-        $total = saswp_get_post_meta(saswp_get_the_ID(), 'rf_total', true) ? ((int) saswp_get_post_meta(saswp_get_the_ID(), 'rf_total', true)) : 0;
-        $avg   = saswp_get_post_meta(saswp_get_the_ID(), 'rf_average', true) ? ((int) saswp_get_post_meta(saswp_get_the_ID(), 'rf_average', true)) : 0;
+        $total = get_post_meta(get_the_ID(), 'rf_total', true) ? ((int) get_post_meta(get_the_ID(), 'rf_total', true)) : 0;
+        $avg   = get_post_meta(get_the_ID(), 'rf_average', true) ? ((int) get_post_meta(get_the_ID(), 'rf_average', true)) : 0;
         
          
         if( $total > 0 ){
@@ -1007,7 +1007,7 @@ function saswp_get_elementor_testomonials(){
             
             if( isset($sd_data['saswp-elementor']) && $sd_data['saswp-elementor'] == 1 && is_plugin_active('elementor/elementor.php') ){
                
-                $alldata    = saswp_get_post_meta( saswp_get_the_ID(),'_elementor_data', true );
+                $alldata    = get_post_meta( get_the_ID(),'_elementor_data', true );
                 $alldata    = json_decode($alldata, true);
             
                 $returnData = array();
@@ -1061,8 +1061,8 @@ function saswp_extract_rmp_ratings(){
     if(isset($sd_data['saswp-rmprating']) && $sd_data['saswp-rmprating'] == 1 && is_plugin_active('rate-my-post/rate-my-post.php')){
        
         
-        $avg   = saswp_get_post_meta(saswp_get_the_ID(), 'rmp_avg_rating', true) ? ( saswp_get_post_meta(saswp_get_the_ID(), 'rmp_avg_rating', true)) : 0;
-        $votes = saswp_get_post_meta(saswp_get_the_ID(), 'rmp_vote_count', true) ? ((int) saswp_get_post_meta(saswp_get_the_ID(), 'rmp_vote_count', true)) : 0;
+        $avg   = get_post_meta(get_the_ID(), 'rmp_avg_rating', true) ? ( get_post_meta(get_the_ID(), 'rmp_avg_rating', true)) : 0;
+        $votes = get_post_meta(get_the_ID(), 'rmp_vote_count', true) ? ((int) get_post_meta(get_the_ID(), 'rmp_vote_count', true)) : 0;
                  
         if($votes>0){
                         
@@ -1100,8 +1100,8 @@ function saswp_extract_kk_star_ratings(){
             if(isset($sd_data['saswp-kk-star-raring']) && $sd_data['saswp-kk-star-raring'] == 1 && is_plugin_active('kk-star-ratings/index.php')){
                
                 $best  = get_option('kksr_stars');
-                $score = saswp_get_post_meta(saswp_get_the_ID(), '_kksr_ratings', true) ? ((int) saswp_get_post_meta(saswp_get_the_ID(), '_kksr_ratings', true)) : 0;
-                $votes = saswp_get_post_meta(saswp_get_the_ID(), '_kksr_casts', true) ? ((int) saswp_get_post_meta(saswp_get_the_ID(), '_kksr_casts', true)) : 0;
+                $score = get_post_meta(get_the_ID(), '_kksr_ratings', true) ? ((int) get_post_meta(get_the_ID(), '_kksr_ratings', true)) : 0;
+                $votes = get_post_meta(get_the_ID(), '_kksr_casts', true) ? ((int) get_post_meta(get_the_ID(), '_kksr_casts', true)) : 0;
                 $avg   = $score && $votes ? round((float)(($score/$votes)*($best/5)), 1) : 0;                               
                  
                 if($votes>0){
@@ -1141,8 +1141,8 @@ function saswp_extract_wp_post_ratings(){
             if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1 && is_plugin_active('wp-postratings/wp-postratings.php')){
                
                 $best   = (int) get_option( 'postratings_max' );
-                $avg   = saswp_get_post_meta(saswp_get_the_ID(), 'ratings_average', true);
-                $votes = saswp_get_post_meta(saswp_get_the_ID(), 'ratings_users', true);                
+                $avg   = get_post_meta(get_the_ID(), 'ratings_average', true);
+                $votes = get_post_meta(get_the_ID(), 'ratings_users', true);                
                 
                 if($votes>0){
                     
@@ -1690,7 +1690,7 @@ function saswp_get_the_tags(){
 
     if( isset($sd_data['saswp-metatagmanager']) && $sd_data['saswp-metatagmanager'] == 1 && class_exists('Meta_Tag_Manager') ){
 
-        $post_meta = saswp_get_post_meta(saswp_get_the_ID(), 'mtm_data', true);
+        $post_meta = get_post_meta(get_the_ID(), 'mtm_data', true);
 
         if(is_array($post_meta)){
 
@@ -1891,8 +1891,8 @@ function saswp_get_testimonial_data($atts, $matche){
                     
                     foreach ($testimonial as $value){
                                 
-                         $rating       = saswp_get_post_meta($value->ID, $key='_ikcf_rating', true); 
-                         $author       = saswp_get_post_meta($value->ID, $key='_ikcf_client', true); 
+                         $rating       = get_post_meta($value->ID, $key='_ikcf_rating', true); 
+                         $author       = get_post_meta($value->ID, $key='_ikcf_client', true); 
                          
                          $sumofrating += $rating;
                              
@@ -2066,7 +2066,7 @@ function saswp_get_testimonial_pro_data($shortcode_data, $testimo_str){
 
                 foreach ($testimonial as $value){
 
-                     $meta_option = saswp_get_post_meta($value->ID, 'sp_tpro_meta_options', true);
+                     $meta_option = get_post_meta($value->ID, 'sp_tpro_meta_options', true);
                      
                      $tpro_rating_star  = $meta_option['tpro_rating']; 
                                           
@@ -2139,7 +2139,7 @@ function saswp_get_strong_testimonials_data($testimonial){
                 foreach ($testimonial as $value){
                     
                      $rating       = 5; 
-                     $author       = saswp_get_post_meta($value->ID, $key='client_name', true);
+                     $author       = get_post_meta($value->ID, $key='client_name', true);
                      
                      $sumofrating += $rating;
 
@@ -2194,8 +2194,8 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
 
                 foreach ($testimonial as $value){
 
-                     $rating       = saswp_get_post_meta($value->ID, $key='rating', true); 
-                     $author       = saswp_get_post_meta($value->ID, $key='tagline', true); 
+                     $rating       = get_post_meta($value->ID, $key='rating', true); 
+                     $author       = get_post_meta($value->ID, $key='tagline', true); 
 
                      $sumofrating += $rating;
 
@@ -2442,7 +2442,7 @@ function saswp_get_testomonial_pro(){
                 $mached = trim($mached);
                 $atts   = shortcode_parse_atts('['.$mached.' ]'); 
                 
-                $shortcode_data = saswp_get_post_meta( $atts['id'], 'sp_tpro_shortcode_options', true );
+                $shortcode_data = get_post_meta( $atts['id'], 'sp_tpro_shortcode_options', true );
                                                 
                 if($shortcode_data){
                                 
@@ -2496,7 +2496,7 @@ function saswp_get_bne_testomonials(){
                 $mached = trim($mached);
                 $atts   = shortcode_parse_atts('['.$mached.' ]'); 
                 
-                $id = saswp_get_post_meta( $atts['custom'], '_bne_testimonials_sg_shortcode', true );
+                $id = get_post_meta( $atts['custom'], '_bne_testimonials_sg_shortcode', true );
                 
                 if($id){
                     
@@ -2537,9 +2537,9 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
         
           if($schema_post_id){
           
-          $attached_col       = saswp_get_post_meta($schema_post_id, 'saswp_attached_collection', true);     
-          $attached_rv        = saswp_get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
-          $append_reviews     = saswp_get_post_meta($schema_post_id, 'saswp_enable_append_reviews', true);
+          $attached_col       = get_post_meta($schema_post_id, 'saswp_attached_collection', true);     
+          $attached_rv        = get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
+          $append_reviews     = get_post_meta($schema_post_id, 'saswp_enable_append_reviews', true);
          
          if($append_reviews == 1 && ($attached_rv || $attached_col)){
              
@@ -2563,7 +2563,7 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
                  
                  foreach($attached_col as $col_id){
                      
-                     $collection_data = saswp_get_post_meta($col_id);
+                     $collection_data = get_post_meta($col_id);
                      
                      if(isset($collection_data['saswp_platform_ids'][0])){
                         $platform_ids  = unserialize($collection_data['saswp_platform_ids'][0]);                
@@ -2616,9 +2616,9 @@ function saswp_get_mainEntity($schema_id){
         $post_content = do_shortcode($post->post_content);
         $response  = array();
         
-        $item_list_enable     = saswp_get_post_meta($schema_id, 'saswp_enable_itemlist_schema', true);
-        $item_list_tags       = saswp_get_post_meta($schema_id, 'saswp_item_list_tags', true);
-        $item_list_custom     = saswp_get_post_meta($schema_id, 'saswp_item_list_custom', true); 
+        $item_list_enable     = get_post_meta($schema_id, 'saswp_enable_itemlist_schema', true);
+        $item_list_tags       = get_post_meta($schema_id, 'saswp_item_list_tags', true);
+        $item_list_custom     = get_post_meta($schema_id, 'saswp_item_list_custom', true); 
         
         if($item_list_enable){
             
@@ -2677,7 +2677,7 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
 
                     if($schema_options['saswp_modify_method'] == 'manual'){
                         
-                        $all_post_meta = saswp_get_post_meta($schema_post_id); 
+                        $all_post_meta = get_post_meta($schema_post_id); 
                         
                         switch ($schema_type) {
                             
@@ -2839,7 +2839,7 @@ function saswp_get_reviews_wp_theme(){
                 $user_overall = 0;
                 $user_rates   = 0;                
 
-                $criterias = saswp_get_post_meta( saswp_get_the_ID(), 'reviews_score' );
+                $criterias = get_post_meta( get_the_ID(), 'reviews_score' );
                 $rate_criterias = array();
                 if( !empty( $criterias ) ){
                     foreach( $criterias as $criteria ){
@@ -2887,7 +2887,7 @@ function saswp_get_reviews_wp_theme(){
     
         }else{
 
-            $author_average = saswp_get_post_meta( saswp_get_the_ID(), 'author_average', true );
+            $author_average = get_post_meta( get_the_ID(), 'author_average', true );
             
             $ratings =  array(
                 '@type'         => 'AggregateRating',
@@ -3193,8 +3193,8 @@ function saswp_get_ampforwp_story_images(){
     
     if(class_exists('Ampforwp_Stories_Post_Type')){
 
-        $amp_story_meta = saswp_get_post_meta( saswp_get_the_ID(), 'ampforwp_stories', true );
-        $post_type      = get_post_type(saswp_get_the_ID());
+        $amp_story_meta = get_post_meta( get_the_ID(), 'ampforwp_stories', true );
+        $post_type      = get_post_type(get_the_ID());
 
         if( !empty($amp_story_meta) && is_array($amp_story_meta) && $post_type == 'ampforwp_story' ) {
                                                     

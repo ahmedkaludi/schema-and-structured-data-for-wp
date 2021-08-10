@@ -421,9 +421,9 @@
                                            );
                                         $data_group_array = saswp_sanitize_multi_array($data_group_array, 'data_array');
 					$schema_options_array = array('isAccessibleForFree'=>False,'notAccessibleForFree'=>0,'paywall_class_name'=>'');
-					saswp_update_post_meta( $insertedPageId, 'data_group_array', $data_group_array);
-					saswp_update_post_meta( $insertedPageId, 'schema_type', $schemaType);
-					saswp_update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
+					update_post_meta( $insertedPageId, 'data_group_array', $data_group_array);
+					update_post_meta( $insertedPageId, 'schema_type', $schemaType);
+					update_post_meta( $insertedPageId, 'schema_options', $schema_options_array);
                                         
 					}
 				}

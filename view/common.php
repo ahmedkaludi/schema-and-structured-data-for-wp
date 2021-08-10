@@ -50,7 +50,7 @@ class saswp_view_common_class {
                 $response    = '';
                 $output      = '';    
         
-                $item_type = saswp_get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
+                $item_type = get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
                 
                 if($meta_name == 'itemlist_item'){
                     
@@ -210,7 +210,7 @@ class saswp_view_common_class {
                     if($type_fields){
                        
                     if($schema_type == 'ItemList'){
-                         $itemlist_sub_type     = saswp_get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
+                         $itemlist_sub_type     = get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
                          $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
                         
                     }else{
@@ -231,7 +231,7 @@ class saswp_view_common_class {
                         
                      foreach($type_fields as $key => $value){
                             
-                            $howto_data[$value.'_'.$schema_id]  = saswp_get_post_meta($post_id, $value.'_'.$schema_id, true);                                                                                    
+                            $howto_data[$value.'_'.$schema_id]  = get_post_meta($post_id, $value.'_'.$schema_id, true);                                                                                    
                             $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section-main">';                                                  
                             $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section" data-id="'.esc_attr($schema_id).'">';                         
                             if(isset($howto_data[$value.'_'.$schema_id])){
@@ -314,7 +314,7 @@ class saswp_view_common_class {
 
                         if($meta_field['type'] != 'repeater'){
                             $label      = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ). '</label>';
-			                $meta_value = saswp_get_post_meta( $post_id, $meta_field['id'], true );
+			                $meta_value = get_post_meta( $post_id, $meta_field['id'], true );
                         }
 			                                                
                     if ( empty( $meta_value ) && isset($meta_field['default'])) {
@@ -342,7 +342,7 @@ class saswp_view_common_class {
                                         $media_value = array();
                                         $media_key = $meta_field['id'].'_detail';
                                         
-                                        $media_value_meta = saswp_get_post_meta( $post_id, $media_key, true ); 
+                                        $media_value_meta = get_post_meta( $post_id, $media_key, true ); 
                                         
                                         if(!empty($media_value_meta)){
                                             $media_value = $media_value_meta;  
@@ -635,7 +635,7 @@ class saswp_view_common_class {
                                     'thumbnail' => $media_thumbnail,
                                 );
                             
-                                saswp_update_post_meta( $post_id, $media_key, $media_detail);
+                                update_post_meta( $post_id, $media_key, $media_detail);
 
                             }
                             
@@ -653,9 +653,9 @@ class saswp_view_common_class {
 						$post_meta[ $meta_field['id'] ] = wp_unslash( $post_meta[ $meta_field['id'] ] );						
                                             
 				}
-				saswp_update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
+				update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
 			} else if ( $meta_field['type'] === 'checkbox' ) {
-				saswp_delete_post_meta( $post_id, $meta_field['id']);
+				delete_post_meta( $post_id, $meta_field['id']);
 			}
 		    }
             
@@ -680,7 +680,7 @@ class saswp_view_common_class {
                  foreach($all_schema as $schema){
                    
                      if( isset($_POST['saswp_modify_this_schema_'.$schema->ID]) && !empty($_POST['saswp_modify_this_schema_'.$schema->ID]) ){
-                         saswp_update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
+                         update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
                      }
                                   
                      foreach ($this->schema_type_element as $element){
@@ -712,7 +712,7 @@ class saswp_view_common_class {
                                     }                                                                                                         
                                 }   
                                 if(!empty($element_val)){
-                                    saswp_update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);                                                                                                              
+                                    update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);                                                                                                              
                                 }                            
                                 
                            }    
