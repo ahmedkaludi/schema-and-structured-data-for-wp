@@ -4296,7 +4296,7 @@ function saswp_enqueue_style_js( $hook ) {
             'trans_self'                   => saswp_t_string(saswp_label_text('translation-self')),
             'translable_txt'               => $translable_txt,
             'is_rtl'                       => is_rtl(),     
-            'tag_ID'                       => intval($_GET['tag_ID']),     
+            'tag_ID'                       => isset($_GET['tag_ID']) ? intval($_GET['tag_ID']) : '',     
         );
                         
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');

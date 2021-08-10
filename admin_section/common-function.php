@@ -4317,7 +4317,7 @@ function saswp_get_post_meta( $post_id, $key=null, $single = null ){
 }
 function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){
     
-    if(isset($_POST['tag_ID'] ) && is_admin()){        
+    if((!empty($_POST['tag_ID']) || !empty($_GET['tag_ID'])) && is_admin()){      
         return update_term_meta($post_id, $meta_key, $meta_value);        
     }else{
         return update_post_meta($post_id, $meta_key, $meta_value);
@@ -4326,7 +4326,7 @@ function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){
 
 function saswp_delete_post_meta( $post_id, $meta_key, $meta_value = null ){
     
-        if(isset($_POST['tag_ID'] ) && is_admin()){
+        if(!empty($_POST['tag_ID']) && is_admin()){
             return delete_term_meta( $post_id, $meta_key, $meta_value );            
         }else{
             return delete_post_meta( $post_id, $meta_key, $meta_value );

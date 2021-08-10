@@ -173,7 +173,7 @@ class saswp_post_specific {
              $disabled       = '';
              $modified       = false;
              
-             update_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id, 1); 
+             saswp_update_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id, 1); 
              $schema_type       = get_post_meta($schema_id, 'schema_type', true); 
              $response = $this->saswp_get_schema_fields_on_ajax($post_id, $schema_id);                                            
              $saswp_meta_fields = array_filter($response); 
@@ -182,7 +182,7 @@ class saswp_post_specific {
 
              if($schema_type == 'Review'){
                         
-                $item_reviewed     = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$schema_id, true);                         
+                $item_reviewed     = saswp_get_post_meta($post_id, 'saswp_review_item_reviewed_'.$schema_id, true);                         
                 if(!$item_reviewed){
                     $item_reviewed = 'Book';
                 }
