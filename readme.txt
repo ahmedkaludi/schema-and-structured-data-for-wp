@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 1.9.82.2
+Stable tag: 1.9.83
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.83 (10 Aug 2021) =
+
+* Fixed: when "Add Schema Markup in footer" checked breadcurm does not work properly #1477
+* Fixed: Item list heading are not working if the content generating from shortcode #1494
+* Fixed: Compatibility issue with SmartCrawl plugin #1490
+* Fixed: Error in Article schema #1486
+* Fixed: getting image warning after placing the image also (image: 91 (The value provided for image must be a valid URL.)) #1470
+* Fixed: License Key {Fatal Error}- Reviews for Schema #1473
+* Fixed: css issue of star ratings in comment form with Neptune by Osetin Theme. #1476
+* Added: Auto Listings Plugin integration #1493
+* Fixed: conflict with popup maker when schema enabled #1495
+* Fixed: Article category("Thing" is not a known valid target type for the publisher property) #1474
+
 
 = 1.9.82.2 (28 July 2021) =
 
