@@ -4307,3 +4307,38 @@ function saswp_get_page_range($current, $max, $total_pages = 5) {
     }
 
 }
+function saswp_get_post_meta( $post_id, $key=null, $single = null ){
+    
+        if( (isset($_GET['tag_ID'] ) && is_admin()) || (is_tag() || is_tax() || is_category()) ){
+            return get_term_meta($post_id, $key, $single);
+        }else{
+            return get_post_meta($post_id, $key, $single);
+        }                        
+}
+function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){
+    
+    if(isset($_POST['tag_ID'] ) && is_admin()){        
+        return update_term_meta($post_id, $meta_key, $meta_value);        
+    }else{
+        return update_post_meta($post_id, $meta_key, $meta_value);
+    }    
+}
+
+function saswp_delete_post_meta( $post_id, $meta_key, $meta_value = null ){
+    
+        if(isset($_POST['tag_ID'] ) && is_admin()){
+            return delete_term_meta( $post_id, $meta_key, $meta_value );            
+        }else{
+            return delete_post_meta( $post_id, $meta_key, $meta_value );
+        }        
+}
+function saswp_get_the_ID(){
+
+    $id =  get_the_ID();
+
+    if( is_tag() || is_tax() || is_category() ){
+        $id = get_queried_object_id();
+    }    
+    
+    return $id;
+}

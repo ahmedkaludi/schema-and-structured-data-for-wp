@@ -375,8 +375,8 @@ class saswp_post_specific {
              $schema_ids        = array();
               
              $modify_option = get_option('modify_schema_post_enable_'.esc_attr($post->ID));      
-             $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);   
-             $custom_markp  = get_post_meta($post->ID, 'saswp_custom_schema_field', true);              
+             $schema_enable = saswp_get_post_meta($post->ID, 'saswp_enable_disable_schema', true);   
+             $custom_markp  = saswp_get_post_meta($post->ID, 'saswp_custom_schema_field', true);              
              $disable_btn.= '<div class="saswp-disable-btn-container">'
                             . '<span class="saswp-disable-label">'.saswp_t_string( 'Disable custom schema on this page' ).'</span>'
                             . '<label class="saswp-switch">'
@@ -427,7 +427,7 @@ class saswp_post_specific {
                          
                      }
                      
-                     $modify_this       = get_post_meta($post->ID, 'saswp_modify_this_schema_'.$schema->ID, true);                                          
+                     $modify_this       = saswp_get_post_meta($post->ID, 'saswp_modify_this_schema_'.$schema->ID, true);                                          
                      $schema_type       = get_post_meta($schema->ID, 'schema_type', true);  
                      $response          = @saswp_get_fields_by_schema_type($schema->ID);                       
                      $saswp_meta_fields = array_filter($response); 
@@ -442,7 +442,7 @@ class saswp_post_specific {
                      
                      if($schema_type == 'Review' && $modify_this){
                         
-                         $item_reviewed     = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$schema->ID, true);                         
+                         $item_reviewed     = saswp_get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$schema->ID, true);                         
                          if(!$item_reviewed){
                              $item_reviewed = 'Book';
                          }
@@ -581,7 +581,7 @@ class saswp_post_specific {
         
 
     public function saswp_save_term_fields( $post_id ) {
-
+            
         if ( ! isset( $_POST['taxonomy_specific_nonce'] ) ) return $post_id;
 
 		if ( !wp_verify_nonce( $_POST['taxonomy_specific_nonce'], 'taxonomy_specific_nonce_data' ) ) return $post_id;	
@@ -591,9 +591,9 @@ class saswp_post_specific {
         $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
 
         if(!empty($custom_schema)){
-            update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
+            update_term_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
         }else{
-            delete_post_meta( $post_id, 'saswp_custom_schema_field');  
+            delete_term_meta( $post_id, 'saswp_custom_schema_field');  
         }
                                                                                        
         $this->_common_view->saswp_save_common_view($post_id, $this->all_schema);

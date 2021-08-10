@@ -647,7 +647,7 @@ function saswp_comparison_logic_checker($input, $post){
               $term_data       = $input['key_4'];
               $termChoices     = array();
 
-              if(is_tax()){
+              if(is_tax() || is_tag()){
 
                 $queried_obj   = get_queried_object();
                 $termChoices[] = $queried_obj->slug;
@@ -695,7 +695,7 @@ function saswp_comparison_logic_checker($input, $post){
             }
 
             }else{
-
+              
               if( isset($_GET['tag_ID'] ) && is_admin() ){
 
                 $term_object  = get_term( intval($_GET['tag_ID']) );

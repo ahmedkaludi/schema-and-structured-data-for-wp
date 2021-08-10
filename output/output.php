@@ -156,18 +156,18 @@ function saswp_schema_output() {
             return ;
         }
         $service_object     = new saswp_output_service();
-
+        
         $all_schema_output  = array();        
                         
         $image_id 	        = get_post_thumbnail_id();									
         $date 		        = get_the_date("c");
         $modified_date 	    = get_the_modified_date("c");        
         $modify_option      = get_option('modify_schema_post_enable_'.get_the_ID()); 
-        $schema_enable      = get_post_meta(get_the_ID(), 'saswp_enable_disable_schema', true); 
-        $all_post_meta      = get_post_meta(get_the_ID());                
+        $schema_enable      = saswp_get_post_meta(saswp_get_the_ID(), 'saswp_enable_disable_schema', true); 
+        $all_post_meta      = saswp_get_post_meta(saswp_get_the_ID());                
         $publisher          = $service_object->saswp_get_publisher();
-        $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
-        $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
+        $extra_theme_review = $service_object->saswp_extra_theme_review_details(saswp_get_the_ID());
+        $aggregateRating    = $service_object->saswp_rating_box_rating_markup(saswp_get_the_ID());
         
         
         foreach($Conditionals as $schemaConditionals){
@@ -184,7 +184,7 @@ function saswp_schema_output() {
                         
                         $input1         = array();
                                                                                                                                                                    				   		                                                                                           		                        			                                                                                              
-                        $modified_schema    = get_post_meta(get_the_ID(), 'saswp_modify_this_schema_'.$schema_post_id, true);
+                        $modified_schema    = saswp_get_post_meta(saswp_get_the_ID(), 'saswp_modify_this_schema_'.$schema_post_id, true);
                                                                             
                         if($modify_option == 'enable' && (isset($schema_enable[$schema_post_id]) && $schema_enable[$schema_post_id] == 1)){
                      
