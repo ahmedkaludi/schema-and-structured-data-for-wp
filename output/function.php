@@ -113,9 +113,13 @@ function saswp_schema_markup_output_in_buffer($content){
             if(!empty($saswp_json_ld['saswp_json_ld'])){
 
                 $regex = '/<script type\=\"application\/ld\+json\" class\=\"saswp\-schema\-markup\-output\"\>(.*?)<\/script>/s'; 
-                
-                $content = preg_replace($regex, $saswp_json_ld['saswp_json_ld'], $content);
+                                
+                preg_match($regex, $content, $match);
 
+                if(isset($match[0])){
+                    $content = str_replace($match[0], $saswp_json_ld['saswp_json_ld'], $content);
+                }
+                 
             }
          
      }
