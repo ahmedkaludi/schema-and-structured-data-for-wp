@@ -2620,16 +2620,16 @@ function saswp_get_mainEntity($schema_id){
         
         $post_content = '';                
         $response  = array();
-
-        if(is_object($post)){
-            $post_content = do_shortcode($post->post_content);
-        }
-        
+                
         $item_list_enable     = get_post_meta($schema_id, 'saswp_enable_itemlist_schema', true);
         $item_list_tags       = get_post_meta($schema_id, 'saswp_item_list_tags', true);
         $item_list_custom     = get_post_meta($schema_id, 'saswp_item_list_custom', true); 
         
         if($item_list_enable){
+
+            if(is_object($post)){
+                $post_content = apply_filters('the_content', $post->post_content);
+            }
             
             $listitem = array();
             
