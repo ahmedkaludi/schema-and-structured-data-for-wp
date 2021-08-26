@@ -761,7 +761,7 @@ function saswp_comparison_logic_checker($input, $post){
         break;
     }
 
-    return $result;
+    return apply_filters( 'saswp_filter_comparison_logic_checker', $result );    
 }
 
 
