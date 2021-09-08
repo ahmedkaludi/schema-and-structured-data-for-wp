@@ -1317,7 +1317,7 @@ function saswp_custom_breadcrumbs() {
                    
                 $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
 
-                if($taxonomy_terms){
+                if( isset($taxonomy_terms[0]) ){
                     
                     $cat_id         = $taxonomy_terms[0]->term_id;                
                     $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
