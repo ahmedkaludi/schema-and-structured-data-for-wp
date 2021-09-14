@@ -3232,3 +3232,47 @@ function saswp_get_ampforwp_story_images(){
     return $image_arr;
     
 }
+
+add_shortcode('saswp-breadcrumbs', 'saswp_render_breadcrumbs_html');
+
+function saswp_render_breadcrumbs_html($attr){
+    
+    global $sd_data;
+
+    $breadcrumbs = '';
+    
+    if(!empty($sd_data['titles'])){
+
+        $breadcrumbs .= '<style>';
+
+        $breadcrumbs .= '.saswp-breadcrumbs-li{            
+            display: inline-block;
+            list-style-type: none;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-right: 5px;
+        }
+        .saswp-breadcrumbs-li a:after{
+            content: "\25BA";
+            font-family: "icomoon";
+            font-size: 12px;
+            display: inline-block;
+            color: #bdbdbd;
+            padding-left: 5px;
+            position: relative;
+            top: 1px;
+        }
+        ';
+        $breadcrumbs .= '</style>';
+        $breadcrumbs .= '<ul class="saswp-breadcrumbs-ul">';
+
+            foreach ($sd_data['titles'] as $key => $value) {
+                $breadcrumbs .= '<li class="saswp-breadcrumbs-li" ><a href="'.esc_url($sd_data['links'][$key]).'">'.esc_html($value).'</a></li>';
+            }
+
+        $breadcrumbs .= '</ul>';
+
+    }
+
+    return $breadcrumbs;
+}
