@@ -68,7 +68,7 @@ return array(
            ''                   => 'Select Sub Business Type ( optional )',   
            'accountingservice'  => 'Accounting Service',
            'automatedteller'    => 'Automated Teller',
-           'bankorcredit_union' => 'Bank Or Credit Union',
+           'BankOrCreditUnion'  => 'Bank Or Credit Union',
            'insuranceagency'    => 'Insurance Agency',                                      
 
       ),   

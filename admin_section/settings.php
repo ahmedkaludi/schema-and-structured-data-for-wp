@@ -4398,7 +4398,11 @@ function saswp_dequeue_other_select2_on_saswp_screen(){
 
                 wp_dequeue_script( 'forminator-shared-ui' ); 
                 wp_dequeue_script( 'select-two-min-js' );
-		wp_dequeue_script( 'ppress-select2' );			
+		wp_dequeue_script( 'ppress-select2' );
+                
+                //Conflict with Impreza theme	
+                wp_dequeue_script( 'usof-select2' );
+                wp_deregister_script( 'usof-select2' );		
         	                                        
         }  
           

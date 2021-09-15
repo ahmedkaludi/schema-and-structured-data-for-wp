@@ -761,7 +761,7 @@ function saswp_comparison_logic_checker($input, $post){
         break;
     }
 
-    return $result;
+    return apply_filters( 'saswp_filter_comparison_logic_checker', $result );    
 }
 
 
@@ -1260,39 +1260,49 @@ function saswp_custom_breadcrumbs() {
                   foreach ($category_values as $category_value) {
                       
                       $category_name        = get_category($category_value);
-                      $cat_name             = $category_name->name;
-                      $variables1_titles[]  = $cat_name;
-                      $variables2_links[]   = get_category_link( $category_value );
-                      $breadcrumb_url       = get_category_link( $category_value );
-                  
+
+                      if(is_object($category_name)){
+
+                        $cat_name             = $category_name->name;
+                        $variables1_titles[]  = $cat_name;
+                        $variables2_links[]   = get_category_link( $category_value );
+                        $breadcrumb_url       = get_category_link( $category_value );
+
+                      }
+                                        
                   }
 
                }                                                        
               
                 // Get last category post is in
                 $last_category   = end(($category));
-                $category_name   = get_category($last_category);
+                
+                if( is_object($last_category) ){
+
+                  $category_name   = get_category($last_category);
                 // Get parent any categories and create array
-                $get_cat_parents = get_category_parents($last_category->term_id, true, ',');
+                  $get_cat_parents = get_category_parents($last_category->term_id, true, ',');
 
-                if(is_string($get_cat_parents)){
+                  if(is_string($get_cat_parents)){
 
-                  $get_cat_parents = rtrim($get_cat_parents,',');
-                  $cat_parents     = explode(',',$get_cat_parents);
-
-                  // Loop through parent categories and store in variable $cat_display
-                  $cat_display = '';
-                  
-                  if( !empty($cat_parents) && is_array($cat_parents) ){
-
-                    foreach($cat_parents as $parents) {
-                      
-                      $cat_display .= '<li class="item-cat">'.saswp_t_string( $parents ).'</li>';
-                      $cat_display .= '<li class="separator"> ' . saswp_t_string( $separator ) . ' </li>';
-                      
-                    }
-
-                  }                  
+                    $get_cat_parents = rtrim($get_cat_parents,',');
+                    $cat_parents     = explode(',',$get_cat_parents);
+  
+                    // Loop through parent categories and store in variable $cat_display
+                    $cat_display = '';
+                    
+                    if( !empty($cat_parents) && is_array($cat_parents) ){
+  
+                      foreach($cat_parents as $parents) {
+                        
+                        $cat_display .= '<li class="item-cat">'.saswp_t_string( $parents ).'</li>';
+                        $cat_display .= '<li class="separator"> ' . saswp_t_string( $separator ) . ' </li>';
+                        
+                      }
+  
+                    }                  
+  
+                  }
 
                 }
                                                                                   
@@ -1307,7 +1317,7 @@ function saswp_custom_breadcrumbs() {
                    
                 $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
 
-                if($taxonomy_terms){
+                if( isset($taxonomy_terms[0]) ){
                     
                     $cat_id         = $taxonomy_terms[0]->term_id;                
                     $cat_link       = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);

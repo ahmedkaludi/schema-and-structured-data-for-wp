@@ -163,7 +163,8 @@ if ( ! defined('ABSPATH') ) exit;
                 
                 update_option('sd_data', $saswp_sd_data); 
             } 
-            //Saving settings data ends here             
+            //Saving settings data ends here 
+             saswp_published();            
              update_option('saswp-file-upload_url','');
             
         }

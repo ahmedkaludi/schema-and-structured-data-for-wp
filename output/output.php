@@ -2225,9 +2225,7 @@ function saswp_schema_output() {
                                 $input2             = $service_object->saswp_get_fetaure_image();
                                 
                                 if(!empty($input2)){
-                                    
-                                  $input1['mainEntity'] = array_merge($input1['mainEntity'],$input2); 
-                                  
+                                    $input1['mainEntity'] = apply_filters('saswp_modify_featured_image', array_merge($input1['mainEntity'],$input2));
                                 }                                                                    
                            }
 
@@ -2239,13 +2237,12 @@ function saswp_schema_output() {
                                 
                                 if(!empty($input2)){
                                     
-                                  $input1 = array_merge($input1,$input2); 
+                                  $input1 = apply_filters('saswp_modify_featured_image', array_merge($input1,$input2) ); 
                                   
                                 }                                                                    
                            }
                         }
-                         
-               
+                                        
 		         if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree'] == 1){
 
 			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			
