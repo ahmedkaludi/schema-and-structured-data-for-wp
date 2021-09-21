@@ -1666,6 +1666,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-full-heading-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-full-heading").val(1);                                
+                            }else{
+                              $("#saswp-full-heading").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-rss-feed-image-checkbox':
                           
                             if ($(this).is(':checked')) {              

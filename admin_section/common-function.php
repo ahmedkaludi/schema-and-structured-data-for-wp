@@ -2399,6 +2399,10 @@ if ( ! defined('ABSPATH') ) exit;
         
         }
         
+        if( isset($sd_data['saswp-full-heading']) && $sd_data['saswp-full-heading'] == 1 ){
+            return $title;
+        }
+
         if (strlen($title) > 110){
             $title = substr($title, 0, 106) . ' ...';
         }
