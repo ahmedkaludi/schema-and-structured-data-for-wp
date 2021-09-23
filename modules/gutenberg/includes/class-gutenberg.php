@@ -270,7 +270,9 @@ class SASWP_Gutenberg {
          * @Since Version 1.9.7
          */
         public function register_admin_assets() {
-            
+
+                    global $pagenow;
+                    
                     if ( !function_exists( 'register_block_type' ) ) {
                             // no Gutenberg, Abort
                             return;
@@ -283,14 +285,26 @@ class SASWP_Gutenberg {
                      
                     if($this->blocks){
                     
-                        foreach($this->blocks as $key => $block){
-                        
-                            wp_register_script(
-                               $block['handler'],
-                               $block['path'],
-                               array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )                                 
-                           );
+                        foreach($this->blocks as $key => $block){                        
                             
+                            if ( $pagenow == 'widgets.php' && version_compare( $GLOBALS['wp_version'], '5.8.0', '>=' ) ) {
+
+                                wp_register_script(
+                                    $block['handler'],
+                                    $block['path'],
+                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-edit-widgets' )                                 
+                                );
+
+                            } else {
+
+                                wp_register_script(
+                                    $block['handler'],
+                                    $block['path'],
+                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )                                 
+                                );
+                                
+                            }
+                                                        
                             if($key == 'collection'){
                                 
                                  $review_service = new saswp_reviews_service();
