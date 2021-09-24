@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 1.9.84
+Stable tag: 1.9.85
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,15 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.85 (24 Sept 2021) =
+
+* Fixed: Fatal error: Uncaught TypeError: count(): Argument #1 ($var) must be of type Countable|array, null given #1533
+* Fixed: Notice: wp_enqueue_script() was called incorrectly. "wp-editor" script should not be enqueued together with the new widgets editor (wp-edit-widgets or wp-customize-widgets). #1527
+* Fixed: Deprecated: block_categories is deprecated since version 5.8.0! Use block_categories_all instead. #1529
+* Fixed: Product image URL is coming same for all the products listed under product category page. #1514
+* Added: An option to keep full headline without removing words #1516
+
 
 = 1.9.84 (15 Sept 2021) =
 
