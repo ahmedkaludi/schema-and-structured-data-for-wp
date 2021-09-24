@@ -101,7 +101,326 @@ function saswp_admin_interface_render(){
 	?>
 <div class="saswp-settings-container">
 	<div class="wrap saswp-settings-form saswp-settings-first-div" style="<?php echo( saswp_ext_installed_status()? 'width:100%;':''); ?>">	
-		<h1 class="wp-heading-inline"> <?php echo saswp_t_string( 'Schema & Structured Data For WP' ); ?> <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp' ) ); ?>" class="page-title-action"><?php echo saswp_t_string( 'Schema Types' ); ?></a></h1><br>		
+        <?php
+        if ( class_exists('SASWPPROExtensionManager') ) {
+            $license_info = get_option( 'saswppro_license_info');
+            if ( defined('SASWPPRO_PLUGIN_DIR') && !empty($license_info) ){
+                $saswp_pro_manager = SASWPPRO_PLUGIN_DIR.'inc/saswp-ext-manager-lic-data.php';                
+                if( file_exists($saswp_pro_manager) ){
+                    require_once $saswp_pro_manager;
+                }
+            }
+        }
+        ?>
+        <?php
+        if ( !class_exists('SASWPPROExtensionManager') ) {
+            $license_info = get_option( 'saswppro_license_info');
+            if ( !defined('SASWPPRO_PLUGIN_DIR') || empty($license_info) ){
+                $saswp_add_on = array();
+                if(is_plugin_active('1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php')){
+                    $saswp_add_on[] = 'OCIAIFS';
+                }
+                if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){
+                    $saswp_add_on[] = 'Cooked';
+                }
+                if(is_plugin_active('polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php')){
+                    $saswp_add_on[] = 'Polylang';
+                }
+                if(is_plugin_active('classifieds-plugin-compatibility/classifieds-plugin-compatibility.php')){
+                    $saswp_add_on[] = 'CPC';
+                }
+                if(is_plugin_active('wpml-schema-compatibility/wpml-schema-compatibility.php')){
+                    $saswp_add_on[] = 'WPML';
+                }
+                if(is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){
+                    $saswp_add_on[] = 'Jobposting';
+                }
+                if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
+                    $saswp_add_on[] = 'Woocommerce';
+                }
+                if(is_plugin_active('real-estate-schema/real-estate-schema.php')){
+                    $saswp_add_on[] = 'Res';
+                }
+                if(is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php')){
+                    $saswp_add_on[] = 'Cs';
+                }
+                if(is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
+                    $saswp_add_on[] = 'qanda';
+                }
+                if(is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){
+                    $saswp_add_on[] = 'faq';
+                }
+                if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
+                    $saswp_add_on[] = 'Es';
+                }
+                if(is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){
+                    $saswp_add_on[] = 'Rs';
+                }
+                if(is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
+                    $saswp_add_on[] = 'reviews';
+                }
+                    $expiredLicensedata  = array();
+                foreach($saswp_add_on as $addon){
+
+                global $sd_data;
+                $license_key        = '';
+                $license_status     = 'inactive';
+                $license_status_msg = '';
+                $license_user_name = '';
+                if(isset($sd_data[strtolower($addon).'_addon_license_key'])){
+                  $license_key =   $sd_data[strtolower($addon).'_addon_license_key'];
+                }
+                
+                if(isset($sd_data[strtolower($addon).'_addon_license_key_status'])){
+                  $license_status =   $sd_data[strtolower($addon).'_addon_license_key_status'];
+                }
+                if(isset($sd_data[strtolower($addon).'_addon_license_key_message'])){
+                  $license_status_msg =   $sd_data[strtolower($addon).'_addon_license_key_message'];
+                }
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_user_name'])) {                    
+                $license_user_name =   $sd_data[strtolower($addon).'_addon_license_key_user_name'];
+                }
+
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_download_id'])) {
+                $license_download_id =   $sd_data[strtolower($addon).'_addon_license_key_download_id'];
+                }
+
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_expires'])) {
+                    // $sd_data['woocommerce_addon_license_key_expires'] = -1;
+                $license_expires =   $sd_data[strtolower($addon).'_addon_license_key_expires'];
+                $expiredLicensedata[strtolower($addon)] = $license_expires < 0 ? 1 : 0 ;
+                }
+                }
+                
+                if ( isset( $license_user_name )  && $license_user_name!=="" && isset( $license_expires )   ){
+                    if ( !empty( $addon ) && $license_status =='active' ) {
+
+                $renew = "no";
+                $license_exp = "";
+                $license_k = $license_key;
+                $download_id = $license_download_id;
+                $days = $license_expires;
+                // print_r($days);die;
+                // print_r($expiredLicensedata);die;
+                $one_of_plugin_expired = 0;
+                    if ( in_array( 1, $expiredLicensedata ) ){
+                            $one_of_plugin_expired = 1;
+                        }
+                    if ( !in_array( 0, $expiredLicensedata ) ){
+                            $one_of_plugin_expired = 0;
+                        }   
+                $exp_id = '';
+                $expire_msg = '';
+                $renew_mesg = '';
+                $span_class = '';
+                $expire_msg_before = '';
+                $ZtoS_days = '';
+                $refresh_addon = '';
+                $refresh_addon_user = '';
+                $alert_icon = '';
+                $ext_settings_url = 'ext_url';
+                $settings_url = esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'));
+                if ( $days == 'Lifetime' ) {
+                    $expire_msg = " Valid for Lifetime ";
+                    // $expire_msg = " Active ";
+                    $expire_msg_before = '<span class="before_msg_active">Your License is</span>';
+                    $span_class = "saswp_addon_icon dashicons dashicons-yes pro_icon";
+                    $color = 'color:green';
+                }
+                elseif( $days >= 0 && $days <= 7 ){
+                    $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
+                    $expire_msg_before = '<span class="before_msg">Your License is</span> <span class="saswp-addon-alert">expiring in '.$days.' days</span><a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'accelerated-mobile-pages').'</span></a>';
+                    // $span_class = "saswp_addon_icon dashicons dashicons-alert pro_icon";
+                    $color = 'color:green';
+                }
+                elseif( $days>=0 && $days<=30 ){
+                    $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
+                    $expire_msg_before = '<span class="before_msg">Your License is</span> <span class="saswp-addon-alert">expiring in '.$days.' days</span><a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'accelerated-mobile-pages').'</span></a>';
+                    // $span_class = "saswp_addon_icon dashicons dashicons-alert pro_icon";
+                    $color = 'color:green';
+                    $alert_icon = '<span class="saswp_addon_icon dashicons dashicons-warning pro_warning"></span>';
+                }
+                elseif($days<0){
+                    $ext_settings_url = 'ext_settings_url';
+                    $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
+                    if ($one_of_plugin_expired == 1) {
+                    $expire_msg_before = '<span class="saswp_addon_inactive">One of your <span class="<than_0" style="color:red;">license key is</span></span>';
+                    }else{
+                        $expire_msg_before = '<span class="saswp_addon_inactive">Your <span class="<than_0" style="color:red;">License has been</span></span>';
+                    }
+                    $expire_msg = " Expired ";
+                    $exp_class = 'expired';
+                    $exp_id = 'exp';
+                    $exp_class_2 = 'renew_license_key_';
+                    $span_class = "saswp_addon_icon dashicons dashicons-no";
+                    
+                    $refresh_addon = '';
+                    $trans_check = get_transient( 'saswp_addons_expired_set_transient' );
+                    if ( $trans_check !== 'saswp_addons_expired_set_transient_value' ){
+                foreach($saswp_add_on as $addon){
+                global $sd_data;
+                $license_key        = '';
+                $license_status     = 'inactive';
+                $license_status_msg = '';
+                $license_user_name = '';
+                if(isset($sd_data[strtolower($addon).'_addon_license_key'])){
+                  $license_key =   $sd_data[strtolower($addon).'_addon_license_key'];
+                }
+                // print_r($license_key);echo "<br>";
+                
+                if(isset($sd_data[strtolower($addon).'_addon_license_key_status'])){
+                  $license_status =   $sd_data[strtolower($addon).'_addon_license_key_status'];
+                }
+                // print_r($license_status); echo "<br>";die;
+                if(isset($sd_data[strtolower($addon).'_addon_license_key_message'])){
+                  $license_status_msg =   $sd_data[strtolower($addon).'_addon_license_key_message'];
+                }
+                // print_r($license_status_msg); 
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_user_name'])) {                    
+                $license_user_name =   $sd_data[strtolower($addon).'_addon_license_key_user_name'];
+                }
+                // print_r($license_user_name);die;
+
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_download_id'])) {
+                $license_download_id =   $sd_data[strtolower($addon).'_addon_license_key_download_id'];
+                }
+
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_expires'])) {
+                $license_expires =   $sd_data[strtolower($addon).'_addon_license_key_expires'];
+                }
+                
+                $original_license = $license_key;
+                // class=" '.$license_status.''.strtolower($addon).'"
+                $refresh_addon = '<a addon-is-expired id="refresh_expired_addon-" days_remaining="'.$days.'" licensestatusinternal="'.$license_status.'" add-on="'.strtolower($addon).'" class="days_remain" data-attr="'.$original_license.'" 
+                add-onname="sd_data['.strtolower($addon).'_addon_license_key]"><i addon-is-expired class="dashicons dashicons-update-alt" id="refresh_expired_addon"></i></a>';
+            $refresh_addon.= '
+        <input type="hidden" licensestatusinternal="'.$license_status.'" add-on="'.strtolower($addon).'" class="button button-default saswp_license_activation '.$license_status.'mode '.strtolower($addon).''.strtolower($addon).'" id="saswp_license_deactivation_internal">';
+
+    }
+}
+                    $refresh_addon_user = '';
+                foreach( $saswp_add_on as $addon ){
+                global  $sd_data;
+                $license_key = '';
+                $license_status = 'inactive';
+                $license_status_msg  = '';
+                $license_user_name   = '';
+                if(isset($sd_data[strtolower($addon).'_addon_license_key'])){
+                  $license_key =   $sd_data[strtolower($addon).'_addon_license_key'];
+                }
+                
+                if(isset($sd_data[strtolower($addon).'_addon_license_key_status'])){
+                  $license_status =   $sd_data[strtolower($addon).'_addon_license_key_status'];
+                }
+                if(isset($sd_data[strtolower($addon).'_addon_license_key_message'])){
+                  $license_status_msg =   $sd_data[strtolower($addon).'_addon_license_key_message'];
+                }
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_user_name'])) {                    
+                $license_user_name =   $sd_data[strtolower($addon).'_addon_license_key_user_name'];
+                }
+
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_download_id'])) {
+                $license_download_id =   $sd_data[strtolower($addon).'_addon_license_key_download_id'];
+                }
+
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_expires'])) {
+                $license_expires =   $sd_data[strtolower($addon).'_addon_license_key_expires'];
+                }
+                
+                $original_license = $license_key;
+                // class=" '.$license_status.''.strtolower($addon).'"
+                $refresh_addon_user = '<a addon-is-expired id="user_refresh_expired_addon-" days_remaining="'.$days.'" licensestatusinternal="'.$license_status.'" add-on="'.strtolower($addon).'" class="days_remain" data-attr="'.$original_license.'" 
+                add-onname="sd_data['.strtolower($addon).'_addon_license_key]"><i addon-is-expired class="dashicons dashicons-update-alt" id="user_refresh_expired_addon"></i></a>';
+            $refresh_addon_user.= '
+        <input type="hidden" licensestatusinternal="'.$license_status.'" add-on="'.strtolower($addon).'" class="button button-default saswp_license_activation '.$license_status.'mode '.strtolower($addon).''.strtolower($addon).'" id="saswp_license_deactivation_internal">';
+        
+    }
+
+    $renew_mesg = '<a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'accelerated-mobile-pages').'</span></a>';
+    $color = 'color:red';
+}
+                    else{
+                        if ($one_of_plugin_expired == 1) {
+                        $expire_msg_before = '<span class="before_msg_active">One of your <span class=">than_30" style="color:red;">license key is</span></span>';    
+                        }else{
+                        $expire_msg_before = '<span class="before_msg_active">Your License is</span>';                        
+                        }
+                        if ($one_of_plugin_expired == 1) {
+                            $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
+                        $expire_msg = " <span class='one_of_expired'>Expired</span> ";
+                        $renew_mesg = '<a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'accelerated-mobile-pages').'</span></a>';
+                        }
+                        else{
+                            $expire_msg = " Active ";
+                        }
+                        if ($one_of_plugin_expired == 1) {
+                        $span_class = "saswp_addon_icon dashicons dashicons-no pro_icon";                        
+                        }
+                        else{
+                            $span_class = "saswp_addon_icon dashicons dashicons-yes pro_icon";
+                        }
+                        if ($one_of_plugin_expired == 1) { $color = 'color:red';}
+                        else{ $color = 'color:green'; }
+                    }
+                if($days<0){
+                $exp_id = 'exp';
+                }
+                $saswp_addon_license_info = "<div class='sasfwp-main'>
+                <span class='sasfwp-info'>
+                ".$alert_icon."<span class='activated-plugins'>Hi <span class='sasfwp_key_user_name'>".esc_html($license_user_name)."</span>".','."
+                <span id='activated-plugins-days_remaining' days_remaining=".$days."> ".$expire_msg_before." <span expired-days-data=".$days." class='expiredinner_span' id=".$exp_id.">".$expire_msg."</span></span>
+                <span class='".$span_class."'></span>".$renew_mesg.$refresh_addon.$refresh_addon_user ;
+                $trans_check = get_transient( 'saswp_addons_set_transient' );
+            if ( $days<=7 && $trans_check !== 'saswp_addons_set_transient_value' ) {
+                foreach($saswp_add_on as $addon){
+
+                global $sd_data;
+                $license_key        = '';
+                $license_status     = 'inactive';
+                $license_status_msg = '';
+                $license_user_name = '';
+                if(isset($sd_data[strtolower($addon).'_addon_license_key'])){
+                  $license_key =   $sd_data[strtolower($addon).'_addon_license_key'];
+                }
+                
+                if(isset($sd_data[strtolower($addon).'_addon_license_key_status'])){
+                  $license_status =   $sd_data[strtolower($addon).'_addon_license_key_status'];
+                }
+                if(isset($sd_data[strtolower($addon).'_addon_license_key_message'])){
+                  $license_status_msg =   $sd_data[strtolower($addon).'_addon_license_key_message'];
+                }
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_user_name'])) {                    
+                $license_user_name =   $sd_data[strtolower($addon).'_addon_license_key_user_name'];
+                }
+
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_download_id'])) {
+                $license_download_id =   $sd_data[strtolower($addon).'_addon_license_key_download_id'];
+                }
+
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_expires'])) {
+                $license_expires =   $sd_data[strtolower($addon).'_addon_license_key_expires'];
+                }
+                
+                $original_license = $license_key;
+                // class=" '.$license_status.''.strtolower($addon).'"
+                $ZtoS_days = '<a id="refresh_license_icon_top-" days_remaining="'.$days.'" licensestatusinternal="'.$license_status.'" add-on="'.strtolower($addon).'" class="days_remain" data-attr="'.$original_license.'" 
+                add-onname="sd_data['.strtolower($addon).'_addon_license_key]"><i class="dashicons dashicons-update-alt" id="refresh_license_icon_top"></i></a>';
+            $ZtoS_days.= '
+        <input type="hidden" licensestatusinternal="'.$license_status.'" add-on="'.strtolower($addon).'" class="button button-default saswp_license_activation '.$license_status.'mode '.strtolower($addon).''.strtolower($addon).'" id="saswp_license_deactivation_internal">';
+    }
+}
+            $saswp_addon_license_info .= $ZtoS_days."
+            </span>
+            </div>";
+            echo $saswp_addon_license_info;
+        }
+    }
+}
+}
+?>
+		<h1 class="wp-heading-inline"> <?php echo saswp_t_string( 'Schema & Structured Data' ); ?> <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=saswp' ) ); ?>" class="page-title-action"><?php echo saswp_t_string( 'Schema Types' ); ?></a></h1>
+		
+    <br>		
                 <div>
 		<h2 class="nav-tab-wrapper saswp-tabs">
                     
@@ -115,7 +434,7 @@ function saswp_admin_interface_render(){
                                         '<a href="' . esc_url(saswp_admin_link('compatibility')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Compatibility') . '</a>',
                                         '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Email Schema') . '</a>',
                                         '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Advanced') . '</a>',                                       
-                                        '<a href="' . esc_url(saswp_admin_link('premium_features')) . '" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Premium Features') . '</a>',
+                                        '<a href="'.esc_url( admin_url( 'admin.php?page=structured_data_options&tab=premium_features' ) ).'" data-extmgr="'. ( class_exists('SASWPPROExtensionManager')? "yes": "no" ).'" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Premium Features') . '</a>',
                                         '<a href="' . esc_url(saswp_admin_link('services')) . '" class="nav-tab ' . esc_attr( $tab == 'services' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Services') . '</a>',
                                         '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Support') . '</a>',
                                         //'<a target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="nav-tab saswp-offer-banner">50% OFF for LIMITED time</a>'
@@ -185,7 +504,7 @@ function saswp_admin_interface_render(){
                         
                             echo '<div id="saswp-tools-tabs" style="margin-top: 10px;">';
 
-                            echo '<a class="saswp-tools-tab-nav" href="#saswp-advanced-heading">'.saswp_t_string('Advanced').'</a> | <a href="#saswp-translation-heading" class="saswp-tools-tab-nav">'.saswp_t_string('Translation Panel').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-migration-heading">'.saswp_t_string('Migration').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-import-export-heading">'.saswp_t_string('Import / Export').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-misc-heading">'.saswp_t_string('Misc').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-license-heading">'.saswp_t_string('License').'</a>';
+                            echo '<a class="saswp-tools-tab-nav" href="#saswp-advanced-heading">'.saswp_t_string('Advanced').'</a> | <a href="#saswp-translation-heading" class="saswp-tools-tab-nav">'.saswp_t_string('Translation Panel').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-migration-heading">'.saswp_t_string('Migration').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-import-export-heading">'.saswp_t_string('Import / Export').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-misc-heading">'.saswp_t_string('Misc').'</a> | <a class="saswp-tools-tab-nav" href="' . esc_url( admin_url( 'admin.php?page=structured_data_options&tab=premium_features' ) ) . '">' . saswp_t_string( 'License' ) . '</a>';
 
                             echo'</div> ';
 			     // Status
@@ -414,466 +733,186 @@ function saswp_premium_features_callback(){ ?>
 	<div class="saswp-pre-ftrs-wrap">
 
 		<ul class="saswp-features-blocks">
-
-                <li>
-                            
+                                        
                             <?php
                             
                             $cooked_active_text = '';
-                            
-                            if(is_plugin_active('classifieds-plugin-compatibility/classifieds-plugin-compatibility.php')){
-                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                            }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                            }
-                            
-                            ?> 
-                                            
-                    <div class="saswp-features-ele">
-                        <div class="saswp-ele-ic" style="background: #9fa2f5;">
-                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/cpc.png">
-                            </div>
-                            <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('Classifieds Plugin Compatibility') ?></h3>
-                                    <p><?php echo saswp_t_string('Classifieds Plugin Compatibility generated schema markup automatically for classified theme and plugin with just few steps click.') ?></p>
-                            </div>
-                    </div>
-                    <div class="saswp-sts-btn">
-                        
-                        <?php echo $cooked_active_text; ?>
-                                                                                                                                               
-                    </div>
-            </li>
-
-                <li>
-                            
-                            <?php
-                            
-                            $cooked_active_text = '';
-                            
-                            if(is_plugin_active('1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                            }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                            }
-                            
-                            ?> 
-                                            
-                    <div class="saswp-features-ele">
-                        <div class="saswp-ele-ic" style="background: #9fa2f5;">
-                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/indexing.png">
-                            </div>
-                            <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('1-Click Indexing API Integration') ?></h3>
-                                    <p><?php echo saswp_t_string('The Indexing API allows any site owner to directly notify Google when pages are added or removed. This allows Google to schedule pages for a fresh crawl, which can lead to higher quality user traffic') ?></p>
-                            </div>
-                    </div>
-                    <div class="saswp-sts-btn">
-                        
-                        <?php echo $cooked_active_text; ?>
-                                                                                                                                               
-                    </div>
-            </li>
-
-            <li>
-                            
-                            <?php
-                            
-                            $cooked_active_text = '';
-                            
-                            if(is_plugin_active('wpml-schema-compatibility/wpml-schema-compatibility.php')){
-                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                            }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                            }
-                            
-                            ?> 
-                                            
-                    <div class="saswp-features-ele">
-                        <div class="saswp-ele-ic" style="background: #33879e;">
-                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/wpml.png">
-                            </div>
-                            <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('WPML Schema Compatibility') ?></h3>
-                                    <p><?php echo saswp_t_string('Get Multi-Currency in schema on Woocommerce Product and set placement based on languages for easy display of schema') ?></p>
-                            </div>
-                    </div>
-                    <div class="saswp-sts-btn">
-                        
-                        <?php echo $cooked_active_text; ?>
-                                                                                                                                               
-                    </div>
-            </li>
-
-                <li>
-                            
-                            <?php
-                            
-                            $cooked_active_text = '';
-                            
-                            if(is_plugin_active('polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                            }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                            }
-                            
-                            ?> 
-                                            
-                    <div class="saswp-features-ele">
-                        <div class="saswp-ele-ic" style="background: #509207;">
-                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/polylang.png">
-                            </div>
-                            <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('Polylang Schema Compatibility') ?></h3>
-                                    <p><?php echo saswp_t_string('It adds all the static labels from this plugin to Polylang Strings Translations dashboard where user can translate it') ?></p>
-                            </div>
-                    </div>
-                    <div class="saswp-sts-btn">
-                        
-                        <?php echo $cooked_active_text; ?>
-                                                                                                                                               
-                    </div>
-            </li>
-
-                <li>
-                            
-                            <?php
-                            
-                            $cooked_active_text = '';
-                            
-                            if(is_plugin_active('reviews-for-schema/reviews-for-schema.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                            }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                            }
-                            
-                            ?> 
-                                            
-                    <div class="saswp-features-ele">
-                        <div class="saswp-ele-ic" style="background: #509207;">
-                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/customer-review.png">
-                            </div>
-                            <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('Reviews for Schema') ?></h3>
-                                    <p><?php echo saswp_t_string('Fetch reviews from 75+ platforms with a single click with proper structured data so you can get the stars in your search engine rankings. It also works for the AMP.') ?></p>
-                            </div>
-                    </div>
-                    <div class="saswp-sts-btn">
-                        
-                        <?php echo $cooked_active_text; ?>
-                                                                                                                                               
-                    </div>
-            </li>
 
 
-            <li>                            
-                            <?php
-                            
-                            $cooked_active_text = '';
-                            
-                            if(is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                            }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                            }
-                            
-                            ?> 
-                                            
-                    <div class="saswp-features-ele">
-                        <div class="saswp-ele-ic" style="background: #509207;">
-                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/jobposting.png">
-                            </div>
-                            <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('JobPosting Schema Compatibility') ?></h3>
-                                    <p><?php echo saswp_t_string(' JobPosting Schema Compatibility extension is the number one solution to enhance your JOBs website with the right structured data.') ?></p>
-                            </div>
-                    </div>
-                    <div class="saswp-sts-btn">
-                        
-                        <?php echo $cooked_active_text; ?>
-                                                                                                                                               
-                    </div>
-            </li>               
+
+     function is_check_plugin($ext_ind,$index){
+        
+            if(function_exists($ext_ind)){
+            global $sd_data;
 
 
-            <li>                            
-                            <?php
-                            
-                            $cooked_active_text = '';
-                            
-                            if(is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                            }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                            }
-                            
-                            ?> 
-                                            
-                    <div class="saswp-features-ele">
-                        <div class="saswp-ele-ic" style="background: #509207;">
-                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/faq.png">
-                            </div>
-                            <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('FAQ Schema Compatibility') ?></h3>
-                                    <p><?php echo saswp_t_string(' FAQ Schema Compatibility extension is the number one solution to enhance your FAQs website with the right structured data.') ?></p>
-                            </div>
-                    </div>
-                    <div class="saswp-sts-btn">
-                        
-                        <?php echo $cooked_active_text; ?>
-                                                                                                                                               
-                    </div>
-            </li>
+                $license_key        = '';
+                $license_status     = 'inactive';
+                $license_status_msg = '';
+                $license_user_name = '';
+                $license_download_id = '';
+                $license_expires     = '';
+                
+                if(isset($sd_data[strtolower($index).'_addon_license_key'])){
+                  $license_key =   $sd_data[strtolower($index).'_addon_license_key'];
+                }
+                
+                if(isset($sd_data[strtolower($index).'_addon_license_key_status'])){
+                  $license_status =   $sd_data[strtolower($index).'_addon_license_key_status'];
+                }
+                
+                if(isset($sd_data[strtolower($index).'_addon_license_key_message'])){
+                  $license_status_msg =   $sd_data[strtolower($index).'_addon_license_key_message'];
+                }
+
+                if (isset($sd_data[strtolower($index).'_addon_license_key_user_name'])) {                    
+                $license_user_name =   $sd_data[strtolower($index).'_addon_license_key_user_name'];
+                }
+                // print_r($license_user_name);die;
+
+                if (isset($sd_data[strtolower($index).'_addon_license_key_download_id'])) {
+                $license_download_id =   $sd_data[strtolower($index).'_addon_license_key_download_id'];
+                }
+
+                if (isset($sd_data[strtolower($index).'_addon_license_key_expires'])) {
+                $license_expires =   $sd_data[strtolower($index).'_addon_license_key_expires'];
+                }
+                
+                $active_data = saswp_get_license_section_html($index, $license_key, $license_status, $license_status_msg, $license_user_name, $license_download_id, $license_expires, true, false);
 
 
-            <li>
-                            
-                            <?php
-                            
-                            $cooked_active_text = '';
-                            
-                            if(is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){                                        
-                                $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                            }else{
-                                $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                            }
-                            
-                            ?> 
-                                            
-                    <div class="saswp-features-ele">
-                        <div class="saswp-ele-ic" style="background: #509207;">
-                                <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/question.png">
-                            </div>
-                            <div class="saswp-ele-tlt">
-                                    <h3><?php echo saswp_t_string('Q&A Schema Compatibility') ?></h3>
-                                    <p><?php echo saswp_t_string(' extension is the number one solution to enhance your discussion forum website with the right structured data.') ?></p>
-                            </div>
-                    </div>
-                    <div class="saswp-sts-btn">
-                        
-                        <?php echo $cooked_active_text; ?>
-                                                                                                                                               
-                    </div>
-            </li>
+             return $active_data;
+          } 
 
-                        <li>
-                            
-                                        <?php
-                                        
-                                        $cooked_active_text = '';
-                                        
-                                        if(is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                                        }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                                        }
-                                        
-                                        ?> 
-                                                        
-				<div class="saswp-features-ele">
-                                    <div class="saswp-ele-ic" style="background: #509207;">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/recipe.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo saswp_t_string('Recipe Schema') ?></h3>
-						<p><?php echo saswp_t_string('Recipe Schema extension is the number one solution to enhance your recipe website with the right structured data.') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $cooked_active_text; ?>
-                                                                           										
-				</div>
-			</li>
-                    
-                        <li>
-                            
-                                        <?php
-                                        
-                                        $cooked_active_text = '';
-                                        
-                                        if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                                        }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                                        }
-                                        
-                                        ?> 
-                                                        
-				<div class="saswp-features-ele">
-                                    <div class="saswp-ele-ic" style="background: #eae4ca;">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/event.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo saswp_t_string('Event Schema') ?></h3>
-						<p><?php echo saswp_t_string('Event Schema extension is the number one solution to enhance your event website with the right structured data.') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $cooked_active_text; ?>
-                                                                           										
-				</div>
-			</li>
-                        <li>
-                            
-                                        <?php
-                                        
-                                        $cooked_active_text = '';
-                                        
-                                        if(is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                                        }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                                        }
-                                        
-                                        ?> 
-                                                        
-				<div class="saswp-features-ele">
-                                    <div class="saswp-ele-ic" style="background: #dcb71d;">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/course.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo saswp_t_string('Course Schema') ?></h3>
-						<p><?php echo saswp_t_string('Course Schema extension is the number one solution to enhance your course offering website with the right structured data.') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $cooked_active_text; ?>
-                                                                           										
-				</div>
-			</li>
-			<li>
-                             <?php
-                                        $woocommerce_active_text = '';
-                                        if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){                                           
-                                          $woocommerce_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green">'.saswp_t_string('Active').'</span></label>';                                          ;
-                                        }else{                                            
-                                           $woocommerce_active_text .= '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>'; 
-                                           $woocommerce_active_text .= '<a target="_blank" href="http://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                                        }
-                                        
-                                        ?>                                                        
-				<div class="saswp-features-ele">
-					<div class="saswp-ele-ic saswp-ele-1">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/woocommerce-icon.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo saswp_t_string('WooCommerce Compatibility for Schema') ?></h3>
-						<p><?php echo saswp_t_string('WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $woocommerce_active_text; ?>
-                                                                           										
-				</div>
-			</li>			                          
-                        <li>
-                            
-                                        <?php
-                                        
-                                        $cooked_active_text = '';
-                                        
-                                        if(is_plugin_active('real-estate-schema/real-estate-schema.php')){                                        
-                                            $cooked_active_text = '<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span style="color:green;">'.saswp_t_string('Active').'</span></label>';                                            
-                                        }else{
-                                            $cooked_active_text .='<label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span>'.saswp_t_string('Inactive').'</span></label>';
-                                            $cooked_active_text .='<a target="_blank" href="http://structured-data-for-wp.com/extensions/real-estate-schema/"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
-                                        }
-                                        
-                                        ?> 
-                                                        
-				<div class="saswp-features-ele">
-                                    <div class="saswp-ele-ic" style="background: #ace;">
-                                            <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/real-estate-schema-wp.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo saswp_t_string('Real Estate Schema') ?></h3>
-						<p><?php echo saswp_t_string('Real Estate Schema extension is the number one solution to enhance your real estate website with the right structured data.') ?></p>
-					</div>
-				</div>
-				<div class="saswp-sts-btn">
-                                    
-                                    <?php echo $cooked_active_text; ?>
-                                                                           										
-				</div>
-			</li>                        
-                        
-		</ul>
-	</div>
+          return false;
+     }
 
- <?php
+    // print_r($add_on);die;
+    // $status = is_check_plugin('OCIAIFS');
+$main_ext_array = array();
+
+$main_ext_array['CPC'] = array( 'name' => 'Classifieds Plugin Compatibility','desc' => 'Classifieds Plugin Compatibility generated schema markup automatically for classified theme and plugin with just few steps click.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/cpc.png', 'bgcolor' => '#9fa2f5', 'href' => 'https://structured-data-for-wp.com/classifieds-plugin-compatibility/' , 'status' => is_check_plugin('saswp_cpc_schema_updater','CPC'));
+
+$main_ext_array['OCIAIFS'] = array( 'name' => '1-Click Indexing API Integration','desc' => 'The Indexing API allows any site owner to directly notify Google when pages are added or removed. This allows Google to schedule pages for a fresh crawl, which can lead to higher quality user traffic' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/indexing.png', 'bgcolor' => '#9fa2f5', 'href' => 'https://structured-data-for-wp.com/1-click-indexing-api-integration/' , 'status' => is_check_plugin('saswp_enqueue_instant_indexing_js','OCIAIFS'));
+
+$main_ext_array['WPML'] = array( 'name' => 'WPML Schema Compatibility
+','desc' => 'Get Multi-Currency in schema on Woocommerce Product and set placement based on languages for easy display of schema' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/wpml.png', 'bgcolor' => '#33879e', 'href' => 'https://structured-data-for-wp.com/wpml-schema-compatibility/' , 'status' => is_check_plugin('saswp_wpml_schema_compatibility','WPML'));
+
+$main_ext_array['Polylang'] = array( 'name' => 'Polylang Schema Compatibility
+','desc' => 'It adds all the static labels from this plugin to Polylang Strings Translations dashboard where user can translate it' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/polylang.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/polylang-compatibility-for-saswp' , 'status' => is_check_plugin('polylang_compatibility_for_schema_updater','Polylang'));
+
+$main_ext_array['reviews'] = array( 'name' => 'Reviews for Schema','desc' => 'Fetch reviews from 75+ platforms with a single click with proper structured data so you can get the stars in your search engine rankings, works for AMP.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/customer-review.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/reviews-for-schema' , 'status' => is_check_plugin('reviews_for_schema_updater','reviews'));
+
+
+$main_ext_array['Jobposting'] = array( 'name' => 'JobPosting Schema Compatibility','desc' => 'JobPosting Schema Compatibility extension is the number one solution to enhance your JOBs website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/jobposting.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/jobposting-schema-compatibility/' , 'status' => is_check_plugin('saswp_jobposting_schema_updater','Jobposting'));
+
+$main_ext_array['faq'] = array( 'name' => 'FAQ Schema Compatibility','desc' => 'FAQ Schema Compatibility extension is the number one solution to enhance your FAQs website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/faq.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/faq-schema-compatibility/' , 'status' => is_check_plugin('saswp_faq_schema_updater','faq'));
+
+$main_ext_array['qanda'] = array( 'name' => 'Q&A Schema Compatibility','desc' => 'Q&A Schema Compatibility extension  extension is the number one solution to enhance your discussion forum website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/question.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/qanda-schema-for-saswp/' , 'status' => is_check_plugin('qanda_schema_updater','qanda'));
+
+$main_ext_array['Rs'] = array( 'name' => 'Recipe Schema','desc' => 'Recipe Schema extension is the number one solution to enhance your recipe website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/recipe.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/recipe-schema/' , 'status' => is_check_plugin('saswp_recipe_schema_updater','Rs'));
+
+$main_ext_array['Es'] = array( 'name' => 'Event Schema','desc' => 'Event Schema extension is the number one solution to enhance your event website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/event.png', 'bgcolor' => '#eae4ca', 'href' => 'https://structured-data-for-wp.com/event-schema/' , 'status' => is_check_plugin('event_schema_updater','Es'));
+
+$main_ext_array['Cs'] = array( 'name' => 'Course Schema','desc' => 'Course Schema extension is the number 1 solution to enhance your course offering website with right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/course.png', 'bgcolor' => '#dcb71d', 'href' => 'https://structured-data-for-wp.com/course-schema/' , 'status' => is_check_plugin('course_schema_updater','Cs'));
+
+$main_ext_array['woocommerce'] = array( 'name' => 'WooCommerce Compatibility for Schema','desc' => 'WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/woocommerce-icon.png', 'bgcolor' => '#96588a', 'href' => 'https://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/' , 'status' => is_check_plugin('woocommerce_compatibility_for_schema_updater','woocommerce'));
+
+$main_ext_array['Res'] = array( 'name' => 'Real Estate Schema','desc' => 'Real Estate Schema extension is the number one solution to enhance your real estate website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/real-estate-schema-wp.png', 'bgcolor' => '#ace', 'href' => 'https://structured-data-for-wp.com/extensions/real-estate-schema/' , 'status' => is_check_plugin('real_estate_schema_updater','Res'));
+
+$cooked_active_text = 'Active';
+
+foreach($main_ext_array as $key => $value){
+    $addon_name = $value['name'];
+    $addon_image = $value['image'];
+    $addon_desc = $value['desc'];
+    $addon_bgcolor = $value['bgcolor'];
+    $addon_status = $value['status'];
+    $addon_href = $value['href'];
+    $css = '';
+    if($addon_status != false){
+       $addon_status; // plugin active
+       $css = '';
+       // $css = 'style="border: unset;"';
+    }else{
+       $addon_status = '<label class="saswp-sts-txt inactive">Status :<span>Inactive</span></label><a target="_blank" href="'.$addon_href.'"><span class="saswp-d-btn">Download</span></a>';
+    }    
+
+    echo "<li>
+    <div class='saswp-features-ele'>
+    <div class='saswp-ele-ic' style='background: ".$addon_bgcolor.";'>
+    <img src=".$addon_image.">
+    </div>
+    <div class='saswp-ele-tlt'>
+    <h3>".$addon_name."</h3>
+    <p>".$addon_desc."</p>
+    </div>    
+    <div class='saswp-sts-btn' ".$css.">".$addon_status."
+    </div>
+    </div>
+    </li>";
 }
+?>
+</div>
+ <?php
+    }
 
 function saswp_services_callback(){ ?>
    <div class="saswp-pre-ftrs-wrap">
-		<ul class="saswp-features-blocks">
+        <ul class="saswp-features-blocks">
                         <li>
-				<div class="saswp-features-ele">
-					<div class="saswp-ele-ic saswp-ele-4" style="background: #69e781;">
+                <div class="saswp-features-ele">
+                    <div class="saswp-ele-ic saswp-ele-4" style="background: #69e781;">
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/support-1.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo saswp_t_string('Priority Support') ?></h3>
-						<p><?php echo saswp_t_string('We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team.') ?></p>
-					</div>
-				</div>
+                    </div>
+                    <div class="saswp-ele-tlt">
+                        <h3><?php echo saswp_t_string('Priority Support') ?></h3>
+                        <p><?php echo saswp_t_string('We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team.') ?></p>
+                    </div>
+                </div>
                                 <a target="_blank" href="https://structured-data-for-wp.com/priority-support//">
-                                    <div class="saswp-sts-btn">					
-					<span class="saswp-d-btn"><?php echo saswp_t_string('Try it') ?></span>
-				    </div>
+                                    <div class="saswp-sts-btn">                 
+                    <span class="saswp-d-btn-1"><?php echo saswp_t_string('Try it') ?></span>
+                    </div>
                                 </a>
-				
-			</li>
-			<li>
-				<div class="saswp-features-ele">
-					<div class="saswp-ele-ic saswp-ele-3">
+                
+            </li>
+            <li>
+                <div class="saswp-features-ele">
+                    <div class="saswp-ele-ic saswp-ele-3">
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/news.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo saswp_t_string('Google News Schema Setup') ?></h3>
-						<p><?php echo saswp_t_string('Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website.') ?></p>
-					</div>
-				</div>
+                    </div>
+                    <div class="saswp-ele-tlt">
+                        <h3><?php echo saswp_t_string('Google News Schema Setup') ?></h3>
+                        <p><?php echo saswp_t_string('Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website.') ?></p>
+                    </div>
+                </div>
                             <a target="_blank" href="http://structured-data-for-wp.com/services/google-news-schema-setup/">
-                                <div class="saswp-sts-btn">					
-					<span class="saswp-d-btn"><?php echo saswp_t_string('Try it') ?></span>
-				</div>
+                                <div class="saswp-sts-btn">                 
+                    <span class="saswp-d-btn-2"><?php echo saswp_t_string('Try it') ?></span>
+                </div>
                             </a>
-				
-			</li>
-			<li>
-				<div class="saswp-features-ele">
-					<div class="saswp-ele-ic saswp-ele-4">
+                
+            </li>
+            <li>
+                <div class="saswp-features-ele">
+                    <div class="saswp-ele-ic saswp-ele-4">
                                             <img src="<?php echo SASWP_PLUGIN_URL; ?>/admin_section/images/schema-setup-icon.png">
-					</div>
-					<div class="saswp-ele-tlt">
-						<h3><?php echo saswp_t_string('Structured Data Setup & Error Clean Up') ?></h3>
-						<p><?php echo saswp_t_string('We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers.') ?></p>
-					</div>
-				</div>
+                    </div>
+                    <div class="saswp-ele-tlt">
+                        <h3><?php echo saswp_t_string('Structured Data Setup & Error Clean Up') ?></h3>
+                        <p><?php echo saswp_t_string('We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers.') ?></p>
+                    </div>
+                </div>
                                 <a target="_blank" href="http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/">
-                                    <div class="saswp-sts-btn">					
-					<span class="saswp-d-btn"><?php echo saswp_t_string('Try it') ?></span>
-				    </div>
+                                    <div class="saswp-sts-btn">                 
+                    <span class="saswp-d-btn-3"><?php echo saswp_t_string('Try it') ?></span>
+                    </div>
                                 </a>
-				
-			</li>                        
-		</ul>
-	</div>
+                
+            </li>                        
+        </ul>
+    </div>
 
 <?php }
 function saswp_amp_page_callback(){
@@ -1818,6 +1857,9 @@ if(is_array($translation_labels)){
     
     }
 echo '</ul>';
+        $premium_feat_redirect =  admin_url().'admin.php?page=structured_data_options&tab=premium_features';
+        echo '<h2 id="saswp-license-heading">'.saswp_t_string('License').'</h2>
+        <p> This section has been shifted to <a href="'.$premium_feat_redirect.'">Premium Features Tab</a>';
                                 
         $add_on = array();
         
@@ -1891,10 +1933,16 @@ echo '</ul>';
            $add_on[] = 'Rs';           
                                       
         }
+
+        if(is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
+                      
+           $add_on[] = 'reviews';           
+                                      
+        }
                 
         if(!empty($add_on)){
             
-            echo '<h2 id="saswp-license-heading">'.saswp_t_string('License').'</h2>';
+            // echo '<h2 id="saswp-license-heading">'.saswp_t_string('License').'</h2>';
             
             echo '<ul>';
             
@@ -1915,10 +1963,22 @@ echo '</ul>';
                 if(isset($sd_data[strtolower($on).'_addon_license_key_message'])){
                   $license_status_msg =   $sd_data[strtolower($on).'_addon_license_key_message'];
                 }
+
+                if (isset($sd_data[strtolower($on).'_addon_license_key_user_name'])) {                    
+                $license_user_name =   $sd_data[strtolower($on).'_addon_license_key_user_name'];
+                }
+
+                if (isset($sd_data[strtolower($on).'_addon_license_key_download_id'])) {
+                $license_download_id =   $sd_data[strtolower($on).'_addon_license_key_download_id'];
+                }
+
+                if (isset($sd_data[strtolower($on).'_addon_license_key_expires'])) {
+                $license_expires =   $sd_data[strtolower($on).'_addon_license_key_expires'];
+                }
                 
-                echo '<li>';
-                echo saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, true, false);
-                echo '</li>';
+                // echo '<li>';
+                // echo saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $license_user_name, $license_download_id, $license_expires, true, false);
+                // echo '</li>';
                 
             }
             
@@ -1937,57 +1997,58 @@ echo '</ul>';
          
 }
 
-function saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $label=null, $limit_status=null){
+function saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $license_user_name, $license_download_id, $license_expires, $label=null, $limit_status=null){
             
             $limits_html = $response = '';
     
             $limits = get_option('reviews_addon_reviews_limits');
     
             if($limit_status){
-               $limits_html = '<span style="padding:10px;">Maximum Reviews Limits '. esc_attr($limits).'</span>'; 
+               $limits_html = '<span class="limit_span"><span style="padding:10px;">Maximum Reviews Limits '. esc_attr($limits).'</span></span>'; 
             }
 
+            $response.= '<div class="saswp-tools-main-field-title">';
             $response.= '<div class="saswp-tools-field-title">';
                
                 if($label == true && $on == 'OCIAIFS'){
                                 
                         $response.= '<div class="saswp-license-label">';
-                        $response.= '<strong>'.saswp_t_string('1-Click Indexing API Integration').'</strong>';
+                        // $response.= '<strong>'.saswp_t_string('1-Click Indexing API Integration').'</strong>';
                         $response.= '</div>';
                 
                 }
                 if($label == true && $on == 'Polylang'){
                                 
                         $response.= '<div class="saswp-license-label">';
-                        $response.= '<strong>'.saswp_t_string(''.$on.' Schema Compatibility').'</strong>';
+                        // $response.= '<strong>'.saswp_t_string(''.$on.' Schema Compatibility').'</strong>';
                         $response.= '</div>';
                 
                 }
                 if($label == true && $on == 'CPC'){
                                 
                         $response.= '<div class="saswp-license-label">';
-                        $response.= '<strong>'.saswp_t_string('Classifieds Plugin Compatibility').'</strong>';
+                        // $response.= '<strong>'.saswp_t_string('Classifieds Plugin Compatibility').'</strong>';
                         $response.= '</div>';
                 
                 }
                 if($label == true && $on == 'WPML'){
                         
                         $response.= '<div class="saswp-license-label">';
-                        $response.= '<strong>'.saswp_t_string(''.$on.' Schema Compatibility').'</strong>';
+                        // $response.= '<strong>'.saswp_t_string(''.$on.' Schema Compatibility').'</strong>';
                         $response.= '</div>';
                 
                 }
                if($label == true && $on == 'Cooked'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    $response.= '<strong>'.saswp_t_string(''.$on.' Compatibility For Schema').'</strong>';
+                    // $response.= '<strong>'.saswp_t_string(''.$on.' Compatibility For Schema').'</strong>';
                     $response.= '</div>';
                 
                }
                if($label == true && $on == 'Woocommerce'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    $response.= '<strong>'.saswp_t_string(''.$on.' Compatibility For Schema').'</strong>';
+                    // $response.= '<strong>'.saswp_t_string(''.$on.' Compatibility For Schema').'</strong>';
                     $response.= '</div>';
                 
                }
@@ -1995,7 +2056,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                if($label == true && $on == 'Res'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    $response.= '<strong>'.saswp_t_string('Real Estate Schema').'</strong>';
+                    // $response.= '<strong>'.saswp_t_string('Real Estate Schema').'</strong>';
                     $response.= '</div>';
                 
                }
@@ -2003,7 +2064,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                if($label == true && $on == 'Jobposting'){
                    
                 $response.= '<div class="saswp-license-label">';
-                $response.= '<strong>'.saswp_t_string('JobPosting Schema Compatibility').'</strong>';
+                // $response.= '<strong>'.saswp_t_string('JobPosting Schema Compatibility').'</strong>';
                 $response.= '</div>';
             
                 }
@@ -2011,14 +2072,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                if($label == true && $on == 'Cs'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    $response.= '<strong>'.saswp_t_string('Course Schema').'</strong>';
+                    // $response.= '<strong>'.saswp_t_string('Course Schema').'</strong>';
                     $response.= '</div>';
                 
                }
                if($label == true && $on == 'Es'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    $response.= '<strong>'.saswp_t_string('Event Schema').'</strong>';
+                    // $response.= '<strong>'.saswp_t_string('Event Schema').'</strong>';
                     $response.= '</div>';
                 
                }
@@ -2026,7 +2087,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                if($label == true && $on == 'qanda'){
                    
                 $response.= '<div class="saswp-license-label">';
-                $response.= '<strong>'.saswp_t_string('Q&A Schema').'</strong>';
+                // $response.= '<strong>'.saswp_t_string('Q&A Schema').'</strong>';
                 $response.= '</div>';
             
                 }
@@ -2034,7 +2095,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                 if($label == true && $on == 'faq'){
                    
                         $response.= '<div class="saswp-license-label">';
-                        $response.= '<strong>'.saswp_t_string('FAQ Schema Compatibility').'</strong>';
+                        // $response.= '<strong>'.saswp_t_string('FAQ Schema Compatibility').'</strong>';
                         $response.= '</div>';
                     
                 }
@@ -2042,42 +2103,78 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                if($label == true && $on == 'Rs'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    $response.= '<strong>'.saswp_t_string('Recipe Schema').'</strong>';
+                    // $response.= '<strong>'.saswp_t_string('Recipe Schema').'</strong>';
                     $response.= '</div>';
                 
                }
-                                               
-                if($license_status == 'active'){
-                
-                    $response.= '<span class="dashicons dashicons-yes saswp-'.strtolower($on).'-dashicons" style="color: #46b450;"></span>';    
-                    
-                }else{
-                
-                    $response.= '<span class="dashicons dashicons-no-alt saswp-'.strtolower($on).'-dashicons" style="color: #dc3232;"></span>';
-                    
+
+                $original_license = $license_key;
+                $unreadable_license_k = $license_key;                   
+                $strlen = strlen($unreadable_license_k);
+                $show_key = "";
+                for( $i=1; $i<$strlen; $i++) {
+                    if( $i<$strlen-9 ){
+                        $show_key .= "*";
+                    }else{
+                        $show_key .= $unreadable_license_k[$i];
+                    }
                 }
-                                                
-                $response.= '<input type="text" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key" name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($license_key).'">';
-                
-                $response.= '<input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">';                
-                
                 if($license_status == 'active'){
-                
-                    $response.= '<a license-status="inactive" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation">'.saswp_t_string('Deactivate').'</a>'.$limits_html;
-                    
-                }else{
-                
-                    $response.= '<a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation">'.saswp_t_string('Activate').'</a>'.$limits_html;
-                    
+                 if ( !defined('SASWPPRO_PLUGIN_DIR')){
+
+                    if ($license_expires<0) {
+                        $license_Status_ = 'Expired';
+                        $license_Status_id = ' id="lic_exp"';
+                    }
+                    else{
+                        $license_Status_ = 'Active';
+                        $license_Status_id = 'id="lic_active"';
+                    }
                 }
-                
-                if($license_status_msg !='active'){
-                    
-                    $response.= '<p style="color:red;" add-on="'.strtolower($on).'" class="saswp_license_status_msg">'.$license_status_msg.'</p>';
-                }                
-                                                
-                $response.= '<p>'.saswp_t_string('Enter your '.$on.' addon license key to activate updates & support.').'</p>';
-                
+                else{
+                            $license_Status_ = 'Active';
+                            $license_Status_id = 'id="lic_active"';
+                        }
+                $response.= '<div class="saswp-sts-active-main '.strtolower($on).'_addon "><label class="saswp-sts-txt '.$license_status.'">Status :<span class="addon-activated" '.$license_Status_id.'>'.$license_Status_.'</span>
+                <input type="text" class="license_key_input_active '.strtolower($on).'_addon_license_key" value="'.$show_key.'" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key">
+                <a license-status="inactive" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation deactive_state '.strtolower($on).''.strtolower($on).'" id="saswp_license_deactivation">'.saswp_t_string('Deactivate').'</a>
+                <input type="hidden" class="license_key_input_active '.strtolower($on).'_addon_license_key" placeholder="Enter License Key"  name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($original_license).'">
+                <input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">
+                <input type="hidden" id="'.strtolower($on).'_addon_license_key_user_name" name="sd_data['.strtolower($on).'_addon_license_key_user_name]" value="'.esc_attr($license_user_name).'">
+                <input type="hidden" id="'.strtolower($on).'_addon_license_key_download_id" name="sd_data['.strtolower($on).'_addon_license_key_download_id]" value="'.esc_attr($license_download_id).'">
+                <input type="hidden" id="'.strtolower($on).'_addon_license_key_expires" name="sd_data['.strtolower($on).'_addon_license_key_expires]" value="'.esc_attr($license_expires).'">
+
+                </label></div>';
+                 
+            }
+            elseif ( $license_status_msg !='active' && $on ==  'Reviews') {
+
+                $response.= '<span class="saswp-sts-deactive-reviews '.strtolower($on).'_addon">
+                <label class="saswp-sts-txt">Status :<span class="reviews_inactive">Inactive
+                </span>
+                <input type="text" class="reviewslicense_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
+                 <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation Reviews '.$on.'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>'.$limits_html.'
+                 </label>
+                 </span>';
+                    }
+            elseif ( $license_status_msg =='active' && $on ==  'Reviews') {
+
+                $response.= '<div class="saswp-active-input"><input type="text" class="license_key_input_active_Reviews '.strtolower($on).'_addon_license_key" value="'.$show_key.'" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key"></div>';
+                $response.= '<div class="saswp-active-sub"><input type="hidden" class="license_key_input_active_Reviews '.strtolower($on).'_addon_license_key" placeholder="Enter License Key"  name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($original_license).'"></div>';
+                    }
+            else{
+                $original_license = $license_key;
+                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">Status :<span id="inactive_status">Inactive</span>
+                <input type="text" class="license_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
+                <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation '.strtolower($on).'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>
+                <input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">
+                <input type="hidden" id="'.strtolower($on).'_addon_license_key_download_id" name="sd_data['.strtolower($on).'_addon_license_key_download_id]" value="'.esc_attr($license_download_id).'">
+
+                </label>
+                </div>';
+            }
+
+                $response.= '</div>';
                 $response.= '</div>';
                 
                 return $response;
