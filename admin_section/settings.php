@@ -1038,7 +1038,7 @@ function saswp_general_page_callback(){
                         'id'   => 'saswp_comments_schema',
                         'name' => 'sd_data[saswp_comments_schema]',                             
                 )
-         );
+         );         
         
             if($nav_menu){
                 
@@ -1564,6 +1564,18 @@ function saswp_import_callback(){
                         'hidden' => array(
                                 'id'   => 'saswp-rss-feed-image',
                                 'name' => 'sd_data[saswp-rss-feed-image]',                             
+                        )
+                ),
+                array(
+                        'label'  => 'Full Heading',
+                        'id'     => 'saswp-full-heading-checkbox', 
+                        'name'   => 'saswp-full-heading-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
+                        'note'   => 'Google only allows to keep 110 or less than that characters in schema heading. We internally truncate to keep heading not more than 110 characters. This option will stop internal heading truncation.',
+                        'hidden' => array(
+                                'id'   => 'saswp-full-heading',
+                                'name' => 'sd_data[saswp-full-heading]',                             
                         )
                 )                  
                 

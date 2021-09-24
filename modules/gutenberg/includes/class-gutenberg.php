@@ -131,11 +131,16 @@ class SASWP_Gutenberg {
                         require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/render.php';
                         $this->render = new SASWP_Gutenberg_Render();
                     }
-                                                                                                                                            
+                    
+                    if ( version_compare( $GLOBALS['wp_version'], '5.8.0', '<' ) ) {
+                        add_filter( 'block_categories', array( $this, 'add_blocks_categories' ) );  
+                    } else {
+                        add_filter( 'block_categories_all', array( $this, 'add_blocks_categories' ) );                          
+                    }
+                    
                     add_action( 'init', array( $this, 'register_saswp_blocks' ) );                    
                     add_action( 'enqueue_block_editor_assets', array( $this, 'register_admin_assets' ) ); 
-                    add_action( 'enqueue_block_assets', array( $this, 'register_frontend_assets' ) ); 
-                    add_filter( 'block_categories', array( $this, 'add_blocks_categories' ) );  
+                    add_action( 'enqueue_block_assets', array( $this, 'register_frontend_assets' ) );                     
                     add_action( 'amp_post_template_css', array($this, 'register_frontend_assets_amp'));
         }
         
@@ -265,7 +270,9 @@ class SASWP_Gutenberg {
          * @Since Version 1.9.7
          */
         public function register_admin_assets() {
-            
+
+                    global $pagenow;
+                    
                     if ( !function_exists( 'register_block_type' ) ) {
                             // no Gutenberg, Abort
                             return;
@@ -278,14 +285,26 @@ class SASWP_Gutenberg {
                      
                     if($this->blocks){
                     
-                        foreach($this->blocks as $key => $block){
-                        
-                            wp_register_script(
-                               $block['handler'],
-                               $block['path'],
-                               array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )                                 
-                           );
+                        foreach($this->blocks as $key => $block){                        
                             
+                            if ( $pagenow == 'widgets.php' && version_compare( $GLOBALS['wp_version'], '5.8.0', '>=' ) ) {
+
+                                wp_register_script(
+                                    $block['handler'],
+                                    $block['path'],
+                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-edit-widgets' )                                 
+                                );
+
+                            } else {
+
+                                wp_register_script(
+                                    $block['handler'],
+                                    $block['path'],
+                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )                                 
+                                );
+                                
+                            }
+                                                        
                             if($key == 'collection'){
                                 
                                  $review_service = new saswp_reviews_service();

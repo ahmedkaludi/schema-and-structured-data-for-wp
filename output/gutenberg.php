@@ -1191,7 +1191,7 @@ function saswp_gutenberg_course_schema(){
      
     $attributes = saswp_get_gutenberg_block_data('saswp/course-block');
     
-    if(isset($attributes['attrs'])){
+    if(isset($attributes['attrs']) && !empty($attributes['attrs'])){
                 
         $loop_markup  = array();
         $item_list    = array();

@@ -5026,11 +5026,14 @@ Class saswp_output_service{
                 $multiple_size = true;
             }
 
-            if(!$saswp_featured_image){
-                $image_id 	            = get_post_thumbnail_id();
-                $saswp_featured_image   = wp_get_attachment_image_src($image_id, 'full');            
+            $image_id 	            = get_post_thumbnail_id();
+            
+            if(empty($saswp_featured_image[$image_id])){
+                
+                $saswp_featured_image[$image_id]   = wp_get_attachment_image_src($image_id, 'full');            
             }
-	        $image_details = $saswp_featured_image;    
+            
+	        $image_details = $saswp_featured_image[$image_id];    
 
             if( is_array($image_details) && !empty($image_details)){                                
                                                                                     
