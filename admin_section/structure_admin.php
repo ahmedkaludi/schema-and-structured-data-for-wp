@@ -1217,9 +1217,12 @@ function saswp_custom_breadcrumbs() {
                         $post_type_archive = get_permalink();
                     }
                     
-                    $variables1_titles[]= $post_type_object->labels->name;
-                    $variables2_links[] = $post_type_archive;     
-                    $breadcrumb_url      = $post_type_archive;
+                    if(is_object($post_type_object)){
+                      $variables1_titles[]= $post_type_object->labels->name;
+                      $variables2_links[] = $post_type_archive;     
+                      $breadcrumb_url     = $post_type_archive;
+                    }
+                    
             }
              
             if( !isset($sd_data['saswp_breadcrumb_remove_cat']) || (isset($sd_data['saswp_breadcrumb_remove_cat']) && $sd_data['saswp_breadcrumb_remove_cat'] == 0 ) ){

@@ -1591,16 +1591,23 @@ function saswp_schema_output() {
                         
                             case 'NewsArticle':
                                                                                             
-                                $image_details 	= wp_get_attachment_image_src($image_id);
+                                $image_details 	 = wp_get_attachment_image_src($image_id);
 
                                 $category_detail = get_the_category(get_the_ID());//$post->ID
                                 $article_section = '';
 
-                                foreach($category_detail as $cd){
+                                if($category_detail){
 
-                                    $article_section =  $cd->cat_name;
+                                    foreach($category_detail as $cd){
+
+                                        if(is_object($cd)){
+                                            $article_section =  $cd->cat_name;
+                                        }                                        
+    
+                                    }
 
                                 }
+                                
                                     $word_count = saswp_reading_time_and_word_count();
 
                                     $input1 = array(
