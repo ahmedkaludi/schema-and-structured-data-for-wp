@@ -16,6 +16,7 @@ add_action( 'init', 'saswp_register_saswp_reviews_location',20);
 
 add_action( 'manage_saswp_reviews_posts_custom_column' , 'saswp_reviews_custom_columns_set', 10, 2 );
 add_filter( 'manage_saswp_reviews_posts_columns', 'saswp_reviews_custom_columns' );
+add_filter( 'default_hidden_columns', 'saswp_hide_review_text_columns', 10, 2 );
 add_filter( 'manage_edit-saswp_reviews_sortable_columns', 'saswp_reviews_set_sortable_columns',10,2 );
 add_action( 'pre_get_posts', 'saswp_sort_reviews_date_column_query' );
 
@@ -173,6 +174,33 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     }
                                                                                                                                                                                 
                     break;
+
+                case 'saswp_review_text' :
+                
+                    $string = get_post_meta( $post_id, $key='saswp_review_text', true);
+                    
+                    if(!empty($string)){
+
+                        $url    = admin_url( 'post.php?post='.$post_id.'&action=edit' );
+                        $string = wp_strip_all_tags($string);
+
+                        if (strlen($string) > 150) {
+
+                            $stringCut = substr($string, 0, 150);
+                            $endPoint  = strrpos($stringCut, ' ');
+                            $string    = $endPoint? substr($stringCut, 0, $endPoint):substr($stringCut, 0);
+
+                            $string    =  esc_html($string);
+                            $string   .= '... <a style="cursor: pointer;" href="'.esc_url($url).'" >'.saswp_t_string('Read More').'</a>';
+                            echo $string;    
+                            
+                        }else{
+                            echo esc_html($string);
+                        }
+                        
+                    }
+                                                                                                                                                                                                    
+                    break;
                 case 'saswp_review_date' :
                     
                     $name = get_post_meta( $post_id, $key='saswp_review_date', true);
@@ -228,7 +256,8 @@ function saswp_reviews_custom_columns($columns) {
     
     $columns['cb']                         = '<input type="checkbox" />';
     $columns['saswp_reviewer_image']       = saswp_t_string( 'Image' );
-    $columns['title']                      = saswp_t_string( 'Title' );    
+    $columns['title']                      = saswp_t_string( 'Title' ); 
+    $columns['saswp_review_text']          = saswp_t_string( 'Text' );    
     $columns['saswp_review_rating']        = saswp_t_string( 'Rating' );    
     $columns['saswp_review_platform']      = saswp_t_string( 'Platform' );    
     $columns['saswp_review_date']          = saswp_t_string( 'Review Date' ); 
@@ -236,6 +265,13 @@ function saswp_reviews_custom_columns($columns) {
     $columns['saswp_review_shortcode']     = saswp_t_string( 'Shortcode' );    
     
     return $columns;
+}
+function saswp_hide_review_text_columns( $hidden, $screen ) {
+    
+    if( isset( $screen->id ) && 'edit-saswp_reviews' === $screen->id ){      
+        $hidden[] = 'saswp_review_text';     
+    }   
+    return $hidden;
 }
 
 function saswp_get_rating_html_by_value($rating_val){
