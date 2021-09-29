@@ -221,21 +221,22 @@ function saswp_admin_interface_render(){
                 $ext_settings_url = 'ext_url';
                 $settings_url = esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'));
                 if ( $days == 'Lifetime' ) {
-                    $expire_msg = " Valid for Lifetime ";
+                    $expire_msg = " ".saswp_t_string('Valid for Lifetime')." ";
                     // $expire_msg = " Active ";
-                    $expire_msg_before = '<span class="before_msg_active">Your License is</span>';
+                    $expire_msg_before = '<span class="before_msg_active">'.saswp_t_string('Your License is').'</span>';
                     $span_class = "saswp_addon_icon dashicons dashicons-yes pro_icon";
                     $color = 'color:green';
                 }
                 elseif( $days >= 0 && $days <= 7 ){
                     $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
-                    $expire_msg_before = '<span class="before_msg">Your License is</span> <span class="saswp-addon-alert">expiring in '.$days.' days</span><a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'accelerated-mobile-pages').'</span></a>';
+                    $expire_msg_before = '<span class="before_msg">'.saswp_t_string('Your License is').'</span> <span class="saswp-addon-alert">'.saswp_t_string('expiring in').' '.$days.' '.saswp_t_string('days').'</span><a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
                     // $span_class = "saswp_addon_icon dashicons dashicons-alert pro_icon";
                     $color = 'color:green';
+                    $alert_icon = '<span class="saswp_addon_icon dashicons dashicons-warning pro_warning"></span>';
                 }
                 elseif( $days>=0 && $days<=30 ){
                     $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
-                    $expire_msg_before = '<span class="before_msg">Your License is</span> <span class="saswp-addon-alert">expiring in '.$days.' days</span><a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'accelerated-mobile-pages').'</span></a>';
+                    $expire_msg_before = '<span class="before_msg">'.saswp_t_string('Your License is').'</span> <span class="saswp-addon-alert">'.saswp_t_string('expiring in').' '.$days.' '.saswp_t_string('days').'</span><a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
                     // $span_class = "saswp_addon_icon dashicons dashicons-alert pro_icon";
                     $color = 'color:green';
                     $alert_icon = '<span class="saswp_addon_icon dashicons dashicons-warning pro_warning"></span>';
@@ -244,9 +245,9 @@ function saswp_admin_interface_render(){
                     $ext_settings_url = 'ext_settings_url';
                     $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
                     if ($one_of_plugin_expired == 1) {
-                    $expire_msg_before = '<span class="saswp_addon_inactive">One of your <span class="<than_0" style="color:red;">license key is</span></span>';
+                    $expire_msg_before = '<span class="saswp_addon_inactive">'.saswp_t_string('One of your').' <span class="<than_0" style="color:red;">'.saswp_t_string('license key is').'</span></span>';
                     }else{
-                        $expire_msg_before = '<span class="saswp_addon_inactive">Your <span class="<than_0" style="color:red;">License has been</span></span>';
+                        $expire_msg_before = '<span class="saswp_addon_inactive">'.saswp_t_string('Your').' <span class="<than_0" style="color:red;">'.saswp_t_string('License has been').'</span></span>';
                     }
                     $expire_msg = " Expired ";
                     $exp_class = 'expired';
@@ -336,19 +337,19 @@ function saswp_admin_interface_render(){
         
     }
 
-    $renew_mesg = '<a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'accelerated-mobile-pages').'</span></a>';
+    $renew_mesg = '<a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
     $color = 'color:red';
 }
                     else{
                         if ($one_of_plugin_expired == 1) {
-                        $expire_msg_before = '<span class="before_msg_active">One of your <span class=">than_30" style="color:red;">license key is</span></span>';    
+                        $expire_msg_before = '<span class="before_msg_active">'.saswp_t_string('One of your').' <span class=">than_30" style="color:red;">'.saswp_t_string('license key is').'</span></span>';    
                         }else{
-                        $expire_msg_before = '<span class="before_msg_active">Your License is</span>';                        
+                        $expire_msg_before = '<span class="before_msg_active">'.saswp_t_string('Your License is').'</span>';                        
                         }
                         if ($one_of_plugin_expired == 1) {
                             $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
-                        $expire_msg = " <span class='one_of_expired'>Expired</span> ";
-                        $renew_mesg = '<a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'accelerated-mobile-pages').'</span></a>';
+                        $expire_msg = " <span class='one_of_expired'>".saswp_t_string('Expired')."</span> ";
+                        $renew_mesg = '<a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
                         }
                         else{
                             $expire_msg = " Active ";
@@ -367,7 +368,7 @@ function saswp_admin_interface_render(){
                 }
                 $saswp_addon_license_info = "<div class='sasfwp-main'>
                 <span class='sasfwp-info'>
-                ".$alert_icon."<span class='activated-plugins'>Hi <span class='sasfwp_key_user_name'>".esc_html($license_user_name)."</span>".','."
+                ".$alert_icon."<span class='activated-plugins'>".saswp_t_string('Hi')." <span class='sasfwp_key_user_name'>".esc_html($license_user_name)."</span>".','."
                 <span id='activated-plugins-days_remaining' days_remaining=".$days."> ".$expire_msg_before." <span expired-days-data=".$days." class='expiredinner_span' id=".$exp_id.">".$expire_msg."</span></span>
                 <span class='".$span_class."'></span>".$renew_mesg.$refresh_addon.$refresh_addon_user ;
                 $trans_check = get_transient( 'saswp_addons_set_transient' );
@@ -727,20 +728,7 @@ function saswp_handle_file_upload($option){
   
 }
 
-
-function saswp_premium_features_callback(){ ?>
-
-	<div class="saswp-pre-ftrs-wrap">
-
-		<ul class="saswp-features-blocks">
-                                        
-                            <?php
-                            
-                            $cooked_active_text = '';
-
-
-
-     function is_check_plugin($ext_ind,$index){
+function is_check_plugin($ext_ind,$index){
         
             if(function_exists($ext_ind)){
             global $sd_data;
@@ -786,6 +774,16 @@ function saswp_premium_features_callback(){ ?>
 
           return false;
      }
+
+function saswp_premium_features_callback(){ ?>
+
+	<div class="saswp-pre-ftrs-wrap">
+
+		<ul class="saswp-features-blocks">
+                                        
+                            <?php
+                            
+                            $cooked_active_text = '';
 
     // print_r($add_on);die;
     // $status = is_check_plugin('OCIAIFS');
@@ -835,7 +833,7 @@ foreach($main_ext_array as $key => $value){
        $css = '';
        // $css = 'style="border: unset;"';
     }else{
-       $addon_status = '<label class="saswp-sts-txt inactive">Status :<span>Inactive</span></label><a target="_blank" href="'.$addon_href.'"><span class="saswp-d-btn">Download</span></a>';
+       $addon_status = '<label class="saswp-sts-txt inactive">'. saswp_t_string('Status') .' :<span>'.saswp_t_string('Inactive').'</span></label><a target="_blank" href="'.$addon_href.'"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
     }    
 
     echo "<li>
@@ -844,8 +842,8 @@ foreach($main_ext_array as $key => $value){
     <img src=".$addon_image.">
     </div>
     <div class='saswp-ele-tlt'>
-    <h3>".$addon_name."</h3>
-    <p>".$addon_desc."</p>
+    <h3>".saswp_t_string($addon_name)."</h3>
+    <p>".saswp_t_string($addon_desc)."</p>
     </div>    
     <div class='saswp-sts-btn' ".$css.">".$addon_status."
     </div>
@@ -2123,22 +2121,22 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                  if ( !defined('SASWPPRO_PLUGIN_DIR')){
 
                     if ($license_expires<0) {
-                        $license_Status_ = 'Expired';
+                        $license_Status_ = ''.saswp_t_string('Expired').'';
                         $license_Status_id = ' id="lic_exp"';
                     }
                     else{
-                        $license_Status_ = 'Active';
+                        $license_Status_ = ''.saswp_t_string('Active').'';
                         $license_Status_id = 'id="lic_active"';
                     }
                 }
                 else{
-                            $license_Status_ = 'Active';
+                            $license_Status_ = ''.saswp_t_string('Active').'';
                             $license_Status_id = 'id="lic_active"';
                         }
-                $response.= '<div class="saswp-sts-active-main '.strtolower($on).'_addon "><label class="saswp-sts-txt '.$license_status.'">Status :<span class="addon-activated" '.$license_Status_id.'>'.$license_Status_.'</span>
-                <input type="text" class="license_key_input_active '.strtolower($on).'_addon_license_key" value="'.$show_key.'" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key">
+                $response.= '<div class="saswp-sts-active-main '.strtolower($on).'_addon "><label class="saswp-sts-txt '.$license_status.'">'.saswp_t_string('Status').' :<span class="addon-activated" '.$license_Status_id.'>'.$license_Status_.'</span>
+                <input type="text" class="license_key_input_active '.strtolower($on).'_addon_license_key" value="'.esc_attr(''.$show_key.'').'" placeholder="'.saswp_t_string('Enter License Key').'" id="'.strtolower($on).'_addon_license_key">
                 <a license-status="inactive" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation deactive_state '.strtolower($on).''.strtolower($on).'" id="saswp_license_deactivation">'.saswp_t_string('Deactivate').'</a>
-                <input type="hidden" class="license_key_input_active '.strtolower($on).'_addon_license_key" placeholder="Enter License Key"  name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($original_license).'">
+                <input type="hidden" class="license_key_input_active '.strtolower($on).'_addon_license_key" placeholder="'.saswp_t_string('Enter License Key').'"  name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($original_license).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_user_name" name="sd_data['.strtolower($on).'_addon_license_key_user_name]" value="'.esc_attr($license_user_name).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_download_id" name="sd_data['.strtolower($on).'_addon_license_key_download_id]" value="'.esc_attr($license_download_id).'">
@@ -2150,7 +2148,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
             elseif ( $license_status_msg !='active' && $on ==  'Reviews') {
 
                 $response.= '<span class="saswp-sts-deactive-reviews '.strtolower($on).'_addon">
-                <label class="saswp-sts-txt">Status :<span class="reviews_inactive">Inactive
+                <label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span class="reviews_inactive">'.saswp_t_string('Inactive').'
                 </span>
                 <input type="text" class="reviewslicense_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
                  <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation Reviews '.$on.'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>'.$limits_html.'
@@ -2159,12 +2157,12 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                     }
             elseif ( $license_status_msg =='active' && $on ==  'Reviews') {
 
-                $response.= '<div class="saswp-active-input"><input type="text" class="license_key_input_active_Reviews '.strtolower($on).'_addon_license_key" value="'.$show_key.'" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key"></div>';
+                $response.= '<div class="saswp-active-input"><input type="text" class="license_key_input_active_Reviews '.strtolower($on).'_addon_license_key" value="'.esc_attr(''.$show_key.'').'" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key"></div>';
                 $response.= '<div class="saswp-active-sub"><input type="hidden" class="license_key_input_active_Reviews '.strtolower($on).'_addon_license_key" placeholder="Enter License Key"  name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($original_license).'"></div>';
                     }
             else{
                 $original_license = $license_key;
-                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">Status :<span id="inactive_status">Inactive</span>
+                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span id="inactive_status">'.saswp_t_string('Inactive').'</span>
                 <input type="text" class="license_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
                 <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation '.strtolower($on).'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">
