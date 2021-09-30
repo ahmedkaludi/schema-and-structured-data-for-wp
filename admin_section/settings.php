@@ -1395,7 +1395,7 @@ function saswp_general_page_callback(){
         
         if(is_plugin_active('woocommerce/woocommerce.php')){
                               
-            $meta_fields_default[] = array(
+                $meta_fields_default[] = array(
 			'label'  => 'Product Default Review',
 			'id'     => 'saswp-default-review-checkbox', 
                         'name'   => 'saswp-default-review-checkbox',
@@ -1407,6 +1407,31 @@ function saswp_general_page_callback(){
                              'name' => 'sd_data[saswp_default_review]',                             
                         )
 		);
+
+                $meta_fields_default[] = array(
+                        'label'  => 'Force to show single price for variable product',
+                        'id'     => 'saswp-single-price-product-checkbox', 
+                        'name'   => 'saswp-single-price-product-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => 'This option forces variable product\'s price range to show only selected price in schema markup', 
+                        'hidden' => array(
+                                'id'   => 'saswp-single-price-product',
+                                'name' => 'sd_data[saswp-single-price-product]',                             
+                        )
+                );
+                
+                $meta_fields_default[] = array(
+                        'label'  => 'Select Price Type',
+                        'id'     => 'saswp-single-price-type', 
+                        'name'   => 'sd_data[saswp-single-price-type]',
+                        'type'   => 'select',
+                        'class'  => 'saswp_org_fields saswp-single-price-opt',                        
+                        'options' => array(
+                                'high' => 'High',
+                                'low'  => 'Low'
+                        )
+                );
                                       
         }
         

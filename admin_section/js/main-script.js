@@ -1141,6 +1141,17 @@ jQuery(document).ready(function($){
                               $("#saswp_default_review").val(0);                                         
                             }
                       break;
+
+                      case 'saswp-single-price-product-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-single-price-product").val(1); 
+                              $(".saswp-single-price-opt").parent().parent().show();                             
+                            }else{
+                              $("#saswp-single-price-product").val(0); 
+                              $(".saswp-single-price-opt").parent().parent().hide();                                        
+                            }
+                      break;
                       
                       case 'saswp-extra-checkbox':
                           saswp_compatibliy_notes(current, id); 

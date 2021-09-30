@@ -4919,16 +4919,38 @@ Class saswp_output_service{
 
 							
                             }else{
-
+                                
                             if(isset($product_details['product_varible_price']) && $product_details['product_varible_price']){
 
-                            $input1['offers']['@type']         = 'AggregateOffer';
-                            $input1['offers']['lowPrice']      = min($product_details['product_varible_price']);
-                            $input1['offers']['highPrice']     = max($product_details['product_varible_price']);
-                            $input1['offers']['priceCurrency'] = saswp_remove_warnings($product_details, 'product_currency', 'saswp_string');
-                            $input1['offers']['availability']  = saswp_remove_warnings($product_details, 'product_availability', 'saswp_string');
-                            $input1['offers']['offerCount']    = count($product_details['product_varible_price']);
+                                if( isset($sd_data['saswp-single-price-product']) && $sd_data['saswp-single-price-product'] == 1 ){
 
+                                        $price = max($product_details['product_varible_price']);
+
+                                    if(!empty($sd_data['saswp-single-price-type']) && $sd_data['saswp-single-price-type'] == 'low'){
+                                        $price = min($product_details['product_varible_price']);
+                                    }
+
+                                    $input1['offers'] = array(
+                                        '@type'	        => 'Offer',
+                                        'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
+                                        'price'             => $price,
+                                        'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                        'url'               => trailingslashit(saswp_get_permalink()),
+                                        'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')
+                                     );
+
+                                }else{
+                                
+                                    $input1['offers']['@type']         = 'AggregateOffer';
+                                    $input1['offers']['lowPrice']      = min($product_details['product_varible_price']);
+                                    $input1['offers']['highPrice']     = max($product_details['product_varible_price']);
+                                    $input1['offers']['priceCurrency'] = saswp_remove_warnings($product_details, 'product_currency', 'saswp_string');
+                                    $input1['offers']['availability']  = saswp_remove_warnings($product_details, 'product_availability', 'saswp_string');
+                                    $input1['offers']['offerCount']    = count($product_details['product_varible_price']);
+
+                                }
+
+                            
                             }
 
                            }                              
