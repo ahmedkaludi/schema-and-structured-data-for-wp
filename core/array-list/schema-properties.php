@@ -5629,19 +5629,76 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     
                     $meta_field = array(
                     array(
-                                'label'   => 'ID',
-                                'id'      => 'saswp_person_schema_id_'.$schema_id,
-                                'type'    => 'text'                                
-                    ),        
+                           'label'   => 'ID',
+                           'id'      => 'saswp_person_schema_id_'.$schema_id,
+                           'type'    => 'text'                                
+                    ),   
+                    array(
+                        'label'      => 'Honorific Prefix',
+                        'id'         => 'saswp_person_schema_honorific_prefix_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Honorific Suffix',
+                        'id'         => 'saswp_person_schema_honorific_suffix_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),     
                     array(
                             'label'      => 'Name',
                             'id'         => 'saswp_person_schema_name_'.$schema_id,
                             'type'       => 'text',                           
                     ),
                     array(
+                            'label'      => 'Alternate Name',
+                            'id'         => 'saswp_person_schema_alternate_name_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
+                           'label'      => 'Additional Name',
+                           'id'         => 'saswp_person_schema_additional_name_'.$schema_id,
+                           'type'       => 'text',                           
+                    ),
+                    array(
+                        'label'      => 'Given Name',
+                        'id'         => 'saswp_person_schema_given_name_'.$schema_id,
+                        'type'       => 'text',                           
+                    ),
+                    array(
                             'label'      => 'Family Name',
                             'id'         => 'saswp_person_schema_family_name_'.$schema_id,
                             'type'       => 'text',                           
+                    ),
+                    array(
+                        'label'      => 'Spouse',
+                        'id'         => 'saswp_person_schema_spouse_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Parent',
+                        'id'         => 'saswp_person_schema_parent_'.$schema_id,
+                        'type'       => 'textarea',
+                        'attributes' => array(
+                                'placeholder' => 'Johannes Xoo, Amanda Xoo'
+                         ),
+                        'note' => 'Note: Separate it by comma ( , )' ,                            
+                    ),
+                    array(
+                        'label'      => 'Sibling',
+                        'id'         => 'saswp_person_schema_sibling_'.$schema_id,
+                        'type'       => 'textarea',
+                        'attributes' => array(
+                                'placeholder' => 'Dima Xoo, Amanda Xoo'
+                         ),
+                        'note' => 'Note: Separate it by comma ( , )' ,                            
+                    ),
+                    array(
+                        'label'      => 'Colleague',
+                        'id'         => 'saswp_person_schema_colleague_'.$schema_id,
+                        'type'       => 'textarea',
+                        'attributes' => array(
+                                'placeholder' => 'Bill Gates, Jeff Bezos'
+                         ),
+                        'note' => 'Note: Separate it by comma ( , )' ,                            
                     ),
                     array(
                             'label'      => 'Description',
@@ -5653,6 +5710,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'         => 'saswp_person_schema_url_'.$schema_id,
                             'type'       => 'text',
                             'default'    => get_permalink()
+                    ),
+                    array(
+                        'label'      => 'Main Entity Of Page',
+                        'id'         => 'saswp_person_schema_main_entity_of_page_'.$schema_id,
+                        'type'       => 'text',
+                        'default'    => get_permalink()
                     ),    
                     array(
                             'label'      => 'Street Address',
@@ -5745,12 +5808,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Nationality',
                             'id'         => 'saswp_person_schema_nationality_'.$schema_id,
                             'type'       => 'text',                            
-                    ),
-                    array(
-                            'label'      => 'Spouse',
-                            'id'         => 'saswp_person_schema_spouse_'.$schema_id,
-                            'type'       => 'text',                            
-                    ),
+                    ),                    
                     array(
                             'label'      => 'Image',
                             'id'         => 'saswp_person_schema_image_'.$schema_id,
@@ -5802,6 +5860,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'       => 'text',                            
                     ),
                     array(
+                        'label'      => 'Sponsor',
+                        'id'         => 'saswp_person_schema_sponsor_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
                         'label'      => 'Affiliation',
                         'id'         => 'saswp_person_schema_affiliation_'.$schema_id,
                         'type'       => 'text',                            
@@ -5814,6 +5877,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                         'label'      => 'Award',
                         'id'         => 'saswp_person_schema_award_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Seeks',
+                        'id'         => 'saswp_person_schema_seeks_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Knows',
+                        'id'         => 'saswp_person_schema_knows_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Owns',
+                        'id'         => 'saswp_person_schema_owns_'.$schema_id,
                         'type'       => 'text',                            
                     ),
                     array(
@@ -5887,15 +5965,97 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'       => 'text',                            
                     ),
                     array(
-                        'label'      => 'Honorific Prefix',
-                        'id'         => 'saswp_person_schema_honorific_prefix_'.$schema_id,
+                        'label'      => 'performerIn Name',
+                        'id'         => 'saswp_person_schema_performerin_name_'.$schema_id,
                         'type'       => 'text',                            
                     ),
                     array(
-                        'label'      => 'Honorific Suffix',
-                        'id'         => 'saswp_person_schema_honorific_suffix_'.$schema_id,
+                        'label'      => 'performerIn Location Name',
+                        'id'         => 'saswp_person_schema_performerin_location_name_'.$schema_id,
                         'type'       => 'text',                            
-                    ),                                                                        
+                    ),
+                    array(
+                        'label'      => 'performerIn Location Locality',
+                        'id'         => 'saswp_person_schema_performerin_location_locality_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'performerIn Location Postal Code',
+                        'id'         => 'saswp_person_schema_performerin_location_postal_code_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'performerIn Location Street Address',
+                        'id'         => 'saswp_person_schema_performerin_location_street_address_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+
+                    array(
+                        'label'      => 'performerIn Offers Name',
+                        'id'         => 'saswp_person_schema_performerin_offers_name_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'performerIn Offers Availability',
+                        'id'         => 'saswp_person_schema_performerin_offers_availability_'.$schema_id,
+                        'type'       => 'select',
+                        'options' => array(
+                                'InStock'           => 'In Stock',
+                                'OutOfStock'        => 'Out Of Stock',
+                                'Discontinued'      => 'Discontinued',
+                                'PreOrder'          => 'Pre Order', 
+                       )                             
+                    ),
+                    array(
+                        'label'      => 'performerIn Offers Price',
+                        'id'         => 'saswp_person_schema_performerin_offers_price_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'performerIn Offers Currency',
+                        'id'         => 'saswp_person_schema_performerin_offers_currency_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'performerIn Offers Valid From',
+                        'id'         => 'saswp_person_schema_performerin_offers_valid_from_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'performerIn Offers URL',
+                        'id'         => 'saswp_person_schema_performerin_offers_url_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+
+                    array(
+                        'label'      => 'performerIn Start Date',
+                        'id'         => 'saswp_person_schema_performerin_start_date_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'performerIn End Date',
+                        'id'         => 'saswp_person_schema_performerin_end_date_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'performerIn Description',
+                        'id'         => 'saswp_person_schema_performerin_description_'.$schema_id,
+                        'type'       => 'textarea',                            
+                    ),
+                    array(
+                        'label'      => 'performerIn Image',
+                        'id'         => 'saswp_person_schema_performerin_image_'.$schema_id,
+                        'type'       => 'media',                            
+                    ),
+                    array(
+                        'label'      => 'performerIn Performer',
+                        'id'         => 'saswp_person_schema_performerin_performer_'.$schema_id,
+                        'type'       => 'textarea',
+                        'attributes' => array(
+                                'placeholder' => 'Bill Gates, Jeff Bezos'
+                         ),
+                        'note' => 'Note: Separate it by comma ( , )' ,                             
+                    )                    
                    );
                     break;
 
