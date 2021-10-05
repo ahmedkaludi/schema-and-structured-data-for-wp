@@ -4303,9 +4303,14 @@ Class saswp_output_service{
              $product_details['product_priceValidUntil'] = $date_on_sale->date('Y-m-d G:i:s');    
              
              }else{
-                 
-             $product_details['product_priceValidUntil'] = get_the_modified_date("c"); 
-             
+            
+                $mdate = get_the_modified_date("c");
+                
+                if($mdate){
+                    $mdate = strtotime($mdate);                    
+                    $product_details['product_priceValidUntil'] = date("c", strtotime("+1 years", $mdate)); 
+                }    
+                                                          
              }       
              
              $product_details['product_currency'] = get_option( 'woocommerce_currency' );             
