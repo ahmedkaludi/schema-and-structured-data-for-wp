@@ -3647,6 +3647,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-soledad]',                             
                         )
                 );
+        $enfold = array(
+                'label'  => 'Enfold Theme',
+                'id'     => 'saswp-enfold-checkbox',                        
+                'name'   => 'saswp-enfold-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('enfold'),
+                'hidden' => array(
+                        'id'   => 'saswp-enfold',
+                        'name' => 'sd_data[saswp-enfold]',                             
+                )
+        );
         $reviews_wp_theme = array(
                 'label'  => 'Reviews WP Theme',
                 'id'     => 'saswp-wp-theme-reviews-checkbox',                        
@@ -3891,6 +3903,7 @@ function saswp_compatibility_page_callback(){
                 $wpfaqschemamarkup['note']    = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $faqschemaforpost['note']     = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $webfaq10['note']             = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $enfold['note']               = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
 
          }
          if(!is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
@@ -3980,6 +3993,7 @@ function saswp_compatibility_page_callback(){
                 $woocommerce_mem,
                 $cooked, 
                 $soledad,
+                $enfold,
                 $reviews_wp_theme,
                 $taqyeem,
                 $wp_product_review,

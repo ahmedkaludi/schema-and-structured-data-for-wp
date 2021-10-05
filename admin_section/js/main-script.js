@@ -1161,7 +1161,16 @@ jQuery(document).ready(function($){
                               $("#saswp-extra").val(0);           
                             }
                       break;
-                      
+
+                      case 'saswp-enfold-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-enfold").val(1);             
+                            }else{
+                              $("#saswp-enfold").val(0);           
+                            }
+                      break;
+
                       case 'saswp-soledad-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
