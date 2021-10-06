@@ -1870,9 +1870,11 @@ function saswp_license_status($add_on, $license_status, $license_key){
               // Get Download_ID 
               $download_id = $license_data->payment_id;
                } 
-
+               $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
                $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname; 
-               $license[strtolower($add_on).'_addon_license_key_expires'] = $days; $license[strtolower($add_on).'_addon_license_key_download_id'] = $download_id; 
+               $license[strtolower($add_on).'_addon_license_key_expires'] = $days; 
+               $license[strtolower($add_on).'_addon_license_key_expires_normal'] = $license_exp_norml;
+               $license[strtolower($add_on).'_addon_license_key_download_id'] = $download_id; 
                $current_status = 'active'; 
                $message = 'Activated'; 
                $days_remaining = $days; 
@@ -1968,6 +1970,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
 
                           // Get Expiring Date
                           $license_exp = date('Y-m-d', strtotime($license_data->expires));
+                          $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
                           $license_info_lifetime = $license_data->expires;
                           $today = date('Y-m-d');
                           $exp_date =$license_exp;
@@ -1991,6 +1994,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                         $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname;
 
                         $license[strtolower($add_on).'_addon_license_key_expires'] = $days;
+
+                        $license[strtolower($add_on).'_addon_license_key_expires_normal'] = $license_exp_norml;
                         
                         $license[strtolower($add_on).'_addon_license_key_download_id'] = $download_id;
 
@@ -2018,7 +2023,14 @@ function saswp_license_status($add_on, $license_status, $license_key){
                             $fname =  ucwords($fname);
                           }
                         }
+
+                        $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
                         $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname;
+
+                        $license[strtolower($add_on).'_addon_license_key_expires'] = $days;
+
+                        $license[strtolower($add_on).'_addon_license_key_expires_normal'] = $license_exp_norml;
+
                         $current_status = 'deactivated';
                         $message = 'Deactivated';                        
                         $days_remaining = $days;
@@ -2050,11 +2062,11 @@ function saswp_license_status_check(){
         $add_on           = sanitize_text_field($_POST['add_on']);
         $license_status   = sanitize_text_field($_POST['license_status']);
         $license_key      = sanitize_text_field($_POST['license_key']);
-        $match_asterick_pattern = "**********************";
-        if (strpos($license_key, $match_asterick_pattern)===0) {
-          $data = get_option('sd_data');
-          $license_key = $data[$add_on.'_addon_license_key'];
-        }
+        // $match_asterick_pattern = "**********************";
+        // if (strpos($license_key, $match_asterick_pattern)===0) {
+        //   $data = get_option('sd_data');
+        //   $license_key = $data[$add_on.'_addon_license_key'];
+        // }
 
         if($add_on && $license_status && $license_key){
             

@@ -808,11 +808,15 @@ jQuery(document).ready(function(s) {
                     saswp_security_nonce: saswp_localize_data.saswp_security_nonce
                 },
                 success: function(a) {
-                    if ("active" == a.status && location.reload(), "deactivated" == a.status && location.reload()) {
-                        var t = "enter_key_" + i;
-                        document.getElementById(t).innerHTML = "Plugin activated successfully"
-                    }
-                    s("#" + i + "_addon_license_key_status").val(a.status), "active" == a.status ? (s(".saswp-" + i + "-dashicons").addClass("dashicons-yes"), s(".saswp-" + i + "-dashicons").removeClass("dashicons-no-alt"), s(".saswp-" + i + "-dashicons").css("color", "green"), s(".saswp_license_activation[add-on='" + i + "']").attr("license-status", "inactive"), s(".saswp_license_activation[add-on='" + i + "']").text("Deactivate"), s(".saswp_license_status_msg[add-on='" + i + "']").text("Activated"), s(".saswp_license_status_msg[add-on='" + i + "']").css("color", "green"), s(".saswp_license_status_msg[add-on='" + i + "']").text(a.message)) : (s(".saswp-" + i + "-dashicons").addClass("dashicons-no-alt"), s(".saswp-" + i + "-dashicons").removeClass("dashicons-yes"), s(".saswp-" + i + "-dashicons").css("color", "red"), s(".saswp_license_activation[add-on='" + i + "']").attr("license-status", "active"), s(".saswp_license_activation[add-on='" + i + "']").text("Activate"), s(".saswp_license_status_msg[add-on='" + i + "']").css("color", "red"), s(".saswp_license_status_msg[add-on='" + i + "']").text(a.message)), e.removeClass("updating-message")
+                    
+                    s("#" + i + "_addon_license_key_status").val(a.status), "active" == a.status ? (s(".saswp-" + i + "-dashicons").addClass("dashicons-yes"), s(".saswp-" + i + "-dashicons").removeClass("dashicons-no-alt"), s(".saswp-" + i + "-dashicons").css("color", "green"), s(".saswp_license_activation[add-on='" + i + "']").attr("license-status", "inactive"), jQuery("span.inactive_status_" + i + "").text('Active'),
+                               jQuery("span.inactive_status_" + i + "").css("color", "green"),
+                               jQuery("span.inactive_status_" + i + "").removeClass("inactive_status_" + i + "").addClass("addon-activated_" + i + ""), s(".saswp_license_activation[add-on='" + i + "']").text("Deactivate"), s(".saswp_license_status_msg[add-on='" + i + "']").text("Activated"), s(".saswp_license_status_msg[add-on='" + i + "']").css("color", "green"), s(".saswp_license_status_msg[add-on='" + i + "']").text(a.message)) : (s(".saswp-" + i + "-dashicons").addClass("dashicons-no-alt"), s(".saswp-" + i + "-dashicons").removeClass("dashicons-yes"), s(".saswp-" + i + "-dashicons").css("color", "red"), s(".saswp_license_activation[add-on='" + i + "']").attr("license-status", "active"),s(".saswp_license_activation[add-on='" + i + "']").text("Activate"),
+                                    jQuery("span.addon-activated_" + i + "").text('Inactive'),
+                               jQuery("span.addon-activated_" + i + "").css("color", "#bebfc0"),
+                               jQuery("span.addon-activated_" + i + "").removeClass("addon-activated_" + i + "").addClass("inactive_status_" + i + ""),
+                                    s(".saswp_license_status_msg[add-on='" + i + "']").css("color", "red"),
+                                    s(".saswp_license_status_msg[add-on='" + i + "']").text(a.message)), e.removeClass("updating-message")
                 },
                 error: function(s) {
                     console.log(s)
@@ -866,7 +870,66 @@ jQuery(document).ready(function(s) {
                     JSON.parse(s)
                 }
             }))
-        }), i = document.getElementById("activated-plugins-days_remaining")) c = i.getAttribute("days_remaining");
+        }),
+
+        jQuery(document).on("click",".user_refresh_single_addon", function(e){
+
+                var currentThis = jQuery(this);
+                e.preventDefault();
+                var license_status = 'active';
+                var add_on         = currentThis.attr('add-on');
+                var remaining_days_org         = currentThis.attr('remaining_days_org');
+                var license_key    = jQuery("#"+add_on+"_addon_license_key").val();
+                document.getElementById("user_refresh_" + add_on + "").classList.add("spin")
+                    
+                    var today = new Date();
+                    function saswpreadCookie(name) {
+                        var nameEQ = name + "=";
+                        var ca = document.cookie.split(";");
+                        for(var i=0;i < ca.length;i++) {
+                            var c = ca[i];
+                            while (c.charAt(0)==" ") c = c.substring(1,c.length);
+                            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+                        }
+                        return null;
+}
+                    var previous_check = saswpreadCookie('saswp_addon_refresh_check');
+
+                    previous_check = new Date(previous_check);
+                    var diffDays = -1;
+                    if( typeof previous_check != undefined){
+                        var diffTime = Math.abs(today.getTime() - previous_check.getTime());
+                        var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                    }
+                    var expireDate = new Date(remaining_days_org);
+                    var diffTime = Math.abs( expireDate.getTime()-today.getTime() );
+                    var expireDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    if( diffDays==-1 || diffDays>1 || expireDays<1 ){
+                    document.cookie = "saswp_addon_refresh_check="+today;jQuery.ajax({
+                            type: "POST",    
+                            url:ajaxurl,                    
+                            dataType: "json",
+                            data:{action:"saswp_license_status_check",license_key:license_key,license_status:license_status, add_on:add_on, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            success:function(response){
+                                s("#"+add_on+"_addon_license_key_status").val(response['status']);
+                                document.getElementById("user_refresh_"+add_on+"").classList.remove("spin")
+                                currentThis.removeClass('updating-message');
+                            },
+                            error: function(response){                    
+                                console.log(response);
+                            }
+                            })
+                }
+                else{  
+                setTimeout( function() {
+                    jQuery(".dashicons").removeClass( 'spin' );}, 0 );   
+                previous_check = Math.abs(previous_check.getDate()+1)+'/'+Math.abs(previous_check.getMonth()+1) +'/'+previous_check.getFullYear()+' '+previous_check.getHours()+':'+previous_check.getMinutes()+':'+previous_check.getSeconds();
+                alert('Please try after '+ previous_check);
+    }
+
+        }),
+
+         i = document.getElementById("activated-plugins-days_remaining")) c = i.getAttribute("days_remaining");
     if (setTimeout(function() {
             s("#refresh_expired_addon-").trigger("click")
         }, 0), s(document).on("click", "#refresh_expired_addon-", function(a) {

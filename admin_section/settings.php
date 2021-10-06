@@ -224,7 +224,7 @@ function saswp_admin_interface_render(){
                     $expire_msg = " ".saswp_t_string('Valid for Lifetime')." ";
                     // $expire_msg = " Active ";
                     $expire_msg_before = '<span class="before_msg_active">'.saswp_t_string('Your License is').'</span>';
-                    $span_class = "saswp_addon_icon dashicons dashicons-yes pro_icon";
+                    $span_class = "saswp_addon_icon dashicons dashicons-yes pro_icon saswppro_icon";
                     $color = 'color:green';
                 }
                 elseif( $days >= 0 && $days <= 7 ){
@@ -358,7 +358,7 @@ function saswp_admin_interface_render(){
                         $span_class = "saswp_addon_icon dashicons dashicons-no pro_icon";                        
                         }
                         else{
-                            $span_class = "saswp_addon_icon dashicons dashicons-yes pro_icon";
+                            $span_class = "saswp_addon_icon dashicons dashicons-yes pro_icon saswppro_icon";
                         }
                         if ($one_of_plugin_expired == 1) { $color = 'color:red';}
                         else{ $color = 'color:green'; }
@@ -426,6 +426,47 @@ function saswp_admin_interface_render(){
 		<h2 class="nav-tab-wrapper saswp-tabs">
                     
 			<?php	
+            foreach($saswp_add_on as $addon){
+                global $sd_data;
+                $license_key        = '';
+                $license_status     = 'inactive';
+                $license_status_msg = '';
+                $license_user_name = '';
+                $license_expires = '';
+                $license_expnormal = '';
+                
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_expires'])) {
+                $license_expires =   $sd_data[strtolower($addon).'_addon_license_key_expires'];
+                }
+
+                if (isset($sd_data[strtolower($addon).'_addon_license_key_expires_normal'])) {
+                $license_expnormal =   $sd_data[strtolower($addon).'_addon_license_key_expires_normal'];
+                }
+
+    }
+
+        $license_alert = '' ;
+        if($license_expires){
+            if( $license_expires == 'Lifetime' ){
+                $days = 'Lifetime';
+            }
+        }
+
+        if( $license_expires !== 'Lifetime' ){
+        $today = date('Y-m-d');
+               $exp_date = $license_expnormal; 
+               $date1 = date_create($today);
+                $date2 = date_create($exp_date);
+                 $diff = date_diff($date1,$date2);
+                  $days = $diff->format("%a");
+                  if($today > $exp_date ){
+                    $days = -$days;
+                }
+            } 
+            if ( function_exists('saswp_cpc_schema_updater') || function_exists('saswp_enqueue_instant_indexing_js') || function_exists('saswp_wpml_schema_compatibility') || function_exists('polylang_compatibility_for_schema_updater') || function_exists('reviews_for_schema_updater') || function_exists('saswp_jobposting_schema_updater') || function_exists('saswp_faq_schema_updater') || function_exists('qanda_schema_updater') || function_exists('saswp_recipe_schema_updater') || function_exists('event_schema_updater') ||function_exists('course_schema_updater') ||function_exists('woocommerce_compatibility_for_schema_updater') ||function_exists('real_estate_schema_updater') ) {
+
+                $license_alert = isset($days) && $days!==0 && $days<=30 && $days!=='Lifetime' ? "<span class='saswp_pro_icon dashicons dashicons-warning saswp_pro_alert'></span>": "" ;
+            }
 
                         $tab_links = apply_filters( 'saswp_extra_settings_tab_link',        
                                 array(                                 
@@ -435,7 +476,7 @@ function saswp_admin_interface_render(){
                                         '<a href="' . esc_url(saswp_admin_link('compatibility')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Compatibility') . '</a>',
                                         '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Email Schema') . '</a>',
                                         '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Advanced') . '</a>',                                       
-                                        '<a href="'.esc_url( admin_url( 'admin.php?page=structured_data_options&tab=premium_features' ) ).'" data-extmgr="'. ( class_exists('SASWPPROExtensionManager')? "yes": "no" ).'" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Premium Features') . '</a>',
+                                        '<a href="'.esc_url( admin_url( 'admin.php?page=structured_data_options&tab=premium_features' ) ).'" data-extmgr="'. ( class_exists('SASWPPROExtensionManager')? "yes": "no" ).'" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> '.$license_alert.'' . saswp_t_string('Premium Features') . '</a>',
                                         '<a href="' . esc_url(saswp_admin_link('services')) . '" class="nav-tab ' . esc_attr( $tab == 'services' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Services') . '</a>',
                                         '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . saswp_t_string('Support') . '</a>',
                                         //'<a target="_blank" href="http://structured-data-for-wp.com/festive-season/" class="nav-tab saswp-offer-banner">50% OFF for LIMITED time</a>'
@@ -740,6 +781,7 @@ function is_check_plugin($ext_ind,$index){
                 $license_user_name = '';
                 $license_download_id = '';
                 $license_expires     = '';
+                $license_expnormal     = '';
                 
                 if(isset($sd_data[strtolower($index).'_addon_license_key'])){
                   $license_key =   $sd_data[strtolower($index).'_addon_license_key'];
@@ -765,8 +807,12 @@ function is_check_plugin($ext_ind,$index){
                 if (isset($sd_data[strtolower($index).'_addon_license_key_expires'])) {
                 $license_expires =   $sd_data[strtolower($index).'_addon_license_key_expires'];
                 }
+
+                if (isset($sd_data[strtolower($index).'_addon_license_key_expires_normal'])) {
+                $license_expnormal =   $sd_data[strtolower($index).'_addon_license_key_expires_normal'];
+                }
                 
-                $active_data = saswp_get_license_section_html($index, $license_key, $license_status, $license_status_msg, $license_user_name, $license_download_id, $license_expires, true, false);
+                $active_data = saswp_get_license_section_html($index, $license_key, $license_status, $license_status_msg, $license_user_name, $license_download_id,$license_expires, $license_expnormal, true, false);
 
 
              return $active_data;
@@ -806,7 +852,7 @@ $main_ext_array['Jobposting'] = array( 'name' => 'JobPosting Schema Compatibilit
 
 $main_ext_array['faq'] = array( 'name' => 'FAQ Schema Compatibility','desc' => 'FAQ Schema Compatibility extension is the number one solution to enhance your FAQs website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/faq.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/faq-schema-compatibility/' , 'status' => is_check_plugin('saswp_faq_schema_updater','faq'));
 
-$main_ext_array['qanda'] = array( 'name' => 'Q&A Schema Compatibility','desc' => 'Q&A Schema Compatibility extension  extension is the number one solution to enhance your discussion forum website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/question.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/qanda-schema-for-saswp/' , 'status' => is_check_plugin('qanda_schema_updater','qanda'));
+$main_ext_array['qanda'] = array( 'name' => 'Q&A Schema Compatibility','desc' => 'Q&A Schema Compatibility extension is the number one solution to enhance your discussion forum website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/question.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/qanda-schema-for-saswp/' , 'status' => is_check_plugin('qanda_schema_updater','qanda'));
 
 $main_ext_array['Rs'] = array( 'name' => 'Recipe Schema','desc' => 'Recipe Schema extension is the number one solution to enhance your recipe website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/recipe.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/recipe-schema/' , 'status' => is_check_plugin('saswp_recipe_schema_updater','Rs'));
 
@@ -833,7 +879,7 @@ foreach($main_ext_array as $key => $value){
        $css = '';
        // $css = 'style="border: unset;"';
     }else{
-       $addon_status = '<label class="saswp-sts-txt inactive">'. saswp_t_string('Status') .' :<span>'.saswp_t_string('Inactive').'</span></label><a target="_blank" href="'.$addon_href.'"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
+       $addon_status = '<label class="saswp-sts-txt inactive">'. saswp_t_string('Status') .' :<span class="saswp_inactive_key">'.saswp_t_string('Inactive').'</span></label><a target="_blank" href="'.$addon_href.'"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
     }    
 
     echo "<li>
@@ -1973,7 +2019,10 @@ echo '</ul>';
                 if (isset($sd_data[strtolower($on).'_addon_license_key_expires'])) {
                 $license_expires =   $sd_data[strtolower($on).'_addon_license_key_expires'];
                 }
-                
+
+                if (isset($sd_data[strtolower($on).'_addon_license_key_expires_normal'])) {
+                $license_expnormal =   $sd_data[strtolower($on).'_addon_license_key_expires_normal'];
+                }
                 // echo '<li>';
                 // echo saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $license_user_name, $license_download_id, $license_expires, true, false);
                 // echo '</li>';
@@ -1995,8 +2044,7 @@ echo '</ul>';
          
 }
 
-function saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $license_user_name, $license_download_id, $license_expires, $label=null, $limit_status=null){
-            
+function saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $license_user_name, $license_download_id, $license_expires, $license_expnormal, $label=null, $limit_status=null){
             $limits_html = $response = '';
     
             $limits = get_option('reviews_addon_reviews_limits');
@@ -2107,16 +2155,16 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                }
 
                 $original_license = $license_key;
-                $unreadable_license_k = $license_key;                   
-                $strlen = strlen($unreadable_license_k);
-                $show_key = "";
-                for( $i=1; $i<$strlen; $i++) {
-                    if( $i<$strlen-9 ){
-                        $show_key .= "*";
-                    }else{
-                        $show_key .= $unreadable_license_k[$i];
-                    }
-                }
+                // $unreadable_license_k = $license_key;                   
+                // $strlen = strlen($unreadable_license_k);
+                // $show_key = "";
+                // for( $i=1; $i<$strlen; $i++) {
+                //     if( $i<$strlen-9 ){
+                //         $show_key .= "*";
+                //     }else{
+                //         $show_key .= $unreadable_license_k[$i];
+                //     }
+                // }
                 if($license_status == 'active'){
                  if ( !defined('SASWPPRO_PLUGIN_DIR')){
 
@@ -2133,16 +2181,64 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                             $license_Status_ = ''.saswp_t_string('Active').'';
                             $license_Status_id = 'id="lic_active"';
                         }
-                $response.= '<div class="saswp-sts-active-main '.strtolower($on).'_addon "><label class="saswp-sts-txt '.$license_status.'">'.saswp_t_string('Status').' :<span class="addon-activated" '.$license_Status_id.'>'.$license_Status_.'</span>
-                <input type="text" class="license_key_input_active '.strtolower($on).'_addon_license_key" value="'.esc_attr(''.$show_key.'').'" placeholder="'.saswp_t_string('Enter License Key').'" id="'.strtolower($on).'_addon_license_key">
+                        $expire_msg_before = $single_expire_msg = $expire_msg = $license_expires_class = $alert_icon = $when_active = '';
+                        
+                    $original_license = $license_key;
+                    $license_name_ = strtolower($on);
+                    $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_key."&download_id=".$license_download_id."";
+                    $user_refresh_addon = '<a addon-is-expired id="'.strtolower($license_name_).'" remaining_days_org='.$license_expnormal.'  days_remaining="'.$license_expires.'" licensestatusinternal="'.$license_status.'" add-on="'.$license_name_.'" class="user_refresh_single_addon" data-attr="'.$original_license.'" add-onname="sd_data['.strtolower($license_name_).'_addon_license_key]">
+                    <i addon-is-expired class="dashicons dashicons-update-alt" id="user_refresh_'.strtolower($license_name_).'"></i>
+                    Refresh
+                    </a>
+                    <input type="hidden" license-status="inactive"  licensestatusinternal="'.$license_status.'" add-on="'.strtolower($license_name_).'" class="button button-default saswp_license_activation '.$license_status.'mode '.strtolower($license_name_).''.strtolower($license_name_).'" id="saswp_license_deactivation_internal">';
+
+                if ( $license_expires == 'Lifetime' ) {
+                    $expire_msg_before = '<span class="before_msg_active">'.esc_html__('License is', 'saswp').'</span>';
+                    $single_expire_msg = " ".esc_html__('Valid for Lifetime', 'saswp')." ";
+                    $renew_text = 'Renew';
+                    $license_expires_class = "lifetime_";
+                }
+                else if( $license_expires < 0 ){
+                    $expire_msg_before = '<span class="before_msg">'.esc_html__('Your', 'saswp').' <span class="less_than_zero">'.esc_html__('License is', 'saswp').'</span></span>';
+                    $single_expire_msg = " ".esc_html__('Expired', 'saswp')." ";
+                    $renew_text = 'Renew';
+                    $license_expires_class = "expire_msg";
+                 }
+                 else if( $license_expires >=0 && $license_expires <=30 ){
+                    $expire_msg_before = '<span class="before_msg">'.esc_html__('Your', 'saswp').' <span class="zero_to_30">'.esc_html__('License is', 'saswp').'</span></span>';
+                    $license_expires_class = "zero2thirty";
+                    $single_expire_msg = '<span class="saswp-addon-alert">'.esc_html__('expiring in', 'saswp').' '.$license_expires .' '.esc_html__('days', 'saswp').'</span>';
+                    $renew_text = 'Renew';
+                    $alert_icon = '<span class="saswp_addon_icon dashicons dashicons-warning single_addon_warning"></span>';
+                }
+                else{
+                    $expire_msg_before = '<span class="saswp-addon-active">'.esc_html__('', 'saswp').'</span>';
+                    $single_expire_msg = "".esc_html__('', 'saswp')." ".$license_expires ." ".esc_html__("days remaning", "saswp")." ";
+                    $license_expires_class = "lic_is_active";
+                    $renew_text = 'Renew License';
+                }
+
+                
+                if ( !empty($license_expires) ) {
+                    $when_active = '<span class="saswp-license-tenure" days_remaining='.$license_expires.'>'.$alert_icon.' '.$expire_msg_before.'
+                <span expired-days-dataa="'.$license_expires.'" class='.$license_expires_class.'>'.$single_expire_msg.'
+                <a target="blank" class="renewal-license" href="'.$renew_url.'">
+                <span class="renew-lic">'.esc_html__( $renew_text , 'saswp').'</span></a>'.$user_refresh_addon.'
+                </span>
+                </span>';
+                }
+
+                $response.= '<div class="saswp-sts-active-main '.strtolower($on).'_addon "><label class="saswp-sts-txt '.$license_status.'">'.saswp_t_string('Status').' :<span class="addon-activated_'.strtolower($on).'" '.$license_Status_id.'>'.$license_Status_.'</span>
+                <input type="password" class="license_key_input_active '.strtolower($on).'_addon_license_key" value="'.esc_attr(''.$original_license.'').'" placeholder="'.saswp_t_string('Enter License Key').'" id="'.strtolower($on).'_addon_license_key">
                 <a license-status="inactive" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation deactive_state '.strtolower($on).''.strtolower($on).'" id="saswp_license_deactivation">'.saswp_t_string('Deactivate').'</a>
+                <input type="hidden" id="'.strtolower($on).'_addon_license_key_expires_normal" name="sd_data['.strtolower($on).'_addon_license_key_expires_normal]" value="'.esc_attr($license_expnormal).'">
                 <input type="hidden" class="license_key_input_active '.strtolower($on).'_addon_license_key" placeholder="'.saswp_t_string('Enter License Key').'"  name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($original_license).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_user_name" name="sd_data['.strtolower($on).'_addon_license_key_user_name]" value="'.esc_attr($license_user_name).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_download_id" name="sd_data['.strtolower($on).'_addon_license_key_download_id]" value="'.esc_attr($license_download_id).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_expires" name="sd_data['.strtolower($on).'_addon_license_key_expires]" value="'.esc_attr($license_expires).'">
-
-                </label></div>';
+                '.$when_active.'
+                </label></div>';                
                  
             }
             elseif ( $license_status_msg !='active' && $on ==  'Reviews') {
@@ -2157,19 +2253,46 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                     }
             elseif ( $license_status_msg =='active' && $on ==  'Reviews') {
 
-                $response.= '<div class="saswp-active-input"><input type="text" class="license_key_input_active_Reviews '.strtolower($on).'_addon_license_key" value="'.esc_attr(''.$show_key.'').'" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key"></div>';
+                $response.= '<div class="saswp-active-input"><input type="text" class="license_key_input_active_Reviews '.strtolower($on).'_addon_license_key" value="'.esc_attr(''.$original_license.'').'" placeholder="Enter License Key" id="'.strtolower($on).'_addon_license_key"></div>';
                 $response.= '<div class="saswp-active-sub"><input type="hidden" class="license_key_input_active_Reviews '.strtolower($on).'_addon_license_key" placeholder="Enter License Key"  name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($original_license).'"></div>';
                     }
-            else{
+            else{ 
+                    $final_otp = '';
+                if (isset($expire_msg_before) && isset($single_expire_msg) && isset($license_expires_class) && isset($license_expires) ) {
+                    $original_license = $license_key;
+                    $license_name_ = strtolower($on);
+                    $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_key."&download_id=".$license_download_id."";
+                    $user_refresh_addon = '<a addon-is-expired remaining_days_org='.$license_expnormal.' id="'.strtolower($license_name_).'" days_remaining="'.$license_expires.'" licensestatusinternal="'.$license_status.'" add-on="'.$license_name_.'" class="user_refresh_single_addon" data-attr="'.$original_license.'" add-onname="sd_data['.strtolower($license_name_).'_addon_license_key]">
+                    <i addon-is-expired class="dashicons dashicons-update-alt" id="user_refresh_'.strtolower($license_name_).'"></i>
+                    Refresh
+                    </a>
+                    <input type="hidden" license-status="inactive"  licensestatusinternal="'.$license_status.'" add-on="'.strtolower($license_name_).'" class="button button-default saswp_license_activation '.$license_status.'mode '.strtolower($license_name_).''.strtolower($license_name_).'" id="saswp_license_deactivation_internal">';
+
+                    $final_otp = '';
+                if( $license_expires < 0 ){
+                    $expire_msg_before = '<span class="expired_before_msg">'.esc_html__('Your', 'saswp-for-wp').' <span class="less_than_zero">'.esc_html__('License is', 'saswp-for-wp').'</span></span>';
+                    $single_expire_msg = " ".esc_html__('Expired', 'saswp-for-wp')." ";
+                    $license_expires_class = "expire_msg";
+                    $final_otp = '<span class="expired-saswp-license-tenure" days_remaining='.$license_expires.'>'.$alert_icon.' '.$expire_msg_before.'
+                <span expired-days-data="'.$license_expires.'" class='.$license_expires_class.'>'.$single_expire_msg.'
+                <a target="blank" class="renewal-license" href="'.$renew_url.'">
+                <span class="renew-lic">'.esc_html__('Renew', 'saswp-for-wp').'</span></a>'.$user_refresh_addon.'
+                </span>
+                </span>';
+                 }
+             }
+             
+
                 $original_license = $license_key;
-                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span id="inactive_status">'.saswp_t_string('Inactive').'</span>
-                <input type="text" class="license_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
+                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span id="lic_inactive" class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'</span>
+                <input type="password" class="license_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="'.$original_license.'">
                 <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation '.strtolower($on).'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_download_id" name="sd_data['.strtolower($on).'_addon_license_key_download_id]" value="'.esc_attr($license_download_id).'">
 
                 </label>
                 </div>';
+                    $response .=  $final_otp ;
             }
 
                 $response.= '</div>';

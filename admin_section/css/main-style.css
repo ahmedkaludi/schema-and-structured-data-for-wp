@@ -920,17 +920,17 @@ Google review module ends here
 .saswp-ele-tlt p{
     margin-top:10px;
 }
-.saswp-sts-btn{
+.saswp-sts-btn {
     box-sizing: border-box;
-    height: 52px;
     margin-top: 20px;
-    padding: 6px 15px;
+    padding: 6px 12px;
     border: 1px solid #e5e5e5;
     border-radius: 3px;
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: space-between;
 }
+
 .saswp-d-btn{
     background: #d2150a;
     padding: 6px 18px;
@@ -939,7 +939,7 @@ Google review module ends here
     color: #fff;
 }
 .form-wrap .saswp-sts-txt{
-    font-size: 16px;
+    font-size: 14px;
     color:#000;
 }
 .saswp-sts-txt span{
@@ -2507,7 +2507,7 @@ padding: 2px;
     right: 5px;
 }.saswp_addon_icon.dashicons.dashicons-yes { 
     right: 8px;    
-} .dashicons-yes:before {
+} .saswppro_icon:before {
     content: "\f147";
     background: #388e3c;
     border-radius: 40px;
@@ -2566,19 +2566,18 @@ padding: 2px;
     margin-left: 3px;
     margin-top: 1px;
 }a.renewal-license {
-    margin-left: 3px;
+    margin-left: 5px;
     font-size: 12px !important;
-    padding: 5px 12px 6px;
+    padding: 4px 10px 5px;
     letter-spacing: 0.1px;
     border-radius: 60px;
-    margin-right: 0px;
-    /*background: #ffc733;
-    color: #000;*/
-    background: #270ec7;
+    margin-right: 0;
+    background: #388e3c;
     color: #fff;
-    box-shadow: 0em 0.15em 0.65em 0em rgb(0 0 0 / 25%);
+    box-shadow: 0 0.15em 0.65em 0 rgb(0 0 0 / 25%);
     text-decoration: none;
 }
+
 .renew-lic:hover {
     color: #eee;
 }
@@ -2605,6 +2604,53 @@ span.renew-lic {
     color: #222;
 }a.ext_url {
     text-decoration: unset;
+}
+.saswppro_alert {
+    color: #ffb229;
+    top: 2px;
+    position: relative;
+    right: 1px;
+}
+#lic_active {
+    color: green;
+    margin-left: 8px
+}
+
+.saswp-license-tenure {
+    display: inline-block;
+    margin-top: 8px
+}
+
+.lic_is_active {
+    color: #000
+}
+
+#lic_inactive {
+    color: #bebfc0;
+    margin-left: 8px
+}
+
+.single_addon_warning {
+    color: #ffb229
+}
+
+.expire_msg {
+    color: red
+}
+
+.less_than_zero {
+    color: red;
+    cursor: default
+}
+
+.lifetime_ {
+    color: green
+}
+
+.saswp_pro_alert {
+    color: #ffb229;
+    top: 2px;
+    position: relative
 }
 /* Offer Banner Starts Here */
 /* .saswp-offer-banner{
