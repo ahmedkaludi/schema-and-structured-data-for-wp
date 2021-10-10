@@ -20,7 +20,7 @@
   position: relative;
   line-height: 0;
   z-index: 10;
-  white-space: nowrap;
+  white-space: nowrap !important;
 }
 .jq-ry-container > .jq-ry-group-wrapper > .jq-ry-group > svg {
   display: inline-block;
