@@ -1,0 +1,88 @@
+.mce-container-body.mce-window-body.mce-abs-layout {
+    overflow: hidden !important;
+}
+form.saswp-tiny-form fieldset {
+    padding-top: 15px;
+}
+.saswp_removelast_btn{
+    margin-bottom: 5px !important;
+}
+form.saswp-tiny-form fieldset input:not([type=checkbox]), form.saswp-tiny-form fieldset select {
+    width: 69%;
+    display: block;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    height: 30px;
+    border: 1px solid #ddd;
+}
+
+form.saswp-tiny-form fieldset label {
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    width: 31%;
+    float: left;
+}
+
+form.saswp-tiny-form fieldset div {
+    overflow: hidden;
+    clear: both;
+    margin-bottom: 5px;
+}
+
+form.saswp-tiny-form fieldset div[name=saswp_faq_img_id] {
+    width: 31%;
+    float: left;
+}
+
+form.saswp-tiny-form fieldset div[name=saswp_faq_img_id]:before {
+    content: "Image ID: ";
+    pointer-events: none;
+}
+
+form.saswp-tiny-form fieldset div[name=saswp_howto_img_id] {
+    width: 31%;
+    float: left;
+}
+
+form.saswp-tiny-form fieldset div[name=saswp_howto_img_id]:before {
+    content: "Image ID: ";
+    pointer-events: none;
+}
+
+form.saswp-tiny-form fieldset .mce-btn.long {
+    width: 100%;
+}
+
+#fields + .mce-btn.long {
+    width: 100%;
+    margin-top: 15px;
+}
+
+form.saswp-tiny-form fieldset .mce-btn.saswp_removelast {
+    display: none;
+}
+
+form.saswp-tiny-form fieldset:last-of-type .mce-btn.removeLast {
+    display: table;
+}
+
+form.saswp-tiny-form textarea {
+    white-space: normal;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+    background-color: #fff;
+    color: #32373c;
+    margin-bottom: 15px;
+    width: 69%;
+    display: block;
+    box-sizing: border-box;
+    padding: 7px;
+}
+form.saswp-tiny-form .saswp-hr {
+    border: .5px solid #ddd !important;
+    margin: 10px 0 !important;
+}
+form.saswp-tiny-form{
+    padding-bottom: 5px;
+}

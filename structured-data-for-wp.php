@@ -36,6 +36,7 @@ require_once SASWP_DIR_NAME .'/output/output.php';
 require_once SASWP_DIR_NAME .'/output/markup.php';
 require_once SASWP_DIR_NAME .'/output/other-schema.php';
 require_once SASWP_DIR_NAME .'/output/gutenberg.php';
+require_once SASWP_DIR_NAME .'/output/tinymce.php';
 require_once SASWP_DIR_NAME .'/output/elementor.php';
 require_once SASWP_DIR_NAME .'/output/divi-builder.php';
 
@@ -105,6 +106,8 @@ require_once SASWP_DIR_NAME.'/modules/reviews/reviews_service.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_widget.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_collection.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_form.php';
+require_once SASWP_DIR_NAME.'/modules/tinymce/register-tinymce.php';
+require_once SASWP_DIR_NAME.'/modules/tinymce/register-shortcodes.php';
 require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
 require_once SASWP_DIR_NAME.'/core/global.php';
 //Module files load

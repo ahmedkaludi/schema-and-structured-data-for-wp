@@ -198,6 +198,8 @@ function saswp_get_all_schema_markup_output() {
         $collection_page          = array(); 
         $blog_page                = array();          
         
+        $tinymce_faq              = array();
+        $tinymce_how_to           = array();
         $gutenberg_how_to         = array();
         $gutenberg_recipe         = array();
         $gutenberg_qanda          = array();
@@ -221,9 +223,11 @@ function saswp_get_all_schema_markup_output() {
             $gutenberg_event          = saswp_gutenberg_event_schema();  
             $gutenberg_qanda          = saswp_gutenberg_qanda_schema();  
             $gutenberg_job            = saswp_gutenberg_job_schema();
-            $gutenberg_book            = saswp_gutenberg_book_schema();
+            $gutenberg_book           = saswp_gutenberg_book_schema();
             $gutenberg_course         = saswp_gutenberg_course_schema();
             $gutenberg_how_to         = saswp_gutenberg_how_to_schema();
+            $tinymce_faq              = saswp_tinymce_faq_schema();
+            $tinymce_how_to           = saswp_tinymce_how_to_schema();
             $gutenberg_recipe         = saswp_gutenberg_recipe_schema(); 
             $gutenberg_faq            = saswp_gutenberg_faq_schema();        
 
@@ -321,6 +325,18 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($gutenberg_how_to)){
                         
                             $output .= saswp_json_print_format($gutenberg_how_to);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($tinymce_how_to)){
+                        
+                            $output .= saswp_json_print_format($tinymce_how_to);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if(!empty($tinymce_faq)){
+                        
+                            $output .= saswp_json_print_format($tinymce_faq);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
