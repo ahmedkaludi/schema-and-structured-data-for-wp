@@ -637,6 +637,7 @@ jQuery(document).ready(function($){
          $(".saswp-schema-modify-section").show();      
          }
          saswp_enable_rating_review();
+         saswp_enable_rating_automate();
             
         $(".saswp-manual-modification").html('');    
         $('.saswp-static-container .spinner').addClass('is-active');
@@ -746,6 +747,7 @@ jQuery(document).ready(function($){
              }
              
             saswp_enable_rating_review();
+            saswp_enable_rating_automate();
         }).change(); 
         
         
@@ -2421,6 +2423,7 @@ jQuery(document).ready(function($){
                         saswp_schema_datepicker();
                         saswp_schema_timepicker();
                         saswp_enable_rating_review();
+                        saswp_enable_rating_automate();
                         saswp_item_reviewed_call();
 
                       });
@@ -2816,6 +2819,7 @@ jQuery(document).ready(function($){
                 $(this).addClass('selected'); 
                 $(this).parent().addClass('selected'); 
             saswp_enable_rating_review();
+            saswp_enable_rating_automate();
         });
         
         
@@ -3106,7 +3110,8 @@ jQuery(document).ready(function($){
           }
        });
        saswpCustomSelect2();                                
-       saswp_enable_rating_review();                       
+       saswp_enable_rating_review();   
+       saswp_enable_rating_automate();                    
      
         //custom fields modify schema ends here
         

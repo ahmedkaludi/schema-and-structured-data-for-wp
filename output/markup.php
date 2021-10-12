@@ -1445,7 +1445,16 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                 if(!isset($input1['review'])){
                     $input1 = saswp_append_fetched_reviews($input1); 
                 }
-    
+                
+                if(isset($all_post_meta['local_rating_automate_'.$schema_id][0]) && $all_post_meta['local_google_place_id_'.$schema_id][0]){
+
+                    if(function_exists('saswp_automated_aggregate_rating')){
+                        $input1 = saswp_automated_aggregate_rating($input1, $all_post_meta['local_google_place_id_'.$schema_id][0]);
+                    }
+                                        
+                }
+                
+
     return $input1;
 }
 

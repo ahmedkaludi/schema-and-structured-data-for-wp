@@ -2,14 +2,14 @@
 
     tinymce.PluginManager.add('saswp_tinymce_dropdown', function( editor, url ) {
         editor.addButton( 'saswp_tinymce_dropdown', { 
-            title: 'SASWP Content and Json-LD',           
+            title: 'SASWP Schema Block',           
             icon: 'dashicon dashicons-media-code',
             type: 'menubutton',
             menu: [
                 
                 //Multi FAQ starts here
                 {
-                    text: 'FAQ',                    
+                    text: 'FAQ Schema',                    
                     onclick: function() {
                         editor.windowManager.open({
                             title: 'SASWP Featured Snippet FAQ',
@@ -93,7 +93,7 @@
                 //Multi FAQ ends here
                 //HowTo starts here
                 {
-                    text: 'HowTo',                    
+                    text: 'HowTo Schema',                    
                     onclick: function() {
                         editor.windowManager.open({
                             title: 'SASWP Featured Snippet HowTo',

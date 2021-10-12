@@ -308,6 +308,9 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'local_enable_rating_'.$schema_id,
                             'type' => 'checkbox',                          
                         );
+                        
+                        $meta_field = apply_filters('saswp_modify_local_business_properties', $meta_field, $schema_id);
+                        
                         $meta_field[] =   array(
                             'label' => 'Rating',
                             'id' => 'local_rating_'.$schema_id,
