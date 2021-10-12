@@ -4296,7 +4296,7 @@ Class saswp_output_service{
                 $product_details['product_price']           = $woo_price;
              }
                           
-             $product_details['product_sku']             = $product->get_sku() ? $product->get_sku(): get_the_ID();             
+             $product_details['product_sku']             = $product->get_sku();             
              
              if(isset($date_on_sale)){
                  
@@ -4463,7 +4463,8 @@ Class saswp_output_service{
              
              }
              
-             }                                                                 
+             }      
+                                                                 
              return $product_details;                       
         }
         
