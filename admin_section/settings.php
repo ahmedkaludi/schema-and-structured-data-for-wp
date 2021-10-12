@@ -426,6 +426,51 @@ function saswp_admin_interface_render(){
 		<h2 class="nav-tab-wrapper saswp-tabs">
                     
 			<?php	
+            $license_alert = $license_expires = $license_expnormal = '' ;
+            $saswp_add_on = array();
+                if(is_plugin_active('1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php')){
+                    $saswp_add_on[] = 'OCIAIFS';
+                }
+                if(is_plugin_active('cooked-compatibility-for-schema/cooked-compatibility-for-schema.php')){
+                    $saswp_add_on[] = 'Cooked';
+                }
+                if(is_plugin_active('polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php')){
+                    $saswp_add_on[] = 'Polylang';
+                }
+                if(is_plugin_active('classifieds-plugin-compatibility/classifieds-plugin-compatibility.php')){
+                    $saswp_add_on[] = 'CPC';
+                }
+                if(is_plugin_active('wpml-schema-compatibility/wpml-schema-compatibility.php')){
+                    $saswp_add_on[] = 'WPML';
+                }
+                if(is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php')){
+                    $saswp_add_on[] = 'Jobposting';
+                }
+                if(is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
+                    $saswp_add_on[] = 'Woocommerce';
+                }
+                if(is_plugin_active('real-estate-schema/real-estate-schema.php')){
+                    $saswp_add_on[] = 'Res';
+                }
+                if(is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php')){
+                    $saswp_add_on[] = 'Cs';
+                }
+                if(is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php')){
+                    $saswp_add_on[] = 'qanda';
+                }
+                if(is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){
+                    $saswp_add_on[] = 'faq';
+                }
+                if(is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
+                    $saswp_add_on[] = 'Es';
+                }
+                if(is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php')){
+                    $saswp_add_on[] = 'Rs';
+                }
+                if(is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
+                    $saswp_add_on[] = 'reviews';
+                }
+
             foreach($saswp_add_on as $addon){
                 global $sd_data;
                 $license_key        = '';
