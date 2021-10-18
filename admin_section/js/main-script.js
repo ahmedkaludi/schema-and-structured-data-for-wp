@@ -3382,7 +3382,7 @@ jQuery(document).ready(function($){
 
        saswp_enable_rating_automate();                    
 
-       // saswp_enable_rating_automate();                    
+       saswp_enable_rating_automate();                    
 
      
         //custom fields modify schema ends here
