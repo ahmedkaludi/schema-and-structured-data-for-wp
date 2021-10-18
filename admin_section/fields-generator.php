@@ -540,9 +540,11 @@ class saswp_fields_generator {
                                     switch ($meta_field['id']) {
                                     
                                         case 'saswp-reviews-pro-api':
-
+                                        $license_user_name = '';
+                                        $license_download_id = '';
+                                        $license_expires     = '';
                                             $pro_api    = '<div class="" style="display:block;">
-                                                          '.saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $lable=false, $rv_limits).'
+                                                          '.saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg,$license_user_name, $license_download_id, $license_expires, $lable=false, $rv_limits).'
                                                           </div>';
                                                           
                                            
