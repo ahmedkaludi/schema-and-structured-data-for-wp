@@ -548,10 +548,14 @@ jQuery(document).ready(function($){
         }                                                                
         $(this).siblings().removeClass("nav-tab-active");
         $(this).addClass("nav-tab-active");
+        if(currentTab=="premium_features" && jQuery(this).attr('data-extmgr')=='yes'){
+            window.location.href = "edit.php?post_type=saswp&page=saswp-extension-manager";
+        }else{
         $(".form-wrap").find(".saswp-"+currentTab).siblings().hide();
         $(".form-wrap .saswp-"+currentTab).show();
         window.history.pushState("", "", href);
         return false;
+    }
 });     
     $(".saswp-schame-type-select").select2();
     $(".saswp-schame-type-select").change(function(e){
@@ -2551,7 +2555,7 @@ jQuery(document).ready(function($){
                                
                                $(".saswp_license_activation[add-on='" + add_on + "']").attr("license-status", "inactive");
                                $(".saswp_license_activation[add-on='" + add_on + "']").text("Deactivate");
-                               
+                               $("span.addon-activated_reviews").css({ color: "green", "margin-left": "8px", "font-weight": "400" });                               
                                $(".saswp_license_status_msg[add-on='" + add_on + "']").text('Activated');
                                
                                $(".saswp_license_status_msg[add-on='" + add_on + "']").css("color", "green");                                
@@ -2575,6 +2579,7 @@ jQuery(document).ready(function($){
                                $("span.addon-activated_" + add_on + "").text('Inactive');
                                $("span.addon-activated_" + add_on + "").css("color", "#bebfc0");
                                $("span.addon-activated_" + add_on + "").removeClass("addon-activated_" + add_on + "").addClass("inactive_status_" + add_on + "");
+                               $("span.limit_span").css("display", "none");
                               }
                                current.removeClass('updating-message');                                                           
                             },
@@ -2655,8 +2660,10 @@ jQuery(document).ready(function($){
         // Start Refresh and check if user has done renewal in between 0-7 Days
 
         var ap = document.getElementById("activated-plugins-days_remaining"); 
+        if (ap) {
         var remainingdays = ap.getAttribute("days_remaining");
-        console.log(remainingdays)
+        }
+        // console.log(remainingdays)
         if ( remainingdays >= 0 && remainingdays <= 7 ){
             setTimeout(function () {
                 jQuery("#refresh_license_icon_top-").trigger("click");
@@ -2721,8 +2728,10 @@ jQuery(document).ready(function($){
         // Start User manual Refresh to check if user has done renewal in After Key has expired
 
         var ap = document.getElementById("activated-plugins-days_remaining"); 
+        if (ap) {
         var remainingdays = ap.getAttribute("days_remaining");
-        console.log(remainingdays)
+    }
+        // console.log(remainingdays)
         if ( remainingdays >= 0 && remainingdays <= 7 ){
             setTimeout(function () {
                 jQuery("#user_refresh_expired_addon-").trigger("click");
@@ -2776,7 +2785,9 @@ jQuery(document).ready(function($){
           // Start Auto Refresh and check if user has done renewal After Key has expired
 
         var ap = document.getElementById("activated-plugins-days_remaining"); 
+        if (ap) {
         var remainingdays = ap.getAttribute("days_remaining");
+    }
         
             setTimeout(function () {
                 jQuery("#refresh_expired_addon-").trigger("click");
@@ -3368,7 +3379,11 @@ jQuery(document).ready(function($){
        });
        saswpCustomSelect2();                                
        saswp_enable_rating_review();   
+
        saswp_enable_rating_automate();                    
+
+       // saswp_enable_rating_automate();                    
+
      
         //custom fields modify schema ends here
         

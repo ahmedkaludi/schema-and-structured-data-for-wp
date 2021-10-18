@@ -2791,10 +2791,8 @@ input.reviewslicense_key_input_inactive.reviews_addon_inactive {
 }
 
 span.limit_span {
-    float: left;
-    display: block;
-    position: relative;
-    margin: -21px 0 0 100px
+    font-weight: 400;
+    color: #646970;
 }
 
 input.license_key_input_inactive.reviews_addon_inactive {
@@ -2833,7 +2831,7 @@ span.reviews_inactive {
 }
 
 .saswp-sts-active-main.reviews_addon {
-    margin: -7px 0 0 0
+    margin: -7px 0 0 -1em
 }
 
 input.license_key_input_active {
@@ -2976,6 +2974,9 @@ span.one_of_expired {
     color: #bebfc0;
     padding-left: 5px;
 }
+span.inactive_status_reviews{padding-left:5px;font-weight:400}
+label.saswp-sts-txt.active {font-weight: 400;}
+span.inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 /* Offer Banner Starts Here */
 /* .saswp-offer-banner{
     background: #ca4a1f;
