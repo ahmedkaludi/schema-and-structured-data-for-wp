@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 1.9.85
+Stable tag: 1.9.86
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,24 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.9.86 (18 Oct 2021) =
+
+* Added: Dynamic Aggregate Rating #1393
+* Added: More properties to Person Schema #1366
+* Added: An option to Set variable product as simple product #1291
+* Added: Need to show the review text in the review list #1344
+* Added: Enfold Theme compatibility #1530
+* Added: Schema blocks (FAQ & HowTo) for classic editor #1362
+* Added: The condition to fetch GTIN or SKU of the product on woocommerce compatibility for schema. #1531
+* Fixed: Undefined index _mbdb_isbn in other-schema.php #1545
+* Fixed: css issue of star ratings in comment form with Neptune by Osetin Theme. #1476
+* Fixed: Woocommerce-Product priceValidUntil #1537
+* Fixed: Debug log Errors #1536
+* Fixed: Images are not displaying while fetching the reviews [oneflare]. #1544
+
+
 
 = 1.9.85 (24 Sept 2021) =
 
