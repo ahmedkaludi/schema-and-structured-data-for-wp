@@ -695,7 +695,7 @@ function saswp_handle_file_upload($option){
   
 }
 
-function is_check_plugin($ext_ind,$index){
+function saswp_is_check_plugin($ext_ind,$index){
         
             if(function_exists($ext_ind)){
             global $sd_data;
@@ -723,8 +723,7 @@ function is_check_plugin($ext_ind,$index){
 
                 if (isset($sd_data[strtolower($index).'_addon_license_key_user_name'])) {                    
                 $license_user_name =   $sd_data[strtolower($index).'_addon_license_key_user_name'];
-                }
-                // print_r($license_user_name);die;
+                }                
 
                 if (isset($sd_data[strtolower($index).'_addon_license_key_download_id'])) {
                 $license_download_id =   $sd_data[strtolower($index).'_addon_license_key_download_id'];
@@ -739,7 +738,6 @@ function is_check_plugin($ext_ind,$index){
                 }
                 
                 $active_data = saswp_get_license_section_html($index, $license_key, $license_status, $license_status_msg, $license_user_name, $license_download_id,$license_expires, $license_expnormal, true, false);
-
 
              return $active_data;
           } 
@@ -758,37 +756,37 @@ function saswp_premium_features_callback(){ ?>
                             $cooked_active_text = '';
 
     // print_r($add_on);die;
-    // $status = is_check_plugin('OCIAIFS');
+    // $status = saswp_is_check_plugin('OCIAIFS');
 $main_ext_array = array();
 
-$main_ext_array['CPC'] = array( 'name' => 'Classifieds Plugin Compatibility','desc' => 'Classifieds Plugin Compatibility generated schema markup automatically for classified theme and plugin with just few steps click.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/cpc.png', 'bgcolor' => '#9fa2f5', 'href' => 'https://structured-data-for-wp.com/classifieds-plugin-compatibility/' , 'status' => is_check_plugin('saswp_cpc_schema_updater','CPC'));
+$main_ext_array['CPC'] = array( 'name' => 'Classifieds Plugin Compatibility','desc' => 'Classifieds Plugin Compatibility generated schema markup automatically for classified theme and plugin with just few steps click.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/cpc.png', 'bgcolor' => '#9fa2f5', 'href' => 'https://structured-data-for-wp.com/classifieds-plugin-compatibility/' , 'status' => saswp_is_check_plugin('saswp_cpc_schema_updater','CPC'));
 
-$main_ext_array['OCIAIFS'] = array( 'name' => '1-Click Indexing API Integration','desc' => 'The Indexing API allows any site owner to directly notify Google when pages are added or removed. This allows Google to schedule pages for a fresh crawl, which can lead to higher quality user traffic' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/indexing.png', 'bgcolor' => '#9fa2f5', 'href' => 'https://structured-data-for-wp.com/1-click-indexing-api-integration/' , 'status' => is_check_plugin('saswp_enqueue_instant_indexing_js','OCIAIFS'));
+$main_ext_array['OCIAIFS'] = array( 'name' => '1-Click Indexing API Integration','desc' => 'The Indexing API allows any site owner to directly notify Google when pages are added or removed. This allows Google to schedule pages for a fresh crawl, which can lead to higher quality user traffic' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/indexing.png', 'bgcolor' => '#9fa2f5', 'href' => 'https://structured-data-for-wp.com/1-click-indexing-api-integration/' , 'status' => saswp_is_check_plugin('saswp_enqueue_instant_indexing_js','OCIAIFS'));
 
 $main_ext_array['WPML'] = array( 'name' => 'WPML Schema Compatibility
-','desc' => 'Get Multi-Currency in schema on Woocommerce Product and set placement based on languages for easy display of schema' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/wpml.png', 'bgcolor' => '#33879e', 'href' => 'https://structured-data-for-wp.com/wpml-schema-compatibility/' , 'status' => is_check_plugin('saswp_wpml_schema_compatibility','WPML'));
+','desc' => 'Get Multi-Currency in schema on Woocommerce Product and set placement based on languages for easy display of schema' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/wpml.png', 'bgcolor' => '#33879e', 'href' => 'https://structured-data-for-wp.com/wpml-schema-compatibility/' , 'status' => saswp_is_check_plugin('saswp_wpml_schema_compatibility','WPML'));
 
 $main_ext_array['Polylang'] = array( 'name' => 'Polylang Schema Compatibility
-','desc' => 'It adds all the static labels from this plugin to Polylang Strings Translations dashboard where user can translate it' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/polylang.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/polylang-compatibility-for-saswp' , 'status' => is_check_plugin('polylang_compatibility_for_schema_updater','Polylang'));
+','desc' => 'It adds all the static labels from this plugin to Polylang Strings Translations dashboard where user can translate it' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/polylang.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/polylang-compatibility-for-saswp' , 'status' => saswp_is_check_plugin('polylang_compatibility_for_schema_updater','Polylang'));
 
-$main_ext_array['reviews'] = array( 'name' => 'Reviews for Schema','desc' => 'Fetch reviews from 75+ platforms with a single click with proper structured data so you can get the stars in your search engine rankings, works for AMP.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/customer-review.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/reviews-for-schema' , 'status' => is_check_plugin('reviews_for_schema_updater','reviews'));
+$main_ext_array['reviews'] = array( 'name' => 'Reviews for Schema','desc' => 'Fetch reviews from 75+ platforms with a single click with proper structured data so you can get the stars in your search engine rankings, works for AMP.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/customer-review.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/reviews-for-schema' , 'status' => saswp_is_check_plugin('reviews_for_schema_updater','reviews'));
 
 
-$main_ext_array['Jobposting'] = array( 'name' => 'JobPosting Schema Compatibility','desc' => 'JobPosting Schema Compatibility extension is the number one solution to enhance your JOBs website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/jobposting.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/jobposting-schema-compatibility/' , 'status' => is_check_plugin('saswp_jobposting_schema_updater','Jobposting'));
+$main_ext_array['Jobposting'] = array( 'name' => 'JobPosting Schema Compatibility','desc' => 'JobPosting Schema Compatibility extension is the number one solution to enhance your JOBs website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/jobposting.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/jobposting-schema-compatibility/' , 'status' => saswp_is_check_plugin('saswp_jobposting_schema_updater','Jobposting'));
 
-$main_ext_array['faq'] = array( 'name' => 'FAQ Schema Compatibility','desc' => 'FAQ Schema Compatibility extension is the number one solution to enhance your FAQs website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/faq.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/faq-schema-compatibility/' , 'status' => is_check_plugin('saswp_faq_schema_updater','faq'));
+$main_ext_array['faq'] = array( 'name' => 'FAQ Schema Compatibility','desc' => 'FAQ Schema Compatibility extension is the number one solution to enhance your FAQs website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/faq.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/faq-schema-compatibility/' , 'status' => saswp_is_check_plugin('saswp_faq_schema_updater','faq'));
 
-$main_ext_array['qanda'] = array( 'name' => 'Q&A Schema Compatibility','desc' => 'Q&A Schema Compatibility extension is the number one solution to enhance your discussion forum website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/question.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/qanda-schema-for-saswp/' , 'status' => is_check_plugin('qanda_schema_updater','qanda'));
+$main_ext_array['qanda'] = array( 'name' => 'Q&A Schema Compatibility','desc' => 'Q&A Schema Compatibility extension is the number one solution to enhance your discussion forum website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/question.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/qanda-schema-for-saswp/' , 'status' => saswp_is_check_plugin('qanda_schema_updater','qanda'));
 
-$main_ext_array['Rs'] = array( 'name' => 'Recipe Schema','desc' => 'Recipe Schema extension is the number one solution to enhance your recipe website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/recipe.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/recipe-schema/' , 'status' => is_check_plugin('saswp_recipe_schema_updater','Rs'));
+$main_ext_array['Rs'] = array( 'name' => 'Recipe Schema','desc' => 'Recipe Schema extension is the number one solution to enhance your recipe website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/recipe.png', 'bgcolor' => '#509207', 'href' => 'https://structured-data-for-wp.com/recipe-schema/' , 'status' => saswp_is_check_plugin('saswp_recipe_schema_updater','Rs'));
 
-$main_ext_array['Es'] = array( 'name' => 'Event Schema','desc' => 'Event Schema extension is the number one solution to enhance your event website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/event.png', 'bgcolor' => '#eae4ca', 'href' => 'https://structured-data-for-wp.com/event-schema/' , 'status' => is_check_plugin('event_schema_updater','Es'));
+$main_ext_array['Es'] = array( 'name' => 'Event Schema','desc' => 'Event Schema extension is the number one solution to enhance your event website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/event.png', 'bgcolor' => '#eae4ca', 'href' => 'https://structured-data-for-wp.com/event-schema/' , 'status' => saswp_is_check_plugin('event_schema_updater','Es'));
 
-$main_ext_array['Cs'] = array( 'name' => 'Course Schema','desc' => 'Course Schema extension is the number 1 solution to enhance your course offering website with right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/course.png', 'bgcolor' => '#dcb71d', 'href' => 'https://structured-data-for-wp.com/course-schema/' , 'status' => is_check_plugin('course_schema_updater','Cs'));
+$main_ext_array['Cs'] = array( 'name' => 'Course Schema','desc' => 'Course Schema extension is the number 1 solution to enhance your course offering website with right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/course.png', 'bgcolor' => '#dcb71d', 'href' => 'https://structured-data-for-wp.com/course-schema/' , 'status' => saswp_is_check_plugin('course_schema_updater','Cs'));
 
-$main_ext_array['woocommerce'] = array( 'name' => 'WooCommerce Compatibility for Schema','desc' => 'WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/woocommerce-icon.png', 'bgcolor' => '#96588a', 'href' => 'https://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/' , 'status' => is_check_plugin('woocommerce_compatibility_for_schema_updater','woocommerce'));
+$main_ext_array['woocommerce'] = array( 'name' => 'WooCommerce Compatibility for Schema','desc' => 'WooCommerce Compatibility extension is the number one solution to enhance your store with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/woocommerce-icon.png', 'bgcolor' => '#96588a', 'href' => 'https://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/' , 'status' => saswp_is_check_plugin('woocommerce_compatibility_for_schema_updater','woocommerce'));
 
-$main_ext_array['Res'] = array( 'name' => 'Real Estate Schema','desc' => 'Real Estate Schema extension is the number one solution to enhance your real estate website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/real-estate-schema-wp.png', 'bgcolor' => '#ace', 'href' => 'https://structured-data-for-wp.com/extensions/real-estate-schema/' , 'status' => is_check_plugin('real_estate_schema_updater','Res'));
+$main_ext_array['Res'] = array( 'name' => 'Real Estate Schema','desc' => 'Real Estate Schema extension is the number one solution to enhance your real estate website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/real-estate-schema-wp.png', 'bgcolor' => '#ace', 'href' => 'https://structured-data-for-wp.com/extensions/real-estate-schema/' , 'status' => saswp_is_check_plugin('real_estate_schema_updater','Res'));
 
 $cooked_active_text = 'Active';
 
