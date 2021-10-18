@@ -123,6 +123,11 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.9.86 (18 Oct 2021) =
 
+* Fixed: Undefined index _mbdb_isbn in other-schema.php #1545
+* Fixed: css issue of star ratings in comment form with Neptune by Osetin Theme. #1476
+* Fixed: Woocommerce-Product priceValidUntil #1537
+* Fixed: Debug log Errors #1536
+* Fixed: Images are not displaying while fetching the reviews [oneflare]. #1544
 * Added: Dynamic Aggregate Rating #1393
 * Added: More properties to Person Schema #1366
 * Added: An option to Set variable product as simple product #1291
@@ -130,12 +135,6 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Added: Enfold Theme compatibility #1530
 * Added: Schema blocks (FAQ & HowTo) for classic editor #1362
 * Added: The condition to fetch GTIN or SKU of the product on woocommerce compatibility for schema. #1531
-* Fixed: Undefined index _mbdb_isbn in other-schema.php #1545
-* Fixed: css issue of star ratings in comment form with Neptune by Osetin Theme. #1476
-* Fixed: Woocommerce-Product priceValidUntil #1537
-* Fixed: Debug log Errors #1536
-* Fixed: Images are not displaying while fetching the reviews [oneflare]. #1544
-
 
 
 = 1.9.85 (24 Sept 2021) =
