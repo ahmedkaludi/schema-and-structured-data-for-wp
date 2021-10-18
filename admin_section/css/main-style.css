@@ -379,6 +379,9 @@ clear: both;
 label[for="saswp_archive_schema_type"] {
     padding-left: 10px;
 }
+label[for="saswp-single-price-type"] {
+    padding-left: 10px;
+}
 .saswp-amp .saswp-knowledge-field{
 float: right;
 width: 75%;
@@ -920,32 +923,31 @@ Google review module ends here
 .saswp-ele-tlt p{
     margin-top:10px;
 }
-.saswp-sts-btn{
+.saswp-sts-btn {
     box-sizing: border-box;
-    height: 52px;
     margin-top: 20px;
-    padding: 6px 15px;
+    padding: 6px 12px;
     border: 1px solid #e5e5e5;
     border-radius: 3px;
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: space-between;
 }
+
 .saswp-d-btn{
     background: #d2150a;
     padding: 6px 18px;
     border-radius: 30px;
     font-size: 14px;
     color: #fff;
+    float: right;
+    margin-top: -31px;
 }
 .form-wrap .saswp-sts-txt{
-    font-size: 16px;
+    font-size: 14px;
     color:#000;
 }
-.saswp-sts-txt span{
-    color:#bebfc0;
-    padding-left:5px;
-}
+.saswp-sts-txt{font-size:14px;color:#000}
 
 /** star rating Feature CSS **/
 .saswp_review_platform .saswp-g-plus{
@@ -2498,7 +2500,483 @@ padding: 2px;
 }
 .saswp-modify-schema-on-taxonomy .form-table fieldset input[type="button"]{
     width: 24% !important;
+}.activated-plugins {
+    position: relative;
+    display: inline-block;
+    color: #222;
+    font-size: 14px;
+    letter-spacing: 0;
+    right: 5px;
+    margin-left: 4px
 }
+
+.saswppro_icon:before {
+    content: "\f147";
+    background: #388e3c;
+    border-radius: 40px;
+    color: #fff;
+    position: relative;
+    left: 1px;
+    border-radius: 40px;
+    padding: 1px 1px 0 0;
+    top: 1px;
+    margin: 0;
+    font-size: 14px
+}
+
+.pro_icon {
+    margin: 0;
+    font-size: 16px;
+    margin-left: 3px;
+    margin-top: 1px;
+    right: 5px
+}
+
+.expiredinner_span {
+    color: green
+}
+
+i.dashicons-before.dashicons-admin-generic {
+    color: #666
+}
+
+#exp {
+    color: red
+}
+
+.dashicons-no {
+    background: red;
+    color: #fff;
+    border-radius: 10px;
+    position: relative;
+    font-size: 15px
+}
+
+.dashicons-no:before {
+    content: "\f158";
+    top: 3px;
+    position: relative;
+    left: 0
+}
+
+.saswp-addon-alert {
+    color: red;
+    font-size: 14px;
+    letter-spacing: 0;
+    cursor: default
+}
+
+.dashicons-alert::before {
+    content: "\f534";
+    background: #ffb900;
+    border-radius: 40px;
+    color: #fff;
+    border-radius: 40px;
+    padding: 4px 3px 4px 4px;
+    top: 0;
+    right: 9px;
+    margin: 0;
+    position: relative
+}
+
+a.renewal-license {
+    margin-left: 5px;
+    font-size: 12px !important;
+    padding: 4px 10px 5px;
+    letter-spacing: .1px;
+    border-radius: 60px;
+    margin-right: 0;
+    background: #388e3c;
+    color: #fff;
+    box-shadow: 0 .15em .65em 0 rgb(0 0 0 / 25%);
+    text-decoration: none
+}
+
+span.renew-lic {
+    font-size: 14px
+}
+
+.sasfwp_key_user_name {
+    font-weight: 700
+}
+
+.before_msg {
+    margin-left: 4px;
+    cursor: default
+}
+
+.before_msg_active {
+    margin-left: 3px
+}
+
+.saswp_addon_inactive {
+    margin-left: 3px
+}
+
+.ext_settings_url {
+    margin-left: 8px;
+    text-decoration: unset
+}
+
+.sasfwp-main {
+    float: right;
+    background-color: #fff;
+    border: 8px solid #fff;
+    border-radius: 21px;
+    padding: 1px 0 0 7px
+}
+
+.sasfwp-main .activated-plugins {
+    color: #222
+}
+
+a.ext_url {
+    text-decoration: unset
+}
+
+span#saswp-addon-dashicons-yes {
+    top: 20px;
+    left: 60px;
+    position: relative;
+    margin: 0;
+    font-size: 16px
+}
+
+p.saswp_license_status_msg {
+    display: inline-block;
+    margin: 0 0 0 7px;
+    position: relative;
+    bottom: 10px
+}
+
+span#saswp-addon-dashicons-no {
+    display: none;
+    position: relative;
+    top: 22px;
+    left: 59px
+}
+
+.saswp-d-btn-1,
+.saswp-d-btn-2,
+.saswp-d-btn-3 {
+    background: #d2150a;
+    padding: 6px 18px;
+    border-radius: 30px;
+    font-size: 14px;
+    color: #fff;
+    display: inline-block
+}
+
+.saswp-reviews-dashicons {
+    float: right;
+    left: -163px
+}
+
+.license_key_input_inactive {
+    display: inline-block;
+    bottom: 8px;
+    position: relative
+}
+
+.saswp-woocommerce-dashicons {
+    float: right;
+    margin-right: 45px
+}
+
+.saswp-addon-no {
+    position: relative;
+    display: block
+}
+
+span.saswp_addon_icon.dashicons.dashicons-yes.pro_icon {
+    top: 0;
+    position: relative
+}
+
+p#enter_key_reviews {
+    position: relative;
+    top: 20px
+}
+
+p.enter_key_Reviews {
+    position: relative;
+    top: 8px
+}
+
+label.saswp-sts-txt {
+    font-size: 14px;
+    color: #000
+}
+
+p#enter_key_woocommerce {
+    position: relative;
+    top: 20px
+}
+
+input.license_key_input_active::placeholder {
+    color: #000
+}
+
+.saswp-sts-active-main {
+    margin-top: -21px;
+    padding: 6px 15px
+}
+
+.saswp-active-input {
+    float: left
+}
+
+span.addon-activated {
+    color: green;
+    padding-left: 5px
+}
+
+.saswp-sts-deactive-main {
+    margin-top: -21px;
+    padding: 6px 15px
+}
+
+.saswp-sts-active-main.woocommerce_addon {
+    margin-top: 0
+}
+
+.saswp-deactive-input.woocommerce_addon {
+    margin: -49px 0 0 0
+}
+
+.saswp-addon-sub-inactive.woocommerce {
+    margin: 29px 0 0 0
+}
+
+.saswp-sts-deactive-main.woocommerce_addon {
+    margin-top: 0;
+    padding: 1px 15px
+}
+
+.saswp-active-inputbtn.woocommerce_addon {
+    position: relative;
+    bottom: 20px
+}
+
+.saswp-woocommerce-dashicons {
+    float: right;
+    margin-right: 45px;
+    top: 20px;
+    left: 14px;
+    position: relative;
+    margin: 0;
+    font-size: 16px
+}
+
+span.saswp-woocommerce-addondashicon-yes {
+    position: relative;
+    right: 51px
+}
+
+.saswp-addon-sub-inactive.reviews {
+    margin-top: -20px
+}
+
+.saswp-sts-deactive-main.reviews_addon {
+    margin-top: 0
+}
+
+.saswp-active-inputbtn.reviews_addon {
+    bottom: 18px;
+    position: relative
+}
+
+input.reviewslicense_key_input_inactive.reviews_addon_inactive {
+    margin: 0 0 0 10px
+}
+
+span.limit_span {
+    font-weight: 400;
+    color: #646970;
+}
+
+input.license_key_input_inactive.reviews_addon_inactive {
+    display: none
+}
+
+a.button.button-default.saswp_license_activation.reviews {
+    display: none
+}
+
+a#saswp_license_deactivationbtn {
+    display: none
+}
+
+a#saswp_license_activation_ {
+    display: none
+}
+
+.license_key_input_inactive {
+    top: 0
+}
+
+span.reviews_inactive {
+    padding-left: 5px;
+    font-weight: 400
+}
+
+.form-wrap label {
+    display: block;
+    padding: 0 0
+}
+
+.form-wrap label {
+    display: block;
+    padding: 8px 0
+}
+
+.saswp-sts-active-main.reviews_addon {
+    margin: -7px 0 0 -1em
+}
+
+input.license_key_input_active {
+    margin-left: 10px
+}
+
+input.license_key_input_inactive {
+    margin-left: 10px
+}
+
+.saswp-sts-active-main.woocommerce_addon {
+    margin-top: -4px
+}
+
+label.saswp-sts-txt.inactive {
+    padding: 10px 0 6px 16px
+}
+
+a#saswp_license_deactivation_internal {
+    display: none
+}
+
+.inner_span_expiring {
+    color: red;
+    margin-right: 2px
+}
+
+i#refresh_license_icon_top {
+    cursor: pointer;
+    display: none
+}
+
+.dashicons.spin {
+    animation: dashicons-spin 2s infinite;
+    animation-timing-function: linear
+}
+
+@keyframes dashicons-spin {
+    0% {
+        transform: rotate(0)
+    }
+    100% {
+        transform: rotate(-360deg)
+    }
+}
+
+span#lic_exp {
+    color: red;
+    margin-left: 4px
+}
+
+i#refresh_expired_addon {
+    cursor: pointer;
+    display: none
+}
+
+i#user_refresh_expired_addon {
+    cursor: pointer
+}
+
+span.one_of_expired {
+    color: red
+}
+
+.pro_warning {
+    color: #ffb229;
+    right: 3px;
+    position: relative;
+    bottom: 1px
+}
+
+.saswppro_alert {
+    color: #ffb229;
+    top: 2px;
+    position: relative;
+    right: 1px
+}
+
+#lic_active {
+    color: green;
+    margin-left: 8px
+}
+
+.saswp-license-tenure {
+    display: inline-block;
+    margin-top: 8px
+}
+
+.lic_is_active {
+    color: #000
+}
+
+#lic_inactive {
+    color: #bebfc0;
+    margin-left: 8px
+}
+
+.single_addon_warning {
+    color: #ffb229
+}
+
+.expire_msg {
+    color: red
+}
+
+.less_than_zero {
+    color: red;
+    cursor: default
+}
+
+.lifetime_ {
+    color: green
+}
+
+.saswp_pro_alert {
+    color: #ffb229;
+}
+
+.user_refresh_single_addon {
+    cursor: pointer;
+}
+
+.saswp_pro_alert {
+    color: #ffb229;
+}.single_addon_warning {
+    color: #ffb229;
+}.saswp-license-tenure {
+    display: inline-block;
+    margin-top: 8px;
+}.before_msg {
+    margin-left: 4px;
+    cursor: default;
+}label.saswp-sts-txt {
+    font-size: 14px;
+    color: #000;
+}span.renew-lic {
+    font-size: 14px;
+}
+.saswp_inactive_key {
+    color: #bebfc0;
+    padding-left: 5px;
+}
+span.inactive_status_reviews{padding-left:5px;font-weight:400}
+label.saswp-sts-txt.active {font-weight: 400;}
+span.inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 /* Offer Banner Starts Here */
 /* .saswp-offer-banner{
     background: #ca4a1f;

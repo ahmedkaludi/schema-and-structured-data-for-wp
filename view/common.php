@@ -472,13 +472,16 @@ class saswp_view_common_class {
                                              $rating_class = 'class="saswp-enable-rating-review-'.strtolower($schema_type).'"';   
                                         }
                                                                             
+                                        if(strpos($meta_field['id'], 'rating_automate') !== false){
+                                            $rating_class = 'class="saswp-enable-rating-automate-'.strtolower($schema_type).'"';  
+                                        }
 					$input = sprintf(
 						'<input %s %s id="%s" name="%s" type="checkbox" value="1">',
                                                 $rating_class,
 						$meta_value === '1' ? 'checked' : '',
 						$meta_field['id'],
 						$meta_field['id']
-						);
+						);                        
 					break;        
                                         
                 case 'multiselect':                                       
@@ -564,6 +567,8 @@ class saswp_view_common_class {
                            $meta_field['id'] == 'saswp_review_review_count_'.$schema_id         ||
                            $meta_field['id'] == 'saswp_review_rating_'.$schema_id               ||
                            $meta_field['id'] == 'local_review_count_'.$schema_id                ||
+                           $meta_field['id'] == 'local_rating_automate_'.$schema_id                ||
+                           $meta_field['id'] == 'local_google_place_id_'.$schema_id                ||
                            $meta_field['id'] == 'saswp_recipe_schema_rating_'.$schema_id        ||
                            $meta_field['id'] == 'saswp_recipe_schema_review_count_'.$schema_id  ||
                            $meta_field['id'] == 'saswp_software_schema_rating_count_'.$schema_id     

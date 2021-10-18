@@ -685,11 +685,17 @@ return array(
         ),                   
     ),
     'themes' => array(
+        'enfold' => array(            
+                    'name'       => 'Enfold Theme',
+                    'free'       => 'enfold',               
+                    'opt_name'   => 'saswp-enfold',
+                    'part_in'    => 'pro',
+        ),
         'soledad' => array(            
-                    'name'       => 'Soledad Theme',
-                    'free'       => 'soledad',               
-                    'opt_name'   => 'saswp-soledad',
-                    'part_in'    => 'free',
+            'name'       => 'Soledad Theme',
+            'free'       => 'soledad',               
+            'opt_name'   => 'saswp-soledad',
+            'part_in'    => 'free',
         ), 
         'rannarecipe' => array(            
             'name'       => 'Ranna - Food & Recipe',

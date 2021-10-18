@@ -1445,7 +1445,16 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                 if(!isset($input1['review'])){
                     $input1 = saswp_append_fetched_reviews($input1); 
                 }
-    
+                
+                if(isset($all_post_meta['local_rating_automate_'.$schema_id][0]) && $all_post_meta['local_google_place_id_'.$schema_id][0]){
+
+                    if(function_exists('saswp_automated_aggregate_rating')){
+                        $input1 = saswp_automated_aggregate_rating($input1, $all_post_meta['local_google_place_id_'.$schema_id][0]);
+                    }
+                                        
+                }
+                
+
     return $input1;
 }
 
@@ -1877,24 +1886,24 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         }        
 
         if(isset($all_post_meta['saswp_person_schema_b_street_address_'.$schema_id])){
-            $input1['location']['@type'] = 'Place';
-            $input1['location']['address']['streetAddress'] =    $all_post_meta['saswp_person_schema_b_street_address_'.$schema_id];
+            $input1['homeLocation']['@type'] = 'Place';
+            $input1['homeLocation']['address']['streetAddress'] =    $all_post_meta['saswp_person_schema_b_street_address_'.$schema_id];
         }
         if(isset($all_post_meta['saswp_person_schema_b_locality_'.$schema_id])){
-            $input1['location']['@type'] = 'Place';
-            $input1['location']['address']['addressLocality'.$schema_id] =    $all_post_meta['saswp_person_schema_b_locality_'.$schema_id];
+            $input1['homeLocation']['@type'] = 'Place';
+            $input1['homeLocation']['address']['addressLocality'] =    $all_post_meta['saswp_person_schema_b_locality_'.$schema_id];
         }
         if(isset($all_post_meta['saswp_person_schema_b_region_'.$schema_id])){
-            $input1['location']['@type'] = 'Place';
-            $input1['location']['address']['addressRegion'.$schema_id] =    $all_post_meta['saswp_person_schema_b_region_'.$schema_id];
+            $input1['homeLocation']['@type'] = 'Place';
+            $input1['homeLocation']['address']['addressRegion'] =    $all_post_meta['saswp_person_schema_b_region_'.$schema_id];
         }
         if(isset($all_post_meta['saswp_person_schema_b_postal_code_'.$schema_id])){
-            $input1['location']['@type'] = 'Place';
-            $input1['location']['address']['PostalCode']  =    $all_post_meta['saswp_person_schema_b_postal_code_'.$schema_id];
+            $input1['homeLocation']['@type'] = 'Place';
+            $input1['homeLocation']['address']['PostalCode']  =    $all_post_meta['saswp_person_schema_b_postal_code_'.$schema_id];
         }
         if(isset($all_post_meta['saswp_person_schema_b_country_'.$schema_id])){
-            $input1['location']['@type'] = 'Place';
-            $input1['location']['address']['addressCountry'] =    $all_post_meta['saswp_person_schema_b_country_'.$schema_id];
+            $input1['homeLocation']['@type'] = 'Place';
+            $input1['homeLocation']['address']['addressCountry'] =    $all_post_meta['saswp_person_schema_b_country_'.$schema_id];
         }
 
         if(isset($all_post_meta['saswp_person_schema_award_'.$schema_id][0])){
@@ -1971,6 +1980,96 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         if(isset( $all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0] ) && $all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0] != '' ){
             $input1['hasOccupation']['mainEntityOfPage']['@type']         = 'WebPage'; 
             $input1['hasOccupation']['mainEntityOfPage']['lastReviewed']  =    saswp_format_date_time($all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0]);
+        }
+
+        if(!empty($all_post_meta['saswp_person_schema_alternate_name_'.$schema_id][0])){
+            $input1['alternateName'] = $all_post_meta['saswp_person_schema_alternate_name_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_additional_name_'.$schema_id][0])){
+            $input1['additionalName'] = $all_post_meta['saswp_person_schema_additional_name_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_given_name_'.$schema_id][0])){
+            $input1['givenName'] = $all_post_meta['saswp_person_schema_given_name_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_parent_'.$schema_id][0])){
+            $input1['parent'] = $all_post_meta['saswp_person_schema_parent_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_sibling_'.$schema_id][0])){
+            $input1['sibling'] = $all_post_meta['saswp_person_schema_sibling_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_colleague_'.$schema_id][0])){
+            $input1['colleague'] = $all_post_meta['saswp_person_schema_colleague_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_main_entity_of_page_'.$schema_id][0])){
+            $input1['mainEntityOfPage'] = $all_post_meta['saswp_person_schema_main_entity_of_page_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_sponsor_'.$schema_id][0])){
+            $input1['sponsor'] = $all_post_meta['saswp_person_schema_sponsor_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_seeks_'.$schema_id][0])){
+            $input1['seeks'] = $all_post_meta['saswp_person_schema_seeks_'.$schema_id][0];
+        }        
+        if(!empty($all_post_meta['saswp_person_schema_knows_'.$schema_id][0])){
+            $input1['knows'] = $all_post_meta['saswp_person_schema_knows_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_owns_'.$schema_id][0])){
+            $input1['owns'] = $all_post_meta['saswp_person_schema_owns_'.$schema_id][0];
+        }
+
+        $perform_in = array();
+
+        if(!empty($all_post_meta['saswp_person_schema_performerin_name_'.$schema_id][0])){
+            $perform_in['name'] = $all_post_meta['saswp_person_schema_performerin_name_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_location_name_'.$schema_id][0])){
+            $perform_in['location']['name'] = $all_post_meta['saswp_person_schema_performerin_location_name_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_location_locality_'.$schema_id][0])){
+            $perform_in['location']['address']['addressLocality'] = $all_post_meta['saswp_person_schema_performerin_location_locality_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_location_postal_code_'.$schema_id][0])){
+            $perform_in['location']['address']['postalCode'] = $all_post_meta['saswp_person_schema_performerin_location_postal_code_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_location_street_address_'.$schema_id][0])){
+            $perform_in['location']['address']['streetAddress'] = $all_post_meta['saswp_person_schema_performerin_location_street_address_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_offers_name_'.$schema_id][0])){
+            $perform_in['offers']['name'] = $all_post_meta['saswp_person_schema_performerin_offers_name_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_offers_availability_'.$schema_id][0])){
+            $perform_in['offers']['availability'] = $all_post_meta['saswp_person_schema_performerin_offers_availability_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_offers_price_'.$schema_id][0])){
+            $perform_in['offers']['price'] = $all_post_meta['saswp_person_schema_performerin_offers_price_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_offers_currency_'.$schema_id][0])){
+            $perform_in['offers']['priceCurrency'] = $all_post_meta['saswp_person_schema_performerin_offers_currency_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_offers_valid_from_'.$schema_id][0])){
+            $perform_in['offers']['validFrom'] = $all_post_meta['saswp_person_schema_performerin_offers_valid_from_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_offers_url_'.$schema_id][0])){
+            $perform_in['offers']['url'] = $all_post_meta['saswp_person_schema_performerin_offers_url_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_start_date_'.$schema_id][0])){
+            $perform_in['startDate'] = $all_post_meta['saswp_person_schema_performerin_start_date_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_end_date_'.$schema_id][0])){
+            $perform_in['endDate'] = $all_post_meta['saswp_person_schema_performerin_end_date_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_description_'.$schema_id][0])){
+            $perform_in['description'] = $all_post_meta['saswp_person_schema_performerin_description_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_image_'.$schema_id][0])){
+            $perform_in['image'] = $all_post_meta['saswp_person_schema_performerin_image_'.$schema_id][0];
+        }
+        if(!empty($all_post_meta['saswp_person_schema_performerin_performer_'.$schema_id][0])){
+            $perform_in['performer']['@type'] = 'Person';
+            $perform_in['performer']['name']  = $all_post_meta['saswp_person_schema_performerin_performer_'.$schema_id][0];
+        }
+
+        if(!empty($perform_in)){
+            $input1['performerIn'] = $perform_in;
         }
 
         return $input1;

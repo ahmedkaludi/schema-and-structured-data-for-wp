@@ -1217,9 +1217,12 @@ function saswp_custom_breadcrumbs() {
                         $post_type_archive = get_permalink();
                     }
                     
-                    $variables1_titles[]= $post_type_object->labels->name;
-                    $variables2_links[] = $post_type_archive;     
-                    $breadcrumb_url      = $post_type_archive;
+                    if(is_object($post_type_object)){
+                      $variables1_titles[]= $post_type_object->labels->name;
+                      $variables2_links[] = $post_type_archive;     
+                      $breadcrumb_url     = $post_type_archive;
+                    }
+                    
             }
              
             if( !isset($sd_data['saswp_breadcrumb_remove_cat']) || (isset($sd_data['saswp_breadcrumb_remove_cat']) && $sd_data['saswp_breadcrumb_remove_cat'] == 0 ) ){
@@ -1792,7 +1795,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                        'rs'           => 'Recipe Schema',
                        'qanda'        => 'Q&A Schema Compatibility',
                        'faq'          => 'FAQ Schema Compatibility',
-                       'ociaifs'      => '1-Click Indexing API Integration'
+                       'ociaifs'      => '1-Click Indexing API Integration',
+                       'cpc'         => 'Classifieds Plugin Compatibility',
                 );
                                                                             
                 $edd_action = '';
@@ -1814,6 +1818,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
               );
                 
                 $message        = '';
+                $fname        = '';
                 $current_status = '';
                 $response       = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
                            
@@ -1830,10 +1835,57 @@ function saswp_license_status($add_on, $license_status, $license_key){
                                 
 				switch( $license_data->error ) {
 					case 'expired' :
-						$message = sprintf(
-							__( 'Your license key expired on %s.' ),
-							date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
-						);
+          
+              $license[strtolower($add_on).'_addon_license_key_status']  = 'active';
+               $license[strtolower($add_on).'_addon_license_key']         = $license_key;
+                $license[strtolower($add_on).'_addon_license_key_message'] = 'active'; 
+                if ($license_data) { 
+              // Get UserName 
+              $fname = $license_data->customer_name;
+               $fname = substr($fname, 0, strpos($fname, ' ')); 
+               $check_for_Caps = ctype_upper($fname); 
+               if ( $check_for_Caps == 1 ) {
+                $fname =  strtolower($fname);
+                 $fname =  ucwords($fname);
+                  }
+                   else
+                    {
+                     $fname =  ucwords($fname);
+                      } 
+              // Get Expiring Date 
+              $license_exp = date('Y-m-d', strtotime($license_data->expires)); 
+              $license_info_lifetime = $license_data->expires; 
+              $today = date('Y-m-d');
+               $exp_date =$license_exp; 
+               $date1 = date_create($today);
+                $date2 = date_create($exp_date);
+                 $diff = date_diff($date1,$date2);
+                  $days = $diff->format("%a");
+                   if( $license_info_lifetime == 'lifetime' ){
+                    $days = 'Lifetime';
+                     if ($days == 'Lifetime') {
+                      $expire_msg = " Your License is Valid for Lifetime ";
+                       }
+                        }
+                         elseif($today > $exp_date){
+                          $days = -$days;
+                           } 
+              // Get Download_ID 
+              $download_id = $license_data->payment_id;
+               } 
+               $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
+               $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname; 
+               $license[strtolower($add_on).'_addon_license_key_expires'] = $days; 
+               $license[strtolower($add_on).'_addon_license_key_expires_normal'] = $license_exp_norml;
+               $license[strtolower($add_on).'_addon_license_key_download_id'] = $download_id; 
+               $current_status = 'active'; 
+               $message = 'Activated'; 
+               $days_remaining = $days; 
+               $username = $fname;
+               $message = sprintf(
+              __( 'Your license key expired on %s.' ),
+              date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
+            );
 						break;
 					case 'revoked' :
 						$message = __( 'Your license key has been disabled.' );
@@ -1865,6 +1917,20 @@ function saswp_license_status($add_on, $license_status, $license_key){
                         $license[strtolower($add_on).'_addon_license_key_status'] = $current_status;
                         $license[strtolower($add_on).'_addon_license_key']        = $license_key;
                         $license[strtolower($add_on).'_addon_license_key_message']= $message;
+                        if ($license_data) {
+                        $fname = $license_data->customer_name;
+                        $fname = substr($fname, 0, strpos($fname, ' '));
+                        $check_for_Caps = ctype_upper($fname);
+                        if ( $check_for_Caps == 1 ) {
+                        $fname =  strtolower($fname);
+                        $fname =  ucwords($fname);
+                        }
+                        else
+                          {
+                            $fname =  ucwords($fname);
+                          }
+                        }
+                        $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname;
                     
                 }else{
 
@@ -1889,10 +1955,57 @@ function saswp_license_status($add_on, $license_status, $license_key){
                         
                         $license[strtolower($add_on).'_addon_license_key_status']  = 'active';
                         $license[strtolower($add_on).'_addon_license_key']         = $license_key;
-                        $license[strtolower($add_on).'_addon_license_key_message'] = 'active';
-                                                                        
+                        $license[strtolower($add_on).'_addon_license_key_message'] = 'active'; 
+                        
+                        if ($license_data) {
+                          // Get UserName
+                        $fname = $license_data->customer_name;
+                        $fname = substr($fname, 0, strpos($fname, ' '));
+                        $check_for_Caps = ctype_upper($fname);
+                        if ( $check_for_Caps == 1 ) {
+                        $fname =  strtolower($fname);
+                        $fname =  ucwords($fname);
+                        }
+                        else
+                          {
+                            $fname =  ucwords($fname);
+                          }
+
+                          // Get Expiring Date
+                          $license_exp = date('Y-m-d', strtotime($license_data->expires));
+                          $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
+                          $license_info_lifetime = $license_data->expires;
+                          $today = date('Y-m-d');
+                          $exp_date =$license_exp;
+                          $date1 = date_create($today);
+                          $date2 = date_create($exp_date);
+                          $diff = date_diff($date1,$date2);
+                          $days = $diff->format("%a");
+                          if( $license_info_lifetime == 'lifetime' ){
+                            $days = 'Lifetime';
+                            if ($days == 'Lifetime') {
+                            $expire_msg = " Your License is Valid for Lifetime ";
+                          }
+                        }
+                        elseif($today > $exp_date){
+                          $days = -$days;
+                        }
+                          // Get Download_ID
+                          $download_id = $license_data->payment_id;
+                        }
+
+                        $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname;
+
+                        $license[strtolower($add_on).'_addon_license_key_expires'] = $days;
+
+                        $license[strtolower($add_on).'_addon_license_key_expires_normal'] = $license_exp_norml;
+                        
+                        $license[strtolower($add_on).'_addon_license_key_download_id'] = $download_id;
+
                         $current_status = 'active';
                         $message = 'Activated';
+                        $days_remaining = $days;
+                        $username = $fname;
                     }
                     
                     if($license_status == 'inactive'){
@@ -1900,8 +2013,31 @@ function saswp_license_status($add_on, $license_status, $license_key){
                         $license[strtolower($add_on).'_addon_license_key_status']  = 'deactivated';
                         $license[strtolower($add_on).'_addon_license_key']         = $license_key;
                         $license[strtolower($add_on).'_addon_license_key_message'] = 'Deactivated';
+                        if ($license_data) {
+                        $fname = $license_data->customer_name;
+                        $fname = substr($fname, 0, strpos($fname, ' '));
+                        $check_for_Caps = ctype_upper($fname);
+                        if ( $check_for_Caps == 1 ) {
+                        $fname =  strtolower($fname);
+                        $fname =  ucwords($fname);
+                        }
+                        else
+                          {
+                            $fname =  ucwords($fname);
+                          }
+                        }
+
+                        $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
+                        $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname;
+
+                        $license[strtolower($add_on).'_addon_license_key_expires'] = $days;
+
+                        $license[strtolower($add_on).'_addon_license_key_expires_normal'] = $license_exp_norml;
+
                         $current_status = 'deactivated';
-                        $message = 'Deactivated';
+                        $message = 'Deactivated';                        
+                        $days_remaining = $days;
+                        $username = $fname;
                     }
                     
                 }
@@ -1910,7 +2046,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 $merge_options = array_merge($get_options, $license);
                 update_option('sd_data', $merge_options);  
                 
-                return array('status'=> $current_status, 'message'=> $message);
+                return array('status'=> $current_status, 'message'=> $message, 'days_remaining' => $days_remaining, 'username' => $fname  );
                                                                 
 }
 
@@ -1929,7 +2065,12 @@ function saswp_license_status_check(){
         $add_on           = sanitize_text_field($_POST['add_on']);
         $license_status   = sanitize_text_field($_POST['license_status']);
         $license_key      = sanitize_text_field($_POST['license_key']);
-        
+        // $match_asterick_pattern = "**********************";
+        // if (strpos($license_key, $match_asterick_pattern)===0) {
+        //   $data = get_option('sd_data');
+        //   $license_key = $data[$add_on.'_addon_license_key'];
+        // }
+
         if($add_on && $license_status && $license_key){
             
           $result = saswp_license_status($add_on, $license_status, $license_key);
@@ -1942,6 +2083,23 @@ function saswp_license_status_check(){
 }
 
 add_action('wp_ajax_saswp_license_status_check', 'saswp_license_status_check');
+
+add_action('wp_ajax_saswp_license_transient', 'saswp_license_transient');
+function saswp_license_transient(){
+            $transient_load =  'saswp_addons_set_transient';
+            $value_load =  'saswp_addons_set_transient_value';
+            $expiration_load =  86400 ;
+            set_transient( $transient_load, $value_load, $expiration_load );
+}
+
+add_action('wp_ajax_saswp_expired_license_transient', 'saswp_expired_license_transient');
+function saswp_expired_license_transient(){
+            $transient_load =  'saswp_addons_expired_set_transient';
+            $value_load =  'saswp_addons_expired_set_transient_value';
+            $expiration_load =  3600 ;
+            set_transient( $transient_load, $value_load, $expiration_load );
+}
+
 /**
  * Licensing code ends here
  */

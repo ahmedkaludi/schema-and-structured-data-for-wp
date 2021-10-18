@@ -78,12 +78,44 @@
             jQuery(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).show();            
              }else{
             jQuery(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).hide(); 
-             }
-         
+             }          
+             saswp_enable_rating_automate();   
             }).change();   
          }
                
-     }
+        }
+
+        function saswp_enable_rating_automate(){
+            var schema_type = "";                      
+            if(jQuery('select#schema_type option:selected').val()){
+               schema_type = jQuery('select#schema_type option:selected').val();    
+            }       
+            if(jQuery(".saswp-tab-links.selected").attr('saswp-schema-type')){
+               schema_type = jQuery(".saswp-tab-links.selected").attr('saswp-schema-type');    
+            }
+           
+          if(schema_type){
+              jQuery(".saswp-enable-rating-automate-"+schema_type.toLowerCase()).change(function(){
+                                
+             if(jQuery(this).is(':checked') && jQuery(this).is(":visible")){
+                jQuery(this).parent().parent().next().show();            
+                jQuery(this).parent().parent().next().next().hide();
+                jQuery(this).parent().parent().next().next().next().hide();
+              }
+              else{
+                jQuery(this).parent().parent().next().hide();     
+                
+                if(jQuery(".saswp-enable-rating-review-"+schema_type.toLowerCase()).is(":checked")){
+                    jQuery(this).parent().parent().next().next().show();
+                    jQuery(this).parent().parent().next().next().next().show();
+                }
+                                
+              }
+          
+             }).change();   
+          }
+                
+         }
      
        function getParameterByName(name, url) {
             if (!url){

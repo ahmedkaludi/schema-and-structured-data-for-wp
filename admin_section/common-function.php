@@ -2385,7 +2385,7 @@ if ( ! defined('ABSPATH') ) exit;
 
         if(saswp_remove_warnings($sd_data, 'saswp-rankmath', 'saswp_string') == 1 && class_exists('RankMath\Post')){
                         
-            $c_title = RankMath\Post::get_meta( 'title', $post->ID );
+            $c_title = RankMath\Post::get_meta( 'title', get_the_ID() );
         
             if(empty($c_title)){
                 $c_title = RankMath\Paper\Paper::get()->get_title();
@@ -3148,6 +3148,7 @@ function saswp_get_field_note($pname){
             'wp_product_review'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-product-review/">WP Product Review</a>',
             'stamped'                     => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/stampedio-product-reviews">Stamped.io Product Reviews & UGC for WooCommerce</a>',
             'soledad'                     => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
+            'enfold'                      => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/enfold-responsive-multipurpose-theme/4519990">Enfold Theme</a>',
             'zip_recipes'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
             'mediavine_create'            => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
             'ht_recipes'                  => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',

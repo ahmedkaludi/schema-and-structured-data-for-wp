@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.9.85
+Version: 1.9.86
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.9.85');
+define('SASWP_VERSION', '1.9.86');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -36,6 +36,7 @@ require_once SASWP_DIR_NAME .'/output/output.php';
 require_once SASWP_DIR_NAME .'/output/markup.php';
 require_once SASWP_DIR_NAME .'/output/other-schema.php';
 require_once SASWP_DIR_NAME .'/output/gutenberg.php';
+require_once SASWP_DIR_NAME .'/output/tinymce.php';
 require_once SASWP_DIR_NAME .'/output/elementor.php';
 require_once SASWP_DIR_NAME .'/output/divi-builder.php';
 
@@ -105,6 +106,8 @@ require_once SASWP_DIR_NAME.'/modules/reviews/reviews_service.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_widget.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_collection.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_form.php';
+require_once SASWP_DIR_NAME.'/modules/tinymce/register-tinymce.php';
+require_once SASWP_DIR_NAME.'/modules/tinymce/register-shortcodes.php';
 require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
 require_once SASWP_DIR_NAME.'/core/global.php';
 //Module files load

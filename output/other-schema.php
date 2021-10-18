@@ -499,7 +499,7 @@ function saswp_add_mooberrybm_schema( $input1 ){
         }
 
         $editors       =  wp_get_post_terms( $post->ID , 'mbdb_editor');
-        $editors_arr  = array();
+        $editors_arr   = array();
 
         if(!is_wp_error($editors)){
         
@@ -525,19 +525,20 @@ function saswp_add_mooberrybm_schema( $input1 ){
         $format = array('Hardcover', 'Paperback', 'ePub', 'Kindle', 'PDF', 'Audiobook');
 
         if(!empty($editions)){
+
             foreach ($editions as $value) {
 
                 $editions_arr[] = array(
                     '@type'         => 'Book',
-                    'isbn'          => $value['_mbdb_isbn'],
-                    'bookEdition'   => $value['_mbdb_edition_title'],
-                    'bookFormat'    => $format[$value['_mbdb_format']],
-                    'inLanguage'    => $value['_mbdb_language'],
-                    'numberOfPages' => $value['_mbdb_length'],
+                    'isbn'          => !empty($value['_mbdb_isbn']) ? $value['_mbdb_isbn'] : '',
+                    'bookEdition'   => !empty($value['_mbdb_edition_title']) ? $value['_mbdb_edition_title'] : '',
+                    'bookFormat'    => !empty($format[$value['_mbdb_format']]) ? $format[$value['_mbdb_format']] : '',
+                    'inLanguage'    => !empty($value['_mbdb_language']) ? $value['_mbdb_language'] : '',
+                    'numberOfPages' => !empty($value['_mbdb_length']) ? $value['_mbdb_length'] : '',
                     'offers'      => array(
                                         '@type'         => 'Offer',
-                                        'price'         => $value['_mbdb_retail_price'],
-                                        'priceCurrency' => $value['_mbdb_currency']
+                                        'price'         => !empty($value['_mbdb_retail_price'])? $value['_mbdb_retail_price'] : '',
+                                        'priceCurrency' => !empty($value['_mbdb_currency']) ? $value['_mbdb_currency'] : ''
                                     ),
                 );                    
             }
