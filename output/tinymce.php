@@ -134,15 +134,16 @@ function saswp_tinymce_how_to_schema(){
 function saswp_tinymce_faq_schema(){
                         
     global $saswp_tiny_multi_faq, $sd_data;
+
     $input1 = array();
-
-    $input1['@context']              = saswp_context_url();
-    $input1['@type']                 = 'FAQPage';
-    $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#FAQPage';                            
-
+    
     $faq_question_arr = array();
 
     if(!empty($saswp_tiny_multi_faq['elements'])){
+
+        $input1['@context']              = saswp_context_url();
+        $input1['@type']                     = 'FAQPage';
+        $input1['@id']                       = trailingslashit(saswp_get_permalink()).'#FAQPage';                            
 
         foreach($saswp_tiny_multi_faq['elements'] as $val){
 
@@ -165,6 +166,7 @@ function saswp_tinymce_faq_schema(){
             $faq_question_arr[] =  $supply_data;
         }
         $input1['mainEntity'] = $faq_question_arr;
+
     }                                          
 
     return apply_filters('saswp_modify_faq_block_schema_output', $input1 );    
