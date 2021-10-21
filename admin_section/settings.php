@@ -1866,10 +1866,15 @@ if(is_array($translation_labels)){
     
     }
 echo '</ul>';
-        $premium_feat_redirect =  esc_url(admin_url().'admin.php?page=structured_data_options&tab=premium_features');
-        echo '<h2 id="saswp-license-heading">'.saswp_t_string('License').'</h2>
-        <p> This section has been shifted to <a href="'.$premium_feat_redirect.'">Premium Features Tab</a>';
-                                
+
+        if(saswp_ext_installed_status()){
+
+                $premium_feat_redirect =  esc_url(admin_url().'admin.php?page=structured_data_options&tab=premium_features');
+                echo '<h2 id="saswp-license-heading">'.saswp_t_string('License').'</h2>
+                <p> This section has been shifted to <a href="'.esc_url($premium_feat_redirect).'">Premium Features Tab</a></p>';
+
+        }
+                                        
         $add_on = array();
         
         if(is_plugin_active('1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php')){
