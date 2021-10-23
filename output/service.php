@@ -5071,7 +5071,7 @@ Class saswp_output_service{
 
                                   $reviews[] = array(
                                                                 '@type'	=> 'Review',
-                                                                'author'	=> $review['author'] ? esc_attr($review['author']) : 'Anonymous',
+                                                                'author'	=> array('@type' => 'Person', 'name' => $review['author'] ? esc_attr($review['author']) : 'Anonymous'),
                                                                 'datePublished'	=> esc_html($review['datePublished']),
                                                                 'description'	=> $review['description'],  
                                                                 'reviewRating'  => array(
