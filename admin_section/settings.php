@@ -472,8 +472,12 @@ function saswp_admin_interface_render(){
                         
                             echo '<div id="saswp-tools-tabs" style="margin-top: 10px;">';
 
-                            echo '<a class="saswp-tools-tab-nav" href="#saswp-advanced-heading">'.saswp_t_string('Advanced').'</a> | <a href="#saswp-translation-heading" class="saswp-tools-tab-nav">'.saswp_t_string('Translation Panel').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-migration-heading">'.saswp_t_string('Migration').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-import-export-heading">'.saswp_t_string('Import / Export').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-misc-heading">'.saswp_t_string('Misc').'</a> | <a class="saswp-tools-tab-nav" href="' . esc_url( admin_url( 'admin.php?page=structured_data_options&tab=premium_features' ) ) . '">' . saswp_t_string( 'License' ) . '</a>';
+                            echo '<a class="saswp-tools-tab-nav" href="#saswp-advanced-heading">'.saswp_t_string('Advanced').'</a> | <a href="#saswp-translation-heading" class="saswp-tools-tab-nav">'.saswp_t_string('Translation Panel').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-migration-heading">'.saswp_t_string('Migration').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-import-export-heading">'.saswp_t_string('Import / Export').'</a> | <a class="saswp-tools-tab-nav" href="#saswp-misc-heading">'.saswp_t_string('Misc').'</a>';
 
+                            if(saswp_ext_installed_status()){
+                                echo ' | <a class="saswp-tools-tab-nav" href="' . esc_url( admin_url( 'admin.php?page=structured_data_options&tab=premium_features' ) ) . '">' . saswp_t_string( 'License' ) . '</a>';
+                            }
+                            
                             echo'</div> ';
 			     // Status
                         
@@ -1862,10 +1866,15 @@ if(is_array($translation_labels)){
     
     }
 echo '</ul>';
-        $premium_feat_redirect =  esc_url(admin_url().'admin.php?page=structured_data_options&tab=premium_features');
-        echo '<h2 id="saswp-license-heading">'.saswp_t_string('License').'</h2>
-        <p> This section has been shifted to <a href="'.$premium_feat_redirect.'">Premium Features Tab</a>';
-                                
+
+        if(saswp_ext_installed_status()){
+
+                $premium_feat_redirect =  esc_url(admin_url().'admin.php?page=structured_data_options&tab=premium_features');
+                echo '<h2 id="saswp-license-heading">'.saswp_t_string('License').'</h2>
+                <p> This section has been shifted to <a href="'.esc_url($premium_feat_redirect).'">Premium Features Tab</a></p>';
+
+        }
+                                        
         $add_on = array();
         
         if(is_plugin_active('1-click-indexing-api-integration-for-saswp/1-click-indexing-api-integration-for-saswp.php')){

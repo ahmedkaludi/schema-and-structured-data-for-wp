@@ -257,19 +257,52 @@ Class saswp_output_service{
                     
                 case 'custom_field':
                     
-                    $cus_field   = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true);                    
+                    $cus_field   = get_post_meta($schema_post_id, 'saswp_custom_meta_field', true);  
+                    
+                    if(strpos($cus_field[$key], "aioseo_posts_") !== false && function_exists('aioseo')){
 
-                    if(strpos($cus_field[$key], "image") !== false){
-                        $response    = get_post_meta($post->ID, $cus_field[$key], true);                         
-                        if(is_numeric($response)){
-                            $response = saswp_get_image_by_id($response);
-                        }else{
-                            $response    = get_post_meta($post->ID, $cus_field[$key], true);     
+                        $column_name = str_replace('aioseo_posts_', '', $cus_field[$key]);
+                        $metaData    = aioseo()->meta->metaData->getMetaData();
+                           
+                        switch ($column_name) {
+
+                            case 'title':
+                                $response = aioseo()->meta->title->getTitle();   
+                                break;
+                            
+                            case 'description':
+                                $response = aioseo()->meta->description->getDescription();   
+                                break;
+                                    
+                            case 'keywords':
+                                $response = aioseo()->meta->keywords->getKeywords();  
+                                break;                     
+                                                        
+                            default:
+
+                                if(isset($metaData->$column_name)){
+                                    $response = $metaData->$column_name;
+                                }                                
+                                
+                                break;
                         }
+                        
+
                     }else{
-                        $response    = get_post_meta($post->ID, $cus_field[$key], true); 
+
+                        if(strpos($cus_field[$key], "image") !== false){
+                            $response    = get_post_meta($post->ID, $cus_field[$key], true);                         
+                            if(is_numeric($response)){
+                                $response = saswp_get_image_by_id($response);
+                            }else{
+                                $response    = get_post_meta($post->ID, $cus_field[$key], true);     
+                            }
+                        }else{
+                            $response    = get_post_meta($post->ID, $cus_field[$key], true); 
+                        }
+
                     }
-                                                                                
+                                                                                                    
                     break;
                 case 'fixed_image':                    
                     
@@ -4076,23 +4109,63 @@ Class saswp_output_service{
              }
             
             $search_string = isset( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';                                    
-	    $data          = array();
-	    $result        = array();
+	        $data          = array();
+	        $result        = array();
             
             global $wpdb;
-	    $saswp_meta_array = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE '%{$search_string}%'", ARRAY_A ); // WPCS: unprepared SQL OK.         
+
+	        $saswp_meta_array = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE '%{$search_string}%'", ARRAY_A ); // WPCS: unprepared SQL OK.         
+
             if ( isset( $saswp_meta_array ) && ! empty( $saswp_meta_array ) ) {
                 
 				foreach ( $saswp_meta_array as $value ) {
-				//	if ( ! in_array( $value['meta_key'], $schema_post_meta_fields ) ) {
+				
 						$data[] = array(
 							'id'   => $value['meta_key'],
 							'text' => preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $value['meta_key'] ) ) ),
 						);
-					//}
+					
 				}
                                 
 			}
+
+            //aioseo wp_aioseo_posts support starts here
+            $column_names = array();
+
+            $table_name   = $wpdb->prefix . 'aioseo_posts';
+            $columns_des  = $wpdb->get_col( "DESC " . $table_name, 0 );
+
+            if($columns_des){
+
+                foreach ( $columns_des as $column_name ) {
+                    $column_names[] = 'aioseo_posts_'.$column_name;
+                }
+
+                foreach ( $column_names as $string ) {
+                    
+                    $preg_rep = preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $string ) ) );
+
+                    if ( strpos( $string, $search_string ) !== false ) {
+
+                        $data[] = array(
+							'id'   => $string,
+							'text' => $preg_rep
+						);                        
+                    }
+
+                    if ( strpos( $preg_rep, $search_string ) !== false ) {
+
+                        $data[] = array(
+							'id'   => $string,
+							'text' => $preg_rep
+						);                        
+                    }
+
+                }
+
+            }
+                        
+            //aioseo wp_aioseo_posts support endss here
                         
             if ( is_array( $data ) && ! empty( $data ) ) {
                 
@@ -4998,7 +5071,7 @@ Class saswp_output_service{
 
                                   $reviews[] = array(
                                                                 '@type'	=> 'Review',
-                                                                'author'	=> $review['author'] ? esc_attr($review['author']) : 'Anonymous',
+                                                                'author'	=> array('@type' => 'Person', 'name' => $review['author'] ? esc_attr($review['author']) : 'Anonymous'),
                                                                 'datePublished'	=> esc_html($review['datePublished']),
                                                                 'description'	=> $review['description'],  
                                                                 'reviewRating'  => array(

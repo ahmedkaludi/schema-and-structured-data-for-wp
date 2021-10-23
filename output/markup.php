@@ -1101,8 +1101,9 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                                 
                                           $review_fields = array();
                                           
-                                          $review_fields['@type']         = 'Review';
-                                          $review_fields['author']        = esc_attr($review['saswp_product_reviews_reviewer_name']);
+                                          $review_fields['@type']           = 'Review';
+                                          $review_fields['author']['@type'] = 'Person';
+                                          $review_fields['author']          = esc_attr($review['saswp_product_reviews_reviewer_name']);
 
                                           if(isset($review['saswp_product_reviews_created_date'])){
                                             $review_fields['datePublished'] = esc_html($review['saswp_product_reviews_created_date']);
@@ -1137,10 +1138,11 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                                                                           
                                           $review_fields = array();
                                           
-                                          $review_fields['@type']         = 'Review';
-                                          $review_fields['author']        = esc_attr($review['author']);
-                                          $review_fields['datePublished'] = esc_html($review['datePublished']);
-                                          $review_fields['description']   = $review['description'];
+                                          $review_fields['@type']           = 'Review';
+                                          $review_fields['author']['@type'] = 'Person';
+                                          $review_fields['author']          = esc_attr($review['author']);
+                                          $review_fields['datePublished']   = esc_html($review['datePublished']);
+                                          $review_fields['description']     = $review['description'];
                                                                                     
                                           if(isset($review['reviewRating']) && $review['reviewRating'] !=''){
                                               
@@ -3285,8 +3287,9 @@ function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                         
                                   $review_fields = array();
                                   
-                                  $review_fields['@type']         = 'Review';
-                                  $review_fields['author']        = esc_attr($review['saswp_vehicle_reviews_reviewer_name']);
+                                  $review_fields['@type']           = 'Review';
+                                  $review_fields['author']['@type'] = 'Person';
+                                  $review_fields['author']          = esc_attr($review['saswp_vehicle_reviews_reviewer_name']);
 
                                   if(isset($review['saswp_vehicle_reviews_created_date'])){
                                     $review_fields['datePublished'] = esc_html($review['saswp_vehicle_reviews_created_date']);
@@ -3320,10 +3323,11 @@ function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                                                                   
                                   $review_fields = array();
                                   
-                                  $review_fields['@type']         = 'Review';
-                                  $review_fields['author']        = esc_attr($review['author']);
-                                  $review_fields['datePublished'] = esc_html($review['datePublished']);
-                                  $review_fields['description']   = $review['description'];
+                                  $review_fields['@type']           = 'Review';
+                                  $review_fields['author']['@type'] = 'Person';
+                                  $review_fields['author']          = esc_attr($review['author']);
+                                  $review_fields['datePublished']   = esc_html($review['datePublished']);
+                                  $review_fields['description']     = $review['description'];
                                                                             
                                   if(isset($review['reviewRating']) && $review['reviewRating'] !=''){
                                       
@@ -3442,8 +3446,9 @@ function saswp_car_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                                         
                                   $review_fields = array();
                                   
-                                  $review_fields['@type']         = 'Review';
-                                  $review_fields['author']        = esc_attr($review['saswp_car_reviews_reviewer_name']);
+                                  $review_fields['@type']           = 'Review';
+                                  $review_fields['author']['@type'] = 'Person';
+                                  $review_fields['author']          = esc_attr($review['saswp_car_reviews_reviewer_name']);
 
                                   if(isset($review['saswp_car_reviews_created_date'])){
                                     $review_fields['datePublished'] = esc_html($review['saswp_car_reviews_created_date']);
@@ -3477,10 +3482,11 @@ function saswp_car_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                                                                                   
                                   $review_fields = array();
                                   
-                                  $review_fields['@type']         = 'Review';
-                                  $review_fields['author']        = esc_attr($review['author']);
-                                  $review_fields['datePublished'] = esc_html($review['datePublished']);
-                                  $review_fields['description']   = $review['description'];
+                                  $review_fields['@type']           = 'Review';
+                                  $review_fields['author']['@type'] = 'Person';
+                                  $review_fields['author']          = esc_attr($review['author']);
+                                  $review_fields['datePublished']   = esc_html($review['datePublished']);
+                                  $review_fields['description']     = $review['description'];
                                                                             
                                   if(isset($review['reviewRating']) && $review['reviewRating'] !=''){
                                       

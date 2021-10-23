@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 1.9.86
+Stable tag: 1.9.87
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.9.87 (23 Oct 2021) =
+
+* Fixed: Invalid object type for field “author” #1552
+* Fixed: License link improvement #1539
+* Fixed: QandA Schema activation issue on SASWP #1547
+* Added: Support for All-in-Once SEO plugin v.4 fields #1528
+* Enhancement: Need add 'US' date format in reviews section. #1540
+
+
+= 1.9.86.1 (20 Oct 2021) =
+
+* Fixed: Empty FAQPage schema #1549
 
 
 = 1.9.86 (18 Oct 2021) =
