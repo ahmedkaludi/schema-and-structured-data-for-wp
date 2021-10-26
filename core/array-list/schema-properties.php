@@ -3120,6 +3120,22 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                 'label' => 'Location Phone',
                                                 'id'    => 'saswp_apartment_complex_phone_'.$schema_id,
                                                 'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label'      => 'GeoCoordinates Latitude',
+                                                'id'         => 'saswp_apartment_complex_latitude_'.$schema_id,
+                                                'type'       => 'text',
+                                                'attributes' => array(
+                                                    'placeholder' => '17.412'
+                                                ), 
+                                        ),
+                                        array(
+                                                'label'      => 'GeoCoordinates Longitude',
+                                                'id'         => 'saswp_apartment_complex_longitude_'.$schema_id,
+                                                'type'       => 'text',
+                                                'attributes' => array(
+                                                    'placeholder' => '78.433'
+                                                ),
                                         )                                                                                                                   
                                 );
                                 

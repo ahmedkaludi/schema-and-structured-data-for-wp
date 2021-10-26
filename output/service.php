@@ -2841,6 +2841,12 @@ Class saswp_output_service{
     
                                 $input1['address'] = $location;
                             }
+
+                            if(isset($custom_fields['saswp_apartment_complex_latitude']) && isset($custom_fields['saswp_apartment_complex_longitude'])){
+                                $input1['geo']['@type']     =    'GeoCoordinates';   
+                                $input1['geo']['latitude']  =    $custom_fields['saswp_apartment_complex_latitude'];
+                                $input1['geo']['longitude'] =    $custom_fields['saswp_apartment_complex_longitude'];                     
+                            }
     
                             break;    
 

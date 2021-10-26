@@ -2733,7 +2733,15 @@ function saswp_apartment_complex_schema_markup($schema_id, $schema_post_id, $all
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_region_'.$schema_id, 'saswp_array');
     $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_postalcode_'.$schema_id, 'saswp_array');
     $input1['address']['telephone']         = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_phone_'.$schema_id, 'saswp_array');    
-        
+    
+    if(isset($all_post_meta['saswp_apartment_complex_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_apartment_complex_longitude_'.$schema_id][0])){
+
+        $input1['geo']['@type']     = 'GeoCoordinates';
+        $input1['geo']['latitude']  = $all_post_meta['saswp_apartment_complex_latitude_'.$schema_id][0];
+        $input1['geo']['longitude'] = $all_post_meta['saswp_apartment_complex_longitude_'.$schema_id][0];
+
+    }
+
     return $input1;
     
 }
