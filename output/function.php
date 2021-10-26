@@ -1193,8 +1193,13 @@ function saswp_extract_wp_post_ratings(){
 function saswp_get_comments($post_id){
     
     global $sd_data;
+    $wpdiscuz = false;
+
+    if(isset($sd_data['saswp-wpdiscuz']) && $sd_data['saswp-wpdiscuz'] == 1 && is_plugin_active('wpdiscuz/class.WpdiscuzCore.php') ){
+        $wpdiscuz = true;
+    }
     
-    $comments = array();
+    $comments      = array();
     $post_comments = array();   
     
     $is_bbpress = false;
@@ -1237,12 +1242,31 @@ function saswp_get_comments($post_id){
     if ( count( $post_comments ) ) {
         
     foreach ( $post_comments as $comment ) {
-                
+        
+        $likes    = 0;
+        $dislikes = 0; 
+        
+        if($wpdiscuz){
+
+            $wpdiscuz_votes =  get_comment_meta($comment->comment_ID, 'wpdiscuz_votes_seperate', true);
+            
+            if(isset($wpdiscuz_votes['like'])){
+                $likes = $wpdiscuz_votes['like'];
+            }
+
+            if(isset($wpdiscuz_votes['dislike'])){
+                $dislikes = $wpdiscuz_votes['dislike'];
+            }
+        }
+       
+        
         $comments[] = array (
-                '@type'       => 'Comment',
-                'id'          => trailingslashit(get_permalink()).'comment-'.$comment->comment_ID,
-                'dateCreated' => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
-                'description' => strip_tags($comment->comment_content),
+                '@type'         => 'Comment',
+                'id'            => trailingslashit(get_permalink()).'comment-'.$comment->comment_ID,
+                'dateCreated'   => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
+                'description'   => strip_tags($comment->comment_content),
+                'upvoteCount'   => $likes,
+                'downvoteCount' => $dislikes,
                 'author'      => array (
                                                 '@type' => 'Person',
                                                 'name'  => esc_attr($comment->comment_author),
