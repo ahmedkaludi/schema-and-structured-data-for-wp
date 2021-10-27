@@ -901,7 +901,8 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $schema_type   = $item_reviewed;
                                 
                                 $review_fields['saswp_review_name']           = 'Review Name';
-                                $review_fields['saswp_review_description']    = 'Review Description';                                
+                                $review_fields['saswp_review_description']    = 'Review Description'; 
+                                $review_fields['saswp_review_body']           = 'Review Body';                                
                                 $review_fields['saswp_review_author']         = 'Review Author';
                                 $review_fields['saswp_review_author_url']     = 'Review Author Profile URL';
                                 $review_fields['saswp_review_publisher']      = 'Review Publisher';

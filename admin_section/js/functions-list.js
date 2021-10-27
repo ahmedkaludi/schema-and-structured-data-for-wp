@@ -291,6 +291,7 @@
                                        html += '<optgroup label="Review">';
                                        html += '<option value="saswp_review_name">Review Name</option>';    
                                        html += '<option value="saswp_review_description">Review Description</option>';                                              
+                                       html += '<option value="saswp_review_body">Review Body</option>';                                              
                                        html += '<option value="saswp_review_author">Review Author</option>';
                                        html += '<option value="saswp_review_author_url">Review Author Profile URL</option>';
                                        html += '<option value="saswp_review_publisher">Review Publisher</option>';

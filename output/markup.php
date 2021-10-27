@@ -180,6 +180,13 @@ function saswp_movie_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1['director']['name']          = $all_post_meta['saswp_movie_director_'.$schema_id][0];        
             
         }
+
+        if(isset($all_post_meta['saswp_movie_actor_'.$schema_id][0])){
+            
+            $input1['actor']['@type']        = 'Person';
+            $input1['actor']['name']          = $all_post_meta['saswp_movie_actor_'.$schema_id][0];        
+                
+        }
         
         if(saswp_remove_warnings($all_post_meta, 'saswp_movie_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_movie_rating_value_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_movie_rating_count_'.$schema_id, 'saswp_array')){   
                                  
@@ -4630,8 +4637,12 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         }
      }
 
-    if(isset($all_post_meta['saswp_review_description_'.$schema_id])){                                                                     
+    if(isset($all_post_meta['saswp_review_description_'.$schema_id][0])){                                                                     
         $input1['description']              = $all_post_meta['saswp_review_description_'.$schema_id][0];
+    }
+
+    if(isset($all_post_meta['saswp_review_body_'.$schema_id][0])){
+        $input1['reviewBody']              = $all_post_meta['saswp_review_body_'.$schema_id][0];
     }
 
     if(isset($all_post_meta['saswp_review_author_'.$schema_id])){

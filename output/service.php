@@ -570,6 +570,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_review_description'])){
                         $review_markup['description']                =    $custom_fields['saswp_review_description'];
                     }
+                    if(isset($custom_fields['saswp_review_body'])){
+                        $review_markup['reviewBody']                 =    $custom_fields['saswp_review_body'];
+                    }
                     if(isset($custom_fields['saswp_review_rating_value'])){
                        $review_markup['reviewRating']['@type']       =   'Rating';                                              
                        $review_markup['reviewRating']['ratingValue'] =    $custom_fields['saswp_review_rating_value'];
@@ -718,6 +721,10 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_movie_director'])){
                      $input1['director']['@type']        = 'Person';
                      $input1['director']['name']          = $custom_fields['saswp_movie_director']; 
+                    }
+                    if(isset($custom_fields['saswp_movie_actor'])){
+                        $input1['actor']['@type']        = 'Person';
+                        $input1['actor']['name']          = $custom_fields['saswp_movie_actor']; 
                     }
                     if(isset($custom_fields['saswp_movie_rating_value']) && isset($custom_fields['saswp_movie_rating_count'])){
                         $input1['aggregateRating']['@type']         = 'aggregateRating';                        

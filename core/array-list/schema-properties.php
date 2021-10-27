@@ -3579,6 +3579,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_review_description_'.$schema_id,
                             'type' => 'textarea',                           
                             'default' => saswp_strip_all_tags(get_the_excerpt())                         
+                        );
+                        $meta_field[] = array(
+                                'label' => 'Review Body',
+                                'id'    => 'saswp_review_body_'.$schema_id,
+                                'type'   => 'textarea',                           
+                                'default' => saswp_strip_all_tags(get_the_excerpt())                         
                         );                        
                         $meta_field[] = array(
                             'label' => 'Review Author',
@@ -7017,6 +7023,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'         => 'saswp_movie_director_'.$schema_id,
                             'type'       => 'text',                           
                         ),
+                        array(
+                                'label'      => 'Actor',
+                                'id'         => 'saswp_movie_actor_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
                         array(
                             'label'      => 'Aggregate Rating',
                             'id'         => 'saswp_movie_enable_rating_'.$schema_id,
