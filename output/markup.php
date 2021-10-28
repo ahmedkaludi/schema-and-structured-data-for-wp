@@ -244,7 +244,30 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
             $input1['estimatedCost']['value']   = saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_value_'.$schema_id, 'saswp_array');
         }
 
+        $video_object = array();
 
+        if( isset($all_post_meta['saswp_howto_schema_video_name_'.$schema_id][0]) ){
+            $video_object['name']         = $all_post_meta['saswp_howto_schema_video_name_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_howto_schema_video_description_'.$schema_id][0]) ){
+            $video_object['description']         = $all_post_meta['saswp_howto_schema_video_description_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_howto_schema_video_thumbnail_url_'.$schema_id][0]) ){
+            $video_object['thumbnailUrl']         = $all_post_meta['saswp_howto_schema_video_thumbnail_url_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_howto_schema_video_content_url_'.$schema_id][0]) ){
+            $video_object['contentUrl']         = $all_post_meta['saswp_howto_schema_video_content_url_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_howto_schema_video_embed_url_'.$schema_id][0]) ){
+            $video_object['embedUrl']         = $all_post_meta['saswp_howto_schema_video_embed_url_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_howto_schema_video_upload_date_'.$schema_id][0]) ){
+            $video_object['uploadDate']         = $all_post_meta['saswp_howto_schema_video_upload_date_'.$schema_id][0];            
+        }
+        if( isset($all_post_meta['saswp_howto_schema_video_duration_'.$schema_id][0]) ){
+            $video_object['duration']         = $all_post_meta['saswp_howto_schema_video_duration_'.$schema_id][0];            
+        }
+        
         $supply_arr = array();
         if(!empty($supply)){
 
@@ -300,10 +323,10 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         }
 
         //step
-
+        $haspart = array();
         $step_arr = array();                            
         if(!empty($step)){
-
+             $j = 1;   
             foreach($step as $key => $val){
 
                 $supply_data = array();
@@ -340,16 +363,36 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                             
                 }
 
-               $step_arr[] =  $supply_data;
+                if(isset($val['saswp_howto_video_clip_name']) && $val['saswp_howto_video_start_offset']){
 
+                    $haspart[] = array(
+                        '@type'       => 'Clip',
+                        '@id'         => 'Clip'.$j,
+                        'name'        => $val['saswp_howto_video_clip_name'],
+                        'startOffset' => $val['saswp_howto_video_start_offset'],
+                        'endOffset'   => $val['saswp_howto_video_end_offset'],
+                        'url'         => $val['saswp_howto_video_clip_url'],
+                    );      
+                    
+                    $supply_data['video']['@id'] = 'Clip'.$j; 
+                }
+
+               $step_arr[] =  $supply_data;
+                $j++;
             }
 
            $input1['step'] = $step_arr;
 
         }
 
+        if(!empty($video_object)){
+            $video_object['@type']   = 'VideoObject';
+            $video_object['hasPart'] = $haspart;
+            $input1['video'] = $video_object;
+        }
+
          $input1['totalTime'] = saswp_remove_warnings($all_post_meta, 'saswp_howto_schema_totaltime_'.$schema_id, 'saswp_array');
-                             
+        
     return $input1;
 }
 

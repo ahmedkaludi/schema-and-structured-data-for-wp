@@ -4226,6 +4226,64 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_howto_ec_schema_date_modified_'.$schema_id,
                                 'type'       => 'text',                             
                     ),
+                       
+                        array(
+                                'label'      => 'Video Name',
+                                'id'         => 'saswp_howto_schema_video_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'Build a Trivia Game for the Google Assistant with No Code'
+                                    ),                             
+                        ),
+                        array(
+                                'label'      => 'Video Description',
+                                'id'         => 'saswp_howto_schema_video_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'attributes' => array(
+                                        'placeholder' => 'Learn how to create a Trivia action for Assistant within minutes.'
+                                    ),                             
+                        ),
+                        array(
+                                'label'      => 'Video Thumbnail URL',
+                                'id'         => 'saswp_howto_schema_video_thumbnail_url_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'https://example.com/photos/photo.jpg'
+                                    ),                             
+                        ),
+                        array(
+                                'label'      => 'Video Content URL',
+                                'id'         => 'saswp_howto_schema_video_content_url_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                        'placeholder' => 'https://www.youtube.com/watch?v=4AOI1tZrgMI'
+                                    ),                            
+                        ),
+                        array(
+                                'label'      => 'Video Embed URL',
+                                'id'         => 'saswp_howto_schema_video_embed_url_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'https://www.youtube.com/embed/4AOI1tZrgMI'
+                                    ),                             
+                        ),
+                        array(
+                                'label'      => 'Video Upload Date',
+                                'id'         => 'saswp_howto_schema_video_upload_date_'.$schema_id,
+                                'type'       => 'text',  
+                                'attributes' => array(
+                                        'placeholder' => '2019-01-05'
+                                    ),                           
+                        ),
+                        array(
+                                'label'      => 'Video Duration',
+                                'id'         => 'saswp_howto_schema_video_duration_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                        'placeholder' => 'P1MT10S'
+                                    ),                            
+                        ),
+
                     array(
                         'label'      => 'Supplies',
                         'id'         => 'saswp_howto_schema_supplies_'.$schema_id,

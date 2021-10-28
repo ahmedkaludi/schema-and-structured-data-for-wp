@@ -703,7 +703,7 @@ class saswp_view_common_class {
                                         $sanitize_data = array();
 
                                             foreach($supply as $k => $el){   
-                                                    if($el){
+                                                    if(isset($el)){
                                                         $sanitize_data[$k] = wp_kses_post(wp_unslash($el));                                                                                                                                   
                                                     }                                               
                                                     
