@@ -1001,7 +1001,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             echo '</td>';
                                                         
                             if($fieldval == 'manual_text'){
-                                 echo '<td><input type="text" name="saswp_fixed_text['.esc_attr($fieldkey).']" value="'.(isset($fixed_text[$fieldkey]) ? esc_html($fixed_text[$fieldkey]) :'').'"></td>';    
+                                 echo '<td><textarea cols="35" rows="2" name="saswp_fixed_text['.esc_attr($fieldkey).']">'.(isset($fixed_text[$fieldkey]) ? esc_html($fixed_text[$fieldkey]) :'').'</textarea></td>';    
                             }else if($fieldval == 'taxonomy_term'){
                                 
                                 $choices    = array('all' => saswp_t_string('All'));

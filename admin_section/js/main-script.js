@@ -3246,7 +3246,7 @@ jQuery(document).ready(function($){
           var media_name = 'saswp_fixed_image['+field_name+']';
           
           if(meta_val == 'manual_text'){
-              html += '<td><input type="text" name="saswp_fixed_text['+field_name+']"></td>';              
+              html += '<td><textarea cols="35" rows="2" name="saswp_fixed_text['+field_name+']"></textarea></td>';              
               html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
               
               $(this).parent().parent('tr').find("td:gt(1)").remove();
