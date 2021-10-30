@@ -4529,7 +4529,7 @@ Class saswp_output_service{
              
              }else{
                  
-                 if(isset($sd_data['saswp_default_review']) && $sd_data['saswp_default_review'] == 1){
+                 if( isset($sd_data['saswp_default_review']) && $sd_data['saswp_default_review'] == 1 && saswp_get_the_author_name() ){
                  
                      $reviews_arr[] = array(
                      'author'        => saswp_get_the_author_name(),

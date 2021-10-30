@@ -29,7 +29,7 @@ function saswp_get_reviews_schema_markup($reviews){
                                                                         
                                     $sumofrating += $rv['saswp_review_rating'];
                                     
-                                    if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name']){
+                                    if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name'] !='' ){
                                         
                                         $reviews_arr[] = array(
                                             '@type'         => 'Review',
