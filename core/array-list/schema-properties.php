@@ -3956,6 +3956,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_video_object_embed_url_'.$schema_id,
                             'type'    => 'text',
                             'default' => isset($video_links[0]['video_url']) ? $video_links[0]['video_url'] : get_permalink()                            
+                    ),
+                    array(
+                        'label'   => 'Seek To Video URL',
+                        'id'      => 'saswp_video_object_seek_to_video_url_'.$schema_id,
+                        'type'    => 'text'                        
+                    ),    
+                    array(
+                        'label'   => 'Seek To Second Number',
+                        'id'      => 'saswp_video_object_seek_to_seconds_'.$schema_id,
+                        'type'    => 'number'                        
                     ),    
                     array(
                             'label'   => 'Main Entity Id',

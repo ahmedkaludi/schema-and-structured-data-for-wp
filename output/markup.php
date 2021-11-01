@@ -4422,7 +4422,15 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         }
         if(isset($all_post_meta['saswp_video_object_embed_url_'.$schema_id][0]) && wp_http_validate_url($all_post_meta['saswp_video_object_embed_url_'.$schema_id][0])){
             $input1['embedUrl']     = $all_post_meta['saswp_video_object_embed_url_'.$schema_id][0];        
-        }    
+        }
+        
+        if(!empty($all_post_meta['saswp_video_object_seek_to_seconds_'.$schema_id][0]) && !empty($all_post_meta['saswp_video_object_seek_to_video_url_'.$schema_id][0])){
+
+            $input1['potentialAction']['@type']             = 'SeekToAction';
+            $input1['potentialAction']['target']            = $all_post_meta['saswp_video_object_seek_to_video_url_'.$schema_id][0].'?t'.$all_post_meta['saswp_video_object_seek_to_seconds_'.$schema_id][0];
+            $input1['potentialAction']['startOffset-input'] = 'required name=seek_to_second_number';
+
+        }
     
     return $input1;
     
