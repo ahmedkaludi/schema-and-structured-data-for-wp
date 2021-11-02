@@ -571,6 +571,14 @@ class SASWP_Reviews_Collection {
                 'lowest'     => 'Lowest Rating',
                 'random'     => 'Random'
             );
+
+            $rating_specific_sel = array(
+                5 => 5,
+                4 => 4,
+                3 => 3,
+                2 => 2,
+                1 => 1
+            );
                         
             $coll_display_type = array(
                 'shortcode'               => 'Shortcode',  
@@ -744,6 +752,25 @@ class SASWP_Reviews_Collection {
                                             ?>
                                         </select>
                                     </div>
+
+                                    <div class="saswp-dp-dsg saswp-dp-dtm">
+                                            <span><?php echo saswp_t_string( 'Specific Rating' ); ?></span>
+                                            <span><input name="saswp_collection_specific_rating" type="checkbox" id="saswp_collection_specific_rating" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_specific_rating'][0]) && $post_meta['saswp_collection_specific_rating'][0] == 1 ? 'checked' : '' ); ?>></span>
+                                    </div>
+
+                                    <div class="saswp-dp-dsg">
+                                        <lable><?php echo saswp_t_string('Rating'); ?></lable>  
+                                        <select id="saswp_collection_specific_rating_sel" name="saswp_collection_specific_rating_sel" class="saswp-coll-settings-options saswp-coll-settings-options">                                      
+                                          <?php
+                                            foreach($rating_specific_sel as $key => $val){
+                                                echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_specific_rating_sel'][0] == $key ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
+                                                
+                                            }
+                                            
+                                            ?>
+                                        </select>
+                                    </div>
+
                                 </div>
                               </li>
                               <li>
@@ -898,9 +925,11 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_collection_design']       = isset($_POST['saswp_collection_design']) ? sanitize_text_field($_POST['saswp_collection_design']) : '';                        
             $post_meta['saswp_collection_date_format']  = isset($_POST['saswp_collection_date_format']) ? sanitize_text_field($_POST['saswp_collection_date_format']) : '';                        
             $post_meta['saswp_collection_sorting']      = isset($_POST['saswp_collection_sorting']) ? sanitize_text_field($_POST['saswp_collection_sorting']) : '';
+            $post_meta['saswp_collection_specific_rating'] = isset($_POST['saswp_collection_specific_rating']) ? sanitize_text_field($_POST['saswp_collection_specific_rating']) : '';
             $post_meta['saswp_collection_display_type'] = $display_type;
             $post_meta['saswp_collection_gallery_type'] = isset($_POST['saswp_collection_gallery_type']) ? sanitize_text_field($_POST['saswp_collection_gallery_type']) : '';
             $post_meta['saswp_collection_cols']         = isset($_POST['saswp_collection_cols']) ? intval($_POST['saswp_collection_cols']) : '';
+            $post_meta['saswp_collection_specific_rating_sel'] = isset($_POST['saswp_collection_specific_rating_sel']) ? intval($_POST['saswp_collection_specific_rating_sel']) : '';
             $post_meta['saswp_gallery_arrow']           = isset($_POST['saswp_gallery_arrow']) ? intval($_POST['saswp_gallery_arrow']) : '';
             $post_meta['saswp_gallery_dots']            = isset($_POST['saswp_gallery_dots']) ? intval($_POST['saswp_gallery_dots']) : '';            
             $post_meta['saswp_collection_pagination']   = isset($_POST['saswp_collection_pagination']) ? intval($_POST['saswp_collection_pagination']) : '';            

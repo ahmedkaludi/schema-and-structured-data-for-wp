@@ -3737,8 +3737,8 @@ jQuery(document).ready(function($){
                                                   
             $(".saswp-coll-settings-options").change(function(){
                 saswp_grid_page = 1;
-                var design         = $(".saswp-collection-desing").val();                                   
-                
+                var design          = $(".saswp-collection-desing").val();                                                 
+                var sorting         = $(".saswp-collection-sorting").val();                                                 
                 $(".saswp-coll-options").addClass('saswp_hide');
                 $(".saswp-collection-lp").css('height', 'auto'); 
                 $(".saswp-rmv-coll-rv").hide();
@@ -3761,6 +3761,27 @@ jQuery(document).ready(function($){
                 
                 if(design == 'popup'){
                     $(".saswp-collection-lp").css('height', '31px');                   
+                }
+
+                if($("#saswp_collection_specific_rating").is(':checked')){
+                  $("#saswp_collection_specific_rating_sel").parent().removeClass("saswp_hide");                  
+                }else{
+                  $("#saswp_collection_specific_rating_sel").parent().addClass("saswp_hide");                  
+                }
+
+                if(sorting == 'recent'){
+                  $("#saswp_collection_specific_rating").parent().parent().removeClass("saswp_hide");                  
+                  $("#saswp_collection_specific_rating_sel").parent().removeClass("saswp_hide"); 
+                  
+                  if($("#saswp_collection_specific_rating").is(':checked')){
+                    $("#saswp_collection_specific_rating_sel").parent().removeClass("saswp_hide");                  
+                  }else{
+                    $("#saswp_collection_specific_rating_sel").parent().addClass("saswp_hide");                  
+                  }
+                  
+                }else{
+                  $("#saswp_collection_specific_rating").parent().parent().addClass("saswp_hide");                  
+                  $("#saswp_collection_specific_rating_sel").parent().addClass("saswp_hide");                  
                 }
                 
                 saswp_on_collection_design_change();  
