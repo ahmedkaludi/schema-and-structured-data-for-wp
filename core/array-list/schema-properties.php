@@ -3120,6 +3120,22 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                 'label' => 'Location Phone',
                                                 'id'    => 'saswp_apartment_complex_phone_'.$schema_id,
                                                 'type'  => 'text',                                
+                                        ),
+                                        array(
+                                                'label'      => 'GeoCoordinates Latitude',
+                                                'id'         => 'saswp_apartment_complex_latitude_'.$schema_id,
+                                                'type'       => 'text',
+                                                'attributes' => array(
+                                                    'placeholder' => '17.412'
+                                                ), 
+                                        ),
+                                        array(
+                                                'label'      => 'GeoCoordinates Longitude',
+                                                'id'         => 'saswp_apartment_complex_longitude_'.$schema_id,
+                                                'type'       => 'text',
+                                                'attributes' => array(
+                                                    'placeholder' => '78.433'
+                                                ),
                                         )                                                                                                                   
                                 );
                                 
@@ -3563,6 +3579,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_review_description_'.$schema_id,
                             'type' => 'textarea',                           
                             'default' => saswp_strip_all_tags(get_the_excerpt())                         
+                        );
+                        $meta_field[] = array(
+                                'label' => 'Review Body',
+                                'id'    => 'saswp_review_body_'.$schema_id,
+                                'type'   => 'textarea',                           
+                                'default' => saswp_strip_all_tags(get_the_excerpt())                         
                         );                        
                         $meta_field[] = array(
                             'label' => 'Review Author',
@@ -3934,6 +3956,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_video_object_embed_url_'.$schema_id,
                             'type'    => 'text',
                             'default' => isset($video_links[0]['video_url']) ? $video_links[0]['video_url'] : get_permalink()                            
+                    ),
+                    array(
+                        'label'   => 'Seek To Video URL',
+                        'id'      => 'saswp_video_object_seek_to_video_url_'.$schema_id,
+                        'type'    => 'text'                        
+                    ),    
+                    array(
+                        'label'   => 'Seek To Second Number',
+                        'id'      => 'saswp_video_object_seek_to_seconds_'.$schema_id,
+                        'type'    => 'number'                        
                     ),    
                     array(
                             'label'   => 'Main Entity Id',
@@ -4204,6 +4236,64 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_howto_ec_schema_date_modified_'.$schema_id,
                                 'type'       => 'text',                             
                     ),
+                       
+                        array(
+                                'label'      => 'Video Name',
+                                'id'         => 'saswp_howto_schema_video_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'Build a Trivia Game for the Google Assistant with No Code'
+                                    ),                             
+                        ),
+                        array(
+                                'label'      => 'Video Description',
+                                'id'         => 'saswp_howto_schema_video_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'attributes' => array(
+                                        'placeholder' => 'Learn how to create a Trivia action for Assistant within minutes.'
+                                    ),                             
+                        ),
+                        array(
+                                'label'      => 'Video Thumbnail URL',
+                                'id'         => 'saswp_howto_schema_video_thumbnail_url_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'https://example.com/photos/photo.jpg'
+                                    ),                             
+                        ),
+                        array(
+                                'label'      => 'Video Content URL',
+                                'id'         => 'saswp_howto_schema_video_content_url_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                        'placeholder' => 'https://www.youtube.com/watch?v=4AOI1tZrgMI'
+                                    ),                            
+                        ),
+                        array(
+                                'label'      => 'Video Embed URL',
+                                'id'         => 'saswp_howto_schema_video_embed_url_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'https://www.youtube.com/embed/4AOI1tZrgMI'
+                                    ),                             
+                        ),
+                        array(
+                                'label'      => 'Video Upload Date',
+                                'id'         => 'saswp_howto_schema_video_upload_date_'.$schema_id,
+                                'type'       => 'text',  
+                                'attributes' => array(
+                                        'placeholder' => '2019-01-05'
+                                    ),                           
+                        ),
+                        array(
+                                'label'      => 'Video Duration',
+                                'id'         => 'saswp_howto_schema_video_duration_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                        'placeholder' => 'P1MT10S'
+                                    ),                            
+                        ),
+
                     array(
                         'label'      => 'Supplies',
                         'id'         => 'saswp_howto_schema_supplies_'.$schema_id,
@@ -7001,6 +7091,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'         => 'saswp_movie_director_'.$schema_id,
                             'type'       => 'text',                           
                         ),
+                        array(
+                                'label'      => 'Actor',
+                                'id'         => 'saswp_movie_actor_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
                         array(
                             'label'      => 'Aggregate Rating',
                             'id'         => 'saswp_movie_enable_rating_'.$schema_id,

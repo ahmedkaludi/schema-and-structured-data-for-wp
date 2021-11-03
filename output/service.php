@@ -570,6 +570,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_review_description'])){
                         $review_markup['description']                =    $custom_fields['saswp_review_description'];
                     }
+                    if(isset($custom_fields['saswp_review_body'])){
+                        $review_markup['reviewBody']                 =    $custom_fields['saswp_review_body'];
+                    }
                     if(isset($custom_fields['saswp_review_rating_value'])){
                        $review_markup['reviewRating']['@type']       =   'Rating';                                              
                        $review_markup['reviewRating']['ratingValue'] =    $custom_fields['saswp_review_rating_value'];
@@ -718,6 +721,10 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_movie_director'])){
                      $input1['director']['@type']        = 'Person';
                      $input1['director']['name']          = $custom_fields['saswp_movie_director']; 
+                    }
+                    if(isset($custom_fields['saswp_movie_actor'])){
+                        $input1['actor']['@type']        = 'Person';
+                        $input1['actor']['name']          = $custom_fields['saswp_movie_actor']; 
                     }
                     if(isset($custom_fields['saswp_movie_rating_value']) && isset($custom_fields['saswp_movie_rating_count'])){
                         $input1['aggregateRating']['@type']         = 'aggregateRating';                        
@@ -2841,6 +2848,12 @@ Class saswp_output_service{
     
                                 $input1['address'] = $location;
                             }
+
+                            if(isset($custom_fields['saswp_apartment_complex_latitude']) && isset($custom_fields['saswp_apartment_complex_longitude'])){
+                                $input1['geo']['@type']     =    'GeoCoordinates';   
+                                $input1['geo']['latitude']  =    $custom_fields['saswp_apartment_complex_latitude'];
+                                $input1['geo']['longitude'] =    $custom_fields['saswp_apartment_complex_longitude'];                     
+                            }
     
                             break;    
 
@@ -3035,7 +3048,16 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_video_object_embed_url']) && wp_http_validate_url($custom_fields['saswp_video_object_embed_url'])){
                      $input1['embedUrl']   =    saswp_validate_url($custom_fields['saswp_video_object_embed_url']);
-                    }                                                                                                  
+                    }
+                    
+                    if(!empty($custom_fields['saswp_video_object_seek_to_seconds']) && !empty($custom_fields['saswp_video_object_seek_to_video_url'])){
+
+                        $input1['potentialAction']['@type']             = 'SeekToAction';
+                        $input1['potentialAction']['target']            = $custom_fields['saswp_video_object_seek_to_video_url'].'?t'.$custom_fields['saswp_video_object_seek_to_seconds'];
+                        $input1['potentialAction']['startOffset-input'] = 'required name=seek_to_second_number';
+
+                    }                    
+                    
                     if(isset($custom_fields['saswp_video_object_author_type'])){
                         $input1['author']['@type'] =    $custom_fields['saswp_video_object_author_type'];
                     }
@@ -4516,7 +4538,7 @@ Class saswp_output_service{
              
              }else{
                  
-                 if(isset($sd_data['saswp_default_review']) && $sd_data['saswp_default_review'] == 1){
+                 if( isset($sd_data['saswp_default_review']) && $sd_data['saswp_default_review'] == 1 && saswp_get_the_author_name() ){
                  
                      $reviews_arr[] = array(
                      'author'        => saswp_get_the_author_name(),

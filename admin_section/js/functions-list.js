@@ -291,6 +291,7 @@
                                        html += '<optgroup label="Review">';
                                        html += '<option value="saswp_review_name">Review Name</option>';    
                                        html += '<option value="saswp_review_description">Review Description</option>';                                              
+                                       html += '<option value="saswp_review_body">Review Body</option>';                                              
                                        html += '<option value="saswp_review_author">Review Author</option>';
                                        html += '<option value="saswp_review_author_url">Review Author Profile URL</option>';
                                        html += '<option value="saswp_review_publisher">Review Publisher</option>';
@@ -471,7 +472,7 @@
             
         }
         
-       function saswp_create_total_collection(){
+       function saswp_create_total_collection( s_rating_enable, s_rating_val ){
            
            var platform_list = '';
            
@@ -489,8 +490,16 @@
                             value.is_remove = false; 
                         }
                     
-                        saswp_total_collection.push(value);
-                   
+                        if(s_rating_enable){
+
+                            if( value.saswp_review_rating >= s_rating_val ){
+                                saswp_total_collection.push(value);
+                            }
+
+                        }else{
+                            saswp_total_collection.push(value);
+                        }                                                
+                        
                     });
                                                          
                    platform_list += saswp_function_added_platform(key, saswp_collection[key].length );
@@ -1291,6 +1300,7 @@
        function saswp_on_collection_design_change(){
            
                 var sorting             = jQuery(".saswp-collection-sorting").val();
+                var s_rating_val        = jQuery("#saswp_collection_specific_rating_sel").val();
                 var design              = jQuery(".saswp-collection-desing").val();                                   
                 var cols                = jQuery("#saswp-collection-cols").val();
                 var slider              = jQuery(".saswp-slider-type").val();
@@ -1301,6 +1311,7 @@
                 var pagination          = false;
                 var offset              = 0;
                 var nextpage            = perpage;
+                var s_rating_enable     = false;
                 
                 if(jQuery("#saswp-coll-pagination").is(":checked")){                    
                     pagination          = true;                          
@@ -1310,6 +1321,10 @@
                     }                    
                     offset              = nextpage - perpage;
                     
+                }
+
+                if(jQuery("#saswp_collection_specific_rating").is(":checked")){
+                    s_rating_enable          = true;                                                                  
                 }
                 
                 //var fomo_visibility     = jQuery("#saswp_fomo_visibility").val();
@@ -1326,7 +1341,7 @@
                     var dots            = false;
                 }
                                                 
-                saswp_create_total_collection();                 
+                saswp_create_total_collection( s_rating_enable, s_rating_val );                 
                 saswp_collection_sorting(sorting);  
                 saswp_collection_total_reviews_id();
                 saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage);                                                

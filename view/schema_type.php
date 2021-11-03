@@ -901,7 +901,8 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $schema_type   = $item_reviewed;
                                 
                                 $review_fields['saswp_review_name']           = 'Review Name';
-                                $review_fields['saswp_review_description']    = 'Review Description';                                
+                                $review_fields['saswp_review_description']    = 'Review Description'; 
+                                $review_fields['saswp_review_body']           = 'Review Body';                                
                                 $review_fields['saswp_review_author']         = 'Review Author';
                                 $review_fields['saswp_review_author_url']     = 'Review Author Profile URL';
                                 $review_fields['saswp_review_publisher']      = 'Review Publisher';
@@ -1000,7 +1001,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             echo '</td>';
                                                         
                             if($fieldval == 'manual_text'){
-                                 echo '<td><input type="text" name="saswp_fixed_text['.esc_attr($fieldkey).']" value="'.(isset($fixed_text[$fieldkey]) ? esc_html($fixed_text[$fieldkey]) :'').'"></td>';    
+                                 echo '<td><textarea cols="35" rows="2" name="saswp_fixed_text['.esc_attr($fieldkey).']">'.(isset($fixed_text[$fieldkey]) ? esc_html($fixed_text[$fieldkey]) :'').'</textarea></td>';    
                             }else if($fieldval == 'taxonomy_term'){
                                 
                                 $choices    = array('all' => saswp_t_string('All'));

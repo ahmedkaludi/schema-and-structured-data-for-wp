@@ -3246,7 +3246,7 @@ jQuery(document).ready(function($){
           var media_name = 'saswp_fixed_image['+field_name+']';
           
           if(meta_val == 'manual_text'){
-              html += '<td><input type="text" name="saswp_fixed_text['+field_name+']"></td>';              
+              html += '<td><textarea cols="35" rows="2" name="saswp_fixed_text['+field_name+']"></textarea></td>';              
               html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
               
               $(this).parent().parent('tr').find("td:gt(1)").remove();
@@ -3737,8 +3737,8 @@ jQuery(document).ready(function($){
                                                   
             $(".saswp-coll-settings-options").change(function(){
                 saswp_grid_page = 1;
-                var design         = $(".saswp-collection-desing").val();                                   
-                
+                var design          = $(".saswp-collection-desing").val();                                                 
+                var sorting         = $(".saswp-collection-sorting").val();                                                 
                 $(".saswp-coll-options").addClass('saswp_hide');
                 $(".saswp-collection-lp").css('height', 'auto'); 
                 $(".saswp-rmv-coll-rv").hide();
@@ -3761,6 +3761,27 @@ jQuery(document).ready(function($){
                 
                 if(design == 'popup'){
                     $(".saswp-collection-lp").css('height', '31px');                   
+                }
+
+                if($("#saswp_collection_specific_rating").is(':checked')){
+                  $("#saswp_collection_specific_rating_sel").parent().removeClass("saswp_hide");                  
+                }else{
+                  $("#saswp_collection_specific_rating_sel").parent().addClass("saswp_hide");                  
+                }
+
+                if(sorting == 'recent'){
+                  $("#saswp_collection_specific_rating").parent().parent().removeClass("saswp_hide");                  
+                  $("#saswp_collection_specific_rating_sel").parent().removeClass("saswp_hide"); 
+                  
+                  if($("#saswp_collection_specific_rating").is(':checked')){
+                    $("#saswp_collection_specific_rating_sel").parent().removeClass("saswp_hide");                  
+                  }else{
+                    $("#saswp_collection_specific_rating_sel").parent().addClass("saswp_hide");                  
+                  }
+                  
+                }else{
+                  $("#saswp_collection_specific_rating").parent().parent().addClass("saswp_hide");                  
+                  $("#saswp_collection_specific_rating_sel").parent().addClass("saswp_hide");                  
                 }
                 
                 saswp_on_collection_design_change();  

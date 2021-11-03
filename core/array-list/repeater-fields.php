@@ -432,7 +432,27 @@ return array( 'schema_type_element' => array(
 									'label'     => 'Step Image',
 									'name'      => 'saswp_howto_step_image',
 									'type'      => 'media',                        
-									)                                        
+								),        								
+								array(
+									'label'     => 'Video Clip Name',
+									'name'      => 'saswp_howto_video_clip_name',
+									'type'      => 'text',                        
+								),    
+								array(
+									'label'     => 'Video Clip URL',
+									'name'      => 'saswp_howto_video_clip_url',
+									'type'      => 'text',                        
+								),    
+								array(
+									'label'     => 'Video Clip StartOffset',
+									'name'      => 'saswp_howto_video_start_offset',
+									'type'      => 'number',                        
+								),    
+								array(
+									'label'     => 'Video Clip EndOffset',
+									'name'      => 'saswp_howto_video_end_offset',
+									'type'      => 'number',                        
+								)
 					),	
 					'recipe_instructions' => array(                    
 						array(
