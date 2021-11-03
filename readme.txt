@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 1.9.87
+Stable tag: 1.9.88
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.88 (03 Nov 2021) =
+
+* Added: An option called "Specific" in the Sorting Filter for Collection feature. #1472
+* Added: Support for SeekToAction in Video Object Schema #1498
+* Added: Support for video object in How to schema. #1513
+* Added: textarea or multiline support for the description. #1456
+* Added: reviewbody and actor properties to Review Schema
+* Added: Two properties(Latitude, Longitude) for ApartmentComplex schema #1524
+* Added: The number of votes each comment has received in the structured data #1523
+* Fixed: Issue with Yell an Yellowpages fetched reviews in collection #1534
+* Fixed: Schema add empty review array to the code #1557
+* Fixed: Invalid author type for review when product individually modified #1556
 
 
 = 1.9.87 (23 Oct 2021) =
