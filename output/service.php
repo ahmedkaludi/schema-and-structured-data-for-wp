@@ -1968,6 +1968,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_webpage_last_reviewed'])){
                         $input1['lastReviewed'] =    $custom_fields['saswp_webpage_last_reviewed'];
                     }
+                    if(isset($custom_fields['saswp_webpage_date_created'])){
+                        $input1['dateCreated'] =    $custom_fields['saswp_webpage_date_created'];
+                    }
                     
                     if(isset($custom_fields['saswp_webpage_main_entity_of_page'])){
                      $input1['mainEntity']['mainEntityOfPage'] =    saswp_validate_url($custom_fields['saswp_webpage_main_entity_of_page']);
@@ -4964,7 +4967,8 @@ Class saswp_output_service{
                 '@id'				=> trailingslashit(saswp_get_permalink()).'#webpage',
 				'name'				=> saswp_get_the_title(),
                 'url'				=> saswp_get_permalink(),
-                'lastReviewed'      => esc_html($modified_date),                
+                'lastReviewed'      => esc_html($modified_date),
+                'dateCreated'       => esc_html($date),                
                 'inLanguage'                    => get_bloginfo('language'),
 				'description'                   => saswp_get_the_excerpt(),
 				'mainEntity'                    => array(

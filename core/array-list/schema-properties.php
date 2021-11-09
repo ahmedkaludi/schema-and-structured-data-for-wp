@@ -662,7 +662,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',
                             'default' => saswp_get_the_title(),
                     ),
-                   
+                    array(
+                        'label'   => 'Date Created',
+                        'id'      => 'saswp_webpage_date_created_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_the_modified_date("Y-m-d")
+                   ),
                     array(
                             'label' => 'Date Published',
                             'id' => 'saswp_webpage_date_published_'.$schema_id,
