@@ -3986,14 +3986,26 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_jobposting_schema_bs_value'])){
                      $input1['baseSalary']['value']['value'] =    $custom_fields['saswp_jobposting_schema_bs_value'];
                     }
+                    if(isset($custom_fields['saswp_jobposting_schema_bs_min_value'])){
+                        $input1['baseSalary']['value']['minValue'] =    $custom_fields['saswp_jobposting_schema_bs_min_value'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_bs_max_value'])){
+                        $input1['baseSalary']['value']['maxValue'] =    $custom_fields['saswp_jobposting_schema_bs_max_value'];
+                    }
                     if(isset($custom_fields['saswp_jobposting_schema_bs_unittext'])){
-                     $input1['baseSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
+                        $input1['baseSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
                     }                    
                     if(isset($custom_fields['saswp_jobposting_schema_es_currency'])){
-                    $input1['estimatedSalary']['currency'] =    $custom_fields['saswp_jobposting_schema_es_currency'];
+                        $input1['estimatedSalary']['currency'] =    $custom_fields['saswp_jobposting_schema_es_currency'];
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_es_value'])){
-                    $input1['estimatedSalary']['value']['value'] =    $custom_fields['saswp_jobposting_schema_es_value'];
+                        $input1['estimatedSalary']['value']['value'] =    $custom_fields['saswp_jobposting_schema_es_value'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_es_min_value'])){
+                        $input1['estimatedSalary']['value']['minValue'] =    $custom_fields['saswp_jobposting_schema_es_min_value'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_es_max_value'])){
+                        $input1['estimatedSalary']['value']['maxValue'] =    $custom_fields['saswp_jobposting_schema_es_max_value'];
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_es_unittext'])){
                     $input1['estimatedSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_es_unittext'];

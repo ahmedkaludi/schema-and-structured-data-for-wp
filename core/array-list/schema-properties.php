@@ -5558,6 +5558,22 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             )
                     ),
                     array(
+                        'label'      => 'Base Salary Min Value',
+                        'id'         => 'saswp_jobposting_schema_bs_min_value_'.$schema_id,
+                        'type'       => 'text', 
+                        'attributes' => array(
+                            'placeholder' => '20.00'
+                        )
+                ),
+                array(
+                        'label'      => 'Base Salary Max Value',
+                        'id'         => 'saswp_jobposting_schema_bs_max_value_'.$schema_id,
+                        'type'       => 'text', 
+                        'attributes' => array(
+                            'placeholder' => '100.00'
+                        )
+                ),
+                    array(
                             'label'      => 'Base Salary Unit Text',
                             'id'         => 'saswp_jobposting_schema_bs_unittext_'.$schema_id,
                             'type'       => 'text', 
@@ -5566,12 +5582,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             )
                     ), 
                         array(
-                        'label'      => 'Estimated Salary Currency',
-                        'id'         => 'saswp_jobposting_schema_es_currency_'.$schema_id,
-                        'type'       => 'text', 
-                        'attributes' => array(
-                            'placeholder' => 'USD'
-                        )
+                                'label'      => 'Estimated Salary Currency',
+                                'id'         => 'saswp_jobposting_schema_es_currency_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                'placeholder' => 'USD'
+                                )
                         ),
                         array(
                                 'label'      => 'Estimated Salary Value',
@@ -5579,6 +5595,22 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type'       => 'text', 
                                 'attributes' => array(
                                 'placeholder' => '40.00'
+                                )
+                        ),
+                        array(
+                                'label'      => 'Estimated Salary Min Value',
+                                'id'         => 'saswp_jobposting_schema_es_min_value_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                'placeholder' => '20.00'
+                                )
+                        ),
+                        array(
+                                'label'      => 'Estimated Salary Max Value',
+                                'id'         => 'saswp_jobposting_schema_es_max_value_'.$schema_id,
+                                'type'       => 'text', 
+                                'attributes' => array(
+                                'placeholder' => '100.00'
                                 )
                         ),
                         array(
