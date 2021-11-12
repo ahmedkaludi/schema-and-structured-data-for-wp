@@ -157,7 +157,8 @@ return array(
         ),
         'yet_another_stars_rating'  =>  array(            
             'name'       => 'Yet Another Stars Rating',
-            'free'       => 'yet-another-stars-rating/yet-another-stars-rating.php',                    
+            'free'       => 'yet-another-stars-rating/yet-another-stars-rating.php',
+            'pro'        => 'yet-another-stars-rating-premium/yet-another-stars-rating.php',
             'opt_name'   => 'saswp-yet-another-stars-rating',
             'part_in'    => 'free',
         ),
