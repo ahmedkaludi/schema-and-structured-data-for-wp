@@ -1968,6 +1968,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_webpage_last_reviewed'])){
                         $input1['lastReviewed'] =    $custom_fields['saswp_webpage_last_reviewed'];
                     }
+                    if(isset($custom_fields['saswp_webpage_date_created'])){
+                        $input1['dateCreated'] =    $custom_fields['saswp_webpage_date_created'];
+                    }
                     
                     if(isset($custom_fields['saswp_webpage_main_entity_of_page'])){
                      $input1['mainEntity']['mainEntityOfPage'] =    saswp_validate_url($custom_fields['saswp_webpage_main_entity_of_page']);
@@ -3983,14 +3986,26 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_jobposting_schema_bs_value'])){
                      $input1['baseSalary']['value']['value'] =    $custom_fields['saswp_jobposting_schema_bs_value'];
                     }
+                    if(isset($custom_fields['saswp_jobposting_schema_bs_min_value'])){
+                        $input1['baseSalary']['value']['minValue'] =    $custom_fields['saswp_jobposting_schema_bs_min_value'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_bs_max_value'])){
+                        $input1['baseSalary']['value']['maxValue'] =    $custom_fields['saswp_jobposting_schema_bs_max_value'];
+                    }
                     if(isset($custom_fields['saswp_jobposting_schema_bs_unittext'])){
-                     $input1['baseSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
+                        $input1['baseSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_bs_unittext'];
                     }                    
                     if(isset($custom_fields['saswp_jobposting_schema_es_currency'])){
-                    $input1['estimatedSalary']['currency'] =    $custom_fields['saswp_jobposting_schema_es_currency'];
+                        $input1['estimatedSalary']['currency'] =    $custom_fields['saswp_jobposting_schema_es_currency'];
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_es_value'])){
-                    $input1['estimatedSalary']['value']['value'] =    $custom_fields['saswp_jobposting_schema_es_value'];
+                        $input1['estimatedSalary']['value']['value'] =    $custom_fields['saswp_jobposting_schema_es_value'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_es_min_value'])){
+                        $input1['estimatedSalary']['value']['minValue'] =    $custom_fields['saswp_jobposting_schema_es_min_value'];
+                    }
+                    if(isset($custom_fields['saswp_jobposting_schema_es_max_value'])){
+                        $input1['estimatedSalary']['value']['maxValue'] =    $custom_fields['saswp_jobposting_schema_es_max_value'];
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_es_unittext'])){
                     $input1['estimatedSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_es_unittext'];
@@ -4964,7 +4979,8 @@ Class saswp_output_service{
                 '@id'				=> trailingslashit(saswp_get_permalink()).'#webpage',
 				'name'				=> saswp_get_the_title(),
                 'url'				=> saswp_get_permalink(),
-                'lastReviewed'      => esc_html($modified_date),                
+                'lastReviewed'      => esc_html($modified_date),
+                'dateCreated'       => esc_html($date),                
                 'inLanguage'                    => get_bloginfo('language'),
 				'description'                   => saswp_get_the_excerpt(),
 				'mainEntity'                    => array(

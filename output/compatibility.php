@@ -179,8 +179,16 @@ class saswp_output_compatibility{
     }
     public function saswp_wp_customer_reviews_override(){                                                        
     }
-    public function saswp_yet_another_stars_rating_override(){    
-        remove_filter('the_content', 'yasr_add_schema');                                                    
+    public function saswp_yet_another_stars_rating_override(){
+
+        global $yasr_additional_rich_fields;
+
+        remove_filter('the_content', 'yasr_add_schema');      
+        
+        if($yasr_additional_rich_fields){
+            remove_filter('the_content', array($yasr_additional_rich_fields, 'addSchema'), 99);
+        }                
+
     }
     public function saswp_testimonial_pro_override(){
       

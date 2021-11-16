@@ -1046,7 +1046,7 @@ function saswp_get_elementor_testomonials(){
                         
                             $reviews[] = array(
                                 '@type'         => 'Review',
-                                'author'        => array('@type'=> 'Person', 'name' => isset($value['settings']['testimonial_name']) ? $value['settings']['testimonial_name'] : ''),                            
+                                'author'        => array('@type'=> 'Person', 'name' => isset($value['settings']['testimonial_name']) ? $value['settings']['testimonial_name'] : 'Anonymous'),
                                 'description'   => isset($value['settings']['testimonial_content']) ? $value['settings']['testimonial_content'] : '',
                                 'reviewRating'  => array(
                                                    '@type'	        => 'Rating',
