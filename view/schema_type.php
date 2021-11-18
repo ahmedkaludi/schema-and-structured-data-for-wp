@@ -841,7 +841,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         <?php
                         
                             $allowed_manaul = false;
-                            if($schema_type == 'HowTo' || $schema_type == 'FAQ' || $schema_type == 'local_business'){                            
+                            if($schema_type == 'HowTo' || $schema_type == 'FAQ' || $schema_type == 'local_business' || $schema_type == 'Service') {
                                 echo '<div class="saswp-enable-modify-schema">';                                
                             }else{
                                 $allowed_manaul = true;

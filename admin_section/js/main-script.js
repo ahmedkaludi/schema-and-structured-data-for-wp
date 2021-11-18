@@ -660,7 +660,7 @@ jQuery(document).ready(function($){
               
             });
             
-            if(schematype == 'HowTo' || schematype == 'local_business' || schematype == 'FAQ'){
+            if(schematype == 'HowTo' || schematype == 'local_business' || schematype == 'FAQ' || schematype == 'Service' ){
                 
                 $(".saswp-enable-modify-schema").show();
                 
