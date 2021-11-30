@@ -4418,7 +4418,11 @@ Class saswp_output_service{
                 $product_details['product_price']           = $woo_price;
              }
                           
-             $product_details['product_sku']             = $product->get_sku();             
+             if($product->get_sku()){
+                $product_details['product_sku']             = $product->get_sku();             
+             }else{
+                $product_details['product_sku']             = $post_id;             
+             }             
              
              if(isset($date_on_sale)){
                  
