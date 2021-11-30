@@ -297,8 +297,10 @@ class saswp_fields_generator {
             "name"  => "freelancer.com"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/feefo-img.png",
-            "name"  => "feefo.com")                                  
-
+            "name"  => "feefo.com"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/cusrev-img.png",
+            "name"  => "cusrev.com")                                      
     );
     
     public function saswp_tooltip_message($meta_field_id){
