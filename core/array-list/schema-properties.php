@@ -5691,9 +5691,27 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label'      => 'Image',
                                 'id'         => 'saswp_boat_trip_schema_image_'.$schema_id,
                                 'type'       => 'media'                            
-                        )    
-                            
-                            
+                        ),
+                        array(
+                                'label'      => 'Arrival Time',
+                                'id'         => 'saswp_boat_trip_schema_arrival_time_'.$schema_id,
+                                'type'       => 'text'                            
+                        ),
+                        array(
+                                'label'      => 'Departure Time',
+                                'id'         => 'saswp_boat_trip_schema_departure_time_'.$schema_id,
+                                'type'       => 'text'                            
+                        ),
+                        array(
+                                'label'      => 'Arrival Boat Terminal',
+                                'id'         => 'saswp_boat_trip_schema_arrival_boat_terminal_'.$schema_id,
+                                'type'       => 'text'                            
+                        ),
+                        array(
+                                'label'      => 'Departure Boat Terminal',
+                                'id'         => 'saswp_boat_trip_schema_departure_boat_terminal_'.$schema_id,
+                                'type'       => 'text'                            
+                        )                                                        
                        );
     
                     break;

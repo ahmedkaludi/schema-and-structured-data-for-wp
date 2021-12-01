@@ -2175,6 +2175,19 @@ function saswp_boat_trip_schema_markup($schema_id, $schema_post_id, $all_post_me
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_boat_trip_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_boat_trip_schema_description_'.$schema_id, 'saswp_array');                            
 
+    if(!empty($all_post_meta['saswp_boat_trip_schema_arrival_time_'.$schema_id][0])){
+        $input1['arrivalTime'] = $all_post_meta['saswp_boat_trip_schema_arrival_time_'.$schema_id][0];
+    }
+    if(!empty($all_post_meta['saswp_boat_trip_schema_departure_time_'.$schema_id][0])){
+        $input1['departureTime'] = $all_post_meta['saswp_boat_trip_schema_departure_time_'.$schema_id][0];
+    }
+    if(!empty($all_post_meta['saswp_boat_trip_schema_arrival_boat_terminal_'.$schema_id][0])){
+        $input1['arrivalBoatTerminal'] = $all_post_meta['saswp_boat_trip_schema_arrival_boat_terminal_'.$schema_id][0];
+    }
+    if(!empty($all_post_meta['saswp_boat_trip_schema_departure_boat_terminal_'.$schema_id][0])){
+        $input1['departureBoatTerminal'] = $all_post_meta['saswp_boat_trip_schema_departure_boat_terminal_'.$schema_id][0];
+    }
+
     $input1 = saswp_get_modified_image('saswp_boat_trip_schema_image_'.$schema_id.'_detail', $input1);
 
     $itinerary  = get_post_meta($schema_post_id, 'boat_trip_itinerary_'.$schema_id, true);

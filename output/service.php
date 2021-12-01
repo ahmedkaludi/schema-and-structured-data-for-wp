@@ -4047,6 +4047,18 @@ Class saswp_output_service{
                        if(isset($custom_fields['saswp_boat_trip_schema_image'])){
                         $input1['image'] =    $custom_fields['saswp_boat_trip_schema_image'];
                        }
+                       if(isset($custom_fields['saswp_boat_trip_schema_arrival_time'])){
+                        $input1['arrivalTime']          =    $custom_fields['saswp_boat_trip_schema_arrival_time'];
+                       }
+                       if(isset($custom_fields['saswp_boat_trip_schema_departure_time'])){
+                        $input1['departureTime']        =    $custom_fields['saswp_boat_trip_schema_departure_time'];
+                       }
+                       if(isset($custom_fields['saswp_boat_trip_schema_arrival_boat_terminal'])){
+                        $input1['arrivalBoatTerminal']  =    $custom_fields['saswp_boat_trip_schema_arrival_boat_terminal'];
+                       }
+                       if(isset($custom_fields['saswp_boat_trip_schema_departure_boat_terminal'])){
+                        $input1['departureBoatTerminal'] =    $custom_fields['saswp_boat_trip_schema_departure_boat_terminal'];
+                       }
                     
                 break;
                 
@@ -4406,7 +4418,11 @@ Class saswp_output_service{
                 $product_details['product_price']           = $woo_price;
              }
                           
-             $product_details['product_sku']             = $product->get_sku();             
+             if($product->get_sku()){
+                $product_details['product_sku']             = $product->get_sku();             
+             }else{
+                $product_details['product_sku']             = $post_id;             
+             }             
              
              if(isset($date_on_sale)){
                  
