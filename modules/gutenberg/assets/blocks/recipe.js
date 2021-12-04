@@ -243,7 +243,7 @@
                   props.setAttributes( { servings: newContent } );
                 }            
               }),
-              el('p', {className:'saswp-r-b-unit'}, 'minutes'),
+              el('p', {className:'saswp-r-b-unit'}, 'servings'),
             ),
              
             el('div', {className:'saswp-recipe-block-details-item'},
