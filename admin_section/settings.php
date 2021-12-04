@@ -1098,7 +1098,21 @@ function saswp_general_page_callback(){
                          $choose_page[0] = array('id' => '', 'text' => 'Select Page');
                          $choices     = array_merge($choose_page, $choices);                             
                          if ( isset($settings['sd_about_page']) && $settings['sd_about_page'] !=  '' ) {
-                                $saved_choices = saswp_get_condition_list('page', '', $settings['sd_about_page']);                        
+
+                                if(function_exists('icl_object_id')){
+									
+                                        $page_id = icl_object_id($settings['sd_about_page'], 'page', false,ICL_LANGUAGE_CODE);
+                                        
+                                        if($page_id){
+                                                        $saved_choices = saswp_get_condition_list('page', '', $page_id);                        	
+                                        }else{
+                                                $saved_choices = saswp_get_condition_list('page', '', $settings['sd_about_page']);                        	
+                                        }
+                                                                                                 
+                                }else{
+                                        $saved_choices = saswp_get_condition_list('page', '', $settings['sd_about_page']);                        
+                                }
+                                
                          }
 
                          $html_str = '';       
@@ -1136,7 +1150,21 @@ function saswp_general_page_callback(){
                          $choose_page[0] = array('id' => '', 'text' => 'Select Page');
                          $choices     = array_merge($choose_page, $choices);                             
                          if ( isset($settings['sd_contact_page']) && $settings['sd_contact_page'] !=  '' ) {
-                                $saved_choices = saswp_get_condition_list('page', '', $settings['sd_contact_page']);                        
+                                
+                                if(function_exists('icl_object_id')){
+									
+                                        $page_id = icl_object_id($settings['sd_contact_page'], 'page', false,ICL_LANGUAGE_CODE);
+                                        
+                                        if($page_id){
+                                                        $saved_choices = saswp_get_condition_list('page', '', $page_id);                        	
+                                        }else{
+                                                $saved_choices = saswp_get_condition_list('page', '', $settings['sd_contact_page']);                        	
+                                        }
+                                                                                                 
+                                }else{
+                                                $saved_choices = saswp_get_condition_list('page', '', $settings['sd_contact_page']);                        
+                                }
+
                          }
 
                          $html_str = '';       

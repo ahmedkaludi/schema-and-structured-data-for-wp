@@ -2742,10 +2742,10 @@ function saswp_about_page_output(){
         $feature_image = array();
         $publisher     = array();
         $page_ids      = array();
-        $page_ids[]    = get_the_ID();
+        $page_ids[]    = get_the_ID();        
+		
         $page_ids      = apply_filters( 'saswp_modify_about_page_ids', $page_ids);
-        
-                                
+                                        
 	if((isset($sd_data['sd_about_page'])) && in_array($sd_data['sd_about_page'], $page_ids) ){   
             
                         $service_object     = new saswp_output_service();
@@ -2791,9 +2791,10 @@ function saswp_contact_page_output(){
         $publisher     = array();
         $page_ids      = array();
         $page_ids[]    = get_the_ID();
+        
         $page_ids      = apply_filters( 'saswp_modify_contact_page_ids', $page_ids);
         
-	if(isset($sd_data['sd_contact_page']) && in_array($sd_data['sd_contact_page'], $page_ids)){
+	if(isset($sd_data['sd_contact_page']) && in_array($sd_data['sd_contact_page'], $page_ids ) ){
                         
                         $service_object     = new saswp_output_service();
                         $feature_image      = $service_object->saswp_get_fetaure_image();
@@ -2843,7 +2844,10 @@ function saswp_site_navigation_output(){
                                        
             if(isset($sd_data['saswp_site_navigation_menu'])){
                 
-                $menu_id   = $sd_data['saswp_site_navigation_menu'];                
+                $menu_id   = $sd_data['saswp_site_navigation_menu'];
+                if(function_exists('icl_object_id')){
+					$menu_id   = apply_filters( 'wpml_object_id', $menu_id, 'nav_menu', FALSE,ICL_LANGUAGE_CODE );	
+				}                
                 $menuItems = get_transient('saswp_nav_menu');
                 
                 if(!$menuItems){
