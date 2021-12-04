@@ -4478,7 +4478,8 @@ function saswp_enqueue_style_js( $hook ) {
                 'list_id_invalid'   => saswp_t_string( 'Your list ID is invalid.'  ),
                 'already_subsribed' => saswp_t_string( 'You\'re already subscribed!'  ),
                 'subsribed'         => saswp_t_string( 'Please enter reviews api key'  ),
-                'try_again'         => saswp_t_string( 'Please enter reviews api key'  )
+                'try_again'         => saswp_t_string( 'Please enter reviews api key'  ),
+                'language'          => saswp_t_string( 'Language'  )
         );
         
         $post_type = '';
