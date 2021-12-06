@@ -1044,26 +1044,34 @@ function saswp_get_elementor_testomonials(){
 
                         foreach ( $returnData as $value ) {
                         
-                            $reviews[] = array(
-                                '@type'         => 'Review',
-                                'author'        => array('@type'=> 'Person', 'name' => isset($value['settings']['testimonial_name']) ? $value['settings']['testimonial_name'] : 'Anonymous'),
-                                'description'   => isset($value['settings']['testimonial_content']) ? $value['settings']['testimonial_content'] : '',
-                                'reviewRating'  => array(
-                                                   '@type'	        => 'Rating',
-                                                   'bestRating'	    => '5',
-                                                   'ratingValue'	=> '5',
-                                                   'worstRating'	=> '1',
-                                      )
-                            );
-    
+                            if(!empty($value['settings']['testimonial_name'])){
+
+                                $reviews[] = array(
+                                    '@type'         => 'Review',
+                                    'author'        => array('@type'=> 'Person', 'name' => $value['settings']['testimonial_name']),
+                                    'description'   => isset($value['settings']['testimonial_content']) ? $value['settings']['testimonial_content'] : '',
+                                    'reviewRating'  => array(
+                                                       '@type'	        => 'Rating',
+                                                       'bestRating'	    => '5',
+                                                       'ratingValue'	=> '5',
+                                                       'worstRating'	=> '1',
+                                          )
+                                );
+
+                            }
+                                
                         }
     
-                        $ratings['aggregateRating'] =  array(
-                            '@type'         => 'AggregateRating',
-                            'ratingValue'	=> '5',
-                            'reviewCount'   => count($returnData)
-                        );
+                        if(!empty($reviews)){
 
+                            $ratings['aggregateRating'] =  array(
+                                '@type'         => 'AggregateRating',
+                                'ratingValue'	=> '5',
+                                'reviewCount'   => count($reviews)
+                            );
+
+                        }
+                        
                     }                    
 
                 }
