@@ -312,7 +312,9 @@ jQuery(document).ready(function($){
                     var html = '';
                         html    += '<tr>'
                                 + '<td style="width:12%;"><strong>'+saswp_localize_data.translable_txt.place_id+'</strong></td>'
-                                + '<td style="width:20%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value=""></td>'                                
+                                + '<td style="width:15%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value=""></td>'                                
+                                + '<td style="width:10%;"><strong>'+saswp_localize_data.translable_txt.language+'</strong></td>'
+                                + '<td style="width:10%;"><input class="saswp-g-language-field" name="sd_data[saswp_reviews_language_name][]" type="text" value="" placeholder="nl"></td>'                                
                                 + '<td style="width:10%;"><strong>'+saswp_localize_data.translable_txt.reviews+'</strong></td>'
                                 + '<td style="width:10%;">'+blocks_field+'</td>'                                                            
                                 + '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">'+saswp_localize_data.translable_txt.fetch+'</a></td>'
@@ -332,7 +334,9 @@ jQuery(document).ready(function($){
               current.addClass('updating-message');
                                           
               var location           = $(this).parent().parent().find('.saswp-g-location-field').val();
+              var language           = $(this).parent().parent().find('.saswp-g-language-field').val();
               var blocks             = $(this).parent().parent().find('.saswp-g-blocks-field').val();
+              
               var g_api              = $("#saswp_google_place_api_key").val();
               var reviews_api        = $("#reviews_addon_license_key").val();
               var reviews_api_status = $("#reviews_addon_license_key_status").val();
@@ -371,7 +375,7 @@ jQuery(document).ready(function($){
                                   type: "POST",    
                                   url:ajaxurl,                    
                                   dataType: "json",
-                                  data:{action:"saswp_fetch_google_reviews",reviews_api_status:reviews_api_status, reviews_api:reviews_api,location:location,blocks:blocks,g_api:g_api,premium_status:premium_status, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                  data:{action:"saswp_fetch_google_reviews",reviews_api_status:reviews_api_status, reviews_api:reviews_api,location:location, language:language, blocks:blocks,g_api:g_api,premium_status:premium_status, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                   success:function(response){    
                                       if(response['status'] =='t'){
                                          current.parent().parent().find('.saswp-rv-fetched-msg').text(saswp_localize_data.translable_txt.success);

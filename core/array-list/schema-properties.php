@@ -3648,6 +3648,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'    => 'saswp_review_review_count_'.$schema_id,
                             'type'  => 'text',                            
                         );
+                        $meta_field[] = array(
+                                'label' => 'Worst Rating',
+                                'id'    => 'saswp_review_worst_count_'.$schema_id,
+                                'type'  => 'text',                            
+                        );
                         
                         if($manual == null){
                          
@@ -4481,6 +4486,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_vg_schema_price_availability_'.$schema_id,
                             'type'    => 'select',                            
                             'options' => array(
+                                     ''                  => 'Select',
                                      'InStock'           => 'In Stock',
                                      'OutOfStock'        => 'Out Of Stock',
                                      'Discontinued'      => 'Discontinued',
