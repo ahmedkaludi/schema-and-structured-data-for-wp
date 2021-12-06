@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 1.9.90
+Stable tag: 1.9.91
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.91 (06 Dec 2021) =
+
+* Added: worstRating property to review schema #1564
+* Added: Plcae ID finder in Reviews For Schema below Google platform #1466
+* Added: Language parameter added to google review fetch
+* Fixed: Howto schema showing aggrigate ratings, rating coming from elementor. #1465
+* Fixed: Remove minute from recipe schema Gutenberg block in the serving section. #1577
+* Fixed: WPML compatibility is not working for aboutpage, contactpage and sitenavigation schema. #1575
+
 
 = 1.9.90 (01 Dec 2021) =
 
