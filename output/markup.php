@@ -1779,12 +1779,21 @@ function saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_m
 
             $input1['author']['name']           = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_author_name_'.$schema_id, 'saswp_array');
 
-            $input1['offers']['@type']          = 'Offer';                            
-            $input1['offers']['price']          = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_price_'.$schema_id, 'saswp_array');
-            $input1['offers']['priceCurrency']  = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_price_currency_'.$schema_id, 'saswp_array');
-            $input1['offers']['availability']   = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_price_availability_'.$schema_id, 'saswp_array');
+            if(isset($all_post_meta['saswp_vg_schema_price_'.$schema_id][0]) && $all_post_meta['saswp_vg_schema_price_'.$schema_id][0] != ''){
 
+                $input1['offers']['@type']         = 'Offer';
+                $input1['offers']['price']         = $all_post_meta['saswp_vg_schema_price_'.$schema_id][0];
+                
+                if(!empty($all_post_meta['saswp_vg_schema_price_currency_'.$schema_id][0])){
+                    $input1['offers']['priceCurrency'] = $all_post_meta['saswp_vg_schema_price_currency_'.$schema_id][0];                    
+                }
 
+                if(!empty($all_post_meta['saswp_vg_schema_price_availability_'.$schema_id][0])){                    
+                    $input1['offers']['availability']  = $all_post_meta['saswp_vg_schema_price_availability_'.$schema_id][0];
+                }
+
+            }
+            
             $input1['publisher']                = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_publisher_'.$schema_id, 'saswp_array');
             $input1['genre']                    = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_genre_'.$schema_id, 'saswp_array');
             $input1['processorRequirements']    = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_processor_requirements_'.$schema_id, 'saswp_array');
@@ -4752,7 +4761,8 @@ function saswp_review_schema_markup($schema_id, $schema_post_id, $all_post_meta)
            $input1['reviewRating'] = array(
                              "@type"        => "Rating",
                              "ratingValue"  => saswp_remove_warnings($all_post_meta, 'saswp_review_rating_'.$schema_id, 'saswp_array'),
-                             "bestRating"   => saswp_remove_warnings($all_post_meta, 'saswp_review_review_count_'.$schema_id, 'saswp_array')
+                             "bestRating"   => saswp_remove_warnings($all_post_meta, 'saswp_review_review_count_'.$schema_id, 'saswp_array'),
+                             "worstRating"  => saswp_remove_warnings($all_post_meta, 'saswp_review_worst_count_'.$schema_id, 'saswp_array')
                           );                                       
      } 
 

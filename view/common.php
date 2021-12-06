@@ -571,7 +571,8 @@ class saswp_view_common_class {
                            $meta_field['id'] == 'local_google_place_id_'.$schema_id                ||
                            $meta_field['id'] == 'saswp_recipe_schema_rating_'.$schema_id        ||
                            $meta_field['id'] == 'saswp_recipe_schema_review_count_'.$schema_id  ||
-                           $meta_field['id'] == 'saswp_software_schema_rating_count_'.$schema_id     
+                           $meta_field['id'] == 'saswp_software_schema_rating_count_'.$schema_id ||
+                           $meta_field['id'] == 'saswp_review_worst_count_'.$schema_id
                                 
                           )
                           {
