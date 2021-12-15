@@ -4591,10 +4591,9 @@ Class saswp_output_service{
              
              }      
                                                                  
-             return $product_details;                       
+             return apply_filters( 'saswp_modify_product_markup_in_service', $product_details );                        
         }
-        
-        
+                
         public function saswp_rating_box_rating_markup($post_id){
             
                 global $sd_data;
