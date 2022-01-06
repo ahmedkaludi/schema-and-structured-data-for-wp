@@ -148,7 +148,7 @@ function saswp_book_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                 $input1['offers']['priceCurrency'] = $all_post_meta['saswp_book_price_currency_'.$schema_id];
             }
             
-            if(saswp_isset($all_post_meta['saswp_book_enable_rating_'.$schema_id][0]) && saswp_isset($all_post_meta['saswp_book_rating_value_'.$schema_id][0]) && saswp_isset($all_post_meta['saswp_book_rating_count_'.$schema_id][0])){
+            if(isset($all_post_meta['saswp_book_enable_rating_'.$schema_id]) && isset($all_post_meta['saswp_book_rating_value_'.$schema_id]) && isset($all_post_meta['saswp_book_rating_count_'.$schema_id])){
                 $input1['aggregateRating']['@type']         = 'aggregateRating';
                 $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_book_rating_value_'.$schema_id][0];
                 $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_book_rating_count_'.$schema_id][0];                                
