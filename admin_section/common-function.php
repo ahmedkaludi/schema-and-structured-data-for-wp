@@ -2402,9 +2402,9 @@ if ( ! defined('ABSPATH') ) exit;
         if( isset($sd_data['saswp-full-heading']) && $sd_data['saswp-full-heading'] == 1 ){
             return $title;
         }
-
-        if (strlen($title) > 110){
-            $title = substr($title, 0, 106) . ' ...';
+        
+        if (mb_strlen($title, 'UTF-8') > 110){
+            $title = mb_substr($title, 0, 106, 'UTF-8') . ' ...';
         }
         
         return $title; 
