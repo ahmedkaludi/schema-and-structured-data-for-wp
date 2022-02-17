@@ -4598,6 +4598,9 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
                 wp_deregister_script( 'wds-shared-ui' );
                 wp_dequeue_script( 'pum-admin-general' );
                 wp_deregister_script( 'pum-admin-general' );
+                //Hide vidoe pro select2 on schema type dashboard
+                wp_dequeue_script( 'cmb-select2' );
+                wp_deregister_script( 'cmb-select2' );
                 
         }
                 
