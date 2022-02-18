@@ -120,14 +120,15 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+
 = 1.9.94 (18 Feb 2022) =
 
 * Fixed: Access assigning option to SEO manager and SEO editor not working #1616
-* Enhancement: Changes in saswp_get_the_title() function to consider multi byte languages #1613
 * Fixed: Search box not working when adding testimonials to collection #1612
 * Fixed: Schema Type can't be saved on Wordpress 4.6.3 #1611
 * Fixed: Conflicting with videopro Theme by CactusThemes #1608
 * Fixed: Plugin tested upto the new WordPress version 5.9
+* Enhancement: Changes in saswp_get_the_title() function to consider multi byte languages #1613
 
 = 1.9.93 (10 Jan 2022) =
 
