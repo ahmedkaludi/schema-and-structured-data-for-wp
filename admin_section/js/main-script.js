@@ -3606,42 +3606,30 @@ jQuery(document).ready(function($){
             $(document).on("change", "#saswp_dynamic_platforms", function(){
 
               var platform_id = $(this).val();
+
+              var html  = '';
+                  html += '<select id="saswp_dynamic_reviews_list">';                  
+                  html += '</select>';
+                  html += '<a class="button button-default saswp-add-single-rv">Add</a>';
               
-              if(platform_id){
-                
-                jQuery.get(ajaxurl, 
-                  { action:"saswp_add_to_collection", rvcount:'', platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
-                  
-                   function(response){                                  
-         
-                   if(response['status']){   
-                           
-                        if(response['message']){
+              $("#saswp_dynamic_platforms").nextAll().remove();
+              $("#saswp_dynamic_platforms").after(html);
 
-                          var option = '';
-                          $.each(response['message'], function(i, e){
-                              option += '<option value="'+e.saswp_review_id+'">'+e.saswp_reviewer_name+' ( '+e.saswp_review_rating+' ) </option>';
-                          });
+              var ajaxnewurl = ajaxurl + '?action=saswp_add_reviews_to_select2&saswp_security_nonce='+saswp_localize_data.saswp_security_nonce+'&platform_id='+platform_id;   
 
-                          if(option){
-                            var html  = '';
-                                html += '<select id="saswp_dynamic_reviews_list" class="saswp-select2">';
-                                html += option;
-                                html += '</select>';
-                                html += '<a class="button button-default saswp-add-single-rv">Add</a>';
-
-                                $("#saswp_dynamic_platforms").nextAll().remove();
-                                $("#saswp_dynamic_platforms").after(html);
-
-                                saswp_select2();
-                          }
-
-                        }                                                                                              
-                   }                                                                    
-                   
-                  },'json');
-
-              }
+              $('#saswp_dynamic_reviews_list').select2({
+                ajax: {
+                  url: ajaxnewurl,
+                  dataType: 'json',
+                  processResults: function(data){
+                    if(data.status){
+                      return {
+                        results: data.message
+                      };
+                    }
+                  }                  
+                }
+              });
                 
             });
 

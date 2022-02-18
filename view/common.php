@@ -651,7 +651,7 @@ class saswp_view_common_class {
 						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );
 						break;
                     case 'textarea':
-						$post_meta[ $meta_field['id'] ] = sanitize_textarea_field( $post_meta[ $meta_field['id'] ] );
+						$post_meta[ $meta_field['id'] ] = saswp_sanitize_textarea_field( $post_meta[ $meta_field['id'] ] );
 						break;    
                     default:
 						$post_meta[ $meta_field['id'] ] = wp_unslash( $post_meta[ $meta_field['id'] ] );						

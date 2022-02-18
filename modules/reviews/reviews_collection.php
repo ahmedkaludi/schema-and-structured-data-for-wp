@@ -34,6 +34,7 @@ class SASWP_Reviews_Collection {
           add_action( 'init', array($this, 'saswp_register_collection_post_type' ),20);
           add_action( 'admin_init', array($this, 'saswp_save_collection_data' ));
           add_action( 'wp_ajax_saswp_add_to_collection', array($this, 'saswp_add_to_collection' ));
+          add_action( 'wp_ajax_saswp_add_reviews_to_select2', array($this, 'saswp_add_reviews_to_select2' ));
           add_action( 'wp_ajax_saswp_get_collection_platforms', array($this, 'saswp_get_collection_platforms' ));          
           add_action( 'amp_post_template_data', array($this, 'saswp_reviews_collection_amp_script'));                                   
           add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ),10);        
@@ -282,6 +283,55 @@ class SASWP_Reviews_Collection {
             wp_die();
         }
         
+
+        public function saswp_add_reviews_to_select2(){
+                        
+            if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+                return; 
+            }
+            if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+               return;  
+            }
+            
+            $platform_id = intval($_GET['platform_id']);
+                         
+            $attr        = array();
+
+            if(isset($_GET['q']) && $_GET['q'] != ''){
+                $attr['q'] = sanitize_text_field($_GET['q']);
+            }            
+                        
+            if( $platform_id ){
+                                                     
+                $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters($attr, $platform_id); 
+                $reviews_data = array();
+                if(!empty($reviews_list)){
+                    foreach ($reviews_list as $value) {
+                        $reviews_data[] = array(
+                            'id'   => $value['saswp_review_id'],
+                            'text' => $value['saswp_reviewer_name'],
+                        );
+                    }
+                }
+             
+            if($reviews_data){
+                
+                echo json_encode(array('status' => true, 'message'=> $reviews_data));
+                                                  
+            }else{
+                
+                echo json_encode(array('status' => false, 'message'=> 'Data not found'));
+                
+            }
+                                         
+            }else{
+                
+                echo json_encode(array('status' => false, 'message'=> 'Platform id is missing'));
+                
+            }
+                        
+            wp_die();
+        }
 
         public function saswp_add_to_collection(){
                         

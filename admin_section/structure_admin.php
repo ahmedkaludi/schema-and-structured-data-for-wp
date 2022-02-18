@@ -1547,9 +1547,9 @@ function saswp_send_query_message(){
            return;  
         }   
         $customer_type  = 'Are you a premium customer ? No';
-        $message        = sanitize_textarea_field($_POST['message']); 
-        $email          = sanitize_textarea_field($_POST['email']); 
-        $premium_cus    = sanitize_textarea_field($_POST['premium_cus']);   
+        $message        = saswp_sanitize_textarea_field($_POST['message']); 
+        $email          = saswp_sanitize_textarea_field($_POST['email']); 
+        $premium_cus    = saswp_sanitize_textarea_field($_POST['premium_cus']);   
                                 
         if(function_exists('wp_get_current_user')){
 
