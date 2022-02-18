@@ -3234,11 +3234,14 @@ function saswp_get_user_roles(){
 }
 
 function saswp_get_capability_by_role($role){
-    
+        
         $cap = 'manage_options';
         
         switch ($role) {
             
+            case 'wpseo_editor':
+                $cap = 'edit_pages';                
+                break;                  
             case 'editor':
                 $cap = 'edit_pages';                
                 break;            
@@ -3246,6 +3249,9 @@ function saswp_get_capability_by_role($role){
                 $cap = 'publish_posts';                
                 break;
             case 'contributor':
+                $cap = 'edit_posts';                
+                break;
+            case 'wpseo_manager':
                 $cap = 'edit_posts';                
                 break;
             case 'subscriber':
