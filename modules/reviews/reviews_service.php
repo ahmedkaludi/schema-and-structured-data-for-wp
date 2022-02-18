@@ -628,7 +628,7 @@ class saswp_reviews_service {
     }
     
     public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $paged = null, $offset = null){
-            
+                        
             $response   = array();                                
             $arg        = array();
             $meta_query = array();
@@ -675,7 +675,7 @@ class saswp_reviews_service {
                         'value'   => $term->term_id,
                         'compare' => '='
                     );
-            }
+            }                                    
             $meta_query_args = array(            
             array(
                 'relation' => 'AND',
@@ -695,15 +695,32 @@ class saswp_reviews_service {
                 $arg['offset']    = $offset;
             }
             
-            if($platform_id){                                 
-                 $arg['meta_query'] = array(
-                                        array(
-                                            'key'     => 'saswp_review_platform',
-                                            'value'   => $platform_id,
-                                            'compare' => '==',
-                                 )
-                            ); 
-                
+            if($platform_id){
+
+                 $meta_query = array();
+
+                 $meta_query[] =   array(
+                                'key'     => 'saswp_review_platform',
+                                'value'   => $platform_id,
+                                'compare' => '==',
+                            );
+
+                 if(isset($attr['q'])){
+                    $meta_query[] =   array(
+                            'key'     => 'saswp_reviewer_name',
+                            'value'   => $attr['q'],
+                            'compare' => 'LIKE'
+                        );                    
+                 }
+
+                 $meta_query_args = array(            
+                    array(
+                        'relation' => 'AND',
+                            $meta_query 
+                        )
+                    );
+
+                 $arg['meta_query'] = $meta_query_args;                                 
             }
                         
             $posts_list = get_posts($arg); 
