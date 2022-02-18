@@ -2,8 +2,8 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 5.8
-Stable tag: 1.9.93
+Tested up to: 5.9
+Stable tag: 1.9.94
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,15 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.94 (18 Feb 2022) =
+
+* Fixed: Access assigning option to SEO manager and SEO editor not working #1616
+* Enhancement: Changes in saswp_get_the_title() function to consider multi byte languages #1613
+* Fixed: Search box not working when adding testimonials to collection #1612
+* Fixed: Schema Type can't be saved on Wordpress 4.6.3 #1611
+* Fixed: Conflicting with videopro Theme by CactusThemes #1608
+* Fixed: Plugin tested upto the new WordPress version 5.9
 
 = 1.9.93 (10 Jan 2022) =
 
