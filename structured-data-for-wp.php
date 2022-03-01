@@ -79,7 +79,8 @@ require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
 require_once SASWP_DIR_NAME .'/output/location.php';
 require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
-require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';  
+require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';
+require_once SASWP_DIR_NAME.'/admin_section/tracking/make-better-helper.php';  
 //Loading View files
 
 require_once SASWP_DIR_NAME.'/view/help.php';  
@@ -139,21 +140,20 @@ function saswp_add_plugin_meta_links($meta_fields, $file) {
     
   }
   
-if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
-  require_once SASWP_DIR_NAME. '/admin_section/tracking/class-saswp-plugin-usage-tracker.php';
-}
-if( ! function_exists( 'saswp_start_plugin_tracking' ) ) {
-  function saswp_start_plugin_tracking() {
-    global $saswp_wisdom;                  
-    $saswp_wisdom = new SASWP_Plugin_Usage_Tracker(
-      __FILE__,
-      'http://data.ampforwp.com/ssdw',
-      array('sd_data'),
-      true,
-      true,
-      0
-    );
-  }
+// if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
+//   require_once SASWP_DIR_NAME. '/admin_section/tracking/class-saswp-plugin-usage-tracker.php';
+// }
+// if( ! function_exists( 'saswp_start_plugin_tracking' ) ) {
+//   function saswp_start_plugin_tracking() {
+//     global $saswp_wisdom;                  
+//     $saswp_wisdom = new SASWP_Plugin_Usage_Tracker(
+//       __FILE__,
+//       'http://data.ampforwp.com/ssdw',
+//       array('sd_data'),
+//       true,
+//       true,
+//       0
+//   }
   
-  saswp_start_plugin_tracking();
-}
+//   saswp_start_plugin_tracking();
+// }
