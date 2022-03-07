@@ -69,7 +69,9 @@ function saswp_send_feedback() {
 
     $subject = isset( $form['saswp_disable_reason'] ) ? $form['saswp_disable_reason'] : '(no reason given)';
 
-    if($subject == 'technical issue'){
+    $subject = $subject.' - Schema & Structured Data for WP & AMP';
+
+    if($subject == 'technical issue - Schema & Structured Data for WP & AMP'){
 
           $text = trim($text);
 
