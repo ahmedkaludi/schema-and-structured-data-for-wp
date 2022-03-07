@@ -2840,10 +2840,10 @@ function saswp_remove_unwanted_notice_boxes(){
         
        remove_all_actions('admin_notices'); 
        
-       global $saswp_wisdom;
+    //    global $saswp_wisdom;
        
-       add_action( 'admin_notices', array($saswp_wisdom , 'optin_notice') );
-       add_action( 'admin_notices', array($saswp_wisdom , 'marketing_notice') );
+    //    add_action( 'admin_notices', array($saswp_wisdom , 'optin_notice') );
+    //    add_action( 'admin_notices', array($saswp_wisdom , 'marketing_notice') );
        add_action( 'admin_notices', 'saswp_admin_notice' );
     }
         

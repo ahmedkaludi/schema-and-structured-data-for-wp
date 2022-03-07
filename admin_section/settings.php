@@ -3112,7 +3112,7 @@ function saswp_compatibility_page_callback(){
                 )
         ); 
         $event_on = array(
-                'label'  => 'Event On',
+                'label'  => 'Event On / Event On Lite',
                 'id'     => 'saswp-event-on-checkbox',                        
                 'name'   => 'saswp-event-on-checkbox',
                 'type'   => 'checkbox',

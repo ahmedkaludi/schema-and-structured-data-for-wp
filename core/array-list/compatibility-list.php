@@ -244,8 +244,9 @@ return array(
             'part_in'    => 'pro',
         ),
         'event_on'  =>  array(            
-            'name'       => 'Event On',
-            'free'       => 'eventON/eventon.php',             
+            'name'       => 'Event On / Event On Lite',
+            'free'       => 'eventon-lite/eventon.php',             
+            'pro'        => 'eventON/eventon.php',             
             'opt_name'   => 'saswp-event-on',
             'part_in'    => 'pro',
         ),
