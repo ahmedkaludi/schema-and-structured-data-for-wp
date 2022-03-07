@@ -71,7 +71,7 @@ function saswp_send_feedback() {
 
     $subject = $subject.' - Schema & Structured Data for WP & AMP';
 
-    if($subject == 'technical issue - Schema & Structured Data for WP & AMP'){
+    if($subject == 'technical - Schema & Structured Data for WP & AMP'){
 
           $text = trim($text);
 
