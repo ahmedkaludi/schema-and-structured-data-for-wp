@@ -1379,6 +1379,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp-realestate-7-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-realestate-7").val(1);             
+                            }else{
+                              $("#saswp-realestate-7").val(0);           
+                            }
+                      break;
+
                       case 'saswp-stamped-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

@@ -740,6 +740,12 @@ return array(
             'free'       => 'realestate-5',               
             'opt_name'   => 'saswp-realestate-5',
             'part_in'    => 'pro',
+        ), 
+        'realestate_7' => array(            
+            'name'       => 'WP Pro Realestate 7',
+            'free'       => 'realestate-7',               
+            'opt_name'   => 'saswp-realestate-7',
+            'part_in'    => 'pro',
         ),        
         'saswp_realhomes' => array(            
                     'name'       => 'RealHomes Theme',
