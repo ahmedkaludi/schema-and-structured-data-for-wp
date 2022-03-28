@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.9
-Stable tag: 1.9.94
+Stable tag: 1.9.95
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.95 (28 Mar 2022) =
+
+* Fixed: Activation of the plugin is causing structure displacement on the website in Admin view. #1637
+* Fixed: Deprecated: WC_Product::get_price_including_tax warning on product page #1627
+* Fixed: Service schema not displaying all fields #1617
+* Enhancement: IDX integration updated #1626
+* Enhancement: Remove old data tracking method and add new system to get user feedback #1623
+* Added: Compatibility with EventON Lite plugin (https://wordpress.org/plugins/eventon-lite/) #1624
+* Added: Compatability with Real Estate 7 WordPress Theme #1619
 
 
 = 1.9.94 (18 Feb 2022) =
