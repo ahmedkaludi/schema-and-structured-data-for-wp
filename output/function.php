@@ -2663,6 +2663,10 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
 }
 
 function saswp_get_mainEntity($schema_id){
+
+        if( (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) || is_front_page() ){
+            return array();
+        }
     
         global $post;
         
