@@ -4262,14 +4262,14 @@ Class saswp_output_service{
                                 if($product_id_some instanceof WC_Product_Variable) {
                                     
                                     $variations  = $product_id_some->get_available_variations(); 
-                                    
+                                      
                                         if($variations){
         
                                                 foreach($variations as $value){
 
                                                     $product_variation = wc_get_product( $value['variation_id'] ); 
-                                                    $p_inc_tax = $product_variation->get_price_including_tax(); 
-
+                                                    $p_inc_tax = wc_get_price_including_tax($product_variation);                                                    
+                                                                                                        
                                                     if($p_inc_tax){
                                                         $varible_prices[] = $p_inc_tax; 
                                                     }else{

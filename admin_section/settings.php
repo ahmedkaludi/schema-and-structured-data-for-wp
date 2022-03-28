@@ -3112,7 +3112,7 @@ function saswp_compatibility_page_callback(){
                 )
         ); 
         $event_on = array(
-                'label'  => 'Event On',
+                'label'  => 'Event On / Event On Lite',
                 'id'     => 'saswp-event-on-checkbox',                        
                 'name'   => 'saswp-event-on-checkbox',
                 'type'   => 'checkbox',
@@ -3305,6 +3305,19 @@ function saswp_compatibility_page_callback(){
                 'hidden' => array(
                         'id'   => 'saswp-realestate-5',
                         'name' => 'sd_data[saswp-realestate-5]',                             
+                )
+        );
+
+        $realestate_7 = array(
+                'label'  => 'WP Pro Real Estate 7',
+                'id'     => 'saswp-realestate-7-checkbox',                        
+                'name'   => 'saswp-realestate-7-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('realestate_7'),
+                'hidden' => array(
+                        'id'   => 'saswp-realestate-7',
+                        'name' => 'sd_data[saswp-realestate-7]',                             
                 )
         );
         
@@ -4042,6 +4055,7 @@ function saswp_compatibility_page_callback(){
              $wpresidence['note']    = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $myhome['note']         = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $realestate_5['note']   = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
+             $realestate_7['note']   = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $geo_directory['note']   = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';             
                           
          }
@@ -4217,6 +4231,7 @@ function saswp_compatibility_page_callback(){
                 $myhome,
                 $classipress,
                 $realestate_5,
+                $realestate_7,
                 $geo_directory,
                 $learn_press,
                 $learn_dash,

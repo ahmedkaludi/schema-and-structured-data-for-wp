@@ -2663,6 +2663,10 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
 }
 
 function saswp_get_mainEntity($schema_id){
+
+        if( (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) || is_front_page() ){
+            return array();
+        }
     
         global $post;
         
@@ -2755,6 +2759,13 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
                             case 'FAQ':
                                                                                                    
                                 $data          = saswp_faq_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
+                                $input1        = array_merge($input1, $data);
+                            
+                                break;
+
+                            case 'Service':
+                                                                                                
+                                $data          = saswp_service_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
                                 $input1        = array_merge($input1, $data);
                             
                                 break;

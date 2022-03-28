@@ -2840,10 +2840,10 @@ function saswp_remove_unwanted_notice_boxes(){
         
        remove_all_actions('admin_notices'); 
        
-       global $saswp_wisdom;
+    //    global $saswp_wisdom;
        
-       add_action( 'admin_notices', array($saswp_wisdom , 'optin_notice') );
-       add_action( 'admin_notices', array($saswp_wisdom , 'marketing_notice') );
+    //    add_action( 'admin_notices', array($saswp_wisdom , 'optin_notice') );
+    //    add_action( 'admin_notices', array($saswp_wisdom , 'marketing_notice') );
        add_action( 'admin_notices', 'saswp_admin_notice' );
     }
         
@@ -3142,6 +3142,7 @@ function saswp_get_field_note($pname){
             'realhomes'                   => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
             'myhome'                      => saswp_t_string('Requires').' <a target="_blank" href="https://myhometheme.net/">My Home Theme</a>',
             'realestate_5'                => saswp_t_string('Requires').' <a target="_blank" href="https://myhometheme.net/">WP Pro Realstate 5</a>',
+            'realestate_7'                => saswp_t_string('Requires').' <a target="_blank" href="https://myhometheme.net/">WP Pro Realstate 7</a>',
             'geodirectory'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/geodirectory/">GeoDirectory – Business Directory</a>',
             'classipress'                 => saswp_t_string('Requires').' <a target="_blank" href="https://www.appthemes.com/themes/classipress/">ClassiPress</a>',
             'taqyeem'                     => saswp_t_string('Requires').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',

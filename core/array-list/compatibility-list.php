@@ -244,8 +244,9 @@ return array(
             'part_in'    => 'pro',
         ),
         'event_on'  =>  array(            
-            'name'       => 'Event On',
-            'free'       => 'eventON/eventon.php',             
+            'name'       => 'Event On / Event On Lite',
+            'free'       => 'eventon-lite/eventon.php',             
+            'pro'        => 'eventON/eventon.php',             
             'opt_name'   => 'saswp-event-on',
             'part_in'    => 'pro',
         ),
@@ -738,6 +739,12 @@ return array(
             'name'       => 'WP Pro Realestate 5',
             'free'       => 'realestate-5',               
             'opt_name'   => 'saswp-realestate-5',
+            'part_in'    => 'pro',
+        ), 
+        'realestate_7' => array(            
+            'name'       => 'WP Pro Realestate 7',
+            'free'       => 'realestate-7',               
+            'opt_name'   => 'saswp-realestate-7',
             'part_in'    => 'pro',
         ),        
         'saswp_realhomes' => array(            
