@@ -6154,6 +6154,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'         => 'saswp_person_schema_performerin_offers_availability_'.$schema_id,
                         'type'       => 'select',
                         'options' => array(
+                                ''                  => 'Select',
                                 'InStock'           => 'In Stock',
                                 'OutOfStock'        => 'Out Of Stock',
                                 'Discontinued'      => 'Discontinued',
