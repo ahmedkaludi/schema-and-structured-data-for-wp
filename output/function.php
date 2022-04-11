@@ -100,25 +100,34 @@ function saswp_wp_hook_operation(){
 function saswp_schema_markup_output_in_buffer($content){
     
     global $saswp_post_reviews, $saswp_elementor_qanda, $saswp_elementor_faq, $saswp_divi_faq, $saswp_elementor_howto, $saswp_evo_json_ld;
-     
+    
     if(!$saswp_divi_faq){
         $regex = "<script type='text/javascript' src='".SASWP_PLUGIN_URL."modules/divi-builder/scripts/frontend-bundle.min.js?ver=1.0.0'></script>";
         $content = str_replace($regex, '', $content);
     }
      
      if($saswp_post_reviews || $saswp_elementor_qanda || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto || $saswp_evo_json_ld){
-     
+        
             $saswp_json_ld =  saswp_get_all_schema_markup_output();  
-     
+            
+            
             if(!empty($saswp_json_ld['saswp_json_ld'])){
 
-                $regex = '/<script type\=\"application\/ld\+json\" class\=\"saswp\-schema\-markup\-output\"\>(.*?)<\/script>/s'; 
-                                
-                preg_match($regex, $content, $match);
+                if(strpos($content, 'saswp-schema-markup-output') !== false){
 
-                if(isset($match[0])){
-                    $content = str_replace($match[0], $saswp_json_ld['saswp_json_ld'], $content);
-                }
+                    $regex = '/<script type\=\"application\/ld\+json\" class\=\"saswp\-schema\-markup\-output\"\>(.*?)<\/script>/s'; 
+                                
+                    preg_match($regex, $content, $match);
+
+                    if(isset($match[0])){
+                        $content = str_replace($match[0], $saswp_json_ld['saswp_json_ld'], $content);
+                    }
+
+                }else{
+
+                    $content = str_replace('</head>', $saswp_json_ld['saswp_json_ld'].'</head>', $content);                    
+
+                }                
                  
             }
          
