@@ -662,6 +662,10 @@ class saswp_output_compatibility{
     public function polylang_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-polylang');
     }
+    public function event_on_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-event-on');
+    }
+    
     public function autolistings_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-autolistings');
     }
