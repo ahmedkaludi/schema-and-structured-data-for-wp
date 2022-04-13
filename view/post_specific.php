@@ -386,7 +386,7 @@ class saswp_post_specific {
                             . '</div>';
              
                 $cus_schema .= '<div id="saswp_specific_custom" class="saswp-post-specific-wrapper saswp_hide">';                                      
-                $cus_schema .= '<div class="'.((isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'saswp_hide' : '').'"><textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="95">'
+                $cus_schema .= '<div class="'.((isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'saswp_hide' : '').'"><textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85">'
                             .  $custom_markp
                             .  '</textarea>';
                 $cus_schema .= '<span><strong>'.saswp_t_string( 'Note' ).': </strong>'.saswp_t_string( 'Please enter the valid Json-ld. Whatever you enter will be added in page source' ).'</span>';

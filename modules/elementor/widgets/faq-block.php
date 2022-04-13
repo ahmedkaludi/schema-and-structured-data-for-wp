@@ -24,7 +24,7 @@ class Faq_Block extends Widget_Base {
 		return 'eicon-text';
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		$this->start_controls_section(
 			'content_section',
@@ -104,7 +104,7 @@ class Faq_Block extends Widget_Base {
                 
 		if ( $settings['list'] ) {
                     
-                        $saswp_elementor_faq = $settings['list'];
+                        $saswp_elementor_faq = $settings['list'];						
 			echo '<ul>';
                         $i = 1;
 			foreach (  $settings['list'] as $item ) {
@@ -124,7 +124,7 @@ class Faq_Block extends Widget_Base {
 		}
 	}
 
-	protected function _content_template() {
+	protected function content_template() {
 		?>
 		<# if ( settings.list.length ) { 
                 

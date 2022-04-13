@@ -775,7 +775,7 @@ class saswp_reviews_service {
                             }
                             
                         }else{
-                            $review_data['saswp_review_platform_icon'] = SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png';
+                            $review_data['saswp_review_platform_icon'] = SASWP_PLUGIN_URL.'admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png';
                         }
                         
                     }
