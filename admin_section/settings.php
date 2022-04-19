@@ -2229,7 +2229,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                 if ($on ==  'Reviews') {
                     $Reviews_h = $limits_html;
                 }
-                $response.= '<div class="saswp-sts-active-main '.strtolower($on).'_addon "><label class="saswp-sts-txt '.$license_status.'">'.saswp_t_string('Status').' :<span class="addon-activated_'.strtolower($on).'" '.$license_Status_id.'>'.$license_Status_.'</span>
+                $response.= '<div class="saswp-sts-active-main '.strtolower($on).'_addon "><label class="saswp-sts-txt '.$license_status.'">'.saswp_t_string('Status').':<span class="addon-activated_'.strtolower($on).'" '.$license_Status_id.'>'.$license_Status_.'</span>
                 <input type="password" class="license_key_input_active '.strtolower($on).'_addon_license_key" value="'.esc_attr(''.$original_license.'').'" placeholder="'.saswp_t_string('Enter License Key').'" id="'.strtolower($on).'_addon_license_key">
                 <a license-status="inactive" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation deactive_state '.strtolower($on).''.strtolower($on).'" id="saswp_license_deactivation">'.saswp_t_string('Deactivate').'</a>'.$Reviews_h.' 
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_expires_normal" name="sd_data['.strtolower($on).'_addon_license_key_expires_normal]" value="'.esc_attr($license_expnormal).'">
@@ -2245,7 +2245,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
             elseif ( $license_status_msg !='active' && $on ==  'Reviews') {
 
                 $response.= '<span class="saswp-sts-deactive-reviews '.strtolower($on).'_addon">
-                <label class="saswp-sts-txt"><span class="inactive_Reviews">'.saswp_t_string('Status').' :</span><span class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'
+                <label class="saswp-sts-txt"><span class="inactive_Reviews">'.saswp_t_string('Status').':</span><span class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'
                 </span>
                 <input type="text" class="reviewslicense_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
                  <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation Reviews '.$on.'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>
@@ -2281,7 +2281,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
              
 
                 $original_license = $license_key;
-                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span id="lic_inactive" class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'</span>
+                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">'.saswp_t_string('Status').':<span id="lic_inactive" class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'</span>
                 <input type="password" class="license_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="'.$original_license.'">
                 <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation '.strtolower($on).'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">

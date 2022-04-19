@@ -2561,7 +2561,11 @@ jQuery(document).ready(function($){
                                
                                $("#"+add_on+"_addon_license_key_status").val(response['status']);
                                                                 
-                              if(response['status'] =='active'){  
+                               if(response['status'] =='active' && response['days_remaining']<0){
+                                $("span.inactive_status_reviews").text('Expired');
+                                $("span.inactive_status_reviews").css({ color: "red", "font-weight": "400" });
+                              }
+                            else if(response['status'] =='active'){  
                                $(".saswp-"+add_on+"-dashicons").addClass('dashicons-yes');
                                $(".saswp-"+add_on+"-dashicons").removeClass('dashicons-no-alt');
                                $(".saswp-"+add_on+"-dashicons").css("color", "green");
@@ -2575,7 +2579,7 @@ jQuery(document).ready(function($){
                                $(".saswp_license_status_msg[add-on='" + add_on + "']").text(response['message']);
 
                                $("span.inactive_status_" + add_on + "").text('Active');
-                               $("span.inactive_status_" + add_on + "").css("color", "green");
+                               $("span.inactive_status_" + add_on + "").css({color:"green","margin-left":"8px","font-weight":"400"});
                                $("span.inactive_status_" + add_on + "").removeClass("inactive_status_" + add_on + "").addClass("addon-activated_" + add_on + "");
                                                                                              
                               }else{

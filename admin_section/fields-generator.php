@@ -343,6 +343,7 @@ class saswp_fields_generator {
                         
                             $on                 = 'Reviews';
                             $license_key        = '';
+                            $license_expires        = '';
                             $license_status     = 'inactive';
                             $license_status_msg = '';
                             $rv_limits          = '';
@@ -359,6 +360,23 @@ class saswp_fields_generator {
                               $license_status_msg =   $settings[strtolower($on).'_addon_license_key_message'];
                             }
                             
+              
+                            if (isset($settings[strtolower($on).'_addon_license_key_user_name'])) {
+                              $license_user_name =   $settings[strtolower($on).'_addon_license_key_user_name'];
+                            }
+              
+                            if (isset($settings[strtolower($on).'_addon_license_key_download_id'])) {
+                              $license_download_id =   $settings[strtolower($on).'_addon_license_key_download_id'];
+                            }
+              
+                            if (isset($settings[strtolower($on).'_addon_license_key_expires'])) {
+                              $license_expires =   $settings[strtolower($on).'_addon_license_key_expires'];
+                            }
+              
+                            if (isset($settings[strtolower($on).'_addon_license_key_expires_normal'])) {
+                              $license_expnormal =   $settings[strtolower($on).'_addon_license_key_expires_normal'];
+                            }
+
                             if($license_status =='active'){
                               $rv_limits =   get_option(strtolower($on).'_addon_reviews_limits');
                             }
@@ -552,9 +570,6 @@ class saswp_fields_generator {
                                     switch ($meta_field['id']) {
                                     
                                         case 'saswp-reviews-pro-api':
-                                        $license_user_name = '';
-                                        $license_download_id = '';
-                                        $license_expires     = '';
                                             $pro_api    = '<div class="" style="display:block;">
                                                           '.saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg,$license_user_name, $license_download_id, $license_expires, $lable=false, $rv_limits).'
                                                           </div>';
