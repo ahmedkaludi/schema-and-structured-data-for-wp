@@ -24,7 +24,7 @@ class Qanda_Block extends Widget_Base {
 		return 'eicon-text';
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		//Question section starts here
 
@@ -266,7 +266,7 @@ class Qanda_Block extends Widget_Base {
         echo $response;
 	}
 
-	protected function _content_template() {
+	protected function content_template() {
 		?>
 		
 		<# 
