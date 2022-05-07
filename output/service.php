@@ -290,15 +290,17 @@ Class saswp_output_service{
 
                     }else{
 
-                        if(strpos($cus_field[$key], "image") !== false){
-                            $response    = get_post_meta($post->ID, $cus_field[$key], true);                         
-                            if(is_numeric($response)){
-                                $response = saswp_get_image_by_id($response);
+                        if($post){
+                            if(strpos($cus_field[$key], "image") !== false){
+                                $response    = get_post_meta($post->ID, $cus_field[$key], true);                         
+                                if(is_numeric($response)){
+                                    $response = saswp_get_image_by_id($response);
+                                }else{
+                                    $response    = get_post_meta($post->ID, $cus_field[$key], true);     
+                                }
                             }else{
-                                $response    = get_post_meta($post->ID, $cus_field[$key], true);     
+                                $response    = get_post_meta($post->ID, $cus_field[$key], true); 
                             }
-                        }else{
-                            $response    = get_post_meta($post->ID, $cus_field[$key], true); 
                         }
 
                     }
