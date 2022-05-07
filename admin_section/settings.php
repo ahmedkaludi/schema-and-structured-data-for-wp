@@ -4609,6 +4609,10 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         
         if($post_type == 'saswp'){
 
+                //conflict with jupitor theme fixed starts here
+                wp_dequeue_script( 'mk-select2' );
+                wp_deregister_script( 'mk-select2' );                
+                //conflict with jupitor theme fixed ends here                
                 wp_dequeue_script( 'wds-shared-ui' );
                 wp_deregister_script( 'wds-shared-ui' );
                 wp_dequeue_script( 'pum-admin-general' );
