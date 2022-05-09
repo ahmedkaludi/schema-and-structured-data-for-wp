@@ -24,7 +24,7 @@ class HowTo_Block extends Widget_Base {
 		return 'eicon-text';
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		$this->start_controls_section(
 			'time_section',
@@ -366,7 +366,7 @@ class HowTo_Block extends Widget_Base {
 		}
 	}
 
-	protected function _content_template() {
+	protected function content_template() {
 		?>
 		<# if ( settings.step_list.length ) { 
                 

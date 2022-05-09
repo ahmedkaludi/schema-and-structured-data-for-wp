@@ -756,11 +756,7 @@ function saswp_premium_features_callback(){ ?>
 		<ul class="saswp-features-blocks">
                                         
                             <?php
-                            
-                            $cooked_active_text = '';
-
-    // print_r($add_on);die;
-    // $status = saswp_is_check_plugin('OCIAIFS');
+                                                            
 $main_ext_array = array();
 
 $main_ext_array['CPC'] = array( 'name' => 'Classifieds Plugin Compatibility','desc' => 'Classifieds Plugin Compatibility generated schema markup automatically for classified theme and plugin with just few steps click.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/cpc.png', 'bgcolor' => '#9fa2f5', 'href' => 'https://structured-data-for-wp.com/classifieds-plugin-compatibility/' , 'status' => saswp_is_check_plugin('saswp_cpc_schema_updater','CPC'));
@@ -792,38 +788,56 @@ $main_ext_array['woocommerce'] = array( 'name' => 'WooCommerce Compatibility for
 
 $main_ext_array['Res'] = array( 'name' => 'Real Estate Schema','desc' => 'Real Estate Schema extension is the number one solution to enhance your real estate website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/real-estate-schema-wp.png', 'bgcolor' => '#ace', 'href' => 'https://structured-data-for-wp.com/extensions/real-estate-schema/' , 'status' => saswp_is_check_plugin('real_estate_schema_updater','Res'));
 
-$cooked_active_text = 'Active';
+$active_plugin_list   = array();
+$inactive_plugin_list = array();
 
-foreach($main_ext_array as $key => $value){
-    $addon_name = $value['name'];
-    $addon_image = $value['image'];
-    $addon_desc = $value['desc'];
-    $addon_bgcolor = $value['bgcolor'];
-    $addon_status = $value['status'];
-    $addon_href = $value['href'];
-    $css = '';
-    if($addon_status != false){
-       $addon_status; // plugin active
-       $css = '';
-       // $css = 'style="border: unset;"';
-    }else{
-       $addon_status = '<label class="saswp-sts-txt inactive">'. saswp_t_string('Status') .' :<span class="saswp_inactive_key">'.saswp_t_string('Inactive').'</span></label><a target="_blank" href="'.$addon_href.'"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
+foreach($main_ext_array as $value){
+        
+    $addon_name         = $value['name'];
+    $addon_image        = $value['image'];
+    $addon_desc         = $value['desc'];
+    $addon_bgcolor      = $value['bgcolor'];
+    $addon_status       = $value['status'];
+    $addon_href         = $value['href'];
+    $css                = '';
+
+    if($addon_status == false){
+        $addon_status = '<label class="saswp-sts-txt inactive">'. saswp_t_string('Status') .' :<span class="saswp_inactive_key">'.saswp_t_string('Inactive').'</span></label><a target="_blank" href="'.$addon_href.'"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
     }    
 
-    echo "<li>
-    <div class='saswp-features-ele'>
-    <div class='saswp-ele-ic' style='background: ".$addon_bgcolor.";'>
-    <img src=".$addon_image.">
-    </div>
-    <div class='saswp-ele-tlt'>
-    <h3>".saswp_t_string($addon_name)."</h3>
-    <p>".saswp_t_string($addon_desc)."</p>
-    </div>    
-    <div class='saswp-sts-btn' ".$css.">".$addon_status."
-    </div>
-    </div>
-    </li>";
+    $plist =   "<li>
+                <div class='saswp-features-ele'>
+                <div class='saswp-ele-ic' style='background: ".$addon_bgcolor.";'>
+                <img src=".esc_url($addon_image).">
+                </div>
+                <div class='saswp-ele-tlt'>
+                <h3>".saswp_t_string($addon_name)."</h3>
+                <p>".saswp_t_string($addon_desc)."</p>
+                </div>    
+                <div class='saswp-sts-btn' ".$css.">".$addon_status."
+                </div>
+                </div>
+                </li>";
+
+    if($value['status']){
+        $active_plugin_list[]   = $plist; 
+    }else{
+        $inactive_plugin_list[] = $plist;       
+    }
+
 }
+
+        if(!empty($active_plugin_list)){
+                foreach($active_plugin_list as $value){
+                        echo $value;
+                }
+        }
+        if(!empty($inactive_plugin_list)){
+                foreach($inactive_plugin_list as $value){
+                        echo $value;
+                }
+        }
+
 ?>
 </div>
  <?php
@@ -2229,7 +2243,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                 if ($on ==  'Reviews') {
                     $Reviews_h = $limits_html;
                 }
-                $response.= '<div class="saswp-sts-active-main '.strtolower($on).'_addon "><label class="saswp-sts-txt '.$license_status.'">'.saswp_t_string('Status').' :<span class="addon-activated_'.strtolower($on).'" '.$license_Status_id.'>'.$license_Status_.'</span>
+                $response.= '<div class="saswp-sts-active-main '.strtolower($on).'_addon "><label class="saswp-sts-txt '.$license_status.'">'.saswp_t_string('Status').':<span class="addon-activated_'.strtolower($on).'" '.$license_Status_id.'>'.$license_Status_.'</span>
                 <input type="password" class="license_key_input_active '.strtolower($on).'_addon_license_key" value="'.esc_attr(''.$original_license.'').'" placeholder="'.saswp_t_string('Enter License Key').'" id="'.strtolower($on).'_addon_license_key">
                 <a license-status="inactive" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation deactive_state '.strtolower($on).''.strtolower($on).'" id="saswp_license_deactivation">'.saswp_t_string('Deactivate').'</a>'.$Reviews_h.' 
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_expires_normal" name="sd_data['.strtolower($on).'_addon_license_key_expires_normal]" value="'.esc_attr($license_expnormal).'">
@@ -2245,7 +2259,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
             elseif ( $license_status_msg !='active' && $on ==  'Reviews') {
 
                 $response.= '<span class="saswp-sts-deactive-reviews '.strtolower($on).'_addon">
-                <label class="saswp-sts-txt"><span class="inactive_Reviews">'.saswp_t_string('Status').' :</span><span class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'
+                <label class="saswp-sts-txt"><span class="inactive_Reviews">'.saswp_t_string('Status').':</span><span class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'
                 </span>
                 <input type="text" class="reviewslicense_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
                  <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation Reviews '.$on.'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>
@@ -2281,7 +2295,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
              
 
                 $original_license = $license_key;
-                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">'.saswp_t_string('Status').' :<span id="lic_inactive" class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'</span>
+                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">'.saswp_t_string('Status').':<span id="lic_inactive" class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'</span>
                 <input type="password" class="license_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="'.$original_license.'">
                 <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation '.strtolower($on).'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">
@@ -4521,6 +4535,12 @@ function saswp_enqueue_style_js( $hook ) {
                 $post_id = intval($_GET['tag_ID']);
         }
 
+        $req_from = 'post';
+
+        if(isset($_GET['tag_ID'])){
+                $req_from = 'taxonomy';
+        }
+
         $data = array(     
             'current_url'                  => saswp_get_current_url(), 
             'post_id'                      => $post_id,
@@ -4541,7 +4561,9 @@ function saswp_enqueue_style_js( $hook ) {
             'trans_self'                   => saswp_t_string(saswp_label_text('translation-self')),
             'translable_txt'               => $translable_txt,
             'is_rtl'                       => is_rtl(),     
-            'tag_ID'                       => isset($_GET['tag_ID']) ? intval($_GET['tag_ID']) : '',     
+            'tag_ID'                       => isset($_GET['tag_ID']) ? intval($_GET['tag_ID']) : '',
+            'req_from'                     => $req_from,     
+
         );
                         
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');
@@ -4609,6 +4631,10 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         
         if($post_type == 'saswp'){
 
+                //conflict with jupitor theme fixed starts here
+                wp_dequeue_script( 'mk-select2' );
+                wp_deregister_script( 'mk-select2' );                
+                //conflict with jupitor theme fixed ends here                
                 wp_dequeue_script( 'wds-shared-ui' );
                 wp_deregister_script( 'wds-shared-ui' );
                 wp_dequeue_script( 'pum-admin-general' );

@@ -2239,13 +2239,13 @@ function saswp_schema_output() {
                         }else{
                             
                             if( !empty($input1) && !isset($input1['image'])){
-                                                          
+                                                              
                                 $input2             = $service_object->saswp_get_fetaure_image();
                                 
                                 if(!empty($input2)){
                                     
                                   $input1 = apply_filters('saswp_modify_featured_image', array_merge($input1,$input2) ); 
-                                  
+                                    
                                 }                                                                    
                            }
                         }

@@ -3688,17 +3688,20 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Name',
                             'id' => 'saswp_audio_schema_name_'.$schema_id,
-                            'type' => 'text',                           
+                            'type' => 'text', 
+                            'default'=> saswp_get_the_title()                          
                     ),
                     array(
                             'label' => 'Description',
                             'id' => 'saswp_audio_schema_description_'.$schema_id,
-                            'type' => 'textarea',                            
+                            'type' => 'textarea',            
+                            'default' => saswp_strip_all_tags(get_the_excerpt())                
                     ),
                     array(
                             'label' => 'Content Url',
                             'id' => 'saswp_audio_schema_contenturl_'.$schema_id,
-                            'type' => 'text',                            
+                            'type' => 'text',  
+                            'default' => get_permalink()                          
                     ),
                    array(
                             'label' => 'Duration',
@@ -3734,7 +3737,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Author Name',
                             'id' => 'saswp_audio_schema_author_name_'.$schema_id,
-                            'type' => 'text',                            
+                            'type' => 'text',  
+                            'default' => is_object($current_user) ? $current_user->display_name : ''                          
                     ),
                     array(
                             'label'   => 'Author Description',

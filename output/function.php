@@ -1340,6 +1340,10 @@ function saswp_get_comments_with_rating(){
                 $rating = get_comment_meta($comment->comment_ID, 'review_rating', true);
             }
             
+            if($rating < 1){
+                $rating = 1;
+            }
+
             if(is_numeric($rating)){
 
                 $sumofrating += $rating;
@@ -1363,6 +1367,9 @@ function saswp_get_comments_with_rating(){
             
             if($sumofrating> 0){
                 $avg_rating = $sumofrating /  count($comments); 
+            }
+            if($avg_rating < 1){
+                $avg_rating = 1;
             }
             
             $ratings =  array(
@@ -1529,9 +1536,9 @@ function saswp_json_print_format($output_array){
     global $sd_data;
     
     if(isset($sd_data['saswp-pretty-print']) && $sd_data['saswp-pretty-print'] == 1){
-        return wp_json_encode($output_array, JSON_PRETTY_PRINT);
+        return wp_json_encode( $output_array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
     }else{
-        return wp_json_encode($output_array);
+        return wp_json_encode( $output_array, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
     }
         
 }

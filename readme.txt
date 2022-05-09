@@ -3,7 +3,7 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 5.9
-Stable tag: 1.9.96
+Stable tag: 1.9.97
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.97 (09 May 2022) =
+
+* Fixed: PHP Deprecated: _content_template is deprecated since version 2.9.0 #1643
+* Fixed: Conflict with Jupiter theme #1664
+* Fixed: Issue with the rating module: The star rating minimum should be 1 #1650
+* Fixed: The auto-fill feature in the AudioObject Schema does not function for several fields. #1651
+* Fixed: Issues regarding License Key (n extension manager plugin is showing active however in review section it is showing expired.) #1652
+* Fixed: Issues related to sorting of activated plugin (Those plugins which are activated should automatically come on top). #1653
+* Fixed: Disable Schema on Post Category is not working #1656
+* Fixed: PHP warnings showing in error log #1661
+* Fixed: Structured data warnings in search console regarding missing field in Apartment schema #1662
+* Enhancement: JSON_UNESCAPED_UNICODE added to json_encoding #1659
+
 
 = 1.9.96 (13 April 2022) =
 
