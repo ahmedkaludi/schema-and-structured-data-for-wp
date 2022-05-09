@@ -756,11 +756,7 @@ function saswp_premium_features_callback(){ ?>
 		<ul class="saswp-features-blocks">
                                         
                             <?php
-                            
-                            $cooked_active_text = '';
-
-    // print_r($add_on);die;
-    // $status = saswp_is_check_plugin('OCIAIFS');
+                                                            
 $main_ext_array = array();
 
 $main_ext_array['CPC'] = array( 'name' => 'Classifieds Plugin Compatibility','desc' => 'Classifieds Plugin Compatibility generated schema markup automatically for classified theme and plugin with just few steps click.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/cpc.png', 'bgcolor' => '#9fa2f5', 'href' => 'https://structured-data-for-wp.com/classifieds-plugin-compatibility/' , 'status' => saswp_is_check_plugin('saswp_cpc_schema_updater','CPC'));
@@ -792,38 +788,56 @@ $main_ext_array['woocommerce'] = array( 'name' => 'WooCommerce Compatibility for
 
 $main_ext_array['Res'] = array( 'name' => 'Real Estate Schema','desc' => 'Real Estate Schema extension is the number one solution to enhance your real estate website with the right structured data.' , 'image' => "".SASWP_PLUGIN_URL."".'/admin_section/images/real-estate-schema-wp.png', 'bgcolor' => '#ace', 'href' => 'https://structured-data-for-wp.com/extensions/real-estate-schema/' , 'status' => saswp_is_check_plugin('real_estate_schema_updater','Res'));
 
-$cooked_active_text = 'Active';
+$active_plugin_list   = array();
+$inactive_plugin_list = array();
 
-foreach($main_ext_array as $key => $value){
-    $addon_name = $value['name'];
-    $addon_image = $value['image'];
-    $addon_desc = $value['desc'];
-    $addon_bgcolor = $value['bgcolor'];
-    $addon_status = $value['status'];
-    $addon_href = $value['href'];
-    $css = '';
-    if($addon_status != false){
-       $addon_status; // plugin active
-       $css = '';
-       // $css = 'style="border: unset;"';
-    }else{
-       $addon_status = '<label class="saswp-sts-txt inactive">'. saswp_t_string('Status') .' :<span class="saswp_inactive_key">'.saswp_t_string('Inactive').'</span></label><a target="_blank" href="'.$addon_href.'"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
+foreach($main_ext_array as $value){
+        
+    $addon_name         = $value['name'];
+    $addon_image        = $value['image'];
+    $addon_desc         = $value['desc'];
+    $addon_bgcolor      = $value['bgcolor'];
+    $addon_status       = $value['status'];
+    $addon_href         = $value['href'];
+    $css                = '';
+
+    if($addon_status == false){
+        $addon_status = '<label class="saswp-sts-txt inactive">'. saswp_t_string('Status') .' :<span class="saswp_inactive_key">'.saswp_t_string('Inactive').'</span></label><a target="_blank" href="'.$addon_href.'"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
     }    
 
-    echo "<li>
-    <div class='saswp-features-ele'>
-    <div class='saswp-ele-ic' style='background: ".$addon_bgcolor.";'>
-    <img src=".$addon_image.">
-    </div>
-    <div class='saswp-ele-tlt'>
-    <h3>".saswp_t_string($addon_name)."</h3>
-    <p>".saswp_t_string($addon_desc)."</p>
-    </div>    
-    <div class='saswp-sts-btn' ".$css.">".$addon_status."
-    </div>
-    </div>
-    </li>";
+    $plist =   "<li>
+                <div class='saswp-features-ele'>
+                <div class='saswp-ele-ic' style='background: ".$addon_bgcolor.";'>
+                <img src=".esc_url($addon_image).">
+                </div>
+                <div class='saswp-ele-tlt'>
+                <h3>".saswp_t_string($addon_name)."</h3>
+                <p>".saswp_t_string($addon_desc)."</p>
+                </div>    
+                <div class='saswp-sts-btn' ".$css.">".$addon_status."
+                </div>
+                </div>
+                </li>";
+
+    if($value['status']){
+        $active_plugin_list[]   = $plist; 
+    }else{
+        $inactive_plugin_list[] = $plist;       
+    }
+
 }
+
+        if(!empty($active_plugin_list)){
+                foreach($active_plugin_list as $value){
+                        echo $value;
+                }
+        }
+        if(!empty($inactive_plugin_list)){
+                foreach($inactive_plugin_list as $value){
+                        echo $value;
+                }
+        }
+
 ?>
 </div>
  <?php
