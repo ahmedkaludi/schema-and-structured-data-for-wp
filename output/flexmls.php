@@ -127,7 +127,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
               }
                
           
-          $link_to_details = '';
+          $link_to_details = get_permalink();
           
           $photos = array();
           
@@ -149,7 +149,10 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
 				"name"              => esc_attr($result['StandardFields']['UnparsedFirstLineAddress']),
                                 "description"       => isset($result['StandardFields']['PublicRemarks'])? $result['StandardFields']['PublicRemarks']:strip_tags(get_the_excerpt()),
                                 "sku"               => esc_attr($result['StandardFields']['BuildingAreaTotal']),
-                                "brand"             => get_bloginfo(),
+                                "brand"             => array(
+                                    '@type' => 'Brand',
+                                    'name'  => get_bloginfo()                                    
+                                ),
                                 "mpn"               => esc_attr($result['StandardFields']['YearBuilt']),
 				"url"		    => esc_url($link_to_details),
                                 "aggregateRating"   => array(
@@ -159,7 +162,10 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                                                          ),
                                 "review"            => array(
                                                                         '@type'	=> 'Review',
-                                                                        'author'	=> get_the_author(),
+                                                                        'author'	=> array(
+                                                                                '@type' => 'Person',
+                                                                                'name'  => get_the_author(),
+                                                                         ),
                                                                         'datePublished'	=> $result['StandardFields']['ListingUpdateTimestamp'],                                                                        
                                                                         'reviewRating'  => array(
                                                                                 '@type'	=> 'Rating',
