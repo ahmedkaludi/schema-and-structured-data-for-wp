@@ -123,6 +123,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 = 1.9.97 (09 May 2022) =
 
 * Fixed: PHP Deprecated: _content_template is deprecated since version 2.9.0 #1643
+* Fixed: Conflict with Jupiter theme #1664
 * Fixed: Issue with the rating module: The star rating minimum should be 1 #1650
 * Fixed: The auto-fill feature in the AudioObject Schema does not function for several fields. #1651
 * Fixed: Issues regarding License Key (n extension manager plugin is showing active however in review section it is showing expired.) #1652
