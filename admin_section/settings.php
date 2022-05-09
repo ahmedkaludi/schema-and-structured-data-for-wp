@@ -4521,6 +4521,12 @@ function saswp_enqueue_style_js( $hook ) {
                 $post_id = intval($_GET['tag_ID']);
         }
 
+        $req_from = 'post';
+
+        if(isset($_GET['tag_ID'])){
+                $req_from = 'taxonomy';
+        }
+
         $data = array(     
             'current_url'                  => saswp_get_current_url(), 
             'post_id'                      => $post_id,
@@ -4541,7 +4547,9 @@ function saswp_enqueue_style_js( $hook ) {
             'trans_self'                   => saswp_t_string(saswp_label_text('translation-self')),
             'translable_txt'               => $translable_txt,
             'is_rtl'                       => is_rtl(),     
-            'tag_ID'                       => isset($_GET['tag_ID']) ? intval($_GET['tag_ID']) : '',     
+            'tag_ID'                       => isset($_GET['tag_ID']) ? intval($_GET['tag_ID']) : '',
+            'req_from'                     => $req_from,     
+
         );
                         
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');

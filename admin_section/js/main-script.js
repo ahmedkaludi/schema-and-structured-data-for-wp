@@ -2505,7 +2505,13 @@ jQuery(document).ready(function($){
                             type: "POST",    
                             url:ajaxurl,                    
                             dataType: "json",
-                            data:{action:"saswp_enable_disable_schema_on_post",status:status, schema_id:schema_id, post_id:post_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            data:{
+                              action:"saswp_enable_disable_schema_on_post",
+                              status:status, 
+                              schema_id:schema_id, 
+                              post_id:post_id,
+                              req_from:saswp_localize_data.req_from, 
+                              saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                             success:function(response){                                                     
                             },
                             error: function(response){                    

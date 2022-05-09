@@ -251,8 +251,15 @@ class saswp_post_specific {
                 $post_id       = intval($_POST['post_id']);
                 $schema_id     = sanitize_text_field($_POST['schema_id']);
                 $status        = sanitize_text_field($_POST['status']);
-                              
-                $schema_enable_status = get_post_meta($post_id, 'saswp_enable_disable_schema', true);     
+                $req_from      = sanitize_text_field($_POST['req_from']);
+                            
+                if($req_from == 'post'){
+                    $schema_enable_status = get_post_meta($post_id, 'saswp_enable_disable_schema', true);  
+                }
+                
+                if($req_from == 'taxonomy'){
+                    $schema_enable_status = get_term_meta($post_id, 'saswp_enable_disable_schema', true);  
+                }                   
                                
                 if(is_array($schema_enable_status)){
                    
@@ -260,14 +267,26 @@ class saswp_post_specific {
                    
                 }else{
                     
-                    delete_post_meta($post_id, 'saswp_enable_disable_schema');
+                    if($req_from == 'post'){
+                        delete_post_meta($post_id, 'saswp_enable_disable_schema');
+                    }
+                    
+                    if($req_from == 'taxonomy'){
+                        delete_term_meta($post_id, 'saswp_enable_disable_schema');
+                    }
                     
                 } 
                                 
                 $schema_enable[$schema_id] = $status;   
-                                
-                update_post_meta( $post_id, 'saswp_enable_disable_schema', $schema_enable);                   
+
+                if($req_from == 'post'){
+                    update_post_meta( $post_id, 'saswp_enable_disable_schema', $schema_enable);                   
+                }
                 
+                if($req_from == 'taxonomy'){
+                    update_term_meta( $post_id, 'saswp_enable_disable_schema', $schema_enable);                   
+                }
+                                                                
                 echo json_encode(array('status'=>'t'));
                 wp_die();                        
                 
@@ -366,7 +385,7 @@ class saswp_post_specific {
         }
         
         public function saswp_post_meta_box_fields($post){  
-                        			            
+                        			                
              $response_html     = '';
              $disable_btn       = '';
              $cus_schema        = '';
@@ -581,7 +600,7 @@ class saswp_post_specific {
         
 
     public function saswp_save_term_fields( $post_id ) {
-            
+                
         if ( ! isset( $_POST['taxonomy_specific_nonce'] ) ) return $post_id;
 
 		if ( !wp_verify_nonce( $_POST['taxonomy_specific_nonce'], 'taxonomy_specific_nonce_data' ) ) return $post_id;	
