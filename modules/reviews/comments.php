@@ -162,6 +162,9 @@ function saswp_comment_rating_display_rating( $comment_text = null, $comment = n
 		}else{
 			$rating = get_comment_meta( get_comment_ID(), 'review_rating', true );
 		}
+		if($rating < 1){
+			$rating = 1;
+		}
 		
 		wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       
 		return '<p>'.saswp_get_rating_html_by_value($rating).'</p>'.$comment_text;
@@ -183,6 +186,9 @@ function saswp_comment_rating_display_average_rating() {
 		if($average_rate){
 			
 			$average = $average_rate['average'];
+			if($average < 1){
+				$average = 1;
+			}
 			$count   = $average_rate['count'];
 				
 			$custom_content  = '<div class="saswp-average-rating">'.saswp_t_string('Average').' '. saswp_get_rating_html_by_value($average).' '.esc_html($average).' '. saswp_t_string('Based On') .' '.esc_html($count).'</div>';

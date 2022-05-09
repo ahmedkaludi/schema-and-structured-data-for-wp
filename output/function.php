@@ -1337,6 +1337,10 @@ function saswp_get_comments_with_rating(){
                 $rating = get_comment_meta($comment->comment_ID, 'review_rating', true);
             }
             
+            if($rating < 1){
+                $rating = 1;
+            }
+
             if(is_numeric($rating)){
 
                 $sumofrating += $rating;
@@ -1360,6 +1364,9 @@ function saswp_get_comments_with_rating(){
             
             if($sumofrating> 0){
                 $avg_rating = $sumofrating /  count($comments); 
+            }
+            if($avg_rating < 1){
+                $avg_rating = 1;
             }
             
             $ratings =  array(
