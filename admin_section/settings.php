@@ -199,9 +199,7 @@ function saswp_admin_interface_render(){
                 $license_exp = "";
                 $license_k = $license_key;
                 $download_id = $license_download_id;
-                $days = $license_expires;
-                // print_r($days);die;
-                // print_r($expiredLicensedata);die;
+                $days = $license_expires;                
                 $one_of_plugin_expired = 0;
                     if ( in_array( 1, $expiredLicensedata ) ){
                             $one_of_plugin_expired = 1;
