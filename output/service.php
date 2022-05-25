@@ -3915,6 +3915,22 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_vg_schema_file_size'])){
                         $input1['fileSize'] =    $custom_fields['saswp_vg_schema_file_size'];
                     }
+
+                    if(isset($custom_fields['saswp_vg_schema_rating']) && 
+                        isset($custom_fields['saswp_vg_schema_review_count'])){
+
+                        if($custom_fields['saswp_vg_schema_rating'] > 5){
+                            $input1['aggregateRating']['@type']         = 'aggregateRating';
+                            $input1['aggregateRating']['worstRating']   =   0;
+                            $input1['aggregateRating']['bestRating']    =   100;
+                            $input1['aggregateRating']['ratingValue']   = $custom_fields['saswp_vg_schema_rating'];
+                            $input1['aggregateRating']['ratingCount']   = $custom_fields['saswp_vg_schema_review_count'];
+                        }else{
+                            $input1['aggregateRating']['@type']         = 'aggregateRating';                        
+                            $input1['aggregateRating']['ratingValue']   = $custom_fields['saswp_vg_schema_rating'];
+                            $input1['aggregateRating']['reviewCount']   = $custom_fields['saswp_vg_schema_review_count'];   
+                        }
+                    }
                     
                 break;
                 
