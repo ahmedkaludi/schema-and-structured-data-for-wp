@@ -194,7 +194,7 @@ if ( ! defined('ABSPATH') ) exit;
                 return;  
         }
                                                                    
-       $data = "Author, Author Url, Author Image, Date, Time, Rating, Title, Text, Platform, Language";
+       $data = "Author, Author Url, Author Image, Date, Time, Rating, Title, Text, Platform, Language, Source Url/ Place ID";
 
        header('Content-Type: text/csv; charset=utf-8');
        header('Content-disposition: attachment; filename=reviewscsv.csv');
