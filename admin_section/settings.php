@@ -3463,7 +3463,7 @@ function saswp_compatibility_page_callback(){
 	);
         
         $modern_events_calendar = array(
-			'label'  => 'Modern Events Calendar Lite',
+			'label'  => 'Modern Events Calendar',
 			'id'     => 'saswp-modern-events-calendar-checkbox',                        
                         'name'   => 'saswp-modern-events-calendar-checkbox',
 			'type'   => 'checkbox',

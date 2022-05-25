@@ -3130,7 +3130,7 @@ function saswp_get_field_note($pname){
             'events_manager'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
             'event_calendar_wd'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
             'event_organiser'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',
-            'modern_events_calendar'      => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar Lite</a>',
+            'modern_events_calendar'      => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar</a>',
             'flex_mls_idx'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',        
             'woocommerce_membership'      => saswp_t_string('Requires').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-memberships">Woocommerce Membership</a>',
             'woocommerce_bookings'        => saswp_t_string('Requires').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-bookings">Woocommerce Bookings</a>',        
