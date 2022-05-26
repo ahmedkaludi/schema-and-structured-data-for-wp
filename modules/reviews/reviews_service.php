@@ -264,14 +264,16 @@ class saswp_reviews_service {
         $wpdb->query('START TRANSACTION');    
 
         $counter = 0;
+        
+        
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-
+            
             // Skip the first row as is likely column names
             if ($counter === 0) {
                 $counter++;
                 continue;
-            }                                    
-
+            }    
+            $reviews_arr   = array();
             $reviews_arr[] = array(
                 'author_name'           => $data[0],
                 'author_url'            => $data[1],
@@ -284,22 +286,20 @@ class saswp_reviews_service {
                 'platform'              => $data[8],
                 'language'              => isset($data[9]) ? $data[9] : null
             );
+            if(!empty($data[10])){
+                $place_id =    $data[10];        
+            }
+            $reviews_total            = array();
+            $reviews_total['reviews'] = $reviews_arr;
+            $result                   = $this->saswp_save_free_reviews_data($reviews_total, $place_id);
             
-            if(isset($data[6]) && $data[6] != ''){
-                $place_id = $data[6];
+            if(is_wp_error($result)){
+                $errorDesc[] = $result->get_error_message();
             }
         }    
-            
-        $reviews_total            = array();
-        $reviews_total['reviews'] = $reviews_arr;
-        $result                   = $this->saswp_save_free_reviews_data($reviews_total, $place_id);
-
+                    
         update_option('saswp_rv_csv_upload_url','');
-        
-        if(is_wp_error($result)){
-            $errorDesc[] = $result->get_error_message();
-        }
-                                    
+                                                   
        if ( count($errorDesc) ){
          echo implode("\n<br/>", $errorDesc);              
          $wpdb->query('ROLLBACK');             

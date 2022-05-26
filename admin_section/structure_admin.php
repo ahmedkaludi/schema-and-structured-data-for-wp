@@ -1570,7 +1570,7 @@ function saswp_send_query_message(){
                 $user_email = $email;
             }            
             //php mailer variables        
-            $sendto    = 'team@magazine3.com';
+            $sendto    = 'team@magazine3.in';
             $subject   = "Schema Customer Query";
             
             $headers[] = 'Content-Type: text/html; charset=UTF-8';

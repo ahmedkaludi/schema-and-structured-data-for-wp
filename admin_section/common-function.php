@@ -194,7 +194,7 @@ if ( ! defined('ABSPATH') ) exit;
                 return;  
         }
                                                                    
-       $data = "Author, Author Url, Author Image, Date, Time, Rating, Title, Text, Platform, Language";
+       $data = "Author, Author Url, Author Image, Date, Time, Rating, Title, Text, Platform, Language, Source Url/ Place ID";
 
        header('Content-Type: text/csv; charset=utf-8');
        header('Content-disposition: attachment; filename=reviewscsv.csv');
@@ -1756,7 +1756,12 @@ if ( ! defined('ABSPATH') ) exit;
      */   
             
     function saswp_default_settings_array(){
-        
+
+                if(!function_exists('wp_get_current_user') ) {
+                    require_once( ABSPATH . '/wp-includes/capabilities.php' );
+                    require_once( ABSPATH . '/wp-includes/pluggable.php' );
+                }  
+                        
                 $sd_name  = 'default';
                 $logo     = array();
                 $bloginfo = get_bloginfo('name', 'display'); 
@@ -3130,7 +3135,7 @@ function saswp_get_field_note($pname){
             'events_manager'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
             'event_calendar_wd'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
             'event_organiser'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',
-            'modern_events_calendar'      => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar Lite</a>',
+            'modern_events_calendar'      => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar</a>',
             'flex_mls_idx'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',        
             'woocommerce_membership'      => saswp_t_string('Requires').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-memberships">Woocommerce Membership</a>',
             'woocommerce_bookings'        => saswp_t_string('Requires').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-bookings">Woocommerce Bookings</a>',        

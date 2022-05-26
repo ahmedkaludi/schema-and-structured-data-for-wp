@@ -3463,7 +3463,7 @@ function saswp_compatibility_page_callback(){
 	);
         
         $modern_events_calendar = array(
-			'label'  => 'Modern Events Calendar Lite',
+			'label'  => 'Modern Events Calendar',
 			'id'     => 'saswp-modern-events-calendar-checkbox',                        
                         'name'   => 'saswp-modern-events-calendar-checkbox',
 			'type'   => 'checkbox',
@@ -4435,7 +4435,7 @@ function saswp_support_page_callback(){
             
     ?>
      <div class="saswp_support_div">
-            <strong><?php echo saswp_t_string('If you have any query, please write the query in below box or email us at') ?> <a href="mailto:team@ampforwp.com">team@ampforwp.com</a>. <?php echo saswp_t_string('We will reply to your email address shortly') ?></strong>
+            <strong><?php echo saswp_t_string('If you have any query, please write the query in below box or email us at') ?> <a href="mailto:team@magazine3.in">team@magazine3.in</a>. <?php echo saswp_t_string('We will reply to your email address shortly') ?></strong>
        
             <ul>
                 <li>
@@ -4475,7 +4475,7 @@ function saswp_support_page_callback(){
 	  <p class="saswp_qanda_p"> A) '.saswp_t_string( 'To check the page and post validation, please visit the' ).' <a href="https://search.google.com/structured-data/testing-tool" target="_blank">'.saswp_t_string( 'Structured data testing tool' ).'</a> '.saswp_t_string( 'and paste the link of your website.' ).' '.saswp_t_string( 'Once we click on run test we can see the result whether the page or post is a valid one or not.' ).'</p>
 
 	  <h3>5Q) '.saswp_t_string( 'Where should users contact if they faced any issues?' ).'</h3>
-	  <p class="saswp_qanda_p">A) '.saswp_t_string( 'We always welcome all our users to share their issues and get them fixed just with one click to the link' ).' team@ampforwp.com or <a href="https://ampforwp.com/support/" target="_blank">'.saswp_t_string( 'Support link' ).'</a></p><br>';
+	  <p class="saswp_qanda_p">A) '.saswp_t_string( 'We always welcome all our users to share their issues and get them fixed just with one click to the link' ).' team@magazine3.in or <a href="https://structured-data-for-wp.com/contact-us/" target="_blank">'.saswp_t_string( 'Support link' ).'</a></p><br>';
 }
 
 /**

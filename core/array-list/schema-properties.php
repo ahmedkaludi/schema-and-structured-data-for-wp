@@ -4555,7 +4555,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',                           
                         ),
                         array(
-                            'label' => 'Number of Reviews',
+                            'label' => 'Rating Count',
                             'id' => 'saswp_vg_schema_review_count_'.$schema_id,
                             'type' => 'text',                           
                         ),    

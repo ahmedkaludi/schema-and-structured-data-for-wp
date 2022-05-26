@@ -313,7 +313,7 @@ class SASWP_Reviews_Form {
                     . '<input type="hidden" name="action" value="saswp_review_form">';
                     
                     if( isset($attr['site_key']) && isset($attr['secret_key']) ) {
-                        $form.=    '<div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>';
+                        $form.=    '<div class="g-recaptcha" data-sitekey="'.esc_attr($attr['site_key']).'"></div>';
                     }
 
                     $form.= '<input name="saswp-review-save" type="submit" class="submit">'                                        

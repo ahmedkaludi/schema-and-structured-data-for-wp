@@ -468,7 +468,8 @@ return array(
                     'part_in'    => 'pro',
         ),
         'modern_events_calendar' => array(            
-                    'name'       => 'Modern Events Calendar Lite',
+                    'name'       => 'Modern Events Calendar',
+                    'pro'        => 'modern-events-calendar/mec.php',
                     'free'       => 'modern-events-calendar-lite/modern-events-calendar-lite.php',            
                     'opt_name'   => 'saswp-modern-events-calendar', 
                     'part_in'    => 'pro',
