@@ -1756,11 +1756,6 @@ if ( ! defined('ABSPATH') ) exit;
      */   
             
     function saswp_default_settings_array(){
-
-                if(!function_exists('wp_get_current_user') ) {
-                    require_once( ABSPATH . '/wp-includes/capabilities.php' );
-                    require_once( ABSPATH . '/wp-includes/pluggable.php' );
-                }  
                         
                 $sd_name  = 'default';
                 $logo     = array();
