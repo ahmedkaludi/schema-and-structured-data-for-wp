@@ -1802,12 +1802,20 @@ function saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_m
             $input1['gamePlatform']             = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_game_platform_'.$schema_id, 'saswp_array');
             $input1['cheatCode']                = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_cheat_code_'.$schema_id, 'saswp_array');
             $input1['fileSize']                 = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_file_size_'.$schema_id, 'saswp_array');
-            
+                        
             if( saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_review_count_'.$schema_id, 'saswp_array')){
-                            
-                $input1['aggregateRating']['@type']       = 'AggregateRating';
-                $input1['aggregateRating']['ratingValue'] = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_rating_'.$schema_id, 'saswp_array');
-                $input1['aggregateRating']['ratingCount'] = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_review_count_'.$schema_id, 'saswp_array');
+                                            
+                        if($all_post_meta['saswp_vg_schema_rating_'.$schema_id][0] > 5){
+                            $input1['aggregateRating']['@type']         = 'aggregateRating';
+                            $input1['aggregateRating']['worstRating']   =   0;
+                            $input1['aggregateRating']['bestRating']    =   100;
+                            $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_vg_schema_rating_'.$schema_id][0];
+                            $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_vg_schema_review_count_'.$schema_id][0];
+                        }else{
+                            $input1['aggregateRating']['@type']         = 'aggregateRating';                        
+                            $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_vg_schema_rating_'.$schema_id][0];
+                            $input1['aggregateRating']['reviewCount']   = $all_post_meta['saswp_vg_schema_review_count_'.$schema_id][0];
+                        }            
                                 
             }
     
