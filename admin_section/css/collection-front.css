@@ -956,7 +956,7 @@ span.saswp-mines{
       grid-template-columns: 1fr !important;
     }
     .saswp-r3 ul{
-      grid-template-columns: 190px  190px !important;
+      grid-template-columns: 190px  190px;
     }
     .saswp-rc-nm{
       margin:0px;
@@ -977,7 +977,7 @@ span.saswp-mines{
       max-width: 320px;
     }
     .saswp-r3 ul{
-      grid-template-columns: 190px !important;
+      grid-template-columns: 190px;
     }
     .saswp-open-class.saswp-popup-btn{
       width:93vw !important;
