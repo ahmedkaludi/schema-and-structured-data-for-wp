@@ -2675,10 +2675,10 @@ function saswp_on_activation(){
 
 function saswp_context_url(){
     
-    $url = 'http://schema.org';
+    $url = 'http://schema.org/';
     
     if(is_ssl()){
-        $url = 'https://schema.org';
+        $url = 'https://schema.org/';
     }
     
     return $url;
