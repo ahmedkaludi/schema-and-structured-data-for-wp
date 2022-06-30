@@ -277,8 +277,7 @@ function saswp_generate_field_data( $post_id, $post ){
           
         foreach ($data_group_array as $group){
 
-          if(is_array($group['data_array'])){
-            
+          if(!empty($group['data_array']) && is_array($group['data_array'])) { 
             $inner_output = array();
 
             foreach($group['data_array'] as $value){
