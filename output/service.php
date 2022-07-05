@@ -1080,6 +1080,91 @@ Class saswp_output_service{
                         }
 
                     break;
+                    case 'EducationalOccupationalProgram':      
+                        
+                        if(isset($custom_fields['saswp_eop_name'])){
+                         $input1['name'] =    $custom_fields['saswp_eop_name'];
+                        }
+                        if(isset($custom_fields['saswp_eop_description'])){
+                         $input1['description'] =  ($custom_fields['saswp_eop_description']);
+                        }
+                        if(isset($custom_fields['saswp_eop_url'])){
+                         $input1['url'] =  saswp_validate_url($custom_fields['saswp_eop_url']);
+                        }
+                        if(isset($custom_fields['saswp_eop_image'])){
+                         $input1['image'] =  ($custom_fields['saswp_eop_image']);
+                        }
+                        if(isset($custom_fields['saswp_eop_time_to_complete'])){
+                         $input1['timeToComplete'] =  ($custom_fields['saswp_eop_time_to_complete']);
+                        }
+                        if(isset($custom_fields['saswp_eop_occupational_category'])){
+                         $input1['occupationalCategory'] =  ($custom_fields['saswp_eop_occupational_category']);
+                        }
+                        if(isset($custom_fields['saswp_eop_occupational_credential_awarded'])){
+                         $input1['occupationalCredentialAwarded'] =  ($custom_fields['saswp_eop_occupational_credential_awarded']);
+                        }
+                        if(isset($custom_fields['saswp_eop_program_prerequisites'])){
+                         $input1['programPrerequisites'] =  ($custom_fields['saswp_eop_program_prerequisites']);
+                        }
+                        if(isset($custom_fields['saswp_eop_application_start_date'])){
+                         $input1['applicationStartDate'] =  ($custom_fields['saswp_eop_application_start_date']);
+                        }
+                        if(isset($custom_fields['saswp_eop_application_deadline'])){
+                         $input1['applicationDeadLine'] =  ($custom_fields['saswp_eop_application_deadline']);
+                        }
+                        if(isset($custom_fields['saswp_eop_start_date'])){
+                         $input1['startDate'] =  ($custom_fields['saswp_eop_start_date']);
+                        }
+                        if(isset($custom_fields['saswp_eop_end_date'])){
+                         $input1['endDate'] =  ($custom_fields['saswp_eop_end_date']);
+                        }
+                        if(isset($custom_fields['saswp_eop_day_of_week'])){
+                         $input1['dayOfWeek'] =  ($custom_fields['saswp_eop_day_of_week']);
+                        }
+                        if(isset($custom_fields['saswp_eop_time_of_day'])){
+                         $input1['timeOfDay'] =  ($custom_fields['saswp_eop_time_of_day']);
+                        }
+                        if(isset($custom_fields['saswp_eop_number_of_credits'])){
+                         $input1['numberOfCredits'] =  ($custom_fields['saswp_eop_number_of_credits']);
+                        }
+                        if(isset($custom_fields['saswp_eop_typical_credits_per_term'])){
+                         $input1['typicalCreditsPerterm'] =  ($custom_fields['saswp_eop_typical_credits_per_term']);
+                        }
+                        if(isset($custom_fields['saswp_eop_term_duration'])){
+                         $input1['termDuration'] =  ($custom_fields['saswp_eop_term_duration']);
+                        }
+                        if(isset($custom_fields['saswp_eop_terms_per_year'])){
+                         $input1['termPerYear'] =  ($custom_fields['saswp_eop_terms_per_year']);
+                        }
+                        if(isset($custom_fields['saswp_eop_maximum_enrollment'])){
+                         $input1['maximumEnrollment'] =  ($custom_fields['saswp_eop_maximum_enrollment']);
+                        }
+                        if(isset($custom_fields['saswp_eop_educational_program_mode'])){
+                         $input1['educationalProgramMode'] =  ($custom_fields['saswp_eop_educational_program_mode']);
+                        }
+                        if(isset($custom_fields['saswp_eop_financial_aid_eligible'])){
+                         $input1['financialAidEligible'] =  ($custom_fields['saswp_eop_financial_aid_eligible']);
+                        }
+                        
+                        $provider = array();
+
+                        if(isset($custom_fields['saswp_eop_provider_name'])){
+                            $provider = array(
+                          '@type'       => 'Organization',
+                          'name'        =>  $custom_fields['saswp_eop_provider_name'],
+                           'telephone'  =>  $custom_fields['saswp_eop_provider_telephone'],
+                            'address'   => array(
+                                              '@type'           => 'Postaladdress',
+                                              'streetAddress'   => $custom_fields['saswp_eop_provider_street_address'],
+                                              'addressLocality' => $custom_fields['saswp_eop_provider_address_locality'],
+                                              'addressRegion'   => $custom_fields['saswp_eop_provider_address_region'],
+                                              'addressCountry'  => $custom_fields['saswp_eop_provider_address_country'],
+                                              'postalCode'      => $custom_fields['saswp_eop_provider_postal_code'],
+                                              ),
+                                            );
+                                            $input1['provider'] = $provider;
+                                     }
+                    break;  
 
                     case 'Project':      
                     
