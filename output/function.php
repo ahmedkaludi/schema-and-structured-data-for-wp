@@ -3313,12 +3313,18 @@ function saswp_get_ampforwp_story_images(){
 
 add_shortcode('saswp-breadcrumbs', 'saswp_render_breadcrumbs_html');
 
-function saswp_render_breadcrumbs_html($attr){
-    
-    global $sd_data;
+function saswp_render_breadcrumbs_html($atts){
 
+    global $sd_data,$post;
+    $attr = shortcode_atts(
+        array(
+            'hide_post_title' => '',
+        ), $atts, 'saswp-breadcrumbs' );
+
+    $hide_post_title = ($attr['hide_post_title']) ? $attr['hide_post_title'] : 0;
+    $get_current_post_title = get_post_field('post_title',$post->ID);
     $breadcrumbs = '';
-    
+    // echo "<pre>";print_r($get_current_post_title);echo "</pre>";
     if(!empty($sd_data['titles'])){
 
         $breadcrumbs .= '<style>';
@@ -3345,7 +3351,13 @@ function saswp_render_breadcrumbs_html($attr){
         $breadcrumbs .= '<ul class="saswp-breadcrumbs-ul">';
 
             foreach ($sd_data['titles'] as $key => $value) {
-                $breadcrumbs .= '<li class="saswp-breadcrumbs-li" ><a href="'.esc_url($sd_data['links'][$key]).'">'.esc_html($value).'</a></li>';
+                if($hide_post_title == 1 && $value == $get_current_post_title){
+                    // do nothing
+                }else{
+                    $breadcrumbs .= '<li class="saswp-breadcrumbs-li" ><a href="'.esc_url($sd_data['links'][$key]).'">'.esc_html($value).'</a></li>';
+
+                }
+                
             }
 
         $breadcrumbs .= '</ul>';
