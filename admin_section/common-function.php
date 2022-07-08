@@ -4014,6 +4014,14 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
              
         break;      
 
+        case "author_name":
+
+        $authors = get_users('role=author&orderby=display_name&order=ASC');
+        foreach ($authors as $author) {
+               $choices[] = array('id'  => $author->ID, 'text' => $author->display_name);
+        }               
+        break;      
+
         case "all":
 
             $args = array( 

@@ -420,6 +420,24 @@ function saswp_comparison_logic_checker($input, $post){
 
         break;
 
+        case 'author_name':            
+
+          $get_author = get_post_field('post_author',$post->ID);
+          
+          if ( $comparison == 'equal' ) {
+              if ( $get_author == $data ) {
+
+                $result = true;
+              }
+          }
+          if ( $comparison == 'not_equal') {              
+              if ( $get_author != $data ) {
+                $result = true;
+              }
+          }
+
+        break;
+
       // Logged in User Type
         case 'user_type':            
             if ( $comparison == 'equal') {
@@ -844,6 +862,7 @@ if(is_admin()){
           'user_type'           =>  saswp_t_string("Logged in User Type"),
           'homepage'            =>  saswp_t_string("Homepage"), 
           'author'              =>  saswp_t_string("Author"),  
+          'author_name'         =>  saswp_t_string("Author Name"),  
         ),
         saswp_t_string("Post") => array(
           'post'                =>  saswp_t_string("Post"),
