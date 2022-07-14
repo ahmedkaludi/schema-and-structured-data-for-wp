@@ -3033,6 +3033,7 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
 function saswp_get_field_note($pname){
     
     $notes = array(  
+            'ameliabooking'               => saswp_t_string('Requires').' <a target="_blank" href="https://wpamelia.com/">wpamelia</a>',
             'wpml'                        => saswp_t_string('Requires').' <a target="_blank" href="https://wpml.org">WPML</a>',
             'polylang'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/polylang/">Polylang</a>',
             'autolistings'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/auto-listings">Auto Listings</a>',

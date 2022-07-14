@@ -4,6 +4,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array(    
     'plugins' =>    array(        
+        'ameliabooking'  =>  array(            
+            'name'       => 'Amelia Booking',
+            'free'       => 'ameliabooking/ameliabooking.php',                    
+            'pro'        => 'ameliabooking/ameliabooking.php',                    
+            'opt_name'   => 'saswp-ameliabooking',
+            'part_in'    => 'pro',
+        ),
         'autolistings'  =>  array(            
             'name'       => 'Auto Listings',
             'free'       => 'auto-listings/auto-listings.php',                    
