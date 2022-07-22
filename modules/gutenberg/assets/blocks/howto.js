@@ -35,6 +35,11 @@
                 type: 'boolean',
                 default: false
             },
+            orderType:{
+              type: 'boolean',
+              default: true
+            },
+            
             description: {
                   type: 'string',                  
                   selector: '.saswp-how-to-main-description'
@@ -89,7 +94,7 @@
                 },
                 image_width: {
                   type: 'number'                 
-                },
+                },  
                 image_selected: {
                   type: 'boolean',
                   default:false                 
@@ -146,7 +151,7 @@
             const attributes = props.attributes;          
             
             const alignment  = props.attributes.alignment;
-                            
+
             //List of function for the current blocks starts here
             
             function saswpGetImageSrc( item ) {
@@ -376,7 +381,7 @@
                                             oldItems[index]['description'] = value['description']+image;                                            
                                             oldItems[index]['imageUrl']    = media.url;
                                             oldItems[index]['imageId']     = media.id;
-                                            oldItems[index]['image_sizes'] = media.sizes;
+                                            oldItems[index]['image_sizes'] = media.sizes;                                           
                                             oldItems[index]['image_height']= media.height;
                                             oldItems[index]['image_width'] = media.width;
                                                                                        
@@ -526,9 +531,14 @@
                               image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.thumbnail.url+'"  key="'+item.image_sizes.thumbnail.url+'" />';
                             break;
                         
+                          
+
+                            
                           default:
                             break;
                         }
+
+                        
                         
                         var newObject = Object.assign({}, item, {
                           image_size: value,
@@ -552,6 +562,7 @@
                     {className:'saswp-how-to-panel-body',
                      title:__('Image Settings', 'schema-and-structured-data-for-wp')   
                     },
+                    
                     el(SelectControl,{
                       value : item.image_size,
                       label: __('Image Size', 'schema-and-structured-data-for-wp'),
@@ -572,6 +583,7 @@
                         });
                       }
                   }),
+                  
                   el('p',{
                     className: 'saswp-how-to-dimesion-p'
                   }, 'Image Dimensions'),
@@ -616,6 +628,7 @@
                     }
                   }            
                   ),
+                  
                   )                                      
                     )             
                   );
@@ -691,14 +704,15 @@
                                     });                                    
                                 }
                             }, 
+                            attributes.orderType ?
                           el('span',{
                               className:'saswp-how-to-step-number'                             
                           },
                           attributes.toggleList ? '•':
                           ( parseInt(item.index) + 1) + "."
-                          ),  
+                          ):'',  
                           el( RichText, {                
-                          tagName: 'p',
+                          tagName: attributes.headingTag,
                           className:'saswp-how-to-step-title',
                           placeholder: __('Enter a step title', 'schema-and-structured-data-for-wp'), 
                           style: { textAlign: alignment },
@@ -924,28 +938,42 @@
             var materiallist = el('ul',{}, materialli);
             
             return [
-                el(InspectorControls,
+              el(InspectorControls,
                 {
-                 className:'saswp-how-to-inspector',
+                 className:'saswp-faq-inspector',
                  key: 'inspector'   
                 },
                 el(PanelBody,
-                {className:'saswp-how-to-panel-body',
-                 title:__('Settings', 'schema-and-structured-data-for-wp')   
+                {className:'saswp-faq-panel-body',
+                 title:'Settings'   
                 },
                 el(ToggleControl,
+                  {
+                    className:'saswp-faq-toggle-list-type',  
+                    checked:attributes.orderType,
+                    onChange: function(newContent){
+                        props.setAttributes( { orderType: newContent } );
+                    },
+                    help: function(value){
+                      return  (value == true ? 'select list type below': 'none')
+                    },
+                  
+                },
+                ),
+              attributes.orderType ?  
+              el(ToggleControl,
                 {
-                    className:'saswp-how-to-toggle-list',  
+                    className:'saswp-faq-toggle-list',  
                     checked:attributes.toggleList,
                     onChange: function(newContent){
                         props.setAttributes( { toggleList: newContent } );
                     },
                     help: function(value){
-                      return (value == true ? __('Showing step item as an unordered list', 'schema-and-structured-data-for-wp'): __('Showing step item as an ordered list', 'schema-and-structured-data-for-wp'));
+                      return (value == true ? 'Showing step item as an unordered list': 'Showing step item as an ordered list');
                     }
                 },
+                ):'',
                 )
-                )                
                 ),
                 el(
                     BlockControls,
