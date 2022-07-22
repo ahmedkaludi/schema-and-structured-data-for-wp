@@ -35,6 +35,10 @@
                 type: 'boolean',
                 default: false
             },
+            orderType:{
+              type: 'boolean',
+              default: true
+            },
             description: {
                   type: 'string',                  
                   selector: '.saswp-how-to-main-description'
@@ -691,12 +695,13 @@
                                     });                                    
                                 }
                             }, 
+                      attributes.orderType ?
                           el('span',{
                               className:'saswp-how-to-step-number'                             
                           },
                           attributes.toggleList ? '•':
                           ( parseInt(item.index) + 1) + "."
-                          ),  
+                          ):'',  
                           el( RichText, {                
                           tagName: 'p',
                           className:'saswp-how-to-step-title',
@@ -934,6 +939,20 @@
                  title:__('Settings', 'schema-and-structured-data-for-wp')   
                 },
                 el(ToggleControl,
+                  {
+                    className:'saswp-faq-toggle-list-type',  
+                    checked:attributes.orderType,
+                    onChange: function(newContent){
+                        props.setAttributes( { orderType: newContent } );
+                    },
+                    help: function(value){
+                      return  (value == true ? 'select list type below': 'none')
+                    },
+
+                },
+                ),
+              attributes.orderType ?  
+              el(ToggleControl,
                 {
                     className:'saswp-how-to-toggle-list',  
                     checked:attributes.toggleList,
@@ -944,7 +963,7 @@
                       return (value == true ? __('Showing step item as an unordered list', 'schema-and-structured-data-for-wp'): __('Showing step item as an ordered list', 'schema-and-structured-data-for-wp'));
                     }
                 },
-                )
+                ):'',
                 )                
                 ),
                 el(
