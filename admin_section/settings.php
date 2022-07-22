@@ -2897,6 +2897,19 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+        $ameliabooking = array(
+                'label'  => 'Amelia Booking',
+                'id'     => 'saswp-ameliabooking-checkbox',                        
+                'name'   => 'saswp-ameliabooking-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('ameliabooking'),
+                'hidden' => array(
+                        'id'   => 'saswp-ameliabooking',
+                        'name' => 'sd_data[saswp-ameliabooking]',                             
+                )
+        );
+
         $easyaccordion = array(
                 'label'  => 'Easy Accordion',
                 'id'     => 'saswp-easyaccordion-checkbox',                        
@@ -4134,6 +4147,7 @@ function saswp_compatibility_page_callback(){
          
          if(!is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
                           
+             $ameliabooking['note']               = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $the_events_calendar['note']         = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $events_calendar_wd['note']          = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $wp_event_manager['note']            = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
@@ -4250,6 +4264,7 @@ function saswp_compatibility_page_callback(){
                 $lifter_lms,
                 $senseilms,
                 $wplms,
+                $ameliabooking,
                 $the_events_calendar,
                 $wp_event_manager,
                 $events_manager,

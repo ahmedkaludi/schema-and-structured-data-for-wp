@@ -277,8 +277,7 @@ function saswp_generate_field_data( $post_id, $post ){
           
         foreach ($data_group_array as $group){
 
-          if(is_array($group['data_array'])){
-            
+          if(!empty($group['data_array']) && is_array($group['data_array'])) { 
             $inner_output = array();
 
             foreach($group['data_array'] as $value){
@@ -415,6 +414,24 @@ function saswp_comparison_logic_checker($input, $post){
           }
           if ( $comparison == 'not_equal') {              
               if ( $author != $data ) {
+                $result = true;
+              }
+          }
+
+        break;
+
+        case 'author_name':            
+
+          $get_author = get_post_field('post_author',$post->ID);
+          
+          if ( $comparison == 'equal' ) {
+              if ( $get_author == $data ) {
+
+                $result = true;
+              }
+          }
+          if ( $comparison == 'not_equal') {              
+              if ( $get_author != $data ) {
                 $result = true;
               }
           }
@@ -845,6 +862,7 @@ if(is_admin()){
           'user_type'           =>  saswp_t_string("Logged in User Type"),
           'homepage'            =>  saswp_t_string("Homepage"), 
           'author'              =>  saswp_t_string("Author"),  
+          'author_name'         =>  saswp_t_string("Author Name"),  
         ),
         saswp_t_string("Post") => array(
           'post'                =>  saswp_t_string("Post"),

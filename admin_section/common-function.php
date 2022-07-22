@@ -1756,11 +1756,6 @@ if ( ! defined('ABSPATH') ) exit;
      */   
             
     function saswp_default_settings_array(){
-
-                if(!function_exists('wp_get_current_user') ) {
-                    require_once( ABSPATH . '/wp-includes/capabilities.php' );
-                    require_once( ABSPATH . '/wp-includes/pluggable.php' );
-                }  
                         
                 $sd_name  = 'default';
                 $logo     = array();
@@ -3038,6 +3033,7 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
 function saswp_get_field_note($pname){
     
     $notes = array(  
+            'ameliabooking'               => saswp_t_string('Requires').' <a target="_blank" href="https://wpamelia.com/">wpamelia</a>',
             'wpml'                        => saswp_t_string('Requires').' <a target="_blank" href="https://wpml.org">WPML</a>',
             'polylang'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/polylang/">Polylang</a>',
             'autolistings'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/auto-listings">Auto Listings</a>',
@@ -4017,6 +4013,14 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
                 );     
             }
              
+        break;      
+
+        case "author_name":
+
+        $authors = get_users('role=author&orderby=display_name&order=ASC');
+        foreach ($authors as $author) {
+               $choices[] = array('id'  => $author->ID, 'text' => $author->display_name);
+        }               
         break;      
 
         case "all":

@@ -350,7 +350,10 @@ class saswp_output_compatibility{
     /**
      * Functions on compatiblity plugin activation starts here
      */
-    public function flex_mls_idx_on_activation(){        
+    public function ameliabooking_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-ameliabooking');                
+    }
+    public function ameliabookingflex_mls_idx_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-flexmlx-compativility');                
     }
     public function simple_author_box_on_activation(){

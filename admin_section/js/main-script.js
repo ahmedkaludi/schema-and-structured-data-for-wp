@@ -2065,6 +2065,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-ameliabooking-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ameliabooking").val(1);                                
+                            }else{
+                              $("#saswp-ameliabooking").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-easyaccordion-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
