@@ -655,15 +655,11 @@ class SASWP_Gutenberg {
                         $className = 'class="'.esc_attr($attributes['className']).'"';
                     }
                         
-                    if(isset($attributes['orderType'])){
-                        echo'<ol '.$className.' style="list-style-type:none; margin-left:-41px;">';
-                    } else{
-                        if(!isset($attributes['toggleList'])){
-                           echo '<ol '.$className.' style="margin-left:-21px">';  
-                         }else{
-                           echo '<ul '.$className.' style="margin-left:-21px">';      
-                         }
-                  }
+                    if(!isset($attributes['toggleList'])){
+                     echo '<ol '.$className.'>';   
+                    }else{
+                     echo '<ul '.$className.'>';      
+                    }
                     
                     foreach($attributes['items'] as $item){
                         
