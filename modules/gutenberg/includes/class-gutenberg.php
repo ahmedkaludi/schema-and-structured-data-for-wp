@@ -516,7 +516,9 @@ class SASWP_Gutenberg {
                         $className = 'class="'.esc_attr($attributes['className']).'"';
                     }
                     
-                    if(!isset($attributes['toggleList'])){
+                    if(isset($attributes['orderType'])){
+                            echo'<ol '.$className.' style="list-style-type:none; margin-left:-41px;">';  
+                 }elseif(!isset($attributes['toggleList'])){
                      echo '<ol '.$className.'>';   
                     }else{
                      echo '<ul '.$className.'>';      
@@ -552,7 +554,14 @@ class SASWP_Gutenberg {
                                     break;
                                 case 'h6':
                                         echo '<h6>'. html_entity_decode(esc_attr($item['title'])).'</h6>';
-                                    break;    
+                                    break;  
+                                    case 'div':
+                                    echo '<div>'.html_entity_decode(esc_attr($item['title'])).'</div>';
+                                    break;
+                                case 'p':
+                                    echo '<p>'.html_entity_decode(esc_attr($item['title'])).'</p>';
+                                    break;   
+                                    
 
                                 default:
                                 echo '<h3>'. html_entity_decode(esc_attr($item['title'])).'</h3>';
