@@ -1,7 +1,7 @@
 === Schema & Structured Data for WP & AMP ===
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
-Requires at least: 3.0
+Requires PHP: 5.6.20
 Tested up to: 6.0
 Stable tag: 1.9.99
 License: GPLv2 or later
