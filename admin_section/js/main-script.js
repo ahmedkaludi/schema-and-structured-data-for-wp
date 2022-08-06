@@ -1934,6 +1934,15 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
+                      case 'saswp-showcaseidx-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-showcaseidx").val(1);                                
+                            }else{
+                              $("#saswp-showcaseidx").val(0);                                          
+                            }
+                            
+                      break;
 
                       case 'saswp-arconixfaq-checkbox':
                            saswp_compatibliy_notes(current, id); 

@@ -121,6 +121,12 @@ return array(
             'opt_name'   => 'saswp-ultimatefaqs',
             'part_in'    => 'pro',
         ),
+        'showcaseidx'  =>  array(            
+            'name'       => 'Showcase IDX Real Estate Search',
+            'free'       => 'showcase-idx/showcaseidx.php',                    
+            'opt_name'   => 'saswp-showcaseidx',
+            'part_in'    => 'pro',
+        ),
         'easyaccordion'  =>  array(            
             'name'       => 'Easy Accordion',
             'free'       => 'easy-accordion-free/plugin-main.php',                    

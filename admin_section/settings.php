@@ -2779,6 +2779,18 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-ultimatefaqs]',                             
                 )
         );
+        $showcaseidx = array(
+                'label'  => 'Showcase IDX',
+                'id'     => 'saswp-showcaseidx-checkbox',                        
+                'name'   => 'saswp-showcaseidx-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('showcaseidx'),
+                'hidden' => array(
+                        'id'   => 'saswp-showcaseidx',
+                        'name' => 'sd_data[saswp-showcaseidx]',                             
+                )
+        );
 
         $arconixfaq   = array(
                 'label'  => 'Arconix FAQ',
@@ -4082,6 +4094,7 @@ function saswp_compatibility_page_callback(){
              $realestate_5['note']   = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $realestate_7['note']   = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
              $geo_directory['note']   = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';             
+             $showcaseidx['note']   = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';             
                           
          }
          
@@ -4295,6 +4308,7 @@ function saswp_compatibility_page_callback(){
                 $wpjobopenings,
                 $accordionfaq,
                 $ultimatefaqs,
+                $showcaseidx,
                 $arconixfaq,
                 $faqconcertina,
                 $faqschemaforpost,
