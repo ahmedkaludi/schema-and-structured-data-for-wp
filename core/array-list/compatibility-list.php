@@ -117,6 +117,7 @@ return array(
         'ultimatefaqs'  =>  array(            
             'name'       => 'Ultimate FAQs – WordPress Knowledgebase Plugin',
             'free'       => 'ultimate-faqs/Main.php',                    
+            'pro'        => 'ultimate-faqs/ultimate-faqs.php',                    
             'opt_name'   => 'saswp-ultimatefaqs',
             'part_in'    => 'pro',
         ),
