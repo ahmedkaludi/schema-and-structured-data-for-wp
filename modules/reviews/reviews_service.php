@@ -184,17 +184,58 @@ class saswp_reviews_service {
                 return $post_id;
         
     }                
+
+
+    function dateDiffInDays($date1, $date2) 
+    {
+        // Calculating the difference in timestamps
+        $diff = strtotime($date2) - strtotime($date1);
+    
+        // 1 day = 24 hours
+        // 24 * 60 * 60 = 86400 seconds
+        return abs(round($diff / 86400));
+    }
+  
+
     /**
      * Function to generate reviews html
      * @param type $reviews
      * @return string
      */
     public function saswp_reviews_html_markup($reviews){
-        
+
+        global $sd_data;   
+
         $output = '';
+
         if($reviews){
                         
             foreach ($reviews as $review){
+                if(isset($sd_data['saswp_date_format']) && $sd_data['saswp_date_format'] == 'days'){
+
+                    if($sd_data['saswp_date_format'] == 'days'){
+                        
+                        $curr_date = date("Y-m-d"); // Start date
+                        $interval = $review['saswp_review_date']; // End date
+
+            
+                        // Function call to find date difference
+                        $dateDiffInDays =  $this->dateDiffInDays($interval, $curr_date);
+
+                        if($dateDiffInDays > 1){
+                            $days_ago_format = $dateDiffInDays.' Days ago';
+                        }else{
+                            $days_ago_format = $dateDiffInDays.' Day ago';
+
+                        }
+            
+                    }   
+                    
+                   
+                }           
+                if($sd_data['saswp_date_format'] == 'default'){
+                    $days_ago_format = date('d-m-Y',strtotime($review['saswp_review_date']));
+                }  
                         
                         $review_rating = $review['saswp_review_rating'];
 
@@ -224,7 +265,7 @@ class saswp_reviews_service {
                                         <div class="saswp-str">
                                             <a target="_blank" href="'.esc_url($link).'"><span class="saswp-athr">'.esc_attr($review['saswp_reviewer_name']).'</span></a>
                                             '.$starating.'
-                                            <div>'.(isset($review['saswp_review_date']) ? esc_attr($review['saswp_review_date']) : '').'</div>                                  
+                                            <div>'.(($days_ago_format) ? esc_attr($days_ago_format) : '').'</div>                                  
                                         </div> 
                                         <span class="saswp-g-plus">
                                             <a target="_blank" href="'.esc_attr($link).'"><img alt="'.esc_attr($review['saswp_reviewer_name']).'" width="20" height="20" src="'.esc_url($review['saswp_review_platform_icon']).'"></a>
