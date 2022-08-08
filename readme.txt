@@ -3,7 +3,8 @@ Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
 Tested up to: 6.0
-Stable tag: 1.9.99
+Requires PHP: 5.6.20
+Stable tag: 1.9.100
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +120,14 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.100 (06 August 2022) =
+* Added: Compatibility with Ultimate FAQ Pro
+* Added: Compatibility with Showcase idx plugin
+* Fixed: Unable to fetch all authors name in person schema. #1710
+* Fixed: "FAQ" and "HOW TO" blocks need improvement #1701
+* Fixed: Need to update for PHP version 8 #1718
+
 
 = 1.9.99 (15 July 2022) =
 

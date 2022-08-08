@@ -3062,6 +3062,7 @@ function saswp_get_field_note($pname){
             'accordionfaq'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/responsive-accordion-and-collapse">Accordion FAQ</a>',
             'webfaq10'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/faq-wd/">10WebFAQ</a>',
             'ultimatefaqs'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-faqs/">Ultimate FAQs</a>',
+            'showcaseidx'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/showcase-idx/">Showcaseidx</a>',
             'easyaccordion'               => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/easy-accordion-free/">Easy Accordion</a>',
             'wpresponsivefaq'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/sp-faq">WP responsive FAQ with category plugin</a>',
             'arconixfaq'                  => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/arconix-faq/">Arconix FAQ</a>',
@@ -4017,7 +4018,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
         case "author_name":
 
-        $authors = get_users('role=author&orderby=display_name&order=ASC');
+        $authors = get_users('orderby=display_name&order=ASC');
         foreach ($authors as $author) {
                $choices[] = array('id'  => $author->ID, 'text' => $author->display_name);
         }               

@@ -117,7 +117,14 @@ return array(
         'ultimatefaqs'  =>  array(            
             'name'       => 'Ultimate FAQs – WordPress Knowledgebase Plugin',
             'free'       => 'ultimate-faqs/Main.php',                    
+            'pro'        => 'ultimate-faqs/ultimate-faqs.php',                    
             'opt_name'   => 'saswp-ultimatefaqs',
+            'part_in'    => 'pro',
+        ),
+        'showcaseidx'  =>  array(            
+            'name'       => 'Showcase IDX Real Estate Search',
+            'free'       => 'showcase-idx/showcaseidx.php',                    
+            'opt_name'   => 'saswp-showcaseidx',
             'part_in'    => 'pro',
         ),
         'easyaccordion'  =>  array(            

@@ -38,7 +38,11 @@
             toggleList: {
                 type: 'boolean',
                 default: false
-            },                        
+            },      
+            orderType:{
+              type:'boolean',
+              default: true
+             },         
             items: {                     
               default: [{index: 0, title: "", description: "", imageUrl: "", imageId: null}],
               selector: '.saswp-faq-block-data',
@@ -339,12 +343,13 @@
                                     });                                    
                                 }
                             }, 
+                            attributes.orderType?
                           el('span',{
                               className:'saswp-faq-step-number'                             
                           },
                           attributes.toggleList ? '•':
                           ( parseInt(item.index) + 1) + "."
-                          ),  
+                          ):'',  
                           el( RichText, {                
                           tagName: attributes.headingTag,
                           className:'saswp-faq-step-title',
@@ -425,6 +430,20 @@
                  title:'Settings'   
                 },
                 el(ToggleControl,
+                  {
+                    className:'saswp-faq-toggle-list-type',  
+                    checked:attributes.orderType,
+                    onChange: function(newContent){
+                        props.setAttributes( { orderType: newContent } );
+                    },
+                    help: function(value){
+                      return  (value == true ? 'select list type below': 'none')
+                    },
+                  
+                },
+                ),
+              attributes.orderType ?  
+              el(ToggleControl,
                 {
                     className:'saswp-faq-toggle-list',  
                     checked:attributes.toggleList,
@@ -435,7 +454,7 @@
                       return (value == true ? 'Showing step item as an unordered list': 'Showing step item as an ordered list');
                     }
                 },
-                ),
+                ):'',
                 el(SelectControl,{
                   value : attributes.headingTag,
                   label: __('Heading Tag', 'schema-and-structured-data-for-wp'),
@@ -446,6 +465,8 @@
                     { label: 'H4', value: 'h4' },
                     { label: 'H5', value: 'h5' },
                     { label: 'H6', value: 'h6' },
+                    { label: 'div',value: 'div'},
+                    { label: 'p',  value: 'p'  },
                   ] ,
                   onChange: function(value){
                        props.setAttributes( { headingTag: value } ); 
