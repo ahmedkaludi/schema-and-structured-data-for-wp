@@ -137,13 +137,15 @@ function saswp_schema_markup_output_in_buffer($content){
 }
 
 function saswp_schema_markup_output(){
-    
+    global $sd_data;
     $saswp_json_ld =  saswp_get_all_schema_markup_output();    
     
     if(!empty($saswp_json_ld['saswp_json_ld'])){
         
         echo "\n";
-        echo "<!-- Schema & Structured Data For WP v".esc_attr(SASWP_VERSION)." - -->";
+        if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
+            echo "<!-- Schema & Structured Data For WP v".esc_attr(SASWP_VERSION)." - -->";
+        }
         echo "\n";
         echo $saswp_json_ld['saswp_json_ld'];
         echo "\n\n";
@@ -153,7 +155,9 @@ function saswp_schema_markup_output(){
     if(!empty($saswp_json_ld['saswp_custom_json_ld'])){
         
         echo "\n";
-        echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
+        if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
+            echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
+        }
         echo "\n";
         echo $saswp_json_ld['saswp_custom_json_ld'];
         echo "\n\n";
@@ -169,8 +173,9 @@ function saswp_schema_markup_output(){
         if(!empty($wp_tasty_recipe)){
 
             foreach ($wp_tasty_recipe as $recipe) {
-
-                echo '<!-- Schema & Structured Data For WP Other Markup v'.esc_attr(SASWP_VERSION).' - -->';                            
+                if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
+                    echo '<!-- Schema & Structured Data For WP Other Markup v'.esc_attr(SASWP_VERSION).' - -->';                            
+                }
                 echo PHP_EOL;
                 echo '<script type="application/ld+json" class="saswp-other-schema-markup-output">';
                 echo saswp_json_print_format( $recipe);

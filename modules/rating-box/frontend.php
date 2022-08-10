@@ -119,8 +119,9 @@ Class saswp_rating_box_frontend{
                                      ); 
                             
                             if(!empty($input1)){
-                                
-                                echo '<!-- Schema & Structured Data For WP Rating Module v'.esc_attr(SASWP_VERSION).' - -->';
+                                if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
+                                    echo '<!-- Schema & Structured Data For WP Rating Module v'.esc_attr(SASWP_VERSION).' - -->';
+                                }
                                 echo "\n";
                                 echo '<script type="application/ld+json" class="saswp-schema-markup-rating-module-output">'; 
                                 echo "\n";       

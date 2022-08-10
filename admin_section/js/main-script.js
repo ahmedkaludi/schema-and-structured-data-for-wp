@@ -1027,6 +1027,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp_remove_version_tag_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_remove_version_tag").val(1);             
+                            }else{
+                              $("#saswp_remove_version_tag").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp-compativility-checkbox':
                           
                             if ($(this).is(':checked')) {              

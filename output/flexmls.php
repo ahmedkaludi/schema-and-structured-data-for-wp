@@ -24,8 +24,8 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
 	}
         public function saswp_get_flexidx_listing(){
             
-            global $fmc_api;
-                           
+            global $fmc_api,$sd_data;
+
             if(!empty($fmc_api)){		
 
 
@@ -54,7 +54,9 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
 					$count = count($results); 
                   
                     echo "\n";
-                    echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION)   .' IDX - -->';
+                    if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
+                        echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION)   .' IDX - -->';
+                    }
                     echo "\n";
                     echo '<script class="saswp-schema-markup-output" type="application/ld+json">'; 
                     echo "\n";

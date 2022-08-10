@@ -1063,6 +1063,18 @@ function saswp_general_page_callback(){
                 )
          );
 
+        $meta_fields_default[] = array(
+                'label'  => 'Remove Version Tag',
+                'id'     => 'saswp_remove_version_tag_checkbox', 
+                'name'   => 'saswp_remove_version_tag_checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',                        
+                'hidden' => array(
+                        'id'   => 'saswp_remove_version_tag',
+                        'name' => 'sd_data[saswp_remove_version_tag]',                             
+                )
+         );
+
          $meta_fields_default[] = array(
                 'label'   => 'Date Format',
                 'id'      => 'saswp_date_format',
