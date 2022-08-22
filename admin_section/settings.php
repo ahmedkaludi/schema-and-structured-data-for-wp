@@ -2803,6 +2803,19 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-ultimatefaqs]',                             
                 )
         );
+
+        $ultimatemember = array(
+                'label'  => 'Ultimate Member – User Profile, User Registration, Login & Membership Plugin',
+                'id'     => 'saswp-ultimatemember-checkbox',                        
+                'name'   => 'saswp-ultimatemember-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('ultimatemember'),
+                'hidden' => array(
+                        'id'   => 'saswp-ultimatemember',
+                        'name' => 'sd_data[saswp-ultimatemember]',                             
+                )
+        );
         $showcaseidx = array(
                 'label'  => 'Showcase IDX',
                 'id'     => 'saswp-showcaseidx-checkbox',                        
@@ -4163,6 +4176,7 @@ function saswp_compatibility_page_callback(){
          if(!is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
                           
                 $wpreviewslider['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema/">Reviews For Schema</a>';
+                $ultimatemember['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema/">Reviews For Schema</a>';
          }
          if(!is_plugin_active('polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php')){
                           
@@ -4332,6 +4346,7 @@ function saswp_compatibility_page_callback(){
                 $wpjobopenings,
                 $accordionfaq,
                 $ultimatefaqs,
+                $ultimatemember,
                 $showcaseidx,
                 $arconixfaq,
                 $faqconcertina,

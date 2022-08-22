@@ -1943,6 +1943,16 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
+
+                      case 'saswp-ultimatemember-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ultimatemember").val(1);                                
+                            }else{
+                              $("#saswp-ultimatemember").val(0);                                          
+                            }
+                            
+                      break;
                       case 'saswp-showcaseidx-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

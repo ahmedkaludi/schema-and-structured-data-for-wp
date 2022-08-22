@@ -1821,7 +1821,9 @@ if ( ! defined('ABSPATH') ) exit;
     }        
             
     function saswp_defaultSettings(){
-                           
+        if(!function_exists('wp_get_current_user')) {
+            include(ABSPATH . "wp-includes/pluggable.php"); 
+        }           
                 global $sd_data; 
                 
                 $sd_data = get_option( 'sd_data', saswp_default_settings_array());     
@@ -3062,7 +3064,8 @@ function saswp_get_field_note($pname){
             'accordionfaq'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/responsive-accordion-and-collapse">Accordion FAQ</a>',
             'webfaq10'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/faq-wd/">10WebFAQ</a>',
             'ultimatefaqs'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-faqs/">Ultimate FAQs</a>',
-            'showcaseidx'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/showcase-idx/">Showcaseidx</a>',
+            'ultimatemember'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-member/">Ultimate Member</a>',
+            'showcaseidx'                 => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/showcase-idx/">Showcaseidx</a>',
             'easyaccordion'               => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/easy-accordion-free/">Easy Accordion</a>',
             'wpresponsivefaq'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/sp-faq">WP responsive FAQ with category plugin</a>',
             'arconixfaq'                  => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/arconix-faq/">Arconix FAQ</a>',
