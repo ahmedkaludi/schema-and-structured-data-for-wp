@@ -1207,90 +1207,121 @@ function saswp_get_manual_fields_on_ajax(){
  * @return type null
  * @since version 1.0
  */
-function saswp_schema_type_add_meta_box_save( $post_id ) {     
-            
-                if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-                
-                if ( ! isset( $_POST['saswp_schema_type_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_type_nonce'], 'saswp_schema_type_nonce' ) ) return;
-                if ( ! current_user_can( 'edit_post', $post_id ) ) return;
-                                                
-                update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
-                
-                if(isset($_POST['saswp_loc_display_on_front'])){
-                    update_post_meta( $post_id, 'saswp_loc_display_on_front', intval( $_POST['saswp_loc_display_on_front'] ) );
-                }else{
-                    delete_post_meta( $post_id, 'saswp_loc_display_on_front');   
-                }
-                
-                if(isset($_POST['saswp_business_type'])){
-                    update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
-                }else{
-                    delete_post_meta( $post_id, 'saswp_business_type');   
-                }
-
-                if(isset($_POST['saswp_event_type'])){
-                    update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
-                }else{
-                    delete_post_meta( $post_id, 'saswp_event_type');   
-                }
-
-                if(isset($_POST['saswp_business_name'])){
-                    update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );   
-                }else{
-                    delete_post_meta( $post_id, 'saswp_business_name');   
-                }
-                if(isset($_POST['saswp_enable_speakable_schema'])){
-                    update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
-                }else{
-                    delete_post_meta( $post_id, 'saswp_enable_speakable_schema');                                                                       
-                }
-                if(isset($_POST['saswp_enable_videoobject'])){
-                    update_post_meta( $post_id, 'saswp_enable_videoobject', intval($_POST['saswp_enable_videoobject']) );                                                                       
-                }else{
-                    delete_post_meta( $post_id, 'saswp_enable_videoobject');                                                                       
-                }
-
-                if(isset($_POST['saswp_enable_append_reviews'])){
-                    update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
-                }else{
-                    delete_post_meta( $post_id, 'saswp_enable_append_reviews');                                                                       
-                }
-
-                if(isset($_POST['saswp_enable_itemlist_schema'])){
-                    update_post_meta( $post_id, 'saswp_enable_itemlist_schema', intval($_POST['saswp_enable_itemlist_schema']) );                                                                       
-                }else{
-                    delete_post_meta( $post_id, 'saswp_enable_itemlist_schema');                                                                       
-                }
-
-                if(isset($_POST['saswp_item_list_tags'])){
-                    update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
-                }else{
-                    delete_post_meta( $post_id, 'saswp_item_list_tags');                                                                       
-                }
-                if(isset($_POST['saswp_item_list_custom'])){
-                    update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
-                }else{
-                    delete_post_meta( $post_id, 'saswp_item_list_custom');                                                                       
-                }
-                if(isset($_POST['saswp_review_item_reviewed_'.$post_id])){
-                    update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       
-                }else{
-                    delete_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id);                                                                       
-                }
-                if(isset($_POST['saswp_itemlist_item_type'])){
-                    update_post_meta( $post_id, 'saswp_itemlist_item_type', sanitize_text_field($_POST['saswp_itemlist_item_type']) );                                                                       
-                }else{
-                    delete_post_meta( $post_id, 'saswp_itemlist_item_type');                                                                       
-                }
-                                                                                                                                                
-                update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
-                update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
-                
-                $common_obj = new saswp_view_common_class();
-                
-                $post_obj[] = (object) array(
-                    'ID' => $post_id
-                );
-                
-                $common_obj->saswp_save_common_view($post_id, $post_obj);                                              
-}           
+function saswp_schema_type_add_meta_box_save( $post_id ) { 
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+        // if ( ! isset( $_POST['saswp_schema_type_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_type_nonce'], 'saswp_schema_type_nonce' ) ) return;
+        if ( ! current_user_can( 'edit_post', $post_id ) ) return;  
+        
+        if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){       
+    
+           update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 1);
+    
+        }else{
+            // delete_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros');   
+            update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 0);
+        }
+    
+        if(isset($_POST['saswp_schema_type_product_pros_enable_cons'])){       
+                        
+            update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_cons', 1);
+        }else{
+            // delete_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_cons');   
+            update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_cons', 0);
+    
+        } 
+    
+                    
+        update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
+        
+        
+        if(isset($_POST['saswp_loc_display_on_front'])){
+            update_post_meta( $post_id, 'saswp_loc_display_on_front', intval( $_POST['saswp_loc_display_on_front'] ) );
+        }else{
+            delete_post_meta( $post_id, 'saswp_loc_display_on_front');   
+        }
+        
+        if(isset($_POST['saswp_business_type'])){
+            update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
+        }else{
+            delete_post_meta( $post_id, 'saswp_business_type');   
+        }
+        if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){       
+                        
+            update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 1);
+        }else{
+            delete_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros');   
+        }
+    
+        // if(isset($_POST['product-enable-cons'])){
+        //     update_post_meta( $post_id, 'product-enable-cons', intval( $_POST['product-enable-cons'] ) );
+        // }else{
+        //     delete_post_meta( $post_id, 'product-enable-cons');   
+        // }
+    
+    
+        if(isset($_POST['saswp_event_type'])){
+            update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
+        }else{
+            delete_post_meta( $post_id, 'saswp_event_type');   
+        }
+    
+        if(isset($_POST['saswp_business_name'])){
+            update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );   
+        }else{
+            delete_post_meta( $post_id, 'saswp_business_name');   
+        }
+        if(isset($_POST['saswp_enable_speakable_schema'])){
+            update_post_meta( $post_id, 'saswp_enable_speakable_schema', intval($_POST['saswp_enable_speakable_schema']) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_enable_speakable_schema');                                                                       
+        }
+        if(isset($_POST['saswp_enable_videoobject'])){
+            update_post_meta( $post_id, 'saswp_enable_videoobject', intval($_POST['saswp_enable_videoobject']) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_enable_videoobject');                                                                       
+        }
+    
+        if(isset($_POST['saswp_enable_append_reviews'])){
+            update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_enable_append_reviews');                                                                       
+        }
+    
+        if(isset($_POST['saswp_enable_itemlist_schema'])){
+            update_post_meta( $post_id, 'saswp_enable_itemlist_schema', intval($_POST['saswp_enable_itemlist_schema']) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_enable_itemlist_schema');                                                                       
+        }
+    
+        if(isset($_POST['saswp_item_list_tags'])){
+            update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_item_list_tags');                                                                       
+        }
+        if(isset($_POST['saswp_item_list_custom'])){
+            update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_item_list_custom');                                                                       
+        }
+        if(isset($_POST['saswp_review_item_reviewed_'.$post_id])){
+            update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id);                                                                       
+        }
+        if(isset($_POST['saswp_itemlist_item_type'])){
+            update_post_meta( $post_id, 'saswp_itemlist_item_type', sanitize_text_field($_POST['saswp_itemlist_item_type']) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_itemlist_item_type');                                                                       
+        }
+                                                                                                                                        
+        update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
+        update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
+        
+        $common_obj = new saswp_view_common_class();
+        
+        $post_obj[] = (object) array(
+            'ID' => $post_id
+        );
+        
+        $common_obj->saswp_save_common_view($post_id, $post_obj);                                              
+    }             

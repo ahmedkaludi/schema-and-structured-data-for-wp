@@ -1116,11 +1116,79 @@ Google review module ends here
 
 .saswp-dynamic-properties
 {
-    border: 1px solid #aaa;
+    /* border: 1px solid #aaa; */
     margin-top: 5px;
     margin-bottom: 5px;
+    
             
 }
+.thepros_main_section_outer{
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+.thepros_main_section_outer h3 {
+    margin: 0;
+}
+.saswp-product_cons-table-div, .saswp-product_pros-table-div{
+    border:none !important;
+}
+.saswp-product_cons-section-main {
+    margin-top: 30px;
+}
+.hideoldclosebtn{
+    display: none !important; 
+}
+.saswp-table-close-new-td{
+    cursor: pointer;
+}
+.saswp-table-close-new {
+    color: #000;
+    background: #dddd;
+    padding: 4px 6px;
+    border-radius: 80px;
+    width: 16px;
+    height: 20px;
+    font-family: sans-serif;
+    font-size: 12px;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+}
+.saswp-table-close-new:hover {
+    color: white !important;
+    background: black;
+}
+.saswp-table-close{
+    color: #000;
+    background: #dddd;
+    padding: 4px 6px;
+    border-radius: 80px;
+    width: 16px;
+    height: 20px;
+    font-family: sans-serif;
+    font-size: 12px;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    margin: 10px 0 0 0;    
+}
+
+.saswp-table-close:hover {
+    color: white !important;
+    background: black;
+}
+.saswp-product_reviews-section-main {
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+.saswp-dynamic-properties {
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+
 .saswp-table-close{
     float: right;
     cursor: pointer;

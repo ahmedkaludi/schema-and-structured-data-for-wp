@@ -3288,6 +3288,9 @@ jQuery(document).ready(function($){
        $(document).on("click", ".saswp-table-close", function(){
            $(this).parent().remove();
        });
+       $(document).on("click", ".saswp-table-close-new", function(){
+        $(this).closest('.saswp-dynamic-properties').remove();
+      });
         
        //How to schema js ends here
        
