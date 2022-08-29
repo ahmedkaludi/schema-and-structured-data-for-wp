@@ -31,7 +31,12 @@ return array( 'schema_type_element' => array(
                                'product_reviews' => 'product_reviews',
 							   'product_pros' => 'product_pros',
 							   'product_cons' => 'product_cons',                                                
-                        ),                        
+                        ),   
+						'SoftwareApplication' => array(
+							'product_reviews' => 'product_reviews',
+							'product_pros' => 'product_pros',
+							'product_cons' => 'product_cons',
+						),                     
                         'DataFeed' => array(
                                'feed_element' => 'feed_element',                                                
                         ),
