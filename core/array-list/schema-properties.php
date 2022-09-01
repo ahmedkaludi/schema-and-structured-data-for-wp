@@ -3253,10 +3253,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_availability_'.$schema_id,
                             'type'    => 'select',                            
                             'options' => array(
-                                     'InStock'           => 'In Stock',
-                                     'OutOfStock'        => 'Out Of Stock',
+                                     'BackOrder'           => 'Back Order',
+                                     'Discontinued'           => 'Discontinued',
                                      'Discontinued'      => 'Discontinued',
+                                     'InStoreOnly'           => 'In Store Only',
+                                     'InStock'           => 'In Stock',
+                                     'LimitedAvailability'           => 'Limited Availability',
+                                     'OnlineOnly'           => 'Online Only',
+                                     'OutOfStock'        => 'Out Of Stock',
                                      'PreOrder'          => 'Pre Order', 
+                                     'PreSale'          => 'Pre Sale', 
                             ),
                             'default' => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string')
                      ),
@@ -3322,7 +3328,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Aggregate Rating',
                             'id'    => 'saswp_product_schema_enable_rating_'.$schema_id,
                             'type'  => 'checkbox',                            
-                        ),
+                        ),                       
                         array(
                             'label'   => 'Rating',
                             'id'      => 'saswp_product_schema_rating_'.$schema_id,
@@ -3334,7 +3340,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_review_count_'.$schema_id,
                             'type'    => 'text',
                             'default' => saswp_remove_warnings($product_details, 'product_review_count', 'saswp_string')
-                        ),
+                        )
                         
                     );
                     

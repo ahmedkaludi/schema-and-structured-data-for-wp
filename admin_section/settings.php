@@ -4688,9 +4688,10 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         //DIGINEX theme compatibility starts         
         wp_dequeue_script( 'select2-js' );                
         //DIGINEX theme compatibility ends 
-        
-        wp_dequeue_script( 'select2' );
-        wp_deregister_script( 'select2' );
+        if($post_type != 'case27_listing_type'){
+                wp_dequeue_script( 'select2' );
+                wp_deregister_script( 'select2' );
+        }
          
         // Dequeue mediclinic theme's select2 on schema dashboard to remove conflict.
         wp_dequeue_script( 'mkdf-select2-script' );        

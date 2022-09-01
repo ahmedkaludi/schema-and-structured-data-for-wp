@@ -183,7 +183,12 @@ class saswp_view_common_class {
 					
 			}
                         //$lable and $input has been escapped while create this variable
-			$output .= '<tr><th>'.$label.'</th><td>'.$input.'</td></tr>';
+			$output .= '<tr><th>'.$label.'</th><td>'.$input.'</td>';
+            if($meta_name == 'product_pros' || $meta_name == 'product_cons'){
+                $output .= '<td class="saswp-table-close-new-td"><a class="saswp-table-close-new">X</a></td>';
+
+            }
+            $output .= '</tr>';
 		}
                 
                     //$output has been escapped while create this variable                                               		                                
@@ -231,8 +236,45 @@ class saswp_view_common_class {
                         
                      foreach($type_fields as $key => $value){
                             
-                            $howto_data[$value.'_'.$schema_id]  = saswp_get_post_meta($post_id, $value.'_'.$schema_id, true);                                                                                    
-                            $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section-main">';                                                  
+                           
+                            $howto_data[$value.'_'.$schema_id]  = saswp_get_post_meta($post_id, $value.'_'.$schema_id, true);  
+                            $prosCheckBoxMeta= saswp_get_post_meta($post_id,"saswp_schema_type_product_pros_enable_pros", true);
+                            $consCheckBoxMeta= saswp_get_post_meta($post_id,"saswp_schema_type_product_pros_enable_cons", true);
+                              
+                            
+                            $enablePros ='';
+                            if(isset($prosCheckBoxMeta) && !empty($prosCheckBoxMeta)){
+                                $enablePros = 'checked';
+                            }
+                            $prosCheckboxFalse = false;
+                            if($value == 'product_pros'){
+                                $prosCheckboxFalse = true;
+                                $tabs_fields .= '
+                                <table class="form-table" style="margin: 23px 0 4px 0;">
+                                    <tr>
+                                        <th>
+                                        <label for="saswp_schema_type_product_pros_enable_pros"><b>Pros & Cons</b></label>
+                                        </th> 
+                                        <td><input type="checkbox" id="saswp_schema_type_product_pros_enable_pros" name="saswp_schema_type_product_pros_enable_pros" value="1" '.$enablePros.'>
+                                        </td>
+                                    </tr>
+                                </table>';       
+                            }
+                            $mainStyle='';
+                            $prosCheckboxFalseClass = '';
+                            if($prosCheckboxFalse){
+                                $tabs_fields .='<div class="thepros_main_section_outer">';
+                                $prosCheckboxFalseClass ="thepros_main_section";
+                            }
+                            $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section-main '.$prosCheckboxFalseClass.'" >'; 
+                            $hideoldCloseBtn='';
+                            if($value == 'product_pros'){
+                                $tabs_fields .="<h3>Pros</h3>";
+                                $hideoldCloseBtn = 'hideoldclosebtn';
+                            }else if($value == 'product_cons'){
+                                $tabs_fields .="<h3>Cons</h3>";
+                                $hideoldCloseBtn = 'hideoldclosebtn';
+                            }             
                             $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section" data-id="'.esc_attr($schema_id).'">';                         
                             if(isset($howto_data[$value.'_'.$schema_id])){
 
@@ -242,13 +284,18 @@ class saswp_view_common_class {
                                 if(!empty($howto_supply)){
                                     
                                        $i = 0;
+                                       $reviewNumber = 1;
                                        foreach ($howto_supply as $supply){
                                            $supply_html .= '<div class="saswp-'.$key.'-table-div saswp-dynamic-properties" data-id="'.$i.'">';
-                                           $supply_html .= '<a class="saswp-table-close">X</a>';
+                                            if($key == 'product_reviews'){
+                                                $supply_html .= "<h3 style='float: left;'>Review ".$reviewNumber."</h3>";
+                                            }
+                                           $supply_html .= '<a class="saswp-table-close '.$hideoldCloseBtn.'">X</a>';
                                            $supply_html .= $this->saswp_get_dynamic_html($schema_id, $value, $i, $supply);
                                            $supply_html .= '</div>';
 
-                                        $i++;   
+                                        $i++;  
+                                        $reviewNumber++; 
                                        }
 
                                 }
@@ -272,7 +319,13 @@ class saswp_view_common_class {
                                 
                             }
                                                         
-                            $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.saswp_t_string( 'Add '.$btn_text ).'</a>';                                                                                                    
+                            if($value == 'product_pros'){
+                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.saswp_t_string( 'New Pros' ).'</a>';   
+                            }else if($value == 'product_cons'){
+                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.saswp_t_string( 'New Cons' ).'</a>';   
+                            }else{
+                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.saswp_t_string( 'Add '.$btn_text ).'</a>';   
+                            }                                                                                                  
                             $tabs_fields .= '</div>';                                                                                                
                          
                         }
@@ -475,6 +528,9 @@ class saswp_view_common_class {
                                         if(strpos($meta_field['id'], 'rating_automate') !== false){
                                             $rating_class = 'class="saswp-enable-rating-automate-'.strtolower($schema_type).'"';  
                                         }
+                                        if(strpos($meta_field['id'], 'product_pros') !== false){
+                                            $rating_class = 'class="saswp-enable-pros-'.strtolower($schema_type).'"';  
+                                        }
 					$input = sprintf(
 						'<input %s %s id="%s" name="%s" type="checkbox" value="1">',
                                                 $rating_class,
@@ -555,8 +611,9 @@ class saswp_view_common_class {
 				default:       
                                             			
 			}
-                        
-                        
+                        // echo "<pre>";
+                        // print_r($meta_field['id']);
+                        // die();
                         if($meta_field['id'] == 'saswp_service_schema_rating_'.$schema_id       || 
                            $meta_field['id'] == 'saswp_product_schema_rating_'.$schema_id       ||
                            $meta_field['id'] == 'saswp_review_schema_rating_'.$schema_id        ||
@@ -581,6 +638,8 @@ class saswp_view_common_class {
                             
                             $output .= '<tr class="saswp-review-tr"><th>'.$label.'</th><td>'.$input.'</td></tr>';   
                               
+                          }else if($meta_field['id'] != 'product_pros_'.$schema_id){
+                            $output .= '<tr class="saswp-product-pros"><th>'.$label.'</th><td>'.$input.'</td></tr>';   
                           }else{
                              $output .= '<tr><th>'.$label.'</th><td>'.$input.'</td></tr>';  
                           }                                                                       

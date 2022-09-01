@@ -80,7 +80,25 @@
             jQuery(this).parent().parent().siblings('.saswp-rating-review-'+schema_type.toLowerCase()).hide(); 
              }          
              saswp_enable_rating_automate();   
-            }).change();   
+            }).change();  
+
+            jQuery("#saswp_schema_type_product_pros_enable_pros").change(function(){ 
+                if(jQuery(this).is(':checked')){
+                jQuery('.thepros_main_section_outer').show();
+                // jQuery('.saswp-product_pros-section-main, .saswp-product_cons-section-main').show();
+                }else{
+                    jQuery('.thepros_main_section_outer').hide();
+                    // jQuery('.saswp-product_pros-section-main, .saswp-product_cons-section-main').hide();
+                }            
+            }).change(); 
+            
+            // jQuery("#saswp_schema_type_product_pros_enable_cons").change(function(){ 
+            //     if(jQuery(this).is(':checked')){
+            //     jQuery('.saswp-product_cons-section-main').show();
+            //     }else{
+            //         jQuery('.saswp-product_cons-section-main').hide();
+            //     }            
+            // }).change(); 
          }
                
         }
@@ -391,11 +409,26 @@
        }
        
        function saswp_fields_html_generator(index, schema_id, fields_type, div_type, schema_fields){
-            
+            // console.log(fields_type);
+            $newclosebtn = '';
+            otherRepeatorClose = '';
+            $reviewtitle = index+1
+            if(fields_type == 'product_pros_' || fields_type == 'product_cons_'){
+                $newclosebtn = '<td class="saswp-table-close-new-td"><a class="saswp-table-close-new">X</a></td>';
+               
+            }else{
+                otherRepeatorClose = '<a class="saswp-table-close">X</a>';
+            }
+            $addRevewTitle = '';
+            if(fields_type == 'product_reviews_'){
+                $addRevewTitle = '<h3 style="float: left;">Review '+$reviewtitle+'</h3>';
+            }
+
             var html = '';
             
             html += '<div class="saswp-'+div_type+'-table-div saswp-dynamic-properties" data-id="'+index+'">'
-                        +  '<a class="saswp-table-close">X</a>'
+                        + $addRevewTitle
+                        +  otherRepeatorClose
                         + '<table class="form-table saswp-'+div_type+'-table">' 
                 
             jQuery.each(schema_fields, function(eachindex, element){
@@ -412,7 +445,8 @@
                     case "text":
                       
                         html += '<tr>'
-                        + '<th>'+element.label+'</th><td><input class="'+meta_class+'" style="width:100%" type="'+element.type+'" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']"></td>'
+                        + '<th>'+element.label+'</th><td><input class="'+meta_class+'" style="width:100%" type="'+element.type+'" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']"></td>'                        
+                        +$newclosebtn
                         + '</tr>';                        
                       
                       break;

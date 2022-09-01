@@ -844,7 +844,112 @@ function saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post
                                                             "@type"       => "AggregateRating",
                                                             "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_rating_'.$schema_id, 'saswp_array'),
                                                             "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_rating_count_'.$schema_id, 'saswp_array')
-                                                         );                                       
+                                                         );          
+                                                         
+                    $itinerary  = get_post_meta($schema_post_id, 'product_reviews_'.$schema_id, true);
+
+                    $itinerary_arr = array();
+
+                if(!empty($itinerary)){
+
+                    foreach($itinerary as $review){
+                            
+                        $review_fields = array();
+                        
+                        $review_fields['@type']           = 'Review';
+                        
+                        if(isset($all_post_meta['product_pros_'.$schema_id][0])){
+
+                            $review_fields['positiveNotes']['@type'] = 'ItemList';
+                            
+                            $itemList = [];                                                    
+                            foreach(unserialize($all_post_meta['product_pros_'.$schema_id][0]) as $key => $positiveNotes){                                              
+                            
+                                $itemList[$key]['@type'] = 'ListItem';
+                                $itemList[$key]['position'] = 1;
+                                $itemList[$key]['name'] = $positiveNotes['saswp_product_pros_title'];
+                            }
+                            $review_fields['positiveNotes']['itemListElement'] = $itemList;
+                        
+                        }
+
+                    if(isset($all_post_meta['product_cons_'.$schema_id][0])){
+
+                        $review_fields['negativeNotes']['@type'] = 'ItemList';
+                        
+                        $itemList = [];                                                      
+                        foreach(unserialize($all_post_meta['product_cons_'.$schema_id][0]) as $key => $positiveNotes){                                              
+                        
+                            $itemList[$key]['@type'] = 'ListItem';
+                            $itemList[$key]['position'] = 1;
+                            $itemList[$key]['name'] = $positiveNotes['saswp_product_cons_title'];
+                        }
+
+                        $review_fields['negativeNotes']['itemListElement'] = $itemList;
+                    
+                    }
+
+                    $review_fields['author']['@type'] = 'Person';
+                    $review_fields['author']['name']  = $review['saswp_product_reviews_reviewer_name'] ? esc_attr($review['saswp_product_reviews_reviewer_name']) : 'Anonymous';
+
+                    if(isset($review['saswp_product_reviews_created_date'])){
+                        $review_fields['datePublished'] = esc_html($review['saswp_product_reviews_created_date']);
+                    }
+                    if(isset($review['saswp_product_reviews_text'])){
+                        $review_fields['description']   = esc_textarea($review['saswp_product_reviews_text']);
+                    }
+                    // echo "<pre>";print_r(is_int($review['saswp_product_reviews_reviewer_rating']));die;
+                                                                                  
+                    if($review['saswp_product_reviews_reviewer_rating']){
+
+                            $review_fields['reviewRating']['@type']   = 'Rating';
+                            $review_fields['reviewRating']['bestRating']   = '5';
+                            $review_fields['reviewRating']['ratingValue']   = esc_attr($review['saswp_product_reviews_reviewer_rating']);
+                            $review_fields['reviewRating']['worstRating']   = '1';
+                    
+                    }
+                                                                                                                                                    
+                    $itinerary_arr[] = $review_fields;
+                        }
+                    $input1['review'] = $itinerary_arr;
+                }
+                    
+                    $service = new saswp_output_service();
+                    $product_details = $service->saswp_woocommerce_product_details(get_the_ID());  
+
+
+                    if(!empty($product_details['product_reviews'])){
+                
+                    $reviews = array();
+                
+                    foreach ($product_details['product_reviews'] as $review){
+                                                                    
+                    $review_fields = array();
+                    
+                    $review_fields['@type']           = 'Review';
+                    $review_fields['author']['@type'] = 'Person';
+                    $review_fields['author']['name']  = $review['author'] ? esc_attr($review['author']) : 'Anonymous';
+                    $review_fields['datePublished']   = esc_html($review['datePublished']);
+                    $review_fields['description']     = $review['description'];
+                                                                
+                    if(isset($review['reviewRating']) && $review['reviewRating'] !=''){
+                        
+                            $review_fields['reviewRating']['@type']   = 'Rating';
+                            $review_fields['reviewRating']['bestRating']   = '5';
+                            $review_fields['reviewRating']['ratingValue']   = esc_attr($review['reviewRating']);
+                            $review_fields['reviewRating']['worstRating']   = '1';
+                    
+                    }
+                                                                                                                                                    
+                    $reviews[] = $review_fields;
+                    
+                }
+                    $input1['review'] =  $reviews;
+            }
+                 
+                                 if(!isset($input1['review'])){
+                                     $input1 = saswp_append_fetched_reviews($input1); 
+                                 }                             
                 }
     
     
@@ -1061,10 +1166,11 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                                      'name'  => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_brand_name_'.$schema_id, 'saswp_array'),
                                                     )    
             ); 
-
+           
             if( isset($all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0] != '' ){
                 $input1['brand']['url'] = $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0];
             }
+            
             if( isset($all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0] != '' ){
                 $input1['brand']['image'] = $all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0];
             }
@@ -1075,9 +1181,15 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             if( isset($all_post_meta['saswp_product_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_id_'.$schema_id][0] != '' ){
                     $input1['@id'] = $all_post_meta['saswp_product_schema_id_'.$schema_id][0];
             }
+
+            // if( isset($all_post_meta['product_pros_'.$schema_id][0]) && $all_post_meta['product_pros_'.$schema_id][0] != '' ){
+            //     $input1['brand']['url'] = $all_post_meta['product_pros_'.$schema_id][0];
+            // }
+           
             
             $input1 = saswp_get_modified_image('saswp_product_schema_image_'.$schema_id.'_detail', $input1);
             
+           
             if( (isset($all_post_meta['saswp_product_schema_price_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_price_'.$schema_id][0]) || (isset($all_post_meta['saswp_product_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_low_price_'.$schema_id][0]) ) ){
                             
                 $input1['offers']['@type']           = 'Offer';
@@ -1152,6 +1264,38 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                           $review_fields = array();
                                           
                                           $review_fields['@type']           = 'Review';
+                                        
+                                        if(isset($all_post_meta['product_pros_'.$schema_id][0])){
+
+                                            $review_fields['positiveNotes']['@type'] = 'ItemList';
+                                            
+                                            $itemList = [];                                                    
+                                            foreach(unserialize($all_post_meta['product_pros_'.$schema_id][0]) as $key => $positiveNotes){                                              
+                                              
+                                                $itemList[$key]['@type'] = 'ListItem';
+                                                $itemList[$key]['position'] = 1;
+                                                $itemList[$key]['name'] = $positiveNotes['saswp_product_pros_title'];
+                                            }
+                                            $review_fields['positiveNotes']['itemListElement'] = $itemList;
+                                        
+                                        }
+
+                                        if(isset($all_post_meta['product_cons_'.$schema_id][0])){
+
+                                            $review_fields['negativeNotes']['@type'] = 'ItemList';
+                                            
+                                            $itemList = [];                                                      
+                                            foreach(unserialize($all_post_meta['product_cons_'.$schema_id][0]) as $key => $positiveNotes){                                              
+                                              
+                                                $itemList[$key]['@type'] = 'ListItem';
+                                                $itemList[$key]['position'] = 1;
+                                                $itemList[$key]['name'] = $positiveNotes['saswp_product_cons_title'];
+                                            }
+
+                                            $review_fields['negativeNotes']['itemListElement'] = $itemList;
+                                        
+                                        }
+
                                           $review_fields['author']['@type'] = 'Person';
                                           $review_fields['author']['name']  = $review['saswp_product_reviews_reviewer_name'] ? esc_attr($review['saswp_product_reviews_reviewer_name']) : 'Anonymous';
 
@@ -1212,7 +1356,9 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 if(!isset($input1['review'])){
                     $input1 = saswp_append_fetched_reviews($input1); 
                 }
-    
+                // echo "<pre>";
+                // print_r($input1);
+                // die();
     return $input1;
     
 }
