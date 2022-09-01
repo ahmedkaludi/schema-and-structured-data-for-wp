@@ -3509,7 +3509,14 @@ function saswp_get_video_metadata($content = ''){
                     $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
 
                     if(!empty($video_meta)){
+                        $metadata['title']      = $video_meta['title'];
+                        $metadata['description']      = $video_meta['description'];
+                        $metadata['viewCount']      = $video_meta['viewCount'];
+
                         $metadata['duration']      = $video_meta['duration'];
+
+                        $metadata['uploadDate']      = $video_meta['uploadDate'];
+
                         $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
                     }
 
@@ -3548,7 +3555,14 @@ function saswp_get_video_metadata($content = ''){
                     $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
 
                     if(!empty($video_meta)){
+                        $metadata['title']      = $video_meta['title'];
+                        $metadata['description']      = $video_meta['description'];
+                        $metadata['viewCount']      = $video_meta['viewCount'];
+
                         $metadata['duration']      = $video_meta['duration'];
+
+                        $metadata['uploadDate']      = $video_meta['uploadDate'];
+
                         $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
                     }
 
@@ -3589,7 +3603,14 @@ function saswp_get_video_metadata($content = ''){
                     $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
 
                     if(!empty($video_meta)){
+                        $metadata['title']      = $video_meta['title'];
+                        $metadata['description']      = $video_meta['description'];
+                        $metadata['viewCount']      = $video_meta['viewCount'];
+
                         $metadata['duration']      = $video_meta['duration'];
+
+                        $metadata['uploadDate']      = $video_meta['uploadDate'];
+
                         $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
                     }
                                         

@@ -1748,16 +1748,59 @@ function saswp_schema_output() {
                         
                             case 'VideoObject':
                                 
-                                $video_links      = saswp_get_video_metadata();                                                                
+                                $video_links      = saswp_get_video_metadata();     
+                                $input1['@context'] = saswp_context_url();                                                      
+                                
+                                if(count($video_links) > 1){
+                                    $input1['@type'] = "ItemList";                                                       
+                        
+                                    foreach($video_links as $vkey => $v_val){
+                                        $input1['itemListElement'][] = array(
+                                            '@type'				            => 'VideoObject',
+                                            "position"                      => $vkey+1,
+                                            'name'				            => $v_val['title'],
+                                            'url'				            => $v_val['video_url'],
+                                            'description'		            => $v_val['description'],
+                                            'uploadDate'		            => $v_val['uploadDate'],
+                                            'duration'  		            => $v_val['duration'],    
+                                            'contentUrl'  		            => $v_val['video_url'],    
+                                            'embedUrl'  		            => $v_val['video_url'],    
+                                            'interactionStatistic'          => array(
+                                                "@type" => "InteractionCounter",
+                                                "interactionType" => array("@type" => "WatchAction" ),
+                                                "userInteractionCount" => $v_val['viewCount']
+                                                ),    
+                                            'thumbnailUrl'                  => isset($v_val['thumbnail_url'])? $v_val['thumbnail_url'] : saswp_get_thumbnail(),
+                                        );
+                                    }
+                                    // echo "<pre>";print_r($input1);echo "</pre>";
+                                }else{
 
                                 $description = saswp_get_the_excerpt();
 
                                 if(!$description){
                                     $description = get_bloginfo('description');
                                 }                                  
+                                $input1 = array(  
+                                                '@type'		            => 'VideoObject',
+                                                "name"                  => saswp_get_the_title(),
+                                                "description"           => $description,
+                                                "thumbnailUrl"          => isset($video_links[0]['thumbnail_url'])? $video_links[0]['thumbnail_url'] : saswp_get_thumbnail(),
+                                                "uploadDate"            => $video_links[0]['uploadDate'],
+                                                "duration"              => $video_links[0]['duration'],  
+                                                "contentUrl"            => $video_links[0]['video_url'],    
+                                                "embedUrl"              => $video_links[0]['video_url'],    
+                                                "interactionStatistic"  => array(
+                                                "@type"                 => "InteractionCounter",
+                                                "interactionType"       => array( 
+                                                                            "@type"     => "WatchAction" 
+                                                                            ),
+                                                "userInteractionCount"  => $video_links[0]['viewCount']
+                                                )
+                                            );
                                 
-                                $input1 = array(
-                                    '@context'			            => saswp_context_url(),
+                                
+                                /* $input1 = array(
                                     '@type'				            => 'VideoObject',
                                     '@id'                           => trailingslashit(saswp_get_permalink()).'#videoobject',        
                                     'url'				            => trailingslashit(saswp_get_permalink()),
@@ -1813,7 +1856,8 @@ function saswp_schema_output() {
                                         $input1 = array();
                                     }
 
-                                }
+                                } */
+                            }
 
                             break;
                         
