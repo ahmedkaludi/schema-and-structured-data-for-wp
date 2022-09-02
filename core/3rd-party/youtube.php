@@ -14,7 +14,7 @@ class SASWP_Youtube
     public static function getVideoInfo($vid, $api_key)
     {
         $params = array(
-            'part' => 'contentDetails',
+            'part' => 'contentDetails,snippet,statistics',
             'id' => $vid,
             'key' => $api_key,
         );
@@ -22,9 +22,20 @@ class SASWP_Youtube
         $api_url = SASWP_Youtube::$api_base . '?' . http_build_query($params);
         $result = json_decode(@file_get_contents($api_url), true);
 
+        if($result['items'][0]['snippet']){
+       
+            $vinfo['snippet'] = $result['items'][0]['snippet'];
+        }        
+
         if(empty($result['items'][0]['contentDetails']))
             return null;
         $vinfo = $result['items'][0]['contentDetails'];
+
+        if($result['items'][0]['snippet']['publishedAt']){ $vinfo['uploadDate']    = $result['items'][0]['snippet']['publishedAt']; }
+        if($result['items'][0]['snippet']['title']){       $vinfo['title']         = $result['items'][0]['snippet']['title'];       }
+        if($result['items'][0]['snippet']['description']){ $vinfo['description']   = $result['items'][0]['snippet']['description']; }
+        if($result['items'][0]['statistics']['viewCount']){   $vinfo['viewCount']   = $result['items'][0]['statistics']['viewCount'];  }
+
 
         $interval = new DateInterval($vinfo['duration']);
         $vinfo['duration_sec'] = $interval->h * 3600 + $interval->i * 60 + $interval->s;
