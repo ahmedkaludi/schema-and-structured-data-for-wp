@@ -3239,9 +3239,10 @@ function saswp_get_user_roles(){
         return $allroles;
 }
 
+
 function saswp_get_capability_by_role($role){
         
-        $cap = 'manage_options';
+        $cap = apply_filters('saswp_default_manage_option_capability', 'manage_options' );
         
         switch ($role) {
             
