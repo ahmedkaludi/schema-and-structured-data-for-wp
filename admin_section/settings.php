@@ -4754,6 +4754,24 @@ add_action( 'admin_footer', 'saswp_dequeue_other_select2_on_saswp_screen',9999 )
 
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
 
+//This is for remove the js conflicts of forminator plugin
+function forminatorPlugin_dequeue_script() {
+
+        $post_type = '';        
+        $current_screen = get_current_screen(); 
+
+        if(isset($current_screen->post_type)){                  
+            $post_type = $current_screen->post_type;                
+        }    
+        
+        if($post_type == 'saswp'){
+                wp_dequeue_script( 'shared-ui');
+
+                wp_dequeue_script( 'forminator-shortcode-generator');
+        }
+}
+add_action( 'admin_footer', 'forminatorPlugin_dequeue_script',20 );
+
 function saswp_option_page_capability( $capability ) {         
     return saswp_current_user_can();         
 }
