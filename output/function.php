@@ -259,6 +259,7 @@ function saswp_get_all_schema_markup_output() {
         $author_output            = saswp_author_output();
         $archive_output           = saswp_archive_output();        
         $collection_output        = saswp_fetched_reviews_json_ld();
+        $default_videoObject_schema        = saswp_default_video_object_scjhema();
         
         if($archive_output){
             
@@ -291,6 +292,12 @@ function saswp_get_all_schema_markup_output() {
                         if(!empty($contact_page_output)){
                           
                             $output .= saswp_json_print_format($contact_page_output); 
+                            $output .= ",";
+                            $output .= "\n\n";                        
+                        }			                        
+                        if(!empty($default_videoObject_schema)){
+                          
+                            $output .= saswp_json_print_format($default_videoObject_schema); 
                             $output .= ",";
                             $output .= "\n\n";                        
                         }			                        
@@ -3370,4 +3377,48 @@ function saswp_render_breadcrumbs_html($atts){
     }
 
     return $breadcrumbs;
+}
+
+function saswp_default_video_object_scjhema(){
+
+    $input1 = array();
+
+    $Conditionals = saswp_get_all_schema_posts(); 
+    $countVideoObjSchema = [];
+    foreach($Conditionals as $schemaConditionals){
+        if($schemaConditionals['schema_type'] == 'VideoObject'){
+            $countVideoObjSchema[] = $schemaConditionals['schema_type'];
+        }        
+    }
+    if(count( $countVideoObjSchema) > 0){
+        return $input1;
+    } 
+    
+    $video_links      = saswp_get_video_metadata();     
+    $input1['@context'] = saswp_context_url();  
+    if(count($video_links) > 1){
+        $input1['@type'] = "ItemList";                                                       
+
+        foreach($video_links as $vkey => $v_val){
+            $input1['itemListElement'][] = array(
+                '@type'				            => 'VideoObject',
+                "position"                      => $vkey+1,
+                'name'				            => $v_val['title'],
+                'url'				            => $v_val['video_url'],
+                'description'		            => $v_val['description'],
+                'uploadDate'		            => $v_val['uploadDate'],
+                'duration'  		            => $v_val['duration'],    
+                'contentUrl'  		            => $v_val['video_url'],    
+                'embedUrl'  		            => $v_val['video_url'],    
+                'interactionStatistic'          => array(
+                    "@type" => "InteractionCounter",
+                    "interactionType" => array("@type" => "WatchAction" ),
+                    "userInteractionCount" => $v_val['viewCount']
+                    ),    
+                'thumbnailUrl'                  => isset($v_val['thumbnail_url'])? $v_val['thumbnail_url'] : saswp_get_thumbnail(),
+            );
+        }
+        // echo "<pre>";print_r($input1);echo "</pre>";
+    }
+    return $input1;
 }
