@@ -3385,14 +3385,16 @@ function saswp_default_video_object_scjhema(){
 
     $Conditionals = saswp_get_all_schema_posts(); 
     $countVideoObjSchema = [];
-    foreach($Conditionals as $schemaConditionals){
-        if($schemaConditionals['schema_type'] == 'VideoObject'){
-            $countVideoObjSchema[] = $schemaConditionals['schema_type'];
-        }        
-    }
-    if(count( $countVideoObjSchema) > 0){
-        return $input1;
-    } 
+    if(!empty($Conditionals)){
+        foreach($Conditionals as $schemaConditionals){
+            if($schemaConditionals['schema_type'] == 'VideoObject'){
+                $countVideoObjSchema[] = $schemaConditionals['schema_type'];
+            }        
+        }
+        if(count( $countVideoObjSchema) > 0){
+            return $input1;
+        } 
+    }    
     
     $video_links      = saswp_get_video_metadata();     
     $input1['@context'] = saswp_context_url();  
