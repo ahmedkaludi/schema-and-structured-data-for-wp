@@ -500,94 +500,114 @@ class SASWP_Gutenberg {
          */
         public static function render_faq_data( $attributes ) {
                                         
-		ob_start();
-		
-		if ( !isset( $attributes ) ) {
-			ob_end_clean();
-                                                                       
-			return '';
-		}
-                
-                echo '<div class="saswp-faq-block-section">';                                
-                if($attributes['items']){
+            ob_start();
+            
+            if ( !isset( $attributes ) ) {
+                ob_end_clean();
+                                                                           
+                return '';
+            }
                     
-                    $className = '';
-                    if(isset($attributes['className'])){
-                        $className = 'class="'.esc_attr($attributes['className']).'"';
-                    }
-                    
-                    if(isset($attributes['orderType'])){
-                            echo'<ol '.$className.' style="list-style-type:none; margin-left:-41px;">';  
-                 }elseif(!isset($attributes['toggleList'])){
-                     echo '<ol '.$className.'>';   
-                    }else{
-                     echo '<ul '.$className.'>';      
-                    }
-                    
-                    foreach($attributes['items'] as $item){
+                    echo '<div class="saswp-faq-block-section">';                                
+                    if($attributes['items']){
                         
-                      if($item['title'] || $item['description']){
-
-                        if(!empty($item['questionID'])){
-                            echo '<li id="'.esc_attr($item['questionID']).'">'; 
-                        }else{
-                            echo '<li>'; 
-                        }                        
-                        if(isset($attributes['headingTag'])){
-
-                            switch ($attributes['headingTag']) {
-
-                                case 'h1':
-                                        echo '<h1>'. html_entity_decode(esc_attr($item['title'])).'</h1>';
-                                    break;
-                                case 'h2':
-                                        echo '<h2>'. html_entity_decode(esc_attr($item['title'])).'</h2>';
-                                    break;
-                                case 'h3':
-                                        echo '<h3>'. html_entity_decode(esc_attr($item['title'])).'</h3>';
-                                    break;
-                                case 'h4':
-                                        echo '<h4>'. html_entity_decode(esc_attr($item['title'])).'</h4>';
-                                    break;
-                                case 'h5':
-                                        echo '<h5>'. html_entity_decode(esc_attr($item['title'])).'</h5>';
-                                    break;
-                                case 'h6':
-                                        echo '<h6>'. html_entity_decode(esc_attr($item['title'])).'</h6>';
-                                    break;  
-                                    case 'div':
-                                    echo '<div>'.html_entity_decode(esc_attr($item['title'])).'</div>';
-                                    break;
-                                case 'p':
-                                    echo '<p>'.html_entity_decode(esc_attr($item['title'])).'</p>';
-                                    break;   
-                                    
-
-                                default:
-                                echo '<h3>'. html_entity_decode(esc_attr($item['title'])).'</h3>';
-                                    break;
-                            }
-
-                        }else{
-                            echo '<strong class="saswp-faq-question-title">'. html_entity_decode(esc_attr($item['title'])).'</strong>';    
+                        $className = '';
+                        if(isset($attributes['className'])){
+                            $className = 'class="'.esc_attr($attributes['className']).'"';
                         }
-                                                
-                        echo '<p class="saswp-faq-answer-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';
-                        echo '</li>';
-                      }  
-                       
-                    }                    
-                    if(!isset($attributes['toggleList'])){
-                     echo '</ol>';   
-                    }else{
-                     echo '</ul>';    
-                    }                    
-                }
+                        
+                        
+    
+                        
+                        if(!isset($attributes['listStyle']))
+                        {
+                            $attributes['listStyle']='none';
+                        }
+    
+                        if(($attributes['listStyle']=='none')){
+                            echo '<ol style="list-style-type:none">';}
+                            else{
+                                echo'<ul>';
+                            }
+                        
+                        
+                           
+                         if(isset($item['image_align'])){
+    
+                            switch ($item['image_align']) {
+    
                                 
-                echo '</div>';
-                						
-		return ob_get_clean();
-	}
+                                  case 'right':
+                                    echo  '<img class="alignright" style="float:right;" '. html_entity_decode(esc_attr($item['image_align'])).'>';
+                                    break;
+                                  case 'left':
+                                    echo  '<img  class="alignleft" style="float:left;" '. html_entity_decode(esc_attr($item['image_align'])).'>';
+                                    break;
+    
+                                default:
+                                echo  '<img class="alignleft" style="float:left;" '. html_entity_decode(esc_attr($item['image_align'])).'>';
+                                break;
+                            }
+                        }
+                        
+                        foreach($attributes['items'] as $item){
+                            
+                          if($item['title'] || $item['description']){
+    
+                            if(!empty($item['questionID'])){
+                                echo '<li id="'.esc_attr($item['questionID']).'">'; 
+                            }else{
+                                echo '<li style="list-style-type: '.esc_attr($attributes['listStyle']).'">'; 
+                            }                        
+                            if(isset($attributes['headingTag'])){
+    
+                                switch ($attributes['headingTag']) {
+    
+                                    case 'h1':
+                                            echo '<h1>'. html_entity_decode(esc_attr($item['title'])).'</h1>';
+                                        break;
+                                    case 'h2':
+                                            echo '<h2>'. html_entity_decode(esc_attr($item['title'])).'</h2>';
+                                        break;
+                                    case 'h3':
+                                            echo '<h3>'. html_entity_decode(esc_attr($item['title'])).'</h3>';
+                                        break;
+                                    case 'h4':
+                                            echo '<h4>'. html_entity_decode(esc_attr($item['title'])).'</h4>';
+                                        break;
+                                    case 'h5':
+                                            echo '<h5>'. html_entity_decode(esc_attr($item['title'])).'</h5>';
+                                        break;
+                                    case 'h6':
+                                            echo '<h6>'. html_entity_decode(esc_attr($item['title'])).'</h6>';
+                                        break;    
+    
+    
+                                    default:
+                                    echo '<h3>'. html_entity_decode(esc_attr($item['title'])).'</h3>';
+                                        break;
+                                }
+    
+                            }else{
+                                echo '<strong class="saswp-faq-question-title">'. html_entity_decode(esc_attr($item['title'])).'</strong>';    
+                            }
+                                                    
+                            echo '<p class="saswp-faq-answer-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';
+                           
+                          }  
+                           
+                        }                    
+                        if(!isset($attributes['listStyle'])){
+                         echo '</ol>';   
+                        }else{
+                         echo '</ul>';    
+                        }                    
+                    }
+                                    
+                    echo '</div>';
+                                            
+            return ob_get_clean();
+        }
         /**
          * Function to render 'howto' block data in frontend post content
          * @param type $attributes
@@ -663,28 +683,48 @@ class SASWP_Gutenberg {
                     if(isset($attributes['className'])){
                         $className = 'class="'.esc_attr($attributes['className']).'"';
                     }
-                        
-                    if(isset($attributes['orderType'])){
-                        echo'<ol '.$className.' style="list-style-type:none; margin-left:-41px;">';
-                    } else{
-                        if(!isset($attributes['toggleList'])){
-                           echo '<ol '.$className.' style="margin-left:-21px">';  
-                         }else{
-                           echo '<ul '.$className.' style="margin-left:-21px">';      
-                         }
-                  }
+
+                    if(!isset($attributes['listStyleType']))
+                    {
+                        $attributes['listStyleType']='none';
+                    }
+
+                    if(($attributes['listStyleType']=='none')){
+                        echo'<ol '.$className.' style="list-style-type:none;">';
+                     }elseif(($attributes['listStyleType']=='number')){
+                        echo '<ol>';
+                     }else{
+                        echo '<ol>';
+                     }
                     
+                    if(isset($item['image_align'])){
+
+                        switch ($item['image_align']) {
+
+                            
+                              case 'right':
+                                echo  '<img class="alignright"'. html_entity_decode(esc_attr($item['image_align'])).'>';
+                                break;
+                              case 'left':
+                                echo  '<img class="alignleft" '. html_entity_decode(esc_attr($item['image_align'])).'>';
+                                break;
+
+                            default:
+                            echo  '<img class="alignleft" '. html_entity_decode(esc_attr($item['image_align'])).'>';
+                            break;
+                        }
+                    }
                     foreach($attributes['items'] as $item){
                         
                       if($item['title'] || $item['description']){
-                        echo '<li>'; 
+                        echo '<li style="list-style-type: '.esc_attr($attributes['listStyleType']).'">'; 
                         echo '<strong class="saswp-how-to-step-name">'. html_entity_decode(esc_attr($item['title'])).'</strong>';
                         echo '<p class="saswp-how-to-step-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';
                         echo '</li>';
                       }  
                        
                     }                    
-                    if(!isset($attributes['toggleList'])){
+                    if(!isset($attributes['listStyleType'])){
                      echo '</ol>';   
                     }else{
                      echo '</ul>';    
@@ -731,7 +771,7 @@ class SASWP_Gutenberg {
                                                 
                 echo '</div>';
                 
-                echo '</div>';
+              
                 						
 		return ob_get_clean();
 	}
