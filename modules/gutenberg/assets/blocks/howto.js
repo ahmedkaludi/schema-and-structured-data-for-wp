@@ -968,7 +968,7 @@
                 },
                 el(PanelBody,
                 {className:'saswp-how-to-panel-body',
-                 title:__('Settings', 'schema-and-structured-data-for-wp')   
+                 title:__('List Order Type', 'schema-and-structured-data-for-wp')   
                 },
                 el(SelectControl,{
                   className:'saswp-faq-toggle-list',  

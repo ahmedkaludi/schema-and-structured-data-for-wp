@@ -580,7 +580,13 @@ class SASWP_Gutenberg {
                                         break;
                                     case 'h6':
                                             echo '<h6>'. html_entity_decode(esc_attr($item['title'])).'</h6>';
-                                        break;    
+                                        break;   
+                                    case 'div':
+                                            echo '<div>'. html_entity_decode(esc_attr($item['title'])).'</div>';
+                                        break;  
+                                    case 'p':
+                                            echo '<p>'. html_entity_decode(esc_attr($item['title'])).'</p>';
+                                        break;   
     
     
                                     default:

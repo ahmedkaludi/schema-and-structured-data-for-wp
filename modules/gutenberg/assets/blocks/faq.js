@@ -632,7 +632,7 @@
               },
               el(PanelBody,
               {className:'saswp-faq-panel-body',
-               title:'Settings'   
+               title:'List Order Type'   
               },
               el(SelectControl,{
                     className:'saswp-faq-toggle-list',  
