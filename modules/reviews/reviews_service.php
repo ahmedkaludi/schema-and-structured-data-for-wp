@@ -195,6 +195,30 @@ class saswp_reviews_service {
         // 24 * 60 * 60 = 86400 seconds
         return abs(round($diff / 86400));
     }
+
+    function saswp_getDaysDiff($time)
+        {
+
+            $time = time() - $time; // to get the time since that moment
+            $time = ($time<1)? 1 : $time;
+            $tokens = array (
+                31536000 => 'year',
+                2592000 => 'month',
+                604800 => 'week',
+                86400 => 'day',
+                3600 => 'hour',
+                60 => 'minute',
+                1 => 'second'
+            );
+
+            foreach ($tokens as $unit => $text) {
+                if ($time < $unit) continue;
+                $numberOfUnits = floor($time / $unit);
+                $adAgo = $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+                return $adAgo.' ago';   
+            }
+
+        }
   
 
     /**
@@ -668,7 +692,7 @@ class saswp_reviews_service {
                                             
     }
     
-    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $paged = null, $offset = null){
+    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $collection_id = null, $paged = null, $offset = null){
                         
             $response   = array();                                
             $arg        = array();
@@ -784,11 +808,9 @@ class saswp_reviews_service {
              $service_object     = new saswp_output_service();
             
             foreach($posts_list as $rv_post){
-                
                 $review_data = array();                
                 
                 $review_data['saswp_review_id'] = $rv_post->ID;
-                
                 foreach($post_meta as $meta_key){
                     
                     $review_data[$meta_key] = get_post_meta($rv_post->ID, $meta_key, true ); 
@@ -937,8 +959,14 @@ class saswp_reviews_service {
                $break = 1; 
 
                foreach ($collection as $value){
-                        
-                       $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format ); 
+
+                       $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format );                     
+                       if(!empty($date_format) && $date_format == 'days'){                               
+                           
+                            $date_str['date'] = $this->saswp_getDaysDiff( strtotime($value['saswp_review_date']) );
+                
+                        }   
+
                     
                        $review_link = '';
 
@@ -1079,6 +1107,11 @@ class saswp_reviews_service {
         
                 $html = '';
                 $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format); 
+                if(!empty($date_format) && $date_format == 'days'){                               
+                           
+                    $date_str['date'] = $this->saswp_getDaysDiff( strtotime($value['saswp_review_date']) );
+        
+                }   
                 
                 $html .= '<div class="saswp-r2-sli">';
                 $html .= '<div class="saswp-r2-b">';
@@ -1397,6 +1430,11 @@ class saswp_reviews_service {
                             $review_count++;
                             
                             $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format); 
+                            if(!empty($date_format) && $date_format == 'days'){                               
+                           
+                                $date_str['date'] = $this->saswp_getDaysDiff( strtotime($value['saswp_review_date']) );
+                    
+                            } 
                             
                             $html_list .= '<li>';
                             $html_list .= '<div class="saswp-r4-b">';
@@ -1516,6 +1554,11 @@ class saswp_reviews_service {
             foreach ($collection as $value){
                 
                     $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format); 
+                    if(!empty($date_format) && $date_format == 'days'){                               
+                           
+                        $date_str['date'] = $this->saswp_getDaysDiff( strtotime($value['saswp_review_date']) );
+            
+                    } 
 
                     $html .= '<div id="'.$i.'" class="saswp-r5">';
                     $html .= '<div class="saswp-r5-r">';                            
