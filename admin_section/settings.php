@@ -1074,18 +1074,6 @@ function saswp_general_page_callback(){
                         'name' => 'sd_data[saswp_remove_version_tag]',                             
                 )
          );
-
-        //  $meta_fields_default[] = array(
-        //         'label'   => 'Date Format',
-        //         'id'      => 'saswp_date_format',
-        //         'name'    => 'sd_data[saswp_date_format]',
-        //         'class'   => 'saswp_date_format_class',
-        //         'type'    => 'select',
-        //         'options' => array(                                
-        //                         'default'          => 'Default',                                     
-        //                         'days'             => 'In Day'
-        //         )
-        // );
         
             if($nav_menu){
                 

@@ -692,7 +692,7 @@ class saswp_reviews_service {
                                             
     }
     
-    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $collection_id = null, $paged = null, $offset = null){
+    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $paged = null, $offset = null){
                         
             $response   = array();                                
             $arg        = array();

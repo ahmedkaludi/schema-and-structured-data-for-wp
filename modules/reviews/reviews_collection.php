@@ -357,8 +357,7 @@ class SASWP_Reviews_Collection {
             }
                         
             if( $platform_id ||  isset($attr['in']) ){
-            $collection_id = 237;
-            $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters($attr, $platform_id, $rvcount, $collection_id); 
+            $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters($attr, $platform_id, $rvcount); 
              
             if($reviews_list){
                 
