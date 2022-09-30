@@ -357,7 +357,6 @@ class SASWP_Reviews_Collection {
             }
                         
             if( $platform_id ||  isset($attr['in']) ){
-                                                     
             $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters($attr, $platform_id, $rvcount); 
              
             if($reviews_list){
@@ -401,7 +400,6 @@ class SASWP_Reviews_Collection {
                 $g_type = $design = $cols = $sorting = $date_format = '';
                 
                 $collection_data = get_post_meta($attr['id']);
-                
                 if(isset($collection_data['saswp_collection_design'][0])){
                     $design        = $collection_data['saswp_collection_design'][0];
                     $this->_design = $design;
@@ -409,7 +407,7 @@ class SASWP_Reviews_Collection {
 
                 if(isset($collection_data['saswp_collection_date_format'][0])){
                     $date_format        = $collection_data['saswp_collection_date_format'][0];                    
-                }
+                }      
                 
                 if(isset($collection_data['saswp_collection_cols'][0])){
                     
@@ -449,6 +447,8 @@ class SASWP_Reviews_Collection {
                 if(isset($collection_data['saswp_platform_ids'][0])){
                     $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]);                
                 }
+
+                
                 if(isset($collection_data['saswp_platform_ids'][0])){
                     
                     $total_reviews  = unserialize($collection_data['saswp_total_reviews'][0]);
@@ -535,7 +535,7 @@ class SASWP_Reviews_Collection {
                     
                     case "grid":
                         
-                        $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr );
+                        $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr  );
                         
                         break;
                         
@@ -559,8 +559,7 @@ class SASWP_Reviews_Collection {
                     
                     case 'fomo':
                         
-                        $html = $this->_service->saswp_create_collection_fomo($f_interval, $f_visibility, $collection, $date_format);
-                        
+                        $html = $this->_service->saswp_create_collection_fomo($f_interval, $f_visibility, $collection, $date_format);                   
                         
                         break;
                                                                 
@@ -610,7 +609,13 @@ class SASWP_Reviews_Collection {
             );
             $date_format = array(
                 'Y-m-d'  => 'yyyy-mm-dd',
-                'd-m-Y'  => 'dd-mm-yyyy',                
+                'd-m-Y'  => 'dd-mm-yyyy',   
+                'days'             => 'In Days'             
+            );
+
+            $date_format_in_days = array(
+                'default'          => 'Default',                                     
+                'days'             => 'In Days'                
             );
        
             $coll_sorting = array(
@@ -782,8 +787,9 @@ class SASWP_Reviews_Collection {
                                                 echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_date_format'][0] == $key ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
                                             }
                                             ?>                                    
-                                         </select>
-                                        </div>                                                                  
+                                         </select>                                         
+                                        </div> 
+                                                                                                               
                                     </div>
                                 </li>
                               <li>
@@ -973,7 +979,7 @@ class SASWP_Reviews_Collection {
             update_option('saswp_collection_display_opt', $display_type_opt);
             
             $post_meta['saswp_collection_design']       = isset($_POST['saswp_collection_design']) ? sanitize_text_field($_POST['saswp_collection_design']) : '';                        
-            $post_meta['saswp_collection_date_format']  = isset($_POST['saswp_collection_date_format']) ? sanitize_text_field($_POST['saswp_collection_date_format']) : '';                        
+            $post_meta['saswp_collection_date_format']  = isset($_POST['saswp_collection_date_format']) ? sanitize_text_field($_POST['saswp_collection_date_format']) : '';            
             $post_meta['saswp_collection_sorting']      = isset($_POST['saswp_collection_sorting']) ? sanitize_text_field($_POST['saswp_collection_sorting']) : '';
             $post_meta['saswp_collection_specific_rating'] = isset($_POST['saswp_collection_specific_rating']) ? sanitize_text_field($_POST['saswp_collection_specific_rating']) : '';
             $post_meta['saswp_collection_display_type'] = $display_type;
@@ -991,7 +997,6 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_collection_where']        = array_map('sanitize_text_field', $_POST['saswp_collection_where']);
             $post_meta['saswp_collection_where_data']   = array_map('sanitize_text_field', $_POST['saswp_collection_where_data']);
             $post_meta['saswp_total_reviews']           = array_map('intval', json_decode($_POST['saswp_total_reviews']));
-                        
             if(!empty($post_meta)){
                 
                 foreach($post_meta as $meta_key => $meta_val){

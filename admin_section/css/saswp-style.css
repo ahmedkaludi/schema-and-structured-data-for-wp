@@ -19,6 +19,12 @@
     margin-bottom: 8px;
     width: 100%;
 }
+.saswp-product_pros-section-main, .saswp-product_cons-section-main {
+    display: none;
+}
+.saswp-product_pros-section-main.thepros_main_section{    
+    margin-bottom: 30px;
+}
 .saswp-input-fields label{
     width: 130px;
 }

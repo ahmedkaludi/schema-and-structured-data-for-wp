@@ -54,8 +54,9 @@ and open the template in the editor.
 }
 .saswp-how-to-setp-list li{
     position: relative;
-    padding: 8px 4px 8px 32px;
-    margin: 4px 0;
+    background: #eee;
+    padding: 17px 25px 17px 30px;
+    margin: 4px 0 0 -55px;
     border: 1px solid rgba(145,151,162,.25);
     list-style-type: none;
     list-style: none;
@@ -121,8 +122,9 @@ and open the template in the editor.
 }
 .saswp-faq-setp-list li{
     position: relative;
-    padding: 8px 4px 8px 32px;
-    margin: 4px 0;
+    background: #eee;
+    padding: 17px 25px 17px 30px;
+    margin: 4px 0 0 -55px;
     border: 1px solid rgba(145,151,162,.25);
     list-style-type: none;
     list-style: none;
@@ -136,6 +138,10 @@ and open the template in the editor.
 .saswp-faq-step-title{
     font-weight: 600;    
 }
+.saswp-faq-step-description{
+    display: inline-block;
+}
+
 .saswp-faq-button-container{
     display: flex;
 }
@@ -159,6 +165,19 @@ and open the template in the editor.
 .saswp-faq-duration-time-input button{
     position: relative;
     top: -12px;
+}
+.saswp-faq-toggle-list{
+    height: auto;
+}
+.saswp-heading{
+    height: auto;
+    width: 100%;
+}
+.saswp-image-size{
+    height: auto;
+}
+.saswp-image-align{
+    height: auto;
 }
 .saswp-how-to-setp-block{
     margin-bottom: 40px;

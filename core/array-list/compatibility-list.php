@@ -121,6 +121,13 @@ return array(
             'opt_name'   => 'saswp-ultimatefaqs',
             'part_in'    => 'pro',
         ),
+        'ultimatemember'  =>  array(            
+            'name'       => 'Ultimate Member – User Profile, User Registration, Login & Membership Plugin',
+            'free'       => 'ultimate-member/ultimate-member.php',                    
+            'pro'        => 'um-reviews/um-reviews.php',                    
+            'opt_name'   => 'saswp-ultimatemember',
+            'part_in'    => 'pro',
+        ),
         'showcaseidx'  =>  array(            
             'name'       => 'Showcase IDX Real Estate Search',
             'free'       => 'showcase-idx/showcaseidx.php',                    

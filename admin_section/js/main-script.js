@@ -1027,6 +1027,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp_remove_version_tag_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_remove_version_tag").val(1);             
+                            }else{
+                              $("#saswp_remove_version_tag").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp-compativility-checkbox':
                           
                             if ($(this).is(':checked')) {              
@@ -1931,6 +1940,16 @@ jQuery(document).ready(function($){
                               $("#saswp-ultimatefaqs").val(1);                                
                             }else{
                               $("#saswp-ultimatefaqs").val(0);                                          
+                            }
+                            
+                      break;
+
+                      case 'saswp-ultimatemember-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-ultimatemember").val(1);                                
+                            }else{
+                              $("#saswp-ultimatemember").val(0);                                          
                             }
                             
                       break;
@@ -3269,6 +3288,9 @@ jQuery(document).ready(function($){
        $(document).on("click", ".saswp-table-close", function(){
            $(this).parent().remove();
        });
+       $(document).on("click", ".saswp-table-close-new", function(){
+        $(this).closest('.saswp-dynamic-properties').remove();
+      });
         
        //How to schema js ends here
        

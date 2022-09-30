@@ -28,8 +28,15 @@ return array( 'schema_type_element' => array(
                                'tech_article_items' => 'tech_article_items',                                                
                         ),
                         'Product' => array(
-                               'product_reviews' => 'product_reviews',                                                
-                        ),                        
+                               'product_reviews' => 'product_reviews',
+							   'product_pros' => 'product_pros',
+							   'product_cons' => 'product_cons',                                                
+                        ),   
+						'SoftwareApplication' => array(
+							'product_reviews' => 'product_reviews',
+							'product_pros' => 'product_pros',
+							'product_cons' => 'product_cons',
+						),                     
                         'DataFeed' => array(
                                'feed_element' => 'feed_element',                                                
                         ),
@@ -205,7 +212,21 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_product_reviews_created_date',
 			'type'      => 'text',                        
 		    )    
-                    ),                   
+                    ),
+			'product_pros' => array(                    
+				array(
+					'label'     => 'Pros Text',
+					'name'      => 'saswp_product_pros_title',
+					'type'      => 'text',                        
+				),
+			),
+			'product_cons' => array(                    
+				array(
+					'label'     => 'Cons Text',
+					'name'      => 'saswp_product_cons_title',
+					'type'      => 'text',                        
+				),
+			),                
                     'feed_element' => array(                    
                     array(
 			'label'     => 'Date Created',

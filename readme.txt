@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 1.9.100
+Stable tag: 1.9.101
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,23 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.101 (30 September 2022) =
+* Added: Option for turn off( hide) the ordered and unordered item list in FAQ #1698
+* Added: Option in adding date format for reviews like 12 days ago #1713
+* Added: Option to remove version number from source code #1715
+* Added: Compatibility with Ultimate FAQ pro plugin #1719
+* Added: Integration to fetch reviews with Ultimate member plugin. #1724
+* Added: The "Pros and Cons Schema" for Reviews schema extension according to the new google guidelines. #1722
+* Added: Review section in software application schema #1734
+* Added: Backorder added in Product schema in availability #1735
+* Added: "saswp_default_manage_option_capability" filter #1739
+* Added: Default schema Json-LD created when not video schema type created for video pages #1742
+* Fixed: Multiple video objects on same page (bonus for handling pagebreaks) #1705
+* Fixed: Mylisting theme icon not showing when using our schema plugin #1731
+* Fixed: Fatal Error only for login users while using Event Schema Extension (User Specific) #1738
+* Fixed: Schema output button not working when we use Forminator plugin #1745   
+
 
 = 1.9.100 (06 August 2022) =
 * Added: Compatibility with Ultimate FAQ Pro

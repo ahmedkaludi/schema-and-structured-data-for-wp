@@ -31,14 +31,10 @@
                 type: 'string',
                 default: 'none'
             },
-            toggleList: {
-                type: 'boolean',
-                default: false
-            },
-            orderType:{
+            listStyleType: {
               type: 'boolean',
-              default: true
-            },
+              default: false
+          },
             description: {
                   type: 'string',                  
                   selector: '.saswp-how-to-main-description'
@@ -87,6 +83,13 @@
                 },
                 image_sizes: {
                   type: 'object'                  
+                },
+                image_align:{
+                  type:'string',
+                  default:'left'
+                },
+                image_alignment:{
+                  type:'object'
                 },
                 image_height: {
                   type: 'number'                 
@@ -377,10 +380,12 @@
                                        
                                        if(index == item.index){
                                                                                        
-                                            oldItems[index]['description'] = value['description']+image;                                            
+                                            oldItems[index]['description'] = image+value
+                                            ['description'];                                             
                                             oldItems[index]['imageUrl']    = media.url;
                                             oldItems[index]['imageId']     = media.id;
                                             oldItems[index]['image_sizes'] = media.sizes;
+                                            oldItems[index]['image_alignment']=media.alignment;
                                             oldItems[index]['image_height']= media.height;
                                             oldItems[index]['image_width'] = media.width;
                                                                                        
@@ -479,7 +484,7 @@
               return modified_desc;
             }
 
-            function saswpImageUpdate(value, item, height, width, image_type){
+            function saswpImageUpdate(value, item, height, width, image_type,image_align){
                         
                         let image_url;
                         let image;
@@ -529,6 +534,13 @@
                               image_url    = item.image_sizes.thumbnail.url;
                               image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.thumbnail.url+'"  key="'+item.image_sizes.thumbnail.url+'" />';
                             break;
+
+                            case 'right':
+                              image = '<img class="alignright" style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
+                            break;
+                          case 'left':
+                                image = '<img class="alignleft" style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
+                            break;
                         
                           default:
                             break;
@@ -537,6 +549,7 @@
                         var newObject = Object.assign({}, item, {
                           image_size: value,
                           image_height: height,
+                          image_align: image_align,
                           image_width: width,
                           imageUrl   : image_url,
                           description : saswpReplaceImage(item.description, image)                          
@@ -567,7 +580,7 @@
                       ] ,
                       onChange: function(value){
 
-                        var newObject = saswpImageUpdate(value, item, '', '', 'image_type');
+                        var newObject = saswpImageUpdate(value, item, '', '', 'image_type',image_align);
 
                         return props.setAttributes({
                           items: [].concat(_cloneArray(props.attributes.items.filter(function (itemFilter) {
@@ -576,6 +589,26 @@
                         });
                       }
                   }),
+                  el(SelectControl,{
+                    value: item.image_align,
+                    className:"saswp-image-align",
+                    label: __( 'Image Align' , 'schema-and-structured-data-for-wp' ),
+                    options: [
+                     { label: 'Left' , value: 'left'},
+                     { label: 'Right' , value: 'right'},
+                     
+                    ],
+                     onChange: function(value){
+   
+                       var newObject = saswpImageUpdate(value, item, '', '', 'image_type');
+   
+                     return props.setAttributes({
+                       items: [].concat(_cloneArray(props.attributes.items.filter(function (itemFilter) {
+                         return itemFilter.index != item.index;
+                       })), [newObject])
+                     });
+                   }
+                   }),
                   el('p',{
                     className: 'saswp-how-to-dimesion-p'
                   }, 'Image Dimensions'),
@@ -695,13 +728,12 @@
                                     });                                    
                                 }
                             }, 
-                      attributes.orderType ?
-                          el('span',{
-                              className:'saswp-how-to-step-number'                             
-                          },
-                          attributes.toggleList ? '•':
-                          ( parseInt(item.index) + 1) + "."
-                          ):'',  
+                      el('span',{
+                        className:'saswp-how-to-step-number'                             
+                    },
+                    attributes.listStyleType == 'none'? '' : attributes.listStyleType =='disc' ?'•': attributes.listStyleType=='number' ?
+                    ( parseInt(item.index) + 1) + "." :''
+                    ),  
                           el( RichText, {                
                           tagName: 'p',
                           className:'saswp-how-to-step-title',
@@ -936,34 +968,29 @@
                 },
                 el(PanelBody,
                 {className:'saswp-how-to-panel-body',
-                 title:__('Settings', 'schema-and-structured-data-for-wp')   
+                 title:__('List Order Type', 'schema-and-structured-data-for-wp')   
                 },
-                el(ToggleControl,
-                  {
-                    className:'saswp-faq-toggle-list-type',  
-                    checked:attributes.orderType,
-                    onChange: function(newContent){
-                        props.setAttributes( { orderType: newContent } );
-                    },
-                    help: function(value){
-                      return  (value == true ? 'select list type below': 'none')
-                    },
-
-                },
-                ),
-              attributes.orderType ?  
-              el(ToggleControl,
-                {
-                    className:'saswp-how-to-toggle-list',  
-                    checked:attributes.toggleList,
-                    onChange: function(newContent){
-                        props.setAttributes( { toggleList: newContent } );
-                    },
-                    help: function(value){
-                      return (value == true ? __('Showing step item as an unordered list', 'schema-and-structured-data-for-wp'): __('Showing step item as an ordered list', 'schema-and-structured-data-for-wp'));
-                    }
-                },
-                ):'',
+                el(SelectControl,{
+                  className:'saswp-faq-toggle-list',  
+                  value: attributes.listStyleType,
+                  options:[
+                        { label:'None', value: 'none' },
+                        { label: 'Number', value:'number' },
+                        { label:'disc', value:'disc' },
+                      ],
+                  onChange: function(newContent){
+                      props.setAttributes( { listStyleType: newContent } );
+                  },
+                  help: function(value){
+                    if(value=='none')
+                      return '<li "style:list-style-type:none"></li>';
+                    if( value == 'number')
+                      return '<li "style:list-style-type:decimal"></li>';
+                    if(value=='disc' )
+                      return '<li "style:list-style-type:disc"></li>';
+                  }
+              },
+              ),
                 )                
                 ),
                 el(

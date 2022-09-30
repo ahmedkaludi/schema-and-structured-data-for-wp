@@ -1062,6 +1062,18 @@ function saswp_general_page_callback(){
                         'name' => 'sd_data[saswp_comments_schema]',                             
                 )
          );
+
+        $meta_fields_default[] = array(
+                'label'  => 'Remove Version Tag',
+                'id'     => 'saswp_remove_version_tag_checkbox', 
+                'name'   => 'saswp_remove_version_tag_checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',                        
+                'hidden' => array(
+                        'id'   => 'saswp_remove_version_tag',
+                        'name' => 'sd_data[saswp_remove_version_tag]',                             
+                )
+         );
         
             if($nav_menu){
                 
@@ -2779,6 +2791,19 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-ultimatefaqs]',                             
                 )
         );
+
+        $ultimatemember = array(
+                'label'  => 'Ultimate Member – User Profile, User Registration, Login & Membership Plugin',
+                'id'     => 'saswp-ultimatemember-checkbox',                        
+                'name'   => 'saswp-ultimatemember-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('ultimatemember'),
+                'hidden' => array(
+                        'id'   => 'saswp-ultimatemember',
+                        'name' => 'sd_data[saswp-ultimatemember]',                             
+                )
+        );
         $showcaseidx = array(
                 'label'  => 'Showcase IDX',
                 'id'     => 'saswp-showcaseidx-checkbox',                        
@@ -4139,6 +4164,7 @@ function saswp_compatibility_page_callback(){
          if(!is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
                           
                 $wpreviewslider['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema/">Reviews For Schema</a>';
+                $ultimatemember['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/reviews-for-schema/">Reviews For Schema</a>';
          }
          if(!is_plugin_active('polylang-compatibility-for-saswp/polylang-compatibility-for-saswp.php')){
                           
@@ -4308,6 +4334,7 @@ function saswp_compatibility_page_callback(){
                 $wpjobopenings,
                 $accordionfaq,
                 $ultimatefaqs,
+                $ultimatemember,
                 $showcaseidx,
                 $arconixfaq,
                 $faqconcertina,
@@ -4649,9 +4676,10 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         //DIGINEX theme compatibility starts         
         wp_dequeue_script( 'select2-js' );                
         //DIGINEX theme compatibility ends 
-        
-        wp_dequeue_script( 'select2' );
-        wp_deregister_script( 'select2' );
+        if($post_type != 'case27_listing_type'){
+                wp_dequeue_script( 'select2' );
+                wp_deregister_script( 'select2' );
+        }
          
         // Dequeue mediclinic theme's select2 on schema dashboard to remove conflict.
         wp_dequeue_script( 'mkdf-select2-script' );        
@@ -4713,6 +4741,24 @@ add_action( 'admin_enqueue_scripts', 'saswp_enqueue_saswp_select2_js',9999 );
 add_action( 'admin_footer', 'saswp_dequeue_other_select2_on_saswp_screen',9999 );
 
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_js' );
+
+//This is for remove the js conflicts of forminator plugin
+function saswp_forminatorPlugin_dequeue_script() {
+
+        $post_type = '';        
+        $current_screen = get_current_screen(); 
+
+        if(isset($current_screen->post_type)){                  
+            $post_type = $current_screen->post_type;                
+        }    
+        
+        if($post_type == 'saswp'){
+                wp_dequeue_script( 'shared-ui');
+
+                wp_dequeue_script( 'forminator-shortcode-generator');
+        }
+}
+add_action( 'admin_footer', 'saswp_forminatorPlugin_dequeue_script',20 );
 
 function saswp_option_page_capability( $capability ) {         
     return saswp_current_user_can();         

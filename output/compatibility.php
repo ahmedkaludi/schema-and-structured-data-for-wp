@@ -608,6 +608,9 @@ class saswp_output_compatibility{
     public function ultimatefaqs_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-ultimatefaqs');
     }
+    public function ultimatemember_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-ultimatemember');
+    }
     public function showcaseidx_on_activation(){        
         $this->saswp_update_option_on_compatibility_activation('saswp-showcaseidx');
     }
