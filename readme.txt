@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 1.9.101
+Stable tag: 1.9.101.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,7 +121,13 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.101.1 (01 Oct 2022) =
+
+* Fixed: PHP Fatal error:  Uncaught Error: Undefined constant "SECURE_AUTH_COOKIE" in .../wp-includes/pluggable.php:928 #1749
+
+
 = 1.9.101 (30 September 2022) =
+
 * Added: Option for turn off( hide) the ordered and unordered item list in FAQ #1698
 * Added: Option in adding date format for reviews like 12 days ago #1713
 * Added: Option to remove version number from source code #1715
