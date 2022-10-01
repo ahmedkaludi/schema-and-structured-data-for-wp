@@ -1821,9 +1821,10 @@ if ( ! defined('ABSPATH') ) exit;
     }        
             
     function saswp_defaultSettings(){
-        if(!function_exists('wp_get_current_user')) {
-            include(ABSPATH . "wp-includes/pluggable.php"); 
-        }           
+        
+        // if(!function_exists('wp_get_current_user')) {
+        //     include(ABSPATH . "wp-includes/pluggable.php"); 
+        // }           
                 global $sd_data; 
                 
                 $sd_data = get_option( 'sd_data', saswp_default_settings_array());     
@@ -3278,9 +3279,9 @@ function saswp_current_user_allowed(){
     global $sd_data;
     $currentuserrole = array();
     
-    if(!function_exists('wp_get_current_user')) {                
-        require_once( ABSPATH . '/wp-includes/pluggable.php' );
-    } 
+    // if(!function_exists('wp_get_current_user')) {                
+    //     require_once( ABSPATH . '/wp-includes/pluggable.php' );
+    // } 
 
     if( ( function_exists('is_user_logged_in') && is_user_logged_in() )  && function_exists('wp_get_current_user') ) {
     
@@ -3324,10 +3325,10 @@ function saswp_post_type_capabilities(){
         
         $caplist = array();
             
-        if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user')) {                
-            require_once( ABSPATH . '/wp-includes/capabilities.php' );
-            require_once( ABSPATH . '/wp-includes/pluggable.php' );
-        }
+        // if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user')) {                
+        //     require_once( ABSPATH . '/wp-includes/capabilities.php' );
+        //     require_once( ABSPATH . '/wp-includes/pluggable.php' );
+        // }
 
         if( function_exists('is_super_admin') && function_exists('wp_get_current_user') ){
 
