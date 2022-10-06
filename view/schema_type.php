@@ -1229,11 +1229,12 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
             update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_cons', 0);
     
         } 
-    
-                    
-        update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
-        
-        
+        if(isset($_POST['schema_type'])){     
+            update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
+        }else{
+            delete_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
+        } 
+
         if(isset($_POST['saswp_loc_display_on_front'])){
             update_post_meta( $post_id, 'saswp_loc_display_on_front', intval( $_POST['saswp_loc_display_on_front'] ) );
         }else{
@@ -1313,10 +1314,16 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
         }else{
             delete_post_meta( $post_id, 'saswp_itemlist_item_type');                                                                       
         }
-                                                                                                                                        
-        update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
-        update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
-        
+        if(isset($_POST['saswp_attahced_reviews'])){
+            update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_attahced_reviews');                                                                       
+        }
+        if(isset($_POST['saswp_attached_collection'])){
+            update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_attached_collection');                                                                       
+        }
         $common_obj = new saswp_view_common_class();
         
         $post_obj[] = (object) array(
