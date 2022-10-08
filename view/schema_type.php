@@ -732,7 +732,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $reviews_service = new saswp_reviews_service();
                                 
                                 $reviews = $reviews_service->saswp_get_reviews_list_by_parameters(null, null, 10, 1);
-                                
+                                // echo "<pre>";
+                                // echo "ravi";
+                                // print_r($reviews);
+                                // die();
                                 if($reviews){
                                     
                                    foreach($reviews as $key => $val){    
@@ -749,9 +752,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                        
                                    }
                                    
-                                }
-                                
-                                ?>
+                                } ?>
                                     
                                 </div>
                                 
@@ -760,9 +761,12 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 ?>
                                 
                                 <div class="saswp-rv-not-found saswp_hide" data-type="review"><?php echo saswp_t_string( 'Reviews not found' );?></div>
-                                <span class="spinner" data-type="review"></span>
-                                <div><a class="saswp-load-more-rv" data-type="review"><?php echo saswp_t_string( 'Load More...' );?></a></div>
-                                                                
+                                <?php if(!empty($reviews) && count($reviews) >= 10){?> 
+                                    <span class="spinner" data-type="review"></span>
+                                    <div><a class="saswp-load-more-rv" data-type="review"><?php echo saswp_t_string( 'Load More...' );?></a></div>
+                                <?php }else{ ?> 
+                                    <div class="saswp-rv-not-found saswp_hide" data-type="review"><?php echo saswp_t_string( 'Reviews not found' );?></div>
+                                <?php } ?>                          
                             </div>
                               
                             <div class="saswp-global-container" id="saswp-add-rv-collection">
@@ -799,11 +803,14 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 <?php 
                                  echo '<input id="saswp_attached_collection" type="hidden" name="saswp_attached_collection" value="'. esc_attr($attached_col_json).'">';                                 
                                 ?>
-                                
+
                                 <div class="saswp-rv-not-found saswp_hide" data-type="collection"><?php echo saswp_t_string( 'Reviews not found' );?></div>
-                                <span class="spinner" data-type="collection"></span>
-                                <div><a class="saswp-load-more-rv" data-type="collection"><?php echo saswp_t_string( 'Load More...' );?></a></div>
-                                                                
+                                <?php if(!empty($reviews) && count($reviews) >= 10){?>
+                                    <span class="spinner" data-type="collection"></span>
+                                    <div><a class="saswp-load-more-rv" data-type="collection"><?php echo saswp_t_string( 'Load More...' );?></a></div>
+                                <?php }else{ ?>
+                                    <div class="saswp-rv-not-found saswp_hide" data-type="collection"><?php echo saswp_t_string( 'Reviews not found' );?></div>
+                                <?php } ?>                    
                             </div>  
 
                             <div class="saswp-global-container" id="saswp-add-rv-manual">

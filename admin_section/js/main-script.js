@@ -235,6 +235,10 @@ jQuery(document).ready(function($){
                      });
                       $(".saswp-add-rv-automatic-list[data-type="+data_type+"]").append(html);                      
                  }
+              
+                 if(paged >= 10){
+                   $(".saswp-load-more-rv[data-type="+data_type+"]").addClass('saswp_hide');
+                 }
                  
                  if(response['message']){
                      
