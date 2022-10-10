@@ -655,7 +655,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                 <tr>
                    <td>
-                       <label for="saswp-enable-markup"><?php echo saswp_t_string( 'Show Json-LD, Only if video is available' );?></label>
+                       <label for="saswp-enable-markup"><?php echo saswp_t_string( 'Add VideoObject markup, Only if video is available on the post' );?></label>
                    </td>
                    <td>
                       <input id="saswp-enable-markup" class="saswp-enable-markup-class" type="checkbox" name="saswp_enable_videoobject" value="1" <?php if(isset($enable_videoobject) && $enable_videoobject == 1){echo 'checked'; }else{ echo ''; } ?> >
