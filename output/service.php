@@ -1398,12 +1398,18 @@ Class saswp_output_service{
                             $input1['editor'] = array();
                             $input1['editor']['@type'] = 'Person';
                             $input1['editor']['name']  =  $custom_fields['saswp_article_editor_name'];
-                        }                    
+                        }   
+                        if(isset($custom_fields['saswp_article_editor_honorific_suffix']) && $custom_fields['saswp_article_editor_honorific_suffix'] != '') {
+                            $input1['editor']['honorificSuffix']  =  $custom_fields['saswp_article_editor_honorific_suffix'];
+                        }   
                         if(isset($custom_fields['saswp_article_author_type'])){
                             $input1['author']['@type'] =    $custom_fields['saswp_article_author_type'];
                         }
                         if(isset($custom_fields['saswp_article_author_name'])){
                          $input1['author']['name'] =    $custom_fields['saswp_article_author_name'];
+                        }
+                        if(isset($custom_fields['saswp_article_author_honorific_suffix'])){
+                            $input1['author']['honorificSuffix'] =    $custom_fields['saswp_article_author_honorific_suffix'];
                         }
                         if(isset($custom_fields['saswp_article_author_description'])){
                          $input1['author']['description'] =    $custom_fields['saswp_article_author_description'];
@@ -1415,7 +1421,36 @@ Class saswp_output_service{
                          $input1['publisher']['@type']       =    'Organization';
                          $input1['publisher']['name']        =    $custom_fields['saswp_article_organization_name'];
                          $input1['publisher']['logo']        =    $custom_fields['saswp_article_organization_logo'];
-                        }                    
+                        }  
+
+                        if(isset($custom_fields['saswp_article_reviewedby_type'])){
+                            $input1['reviewedBy']['@type'] =    $custom_fields['saswp_article_reviewedby_type'];
+                        }
+                        if(isset($custom_fields['saswp_article_reviewedby_name'])){
+                         $input1['reviewedBy']['name'] =    $custom_fields['saswp_article_reviewedby_name'];
+                        }
+                        if(isset($custom_fields['saswp_article_reviewedby_honorific_suffix'])){
+                            $input1['reviewedBy']['honorificSuffix'] =    $custom_fields['saswp_article_reviewedby_honorific_suffix'];
+                        }
+                        if(isset($custom_fields['saswp_article_reviewedby_description'])){
+                         $input1['reviewedBy']['description'] =    $custom_fields['saswp_article_reviewedby_description'];
+                        }
+                        if(isset($custom_fields['saswp_article_reviewedby_url'])){
+                         $input1['reviewedBy']['url'] =    $custom_fields['saswp_article_reviewedby_url'];
+                        }         
+                        if(isset($custom_fields['saswp_article_alumniof'])){
+                            $str = $custom_fields['saswp_article_alumniof'];
+                            $itemlist = explode(",", $str);
+                            foreach ($itemlist as $key => $list){
+                                $vnewarr['@type'] = 'Organization';
+                                $vnewarr['Name']   = $list;   
+                                $input1['alumniOf'][] = $vnewarr;
+                            }
+                        }
+                        if(isset($custom_fields['saswp_article_knowsabout'])){                            
+                            $input1['knowsAbout'] = explode(',', $custom_fields['saswp_article_knowsabout']);    
+                        }
+                                     
                         break; 
 
                     case 'CreativeWork':      
@@ -1457,18 +1492,51 @@ Class saswp_output_service{
                             $input1['editor'] = array();
                             $input1['editor']['@type'] = 'Person';
                             $input1['editor']['name']  =  $custom_fields['saswp_creativework_editor_name'];
-                        }                    
+                        }     
+                        if(isset($custom_fields['saswp_creativework_editor_honorific_suffix']) && $custom_fields['saswp_creativework_editor_honorific_suffix'] != '') {
+                            $input1['editor']['honorificSuffix']  =  $custom_fields['saswp_creativework_editor_honorific_suffix'];
+                        }                   
                         if(isset($custom_fields['saswp_creativework_author_type'])){
                             $input1['author']['@type'] =    $custom_fields['saswp_creativework_author_type'];
                         }
                         if(isset($custom_fields['saswp_creativework_author_name'])){
                             $input1['author']['name'] =    $custom_fields['saswp_creativework_author_name'];
                         }
+                        if(isset($custom_fields['saswp_creativework_author_honorific_suffix'])){
+                            $input1['author']['honorificSuffix'] =    $custom_fields['saswp_creativework_author_honorific_suffix'];
+                        }
                         if(isset($custom_fields['saswp_creativework_author_description'])){
                             $input1['author']['description'] =    $custom_fields['saswp_creativework_author_description'];
                         }
                         if(isset($custom_fields['saswp_creativework_author_url'])){
                             $input1['author']['url'] =    $custom_fields['saswp_creativework_author_url'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_knowsabout'])){                            
+                            $input1['knowsAbout'] = explode(',', $custom_fields['saswp_creativework_knowsabout']);    
+                        }
+                        if(isset($custom_fields['saswp_creativework_alumniof'])){
+                            $str = $custom_fields['saswp_creativework_alumniof'];
+                            $itemlist = explode(",", $str);
+                            foreach ($itemlist as $key => $list){
+                                $vnewarr['@type'] = 'Organization';
+                                $vnewarr['Name']   = $list;   
+                                $input1['alumniOf'][] = $vnewarr;
+                            }
+                        }
+                        if(isset($custom_fields['saswp_creativework_reviewedby_type'])){
+                            $input1['reviewedBy']['@type'] =    $custom_fields['saswp_creativework_reviewedby_type'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_reviewedby_name'])){
+                            $input1['reviewedBy']['name'] =    $custom_fields['saswp_creativework_reviewedby_name'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_reviewedby_honorific_suffix'])){
+                            $input1['reviewedBy']['honorificSuffix'] =    $custom_fields['saswp_creativework_reviewedby_honorific_suffix'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_reviewedby_description'])){
+                            $input1['reviewedBy']['description'] =    $custom_fields['saswp_creativework_reviewedby_description'];
+                        }
+                        if(isset($custom_fields['saswp_creativework_reviewedby_url'])){
+                            $input1['reviewedBy']['url'] =    $custom_fields['saswp_creativework_reviewedby_url'];
                         }
                         if(isset($custom_fields['saswp_creativework_organization_logo']) && isset($custom_fields['saswp_creativework_organization_name'])){
                             $input1['publisher']['@type']       =    'Organization';
@@ -1562,6 +1630,12 @@ Class saswp_output_service{
                        if(isset($custom_fields['saswp_photograph_author_name'])){
                         $input1['author']['name'] =    $custom_fields['saswp_photograph_author_name'];
                        }
+                       if(isset($custom_fields['saswp_photograph_knowsabout'])){                            
+                        $input1['knowsAbout'] = explode(',', $custom_fields['saswp_photograph_knowsabout']);    
+                       }   
+                       if(isset($custom_fields['saswp_photograph_author_honorific_suffix'])){
+                        $input1['author']['honorificSuffix'] =    $custom_fields['saswp_photograph_author_honorific_suffix'];
+                       }
                        if(isset($custom_fields['saswp_photograph_author_description'])){
                         $input1['author']['description'] =    $custom_fields['saswp_photograph_author_description'];
                        }
@@ -1573,6 +1647,33 @@ Class saswp_output_service{
                         $input1['publisher']['name']        =    $custom_fields['saswp_photograph_organization_name'];
                         $input1['publisher']['logo']        =    $custom_fields['saswp_photograph_organization_logo'];
                        }  
+                       if(isset($custom_fields['saswp_photograph_reviewedby_type'])){
+                         $input1['reviewedBy']['@type'] =    $custom_fields['saswp_photograph_reviewedby_type'];
+                       }
+                       if(isset($custom_fields['saswp_photograph_reviewedby_name'])){
+                            $input1['reviewedBy']['name'] =    $custom_fields['saswp_photograph_reviewedby_name'];
+                        }
+                        if(isset($custom_fields['saswp_photograph_reviewedby_honorific_suffix'])){
+                             $input1['reviewedBy']['honorificSuffix'] =    $custom_fields['saswp_photograph_reviewedby_honorific_suffix'];
+                        }
+                        if(isset($custom_fields['saswp_photograph_reviewedby_description'])){
+                            $input1['reviewedBy']['description'] =    $custom_fields['saswp_photograph_reviewedby_description'];
+                        }
+                        if(isset($custom_fields['saswp_photograph_reviewedby_url'])){
+                            $input1['reviewedBy']['url'] =    $custom_fields['saswp_photograph_reviewedby_url'];
+                        }
+                        if(isset($custom_fields['saswp_photograph_knowsabout'])){                            
+                            $input1['knowsAbout'] = explode(',', $custom_fields['saswp_photograph_knowsabout']);    
+                        }  
+                        if(isset($custom_fields['saswp_photograph_alumniof'])){
+                            $str = $custom_fields['saswp_photograph_alumniof'];
+                            $itemlist = explode(",", $str);
+                            foreach ($itemlist as $key => $list){
+                                $vnewarr['@type'] = 'Organization';
+                                $vnewarr['Name']   = $list;   
+                                $input1['alumniOf'][] = $vnewarr;
+                            }
+                        }
                     
                     break; 
 
@@ -1833,11 +1934,17 @@ Class saswp_output_service{
                         $input1['editor']['@type'] = 'Person';
                         $input1['editor']['name']  =  $custom_fields['saswp_blogposting_editor_name'];
                     }
+                    if(isset($custom_fields['saswp_blogposting_editor_honorific_suffix']) && $custom_fields['saswp_blogposting_editor_honorific_suffix'] != '') {
+                        $input1['editor']['honorificSuffix']  =  $custom_fields['saswp_blogposting_editor_honorific_suffix'];
+                    }
                     if(isset($custom_fields['saswp_blogposting_author_type'])){
                      $input1['author']['@type'] =    $custom_fields['saswp_blogposting_author_type'];
                     }
                     if(isset($custom_fields['saswp_blogposting_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_blogposting_author_name'];
+                    }
+                    if(isset($custom_fields['saswp_blogposting_author_honorific_suffix'])){
+                        $input1['author']['honorificSuffix'] =    $custom_fields['saswp_blogposting_author_honorific_suffix'];
                     }
                     if(isset($custom_fields['saswp_blogposting_author_url'])){
                      $input1['author']['url'] =    $custom_fields['saswp_blogposting_author_url'];
@@ -1845,7 +1952,35 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_author_description'])){
                      $input1['author']['description'] =    $custom_fields['saswp_blogposting_author_description'];
                     }
-                                        
+
+                    if(isset($custom_fields['saswp_blogposting_reviewedby_type'])){
+                        $input1['reviewedBy']['@type'] =    $custom_fields['saswp_blogposting_reviewedby_type'];
+                    }
+                    if(isset($custom_fields['saswp_blogposting_reviewedby_name'])){
+                        $input1['reviewedBy']['name'] =    $custom_fields['saswp_blogposting_reviewedby_name'];
+                    }
+                    if(isset($custom_fields['saswp_blogposting_reviewedby_honorific_suffix'])){
+                        $input1['reviewedBy']['honorificSuffix'] =    $custom_fields['saswp_blogposting_reviewedby_honorific_suffix'];
+                    }
+                    if(isset($custom_fields['saswp_blogposting_reviewedby_url'])){
+                        $input1['reviewedBy']['url'] =    $custom_fields['saswp_blogposting_reviewedby_url'];
+                    }
+                    if(isset($custom_fields['saswp_blogposting_reviewedby_description'])){
+                        $input1['reviewedBy']['description'] =    $custom_fields['saswp_blogposting_reviewedby_description'];
+                    }
+
+                    if(isset($custom_fields['saswp_blogposting_knowsabout'])){                            
+                        $input1['knowsAbout'] = explode(',', $custom_fields['saswp_blogposting_knowsabout']);    
+                    }
+                    if(isset($custom_fields['saswp_blogposting_alumniof'])){
+                        $str = $custom_fields['saswp_blogposting_alumniof'];
+                        $itemlist = explode(",", $str);
+                        foreach ($itemlist as $key => $list){
+                            $vnewarr['@type'] = 'Organization';
+                            $vnewarr['Name']   = $list;   
+                            $input1['alumniOf'][] = $vnewarr;
+                        }
+                    }                   
                     if(isset($custom_fields['saswp_blogposting_organization_logo']) && isset($custom_fields['saswp_blogposting_organization_name'])){
                      $input1['publisher']['@type']       =    'Organization';
                      $input1['publisher']['name']        =    $custom_fields['saswp_blogposting_organization_name'];
@@ -2292,11 +2427,17 @@ Class saswp_output_service{
                         $input1['editor']['@type'] = 'Person';
                         $input1['editor']['name']  =  $custom_fields['saswp_tech_article_editor_name'];
                     }
+                    if(isset($custom_fields['saswp_tech_article_editor_honorific_suffix']) && $custom_fields['saswp_tech_article_editor_honorific_suffix'] != '') {
+                        $input1['editor']['honorificSuffix']  =  $custom_fields['saswp_tech_article_editor_honorific_suffix'];
+                    }
                     if(isset($custom_fields['saswp_tech_article_author_type'])){
                         $input1['author']['@type'] =    $custom_fields['saswp_tech_article_author_type'];
                     }
                     if(isset($custom_fields['saswp_tech_article_author_name'])){
                      $input1['author']['name'] =    $custom_fields['saswp_tech_article_author_name'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_author_honorific_suffix'])){
+                        $input1['author']['honorificSuffix'] =    $custom_fields['saswp_tech_article_author_honorific_suffix'];
                     }
                     if(isset($custom_fields['saswp_tech_article_author_url'])){
                      $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_tech_article_author_url']);
@@ -2304,11 +2445,37 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_tech_article_author_description'])){
                      $input1['author']['description'] =    $custom_fields['saswp_tech_article_author_description'];
                     }
-                     
+                    if(isset($custom_fields['saswp_tech_article_knowsabout'])){                            
+                        $input1['knowsAbout'] = explode(',', $custom_fields['saswp_tech_article_knowsabout']);    
+                    }
                     if(isset($custom_fields['saswp_tech_article_organization_logo']) && isset($custom_fields['saswp_tech_article_organization_name'])){
                      $input1['publisher']['@type']       =    'Organization';
                      $input1['publisher']['name']        =    $custom_fields['saswp_tech_article_organization_name'];
                      $input1['publisher']['logo']        =    $custom_fields['saswp_tech_article_organization_logo'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_reviewedby_type'])){
+                        $input1['reviewedBy']['@type'] =    $custom_fields['saswp_tech_article_reviewedby_type'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_alumniof'])){
+                        $str = $custom_fields['saswp_tech_article_alumniof'];
+                        $itemlist = explode(",", $str);
+                        foreach ($itemlist as $key => $list){
+                            $vnewarr['@type'] = 'Organization';
+                            $vnewarr['Name']   = $list;   
+                            $input1['alumniOf'][] = $vnewarr;
+                        }
+                    }
+                    if(isset($custom_fields['saswp_tech_article_reviewedby_name'])){
+                     $input1['reviewedBy']['name'] =    $custom_fields['saswp_tech_article_reviewedby_name'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_reviewedby_honorific_suffix'])){
+                        $input1['reviewedBy']['honorificSuffix'] =    $custom_fields['saswp_tech_article_reviewedby_honorific_suffix'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_reviewedby_url'])){
+                     $input1['reviewedBy']['url'] =    saswp_validate_url($custom_fields['saswp_tech_article_reviewedby_url']);
+                    }
+                    if(isset($custom_fields['saswp_tech_article_reviewedby_description'])){
+                     $input1['reviewedBy']['description'] =    $custom_fields['saswp_tech_article_reviewedby_description'];
                     }
                     break;   
                     
