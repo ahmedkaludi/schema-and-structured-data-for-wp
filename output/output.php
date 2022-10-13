@@ -1756,9 +1756,6 @@ function saswp_schema_output() {
                                 }  
 
                                 $input1['@context'] = saswp_context_url();
-
-                                $date 		        = get_the_date("c");
-                                $modified_date 	    = get_the_modified_date("c"); 
                                 
                                 if(!empty($video_links) && count($video_links) > 1){
                                     
@@ -1771,6 +1768,8 @@ function saswp_schema_output() {
                                             '@type'				            => 'VideoObject',
                                             "position"                      => $vkey+1,
                                             'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
+                                            'datePublished'                 => esc_html($date),
+                                            'dateModified'                  => esc_html($modified_date),
                                             'url'				            => trailingslashit(saswp_get_permalink()),
                                             'interactionStatistic'          => array(
                                                 "@type" => "InteractionCounter",

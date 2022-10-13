@@ -3416,6 +3416,8 @@ function saswp_default_video_object_scjhema(){
                 '@type'				            => 'VideoObject',
                 "position"                      => $vkey+1,
                 'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
+                'datePublished'                 => esc_html($date),
+                'dateModified'                  => esc_html($modified_date),
                 'url'				            => trailingslashit(saswp_get_permalink()),
                 'interactionStatistic'          => array(
                     "@type" => "InteractionCounter",
