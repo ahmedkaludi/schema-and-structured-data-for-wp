@@ -1775,10 +1775,16 @@ function saswp_schema_output() {
                                                 "userInteractionCount" => isset($v_val['viewCount'])? $v_val['viewCount'] : '0', 
                                                 ),    
                                             'thumbnailUrl'                  => isset($v_val['thumbnail_url'])? $v_val['thumbnail_url'] : saswp_get_thumbnail(),
-                                            'contentUrl' => saswp_validate_url($v_val['video_url']),
-                                            'embedUrl' => saswp_validate_url($v_val['video_url']),
                                             'author'			            => saswp_get_author_details(),
                                         );
+
+                                        if(isset($v_val['video_url'])){                                                                        
+                                            $vnewarr['contentUrl']  = saswp_validate_url($v_val['video_url']);                                    
+                                        }
+                            
+                                        if(isset($v_val['video_url'])){                                                                        
+                                            $vnewarr['embedUrl']   = saswp_validate_url($v_val['video_url']);                                 
+                                        }
 
                                         if(isset($v_val['uploadDate'])){                                                                        
                                             $vnewarr['uploadDate']   = $v_val['uploadDate'];                                    

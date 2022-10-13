@@ -3404,23 +3404,41 @@ function saswp_default_video_object_scjhema(){
         $input1['@type'] = "ItemList";                                                       
 
         foreach($video_links as $vkey => $v_val){
-            $input1['itemListElement'][] = array(
+            $vnewarr = array(
                 '@type'				            => 'VideoObject',
                 "position"                      => $vkey+1,
-                'name'				            => $v_val['title'],
-                'url'				            => $v_val['video_url'],
-                'description'		            => $v_val['description'],
-                'uploadDate'		            => $v_val['uploadDate'],
-                'duration'  		            => $v_val['duration'],    
-                'contentUrl'  		            => $v_val['video_url'],    
-                'embedUrl'  		            => $v_val['video_url'],    
+                'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
+                'url'				            => trailingslashit(saswp_get_permalink()),
                 'interactionStatistic'          => array(
                     "@type" => "InteractionCounter",
                     "interactionType" => array("@type" => "WatchAction" ),
-                    "userInteractionCount" => $v_val['viewCount']
+                    "userInteractionCount" => isset($v_val['viewCount'])? $v_val['viewCount'] : '0', 
                     ),    
                 'thumbnailUrl'                  => isset($v_val['thumbnail_url'])? $v_val['thumbnail_url'] : saswp_get_thumbnail(),
+                'author'			            => saswp_get_author_details(),
             );
+
+            if(isset($v_val['uploadDate'])){                                                                        
+                $vnewarr['uploadDate']   = $v_val['uploadDate'];                                    
+            }
+
+            if(isset($v_val['duration'])){                                                                        
+                $vnewarr['duration']   = $v_val['duration'];                                    
+            }
+
+            if(isset($v_val['video_url'])){                                                                        
+                $vnewarr['contentUrl']  = saswp_validate_url($v_val['video_url']);                                    
+            }
+
+            if(isset($v_val['video_url'])){                                                                        
+                $vnewarr['embedUrl']   = saswp_validate_url($v_val['video_url']);                                 
+            }
+
+            if(isset($v_val['description'])){                                                                        
+                $vnewarr['description']   = $v_val['description'];                                    
+            }
+            
+            $input1['itemListElement'][] = $vnewarr;
         }
         // echo "<pre>";print_r($input1);echo "</pre>";
     }
