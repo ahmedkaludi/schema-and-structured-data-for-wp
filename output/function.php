@@ -3441,6 +3441,50 @@ function saswp_default_video_object_scjhema(){
             $input1['itemListElement'][] = $vnewarr;
         }
         // echo "<pre>";print_r($input1);echo "</pre>";
+    }else{
+        $input1 = array(
+            '@context'			            => saswp_context_url(),
+            '@type'				            => 'VideoObject',
+            '@id'                           => trailingslashit(saswp_get_permalink()).'#videoobject',        
+            'url'				            => trailingslashit(saswp_get_permalink()),
+            'headline'			            => saswp_get_the_title(),
+            'datePublished'                 => esc_html($date),
+            'dateModified'                  => esc_html($modified_date),
+            'description'                   => $description,
+            'transcript'                    => saswp_get_the_content(),
+            'name'				            => saswp_get_the_title(),
+            'uploadDate'                    => esc_html($date),
+            'thumbnailUrl'                  => isset($video_links[0]['thumbnail_url'])? $video_links[0]['thumbnail_url'] : saswp_get_thumbnail(),
+            'author'			            => saswp_get_author_details()						                                                                                                      
+        );
+        
+        if(isset($video_links[0]['duration'])){                                                                        
+            $input1['duration']   = $video_links[0]['duration'];                                    
+        }
+        if(isset($video_links[0]['video_url'])){
+            
+            $input1['contentUrl'] = saswp_validate_url($video_links[0]['video_url']);
+            $input1['embedUrl']   = saswp_validate_url($video_links[0]['video_url']);
+            
+        }
+        
+        if(!empty($publisher)){
+
+            $input1 = array_merge($input1, $publisher);   
+
+        }                                                
+        if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+        $input1['comment'] = saswp_get_comments(get_the_ID());
+        }                                                
+        if(!empty($aggregateRating)){
+            $input1['aggregateRating'] = $aggregateRating;
+        }                                               
+        if(!empty($extra_theme_review)){
+        $input1 = array_merge($input1, $extra_theme_review);
+        }
+
+        $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+       
     }
     return $input1;
 }
