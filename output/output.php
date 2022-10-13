@@ -1851,7 +1851,7 @@ function saswp_schema_output() {
 
                                     if(isset($enable_videoobject) && $enable_videoobject == 1){
                                         
-                                        if(!isset($input1['contentUrl']) || $input1['contentUrl'] == ''){
+                                        if(empty($video_links) && count($video_links) == 0){
                                             $input1 = array();
                                         }
 
