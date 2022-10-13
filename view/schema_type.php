@@ -1239,7 +1239,7 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
         if(isset($_POST['schema_type'])){     
             update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
         }else{
-            delete_post_meta( $post_id, 'schema_type', 0);
+            delete_post_meta( $post_id, 'schema_type');
         } 
 
         if(isset($_POST['saswp_loc_display_on_front'])){
