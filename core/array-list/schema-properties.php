@@ -408,6 +408,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => is_object($current_user) ? $current_user->display_name : ''
                     ),
                     array(
+                        'label'   => 'Author HonorificSuffix',
+                        'id'      => 'saswp_blogposting_author_honorific_suffix_'.$schema_id,
+                        'type'    => 'text',
+                        'attributes' => array(
+                                'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                         ),
+                    ),
+                    array(
                             'label' => 'Author Description',
                             'id' => 'saswp_blogposting_author_description_'.$schema_id,
                             'type' => 'textarea',
@@ -420,11 +428,54 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => $author_url
                     ),  
                     array(
+                        'label'   => 'ReviewedBy Type',
+                        'id'      => 'saswp_blogposting_reviewedby_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )                        
+                    ),
+                    array(
+                            'label' => 'ReviewedBy Name',
+                            'id' => 'saswp_blogposting_reviewedby_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => is_object($current_user) ? $current_user->display_name : ''
+                    ),
+                    array(
+                        'label'   => 'ReviewedBy HonorificSuffix',
+                        'id'      => 'saswp_blogposting_reviewedby_honorific_suffix_'.$schema_id,
+                        'type'    => 'text',
+                        'attributes' => array(
+                                'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                         ),
+                    ),
+                    array(
+                        'label' => 'ReviewedBy Description',
+                        'id' => 'saswp_blogposting_reviewedby_description_'.$schema_id,
+                        'type' => 'textarea',
+                        'default' => $author_desc
+                    ),
+                    array(
+                        'label'   => 'ReviewedBy URL',
+                        'id'      => 'saswp_blogposting_reviewedby_url_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => $author_url
+                    ),
+                    array(
                         'label'   => 'Editor Name',
                         'id'      => 'saswp_blogposting_editor_name_'.$schema_id,
                         'type'    => 'text',
                         'default' => is_object($current_user) ? $current_user->display_name : ''
                     ),  
+                    array(
+                        'label'   => 'Editor HonorificSuffix',
+                        'id'      => 'saswp_blogposting_editor_honorific_suffix_'.$schema_id,
+                        'type'    => 'text',
+                        'attributes' => array(
+                                'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                         ),
+                    ),
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_blogposting_organization_name_'.$schema_id,
@@ -436,6 +487,32 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_blogposting_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url'] : ''
+                    ),
+                    array(
+                        'label'   => 'AlumniOf',
+                        'id'      => 'saswp_blogposting_alumniof_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one AlumniOf, Separate AlumniOf list by comma ( , )',
+                        'attributes' => array(
+                                'placeholder' => 'eg: City University of New York-Herbert H. Lehman College, Southern New Hampshire University'
+                        ),
+                    ),  
+                    array(
+                        'label'   => 'knowsAbout',
+                        'id'      => 'saswp_blogposting_knowsabout_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one knows about, Separate knows about list by comma ( , )'       
+                    ),
+                    array(
+                        'label'   => 'ReviewedBy',
+                        'id'      => 'saswp_blogposting_reviewedby_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                        )
                     ),
                     array(
                         'label' => 'Speakable',
@@ -742,7 +819,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                     case 'Photograph':                                        
                         $meta_field = array( 
-						array(
+			array(
                                 'label' => 'Headline',
                                 'id' => 'saswp_photograph_headline_'.$schema_id,
                                 'type' => 'text',
@@ -799,6 +876,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => is_object($current_user) ? $current_user->display_name : ''
                         ),
                         array(
+                                'label'   => 'Author HonorificSuffix',
+                                'id'      => 'saswp_photograph_author_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                 ),
+                        ),
+                        array(
                                 'label' => 'Author Description',
                                 'id' => 'saswp_photograph_author_description_'.$schema_id,
                                 'type' => 'textarea',
@@ -811,6 +896,41 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => $author_url
                         ),    
                         array(
+                                'label'   => 'ReviewedBy Type',
+                                'id'      => 'saswp_photograph_reviewedby_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label' => 'ReviewedBy Name',
+                                'id' => 'saswp_photograph_reviewedby_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy HonorificSuffix',
+                                'id'      => 'saswp_photograph_reviewedby_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                 ),
+                        ),
+                        array(
+                                'label' => 'ReviewedBy Description',
+                                'id' => 'saswp_photograph_reviewedby_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy URL',
+                                'id'      => 'saswp_photograph_reviewedby_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),  
+                        array(
                                 'label' => 'Organization Name',
                                 'id' => 'saswp_photograph_organization_name_'.$schema_id,
                                 'type' => 'text',
@@ -821,7 +941,33 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'    => 'saswp_photograph_organization_logo_'.$schema_id,
                                 'type'  => 'media',
                                 'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
-                        )                                           
+                        ),
+                        array(
+                                'label'   => 'AlumniOf',
+                                'id'      => 'saswp_photograph_alumniof_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one AlumniOf, Separate AlumniOf list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: City University of New York-Herbert H. Lehman College, Southern New Hampshire University'
+                                ),
+                        ),   
+                        array(
+                                'label'   => 'knowsAbout',
+                                'id'      => 'saswp_photograph_knowsabout_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one knows about, Separate knows about list by comma ( , )'       
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy',
+                                'id'      => 'saswp_photograph_reviewedby_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        )                                        
                         );
                         break;
                 
@@ -908,6 +1054,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => is_object($current_user) ? $current_user->display_name : ''
                         ),
                         array(
+                                'label'   => 'Author HonorificSuffix',
+                                'id'      => 'saswp_article_author_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                 ),
+                        ),
+                        array(
                                 'label'   => 'Author Description',
                                 'id'      => 'saswp_article_author_description_'.$schema_id,
                                 'type'    => 'textarea',
@@ -920,10 +1074,53 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => $author_url
                         ),
                         array(
+                                'label'   => 'ReviewedBy Type',
+                                'id'      => 'saswp_article_reviewedby_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy Name',
+                                'id'      => 'saswp_article_reviewedby_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy HonorificSuffix',
+                                'id'      => 'saswp_article_reviewedby_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                 ),
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy Description',
+                                'id'      => 'saswp_article_reviewedby_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy URL',
+                                'id'      => 'saswp_article_reviewedby_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
                                 'label'   => 'Editor Name',
                                 'id'      => 'saswp_article_editor_name_'.$schema_id,
                                 'type'    => 'text',
                                 'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'Editor HonorificSuffix',
+                                'id'      => 'saswp_article_editor_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                 ),
                         ),    
                         array(
                                 'label'   => 'Organization Name',
@@ -938,11 +1135,30 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
                         ),
                         array(
+                                'label'   => 'AlumniOf',
+                                'id'      => 'saswp_article_alumniof_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one AlumniOf, Separate AlumniOf list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: City University of New York-Herbert H. Lehman College, Southern New Hampshire University'
+                                ),
+                        ),  
+                        array(
+                                'label'   => 'knowsAbout',
+                                'id'      => 'saswp_article_knowsabout_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one knows about, Separate knows about list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Financial services, negotiation, CRM, Project Management, Mentoring, Learning & Development'
+                                 ),   
+                        ),
+                        array(
                                 'label'   => 'Speakable',
                                 'id'      => 'saswp_article_speakable_'.$schema_id,
                                 'type'    => 'checkbox',
-    
-                        )                        
+                        )
                         );
                         break;
 
@@ -1378,6 +1594,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'default' => is_object($current_user) ? $current_user->display_name : ''
                                 ),
                                 array(
+                                        'label'   => 'Author HonorificSuffix',
+                                        'id'      => 'saswp_creativework_author_honorific_suffix_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                         ),
+                                ),
+                                array(
                                         'label'   => 'Author Description',
                                         'id'      => 'saswp_creativework_author_description_'.$schema_id,
                                         'type'    => 'textarea',
@@ -1390,11 +1614,54 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'default' => $author_url
                                 ),
                                 array(
+                                        'label'   => 'ReviewedBy Type',
+                                        'id'      => 'saswp_creativework_reviewedby_type_'.$schema_id,
+                                        'type'    => 'select',
+                                        'options' => array(
+                                                'Person'           => 'Person',
+                                                'Organization'     => 'Organization',                        
+                                        )
+                                ),
+                                array(
+                                        'label'   => 'ReviewedBy Name',
+                                        'id'      => 'saswp_creativework_reviewedby_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => is_object($current_user) ? $current_user->display_name : ''
+                                ),
+                                array(
+                                        'label'   => 'ReviewedBy HonorificSuffix',
+                                        'id'      => 'saswp_creativework_reviewedby_honorific_suffix_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                         ),
+                                ),
+                                array(
+                                        'label'   => 'ReviewedBy Description',
+                                        'id'      => 'saswp_creativework_reviewedby_description_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => $author_desc
+                                ),
+                                array(
+                                        'label'   => 'ReviewedBy URL',
+                                        'id'      => 'saswp_creativework_reviewedby_url_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => $author_url
+                                ),
+                                array(
                                         'label'   => 'Editor Name',
                                         'id'      => 'saswp_creativework_editor_name_'.$schema_id,
                                         'type'    => 'text',
                                         'default' => is_object($current_user) ? $current_user->display_name : ''
                                 ),    
+                                array(
+                                        'label'   => 'Editor HonorificSuffix',
+                                        'id'      => 'saswp_creativework_editor_honorific_suffix_'.$schema_id,
+                                        'type'    => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                         ),
+                                ),
                                 array(
                                         'label'   => 'Organization Name',
                                         'id'      => 'saswp_creativework_organization_name_'.$schema_id,
@@ -1406,7 +1673,24 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'      => 'saswp_creativework_organization_logo_'.$schema_id,
                                         'type'    => 'media',
                                         'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
-                                )                                                      
+                                ),
+                                array(
+                                        'label'   => 'AlumniOf',
+                                        'id'      => 'saswp_creativework_alumniof_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => '',
+                                        'note'    => 'Note: If There are more than one AlumniOf, Separate AlumniOf list by comma ( , )',
+                                        'attributes' => array(
+                                                'placeholder' => 'eg: City University of New York-Herbert H. Lehman College, Southern New Hampshire University'
+                                        ),
+                                ),    
+                                array(
+                                        'label'   => 'knowsAbout',
+                                        'id'      => 'saswp_creativework_knowsabout_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => '',
+                                        'note'    => 'Note: If There are more than one knows about, Separate knows about list by comma ( , )'       
+                                )                                                     
                                 );
                         break;        
 
@@ -1907,6 +2191,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => is_object($current_user) ? $current_user->display_name : ''
                     ),
                     array(
+                        'label'   => 'Author HonorificSuffix',
+                        'id'      => 'saswp_tech_article_author_honorific_suffix_'.$schema_id,
+                        'type'    => 'text',
+                        'attributes' => array(
+                                'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                         ),
+                    ),
+                    array(
                             'label' => 'Author Description',
                             'id' => 'saswp_tech_article_author_description_'.$schema_id,
                             'type' => 'textarea',
@@ -1917,13 +2209,56 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_tech_article_author_url_'.$schema_id,
                             'type'    => 'text',
                             'default' => $author_url
-                    ),    
+                    ),  
+                    array(
+                        'label'   => 'ReviewedBy Type',
+                        'id'      => 'saswp_tech_article_reviewedby_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                    ),
+                    array(
+                            'label' => 'ReviewedBy Name',
+                            'id' => 'saswp_tech_article_reviewedby_name_'.$schema_id,
+                            'type' => 'text',
+                            'default' => is_object($current_user) ? $current_user->display_name : ''
+                    ),
+                    array(
+                        'label'   => 'ReviewedBy HonorificSuffix',
+                        'id'      => 'saswp_tech_article_reviewedby_honorific_suffix_'.$schema_id,
+                        'type'    => 'text',
+                        'attributes' => array(
+                                'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                         ),
+                    ),
+                    array(
+                            'label' => 'ReviewedBy Description',
+                            'id' => 'saswp_tech_article_reviewedby_description_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => $author_desc
+                    ), 
+                    array(
+                            'label'   => 'ReviewedBy URL',
+                            'id'      => 'saswp_tech_article_reviewedby_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
+                    ), 
                     array(
                         'label'   => 'Editor Name',
                         'id'      => 'saswp_tech_article_editor_name_'.$schema_id,
                         'type'    => 'text',
                         'default' => is_object($current_user) ? $current_user->display_name : ''
                     ),
+                    array(
+                        'label'   => 'Editor HonorificSuffix',
+                        'id'      => 'saswp_tech_article_editor_honorific_suffix_'.$schema_id,
+                        'type'    => 'text',
+                        'attributes' => array(
+                                'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                         ),
+                    ), 
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_tech_article_organization_name_'.$schema_id,
@@ -1935,6 +2270,23 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_tech_article_organization_logo_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
+                    ),
+                    array(
+                        'label'   => 'AlumniOf',
+                        'id'      => 'saswp_tech_article_alumniof_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one AlumniOf, Separate AlumniOf list by comma ( , )',
+                        'attributes' => array(
+                                'placeholder' => 'eg: City University of New York-Herbert H. Lehman College, Southern New Hampshire University'
+                        ),
+                    ),  
+                    array(
+                        'label'   => 'knowsAbout',
+                        'id'      => 'saswp_tech_article_knowsabout_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one knows about, Separate knows about list by comma ( , )'       
                     ),
                     array(
                             'label' => 'Speakable',

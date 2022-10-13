@@ -258,6 +258,15 @@ class SASWP_Gutenberg {
                                         );
                                         
                                        }
+                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/how-to-block'){
+                                           
+                                        wp_enqueue_style(
+                                             'saswp-g-howto-css',
+                                             SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/howto.css',
+                                             array()                        
+                                        );
+                                        
+                                       }
 
                                    }
 

@@ -424,6 +424,40 @@ function saswp_get_gutenberg_block_data($block){
     return $response;
     
 }
+/* multiple videos */
+function saswp_get_gutenberg_multiple_block_data($block){
+    
+    global $post;
+     
+    $block_list = array();
+    $block_data = array();
+    $response   = array();
+    
+    if(function_exists('parse_blocks') && is_object($post)){
+        
+            $blocks = parse_blocks($post->post_content);            
+            
+            if($blocks){
+
+                foreach ($blocks as $parse_blocks){
+                        $block_list[] = $parse_blocks['blockName'];
+                        $block_data[][$parse_blocks['blockName']] = $parse_blocks;
+                }
+
+            }        
+    }
+    
+    if(!empty($block_data)){
+        foreach ($block_data as $value) {   
+            if(isset($value[$block])){
+                $response[] = $value[$block];                                          
+            }
+            
+        }
+    }
+    return $response;
+    
+}
 
 function saswp_gutenberg_how_to_schema(){
                         

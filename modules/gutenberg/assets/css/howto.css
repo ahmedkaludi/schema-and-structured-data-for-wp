@@ -1,0 +1,20 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 13, 2022, 11:02:00 AM
+    Author     : acer
+*/
+
+.alignright {
+    float: right; 
+    margin-top: 35px;
+}
+
+.alignleft {
+    float: left;
+    padding-right: 15px;
+    margin-top: 35px;
+}

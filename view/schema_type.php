@@ -655,7 +655,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                 <tr>
                    <td>
-                       <label for="saswp-enable-markup"><?php echo saswp_t_string( 'Show Json-LD, Only if video is available' );?></label>
+                       <label for="saswp-enable-markup"><?php echo saswp_t_string( 'Add VideoObject markup, Only if video is available on the post' );?></label>
                    </td>
                    <td>
                       <input id="saswp-enable-markup" class="saswp-enable-markup-class" type="checkbox" name="saswp_enable_videoobject" value="1" <?php if(isset($enable_videoobject) && $enable_videoobject == 1){echo 'checked'; }else{ echo ''; } ?> >
@@ -732,7 +732,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $reviews_service = new saswp_reviews_service();
                                 
                                 $reviews = $reviews_service->saswp_get_reviews_list_by_parameters(null, null, 10, 1);
-                                
+                                // echo "<pre>";
+                                // echo "ravi";
+                                // print_r($reviews);
+                                // die();
                                 if($reviews){
                                     
                                    foreach($reviews as $key => $val){    
@@ -749,9 +752,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                        
                                    }
                                    
-                                }
-                                
-                                ?>
+                                } ?>
                                     
                                 </div>
                                 
@@ -760,9 +761,12 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 ?>
                                 
                                 <div class="saswp-rv-not-found saswp_hide" data-type="review"><?php echo saswp_t_string( 'Reviews not found' );?></div>
-                                <span class="spinner" data-type="review"></span>
-                                <div><a class="saswp-load-more-rv" data-type="review"><?php echo saswp_t_string( 'Load More...' );?></a></div>
-                                                                
+                                <?php if(!empty($reviews) && count($reviews) >= 10){?> 
+                                    <span class="spinner" data-type="review"></span>
+                                    <div><a class="saswp-load-more-rv" data-type="review"><?php echo saswp_t_string( 'Load More...' );?></a></div>
+                                <?php }else{ ?> 
+                                    <div class="saswp-rv-not-found saswp_hide" data-type="review"><?php echo saswp_t_string( 'Reviews not found' );?></div>
+                                <?php } ?>                          
                             </div>
                               
                             <div class="saswp-global-container" id="saswp-add-rv-collection">
@@ -799,11 +803,14 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 <?php 
                                  echo '<input id="saswp_attached_collection" type="hidden" name="saswp_attached_collection" value="'. esc_attr($attached_col_json).'">';                                 
                                 ?>
-                                
+
                                 <div class="saswp-rv-not-found saswp_hide" data-type="collection"><?php echo saswp_t_string( 'Reviews not found' );?></div>
-                                <span class="spinner" data-type="collection"></span>
-                                <div><a class="saswp-load-more-rv" data-type="collection"><?php echo saswp_t_string( 'Load More...' );?></a></div>
-                                                                
+                                <?php if(!empty($reviews) && count($reviews) >= 10){?>
+                                    <span class="spinner" data-type="collection"></span>
+                                    <div><a class="saswp-load-more-rv" data-type="collection"><?php echo saswp_t_string( 'Load More...' );?></a></div>
+                                <?php }else{ ?>
+                                    <div class="saswp-rv-not-found saswp_hide" data-type="collection"><?php echo saswp_t_string( 'Reviews not found' );?></div>
+                                <?php } ?>                    
                             </div>  
 
                             <div class="saswp-global-container" id="saswp-add-rv-manual">
@@ -1229,11 +1236,12 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
             update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_cons', 0);
     
         } 
-    
-                    
-        update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
-        
-        
+        if(isset($_POST['schema_type'])){     
+            update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
+        }else{
+            delete_post_meta( $post_id, 'schema_type');
+        } 
+
         if(isset($_POST['saswp_loc_display_on_front'])){
             update_post_meta( $post_id, 'saswp_loc_display_on_front', intval( $_POST['saswp_loc_display_on_front'] ) );
         }else{
@@ -1313,10 +1321,16 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
         }else{
             delete_post_meta( $post_id, 'saswp_itemlist_item_type');                                                                       
         }
-                                                                                                                                        
-        update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
-        update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
-        
+        if(isset($_POST['saswp_attahced_reviews'])){
+            update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_attahced_reviews');                                                                       
+        }
+        if(isset($_POST['saswp_attached_collection'])){
+            update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_attached_collection');                                                                       
+        }
         $common_obj = new saswp_view_common_class();
         
         $post_obj[] = (object) array(

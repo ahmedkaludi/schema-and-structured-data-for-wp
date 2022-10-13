@@ -4768,10 +4768,10 @@ add_filter( 'option_page_capability_sd_data_group', 'saswp_option_page_capabilit
 
 function saswp_pre_update_settings($value, $old_value,  $option){
     
-        if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user') ) {
-                require_once( ABSPATH . '/wp-includes/capabilities.php' );
-                require_once( ABSPATH . '/wp-includes/pluggable.php' );
-        }   
+        // if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user') ) {
+        //         require_once( ABSPATH . '/wp-includes/capabilities.php' );
+        //         require_once( ABSPATH . '/wp-includes/pluggable.php' );
+        // }   
         
         if( function_exists('is_super_admin') && function_exists('wp_get_current_user') ){
 

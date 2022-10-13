@@ -1821,9 +1821,10 @@ if ( ! defined('ABSPATH') ) exit;
     }        
             
     function saswp_defaultSettings(){
-        if(!function_exists('wp_get_current_user')) {
-            include(ABSPATH . "wp-includes/pluggable.php"); 
-        }           
+        
+        // if(!function_exists('wp_get_current_user')) {
+        //     include(ABSPATH . "wp-includes/pluggable.php"); 
+        // }           
                 global $sd_data; 
                 
                 $sd_data = get_option( 'sd_data', saswp_default_settings_array());     
@@ -3278,9 +3279,9 @@ function saswp_current_user_allowed(){
     global $sd_data;
     $currentuserrole = array();
     
-    if(!function_exists('wp_get_current_user')) {                
-        require_once( ABSPATH . '/wp-includes/pluggable.php' );
-    } 
+    // if(!function_exists('wp_get_current_user')) {                
+    //     require_once( ABSPATH . '/wp-includes/pluggable.php' );
+    // } 
 
     if( ( function_exists('is_user_logged_in') && is_user_logged_in() )  && function_exists('wp_get_current_user') ) {
     
@@ -3324,10 +3325,10 @@ function saswp_post_type_capabilities(){
         
         $caplist = array();
             
-        if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user')) {                
-            require_once( ABSPATH . '/wp-includes/capabilities.php' );
-            require_once( ABSPATH . '/wp-includes/pluggable.php' );
-        }
+        // if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user')) {                
+        //     require_once( ABSPATH . '/wp-includes/capabilities.php' );
+        //     require_once( ABSPATH . '/wp-includes/pluggable.php' );
+        // }
 
         if( function_exists('is_super_admin') && function_exists('wp_get_current_user') ){
 
@@ -3535,17 +3536,19 @@ function saswp_get_video_metadata($content = ''){
                   }  
                   
                   $metadata['video_url'] = $vurl;
-                  $response[] = $metadata;
-
-               }                              
-           }
+                  if(strpos($metadata['video_url'],'type') == false){
+                    $response[] = $metadata;
+                  }
+                 
+               }       /* end for */  
+                                
+           }/* end if */
            
            preg_match_all( '/src\=\"(.*?)youtu\.be(.*?)\"/s', $content, $youtubematches, PREG_SET_ORDER );
-           
-           if($youtubematches){
-               
+             
+           if(!empty($youtubematches)){
+            
                foreach($youtubematches as $match){
-                   
                   $vurl       = $match[1].'youtu.be'.$match[2];                   
                   $metadata   = array();  
 
@@ -3559,79 +3562,84 @@ function saswp_get_video_metadata($content = ''){
                         $metadata['title']      = $video_meta['title'];
                         $metadata['description']      = $video_meta['description'];
                         $metadata['viewCount']      = $video_meta['viewCount'];
-
                         $metadata['duration']      = $video_meta['duration'];
-
                         $metadata['uploadDate']      = $video_meta['uploadDate'];
-
                         $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
                     }
 
                   }else{
-
                     $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
                     $result   = @wp_remote_get($rulr);                                    
                     $metadata = json_decode(wp_remote_retrieve_body($result),true);
-
                   }
                   
                   $metadata['video_url'] = $vurl;                    
                   $response[] = $metadata;
-
-               }
-                              
-           } 
+               }/* end for */  
+           } /* end if */
 
 
            if(function_exists('has_block')){
-            
-            if( has_block('core-embed/youtube') ){
-                $attributes = saswp_get_gutenberg_block_data('core-embed/youtube');    
-            }
-
-            if( has_block('core/embed') ){
-                $attributes = saswp_get_gutenberg_block_data('core/embed');    
-            }
-           
-            if(isset($attributes['attrs']['url'])) {
- 
-                   $vurl     = $attributes['attrs']['url']; 
-                   $metadata = array();
-                   if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
-
-                    $vid = saswp_get_youtube_vid($vurl);
-
-                    $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
-
-                    if(!empty($video_meta)){
-                        $metadata['title']      = $video_meta['title'];
-                        $metadata['description']      = $video_meta['description'];
-                        $metadata['viewCount']      = $video_meta['viewCount'];
-
-                        $metadata['duration']      = $video_meta['duration'];
-
-                        $metadata['uploadDate']      = $video_meta['uploadDate'];
-
-                        $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
-                    }
-                                        
-                   }else{
-
-                    $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
-                    $result   = @wp_remote_get($rulr);                                    
-                    $metadata = json_decode(wp_remote_retrieve_body($result),true);                                        
-
-                   }
-
-                   $metadata['video_url'] = $vurl;                    
-                   $response[0] = $metadata;
-                   
+                if( has_block('core-embed/youtube') ){
+                    $attributes = saswp_get_gutenberg_multiple_block_data('core-embed/youtube');    
                 }
 
-           }
-                                     
-        return $response;
+                if( has_block('core/embed') ){
+                    $attributes = saswp_get_gutenberg_multiple_block_data('core/embed');    
+                }
+                
+                if(!empty($attributes)){
+                    $temp_aray = array(); 
+                    foreach($attributes as $match){
+                        if(!empty($match['attrs']['url'])){
+                             $vurl = $match['attrs']['url']; 
+                          
+                            $metadata = array();
+                            if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
+                               $vid = saswp_get_youtube_vid($vurl);
+                                $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
+                                if(!empty($video_meta)){
+                                    $metadata['title']      = $video_meta['title'];
+                                    $metadata['description']      = $video_meta['description'];
+                                    $metadata['viewCount']      = $video_meta['viewCount'];
+                                    $metadata['duration']      = $video_meta['duration'];
+                                    $metadata['uploadDate']      = $video_meta['uploadDate'];
+                                    $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
+                                }
+                            }else{
+                                $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                                $result   = @wp_remote_get($rulr);                                    
+                                $metadata = json_decode(wp_remote_retrieve_body($result),true); 
+                            }
+                            $metadata['video_url'] = $vurl;                    
+                            $response[] = $metadata;
+                            
+                        }
+                    }
+                    
+                }
+            }
+
+        $result = unique_multidim_array($response,'thumbnail_url');
+       
+        return $result;
 }
+
+function unique_multidim_array($array, $key) { 
+    $temp_array = array(); 
+    $i = 0; 
+    $key_array = array(); 
+    
+    foreach($array as $val) { 
+        if (!in_array($val[$key], $key_array)) { 
+            $key_array[$i] = $val[$key]; 
+            $temp_array[$i] = $val; 
+        } 
+        $i++; 
+    } 
+    return $temp_array; 
+}
+  
 
 function saswp_get_thumbnail(){
 
