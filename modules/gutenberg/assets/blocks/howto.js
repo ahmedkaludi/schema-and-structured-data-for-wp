@@ -503,18 +503,18 @@
                             break;
 
                             case 'large':
-
+                             // console.log(item.image_sizes.full.height);
                               if(image_type != null){
-                                height = item.image_sizes.large.height;                                
-                                width = item.image_sizes.large.width;
+                                height = item.image_sizes.full.height;                                
+                                width = item.image_sizes.full.width;
                               }                              
                               
-                              image_url    = item.image_sizes.large.url;
-                              image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.large.url+'"  key="'+item.image_sizes.large.url+'" />';
+                              image_url    = item.image_sizes.full.url;
+                              image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
                             break;
 
                             case 'medium':
-
+                            
                               if(image_type != null){
                                 height = item.image_sizes.medium.height;                                
                                 width = item.image_sizes.medium.width;
@@ -536,10 +536,12 @@
                             break;
 
                             case 'right':
-                              image = '<img class="alignright" style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
+                              image = '<img class="alignright" style="height:300px; width: 300px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
                             break;
-                          case 'left':
-                                image = '<img class="alignleft" style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
+                            case 'left':
+                              console.log('image_type '+image_type);
+                              console.log('rr '+item);
+                                image = '<img class="alignleft" style="height:300px; width: 300px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
                             break;
                         
                           default:
@@ -580,8 +582,8 @@
                       ] ,
                       onChange: function(value){
 
-                        var newObject = saswpImageUpdate(value, item, '', '', 'image_type',image_align);
-
+                        var newObject = saswpImageUpdate(value, item, '', '', 'image_type',item.image_size);
+                        console.log("image_size "+ item.image_size);
                         return props.setAttributes({
                           items: [].concat(_cloneArray(props.attributes.items.filter(function (itemFilter) {
                             return itemFilter.index != item.index;
@@ -599,9 +601,9 @@
                      
                     ],
                      onChange: function(value){
-   
-                       var newObject = saswpImageUpdate(value, item, '', '', 'image_type');
-   
+                     // alert(value);
+                       var newObject = saswpImageUpdate(value, item, '', '', 'image_type',item.image_align);
+                       console.log("image_align "+ item.image_align);
                      return props.setAttributes({
                        items: [].concat(_cloneArray(props.attributes.items.filter(function (itemFilter) {
                          return itemFilter.index != item.index;
