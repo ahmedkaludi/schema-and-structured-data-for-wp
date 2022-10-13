@@ -537,11 +537,17 @@
 
                             case 'right':
                               image = '<img class="alignright" style="height:300px; width: 300px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
+                              image_align = value;
+                              value = item.image_size;
+                              height = item.image_height;
+                              width = item.image_width;
                             break;
-                            case 'left':
-                              console.log('image_type '+image_type);
-                              console.log('rr '+item);
+                            case 'left':                              
                                 image = '<img class="alignleft" style="height:300px; width: 300px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
+                                image_align = value;
+                                value = item.image_size;
+                                height = item.image_height;
+                                width = item.image_width;
                             break;
                         
                           default:
@@ -549,10 +555,10 @@
                         }
                         
                         var newObject = Object.assign({}, item, {
-                          image_size: value,
+                          image_size:  value,
                           image_height: height,
-                          image_align: image_align,
-                          image_width: width,
+                          image_width:  width,
+                          image_align:  image_align,                          
                           imageUrl   : image_url,
                           description : saswpReplaceImage(item.description, image)                          
                         });
@@ -581,7 +587,7 @@
                         { label: 'Thumbnail', value: 'thumbnail' },
                       ] ,
                       onChange: function(value){
-
+                        
                         var newObject = saswpImageUpdate(value, item, '', '', 'image_type',item.image_size);
                         console.log("image_size "+ item.image_size);
                         return props.setAttributes({
