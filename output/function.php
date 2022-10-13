@@ -1731,7 +1731,9 @@ function saswp_global_option(){
             
             if( (   saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') =='' 
             ||   1 == saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') && saswp_non_amp() ) 
-            || ( 1 == saswp_remove_warnings($sd_data, 'saswp-for-amp', 'saswp_string') && !saswp_non_amp() ) ) {
+            || ( 1 == saswp_remove_warnings($sd_data, 'saswp-for-amp', 'saswp_string') && !saswp_non_amp() )
+            || ( isset($sd_data['saswp-webstories']) && $sd_data['saswp-webstories'] == 1 && function_exists('web_stories_get_compat_instance') )
+            ) {
         
                 return true;
         
