@@ -1756,6 +1756,9 @@ function saswp_schema_output() {
                                 }  
 
                                 $input1['@context'] = saswp_context_url();
+
+                                $date 		        = get_the_date("c");
+                                $modified_date 	    = get_the_modified_date("c"); 
                                 
                                 if(!empty($video_links) && count($video_links) > 1){
                                     
