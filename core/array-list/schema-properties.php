@@ -428,6 +428,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => $author_url
                     ),  
                     array(
+                        'label'   => 'JobTitle',
+                        'id'      => 'saswp_blogposting_jobtitle_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => '',
+                        'attributes' => array(
+                                'placeholder' => 'eg: Editor in Chief'
+                         ),
+                     ),
+                    array(
                         'label'   => 'ReviewedBy Type',
                         'id'      => 'saswp_blogposting_reviewedby_type_'.$schema_id,
                         'type'    => 'select',
@@ -896,6 +905,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => $author_url
                         ),    
                         array(
+                                'label'   => 'JobTitle',
+                                'id'      => 'saswp_photograph_jobtitle_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => '',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Editor in Chief'
+                                 ),
+                        ),
+                        array(
                                 'label'   => 'ReviewedBy Type',
                                 'id'      => 'saswp_photograph_reviewedby_type_'.$schema_id,
                                 'type'    => 'select',
@@ -1072,6 +1090,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_article_author_url_'.$schema_id,
                                 'type'    => 'text',
                                 'default' => $author_url
+                        ),
+                        array(
+                                'label'   => 'JobTitle',
+                                'id'      => 'saswp_article_jobtitle_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => '',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Editor in Chief'
+                                 ),
                         ),
                         array(
                                 'label'   => 'ReviewedBy Type',
@@ -1612,6 +1639,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'      => 'saswp_creativework_author_url_'.$schema_id,
                                         'type'    => 'text',
                                         'default' => $author_url
+                                ),
+                                array(
+                                        'label'   => 'JobTitle',
+                                        'id'      => 'saswp_creativework_jobtitle_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => '',
+                                        'attributes' => array(
+                                                'placeholder' => 'eg: Editor in Chief'
+                                         ),
                                 ),
                                 array(
                                         'label'   => 'ReviewedBy Type',
@@ -2210,6 +2246,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'    => 'text',
                             'default' => $author_url
                     ),  
+                    array(
+                        'label'   => 'JobTitle',
+                        'id'      => 'saswp_tech_article_jobtitle_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => '',
+                        'attributes' => array(
+                                'placeholder' => 'eg: Editor in Chief'
+                         ),
+                    ),
                     array(
                         'label'   => 'ReviewedBy Type',
                         'id'      => 'saswp_tech_article_reviewedby_type_'.$schema_id,
