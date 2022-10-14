@@ -3384,22 +3384,21 @@ function saswp_render_breadcrumbs_html($atts){
 function saswp_default_video_object_scjhema(){
 
     $input1 = array();
-
-    $Conditionals = saswp_get_all_schema_posts(); 
-    $countVideoObjSchema = [];
-    if(!empty($Conditionals)){
-        foreach($Conditionals as $schemaConditionals){
-            if($schemaConditionals['schema_type'] == 'VideoObject'){
-                $countVideoObjSchema[] = $schemaConditionals['schema_type'];
-            }        
-        }
-        if(count( $countVideoObjSchema) > 0){
-            return $input1;
-        } 
-    }    
-    
     $video_links      = saswp_get_video_metadata();    
     if(!empty($video_links)){
+        $Conditionals = saswp_get_all_schema_posts(); 
+        $countVideoObjSchema = [];
+        if(!empty($Conditionals)){
+            foreach($Conditionals as $schemaConditionals){
+                if($schemaConditionals['schema_type'] == 'VideoObject'){
+                    $countVideoObjSchema[] = $schemaConditionals['schema_type'];
+                }        
+            }
+            if(count( $countVideoObjSchema) > 0){
+                return $input1;
+            } 
+        }    
+
         $input1['@context'] = saswp_context_url(); 
         $description = saswp_get_the_excerpt();
 
