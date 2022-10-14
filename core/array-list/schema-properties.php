@@ -428,6 +428,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => $author_url
                     ),  
                     array(
+                        'label' => 'Author Image URL',
+                        'id' => 'saswp_blogposting_author_image_'.$schema_id,
+                        'type' => 'media',
+                        'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
+                    array(
                         'label'   => 'JobTitle',
                         'id'      => 'saswp_blogposting_jobtitle_'.$schema_id,
                         'type'    => 'text',
@@ -903,7 +909,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_photograph_author_url_'.$schema_id,
                                 'type'    => 'text',
                                 'default' => $author_url
-                        ),    
+                        ),   
+                        array(
+                                'label' => 'Author Image URL',
+                                'id' => 'saswp_photograph_author_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ), 
                         array(
                                 'label'   => 'JobTitle',
                                 'id'      => 'saswp_photograph_jobtitle_'.$schema_id,
@@ -1090,6 +1102,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_article_author_url_'.$schema_id,
                                 'type'    => 'text',
                                 'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Author Image URL',
+                                'id' => 'saswp_article_author_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
                         ),
                         array(
                                 'label'   => 'JobTitle',
@@ -1639,6 +1657,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'      => 'saswp_creativework_author_url_'.$schema_id,
                                         'type'    => 'text',
                                         'default' => $author_url
+                                ),
+                                array(
+                                        'label' => 'Author Image URL',
+                                        'id' => 'saswp_creativework_author_image_'.$schema_id,
+                                        'type' => 'media',
+                                        'default' => isset($author_details['url']) ? $author_details['url']: ''
                                 ),
                                 array(
                                         'label'   => 'JobTitle',
@@ -2246,6 +2270,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'    => 'text',
                             'default' => $author_url
                     ),  
+                    array(
+                        'label' => 'Author Image URL',
+                        'id' => 'saswp_tech_article_author_image_'.$schema_id,
+                        'type' => 'media',
+                        'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
                     array(
                         'label'   => 'JobTitle',
                         'id'      => 'saswp_tech_article_jobtitle_'.$schema_id,

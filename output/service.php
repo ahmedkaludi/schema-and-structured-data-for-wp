@@ -1517,6 +1517,9 @@ Class saswp_output_service{
                         if(isset($custom_fields['saswp_creativework_jobtitle'])){
                             $input1['author']['JobTitle'] =    $custom_fields['saswp_creativework_jobtitle'];
                         }
+                        if(isset($custom_fields['saswp_creativework_author_image'])){
+                            $input1['author']['Image']['url'] =    $custom_fields['saswp_creativework_author_image'];  
+                        } 
                         if(isset($custom_fields['saswp_creativework_knowsabout'])){                            
                             $input1['knowsAbout'] = explode(',', $custom_fields['saswp_creativework_knowsabout']);    
                         }
@@ -1651,6 +1654,9 @@ Class saswp_output_service{
                        if(isset($custom_fields['saswp_photograph_author_url'])){
                         $input1['author']['url'] =    $custom_fields['saswp_photograph_author_url'];
                        }
+                       if(isset($custom_fields['saswp_photograph_author_image'])){
+                        $input1['author']['Image']['url'] =    $custom_fields['saswp_photograph_author_image'];  
+                       }  
                        if(isset($custom_fields['saswp_photograph_organization_logo']) && isset($custom_fields['saswp_photograph_organization_name'])){
                         $input1['publisher']['@type']       =    'Organization';
                         $input1['publisher']['name']        =    $custom_fields['saswp_photograph_organization_name'];
@@ -1964,6 +1970,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_jobtitle'])){
                         $input1['author']['JobTitle'] =    $custom_fields['saswp_blogposting_jobtitle'];
                     }
+                    if(isset($custom_fields['saswp_blogposting_author_image'])){
+                        $input1['author']['Image']['url'] =    $custom_fields['saswp_blogposting_author_image'];  
+                    } 
                     if(isset($custom_fields['saswp_blogposting_reviewedby_type'])){
                         $input1['reviewedBy']['@type'] =    $custom_fields['saswp_blogposting_reviewedby_type'];
                     }
@@ -2458,6 +2467,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_tech_article_jobtitle'])){
                         $input1['author']['JobTitle'] =    $custom_fields['saswp_tech_article_jobtitle'];
+                    }
+                    if(isset($custom_fields['saswp_tech_article_author_image'])){
+                        $input1['author']['Image']['url'] =    $custom_fields['saswp_tech_article_author_image'];  
                     }
                     if(isset($custom_fields['saswp_tech_article_knowsabout'])){                            
                         $input1['knowsAbout'] = explode(',', $custom_fields['saswp_tech_article_knowsabout']);    
