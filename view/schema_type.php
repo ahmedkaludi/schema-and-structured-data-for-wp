@@ -168,6 +168,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $event_type        = get_post_meta($post->ID, 'saswp_event_type', true);                         
                         $speakable         = get_post_meta($post->ID, 'saswp_enable_speakable_schema', true);
                         $enable_videoobject= get_post_meta($post->ID, 'saswp_enable_videoobject', true);
+                        $enable_faqsobject = get_post_meta($post->ID, 'saswp_enable_faqsobject', true);
                         $item_list_enable  = get_post_meta($post->ID, 'saswp_enable_itemlist_schema', true);
                         $item_list_tags    = get_post_meta($post->ID, 'saswp_item_list_tags', true);
                         $item_list_custom  = get_post_meta($post->ID, 'saswp_item_list_custom', true);
@@ -179,7 +180,14 @@ function saswp_schema_type_meta_box_callback( $post) {
                             $style_business_type = 'style="display:none"';
                             $style_business_name = 'style="display:none"';
 
-                         }                            
+                         }  
+                         
+                         if($schema_type === 'FAQ'){
+                            $style_faq_type = 'style="display:block;display: table-row;"';
+                         }else {
+                            $style_faq_type = 'style="display:none"';
+                         }
+
                         }
                         $item_list_item = array(                                                                                    
                              'Article'               => 'Article',                                                              
@@ -299,7 +307,19 @@ function saswp_schema_type_meta_box_callback( $post) {
                         ?>
                     </select>                      
                    </td>
-                </tr>                                                                                                                                                                         
+                </tr>   
+                
+                 <!-- faqs Schema type ends here -->
+                 <tr class="saswp-faqs-checkbox-field-tr" <?php echo $style_faq_type; ?>>
+                    <td>
+                        <label for="saswp-enable-faqs-markup"><?php echo saswp_t_string( 'Add FaqObject markup, Only if Faqs are available on the post' );?></label>
+                    </td>
+                    <td>
+                        <input id="saswp-enable-faqs-markup" class="saswp-enable-faqs-markup-class" type="checkbox" name="saswp_enable_faqsobject" value="1" <?php if(isset($enable_faqsobject) && $enable_faqsobject == 1){echo 'checked'; }else{ echo ''; } ?> >
+                    </td>
+                </tr> 
+                 <!-- faqs Schema type ends here -->
+
                 <tr class="saswp-business-type-tr" <?php echo $style_business_type; ?>>
                     <td>
                     <?php echo saswp_t_string('Business Type' ); ?>    
@@ -1288,7 +1308,11 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
         }else{
             delete_post_meta( $post_id, 'saswp_enable_videoobject');                                                                       
         }
-    
+        if(isset($_POST['saswp_enable_faqsobject'])){
+            update_post_meta( $post_id, 'saswp_enable_faqsobject', intval($_POST['saswp_enable_faqsobject']) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_enable_faqsobject');                                                                       
+        }
         if(isset($_POST['saswp_enable_append_reviews'])){
             update_post_meta( $post_id, 'saswp_enable_append_reviews', intval($_POST['saswp_enable_append_reviews']) );                                                                       
         }else{
