@@ -934,7 +934,7 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr = null){
+    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr = null, $saswp_collection_hide_col_rew_img){
         
            $html          = '';                
            $grid_cols     = '';
@@ -1003,9 +1003,12 @@ class saswp_reviews_service {
                        
                        $html .= '<div class="saswp-rc">';
                        $html .= '<div class="saswp-rc-a">';
-                       $html .= '<div class="saswp-r1-aimg">';
-                       $html .= '<img alt="'.esc_attr($value['saswp_reviewer_name']).'" loading="lazy" src="'.esc_url($value['saswp_reviewer_image']).'" width="56" height="56"/>';
-                       $html .= '</div>';
+                       if(empty($saswp_collection_hide_col_rew_img) && $saswp_collection_hide_col_rew_img != 1){
+                        $html .= '<div class="saswp-r1-aimg">';
+                        $html .= '<img alt="'.esc_attr($value['saswp_reviewer_name']).'" loading="lazy" src="'.esc_url($value['saswp_reviewer_image']).'" width="56" height="56"/>';
+                        $html .= '</div>';
+                       }
+                      
                        $html .= '<div class="saswp-rc-nm">';
                        $html .= '<a target="_blank" rel="noopener" href="'.esc_url($review_link).'">'.esc_attr($value['saswp_reviewer_name']).'</a>';
                        $html .= saswp_get_rating_html_by_value($value['saswp_review_rating']);                       
@@ -1059,7 +1062,7 @@ class saswp_reviews_service {
                         
                         $html .= '</div>';                        
                         
-                }
+                } 
 
                 if(($page_count > 0 && $pagination ) && $pagination_wpr){
 
@@ -1089,7 +1092,7 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_review_desing_for_slider($value, $date_format = ''){
+    public function saswp_review_desing_for_slider($value, $date_format = '', $saswp_collection_gallery_img_hide){
         
                 $review_link = $value['saswp_review_link'];
 
@@ -1131,8 +1134,11 @@ class saswp_reviews_service {
                 $html .= '</div>';
                 $html .= '</div>';
                 $html .= '<div class="saswp-rc">';
-                $html .= '<div class="saswp-rc-a">';
-                $html .= '<img alt="'.esc_attr($value['saswp_reviewer_name']).'" loading="lazy" src="'.esc_url($value['saswp_reviewer_image']).'"/>';
+                    $html .= '<div class="saswp-rc-a">';
+                if(empty($saswp_collection_gallery_img_hide) && $saswp_collection_gallery_img_hide !=1){
+
+                    $html .= '<img alt="'.esc_attr($value['saswp_reviewer_name']).'" loading="lazy" src="'.esc_url($value['saswp_reviewer_image']).'"/>';
+                }                
                 $html .= '<div class="saswp-rc-nm">';
                 $html .= '<a target="_blank" rel="noopener" href="'.esc_url($review_link).'">'. esc_attr($value['saswp_reviewer_name']).'</a>';
                 $html .= '<span class="saswp-rc-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
@@ -1148,7 +1154,7 @@ class saswp_reviews_service {
 
     }
 
-    public function saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format){
+    public function saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide){
                 
                 $html = '';                               
                 
@@ -1172,7 +1178,7 @@ class saswp_reviews_service {
                                                           
                                 $html .= '<div class="saswp-si">';
                                 
-                                $html .= $this->saswp_review_desing_for_slider($value, $date_format);
+                                $html .= $this->saswp_review_desing_for_slider($value, $date_format, $saswp_collection_gallery_img_hide);
                                 
                                 $html .= '</div>';
                              
@@ -1192,7 +1198,7 @@ class saswp_reviews_service {
                                                                     
                                 foreach($coll as $value){
 
-                                     $html .= $this->saswp_review_desing_for_slider($value, $date_format);
+                                     $html .= $this->saswp_review_desing_for_slider($value, $date_format, $saswp_collection_gallery_img_hide);
 
                                 }
                                 
