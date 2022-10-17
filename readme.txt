@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 1.9.102
+Stable tag: 1.9.102.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,9 +121,12 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.9.102.1 (14 Oct 2022) =
+
+* Fixed: Video object schema is automatically adding without even have videos in them #1754
+
 = 1.9.102 (13 Oct 2022) =
 
-* Fixed: Video object schema issues in GSC after the update #1750
 * Fixed: While activating the Schema plugin, there is a fatal error #1751
 * Fixed: load more shouldn't be there in zero null condition #1736
 * Added: Need to change the word Json-LD from Video Object Schema. #1741
