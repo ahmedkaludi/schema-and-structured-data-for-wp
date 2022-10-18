@@ -1820,6 +1820,8 @@ function saswp_schema_output() {
 
                                         if(isset($v_val['uploadDate'])){                                                                        
                                             $vnewarr['uploadDate']   = $v_val['uploadDate'];                                    
+                                        }else{
+                                            $vnewarr['uploadDate']   = $date;    
                                         }
 
                                         if(isset($v_val['duration'])){                                                                        
@@ -1828,6 +1830,8 @@ function saswp_schema_output() {
 
                                         if(isset($v_val['description'])){                                                                        
                                             $vnewarr['description']   = $v_val['description'];                                    
+                                        }else{
+                                            $vnewarr['description']   = $description;
                                         }
                                         
                                         $input1['itemListElement'][] = $vnewarr;
