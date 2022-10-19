@@ -850,6 +850,133 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     );
                     break;
 
+                case 'MedicalWebPage':
+                    $meta_field = array(
+                        array(
+                                'label' => 'Name',
+                                'id' => 'saswp_medicalwebpage_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title()
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id' => 'saswp_medicalwebpage_url_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label' => 'Description',
+                                'id' => 'saswp_medicalwebpage_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'MedicalWebPage Section',
+                                'id'      => 'saswp_medicalwebpage_section_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),                           
+                        array(
+                                'label' => 'Keywords',
+                                'id' => 'saswp_medicalwebpage_keywords_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_tags()
+                        ),
+                        array(
+                                'label' => 'Main Entity Of Page',
+                                'id' => 'saswp_medicalwebpage_main_entity_of_page_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ), 
+                        array(
+                                'label' => 'Image',
+                                'id' => 'saswp_medicalwebpage_image_'.$schema_id,
+                                'type' => 'media',                            
+                        ), 
+                        array(
+                                'label' => 'Headline',
+                                'id' => 'saswp_medicalwebpage_headline_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title(),
+                        ),
+                        array(
+                                'label'   => 'Date Created',
+                                'id'      => 'saswp_medicalwebpage_date_created_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Published',
+                                'id' => 'saswp_medicalwebpage_date_published_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Modified',
+                                'id' => 'saswp_medicalwebpage_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label'   => 'Last Reviewed',
+                                'id'      => 'saswp_medicalwebpage_last_reviewed_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label'   => 'Reviewed By',
+                                'id'      => 'saswp_medicalwebpage_reviewed_by_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_medicalwebpage_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label' => 'Author Name',
+                                'id' => 'saswp_medicalwebpage_author_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label' => 'Author Description',
+                                'id' => 'saswp_medicalwebpage_author_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $author_desc
+                        ), 
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_medicalwebpage_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),    
+                        array(
+                                'label' => 'Organization Name',
+                                'id' => 'saswp_medicalwebpage_organization_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ), 
+                        array(
+                                'label' => 'Organization Logo',
+                                'id' => 'saswp_medicalwebpage_organization_logo_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
+                        ),
+                        array(
+                                'label' => 'Speakable',
+                                'id' => 'saswp_medicalwebpage_speakable_'.$schema_id,
+                                'type' => 'checkbox',
+
+                        )    
+                    );
+                break;
+
                     case 'Photograph':                                        
                         $meta_field = array( 
                         array(

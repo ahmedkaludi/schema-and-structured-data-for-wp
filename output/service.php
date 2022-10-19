@@ -2316,6 +2316,70 @@ Class saswp_output_service{
                     }
                     
                     break;
+                
+            case 'MedicalWebPage':
+            
+                if(isset($custom_fields['saswp_medicalwebpage_name'])){
+                    $input1['name'] =    $custom_fields['saswp_medicalwebpage_name'];
+                }
+                if(isset($custom_fields['saswp_medicalwebpage_url'])){
+                    $input1['url'] =    saswp_validate_url($custom_fields['saswp_medicalwebpage_url']);
+                }
+                if(isset($custom_fields['saswp_medicalwebpage_description'])){
+                    $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_medicalwebpage_description'] )) ;
+                }
+
+                if(isset($custom_fields['saswp_medicalwebpage_reviewed_by'])){
+                    $input1['reviewedBy'] =    $custom_fields['saswp_medicalwebpage_reviewed_by'];
+                }
+
+                if(isset($custom_fields['saswp_medicalwebpage_last_reviewed'])){
+                    $input1['lastReviewed'] =    $custom_fields['saswp_medicalwebpage_last_reviewed'];
+                }
+                if(isset($custom_fields['saswp_medicalwebpage_date_created'])){
+                    $input1['dateCreated'] =    $custom_fields['saswp_medicalwebpage_date_created'];
+                }
+                
+                if(isset($custom_fields['saswp_medicalwebpage_main_entity_of_page'])){
+                    $input1['mainEntity']['mainEntityOfPage'] =    saswp_validate_url($custom_fields['saswp_medicalwebpage_main_entity_of_page']);
+                }
+                if(isset($custom_fields['saswp_medicalwebpage_image'])){
+                    $input1['mainEntity']['image'] =    $custom_fields['saswp_medicalwebpage_image'];
+                }
+                if(isset($custom_fields['saswp_medicalwebpage_headline'])){
+                    $input1['mainEntity']['headline'] =    $custom_fields['saswp_medicalwebpage_headline'];
+                }
+
+                if(isset($custom_fields['saswp_medicalwebpage_section'])){
+                    $input1['mainEntity']['articleSection'] =    $custom_fields['saswp_medicalwebpage_section'];
+                }                                        
+                if(isset($custom_fields['saswp_medicalwebpage_keywords'])){
+                    $input1['mainEntity']['keywords'] =    $custom_fields['saswp_medicalwebpage_keywords'];
+                }
+                
+                if(isset($custom_fields['saswp_medicalwebpage_date_published'])){
+                    $input1['mainEntity']['datePublished'] =    $custom_fields['saswp_medicalwebpage_date_published'];
+                }
+                if(isset($custom_fields['saswp_medicalwebpage_date_modified'])){
+                    $input1['mainEntity']['dateModified'] =    $custom_fields['saswp_medicalwebpage_date_modified'];
+                }
+                if(isset($custom_fields['saswp_medicalwebpage_author_type'])){
+                    $input1['mainEntity']['author']['@type'] =    $custom_fields['saswp_medicalwebpage_author_type'];
+                }
+                if(isset($custom_fields['saswp_medicalwebpage_author_name'])){
+                    $input1['mainEntity']['author']['name'] =    $custom_fields['saswp_medicalwebpage_author_name'];
+                }
+                if(isset($custom_fields['saswp_medicalwebpage_author_url'])){
+                    $input1['mainEntity']['author']['url'] =    $custom_fields['saswp_medicalwebpage_author_url'];
+                }
+                
+                if(isset($custom_fields['saswp_medicalwebpage_organization_logo']) && isset($custom_fields['saswp_medicalwebpage_organization_name'])){
+                    $input1['mainEntity']['publisher']['@type']              =    'Organization';
+                    $input1['mainEntity']['publisher']['logo'] =    $custom_fields['saswp_medicalwebpage_organization_logo'];
+                    $input1['mainEntity']['publisher']['name'] =    $custom_fields['saswp_medicalwebpage_organization_name'];
+                }
+                
+                break;
                                                     
                 case 'Event':      
                     
@@ -5450,6 +5514,37 @@ Class saswp_output_service{
                     }
                     
                     break;
+
+                case 'MedicalWebPage':
+                
+                    $input1 = array(
+                    '@context'			=> saswp_context_url(),
+                    '@type'				=> 'MedicalWebPage' ,
+                    '@id'				=> trailingslashit(saswp_get_permalink()).'#medicalwebpage',
+                    'name'				=> saswp_get_the_title(),
+                    'url'				=> saswp_get_permalink(),
+                    'lastReviewed'      => esc_html($modified_date),
+                    'dateCreated'       => esc_html($date),                
+                    'inLanguage'                    => get_bloginfo('language'),
+                    'description'                   => saswp_get_the_excerpt(),
+                    'mainEntity'                    => array(
+                            '@type'			=> 'Article',
+                            'mainEntityOfPage'	=> saswp_get_permalink(),						
+                            'headline'		=> saswp_get_the_title(),
+                            'description'		=> saswp_get_the_excerpt(),                        
+                            'keywords'              => saswp_get_the_tags(),
+                            'datePublished' 	=> esc_html($date),
+                            'dateModified'		=> esc_html($modified_date),
+                            'author'			=> saswp_get_author_details()						                                               
+                        )                    									
+                    );
+    
+                        if(!empty($publisher)){
+                            $input1['reviewedBy']              = $publisher['publisher'];  
+                            $input1['mainEntity']['publisher'] = $publisher['publisher'];   
+                        }
+                        
+                        break;
                     
                 case 'Product':
                 case 'SoftwareApplication':

@@ -3619,8 +3619,8 @@ function saswp_get_video_metadata($content = ''){
                     
                 }
             }
-
-        $result = unique_multidim_array($response,'thumbnail_url');
+           
+        $result = unique_multidim_array($response,'video_url');
        
         return $result;
 }
@@ -3629,14 +3629,17 @@ function unique_multidim_array($array, $key) {
     $temp_array = array(); 
     $i = 0; 
     $key_array = array(); 
-    
-    foreach($array as $val) { 
-        if (!in_array($val[$key], $key_array)) { 
-            $key_array[$i] = $val[$key]; 
-            $temp_array[$i] = $val; 
+    if(!empty($array) && !empty($key)){
+        foreach($array as $val) { 
+            if(isset($val[$key])){    
+                if (!in_array($val[$key], $key_array)) { 
+                    $key_array[$i] = $val[$key]; 
+                    $temp_array[$i] = $val; 
+                } 
+                $i++; 
+            }
         } 
-        $i++; 
-    } 
+    }
     return $temp_array; 
 }
   

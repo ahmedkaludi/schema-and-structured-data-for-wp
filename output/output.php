@@ -181,7 +181,8 @@ function saswp_schema_output() {
                         $schema_type        = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
                         $schema_post_id     = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
                         $enable_videoobject = get_post_meta($schema_post_id, 'saswp_enable_videoobject', true);
-                        
+                        $enable_faqsobject = get_post_meta($schema_post_id, 'saswp_enable_faqsobject', true);
+
                         $input1         = array();
                                                                                                                                                                    				   		                                                                                           		                        			                                                                                              
                         $modified_schema    = saswp_get_post_meta(saswp_get_the_ID(), 'saswp_modify_this_schema_'.$schema_post_id, true);
@@ -232,6 +233,10 @@ function saswp_schema_output() {
                                 if($modified_schema == 1){
                                     
                                     $input1 = saswp_faq_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+            
+                                if(empty($enable_faqsobject) && $enable_faqsobject == 0){
+                                    $input1 = array();
                                 }
                                                                                                                                                                                                                                                                               
                             break;
@@ -1286,6 +1291,31 @@ function saswp_schema_output() {
                                 }
 				
                             break;
+
+                            case 'MedicalWebPage':
+                                                                
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
+				                                
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }                                
+                                if(!empty($aggregateRating)){
+                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                }                                
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                                
+                                $input1 = apply_filters('saswp_modify_medicalwebpage_schema_output', $input1 );   
+                             
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_medicalwebpage_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+				
+                            break;
                             
                             case 'SpecialAnnouncement':
                                                                 
@@ -1790,6 +1820,8 @@ function saswp_schema_output() {
 
                                         if(isset($v_val['uploadDate'])){                                                                        
                                             $vnewarr['uploadDate']   = $v_val['uploadDate'];                                    
+                                        }else{
+                                            $vnewarr['uploadDate']   = $date;    
                                         }
 
                                         if(isset($v_val['duration'])){                                                                        
@@ -1798,6 +1830,8 @@ function saswp_schema_output() {
 
                                         if(isset($v_val['description'])){                                                                        
                                             $vnewarr['description']   = $v_val['description'];                                    
+                                        }else{
+                                            $vnewarr['description']   = $description;
                                         }
                                         
                                         $input1['itemListElement'][] = $vnewarr;

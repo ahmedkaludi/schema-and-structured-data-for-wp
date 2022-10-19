@@ -3409,74 +3409,81 @@ function saswp_default_video_object_scjhema(){
         $modified_date 	    = get_the_modified_date("c"); 
         
         if(count($video_links) > 1){
-            $input1['@type'] = "ItemList";                                                       
+            if(isset($v_val['video_url']) && !empty($v_val['video_url'])){    
 
-            foreach($video_links as $vkey => $v_val){
-                $vnewarr = array(
-                    '@type'				            => 'VideoObject',
-                    "position"                      => $vkey+1,
-                    'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
-                    'datePublished'                 => esc_html($date),
-                    'dateModified'                  => esc_html($modified_date),
-                    'url'				            => trailingslashit(saswp_get_permalink()),
-                    'interactionStatistic'          => array(
-                        "@type" => "InteractionCounter",
-                        "interactionType" => array("@type" => "WatchAction" ),
-                        "userInteractionCount" => isset($v_val['viewCount'])? $v_val['viewCount'] : '0', 
-                        ),    
-                    'thumbnailUrl'                  => isset($v_val['thumbnail_url'])? $v_val['thumbnail_url'] : saswp_get_thumbnail(),
-                    'author'			            => saswp_get_author_details(),
-                );
+                $input1['@type'] = "ItemList";  
+                foreach($video_links as $vkey => $v_val){
+                    $vnewarr = array(
+                        '@type'				            => 'VideoObject',
+                        "position"                      => $vkey+1,
+                        'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
+                        'datePublished'                 => esc_html($date),
+                        'dateModified'                  => esc_html($modified_date),
+                        'url'				            => trailingslashit(saswp_get_permalink()),
+                        'interactionStatistic'          => array(
+                            "@type" => "InteractionCounter",
+                            "interactionType" => array("@type" => "WatchAction" ),
+                            "userInteractionCount" => isset($v_val['viewCount'])? $v_val['viewCount'] : '0', 
+                            ),    
+                        'thumbnailUrl'                  => isset($v_val['thumbnail_url'])? $v_val['thumbnail_url'] : saswp_get_thumbnail(),
+                        'author'			            => saswp_get_author_details(),
+                    );
 
-                if(isset($v_val['uploadDate'])){                                                                        
-                    $vnewarr['uploadDate']   = $v_val['uploadDate'];                                    
+                    if(isset($v_val['uploadDate'])){                                                                        
+                        $vnewarr['uploadDate']   = $v_val['uploadDate'];                                    
+                    }else{
+                        $vnewarr['uploadDate']   = $date;     
+                    }
+
+                    if(isset($v_val['duration'])){                                                                        
+                        $vnewarr['duration']   = $v_val['duration'];                                    
+                    }
+
+                    if(isset($v_val['video_url'])){                                                                        
+                        $vnewarr['contentUrl']  = saswp_validate_url($v_val['video_url']);                                    
+                    }
+
+                    if(isset($v_val['video_url'])){                                                                        
+                        $vnewarr['embedUrl']   = saswp_validate_url($v_val['video_url']);                                 
+                    }
+
+                    if(isset($v_val['description'])){                                                                        
+                        $vnewarr['description']   = $v_val['description'];                                    
+                    }else{
+                        $vnewarr['description']   = $description; 
+                    }
+                    
+                    $input1['itemListElement'][] = $vnewarr;
                 }
-
-                if(isset($v_val['duration'])){                                                                        
-                    $vnewarr['duration']   = $v_val['duration'];                                    
-                }
-
-                if(isset($v_val['video_url'])){                                                                        
-                    $vnewarr['contentUrl']  = saswp_validate_url($v_val['video_url']);                                    
-                }
-
-                if(isset($v_val['video_url'])){                                                                        
-                    $vnewarr['embedUrl']   = saswp_validate_url($v_val['video_url']);                                 
-                }
-
-                if(isset($v_val['description'])){                                                                        
-                    $vnewarr['description']   = $v_val['description'];                                    
-                }
-                
-                $input1['itemListElement'][] = $vnewarr;
             }
         }else{
-            $input1 = array(
-                '@context'			            => saswp_context_url(),
-                '@type'				            => 'VideoObject',
-                '@id'                           => trailingslashit(saswp_get_permalink()).'#videoobject',        
-                'url'				            => trailingslashit(saswp_get_permalink()),
-                'headline'			            => saswp_get_the_title(),
-                'datePublished'                 => esc_html($date),
-                'dateModified'                  => esc_html($modified_date),
-                'description'                   => $description,
-                'transcript'                    => saswp_get_the_content(),
-                'name'				            => saswp_get_the_title(),
-                'uploadDate'                    => esc_html($date),
-                'thumbnailUrl'                  => isset($video_links[0]['thumbnail_url'])? $video_links[0]['thumbnail_url'] : saswp_get_thumbnail(),
-                'author'			            => saswp_get_author_details()						                                                                                                      
-            );
-            
-            if(isset($video_links[0]['duration'])){                                                                        
-                $input1['duration']   = $video_links[0]['duration'];                                    
-            }
-            if(isset($video_links[0]['video_url'])){
+            if(isset($video_links[0]['video_url']) && !empty($video_links[0]['video_url'])){  
+                $input1 = array(
+                    '@context'			            => saswp_context_url(),
+                    '@type'				            => 'VideoObject',
+                    '@id'                           => trailingslashit(saswp_get_permalink()).'#videoobject',        
+                    'url'				            => trailingslashit(saswp_get_permalink()),
+                    'headline'			            => saswp_get_the_title(),
+                    'datePublished'                 => esc_html($date),
+                    'dateModified'                  => esc_html($modified_date),
+                    'description'                   => $description,
+                    'transcript'                    => saswp_get_the_content(),
+                    'name'				            => saswp_get_the_title(),
+                    'uploadDate'                    => esc_html($date),
+                    'thumbnailUrl'                  => isset($video_links[0]['thumbnail_url'])? $video_links[0]['thumbnail_url'] : saswp_get_thumbnail(),
+                    'author'			            => saswp_get_author_details()						                                                                                                      
+                );
                 
-                $input1['contentUrl'] = saswp_validate_url($video_links[0]['video_url']);
-                $input1['embedUrl']   = saswp_validate_url($video_links[0]['video_url']);
-                
+                if(isset($video_links[0]['duration'])){                                                                        
+                    $input1['duration']   = $video_links[0]['duration'];                                    
+                }
+                if(isset($video_links[0]['video_url'])){
+                    
+                    $input1['contentUrl'] = saswp_validate_url($video_links[0]['video_url']);
+                    $input1['embedUrl']   = saswp_validate_url($video_links[0]['video_url']);
+                    
+                }
             }
-        
         }
     }
     return $input1;
