@@ -108,10 +108,12 @@ function saswp_get_modified_image( $key, $input1 ){
 function saswp_book_schema_markup($schema_id, $schema_post_id, $all_post_meta){
  
             $input1 = array();
+            $checkIdPro = ((isset($all_post_meta['saswp_book_id_'.$schema_id][0]) && $all_post_meta['saswp_book_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_book_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Book'); 
+
                         
             $input1['@context']              = saswp_context_url();
             $input1['@type']                 = 'Book';
-            $input1['@id']                   = trailingslashit(get_permalink()).'#Book';
+            $input1['@id']                   = $checkIdPro;
             $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_book_url_'.$schema_id, 'saswp_array');                            
             $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_book_name_'.$schema_id, 'saswp_array');                            
             $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_book_description_'.$schema_id, 'saswp_array');
@@ -161,11 +163,13 @@ function saswp_movie_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
         $input1 = array();        
         
-        $tool        = get_post_meta($schema_post_id, 'movie_actor_'.$schema_id, true);                      
+        $tool        = get_post_meta($schema_post_id, 'movie_actor_'.$schema_id, true);     
+
+        $checkIdPro = ((isset($all_post_meta['saswp_movie_id_'.$schema_id][0]) && $all_post_meta['saswp_movie_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_movie_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Movie');                 
 
         $input1['@context']              = saswp_context_url();
         $input1['@type']                 = 'Movie';
-        $input1['@id']                   = ((isset($all_post_meta['saswp_howto_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_howto_schema_id_'.$schema_id][0] !='') ? $all_post_meta['saswp_howto_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Movie');                
+        $input1['@id']                   =  $checkIdPro;
         $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_movie_name_'.$schema_id, 'saswp_array');
         $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_movie_url_'.$schema_id, 'saswp_array');
         $input1['sameAs']                = saswp_remove_warnings($all_post_meta, 'saswp_movie_url_'.$schema_id, 'saswp_array');
@@ -399,10 +403,11 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 function saswp_eop_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 
             $input1 = array();
+            $checkIdPro = ((isset($all_post_meta['saswp_eop_id_'.$schema_id][0]) && $all_post_meta['saswp_eop_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_eop_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#EducationalOccupationalProgram');
            
             $input1['@context']                     = saswp_context_url();
             $input1['@type']                        = 'EducationalOccupationalProgram';
-            $input1['@id']                          = trailingslashit(get_permalink()).'#EducationalOccupationalProgram'; 
+            $input1['@id']                          = $checkIdPro; 
             $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_eop_name_'.$schema_id, 'saswp_array');
             $input1['url']                          = saswp_remove_warnings($all_post_meta, 'saswp_eop_url_'.$schema_id, 'saswp_array');                            
             $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_eop_description_'.$schema_id, 'saswp_array');
@@ -735,11 +740,12 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_course_id_'.$schema_id][0]) && $all_post_meta['saswp_course_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_course_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Course');  
     
     $input1 = array(
              '@context'			=> saswp_context_url(),
              '@type'				=> 'Course' ,	
-             '@id'                           => trailingslashit(get_permalink()).'#course',    
+             '@id'                  => $checkIdPro,
              'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_course_name_'.$schema_id, 'saswp_array'),
              'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_course_description_'.$schema_id, 'saswp_array'),			
              'courseCode'                   => saswp_remove_warnings($all_post_meta, 'saswp_course_code_'.$schema_id, 'saswp_array'),			
@@ -780,11 +786,12 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 function saswp_mobile_app_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_mobile_app_id_'.$schema_id][0]) && $all_post_meta['saswp_mobile_app_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_mobile_app_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#MobileApplication');
         
     $input1 = array(
              '@context'			=> saswp_context_url(),
              '@type'				=> 'MobileApplication',
-             '@id'                           => trailingslashit(get_permalink()).'#MobileApplication',     
+             '@id'                           => $checkIdPro,     
              'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_name_'.$schema_id, 'saswp_array'),
              'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_description_'.$schema_id, 'saswp_array'),
              'operatingSystem'		=> saswp_remove_warnings($all_post_meta, 'saswp_mobile_app_schema_operating_system_'.$schema_id, 'saswp_array'),
@@ -816,12 +823,12 @@ function saswp_mobile_app_schema_markup($schema_id, $schema_post_id, $all_post_m
 function saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
-    
+    $checkIdPro = ((isset($all_post_meta['saswp_software_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_software_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_software_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#SoftwareApplication');
     
     $input1 = array(
              '@context'			=> saswp_context_url(),
              '@type'				=> 'SoftwareApplication',
-             '@id'                           => trailingslashit(get_permalink()).'#softwareapplication',     
+             '@id'                           =>  $checkIdPro,     
              'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_name_'.$schema_id, 'saswp_array'),
              'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_software_schema_description_'.$schema_id, 'saswp_array'),
              'operatingSystem'		=> saswp_remove_warnings($all_post_meta, 'saswp_software_schema_operating_system_'.$schema_id, 'saswp_array'),
@@ -960,6 +967,7 @@ function saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post
 function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();
+            $checkIdPro = ((isset($all_post_meta['saswp_recipe_id_'.$schema_id][0]) && $all_post_meta['saswp_recipe_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_recipe_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#recipe');
 
             $recipe_logo           = get_post_meta( get_the_ID(), 'saswp_recipe_organization_logo_'.$schema_id.'_detail',true);            
             $recipe_author_image   = get_post_meta( get_the_ID(), 'saswp_recipe_author_image_'.$schema_id.'_detail',true);
@@ -991,7 +999,7 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             $input1 = array(
             '@context'			             => saswp_context_url(),
             '@type'				             => 'Recipe' ,
-            '@id'                            => trailingslashit(get_permalink()).'#recipe',    
+            '@id'                            =>  $checkIdPro,   
             'url'				             => saswp_remove_warnings($all_post_meta, 'saswp_recipe_url_'.$schema_id, 'saswp_array'),
             'name'			                 => saswp_remove_warnings($all_post_meta, 'saswp_recipe_name_'.$schema_id, 'saswp_array'),
             'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_recipe_description_'.$schema_id, 'saswp_array'),                       
@@ -1364,11 +1372,12 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
 }
 
 function saswp_rent_action_schema_markup($schema_id, $schema_post_id, $all_post_meta){
-
+     
+    $checkIdPro = ((isset($all_post_meta['saswp_rent_action_id_'.$schema_id][0]) && $all_post_meta['saswp_rent_action_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_rent_action_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#RentAction');
        $input1 = array(
         '@context'			=> saswp_context_url(),
         '@type'				=> 'RentAction',
-        '@id'               => trailingslashit(get_permalink()).'#RentAction',    
+        '@id'               => $checkIdPro,    
         'url'				=> trailingslashit(get_permalink()),        
         );
 
@@ -1391,11 +1400,12 @@ function saswp_rent_action_schema_markup($schema_id, $schema_post_id, $all_post_
 }
 
 function saswp_real_estate_listing_schema_markup($schema_id, $schema_post_id, $all_post_meta){
-        
+    $checkIdPro = ((isset($all_post_meta['saswp_real_estate_listing_id_'.$schema_id][0]) && $all_post_meta['saswp_real_estate_listing_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_real_estate_listing_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#RealEstateListing');
+
     $input1 = array(
         '@context'			=> saswp_context_url(),
         '@type'				=> 'RealEstateListing',
-        '@id'                           => trailingslashit(get_permalink()).'#RealEstateListing',    
+        '@id'                           => $checkIdPro,    
         'url'				=> trailingslashit(get_permalink()),
         'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_name_'.$schema_id, 'saswp_array'),    
         'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_description_'.$schema_id, 'saswp_array'),													                            
@@ -1440,11 +1450,12 @@ function saswp_real_estate_listing_schema_markup($schema_id, $schema_post_id, $a
 }
 
 function saswp_psychological_treatment_schema_markup($schema_id, $schema_post_id, $all_post_meta){
-        
+    
+    $checkIdPro = ((isset($all_post_meta['saswp_psychological_treatment_id_'.$schema_id][0]) && $all_post_meta['saswp_psychological_treatment_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_psychological_treatment_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#PsychologicalTreatment');
         $input1 = array(
         '@context'			=> saswp_context_url(),
         '@type'				=> 'PsychologicalTreatment',
-        '@id'               => trailingslashit(get_permalink()).'#PsychologicalTreatment',    
+        '@id'               => $checkIdPro,    
         'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_psychological_treatment_url_'.$schema_id, 'saswp_array'),
         'name'              => saswp_remove_warnings($all_post_meta, 'saswp_psychological_treatment_name_'.$schema_id, 'saswp_array'),    
         'description'       => saswp_remove_warnings($all_post_meta, 'saswp_psychological_treatment_description_'.$schema_id, 'saswp_array'),													                            
@@ -1659,10 +1670,12 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
 function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();
+            
+            $checkIdPro = ((isset($all_post_meta['saswp_organization_id_'.$schema_id][0]) && $all_post_meta['saswp_organization_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_organization_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Organization');
            
             $input1['@context']                     = saswp_context_url();
             $input1['@type']                        = 'Organization';
-            $input1['@id']                          = trailingslashit(get_permalink()).'#Organization'; 
+            $input1['@id']                          = $checkIdPro; 
             $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_organization_name_'.$schema_id, 'saswp_array');
             $input1['url']                          = saswp_remove_warnings($all_post_meta, 'saswp_organization_url_'.$schema_id, 'saswp_array');                            
             $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_organization_description_'.$schema_id, 'saswp_array');
@@ -1720,10 +1733,12 @@ function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post
 function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();
+
+            $checkIdPro = ((isset($all_post_meta['saswp_project_id_'.$schema_id][0]) && $all_post_meta['saswp_project_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_project_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Project');
         
             $input1['@context']                     = saswp_context_url();
             $input1['@type']                        = 'Project';
-            $input1['@id']                          = trailingslashit(get_permalink()).'#Project'; 
+            $input1['@id']                          = $checkIdPro; 
             $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_project_name_'.$schema_id, 'saswp_array');
             $input1['url']                          = saswp_remove_warnings($all_post_meta, 'saswp_project_url_'.$schema_id, 'saswp_array');                            
             $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_project_description_'.$schema_id, 'saswp_array');
@@ -1781,10 +1796,12 @@ function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta
 function saswp_hotel_room_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
                 $input1 = array();
+
+                $checkIdPro = ((isset($all_post_meta['saswp_hotelroom_hotel_id_'.$schema_id][0]) && $all_post_meta['saswp_hotelroom_hotel_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_hotelroom_hotel_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Hotel');
     
                 $input1['@context']                     = saswp_context_url();
                 $input1['@type']                        = 'Hotel';
-                $input1['@id']                          = trailingslashit(get_permalink()).'#Hotel'; 
+                $input1['@id']                          = $checkIdPro; 
                 
                 if(isset($all_post_meta['saswp_hotelroom_hotel_name_'.$schema_id][0])){
                     $input1['name'] =    $all_post_meta['saswp_hotelroom_hotel_name_'.$schema_id][0];
@@ -1859,10 +1876,11 @@ function saswp_hotel_room_schema_markup($schema_id, $schema_post_id, $all_post_m
 function saswp_educational_occupational_credential_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();
+            $checkIdPro = ((isset($all_post_meta['saswp_eoc_id_'.$schema_id][0]) && $all_post_meta['saswp_eoc_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_eoc_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#EducationalOccupationalCredential');
 
             $input1['@context']                     = saswp_context_url();
             $input1['@type']                        = 'EducationalOccupationalCredential';
-            $input1['@id']                          = trailingslashit(get_permalink()).'#EducationalOccupationalCredential';             
+            $input1['@id']                          = $checkIdPro;
             
             if( isset($all_post_meta['saswp_eoc_additional_type_'.$schema_id][0]) ){
                 $input1['additionalType']         = $all_post_meta['saswp_eoc_additional_type_'.$schema_id][0];            
@@ -1904,10 +1922,11 @@ function saswp_educational_occupational_credential_schema_markup($schema_id, $sc
 function saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();
+            $checkIdPro = ((isset($all_post_meta['saswp_vg_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_vg_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_vg_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#VideoGame');
             
             $input1['@context']                     = saswp_context_url();
             $input1['@type']                        = 'VideoGame';
-            $input1['@id']                          = trailingslashit(get_permalink()).'#VideoGame'; 
+            $input1['@id']                          = $checkIdPro; 
             $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_name_'.$schema_id, 'saswp_array');
             $input1['url']                          = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_url_'.$schema_id, 'saswp_array');                            
             $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_vg_schema_description_'.$schema_id, 'saswp_array');
@@ -1971,10 +1990,13 @@ function saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_m
 function saswp_music_playlist_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();
+            $checkIdPro = ((isset($all_post_meta['saswp_music_playlist_id_'.$schema_id][0]) && $all_post_meta['saswp_music_playlist_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_music_playlist_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#MusicPlaylist');
+
+
 
             $input1['@context']              = saswp_context_url();
             $input1['@type']                 = 'MusicPlaylist';
-            $input1['@id']                   = trailingslashit(get_permalink()).'#MusicPlaylist';                            
+            $input1['@id']                   =  $checkIdPro;      
             $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_music_playlist_url_'.$schema_id, 'saswp_array');                                
             $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_music_playlist_name_'.$schema_id, 'saswp_array');                            
             $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_music_playlist_description_'.$schema_id, 'saswp_array');                                
@@ -2008,10 +2030,12 @@ function saswp_music_playlist_schema_markup($schema_id, $schema_post_id, $all_po
 function saswp_music_composition_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();
+            $checkIdPro = ((isset($all_post_meta['saswp_music_composition_id_'.$schema_id][0]) && $all_post_meta['saswp_music_composition_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_music_composition_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#MusicComposition');
+
 
             $input1['@context']              = saswp_context_url();
             $input1['@type']                 = 'MusicComposition';
-            $input1['@id']                   = trailingslashit(get_permalink()).'#MusicComposition';                            
+            $input1['@id']                   = $checkIdPro;
             $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_url_'.$schema_id, 'saswp_array');                                
             $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_name_'.$schema_id, 'saswp_array');                            
             $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_description_'.$schema_id, 'saswp_array');                                
@@ -2293,10 +2317,12 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 function saswp_trip_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_trip_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_trip_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_trip_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Trip');
         
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'Trip';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#Trip';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_trip_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_trip_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_trip_schema_description_'.$schema_id, 'saswp_array');                            
@@ -2330,10 +2356,12 @@ function saswp_trip_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 function saswp_boat_trip_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_boat_trip_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_boat_trip_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_boat_trip_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#BoatTrip');
         
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'BoatTrip';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#BoatTrip';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_boat_trip_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_boat_trip_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_boat_trip_schema_description_'.$schema_id, 'saswp_array');                            
@@ -2452,10 +2480,11 @@ function saswp_itemlist_schema_markup($schema_id, $schema_post_id, $all_post_met
 function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_faq_id_'.$schema_id][0]) && $all_post_meta['saswp_faq_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_faq_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#FAQ');
     
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'FAQPage';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#FAQPage';  
+    $input1['@id']                   = $checkIdPro;  
 
     $input1['headline']              = saswp_remove_warnings($all_post_meta, 'saswp_faq_headline_'.$schema_id, 'saswp_array');                                                        
     $input1['keywords']              = saswp_remove_warnings($all_post_meta, 'saswp_faq_keywords_'.$schema_id, 'saswp_array');                                                        
@@ -2500,10 +2529,12 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 function saswp_music_album_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
-    
+    $checkIdPro = ((isset($all_post_meta['saswp_music_album_id_'.$schema_id][0]) && $all_post_meta['saswp_music_album_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_music_album_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#MusicAlbum');
+
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'MusicAlbum';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#MusicAlbum';                            
+    $input1['@id']                   = $checkIdPro;
+                          
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_music_album_url_'.$schema_id, 'saswp_array');                                
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_music_album_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_music_album_description_'.$schema_id, 'saswp_array');                                
@@ -2548,9 +2579,11 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     
     $howto_image = get_post_meta( get_the_ID(), 'saswp_jobposting_schema_ho_logo_'.$schema_id.'_detail',true); 
 
+    $checkIdPro = ((isset($all_post_meta['saswp_jobposting_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_jobposting_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_jobposting_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#JobPosting');
+
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'JobPosting';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#JobPosting';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['title']                 = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_title_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_description_'.$schema_id, 'saswp_array');
@@ -2673,10 +2706,12 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
 function saswp_mosque_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_mosque_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_mosque_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_mosque_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Mosque');
         
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'Mosque';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#Mosque';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_description_'.$schema_id, 'saswp_array');
@@ -2700,10 +2735,12 @@ function saswp_mosque_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 function saswp_church_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_buddhisttemple_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_church_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_church_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#church');
         
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'Church';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#Church';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_description_'.$schema_id, 'saswp_array');
@@ -2727,10 +2764,12 @@ function saswp_church_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 function saswp_buddhist_temple_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_buddhisttemple_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_buddhisttemple_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_buddhisttemple_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#BuddhistTemple');
         
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'BuddhistTemple';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#BuddhistTemple';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_description_'.$schema_id, 'saswp_array');
@@ -2755,9 +2794,11 @@ function saswp_hindu_temple_schema_markup($schema_id, $schema_post_id, $all_post
     
     $input1 = array();
         
+    $checkIdPro = ((isset($all_post_meta['saswp_hindutemple_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_hindutemple_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_hindutemple_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#HinduTemple');
+
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'HinduTemple';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#HinduTemple';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_description_'.$schema_id, 'saswp_array');
@@ -2781,10 +2822,11 @@ function saswp_hindu_temple_schema_markup($schema_id, $schema_post_id, $all_post
 function saswp_lorh_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_lorh_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_lorh_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_lorh_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#LandmarksOrHistoricalBuildings');
             
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'LandmarksOrHistoricalBuildings';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#LandmarksOrHistoricalBuildings';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_description_'.$schema_id, 'saswp_array');
@@ -2816,9 +2858,11 @@ function saswp_tourist_attraction_schema_markup($schema_id, $schema_post_id, $al
     
         $input1 = array();        
             
+        $checkIdPro = ((isset($all_post_meta['saswp_ta_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_ta_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_ta_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#TouristAttraction');
+
         $input1['@context']              = saswp_context_url();
         $input1['@type']                 = 'TouristAttraction';
-        $input1['@id']                   = trailingslashit(get_permalink()).'#TouristAttraction';
+        $input1['@id']                   = $checkIdPro;
         $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_url_'.$schema_id, 'saswp_array');                            
         $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_name_'.$schema_id, 'saswp_array');                            
         $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_description_'.$schema_id, 'saswp_array');
@@ -2848,10 +2892,11 @@ function saswp_tourist_attraction_schema_markup($schema_id, $schema_post_id, $al
 function saswp_tourist_destination_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_td_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_td_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_td_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#TouristDestination');
         
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'TouristDestination';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#TouristDestination';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_description_'.$schema_id, 'saswp_array');
@@ -2878,10 +2923,12 @@ function saswp_tourist_destination_schema_markup($schema_id, $schema_post_id, $a
 function saswp_apartment_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_apartment_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_apartment_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_apartment_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Apartment');
         
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'Apartment';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#Apartment';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_description_'.$schema_id, 'saswp_array');
@@ -2952,10 +2999,12 @@ function saswp_apartment_schema_markup($schema_id, $schema_post_id, $all_post_me
 function saswp_apartment_complex_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_apartment_complex_id_'.$schema_id][0]) && $all_post_meta['saswp_apartment_complex_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_apartment_complex_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#ApartmentComplex');
         
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'ApartmentComplex';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#ApartmentComplex';
+    $input1['@id']                   =  $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_description_'.$schema_id, 'saswp_array');    
@@ -2988,10 +3037,12 @@ function saswp_apartment_complex_schema_markup($schema_id, $schema_post_id, $all
 function saswp_house_schema_makrup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_house_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_house_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_house_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#House');
     
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'House';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#House';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_description_'.$schema_id, 'saswp_array');
@@ -3019,10 +3070,12 @@ function saswp_house_schema_makrup($schema_id, $schema_post_id, $all_post_meta){
 function saswp_single_family_residence_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_sfr_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_sfr_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_sfr_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#SingleFamilyResidence');
                                    
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'SingleFamilyResidence';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#SingleFamilyResidence';
+    $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_name_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_description_'.$schema_id, 'saswp_array');
@@ -3051,10 +3104,11 @@ function saswp_tv_series_schema_markup($schema_id, $schema_post_id, $all_post_me
         
     $actor     = get_post_meta($schema_post_id, 'tvseries_actor_'.$schema_id, true);              
     $season    = get_post_meta($schema_post_id, 'tvseries_season_'.$schema_id, true);                                          
+    $checkIdPro = ((isset($all_post_meta['saswp_tvseries_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_tvseries_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_tvseries_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#TVSeries');
 
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'TVSeries';
-    $input1['@id']                   = trailingslashit(get_permalink()).'#TVSeries';                                            
+    $input1['@id']                   = $checkIdPro;
     $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_name_'.$schema_id, 'saswp_array');                            			    
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_description_'.$schema_id, 'saswp_array');
 
@@ -3107,7 +3161,9 @@ function saswp_medical_condition_schema_markup($schema_id, $schema_post_id, $all
     $input1      = array();
                     
     $symptom     = get_post_meta($schema_post_id, 'mc_symptom_'.$schema_id, true);              
-    $riskfactro  = get_post_meta($schema_post_id, 'mc_risk_factor_'.$schema_id, true);              
+    $riskfactro  = get_post_meta($schema_post_id, 'mc_risk_factor_'.$schema_id, true); 
+      
+    $checkIdPro = ((isset($all_post_meta['saswp_mc_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_mc_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_mc_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#MedicalCondition');           
 
     $input1['@context']                     = saswp_context_url();
     $input1['@type']                        = 'MedicalCondition';
@@ -3320,10 +3376,13 @@ function saswp_dfp_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     $input1 = array();
         
     $slogo = get_post_meta( get_the_ID(), 'saswp_dfp_organization_logo_'.$schema_id.'_detail',true); 
+
+    $checkIdPro = ((isset($all_post_meta['saswp_dfp_id_'.$schema_id][0]) && $all_post_meta['saswp_dfp_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_dfp_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#DiscussionForumPosting');
+
     $input1 = array(
         '@context'			=> saswp_context_url(),
         '@type'				=> 'DiscussionForumPosting' ,
-        '@id'				=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_url_'.$schema_id, 'saswp_array').'#blogposting',    			
+        '@id'				=> $checkIdPro,    			
         'mainEntityOfPage'		=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_main_entity_of_page_'.$schema_id, 'saswp_array'),    			
         'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_headline_'.$schema_id, 'saswp_array'),
         'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_dfp_description_'.$schema_id, 'saswp_array'),			
@@ -3363,12 +3422,14 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
     
     $input1 = array();
     $author_image = get_post_meta( get_the_ID(), 'saswp_blogposting_author_image_'.$schema_id.'_detail',true);
-    $slogo = get_post_meta( get_the_ID(), 'saswp_blogposting_organization_logo_'.$schema_id.'_detail',true);                         
+    $slogo = get_post_meta( get_the_ID(), 'saswp_blogposting_organization_logo_'.$schema_id.'_detail',true);  
+
+    $checkIdPro = ((isset($all_post_meta['saswp_blogposting_id_'.$schema_id][0]) && $all_post_meta['saswp_blogposting_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_blogposting_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#BlogPosting');           
 
     $input1 = array(
     '@context'			=> saswp_context_url(),
     '@type'				=> 'BlogPosting' ,
-    '@id'                           => trailingslashit(get_permalink()).'#BlogPosting',  
+    '@id'                           => $checkIdPro,  
     'inLanguage'                    => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_inlanguage_'.$schema_id, 'saswp_array'),
     'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_main_entity_of_page_'.$schema_id, 'saswp_array'),
     'headline'			            => saswp_remove_warnings($all_post_meta, 'saswp_blogposting_headline_'.$schema_id, 'saswp_array'),
@@ -3467,10 +3528,13 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
 function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_vehicle_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_vehicle_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_vehicle_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#vehicle');
                                                                               
     $input1 = array(
     '@context'			            => saswp_context_url(),
-    '@type'				            => ['Product','Vehicle'],    
+    '@type'				            => ['Product','Vehicle'],   
+    '@id'                           =>  $checkIdPro, 
     'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_url_'.$schema_id, 'saswp_array'),
     'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_name_'.$schema_id, 'saswp_array'),
     'sku'                           => saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_sku_'.$schema_id, 'saswp_array'),
@@ -3626,10 +3690,12 @@ function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta
 function saswp_car_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_car_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_car_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_car_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#MedicalCondition');
                                                                             
     $input1 = array(
     '@context'			            => saswp_context_url(),
     '@type'				            => ['Product','Car'],    
+    '@id'                              => $checkIdPro,
     'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_car_schema_url_'.$schema_id, 'saswp_array'),
     'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_car_schema_name_'.$schema_id, 'saswp_array'),
     'sku'                           => saswp_remove_warnings($all_post_meta, 'saswp_car_schema_sku_'.$schema_id, 'saswp_array'),
@@ -3788,11 +3854,11 @@ function saswp_creative_work_series_schema_markup($schema_id, $schema_post_id, $
     $input1 = array();
     
     $slogo = get_post_meta( get_the_ID(), 'saswp_cws_schema_organization_logo_'.$schema_id.'_detail',true);                                 
-
+    $checkIdPro = ((isset($all_post_meta['saswp_cws_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_cws_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_cws_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#CreativeWorkSeries');  
     $input1 = array(
     '@context'			            => saswp_context_url(),
     '@type'				            => 'CreativeWorkSeries' ,
-    '@id'                           => trailingslashit(get_permalink()).'#CreativeWorkSeries',  
+    '@id'                           => $checkIdPro,  
     'inLanguage'                    => get_bloginfo('language'),        
     'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_description_'.$schema_id, 'saswp_array'),
     'keywords'                      => saswp_remove_warnings($all_post_meta, 'saswp_cws_schema_keywords_'.$schema_id, 'saswp_array'),
@@ -3831,11 +3897,12 @@ function saswp_creative_work_series_schema_markup($schema_id, $schema_post_id, $
 function saswp_audio_object_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_audio_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_audio_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_audio_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#AudioObject');
     
     $input1 = array(
     '@context'			=> saswp_context_url(),
     '@type'		       => 'AudioObject',
-    '@id'                           => trailingslashit(get_permalink()).'#audioobject',    
+    '@id'                           =>  $checkIdPro,    
     'name'			        => saswp_remove_warnings($all_post_meta, 'saswp_audio_schema_name_'.$schema_id, 'saswp_array'),
     'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_audio_schema_description_'.$schema_id, 'saswp_array'),
     'contentUrl'		        => saswp_remove_warnings($all_post_meta, 'saswp_audio_schema_contenturl_'.$schema_id, 'saswp_array'),
@@ -3864,10 +3931,11 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1 = array();
     
         $slogo = get_post_meta( get_the_ID(), 'saswp_webpage_organization_logo_'.$schema_id.'_detail',true);
+        $checkIdPro = ((isset($all_post_meta['saswp_webpage_id_'.$schema_id][0]) && $all_post_meta['saswp_webpage_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_webpage_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#WebPage');
         $input1 = array(
         '@context'			=> saswp_context_url(),
         '@type'				=> 'WebPage' ,
-        '@id'                           => trailingslashit(get_permalink()).'#webpage',     
+        '@id'                           => $checkIdPro,     
         'inLanguage'                    => get_bloginfo('language'),    
         'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_name_'.$schema_id, 'saswp_array'),
         'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_url_'.$schema_id, 'saswp_array'),
@@ -3938,11 +4006,11 @@ function saswp_special_announcement_schema_markup($schema_id, $schema_post_id, $
 
     $slogo        = get_post_meta( get_the_ID(), 'saswp_special_announcement_organization_logo_'.$schema_id.'_detail',true);
     $location_img = get_post_meta( get_the_ID(), 'saswp_special_announcement_location_image_'.$schema_id.'_detail',true);    
-    
+    $checkIdPro = ((isset($all_post_meta['saswp_special_announcement_id_'.$schema_id][0]) && $all_post_meta['saswp_special_announcement_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_special_announcement_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#SpecialAnnouncement');
     $input1 = array(
             '@context'			=> saswp_context_url(),
             '@type'				=> 'SpecialAnnouncement',
-            '@id'                           => trailingslashit(get_permalink()).'#SpecialAnnouncement',
+            '@id'                           => $checkIdPro,
             'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_special_announcement_url_'.$schema_id, 'saswp_array'),
             'inLanguage'                    => get_bloginfo('language'),            
             'image'				=> saswp_remove_warnings($all_post_meta, 'saswp_special_announcement_image_'.$schema_id, 'saswp_array'),
@@ -4056,11 +4124,12 @@ function saswp_special_announcement_schema_markup($schema_id, $schema_post_id, $
 function saswp_visualartwork_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();    
+    $checkIdPro = ((isset($all_post_meta['saswp_visualartwork_id_'.$schema_id][0]) && $all_post_meta['saswp_visualartwork_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_visualartwork_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#VisualArtwork');
 
     $input1 = array(
             '@context'			            => saswp_context_url(),
             '@type'				            => 'VisualArtwork',
-            '@id'                           => trailingslashit(get_permalink()).'#VisualArtwork',
+            '@id'                           => $checkIdPro,
             'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_url_'.$schema_id, 'saswp_array'),            
             'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_image'.$schema_id, 'saswp_array'),
             'name'			                => saswp_remove_warnings($all_post_meta, 'saswp_visualartwork_name_'.$schema_id, 'saswp_array'),
@@ -4104,11 +4173,12 @@ function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_m
     $input1 = array();
     $author_image = get_post_meta( get_the_ID(), 'saswp_photograph_author_image_'.$schema_id.'_detail',true);
     $slogo = get_post_meta( get_the_ID(), 'saswp_photograph_organization_logo_'.$schema_id.'_detail',true);
+    $checkIdPro = ((isset($all_post_meta['saswp_photograph_id_'.$schema_id][0]) && $all_post_meta['saswp_photograph_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_photograph_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#photograph');
 
     $input1 = array(
             '@context'			            => saswp_context_url(),
             '@type'				            => 'Photograph',
-            '@id'                           => trailingslashit(get_permalink()).'#Photograph',
+            '@id'                           => $checkIdPro,
             'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_photograph_url_'.$schema_id, 'saswp_array'),
             'inLanguage'                    => saswp_remove_warnings($all_post_meta, 'saswp_photograph_inlanguage_'.$schema_id, 'saswp_array'),            
             'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_photograph_image_'.$schema_id, 'saswp_array'),
@@ -4179,11 +4249,11 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1 = array();
         $author_image = get_post_meta( get_the_ID(), 'saswp_article_author_image_'.$schema_id.'_detail',true);
         $slogo = get_post_meta( get_the_ID(), 'saswp_article_organization_logo_'.$schema_id.'_detail',true);
-
+        $checkIdPro = ((isset($all_post_meta['saswp_article_id_'.$schema_id][0]) && $all_post_meta['saswp_article_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_article_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Article');
         $input1 = array(
                 '@context'			            => saswp_context_url(),
                 '@type'				            => 'Article',
-                '@id'                           => trailingslashit(get_permalink()).'#article',
+                '@id'                           => $checkIdPro,
                 'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_article_url_'.$schema_id, 'saswp_array'),
                 'inLanguage'                    => saswp_remove_warnings($all_post_meta, 'saswp_article_inlanguage_'.$schema_id, 'saswp_array'),
                 'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_article_main_entity_of_page_'.$schema_id, 'saswp_array'),
@@ -4288,11 +4358,12 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
     $input1 = array();
     $author_image = get_post_meta( get_the_ID(), 'saswp_creativework_author_image_'.$schema_id.'_detail',true);
     $slogo = get_post_meta( get_the_ID(), 'saswp_creativework_organization_logo_'.$schema_id.'_detail',true);
+    $checkIdPro = ((isset($all_post_meta['saswp_creativework_id_'.$schema_id][0]) && $all_post_meta['saswp_creativework_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_creativework_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#CreativeWork'); 
 
     $input1 = array(
             '@context'			            => saswp_context_url(),
             '@type'				            => 'CreativeWork',
-            '@id'                           => trailingslashit(get_permalink()).'#CreativeWork',
+            '@id'                           => $checkIdPro,
             'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_creativework_url_'.$schema_id, 'saswp_array'),
             'inLanguage'                    => saswp_remove_warnings($all_post_meta, 'saswp_creativework_inlanguage_'.$schema_id, 'saswp_array'),
             'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_creativework_main_entity_of_page_'.$schema_id, 'saswp_array'),
@@ -4383,11 +4454,11 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
         $input1 = array();
         $author_image = get_post_meta( get_the_ID(), 'saswp_tech_article_author_image_'.$schema_id.'_detail',true);
         $slogo = get_post_meta( get_the_ID(), 'saswp_tech_article_organization_logo_'.$schema_id.'_detail',true);
-
+        $checkIdPro = ((isset($all_post_meta['saswp_tech_article_id_'.$schema_id][0]) && $all_post_meta['saswp_tech_article_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_tech_article_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#TechArticle');
         $input1 = array(
                 '@context'			            => saswp_context_url(),
                 '@type'				            => 'TechArticle',
-                '@id'                           => trailingslashit(get_permalink()).'#techarticle',
+                '@id'                           =>  $checkIdPro,
                 'inLanguage'                    => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_inlanguage_'.$schema_id, 'saswp_array'),
                 'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_main_entity_of_page_'.$schema_id, 'saswp_array'),
                 'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_image_'.$schema_id, 'saswp_array'),
@@ -4482,6 +4553,7 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
                 
                 $slogo        = get_post_meta( get_the_ID(), 'saswp_newsarticle_organization_logo_'.$schema_id.'_detail',true);
                 $author_image = get_post_meta( get_the_ID(), 'saswp_newsarticle_author_image_'.$schema_id.'_detail',true);
+                $checkIdPro = ((isset($all_post_meta['saswp_newsarticle_id_'.$schema_id][0]) && $all_post_meta['saswp_newsarticle_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_newsarticle_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#NewsArticle'); 
                              
 				$input1 = array(
 					'@context'			            => saswp_context_url(),
@@ -4571,11 +4643,12 @@ function saswp_audiobook_schema_markup($schema_id, $schema_post_id, $all_post_me
                 $input1 = array();
     
                 $author_image       = get_post_meta( get_the_ID(), 'saswp_audiobook_author_image_'.$schema_id.'_detail',true);
+                $checkIdPro = ((isset($all_post_meta['saswp_audiobook_id_'.$schema_id][0]) && $all_post_meta['saswp_audiobook_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_audiobook_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Audiobook');
                                             
                 $input1 = array(
                 '@context'			=> saswp_context_url(),
                 '@type'				=> 'Audiobook' ,
-                '@id'               => trailingslashit(get_permalink()).'#Audiobook',    
+                '@id'               => $checkIdPro,    
                 'inLanguage'        => get_bloginfo('language'),       
                 'mainEntityOfPage'  => saswp_remove_warnings($all_post_meta, 'saswp_audiobook_main_entity_of_page_'.$schema_id, 'saswp_array'),
                 'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_audiobook_url_'.$schema_id, 'saswp_array'),                    
@@ -4617,11 +4690,12 @@ function saswp_audiobook_schema_markup($schema_id, $schema_post_id, $all_post_me
 function saswp_podcast_episode_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_podcast_episode_id_'.$schema_id][0]) && $all_post_meta['saswp_podcast_episode_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_podcast_episode_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#podcastepisod'); 
                         
     $input1 = array(
         '@context'			=> saswp_context_url(),
         '@type'				=> 'PodcastEpisode' ,
-        '@id'               => trailingslashit(get_permalink()).'#PodcastEpisode',    
+        '@id'               => $checkIdPro,    
         'inLanguage'        => get_bloginfo('language'),           
         'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_podcast_episode_url_'.$schema_id, 'saswp_array'),                    
         'name'		    	=> saswp_remove_warnings($all_post_meta, 'saswp_podcast_episode_name_'.$schema_id, 'saswp_array'),
@@ -4656,6 +4730,7 @@ function saswp_podcast_episode_schema_markup($schema_id, $schema_post_id, $all_p
 function saswp_podcast_season_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_podcast_season_id_'.$schema_id][0]) && $all_post_meta['saswp_podcast_season_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_podcast_season_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#podcastseason');
                         
     $input1 = array(
         '@context'			=> saswp_context_url(),
@@ -4703,10 +4778,12 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         $slogo = get_post_meta( get_the_ID(), 'saswp_video_object_organization_logo_'.$schema_id.'_detail',true);
         $author_image = get_post_meta( get_the_ID(), 'saswp_video_object_author_image_'.$schema_id.'_detail',true);
 
+        $checkIdPro = ((isset($all_post_meta['saswp_video_object_id_'.$schema_id][0]) && $all_post_meta['saswp_video_object_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_video_object_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#VideoObject');
+
         $input1 = array(
         '@context'			            => saswp_context_url(),
         '@type'				            => 'VideoObject',
-        '@id'                           => trailingslashit(get_permalink()).'#videoobject',    
+        '@id'                           => $checkIdPro,    
         'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_video_object_url_'.$schema_id, 'saswp_array'),
         'headline'			            => saswp_remove_warnings($all_post_meta, 'saswp_video_object_headline_'.$schema_id, 'saswp_array'),
         'datePublished'                 => isset($all_post_meta['saswp_video_object_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_video_object_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
@@ -4854,9 +4931,11 @@ function saswp_taxi_service_schema_markup($schema_id, $schema_post_id, $all_post
     $service_offer_str = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_service_offer_'.$schema_id, 'saswp_array');
     $service_offer_arr = explode(',', $service_offer_str);
 
+    $checkIdPro = ((isset($all_post_meta['saswp_taxi_service_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_taxi_service_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_taxi_service_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#TaxiService');
+
     $input1['@context']    = saswp_context_url();
     $input1['@type']       = 'TaxiService';
-    $input1['@id']         = trailingslashit(get_permalink()).'#TaxiService';
+    $input1['@id']         = $checkIdPro;
     $input1['name']        = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_name_'.$schema_id, 'saswp_array');
     $input1['serviceType'] = saswp_remove_warnings($all_post_meta, 'saswp_taxi_service_schema_type_'.$schema_id, 'saswp_array');
 
@@ -4916,8 +4995,10 @@ function saswp_taxi_service_schema_markup($schema_id, $schema_post_id, $all_post
 function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
         $input1 = array();
-    
-        $area_served_str = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_area_served_'.$schema_id, 'saswp_array');
+
+        $checkIdPro = ((isset($all_post_meta['saswp_service_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_service_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_service_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#Service');
+
+        $area_served_str = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_area_served_'.$schema_id, 'saswp_array'); 
         $area_served_arr = explode(',', $area_served_str);
 
         $service_offer_str = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_service_offer_'.$schema_id, 'saswp_array');
@@ -4925,7 +5006,7 @@ function saswp_service_schema_markup($schema_id, $schema_post_id, $all_post_meta
 
         $input1['@context']    = saswp_context_url();
         $input1['@type']       = 'Service';
-        $input1['@id']         = trailingslashit(get_permalink()).'#service';
+        $input1['@id']         = $checkIdPro;
         $input1['name']        = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_name_'.$schema_id, 'saswp_array');
         $input1['serviceType'] = saswp_remove_warnings($all_post_meta, 'saswp_service_schema_type_'.$schema_id, 'saswp_array');
 

@@ -627,7 +627,9 @@ Class saswp_output_service{
              switch ($schema_type) {
                  
                case 'Book':      
-                      
+                    if(isset($custom_fields['saswp_book_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_book_id'];
+                    }  
                     if(isset($custom_fields['saswp_book_name'])){
                      $input1['name'] =    $custom_fields['saswp_book_name'];
                     }
@@ -689,7 +691,9 @@ Class saswp_output_service{
                     break; 
                     
                 case 'MusicPlaylist':      
-                    
+                    if(isset($custom_fields['saswp_music_playlist_id'])){
+                        $input1['@id'] =     trailingslashit(get_permalink()).$custom_fields['saswp_music_playlist_id'];
+                    }
                     if(isset($custom_fields['saswp_music_playlist_name'])){
                      $input1['name'] =    $custom_fields['saswp_music_playlist_name'];
                     }
@@ -704,6 +708,9 @@ Class saswp_output_service{
                 
                 case 'Movie':      
                     
+                    if(isset($custom_fields['saswp_movie_id'])){
+                        $input1['@id'] =     trailingslashit(get_permalink()).$custom_fields['saswp_movie_id'];
+                    }
                     if(isset($custom_fields['saswp_movie_name'])){
                      $input1['name'] =    $custom_fields['saswp_movie_name'];
                     }
@@ -737,7 +744,9 @@ Class saswp_output_service{
                 break;
                 
                 case 'CreativeWorkSeries':      
-                                        
+                        if(isset($custom_fields['saswp_cws_schema_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_cws_schema_id'];
+                        }            
                        if(isset($custom_fields['saswp_cws_schema_image'])){
                             $input1['image'] =    $custom_fields['saswp_cws_schema_image'];
                        }
@@ -790,6 +799,9 @@ Class saswp_output_service{
 
                 case 'MusicComposition':      
                     
+                    if(isset($custom_fields['saswp_music_composition_id'])){
+                        $input1['@id'] =     trailingslashit(get_permalink()).$custom_fields['saswp_music_composition_id'];
+                    }
                     if(isset($custom_fields['saswp_music_composition_name'])){
                      $input1['name'] =    $custom_fields['saswp_music_composition_name'];
                     }
@@ -820,7 +832,10 @@ Class saswp_output_service{
                     break; 
                 
                     case 'PodcastEpisode':      
-                    
+                        
+                        if(isset($custom_fields['saswp_podcast_episode_id'])){
+                            $input1['@id'] =     trailingslashit(get_permalink()).$custom_fields['saswp_podcast_episode_id'];
+                        }
                         if(isset($custom_fields['saswp_podcast_episode_name'])){
                             $input1['name'] =    $custom_fields['saswp_podcast_episode_name'];
                         }
@@ -864,7 +879,9 @@ Class saswp_output_service{
                     break;
 
                     case 'PodcastSeason':      
-                    
+                        if(isset($custom_fields['saswp_podcast_season_id'])){
+                            $input1['@id'] =     trailingslashit(get_permalink()).$custom_fields['saswp_podcast_season_id'];
+                        }
                         if(isset($custom_fields['saswp_podcast_season_name'])){
                             $input1['name'] =    $custom_fields['saswp_podcast_season_name'];
                         }
@@ -904,7 +921,10 @@ Class saswp_output_service{
                     break;
 
                     case 'HotelRoom':      
-                    
+
+                        if(isset($custom_fields['saswp_hotelroom_hotel_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_hotelroom_hotel_id'];
+                        }                     
                         if(isset($custom_fields['saswp_hotelroom_hotel_name'])){
                             $input1['name'] =    $custom_fields['saswp_hotelroom_hotel_name'];
                         }
@@ -976,7 +996,10 @@ Class saswp_output_service{
                     break;
 
                     case 'Audiobook':      
-                    
+                        
+                        if(isset($custom_fields['saswp_audiobook_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_audiobook_id'];
+                        }
                         if(isset($custom_fields['saswp_audiobook_name'])){
                             $input1['name'] =    $custom_fields['saswp_audiobook_name'];
                         }
@@ -1039,6 +1062,9 @@ Class saswp_output_service{
 
                     case 'EducationalOccupationalCredential':      
                     
+                        if(isset($custom_fields['saswp_eoc_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_eoc_id'];
+                        } 
                         if(isset($custom_fields['saswp_eoc_additional_type'])){
                             $input1['additionalType'] =    $custom_fields['saswp_eoc_additional_type'];
                         }
@@ -1081,7 +1107,9 @@ Class saswp_output_service{
 
                     break;
                     case 'EducationalOccupationalProgram':      
-                        
+                        if(isset($custom_fields['saswp_eop_id'])){
+                            $input1['name'] =    trailingslashit(get_permalink()).$custom_fields['saswp_eop_id'];
+                        }
                         if(isset($custom_fields['saswp_eop_name'])){
                          $input1['name'] =    $custom_fields['saswp_eop_name'];
                         }
@@ -1167,7 +1195,10 @@ Class saswp_output_service{
                     break;  
 
                     case 'Project':      
-                    
+                        
+                        if(isset($custom_fields['saswp_project_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_project_id'];
+                        } 
                         if(isset($custom_fields['saswp_project_name'])){
                          $input1['name'] =    $custom_fields['saswp_project_name'];
                         }
@@ -1252,7 +1283,9 @@ Class saswp_output_service{
                         break;         
 
                 case 'Organization':      
-                    
+                    if(isset($custom_fields['saswp_organization_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_organization_id'];
+                    } 
                     if(isset($custom_fields['saswp_organization_name'])){
                      $input1['name'] =    $custom_fields['saswp_organization_name'];
                     }
@@ -1337,7 +1370,9 @@ Class saswp_output_service{
                     break;     
                     
                 case 'MusicAlbum':      
-                    
+                    if(isset($custom_fields['saswp_music_album_id'])){
+                        $input1['@id'] =     trailingslashit(get_permalink()).$custom_fields['saswp_music_album_id'];
+                    }
                     if(isset($custom_fields['saswp_music_album_name'])){
                      $input1['name'] =    $custom_fields['saswp_music_album_name'];
                     }
@@ -1360,7 +1395,9 @@ Class saswp_output_service{
                     
                     break;     
                     case 'Article':      
-                     
+                        if(isset($custom_fields['saswp_article_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_article_id'];
+                        }
                         if(isset($custom_fields['saswp_article_main_entity_of_page'])){
                          $input1['mainEntityOfPage'] =    $custom_fields['saswp_article_main_entity_of_page'];
                         }
@@ -1452,12 +1489,14 @@ Class saswp_output_service{
                         }
                         if(isset($custom_fields['saswp_article_knowsabout'])){                            
                             $input1['knowsAbout'] = explode(',', $custom_fields['saswp_article_knowsabout']);    
-                        }
+                        }  
                                      
                         break; 
 
-                    case 'CreativeWork':      
-                    
+                    case 'CreativeWork':   
+                        if(isset($custom_fields['saswp_creativework_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_creativework_id'];
+                        } 
                         if(isset($custom_fields['saswp_creativework_main_entity_of_page'])){
                             $input1['mainEntityOfPage'] =    $custom_fields['saswp_creativework_main_entity_of_page'];
                         }
@@ -1555,7 +1594,9 @@ Class saswp_output_service{
                         break; 
 
                     case 'VisualArtwork':      
-                                                                
+                        if(isset($custom_fields['saswp_visualartwork_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_visualartwork_id'];
+                           }                                         
                         if(isset($custom_fields['saswp_visualartwork_url'])){
                             $input1['url'] =    saswp_validate_url($custom_fields['saswp_visualartwork_url']);
                         }                                               
@@ -1611,7 +1652,9 @@ Class saswp_output_service{
                         
                         break;         
                 case 'Photograph':      
-                                         
+                        if(isset($custom_fields['saswp_photograph_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_photograph_id'];
+                        }                  
                        if(isset($custom_fields['saswp_photograph_image'])){
                         $input1['image'] =    $custom_fields['saswp_photograph_image'];
                        }
@@ -1715,6 +1758,9 @@ Class saswp_output_service{
 
                             $input1['announcementLocation'] = $location;
                         }
+                        if(isset($custom_fields['saswp_special_announcement_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_special_announcement_id'];
+                        }
                         if(isset($custom_fields['saswp_special_announcement_category'])){
                             $input1['category'] =    $custom_fields['saswp_special_announcement_category'];
                         }
@@ -1775,7 +1821,7 @@ Class saswp_output_service{
                     
                 case 'HowTo':                          
                     if(isset($custom_fields['saswp_howto_schema_id'])){
-                     $input1['@id'] =    $custom_fields['saswp_howto_schema_id'];
+                     $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_howto_schema_id'];
                     }                    
                     if(isset($custom_fields['saswp_howto_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_howto_schema_name'];
@@ -1817,7 +1863,7 @@ Class saswp_output_service{
                 case 'local_business':
                    
                     if(isset($custom_fields['local_business_id'])){
-                        $input1['@id'] =    $custom_fields['local_business_id'];
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['local_business_id'];
                     }                   
                     if(isset($custom_fields['saswp_business_type'])){                     
                      $input1['@type'] =    $custom_fields['saswp_business_type'];                     
@@ -1913,7 +1959,9 @@ Class saswp_output_service{
                 
                 case 'Blogposting':
                 case 'BlogPosting':
-                                       
+                    if(isset($custom_fields['saswp_blogposting_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_blogposting_id'];
+                    }                
                     if(isset($custom_fields['saswp_blogposting_main_entity_of_page'])){
                      $input1['mainEntityOfPage'] =    $custom_fields['saswp_blogposting_main_entity_of_page'];
                     }
@@ -2011,6 +2059,9 @@ Class saswp_output_service{
                     
                 case 'AudioObject':
                     
+                    if(isset($custom_fields['saswp_audio_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_audio_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_audio_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_audio_schema_name'];
                     }
@@ -2050,6 +2101,9 @@ Class saswp_output_service{
                     
                 case 'SoftwareApplication':
                     
+                    if(isset($custom_fields['saswp_software_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_software_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_software_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_software_schema_name'];
                     }
@@ -2086,7 +2140,10 @@ Class saswp_output_service{
                     break;    
                     
                     case 'MobileApplication':
-                    
+                        
+                        if(isset($custom_fields['saswp_mobile_app_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_mobile_app_id'];
+                           }
                         if(isset($custom_fields['saswp_mobile_app_schema_name'])){
                          $input1['name'] =    $custom_fields['saswp_mobile_app_schema_name'];
                         }
@@ -2123,7 +2180,10 @@ Class saswp_output_service{
                         break;       
                 
                 case 'NewsArticle':
-                                                                  
+                    
+                    if(isset($custom_fields['saswp_newsarticle_id'])){
+                        $input1['@id'] =     trailingslashit(get_permalink()).$custom_fields['saswp_newsarticle_id'];
+                    }
                     if(isset($custom_fields['saswp_newsarticle_main_entity_of_page'])){
                      $input1['mainEntityOfPage'] =    $custom_fields['saswp_newsarticle_main_entity_of_page'];
                     }
@@ -2192,7 +2252,9 @@ Class saswp_output_service{
                     break;
                 
                 case 'WebPage':
-                    
+                    if(isset($custom_fields['saswp_webpage_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_webpage_id'];
+                    }
                     if(isset($custom_fields['saswp_webpage_name'])){
                         $input1['name'] =    $custom_fields['saswp_webpage_name'];
                     }
@@ -2261,7 +2323,7 @@ Class saswp_output_service{
                     $vir_location = array();
                     
                     if(isset($custom_fields['saswp_event_schema_id'])){
-                        $input1['@id'] =    $custom_fields['saswp_event_schema_id'];
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_event_schema_id'];
                     }
                     if(isset($custom_fields['saswp_event_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_event_schema_name'];
@@ -2406,8 +2468,11 @@ Class saswp_output_service{
                                         
                     break;    
                     
-                case 'TechArticle':      
-                      
+                case 'TechArticle':     
+                    
+                    if(isset($custom_fields['saswp_tech_article_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_tech_article_id'];
+                       }                      
                     if(isset($custom_fields['saswp_tech_article_main_entity_of_page'])){
                      $input1['mainEntityOfPage'] =    $custom_fields['saswp_tech_article_main_entity_of_page'];
                     }
@@ -2506,7 +2571,9 @@ Class saswp_output_service{
                     break;   
                     
                 case 'Course':      
-                      
+                    if(isset($custom_fields['saswp_course_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_course_id'];
+                    }
                     if(isset($custom_fields['saswp_course_name'])){
                      $input1['name'] =    $custom_fields['saswp_course_name'];
                     }
@@ -2558,7 +2625,9 @@ Class saswp_output_service{
                     break;    
                     
                 case 'DiscussionForumPosting':      
-                      
+                    if(isset($custom_fields['saswp_dfp_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_dfp_id'];
+                    } 
                     if(isset($custom_fields['saswp_dfp_headline'])){
                      $input1['headline'] =    $custom_fields['saswp_dfp_headline'];
                     }
@@ -2599,6 +2668,9 @@ Class saswp_output_service{
                     break;        
                 
                 case 'Recipe':
+                    if(isset($custom_fields['saswp_recipe_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_recipe_id'];
+                    } 
                     if(isset($custom_fields['saswp_recipe_url'])){
                      $input1['url'] =    saswp_validate_url($custom_fields['saswp_recipe_url']);
                     }
@@ -2767,9 +2839,9 @@ Class saswp_output_service{
                     
                     break;
                 
-                case 'Product':                                                                                                  
+                case 'Product':                                                                                                
                     if(isset($custom_fields['saswp_product_schema_id'])){
-                     $input1['@id'] =    $custom_fields['saswp_product_schema_id'];
+                     $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_product_schema_id'];
                     }
                     if(isset($custom_fields['saswp_product_schema_url'])){
                      $input1['url'] =    saswp_validate_url($custom_fields['saswp_product_schema_url']);
@@ -2876,6 +2948,9 @@ Class saswp_output_service{
                     break;
 
                     case 'Car':
+                            if(isset($custom_fields['saswp_car_schema_id'])){
+                                $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_car_schema_id'];
+                            }
                             if(isset($custom_fields['saswp_car_schema_model'])){
                                 $input1['model'] =    $custom_fields['saswp_car_schema_model'];
                             }
@@ -2952,6 +3027,9 @@ Class saswp_output_service{
                         break;
 
                         case 'Vehicle':
+                            if(isset($custom_fields['saswp_vehicle_schema_id'])){
+                                $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_vehicle_schema_id'];
+                            }
                             if(isset($custom_fields['saswp_vehicle_schema_model'])){
                                 $input1['model'] =    $custom_fields['saswp_vehicle_schema_model'];
                             }
@@ -3028,7 +3106,9 @@ Class saswp_output_service{
                         break;
 
                     case 'RentAction':                                                                                                  
-
+                        if(isset($custom_fields['saswp_rent_action_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_rent_action_id'];
+                        } 
                         if(isset($custom_fields['saswp_rent_action_agent_name'])){
                             $input1['agent']['@type'] =    'Person';
                             $input1['agent']['name']  =    $custom_fields['saswp_rent_action_agent_name'];
@@ -3044,7 +3124,10 @@ Class saswp_output_service{
 
                     break;
 
-                    case 'RealEstateListing':                                                                                                  
+                    case 'RealEstateListing':
+                        if(isset($custom_fields['saswp_real_estate_listing_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_real_estate_listing_id'];
+                        }                                                                                                   
                         if(isset($custom_fields['saswp_real_estate_listing_date_posted'])){
                             $input1['datePosted'] =    $custom_fields['saswp_real_estate_listing_date_posted'];
                         }
@@ -3097,7 +3180,9 @@ Class saswp_output_service{
                         break;    
 
                         case 'ApartmentComplex':
-                            
+                            if(isset($custom_fields['saswp_apartment_complex_id'])){
+                                $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_apartment_complex_id'];
+                            }                              
                             if(isset($custom_fields['saswp_apartment_complex_name'])){
                              $input1['name']        =    $custom_fields['saswp_apartment_complex_name'];
                             }
@@ -3141,7 +3226,9 @@ Class saswp_output_service{
                             break;    
 
                         case 'PsychologicalTreatment':                                                                                                  
-
+                            if(isset($custom_fields['saswp_psychological_treatment_id'])){
+                                $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_psychological_treatment_id'];
+                            } 
                             if(isset($custom_fields['saswp_psychological_treatment_name'])){
                                 $input1['name'] =    $custom_fields['saswp_psychological_treatment_name'];
                             }                            
@@ -3182,6 +3269,9 @@ Class saswp_output_service{
                             break;            
                 
                 case 'Service':
+                    if(isset($custom_fields['saswp_service_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_service_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_service_schema_name'])){
                       $input1['name'] =    $custom_fields['saswp_service_schema_name'];
                     }
@@ -3238,6 +3328,9 @@ Class saswp_output_service{
                     break;
 
                     case 'TaxiService':
+                        if(isset($custom_fields['saswp_taxi_service_schema_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_taxi_service_schema_id'];
+                        }
 
                         if(isset($custom_fields['saswp_taxi_service_schema_name'])){
                           $input1['name'] =    $custom_fields['saswp_taxi_service_schema_name'];
@@ -3287,7 +3380,9 @@ Class saswp_output_service{
                     break;    
                 
                 case 'VideoObject':
-                    
+                    if(isset($custom_fields['saswp_video_object_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_video_object_id'];
+                    }
                     if(isset($custom_fields['saswp_video_object_url'])){
                      $input1['url'] =    saswp_validate_url($custom_fields['saswp_video_object_url']);
                     }
@@ -3488,7 +3583,10 @@ Class saswp_output_service{
                     break;
                     
                 case 'TVSeries':      
-                      
+                    
+                    if(isset($custom_fields['saswp_tvseries_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_tvseries_schema_id'];
+                    } 
                     if(isset($custom_fields['saswp_tvseries_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_tvseries_schema_name'];
                     }
@@ -3509,6 +3607,9 @@ Class saswp_output_service{
                 
                 case 'TouristAttraction':      
                       
+                    if(isset($custom_fields['saswp_ta_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_ta_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_ta_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_ta_schema_name'];
                     }
@@ -3546,6 +3647,9 @@ Class saswp_output_service{
                 
                 case 'FAQ':   
                     
+                    if(isset($custom_fields['saswp_faq_id'])){
+                     $input1['@id'] =     trailingslashit(get_permalink()).$custom_fields['saswp_faq_id'];
+                    }
                     if(isset($custom_fields['saswp_faq_headline'])){
                      $input1['headline'] =    $custom_fields['saswp_faq_headline'];
                     }
@@ -3579,6 +3683,9 @@ Class saswp_output_service{
                 
                 case 'TouristDestination':      
                       
+                    if(isset($custom_fields['saswp_td_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_td_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_td_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_td_schema_name'];
                     }
@@ -3612,7 +3719,10 @@ Class saswp_output_service{
                 break;
                 
                 case 'LandmarksOrHistoricalBuildings':      
-                      
+                    
+                    if(isset($custom_fields['saswp_lorh_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_lorh_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_lorh_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_lorh_schema_name'];
                     }
@@ -3655,7 +3765,9 @@ Class saswp_output_service{
                 break;
                 
                 case 'HinduTemple':      
-                      
+                    if(isset($custom_fields['saswp_hindutemple_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_hindutemple_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_hindutemple_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_hindutemple_schema_name'];
                     }
@@ -3698,7 +3810,9 @@ Class saswp_output_service{
                 break;
 
                 case 'BuddhistTemple':      
-                      
+                    if(isset($custom_fields['saswp_buddhisttemple_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_buddhisttemple_schema_id'];
+                    }                      
                     if(isset($custom_fields['saswp_buddhisttemple_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_buddhisttemple_schema_name'];
                     }
@@ -3741,7 +3855,9 @@ Class saswp_output_service{
                 break;
                 
                 case 'Church':      
-                      
+                    if(isset($custom_fields['saswp_church_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_church_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_church_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_church_schema_name'];
                     }
@@ -3784,7 +3900,9 @@ Class saswp_output_service{
                 break;
                 
                 case 'Mosque':      
-                      
+                    if(isset($custom_fields['saswp_mosque_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_mosque_schema_id'];
+                    }                      
                     if(isset($custom_fields['saswp_mosque_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_mosque_schema_name'];
                     }
@@ -3829,7 +3947,7 @@ Class saswp_output_service{
                 case 'Person':      
                     
                     if(isset($custom_fields['saswp_person_schema_id'])){
-                     $input1['@id'] =    $custom_fields['saswp_person_schema_id'];
+                     $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_person_schema_id'];
                     }
                     if(isset($custom_fields['saswp_person_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_person_schema_name'];
@@ -3994,7 +4112,10 @@ Class saswp_output_service{
                 break;
                                 
                 case 'Apartment':      
-                      
+
+                    if(isset($custom_fields['saswp_apartment_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_apartment_schema_id'];
+                    }                       
                     if(isset($custom_fields['saswp_apartment_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_apartment_schema_name'];
                     }
@@ -4034,7 +4155,9 @@ Class saswp_output_service{
                 break;
                 
                 case 'House':      
-                      
+                    if(isset($custom_fields['saswp_house_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_house_schema_id'];
+                    }  
                     if(isset($custom_fields['saswp_house_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_house_schema_name'];
                     }
@@ -4083,7 +4206,9 @@ Class saswp_output_service{
                 break;
                 
                 case 'SingleFamilyResidence':      
-                      
+                    if(isset($custom_fields['saswp_sfr_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_sfr_schema_id'];
+                    }                        
                     if(isset($custom_fields['saswp_sfr_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_sfr_schema_name'];
                     }
@@ -4136,6 +4261,9 @@ Class saswp_output_service{
                 
                 case 'VideoGame':      
                       
+                    if(isset($custom_fields['saswp_vg_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_vg_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_vg_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_vg_schema_name'];
                     }
@@ -4212,8 +4340,11 @@ Class saswp_output_service{
                     
                 break;
                 
-                case 'JobPosting':      
-
+                case 'JobPosting':  
+                    
+                    if(isset($custom_fields['saswp_jobposting_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_jobposting_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_jobposting_schema_industry'])){
                         $input1['industry']             =    $custom_fields['saswp_jobposting_schema_industry'];
                     }if(isset($custom_fields['saswp_jobposting_schema_occupational_category'])){
@@ -4313,7 +4444,10 @@ Class saswp_output_service{
                 break;
                 
                 case 'Trip':      
-                      
+                    
+                    if(isset($custom_fields['saswp_trip_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_trip_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_trip_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_trip_schema_name'];
                     }
@@ -4330,7 +4464,9 @@ Class saswp_output_service{
                 break;
 
                 case 'BoatTrip':      
-                    
+                        if(isset($custom_fields['saswp_boat_trip_schema_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_boat_trip_schema_id'];
+                        }
                        if(isset($custom_fields['saswp_boat_trip_schema_name'])){
                         $input1['name'] =    $custom_fields['saswp_boat_trip_schema_name'];
                        }
@@ -4359,7 +4495,9 @@ Class saswp_output_service{
                 break;
                 
                 case 'MedicalCondition':      
-                      
+                    if(isset($custom_fields['saswp_mc_schema_id'])){
+                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_mc_schema_id'];
+                    }
                     if(isset($custom_fields['saswp_mc_schema_name'])){
                      $input1['name'] =    $custom_fields['saswp_mc_schema_name'];
                     }
@@ -5264,7 +5402,7 @@ Class saswp_output_service{
                         $input1 = array(
                         '@context'			=> saswp_context_url(),
                         '@type'				=> 'SpecialAnnouncement',
-                        '@id'				=> trailingslashit(saswp_get_permalink()).'#SpecialAnnouncement',
+                        // '@id'				=> trailingslashit(saswp_get_permalink()).'#SpecialAnnouncement',
                         'url'				=> saswp_get_permalink(),
                         'inLanguage'        => get_bloginfo('language'),                        
                         'name'			    => saswp_get_the_title(),                        
