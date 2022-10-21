@@ -1431,14 +1431,15 @@ Class saswp_output_service{
                         if(isset($custom_fields['saswp_article_date_modified'])){
                          $input1['dateModified'] =    $custom_fields['saswp_article_date_modified'];
                         }
-                        if(isset($custom_fields['saswp_article_author_type'])){
-                            $input1['author']['@type'] =    $custom_fields['saswp_article_author_type'];
-                        }
+                       
                         if(isset($custom_fields['saswp_article_editor_name']) && $custom_fields['saswp_article_editor_name'] != '') {
                             $input1['editor'] = array();
                             $input1['editor']['@type'] = 'Person';
                             $input1['editor']['name']  =  $custom_fields['saswp_article_editor_name'];
                         }   
+                        if(isset($custom_fields['saswp_article_author_type'])){
+                            $input1['author']['@type'] =    $custom_fields['saswp_article_author_type'];
+                        }
                         if(isset($custom_fields['saswp_article_editor_honorific_suffix']) && $custom_fields['saswp_article_editor_honorific_suffix'] != '') {
                             $input1['editor']['honorificSuffix']  =  $custom_fields['saswp_article_editor_honorific_suffix'];
                         }  
@@ -2086,6 +2087,8 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_author_image'])){
                         $input1['author']['Image']['url'] =    $custom_fields['saswp_blogposting_author_image'];  
                     } 
+
+                   
                     if(isset($custom_fields['saswp_blogposting_reviewedby_type'])){
                         $input1['reviewedBy']['@type'] =    $custom_fields['saswp_blogposting_reviewedby_type'];
                     }
@@ -2101,6 +2104,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_reviewedby_description'])){
                         $input1['reviewedBy']['description'] =    $custom_fields['saswp_blogposting_reviewedby_description'];
                     }
+                    
 
                     if(isset($custom_fields['saswp_blogposting_knowsabout'])){                            
                         $input1['knowsAbout'] = explode(',', $custom_fields['saswp_blogposting_knowsabout']);    

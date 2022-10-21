@@ -453,6 +453,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'      => 'saswp_blogposting_reviewedby_type_'.$schema_id,
                         'type'    => 'select',
                         'options' => array(
+                                ''           => 'Select',
                                 'Person'           => 'Person',
                                 'Organization'     => 'Organization',                        
                        )                        
@@ -555,15 +556,6 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'    => 'textarea',
                         'default' => '',
                         'note'    => 'Note: If There are more than one knows about, Separate knows about list by comma ( , )'       
-                    ),
-                    array(
-                        'label'   => 'ReviewedBy',
-                        'id'      => 'saswp_blogposting_reviewedby_'.$schema_id,
-                        'type'    => 'select',
-                        'options' => array(
-                                'Person'           => 'Person',
-                                'Organization'     => 'Organization',                        
-                        )
                     ),
                     array(
                         'label' => 'Speakable',
