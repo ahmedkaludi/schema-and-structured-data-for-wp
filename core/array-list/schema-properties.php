@@ -453,7 +453,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'      => 'saswp_blogposting_reviewedby_type_'.$schema_id,
                         'type'    => 'select',
                         'options' => array(
-                                ''           => 'Select',
+                                ''                 => 'Select',
                                 'Person'           => 'Person',
                                 'Organization'     => 'Organization',                        
                        )                        
@@ -490,6 +490,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'      => 'saswp_blogposting_editor_type_'.$schema_id,
                         'type'    => 'select',
                         'options' => array(
+                                ""                => "Select",
                                 'Person'           => 'Person',
                                 'Organization'     => 'Organization',                        
                         )
@@ -718,6 +719,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'      => 'saswp_newsarticle_editor_type_'.$schema_id,
                         'type'    => 'select',
                         'options' => array(
+                                ""                => "Select",
                                 'Person'           => 'Person',
                                 'Organization'     => 'Organization',                        
                         )
@@ -1141,6 +1143,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_photograph_editor_type_'.$schema_id,
                                 'type'    => 'select',
                                 'options' => array(
+                                         ""               => "Select",
                                         'Person'           => 'Person',
                                         'Organization'     => 'Organization',                        
                                 )
@@ -1183,6 +1186,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_photograph_reviewedby_type_'.$schema_id,
                                 'type'    => 'select',
                                 'options' => array(
+                                         ""                => "Select",
                                         'Person'           => 'Person',
                                         'Organization'     => 'Organization',                        
                                 )
@@ -1382,6 +1386,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_article_reviewedby_type_'.$schema_id,
                                 'type'    => 'select',
                                 'options' => array(
+                                        ""                => "Select",
                                         'Person'           => 'Person',
                                         'Organization'     => 'Organization',                        
                                 )
@@ -1417,6 +1422,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_article_editor_type_'.$schema_id,
                                 'type'    => 'select',
                                 'options' => array(
+                                        ""                => "Select",
                                         'Person'           => 'Person',
                                         'Organization'     => 'Organization',                        
                                 )
@@ -1982,6 +1988,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'      => 'saswp_creativework_reviewedby_type_'.$schema_id,
                                         'type'    => 'select',
                                         'options' => array(
+                                                ""                => "Select",
                                                 'Person'           => 'Person',
                                                 'Organization'     => 'Organization',                        
                                         )
@@ -2018,6 +2025,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'      => 'saswp_creativework_editor_type_'.$schema_id,
                                         'type'    => 'select',
                                         'options' => array(
+                                                 ""                => "Select",
                                                 'Person'           => 'Person',
                                                 'Organization'     => 'Organization',                        
                                         )
@@ -2635,6 +2643,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'      => 'saswp_tech_article_reviewedby_type_'.$schema_id,
                         'type'    => 'select',
                         'options' => array(
+                                ""                => "Select",
                                 'Person'           => 'Person',
                                 'Organization'     => 'Organization',                        
                        )
@@ -2670,6 +2679,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'      => 'saswp_tech_article_editor_type_'.$schema_id,
                         'type'    => 'select',
                         'options' => array(
+                                 ""                => "Select",
                                 'Person'           => 'Person',
                                 'Organization'     => 'Organization',                        
                         )
