@@ -441,7 +441,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     ),
                     array(
                         'label'   => 'JobTitle',
-                        'id'      => 'saswp_blogposting_jobtitle_'.$schema_id,
+                        'id'      => 'saswp_blogposting_author_jobtitle_'.$schema_id,
                         'type'    => 'text',
                         'default' => '',
                         'attributes' => array(
@@ -453,6 +453,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'      => 'saswp_blogposting_reviewedby_type_'.$schema_id,
                         'type'    => 'select',
                         'options' => array(
+                                ''                 => 'Select',
                                 'Person'           => 'Person',
                                 'Organization'     => 'Organization',                        
                        )                        
@@ -483,6 +484,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'    => 'text',
                         'default' => $author_url
                     ),
+
+                    array(
+                        'label'   => 'Editor Type',
+                        'id'      => 'saswp_blogposting_editor_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                ""                => "Select",
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                        )
+                    ),
                     array(
                         'label'   => 'Editor Name',
                         'id'      => 'saswp_blogposting_editor_name_'.$schema_id,
@@ -497,6 +509,26 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'placeholder' => 'eg: M.D. /PhD/MSCSW.'
                          ),
                     ),
+                    array(
+                        'label'   => 'Editor Description',
+                        'id'      => 'saswp_blogposting_editor_description_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => $author_desc
+                    ),
+                    array(
+                        'label'   => 'Editor URL',
+                        'id'      => 'saswp_blogposting_editor_url_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => $author_url
+                    ),
+                    array(
+                        'label' => 'Editor Image URL',
+                        'id' => 'saswp_blogposting_editor_image_'.$schema_id,
+                        'type' => 'media',
+                        'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
+
+
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_blogposting_organization_name_'.$schema_id,
@@ -525,15 +557,6 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'    => 'textarea',
                         'default' => '',
                         'note'    => 'Note: If There are more than one knows about, Separate knows about list by comma ( , )'       
-                    ),
-                    array(
-                        'label'   => 'ReviewedBy',
-                        'id'      => 'saswp_blogposting_reviewedby_'.$schema_id,
-                        'type'    => 'select',
-                        'options' => array(
-                                'Person'           => 'Person',
-                                'Organization'     => 'Organization',                        
-                        )
                     ),
                     array(
                         'label' => 'Speakable',
@@ -690,12 +713,50 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'media',
                             'default' => isset($author_details['url']) ? $author_details['url']: ''
                     ),
+
+                    array(
+                        'label'   => 'Editor Type',
+                        'id'      => 'saswp_newsarticle_editor_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                ""                => "Select",
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                        )
+                    ),
                     array(
                         'label'   => 'Editor Name',
                         'id'      => 'saswp_newsarticle_editor_name_'.$schema_id,
                         'type'    => 'text',
                         'default' => is_object($current_user) ? $current_user->display_name : ''
-                        ),
+                    ),
+                    array(
+                        'label'   => 'Editor HonorificSuffix',
+                        'id'      => 'saswp_newsarticle_editor_honorific_suffix_'.$schema_id,
+                        'type'    => 'text',
+                        'attributes' => array(
+                                'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                         ),
+                    ), 
+                    array(
+                        'label'   => 'Editor Description',
+                        'id'      => 'saswp_newsarticle_editor_description_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => $author_desc
+                    ),
+                    array(
+                        'label'   => 'Editor URL',
+                        'id'      => 'saswp_newsarticle_editor_url_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => $author_url
+                    ),
+                    array(
+                        'label' => 'Editor Image URL',
+                        'id' => 'saswp_newsarticle_editor_image_'.$schema_id,
+                        'type' => 'media',
+                        'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
+
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_newsarticle_organization_name_'.$schema_id,
@@ -1069,18 +1130,63 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         ), 
                         array(
                                 'label'   => 'JobTitle',
-                                'id'      => 'saswp_photograph_jobtitle_'.$schema_id,
+                                'id'      => 'saswp_photograph_author_jobtitle_'.$schema_id,
                                 'type'    => 'text',
                                 'default' => '',
                                 'attributes' => array(
                                         'placeholder' => 'eg: Editor in Chief'
                                  ),
                         ),
+
+                        array(
+                                'label'   => 'Editor Type',
+                                'id'      => 'saswp_photograph_editor_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                         ""               => "Select",
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label' => 'Editor Name',
+                                'id' => 'saswp_photograph_editor_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'Editor HonorificSuffix',
+                                'id'      => 'saswp_photograph_editor_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                 ),
+                        ),
+                        array(
+                                'label'   => 'Editor Description',
+                                'id'      => 'saswp_photograph_editor_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Editor URL',
+                                'id'      => 'saswp_photograph_editor_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Editor Image URL',
+                                'id' => 'saswp_photograph_editor_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+
                         array(
                                 'label'   => 'ReviewedBy Type',
                                 'id'      => 'saswp_photograph_reviewedby_type_'.$schema_id,
                                 'type'    => 'select',
                                 'options' => array(
+                                         ""                => "Select",
                                         'Person'           => 'Person',
                                         'Organization'     => 'Organization',                        
                                 )
@@ -1268,7 +1374,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         ),
                         array(
                                 'label'   => 'JobTitle',
-                                'id'      => 'saswp_article_jobtitle_'.$schema_id,
+                                'id'      => 'saswp_article_author_jobtitle_'.$schema_id,
                                 'type'    => 'text',
                                 'default' => '',
                                 'attributes' => array(
@@ -1280,6 +1386,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_article_reviewedby_type_'.$schema_id,
                                 'type'    => 'select',
                                 'options' => array(
+                                        ""                => "Select",
                                         'Person'           => 'Person',
                                         'Organization'     => 'Organization',                        
                                 )
@@ -1311,6 +1418,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => $author_url
                         ),
                         array(
+                                'label'   => 'Editor Type',
+                                'id'      => 'saswp_article_editor_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ""                => "Select",
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
                                 'label'   => 'Editor Name',
                                 'id'      => 'saswp_article_editor_name_'.$schema_id,
                                 'type'    => 'text',
@@ -1323,7 +1440,25 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'attributes' => array(
                                         'placeholder' => 'eg: M.D. /PhD/MSCSW.'
                                  ),
-                        ),    
+                        ), 
+                        array(
+                                'label'   => 'Editor Description',
+                                'id'      => 'saswp_article_editor_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Editor URL',
+                                'id'      => 'saswp_article_editor_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Editor Image URL',
+                                'id' => 'saswp_article_editor_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
                         array(
                                 'label'   => 'Organization Name',
                                 'id'      => 'saswp_article_organization_name_'.$schema_id,
@@ -1841,7 +1976,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 ),
                                 array(
                                         'label'   => 'JobTitle',
-                                        'id'      => 'saswp_creativework_jobtitle_'.$schema_id,
+                                        'id'      => 'saswp_creativework_author_jobtitle_'.$schema_id,
                                         'type'    => 'text',
                                         'default' => '',
                                         'attributes' => array(
@@ -1853,6 +1988,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'      => 'saswp_creativework_reviewedby_type_'.$schema_id,
                                         'type'    => 'select',
                                         'options' => array(
+                                                ""                => "Select",
                                                 'Person'           => 'Person',
                                                 'Organization'     => 'Organization',                        
                                         )
@@ -1883,6 +2019,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'type'    => 'text',
                                         'default' => $author_url
                                 ),
+
+                                array(
+                                        'label'   => 'Editor Type',
+                                        'id'      => 'saswp_creativework_editor_type_'.$schema_id,
+                                        'type'    => 'select',
+                                        'options' => array(
+                                                 ""                => "Select",
+                                                'Person'           => 'Person',
+                                                'Organization'     => 'Organization',                        
+                                        )
+                                ),
                                 array(
                                         'label'   => 'Editor Name',
                                         'id'      => 'saswp_creativework_editor_name_'.$schema_id,
@@ -1897,6 +2044,25 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                 'placeholder' => 'eg: M.D. /PhD/MSCSW.'
                                          ),
                                 ),
+                                array(
+                                        'label'   => 'Editor Description',
+                                        'id'      => 'saswp_creativework_editor_description_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => $author_desc
+                                ),
+                                array(
+                                        'label'   => 'Editor URL',
+                                        'id'      => 'saswp_creativework_editor_url_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => $author_url
+                                ),
+                                array(
+                                        'label' => 'Editor Image URL',
+                                        'id' => 'saswp_creativework_editor_image_'.$schema_id,
+                                        'type' => 'media',
+                                        'default' => isset($author_details['url']) ? $author_details['url']: ''
+                                ),
+
                                 array(
                                         'label'   => 'Organization Name',
                                         'id'      => 'saswp_creativework_organization_name_'.$schema_id,
@@ -2465,7 +2631,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     ),
                     array(
                         'label'   => 'JobTitle',
-                        'id'      => 'saswp_tech_article_jobtitle_'.$schema_id,
+                        'id'      => 'saswp_tech_article_author_jobtitle_'.$schema_id,
                         'type'    => 'text',
                         'default' => '',
                         'attributes' => array(
@@ -2477,6 +2643,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'      => 'saswp_tech_article_reviewedby_type_'.$schema_id,
                         'type'    => 'select',
                         'options' => array(
+                                ""                => "Select",
                                 'Person'           => 'Person',
                                 'Organization'     => 'Organization',                        
                        )
@@ -2506,7 +2673,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_tech_article_reviewedby_url_'.$schema_id,
                             'type'    => 'text',
                             'default' => $author_url
-                    ), 
+                    ),
+                    array(
+                        'label'   => 'Editor Type',
+                        'id'      => 'saswp_tech_article_editor_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                 ""                => "Select",
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                        )
+                     ),
                     array(
                         'label'   => 'Editor Name',
                         'id'      => 'saswp_tech_article_editor_name_'.$schema_id,
@@ -2521,6 +2698,24 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'placeholder' => 'eg: M.D. /PhD/MSCSW.'
                          ),
                     ), 
+                    array(
+                        'label'   => 'Editor Description',
+                        'id'      => 'saswp_tech_article_editor_description_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => $author_desc
+                    ),
+                    array(
+                        'label'   => 'Editor URL',
+                        'id'      => 'saswp_tech_article_editor_url_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => $author_url
+                     ),
+                     array(
+                        'label' => 'Editor Image URL',
+                        'id' => 'saswp_tech_article_editor_image_'.$schema_id,
+                        'type' => 'media',
+                        'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_tech_article_organization_name_'.$schema_id,

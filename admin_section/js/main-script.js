@@ -1009,15 +1009,26 @@ jQuery(document).ready(function($){
                               $("#saswp_breadcrumb_remove_cat").val(0);           
                             }
                       break;
+
+                      case 'saswp_breadcrumb_include_parent_cat_checkbox':
+                          
+                        if ($(this).is(':checked')) {              
+                          $("#saswp_breadcrumb_include_parent_cat").val(1);             
+                        }else{
+                          $("#saswp_breadcrumb_include_parent_cat").val(0);           
+                        }
+                      break;
                       
                       case 'saswp_breadcrumb_schema_checkbox':
                           
                             if ($(this).is(':checked')) {              
                               $("#saswp_breadcrumb_schema").val(1);  
-                              $("#saswp_breadcrumb_remove_cat").parent().parent().show();             
+                              $("#saswp_breadcrumb_remove_cat").parent().parent().show(); 
+                              $("#saswp_breadcrumb_include_parent_cat").parent().parent().show();            
                             }else{
                               $("#saswp_breadcrumb_schema").val(0);           
                               $("#saswp_breadcrumb_remove_cat").parent().parent().hide();  
+                              $("#saswp_breadcrumb_include_parent_cat").parent().parent().hide();  
                             }
 
                       break;

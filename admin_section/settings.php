@@ -1050,6 +1050,17 @@ function saswp_general_page_callback(){
                         'name' => 'sd_data[saswp_breadcrumb_remove_cat]',                             
                 )
         );
+        $meta_fields_default[] = array(
+                'label'  => 'Include Parent Category',
+                'id'     => 'saswp_breadcrumb_include_parent_cat_checkbox', 
+                'name'   => 'saswp_breadcrumb_include_parent_cat_checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',                        
+                'hidden' => array(
+                        'id'   => 'saswp_breadcrumb_include_parent_cat',
+                        'name' => 'sd_data[saswp_breadcrumb_include_parent_cat]',                             
+                )
+        );
 
         $meta_fields_default[] = array(
                 'label'  => 'Comments',

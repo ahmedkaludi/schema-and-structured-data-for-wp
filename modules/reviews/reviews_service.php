@@ -257,13 +257,18 @@ class saswp_reviews_service {
                     
                    
                 }           
-                if($sd_data['saswp_date_format'] == 'default'){
+                if(!empty($sd_data['saswp_date_format']) && $sd_data['saswp_date_format'] == 'default'){
                     $days_ago_format = date('d-m-Y',strtotime($review['saswp_review_date']));
                 }  
                         
                         $review_rating = $review['saswp_review_rating'];
 
                         $starating = saswp_get_rating_html_by_value($review_rating);
+                        if(!empty($starating)){
+                            $starating = $starating;
+                        }else{
+                            $starating = "";
+                        }
                                                                                                                    
                         $img_src = SASWP_DIR_URI.'/admin_section/images/default_user.jpg';
                                                 
