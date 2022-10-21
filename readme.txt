@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 1.9.102.1
+Stable tag: 1.9.103
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,26 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.103 (21 Oct 2022) =
+
+* Added: Add the JobTitle field in author schema. #1685
+* Added: Need to Include parent category if only child category is marked. #1703
+* Added: Need to make functionality by default disable FAQ on all pages. #1681
+* Fixed: Option to modify "Author image URL" schema output manually in blogposting schema #1669
+* Fixed: Need to make the feature for enabling/disabling the image for the review collection. #1621
+* Added: Need to add option to edit ID in schema #1609
+* Fixed: Need to add the Attribute "DirectApply" to the JobPosting-schema #1599
+* Fixed: Add the option to edit editor URL manually in article schema. #1690
+* Added: Video object schema is automatically adding without even have videos in them #1754
+* Fixed: Getting PHP error messages after the update #1756
+* Fixed: Conflict issue with web stories(user specific issue) #1746
+* Added: Need to add additional fields in Article Schema #1752
+* Added: Add the "Heading-Tag" selection option in How To block schema. #1712
+* Fixed: Missing fields in the video object schema. #1758
+* Fixed: facing issue on Google Either \"contentUrl\" or \"embedUrl\" should be specified This is a non-critical issue. #1759
+* Added: PHP Notice: Undefined index #1760
+* Added: Warnings are appearing in the article schema if it is modified. #1762
 
 = 1.9.102.1 (14 Oct 2022) =
 
