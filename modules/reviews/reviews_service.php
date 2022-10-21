@@ -259,6 +259,8 @@ class saswp_reviews_service {
                 }           
                 if(!empty($sd_data['saswp_date_format']) && $sd_data['saswp_date_format'] == 'default'){
                     $days_ago_format = date('d-m-Y',strtotime($review['saswp_review_date']));
+                }else{
+                    $days_ago_format = "";
                 }  
                         
                         $review_rating = $review['saswp_review_rating'];
