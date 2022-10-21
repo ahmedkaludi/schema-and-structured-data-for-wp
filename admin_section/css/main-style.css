@@ -720,6 +720,9 @@ Compatibility tab css ends
 .saswp-knowledge-label label[for="saswp_breadcrumb_remove_cat_checkbox"] {
     padding-left: 10px;
 }
+.saswp-knowledge-label label[for="saswp_breadcrumb_include_parent_cat_checkbox"] {
+    padding-left: 10px;
+}
 .saswp-knowledge-label label[for="saswp-woocommerce-booking-checkbox"] {
     padding-left: 10px;
 }
@@ -1640,7 +1643,7 @@ Collection css starts here
 }
 .saswp-rc-nm{
   width:100%;
-  margin-left:10px;
+  margin-left:0px;
   text-align: initial;
 }
 .saswp_reviewer_image .saswp-rv-img span{
@@ -1701,6 +1704,7 @@ Collection css starts here
     align-items: center;
     color:#666;
     padding-bottom: 8px;
+    margin-top: 10px;
 }
 .saswp-dp-dtm{
     margin-top:13px;

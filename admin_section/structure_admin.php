@@ -1242,6 +1242,31 @@ function saswp_custom_breadcrumbs() {
                     }
                     
             }
+
+            if(isset($sd_data['saswp_breadcrumb_include_parent_cat']) && $sd_data['saswp_breadcrumb_include_parent_cat'] == 1){
+              // Get post parent category info
+              $category = get_the_category();
+              if(!empty($category)) {
+                $category_values = array_values( $category );
+                foreach ($category_values as $category_value) {
+                    $category_name        = get_category($category_value);
+                   
+                    if(is_object($category_name)){
+                        $child = get_category($category_name->term_id);
+                        $parent = $child->parent;
+                        $parent_name = get_category($parent);
+                        $parent_name = $parent_name->name;
+                        $variables1_titles[]  = $parent_name;
+                        $variables2_links[]   = get_category_link( $parent );
+                        $breadcrumb_url       = get_category_link( $parent );
+                    }                 
+                }  
+                
+                  $sd_data['titles']            = $variables1_titles;                        
+                  $sd_data['links']             = $variables2_links;
+                  $sd_data['breadcrumb_url']    = $breadcrumb_url;
+              }
+            }
              
             if( !isset($sd_data['saswp_breadcrumb_remove_cat']) || (isset($sd_data['saswp_breadcrumb_remove_cat']) && $sd_data['saswp_breadcrumb_remove_cat'] == 0 ) ){
 

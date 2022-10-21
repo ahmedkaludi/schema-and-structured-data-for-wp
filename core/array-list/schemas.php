@@ -40,7 +40,8 @@ return array(
                 'MobileApplication'        => 'MobileApplication',       
                 'TechArticle'              => 'TechArticle', 
                 'VisualArtwork'            => 'VisualArtwork',                                           
-                'WebPage'                  => 'WebPage'                                                                
+                'WebPage'                  => 'WebPage',
+                'MedicalWebPage'           => 'MedicalWebPage'                                                                 
         ),
         'Event' => array(
             'Event'                    => 'Event',

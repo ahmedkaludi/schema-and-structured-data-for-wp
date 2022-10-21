@@ -801,7 +801,7 @@
 	
                }     
             
-       function saswp_review_desing_for_slider(value){
+       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide){
                       
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
@@ -827,7 +827,9 @@
                                 html += '</div>';
                                 html += '<div class="saswp-rc">';
                                 html += '<div class="saswp-rc-a">';
-                                html += '<img src="'+value.saswp_reviewer_image+'"/>';
+                                if(saswp_collection_gallery_img_hide !=1){
+                                    html += '<img src="'+value.saswp_reviewer_image+'"/>';
+                                }
                                 html += '<div class="saswp-rc-nm">';
                                 html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
                                 html += '<span class="saswp-rc-dt">'+date_str.date+'</span>';
@@ -843,7 +845,7 @@
                       
        }    
        
-       function saswp_create_collection_slider(slider, arrow, dots){
+       function saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide){
                                 
                 var html = '';                               
                 if(saswp_total_collection.length > 0){
@@ -863,7 +865,7 @@
                                                         
                                 html += '<div class="saswp-si">';
                                 
-                                html += saswp_review_desing_for_slider(value);
+                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide);
                                 
                                 html += '</div>';
                             
@@ -883,7 +885,7 @@
                                                                     
                                 jQuery.each(p_value, function(index, value){
                                    
-                                    html += saswp_review_desing_for_slider(value);
+                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide);
                                                                                                
                                 });
                                 
@@ -1233,7 +1235,7 @@
        }
 
       
-       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage){
+       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img){
                 
                 var html          = '';                
                 var grid_cols     = '';
@@ -1274,9 +1276,11 @@
                             html += '<li>';                       
                             html += '<div class="saswp-rc">';
                             html += '<div class="saswp-rc-a">';
-                            html += '<div class="saswp-r1-aimg">';
-                            html += '<img src="'+value.saswp_reviewer_image+'" width="56" height="56"/>';
-                            html += '</div>';
+                            if(saswp_coll_hide_col_r_img != 1){
+                                html += '<div class="saswp-r1-aimg">';
+                                html += '<img src="'+value.saswp_reviewer_image+'" width="56" height="56"/>';
+                                html += '</div>';
+                            }                            
                             html += '<div class="saswp-rc-nm">';
                             html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
                             html += saswp_create_rating_html_by_value(value.saswp_review_rating);  
@@ -1349,19 +1353,19 @@
                                                                                                 
             }     
             
-       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage){
+       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide){
                                                               
                 switch(design) {
                     
                     case "grid":
                         
-                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage);
+                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img);
                         
                         break;
                         
                     case 'gallery':
                         
-                         saswp_create_collection_slider(slider, arrow, dots);
+                         saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide);
                         
                         break;
                     
@@ -1402,7 +1406,15 @@
                 var offset              = 0;
                 var nextpage            = perpage;
                 var s_rating_enable     = false;
+                var saswp_coll_hide_col_r_img = false;
+                var saswp_collection_gallery_img_hide = false;
                 
+                if(jQuery("#saswp-coll-hide_col_r_img").is(":checked")){
+                    saswp_coll_hide_col_r_img = 1;
+                }
+                if(jQuery("#saswp_collection_gallery_img_hide").is(":checked")){
+                    saswp_collection_gallery_img_hide = 1;
+                }
                 if(jQuery("#saswp-coll-pagination").is(":checked")){                    
                     pagination          = true;                          
                     var data_id         = saswp_grid_page;                     
@@ -1434,7 +1446,7 @@
                 saswp_create_total_collection( s_rating_enable, s_rating_val );                 
                 saswp_collection_sorting(sorting);  
                 saswp_collection_total_reviews_id();
-                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage);                                                
+                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide);                                                
            
        }  
        

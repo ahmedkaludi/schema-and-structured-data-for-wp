@@ -32,8 +32,12 @@
                 default: 'none'
             },
             listStyleType: {
-              type: 'boolean',
-              default: false
+              type: 'string',
+              default: 'number',
+          },
+          headingTag : {
+            type: 'string',
+            default: 'h1'
           },
             description: {
                   type: 'string',                  
@@ -1000,6 +1004,34 @@
               },
               ),
                 )                
+                ),
+                el(InspectorControls,
+                      {
+                      className:'saswp-how-to-inspector',
+                      key: 'inspector'   
+                      },
+                      el(PanelBody,
+                      {className:'saswp-how-to-panel-body',
+                      title:__('Heading Tag', 'schema-and-structured-data-for-wp')   
+                      },
+                      el(SelectControl,{
+                        className:'saswp-faq-toggle-list',  
+                        value: attributes.headingTag,
+                        options:[
+                              { label:'H1', value: 'h1' },
+                              { label: 'H2', value:'h2' },
+                              { label:'H3', value:'h3'  },
+                              { label:'H4', value: 'h4' },
+                              { label: 'H5', value:'h5' },
+                              { label:'H6', value:'h6' },
+                            ],
+                        onChange: function(newContent){
+                          console.log(newContent);
+                            props.setAttributes( { headingTag: newContent } );
+                        }
+                    },
+                  ),
+                  )                
                 ),
                 el(
                     BlockControls,
