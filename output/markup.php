@@ -2588,6 +2588,7 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['title']                 = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_title_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_description_'.$schema_id, 'saswp_array');
     $input1['datePosted']            = isset($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])):'';                            
+    $input1['directApply']            = isset($all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id])?$all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id]:'false';                            
     $input1['validThrough']          = isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])):'';                            
     $input1['employmentType']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_employment_type_'.$schema_id, 'saswp_array');
     $input1['industry']              = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_industry_'.$schema_id, 'saswp_array');
@@ -2699,7 +2700,8 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     if( ( isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] ) && $all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] !='' ) && date('Y-m-d',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]) ) < date('Y-m-d') ){        
         $input1 = array();    
     }
-    
+    // print_r($input1);
+    // die;
     return $input1;            
 }
 
