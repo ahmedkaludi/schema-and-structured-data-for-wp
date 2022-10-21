@@ -4519,10 +4519,6 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
             $input1['mainEntity']['name']             = saswp_get_the_title();
 
         }
-        // echo "<pre>";
-        // echo "rrrr";
-        // print_r($input1);
-        // die();
 
         if(isset($all_post_meta['saswp_article_speakable_'.$schema_id]) && $all_post_meta['saswp_article_speakable_'.$schema_id][0] == 1){
 
