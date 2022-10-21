@@ -1128,7 +1128,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         ), 
                         array(
                                 'label'   => 'JobTitle',
-                                'id'      => 'saswp_photograph_author_author_jobtitle_'.$schema_id,
+                                'id'      => 'saswp_photograph_author_jobtitle_'.$schema_id,
                                 'type'    => 'text',
                                 'default' => '',
                                 'attributes' => array(
