@@ -3467,7 +3467,7 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_description_'.$schema_id, 'saswp_array');
     $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_url_'.$schema_id, 'saswp_array');
    
-    $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_jobtitle_'.$schema_id, 'saswp_array');  
+    $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_jobtitle_'.$schema_id, 'saswp_array');  
    
     $input1['author']['image']['@type']   = 'ImageObject';
     $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_image_'.$schema_id, 'saswp_array');       
@@ -4317,7 +4317,7 @@ function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_m
     $input1['author']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
     $input1['author']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
 
-    $input1['author']['JobTitle']         = saswp_remove_warnings($all_post_meta, 'saswp_photograph_jobtitle_'.$schema_id, 'saswp_array');   
+    $input1['author']['JobTitle']         = saswp_remove_warnings($all_post_meta, 'saswp_photograph_author_jobtitle_'.$schema_id, 'saswp_array');   
 
     if(!empty($all_post_meta['saswp_photograph_editor_type_'.$schema_id][0]) && isset($all_post_meta['saswp_photograph_editor_type_'.$schema_id][0])){
         $input1['editor']['@type']       = 'Person';
@@ -4427,7 +4427,7 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_article_author_description_'.$schema_id, 'saswp_array');
         $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_article_author_url_'.$schema_id, 'saswp_array');   
 
-        $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_article_jobtitle_'.$schema_id, 'saswp_array');   
+        $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_article_author_jobtitle_'.$schema_id, 'saswp_array');   
         
         $input1['author']['image']['@type']   = 'ImageObject';
         $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_article_author_image_'.$schema_id, 'saswp_array');       
@@ -4570,7 +4570,7 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
     $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_description_'.$schema_id, 'saswp_array');
     $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_url_'.$schema_id, 'saswp_array');   
     
-    $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_creativework_jobtitle_'.$schema_id, 'saswp_array'); 
+    $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_jobtitle_'.$schema_id, 'saswp_array'); 
 
     $input1['author']['image']['@type']   = 'ImageObject';
     $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_image_'.$schema_id, 'saswp_array');       
@@ -4707,7 +4707,7 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
         $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_description_'.$schema_id, 'saswp_array');
         $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_url_'.$schema_id, 'saswp_array');   
 
-        $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_jobtitle_'.$schema_id, 'saswp_array'); 
+        $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_jobtitle_'.$schema_id, 'saswp_array'); 
 
         $input1['author']['image']['@type']   = 'ImageObject';
         $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_image_'.$schema_id, 'saswp_array');       
