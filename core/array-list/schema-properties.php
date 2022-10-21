@@ -6457,6 +6457,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text',                             
                     ),
                     array(
+                        'label'      => 'Direct Apply',
+                        'id'         => 'saswp_jobposting_schema_direct_apply_'.$schema_id,
+                        'type'       => 'text',
+                        'default'    => true   
+                    ),
+                    array(
                             'label'      => 'Valid Through',
                             'id'         => 'saswp_jobposting_schema_validthrough_'.$schema_id,
                             'type'       => 'text',                             
