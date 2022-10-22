@@ -1493,7 +1493,11 @@ Class saswp_output_service{
                         }
                         if(isset($custom_fields['saswp_article_reviewedby_url'])){
                          $input1['reviewedBy']['url'] =    $custom_fields['saswp_article_reviewedby_url'];
-                        }         
+                        }    
+                        if(!empty($custom_fields['saswp_article_about']) && isset($custom_fields['saswp_article_about'])){         
+                            $input1['about']['@type'] = 'Event';                   
+                            $input1['about']['name'] = explode(',', $custom_fields['saswp_article_about']);    
+                        }  
                         if(isset($custom_fields['saswp_article_alumniof'])){
                             $str = $custom_fields['saswp_article_alumniof'];
                             $itemlist = explode(",", $str);
@@ -1592,6 +1596,10 @@ Class saswp_output_service{
                         } 
                         if(isset($custom_fields['saswp_creativework_knowsabout'])){                            
                             $input1['knowsAbout'] = explode(',', $custom_fields['saswp_creativework_knowsabout']);    
+                        }
+                        if(!empty($custom_fields['saswp_creativework_about']) && isset($custom_fields['saswp_creativework_about'])){         
+                            $input1['about']['@type'] = 'Event';                   
+                            $input1['about']['name'] = explode(',', $custom_fields['saswp_creativework_about']);    
                         }
                         if(isset($custom_fields['saswp_creativework_alumniof'])){
                             $str = $custom_fields['saswp_creativework_alumniof'];
@@ -1716,9 +1724,7 @@ Class saswp_output_service{
                        if(isset($custom_fields['saswp_photograph_author_jobtitle'])){
                         $input1['author']['JobTitle'] =    $custom_fields['saswp_photograph_author_jobtitle'];
                        }
-                       if(isset($custom_fields['saswp_photograph_knowsabout'])){                            
-                        $input1['knowsAbout'] = explode(',', $custom_fields['saswp_photograph_knowsabout']);    
-                       }   
+                      
                        if(isset($custom_fields['saswp_photograph_author_honorific_suffix'])){
                         $input1['author']['honorificSuffix'] =    $custom_fields['saswp_photograph_author_honorific_suffix'];
                        }
@@ -1774,6 +1780,10 @@ Class saswp_output_service{
                         }
                         if(isset($custom_fields['saswp_photograph_knowsabout'])){                            
                             $input1['knowsAbout'] = explode(',', $custom_fields['saswp_photograph_knowsabout']);    
+                        }  
+                        if(!empty($custom_fields['saswp_photograph_about']) && isset($custom_fields['saswp_photograph_about'])){         
+                            $input1['about']['@type'] = 'Event';                   
+                            $input1['about']['name'] = explode(',', $custom_fields['saswp_photograph_about']);    
                         }  
                         if(isset($custom_fields['saswp_photograph_alumniof'])){
                             $str = $custom_fields['saswp_photograph_alumniof'];
@@ -2109,6 +2119,10 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_knowsabout'])){                            
                         $input1['knowsAbout'] = explode(',', $custom_fields['saswp_blogposting_knowsabout']);    
                     }
+                    if(!empty($custom_fields['saswp_blogposting_about']) && isset($custom_fields['saswp_blogposting_about'])){         
+                        $input1['about']['@type'] = 'Event';                   
+                        $input1['about']['name'] = explode(',', $custom_fields['saswp_blogposting_about']);    
+                    }  
                     if(isset($custom_fields['saswp_blogposting_alumniof'])){
                         $str = $custom_fields['saswp_blogposting_alumniof'];
                         $itemlist = explode(",", $str);
@@ -2296,26 +2310,27 @@ Class saswp_output_service{
                        $input1['mainEntity']['@id'] =    $custom_fields['saswp_newsarticle_main_entity_id'];  
                     }
 
-                    
-                    if(isset($custom_fields['saswp_newsarticle_editor_name']) && $custom_fields['saswp_newsarticle_editor_name'] != '') {
-                        $input1['editor'] = array();
-                        $input1['editor']['@type'] = 'Person';
-                        $input1['editor']['name']  =  $custom_fields['saswp_newsarticle_editor_name'];
-                    }
-                    if(isset($custom_fields['saswp_newsarticle_editor_type'])){
-                        $input1['editor']['@type'] =    $custom_fields['saswp_newsarticle_editor_type'];
-                    }
-                    if(isset($custom_fields['saswp_newsarticle_editor_honorific_suffix']) && $custom_fields['saswp_newsarticle_editor_honorific_suffix'] != '') {
-                        $input1['editor']['honorificSuffix']  =  $custom_fields['saswp_newsarticle_editor_honorific_suffix'];
-                    }  
-                    if(isset($custom_fields['saswp_newsarticle_editor_description'])){
-                      $input1['editor']['description'] =    $custom_fields['saswp_newsarticle_editor_description'];
-                    }
-                    if(isset($custom_fields['saswp_newsarticle_editor_url'])){
-                      $input1['editor']['url'] =    $custom_fields['saswp_newsarticle_editor_url'];
-                    }
-                    if(isset($custom_fields['saswp_newsarticle_editor_image'])){
-                        $input1['editor']['Image']['url'] =    $custom_fields['saswp_newsarticle_editor_image'];
+                    if(!empty($custom_fields['saswp_newsarticle_editor_type'])){
+                        if(!empty($custom_fields['saswp_newsarticle_editor_name']) && $custom_fields['saswp_newsarticle_editor_name'] != '') {
+                            $input1['editor'] = array();
+                            $input1['editor']['@type'] = 'Person';
+                            $input1['editor']['name']  =  $custom_fields['saswp_newsarticle_editor_name'];
+                        }
+                        if(!empty($custom_fields['saswp_newsarticle_editor_type'])){
+                            $input1['editor']['@type'] =    $custom_fields['saswp_newsarticle_editor_type'];
+                        }
+                        if(!empty($custom_fields['saswp_newsarticle_editor_honorific_suffix']) && $custom_fields['saswp_newsarticle_editor_honorific_suffix'] != '') {
+                            $input1['editor']['honorificSuffix']  =  $custom_fields['saswp_newsarticle_editor_honorific_suffix'];
+                        }  
+                        if(!empty($custom_fields['saswp_newsarticle_editor_description'])){
+                             $input1['editor']['description'] =    $custom_fields['saswp_newsarticle_editor_description'];
+                        }
+                        if(!empty($custom_fields['saswp_newsarticle_editor_url'])){
+                             $input1['editor']['url'] =    $custom_fields['saswp_newsarticle_editor_url'];
+                        }
+                        if(!empty($custom_fields['saswp_newsarticle_editor_image'])){
+                            $input1['editor']['Image']['url'] =    $custom_fields['saswp_newsarticle_editor_image'];
+                        }
                     }
 
                     if(isset($custom_fields['saswp_newsarticle_author_type'])){
@@ -2336,7 +2351,10 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_newsarticle_author_image'])){
                        $input1['author']['Image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
                     }
-
+                    if(!empty($custom_fields['saswp_newsarticle_about']) && isset($custom_fields['saswp_newsarticle_about'])){         
+                        $input1['about']['@type'] = 'Event';                   
+                        $input1['about']['name'] = explode(',', $custom_fields['saswp_newsarticle_about']);    
+                    }  
                     if(isset($custom_fields['saswp_newsarticle_organization_logo']) && isset($custom_fields['saswp_newsarticle_organization_name'])){
                      $input1['publisher']['@type']       =    'Organization';
                      $input1['publisher']['name']        =    $custom_fields['saswp_newsarticle_organization_name'];
@@ -2720,6 +2738,10 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_tech_article_reviewedby_type'])){
                         $input1['reviewedBy']['@type'] =    $custom_fields['saswp_tech_article_reviewedby_type'];
                     }
+                    if(!empty($custom_fields['saswp_tech_article_about']) && isset($custom_fields['saswp_tech_article_about'])){         
+                        $input1['about']['@type'] = 'Event';                   
+                        $input1['about']['name'] = explode(',', $custom_fields['saswp_tech_article_about']);    
+                    } 
                     if(isset($custom_fields['saswp_tech_article_alumniof'])){
                         $str = $custom_fields['saswp_tech_article_alumniof'];
                         $itemlist = explode(",", $str);

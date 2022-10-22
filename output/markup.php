@@ -3530,7 +3530,10 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
             $input1['alumniOf'][] = $vnewarr;
         }
     }
-
+    if( !empty($all_post_meta['saswp_blogposting_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_blogposting_about_'.$schema_id][0] )){
+        $input1['about']['@type']       = 'Event';
+        $input1['about']['name']       = explode(',', $all_post_meta['saswp_blogposting_about_'.$schema_id][0]);
+    }
     if( !empty($all_post_meta['saswp_blogposting_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_blogposting_knowsabout_'.$schema_id][0] )){
         $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_blogposting_knowsabout_'.$schema_id][0]);
     }
@@ -4369,7 +4372,10 @@ function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_m
     if( !empty($all_post_meta['saswp_photograph_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_photograph_knowsabout_'.$schema_id][0] )){
         $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_photograph_knowsabout_'.$schema_id][0]);
     }
-
+    if( !empty($all_post_meta['saswp_photograph_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_photograph_about_'.$schema_id][0] )){
+        $input1['about']['@type']       = 'Event';
+        $input1['about']['name']       = explode(',', $all_post_meta['saswp_photograph_about_'.$schema_id][0]);
+    }
     if( !empty($all_post_meta['saswp_photograph_alumniof_'.$schema_id][0]) && isset( $all_post_meta['saswp_photograph_alumniof_'.$schema_id][0] )){
         $itemlist = explode(',', $all_post_meta['saswp_photograph_alumniof_'.$schema_id][0]);
         foreach ($itemlist as $key => $list){
@@ -4481,10 +4487,13 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['reviewedBy']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_article_reviewedby_url_'.$schema_id, 'saswp_array');   
             }
         }
-
-        if( !empty($all_post_meta['saswp_article_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_article_knowsabout_'.$schema_id][0] )){
-            $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_article_knowsabout_'.$schema_id][0]);
-        }
+            if( !empty($all_post_meta['saswp_article_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_article_about_'.$schema_id][0] )){
+                $input1['about']['@type']       = 'Event';
+                $input1['about']['name']       = explode(',', $all_post_meta['saswp_article_about_'.$schema_id][0]);
+            }
+            if( !empty($all_post_meta['saswp_article_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_article_knowsabout_'.$schema_id][0] )){
+                $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_article_knowsabout_'.$schema_id][0]);
+            }
 
         if(!empty($all_post_meta['saswp_article_alumniof_'.$schema_id][0]) && isset( $all_post_meta['saswp_article_alumniof_'.$schema_id][0] )){
             $itemlist = explode(',', $all_post_meta['saswp_article_alumniof_'.$schema_id][0]);
@@ -4627,7 +4636,10 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
     if( !empty($all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0] )){
         $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0]);
     }
-
+    if( !empty($all_post_meta['saswp_creativework_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_creativework_about_'.$schema_id][0] )){
+        $input1['about']['@type']       = 'Event';
+        $input1['about']['name']       = explode(',', $all_post_meta['saswp_creativework_about_'.$schema_id][0]);
+    }
     if(!empty($all_post_meta['saswp_creativework_alumniof_'.$schema_id][0]) && isset( $all_post_meta['saswp_creativework_alumniof_'.$schema_id][0] )){
         $itemlist = explode(',', $all_post_meta['saswp_creativework_alumniof_'.$schema_id][0]);
         foreach ($itemlist as $key => $list){
@@ -4760,7 +4772,10 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
                 $input1['reviewedBy']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_reviewedby_url_'.$schema_id, 'saswp_array');   
             }
         }
-
+        if( !empty($all_post_meta['saswp_tech_article_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_tech_article_about_'.$schema_id][0] )){
+            $input1['about']['@type']       = 'Event';
+            $input1['about']['name']       = explode(',', $all_post_meta['saswp_tech_article_about_'.$schema_id][0]);
+        }
         if( !empty($all_post_meta['saswp_tech_article_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_tech_article_knowsabout_'.$schema_id][0] )){
             $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_tech_article_knowsabout_'.$schema_id][0]);
         }
@@ -4861,21 +4876,35 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
                 $input1['author']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
                 $input1['author']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
 
-                
-                $input1['editor']['@type']       = 'Person';
-                if(isset( $all_post_meta['saswp_newsarticle_editor_type_'.$schema_id][0] )){
-                    $input1['editor']['@type']       = $all_post_meta['saswp_newsarticle_editor_type_'.$schema_id][0];
-                }  
-                $input1['editor']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_name_'.$schema_id, 'saswp_array');
-                $input1['editor']['honorificSuffix']  = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_honorific_suffix_'.$schema_id, 'saswp_array');
-                $input1['editor']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_description_'.$schema_id, 'saswp_array');
-                $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_url_'.$schema_id, 'saswp_array');   
-                $input1['editor']['image']['@type']   = 'ImageObject';
-                $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_image_'.$schema_id, 'saswp_array');       
-                $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-                $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+                if( !empty($all_post_meta['saswp_newsarticle_editor_type_'.$schema_id][0]) && isset( $all_post_meta['saswp_newsarticle_editor_type_'.$schema_id][0] )){
+                    $input1['editor']['@type']       = 'Person';
+                    if(!empty( $all_post_meta['saswp_newsarticle_editor_type_'.$schema_id][0] )){
+                        $input1['editor']['@type']       = $all_post_meta['saswp_newsarticle_editor_type_'.$schema_id][0];
+                    }  
+                    if(!empty( $all_post_meta['saswp_newsarticle_editor_name_'.$schema_id][0] )){
+                        $input1['editor']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_name_'.$schema_id, 'saswp_array');
+                    }  
+                    if(!empty( $all_post_meta['saswp_newsarticle_editor_honorific_suffix_'.$schema_id][0] )){
+                        $input1['editor']['honorificSuffix']  = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_honorific_suffix_'.$schema_id, 'saswp_array');
+                    }  
+                    if(!empty( $all_post_meta['saswp_newsarticle_editor_description_'.$schema_id][0] )){
+                        $input1['editor']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_description_'.$schema_id, 'saswp_array');
+                    }  
+                    if(!empty( $all_post_meta['saswp_newsarticle_editor_url_'.$schema_id][0] )){
+                        $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_url_'.$schema_id, 'saswp_array');   
+                    }  
+                    if(!empty( $all_post_meta['saswp_newsarticle_editor_image_'.$schema_id][0] )){
+                        $input1['editor']['image']['@type']   = 'ImageObject';
+                        $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_image_'.$schema_id, 'saswp_array');       
+                        $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
+                        $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+                    }  
+                }
 
-
+                if( !empty($all_post_meta['saswp_newsarticle_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_newsarticle_about_'.$schema_id][0] )){
+                    $input1['about']['@type']       = 'Event';
+                    $input1['about']['name']       = explode(',', $all_post_meta['saswp_newsarticle_about_'.$schema_id][0]);
+                }
                 $itemlist  = get_post_meta($schema_post_id, 'newsarticle_items_'.$schema_id, true);
                 
                 if($itemlist){

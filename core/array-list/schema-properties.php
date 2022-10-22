@@ -542,6 +542,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url'] : ''
                     ),
                     array(
+                        'label'   => 'About',
+                        'id'      => 'saswp_blogposting_about_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                        'attributes' => array(
+                                'placeholder' => 'eg: Apple is March 21 Announcements'
+                        ),
+                    ),  
+                    array(
                         'label'   => 'AlumniOf',
                         'id'      => 'saswp_blogposting_alumniof_'.$schema_id,
                         'type'    => 'textarea',
@@ -756,7 +766,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type' => 'media',
                         'default' => isset($author_details['url']) ? $author_details['url']: ''
                     ),
-
+                    array(
+                        'label'   => 'About',
+                        'id'      => 'saswp_newsarticle_about_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                        'attributes' => array(
+                                'placeholder' => 'eg: Apple is March 21 Announcements'
+                        ),
+                    ), 
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_newsarticle_organization_name_'.$schema_id,
@@ -1230,6 +1249,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
                         ),
                         array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_photograph_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        ),  
+                        array(
                                 'label'   => 'AlumniOf',
                                 'id'      => 'saswp_photograph_alumniof_'.$schema_id,
                                 'type'    => 'textarea',
@@ -1471,6 +1500,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type'    => 'media',
                                 'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
                         ),
+                        array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_article_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        ),  
                         array(
                                 'label'   => 'AlumniOf',
                                 'id'      => 'saswp_article_alumniof_'.$schema_id,
@@ -2075,6 +2114,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'type'    => 'media',
                                         'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
                                 ),
+                                array(
+                                        'label'   => 'About',
+                                        'id'      => 'saswp_creativework_about_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => '',
+                                        'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                        'attributes' => array(
+                                                'placeholder' => 'eg: Apple is March 21 Announcements'
+                                        ),
+                                ),  
                                 array(
                                         'label'   => 'AlumniOf',
                                         'id'      => 'saswp_creativework_alumniof_'.$schema_id,
@@ -2728,6 +2777,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
                     ),
+                    array(
+                        'label'   => 'About',
+                        'id'      => 'saswp_tech_article_about_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                        'attributes' => array(
+                                'placeholder' => 'eg: Apple is March 21 Announcements'
+                        ),
+                    ), 
                     array(
                         'label'   => 'AlumniOf',
                         'id'      => 'saswp_tech_article_alumniof_'.$schema_id,
