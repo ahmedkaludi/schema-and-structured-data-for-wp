@@ -4488,8 +4488,18 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
             }
         }
             if( !empty($all_post_meta['saswp_article_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_article_about_'.$schema_id][0] )){
-                $input1['about']['@type']       = 'Event';
-                $input1['about']['name']       = explode(',', $all_post_meta['saswp_article_about_'.$schema_id][0]);
+
+                $explode_about = explode(',', $all_post_meta['saswp_article_about_'.$schema_id][0]);
+                    if(!empty($explode_about)){
+                        $about_arr = array();
+                        foreach($explode_about as $val){
+                            $about_arr[] = array(
+                                        '@type' => 'Thing',
+                                        'name'  => $val
+                            );
+                        }
+                        $input1['about'] = $about_arr;
+                    }                                            
             }
             if( !empty($all_post_meta['saswp_article_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_article_knowsabout_'.$schema_id][0] )){
                 $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_article_knowsabout_'.$schema_id][0]);

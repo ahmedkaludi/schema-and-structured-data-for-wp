@@ -1494,9 +1494,19 @@ Class saswp_output_service{
                         if(isset($custom_fields['saswp_article_reviewedby_url'])){
                          $input1['reviewedBy']['url'] =    $custom_fields['saswp_article_reviewedby_url'];
                         }    
+                        
                         if(!empty($custom_fields['saswp_article_about']) && isset($custom_fields['saswp_article_about'])){         
-                            $input1['about']['@type'] = 'Event';                   
-                            $input1['about']['name'] = explode(',', $custom_fields['saswp_article_about']);    
+                            $explode_about = explode(',', $custom_fields['saswp_article_about']);
+                            if(!empty($explode_about)){
+                                $about_arr = array();
+                                foreach($explode_about as $val){
+                                    $about_arr[] = array(
+                                                '@type' => 'Thing',
+                                                'name'  => $val
+                                    );
+                                }
+                                $input1['about'] = $about_arr;
+                            }                            
                         }  
                         if(isset($custom_fields['saswp_article_alumniof'])){
                             $str = $custom_fields['saswp_article_alumniof'];
