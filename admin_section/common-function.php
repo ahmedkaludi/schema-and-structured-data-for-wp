@@ -3434,6 +3434,8 @@ function saswp_is_date_field($date_str){
     
 }
 
+
+
 function saswp_get_video_metadata($content = ''){
     
         global $post, $sd_data;
@@ -3462,7 +3464,7 @@ function saswp_get_video_metadata($content = ''){
 
                     if(strpos($value, 'http')!== false){
 
-                        $response[]['video_url'] = $value;
+                        $response[]['video_url'] = trim($value, '"');
 
                     }
                 }
@@ -3488,7 +3490,7 @@ function saswp_get_video_metadata($content = ''){
                 if(isset($attr['ids'])){
 
                     $vurl = wp_get_attachment_url($attr['ids']);
-                    $response[]['video_url'] = $vurl;
+                    $response[]['video_url'] = trim($vurl, '"');
 
                 }
                                 
@@ -3502,7 +3504,7 @@ function saswp_get_video_metadata($content = ''){
                
                foreach($matches as $match){
 
-                  $vurl     = $match[0]; 
+                  $vurl     = trim($match[0], '"');
                   $metadata = array();  
                   if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
 
@@ -3549,7 +3551,7 @@ function saswp_get_video_metadata($content = ''){
            if(!empty($youtubematches)){
             
                foreach($youtubematches as $match){
-                  $vurl       = $match[1].'youtu.be'.$match[2];                   
+                  $vurl       = trim($match[1].'youtu.be'.$match[2], '"');                  
                   $metadata   = array();  
 
                   if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
@@ -3592,7 +3594,7 @@ function saswp_get_video_metadata($content = ''){
                     $temp_aray = array(); 
                     foreach($attributes as $match){
                         if(!empty($match['attrs']['url'])){
-                             $vurl = $match['attrs']['url']; 
+                             $vurl = trim($match['attrs']['url'], '"'); 
                           
                             $metadata = array();
                             if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
@@ -3632,15 +3634,25 @@ function unique_multidim_array($array, $key) {
     if(!empty($array) && !empty($key)){
         foreach($array as $val) { 
             if(isset($val[$key])){    
-                if (!in_array($val[$key], $key_array)) { 
-                    $key_array[$i] = $val[$key]; 
-                    $temp_array[$i] = $val; 
-                } 
-                $i++; 
+                $checked = check_validate_url($val[$key]);
+                if (!empty($checked)) {
+                    if (!in_array($val[$key], $key_array)) { 
+                        $key_array[$i] = $val[$key]; 
+                        $temp_array[$i] = $val; 
+                        $i++; 
+                    } 
+                }
             }
         } 
     }
     return $temp_array; 
+}
+
+function check_validate_url($yt_url) { 
+    $url_parsed_arr = parse_url($yt_url);
+    if ($url_parsed_arr['host'] == "youtu.be" || $url_parsed_arr['host'] == "www.youtube.com" || $url_parsed_arr['path'] == "/watch" || substr($url_parsed_arr['query'], 0, 2) == "v=") {
+       return $yt_url;
+    }
 }
   
 
