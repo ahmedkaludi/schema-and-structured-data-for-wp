@@ -1788,15 +1788,14 @@ function saswp_schema_output() {
                                 $input1['@context'] = saswp_context_url();
                                 
                                 if(!empty($video_links) && count($video_links) > 1){
-                                    
                                   
                                     $input1['@type'] = "ItemList";                                                       
-                        
+                                    $i = 1;
                                     foreach($video_links as $vkey => $v_val){  
-
                                         $vnewarr = array(
                                             '@type'				            => 'VideoObject',
                                             "position"                      => $vkey+1,
+                                            "@id"                           => trailingslashit(saswp_get_permalink()).'#'.$i++,
                                             'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
                                             'datePublished'                 => esc_html($date),
                                             'dateModified'                  => esc_html($modified_date),

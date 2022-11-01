@@ -3622,19 +3622,19 @@ function saswp_get_video_metadata($content = ''){
                 }
             }
            
-        $result = unique_multidim_array($response,'video_url');
+        $result = saswp_unique_multidim_array($response,'video_url');
        
         return $result;
 }
 
-function unique_multidim_array($array, $key) { 
+function saswp_unique_multidim_array($array, $key) { 
     $temp_array = array(); 
     $i = 0; 
     $key_array = array(); 
     if(!empty($array) && !empty($key)){
         foreach($array as $val) { 
             if(isset($val[$key])){    
-                $checked = check_validate_url($val[$key]);
+                $checked = saswp_youtube_check_validate_url($val[$key]);
                 if (!empty($checked)) {
                     if (!in_array($val[$key], $key_array)) { 
                         $key_array[$i] = $val[$key]; 
@@ -3648,7 +3648,7 @@ function unique_multidim_array($array, $key) {
     return $temp_array; 
 }
 
-function check_validate_url($yt_url) { 
+function saswp_youtube_check_validate_url($yt_url) { 
     $url_parsed_arr = parse_url($yt_url);
     if ($url_parsed_arr['host'] == "youtu.be" || $url_parsed_arr['host'] == "www.youtube.com" || $url_parsed_arr['path'] == "/watch" || substr($url_parsed_arr['query'], 0, 2) == "v=") {
        return $yt_url;
