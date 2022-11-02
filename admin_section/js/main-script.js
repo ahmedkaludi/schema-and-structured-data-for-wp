@@ -4,6 +4,14 @@ var rmv_boolean        = false;
 var rmv_html           = '';
 jQuery(document).ready(function($){
 
+//edit Schema page in show field for
+var busines_stype = $('#schema_type').find(":selected").val();
+if(busines_stype == 'local_business'){
+  $(document).ready(function(){
+    $(".saswp-business-type-tr").show();
+  }); 
+}
+
  $(document).on("click", '#saswp_loc_display_on_front', function(){ 
   
       if( $(this).is(":checked") ){
