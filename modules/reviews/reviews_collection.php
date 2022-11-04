@@ -410,10 +410,14 @@ class SASWP_Reviews_Collection {
                 } 
                 if(isset($collection_data['saswp_collection_hide_col_r_img'][0])){
                     $saswp_collection_hide_col_rew_img        = $collection_data['saswp_collection_hide_col_r_img'][0];                    
+                }else{
+                    $saswp_collection_hide_col_rew_img  = "";
                 } 
                 if(isset($collection_data['saswp_collection_gallery_img_hide'][0])){
                     $saswp_collection_gallery_img_hide        = $collection_data['saswp_collection_gallery_img_hide'][0];                    
-                }     
+                }else{
+                    $saswp_collection_gallery_img_hide  = "";
+                }      
                 
                 if(isset($collection_data['saswp_collection_cols'][0])){
                     
