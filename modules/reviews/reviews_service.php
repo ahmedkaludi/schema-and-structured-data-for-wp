@@ -145,16 +145,21 @@ class saswp_reviews_service {
                     
                 $term     = get_term_by( 'slug','self', 'platform' );   
                 
-                if($rv_image){
+                if(!empty($rv_image)){
                     
                     $image_details = saswp_get_attachment_details($rv_image);   
+                    if(!empty($image_details)){
+                        $media_detail = array(                                                    
+                            'width'      => $image_details[0][0],
+                            'height'     => $image_details[0][1],
+                            'thumbnail'  => $rv_image,
+                        );
+                    }else{
+                        $media_detail = "";
+                    }
                     
-                    $media_detail = array(                                                    
-                        'width'      => $image_details[0][0],
-                        'height'     => $image_details[0][1],
-                        'thumbnail'  => $rv_image,
-                    );
-                    
+                }else{
+                    $rv_image = "";
                 }
                 
                 $review_meta = array(
