@@ -364,12 +364,12 @@ class saswp_view_common_class {
                         $attributes = '';
                         $label      = '';
                         $meta_value = array();
-
+                    if($meta_field['type'] != 'global_mapping'){
                         if($meta_field['type'] != 'repeater'){
                             $label      = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ). '</label>';
-			                $meta_value = saswp_get_post_meta( $post_id, $meta_field['id'], true );
+                            $meta_value = saswp_get_post_meta( $post_id, $meta_field['id'], true );
                         }
-			                                                
+                    }                                
                     if ( empty( $meta_value ) && isset($meta_field['default'])) {
                                     
                         $meta_value = $meta_field['default'];                                 
@@ -639,7 +639,9 @@ class saswp_view_common_class {
                             $output .= '<tr class="saswp-review-tr"><th>'.$label.'</th><td>'.$input.'</td></tr>';   
                               
                           }else if($meta_field['id'] != 'product_pros_'.$schema_id){
-                            $output .= '<tr class="saswp-product-pros"><th>'.$label.'</th><td>'.$input.'</td></tr>';   
+                            if($meta_field['type'] != 'global_mapping'){
+                                $output .= '<tr class="saswp-product-pros"><th>'.$label.'</th><td>'.$input.'</td></tr>';  
+                            } 
                           }else{
                              $output .= '<tr><th>'.$label.'</th><td>'.$input.'</td></tr>';  
                           }                                                                       
