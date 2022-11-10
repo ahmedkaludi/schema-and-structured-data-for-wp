@@ -994,7 +994,7 @@ class saswp_reviews_service {
 
                        }                       
 
-                       if($pagination_wpr && $pagination){
+                       if(!empty($pagination_wpr) && !empty($pagination)){
 
                           if($break == 1){
                             $html .= '<li data-id="'.esc_attr($break).'">';                       
@@ -1076,7 +1076,7 @@ class saswp_reviews_service {
                         
                 } 
 
-                if(($page_count > 0 && $pagination ) && $pagination_wpr){
+                if(($page_count > 0 && $pagination ) && !empty($pagination_wpr)){
 
                         $html .= '<div class="saswp-grid-pagination saswp-grid-wpr">';                    
                         $html .= '<a data-id="1" class="saswp-grid-page saswp-pagination-first-last" href="#">&laquo;</a>'; 
