@@ -1465,6 +1465,10 @@ Class saswp_output_service{
                                 $input1['author']['url'] =    $custom_fields['saswp_article_author_global_mapping']['url'];
                             }
 
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['description'])){
+                                $input1['author']['description'] =    $custom_fields['saswp_article_author_global_mapping']['description'];
+                            }
+
                             if(!empty($custom_fields['saswp_article_author_global_mapping']['honorificsuffix'][0])){
                                 $input1['author']['honorificsuffix'] =    $custom_fields['saswp_article_author_global_mapping']['honorificsuffix'][0];
                             }
@@ -1525,6 +1529,10 @@ Class saswp_output_service{
 
                             if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['url'])){
                                 $input1['reviewedBy']['url'] =    $custom_fields['saswp_article_reviewedby_global_mapping']['url'];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['description'])){
+                                $input1['reviewedBy']['description'] =    $custom_fields['saswp_article_reviewedby_global_mapping']['description'];
                             }
 
                             if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['honorificsuffix'][0])){
@@ -1665,6 +1673,10 @@ Class saswp_output_service{
                                 $input1['author']['url'] =    $custom_fields['saswp_creativework_author_global_mapping']['url'];
                             }
 
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['description'])){
+                                $input1['author']['description'] =    $custom_fields['saswp_creativework_author_global_mapping']['description'];
+                            }
+
                             if(!empty($custom_fields['saswp_creativework_author_global_mapping']['honorificsuffix'][0])){
                                 $input1['author']['honorificsuffix'] =    $custom_fields['saswp_creativework_author_global_mapping']['honorificsuffix'][0];
                             }
@@ -1728,6 +1740,10 @@ Class saswp_output_service{
 
                             if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['url'])){
                                 $input1['reviewedBy']['url'] =    $custom_fields['saswp_creativework_reviewedby_global_mapping']['url'];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['description'])){
+                                $input1['reviewedBy']['description'] =    $custom_fields['saswp_creativework_reviewedby_global_mapping']['description'];
                             }
 
                             if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['honorificsuffix'][0])){
@@ -1881,6 +1897,10 @@ Class saswp_output_service{
                             $input1['author']['url'] =    $custom_fields['saswp_photograph_author_global_mapping']['url'];
                         }
 
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_photograph_author_global_mapping']['description'];
+                        }
+
                         if(!empty($custom_fields['saswp_photograph_author_global_mapping']['honorificsuffix'][0])){
                             $input1['author']['honorificsuffix'] =    $custom_fields['saswp_photograph_author_global_mapping']['honorificsuffix'][0];
                         }
@@ -1963,6 +1983,10 @@ Class saswp_output_service{
 
                         if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['url'])){
                             $input1['reviewedBy']['url'] =    $custom_fields['saswp_photograph_reviewedby_global_mapping']['url'];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['description'])){
+                            $input1['reviewedBy']['description'] =    $custom_fields['saswp_photograph_reviewedby_global_mapping']['description'];
                         }
 
                         if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['honorificsuffix'][0])){
@@ -2312,6 +2336,10 @@ Class saswp_output_service{
                             $input1['author']['url'] =    $custom_fields['saswp_blogposting_author_global_mapping']['url'];
                         }
 
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_blogposting_author_global_mapping']['description'];
+                        }
+
                         if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['honorificsuffix'][0])){
                             $input1['author']['honorificsuffix'] =    $custom_fields['saswp_blogposting_author_global_mapping']['honorificsuffix'][0];
                         }
@@ -2367,6 +2395,10 @@ Class saswp_output_service{
 
                         if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['url'])){
                             $input1['reviewedBy']['url'] =    $custom_fields['saswp_blogposting_reviewedby_global_mapping']['url'];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['description'])){
+                            $input1['reviewedBy']['description'] =    $custom_fields['saswp_blogposting_reviewedby_global_mapping']['description'];
                         }
 
                         if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['honorificsuffix'][0])){
@@ -2988,6 +3020,10 @@ Class saswp_output_service{
                             $input1['author']['url'] =    $custom_fields['saswp_tech_article_author_global_mapping']['url'];
                         }
 
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_tech_article_author_global_mapping']['description'];
+                        }
+
                         if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['honorificsuffix'][0])){
                             $input1['author']['honorificsuffix'] =    $custom_fields['saswp_tech_article_author_global_mapping']['honorificsuffix'][0];
                         }
@@ -3045,6 +3081,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_tech_article_editor_url'])){
                         $input1['editor']['url'] =    saswp_validate_url($custom_fields['saswp_tech_article_editor_url']);
                     }
+                    
                     if(isset($custom_fields['saswp_tech_article_editor_description'])){
                         $input1['editor']['description'] =    $custom_fields['saswp_tech_article_editor_description'];
                     }
@@ -3075,6 +3112,10 @@ Class saswp_output_service{
 
                         if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['url'])){
                             $input1['reviewedBy']['url'] =    $custom_fields['saswp_tech_article_reviewedby_global_mapping']['url'];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['description'])){
+                            $input1['reviewedBy']['description'] =    $custom_fields['saswp_tech_article_reviewedby_global_mapping']['description'];
                         }
 
                         if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['honorificsuffix'][0])){
