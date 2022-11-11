@@ -1477,6 +1477,59 @@ Class saswp_output_service{
                                 $input1['author']['knowsabout'] =   explode(',', $custom_fields['saswp_article_author_global_mapping']['knowsabout'][0]);
                             }
 
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['short_intro'][0])){
+                                $input1['author']['short_intro'] =   $custom_fields['saswp_article_author_global_mapping']['short_intro'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['team_subtitle'][0])){
+                                $input1['author']['subtitle'] =   $custom_fields['saswp_article_author_global_mapping']['team_subtitle'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['team_subtitle_2'][0])){
+                                $input1['author']['subtitle_2'] =   $custom_fields['saswp_article_author_global_mapping']['team_subtitle_2'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['team_contact'][0])){
+                                $input1['author']['contact'] =   $custom_fields['saswp_article_author_global_mapping']['team_contact'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['team_phone'][0])){
+                                $input1['author']['team_phone'] =   $custom_fields['saswp_article_author_global_mapping']['team_phone'][0];
+                            }
+
+                            $sameas = array();
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['team_facebook'][0])){
+                                $sameas[] =   $custom_fields['saswp_article_author_global_mapping']['team_facebook'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['team_twitter'][0])){
+                                $sameas[] =   $custom_fields['saswp_article_author_global_mapping']['team_twitter'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['team_linkedin'][0])){
+                                $sameas[] =   $custom_fields['saswp_article_author_global_mapping']['team_linkedin'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['team_instagram'][0])){
+                                $sameas[] =   $custom_fields['saswp_article_author_global_mapping']['team_instagram'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['team_youtube'][0])){
+                                $sameas[] =   $custom_fields['saswp_article_author_global_mapping']['team_youtube'][0];
+                            }
+                            if($sameas){
+                                $input1['author']['sameAs'] = $sameas;
+                            }
+
+
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['college_logo'][0])){
+                                $input1['author']['college_logo'] = wp_get_attachment_image_url($custom_fields['saswp_article_author_global_mapping']['college_logo'][0]);
+                            }
+
+                            if(!empty($custom_fields['saswp_article_author_global_mapping']['reviewer_bio'][0])){
+                                $input1['author']['reviewer_bio'] =   $custom_fields['saswp_article_author_global_mapping']['reviewer_bio'][0];
+                            }
+
                             if(!empty($custom_fields['saswp_article_author_global_mapping']['alumniof'][0])){
                                 $str =  $custom_fields['saswp_article_author_global_mapping']['alumniof'][0];
                                 $itemlist = explode(",", $str);
@@ -1541,6 +1594,58 @@ Class saswp_output_service{
 
                             if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['knowsabout'][0])){
                                 $input1['reviewedBy']['knowsabout'] =   explode(',', $custom_fields['saswp_article_reviewedby_global_mapping']['knowsabout'][0]);
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['short_intro'][0])){
+                                $input1['reviewedBy']['short_intro'] =   $custom_fields['saswp_article_reviewedby_global_mapping']['short_intro'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['team_subtitle'][0])){
+                                $input1['reviewedBy']['subtitle'] =   $custom_fields['saswp_article_reviewedby_global_mapping']['team_subtitle'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['team_subtitle_2'][0])){
+                                $input1['reviewedBy']['subtitle_2'] =   $custom_fields['saswp_article_reviewedby_global_mapping']['team_subtitle_2'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['team_contact'][0])){
+                                $input1['reviewedBy']['contact'] =   $custom_fields['saswp_article_reviewedby_global_mapping']['team_contact'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['team_phone'][0])){
+                                $input1['reviewedBy']['team_phone'] =   $custom_fields['saswp_article_reviewedby_global_mapping']['team_phone'][0];
+                            }
+
+                            $sameas = array();
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['team_facebook'][0])){
+                                $sameas[] =   $custom_fields['saswp_article_reviewedby_global_mapping']['team_facebook'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['team_twitter'][0])){
+                                $sameas[] =   $custom_fields['saswp_article_reviewedby_global_mapping']['team_twitter'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['team_linkedin'][0])){
+                                $sameas[] =   $custom_fields['saswp_article_reviewedby_global_mapping']['team_linkedin'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['team_instagram'][0])){
+                                $sameas[] =   $custom_fields['saswp_article_reviewedby_global_mapping']['team_instagram'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['team_youtube'][0])){
+                                $sameas[] =   $custom_fields['saswp_article_reviewedby_global_mapping']['team_youtube'][0];
+                            }
+                            if($sameas){
+                                $input1['reviewedBy']['sameAs'] = $sameas;
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['college_logo'][0])){
+                                $input1['reviewedBy']['college_logo'] = wp_get_attachment_image_url($custom_fields['saswp_article_reviewedby_global_mapping']['college_logo'][0]);
+                            }
+
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['reviewer_bio'][0])){
+                                $input1['reviewedBy']['reviewer_bio'] =   $custom_fields['saswp_article_reviewedby_global_mapping']['reviewer_bio'][0];
                             }
 
                             if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['alumniof'][0])){
@@ -1685,6 +1790,59 @@ Class saswp_output_service{
                                 $input1['author']['knowsabout'] =   explode(',', $custom_fields['saswp_creativework_author_global_mapping']['knowsabout'][0]);
                             }
 
+                            
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['short_intro'][0])){
+                                $input1['author']['short_intro'] =   $custom_fields['saswp_creativework_author_global_mapping']['short_intro'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['team_subtitle'][0])){
+                                $input1['author']['subtitle'] =   $custom_fields['saswp_creativework_author_global_mapping']['team_subtitle'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['team_subtitle_2'][0])){
+                                $input1['author']['subtitle_2'] =   $custom_fields['saswp_creativework_author_global_mapping']['team_subtitle_2'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['team_contact'][0])){
+                                $input1['author']['contact'] =   $custom_fields['saswp_creativework_author_global_mapping']['team_contact'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['team_phone'][0])){
+                                $input1['author']['team_phone'] =   $custom_fields['saswp_creativework_author_global_mapping']['team_phone'][0];
+                            }
+
+                            $sameas = array();
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['team_facebook'][0])){
+                                $sameas[] =   $custom_fields['saswp_creativework_author_global_mapping']['team_facebook'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['team_twitter'][0])){
+                                $sameas[] =   $custom_fields['saswp_creativework_author_global_mapping']['team_twitter'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['team_linkedin'][0])){
+                                $sameas[] =   $custom_fields['saswp_creativework_author_global_mapping']['team_linkedin'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['team_instagram'][0])){
+                                $sameas[] =   $custom_fields['saswp_creativework_author_global_mapping']['team_instagram'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['team_youtube'][0])){
+                                $sameas[] =   $custom_fields['saswp_creativework_author_global_mapping']['team_youtube'][0];
+                            }
+                            if($sameas){
+                                $input1['author']['sameAs'] = $sameas;
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['college_logo'][0])){
+                                $input1['author']['college_logo'] = wp_get_attachment_image_url($custom_fields['saswp_creativework_author_global_mapping']['college_logo'][0]);
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_author_global_mapping']['reviewer_bio'][0])){
+                                $input1['author']['reviewer_bio'] =   $custom_fields['saswp_creativework_author_global_mapping']['reviewer_bio'][0];
+                            }
+
                             if(!empty($custom_fields['saswp_creativework_author_global_mapping']['alumniof'][0])){
                                 $str =  $custom_fields['saswp_creativework_author_global_mapping']['alumniof'][0];
                                 $itemlist = explode(",", $str);
@@ -1752,6 +1910,59 @@ Class saswp_output_service{
 
                             if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['knowsabout'][0])){
                                 $input1['reviewedBy']['knowsabout'] =   explode(',', $custom_fields['saswp_creativework_reviewedby_global_mapping']['knowsabout'][0]);
+                            }
+
+                            
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['short_intro'][0])){
+                                $input1['reviewedBy']['short_intro'] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['short_intro'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['team_subtitle'][0])){
+                                $input1['reviewedBy']['subtitle'] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['team_subtitle'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['team_subtitle_2'][0])){
+                                $input1['reviewedBy']['subtitle_2'] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['team_subtitle_2'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['team_contact'][0])){
+                                $input1['reviewedBy']['contact'] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['team_contact'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['team_phone'][0])){
+                                $input1['reviewedBy']['team_phone'] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['team_phone'][0];
+                            }
+
+                            $sameas = array();
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['team_facebook'][0])){
+                                $sameas[] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['team_facebook'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['team_twitter'][0])){
+                                $sameas[] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['team_twitter'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['team_linkedin'][0])){
+                                $sameas[] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['team_linkedin'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['team_instagram'][0])){
+                                $sameas[] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['team_instagram'][0];
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['team_youtube'][0])){
+                                $sameas[] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['team_youtube'][0];
+                            }
+                            if($sameas){
+                                $input1['reviewedBy']['sameAs'] = $sameas;
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['college_logo'][0])){
+                                $input1['reviewedBy']['college_logo'] = wp_get_attachment_image_url($custom_fields['saswp_creativework_reviewedby_global_mapping']['college_logo'][0]);
+                            }
+
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['reviewer_bio'][0])){
+                                $input1['reviewedBy']['reviewer_bio'] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['reviewer_bio'][0];
                             }
 
                             if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['alumniof'][0])){
@@ -1909,6 +2120,61 @@ Class saswp_output_service{
                             $input1['author']['knowsabout'] =   explode(',', $custom_fields['saswp_photograph_author_global_mapping']['knowsabout'][0]);
                         }
 
+                        
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['short_intro'][0])){
+                            $input1['author']['short_intro'] =   $custom_fields['saswp_photograph_author_global_mapping']['short_intro'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['team_subtitle'][0])){
+                            $input1['author']['subtitle'] =   $custom_fields['saswp_photograph_author_global_mapping']['team_subtitle'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['team_subtitle_2'][0])){
+                            $input1['author']['subtitle_2'] =   $custom_fields['saswp_photograph_author_global_mapping']['team_subtitle_2'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['team_contact'][0])){
+                            $input1['author']['contact'] =   $custom_fields['saswp_photograph_author_global_mapping']['team_contact'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['team_phone'][0])){
+                            $input1['author']['team_phone'] =   $custom_fields['saswp_photograph_author_global_mapping']['team_phone'][0];
+                        }
+
+
+                        $sameas = array();
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['team_facebook'][0])){
+                            $sameas[] =   $custom_fields['saswp_photograph_author_global_mapping']['team_facebook'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['team_twitter'][0])){
+                            $sameas[] =   $custom_fields['saswp_photograph_author_global_mapping']['team_twitter'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['team_linkedin'][0])){
+                            $sameas[] =   $custom_fields['saswp_photograph_author_global_mapping']['team_linkedin'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['team_instagram'][0])){
+                            $sameas[] =   $custom_fields['saswp_photograph_author_global_mapping']['team_instagram'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['team_youtube'][0])){
+                            $sameas[] =   $custom_fields['saswp_photograph_author_global_mapping']['team_youtube'][0];
+                        }
+                        if($sameas){
+                            $input1['author']['sameAs'] = $sameas;
+                        }
+
+
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['college_logo'][0])){
+                            $input1['author']['college_logo'] = wp_get_attachment_image_url($custom_fields['saswp_photograph_author_global_mapping']['college_logo'][0]);
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_author_global_mapping']['reviewer_bio'][0])){
+                            $input1['author']['reviewer_bio'] =   $custom_fields['saswp_photograph_author_global_mapping']['reviewer_bio'][0];
+                        }
+
                         if(!empty($custom_fields['saswp_photograph_author_global_mapping']['alumniof'][0])){
                             $str =  $custom_fields['saswp_photograph_author_global_mapping']['alumniof'][0];
                             $itemlist = explode(",", $str);
@@ -1995,6 +2261,59 @@ Class saswp_output_service{
 
                         if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['knowsabout'][0])){
                             $input1['reviewedBy']['knowsabout'] =   explode(',', $custom_fields['saswp_photograph_reviewedby_global_mapping']['knowsabout'][0]);
+                        }
+
+                        
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['short_intro'][0])){
+                            $input1['reviewedBy']['short_intro'] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['short_intro'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['team_subtitle'][0])){
+                            $input1['reviewedBy']['subtitle'] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['team_subtitle'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['team_subtitle_2'][0])){
+                            $input1['reviewedBy']['subtitle_2'] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['team_subtitle_2'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['team_contact'][0])){
+                            $input1['reviewedBy']['contact'] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['team_contact'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['team_phone'][0])){
+                            $input1['reviewedBy']['team_phone'] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['team_phone'][0];
+                        }
+
+                        $sameas = array();
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['team_facebook'][0])){
+                            $sameas[] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['team_facebook'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['team_twitter'][0])){
+                            $sameas[] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['team_twitter'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['team_linkedin'][0])){
+                            $sameas[] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['team_linkedin'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['team_instagram'][0])){
+                            $sameas[] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['team_instagram'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['team_youtube'][0])){
+                            $sameas[] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['team_youtube'][0];
+                        }
+                        if($sameas){
+                            $input1['reviewedBy']['sameAs'] = $sameas;
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['college_logo'][0])){
+                            $input1['reviewedBy']['college_logo'] = wp_get_attachment_image_url($custom_fields['saswp_photograph_reviewedby_global_mapping']['college_logo'][0]);
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['reviewer_bio'][0])){
+                            $input1['reviewedBy']['reviewer_bio'] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['reviewer_bio'][0];
                         }
 
                         if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['alumniof'][0])){
@@ -2348,6 +2667,60 @@ Class saswp_output_service{
                             $input1['author']['knowsabout'] =   explode(',', $custom_fields['saswp_blogposting_author_global_mapping']['knowsabout'][0]);
                         }
 
+                        
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['short_intro'][0])){
+                            $input1['author']['short_intro'] =   $custom_fields['saswp_blogposting_author_global_mapping']['short_intro'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['team_subtitle'][0])){
+                            $input1['author']['subtitle'] =   $custom_fields['saswp_blogposting_author_global_mapping']['team_subtitle'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['team_subtitle_2'][0])){
+                            $input1['author']['subtitle_2'] =   $custom_fields['saswp_blogposting_author_global_mapping']['team_subtitle_2'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['team_contact'][0])){
+                            $input1['author']['contact'] =   $custom_fields['saswp_blogposting_author_global_mapping']['team_contact'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['team_phone'][0])){
+                            $input1['author']['team_phone'] =   $custom_fields['saswp_blogposting_author_global_mapping']['team_phone'][0];
+                        }
+
+                        $sameas = array();
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['team_facebook'][0])){
+                            $sameas[] =  $custom_fields['saswp_blogposting_author_global_mapping']['team_facebook'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['team_twitter'][0])){
+                            $sameas[] =  $custom_fields['saswp_blogposting_author_global_mapping']['team_twitter'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['team_linkedin'][0])){
+                            $sameas[] = $custom_fields['saswp_blogposting_author_global_mapping']['team_linkedin'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['team_instagram'][0])){
+                            $sameas[] = $custom_fields['saswp_blogposting_author_global_mapping']['team_instagram'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['team_youtube'][0])){
+                            $sameas[] = $custom_fields['saswp_blogposting_author_global_mapping']['team_youtube'][0];
+                        }
+                        if($sameas){
+                            $input1['author']['sameAs'] = $sameas;
+                        }
+
+
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['college_logo'][0])){
+                            $input1['author']['college_logo'] = wp_get_attachment_image_url($custom_fields['saswp_blogposting_author_global_mapping']['college_logo'][0]);
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['reviewer_bio'][0])){
+                            $input1['author']['reviewer_bio'] =   $custom_fields['saswp_blogposting_author_global_mapping']['reviewer_bio'][0];
+                        }
+
                         if(!empty($custom_fields['saswp_blogposting_author_global_mapping']['alumniof'][0])){
                             $str =  $custom_fields['saswp_blogposting_author_global_mapping']['alumniof'][0];
                             $itemlist = explode(",", $str);
@@ -2407,6 +2780,59 @@ Class saswp_output_service{
 
                         if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['knowsabout'][0])){
                             $input1['reviewedBy']['knowsabout'] =   explode(',', $custom_fields['saswp_blogposting_reviewedby_global_mapping']['knowsabout'][0]);
+                        }
+
+                        
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['short_intro'][0])){
+                            $input1['reviewedBy']['short_intro'] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['short_intro'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_subtitle'][0])){
+                            $input1['reviewedBy']['subtitle'] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_subtitle'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_subtitle_2'][0])){
+                            $input1['reviewedBy']['subtitle_2'] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_subtitle_2'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_contact'][0])){
+                            $input1['reviewedBy']['contact'] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_contact'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_phone'][0])){
+                            $input1['reviewedBy']['team_phone'] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_phone'][0];
+                        }
+
+                        $sameas = array();
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_facebook'][0])){
+                            $sameas[] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_facebook'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_twitter'][0])){
+                            $sameas[] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_twitter'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_linkedin'][0])){
+                            $sameas[] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_linkedin'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_instagram'][0])){
+                            $sameas[] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_instagram'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_youtube'][0])){
+                            $sameas[] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['team_youtube'][0];
+                        }
+                        if($sameas){
+                            $input1['reviewedBy']['sameAs'] = $sameas;
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['college_logo'][0])){
+                            $input1['reviewedBy']['college_logo'] = wp_get_attachment_image_url($custom_fields['saswp_blogposting_reviewedby_global_mapping']['college_logo'][0]);
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['reviewer_bio'][0])){
+                            $input1['reviewedBy']['reviewer_bio'] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['reviewer_bio'][0];
                         }
 
                         if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['alumniof'][0])){
@@ -3032,6 +3458,60 @@ Class saswp_output_service{
                             $input1['author']['knowsabout'] =   explode(',', $custom_fields['saswp_tech_article_author_global_mapping']['knowsabout'][0]);
                         }
 
+                        
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['short_intro'][0])){
+                            $input1['author']['short_intro'] =   $custom_fields['saswp_tech_article_author_global_mapping']['short_intro'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['team_subtitle'][0])){
+                            $input1['author']['subtitle'] =   $custom_fields['saswp_tech_article_author_global_mapping']['team_subtitle'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['team_subtitle_2'][0])){
+                            $input1['author']['subtitle_2'] =   $custom_fields['saswp_tech_article_author_global_mapping']['team_subtitle_2'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['team_contact'][0])){
+                            $input1['author']['contact'] =   $custom_fields['saswp_tech_article_author_global_mapping']['team_contact'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['team_phone'][0])){
+                            $input1['author']['team_phone'] =   $custom_fields['saswp_tech_article_author_global_mapping']['team_phone'][0];
+                        }
+
+                        $sameas = array();
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['team_facebook'][0])){
+                            $sameas[] =   $custom_fields['saswp_tech_article_author_global_mapping']['team_facebook'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['team_twitter'][0])){
+                            $sameas[] =   $custom_fields['saswp_tech_article_author_global_mapping']['team_twitter'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['team_linkedin'][0])){
+                            $sameas[] =   $custom_fields['saswp_tech_article_author_global_mapping']['team_linkedin'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['team_instagram'][0])){
+                            $sameas[] =   $custom_fields['saswp_tech_article_author_global_mapping']['team_instagram'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['team_youtube'][0])){
+                            $sameas[] =   $custom_fields['saswp_tech_article_author_global_mapping']['team_youtube'][0];
+                        }
+                        if($sameas){
+                            $input1['author']['sameAs'] = $sameas;
+                        }
+
+
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['college_logo'][0])){
+                            $input1['author']['college_logo'] = wp_get_attachment_image_url($custom_fields['saswp_tech_article_author_global_mapping']['college_logo'][0]);
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['reviewer_bio'][0])){
+                            $input1['author']['reviewer_bio'] =   $custom_fields['saswp_tech_article_author_global_mapping']['reviewer_bio'][0];
+                        }
+
                         if(!empty($custom_fields['saswp_tech_article_author_global_mapping']['alumniof'][0])){
                             $str =  $custom_fields['saswp_tech_article_author_global_mapping']['alumniof'][0];
                             $itemlist = explode(",", $str);
@@ -3124,6 +3604,59 @@ Class saswp_output_service{
 
                         if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['knowsabout'][0])){
                             $input1['reviewedBy']['knowsabout'] =   explode(',', $custom_fields['saswp_tech_article_reviewedby_global_mapping']['knowsabout'][0]);
+                        }
+
+                        
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['short_intro'][0])){
+                            $input1['reviewedBy']['short_intro'] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['short_intro'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_subtitle'][0])){
+                            $input1['reviewedBy']['subtitle'] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_subtitle'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_subtitle_2'][0])){
+                            $input1['reviewedBy']['subtitle_2'] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_subtitle_2'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_contact'][0])){
+                            $input1['reviewedBy']['contact'] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_contact'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_phone'][0])){
+                            $input1['reviewedBy']['team_phone'] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_phone'][0];
+                        }
+
+                        $sameas = array();
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_facebook'][0])){
+                            $sameas[] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_facebook'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_twitter'][0])){
+                            $sameas[] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_twitter'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_linkedin'][0])){
+                            $sameas[] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_linkedin'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_instagram'][0])){
+                            $sameas[] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_instagram'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_youtube'][0])){
+                            $sameas[] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['team_youtube'][0];
+                        }
+                        if($sameas){
+                            $input1['reviewedBy']['sameAs'] = $sameas;
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['college_logo'][0])){
+                            $input1['reviewedBy']['college_logo'] = wp_get_attachment_image_url($custom_fields['saswp_tech_article_reviewedby_global_mapping']['college_logo'][0]);
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['reviewer_bio'][0])){
+                            $input1['reviewedBy']['reviewer_bio'] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['reviewer_bio'][0];
                         }
 
                         if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['alumniof'][0])){
