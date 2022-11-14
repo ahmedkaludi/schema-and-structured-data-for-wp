@@ -2,9 +2,9 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 1.9.103
+Stable tag: 1.9.104
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.104 (11 Nov 2022) =
+
+* Added: Need to create an About option in the Artical Schema.. #1761
+* Fixed: Deprecated Warning in PHP Version 8.0.13 #1763
+* Fixed: PHP Notice: Undefined index #1765
+* Fixed: The option "Business Type" under local business schema type is not visible anymore. #1766
+* Added: Divi builder with schema in duplicate content url ( video url ) and url is not valid #1770
+* Added: Nested custom field mapping does not work need to improve it. #1777
+* Fixed: Need to fix the warning in error log #1773
 
 = 1.9.103 (21 Oct 2022) =
 

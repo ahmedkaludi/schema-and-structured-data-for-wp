@@ -210,7 +210,6 @@ var Merlin = (function($){
 Merlin.init();
 
 jQuery(document).ready(function($) {
-
    $(".social-fields input[type=checkbox]").change(function(){
         socialFields($(this));
    })
@@ -243,7 +242,7 @@ jQuery(document).ready(function($) {
     
      $(".saswp-schame-type-select").select2();
      $(".saswp-schame-type-select").change(function(){
-            var schematype = $  (this).val(); 
+            var schematype = $(this).val(); 
             
            $(".saswp-option-table-class tr").each(function(index,value){                
                if(index>0){
@@ -259,6 +258,11 @@ jQuery(document).ready(function($) {
             }
             
             if(schematype == 'local_business'){
+                $(document).ready(function(){
+                    $(".saswp-faqs-checkbox-field-tr").hide();
+                    $(".saswp-business-type-tr").show();
+                });
+             $(".saswp-faqs-checkbox-field-tr").hide(); // local business
              $(".saswp-option-table-class tr").eq(1).show();   
              $(".saswp-business-text-field-tr").show(); 
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);            
@@ -276,13 +280,13 @@ jQuery(document).ready(function($) {
         $(".saswp-local-sub-type-2").select2();
         $("#saswp_business_type").select2();
         $("#saswp_business_type").change(function(){
-            var businesstype = $  (this).val(); 
+            var businesstype = $(this).val(); 
             var schematype = $(".saswp-schame-type-select").val();
             
            $(".saswp-option-table-class tr").each(function(index,value){                
                if(index>1){
                    $(this).hide(); 
-                   $(this).find('select').attr('disabled', true);
+                   //$(this).find('select').attr('disabled', true);
                }                               
             }); 
             if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'WebPage'){
@@ -292,6 +296,7 @@ jQuery(document).ready(function($) {
                 $(".saswp-enable-speakable").parent().parent().hide();
             }
             if(schematype == 'local_business'){
+            $(".saswp-business-type-tr").show();
             $(".saswp-"+businesstype+'-tr').show();
             $(".saswp-business-text-field-tr").show(); 
             $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false);            

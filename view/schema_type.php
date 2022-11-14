@@ -153,6 +153,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $append_reviews      = '';  
                     $event_type          = '';
                     $post_id             = null;
+                    $style_faq_type      = '';
 
                     if($post){
             

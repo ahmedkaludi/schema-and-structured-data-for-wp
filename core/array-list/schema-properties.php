@@ -399,6 +399,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),     
                     array(
+                        'label'   => 'Author',
+                        'id'      => 'saswp_blogposting_author_global_mapping_'.$schema_id,
+                        'type'    => 'global_mapping'
+                    ),
+                    array(
                         'label'   => 'Author Type',
                         'id'      => 'saswp_blogposting_author_type_'.$schema_id,
                         'type'    => 'select',
@@ -448,6 +453,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'placeholder' => 'eg: Editor in Chief'
                          ),
                      ),
+                     array(
+                        'label'   => 'ReviewedBy',
+                        'id'      => 'saswp_blogposting_reviewedby_global_mapping_'.$schema_id,
+                        'type'    => 'global_mapping'
+                    ),
                     array(
                         'label'   => 'ReviewedBy Type',
                         'id'      => 'saswp_blogposting_reviewedby_type_'.$schema_id,
@@ -541,6 +551,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url'] : ''
                     ),
+                    array(
+                        'label'   => 'About',
+                        'id'      => 'saswp_blogposting_about_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                        'attributes' => array(
+                                'placeholder' => 'eg: Apple is March 21 Announcements'
+                        ),
+                    ),  
                     array(
                         'label'   => 'AlumniOf',
                         'id'      => 'saswp_blogposting_alumniof_'.$schema_id,
@@ -756,7 +776,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type' => 'media',
                         'default' => isset($author_details['url']) ? $author_details['url']: ''
                     ),
-
+                    array(
+                        'label'   => 'About',
+                        'id'      => 'saswp_newsarticle_about_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                        'attributes' => array(
+                                'placeholder' => 'eg: Apple is March 21 Announcements'
+                        ),
+                    ), 
                     array(
                             'label' => 'Organization Name',
                             'id' => 'saswp_newsarticle_organization_name_'.$schema_id,
@@ -1088,6 +1117,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => get_the_modified_date("Y-m-d")
                         ),
                         array(
+                                'label'   => 'Author',
+                                'id'      => 'saswp_photograph_author_global_mapping_'.$schema_id,
+                                'type'    => 'global_mapping'
+                        ),
+                        array(
                                 'label'   => 'Author Type',
                                 'id'      => 'saswp_photograph_author_type_'.$schema_id,
                                 'type'    => 'select',
@@ -1180,7 +1214,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type' => 'media',
                                 'default' => isset($author_details['url']) ? $author_details['url']: ''
                         ),
-
+                        array(
+                                'label'   => 'ReviewedBy',
+                                'id'      => 'saswp_photograph_reviewedby_global_mapping_'.$schema_id,
+                                'type'    => 'global_mapping'
+                        ),
                         array(
                                 'label'   => 'ReviewedBy Type',
                                 'id'      => 'saswp_photograph_reviewedby_type_'.$schema_id,
@@ -1229,6 +1267,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type'  => 'media',
                                 'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
                         ),
+                        array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_photograph_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        ),  
                         array(
                                 'label'   => 'AlumniOf',
                                 'id'      => 'saswp_photograph_alumniof_'.$schema_id,
@@ -1332,6 +1380,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => get_the_modified_date("Y-m-d")
                         ),
                         array(
+                                'label'   => 'Author',
+                                'id'      => 'saswp_article_author_global_mapping_'.$schema_id,
+                                'type'    => 'global_mapping'
+                        ),
+                        array(
                                 'label'   => 'Author Type',
                                 'id'      => 'saswp_article_author_type_'.$schema_id,
                                 'type'    => 'select',
@@ -1380,6 +1433,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'attributes' => array(
                                         'placeholder' => 'eg: Editor in Chief'
                                  ),
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy',
+                                'id'      => 'saswp_article_reviewedby_global_mapping_'.$schema_id,
+                                'type'    => 'global_mapping'
                         ),
                         array(
                                 'label'   => 'ReviewedBy Type',
@@ -1471,6 +1529,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type'    => 'media',
                                 'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
                         ),
+                        array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_article_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        ),  
                         array(
                                 'label'   => 'AlumniOf',
                                 'id'      => 'saswp_article_alumniof_'.$schema_id,
@@ -1934,6 +2002,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'default' => get_the_modified_date("Y-m-d")
                                 ),
                                 array(
+                                        'label'   => 'Author',
+                                        'id'      => 'saswp_creativework_author_global_mapping_'.$schema_id,
+                                        'type'    => 'global_mapping'
+                                ),
+                                array(
                                         'label'   => 'Author Type',
                                         'id'      => 'saswp_creativework_author_type_'.$schema_id,
                                         'type'    => 'select',
@@ -1982,6 +2055,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'attributes' => array(
                                                 'placeholder' => 'eg: Editor in Chief'
                                          ),
+                                ),
+                                array(
+                                        'label'   => 'ReviewedBy',
+                                        'id'      => 'saswp_creativework_reviewedby_global_mapping_'.$schema_id,
+                                        'type'    => 'global_mapping'
                                 ),
                                 array(
                                         'label'   => 'ReviewedBy Type',
@@ -2075,6 +2153,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'type'    => 'media',
                                         'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
                                 ),
+                                array(
+                                        'label'   => 'About',
+                                        'id'      => 'saswp_creativework_about_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => '',
+                                        'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                        'attributes' => array(
+                                                'placeholder' => 'eg: Apple is March 21 Announcements'
+                                        ),
+                                ),  
                                 array(
                                         'label'   => 'AlumniOf',
                                         'id'      => 'saswp_creativework_alumniof_'.$schema_id,
@@ -2589,6 +2677,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_the_modified_date("Y-m-d")
                     ),
                     array(
+                        'label'   => 'Author',
+                        'id'      => 'saswp_tech_article_author_global_mapping_'.$schema_id,
+                        'type'    => 'global_mapping'
+                    ),
+                    array(
                         'label'   => 'Author Type',
                         'id'      => 'saswp_tech_article_author_type_'.$schema_id,
                         'type'    => 'select',
@@ -2637,6 +2730,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'attributes' => array(
                                 'placeholder' => 'eg: Editor in Chief'
                          ),
+                    ),
+                    array(
+                        'label'   => 'ReviewedBy',
+                        'id'      => 'saswp_tech_article_reviewedby_global_mapping_'.$schema_id,
+                        'type'    => 'global_mapping'
                     ),
                     array(
                         'label'   => 'ReviewedBy Type',
@@ -2728,6 +2826,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'media',
                             'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
                     ),
+                    array(
+                        'label'   => 'About',
+                        'id'      => 'saswp_tech_article_about_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                        'attributes' => array(
+                                'placeholder' => 'eg: Apple is March 21 Announcements'
+                        ),
+                    ), 
                     array(
                         'label'   => 'AlumniOf',
                         'id'      => 'saswp_tech_article_alumniof_'.$schema_id,

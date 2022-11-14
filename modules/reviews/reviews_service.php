@@ -145,16 +145,21 @@ class saswp_reviews_service {
                     
                 $term     = get_term_by( 'slug','self', 'platform' );   
                 
-                if($rv_image){
+                if(!empty($rv_image)){
                     
                     $image_details = saswp_get_attachment_details($rv_image);   
+                    if(!empty($image_details)){
+                        $media_detail = array(                                                    
+                            'width'      => $image_details[0][0],
+                            'height'     => $image_details[0][1],
+                            'thumbnail'  => $rv_image,
+                        );
+                    }else{
+                        $media_detail = "";
+                    }
                     
-                    $media_detail = array(                                                    
-                        'width'      => $image_details[0][0],
-                        'height'     => $image_details[0][1],
-                        'thumbnail'  => $rv_image,
-                    );
-                    
+                }else{
+                    $rv_image = "";
                 }
                 
                 $review_meta = array(
@@ -259,6 +264,8 @@ class saswp_reviews_service {
                 }           
                 if(!empty($sd_data['saswp_date_format']) && $sd_data['saswp_date_format'] == 'default'){
                     $days_ago_format = date('d-m-Y',strtotime($review['saswp_review_date']));
+                }else{
+                    $days_ago_format = "";
                 }  
                         
                         $review_rating = $review['saswp_review_rating'];
@@ -987,7 +994,7 @@ class saswp_reviews_service {
 
                        }                       
 
-                       if($pagination_wpr && $pagination){
+                       if(!empty($pagination_wpr) && !empty($pagination)){
 
                           if($break == 1){
                             $html .= '<li data-id="'.esc_attr($break).'">';                       
@@ -1069,7 +1076,7 @@ class saswp_reviews_service {
                         
                 } 
 
-                if(($page_count > 0 && $pagination ) && $pagination_wpr){
+                if(($page_count > 0 && $pagination ) && !empty($pagination_wpr)){
 
                         $html .= '<div class="saswp-grid-pagination saswp-grid-wpr">';                    
                         $html .= '<a data-id="1" class="saswp-grid-page saswp-pagination-first-last" href="#">&laquo;</a>'; 
