@@ -2434,6 +2434,8 @@ if ( ! defined('ABSPATH') ) exit;
             $author_name  = get_the_author_meta( 'display_name' , $author_id );             
         }
 
+        $author_meta =  get_user_meta($author_id);
+
         $author_url   = get_author_posts_url( $author_id ); 
         $same_as      = array();
 
@@ -2457,10 +2459,78 @@ if ( ! defined('ABSPATH') ) exit;
                 
         $author_details['@type']           = 'Person';
         $author_details['name']            = esc_attr($author_name);
-        $author_details['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
+        if(!empty($author_desc)){
+            $author_details['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
+        }else{
+            if(!empty($author_meta['author_bio'][0])){
+                $author_details['description'] =   $author_meta['author_bio'][0];
+            }
+        }
         $author_details['url']             = esc_url($author_url);
         $author_details['sameAs']          = $same_as;
 
+        if(!empty($author_meta['knowsabout'][0])){
+            $author_details['knowsabout'] =   explode(',', $author_meta['knowsabout'][0]);
+        }
+
+        if(!empty($author_meta['honorificsuffix'][0])){
+            $author_details['honorificsuffix'] =  $author_meta['honorificsuffix'][0];
+        }
+
+        if(!empty($author_meta['alumniof'][0])){
+            $str =  $author_meta['alumniof'][0];
+            $itemlist = explode(",", $str);
+            foreach ($itemlist as $key => $list){
+                $vnewarr['@type'] = 'Organization';
+                $vnewarr['Name']   = $list;   
+                $author_details['alumniOf'][] = $vnewarr;
+            }
+        }
+
+        if(!empty($author_meta['author_bio'][0])){
+            $author_details['author_bio'] =   $author_meta['author_bio'][0];
+        }
+
+        if(!empty($author_meta['facebook_bio'][0])){
+            $author_details['facebook_bio'] =   $author_meta['facebook_bio'][0];
+        }
+
+        if(!empty($author_meta['read_more_link'][0])){
+            $author_details['read_more_link'] =   $author_meta['read_more_link'][0];
+        }
+
+        if(!empty($author_meta['twitter_bio'][0])){
+            $author_details['twitter_bio'] =   $author_meta['twitter_bio'][0];
+        }
+        
+        if(!empty($author_meta['linkedin_bio'][0])){
+            $author_details['linkedin_bio'] =   $author_meta['linkedin_bio'][0];
+        }
+
+        if(!empty($author_meta['google_bio'][0])){
+            $author_details['google_bio'] =   $author_meta['google_bio'][0];
+        }
+
+        if(!empty($author_meta['houzz_bio'][0])){
+            $author_details['houzz_bio'] =   $author_meta['houzz_bio'][0];
+        }
+
+        if(!empty($author_meta['youtube_bio'][0])){
+            $author_details['youtube_bio'] =   $author_meta['youtube_bio'][0];
+        }
+
+        if(!empty($author_meta['vimeo_bio'][0])){
+            $author_details['vimeo_bio'] =   $author_meta['vimeo_bio'][0];
+        }
+
+        if(!empty($author_meta['pineterest_bio'][0])){
+            $author_details['pineterest_bio'] =   $author_meta['pineterest_bio'][0];
+        }
+
+        if(!empty($author_meta['rss_bio'][0])){
+            $author_details['rss_bio'] =   $author_meta['rss_bio'][0];
+        }
+        
         if(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
 
             $author_details['image']['@type']  = 'ImageObject';

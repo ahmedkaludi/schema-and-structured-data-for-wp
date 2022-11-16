@@ -288,6 +288,16 @@ Class saswp_output_service{
                         }
                         
 
+                    }elseif(strpos($key, "global_mapping") == true){
+                       
+                        $post_id    = get_post_meta($post->ID, $cus_field[$key], true);
+                        $response = get_post_meta($post_id); 
+                      
+                        $response['name'] = get_the_title($post_id);
+                        $response['url'] = get_permalink($post_id);
+                        $response['description'] =   wp_trim_words(get_post_field('post_content', $post_id));
+                        $response['lastreviewed_date'] =  get_the_modified_date( '', $post_id );
+                  
                     }else{
 
                         if($post){
@@ -1648,6 +1658,10 @@ Class saswp_output_service{
                                 $input1['reviewedBy']['reviewer_bio'] =   $custom_fields['saswp_article_reviewedby_global_mapping']['reviewer_bio'][0];
                             }
 
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['lastreviewed_date'])){
+                                $input1['reviewedBy']['lastreviewed_date'] =   $custom_fields['saswp_article_reviewedby_global_mapping']['lastreviewed_date'];
+                            }
+
                             if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['alumniof'][0])){
                                 $str =  $custom_fields['saswp_article_reviewedby_global_mapping']['alumniof'][0];
                                 $itemlist = explode(",", $str);
@@ -1908,6 +1922,10 @@ Class saswp_output_service{
                                 $input1['reviewedBy']['honorificsuffix'] =    $custom_fields['saswp_creativework_reviewedby_global_mapping']['honorificsuffix'][0];
                             }
 
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['lastreviewed_date'])){
+                                $input1['reviewedBy']['lastreviewed_date'] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['lastreviewed_date'];
+                            }
+
                             if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['knowsabout'][0])){
                                 $input1['reviewedBy']['knowsabout'] =   explode(',', $custom_fields['saswp_creativework_reviewedby_global_mapping']['knowsabout'][0]);
                             }
@@ -1964,6 +1982,7 @@ Class saswp_output_service{
                             if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['reviewer_bio'][0])){
                                 $input1['reviewedBy']['reviewer_bio'] =   $custom_fields['saswp_creativework_reviewedby_global_mapping']['reviewer_bio'][0];
                             }
+                            
 
                             if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['alumniof'][0])){
                                 $str =  $custom_fields['saswp_creativework_reviewedby_global_mapping']['alumniof'][0];
@@ -2253,6 +2272,10 @@ Class saswp_output_service{
 
                         if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['description'])){
                             $input1['reviewedBy']['description'] =    $custom_fields['saswp_photograph_reviewedby_global_mapping']['description'];
+                        }
+
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['lastreviewed_date'])){
+                            $input1['reviewedBy']['lastreviewed_date'] =   $custom_fields['saswp_photograph_reviewedby_global_mapping']['lastreviewed_date'];
                         }
 
                         if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['honorificsuffix'][0])){
@@ -2772,6 +2795,10 @@ Class saswp_output_service{
 
                         if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['description'])){
                             $input1['reviewedBy']['description'] =    $custom_fields['saswp_blogposting_reviewedby_global_mapping']['description'];
+                        }
+
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['lastreviewed_date'])){
+                            $input1['reviewedBy']['lastreviewed_date'] =   $custom_fields['saswp_blogposting_reviewedby_global_mapping']['lastreviewed_date'];
                         }
 
                         if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['honorificsuffix'][0])){
@@ -3596,6 +3623,10 @@ Class saswp_output_service{
 
                         if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['description'])){
                             $input1['reviewedBy']['description'] =    $custom_fields['saswp_tech_article_reviewedby_global_mapping']['description'];
+                        }
+
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['lastreviewed_date'])){
+                            $input1['reviewedBy']['lastreviewed_date'] =   $custom_fields['saswp_tech_article_reviewedby_global_mapping']['lastreviewed_date'];
                         }
 
                         if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['honorificsuffix'][0])){
