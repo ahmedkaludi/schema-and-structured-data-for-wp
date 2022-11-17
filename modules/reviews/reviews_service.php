@@ -946,7 +946,7 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr = null, $saswp_collection_hide_col_rew_img){
+    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr = null, $saswp_collection_hide_col_rew_img = null){
         
            $html          = '';                
            $grid_cols     = '';
@@ -1104,7 +1104,7 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_review_desing_for_slider($value, $date_format = '', $saswp_collection_gallery_img_hide){
+    public function saswp_review_desing_for_slider($value, $date_format = '', $saswp_collection_gallery_img_hide = ''){
         
                 $review_link = $value['saswp_review_link'];
 
@@ -1259,7 +1259,7 @@ class saswp_reviews_service {
                          foreach ($collection as $value){
                              
                              $html .= '<li>';
-                             $html .= $this->saswp_review_desing_for_slider($value, $date_format);
+                             $html .= $this->saswp_review_desing_for_slider($value, $date_format, '');
                              $html .= '</li>';
                              
                              if($i == 0){
