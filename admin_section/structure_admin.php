@@ -1255,8 +1255,12 @@ function saswp_custom_breadcrumbs() {
                         $child = get_category($category_name->term_id);
                         $parent = $child->parent;
                         $parent_name = get_category($parent);
-                        $parent_name = $parent_name->name;
-                        $variables1_titles[]  = $parent_name;
+                        if(!empty($parent_name->name)){
+                          $parent_name = $parent_name->name;
+                          $variables1_titles[]  = $parent_name;
+                        }else{
+                          $variables1_titles[] = "";
+                        }
                         $variables2_links[]   = get_category_link( $parent );
                         $breadcrumb_url       = get_category_link( $parent );
                     }                 
