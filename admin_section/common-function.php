@@ -3710,9 +3710,7 @@ function saswp_get_video_metadata($content = ''){
             }
            
         $result = saswp_unique_multidim_array($response,'video_url');
-        // echo "<pre>";
-        // print_r($result);
-        // die();
+       
         return $result;
 }
 
