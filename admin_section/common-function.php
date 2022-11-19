@@ -2470,11 +2470,11 @@ if ( ! defined('ABSPATH') ) exit;
         $author_details['sameAs']          = $same_as;
 
         if(!empty($author_meta['knowsabout'][0])){
-            $author_details['knowsabout'] =   explode(',', $author_meta['knowsabout'][0]);
+            $author_details['knowsAbout'] =   explode(',', $author_meta['knowsabout'][0]);
         }
 
         if(!empty($author_meta['honorificsuffix'][0])){
-            $author_details['honorificsuffix'] =  $author_meta['honorificsuffix'][0];
+            $author_details['honorificSuffix'] =  $author_meta['honorificsuffix'][0];
         }
 
         if(!empty($author_meta['alumniof'][0])){
@@ -2487,50 +2487,6 @@ if ( ! defined('ABSPATH') ) exit;
             }
         }
 
-        if(!empty($author_meta['author_bio'][0])){
-            $author_details['author_bio'] =   $author_meta['author_bio'][0];
-        }
-
-        if(!empty($author_meta['facebook_bio'][0])){
-            $author_details['facebook_bio'] =   $author_meta['facebook_bio'][0];
-        }
-
-        if(!empty($author_meta['read_more_link'][0])){
-            $author_details['read_more_link'] =   $author_meta['read_more_link'][0];
-        }
-
-        if(!empty($author_meta['twitter_bio'][0])){
-            $author_details['twitter_bio'] =   $author_meta['twitter_bio'][0];
-        }
-        
-        if(!empty($author_meta['linkedin_bio'][0])){
-            $author_details['linkedin_bio'] =   $author_meta['linkedin_bio'][0];
-        }
-
-        if(!empty($author_meta['google_bio'][0])){
-            $author_details['google_bio'] =   $author_meta['google_bio'][0];
-        }
-
-        if(!empty($author_meta['houzz_bio'][0])){
-            $author_details['houzz_bio'] =   $author_meta['houzz_bio'][0];
-        }
-
-        if(!empty($author_meta['youtube_bio'][0])){
-            $author_details['youtube_bio'] =   $author_meta['youtube_bio'][0];
-        }
-
-        if(!empty($author_meta['vimeo_bio'][0])){
-            $author_details['vimeo_bio'] =   $author_meta['vimeo_bio'][0];
-        }
-
-        if(!empty($author_meta['pineterest_bio'][0])){
-            $author_details['pineterest_bio'] =   $author_meta['pineterest_bio'][0];
-        }
-
-        if(!empty($author_meta['rss_bio'][0])){
-            $author_details['rss_bio'] =   $author_meta['rss_bio'][0];
-        }
-        
         if(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
 
             $author_details['image']['@type']  = 'ImageObject';
