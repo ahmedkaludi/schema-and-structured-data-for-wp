@@ -3521,6 +3521,9 @@ function saswp_get_video_metadata($content = ''){
         if(function_exists('has_block')){
             if( has_block('acf/video') ){
                 $attributes = saswp_get_gutenberg_multiple_block_data('acf/video');    
+                if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+            }else{
+                $attributes = "";
             }
             
             if(!empty($attributes)){
@@ -3670,11 +3673,17 @@ function saswp_get_video_metadata($content = ''){
 
            if(function_exists('has_block')){
                 if( has_block('core-embed/youtube') ){
-                    $attributes = saswp_get_gutenberg_multiple_block_data('core-embed/youtube');    
-                }
+                    $attributes = saswp_get_gutenberg_multiple_block_data('core-embed/youtube');
+                    if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+                }else{
+                       $attributes = ""; 
+                 }
 
                 if( has_block('core/embed') ){
-                    $attributes = saswp_get_gutenberg_multiple_block_data('core/embed');    
+                    $attributes = saswp_get_gutenberg_multiple_block_data('core/embed');  
+                    if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+                }else{  
+                     $attributes = "";
                 }
                 
                 if(!empty($attributes)){
