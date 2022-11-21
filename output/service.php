@@ -1609,8 +1609,18 @@ Class saswp_output_service{
                                 $input1['reviewedBy']['sameAs'] = $sameas;
                             }
 
-                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['college_logo'][0])){
-                                $input1['reviewedBy']['image'] = wp_get_attachment_image_url($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['college_logo'][0]);
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image']) && !empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'][0])){
+                                $author_image = $custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'];
+                                $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                                $input1['reviewedBy']['image']['url']    = $author_image[0];
+                                $input1['reviewedBy']['image']['height'] = $author_image[1];
+                                $input1['reviewedBy']['image']['width']  = $author_image[2];
+                            }else{
+                                $author_image = $custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'];
+                                $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                                $input1['reviewedBy']['image']['url']    = $author_image['url'];
+                                $input1['reviewedBy']['image']['height'] = $author_image['height'];
+                                $input1['reviewedBy']['image']['width']  = $author_image['width'];
                             }
                         
                             if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
@@ -1877,8 +1887,18 @@ Class saswp_output_service{
                                 $input1['reviewedBy']['sameAs'] = $sameas;
                             }
 
-                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['college_logo'][0])){
-                                $input1['reviewedBy']['image'] = wp_get_attachment_image_url($custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['college_logo'][0]);
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['author_image']) && !empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'][0])){
+                                $author_image = $custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['author_image'];
+                                $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                                $input1['reviewedBy']['image']['url']    = $author_image[0];
+                                $input1['reviewedBy']['image']['height'] = $author_image[1];
+                                $input1['reviewedBy']['image']['width']  = $author_image[2];
+                            }else{
+                                $author_image = $custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['author_image'];
+                                $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                                $input1['reviewedBy']['image']['url']    = $author_image['url'];
+                                $input1['reviewedBy']['image']['height'] = $author_image['height'];
+                                $input1['reviewedBy']['image']['width']  = $author_image['width'];
                             }
 
                             if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
@@ -2177,8 +2197,18 @@ Class saswp_output_service{
                             $input1['reviewedBy']['sameAs'] = $sameas;
                         }
 
-                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['college_logo'][0])){
-                            $input1['reviewedBy']['image'] = wp_get_attachment_image_url($custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['college_logo'][0]);
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['author_image']) && !empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'][0])){
+                            $author_image = $custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['author_image'];
+                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                            $input1['reviewedBy']['image']['url']    = $author_image[0];
+                            $input1['reviewedBy']['image']['height'] = $author_image[1];
+                            $input1['reviewedBy']['image']['width']  = $author_image[2];
+                        }else{
+                            $author_image = $custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['author_image'];
+                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                            $input1['reviewedBy']['image']['url']    = $author_image['url'];
+                            $input1['reviewedBy']['image']['height'] = $author_image['height'];
+                            $input1['reviewedBy']['image']['width']  = $author_image['width'];
                         }
 
                         if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
@@ -2641,8 +2671,18 @@ Class saswp_output_service{
                             $input1['reviewedBy']['sameAs'] = $sameas;
                         }
 
-                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['college_logo'][0])){
-                            $input1['reviewedBy']['image'] = wp_get_attachment_image_url($custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['college_logo'][0]);
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['author_image']) && !empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'][0])){
+                            $author_image = $custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['author_image'];
+                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                            $input1['reviewedBy']['image']['url']    = $author_image[0];
+                            $input1['reviewedBy']['image']['height'] = $author_image[1];
+                            $input1['reviewedBy']['image']['width']  = $author_image[2];
+                        }else{
+                            $author_image = $custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['author_image'];
+                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                            $input1['reviewedBy']['image']['url']    = $author_image['url'];
+                            $input1['reviewedBy']['image']['height'] = $author_image['height'];
+                            $input1['reviewedBy']['image']['width']  = $author_image['width'];
                         }
 
                         if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
@@ -3036,8 +3076,18 @@ Class saswp_output_service{
                             $input1['reviewedBy']['sameAs'] = $sameas;
                         }
                     
-                        if(!empty($fields_name['college_logo'][0])){
-                            $input1['reviewedBy']['image'] = wp_get_attachment_image_url($fields_name['college_logo'][0]);
+                        if(!empty($fields_name['author_image']) && !empty($fields_name['author_image'][0])){
+                            $author_image = $fields_name['author_image'];
+                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                            $input1['reviewedBy']['image']['url']    = $author_image[0];
+                            $input1['reviewedBy']['image']['height'] = $author_image[1];
+                            $input1['reviewedBy']['image']['width']  = $author_image[2];
+                        }else{
+                            $author_image = $fields_name['author_image'];
+                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                            $input1['reviewedBy']['image']['url']    = $author_image['url'];
+                            $input1['reviewedBy']['image']['height'] = $author_image['height'];
+                            $input1['reviewedBy']['image']['width']  = $author_image['width'];
                         }
                     
                         if(!empty($fields_name['alumniof'][0])){
@@ -3475,8 +3525,18 @@ Class saswp_output_service{
                             $input1['reviewedBy']['sameAs'] = $sameas;
                         }
 
-                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['college_logo'][0])){
-                            $input1['reviewedBy']['image'] = wp_get_attachment_image_url($custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['college_logo'][0]);
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['author_image']) && !empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'][0])){
+                            $author_image = $custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['author_image'];
+                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                            $input1['reviewedBy']['image']['url']    = $author_image[0];
+                            $input1['reviewedBy']['image']['height'] = $author_image[1];
+                            $input1['reviewedBy']['image']['width']  = $author_image[2];
+                        }else{
+                            $author_image = $custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['author_image'];
+                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                            $input1['reviewedBy']['image']['url']    = $author_image['url'];
+                            $input1['reviewedBy']['image']['height'] = $author_image['height'];
+                            $input1['reviewedBy']['image']['width']  = $author_image['width'];
                         }
 
                         if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
