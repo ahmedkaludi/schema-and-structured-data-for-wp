@@ -3051,6 +3051,10 @@ Class saswp_output_service{
                         if(!empty($fields_name['knowsabout'][0])){
                             $input1['reviewedBy']['knowsAbout'] =   explode(',',$fields_name['knowsabout'][0]);
                         }
+
+                        if(!empty($fields_name['reviewer_bio'][0])){
+                            $input1['reviewedBy']['description'] =    $fields_name['reviewer_bio'][0];
+                        }
                     
                         $sameas = array();
                         if(!empty($fields_name['team_facebook'][0])){
