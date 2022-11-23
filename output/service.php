@@ -295,7 +295,6 @@ Class saswp_output_service{
                         }else{
                             $tema_id    = get_post_meta($post->ID, $cus_field[$key], true);
                         }
-                      
                         if($tema_id && is_numeric($tema_id)){
                             
                             $response['@type'] =   "Person"; 
@@ -303,11 +302,17 @@ Class saswp_output_service{
                             $response['url'] = get_permalink($tema_id);
                             $response['description'] =   wp_trim_words(get_post_field('post_content', $tema_id));
                             $response['custom_fields'] = get_post_meta($tema_id);
-                            
+                            $response['custom_fields']['reviewer_image'] =  get_the_post_thumbnail_url($tema_id);
+                           
                         }else{
                             $response['@type'] =   "Person"; 
-                            $response = get_post_meta($post->ID, $cus_field[$key], true);  
-                            $response['custom_fields'] = get_post_meta($tema_id);   
+                            $response['name'] = get_the_title($tema_id);
+                            $response['url'] = get_permalink($tema_id);
+                            $response['description'] =   wp_trim_words(get_post_field('post_content', $tema_id));
+                            $response = get_post_meta($post->ID, $cus_field[$key], true); 
+                            $response['custom_fields'] = get_post_meta($tema_id); 
+                            $response['custom_fields']['reviewer_image'] =  get_the_post_thumbnail_url($tema_id);
+                           
                         }
                   
                     }else{
@@ -1609,18 +1614,8 @@ Class saswp_output_service{
                                 $input1['reviewedBy']['sameAs'] = $sameas;
                             }
 
-                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image']) && !empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'][0])){
-                                $author_image = $custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'];
-                                $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                                $input1['reviewedBy']['image']['url']    = $author_image[0];
-                                $input1['reviewedBy']['image']['height'] = $author_image[1];
-                                $input1['reviewedBy']['image']['width']  = $author_image[2];
-                            }else{
-                                $author_image = $custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'];
-                                $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                                $input1['reviewedBy']['image']['url']    = $author_image['url'];
-                                $input1['reviewedBy']['image']['height'] = $author_image['height'];
-                                $input1['reviewedBy']['image']['width']  = $author_image['width'];
+                            if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['reviewer_image'])){
+                                $input1['reviewedBy']['image']  = $custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['reviewer_image'];
                             }
                         
                             if(!empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
@@ -1887,18 +1882,8 @@ Class saswp_output_service{
                                 $input1['reviewedBy']['sameAs'] = $sameas;
                             }
 
-                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['author_image']) && !empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'][0])){
-                                $author_image = $custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['author_image'];
-                                $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                                $input1['reviewedBy']['image']['url']    = $author_image[0];
-                                $input1['reviewedBy']['image']['height'] = $author_image[1];
-                                $input1['reviewedBy']['image']['width']  = $author_image[2];
-                            }else{
-                                $author_image = $custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['author_image'];
-                                $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                                $input1['reviewedBy']['image']['url']    = $author_image['url'];
-                                $input1['reviewedBy']['image']['height'] = $author_image['height'];
-                                $input1['reviewedBy']['image']['width']  = $author_image['width'];
+                            if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['reviewer_image'])){
+                                $input1['reviewedBy']['image']  = $custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['reviewer_image'];
                             }
 
                             if(!empty($custom_fields['saswp_creativework_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
@@ -2197,18 +2182,8 @@ Class saswp_output_service{
                             $input1['reviewedBy']['sameAs'] = $sameas;
                         }
 
-                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['author_image']) && !empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'][0])){
-                            $author_image = $custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['author_image'];
-                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                            $input1['reviewedBy']['image']['url']    = $author_image[0];
-                            $input1['reviewedBy']['image']['height'] = $author_image[1];
-                            $input1['reviewedBy']['image']['width']  = $author_image[2];
-                        }else{
-                            $author_image = $custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['author_image'];
-                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                            $input1['reviewedBy']['image']['url']    = $author_image['url'];
-                            $input1['reviewedBy']['image']['height'] = $author_image['height'];
-                            $input1['reviewedBy']['image']['width']  = $author_image['width'];
+                        if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['reviewer_image'])){
+                            $input1['reviewedBy']['image']  = $custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['reviewer_image'];
                         }
 
                         if(!empty($custom_fields['saswp_photograph_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
@@ -2671,18 +2646,8 @@ Class saswp_output_service{
                             $input1['reviewedBy']['sameAs'] = $sameas;
                         }
 
-                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['author_image']) && !empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'][0])){
-                            $author_image = $custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['author_image'];
-                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                            $input1['reviewedBy']['image']['url']    = $author_image[0];
-                            $input1['reviewedBy']['image']['height'] = $author_image[1];
-                            $input1['reviewedBy']['image']['width']  = $author_image[2];
-                        }else{
-                            $author_image = $custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['author_image'];
-                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                            $input1['reviewedBy']['image']['url']    = $author_image['url'];
-                            $input1['reviewedBy']['image']['height'] = $author_image['height'];
-                            $input1['reviewedBy']['image']['width']  = $author_image['width'];
+                        if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['reviewer_image'])){
+                            $input1['reviewedBy']['image']  = $custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['reviewer_image'];
                         }
 
                         if(!empty($custom_fields['saswp_blogposting_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
@@ -3080,18 +3045,8 @@ Class saswp_output_service{
                             $input1['reviewedBy']['sameAs'] = $sameas;
                         }
                     
-                        if(!empty($fields_name['author_image']) && !empty($fields_name['author_image'][0])){
-                            $author_image = $fields_name['author_image'];
-                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                            $input1['reviewedBy']['image']['url']    = $author_image[0];
-                            $input1['reviewedBy']['image']['height'] = $author_image[1];
-                            $input1['reviewedBy']['image']['width']  = $author_image[2];
-                        }else{
-                            $author_image = $fields_name['author_image'];
-                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                            $input1['reviewedBy']['image']['url']    = $author_image['url'];
-                            $input1['reviewedBy']['image']['height'] = $author_image['height'];
-                            $input1['reviewedBy']['image']['width']  = $author_image['width'];
+                        if(!empty($fields_name['reviewer_image'])){
+                            $input1['reviewedBy']['image']  = $fields_name['reviewer_image'];
                         }
                     
                         if(!empty($fields_name['alumniof'][0])){
@@ -3529,18 +3484,8 @@ Class saswp_output_service{
                             $input1['reviewedBy']['sameAs'] = $sameas;
                         }
 
-                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['author_image']) && !empty($custom_fields['saswp_article_reviewedby_global_mapping']['custom_fields']['author_image'][0])){
-                            $author_image = $custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['author_image'];
-                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                            $input1['reviewedBy']['image']['url']    = $author_image[0];
-                            $input1['reviewedBy']['image']['height'] = $author_image[1];
-                            $input1['reviewedBy']['image']['width']  = $author_image[2];
-                        }else{
-                            $author_image = $custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['author_image'];
-                            $input1['reviewedBy']['image']['@type']  = 'ImageObject';
-                            $input1['reviewedBy']['image']['url']    = $author_image['url'];
-                            $input1['reviewedBy']['image']['height'] = $author_image['height'];
-                            $input1['reviewedBy']['image']['width']  = $author_image['width'];
+                        if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['reviewer_image'])){
+                            $input1['reviewedBy']['image']  = $custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['reviewer_image'];
                         }
 
                         if(!empty($custom_fields['saswp_tech_article_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
