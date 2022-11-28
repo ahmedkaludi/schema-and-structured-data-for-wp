@@ -642,13 +642,13 @@ function saswp_settings_init(){
 }
 
 /**
- * inlineAdminOccasionalAdsPopUpCSS_JS Method
+ * saswp_inlineAdminOccasionalAdsPopUpCSS_JS Method
  * Prints out inline occasional ads PopUp JS.
  *
  * @access private
  * @static
 */
-function inlineAdminOccasionalAdsPopUpCSS_JS() {
+function saswp_inlineAdminOccasionalAdsPopUpCSS_JS() {
         $inlineAdminOccasionalAdsPopUpCCS = <<<INLINEOCCASIONALADSPOPUSCCS
 details#saswp-ocassional-pop-up-container{position:fixed;right:1rem;bottom:1rem;margin-top:2rem;color:#6b7280;display:flex;flex-direction:column;z-index:99999}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents{background-color:#1e1e27;box-shadow:0 5px 10px rgba(0,0,0,.15);padding:25px 25px 10px;border-radius:8px;position:absolute;max-height:calc(100vh - 100px);width:325px;max-width:calc(100vw - 2rem);bottom:calc(100% + 1rem);right:0;overflow:auto;transform-origin:100% 100%;color:#95a3b9;margin-bottom:44px}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents::-webkit-scrollbar{width:15px;background-color:#1e1e27}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents::-webkit-scrollbar-thumb{width:5px;border-radius:99em;background-color:#95a3b9;border:5px solid #1e1e27}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents>*+*{margin-top:.75em}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents p>code{font-size:1rem;font-family:monospace}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents pre{white-space:pre-line;border:1px solid #95a3b9;border-radius:6px;font-family:monospace;padding:.75em;font-size:.875rem;color:#fff}details#saswp-ocassional-pop-up-container[open] div.saswp-ocassional-pop-up-contents{bottom:0;-webkit-animation:.25s ez_toc_ocassional_pop_up_scale;animation:.25s ez_toc_ocassional_pop_up_scale}details#saswp-ocassional-pop-up-container span.saswp-promotion-close-btn{font-weight:400;font-size:20px;background:#37474f;font-family:sans-serif;border-radius:30px;color:#fff;position:absolute;right:-10px;z-index:99999;padding:0 8px;top:-331px;cursor:pointer;line-height:28px}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents img.saswp-promotion-surprise-icon{width:40px;float:left;margin-right:10px}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents p.saswp-ocassional-pop-up-headline{font-size:22px;margin:0;line-height:47px;font-weight:500;color:#fff}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents p.saswp-ocassional-pop-up-headline span{color:#12addd;font-weight:700}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents p.saswp-ocassional-pop-up-second-headline{font-size:16px;color:#fff}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents a.saswp-ocassional-pop-up-offer-btn{background:#12addd;padding:13px 38px 14px;color:#fff;text-align:center;border-radius:60px;font-size:18px;display:inline-flex;align-items:center;margin:0 auto 15px;text-decoration:none;line-height:1.2;transform:perspective(1px) translateZ(0);box-shadow:0 0 20px 5px rgb(0 0 0 / 6%);transition:.3s ease-in-out;box-shadow:3px 5px .65em 0 rgb(0 0 0 / 15%);display:inherit}details#saswp-ocassional-pop-up-container div.saswp-ocassional-pop-up-contents p.saswp-ocassional-pop-up-last-line{font-size:12px;color:#a6a6a6}details#saswp-ocassional-pop-up-container summary{display:inline-flex;margin-left:auto;margin-right:auto;justify-content:center;align-items:center;font-weight:600;padding:.5em 1.25em;border-radius:99em;color:#fff;background-color:#185adb;box-shadow:0 5px 15px rgba(0,0,0,.1);list-style:none;text-align:center;cursor:pointer;transition:.15s;position:relative;font-size:.9rem;z-index:99999}details#saswp-ocassional-pop-up-container summary::-webkit-details-marker{display:none}details#saswp-ocassional-pop-up-container summary:hover,summary:focus{background-color:#1348af}details#saswp-ocassional-pop-up-container summary svg{width:25px;margin-left:5px;vertical-align:baseline}@-webkit-keyframes ez_toc_ocassional_pop_up_scale{0%{transform:ez_toc_ocassional_pop_up_scale(0)}100%{transform:ez_toc_ocassional_pop_up_scale(1)}}@keyframes ez_toc_ocassional_pop_up_scale{0%{transform:ez_toc_ocassional_pop_up_scale(0)}100%{transform:ez_toc_ocassional_pop_up_scale(1)}}
 INLINEOCCASIONALADSPOPUSCCS;
@@ -4685,7 +4685,7 @@ function saswp_enqueue_style_js( $hook ) {
         
         apply_filters('saswp_wp_enqueue_more_script', '');
 
-        inlineAdminOccasionalAdsPopUpCSS_JS();
+        saswp_inlineAdminOccasionalAdsPopUpCSS_JS();
 
         }                
         
