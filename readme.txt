@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 1.9.104
+Stable tag: 1.9.105
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.105 (28 Nov 2022) =
+
+* Fixed: php-8-deprecated-required-parameter #1781
+* Added: Non-critical warning appears when the video is added via a custom block. #1780
+* Fixed: After adding the featured image to the RSS feed, it is not working. #1774
+* Fixed: While using the YouTube video, there is an issue with the schema and it is found in the Query Monitor plugin. #1771
+* Enhancement: Need to add some property in the product scheme. #1778
+* Added: Getting the errors video page indexing on Google search console #1783
+* Added: Getting error notice when embeddeding a Vimeo/Youtube video #1784
+* Enhancement: BFCM internal offer #1786
 
 = 1.9.104 (11 Nov 2022) =
 

@@ -2434,6 +2434,8 @@ if ( ! defined('ABSPATH') ) exit;
             $author_name  = get_the_author_meta( 'display_name' , $author_id );             
         }
 
+        $author_meta =  get_user_meta($author_id);
+
         $author_url   = get_author_posts_url( $author_id ); 
         $same_as      = array();
 
@@ -2457,17 +2459,48 @@ if ( ! defined('ABSPATH') ) exit;
                 
         $author_details['@type']           = 'Person';
         $author_details['name']            = esc_attr($author_name);
-        $author_details['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
+        if(!empty($author_desc)){
+            $author_details['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
+        }else{
+            if(!empty($author_meta['author_bio'][0])){
+                $author_details['description'] =   $author_meta['author_bio'][0];
+            }
+        }
         $author_details['url']             = esc_url($author_url);
         $author_details['sameAs']          = $same_as;
 
-        if(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
+        if(!empty($author_meta['knowsabout'][0])){
+            $author_details['knowsAbout'] =   explode(',', $author_meta['knowsabout'][0]);
+        }
+
+        if(!empty($author_meta['honorificsuffix'][0])){
+            $author_details['honorificSuffix'] =  $author_meta['honorificsuffix'][0];
+        }
+
+        if(!empty($author_meta['alumniof'][0])){
+            $str =  $author_meta['alumniof'][0];
+            $itemlist = explode(",", $str);
+            foreach ($itemlist as $key => $list){
+                $vnewarr['@type'] = 'Organization';
+                $vnewarr['Name']   = $list;   
+                $author_details['alumniOf'][] = $vnewarr;
+            }
+        }
+
+        if(!empty($author_meta['author_image'][0])){
+            $author_image =  wp_get_attachment_image_src($author_meta['author_image'][0]);
+           
+            $author_details['image']['@type']  = 'ImageObject';
+            $author_details['image']['url']    = $author_image[0];
+            $author_details['image']['height'] = $author_image[1];
+            $author_details['image']['width']  = $author_image[2];
+
+        }elseif(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
 
             $author_details['image']['@type']  = 'ImageObject';
             $author_details['image']['url']    = $author_image['url'];
             $author_details['image']['height'] = $author_image['height'];
             $author_details['image']['width']  = $author_image['width'];
-
         }
         if(isset($sd_data['saswp-simple-author-box']) && $sd_data['saswp-simple-author-box'] == 1 && function_exists('sab_fs') ){
 
@@ -3447,6 +3480,33 @@ function saswp_get_video_metadata($content = ''){
                 $content = $post->post_content;
             }    
         }
+
+        if(function_exists('has_block')){
+            if( has_block('acf/video') ){
+                $attributes = saswp_get_gutenberg_multiple_block_data('acf/video');    
+                if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+            }else{
+                $attributes = "";
+            }
+            
+            if(!empty($attributes)){
+                $temp_aray = array(); 
+                foreach($attributes as $match){
+                    if(!empty($match['attrs']['data']['blok_vid_code'])){
+                         $iframe_string = trim($match['attrs']['data']['blok_vid_code'], '"'); 
+                         preg_match('/src="([^"]+)"/', $iframe_string, $match);
+                         $vurl = $match[1];
+                         if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
+                            continue;
+                        }
+                        if(!empty($vurl)){
+                            $metadata['video_url'] = $vurl;                    
+                            $response[] = $metadata;
+                        }
+                    }
+                }
+            }
+        }
                                                            
          preg_match_all( '/\[video(.*?)\[\/video]/s', $content, $matches, PREG_SET_ORDER);
          
@@ -3463,8 +3523,11 @@ function saswp_get_video_metadata($content = ''){
                 foreach ($attr as $key => $value) {
 
                     if(strpos($value, 'http')!== false){
-
-                        $response[]['video_url'] = trim($value, '"');
+                        $vurl = trim($value, '"');
+                        if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
+                            continue;
+                        }
+                        $response[]['video_url'] = $vurl;
 
                     }
                 }
@@ -3490,6 +3553,9 @@ function saswp_get_video_metadata($content = ''){
                 if(isset($attr['ids'])){
 
                     $vurl = wp_get_attachment_url($attr['ids']);
+                    if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
+                        continue;
+                    }
                     $response[]['video_url'] = trim($vurl, '"');
 
                 }
@@ -3501,15 +3567,18 @@ function saswp_get_video_metadata($content = ''){
            @preg_match_all( '@(https?://)?(?:www\.)?(youtu(?:\.be/([-\w]+)|be\.com/watch\?v=([-\w]+)))\S*@im', $content, $matches, PREG_SET_ORDER );
            
            if($matches){
-               
+           
                foreach($matches as $match){
-
                   $vurl     = trim($match[0], '"');
+
+                  if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
+                    continue;
+                  }
                   $metadata = array();  
                   if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
 
                     $vid = saswp_get_youtube_vid($vurl);
-
+                    
                     $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
 
                     if(!empty($video_meta)){
@@ -3525,16 +3594,12 @@ function saswp_get_video_metadata($content = ''){
                     }
 
                   }else{
-
                     $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
                     $result   = @wp_remote_get($rulr);                                                        
 
                     if(wp_remote_retrieve_response_code($result) == 200) {
-
-                            $metadata = json_decode(wp_remote_retrieve_body($result),true);                                                
-
-                    }                                       
-
+                            $metadata = json_decode(wp_remote_retrieve_body($result),true);
+                    }  
                   }  
                   
                   $metadata['video_url'] = $vurl;
@@ -3543,7 +3608,6 @@ function saswp_get_video_metadata($content = ''){
                   }
                  
                }       /* end for */  
-                                
            }/* end if */
            
            preg_match_all( '/src\=\"(.*?)youtu\.be(.*?)\"/s', $content, $youtubematches, PREG_SET_ORDER );
@@ -3551,9 +3615,12 @@ function saswp_get_video_metadata($content = ''){
            if(!empty($youtubematches)){
             
                foreach($youtubematches as $match){
-                  $vurl       = trim($match[1].'youtu.be'.$match[2], '"');                  
+                  $vurl = trim($match[1].'youtu.be'.$match[2], '"');     
+                  if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
+                    continue;
+                  }             
                   $metadata   = array();  
-
+                 
                   if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
 
                     $vid = saswp_get_youtube_vid($vurl);
@@ -3575,7 +3642,7 @@ function saswp_get_video_metadata($content = ''){
                     $metadata = json_decode(wp_remote_retrieve_body($result),true);
                   }
                   
-                  $metadata['video_url'] = $vurl;                    
+                  $metadata['video_url'] = $vurl;          
                   $response[] = $metadata;
                }/* end for */  
            } /* end if */
@@ -3583,20 +3650,30 @@ function saswp_get_video_metadata($content = ''){
 
            if(function_exists('has_block')){
                 if( has_block('core-embed/youtube') ){
-                    $attributes = saswp_get_gutenberg_multiple_block_data('core-embed/youtube');    
-                }
+                    $attributes = saswp_get_gutenberg_multiple_block_data('core-embed/youtube');
+                    if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+                }else{
+                       $attributes = ""; 
+                 }
 
                 if( has_block('core/embed') ){
-                    $attributes = saswp_get_gutenberg_multiple_block_data('core/embed');    
+                    $attributes = saswp_get_gutenberg_multiple_block_data('core/embed');  
+                    if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+                }else{  
+                     $attributes = "";
                 }
                 
                 if(!empty($attributes)){
                     $temp_aray = array(); 
                     foreach($attributes as $match){
                         if(!empty($match['attrs']['url'])){
-                             $vurl = trim($match['attrs']['url'], '"'); 
-                          
+                            $vurl = trim($match['attrs']['url'], '"'); 
+                            if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
+                                continue;
+                            }
+                           
                             $metadata = array();
+                            $metadata['video_url'] = $vurl; 
                             if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
                                $vid = saswp_get_youtube_vid($vurl);
                                 $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
@@ -3613,7 +3690,7 @@ function saswp_get_video_metadata($content = ''){
                                 $result   = @wp_remote_get($rulr);                                    
                                 $metadata = json_decode(wp_remote_retrieve_body($result),true); 
                             }
-                            $metadata['video_url'] = $vurl;                    
+                                              
                             $response[] = $metadata;
                             
                         }
@@ -3623,7 +3700,7 @@ function saswp_get_video_metadata($content = ''){
             }
            
         $result = saswp_unique_multidim_array($response,'video_url');
-       
+      
         return $result;
 }
 
