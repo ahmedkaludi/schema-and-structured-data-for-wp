@@ -76,6 +76,7 @@ if ( ! function_exists('saswp_non_amp') ){
 require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
+//require_once SASWP_DIR_NAME.'/admin_section/promotional-popup.php';
 require_once SASWP_DIR_NAME .'/output/location.php';
 require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
