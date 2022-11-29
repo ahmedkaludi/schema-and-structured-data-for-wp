@@ -26,9 +26,10 @@ if(! defined('SASWP_ITEM_FOLDER_NAME')){
 define('SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 define('SASWP_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('SASWP_EDD_STORE_URL', 'http://structured-data-for-wp.com/');
+//@ini_set( 'display_errors', 0 );
 
-//define('SASWP_ENVIRONMENT', 'development');
-define('SASWP_ENVIRONMENT', 'production');
+define('SASWP_ENVIRONMENT', 'development');
+//define('SASWP_ENVIRONMENT', 'production');
 // including the output file
 require_once SASWP_DIR_NAME .'/core/queries_function.php';
 require_once SASWP_DIR_NAME .'/output/function.php';
@@ -76,7 +77,7 @@ if ( ! function_exists('saswp_non_amp') ){
 require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
-//require_once SASWP_DIR_NAME.'/admin_section/promotional-popup.php';
+require_once SASWP_DIR_NAME.'/admin_section/promotional-popup.php';
 require_once SASWP_DIR_NAME .'/output/location.php';
 require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
@@ -134,13 +135,14 @@ function saswp_add_plugin_meta_links($meta_fields, $file) {
       $forum_url  = "https://structured-data-for-wp.com/contact-us/";
       
       $meta_fields[] = "<a href='" . esc_url($forum_url) . "' target='_blank'>" . saswp_t_string( 'Technical Support' ) . "</a>";
-      
+     
     }
 
     return $meta_fields;
     
   }
   
+
   // if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
   //   require_once SASWP_DIR_NAME. '/admin_section/tracking/class-saswp-plugin-usage-tracker.php';
   // }
