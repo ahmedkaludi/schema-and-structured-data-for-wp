@@ -3710,7 +3710,7 @@ function saswp_unique_multidim_array($array, $key) {
     $key_array = array(); 
     if(!empty($array) && !empty($key)){
         foreach($array as $val) { 
-            if(isset($val[$key])){    
+            if(!empty($val[$key])){    
                 $checked = saswp_youtube_check_validate_url($val[$key]);
                 if (!empty($checked)) {
                     if (!in_array($val[$key], $key_array)) { 
@@ -3726,9 +3726,15 @@ function saswp_unique_multidim_array($array, $key) {
 }
 
 function saswp_youtube_check_validate_url($yt_url) { 
-    $url_parsed_arr = parse_url($yt_url);
-    if ($url_parsed_arr['host'] == "youtu.be" || $url_parsed_arr['host'] == "www.youtube.com" || $url_parsed_arr['path'] == "/watch" || substr($url_parsed_arr['query'], 0, 2) == "v=") {
-       return $yt_url;
+    if(!empty($yt_url)){
+        $url_parsed_arr = parse_url($yt_url);
+        if ($url_parsed_arr['host'] == "youtu.be" || $url_parsed_arr['host'] == "www.youtube.com" || $url_parsed_arr['path'] == "/watch" || substr($url_parsed_arr['query'], 0, 2) == "v=") {
+            return $yt_url;
+        }else{
+            return "";
+        }
+    }else{
+        return "";
     }
 }
   
