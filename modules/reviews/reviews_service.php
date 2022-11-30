@@ -336,7 +336,11 @@ class saswp_reviews_service {
        $url             = get_option('saswp_rv_csv_upload_url');
        
        if($url){
-           
+        if(file_exists($url)) {
+            $handle = fopen($url, "r");
+         }else{
+            $handle = "";
+         }
         $handle = fopen($url, "r");
         $wpdb->query('START TRANSACTION');    
 
@@ -350,6 +354,9 @@ class saswp_reviews_service {
                 $counter++;
                 continue;
             }    
+            if(empty($data[5])){
+                return false;
+            }
             $reviews_arr   = array();
             $reviews_arr[] = array(
                 'author_name'           => $data[0],
