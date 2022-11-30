@@ -305,14 +305,17 @@ Class saswp_output_service{
                             $response['custom_fields']['reviewer_image'] =  get_the_post_thumbnail_url($tema_id);
                            
                         }else{
-                            $response['@type'] =   "Person"; 
-                            $response['name'] = get_the_title($tema_id);
-                            $response['url'] = get_permalink($tema_id);
-                            $response['description'] =   wp_trim_words(get_post_field('post_content', $tema_id));
-                            $response = get_post_meta($post->ID, $cus_field[$key], true); 
-                            $response['custom_fields'] = get_post_meta($tema_id); 
-                            $response['custom_fields']['reviewer_image'] =  get_the_post_thumbnail_url($tema_id);
-                           
+                            if(!empty($tema_id)){
+                                $response['@type'] =   "Person"; 
+                                $response['name'] = get_the_title($tema_id);
+                                $response['url'] = get_permalink($tema_id);
+                                $response['description'] =   wp_trim_words(get_post_field('post_content', $tema_id));
+                                if(!empty($cus_field[$key])){
+                                    $response = get_post_meta($post->ID, $cus_field[$key], true); 
+                                } 
+                                $response['custom_fields'] = get_post_meta($tema_id); 
+                                $response['custom_fields']['reviewer_image'] =  get_the_post_thumbnail_url($tema_id);
+                            }
                         }
                   
                     }else{
