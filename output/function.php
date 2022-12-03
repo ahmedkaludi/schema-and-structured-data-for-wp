@@ -2736,12 +2736,11 @@ function saswp_get_mainEntity($schema_id){
                 
                 if($matches){
                     foreach($matches as $match){
-                        $listitem[] = $match[1];
+                        $listitem[] = wp_strip_all_tags($match[1]);
                     }
                 }
-                
             }
-                                    
+               
             if($listitem){
                              
                     $response['@type'] = 'ItemList';

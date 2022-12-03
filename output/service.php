@@ -305,14 +305,17 @@ Class saswp_output_service{
                             $response['custom_fields']['reviewer_image'] =  get_the_post_thumbnail_url($tema_id);
                            
                         }else{
-                            $response['@type'] =   "Person"; 
-                            $response['name'] = get_the_title($tema_id);
-                            $response['url'] = get_permalink($tema_id);
-                            $response['description'] =   wp_trim_words(get_post_field('post_content', $tema_id));
-                            $response = get_post_meta($post->ID, $cus_field[$key], true); 
-                            $response['custom_fields'] = get_post_meta($tema_id); 
-                            $response['custom_fields']['reviewer_image'] =  get_the_post_thumbnail_url($tema_id);
-                           
+                            if(!empty($tema_id)){
+                                $response['@type'] =   "Person"; 
+                                $response['name'] = get_the_title($tema_id);
+                                $response['url'] = get_permalink($tema_id);
+                                $response['description'] =   wp_trim_words(get_post_field('post_content', $tema_id));
+                                if(!empty($cus_field[$key])){
+                                    $response = get_post_meta($post->ID, $cus_field[$key], true); 
+                                } 
+                                $response['custom_fields'] = get_post_meta($tema_id); 
+                                $response['custom_fields']['reviewer_image'] =  get_the_post_thumbnail_url($tema_id);
+                            }
                         }
                   
                     }else{
@@ -2354,6 +2357,20 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_howto_schema_steps'])){                                                                                                                    
                         $input1['step'] =    $custom_fields['saswp_howto_schema_steps'];
                     }
+
+                    if(!empty($custom_fields['saswp_howto_about']) && isset($custom_fields['saswp_howto_about'])){         
+                        $explode_about = explode(',', $custom_fields['saswp_howto_about']);
+                        if(!empty($explode_about)){
+                            $about_arr = array();
+                            foreach($explode_about as $val){
+                                $about_arr[] = array(
+                                            '@type' => 'Thing',
+                                            'name'  => $val
+                                );
+                            }
+                            $input1['about'] = $about_arr;
+                        }                            
+                    }  
                                                             
                     break;     
                                   
@@ -4635,6 +4652,20 @@ Class saswp_output_service{
                        
                        $input1['author']['name']              =    $custom_fields['saswp_faq_author'];                                              
                     }
+                    
+                    if(!empty($custom_fields['saswp_faq_about']) && isset($custom_fields['saswp_faq_about'])){         
+                        $explode_about = explode(',', $custom_fields['saswp_faq_about']);
+                        if(!empty($explode_about)){
+                            $about_arr = array();
+                            foreach($explode_about as $val){
+                                $about_arr[] = array(
+                                            '@type' => 'Thing',
+                                            'name'  => $val
+                                );
+                            }
+                            $input1['about'] = $about_arr;
+                        }                            
+                    }  
 
                     if(isset($custom_fields['saswp_faq_main_entity'])){                                                                                                                    
                         $input1['mainEntity'] =    $custom_fields['saswp_faq_main_entity'];

@@ -241,6 +241,9 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
 
         $input1                          = saswp_get_modified_image('saswp_howto_schema_image_'.$schema_id.'_detail', $input1);                                    
 
+        
+
+
         if(saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_currency_'.$schema_id, 'saswp_array') !='' && saswp_remove_warnings($all_post_meta, 'saswp_howto_ec_schema_value_'.$schema_id, 'saswp_array') !='')
         {
             $input1['estimatedCost']['@type']   = 'MonetaryAmount';
@@ -271,6 +274,7 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         if( isset($all_post_meta['saswp_howto_schema_video_duration_'.$schema_id][0]) ){
             $video_object['duration']         = $all_post_meta['saswp_howto_schema_video_duration_'.$schema_id][0];            
         }
+        
         
         $supply_arr = array();
         if(!empty($supply)){
@@ -396,6 +400,18 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         }
 
          $input1['totalTime'] = saswp_remove_warnings($all_post_meta, 'saswp_howto_schema_totaltime_'.$schema_id, 'saswp_array');
+        
+         $explode_about = explode(',', $all_post_meta['saswp_howto_about_'.$schema_id][0]);
+         if(!empty($explode_about)){
+             $about_arr = array();
+                     foreach($explode_about as $val){
+                         $about_arr[] = array(
+                                     '@type' => 'Thing',
+                                     'name'  => $val
+                         );
+                     }
+                     $input1['about'] = $about_arr;
+        }                                            
         
     return $input1;
 }
@@ -2520,6 +2536,21 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
            $faq_question_arr[] =  $supply_data;
         }
        $input1['mainEntity'] = $faq_question_arr;
+    }
+   
+    if( !empty($all_post_meta['saswp_faq_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_faq_about_'.$schema_id][0] )){ 
+
+        $explode_about = explode(',', $all_post_meta['saswp_faq_about_'.$schema_id][0]);
+            if(!empty($explode_about)){
+                $about_arr = array();
+                foreach($explode_about as $val){
+                    $about_arr[] = array(
+                                '@type' => 'Thing',
+                                'name'  => $val
+                    );
+                }
+                $input1['about'] = $about_arr;
+            }                                            
     }
     
     return $input1;

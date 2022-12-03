@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.9.105
+Version: 1.9.106
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.9.105');
+define('SASWP_VERSION', '1.9.106');
 define('SASWP_DIR_NAME_FILE', __FILE__ );
 define('SASWP_DIR_NAME', dirname( __FILE__ ));
 define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
@@ -72,16 +72,11 @@ if ( ! function_exists('saswp_non_amp') ){
   }
   
 }
+
 // Schema App end here
 require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
-if(($pagenow == 'edit.php' && isset($_REQUEST['post_type']) && !empty($_REQUEST['post_type']) && $_REQUEST['post_type'] == 'saswp') || 
-   ($pagenow == 'edit.php' && isset($_REQUEST['post_type']) && !empty($_REQUEST['post_type']) && ( $_REQUEST['post_type'] == 'saswp_reviews' || 
-    $_REQUEST['post_type'] == 'saswp-collections' )) || (($pagenow == 'admin.php' || $pagenow == 'edit.php') && isset($_REQUEST['page']) && !empty($_REQUEST['page']) &&
-    $_REQUEST['page'] == 'structured_data_options')) {
-require_once SASWP_DIR_NAME.'/admin_section/promotional-popup.php';
-}
 require_once SASWP_DIR_NAME .'/output/location.php';
 require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
 require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
@@ -139,13 +134,14 @@ function saswp_add_plugin_meta_links($meta_fields, $file) {
       $forum_url  = "https://structured-data-for-wp.com/contact-us/";
       
       $meta_fields[] = "<a href='" . esc_url($forum_url) . "' target='_blank'>" . saswp_t_string( 'Technical Support' ) . "</a>";
-      
+     
     }
 
     return $meta_fields;
     
   }
   
+
   // if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
   //   require_once SASWP_DIR_NAME. '/admin_section/tracking/class-saswp-plugin-usage-tracker.php';
   // }

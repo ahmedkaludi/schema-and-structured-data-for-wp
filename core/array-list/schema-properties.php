@@ -5350,7 +5350,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'label'      => 'Steps',
                         'id'         => 'saswp_howto_schema_steps_'.$schema_id,
                         'type'       => 'repeater'                                                     
-                    )
+                    ),
+                    array(
+                        'label'   => 'About',
+                        'id'      => 'saswp_howto_about_'.$schema_id,
+                        'type'    => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                        'attributes' => array(
+                                'placeholder' => 'eg: Apple is March 21 Announcements'
+                        ),
+                   )
                    );
                     break;
                 
@@ -6914,7 +6924,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label'      => 'MainEntity (Questions & Answers) ',
                                 'id'         => 'saswp_faq_main_entity_'.$schema_id,
                                 'type'       => 'repeater'                                                     
-                        )                                                    
+                        ),
+                        array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_faq_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        )                                                  
                        );                                                                 
                        
                         break;
