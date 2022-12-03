@@ -235,7 +235,7 @@ function saswp_schema_output() {
                                     $input1 = saswp_faq_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
             
-                                if(empty($enable_faqsobject) && $enable_faqsobject == 0){
+                                if(isset($enable_faqsobject) && $enable_faqsobject == 1){
                                     $input1 = array();
                                 }
                                                                                                                                                                                                                                                                               
