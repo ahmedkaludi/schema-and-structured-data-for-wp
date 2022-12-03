@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 1.9.105
+Stable tag: 1.9.106
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,15 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.106 (03 Dec 2022) =
+
+* Fixed: Remove the span Id from the Article schema.  #1788
+* Fixed: FAQs are not shown in the classic editor front end. #1785
+* Fixed: There is an error while adding the productreview.com.au reviews. #1757
+* Fixed: Warning: Undefined variable $pagenow #1793
+* Enhancement: In the FAQ and HOW TO schemas, "about property" should be added.  #1794
+* Fixed: Activate plugin wp-admin side crashes #1796
 
 = 1.9.105 (28 Nov 2022) =
 
