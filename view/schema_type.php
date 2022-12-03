@@ -182,12 +182,6 @@ function saswp_schema_type_meta_box_callback( $post) {
                             $style_business_name = 'style="display:none"';
 
                          }  
-                         
-                         if($schema_type === 'FAQ'){
-                            $style_faq_type = 'style="display:block;display: table-row;"';
-                         }else {
-                            $style_faq_type = 'style="display:none"';
-                         }
 
                         }
                         $item_list_item = array(                                                                                    
@@ -309,17 +303,6 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>                      
                    </td>
                 </tr>   
-                
-                 <!-- faqs Schema type ends here -->
-                 <tr class="saswp-faqs-checkbox-field-tr" <?php echo $style_faq_type; ?>>
-                    <td>
-                        <label for="saswp-enable-faqs-markup"><?php echo saswp_t_string( 'Add FaqObject markup, Only if Faqs are available on the post' );?></label>
-                    </td>
-                    <td>
-                        <input id="saswp-enable-faqs-markup" class="saswp-enable-faqs-markup-class" type="checkbox" name="saswp_enable_faqsobject" value="1" <?php if(isset($enable_faqsobject) && $enable_faqsobject == 1){echo 'checked'; }else{ echo ''; } ?> >
-                    </td>
-                </tr> 
-                 <!-- faqs Schema type ends here -->
 
                 <tr class="saswp-business-type-tr" <?php echo $style_business_type; ?>>
                     <td>
