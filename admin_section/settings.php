@@ -2314,9 +2314,9 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
             elseif ( $license_status_msg !='active' && $on ==  'Reviews') {
 
                 $response.= '<span class="saswp-sts-deactive-reviews '.strtolower($on).'_addon">
-                <label class="saswp-sts-txt"><span class="inactive_Reviews">'.saswp_t_string('Status').':</span><span class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'
+                <label class="saswp-sts-txt"><span class="saswp_inactive_Reviews">'.saswp_t_string('Status').':</span><span class="saswp_inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'
                 </span>
-                <input type="text" class="reviewslicense_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
+                <input type="text" class="saswp_reviewslicense_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
                  <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation Reviews '.$on.'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>
                  </label>
                  </span>';
@@ -4695,7 +4695,7 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_script( 'saswp-main-js' );
         
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'main-style.min.css' : 'main-style.css'), false , SASWP_VERSION );
-                        
+        
         wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
         
         apply_filters('saswp_wp_enqueue_more_script', '');

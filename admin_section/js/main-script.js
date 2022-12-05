@@ -3,7 +3,7 @@ var saswp_attached_col = [];
 var rmv_boolean        = false;
 var rmv_html           = '';
 jQuery(document).ready(function($){
-
+  jQuery(".saswpforwp-colorpicker").wpColorPicker(); // Color picker
 //edit Schema page in show field for
 var busines_stype = $('#schema_type').find(":selected").val();
 if(busines_stype == 'local_business'){
@@ -2629,8 +2629,8 @@ if(busines_stype == 'local_business'){
                                $("#"+add_on+"_addon_license_key_status").val(response['status']);
                                                                 
                                if(response['status'] =='active' && response['days_remaining']<0){
-                                $("span.inactive_status_reviews").text('Expired');
-                                $("span.inactive_status_reviews").css({ color: "red", "font-weight": "400" });
+                                $("span.saswp_inactive_status_reviews").text('Expired');
+                                $("span.saswp_inactive_status_reviews").css({ color: "red", "font-weight": "400" });
                               }
                             else if(response['status'] =='active'){  
                                $(".saswp-"+add_on+"-dashicons").addClass('dashicons-yes');

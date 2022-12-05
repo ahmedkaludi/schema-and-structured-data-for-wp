@@ -334,14 +334,14 @@ class saswp_reviews_service {
        $reviews_arr     = array();
        $place_id        = 'upload_by_csv';
        $url             = get_option('saswp_rv_csv_upload_url');
-       
+       update_option('saswp_rv_csv_upload_url','');
        if($url){
         if(file_exists($url)) {
             $handle = fopen($url, "r");
          }else{
             $handle = "";
          }
-        $handle = fopen($url, "r");
+       
         $wpdb->query('START TRANSACTION');    
 
         $counter = 0;
@@ -381,8 +381,7 @@ class saswp_reviews_service {
                 $errorDesc[] = $result->get_error_message();
             }
         }    
-                    
-        update_option('saswp_rv_csv_upload_url','');
+                 
                                                    
        if ( count($errorDesc) ){
          echo implode("\n<br/>", $errorDesc);              
