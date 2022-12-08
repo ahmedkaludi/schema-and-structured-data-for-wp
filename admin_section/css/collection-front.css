@@ -928,7 +928,17 @@ span.saswp-mines{
     text-decoration: none !important;
 }
 /** Carousel Slider CSS Ends here **/
-
+/** Start star color **/
+.saswp_star_color, .saswp_star_color_gray{
+  font-size: 25px;
+}
+.saswp_half_star_color{
+  font-size: 25px;
+  width: 11px;
+  color: #666;
+  overflow: hidden;
+}
+/** End star color **/
 
 /** Responsive CSS **/
 @media(max-width:1200px){

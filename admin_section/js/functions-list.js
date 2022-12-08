@@ -457,7 +457,7 @@
        }
        
        function saswp_fields_html_generator(index, schema_id, fields_type, div_type, schema_fields){
-            // console.log(fields_type);
+          
             $newclosebtn = '';
             otherRepeatorClose = '';
             $reviewtitle = index+1
@@ -593,9 +593,8 @@
                                  
        } 
         
-       function saswp_create_rating_html_by_value(rating_val){
-                
-                
+       function saswp_create_rating_html_by_value(rating_val,color){
+
                 var starating = '';
         
                      starating += '<div class="saswp-rvw-str">';
@@ -610,21 +609,24 @@
 
                                     if(j < explod[0]){
 
-                                        starating +='<span class="str-ic"></span>';   
+                                        starating +='<span class="saswp_star_color" style=color:'+color+'; >★</span>';   
 
                                     }else{
 
-                                        starating +='<span class="half-str"></span>';   
-
+                                     starating +='<span class="saswp_half_star_color" style=color:'+color+';>&#x2605;</span>&nbsp;&nbsp;';
+                                       //starating +='<span class="saswp_half_star_color" style=color:'+color+';>★</span>';
+                                       
+                                      
                                     }                                           
                                 }else{
 
-                                    starating +='<span class="str-ic"></span>';    
+                                    starating +='<span class="saswp_star_color" style=color:'+color+';>★</span>';    
 
                                 }
 
-                          } else{
-                                starating +='<span class="df-clr"></span>';   
+                          } else{  
+                                starating +='<span class="saswp_star_color_gray">☆</span>';  
+                                
                           }                                                                                                                                
                         }
                     starating += '</div>';
@@ -801,7 +803,7 @@
 	
                }     
             
-       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide){
+       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color){
                       
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
@@ -821,7 +823,7 @@
                                 html += '</div>';
                                 html += '<div class="saswp-r2-strs">';
                                 html += '<span class="saswp-r2-s">';
-                                html += saswp_create_rating_html_by_value(value.saswp_review_rating);
+                                html += saswp_create_rating_html_by_value(value.saswp_review_rating,color);
                                 html += '</span>';
                                 html += '</div>';
                                 html += '</div>';
@@ -845,7 +847,7 @@
                       
        }    
        
-       function saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide){
+       function saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color){
                                 
                 var html = '';                               
                 if(saswp_total_collection.length > 0){
@@ -865,7 +867,7 @@
                                                         
                                 html += '<div class="saswp-si">';
                                 
-                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide);
+                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color);
                                 
                                 html += '</div>';
                             
@@ -885,7 +887,7 @@
                                                                     
                                 jQuery.each(p_value, function(index, value){
                                    
-                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide);
+                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color);
                                                                                                
                                 });
                                 
@@ -926,7 +928,7 @@
                                                                 
             }
             
-       function saswp_create_collection_badge(){
+       function saswp_create_collection_badge(color){
                 
                 var html = '';                
                                 
@@ -982,7 +984,7 @@
                             html += average_rating.toFixed(1);
                           html += '</span>';
                           html += '<span class="saswp-stars">';
-                           html += saswp_create_rating_html_by_value(average_rating.toString()); 
+                           html += saswp_create_rating_html_by_value(average_rating.toString(),color); 
                           html += '</span>';
                         html += '</div>';
 
@@ -1009,7 +1011,7 @@
                                                                   
             }
             
-       function saswp_create_collection_popup(){
+       function saswp_create_collection_popup(color){
            
                 var html          = '';                
                 var html_list     = '';
@@ -1033,7 +1035,7 @@
                             html_list += '<li>';
                             html_list += '<div class="saswp-r4-b">';
                             html_list += '<span class="saswp-r4-str">';
-                            html_list += saswp_create_rating_html_by_value(value.saswp_review_rating);
+                            html_list += saswp_create_rating_html_by_value(value.saswp_review_rating,color);
                             html_list += '</span>';
                             html_list += '<span class="saswp-r4-tx">'+date_str.date+'</span>';
                             html_list += '</div>';
@@ -1098,7 +1100,7 @@
                 
             }            
             
-       function saswp_create_collection_fomo(fomo_inverval, fomo_visibility){
+       function saswp_create_collection_fomo(fomo_inverval, fomo_visibility,color){
                 
                 var html = '';                
                                                                                                             
@@ -1118,7 +1120,7 @@
                     html += '</span>';
                     html += '</div>';                            
                     html += '<div class="saswp-r5-rng">';
-                      html += saswp_create_rating_html_by_value(value.saswp_review_rating);
+                      html += saswp_create_rating_html_by_value(value.saswp_review_rating,color);
                      html +='<div class="saswp-r5-txrng">';
                      html +='<span>'+value.saswp_review_rating+' Stars</span>';
                      html +='<span>by</span>';
@@ -1235,7 +1237,7 @@
        }
 
       
-       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img){
+       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color){
                 
                 var html          = '';                
                 var grid_cols     = '';
@@ -1268,7 +1270,7 @@
                                
                            }                                                        
                            jQuery.each(grid_col, function(index, value){
-                            
+                           
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             // if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
                             //     date_str.date = value.saswp_review_date;
@@ -1283,7 +1285,7 @@
                             }                            
                             html += '<div class="saswp-rc-nm">';
                             html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
-                            html += saswp_create_rating_html_by_value(value.saswp_review_rating);  
+                            html += saswp_create_rating_html_by_value(value.saswp_review_rating,color);  
 
                             if(date_str.date){
                               html += '<span class="saswp-rc-dt">'+date_str.date+'</span>';
@@ -1353,37 +1355,37 @@
                                                                                                 
             }     
             
-       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide){
+       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color){
                                                               
                 switch(design) {
                     
                     case "grid":
                         
-                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img);
+                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color);
                         
                         break;
                         
                     case 'gallery':
                         
-                         saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide);
+                         saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color);
                         
                         break;
                     
                     case 'badge':
                         
-                         saswp_create_collection_badge();
+                         saswp_create_collection_badge(color);
                         
                         break;
                         
                     case 'popup':
                         
-                         saswp_create_collection_popup();
+                         saswp_create_collection_popup(color);
                         
                         break;
                     
                     case 'fomo':
                         
-                         saswp_create_collection_fomo(fomo_inverval, fomo_visibility);
+                         saswp_create_collection_fomo(fomo_inverval, fomo_visibility,color);
                         
                         break;
                                                                 
@@ -1398,6 +1400,7 @@
                 var design              = jQuery(".saswp-collection-desing").val();                                   
                 var cols                = jQuery("#saswp-collection-cols").val();
                 var slider              = jQuery(".saswp-slider-type").val();
+                var color              = jQuery(".saswpforwp-colorpicker").val();
                 
                 var fomo_inverval       = jQuery("#saswp_fomo_interval").val();                
                 var perpage             = parseInt(jQuery("#saswp-coll-per-page").val());
@@ -1442,11 +1445,21 @@
                 }else{
                     var dots            = false;
                 }
+
+                jQuery('#saswp_stars_color_picker').wpColorPicker({
+                  
+                    change: function (event, ui) {
+                        var element = event.target;
+                        var color = ui.color.toString();
+                        jQuery(".saswp_star_color, .saswp_half_star_color").attr("style", "color:"  + color);
+                       
+                    },
+                });
                                                 
                 saswp_create_total_collection( s_rating_enable, s_rating_val );                 
                 saswp_collection_sorting(sorting);  
                 saswp_collection_total_reviews_id();
-                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide);                                                
+                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color);                                                
            
        }  
        

@@ -2,8 +2,12 @@ var saswp_attached_rv  = [];
 var saswp_attached_col = [];  
 var rmv_boolean        = false;
 var rmv_html           = '';
+
+
 jQuery(document).ready(function($){
+  
   jQuery(".saswpforwp-colorpicker").wpColorPicker(); // Color picker
+
 //edit Schema page in show field for
 var busines_stype = $('#schema_type').find(":selected").val();
 if(busines_stype == 'local_business'){
@@ -3607,8 +3611,7 @@ if(busines_stype == 'local_business'){
         }
         
         //star rating stars here
-            if(typeof(saswp_reviews_data) !== 'undefined'){                          
-
+            if(typeof(saswp_reviews_data) !== 'undefined'){ 
              $(".saswp-rating-div").rateYo({
               spacing: "5px",  
               rtl:saswp_localize_data.is_rtl,
@@ -3618,7 +3621,7 @@ if(busines_stype == 'local_business'){
                     $(this).next().next().val(rating);                
                 }                              
             }).on("rateyo.change", function (e, data){
-              var rating = data.rating;              
+              var rating = data.rating;   
                 $(this).next().text(rating);
             });
                 
