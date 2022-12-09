@@ -1355,7 +1355,7 @@ class saswp_reviews_service {
                       $html .= '<span class="saswp-r3-num">';
                       $html .= esc_attr(number_format($average_rating,1));
                       $html .= '</span>';
-                      $html .= '<span class="saswp-stars">';
+                      $html .= '<span class="saswp-stars saswp-badge">';
                       $html .= saswp_get_rating_html_by_value($average_rating,$stars_color); 
                       $html .= '</span>';
                       $html .= '</div>';

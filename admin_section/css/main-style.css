@@ -3059,14 +3059,18 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 }
 .saswp_star_color, .saswp_star_color_gray{
     font-size: 25px;
+    color: gray;
 }
 .saswp_half_star_color{
     font-size: 25px;
-    width: 11px;
+    /* width: 11px; */
     color: #666;
+    margin-top: auto;
     overflow: hidden;
 }
-
+.saswp-badge .saswp_half_star_color{
+    margin-top: -7px;
+}
 
 /* Offer Banner Starts Here */
 /* .saswp-offer-banner{

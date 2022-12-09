@@ -931,12 +931,16 @@ span.saswp-mines{
 /** Start star color **/
 .saswp_star_color, .saswp_star_color_gray{
   font-size: 25px;
+  color: gray;
 }
 .saswp_half_star_color{
   font-size: 25px;
-  width: 11px;
+  /* width: 11px; */
   color: #666;
-  overflow: hidden;
+  /* overflow: hidden; */
+}
+.saswp-badge .saswp_half_star_color{
+  margin-top: -9px;
 }
 /** End star color **/
 
