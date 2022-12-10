@@ -519,7 +519,7 @@ body .saswp-r, body .saswp-r p{
   box-sizing: border-box;
 }
 .saswp-opn-cls-btn svg path{
-  fill:#fff;
+  /* fill:#fff; */
 }
 .saswp-opn-cls-btn span{
   font-size: 15px;
@@ -928,19 +928,20 @@ span.saswp-mines{
     text-decoration: none !important;
 }
 /** Carousel Slider CSS Ends here **/
+
 /** Start star color **/
 .saswp_star_color, .saswp_star_color_gray{
   font-size: 25px;
   color: gray;
 }
-.saswp_half_star_color{
-  font-size: 25px;
-  /* width: 11px; */
-  color: #666;
-  /* overflow: hidden; */
+.saswp-popup .saswp_half_star_color{
+  margin-top: 9px;
 }
-.saswp-badge .saswp_half_star_color{
-  margin-top: -9px;
+.saswp-grid .saswp_half_star_color{
+  margin-top: 6px;
+}
+.saswp-gallery .saswp_half_star_color{
+  margin-top: 9px;
 }
 /** End star color **/
 

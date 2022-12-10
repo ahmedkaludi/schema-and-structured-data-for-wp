@@ -379,7 +379,7 @@ class SASWP_Reviews_Collection {
         }
                             
         public function saswp_reviews_collection_shortcode_render($attr){
-             
+            
             global $saswp_post_reviews, $collection_aggregate;
             
             $html = $htmlp = '';
@@ -400,10 +400,7 @@ class SASWP_Reviews_Collection {
                 $g_type = $design = $cols = $sorting = $date_format = '';
                 
                 $collection_data = get_post_meta($attr['id']);
-
-                // echo "<pre>";
-                // print_r($collection_data);
-                // die();
+                
                 if(isset($collection_data['saswp_collection_design'][0])){
                     $design        = $collection_data['saswp_collection_design'][0];
                     $this->_design = $design;
@@ -485,7 +482,7 @@ class SASWP_Reviews_Collection {
                 if(isset($collection_data['saswp_platform_ids'][0])){
                     $perpage  = $collection_data['saswp_collection_per_page'][0];                
                 }
-                                         
+                                           
                 if($total_reviews){
                    
                     wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
@@ -531,8 +528,9 @@ class SASWP_Reviews_Collection {
                         
                     }
                     
-                    $collection = $this->_service->saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting,$stars_color);                    
-                    
+                    $collection = $this->_service->saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting, $stars_color);                    
+                  
+                       
                     if($design == 'badge'){
 
                         $new_coll = array();
@@ -544,12 +542,14 @@ class SASWP_Reviews_Collection {
                                 }
                             }
                         }
-
-                        $saswp_post_reviews = array_merge($saswp_post_reviews, $new_coll);
+                        
+                        @$saswp_post_reviews = array_merge(array_unique($saswp_post_reviews, $new_coll));
                     }else{
-                        $saswp_post_reviews = array_merge($saswp_post_reviews, $collection);
+                        
+                        @$saswp_post_reviews = array_merge(array_unique($saswp_post_reviews, $collection));
                     }
                   
+                   
                                         
                     switch($design) {
                     
@@ -572,7 +572,7 @@ class SASWP_Reviews_Collection {
                         break;
                         
                     case 'popup':
-                        
+                       
                         $html = $this->_service->saswp_create_collection_popup($collection, $date_format, $saswp_collection_hide_col_rew_img,$stars_color);
                         
                         break;

@@ -7,7 +7,7 @@ var rmv_html           = '';
 jQuery(document).ready(function($){
   
   jQuery(".saswpforwp-colorpicker").wpColorPicker(); // Color picker
-
+  jQuery(".saswp-onclick-show").hide();
 //edit Schema page in show field for
 var busines_stype = $('#schema_type').find(":selected").val();
 if(busines_stype == 'local_business'){
@@ -3770,7 +3770,7 @@ if(busines_stype == 'local_business'){
               $(this).toggleClass("active");  
               $(this).next(".saswp-accordion-panel").slideToggle(200);
             });
-
+          
             $(document).on("click", ".saswp-opn-cls-btn", function(){
                 
                 $("#saswp-reviews-cntn").toggle();

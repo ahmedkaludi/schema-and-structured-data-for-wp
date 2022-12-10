@@ -24,7 +24,7 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting,$stars_color){
+    public function saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting, $stars_color){
         
         $badge_collection = array();
         $collection       = array();
@@ -272,7 +272,7 @@ class saswp_reviews_service {
                         
                         $review_rating = $review['saswp_review_rating'];
 
-                        $starating = saswp_get_rating_html_by_value($review_rating,$stars_color);
+                        $starating = saswp_get_rating_html_by_value($review_rating,$stars_color,"");
                         if(!empty($starating)){
                             $starating = $starating;
                         }else{
@@ -955,12 +955,12 @@ class saswp_reviews_service {
     }
     
     public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr = null, $saswp_collection_hide_col_rew_img = null,$stars_color){
-        
+       
            $html          = '';                
            $grid_cols     = '';
            $perpage_break = $perpage; 
            if($collection){
-               
+             
                $page_count = ceil($total_reviews_count / $perpage);               
                $html .= '<div class="saswp-r1">';
 
@@ -977,9 +977,9 @@ class saswp_reviews_service {
                                 
                $k = 1;
                $break = 1; 
-
+           
                foreach ($collection as $value){
-
+                        
                        $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format );                     
                        if(!empty($date_format) && $date_format == 'days'){                               
                            
@@ -1029,9 +1029,10 @@ class saswp_reviews_service {
                         $html .= '</div>';
                        }
                       
-                       $html .= '<div class="saswp-rc-nm">';
+                       $html .= '<div class="saswp-rc-nm saswp-grid">';
                        $html .= '<a target="_blank" rel="noopener" href="'.esc_url($review_link).'">'.esc_attr($value['saswp_reviewer_name']).'</a>';
-                       $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color);                       
+
+                       $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color,$value['saswp_review_id']);                       
                        $html .= '<span class="saswp-rc-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
                        $html .= '</div>';
                        $html .= '</div>';
@@ -1148,8 +1149,8 @@ class saswp_reviews_service {
                 $html .= '</p>';
                 $html .= '</div>';
                 $html .= '<div class="saswp-r2-strs">';
-                $html .= '<span class="saswp-r2-s">';
-                $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color);
+                $html .= '<span class="saswp-r2-s saswp-gallery">';
+                $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color,$value['saswp_review_id']);
                 $html .= '</span>';
                 $html .= '</div>';
                 $html .= '</div>';
@@ -1263,11 +1264,11 @@ class saswp_reviews_service {
                          }
                                                  
                          $i = 0;
-                         
+                      
                          foreach ($collection as $value){
-                             
+                           
                              $html .= '<li>';
-                             $html .= $this->saswp_review_desing_for_slider($value, $date_format, '',$stars_color);
+                             $html .= $this->saswp_review_desing_for_slider($value, $date_format, '',$stars_color,$value['saswp_review_id']);
                              $html .= '</li>';
                              
                              if($i == 0){
@@ -1356,7 +1357,7 @@ class saswp_reviews_service {
                       $html .= esc_attr(number_format($average_rating,1));
                       $html .= '</span>';
                       $html .= '<span class="saswp-stars saswp-badge">';
-                      $html .= saswp_get_rating_html_by_value($average_rating,$stars_color); 
+                      $html .= saswp_get_rating_html_by_value($average_rating,$stars_color,$value['saswp_review_id']); 
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-r3-brv">';
@@ -1387,6 +1388,7 @@ class saswp_reviews_service {
                         foreach ($platform_wise as $key => $value){
                             
                             $platform_name  = $value['saswp_review_platform_name'];
+                            $review_id = $value['saswp_review_id'];
                             if($platform_name == 'Self'){
                                 $platform_name = saswp_t_string(saswp_label_text('translation-self'));
                             }
@@ -1416,7 +1418,7 @@ class saswp_reviews_service {
                       $html .= esc_attr(number_format($average_rating, 1));
                       $html .= '</span>';
                       $html .= '<span class="saswp-stars">';
-                      $html .= saswp_get_rating_html_by_value($average_rating,$stars_color); 
+                      $html .= saswp_get_rating_html_by_value($average_rating,$stars_color,$review_id); 
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-r3-brv">';
@@ -1440,7 +1442,7 @@ class saswp_reviews_service {
         
     }
     public function saswp_create_collection_popup($collection, $date_format,$saswp_collection_hide_col_rew_img='',$stars_color){
-                
+               
                    $html          = '';                
                    $html_list     = '';
                 
@@ -1454,6 +1456,7 @@ class saswp_reviews_service {
                                                         
                             $sum_of_rating += $value['saswp_review_rating'];
                             $review_count++;
+                            $review_id = $value['saswp_review_id'];
                             
                             $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format); 
                             if(!empty($date_format) && $date_format == 'days'){                               
@@ -1464,7 +1467,7 @@ class saswp_reviews_service {
                             
                             $html_list .= '<li>';
                             $html_list .= '<div class="saswp-r4-b">';
-                            $html_list .= '<span class="saswp-r4-str">';
+                            $html_list .= '<span class="saswp-r4-str saswp-popup">';
                             $html_list .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color);
                             $html_list .= '</span>';
                             $html_list .= '<span class="saswp-r4-tx">'. (isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
@@ -1494,13 +1497,13 @@ class saswp_reviews_service {
 
                         $html .= '<div class="saswp-onclick-hide">';
                         $html .= '<span>';
-                        $html .= saswp_get_rating_html_by_value($average_rating,$stars_color);
+                        $html .= saswp_get_rating_html_by_value($average_rating,$stars_color,$review_id);
                         $html .= '</span>';
                         $html .= '<span class="saswp-r4-rnm">'.esc_attr(number_format ($average_rating, 1)).' from '.esc_attr($review_count).' '.saswp_t_string('reviews').'</span>';                    
                         $html .= '</div>';
 
                         $html .= '<div class="saswp-onclick-show">';
-                        $html .= '<span>'.saswp_t_string('Ratings and reviews').'</span>';                    
+                        $html .= '<span class="saswp-rar">'.saswp_t_string('Ratings and reviews').'</span>';                    
                         $html .= '<span class="saswp-mines"></span>';                    
                         $html .= '</div>';
 
@@ -1510,8 +1513,8 @@ class saswp_reviews_service {
                         $html .= '<ul>';
 
                         $html .= '<li class="saswp-r4-r">';
-                        $html .= '<span>';
-                        $html .= saswp_get_rating_html_by_value($average_rating,$stars_color);
+                        $html .= '<span class="saswp-popup">';
+                        $html .= saswp_get_rating_html_by_value($average_rating,$stars_color,$review_id);
                         $html .= '</span>';
                         $html .= '<span class="saswp-r4-rnm">'. esc_attr(number_format ($average_rating, 1)).' from '. esc_attr($review_count).' '.saswp_t_string('reviews').'</span>';                    
                         $html .= '</li>';                                        
@@ -1529,13 +1532,13 @@ class saswp_reviews_service {
                         
                         $html .= '<div class="saswp-opn-cls-btn" role="1" tabindex="1" on="tap:AMP.setState({review: ( review==1? 0 : 1 ) })">';
                         $html .= '<div class="saswp-onclick-hide">';
-                        $html .= '<span>';
-                        $html .= saswp_get_rating_html_by_value($average_rating,$stars_color);
+                        $html .= '<span class="saswp-popup">';
+                        $html .= saswp_get_rating_html_by_value($average_rating,$stars_color,$review_id);
                         $html .= '</span>';
                         $html .= '<span class="saswp-r4-rnm">'.esc_attr(number_format($average_rating, 1) ).' from '.esc_attr($review_count).' '.saswp_t_string('reviews').'</span>';                    
                         $html .= '</div>';
                         $html .= '<div class="saswp-onclick-show">';
-                        $html .= '<span>'.saswp_t_string('Ratings and reviews').'</span>';                    
+                        $html .= '<span class="saswp-rar">'.saswp_t_string('Ratings and reviews').'</span>';                    
                         $html .= '<span class="saswp-mines"></span>';                    
                         $html .= '</div>';
                         $html .= '</div>';
@@ -1545,8 +1548,8 @@ class saswp_reviews_service {
                         $html .= '<ul>';
 
                         $html .= '<li class="saswp-r4-r">';
-                        $html .= '<span>';
-                        $html .= saswp_get_rating_html_by_value($average_rating,$stars_color);
+                        $html .= '<span class="saswp-popup">';
+                        $html .= saswp_get_rating_html_by_value($average_rating,$stars_color,$review_id);
                         $html .= '</span>';
                         $html .= '<span class="saswp-r4-rnm">'. esc_attr(number_format($average_rating, 1)).' from '. esc_attr($review_count).' reviews</span>';                    
                         $html .= '</li>';                                        
@@ -1593,7 +1596,7 @@ class saswp_reviews_service {
                     $html .= '</span>';
                     $html .= '</div>';                            
                     $html .= '<div class="saswp-r5-rng">';
-                    $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color);
+                    $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color,$value['saswp_review_id']);
                     $html .='<div class="saswp-r5-txrng">';
                     $html .='<span>'. esc_attr($value['saswp_review_rating']).' Stars</span>';
                     $html .='<span>by</span>';
@@ -1626,7 +1629,7 @@ class saswp_reviews_service {
                     $html .= '</span>';
                     $html .= '</div>';                            
                     $html .= '<div class="saswp-r5-rng">';
-                    $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color);
+                    $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color,$value['saswp_review_id']);
                     $html .='<div class="saswp-r5-txrng">';
                     $html .='<span>'. esc_attr($value['saswp_review_rating']).' Stars</span>';
                     $html .='<span> by</span>';

@@ -2035,7 +2035,7 @@ Collection css starts here
   box-sizing: border-box;
 }
 .saswp-opn-cls-btn svg path{
-  fill:#fff;
+  /* fill:#fff; */
 }
 .saswp-opn-cls-btn span{
   font-size: 15px;
@@ -3063,15 +3063,13 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 }
 .saswp_half_star_color{
     font-size: 25px;
-    /* width: 11px; */
-    color: #666;
+    color: #808080;
     margin-top: auto;
     overflow: hidden;
 }
-.saswp-badge .saswp_half_star_color{
-    margin-top: -7px;
+.saswp-popup2 .saswp_half_star_color{
+    margin-top: 4px;
 }
-
 /* Offer Banner Starts Here */
 /* .saswp-offer-banner{
     background: #ca4a1f;
