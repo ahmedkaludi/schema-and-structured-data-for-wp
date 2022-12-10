@@ -298,7 +298,7 @@ function saswp_get_rating_html_by_value($rating_val,$stars_color){
 
                            // $starating.='<span class="str-ic"></span>';   
                             $starating.='<span class="saswp_star_color" style=color:'.$stars_color.'; >★</span>';   
-
+                            $starating.='<span class="saswp_half_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad"><stop offset="100%" stop-color='.$stars_color.' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad)" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
                         }else{
 
                           // $starating.='<span class="half-str"></span>'; 
