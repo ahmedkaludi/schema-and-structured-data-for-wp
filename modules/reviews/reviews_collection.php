@@ -545,11 +545,11 @@ class SASWP_Reviews_Collection {
                         
                         $saswp_post_reviews = array_merge($saswp_post_reviews, $new_coll);
                     }else{
-                        
                         $saswp_post_reviews = array_merge($saswp_post_reviews, $collection);
                     }
-                  
-                   
+                    if(empty($saswp_post_reviews) || isset($saswp_post_reviews)){
+                        $saswp_post_reviews = array();
+                    }
                                         
                     switch($design) {
                     
