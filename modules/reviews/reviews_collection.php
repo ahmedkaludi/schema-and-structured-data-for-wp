@@ -543,10 +543,10 @@ class SASWP_Reviews_Collection {
                             }
                         }
                         
-                        @$saswp_post_reviews = array_merge(array_unique($saswp_post_reviews, $new_coll));
+                        $saswp_post_reviews = array_merge($saswp_post_reviews, $new_coll);
                     }else{
                         
-                        @$saswp_post_reviews = array_merge(array_unique($saswp_post_reviews, $collection));
+                        $saswp_post_reviews = array_merge($saswp_post_reviews, $collection);
                     }
                   
                    
