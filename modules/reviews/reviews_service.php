@@ -954,7 +954,7 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr = null, $saswp_collection_hide_col_rew_img = null,$stars_color){
+    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr = null, $saswp_collection_hide_col_rew_img = null,$stars_color= null){
        
            $html          = '';                
            $grid_cols     = '';
@@ -1595,7 +1595,7 @@ class saswp_reviews_service {
                     $html .= '<img alt="'.esc_attr($value['saswp_review_platform_name']).'" height="70" width="70" src="'. esc_attr($value['saswp_review_platform_icon']).'"/>';
                     $html .= '</span>';
                     $html .= '</div>';                            
-                    $html .= '<div class="saswp-r5-rng">';
+                    $html .= '<div class="saswp-r5-rng saswp-star">';
                     $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color,$value['saswp_review_id']);
                     $html .='<div class="saswp-r5-txrng">';
                     $html .='<span>'. esc_attr($value['saswp_review_rating']).' Stars</span>';
@@ -1628,7 +1628,7 @@ class saswp_reviews_service {
                     $html .= '<img alt="'.esc_attr($value['saswp_review_platform_name']).'" height="70" width="70" src="'. esc_attr($value['saswp_review_platform_icon']).'"/>';
                     $html .= '</span>';
                     $html .= '</div>';                            
-                    $html .= '<div class="saswp-r5-rng">';
+                    $html .= '<div class="saswp-r5-rng saswp-star">';
                     $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color,$value['saswp_review_id']);
                     $html .='<div class="saswp-r5-txrng">';
                     $html .='<span>'. esc_attr($value['saswp_review_rating']).' Stars</span>';

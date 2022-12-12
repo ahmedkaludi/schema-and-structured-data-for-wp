@@ -940,7 +940,7 @@ span.saswp-mines{
 .saswp-grid .saswp_half_star_color{
   margin-top: 6px;
 }
-.saswp-gallery .saswp_half_star_color{
+.saswp-gallery .saswp_half_star_color, .saswp-star .saswp_half_star_color{
   margin-top: 9px;
 }
 /** End star color **/
