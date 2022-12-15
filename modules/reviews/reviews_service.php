@@ -292,6 +292,9 @@ class saswp_reviews_service {
                         }else{
                             $link = $review['saswp_review_location_id'];
                         }
+                        if($review['saswp_review_platform_name'] == 'ProductReview'){
+                            $link = 'https://www.productreview.com.au/listings/'.$link;
+                        }     
                                                                         
                         $output.= '<div class="saswp-g-review-panel">
                               <div class="saswp-glg-review-body">
@@ -1000,7 +1003,10 @@ class saswp_reviews_service {
                         
                             $review_link = $value['saswp_review_location_id'].'#client_reviews';
 
-                       }                       
+                       }         
+                       if($value['saswp_review_platform_name'] == 'ProductReview'){
+                            $review_link = 'https://www.productreview.com.au/listings/'.$review_link;
+                       }                
 
                        if(!empty($pagination_wpr) && !empty($pagination)){
 
@@ -1115,7 +1121,11 @@ class saswp_reviews_service {
     
     public function saswp_review_desing_for_slider($value, $date_format = '', $saswp_collection_gallery_img_hide = '',$stars_color=''){
         
-                $review_link = $value['saswp_review_link'];
+                if(!empty($value['saswp_review_link'])){
+                    $review_link = $value['saswp_review_link'];
+                }else{
+                    $review_link = $value['saswp_review_location_id'];
+                }
 
                 if($value['saswp_review_platform_name'] == 'Avvo' && $review_link == ''){
                 
@@ -1127,6 +1137,10 @@ class saswp_reviews_service {
                 
                     $review_link = $value['saswp_review_location_id'].'#parent-reviews';
 
+                }
+
+                if($value['saswp_review_platform_name'] == 'ProductReview'){
+                    $review_link = 'https://www.productreview.com.au/listings/'.$review_link;
                 }
         
                 $html = '';
@@ -1302,7 +1316,7 @@ class saswp_reviews_service {
     public function saswp_create_collection_badge($collection,$saswp_collection_hide_col_rew_img='',$stars_color){
    
                 $html = '';                
-                if($collection){
+                if($collection){       
             
                     if(saswp_non_amp()){
                         
@@ -1321,10 +1335,18 @@ class saswp_reviews_service {
                         foreach ($platform_wise as $key => $value){
                             
                             $platform_name  = $value['saswp_review_platform_name'];
-                            $source_url     = $value['saswp_review_location_id'];
+                            if(!empty($value['saswp_review_location_id'])){
+                                $source_url = $value['saswp_review_location_id'];
+                            }else{
+                                $source_url = $value['saswp_review_link'];
+                            }
                             
                             if($platform_name == 'Google'){
                                 $source_url = 'https://search.google.com/local/reviews?placeid='.$source_url;
+                            }
+
+                            if($platform_name == 'ProductReview'){
+                                $source_url = 'https://www.productreview.com.au/listings/'.$source_url;
                             }
 
                             if($platform_name == 'Self'){

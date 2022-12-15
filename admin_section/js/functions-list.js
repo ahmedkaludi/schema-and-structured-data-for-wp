@@ -952,13 +952,20 @@
                       
                         jQuery.each(saswp_collection[key], function(index, value){
                           
-                            source_url    = value.saswp_review_location_id;
+                            if(value.saswp_review_location_id){
+                                source_url    = value.saswp_review_location_id;
+                            }else{
+                                source_url    = value.saswp_review_link;
+                            }
                             platform_icon = value.saswp_review_platform_icon;
                             platform_name = value.saswp_review_platform_name;
                             review_id = value.saswp_review_id
                            
                             if(platform_name == 'Self'){
                                 platform_name = saswp_localize_data.trans_self;
+                            }
+                            if(platform_name == 'ProductReview'){
+                                source_url    = 'https://www.productreview.com.au/listings/'+source_url;
                             }
 
                             sum_of_rating += parseFloat(value.saswp_review_rating);
