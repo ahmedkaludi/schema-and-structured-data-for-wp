@@ -347,6 +347,8 @@ class saswp_fields_generator {
                             $license_status     = 'inactive';
                             $license_status_msg = '';
                             $rv_limits          = '';
+                            $license_status_msg = '';
+                            $license_download_id = '';
                             
                             if(isset($settings[strtolower($on).'_addon_license_key'])){
                             $license_key =   $settings[strtolower($on).'_addon_license_key'];
