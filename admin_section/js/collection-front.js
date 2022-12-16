@@ -157,9 +157,9 @@ jQuery(document).ready(function($){
          saswp_fomo_fade(elems[i++])
       });
      }
-    
+    jQuery(".saswp-onclick-show").hide();
     $(document).on("click", ".saswp-opn-cls-btn", function(){
-                
+              
                 $("#saswp-reviews-cntn").toggle();
                 
                 if( $('#saswp-reviews-cntn').is(':visible') ) {

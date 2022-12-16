@@ -1888,8 +1888,14 @@ function saswp_schema_output() {
 
                                     if(isset($enable_videoobject) && $enable_videoobject == 1){
                                         
-                                        if(empty($video_links) && count($video_links) == 0){
-                                            $input1 = array();
+                                        if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
+                                            if(empty($input1['contentUrl']) && empty($input1['embedUrl'])){
+                                                $input1 = array();
+                                            }                                            
+                                        }else{
+                                            if(empty($video_links) && count($video_links) == 0 ){
+                                                $input1 = array();
+                                            }
                                         }
 
                                     }

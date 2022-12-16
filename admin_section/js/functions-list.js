@@ -457,7 +457,7 @@
        }
        
        function saswp_fields_html_generator(index, schema_id, fields_type, div_type, schema_fields){
-            // console.log(fields_type);
+          
             $newclosebtn = '';
             otherRepeatorClose = '';
             $reviewtitle = index+1
@@ -593,15 +593,16 @@
                                  
        } 
         
-       function saswp_create_rating_html_by_value(rating_val){
-                
-                
+       function saswp_create_rating_html_by_value(rating_val,color,review_id){
+               
+
                 var starating = '';
         
-                     starating += '<div class="saswp-rvw-str">';
-
+                    starating += '<div class="saswp-rvw-str">';
+                       starating += '<div class="saswp-rvw-str">';
+                  
                     for(var j=0; j<5; j++){  
-
+                       
                           if(rating_val >j){
 
                                 var explod = rating_val.split('.');
@@ -609,24 +610,27 @@
                                 if(explod[1]){
 
                                     if(j < explod[0]){
-
-                                        starating +='<span class="str-ic"></span>';   
+                                        var a = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
+                                        starating +='<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'+review_id+a+'"><stop offset="100%" class="saswp_star" stop-color='+color+' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'+review_id+a+')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg>';
 
                                     }else{
-
-                                        starating +='<span class="half-str"></span>';   
-
+                                        var b = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
+                                      starating +='<span class="saswp_half_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'+review_id+b+'"><stop offset="50%" class="saswp_star" stop-color='+color+' /><stop offset="50%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'+review_id+b+')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
+                                      
                                     }                                           
                                 }else{
-
-                                    starating +='<span class="str-ic"></span>';    
-
+                                    var c = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
+                                    starating +='<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'+review_id+c+'"><stop offset="100%" class="saswp_star" stop-color='+color+' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'+review_id+c+')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg>';
                                 }
 
-                          } else{
-                                starating +='<span class="df-clr"></span>';   
+                          } else{  
+                               var d = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
+                               starating +='<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad1'+review_id+d+'"><stop offset="100%" stop-color="grey" /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad1'+review_id+d+')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg>';
+                              
                           }                                                                                                                                
                         }
+
+                        starating += '</div>';
                     starating += '</div>';
 
                     return starating;
@@ -801,8 +805,8 @@
 	
                }     
             
-       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide){
-                      
+       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color){
+       
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
                                 date_str.date = value.saswp_review_date;
@@ -821,7 +825,7 @@
                                 html += '</div>';
                                 html += '<div class="saswp-r2-strs">';
                                 html += '<span class="saswp-r2-s">';
-                                html += saswp_create_rating_html_by_value(value.saswp_review_rating);
+                                html += saswp_create_rating_html_by_value(value.saswp_review_rating,color,value.saswp_review_id);
                                 html += '</span>';
                                 html += '</div>';
                                 html += '</div>';
@@ -845,7 +849,7 @@
                       
        }    
        
-       function saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide){
+       function saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color){
                                 
                 var html = '';                               
                 if(saswp_total_collection.length > 0){
@@ -865,7 +869,7 @@
                                                         
                                 html += '<div class="saswp-si">';
                                 
-                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide);
+                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color);
                                 
                                 html += '</div>';
                             
@@ -880,12 +884,12 @@
                             if(chunkarr){
                                                                                                                 
                             jQuery.each(chunkarr, function(p_index, p_value){
-                                                                
+                                             
                                 html += '<div class="saswp-si">';
                                                                     
                                 jQuery.each(p_value, function(index, value){
                                    
-                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide);
+                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color);
                                                                                                
                                 });
                                 
@@ -926,11 +930,13 @@
                                                                 
             }
             
-       function saswp_create_collection_badge(){
+       function saswp_create_collection_badge(color){
                 
                 var html = '';                
                                 
                 if(saswp_total_collection.length > 0){
+
+                  
                     
                     html += '<div class="saswp-rd3-warp">';
                     html += '<ul>';
@@ -943,15 +949,23 @@
                         var sum_of_rating  = 0;
                         var average_rating = 1;
                         var source_url     = '';
-                        
+                      
                         jQuery.each(saswp_collection[key], function(index, value){
-                                                        
-                            source_url    = value.saswp_review_location_id;
+                          
+                            if(value.saswp_review_location_id){
+                                source_url    = value.saswp_review_location_id;
+                            }else{
+                                source_url    = value.saswp_review_link;
+                            }
                             platform_icon = value.saswp_review_platform_icon;
                             platform_name = value.saswp_review_platform_name;
-
+                            review_id = value.saswp_review_id
+                           
                             if(platform_name == 'Self'){
                                 platform_name = saswp_localize_data.trans_self;
+                            }
+                            if(platform_name == 'ProductReview'){
+                                source_url    = 'https://www.productreview.com.au/listings/'+source_url;
                             }
 
                             sum_of_rating += parseFloat(value.saswp_review_rating);
@@ -981,8 +995,8 @@
                           html += '<span class="saswp-r3-num">';
                             html += average_rating.toFixed(1);
                           html += '</span>';
-                          html += '<span class="saswp-stars">';
-                           html += saswp_create_rating_html_by_value(average_rating.toString()); 
+                          html += '<span class="saswp-stars saswp-badge">';
+                           html += saswp_create_rating_html_by_value(average_rating.toString(),color,review_id); 
                           html += '</span>';
                         html += '</div>';
 
@@ -1009,7 +1023,7 @@
                                                                   
             }
             
-       function saswp_create_collection_popup(){
+       function saswp_create_collection_popup(color){
            
                 var html          = '';                
                 var html_list     = '';
@@ -1023,6 +1037,7 @@
                         jQuery.each(saswp_total_collection, function(index, value){
                             
                             platform_icon = value.saswp_review_platform_icon;
+                            review_id = value.saswp_review_id;
                             sum_of_rating += parseFloat(value.saswp_review_rating);
                             review_count++;
                             
@@ -1032,8 +1047,8 @@
                             }
                             html_list += '<li>';
                             html_list += '<div class="saswp-r4-b">';
-                            html_list += '<span class="saswp-r4-str">';
-                            html_list += saswp_create_rating_html_by_value(value.saswp_review_rating);
+                            html_list += '<span class="saswp-r4-str saswp-popup">';
+                            html_list += saswp_create_rating_html_by_value(value.saswp_review_rating,color,value.saswp_review_id);
                             html_list += '</span>';
                             html_list += '<span class="saswp-r4-tx">'+date_str.date+'</span>';
                             html_list += '</div>';
@@ -1060,13 +1075,13 @@
                         html += '<div class="saswp-opn-cls-btn">';
 
                         html += '<div class="saswp-onclick-hide">';
-                        html += '<span>';
-                        html += saswp_create_rating_html_by_value(average_rating.toString());
+                        html += '<span class="saswp-popup2">';
+                        html += saswp_create_rating_html_by_value(average_rating.toString(),color,review_id);
                         html += '</span>';
                         html += '<span class="saswp-r4-rnm">'+average_rating.toFixed(1)+' from '+review_count+' reviews</span>';                    
                         html += '</div>';
 
-                        html += '<div class="saswp-onclick-show">';
+                        html += '<div class="saswp-onclick-show" style="display: none;">';
                         html += '<span>Ratings and reviews</span>';                    
                         html += '<span class="saswp-mines"></span>';                    
                         html += '</div>';
@@ -1078,7 +1093,7 @@
 
                         html += '<li class="saswp-r4-r">';
                         html += '<span>';
-                        html += saswp_create_rating_html_by_value(average_rating.toString());
+                        html += saswp_create_rating_html_by_value(average_rating.toString(),color,review_id);
                         html += '</span>';
                         html += '<span class="saswp-r4-rnm">'+average_rating.toFixed(1)+' from '+review_count+' reviews</span>';                    
                         html += '</li>';                                        
@@ -1098,7 +1113,7 @@
                 
             }            
             
-       function saswp_create_collection_fomo(fomo_inverval, fomo_visibility){
+       function saswp_create_collection_fomo(fomo_inverval, fomo_visibility,color){
                 
                 var html = '';                
                                                                                                             
@@ -1118,7 +1133,7 @@
                     html += '</span>';
                     html += '</div>';                            
                     html += '<div class="saswp-r5-rng">';
-                      html += saswp_create_rating_html_by_value(value.saswp_review_rating);
+                      html += saswp_create_rating_html_by_value(value.saswp_review_rating,color,value.saswp_review_id);
                      html +='<div class="saswp-r5-txrng">';
                      html +='<span>'+value.saswp_review_rating+' Stars</span>';
                      html +='<span>by</span>';
@@ -1235,12 +1250,12 @@
        }
 
       
-       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img){
+       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color){
                 
                 var html          = '';                
                 var grid_cols     = '';
                 var page_count    = 0;
-
+              
                 if(saswp_total_collection.length > 0){
                     
                     page_count = Math.ceil(saswp_total_collection.length / perpage);
@@ -1260,7 +1275,7 @@
                                                                                                                                                                                                                           
                     if(saswp_total_collection){
                             
-                           var grid_col = saswp_total_collection;                           
+                           var grid_col = saswp_total_collection;    
 
                            if(pagination && perpage > 0){
                                
@@ -1268,8 +1283,9 @@
                                
                            }                                                        
                            jQuery.each(grid_col, function(index, value){
-                            
+                           
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
+                           
                             // if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
                             //     date_str.date = value.saswp_review_date;
                             // }
@@ -1283,7 +1299,7 @@
                             }                            
                             html += '<div class="saswp-rc-nm">';
                             html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
-                            html += saswp_create_rating_html_by_value(value.saswp_review_rating);  
+                            html += saswp_create_rating_html_by_value(value.saswp_review_rating,color,value.saswp_review_id);  
 
                             if(date_str.date){
                               html += '<span class="saswp-rc-dt">'+date_str.date+'</span>';
@@ -1353,37 +1369,37 @@
                                                                                                 
             }     
             
-       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide){
+       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color){
                                                               
                 switch(design) {
                     
                     case "grid":
                         
-                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img);
+                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color);
                         
                         break;
                         
                     case 'gallery':
                         
-                         saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide);
+                         saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color);
                         
                         break;
                     
                     case 'badge':
                         
-                         saswp_create_collection_badge();
+                         saswp_create_collection_badge(color);
                         
                         break;
                         
                     case 'popup':
                         
-                         saswp_create_collection_popup();
+                         saswp_create_collection_popup(color);
                         
                         break;
                     
                     case 'fomo':
                         
-                         saswp_create_collection_fomo(fomo_inverval, fomo_visibility);
+                         saswp_create_collection_fomo(fomo_inverval, fomo_visibility,color);
                         
                         break;
                                                                 
@@ -1398,6 +1414,7 @@
                 var design              = jQuery(".saswp-collection-desing").val();                                   
                 var cols                = jQuery("#saswp-collection-cols").val();
                 var slider              = jQuery(".saswp-slider-type").val();
+                var color               = jQuery(".saswpforwp-colorpicker").val();
                 
                 var fomo_inverval       = jQuery("#saswp_fomo_interval").val();                
                 var perpage             = parseInt(jQuery("#saswp-coll-per-page").val());
@@ -1442,11 +1459,22 @@
                 }else{
                     var dots            = false;
                 }
+
+                jQuery('#saswp_stars_color_picker').wpColorPicker({
+                  
+                    change: function (event, ui) {
+                        var element = event.target;
+                        var color = ui.color.toString();
+                        jQuery(".saswp_star_color, .saswp_half_star_color").attr("style", "color:"  + color);
+                        jQuery('.saswp_star').attr('stop-color',color);
+                    },
+                });
+
                                                 
                 saswp_create_total_collection( s_rating_enable, s_rating_val );                 
                 saswp_collection_sorting(sorting);  
                 saswp_collection_total_reviews_id();
-                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide);                                                
+                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color);                                                
            
        }  
        

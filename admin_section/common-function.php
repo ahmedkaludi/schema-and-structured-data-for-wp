@@ -3480,7 +3480,7 @@ function saswp_get_video_metadata($content = ''){
                 $content = $post->post_content;
             }    
         }
-
+       
         if(function_exists('has_block')){
             if( has_block('acf/video') ){
                 $attributes = saswp_get_gutenberg_multiple_block_data('acf/video');    
@@ -3564,52 +3564,43 @@ function saswp_get_video_metadata($content = ''){
                           
             }
            
-           @preg_match_all( '@(https?://)?(?:www\.)?(youtu(?:\.be/([-\w]+)|be\.com/watch\?v=([-\w]+)))\S*@im', $content, $matches, PREG_SET_ORDER );
-           
-           if($matches){
-           
-               foreach($matches as $match){
-                  $vurl     = trim($match[0], '"');
-
-                  if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
-                    continue;
-                  }
-                  $metadata = array();  
-                  if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
-
-                    $vid = saswp_get_youtube_vid($vurl);
-                    
-                    $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
-
-                    if(!empty($video_meta)){
-                        $metadata['title']      = $video_meta['title'];
-                        $metadata['description']      = $video_meta['description'];
-                        $metadata['viewCount']      = $video_meta['viewCount'];
-
-                        $metadata['duration']      = $video_meta['duration'];
-
-                        $metadata['uploadDate']      = $video_meta['uploadDate'];
-
-                        $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
-                    }
-
-                  }else{
-                    $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
-                    $result   = @wp_remote_get($rulr);                                                        
-
-                    if(wp_remote_retrieve_response_code($result) == 200) {
-                            $metadata = json_decode(wp_remote_retrieve_body($result),true);
-                    }  
-                  }  
+            preg_match_all( '/src\=\"(.*?)youtube(.*?)\"/s', $content, $youtubematches, PREG_SET_ORDER );
+             
+            if(!empty($youtubematches)){
+             
+                foreach($youtubematches as $match){
+                   $vurl = trim($match[1].'youtu.be'.$match[2], '"');     
+                   if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
+                     continue;
+                   }             
+                   $metadata   = array();  
                   
-                  $metadata['video_url'] = $vurl;
-                  if(strpos($metadata['video_url'],'type') == false){
-                    $response[] = $metadata;
-                  }
-                 
-               }       /* end for */  
-           }/* end if */
-           
+                   if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
+ 
+                     $vid = saswp_get_youtube_vid($vurl);
+ 
+                     $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
+ 
+                     if(!empty($video_meta)){
+                         $metadata['title']      = $video_meta['title'];
+                         $metadata['description']      = $video_meta['description'];
+                         $metadata['viewCount']      = $video_meta['viewCount'];
+                         $metadata['duration']      = $video_meta['duration'];
+                         $metadata['uploadDate']      = $video_meta['uploadDate'];
+                         $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
+                     }
+ 
+                   }else{
+                     $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                     $result   = @wp_remote_get($rulr);                                    
+                     $metadata = json_decode(wp_remote_retrieve_body($result),true);
+                   }
+                   
+                   $metadata['video_url'] = $vurl;          
+                   $response[] = $metadata;
+                }/* end for */  
+            } /* end if */
+
            preg_match_all( '/src\=\"(.*?)youtu\.be(.*?)\"/s', $content, $youtubematches, PREG_SET_ORDER );
              
            if(!empty($youtubematches)){
@@ -3673,7 +3664,7 @@ function saswp_get_video_metadata($content = ''){
                             }
                            
                             $metadata = array();
-                            $metadata['video_url'] = $vurl; 
+                          
                             if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
                                $vid = saswp_get_youtube_vid($vurl);
                                 $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
@@ -3690,7 +3681,7 @@ function saswp_get_video_metadata($content = ''){
                                 $result   = @wp_remote_get($rulr);                                    
                                 $metadata = json_decode(wp_remote_retrieve_body($result),true); 
                             }
-                                              
+                            $metadata['video_url'] = $vurl;                  
                             $response[] = $metadata;
                             
                         }
@@ -3700,7 +3691,7 @@ function saswp_get_video_metadata($content = ''){
             }
            
         $result = saswp_unique_multidim_array($response,'video_url');
-      
+       
         return $result;
 }
 
@@ -3726,7 +3717,7 @@ function saswp_unique_multidim_array($array, $key) {
 }
 
 function saswp_youtube_check_validate_url($yt_url) { 
-    if(!empty($yt_url)){
+    if(!empty($yt_url) && isset($yt_url)){
         $url_parsed_arr = parse_url($yt_url);
         if ($url_parsed_arr['host'] == "youtu.be" || $url_parsed_arr['host'] == "www.youtube.com" || $url_parsed_arr['path'] == "/watch" || substr($url_parsed_arr['query'], 0, 2) == "v=") {
             return $yt_url;

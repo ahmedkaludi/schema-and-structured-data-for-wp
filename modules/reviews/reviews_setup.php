@@ -123,7 +123,7 @@ function saswp_collection_custom_columns($columns) {
 }
 
 function saswp_reviews_custom_columns_set( $column, $post_id ) {
-                
+   
             switch ( $column ) {       
                 
                 case 'saswp_reviewer_image' :
@@ -144,14 +144,14 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                                                             
                     break;                 
                 case 'saswp_review_rating' :
-                    
+                 
                     $rating_val = get_post_meta( $post_id, $key='saswp_review_rating', true);                   
-                    echo saswp_get_rating_html_by_value($rating_val);                                                                                                                                       
+                    echo saswp_get_rating_html_by_value_column($rating_val,'');                                                                                                                                       
                     
                     break;
                 case 'saswp_review_platform' :
                     
-                    $platform = get_post_meta( $post_id, $key='saswp_review_platform', true);  
+                    $platform = get_post_meta( $post_id, $key='saswp_stars_color_picker', true);  
                     $term     = get_term( $platform, 'platform' );
                     
                     if(isset($term->slug)){
@@ -278,8 +278,41 @@ function saswp_hide_review_text_columns( $hidden, $screen ) {
     return $hidden;
 }
 
-function saswp_get_rating_html_by_value($rating_val){
-            
+function saswp_get_rating_html_by_value($rating_val,$stars_color="",$review_id=""){        
+        $starating = '';
+      
+        $starating .= '<div class="saswp-rvw-str">';
+        for($j=0; $j<5; $j++){  
+
+              if($rating_val >$j){
+
+                    $explod = explode('.', $rating_val);
+
+                    if(isset($explod[1])){
+
+                        if($j <$explod[0]){
+                           $a = rand(1231,7879); 
+                            $starating.='<span class="saswp_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'.esc_attr($review_id).''.esc_attr($a).'"><stop offset="100%" class="saswp_star" stop-color='.$stars_color.' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'.esc_attr($review_id).''.esc_attr($a).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
+                        }else{
+                            $b = rand(1231,7879);
+                            $starating.='<span class="saswp_half_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'.esc_attr($review_id).''.esc_attr($b).'"><stop offset="50%" class="saswp_star" stop-color='.$stars_color.' /><stop offset="50%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'.esc_attr($review_id).''.esc_attr($b).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
+                        }                                           
+                    }else{
+                        $c = rand(1231,7879);
+                        $starating.='<span class="saswp_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'.esc_attr($review_id).''.esc_attr($c).'"><stop offset="100%" class="saswp_star" stop-color='.$stars_color.' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'.esc_attr($review_id).''.esc_attr($c).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
+                    }
+              } else{
+                    $d = rand(1231,7879);
+                    $starating.='<span class="saswp_star_color_gray"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad1'.esc_attr($review_id).''.esc_attr($d).'"><stop offset="100%" stop-color="grey" /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad1'.esc_attr($review_id).''.esc_attr($d).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
+                }                                                                                                                                
+            }
+        $starating .= '</div>';
+        
+        return $starating;
+        
+}
+
+function saswp_get_rating_html_by_value_column($rating_val){
         $starating = '';
         
         $starating .= '<div class="saswp-rvw-str">';
@@ -292,22 +325,16 @@ function saswp_get_rating_html_by_value($rating_val){
                     if(isset($explod[1])){
 
                         if($j <$explod[0]){
-
                             $starating.='<span class="str-ic"></span>';   
-
                         }else{
-
-                            $starating.='<span class="half-str"></span>';   
-
+                           $starating.='<span class="half-str"></span>'; 
                         }                                           
                     }else{
-
-                        $starating.='<span class="str-ic"></span>';    
-
+                        $starating.='<span class="str-ic"></span>';  
                     }
 
               } else{
-                    $starating.='<span class="df-clr"></span>';   
+                    $starating.='<span class="df-clr"></span>';  
               }                                                                                                                                
             }
         $starating .= '</div>';

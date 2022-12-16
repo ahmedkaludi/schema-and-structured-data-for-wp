@@ -2314,9 +2314,9 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
             elseif ( $license_status_msg !='active' && $on ==  'Reviews') {
 
                 $response.= '<span class="saswp-sts-deactive-reviews '.strtolower($on).'_addon">
-                <label class="saswp-sts-txt"><span class="inactive_Reviews">'.saswp_t_string('Status').':</span><span class="inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'
+                <label class="saswp-sts-txt"><span class="saswp_inactive_Reviews">'.saswp_t_string('Status').':</span><span class="saswp_inactive_status_'.strtolower($on).'">'.saswp_t_string('Inactive').'
                 </span>
-                <input type="text" class="reviewslicense_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
+                <input type="text" class="saswp_reviewslicense_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="">
                  <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation Reviews '.$on.'" id="saswp_license_activation">'.saswp_t_string('Activate').'</a>
                  </label>
                  </span>';
@@ -4668,7 +4668,8 @@ function saswp_enqueue_style_js( $hook ) {
         $data = apply_filters('saswp_localize_filter',$data,'saswp_localize_data');
 	// Color picker CSS
 	// @refer https://make.wordpress.org/core/2012/11/30/new-color-picker-in-wp-3-5/
-        wp_enqueue_style( 'wp-color-picker' );	
+        wp_enqueue_style( 'wp-color-picker' );
+        wp_enqueue_script( 'wp-color-picker' );	
 	// Everything needed for media upload
         wp_enqueue_media();
         
@@ -4685,21 +4686,27 @@ function saswp_enqueue_style_js( $hook ) {
                 wp_enqueue_style( 'jquery-ui' ); 
 
         }
-                                        
+       
+        wp_enqueue_script( 'wp-color-picker-alpha', SASWP_PLUGIN_URL . 'admin_section/js/wp-color-picker-alpha.min.js', array( 'wp-color-picker' ), SASWP_VERSION, true );
+                       
         wp_enqueue_script( 'saswp-functions-list', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'functions-list.min.js' : 'functions-list.js'), false, SASWP_VERSION );
         
-        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'main-script.min.js' : 'main-script.js'), array('jquery'), SASWP_VERSION , true );
+        wp_register_script( 'saswp-main-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'main-script.min.js' : 'main-script.js'), array('jquery','wp-color-picker'), SASWP_VERSION , true );
                         
         wp_localize_script( 'saswp-main-js', 'saswp_localize_data', $data );
         
         wp_enqueue_script( 'saswp-main-js' );
         
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'main-style.min.css' : 'main-style.css'), false , SASWP_VERSION );
-                        
+        
+        // wp_enqueue_style( 'saswp-frontend-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-frontend.min.css' : 'saswp-frontend.css'), false , SASWP_VERSION );	
+        // wp_enqueue_script( 'saswp-rateyo-front-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.rateyo.min.js', array('jquery', 'jquery-ui-core'), SASWP_VERSION , true );                                                                                        
+        // wp_enqueue_style( 'jquery-rateyo-min-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'jquery.rateyo.min.css' : 'jquery.rateyo.min.css'), false, SASWP_VERSION );
+        
         wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
         
         apply_filters('saswp_wp_enqueue_more_script', '');
-
+     
         saswp_inlineAdminOccasionalAdsPopUpCSS_JS();
 
         }                

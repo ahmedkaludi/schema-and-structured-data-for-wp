@@ -379,7 +379,7 @@ class SASWP_Reviews_Collection {
         }
                             
         public function saswp_reviews_collection_shortcode_render($attr){
-             
+            
             global $saswp_post_reviews, $collection_aggregate;
             
             $html = $htmlp = '';
@@ -400,6 +400,7 @@ class SASWP_Reviews_Collection {
                 $g_type = $design = $cols = $sorting = $date_format = '';
                 
                 $collection_data = get_post_meta($attr['id']);
+                
                 if(isset($collection_data['saswp_collection_design'][0])){
                     $design        = $collection_data['saswp_collection_design'][0];
                     $this->_design = $design;
@@ -428,7 +429,12 @@ class SASWP_Reviews_Collection {
                     
                     $cols          = $collection_data['saswp_collection_cols'][0];
                 }
-                
+
+                if(isset($collection_data['saswp_stars_color_picker'][0])  && !empty($collection_data['saswp_stars_color_picker'][0])){
+                    
+                    $stars_color   = $collection_data['saswp_stars_color_picker'][0];
+                }
+               
                 if(isset($collection_data['saswp_gallery_arrow'][0])){
                     
                     $arrow        = $collection_data['saswp_gallery_arrow'][0];
@@ -476,17 +482,17 @@ class SASWP_Reviews_Collection {
                 if(isset($collection_data['saswp_platform_ids'][0])){
                     $perpage  = $collection_data['saswp_collection_per_page'][0];                
                 }
-                                                
+                                           
                 if($total_reviews){
-                    
+                   
                     wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
                     wp_enqueue_script( 'saswp-collection-front-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.js' : 'collection-front.js'), array('jquery') , SASWP_VERSION );
                     
                     add_action( 'amp_post_template_css', array($this, 'saswp_reviews_collection_amp_css'));
-                    
+                   
                     
                     if($design == 'grid'){
-                        
+                       
                         $nextpage = $perpage;
                         $offset   = 0;
 
@@ -507,7 +513,7 @@ class SASWP_Reviews_Collection {
                             $total_reviews = $array_chunk[($data_id-1)]; 
 
                         }
-                        
+                   
                         if(!$collection_aggregate){
 
                             $col_average = $this->_service->saswp_get_collection_average_rating(unserialize($collection_data['saswp_total_reviews'][0]));
@@ -521,9 +527,10 @@ class SASWP_Reviews_Collection {
                         
                         
                     }
-                                     
-                    $collection = $this->_service->saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting);                    
-
+                    
+                    $collection = $this->_service->saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting, $stars_color);                    
+                  
+                       
                     if($design == 'badge'){
 
                         $new_coll = array();
@@ -535,41 +542,44 @@ class SASWP_Reviews_Collection {
                                 }
                             }
                         }
-
+                        
                         $saswp_post_reviews = array_merge($saswp_post_reviews, $new_coll);
                     }else{
                         $saswp_post_reviews = array_merge($saswp_post_reviews, $collection);
+                    }
+                    if(empty($saswp_post_reviews) || isset($saswp_post_reviews)){
+                        $saswp_post_reviews = array();
                     }
                                         
                     switch($design) {
                     
                     case "grid":
-                        
-                        $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr, $saswp_collection_hide_col_rew_img  );
+                       
+                        $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr, $saswp_collection_hide_col_rew_img,$stars_color);
                         
                         break;
                         
                     case 'gallery':
                         
-                        $html = $this->_service->saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide);
+                        $html = $this->_service->saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide,$stars_color);
                         
                         break;
                     
                     case 'badge':
-                        
-                        $html = $this->_service->saswp_create_collection_badge($collection, $saswp_collection_hide_col_rew_img);
+                   
+                        $html = $this->_service->saswp_create_collection_badge($collection, $saswp_collection_hide_col_rew_img,$stars_color);
                         
                         break;
                         
                     case 'popup':
-                        
-                        $html = $this->_service->saswp_create_collection_popup($collection, $date_format, $saswp_collection_hide_col_rew_img);
+                       
+                        $html = $this->_service->saswp_create_collection_popup($collection, $date_format, $saswp_collection_hide_col_rew_img,$stars_color);
                         
                         break;
                     
                     case 'fomo':
                         
-                        $html = $this->_service->saswp_create_collection_fomo($f_interval, $f_visibility, $collection, $date_format, $saswp_collection_hide_col_rew_img);                   
+                        $html = $this->_service->saswp_create_collection_fomo($f_interval, $f_visibility, $collection, $date_format, $saswp_collection_hide_col_rew_img,$stars_color);                   
                         
                         break;
                                                                 
@@ -805,6 +815,11 @@ class SASWP_Reviews_Collection {
                                             ?>                                    
                                          </select>                                         
                                         </div> 
+
+                                        <div class="saswp-dp-dsg saswp_stars_color_picker">
+                                            <lable><?php echo saswp_t_string('Stars Color Picker'); ?></lable>  
+                                            <input type="text" name="saswp_stars_color_picker" id="saswp_stars_color_picker" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $post_meta['saswp_stars_color_picker'][0] ) ? esc_attr( $post_meta['saswp_stars_color_picker'][0]) : '#ffd700'; ?>" data-default-color="#ffd700">
+                                        </div> 
                                                                                                                
                                     </div>
                                 </li>
@@ -1015,6 +1030,7 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_collection_where']        = array_map('sanitize_text_field', $_POST['saswp_collection_where']);
             $post_meta['saswp_collection_where_data']   = array_map('sanitize_text_field', $_POST['saswp_collection_where_data']);
             $post_meta['saswp_total_reviews']           = array_map('intval', json_decode($_POST['saswp_total_reviews']));
+            $post_meta['saswp_stars_color_picker']      = isset($_POST['saswp_stars_color_picker']) ? $_POST['saswp_stars_color_picker'] : '';
             if(!empty($post_meta)){
                 
                 foreach($post_meta as $meta_key => $meta_val){

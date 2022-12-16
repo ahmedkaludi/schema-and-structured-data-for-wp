@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 1.9.106
+Stable tag: 1.9.107
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,15 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.107 (16 Dec 2022) =
+
+* Enhancement: Need to create an option of a green star in the collection  #1791
+* Fixed: Reviews pro API key Activate button is not visible. #1797
+* Fixed: VideoObject schema is getting added even if only the "href" link is present. #1802
+* Fixed: Add videoobject schema only if video available option does not work. #1801
+* Fixed: When we create a collection and add the URL for the collection, it opens to the wrong URL. #1800
+* Fixed: Warning: Undefined variable #1805
 
 = 1.9.106 (03 Dec 2022) =
 

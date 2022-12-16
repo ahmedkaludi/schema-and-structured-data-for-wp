@@ -736,10 +736,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $reviews_service = new saswp_reviews_service();
                                 
                                 $reviews = $reviews_service->saswp_get_reviews_list_by_parameters(null, null, 10, 1);
-                                // echo "<pre>";
-                                // echo "ravi";
-                                // print_r($reviews);
-                                // die();
+                               
                                 if($reviews){
                                     
                                    foreach($reviews as $key => $val){    

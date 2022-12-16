@@ -2035,7 +2035,7 @@ Collection css starts here
   box-sizing: border-box;
 }
 .saswp-opn-cls-btn svg path{
-  fill:#fff;
+  /* fill:#fff; */
 }
 .saswp-opn-cls-btn span{
   font-size: 15px;
@@ -2858,7 +2858,7 @@ span.saswp-woocommerce-addondashicon-yes {
     position: relative
 }
 
-input.reviewslicense_key_input_inactive.reviews_addon_inactive {
+input.saswp_reviewslicense_key_input_inactive.reviews_addon_inactive {
     margin: 0 0 0 10px
 }
 
@@ -3046,11 +3046,30 @@ span.one_of_expired {
     color: #bebfc0;
     padding-left: 5px;
 }
-span.inactive_status_reviews{padding-left:5px;font-weight:400}
+span.saswp_inactive_status_reviews{padding-left:5px;font-weight:400}
 label.saswp-sts-txt.active {font-weight: 400;}
-span.inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
+span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 .saswp-sts-active-main.reviews_addon span.saswp-license-tenure {display: none;}
 .saswp-load-more-rv{cursor:pointer;}
+.saswp_stars_color_picker input#saswp_stars_color_picker {
+    width: 63px !important;
+}
+.saswp_stars_color_picker input.button.button-small.wp-picker-default {
+    width: 75px;
+}
+.saswp_star_color, .saswp_star_color_gray{
+    font-size: 25px;
+    color: gray;
+}
+.saswp_half_star_color{
+    font-size: 25px;
+    color: #808080;
+    margin-top: auto;
+    overflow: hidden;
+}
+.saswp-popup2 .saswp_half_star_color{
+    margin-top: 4px;
+}
 /* Offer Banner Starts Here */
 /* .saswp-offer-banner{
     background: #ca4a1f;
