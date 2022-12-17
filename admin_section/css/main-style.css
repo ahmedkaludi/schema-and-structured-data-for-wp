@@ -1643,7 +1643,7 @@ Collection css starts here
 }
 .saswp-rc-nm{
   width:100%;
-  margin-left:0px;
+  margin-left: 8px;
   text-align: initial;
 }
 .saswp_reviewer_image .saswp-rv-img span{
@@ -3053,6 +3053,7 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 .saswp-load-more-rv{cursor:pointer;}
 .saswp_stars_color_picker input#saswp_stars_color_picker {
     width: 63px !important;
+    margin-left: 5px;
 }
 .saswp_stars_color_picker input.button.button-small.wp-picker-default {
     width: 75px;
@@ -3070,6 +3071,52 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 .saswp-popup2 .saswp_half_star_color{
     margin-top: 4px;
 }
+
+/* start wpadmin review Presentation */
+input.saswp-inputbox {
+    max-width: 62%;
+    margin-left: 73px;
+}
+span.saswp-delay-time {
+    width: 102px;
+}
+input.saswp-inputbox-delay-time {
+    max-width: 65%;
+    margin-left: 65px;
+}
+
+select.saswp-collection-date-format.saswp-coll-settings-options.saswp-select{
+    max-width: 62%;
+    margin-left: 73px;
+}
+select.saswp-collection-desing.saswp-coll-settings-options.saswp-select{
+    max-width: 62%;
+    margin-left: 73px;
+}
+
+select.saswp-coll-options.saswp-select {
+    max-width: 62%;
+    margin-left: 73px;
+}
+
+span.saswp-checkbox-label {
+    width: 122px;
+}
+.saswp_stars_color_picker .wp-picker-container{
+    float: right;
+}
+.saswp_stars_color_picker .wp-picker-container.wp-picker-active {
+    margin-top: 6px;
+}
+.saswp_stars_color_picker{
+    margin-top: 10px;
+}
+.saswp_stars_color_picker .wp-picker-container .wp-color-result.button{
+    margin: 0 0px 6px 0;
+    width: 120px;
+}
+/* end wpadmin review Presentation */
+
 /* Offer Banner Starts Here */
 /* .saswp-offer-banner{
     background: #ca4a1f;

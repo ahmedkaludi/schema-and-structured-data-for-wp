@@ -748,11 +748,11 @@ class SASWP_Reviews_Collection {
                                     </div>
                                 </li>
                                 <li>                                     
-                                    <a class="saswp-accordion"><?php echo saswp_t_string('Presentation'); ?></a>
+                                    <a class="saswp-accordion saswp_presentation"><?php echo saswp_t_string('Presentation'); ?></a>
                                     <div class="saswp-accordion-panel">
                                         <div class="saswp-dp-dsg">
                                         <lable><?php echo saswp_t_string('Design'); ?></lable>  
-                                        <select name="saswp_collection_design" class="saswp-collection-desing saswp-coll-settings-options">
+                                        <select name="saswp_collection_design" class="saswp-collection-desing saswp-coll-settings-options saswp-select">
                                             <?php
                                             foreach($coll_desing as $key => $val){
                                                 
@@ -763,29 +763,29 @@ class SASWP_Reviews_Collection {
                                         </div>
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
                                         <label><?php echo saswp_t_string( 'Columns' ); ?></label>
-                                        <input type="number" id="saswp-collection-cols" name="saswp_collection_cols" min="1" value="<?php echo (isset($post_meta['saswp_collection_cols'][0]) ? $post_meta['saswp_collection_cols'][0] : '2' ); ?>" class="saswp-number-change saswp-coll-settings-options saswp-coll-options saswp-grid-options">    
+                                        <input type="number" id="saswp-collection-cols" name="saswp_collection_cols" min="1" value="<?php echo (isset($post_meta['saswp_collection_cols'][0]) ? $post_meta['saswp_collection_cols'][0] : '2' ); ?>" class="saswp-number-change saswp-coll-settings-options saswp-coll-options saswp-grid-options saswp-inputbox">    
                                         </div>
                                         
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
-                                            <span><?php echo saswp_t_string( 'Pagination' ); ?></span>
-                                            <span><input name="saswp_collection_pagination" type="checkbox" id="saswp-coll-pagination" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_pagination'][0]) && $post_meta['saswp_collection_pagination'][0] == 1 ? 'checked' : '' ); ?>></span>
+                                            <span class="saswp-checkbox-label"><?php echo saswp_t_string( 'Pagination' ); ?></span>
+                                            <span><input name="saswp_collection_pagination" type="checkbox" id="saswp-coll-pagination" class="saswp-coll-settings-options saswp-inputbox" value="1" <?php echo (isset($post_meta['saswp_collection_pagination'][0]) && $post_meta['saswp_collection_pagination'][0] == 1 ? 'checked' : '' ); ?>></span>
                                         </div>
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
-                                            <span><?php echo saswp_t_string( 'Without Page Reload' ); ?></span>
-                                            <span><input name="saswp_collection_pagination_wpr" type="checkbox" id="saswp-coll-pagination-wpr" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_pagination_wpr'][0]) && $post_meta['saswp_collection_pagination_wpr'][0] == 1 ? 'checked' : '' ); ?>></span>
+                                            <span class="saswp-checkbox-label"><?php echo saswp_t_string( 'Without Page Reload' ); ?></span>
+                                            <span><input name="saswp_collection_pagination_wpr" type="checkbox" id="saswp-coll-pagination-wpr" class="saswp-coll-settings-options saswp-inputbox" value="1" <?php echo (isset($post_meta['saswp_collection_pagination_wpr'][0]) && $post_meta['saswp_collection_pagination_wpr'][0] == 1 ? 'checked' : '' ); ?>></span>
                                         </div>
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
-                                            <span><?php echo saswp_t_string( 'Hide Review Image'); ?></span>
-                                            <span><input name="saswp_collection_hide_col_r_img" type="checkbox" id="saswp-coll-hide_col_r_img" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_hide_col_r_img'][0]) && $post_meta['saswp_collection_hide_col_r_img'][0] == 1 ? 'checked' : '' ); ?>></span>
+                                            <span class="saswp-checkbox-label"><?php echo saswp_t_string( 'Hide Review Image'); ?></span>
+                                            <span><input name="saswp_collection_hide_col_r_img" type="checkbox" id="saswp-coll-hide_col_r_img" class="saswp-coll-settings-options saswp-inputbox" value="1" <?php echo (isset($post_meta['saswp_collection_hide_col_r_img'][0]) && $post_meta['saswp_collection_hide_col_r_img'][0] == 1 ? 'checked' : '' ); ?>></span>
                                         </div>                                        
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm saswp_hide_imp">
-                                            <label><?php echo saswp_t_string( 'Per Page' ); ?></label>
+                                            <label class="saswp-checkbox-label"><?php echo saswp_t_string( 'Per Page' ); ?></label>
                                             <input name="saswp_collection_per_page" type="number" min="1" id="saswp-coll-per-page"  class="saswp-coll-settings-options" value="<?php echo (isset($post_meta['saswp_collection_per_page'][0]) ? $post_meta['saswp_collection_per_page'][0] : '10' ); ?>">
                                         </div>
                                         
                                         <div class="saswp-dp-dsg saswp-dp-dtm saswp-slider-options saswp-coll-options">
                                          <label><?php echo saswp_t_string( 'Slider Type' ); ?></label>
-                                        <select name="saswp_collection_gallery_type" id="saswp_collection_gallery_type" class="saswp-slider-type saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
+                                        <select name="saswp_collection_gallery_type" id="saswp_collection_gallery_type" class="saswp-slider-type saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options saswp-select">
                                             <option value="slider" <?php echo (isset($post_meta['saswp_collection_gallery_type'][0]) && $post_meta['saswp_collection_gallery_type'][0] == 'slider'  ? 'selected' : '' ); ?>><?php echo saswp_t_string( 'Slider' ); ?></option>
                                             <option value="carousel" <?php echo (isset($post_meta['saswp_collection_gallery_type'][0]) && $post_meta['saswp_collection_gallery_type'][0] == 'carousel'  ? 'selected' : '' ); ?>><?php echo saswp_t_string( 'Carousel' ); ?></option>
                                         </select>
@@ -800,14 +800,14 @@ class SASWP_Reviews_Collection {
                                         
                                         <div class="saswp-fomo-options saswp_hide saswp-coll-options"> 
                                             <div class="saswp-dp-dsg saswp-dp-dtm">
-                                            <span><?php echo saswp_t_string('Delay Time In Sec'); ?>
+                                            <span class="saswp-delay-time"><?php echo saswp_t_string('Delay Time In Sec'); ?>
                                             </span>
-                                            <input type="number" id="saswp_fomo_interval" name="saswp_fomo_interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp_fomo_interval'][0]) ? $post_meta['saswp_fomo_interval'][0] : '3' ); ?>"> 
+                                            <input type="number" id="saswp_fomo_interval" name="saswp_fomo_interval" class="saswp-number-change saswp-inputbox-delay-time" min="1" value="<?php echo (isset($post_meta['saswp_fomo_interval'][0]) ? $post_meta['saswp_fomo_interval'][0] : '3' ); ?>"> 
                                             </div>                                                                           
                                         </div>      
                                         <div class="saswp-dp-dsg">
                                         <lable><?php echo saswp_t_string('Date Format'); ?></lable>  
-                                        <select name="saswp_collection_date_format" class="saswp-collection-date-format saswp-coll-settings-options">
+                                        <select name="saswp_collection_date_format" class="saswp-collection-date-format saswp-coll-settings-options saswp-select">
                                             <?php
                                             foreach($date_format as $key => $val){                                                
                                                 echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_date_format'][0] == $key ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
@@ -816,7 +816,7 @@ class SASWP_Reviews_Collection {
                                          </select>                                         
                                         </div> 
 
-                                        <div class="saswp-dp-dsg saswp_stars_color_picker">
+                                        <div class="saswp_stars_color_picker">
                                             <lable><?php echo saswp_t_string('Stars Color Picker'); ?></lable>  
                                             <input type="text" name="saswp_stars_color_picker" id="saswp_stars_color_picker" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $post_meta['saswp_stars_color_picker'][0] ) ? esc_attr( $post_meta['saswp_stars_color_picker'][0]) : '#ffd700'; ?>" data-default-color="#ffd700">
                                         </div> 
