@@ -788,7 +788,12 @@ function saswp_select_schema_fields_callback(){
                 			<option value="">'.saswp_t_string('Select Schema Type').'</option>
                 			<option value="BlogPosting">'.saswp_t_string('BlogPosting').'</option>
                 			<option value="NewsArticle">'.saswp_t_string('NewsArticl').'e</option>
-                			<option value="WebPage">'.saswp_t_string('WebPage').'</option>
+							<option value="AnalysisNewsArticle">'.saswp_t_string('AnalysisNewsArticle').'</option>
+                			<option value="AskPublicNewsArticle">'.saswp_t_string('AskPublicNewsArticle').'</option>
+							<option value="BackgroundNewsArticle">'.saswp_t_string('BackgroundNewsArticle').'</option>
+							<option value="OpinionNewsArticle">'.saswp_t_string('OpinionNewsArticle').'</option>
+							<option value="ReportageNewsArticle">'.saswp_t_string('ReportageNewsArticle').'</option>
+							<option value="WebPage">'.saswp_t_string('WebPage').'</option>
                 			<option value="Article">'.saswp_t_string('Article').'</option>
                 			<option value="Recipe">'.saswp_t_string('Recipe').'</option>
                 			<option value="Product">'.saswp_t_string('Product').'</option>

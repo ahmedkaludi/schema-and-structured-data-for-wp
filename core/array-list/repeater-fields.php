@@ -24,6 +24,21 @@ return array( 'schema_type_element' => array(
                         'NewsArticle' => array(
                                 'newsarticle_items' => 'newsarticle_items',                                                
                                     ),
+						'AnalysisNewsArticle' => array(
+							'analysisnewsarticle_items' => 'analysisnewsarticle_items',                                                
+								),
+						'AskPublicNewsArticle' => array(
+							'askpublicnewsarticle_items' => 'askpublicnewsarticle_items',                                                
+								),
+						'BackgroundNewsArticle' => array(
+							'backgroundnewsarticle_items' => 'backgroundnewsarticle_items',                                                
+								),
+						'OpinionNewsArticle' => array(
+							'opinionnewsarticle_items' => 'opinionnewsarticle_items',                                                
+								),
+						'ReportageNewsArticle' => array(
+							'reportagenewsarticle_items' => 'reportagenewsarticle_items',                                                
+								),
                         'TechArticle' => array(
                                'tech_article_items' => 'tech_article_items',                                                
                         ),
@@ -177,6 +192,41 @@ return array( 'schema_type_element' => array(
 			'type'      => 'text',                        
 		    )                     
                     ),
+					'analysisnewsarticle_items' => array(                    
+						array(
+				'label'     => 'Item Name',
+				'name'      => 'saswp_analysisnewsarticle_items_name',
+				'type'      => 'text',                        
+				)                     
+						),
+					'askpublicnewsarticle_items' => array(                    
+						array(
+				'label'     => 'Item Name',
+				'name'      => 'saswp_askpublicnewsarticle_items_name',
+				'type'      => 'text',                        
+				)                     
+						),
+						'backgroundnewsarticle_items' => array(                    
+							array(
+					'label'     => 'Item Name',
+					'name'      => 'saswp_backgroundnewsarticle_items_name',
+					'type'      => 'text',                        
+					)                     
+							),
+						'opinionnewsarticle_items' => array(                    
+							array(
+					'label'     => 'Item Name',
+					'name'      => 'saswp_opinionnewsarticle_items_name',
+					'type'      => 'text',                        
+					)                     
+							),
+						'reportagenewsarticle_items' => array(                    
+							array(
+					'label'     => 'Item Name',
+					'name'      => 'saswp_reportagenewsarticle_items_name',
+					'type'      => 'text',                        
+					)                     
+							),
                     'tech_article_items' => array(                    
                     array(
 			'label'     => 'Item Name',

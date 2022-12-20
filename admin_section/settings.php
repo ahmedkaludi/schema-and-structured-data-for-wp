@@ -1042,7 +1042,12 @@ function saswp_general_page_callback(){
                 'options' => array(                                
                                 'Article'          => 'Article',                                     
                                 'BlogPosting'      => 'BlogPosting',                                     
-                                'NewsArticle'      => 'NewsArticle',                                                                                                                                                                                                                                                                   
+                                'NewsArticle'      => 'NewsArticle',          
+                                'AnalysisNewsArticle' => 'AnalysisNewsArticle',    
+                                'AskPublicNewsArticle' => 'AskPublicNewsArticle',      
+                                'BackgroundNewsArticle' => 'BackgroundNewsArticle',       
+                                'OpinionNewsArticle' => 'OpinionNewsArticle',   
+                                'ReportageNewsArticle' => 'ReportageNewsArticle',                                                                                                                                                                                                                                                       
                                 'WebPage'          => 'WebPage' 
                 )
         );

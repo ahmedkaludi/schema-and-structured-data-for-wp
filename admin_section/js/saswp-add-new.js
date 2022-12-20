@@ -250,7 +250,7 @@ jQuery(document).ready(function($) {
                    $(this).find('select').attr('disabled', true);
                }                               
             }); 
-            if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'WebPage'){
+            if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'AnalysisNewsArticle' || schematype == 'AskPublicNewsArticle' || schematype == 'BackgroundNewsArticle' || schematype == 'OpinionNewsArticle' || schematype == 'ReportageNewsArticle' || schematype == 'WebPage'){
                
                 $(".saswp-enable-speakable").parent().parent().show();
             }else{
@@ -289,7 +289,7 @@ jQuery(document).ready(function($) {
                    //$(this).find('select').attr('disabled', true);
                }                               
             }); 
-            if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'WebPage'){
+            if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'AnalysisNewsArticle' || schematype == 'AskPublicNewsArticle' || schematype == 'BackgroundNewsArticle' || schematype == 'OpinionNewsArticle' || schematype == 'ReportageNewsArticle' || schematype == 'WebPage'){
                
                 $(".saswp-enable-speakable").parent().parent().show();
             }else{
