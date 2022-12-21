@@ -964,8 +964,8 @@
                             if(platform_name == 'Self'){
                                 platform_name = saswp_localize_data.trans_self;
                             }
-                            if(platform_name == 'ProductReview'){
-                                source_url    = 'https://www.productreview.com.au/listings/'+source_url;
+                            if(platform_name == 'ProductReview' && value.saswp_review_location_id != ''){
+                                source_url    = 'https://www.productreview.com.au/listings/'+value.saswp_review_location_id;
                             }
 
                             sum_of_rating += parseFloat(value.saswp_review_rating);

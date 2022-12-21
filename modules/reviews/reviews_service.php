@@ -287,13 +287,14 @@ class saswp_reviews_service {
 
                         $link = '';
 
-                        if(!empty($review['saswp_review_link'])){
-                            $link = $review['saswp_review_link'];
-                        }else{
+                        if(!empty($review['saswp_review_location_id'])){
                             $link = $review['saswp_review_location_id'];
+                        }else{
+                            $link = $review['saswp_review_link'];
                         }
+
                         if($review['saswp_review_platform_name'] == 'ProductReview'){
-                            $link = 'https://www.productreview.com.au/listings/'.$link;
+                            $link = 'https://www.productreview.com.au/listings/'.$review['saswp_review_location_id'];
                         }     
                                                                         
                         $output.= '<div class="saswp-g-review-panel">
@@ -980,7 +981,7 @@ class saswp_reviews_service {
                                 
                $k = 1;
                $break = 1; 
-           
+               
                foreach ($collection as $value){
                         
                        $date_str = $this->saswp_convert_datetostring($value['saswp_review_date'], $date_format );                     
@@ -993,21 +994,20 @@ class saswp_reviews_service {
                     
                        $review_link = '';
 
-                       if(!empty($value['saswp_review_link'])){
-                            $review_link = $value['saswp_review_link'];
+                       if($value['saswp_review_location_id']){
+                           $review_link = $value['saswp_review_location_id'];
                        }else{
-                            $review_link = $value['saswp_review_location_id'];
+                           $review_link = $value['saswp_review_link'];
                        }
-
+                     
                        if($value['saswp_review_platform_name'] == 'Avvo' && $review_link == ''){
-                        
                             $review_link = $value['saswp_review_location_id'].'#client_reviews';
-
                        }         
-                       if($value['saswp_review_platform_name'] == 'ProductReview'){
-                            $review_link = 'https://www.productreview.com.au/listings/'.$review_link;
-                       }                
 
+                       if($value['saswp_review_platform_name'] == 'ProductReview' && !empty($value['saswp_review_location_id'])){
+                            $review_link = 'https://www.productreview.com.au/listings/'.$value['saswp_review_location_id'];
+                       }       
+                     
                        if(!empty($pagination_wpr) && !empty($pagination)){
 
                           if($break == 1){
@@ -1121,10 +1121,10 @@ class saswp_reviews_service {
     
     public function saswp_review_desing_for_slider($value, $date_format = '', $saswp_collection_gallery_img_hide = '',$stars_color=''){
         
-                if(!empty($value['saswp_review_link'])){
-                    $review_link = $value['saswp_review_link'];
-                }else{
+                if(!empty($value['saswp_review_location_id'])){
                     $review_link = $value['saswp_review_location_id'];
+                }else{
+                    $review_link = $value['saswp_review_link'];
                 }
 
                 if($value['saswp_review_platform_name'] == 'Avvo' && $review_link == ''){
@@ -1139,8 +1139,8 @@ class saswp_reviews_service {
 
                 }
 
-                if($value['saswp_review_platform_name'] == 'ProductReview'){
-                    $review_link = 'https://www.productreview.com.au/listings/'.$review_link;
+                if($value['saswp_review_platform_name'] == 'ProductReview' && !empty($value['saswp_review_location_id'])){
+                    $review_link = 'https://www.productreview.com.au/listings/'.$value['saswp_review_location_id'];
                 }
         
                 $html = '';
@@ -1345,8 +1345,8 @@ class saswp_reviews_service {
                                 $source_url = 'https://search.google.com/local/reviews?placeid='.$source_url;
                             }
 
-                            if($platform_name == 'ProductReview'){
-                                $source_url = 'https://www.productreview.com.au/listings/'.$source_url;
+                            if($platform_name == 'ProductReview' && !empty($value['saswp_review_location_id'])){
+                                $review_link = 'https://www.productreview.com.au/listings/'.$value['saswp_review_location_id'];
                             }
 
                             if($platform_name == 'Self'){
