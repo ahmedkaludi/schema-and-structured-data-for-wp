@@ -32,6 +32,7 @@ return array(
                 'BackgroundNewsArticle'    => 'BackgroundNewsArticle',
                 'OpinionNewsArticle'       => 'OpinionNewsArticle',
                 'ReportageNewsArticle'     => 'ReportageNewsArticle',
+                'ReviewNewsArticle'        => 'ReviewNewsArticle',
                 'PodcastEpisode'           => 'PodcastEpisode',
                 'PodcastSeason'            => 'PodcastSeason',
                 'Photograph'               => 'Photograph',                              

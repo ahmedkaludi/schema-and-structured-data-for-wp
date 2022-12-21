@@ -2046,6 +2046,78 @@ function saswp_schema_output() {
                                         }
                                         
                             break;
+
+                            case 'ReviewNewsArticle':
+                                                                                            
+                                $image_details 	 = wp_get_attachment_image_src($image_id);
+
+                                $category_detail = get_the_category(get_the_ID());//$post->ID
+                                $reportage_article_section = '';
+
+                                if($category_detail){
+
+                                    foreach($category_detail as $cd){
+
+                                        if(is_object($cd)){
+                                            $reportage_article_section =  $cd->cat_name;
+                                        }                                        
+    
+                                    }
+
+                                }
+                                
+                                    $word_count = saswp_reading_time_and_word_count();
+
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> $schema_type ,
+                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#reviewnewsarticle',
+                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'headline'			=> saswp_get_the_title(),
+                                    'mainEntityOfPage'	            => get_the_permalink(),            
+                                    'datePublished'                 => esc_html($date),
+                                    'dateModified'                  => esc_html($modified_date),
+                                    'description'                   => saswp_get_the_excerpt(),
+                                    'articleSection'                => $reportage_article_section,            
+                                    'articleBody'                   => saswp_get_the_content(), 
+                                    'keywords'                      => saswp_get_the_tags(),
+                                    'name'				            => saswp_get_the_title(), 					
+                                    'thumbnailUrl'                  => saswp_remove_warnings($image_details, 0, 'saswp_string'),
+                                    'wordCount'                     => saswp_remove_warnings($word_count, 'word_count', 'saswp_string'),
+                                    'timeRequired'                  => saswp_remove_warnings($word_count, 'timerequired', 'saswp_string'),            
+                                    'mainEntity'                    => array(
+                                                                                        '@type' => 'WebPage',
+                                                                                        '@id'   => trailingslashit(saswp_get_permalink()),
+                                    ), 
+                                    'author'			=> saswp_get_author_details(),
+                                    'editor'            => saswp_get_author_details()
+                                    );
+                                        
+                                        $mainentity = saswp_get_mainEntity($schema_post_id);
+                                        
+                                        if($mainentity){
+                                         $input1['mainEntity'] = $mainentity;                                     
+                                        }
+                                        
+                                        if(!empty($publisher)){
+                                    
+                                            $input1 = array_merge($input1, $publisher);   
+                                
+                                        }                                
+                                        if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                            $input1['comment'] = saswp_get_comments(get_the_ID());
+                                        }                
+                                                                                                                                                        
+                                        $input1 = apply_filters('saswp_modify_review_newsarticle_schema_output', $input1 );
+                                        
+                                        $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                        
+                                        if($modified_schema == 1){
+                                            
+                                            $input1 = saswp_review_newsarticle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                        }
+                                        
+                            break;
                             
                             case 'Service':
                                                                                                  

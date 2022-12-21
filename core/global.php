@@ -56,6 +56,7 @@ $without_aggregate = array(
         'BackgroundNewsArticle',
         'OpinionNewsArticle',
         'ReportageNewsArticle',
+        'ReviewNewsArticle',
         'qanda',        
         'TechArticle',
         'WebPage',

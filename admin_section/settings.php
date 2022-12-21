@@ -1047,7 +1047,8 @@ function saswp_general_page_callback(){
                                 'AskPublicNewsArticle' => 'AskPublicNewsArticle',      
                                 'BackgroundNewsArticle' => 'BackgroundNewsArticle',       
                                 'OpinionNewsArticle' => 'OpinionNewsArticle',   
-                                'ReportageNewsArticle' => 'ReportageNewsArticle',                                                                                                                                                                                                                                                       
+                                'ReportageNewsArticle' => 'ReportageNewsArticle',     
+                                'ReviewNewsArticle' => 'ReviewNewsArticle',                                                                                                                                                                                                                                                  
                                 'WebPage'          => 'WebPage' 
                 )
         );

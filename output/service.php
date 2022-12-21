@@ -3447,6 +3447,107 @@ Class saswp_output_service{
                         }
                                             
                         break;
+                
+                        case 'ReviewNewsArticle':
+
+                        if(isset($custom_fields['saswp_reviewnewsarticle_id'])){
+                            $input1['@id'] =     trailingslashit(get_permalink()).$custom_fields['saswp_reviewnewsarticle_id'];
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_main_entity_of_page'])){
+                            $input1['mainEntityOfPage'] =    $custom_fields['saswp_reviewnewsarticle_main_entity_of_page'];
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_URL'])){
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_reviewnewsarticle_URL']); 
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_inlanguage'])){
+                            $input1['inLanguage'] =    $custom_fields['saswp_reviewnewsarticle_inlanguage']; 
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_headline'])){
+                            $input1['headline'] =    $custom_fields['saswp_reviewnewsarticle_headline']; 
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_keywords'])){
+                            $input1['keywords'] =    $custom_fields['saswp_reviewnewsarticle_keywords']; 
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_date_published'])){
+                            $input1['datePublished'] =    $custom_fields['saswp_reviewnewsarticle_date_published']; 
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_date_modified'])){
+                            $input1['dateModified'] =    $custom_fields['saswp_reviewnewsarticle_date_modified']; 
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_description'])){
+                            $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_reviewnewsarticle_description'] ));  
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_section'])){
+                            $input1['articleSection'] = $custom_fields['saswp_reviewnewsarticle_section'];  
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_body'])){
+                            $input1['articleBody'] =    $custom_fields['saswp_reviewnewsarticle_body'];  
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_name'])){
+                            $input1['name'] =    $custom_fields['saswp_reviewnewsarticle_name'];  
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_thumbnailurl'])){
+                            $input1['thumbnailUrl'] =    $custom_fields['saswp_reviewnewsarticle_thumbnailurl'];  
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_timerequired'])){
+                            $input1['timeRequired'] =    $custom_fields['saswp_reviewnewsarticle_timerequired'];  
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_main_entity_id'])){
+                            $input1['mainEntity']['@id'] =    $custom_fields['saswp_reviewnewsarticle_main_entity_id'];  
+                        }
+    
+                        if(!empty($custom_fields['saswp_reviewnewsarticle_editor_type'])){
+                            if(!empty($custom_fields['saswp_reviewnewsarticle_editor_name']) && $custom_fields['saswp_reviewnewsarticle_editor_name'] != '') {
+                                $input1['editor'] = array();
+                                $input1['editor']['@type'] = 'Person';
+                                $input1['editor']['name']  =  $custom_fields['saswp_reviewnewsarticle_editor_name'];
+                            }
+                            if(!empty($custom_fields['saswp_reviewnewsarticle_editor_type'])){
+                                $input1['editor']['@type'] =    $custom_fields['saswp_reviewnewsarticle_editor_type'];
+                            }
+                            if(!empty($custom_fields['saswp_reviewnewsarticle_editor_honorific_suffix']) && $custom_fields['saswp_reviewnewsarticle_editor_honorific_suffix'] != '') {
+                                $input1['editor']['honorificSuffix']  =  $custom_fields['saswp_reviewnewsarticle_editor_honorific_suffix'];
+                            }  
+                            if(!empty($custom_fields['saswp_reviewnewsarticle_editor_description'])){
+                                    $input1['editor']['description'] =    $custom_fields['saswp_reviewnewsarticle_editor_description'];
+                            }
+                            if(!empty($custom_fields['saswp_reviewnewsarticle_editor_url'])){
+                                    $input1['editor']['url'] =    $custom_fields['saswp_reviewnewsarticle_editor_url'];
+                            }
+                            if(!empty($custom_fields['saswp_reviewnewsarticle_editor_image'])){
+                                $input1['editor']['Image']['url'] =    $custom_fields['saswp_reviewnewsarticle_editor_image'];
+                            }
+                        }
+    
+                        if(isset($custom_fields['saswp_reviewnewsarticle_author_type'])){
+                            $input1['author']['@type'] =    $custom_fields['saswp_reviewnewsarticle_author_type']; 
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_author_name'])){
+                            $input1['author']['name'] =    $custom_fields['saswp_reviewnewsarticle_author_name']; 
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_author_honorific_suffix']) && $custom_fields['saswp_reviewnewsarticle_author_honorific_suffix'] != '') {
+                            $input1['author']['honorificSuffix']  =  $custom_fields['saswp_reviewnewsarticle_author_honorific_suffix'];
+                        }  
+                        if(isset($custom_fields['saswp_reviewnewsarticle_author_description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_reviewnewsarticle_author_description'];
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_author_url'])){
+                            $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_reviewnewsarticle_author_url']); 
+                        }
+                        if(isset($custom_fields['saswp_reviewnewsarticle_author_image'])){
+                            $input1['author']['Image']['url'] =    $custom_fields['saswp_reviewnewsarticle_author_image'];  
+                        }
+                        if(!empty($custom_fields['saswp_reviewnewsarticle_about']) && isset($custom_fields['saswp_reviewnewsarticle_about'])){         
+                            $input1['about']['@type'] = 'Event';                   
+                            $input1['about']['name'] = explode(',', $custom_fields['saswp_reviewnewsarticle_about']);    
+                        }  
+                        if(isset($custom_fields['saswp_reviewnewsarticle_organization_logo']) && isset($custom_fields['saswp_reviewnewsarticle_organization_name'])){
+                            $input1['publisher']['@type']       =    'Organization';
+                            $input1['publisher']['name']        =    $custom_fields['saswp_reviewnewsarticle_organization_name'];
+                            $input1['publisher']['logo']        =    $custom_fields['saswp_reviewnewsarticle_organization_logo'];
+                        }
+                                            
+                        break;
 
                 case 'WebPage':
                     if(isset($custom_fields['saswp_webpage_id'])){

@@ -39,6 +39,9 @@ return array( 'schema_type_element' => array(
 						'ReportageNewsArticle' => array(
 							'reportagenewsarticle_items' => 'reportagenewsarticle_items',                                                
 								),
+						'ReviewNewsArticle' => array(
+							'reviewnewsarticle_items' => 'reviewnewsarticle_items',                                                
+								),
                         'TechArticle' => array(
                                'tech_article_items' => 'tech_article_items',                                                
                         ),
@@ -227,6 +230,13 @@ return array( 'schema_type_element' => array(
 					'type'      => 'text',                        
 					)                     
 							),
+					'reviewnewsarticle_items' => array(                    
+						array(
+				'label'     => 'Item Name',
+				'name'      => 'saswp_reviewnewsarticle_items_name',
+				'type'      => 'text',                        
+				)                     
+						),
                     'tech_article_items' => array(                    
                     array(
 			'label'     => 'Item Name',

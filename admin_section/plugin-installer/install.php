@@ -793,6 +793,7 @@ function saswp_select_schema_fields_callback(){
 							<option value="BackgroundNewsArticle">'.saswp_t_string('BackgroundNewsArticle').'</option>
 							<option value="OpinionNewsArticle">'.saswp_t_string('OpinionNewsArticle').'</option>
 							<option value="ReportageNewsArticle">'.saswp_t_string('ReportageNewsArticle').'</option>
+							<option value="ReviewNewsArticle">'.saswp_t_string('ReviewNewsArticle').'</option>
 							<option value="WebPage">'.saswp_t_string('WebPage').'</option>
                 			<option value="Article">'.saswp_t_string('Article').'</option>
                 			<option value="Recipe">'.saswp_t_string('Recipe').'</option>

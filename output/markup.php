@@ -5573,6 +5573,125 @@ return $input1;
 
 }
 
+function saswp_review_newsarticle_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+    
+    $slogo        = get_post_meta( get_the_ID(), 'saswp_reviewnewsarticle_organization_logo_'.$schema_id.'_detail',true);
+    $author_image = get_post_meta( get_the_ID(), 'saswp_reviewnewsarticle_author_image_'.$schema_id.'_detail',true);
+    $checkIdPro = ((isset($all_post_meta['saswp_reviewnewsarticle_id_'.$schema_id][0]) && $all_post_meta['saswp_reviewnewsarticle_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_reviewnewsarticle_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#ReviewNewsArticle'); 
+                 
+    $input1 = array(
+        '@context'			            => saswp_context_url(),
+        '@type'				            => 'ReviewNewsArticle' ,
+        '@id'                           => trailingslashit(get_permalink()).'#reviewnewsarticle',    
+        'inLanguage'                    => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_inlanguage_'.$schema_id, 'saswp_array'),       
+        'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_main_entity_of_page_'.$schema_id, 'saswp_array'),
+        'url'			            	=> saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_URL_'.$schema_id, 'saswp_array'),
+        'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_image_'.$schema_id, 'saswp_array'),
+        'headline'			            => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_headline_'.$schema_id, 'saswp_array'),
+        'datePublished'                 => isset($all_post_meta['saswp_reviewnewsarticle_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_reviewnewsarticle_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
+        'dateModified'                  => isset($all_post_meta['saswp_reviewnewsarticle_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_reviewnewsarticle_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',
+        'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_description_'.$schema_id, 'saswp_array'),
+        'keywords'		                => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_keywords_'.$schema_id, 'saswp_array'),
+        'articleSection'                => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_section_'.$schema_id, 'saswp_array'),
+        'articleBody'                   => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_body_'.$schema_id, 'saswp_array'),     
+        'name'				            => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_name_'.$schema_id, 'saswp_array'), 					
+        'thumbnailUrl'                  => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_thumbnailurl_'.$schema_id, 'saswp_array'),
+        'wordCount'                     => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_word_count_'.$schema_id, 'saswp_array'),
+        'timeRequired'                  => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_timerequired_'.$schema_id, 'saswp_array'),    
+        'mainEntity'                    => array(
+                                                  '@type' => 'WebPage',
+                                                  '@id'   => saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_main_entity_id_'.$schema_id, 'saswp_array'),
+            ), 					
+        'publisher'			=> array(
+                '@type'				=> 'Organization',
+                'logo' 				=> array(
+                '@type'				=> 'ImageObject',
+                'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_organization_logo_'.$schema_id, 'saswp_array'),
+                'width'				=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
+                'height'			=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
+                            ),
+                'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_organization_name_'.$schema_id, 'saswp_array'),
+                ),
+        );
+                            
+    
+    $input1['author']['@type']       = 'Person';
+
+    if(isset( $all_post_meta['saswp_reviewnewsarticle_author_type_'.$schema_id][0] )){
+        $input1['author']['@type']       = $all_post_meta['saswp_reviewnewsarticle_author_type_'.$schema_id][0];
+    }  
+
+    $input1['author']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_author_name_'.$schema_id, 'saswp_array');
+    $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_author_description_'.$schema_id, 'saswp_array');
+    $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_author_url_'.$schema_id, 'saswp_array');       
+
+    $input1['author']['image']['@type']   = 'ImageObject';
+    $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_author_image_'.$schema_id, 'saswp_array');       
+    $input1['author']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
+    $input1['author']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+
+    if( !empty($all_post_meta['saswp_reviewnewsarticle_editor_type_'.$schema_id][0]) && isset( $all_post_meta['saswp_reviewnewsarticle_editor_type_'.$schema_id][0] )){
+        $input1['editor']['@type']       = 'Person';
+        if(!empty( $all_post_meta['saswp_reviewnewsarticle_editor_type_'.$schema_id][0] )){
+            $input1['editor']['@type']       = $all_post_meta['saswp_reviewnewsarticle_editor_type_'.$schema_id][0];
+        }  
+        if(!empty( $all_post_meta['saswp_reviewnewsarticle_editor_name_'.$schema_id][0] )){
+            $input1['editor']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_editor_name_'.$schema_id, 'saswp_array');
+        }  
+        if(!empty( $all_post_meta['saswp_reviewnewsarticle_editor_honorific_suffix_'.$schema_id][0] )){
+            $input1['editor']['honorificSuffix']  = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_editor_honorific_suffix_'.$schema_id, 'saswp_array');
+        }  
+        if(!empty( $all_post_meta['saswp_reviewnewsarticle_editor_description_'.$schema_id][0] )){
+            $input1['editor']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_editor_description_'.$schema_id, 'saswp_array');
+        }  
+        if(!empty( $all_post_meta['saswp_reviewnewsarticle_editor_url_'.$schema_id][0] )){
+            $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_editor_url_'.$schema_id, 'saswp_array');   
+        }  
+        if(!empty( $all_post_meta['saswp_reviewnewsarticle_editor_image_'.$schema_id][0] )){
+            $input1['editor']['image']['@type']   = 'ImageObject';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_editor_image_'.$schema_id, 'saswp_array');       
+            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+        }  
+    }
+
+    if( !empty($all_post_meta['saswp_reviewnewsarticle_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_reviewnewsarticle_about_'.$schema_id][0] )){
+        $input1['about']['@type']       = 'Event';
+        $input1['about']['name']       = explode(',', $all_post_meta['saswp_reviewnewsarticle_about_'.$schema_id][0]);
+    }
+    $itemlist  = get_post_meta($schema_post_id, 'reviewnewsarticle_items_'.$schema_id, true);
+    
+    if($itemlist){
+        
+        $list_arr = array();
+        
+        foreach ($itemlist as $list){
+            $list_arr[] = $list['saswp_reviewnewsarticle_items_name'];
+        }
+        
+        $input1['mainEntity']['@type']            = 'ItemList';
+        $input1['mainEntity']['itemListElement']  = $list_arr;                 
+        $input1['mainEntity']['itemListOrder']    = 'http://schema.org/ItemListOrderAscending ';
+        $input1['mainEntity']['name']             = saswp_get_the_title();
+        
+    }
+
+    if(isset($all_post_meta['saswp_reviewnewsarticle_speakable_'.$schema_id]) && $all_post_meta['saswp_reviewnewsarticle_speakable_'.$schema_id][0] == 1){
+
+        $input1['speakable']['@type'] = 'SpeakableSpecification';
+        $input1['speakable']['xpath'] = array(
+                "/html/head/title",
+                "/html/head/meta[@name='description']/@content"
+        );
+
+        }
+
+return $input1;
+
+}
+
 function saswp_audiobook_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
                 $input1 = array();
