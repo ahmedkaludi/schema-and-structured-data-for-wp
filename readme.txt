@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 1.9.107
+Stable tag: 1.9.108
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.108 (27 Dec 2022) =
+
+* Fixed: PHP notice generated Line: 3722 in admin_section/common-function.php #1813
+* Fixed: When a user creates a product review and clicks on it, the product review link goes to the wrong URL. #1812
+* Enhancement: Need to add some new schema types. #1811
+* Enhancement: Collection UI Improvemnt #1809
+* Fixed: Fatal error on blank review collection creation #1806
+* Fixed: Product schema conflicts with the FAQ in the post section. #1803
+* Enhancement: Add compatibility with the plugin Bunyad AMP. #1799
 
 = 1.9.107 (16 Dec 2022) =
 
