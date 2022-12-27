@@ -125,7 +125,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 * Fixed: PHP notice generated Line: 3722 in admin_section/common-function.php #1813
 * Fixed: When a user creates a product review and clicks on it, the product review link goes to the wrong URL. #1812
-* Enhancement: Need to add some new schema types. #1811
+* Enhancement: Need to add some new schema types. ( AdvertiserContentArticle, AnalysisNewsArticle, AskPublicNewsArticle, BackgroundNewsArticle, OpinionNewsArticle, ReviewNewsArticle ) #1811
 * Enhancement: Collection UI Improvemnt #1809
 * Fixed: Fatal error on blank review collection creation #1806
 * Fixed: Product schema conflicts with the FAQ in the post section. #1803
