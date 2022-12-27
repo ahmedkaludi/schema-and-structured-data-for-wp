@@ -1830,6 +1830,16 @@ if(busines_stype == 'local_business'){
                             }
                             
                       break;
+
+                      case 'saswp-bunyadamp-checkbox':
+                        saswp_compatibliy_notes(current, id); 
+                         if ($(this).is(':checked')) {              
+                           $("#saswp-bunyadamp").val(1);                                
+                         }else{
+                           $("#saswp-bunyadamp").val(0);                                          
+                         }
+                         
+                      break;
                       
                       case 'saswp-wpreviewslider-checkbox':
                            saswp_compatibliy_notes(current, id); 
