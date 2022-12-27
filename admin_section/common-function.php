@@ -3719,13 +3719,11 @@ function saswp_unique_multidim_array($array, $key) {
 function saswp_youtube_check_validate_url($yt_url) { 
     if(!empty($yt_url) && isset($yt_url)){
         $url_parsed_arr = parse_url($yt_url);
-        if(!empty($url_parsed_arr['host']) || !empty($url_parsed_arr['path'])){
-            if ($url_parsed_arr['host'] == "youtu.be" || $url_parsed_arr['host'] == "www.youtube.com" || $url_parsed_arr['path'] == "/watch" ) {
-                return $yt_url;
-            }else{
-                return "";
-            }
-        }  
+        if ( (!empty($url_parsed_arr['host']) || isset($url_parsed_arr['host']) && $url_parsed_arr['host'] == "youtu.be" || $url_parsed_arr['host'] == "www.youtube.com")  || (!empty($url_parsed_arr['path']) || isset($url_parsed_arr['path'])  && $url_parsed_arr['path'] == "/watch") ) {
+            return $yt_url;
+        }else{
+            return "";
+        }
     }else{
         return "";
     }
