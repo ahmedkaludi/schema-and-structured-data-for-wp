@@ -308,6 +308,12 @@ return array(
                     'opt_name'   => 'saswp-ampforwp',
                     'part_in'    => 'free',
         ),
+        'bunyadamp'  =>  array(            
+                    'name'       => 'Bunyad AMP',
+                    'free'       => 'bunyad-amp/bunyad-amp.php',            
+                    'opt_name'   => 'saswp-bunyadamp',
+                    'part_in'    => 'free',
+        ),
         'ampbyautomatic'  =>  array(            
                     'name'       => 'AMP',
                     'free'       => 'amp/amp.php',            

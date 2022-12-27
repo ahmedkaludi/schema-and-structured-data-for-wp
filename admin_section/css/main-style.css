@@ -1643,7 +1643,7 @@ Collection css starts here
 }
 .saswp-rc-nm{
   width:100%;
-  margin-left:0px;
+  margin-left: 8px;
   text-align: initial;
 }
 .saswp_reviewer_image .saswp-rv-img span{
@@ -1698,7 +1698,7 @@ Collection css starts here
 }
 .saswp-dp-dsg{
     display: inline-grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     width: 100%;
     grid-gap: 0px 5px;
     align-items: center;
@@ -3051,12 +3051,7 @@ label.saswp-sts-txt.active {font-weight: 400;}
 span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 .saswp-sts-active-main.reviews_addon span.saswp-license-tenure {display: none;}
 .saswp-load-more-rv{cursor:pointer;}
-.saswp_stars_color_picker input#saswp_stars_color_picker {
-    width: 63px !important;
-}
-.saswp_stars_color_picker input.button.button-small.wp-picker-default {
-    width: 75px;
-}
+
 .saswp_star_color, .saswp_star_color_gray{
     font-size: 25px;
     color: gray;

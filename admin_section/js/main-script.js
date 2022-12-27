@@ -590,7 +590,7 @@ if(busines_stype == 'local_business'){
               // $(this).find('select').attr('disabled', true);
            }                               
         });              
-        if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'WebPage'){
+        if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'AnalysisNewsArticle' || schematype == 'AskPublicNewsArticle' || schematype == 'BackgroundNewsArticle' || schematype == 'OpinionNewsArticle' || schematype == 'ReportageNewsArticle' || schematype == 'ReviewNewsArticle' || schematype == 'WebPage'){
 
             $(".saswp-enable-speakable").parent().parent().show();
         }else{
@@ -706,7 +706,7 @@ if(busines_stype == 'local_business'){
                }                               
             }); 
             
-            if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'WebPage'){
+            if(schematype == 'TechArticle' || schematype == 'Article' || schematype == 'Blogposting' || schematype == 'NewsArticle' || schematype == 'AnalysisNewsArticle' || schematype == 'AskPublicNewsArticle' || schematype == 'BackgroundNewsArticle' || schematype == 'OpinionNewsArticle' || schematype == 'ReportageNewsArticle' || schematype == 'ReviewNewsArticle' || schematype == 'WebPage'){
                
                 $(".saswp-enable-speakable").parent().parent().show();
             }else{
@@ -1829,6 +1829,16 @@ if(busines_stype == 'local_business'){
                               $("#saswp-ampforwp").val(0);                                          
                             }
                             
+                      break;
+
+                      case 'saswp-bunyadamp-checkbox':
+                        saswp_compatibliy_notes(current, id); 
+                         if ($(this).is(':checked')) {              
+                           $("#saswp-bunyadamp").val(1);                                
+                         }else{
+                           $("#saswp-bunyadamp").val(0);                                          
+                         }
+                         
                       break;
                       
                       case 'saswp-wpreviewslider-checkbox':

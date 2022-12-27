@@ -545,6 +545,9 @@ class saswp_output_compatibility{
     public function ampforwp_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-ampforwp');
     }
+    public function bunyadamp_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-bunyadamp');
+    }
     public function ampbyautomatic_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-ampbyautomatic');
     }

@@ -806,6 +806,1326 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     )                        
                     );
                     break;
+
+                    case 'AnalysisNewsArticle':
+                    
+                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $article_section = '';
+                        
+                        foreach($category_detail as $cd){
+                            
+                        $article_section =  $cd->cat_name;
+                        
+                        }
+                        $word_count = saswp_reading_time_and_word_count();
+                        
+                        $meta_field = array(
+                            array(
+                                    'label'      => 'ID',
+                                    'id'         => 'saswp_analysisnewsarticle_id_'.$schema_id,
+                                    'type'       => 'text',
+                                    'default'    => 'analysisnewsarticle'   
+                            ),  
+                        array(
+                                'label' => 'Main Entity Of Page',
+                                'id' => 'saswp_analysisnewsarticle_main_entity_of_page_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id' => 'saswp_analysisnewsarticle_URL_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink(),
+                        ),
+                        array(
+                                'label' => 'Image',
+                                'id' => 'saswp_analysisnewsarticle_image_'.$schema_id,
+                                'type' => 'media',                            
+                        ),    
+                        array(
+                            'label'   => 'inLanguage',
+                            'id'      => 'saswp_analysisnewsarticle_inlanguage_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => get_bloginfo('language'),
+                        ),
+                        array(
+                                'label' => 'Headline',
+                                'id' => 'saswp_analysisnewsarticle_headline_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title(),
+                        ),
+                        array(
+                                'label' => 'Date Published',
+                                'id' => 'saswp_analysisnewsarticle_date_published_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Modified',
+                                'id' => 'saswp_analysisnewsarticle_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                         array(
+                                'label' => 'Description',
+                                'id' => 'saswp_analysisnewsarticle_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label' => 'Keywords',
+                                'id' => 'saswp_analysisnewsarticle_keywords_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_tags()
+                        ),    
+                         array(
+                                'label' => 'Article Section',
+                                'id' => 'saswp_analysisnewsarticle_section_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $article_section
+                        ),
+                        array(
+                                'label' => 'Article Body',
+                                'id' => 'saswp_analysisnewsarticle_body_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
+                        ),
+                         array(
+                                'label' => 'Name',
+                                'id' => 'saswp_analysisnewsarticle_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title()
+                        ), 
+                         array(
+                                'label' => 'Thumbnail URL',
+                                'id' => 'saswp_analysisnewsarticle_thumbnailurl_'.$schema_id,
+                                'type' => 'text'                            
+                        ),
+                        array(
+                                'label' => 'Word Count',
+                                'id' => 'saswp_analysisnewsarticle_word_count_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['word_count']
+                        ),
+                        array(
+                                'label' => 'Time Required',
+                                'id' => 'saswp_analysisnewsarticle_timerequired_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['timerequired']
+                        ),    
+                        array(
+                                'label' => 'Main Entity Id',
+                                'id' => 'saswp_analysisnewsarticle_main_entity_id_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                            'label'   => 'Author Type',
+                            'id'      => 'saswp_analysisnewsarticle_author_type_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                    'Person'           => 'Person',
+                                    'Organization'     => 'Organization',                        
+                           )
+                        ),
+                        array(
+                                'label' => 'Author Name',
+                                'id' => 'saswp_analysisnewsarticle_author_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ?  $current_user->display_name : ''
+                        ),
+                        array(
+                                'label' => 'Author Description',
+                                'id' => 'saswp_analysisnewsarticle_author_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $author_desc
+                        ), 
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_analysisnewsarticle_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),    
+                        array(
+                                'label' => 'Author Image',
+                                'id' => 'saswp_analysisnewsarticle_author_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+    
+                        array(
+                            'label'   => 'Editor Type',
+                            'id'      => 'saswp_analysisnewsarticle_editor_type_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                    ""                => "Select",
+                                    'Person'           => 'Person',
+                                    'Organization'     => 'Organization',                        
+                            )
+                        ),
+                        array(
+                            'label'   => 'Editor Name',
+                            'id'      => 'saswp_analysisnewsarticle_editor_name_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                            'label'   => 'Editor HonorificSuffix',
+                            'id'      => 'saswp_analysisnewsarticle_editor_honorific_suffix_'.$schema_id,
+                            'type'    => 'text',
+                            'attributes' => array(
+                                    'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                             ),
+                        ), 
+                        array(
+                            'label'   => 'Editor Description',
+                            'id'      => 'saswp_analysisnewsarticle_editor_description_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => $author_desc
+                        ),
+                        array(
+                            'label'   => 'Editor URL',
+                            'id'      => 'saswp_analysisnewsarticle_editor_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url
+                        ),
+                        array(
+                            'label' => 'Editor Image URL',
+                            'id' => 'saswp_analysisnewsarticle_editor_image_'.$schema_id,
+                            'type' => 'media',
+                            'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+                        array(
+                            'label'   => 'About',
+                            'id'      => 'saswp_analysisnewsarticle_about_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => '',
+                            'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                            'attributes' => array(
+                                    'placeholder' => 'eg: Apple is March 21 Announcements'
+                            ),
+                        ), 
+                        array(
+                                'label' => 'Organization Name',
+                                'id' => 'saswp_analysisnewsarticle_organization_name_'.$schema_id,
+                                'type' => 'text',
+                                'default'=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ),
+                        array(
+                                'label' => 'Organization Logo',
+                                'id' => 'saswp_analysisnewsarticle_organization_logo_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($sd_data['sd_logo'])? $sd_data['sd_logo']['url']:''
+                        ),                         
+                        array(
+                            'label' => 'Speakable',
+                            'id' => 'saswp_analysisnewsarticle_speakable_'.$schema_id,
+                            'type' => 'checkbox',
+    
+                        )                        
+                        );
+                        break;
+
+                        case 'AskPublicNewsArticle':
+                    
+                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $article_section = '';
+                        
+                        foreach($category_detail as $cd){
+                                
+                        $article_section =  $cd->cat_name;
+                        
+                        }
+                        $word_count = saswp_reading_time_and_word_count();
+                        
+                        $meta_field = array(
+                                array(
+                                        'label'      => 'ID',
+                                        'id'         => 'saswp_askpublicnewsarticle_id_'.$schema_id,
+                                        'type'       => 'text',
+                                        'default'    => 'askpublicnewsarticle'   
+                                ),  
+                        array(
+                                'label' => 'Main Entity Of Page',
+                                'id' => 'saswp_askpublicnewsarticle_main_entity_of_page_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id' => 'saswp_askpublicnewsarticle_URL_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink(),
+                        ),
+                        array(
+                                'label' => 'Image',
+                                'id' => 'saswp_askpublicnewsarticle_image_'.$schema_id,
+                                'type' => 'media',                            
+                        ),    
+                        array(
+                                'label'   => 'inLanguage',
+                                'id'      => 'saswp_askpublicnewsarticle_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                        ),
+                        array(
+                                'label' => 'Headline',
+                                'id' => 'saswp_askpublicnewsarticle_headline_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title(),
+                        ),
+                        array(
+                                'label' => 'Date Published',
+                                'id' => 'saswp_askpublicnewsarticle_date_published_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Modified',
+                                'id' => 'saswp_askpublicnewsarticle_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                                array(
+                                'label' => 'Description',
+                                'id' => 'saswp_askpublicnewsarticle_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label' => 'Keywords',
+                                'id' => 'saswp_askpublicnewsarticle_keywords_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_tags()
+                        ),    
+                                array(
+                                'label' => 'Article Section',
+                                'id' => 'saswp_askpublicnewsarticle_section_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $article_section
+                        ),
+                        array(
+                                'label' => 'Article Body',
+                                'id' => 'saswp_askpublicnewsarticle_body_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
+                        ),
+                                array(
+                                'label' => 'Name',
+                                'id' => 'saswp_askpublicnewsarticle_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title()
+                        ), 
+                                array(
+                                'label' => 'Thumbnail URL',
+                                'id' => 'saswp_askpublicnewsarticle_thumbnailurl_'.$schema_id,
+                                'type' => 'text'                            
+                        ),
+                        array(
+                                'label' => 'Word Count',
+                                'id' => 'saswp_askpublicnewsarticle_word_count_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['word_count']
+                        ),
+                        array(
+                                'label' => 'Time Required',
+                                'id' => 'saswp_askpublicnewsarticle_timerequired_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['timerequired']
+                        ),    
+                        array(
+                                'label' => 'Main Entity Id',
+                                'id' => 'saswp_askpublicnewsarticle_main_entity_id_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_askpublicnewsarticle_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label' => 'Author Name',
+                                'id' => 'saswp_askpublicnewsarticle_author_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ?  $current_user->display_name : ''
+                        ),
+                        array(
+                                'label' => 'Author Description',
+                                'id' => 'saswp_askpublicnewsarticle_author_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $author_desc
+                        ), 
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_askpublicnewsarticle_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),    
+                        array(
+                                'label' => 'Author Image',
+                                'id' => 'saswp_askpublicnewsarticle_author_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+        
+                        array(
+                                'label'   => 'Editor Type',
+                                'id'      => 'saswp_askpublicnewsarticle_editor_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ""                => "Select",
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label'   => 'Editor Name',
+                                'id'      => 'saswp_askpublicnewsarticle_editor_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'Editor HonorificSuffix',
+                                'id'      => 'saswp_askpublicnewsarticle_editor_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                ),
+                        ), 
+                        array(
+                                'label'   => 'Editor Description',
+                                'id'      => 'saswp_askpublicnewsarticle_editor_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Editor URL',
+                                'id'      => 'saswp_askpublicnewsarticle_editor_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Editor Image URL',
+                                'id' => 'saswp_askpublicnewsarticle_editor_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+                        array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_askpublicnewsarticle_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        ), 
+                        array(
+                                'label' => 'Organization Name',
+                                'id' => 'saswp_askpublicnewsarticle_organization_name_'.$schema_id,
+                                'type' => 'text',
+                                'default'=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ),
+                        array(
+                                'label' => 'Organization Logo',
+                                'id' => 'saswp_askpublicnewsarticle_organization_logo_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($sd_data['sd_logo'])? $sd_data['sd_logo']['url']:''
+                        ),                         
+                        array(
+                                'label' => 'Speakable',
+                                'id' => 'saswp_askpublicnewsarticle_speakable_'.$schema_id,
+                                'type' => 'checkbox',
+        
+                        )                        
+                        );
+                        break;
+
+                        case 'BackgroundNewsArticle':
+                
+                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $article_section = '';
+                        
+                        foreach($category_detail as $cd){
+                                
+                        $article_section =  $cd->cat_name;
+                        
+                        }
+                        $word_count = saswp_reading_time_and_word_count();
+                        
+                        $meta_field = array(
+                                array(
+                                        'label'      => 'ID',
+                                        'id'         => 'saswp_backgroundnewsarticle_id_'.$schema_id,
+                                        'type'       => 'text',
+                                        'default'    => 'backgroundnewsarticle'   
+                                ),  
+                        array(
+                                'label' => 'Main Entity Of Page',
+                                'id' => 'saswp_backgroundnewsarticle_main_entity_of_page_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id' => 'saswp_backgroundnewsarticle_URL_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink(),
+                        ),
+                        array(
+                                'label' => 'Image',
+                                'id' => 'saswp_backgroundnewsarticle_image_'.$schema_id,
+                                'type' => 'media',                            
+                        ),    
+                        array(
+                                'label'   => 'inLanguage',
+                                'id'      => 'saswp_backgroundnewsarticle_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                        ),
+                        array(
+                                'label' => 'Headline',
+                                'id' => 'saswp_backgroundnewsarticle_headline_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title(),
+                        ),
+                        array(
+                                'label' => 'Date Published',
+                                'id' => 'saswp_backgroundnewsarticle_date_published_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Modified',
+                                'id' => 'saswp_backgroundnewsarticle_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                                array(
+                                'label' => 'Description',
+                                'id' => 'saswp_backgroundnewsarticle_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label' => 'Keywords',
+                                'id' => 'saswp_backgroundnewsarticle_keywords_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_tags()
+                        ),    
+                                array(
+                                'label' => 'Article Section',
+                                'id' => 'saswp_backgroundnewsarticle_section_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $article_section
+                        ),
+                        array(
+                                'label' => 'Article Body',
+                                'id' => 'saswp_backgroundnewsarticle_body_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
+                        ),
+                                array(
+                                'label' => 'Name',
+                                'id' => 'saswp_backgroundnewsarticle_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title()
+                        ), 
+                                array(
+                                'label' => 'Thumbnail URL',
+                                'id' => 'saswp_backgroundnewsarticle_thumbnailurl_'.$schema_id,
+                                'type' => 'text'                            
+                        ),
+                        array(
+                                'label' => 'Word Count',
+                                'id' => 'saswp_backgroundnewsarticle_word_count_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['word_count']
+                        ),
+                        array(
+                                'label' => 'Time Required',
+                                'id' => 'saswp_backgroundnewsarticle_timerequired_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['timerequired']
+                        ),    
+                        array(
+                                'label' => 'Main Entity Id',
+                                'id' => 'saswp_backgroundnewsarticle_main_entity_id_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_backgroundnewsarticle_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label' => 'Author Name',
+                                'id' => 'saswp_backgroundnewsarticle_author_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ?  $current_user->display_name : ''
+                        ),
+                        array(
+                                'label' => 'Author Description',
+                                'id' => 'saswp_backgroundnewsarticle_author_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $author_desc
+                        ), 
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_backgroundnewsarticle_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),    
+                        array(
+                                'label' => 'Author Image',
+                                'id' => 'saswp_backgroundnewsarticle_author_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+        
+                        array(
+                                'label'   => 'Editor Type',
+                                'id'      => 'saswp_backgroundnewsarticle_editor_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ""                => "Select",
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label'   => 'Editor Name',
+                                'id'      => 'saswp_backgroundnewsarticle_editor_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'Editor HonorificSuffix',
+                                'id'      => 'saswp_backgroundnewsarticle_editor_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                ),
+                        ), 
+                        array(
+                                'label'   => 'Editor Description',
+                                'id'      => 'saswp_backgroundnewsarticle_editor_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Editor URL',
+                                'id'      => 'saswp_backgroundnewsarticle_editor_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Editor Image URL',
+                                'id' => 'saswp_backgroundnewsarticle_editor_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+                        array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_backgroundnewsarticle_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        ), 
+                        array(
+                                'label' => 'Organization Name',
+                                'id' => 'saswp_backgroundnewsarticle_organization_name_'.$schema_id,
+                                'type' => 'text',
+                                'default'=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ),
+                        array(
+                                'label' => 'Organization Logo',
+                                'id' => 'saswp_backgroundnewsarticle_organization_logo_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($sd_data['sd_logo'])? $sd_data['sd_logo']['url']:''
+                        ),                         
+                        array(
+                                'label' => 'Speakable',
+                                'id' => 'saswp_backgroundnewsarticle_speakable_'.$schema_id,
+                                'type' => 'checkbox',
+        
+                        )                        
+                        );
+                        break;
+
+                        case 'OpinionNewsArticle':
+                
+                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $article_section = '';
+                        
+                        foreach($category_detail as $cd){
+                                
+                        $article_section =  $cd->cat_name;
+                        
+                        }
+                        $word_count = saswp_reading_time_and_word_count();
+                        
+                        $meta_field = array(
+                                array(
+                                        'label'      => 'ID',
+                                        'id'         => 'saswp_opinionnewsarticle_id_'.$schema_id,
+                                        'type'       => 'text',
+                                        'default'    => 'opinionnewsarticle'   
+                                ),  
+                        array(
+                                'label' => 'Main Entity Of Page',
+                                'id' => 'saswp_opinionnewsarticle_main_entity_of_page_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id' => 'saswp_opinionnewsarticle_URL_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink(),
+                        ),
+                        array(
+                                'label' => 'Image',
+                                'id' => 'saswp_opinionnewsarticle_image_'.$schema_id,
+                                'type' => 'media',                            
+                        ),    
+                        array(
+                                'label'   => 'inLanguage',
+                                'id'      => 'saswp_opinionnewsarticle_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                        ),
+                        array(
+                                'label' => 'Headline',
+                                'id' => 'saswp_opinionnewsarticle_headline_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title(),
+                        ),
+                        array(
+                                'label' => 'Date Published',
+                                'id' => 'saswp_opinionnewsarticle_date_published_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Modified',
+                                'id' => 'saswp_opinionnewsarticle_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                                array(
+                                'label' => 'Description',
+                                'id' => 'saswp_opinionnewsarticle_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label' => 'Keywords',
+                                'id' => 'saswp_opinionnewsarticle_keywords_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_tags()
+                        ),    
+                                array(
+                                'label' => 'Article Section',
+                                'id' => 'saswp_opinionnewsarticle_section_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $article_section
+                        ),
+                        array(
+                                'label' => 'Article Body',
+                                'id' => 'saswp_opinionnewsarticle_body_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
+                        ),
+                                array(
+                                'label' => 'Name',
+                                'id' => 'saswp_opinionnewsarticle_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title()
+                        ), 
+                                array(
+                                'label' => 'Thumbnail URL',
+                                'id' => 'saswp_opinionnewsarticle_thumbnailurl_'.$schema_id,
+                                'type' => 'text'                            
+                        ),
+                        array(
+                                'label' => 'Word Count',
+                                'id' => 'saswp_opinionnewsarticle_word_count_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['word_count']
+                        ),
+                        array(
+                                'label' => 'Time Required',
+                                'id' => 'saswp_opinionnewsarticle_timerequired_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['timerequired']
+                        ),    
+                        array(
+                                'label' => 'Main Entity Id',
+                                'id' => 'saswp_opinionnewsarticle_main_entity_id_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_opinionnewsarticle_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label' => 'Author Name',
+                                'id' => 'saswp_opinionnewsarticle_author_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ?  $current_user->display_name : ''
+                        ),
+                        array(
+                                'label' => 'Author Description',
+                                'id' => 'saswp_opinionnewsarticle_author_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $author_desc
+                        ), 
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_opinionnewsarticle_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),    
+                        array(
+                                'label' => 'Author Image',
+                                'id' => 'saswp_opinionnewsarticle_author_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+        
+                        array(
+                                'label'   => 'Editor Type',
+                                'id'      => 'saswp_opinionnewsarticle_editor_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ""                => "Select",
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label'   => 'Editor Name',
+                                'id'      => 'saswp_opinionnewsarticle_editor_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'Editor HonorificSuffix',
+                                'id'      => 'saswp_opinionnewsarticle_editor_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                ),
+                        ), 
+                        array(
+                                'label'   => 'Editor Description',
+                                'id'      => 'saswp_opinionnewsarticle_editor_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Editor URL',
+                                'id'      => 'saswp_opinionnewsarticle_editor_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Editor Image URL',
+                                'id' => 'saswp_opinionnewsarticle_editor_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+                        array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_opinionnewsarticle_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        ), 
+                        array(
+                                'label' => 'Organization Name',
+                                'id' => 'saswp_opinionnewsarticle_organization_name_'.$schema_id,
+                                'type' => 'text',
+                                'default'=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ),
+                        array(
+                                'label' => 'Organization Logo',
+                                'id' => 'saswp_opinionnewsarticle_organization_logo_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($sd_data['sd_logo'])? $sd_data['sd_logo']['url']:''
+                        ),                         
+                        array(
+                                'label' => 'Speakable',
+                                'id' => 'saswp_opinionnewsarticle_speakable_'.$schema_id,
+                                'type' => 'checkbox',
+        
+                        )                        
+                        );
+                        break;
+
+                        case 'ReportageNewsArticle':
+                
+                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $article_section = '';
+                        
+                        foreach($category_detail as $cd){
+                                
+                        $article_section =  $cd->cat_name;
+                        
+                        }
+                        $word_count = saswp_reading_time_and_word_count();
+                        
+                        $meta_field = array(
+                                array(
+                                        'label'      => 'ID',
+                                        'id'         => 'saswp_reportagenewsarticle_id_'.$schema_id,
+                                        'type'       => 'text',
+                                        'default'    => 'reportagenewsarticle'   
+                                ),  
+                        array(
+                                'label' => 'Main Entity Of Page',
+                                'id' => 'saswp_reportagenewsarticle_main_entity_of_page_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id' => 'saswp_reportagenewsarticle_URL_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink(),
+                        ),
+                        array(
+                                'label' => 'Image',
+                                'id' => 'saswp_reportagenewsarticle_image_'.$schema_id,
+                                'type' => 'media',                            
+                        ),    
+                        array(
+                                'label'   => 'inLanguage',
+                                'id'      => 'saswp_reportagenewsarticle_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                        ),
+                        array(
+                                'label' => 'Headline',
+                                'id' => 'saswp_reportagenewsarticle_headline_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title(),
+                        ),
+                        array(
+                                'label' => 'Date Published',
+                                'id' => 'saswp_reportagenewsarticle_date_published_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Modified',
+                                'id' => 'saswp_reportagenewsarticle_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                                array(
+                                'label' => 'Description',
+                                'id' => 'saswp_reportagenewsarticle_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label' => 'Keywords',
+                                'id' => 'saswp_reportagenewsarticle_keywords_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_tags()
+                        ),    
+                                array(
+                                'label' => 'Article Section',
+                                'id' => 'saswp_reportagenewsarticle_section_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $article_section
+                        ),
+                        array(
+                                'label' => 'Article Body',
+                                'id' => 'saswp_reportagenewsarticle_body_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
+                        ),
+                                array(
+                                'label' => 'Name',
+                                'id' => 'saswp_reportagenewsarticle_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title()
+                        ), 
+                                array(
+                                'label' => 'Thumbnail URL',
+                                'id' => 'saswp_reportagenewsarticle_thumbnailurl_'.$schema_id,
+                                'type' => 'text'                            
+                        ),
+                        array(
+                                'label' => 'Word Count',
+                                'id' => 'saswp_reportagenewsarticle_word_count_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['word_count']
+                        ),
+                        array(
+                                'label' => 'Time Required',
+                                'id' => 'saswp_reportagenewsarticle_timerequired_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['timerequired']
+                        ),    
+                        array(
+                                'label' => 'Main Entity Id',
+                                'id' => 'saswp_reportagenewsarticle_main_entity_id_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_reportagenewsarticle_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label' => 'Author Name',
+                                'id' => 'saswp_reportagenewsarticle_author_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ?  $current_user->display_name : ''
+                        ),
+                        array(
+                                'label' => 'Author Description',
+                                'id' => 'saswp_reportagenewsarticle_author_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $author_desc
+                        ), 
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_reportagenewsarticle_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),    
+                        array(
+                                'label' => 'Author Image',
+                                'id' => 'saswp_reportagenewsarticle_author_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+        
+                        array(
+                                'label'   => 'Editor Type',
+                                'id'      => 'saswp_reportagenewsarticle_editor_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ""                => "Select",
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label'   => 'Editor Name',
+                                'id'      => 'saswp_reportagenewsarticle_editor_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'Editor HonorificSuffix',
+                                'id'      => 'saswp_reportagenewsarticle_editor_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                ),
+                        ), 
+                        array(
+                                'label'   => 'Editor Description',
+                                'id'      => 'saswp_reportagenewsarticle_editor_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Editor URL',
+                                'id'      => 'saswp_reportagenewsarticle_editor_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Editor Image URL',
+                                'id' => 'saswp_reportagenewsarticle_editor_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+                        array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_reportagenewsarticle_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        ), 
+                        array(
+                                'label' => 'Organization Name',
+                                'id' => 'saswp_reportagenewsarticle_organization_name_'.$schema_id,
+                                'type' => 'text',
+                                'default'=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ),
+                        array(
+                                'label' => 'Organization Logo',
+                                'id' => 'saswp_reportagenewsarticle_organization_logo_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($sd_data['sd_logo'])? $sd_data['sd_logo']['url']:''
+                        ),                         
+                        array(
+                                'label' => 'Speakable',
+                                'id' => 'saswp_reportagenewsarticle_speakable_'.$schema_id,
+                                'type' => 'checkbox',
+        
+                        )                        
+                        );
+                        break;
+
+                        case 'ReviewNewsArticle':
+        
+                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $article_section = '';
+                        
+                        foreach($category_detail as $cd){
+                                
+                        $article_section =  $cd->cat_name;
+                        
+                        }
+                        $word_count = saswp_reading_time_and_word_count();
+                        
+                        $meta_field = array(
+                                array(
+                                        'label'      => 'ID',
+                                        'id'         => 'saswp_reviewnewsarticle_id_'.$schema_id,
+                                        'type'       => 'text',
+                                        'default'    => 'reviewnewsarticle'   
+                                ),  
+                        array(
+                                'label' => 'Main Entity Of Page',
+                                'id' => 'saswp_reviewnewsarticle_main_entity_of_page_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id' => 'saswp_reviewnewsarticle_URL_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink(),
+                        ),
+                        array(
+                                'label' => 'Image',
+                                'id' => 'saswp_reviewnewsarticle_image_'.$schema_id,
+                                'type' => 'media',                            
+                        ),    
+                        array(
+                                'label'   => 'inLanguage',
+                                'id'      => 'saswp_reviewnewsarticle_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                        ),
+                        array(
+                                'label' => 'Headline',
+                                'id' => 'saswp_reviewnewsarticle_headline_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title(),
+                        ),
+                        array(
+                                'label' => 'Date Published',
+                                'id' => 'saswp_reviewnewsarticle_date_published_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Modified',
+                                'id' => 'saswp_reviewnewsarticle_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                                array(
+                                'label' => 'Description',
+                                'id' => 'saswp_reviewnewsarticle_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label' => 'Keywords',
+                                'id' => 'saswp_reviewnewsarticle_keywords_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_tags()
+                        ),    
+                                array(
+                                'label' => 'Article Section',
+                                'id' => 'saswp_reviewnewsarticle_section_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $article_section
+                        ),
+                        array(
+                                'label' => 'Article Body',
+                                'id' => 'saswp_reviewnewsarticle_body_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
+                        ),
+                                array(
+                                'label' => 'Name',
+                                'id' => 'saswp_reviewnewsarticle_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title()
+                        ), 
+                                array(
+                                'label' => 'Thumbnail URL',
+                                'id' => 'saswp_reviewnewsarticle_thumbnailurl_'.$schema_id,
+                                'type' => 'text'                            
+                        ),
+                        array(
+                                'label' => 'Word Count',
+                                'id' => 'saswp_reviewnewsarticle_word_count_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['word_count']
+                        ),
+                        array(
+                                'label' => 'Time Required',
+                                'id' => 'saswp_reviewnewsarticle_timerequired_'.$schema_id,
+                                'type' => 'text',
+                                'default' => $word_count['timerequired']
+                        ),    
+                        array(
+                                'label' => 'Main Entity Id',
+                                'id' => 'saswp_reviewnewsarticle_main_entity_id_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_reviewnewsarticle_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label' => 'Author Name',
+                                'id' => 'saswp_reviewnewsarticle_author_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ?  $current_user->display_name : ''
+                        ),
+                        array(
+                                'label' => 'Author Description',
+                                'id' => 'saswp_reviewnewsarticle_author_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $author_desc
+                        ), 
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_reviewnewsarticle_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),    
+                        array(
+                                'label' => 'Author Image',
+                                'id' => 'saswp_reviewnewsarticle_author_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+        
+                        array(
+                                'label'   => 'Editor Type',
+                                'id'      => 'saswp_reviewnewsarticle_editor_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ""                => "Select",
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label'   => 'Editor Name',
+                                'id'      => 'saswp_reviewnewsarticle_editor_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'Editor HonorificSuffix',
+                                'id'      => 'saswp_reviewnewsarticle_editor_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                ),
+                        ), 
+                        array(
+                                'label'   => 'Editor Description',
+                                'id'      => 'saswp_reviewnewsarticle_editor_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Editor URL',
+                                'id'      => 'saswp_reviewnewsarticle_editor_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Editor Image URL',
+                                'id' => 'saswp_reviewnewsarticle_editor_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+                        array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_reviewnewsarticle_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        ), 
+                        array(
+                                'label' => 'Organization Name',
+                                'id' => 'saswp_reviewnewsarticle_organization_name_'.$schema_id,
+                                'type' => 'text',
+                                'default'=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ),
+                        array(
+                                'label' => 'Organization Logo',
+                                'id' => 'saswp_reviewnewsarticle_organization_logo_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($sd_data['sd_logo'])? $sd_data['sd_logo']['url']:''
+                        ),                         
+                        array(
+                                'label' => 'Speakable',
+                                'id' => 'saswp_reviewnewsarticle_speakable_'.$schema_id,
+                                'type' => 'checkbox',
+        
+                        )                        
+                        );
+                        break;
                 
                 case 'WebPage':
                     $meta_field = array(

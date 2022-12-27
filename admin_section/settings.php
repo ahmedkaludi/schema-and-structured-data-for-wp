@@ -956,7 +956,8 @@ function saswp_amp_page_callback(){
                 is_plugin_active('amp/amp.php') || 
                 is_plugin_active('better-amp/better-amp.php')  ||
                 is_plugin_active('wp-amp/wp-amp.php') ||
-                is_plugin_active('amp-wp/amp-wp.php')
+                is_plugin_active('amp-wp/amp-wp.php') ||
+                is_plugin_active('bunyad-amp/bunyad-amp.php') 
                         
                 ) {                         
         }else{
@@ -964,10 +965,11 @@ function saswp_amp_page_callback(){
             $non_amp_enable_field['attributes'] = array(
                  'disabled' => 'disabled'
              );
-             $non_amp_enable_field['note'] = saswp_t_string('Requires'). ' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a> or <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a> or <a target="_blank" href="https://wordpress.org/plugins/better-amp/">Better AMP</a> or <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>';
+             $non_amp_enable_field['note'] = saswp_t_string('Requires'). ' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a> or <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a> or <a target="_blank" href="https://wordpress.org/plugins/better-amp/">Better AMP</a> or <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a> or <a target="_blank" href="https://theme-sphere.com/themes/smart-mag/">Bunyad AMP</a>';
              $settings['saswp-for-amp'] = 0;	
             
         }
+
                 
         $meta_fields = array(
             $non_amp_enable_field,
@@ -1042,7 +1044,13 @@ function saswp_general_page_callback(){
                 'options' => array(                                
                                 'Article'          => 'Article',                                     
                                 'BlogPosting'      => 'BlogPosting',                                     
-                                'NewsArticle'      => 'NewsArticle',                                                                                                                                                                                                                                                                   
+                                'NewsArticle'      => 'NewsArticle',          
+                                'AnalysisNewsArticle' => 'AnalysisNewsArticle',    
+                                'AskPublicNewsArticle' => 'AskPublicNewsArticle',      
+                                'BackgroundNewsArticle' => 'BackgroundNewsArticle',       
+                                'OpinionNewsArticle' => 'OpinionNewsArticle',   
+                                'ReportageNewsArticle' => 'ReportageNewsArticle',     
+                                'ReviewNewsArticle' => 'ReviewNewsArticle',                                                                                                                                                                                                                                                  
                                 'WebPage'          => 'WebPage' 
                 )
         );
@@ -2570,6 +2578,18 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-ampforwp]',                             
                         )
 		);
+        $bunyadamp = array(
+                'label'  => 'BunyadAMP',
+                'id'     => 'saswp-bunyadamp-checkbox',                        
+                'name'   => 'saswp-bunyadamp-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('bunyadamp'),
+                'hidden' => array(
+                        'id'   => 'saswp-bunyadamp',
+                        'name' => 'sd_data[saswp-bunyadamp]',                             
+                )
+        );
         $ampbyautomatic = array(
 			'label'  => 'AMP By Automatic',
 			'id'     => 'saswp-ampbyautomatic-checkbox',                        
@@ -4270,6 +4290,7 @@ function saswp_compatibility_page_callback(){
         
         $meta_fields = array(
                 $ampforwp,
+                $bunyadamp,
                 $ampbyautomatic,
                 $cmp,
                 $betteramp,
