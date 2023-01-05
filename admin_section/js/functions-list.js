@@ -226,22 +226,29 @@
        }   
 
        function saswp_reviews_datepicker(){
-        
-            jQuery('.saswp-reviews-datepicker-picker').datepicker({
-             dateFormat: "yy-mm-dd"            
-          });
+
+            if(jQuery(".saswp-reviews-datepicker-picker").length > 0){
+                jQuery('.saswp-reviews-datepicker-picker').datepicker({
+                    dateFormat: "yy-mm-dd"            
+                 });
+            }
+                    
         }
         
        function saswp_schema_datepicker(){
-        
-            jQuery('.saswp-datepicker-picker').datepicker({
-             dateFormat: "yy-mm-dd",             
-          });
-          
+
+            if(jQuery(".saswp-datepicker-picker").length > 0){
+                jQuery('.saswp-datepicker-picker').datepicker({
+                    dateFormat: "yy-mm-dd",             
+                });
+            }
+                              
         }
         
        function saswp_schema_timepicker(){
-         jQuery('.saswp-timepicker').timepicker({ 'timeFormat': 'H:i:s'});
+            if(jQuery(".saswp-timepicker").length > 0){
+                jQuery('.saswp-timepicker').timepicker({ 'timeFormat': 'H:i:s'});       
+            }         
         }
         
         
