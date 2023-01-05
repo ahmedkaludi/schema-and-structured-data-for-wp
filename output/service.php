@@ -1314,7 +1314,12 @@ Class saswp_output_service{
 
                 case 'Organization':      
                     if(isset($custom_fields['saswp_organization_id'])){
-                        $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_organization_id'];
+
+                        $input1['@id'] =    $custom_fields['saswp_organization_id'];
+                        if(empty($custom_fields['saswp_organization_id'])){
+                            unset($input1['@id']);
+                        }
+                        
                     } 
                     if(isset($custom_fields['saswp_organization_name'])){
                      $input1['name'] =    $custom_fields['saswp_organization_name'];
