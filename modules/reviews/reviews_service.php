@@ -1346,7 +1346,7 @@ class saswp_reviews_service {
                             }
 
                             if($platform_name == 'ProductReview' && !empty($value['saswp_review_location_id'])){
-                                $review_link = 'https://www.productreview.com.au/listings/'.$value['saswp_review_location_id'];
+                                $source_url = 'https://www.productreview.com.au/listings/'.$value['saswp_review_location_id'];
                             }
 
                             if($platform_name == 'Self'){
