@@ -1063,8 +1063,7 @@ function saswp_schema_output() {
 
                                 case 'Organization':                                
                                     
-                                    $input1 = saswp_kb_schema_output();
-
+                                    $input1 = saswp_kb_schema_output();                                    
                                     if($input1['@type'] == 'Person'){
                                         $input1 = array();
                                         $input1 = array(
@@ -1075,6 +1074,8 @@ function saswp_schema_output() {
                                             'description'       => saswp_get_the_excerpt(),                                                                        
                                             'name'				=> saswp_get_the_title()			                                                                                                            
                                         );
+                                    }else{
+                                        $input1['@type'] = 'Organization';
                                     }
                                                                                                                                                                                                                                                                                                                                         
                                     $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
