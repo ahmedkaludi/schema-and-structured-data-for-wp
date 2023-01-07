@@ -790,6 +790,7 @@ class SASWP_Gutenberg {
                 }
                                                 
                 echo '</div>';
+                echo '</div>';
                 
               
                 						
