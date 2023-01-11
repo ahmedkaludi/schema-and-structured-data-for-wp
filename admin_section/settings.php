@@ -1480,7 +1480,6 @@ function saswp_general_page_callback(){
             
 	);
         
-        
         if(is_plugin_active('woocommerce/woocommerce.php')){
                               
                 $meta_fields_default[] = array(
@@ -2599,6 +2598,22 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
+ 
+        if(is_plugin_active('wp-event-solution/eventin.php')){
+                $eventin = array(
+                        'label'  => 'Eventin',
+                        'id'     => 'saswp-eventin-checkbox', 
+                        'name'   => 'saswp-eventin-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',      
+                        'note'   => saswp_get_field_note('Eventin'),
+                        'hidden' => array(
+                                'id'   => 'saswp-eventin',
+                                'name' => 'sd_data[saswp-eventin]',                             
+                        )
+                );
+        }
+
         $cmp = array(
                 'label'  => 'CMP – Coming Soon & Maintenance Plugin',
                 'id'     => 'saswp-cmp-checkbox',                        
@@ -2610,7 +2625,9 @@ function saswp_compatibility_page_callback(){
                         'id'   => 'saswp-cmp',
                         'name' => 'sd_data[saswp-cmp]',                             
                 )
-        );        
+        );
+        
+        
         $wpecommerce = array(
                 'label'  => 'WP eCommerce',
                 'id'     => 'saswp-wpecommerce-checkbox',                        
@@ -4265,6 +4282,7 @@ function saswp_compatibility_page_callback(){
                 $bunyadamp,
                 $ampbyautomatic,
                 $cmp,
+                $eventin,
                 $betteramp,
                 $wpamp,
                 $ampwp,

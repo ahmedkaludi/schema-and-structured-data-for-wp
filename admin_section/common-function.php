@@ -3092,6 +3092,7 @@ function saswp_get_field_note($pname){
             'woo_event_manager'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/mage-eventpress/">WooCommerce Event Manager</a>',
             'vs_event_list'               => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/very-simple-event-list/">Very Simple Event List</a>',
             'event_on'                    => saswp_t_string('Event On').' <a target="_blank" href="https://www.myeventon.com/">Event On</a>',
+            'Eventin'                     => saswp_t_string('Event On').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-solution/">Event Manager, Event Calendar, Event Tickets for WooCommerce – Eventin</a>',
             'wordlift'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
             'ampforwp'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
             'quickandeasyfaq'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/quick-and-easy-faqs/">Quick and Easy FAQs</a>',
