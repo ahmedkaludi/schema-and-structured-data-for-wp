@@ -1646,7 +1646,6 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#newsarticle',
-                                    //'url'				=> trailingslashit(saswp_get_permalink()),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
