@@ -33,7 +33,15 @@ and open the template in the editor.
     float: right;
     padding:10px;
 }
+.saswp-enable-btn-container{
+    float: right;
+    padding:10px;
+}
 .saswp-disable-label{
+    padding: 10px;
+    color: #999;
+}
+.saswp-enable-label{
     padding: 10px;
     color: #999;
 }

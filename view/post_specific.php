@@ -395,14 +395,26 @@ class saswp_post_specific {
               
              $modify_option = get_option('modify_schema_post_enable_'.esc_attr($post->ID));      
              $schema_enable = saswp_get_post_meta($post->ID, 'saswp_enable_disable_schema', true);   
-             $custom_markp  = saswp_get_post_meta($post->ID, 'saswp_custom_schema_field', true);              
-             $disable_btn.= '<div class="saswp-disable-btn-container">'
-                            . '<span class="saswp-disable-label">'.saswp_t_string( 'Disable custom schema on this page' ).'</span>'
-                            . '<label class="saswp-switch">'
-                            . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="custom" data-post-id="'.esc_attr($post->ID).'" '.( (isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'checked' : '' ).'>'
-                            . '<span class="saswp-slider"></span>'
-                            . '</label>'
-                            . '</div>';
+             $custom_markp  = saswp_get_post_meta($post->ID, 'saswp_custom_schema_field', true);   
+                
+             if((isset($schema_enable['custom']) && $schema_enable['custom'] == 0)){
+                $disable_btn.= '<div class="saswp-disable-btn-container">'
+                . '<span class="saswp-disable-label custom">'.saswp_t_string( 'Disable custom schema on this page' ).'</span>'
+                . '<label class="saswp-switch">'
+                . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="custom" data-post-id="'.esc_attr($post->ID).'" '.( (isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'checked' : '' ).'>'
+                . '<span class="saswp-slider"></span>'
+                . '</label>'
+                . '</div>';
+             }else{
+                $disable_btn.= '<div class="saswp-enable-btn-container">'
+                . '<span class="saswp-enable-label custom">'.saswp_t_string( 'Enable custom schema on this page' ).'</span>'
+                . '<label class="saswp-switch">'
+                . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="custom" data-post-id="'.esc_attr($post->ID).'" '.( (isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'checked' : '' ).'>'
+                . '<span class="saswp-slider"></span>'
+                . '</label>'
+                . '</div>';
+             }
+            
              
                 $cus_schema .= '<div id="saswp_specific_custom" class="saswp-post-specific-wrapper saswp_hide">';                                      
                 $cus_schema .= '<div class="'.((isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'saswp_hide' : '').'"><textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85">'
@@ -525,8 +537,8 @@ class saswp_post_specific {
                         . '</label>'
                         . '</div>';
                     }else{
-                        $btn_in_loop = '<div class="saswp-disable-btn-container">'
-                        . '<span class="saswp-disable-label '.$schema_type_txt.'">'.saswp_t_string( 'Unable '.$schema_type_txt.' on this page' ).'</span>'
+                        $btn_in_loop = '<div class="saswp-enable-btn-container">'
+                        . '<span class="saswp-enable-label '.$schema_type_txt.'">'.saswp_t_string( 'Enable '.$schema_type_txt.' on this page' ).'</span>'
                         . '<label class="saswp-switch">'
                         . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-name="'.esc_attr($schema_type_txt).'" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$disabled.'>'
                         . '<span class="saswp-slider"></span>'
