@@ -507,6 +507,12 @@ return array(
                     'opt_name'   => 'saswp-wp-event-manager', 
                     'part_in'    => 'pro',
         ),
+        'wp_event_solution' => array(            
+                    'name'       => 'wp Event Solution',
+                    'free'       => 'wp-event-solution/eventin.php',            
+                    'opt_name'   => 'saswp-wp-event-solution', 
+                    'part_in'    => 'pro',
+        ),
         'events_manager' => array(            
                     'name'       => 'Events Manager',
                     'free'       => 'events-manager/events-manager.php',            

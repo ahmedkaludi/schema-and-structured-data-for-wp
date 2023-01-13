@@ -443,6 +443,9 @@ class saswp_output_compatibility{
     public function wp_event_manager_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wp-event-manager');
     }
+    public function wp_event_solution_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-wp-event-solution');
+    }
     public function events_manager_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-events-manager');
     }

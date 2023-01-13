@@ -1522,6 +1522,15 @@ if(busines_stype == 'local_business'){
                               $("#saswp-wp-event-manager").val(0);           
                             }
                       break;
+
+                      case 'saswp-wp-event-solution-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-event-solution").val(1);             
+                            }else{
+                              $("#saswp-wp-event-solution").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-events-manager-checkbox':
                           saswp_compatibliy_notes(current, id); 

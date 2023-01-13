@@ -2598,22 +2598,6 @@ function saswp_compatibility_page_callback(){
                 )
         );
 
- 
-        if(is_plugin_active('wp-event-solution/eventin.php')){
-                $eventin = array(
-                        'label'  => 'Eventin',
-                        'id'     => 'saswp-eventin-checkbox', 
-                        'name'   => 'saswp-eventin-checkbox',
-                        'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',      
-                        'note'   => saswp_get_field_note('Eventin'),
-                        'hidden' => array(
-                                'id'   => 'saswp-eventin',
-                                'name' => 'sd_data[saswp-eventin]',                             
-                        )
-                );
-        }
-
         $cmp = array(
                 'label'  => 'CMP – Coming Soon & Maintenance Plugin',
                 'id'     => 'saswp-cmp-checkbox',                        
@@ -3526,6 +3510,19 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-wp-event-manager]',                             
                 )
 	);
+
+        $wp_event_solution = array(
+                        'label'  => 'WP Event Solution',
+                        'id'     => 'saswp-wp-event-solution-checkbox', 
+                        'name'   => 'saswp-wp-event-solution-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',      
+                        'note'   => saswp_get_field_note('wp_event_solution'),
+                        'hidden' => array(
+                                'id'   => 'saswp-wp-event-solution',
+                                'name' => 'sd_data[saswp-wp-event-solution]',                             
+                        )
+        );
         
         $events_manager = array(
 			'label'  => 'Events Manager',
@@ -4237,13 +4234,14 @@ function saswp_compatibility_page_callback(){
                 $sabaidiscuss['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
                 $wpqa_builder['note'] = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
          }
-         
+       
          if(!is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php')){
                           
              $ameliabooking['note']               = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $the_events_calendar['note']         = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $events_calendar_wd['note']          = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $wp_event_manager['note']            = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $wp_event_solution['note']           = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $events_manager['note']              = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $event_organiser['note']             = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $modern_events_calendar['note']      = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
@@ -4282,7 +4280,6 @@ function saswp_compatibility_page_callback(){
                 $bunyadamp,
                 $ampbyautomatic,
                 $cmp,
-                $eventin,
                 $betteramp,
                 $wpamp,
                 $ampwp,
@@ -4362,6 +4359,7 @@ function saswp_compatibility_page_callback(){
                 $ameliabooking,
                 $the_events_calendar,
                 $wp_event_manager,
+                $wp_event_solution,
                 $events_manager,
                 $events_calendar_wd,
                 $event_organiser,
