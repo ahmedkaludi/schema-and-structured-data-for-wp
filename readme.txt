@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 1.9.108
+Stable tag: 1.9.109
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.109 (16 Jan 2023) =
+
+* Enhancement: Enable disable message update on page edit schema options on #1815
+* Fixed: When we add reviews for the services schema, they do not appear in the page sources. #1818
+* Enhancement: Organization schema fetching wrong details #1823
+* Fixed: Conflict issue with Power builder plugin #1822
+* Fixed: Gutenberg howto schema block breaks layout due to missing closing div #1824
+* Fixed: Remove 40% offer banner #1826
+* Feature: In the Event schema, add compatibility with the "EventIn" plugin #1825
+* Fixed: Need to remove trailingslashit from News Article schema #1830
 
 = 1.9.108 (27 Dec 2022) =
 
