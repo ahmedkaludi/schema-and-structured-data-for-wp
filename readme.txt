@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 1.9.109
+Stable tag: 1.9.109.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,11 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.9.109.1 (17 Jan 2023) =
+
+* Added: Set no image modified value to remove image completely from schema markup #1834
+* Fixed: Attempt to read property “ID” on null error in php 8 #1833
 
 = 1.9.109 (16 Jan 2023) =
 
