@@ -1718,7 +1718,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#analysisnewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -1790,7 +1790,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#askpublicnewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -1862,7 +1862,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#backgroundnewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -1934,7 +1934,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#opinionnewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -2006,7 +2006,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#reportagenewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -2078,7 +2078,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#reviewnewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -2761,6 +2761,12 @@ function saswp_schema_output() {
                                     $input1['mainEntity'] = apply_filters('saswp_modify_featured_image', array_merge($input1['mainEntity'],$input2));
                                 }                                                                    
                            }
+                           if(isset($input1['mainEntity']['image']['no_image']) && $input1['mainEntity']['image']['no_image'] == 1){
+                                unset($input1['image']);
+                           }
+                           if(isset($input1['mainEntity']['logo']['no_image']) && $input1['mainEntity']['logo']['no_image'] == 1){
+                                unset($input1['logo']);
+                           }
 
                         }else{
                             
@@ -2774,8 +2780,16 @@ function saswp_schema_output() {
                                     
                                 }                                                                    
                            }
-                        }
-                                        
+                           
+                           if(isset($input1['image']['no_image']) && $input1['image']['no_image'] == 1){
+                                unset($input1['image']);
+                           }
+                           if(isset($input1['logo']['no_image']) && $input1['logo']['no_image'] == 1){
+                                unset($input1['logo']);
+                           }
+                           
+                        }                        
+                                                                
 		         if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree'] == 1){
 
 			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			

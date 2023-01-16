@@ -336,6 +336,11 @@ Class saswp_output_service{
                     }
                                                                                                     
                     break;
+                case 'no_image':                    
+                
+                    $response['no_image']  = true;                    
+                    
+                    break;
                 case 'fixed_image':                    
                     
                     $response['@type']  = 'ImageObject';
@@ -1354,7 +1359,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_organization_logo'])){
                      $input1['logo'] =    $custom_fields['saswp_organization_logo'];
                     }
-                    if(isset($custom_fields['saswp_organization_image'])){
+                    if(isset($custom_fields['saswp_organization_image']) && !empty($custom_fields['saswp_organization_image'])){                        
                      $input1['image'] =    $custom_fields['saswp_organization_image'];
                     }
                     if(isset($custom_fields['saswp_organization_duns'])){
@@ -1400,8 +1405,8 @@ Class saswp_output_service{
                         $input1['aggregateRating']['@type']       =   'AggregateRating';                                                
                         $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_organization_rating_value'];
                         $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_organization_rating_count'];
-                    }
-                                                                                  
+                    }                    
+                                                    
                     break;     
                     
                 case 'MusicAlbum':      
