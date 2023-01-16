@@ -3166,6 +3166,7 @@ function saswp_get_field_note($pname){
             'senseilms'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/sensei-lms/">Sensei LMS</a>',
             'wplms'                       => saswp_t_string('Requires').' <a target="_blank" href="https://themeforest.net/item/wplms-learning-management-system/6780226">WPLMS</a>',
             'wp_event_manager'            => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager/">WP Event Manager</a>',
+            'wp_event_solution'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-solution/">Event Manager, Event Calendar, Event Tickets for WooCommerce – Eventin</a>',
             'events_manager'              => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
             'event_calendar_wd'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
             'event_organiser'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',

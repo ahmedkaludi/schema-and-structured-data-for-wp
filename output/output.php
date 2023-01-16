@@ -1063,15 +1063,21 @@ function saswp_schema_output() {
 
                                 case 'Organization':                                
                                     
-                                    $input1 = array(
-                                    '@context'			=> saswp_context_url(),
-                                    '@type'				=> 'Organization',
-                                    '@id'				=> trailingslashit(saswp_get_current_url()).'#Organization',    
-                                    'url'				=> trailingslashit(saswp_get_current_url()),                                                                                    
-                                    'description'       => saswp_get_the_excerpt(),                                                                        
-                                    'name'				=> saswp_get_the_title()			                                                                                                            
-                                    );                                                                                                                                                                                        
-                                                                        
+                                    $input1 = saswp_kb_schema_output();                                    
+                                    if($input1['@type'] == 'Person'){
+                                        $input1 = array();
+                                        $input1 = array(
+                                            '@context'			=> saswp_context_url(),
+                                            '@type'				=> 'Organization',
+                                            '@id'				=> trailingslashit(saswp_get_current_url()).'#Organization',    
+                                            'url'				=> trailingslashit(saswp_get_current_url()),                                                                                    
+                                            'description'       => saswp_get_the_excerpt(),                                                                        
+                                            'name'				=> saswp_get_the_title()			                                                                                                            
+                                        );
+                                    }else{
+                                        $input1['@type'] = 'Organization';
+                                    }
+                                                                                                                                                                                                                                                                                                                                        
                                     $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 
                                     $input1 = apply_filters('saswp_modify_organization_schema_output', $input1 ); 
@@ -1083,7 +1089,7 @@ function saswp_schema_output() {
                                         $input1 = saswp_organization_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                     }
-                                                                
+                                                                                   
                                 break;    
                         
                             case 'AudioObject':
@@ -1640,7 +1646,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#newsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -1712,7 +1718,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#analysisnewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -1784,7 +1790,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#askpublicnewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -1856,7 +1862,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#backgroundnewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -1928,7 +1934,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#opinionnewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -2000,7 +2006,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#reportagenewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -2072,7 +2078,7 @@ function saswp_schema_output() {
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
                                     '@id'				=> trailingslashit(saswp_get_permalink()).'#reviewnewsarticle',
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
                                     'datePublished'                 => esc_html($date),
@@ -2124,7 +2130,9 @@ function saswp_schema_output() {
 				                $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $schema_type;
                                 $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#service';
-                                                                                                                                                                                                                                
+
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);   
+                                                                                                                                                                                                        
                                 $input1 = apply_filters('saswp_modify_service_schema_output', $input1 );
                                 
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
@@ -2753,6 +2761,12 @@ function saswp_schema_output() {
                                     $input1['mainEntity'] = apply_filters('saswp_modify_featured_image', array_merge($input1['mainEntity'],$input2));
                                 }                                                                    
                            }
+                           if(isset($input1['mainEntity']['image']['no_image']) && $input1['mainEntity']['image']['no_image'] == 1){
+                                unset($input1['image']);
+                           }
+                           if(isset($input1['mainEntity']['logo']['no_image']) && $input1['mainEntity']['logo']['no_image'] == 1){
+                                unset($input1['logo']);
+                           }
 
                         }else{
                             
@@ -2766,8 +2780,16 @@ function saswp_schema_output() {
                                     
                                 }                                                                    
                            }
-                        }
-                                        
+                           
+                           if(isset($input1['image']['no_image']) && $input1['image']['no_image'] == 1){
+                                unset($input1['image']);
+                           }
+                           if(isset($input1['logo']['no_image']) && $input1['logo']['no_image'] == 1){
+                                unset($input1['logo']);
+                           }
+                           
+                        }                        
+                                                                
 		         if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree'] == 1){
 
 			add_filter( 'amp_post_template_data', 'saswp_structure_data_access_scripts');			

@@ -27,7 +27,8 @@ $with_aggregate = array(
         'VideoObject',              
         'local_business',
         'Organization', 
-        'project',                  
+        'project', 
+        'Service',                 
         'Product'              
 );
 $without_aggregate = array(
@@ -61,7 +62,6 @@ $without_aggregate = array(
         'TechArticle',
         'WebPage',
         'JobPosting',
-        'Service',
         'TaxiService',
         'Trip',
         'BoatTrip',

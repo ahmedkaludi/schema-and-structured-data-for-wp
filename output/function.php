@@ -281,7 +281,7 @@ function saswp_get_all_schema_markup_output() {
                  
         $custom_markup             = saswp_taxonomy_schema_output();  
 
-        if(is_singular()){
+        if( is_singular() && is_object($post) ){
             $custom_markup         = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
         }
    
@@ -3336,8 +3336,7 @@ function saswp_render_breadcrumbs_html($atts){
 
     $hide_post_title = ($attr['hide_post_title']) ? $attr['hide_post_title'] : 0;
     $get_current_post_title = get_post_field('post_title',$post->ID);
-    $breadcrumbs = '';
-    // echo "<pre>";print_r($get_current_post_title);echo "</pre>";
+    $breadcrumbs = '';    
     if(!empty($sd_data['titles'])){
 
         $breadcrumbs .= '<style>';

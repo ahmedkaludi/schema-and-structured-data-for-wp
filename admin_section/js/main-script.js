@@ -1522,6 +1522,15 @@ if(busines_stype == 'local_business'){
                               $("#saswp-wp-event-manager").val(0);           
                             }
                       break;
+
+                      case 'saswp-wp-event-solution-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wp-event-solution").val(1);             
+                            }else{
+                              $("#saswp-wp-event-solution").val(0);           
+                            }
+                      break;
                       
                       case 'saswp-events-manager-checkbox':
                           saswp_compatibliy_notes(current, id); 
@@ -2553,10 +2562,18 @@ if(busines_stype == 'local_business'){
     $(document).on("change",".saswp-schema-type-toggle", function(e){
                var schema_id = $(this).attr("data-schema-id"); 
                var post_id =   $(this).attr("data-post-id");     
-               var modified = $(".saswp_modify_this_schema_hidden_"+schema_id).val();
+               var post_id =   $(this).attr("data-post-id");   
+               var modified = $(".saswp_modify_this_schema_hidden_"+schema_id).val(); 
+               var schema_name =   $(this).attr("data-schema-name"); 
+             
                if($(this).is(':checked')){
                     var status = 0;  
-               
+                    $("."+schema_name).empty();
+                    $("."+schema_name).text('Disable '+schema_name+' on this page');
+
+                    $(".custom").empty();
+                    $(".custom").text('Disable custom schema on this page');
+                  
                     $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
                     $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
                     $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
@@ -2564,13 +2581,23 @@ if(busines_stype == 'local_business'){
                     $("#saswp_custom_schema_field[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
                               
                }else{
-                   $("#saswp_custom_schema_field[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
-                  if(modified == 1){
+                    $("#saswp_custom_schema_field[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
+
+                    $(".custom").empty();
+                    $(".custom").text('Enable custom schema on this page');
+
+                   if(modified == 1){
+                    $("."+schema_name).empty();
+                    $("."+schema_name).text('Enable '+schema_name+' on this page');
+
                     $(".saswp-ps-toggle[schema-id="+schema_id+"]").removeClass('saswp_hide'); 
                     $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
                   }else{
+                    $("."+schema_name).empty();
+                    $("."+schema_name).text('Enable '+schema_name+' on this page');
+
                     $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide'); 
-                     $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
+                    $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
                     $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
                   } 
                    

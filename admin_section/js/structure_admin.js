@@ -1,8 +1,11 @@
 function saswp_schema_datepicker(){
-        
-  jQuery('.saswp-datepicker-picker').datepicker({
-   dateFormat: "yy-mm-dd",             
-  });
+ 
+    if(jQuery(".saswp-datepicker-picker").length > 0){
+      jQuery('.saswp-datepicker-picker').datepicker({
+        dateFormat: "yy-mm-dd",             
+       });    
+    }
+  
 
 }
 
