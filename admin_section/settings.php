@@ -3512,7 +3512,7 @@ function saswp_compatibility_page_callback(){
 	);
 
         $wp_event_solution = array(
-                        'label'  => 'WP Event Solution',
+                        'label'  => 'Eventin',
                         'id'     => 'saswp-wp-event-solution-checkbox', 
                         'name'   => 'saswp-wp-event-solution-checkbox',
                         'type'   => 'checkbox',

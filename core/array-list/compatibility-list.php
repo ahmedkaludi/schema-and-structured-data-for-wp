@@ -508,7 +508,7 @@ return array(
                     'part_in'    => 'pro',
         ),
         'wp_event_solution' => array(            
-                    'name'       => 'wp Event Solution',
+                    'name'       => 'Eventin',
                     'free'       => 'wp-event-solution/eventin.php',            
                     'opt_name'   => 'saswp-wp-event-solution', 
                     'part_in'    => 'pro',
