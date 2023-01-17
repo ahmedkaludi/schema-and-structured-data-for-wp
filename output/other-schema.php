@@ -96,7 +96,11 @@ function saswp_taqyeem_review_rich_snippet(){
     if(isset($sd_data['saswp-taqyeem']) && $sd_data['saswp-taqyeem'] == 1 && function_exists('taqyeem_review_get_rich_snippet')){
 
         $get_meta = get_post_custom( $post->ID );
-        
+        if(!empty($post->ID)){
+            $get_meta = get_post_custom( $post->ID );
+        }else{
+            $get_meta = '';
+        }
         if( !empty( $get_meta['taq_review_position'][0] ) ){
             $input1 = taqyeem_review_get_rich_snippet();
         }
