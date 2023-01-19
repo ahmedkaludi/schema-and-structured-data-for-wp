@@ -1615,6 +1615,18 @@ function saswp_remove_microdata($content){
         //Clean json markup
         if(isset($sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ){
             
+            $regex = '/<div class\=\"ub_howto\"(.*?)<\/div><script type=\"application\/ld\+json\">(.*?)<\/script>/s';
+
+            preg_match( $regex, $content, $match);
+
+            if(isset($match[1])){
+                $content = preg_replace($regex, '<div class="ub_howto"'.$match[1].' </div>', $content);        
+            }
+            
+        }
+
+        if(isset($sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ){
+            
             $regex = '/<div class\=\"ub_review_block\"(.*?)<\/div><script type=\"application\/ld\+json\">(.*?)<\/script>/s';
           
             preg_match( $regex, $content, $match);
