@@ -284,6 +284,11 @@ function saswp_get_all_schema_markup_output() {
         if( is_singular() && is_object($post) ){
             $custom_markup         = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
         }
+
+        if( get_the_author_meta('ID') ){
+            $custom_markup        = saswp_fetched_user_custom_schema();  
+        }
+      
    
         $schema_output              = saswp_schema_output();                  
         
