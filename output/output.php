@@ -3449,28 +3449,15 @@ function saswp_fetched_reviews_json_ld(){
 }
 
 function saswp_fetched_user_custom_schema(){
-
     global $sd_data;
     $author_id      = get_the_author_meta('ID');	
     $aurthor_name 	= get_the_author();
 
     $input1 = array();
     if(!empty($aurthor_name)){
-    
-        $input1['@context'] = saswp_context_url();
-        $input1['@type']    = "person";
         $input1  = get_user_meta($author_id, 'saswp_user_custom_schema_field', true); 
-       
-        
     }
-    
     return $input1;
-
-    // echo "<pre>";
-    // echo $user_id = get_current_user_id();
-    // print_r($user);
-    // die();
-
 }
 
 function saswp_fetched_reviews_schema_markup(){
