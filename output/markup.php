@@ -4431,6 +4431,23 @@ function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_m
 
 }
 
+function saswp_breadcrumbs_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    $input1 = array();
+    global $sd_data;   
+   
+    if($sd_data['saswp_breadcrumb_schema'] == 0){
+        if(is_single() || is_page() ||is_archive()){
+            $bread_crumb_list =   saswp_list_items_generator();
+            $input1 = array();
+            $input1['@context']        =  saswp_context_url();
+            $input1['@type']           =  'BreadcrumbList';
+            $input1['@id']             =  trailingslashit($sd_data['breadcrumb_url']).'#breadcrumb';
+            $input1['itemListElement'] =  $bread_crumb_list;
+        }
+    }
+    return $input1;
+}
+
 function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
         $input1 = array();
