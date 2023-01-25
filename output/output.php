@@ -2854,28 +2854,51 @@ function saswp_schema_output() {
  */
 function saswp_schema_breadcrumb_output(){
     
-	global $sd_data;        
-        
-	if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
-				       				
-        if(is_single() || is_page() ||is_archive()){
+   global $sd_data; 
+   //condition for particular post for BreadCrumbs list
+    $args = array(
+        'post_type'   => 'saswp',
+        'post_status' => 'publish',
+        'numberposts' => -1,
+       );
+    $schemalist_result = get_posts( $args );
+    if(!empty($schemalist_result)){
+        foreach($schemalist_result as $schema){
+           $postid = $schema->ID;    
+           $schema_type = get_post_meta($postid,'schema_type',true);
+
+            if($schema_type === "BreadCrumbs"){
+                $breadcrumb[] = 'BreadCrumbs';
+            }else{
+                $breadcrumb[] = "";
+            }
+        }
+    }
+
+    if (in_array("BreadCrumbs", $breadcrumb)){
+        return "";
+    }else{
+        if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
+                                                    
+            if(is_single() || is_page() ||is_archive()){
+                
+                $bread_crumb_list =   saswp_list_items_generator();  
             
-            $bread_crumb_list =   saswp_list_items_generator();  
-        
-            if(!empty($bread_crumb_list)){   
+                if(!empty($bread_crumb_list)){   
+                
+                    $input['@context']        =  saswp_context_url();
+                    $input['@type']           =  'BreadcrumbList';
+                    $input['@id']             =  trailingslashit($sd_data['breadcrumb_url']).'#breadcrumb';
+                    $input['itemListElement'] =  $bread_crumb_list;
+                                        
+                    return apply_filters('saswp_modify_breadcrumb_output', $input);  
             
-                $input['@context']        =  saswp_context_url();
-                $input['@type']           =  'BreadcrumbList';
-                $input['@id']             =  trailingslashit($sd_data['breadcrumb_url']).'#breadcrumb';
-                $input['itemListElement'] =  $bread_crumb_list;
-                                       
-                return apply_filters('saswp_modify_breadcrumb_output', $input);  
-         
-             }
-               
-           }         
-	
-      }
+                }
+                
+            }         
+
+        }
+    }
 }
 
 /**
