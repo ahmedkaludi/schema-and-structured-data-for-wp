@@ -1272,7 +1272,7 @@ function saswp_schema_output() {
                             case 'WebPage':
                                                                 
                                 $input1 = $service_object->saswp_schema_markup_generator($schema_type);
-				                                
+				               
                                 if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
                                 }                                

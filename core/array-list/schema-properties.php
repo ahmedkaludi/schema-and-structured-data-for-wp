@@ -2154,6 +2154,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
+                        'label'   => 'inLanguage',
+                        'id'      => 'saswp_webpage_inlanguage_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_bloginfo('language'),
+                    ),
+                    array(
                         'label'   => 'Webpage Section',
                         'id'      => 'saswp_webpage_section_'.$schema_id,
                         'type'    => 'textarea',

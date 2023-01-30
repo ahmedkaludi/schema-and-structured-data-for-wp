@@ -3572,7 +3572,9 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_webpage_description'])){
                         $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_webpage_description'] )) ;
                     }
-
+                    if(isset($custom_fields['saswp_webpage_inlanguage'])){
+                        $input1['inLanguage'] =    $custom_fields['saswp_webpage_inlanguage'];
+                    }
                     if(isset($custom_fields['saswp_webpage_last_reviewed'])){
                         $input1['lastReviewed'] =    $custom_fields['saswp_webpage_last_reviewed'];
                     }
