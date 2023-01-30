@@ -636,6 +636,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_get_the_title(),
                     ),
                     array(
+                        'label'   => 'Alternative Headline',
+                        'id'      => 'saswp_newsarticle_alternativeHeadline_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => saswp_get_the_title(),
+                    ),
+                    array(
                             'label' => 'Date Published',
                             'id' => 'saswp_newsarticle_date_published_'.$schema_id,
                             'type' => 'text',
