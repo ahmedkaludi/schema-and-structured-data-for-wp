@@ -73,6 +73,19 @@ class SASWP_Elementor_Loader {
 	 * @since 1.2.0
 	 * @access public
 	 */
+	public function register_widgets() {
+		// Its is now safe to include Widgets files
+		$this->include_widgets_files();
+
+		// Register Widgets		
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Faq_Block() );
+
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Qanda_Block() );
+
+		// Register Widgets		
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\HowTo_Block() );
+	}
+
 	public function register() {
 		// Its is now safe to include Widgets files
 		$this->include_widgets_files();
@@ -100,7 +113,14 @@ class SASWP_Elementor_Loader {
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
 
 		// Register widgets
-		add_action( 'elementor/widgets/registered', [ $this, 'register' ] );
+
+		if(defined('ELEMENTOR_VERSION') && version_compare(ELEMENTOR_VERSION, '3.5.0') >= 0 ) {
+			add_action( 'elementor/widgets/register', [ $this, 'register' ] );
+		}
+		else{
+			add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );		
+		}
+				
 	}
 }
 // Instantiate Plugin Class
