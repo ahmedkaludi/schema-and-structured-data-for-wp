@@ -1624,7 +1624,7 @@ function saswp_schema_output() {
                             break;
 
                             case 'Product':
-                                	                                                                                                
+                              
                                 $input1 = $service_object->saswp_schema_markup_generator($schema_type);
                                   
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);

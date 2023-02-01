@@ -1380,9 +1380,7 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 if(!isset($input1['review'])){
                     $input1 = saswp_append_fetched_reviews($input1); 
                 }
-                // echo "<pre>";
-                // print_r($input1);
-                // die();
+                
     return $input1;
     
 }
