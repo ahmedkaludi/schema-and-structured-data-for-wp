@@ -3399,7 +3399,8 @@ function saswp_render_breadcrumbs_html($atts){
 function saswp_default_video_object_scjhema(){
 
     $input1 = array();
-    $video_links      = saswp_get_video_metadata();    
+    $video_links      = saswp_get_video_metadata();  
+    
     if(!empty($video_links)){
         $Conditionals = saswp_get_all_schema_posts(); 
         $countVideoObjSchema = [];
@@ -3422,7 +3423,7 @@ function saswp_default_video_object_scjhema(){
         }  
         $date 		        = get_the_date("c");
         $modified_date 	    = get_the_modified_date("c"); 
-        
+          
         if(count($video_links) > 1){
             if(isset($v_val['video_url']) && !empty($v_val['video_url'])){    
 
@@ -3474,6 +3475,7 @@ function saswp_default_video_object_scjhema(){
                 }
             }
         }else{
+          
             if(isset($video_links[0]['video_url']) && !empty($video_links[0]['video_url'])){  
                 $input1 = array(
                     '@context'			            => saswp_context_url(),

@@ -2241,7 +2241,7 @@ function saswp_schema_output() {
                                 }  
 
                                 $input1['@context'] = saswp_context_url();
-                                
+    //                               
                                 if(!empty($video_links) && count($video_links) > 1){
                                   
                                     $input1['@type'] = "ItemList";                                                       
@@ -2291,6 +2291,7 @@ function saswp_schema_output() {
                                         $input1['itemListElement'][] = $vnewarr;
                                     }
                                 }else{
+                                   
                                     $input1 = array(
                                         '@context'			            => saswp_context_url(),
                                         '@type'				            => 'VideoObject',

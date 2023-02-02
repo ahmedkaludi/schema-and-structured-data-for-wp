@@ -3481,7 +3481,47 @@ function saswp_get_video_metadata($content = ''){
                 $content = $post->post_content;
             }    
         }
-       
+
+        if(function_exists('has_block')){
+            if( has_block('presto-player/youtube') ){
+                $attributes = saswp_get_gutenberg_multiple_block_data('presto-player/youtube');    
+                if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+            }else{
+                $attributes = "";
+            }
+            
+            if(!empty($attributes)){
+                $temp_aray = array(); 
+               
+                foreach($attributes as $match){
+                    if(!empty($match['attrs']['src'])){
+                        $vurl = $match['attrs']['src'];
+                        if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
+                            continue;
+                        }
+                        if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
+                            $vid = saswp_get_youtube_vid($vurl);
+                            $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
+        
+                            if(!empty($video_meta)){
+                                $metadata['title']      = $video_meta['title'];
+                                $metadata['description']      = $video_meta['description'];
+                                $metadata['viewCount']      = $video_meta['viewCount'];
+                                $metadata['duration']      = $video_meta['duration'];
+                                $metadata['uploadDate']      = $video_meta['uploadDate'];
+                                $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
+                            }
+                        }
+                        
+                        if(!empty($vurl)){
+                            $metadata['video_url'] = $vurl;                    
+                            $response[] = $metadata;
+                        }
+                    } 
+                }
+            }
+        }
+
         if(function_exists('has_block')){
             if( has_block('acf/video') ){
                 $attributes = saswp_get_gutenberg_multiple_block_data('acf/video');    
@@ -3508,6 +3548,8 @@ function saswp_get_video_metadata($content = ''){
                 }
             }
         }
+
+      
                                                            
          preg_match_all( '/\[video(.*?)\[\/video]/s', $content, $matches, PREG_SET_ORDER);
          
