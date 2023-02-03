@@ -7122,16 +7122,16 @@ Class saswp_output_service{
                           );
                             
                           if(isset($product_details['product_price']) && $product_details['product_price'] != '0'){
-							
-                                    $input1['offers'] = array(
-                                                    '@type'	        => 'Offer',
-                                                    'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
-                                                    'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
-                                                    'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
-                                                    'url'               => trailingslashit(saswp_get_permalink()),
-                                                    'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')
-                                                 );
-
+                                    if(!empty($product_details['product_price'])){
+                                        $input1['offers'] = array(
+                                                        '@type'	        => 'Offer',
+                                                        'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
+                                                        'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
+                                                        'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                                        'url'               => trailingslashit(saswp_get_permalink()),
+                                                        'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')
+                                                    );
+                                    }
 							
                             }else{
                                 

@@ -307,16 +307,18 @@ function saswp_classpress_ads_schema($input1){
         $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
         $input1['description'] = saswp_get_the_excerpt();
         
-        $input1['offers']['@type']         = 'Offer';
-        $input1['offers']['url']           = saswp_get_permalink();
-        $input1['offers']['price']         = $post_meta['cp_price'][0] ? $post_meta['cp_price'][0] : 0;
-        $input1['offers']['priceCurrency'] = 'USD';
-        $input1['offers']['availability']  = 'InStock';
-        $input1['offers']['validFrom']     = get_the_modified_date('c');
-        $input1['offers']['priceValidUntil']     = $post_meta['cp_sys_expire_date'][0];
+        if(isset($post_meta['cp_price'][0]) && !empty($post_meta['cp_price'][0]) && $post_meta['cp_price'][0] != '0'){
+            $input1['offers']['@type']         = 'Offer';
+            $input1['offers']['url']           = saswp_get_permalink();
+            $input1['offers']['price']         = $post_meta['cp_price'][0] ? $post_meta['cp_price'][0] : 0;
+            $input1['offers']['priceCurrency'] = 'USD';
+            $input1['offers']['availability']  = 'InStock';
+            $input1['offers']['validFrom']     = get_the_modified_date('c');
+            $input1['offers']['priceValidUntil']     = $post_meta['cp_sys_expire_date'][0];
 
-        if( $post_meta['cp_ad_sold'][0] == 'yes') {
-            $input1['offers']['availability']  = 'OutOfStock';   
+            if( $post_meta['cp_ad_sold'][0] == 'yes') {
+                $input1['offers']['availability']  = 'OutOfStock';   
+            }
         }
         
     }
@@ -361,7 +363,9 @@ function saswp_wpecommerce_product_schema($input1){
             $input1['sku']         = wpsc_product_sku();
             $input1['description'] = wpsc_the_product_description();
             $input1['name']        = wpsc_the_product_title();
-            $input1['offers']      = $single_offer;
+            if(isset($price) && !empty($price) && $price != '0'){
+                 $input1['offers']      = $single_offer;
+            }
         
     }
 
