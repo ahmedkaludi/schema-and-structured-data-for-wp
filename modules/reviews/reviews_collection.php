@@ -754,9 +754,11 @@ class SASWP_Reviews_Collection {
                                         <lable><?php echo saswp_t_string('Design'); ?></lable>  
                                         <select name="saswp_collection_design" class="saswp-collection-desing saswp-coll-settings-options">
                                             <?php
-                                            foreach($coll_desing as $key => $val){
-                                                
-                                                echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_design'][0] == $key ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
+                                            if(!empty($coll_desing)){
+                                                foreach($coll_desing as $key => $val){
+                                                    
+                                                    echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_design'][0]) && $post_meta['saswp_collection_design'][0] == $key) ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
+                                                }
                                             }
                                             ?>                                    
                                          </select>
@@ -831,11 +833,12 @@ class SASWP_Reviews_Collection {
                                         <lable><?php echo saswp_t_string('Sorting'); ?></lable>  
                                         <select name="saswp_collection_sorting" class="saswp-collection-sorting saswp-coll-settings-options">                                      
                                           <?php
+                                          if(!empty($coll_sorting)){
                                             foreach($coll_sorting as $key => $val){
-                                                echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_sorting'][0] == $key ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
+                                                echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_sorting'][0]) && $post_meta['saswp_collection_sorting'][0] == $key) ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
                                                 
                                             }
-                                            
+                                          }
                                             ?>
                                         </select>
                                     </div>
@@ -849,11 +852,12 @@ class SASWP_Reviews_Collection {
                                         <lable><?php echo saswp_t_string('Rating'); ?></lable>  
                                         <select id="saswp_collection_specific_rating_sel" name="saswp_collection_specific_rating_sel" class="saswp-coll-settings-options saswp-coll-settings-options">                                      
                                           <?php
-                                            foreach($rating_specific_sel as $key => $val){
-                                                echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_specific_rating_sel'][0] == $key ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
-                                                
+                                            if(!empty($rating_specific_sel)){
+                                                foreach($rating_specific_sel as $key => $val){
+                                                    echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_specific_rating_sel'][0]) && $post_meta['saswp_collection_specific_rating_sel'][0] == $key) ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
+                                                    
+                                                }
                                             }
-                                            
                                             ?>
                                         </select>
                                     </div>
@@ -868,9 +872,11 @@ class SASWP_Reviews_Collection {
                                         <label><?php echo saswp_t_string( 'Display Type' ); ?></label>
                                         <select class="saswp-collection-display-method" name="saswp_collection_display_type">
                                             <?php
-                                            foreach($coll_display_type as $key => $val){
-                                                
-                                                echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_display_type'][0] == $key ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
+                                            if(!empty($coll_display_type)){
+                                                foreach($coll_display_type as $key => $val){
+                                                    
+                                                    echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_display_type'][0]) && $post_meta['saswp_collection_display_type'][0] == $key) ? 'selected':'').' >'.saswp_t_string( $val  ).'</option>';
+                                                }
                                             }
                                             ?> 
                                         </select>
@@ -901,16 +907,21 @@ class SASWP_Reviews_Collection {
                                          <select class="saswp-collection-where " name="saswp_collection_where[]">
                                             
                                             <?php
-                                                $selected_val = unserialize($post_meta['saswp_collection_where'][0]);
+                                                $selected_val = array();
+                                                if(isset($post_meta['saswp_collection_where'][0]) && !empty($post_meta['saswp_collection_where'][0])){
+                                                    $selected_val = unserialize($post_meta['saswp_collection_where'][0]);
+                                                }
 
-                                                foreach ($choice as $key => $value) {
+                                                if(!empty($choice)){
+                                                    foreach ($choice as $key => $value) {
 
-                                                    if(isset($selected_val[0]) && $selected_val[0] == $key){
-                                                        echo '<option value="'.$key.'" selected>'.$value.'</option>';
-                                                    }else{
-                                                        echo '<option value="'.$key.'">'.$value.'</option>';
+                                                        if(isset($selected_val[0]) && !empty($selected_val[0]) && $selected_val[0] == $key){
+                                                            echo '<option value="'.$key.'" selected>'.$value.'</option>';
+                                                        }else{
+                                                            echo '<option value="'.$key.'">'.$value.'</option>';
+                                                        }
+                                                        
                                                     }
-                                                    
                                                 }
 
                                             ?>
@@ -929,8 +940,10 @@ class SASWP_Reviews_Collection {
                                                     
                                                     $type_list = saswp_get_condition_list($condition_val);
                                                     
-                                                    
-                                                    $where_data = unserialize($post_meta['saswp_collection_where_data'][0]);
+                                                    $where_data = array();
+                                                    if(isset($post_meta['saswp_collection_where_data'][0]) && !empty($post_meta['saswp_collection_where_data'][0])){
+                                                        $where_data = unserialize($post_meta['saswp_collection_where_data'][0]);
+                                                    }
                                                     
                                                     if ( isset($where_data[0]) && $where_data[0] !=  '' ) {
                                                         $saved_choices = saswp_get_condition_list($condition_val, '', $where_data[0]);                        
