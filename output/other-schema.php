@@ -307,7 +307,7 @@ function saswp_classpress_ads_schema($input1){
         $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
         $input1['description'] = saswp_get_the_excerpt();
         
-        if(isset($post_meta['cp_price'][0]) && !empty($post_meta['cp_price'][0]) && $post_meta['cp_price'][0] != '0'){
+        if(!empty($post_meta['cp_price'][0]) || $post_meta['cp_price'][0] != 0){
             $input1['offers']['@type']         = 'Offer';
             $input1['offers']['url']           = saswp_get_permalink();
             $input1['offers']['price']         = $post_meta['cp_price'][0] ? $post_meta['cp_price'][0] : 0;
