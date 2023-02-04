@@ -2853,9 +2853,7 @@ Class saswp_output_service{
                         break;       
                 
                 case 'NewsArticle':
-                    // echo "<pre>";
-                    // print_r($custom_fields);
-                    // die();
+                    
                     if(isset($custom_fields['saswp_newsarticle_id'])){
                         $input1['@id'] =     trailingslashit(get_permalink()).$custom_fields['saswp_newsarticle_id'];
                     }
