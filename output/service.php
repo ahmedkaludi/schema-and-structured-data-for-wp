@@ -7117,7 +7117,7 @@ Class saswp_output_service{
                             'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')                                                               
                           );
                             
-                          if(isset($product_details['product_price']) && $product_details['product_price'] != '0' || $product_details['product_price'] != 0){
+                          if(isset($product_details['product_price']) && $product_details['product_price'] != '0'){
                                    
                                         $input1['offers'] = array(
                                                         '@type'	        => 'Offer',
@@ -7141,7 +7141,7 @@ Class saswp_output_service{
                                         $price = min($product_details['product_varible_price']);
                                     }
 
-                                    if(isset($price) && $price != '0' || $price != 0){
+                                    if(isset($price) && $price != '0'){
                                         $input1['offers'] = array(
                                             '@type'	        => 'Offer',
                                             'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
