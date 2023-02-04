@@ -302,7 +302,7 @@ function saswp_classpress_ads_schema($input1){
         $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
         $input1['description'] = saswp_get_the_excerpt();
         
-        if(!empty($post_meta['cp_price'][0]) || $post_meta['cp_price'][0] != 0){
+        if(isset($post_meta['cp_price'][0]) && $post_meta['cp_price'][0] != '0' || $post_meta['cp_price'][0] != 0){
             $input1['offers']['@type']         = 'Offer';
             $input1['offers']['url']           = saswp_get_permalink();
             $input1['offers']['price']         = $post_meta['cp_price'][0] ? $post_meta['cp_price'][0] : 0;
@@ -358,7 +358,7 @@ function saswp_wpecommerce_product_schema($input1){
             $input1['sku']         = wpsc_product_sku();
             $input1['description'] = wpsc_the_product_description();
             $input1['name']        = wpsc_the_product_title();
-            if(isset($price) && !empty($price) && $price != '0'){
+            if(isset($price) && $price != '0' || $price != 0){
                  $input1['offers']      = $single_offer;
             }
         

@@ -1628,11 +1628,8 @@ function saswp_schema_output() {
                                 $input1 = $service_object->saswp_schema_markup_generator($schema_type);
                                   
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-                                                                                                
-                                $check_price_value = apply_filters('saswp_modify_product_schema_output', $input1 );                                                             
-                                if(!empty($checkPirice1['offers']['price'])){
-                                     $input1 = apply_filters('saswp_modify_product_schema_output', $input1 );
-                                }
+                                                     
+                                $input1 = apply_filters('saswp_modify_product_schema_output', $input1 );
                                 
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                 
@@ -1640,6 +1637,10 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_product_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                // echo "<pre>";
+                                //   print_r($input1);
+                                //   die();
 			
                             break;
                         
