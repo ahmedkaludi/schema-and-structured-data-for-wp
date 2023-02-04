@@ -2869,8 +2869,8 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_newsarticle_headline'])){
                        $input1['headline'] =    $custom_fields['saswp_newsarticle_headline']; 
                     }
-                    if(isset($custom_fields['saswp_newsarticle_alternativeHeadline'])){
-                        $input1['alternativeHeadline'] =    $custom_fields['saswp_newsarticle_alternativeHeadline']; 
+                    if(isset($custom_fields['saswp_newsarticle_alternative_headline'])){
+                        $input1['alternativeHeadline'] =    $custom_fields['saswp_newsarticle_alternative_headline']; 
                      }
                     if(isset($custom_fields['saswp_newsarticle_keywords'])){
                        $input1['keywords'] =    $custom_fields['saswp_newsarticle_keywords']; 

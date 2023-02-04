@@ -637,7 +637,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     ),
                     array(
                         'label'   => 'Alternative Headline',
-                        'id'      => 'saswp_newsarticle_alternativeHeadline_'.$schema_id,
+                        'id'      => 'saswp_newsarticle_alternative_headline_'.$schema_id,
                         'type'    => 'text',
                         'default' => saswp_get_the_title(),
                     ),
