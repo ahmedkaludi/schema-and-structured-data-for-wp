@@ -1638,9 +1638,6 @@ function saswp_schema_output() {
                                     $input1 = saswp_product_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
 
-                                // echo "<pre>";
-                                //   print_r($input1);
-                                //   die();
 			
                             break;
                         
