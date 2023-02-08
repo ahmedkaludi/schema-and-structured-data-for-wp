@@ -235,23 +235,80 @@ Class saswp_output_service{
                                 
                             }
                             
-                        }                        
-                        
+                        }
+
+                        if($response){
+                            $response = substr(trim($response), 0, -1); 
+                        }
+
                     }else{
                     
-                        $terms               = get_the_terms( $post->ID, $taxonomy_term[$key]);
+                        if(strpos($key, "global_mapping") == true || $key == "saswp_webpage_reviewed_by"){
+
+                            $terms               = get_the_terms( $post->ID, $taxonomy_term[$key]);
+
+                            if(count($terms) == 1){
+
+                                foreach ($terms as $term){
+                                
+                                    $saveas = array();
+    
+                                    $facebook = get_term_meta($term->term_id, 'author_facebook', true);
+                                    $twitter  = get_term_meta($term->term_id, 'author_twitter', true);
+                                    $linkedin = get_term_meta($term->term_id, 'author_linkedin', true);
+                                    $a_site   = get_term_meta($term->term_id, 'author_site', true);
+                                    $img_id   = get_term_meta($term->term_id, 'cfe_author_image_id', true);  
+                                                                  
+                                    $image_details   = saswp_get_image_by_id($img_id); 
+    
+                                    if($facebook || $twitter || $linkedin || $a_site){
+                                        if($facebook){
+                                            $saveas[] = $facebook;
+                                        }
+                                        if($twitter){
+                                            $saveas[] = $twitter;
+                                        }
+                                        if($linkedin){
+                                            $saveas[] = $linkedin;
+                                        }
+                                        if($a_site){
+                                            $saveas[] = $a_site;
+                                        }
+                                        
+                                    }
+    
+                                    $response['@type']       = "Person"; 
+                                    $response['name']        = $term->name;
+                                    $response['url']         = get_term_link($term);
+                                    $response['description'] = $term->description;
+                                    if($image_details){
+                                        $response['image'] = $image_details;
+                                    }
+                                    if(!empty($saveas)){
+                                        $response['sameAS'] =   $saveas;
+                                    }
+    
+                                }
+
+                            }
+                            
+                        }else{
+
+                            $terms               = get_the_terms( $post->ID, $taxonomy_term[$key]);
                         
-                        if($terms){
-                            foreach ($terms as $term){
-                                $response .= $term->name.', ';
-                            }    
-                        }
+                            if($terms){
+                                foreach ($terms as $term){
+                                    $response .= $term->name.', ';
+                                }    
+                            }
                         
+                            if($response){
+                                $response = substr(trim($response), 0, -1); 
+                            }
+                        }                        
                     }
                                                                                                     
-                    if($response){
-                        $response = substr(trim($response), 0, -1); 
-                    }
+                    
                                                             
                     break;
                     

@@ -98,7 +98,7 @@ function saswp_post_taxonomy_generator(){
     $taxonomies = '';  
     $choices    = array();
         
-    $taxonomies = get_taxonomies( array('public' => true), 'objects' );
+    $taxonomies = get_taxonomies( array(), 'objects' );
     
     if($taxonomies){
         
