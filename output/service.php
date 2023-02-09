@@ -7174,7 +7174,7 @@ Class saswp_output_service{
                             'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')                                                               
                           );
                             
-                          if(isset($product_details['product_price'])){
+                          if(isset($product_details['product_price']) && $product_details['product_price'] !=''){
                                    
                                         $input1['offers'] = array(
                                                         '@type'	        => 'Offer',
