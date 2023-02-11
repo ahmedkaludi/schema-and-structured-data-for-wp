@@ -2848,7 +2848,7 @@ function saswp_explod_by_semicolon($data){
 
             foreach ($explod as $val){
 
-                $response[] = $val;  
+                $response[] = wp_strip_all_tags($val);  
 
             }
 

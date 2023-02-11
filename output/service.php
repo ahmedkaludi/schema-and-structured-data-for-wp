@@ -4499,14 +4499,14 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_recipe_ingredient'])){  
                       if(is_array($custom_fields['saswp_recipe_ingredient'])){                   
-                          $input1['recipeIngredient'] =   strip_tags($custom_fields['saswp_recipe_ingredient']);                          
+                          $input1['recipeIngredient'] =   wp_strip_all_tags($custom_fields['saswp_recipe_ingredient']);                          
                       }else{     
-                          $input1['recipeIngredient'] =  strip_tags(saswp_explod_by_semicolon($custom_fields['saswp_recipe_ingredient']));
+                          $input1['recipeIngredient'] =  saswp_explod_by_semicolon($custom_fields['saswp_recipe_ingredient']);
                       }              
                     }
                     if(isset($custom_fields['saswp_recipe_instructions'])){  
                         if(is_array($custom_fields['saswp_recipe_instructions'])){
-                            $input1['recipeInstructions'] =    $custom_fields['saswp_recipe_instructions'];   
+                            $input1['recipeInstructions'] =    wp_strip_all_tags($custom_fields['saswp_recipe_instructions']);   
                         }else{
                             $input1['recipeInstructions'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_instructions']);
                         }                     
