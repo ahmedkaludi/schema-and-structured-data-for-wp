@@ -3493,15 +3493,14 @@ function saswp_fetched_reviews_json_ld(){
 }
 
 function saswp_fetched_user_custom_schema(){
+    
     global $sd_data;
-    $author_id      = get_the_author_meta('ID');	
-    $aurthor_name 	= get_the_author();
-
-    $input1 = array();
-    if(!empty($aurthor_name)){
-        $input1  = get_user_meta($author_id, 'saswp_user_custom_schema_field', true); 
-    }
-    return $input1;
+    $author_id      = get_the_author_meta('ID');	     
+    if($author_id){
+            return get_user_meta($author_id, 'saswp_user_custom_schema_field', true);
+    }else{
+        return '';
+    }    
 }
 
 function saswp_fetched_reviews_schema_markup(){

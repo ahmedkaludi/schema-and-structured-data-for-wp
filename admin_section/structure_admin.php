@@ -2416,14 +2416,14 @@ function extra_user_profile_fields( $user ) {
   $custom_markp  = get_user_meta($user_id, 'saswp_user_custom_schema_field', true);   
 
   ?>
-    <h3><?php _e("Custom profile information", "blank"); ?></h3>
+    <h3><?php echo saswp_t_string("Custom profile information"); ?></h3>
 
     <table class="form-table">
     <tr>
-        <th><label for="saswp_user_custom_schema_field"><?php _e("Custom Schema"); ?></label></th>
+        <th><label for="saswp_user_custom_schema_field"><?php echo saswp_t_string("Custom Schema (SASWP)"); ?></label></th>
         <td>
             <textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85"><?php if(!empty($custom_markp)){ echo $custom_markp; } ?></textarea><br />
-            <span class="description"><strong>Note: </strong><?php _e("Please enter the valid Json-ld. Whatever you enter will be added in page source"); ?></span>
+            <span class="description"><strong><?php echo saswp_t_string("Note: ") ?></strong><?php echo saswp_t_string("Please enter the valid Json-ld. Whatever you enter will be added in page source"); ?></span>
         </td>
     </tr>
 
@@ -2441,7 +2441,9 @@ function save_extra_user_profile_fields( $user_id ) {
     }
    
     if(!empty($_POST['saswp_custom_schema_field'])){
-        update_user_meta( $user_id, 'saswp_user_custom_schema_field', $_POST['saswp_custom_schema_field'] );               
+        $allowed_html = saswp_expanded_allowed_tags();                                                  
+        $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
+        update_user_meta( $user_id, 'saswp_user_custom_schema_field',  $custom_schema );               
     }else{
         delete_user_meta( $user_id, 'saswp_user_custom_schema_field');  
     }
