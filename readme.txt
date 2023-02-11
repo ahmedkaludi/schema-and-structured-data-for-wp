@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 1.9.109.1
+Stable tag: 1.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,23 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.10 (11 Feb 2023) =
+
+* Enhancement: Improvement required in Product schema #1848
+* Fixed: tempt to read property “ID” on null error #1820
+* Fixed: To remove HTML tags from schema #1832
+* Enhancement: Ultimate Block plugin compatibility issue #1828
+* Feature: Add new functionality to disable the Breadcrumbs schema on a specific post. #1831
+* Feature: Add new functionality to add the custom schema to the WordPress User. #1829
+* Fixed: Deprecated: Hook elementor/widgets/widgets_registered #1836
+* Enhancement: Add new functionality to fetch the author name from the taxonomy. #1839
+* Enhancement: In the WebPage schema, we should add a new property called inLanguage. #1840
+* Enhancement: tempt A new property called "Alternative Headline" should be added to the news article scheme.  #1837
+* Fixed: When we use the boolean value for the directApply property in the job posting schema, that value should be automatically added to other job posts. #1845
+* Feature: Errors in video object schema #1841
+* Fixed: Product reviews are not geeting fetch #1838
+* Fixed: Need to fix the warnings in error log #1849
 
 = 1.9.109.1 (17 Jan 2023) =
 
