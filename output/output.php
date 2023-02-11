@@ -1404,22 +1404,24 @@ function saswp_schema_output() {
                             break;
 
                             case 'BreadCrumbs': 
-                                                        
-                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
                                 
-                                $mainentity = saswp_get_mainEntity($schema_post_id);
+                                if(is_single() || is_page() ||is_archive()){
+            
+                                    $bread_crumb_list =   saswp_list_items_generator();  
                                 
-                                if($mainentity){
-                                   $input1['mainEntity'] = $mainentity;                                     
-                                }
-				                                                                                                                                
-                                $input1 = apply_filters('saswp_modify_breadcrumb_output', $input1 );  
-                                
-                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
-                                
-                                $input1 = saswp_breadcrumbs_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                    if(!empty($bread_crumb_list)){   
+                                    
+                                        $input1['@context']        =  saswp_context_url();
+                                        $input1['@type']           =  'BreadcrumbList';
+                                        $input1['@id']             =  trailingslashit($sd_data['breadcrumb_url']).'#breadcrumb';
+                                        $input1['itemListElement'] =  $bread_crumb_list;
+                                                               
+                                        $input1 = apply_filters('saswp_modify_breadcrumb_output', $input1);  
+                                 
+                                     }
                                        
-			                                
+                                }
+                                                                                                                                                                       			                                
                             break;
 
                             case 'Photograph':
@@ -2809,7 +2811,14 @@ function saswp_schema_output() {
                                 unset($input1['logo']);
                            }
                            
-                        }                        
+                        } 
+                        
+                        if($schema_type ==  'BreadCrumbs'){
+                            unset($input1['image']);
+                            unset($input1['review']);
+                            unset($input1['aggregateRating']);                            
+                            unset($input1['publisher']);
+                        }
                                                                 
 		         if(isset($schema_options['notAccessibleForFree']) && $schema_options['notAccessibleForFree'] == 1){
 
@@ -2856,51 +2865,28 @@ function saswp_schema_output() {
  */
 function saswp_schema_breadcrumb_output(){
     
-   global $sd_data; 
-   //condition for particular post for BreadCrumbs list
-    $args = array(
-        'post_type'   => 'saswp',
-        'post_status' => 'publish',
-        'numberposts' => -1,
-       );
-    $schemalist_result = get_posts( $args );
-    if(!empty($schemalist_result)){
-        foreach($schemalist_result as $schema){
-           $postid = $schema->ID;    
-           $schema_type = get_post_meta($postid,'schema_type',true);
-
-            if($schema_type === "BreadCrumbs"){
-                $breadcrumb[] = 'BreadCrumbs';
-            }else{
-                $breadcrumb[] = "";
-            }
-        }
-    }
-
-    if (in_array("BreadCrumbs", $breadcrumb)){
-        return "";
-    }else{
-        if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
-                                                    
-            if(is_single() || is_page() ||is_archive()){
-                
-                $bread_crumb_list =   saswp_list_items_generator();  
+	global $sd_data;        
+        
+	if(isset($sd_data['saswp_breadcrumb_schema']) && $sd_data['saswp_breadcrumb_schema'] == 1){
+				       				
+        if(is_single() || is_page() ||is_archive()){
             
-                if(!empty($bread_crumb_list)){   
-                
-                    $input['@context']        =  saswp_context_url();
-                    $input['@type']           =  'BreadcrumbList';
-                    $input['@id']             =  trailingslashit($sd_data['breadcrumb_url']).'#breadcrumb';
-                    $input['itemListElement'] =  $bread_crumb_list;
-                                        
-                    return apply_filters('saswp_modify_breadcrumb_output', $input);  
+            $bread_crumb_list =   saswp_list_items_generator();  
+        
+            if(!empty($bread_crumb_list)){   
             
-                }
-                
-            }         
-
-        }
-    }
+                $input['@context']        =  saswp_context_url();
+                $input['@type']           =  'BreadcrumbList';
+                $input['@id']             =  trailingslashit($sd_data['breadcrumb_url']).'#breadcrumb';
+                $input['itemListElement'] =  $bread_crumb_list;
+                                       
+                return apply_filters('saswp_modify_breadcrumb_output', $input);  
+         
+             }
+               
+           }         
+	
+      }
 }
 
 /**
