@@ -2808,6 +2808,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => $author_url
                         ),
                         array(
+                                'label'   => 'Editor',
+                                'id'      => 'saswp_article_editor_global_mapping_'.$schema_id,
+                                'type'    => 'global_mapping'
+                        ),
+                        array(
                                 'label'   => 'Editor Type',
                                 'id'      => 'saswp_article_editor_type_'.$schema_id,
                                 'type'    => 'select',
