@@ -920,8 +920,7 @@ function saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post
                     }
                     if(isset($review['saswp_product_reviews_text'])){
                         $review_fields['description']   = esc_textarea($review['saswp_product_reviews_text']);
-                    }
-                    // echo "<pre>";print_r(is_int($review['saswp_product_reviews_reviewer_rating']));die;
+                    }                    
                                                                                   
                     if($review['saswp_product_reviews_reviewer_rating']){
 
@@ -2728,9 +2727,7 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
 
     if( ( isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] ) && $all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] !='' ) && date('Y-m-d',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]) ) < date('Y-m-d') ){        
         $input1 = array();    
-    }
-    // print_r($input1);
-    // die;
+    }    
     return $input1;            
 }
 
