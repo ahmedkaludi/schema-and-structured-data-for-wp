@@ -636,6 +636,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_get_the_title(),
                     ),
                     array(
+                        'label'   => 'Alternative Headline',
+                        'id'      => 'saswp_newsarticle_alternative_headline_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => saswp_get_the_title(),
+                    ),
+                    array(
                             'label' => 'Date Published',
                             'id' => 'saswp_newsarticle_date_published_'.$schema_id,
                             'type' => 'text',
@@ -2154,6 +2160,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
+                        'label'   => 'inLanguage',
+                        'id'      => 'saswp_webpage_inlanguage_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => get_bloginfo('language'),
+                    ),
+                    array(
                         'label'   => 'Webpage Section',
                         'id'      => 'saswp_webpage_section_'.$schema_id,
                         'type'    => 'textarea',
@@ -2794,6 +2806,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_article_reviewedby_url_'.$schema_id,
                                 'type'    => 'text',
                                 'default' => $author_url
+                        ),
+                        array(
+                                'label'   => 'Editor',
+                                'id'      => 'saswp_article_editor_global_mapping_'.$schema_id,
+                                'type'    => 'global_mapping'
                         ),
                         array(
                                 'label'   => 'Editor Type',

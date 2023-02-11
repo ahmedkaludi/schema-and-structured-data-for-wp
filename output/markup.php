@@ -920,8 +920,7 @@ function saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post
                     }
                     if(isset($review['saswp_product_reviews_text'])){
                         $review_fields['description']   = esc_textarea($review['saswp_product_reviews_text']);
-                    }
-                    // echo "<pre>";print_r(is_int($review['saswp_product_reviews_reviewer_rating']));die;
+                    }                    
                                                                                   
                     if($review['saswp_product_reviews_reviewer_rating']){
 
@@ -1026,7 +1025,7 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             'recipeYield'                    => saswp_remove_warnings($all_post_meta, 'saswp_recipe_recipeyield_'.$schema_id, 'saswp_array'),  
             'recipeCategory'                 => saswp_remove_warnings($all_post_meta, 'saswp_recipe_category_'.$schema_id, 'saswp_array'),
             'recipeCuisine'                  => saswp_remove_warnings($all_post_meta, 'saswp_recipe_cuisine_'.$schema_id, 'saswp_array'),              
-            'recipeIngredient'               => $ingredient, 
+            'recipeIngredient'               => strip_tags($ingredient), 
             'recipeInstructions'             => $instruction,                                                                                                                                                                                 
             'datePublished'                 => isset($all_post_meta['saswp_recipe_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_published_'.$schema_id][0])):'',
             'dateModified'                  => isset($all_post_meta['saswp_recipe_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_modified_'.$schema_id][0])):'',            
@@ -1380,9 +1379,7 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 if(!isset($input1['review'])){
                     $input1 = saswp_append_fetched_reviews($input1); 
                 }
-                // echo "<pre>";
-                // print_r($input1);
-                // die();
+                
     return $input1;
     
 }
@@ -2611,16 +2608,16 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $howto_image = get_post_meta( get_the_ID(), 'saswp_jobposting_schema_ho_logo_'.$schema_id.'_detail',true); 
 
     $checkIdPro = ((isset($all_post_meta['saswp_jobposting_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_jobposting_schema_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_jobposting_schema_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#JobPosting');
-
+        
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'JobPosting';
     $input1['@id']                   = $checkIdPro;
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['title']                 = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_title_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_description_'.$schema_id, 'saswp_array');
-    $input1['datePosted']            = isset($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])):'';                            
-    $input1['directApply']            = isset($all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id])?$all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id]:'false';                            
-    $input1['validThrough']          = isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])):'';                            
+    $input1['datePosted']            = isset($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])):'';                            
+    $input1['directApply']           = isset($all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id][0])?$all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id][0]:'false';                            
+    $input1['validThrough']          = isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])):'';                            
     $input1['employmentType']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_employment_type_'.$schema_id, 'saswp_array');
     $input1['industry']              = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_industry_'.$schema_id, 'saswp_array');
     $input1['occupationalCategory']  = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_occupational_category_'.$schema_id, 'saswp_array');
@@ -2730,9 +2727,7 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
 
     if( ( isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] ) && $all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] !='' ) && date('Y-m-d',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]) ) < date('Y-m-d') ){        
         $input1 = array();    
-    }
-    // print_r($input1);
-    // die;
+    }    
     return $input1;            
 }
 
@@ -4008,8 +4003,8 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1 = array(
         '@context'			=> saswp_context_url(),
         '@type'				=> 'WebPage' ,
-        '@id'                           => $checkIdPro,     
-        'inLanguage'                    => get_bloginfo('language'),    
+        '@id'               => $checkIdPro,    
+        'inLanguage'        => saswp_remove_warnings($all_post_meta, 'saswp_webpage_inlanguage_'.$schema_id, 'saswp_array'),   
         'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_name_'.$schema_id, 'saswp_array'),
         'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_url_'.$schema_id, 'saswp_array'),
         'lastReviewed' 	    => isset($all_post_meta['saswp_webpage_last_reviewed_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_last_reviewed_'.$schema_id][0], get_post_time('h:i:s')) :'',
@@ -4429,6 +4424,21 @@ function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_m
             
     return $input1;
 
+}
+
+function saswp_breadcrumbs_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+        $input1 = array();
+        global $sd_data; 
+        if(is_single() || is_page() ||is_archive()){
+            $bread_crumb_list =   saswp_list_items_generator();
+            $input1 = array();
+            $input1['@context']        =  saswp_context_url();
+            $input1['@type']           =  'BreadcrumbList';
+            $input1['@id']             =  trailingslashit($sd_data['breadcrumb_url']).'#breadcrumb';
+            $input1['itemListElement'] =  $bread_crumb_list;
+        }
+  
+    return $input1;
 }
 
 function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta){
@@ -4875,7 +4885,8 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
 					'url'			            	=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_URL_'.$schema_id, 'saswp_array'),
                     'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_image_'.$schema_id, 'saswp_array'),
 					'headline'			            => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_headline_'.$schema_id, 'saswp_array'),
-					'datePublished'                 => isset($all_post_meta['saswp_newsarticle_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
+					'alternativeHeadline'			=> saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_alternative_headline_'.$schema_id, 'saswp_array'),
+                    'datePublished'                 => isset($all_post_meta['saswp_newsarticle_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
 					'dateModified'                  => isset($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',
 					'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_description_'.$schema_id, 'saswp_array'),
                     'keywords'		                => saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_keywords_'.$schema_id, 'saswp_array'),

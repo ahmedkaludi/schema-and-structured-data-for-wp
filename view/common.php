@@ -611,9 +611,7 @@ class saswp_view_common_class {
 				default:       
                                             			
 			}
-                        // echo "<pre>";
-                        // print_r($meta_field['id']);
-                        // die();
+                        
                         if($meta_field['id'] == 'saswp_service_schema_rating_'.$schema_id       || 
                            $meta_field['id'] == 'saswp_product_schema_rating_'.$schema_id       ||
                            $meta_field['id'] == 'saswp_review_schema_rating_'.$schema_id        ||

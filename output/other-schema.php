@@ -94,13 +94,12 @@ function saswp_taqyeem_review_rich_snippet(){
     $input1    = array();    
 
     if(isset($sd_data['saswp-taqyeem']) && $sd_data['saswp-taqyeem'] == 1 && function_exists('taqyeem_review_get_rich_snippet')){
-
-        $get_meta = get_post_custom( $post->ID );
-        
-        if( !empty( $get_meta['taq_review_position'][0] ) ){
-            $input1 = taqyeem_review_get_rich_snippet();
+        if(is_object($post)){
+            $get_meta = get_post_custom( $post->ID );
+            if( !empty( $get_meta['taq_review_position'][0] ) ){
+                $input1 = taqyeem_review_get_rich_snippet();
+            }
         }
-        
     }
 
     return apply_filters('saswp_modify_taqeem_default_schema', $input1);    
@@ -303,6 +302,7 @@ function saswp_classpress_ads_schema($input1){
         $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
         $input1['description'] = saswp_get_the_excerpt();
         
+       
         $input1['offers']['@type']         = 'Offer';
         $input1['offers']['url']           = saswp_get_permalink();
         $input1['offers']['price']         = $post_meta['cp_price'][0] ? $post_meta['cp_price'][0] : 0;
@@ -314,6 +314,7 @@ function saswp_classpress_ads_schema($input1){
         if( $post_meta['cp_ad_sold'][0] == 'yes') {
             $input1['offers']['availability']  = 'OutOfStock';   
         }
+      
         
     }
 
@@ -357,7 +358,9 @@ function saswp_wpecommerce_product_schema($input1){
             $input1['sku']         = wpsc_product_sku();
             $input1['description'] = wpsc_the_product_description();
             $input1['name']        = wpsc_the_product_title();
+           
             $input1['offers']      = $single_offer;
+           
         
     }
 

@@ -2407,3 +2407,46 @@ function saswp_script_loader_tag($tag, $handle, $src) {
 	
 }
 add_filter('script_loader_tag', 'saswp_script_loader_tag', 10, 3);
+
+//user Custom Schema filed start
+add_action( 'show_user_profile', 'extra_user_profile_fields', 10, 1 );
+add_action( 'edit_user_profile', 'extra_user_profile_fields', 10, 1 );
+function extra_user_profile_fields( $user ) { 
+  $user_id = $user->ID;
+  $custom_markp  = get_user_meta($user_id, 'saswp_user_custom_schema_field', true);   
+
+  ?>
+    <h3><?php echo saswp_t_string("Custom profile information"); ?></h3>
+
+    <table class="form-table">
+    <tr>
+        <th><label for="saswp_user_custom_schema_field"><?php echo saswp_t_string("Custom Schema (SASWP)"); ?></label></th>
+        <td>
+            <textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85"><?php if(!empty($custom_markp)){ echo $custom_markp; } ?></textarea><br />
+            <span class="description"><strong><?php echo saswp_t_string("Note: ") ?></strong><?php echo saswp_t_string("Please enter the valid Json-ld. Whatever you enter will be added in page source"); ?></span>
+        </td>
+    </tr>
+
+    </table>
+<?php }
+//user Custom Schema filed end
+
+//user Custom Schema filed save start
+add_action( 'personal_options_update', 'save_extra_user_profile_fields' );
+add_action( 'edit_user_profile_update', 'save_extra_user_profile_fields' );
+
+function save_extra_user_profile_fields( $user_id ) {
+    if ( !current_user_can( 'edit_user', $user_id ) ) { 
+        return false; 
+    }
+   
+    if(!empty($_POST['saswp_custom_schema_field'])){
+        $allowed_html = saswp_expanded_allowed_tags();                                                  
+        $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
+        update_user_meta( $user_id, 'saswp_user_custom_schema_field',  $custom_schema );               
+    }else{
+        delete_user_meta( $user_id, 'saswp_user_custom_schema_field');  
+    }
+     
+}
+//user Custom Schema filed save end

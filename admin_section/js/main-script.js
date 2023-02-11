@@ -660,6 +660,11 @@ if(busines_stype == 'local_business'){
          }else{
          $(".saswp-schema-modify-section").show();      
          }
+         if(schematype == 'BreadCrumbs'){  
+          $(".saswp-schema-modify-section").hide();  
+          }else{
+          $(".saswp-schema-modify-section").show();      
+          }
          saswp_enable_rating_review();
          saswp_enable_rating_automate();
             
@@ -769,6 +774,11 @@ if(busines_stype == 'local_business'){
                 $(".saswp-event-text-field-tr").show();
                 $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
+             if(schematype == 'BreadCrumbs'){  
+              $(".saswp-schema-modify-section").hide();  
+              }else{
+              $(".saswp-schema-modify-section").show();      
+              }
              
             saswp_enable_rating_review();
             saswp_enable_rating_automate();

@@ -47,7 +47,8 @@ return array(
                 'TechArticle'              => 'TechArticle', 
                 'VisualArtwork'            => 'VisualArtwork',                                           
                 'WebPage'                  => 'WebPage',
-                'MedicalWebPage'           => 'MedicalWebPage'                                                                 
+                'MedicalWebPage'           => 'MedicalWebPage',
+                'BreadCrumbs'              => 'BreadCrumbs'  
         ),
         'Event' => array(
             'Event'                    => 'Event',
