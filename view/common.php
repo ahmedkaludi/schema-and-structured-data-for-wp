@@ -752,28 +752,32 @@ class saswp_view_common_class {
                             
                             $element_val          = array();   
 
-                            if(array_key_exists($val.'_'.$schema->ID, $_POST)){
+                                if(is_array($_POST)){
+                                    
+                                    if(array_key_exists($val.'_'.$schema->ID, $_POST)){
                                
-                                $data = (array) $_POST[$val.'_'.$schema->ID];  
-                                 
-                                if($data){
-                                
-                                    foreach ($data as $supply){
-
-                                        $sanitize_data = array();
-
-                                            foreach($supply as $k => $el){   
-                                                    if(isset($el)){
-                                                        $sanitize_data[$k] = wp_kses_post(wp_unslash($el));                                                                                                                                   
-                                                    }                                               
-                                                    
-                                            }
-                                            if($sanitize_data){
-                                                $element_val[] = $sanitize_data;     
-                                            }                                         
-                                        } 
-                                    }                                                                                                         
+                                        $data = (array) $_POST[$val.'_'.$schema->ID];  
+                                     
+                                            if($data){
+                                        
+                                                foreach ($data as $supply){
+        
+                                                    $sanitize_data = array();
+        
+                                                        foreach($supply as $k => $el){   
+                                                                if(isset($el)){
+                                                                    $sanitize_data[$k] = wp_kses_post(wp_unslash($el));                                                                                                                                   
+                                                                }                                               
+                                                                
+                                                        }
+                                                        if($sanitize_data){
+                                                            $element_val[] = $sanitize_data;     
+                                                        }                                         
+                                                } 
+                                            }                                                                                                         
+                                    }
                                 }   
+
                                 if(!empty($element_val)){
                                     saswp_update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);                                                                                                              
                                 }                            
