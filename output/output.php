@@ -3248,8 +3248,9 @@ function saswp_archive_output(){
 function saswp_author_output(){
     
 	global $post, $sd_data;   
-        $post_id ='';
-        
+           $post_id = null;
+           $input   = array();
+
 	if(isset($sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
             
         if(is_object($post)){
@@ -3262,43 +3263,47 @@ function saswp_author_output(){
 		// Get author from post content
 		$post_content	= get_post($post_id);                
 		$post_author	= get_userdata($post_content->post_author);		
-		$input = array (
-			'@type'	=> 'Person',
-			'name'	=> get_the_author_meta('display_name'),
-			'url'	=> esc_url( get_author_posts_url( $post_author->ID ) ),
 
-		);
+        if(is_object($post_author) && isset($post_author->ID)){
 
-		$sd_website 	= esc_attr( stripslashes( get_the_author_meta( 'user_url', $post_author->ID ) ) );
-		$sd_googleplus  = esc_attr( stripslashes( get_the_author_meta( 'googleplus', $post_author->ID ) ) );
-		$sd_facebook 	= esc_attr( stripslashes( get_the_author_meta( 'facebook', $post_author->ID) ) );
-		$sd_twitter 	= esc_attr( stripslashes( get_the_author_meta( 'twitter', $post_author->ID ) ) );
-		$sd_instagram 	= esc_attr( stripslashes( get_the_author_meta( 'instagram', $post_author->ID ) ) );
-		$sd_youtube 	= esc_attr( stripslashes( get_the_author_meta( 'youtube', $post_author->ID ) ) );
-		$sd_linkedin 	= esc_attr( stripslashes( get_the_author_meta( 'linkedin', $post_author->ID ) ) );
-		$sd_pinterest 	= esc_attr( stripslashes( get_the_author_meta( 'pinterest', $post_author->ID ) ) );
-		$sd_soundcloud  = esc_attr( stripslashes( get_the_author_meta( 'soundcloud', $post_author->ID ) ) );
-		$sd_tumblr 	    = esc_attr( stripslashes( get_the_author_meta( 'tumblr', $post_author->ID ) ) );
-		
-		$sd_sameAs_links = array( $sd_website, $sd_googleplus, $sd_facebook, $sd_twitter, $sd_instagram, $sd_youtube, $sd_linkedin, $sd_pinterest, $sd_soundcloud, $sd_tumblr);
-		
-		$sd_social = array();
-		
-		// Remove empty fields
-		foreach( $sd_sameAs_links as $sd_sameAs_link ) {
-			if ( '' != $sd_sameAs_link ) $sd_social[] = $sd_sameAs_link;
-		}
-		
-		if ( ! empty($sd_social) ) {
-			$input["sameAs"] = $sd_social;
-		}
+            $input = array (
+                '@type'	=> 'Person',
+                'name'	=> get_the_author_meta('display_name'),
+                'url'	=> esc_url( get_author_posts_url( $post_author->ID ) ),
 
-		if ( get_the_author_meta( 'description', $post_author->ID ) ) {
-			$input['description'] = strip_tags( get_the_author_meta( 'description', $post_author->ID ) );
-		}
+            );
+
+            $sd_website 	= esc_attr( stripslashes( get_the_author_meta( 'user_url', $post_author->ID ) ) );
+            $sd_googleplus  = esc_attr( stripslashes( get_the_author_meta( 'googleplus', $post_author->ID ) ) );
+            $sd_facebook 	= esc_attr( stripslashes( get_the_author_meta( 'facebook', $post_author->ID) ) );
+            $sd_twitter 	= esc_attr( stripslashes( get_the_author_meta( 'twitter', $post_author->ID ) ) );
+            $sd_instagram 	= esc_attr( stripslashes( get_the_author_meta( 'instagram', $post_author->ID ) ) );
+            $sd_youtube 	= esc_attr( stripslashes( get_the_author_meta( 'youtube', $post_author->ID ) ) );
+            $sd_linkedin 	= esc_attr( stripslashes( get_the_author_meta( 'linkedin', $post_author->ID ) ) );
+            $sd_pinterest 	= esc_attr( stripslashes( get_the_author_meta( 'pinterest', $post_author->ID ) ) );
+            $sd_soundcloud  = esc_attr( stripslashes( get_the_author_meta( 'soundcloud', $post_author->ID ) ) );
+            $sd_tumblr 	    = esc_attr( stripslashes( get_the_author_meta( 'tumblr', $post_author->ID ) ) );
+            
+            $sd_sameAs_links = array( $sd_website, $sd_googleplus, $sd_facebook, $sd_twitter, $sd_instagram, $sd_youtube, $sd_linkedin, $sd_pinterest, $sd_soundcloud, $sd_tumblr);
+            
+            $sd_social = array();
+            
+            // Remove empty fields
+            foreach( $sd_sameAs_links as $sd_sameAs_link ) {
+                if ( '' != $sd_sameAs_link ) $sd_social[] = $sd_sameAs_link;
+            }
+            
+            if ( ! empty($sd_social) ) {
+                $input["sameAs"] = $sd_social;
+            }
+
+            if ( get_the_author_meta( 'description', $post_author->ID ) ) {
+                $input['description'] = strip_tags( get_the_author_meta( 'description', $post_author->ID ) );
+            }
+        }		
 		return apply_filters('saswp_modify_author_output', $input);
-	}
- }
+	    }
+    }
 }
 
 /**
