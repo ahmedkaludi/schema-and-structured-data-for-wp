@@ -3094,6 +3094,7 @@ function saswp_get_field_note($pname){
             'event_on'                    => saswp_t_string('Event On').' <a target="_blank" href="https://www.myeventon.com/">Event On</a>',
             'wordlift'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
             'ampforwp'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
+            'bunyadamp'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">Bunyad AMP</a>',
             'quickandeasyfaq'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/quick-and-easy-faqs/">Quick and Easy FAQs</a>',
             'accordionfaq'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/responsive-accordion-and-collapse">Accordion FAQ</a>',
             'webfaq10'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/faq-wd/">10WebFAQ</a>',
