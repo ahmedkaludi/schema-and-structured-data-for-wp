@@ -3740,78 +3740,154 @@ Class saswp_output_service{
                     }
 
                     if(!empty($custom_fields['saswp_webpage_reviewed_by'])){
-                        $input1['reviewedBy'] = array();
-                        if(!empty($custom_fields['saswp_webpage_reviewed_by'])){
+                        $reviewed_by =  get_post_meta($post->ID, 'article_reviewed_by');
+                        if(!empty($reviewed_by)){
+                            $reviewer_id = $reviewed_by[0];
+                            $reviewer_data = get_user_meta ($reviewer_id);
+                          
+                            $input1['reviewedBy'] = array();
                             $input1['reviewedBy']['@type'] =   "Person";
-                        }
-                        if(!empty($custom_fields['saswp_webpage_reviewed_by']['custom_fields'])){
-                            $fields_name = $custom_fields['saswp_webpage_reviewed_by']['custom_fields'];
+    
+                            if(!empty($reviewer_data['first_name'][0])){
+                                $input1['reviewedBy']['name'] =    $reviewer_data['first_name'][0];
+                            }
+    
+                            if(!empty($reviewer_data['read_more_link'][0])){
+                                $input1['reviewedBy']['url'] =    $reviewer_data['read_more_link'][0];
+                            }
+    
+                            if(!empty($reviewer_data['author_bio'][0])){
+                                $input1['reviewedBy']['description'] =    $reviewer_data['author_bio'][0];
+                            }
+    
+                            if(!empty($reviewer_data['knowsabout'][0])){
+                                $input1['reviewedBy']['knowsabout'] =   explode(',',$reviewer_data['knowsabout'][0]);
+                            }
+    
+                            if(!empty($reviewer_data['honorificsuffix'][0])){
+                                $input1['reviewedBy']['honorificSuffix'] =    $reviewer_data['honorificsuffix'][0];
+                            }
+    
+                            if(!empty($reviewer_data['reviewer_bio'][0])){
+                                $input1['reviewedBy']['reviewer_bio'] =    $reviewer_data['reviewer_bio'][0];
+                            }
+                            
+                            $sameas = array();
+                            if(!empty($reviewer_data['facebook'][0])){
+                                $sameas[] =   $reviewer_data['facebook'][0];
+                            }
+                        
+                            if(!empty($reviewer_data['twitter'][0])){
+                                $sameas[] =   $reviewer_data['twitter'][0];
+                            }
+                        
+                            if(!empty($reviewer_data['linkedin'][0])){
+                                $sameas[] =   $reviewer_data['linkedin'][0];
+                            }
+                        
+                            if(!empty($reviewer_data['instagram'][0])){
+                                $sameas[] =   $reviewer_data['instagram'][0];
+                            }
+                        
+                            if(!empty($reviewer_data['youtube'][0])){
+                                $sameas[] =   $reviewer_data['youtube'][0];
+                            }
+                            if($sameas){
+                                $input1['reviewedBy']['sameAs'] = $sameas;
+                            }
+                         
+                            if(!empty($reviewer_data['alumniof'][0])){
+                                $str =  $reviewer_data['alumniof'][0];
+                                $itemlist = explode(",", $str);
+                                foreach ($itemlist as $key => $list){
+                                    $vnewarr['@type'] = 'Organization';
+                                    $vnewarr['Name']   = $list;   
+                                    $input1['reviewedBy']['alumniOf'][] = $vnewarr;
+                                }
+                            }
+    
+                            if(!empty($reviewer_data['author_image'][0])){
+                                $author_image =  wp_get_attachment_image_src($reviewer_data['author_image'][0]);
+                               
+                                $input1['reviewedBy']['image']['@type']  = 'ImageObject';
+                                $input1['reviewedBy']['image']['url']    = $author_image[0];
+                                $input1['reviewedBy']['image']['height'] = $author_image[1];
+                                $input1['reviewedBy']['image']['width']  = $author_image[2];
+    
+                            }
                         }else{
-                            $fields_name = "";
-                        }
-                    
-                        if(!empty($custom_fields['saswp_webpage_reviewed_by']['name'])){
-                            $input1['reviewedBy']['name'] =    $custom_fields['saswp_webpage_reviewed_by']['name'];
-                        }
-                    
-                        if(!empty($custom_fields['saswp_webpage_reviewed_by']['url'])){
-                            $input1['url'] =    $custom_fields['saswp_webpage_reviewed_by']['url'];
-                        }
-                    
-                        if(!empty($custom_fields['saswp_webpage_reviewed_by']['description'])){
-                            $input1['description'] =    $custom_fields['saswp_webpage_reviewed_by']['description'];
-                        }
-                    
-                        if(!empty($fields_name['honorificsuffix'][0])){
-                            $input1['reviewedBy']['honorificSuffix'] =    $fields_name['honorificsuffix'][0];
-                        }
-                    
-                        if(!empty($fields_name['knowsabout'][0])){
-                            $input1['reviewedBy']['knowsAbout'] =   explode(',',$fields_name['knowsabout'][0]);
-                        }
+                            $input1['reviewedBy'] = array();
+                            if(!empty($custom_fields['saswp_webpage_reviewed_by'])){
+                                $input1['reviewedBy']['@type'] =   "Person";
+                            }
+                            if(!empty($custom_fields['saswp_webpage_reviewed_by']['custom_fields'])){
+                                $fields_name = $custom_fields['saswp_webpage_reviewed_by']['custom_fields'];
+                            }else{
+                                $fields_name = "";
+                            }
+                        
+                            if(!empty($custom_fields['saswp_webpage_reviewed_by']['name'])){
+                                $input1['reviewedBy']['name'] =    $custom_fields['saswp_webpage_reviewed_by']['name'];
+                            }
+                        
+                            if(!empty($custom_fields['saswp_webpage_reviewed_by']['url'])){
+                                $input1['url'] =    $custom_fields['saswp_webpage_reviewed_by']['url'];
+                            }
+                        
+                            if(!empty($custom_fields['saswp_webpage_reviewed_by']['description'])){
+                                $input1['description'] =    $custom_fields['saswp_webpage_reviewed_by']['description'];
+                            }
+                        
+                            if(!empty($fields_name['honorificsuffix'][0])){
+                                $input1['reviewedBy']['honorificSuffix'] =    $fields_name['honorificsuffix'][0];
+                            }
+                        
+                            if(!empty($fields_name['knowsabout'][0])){
+                                $input1['reviewedBy']['knowsAbout'] =   explode(',',$fields_name['knowsabout'][0]);
+                            }
 
-                        if(!empty($fields_name['reviewer_bio'][0])){
-                            $input1['reviewedBy']['description'] =    $fields_name['reviewer_bio'][0];
-                        }
-                    
-                        $sameas = array();
-                        if(!empty($fields_name['team_facebook'][0])){
-                            $sameas[] =   $fields_name['team_facebook'][0];
-                        }
-                    
-                        if(!empty($fields_name['team_twitter'][0])){
-                            $sameas[] =   $fields_name['team_twitter'][0];
-                        }
-                    
-                        if(!empty($fields_name['team_linkedin'][0])){
-                            $sameas[] =   $fields_name['team_linkedin'][0];
-                        }
-                    
-                        if(!empty($fields_name['team_instagram'][0])){
-                            $sameas[] =   $fields_name['team_instagram'][0];
-                        }
-                    
-                        if(!empty($fields_name['team_youtube'][0])){
-                            $sameas[] =   $fields_name['team_youtube'][0];
-                        }
-                        if($sameas){
-                            $input1['reviewedBy']['sameAs'] = $sameas;
-                        }
-                    
-                        if(!empty($fields_name['reviewer_image'])){
-                            $input1['reviewedBy']['image']  = $fields_name['reviewer_image'];
-                        }
-                    
-                        if(!empty($fields_name['alumniof'][0])){
-                            $str =  $fields_name['alumniof'][0];
-                            $itemlist = explode(",", $str);
-                            foreach ($itemlist as $key => $list){
-                                $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
-                                $input1['reviewedBy']['alumniOf'][] = $vnewarr;
+                            if(!empty($fields_name['reviewer_bio'][0])){
+                                $input1['reviewedBy']['description'] =    $fields_name['reviewer_bio'][0];
+                            }
+                        
+                            $sameas = array();
+                            if(!empty($fields_name['team_facebook'][0])){
+                                $sameas[] =   $fields_name['team_facebook'][0];
+                            }
+                        
+                            if(!empty($fields_name['team_twitter'][0])){
+                                $sameas[] =   $fields_name['team_twitter'][0];
+                            }
+                        
+                            if(!empty($fields_name['team_linkedin'][0])){
+                                $sameas[] =   $fields_name['team_linkedin'][0];
+                            }
+                        
+                            if(!empty($fields_name['team_instagram'][0])){
+                                $sameas[] =   $fields_name['team_instagram'][0];
+                            }
+                        
+                            if(!empty($fields_name['team_youtube'][0])){
+                                $sameas[] =   $fields_name['team_youtube'][0];
+                            }
+                            if($sameas){
+                                $input1['reviewedBy']['sameAs'] = $sameas;
+                            }
+                        
+                            if(!empty($fields_name['reviewer_image'])){
+                                $input1['reviewedBy']['image']  = $fields_name['reviewer_image'];
+                            }
+                        
+                            if(!empty($fields_name['alumniof'][0])){
+                                $str =  $fields_name['alumniof'][0];
+                                $itemlist = explode(",", $str);
+                                foreach ($itemlist as $key => $list){
+                                    $vnewarr['@type'] = 'Organization';
+                                    $vnewarr['Name']   = $list;   
+                                    $input1['reviewedBy']['alumniOf'][] = $vnewarr;
+                                }
                             }
                         }
-                       
                     }
                     
                     break;
