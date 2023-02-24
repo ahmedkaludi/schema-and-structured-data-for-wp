@@ -3414,7 +3414,7 @@ function saswp_site_navigation_output(){
             
             global $sd_data;
             $input = array();    
-
+            $menuItems = array();       
             $navObj = array();          
                                        
             if(isset($sd_data['saswp_site_navigation_menu'])){
@@ -3431,14 +3431,14 @@ function saswp_site_navigation_output(){
                 
                 $menu_name = wp_get_nav_menu_object($menu_id);
                                              
-                if($menuItems){
+                    if(!empty($menuItems)){
                    
                         foreach($menuItems as $items){
                  
                               $navObj[] = array(
                                      "@context"  => saswp_context_url(),
                                      "@type"     => "SiteNavigationElement",
-                                     "@id"       => trailingslashit(get_home_url()).'#'.$menu_name->name,
+                                     "@id"       => trailingslashit(get_home_url()). $menu_name ? '#'.$menu_name->name : '',
                                      "name"      => wp_strip_all_tags($items->title),
                                      "url"       => esc_url($items->url)
                               );
@@ -3446,7 +3446,7 @@ function saswp_site_navigation_output(){
                         }                                                                                                                                                                                   
                     }
              
-                    if($navObj){
+                    if(!empty($navObj)){
 
                         $input['@context'] = saswp_context_url(); 
                         $input['@graph']   = $navObj; 
