@@ -1877,6 +1877,328 @@ Class saswp_output_service{
                                      
                         break; 
 
+                        case 'ScholarlyArticle': 
+                                 
+                            if(isset($custom_fields['saswp_scholarlyarticle_id'])){
+                                $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_scholarlyarticle_id'];
+                            }
+                            if(isset($custom_fields['saswp_scholarlyarticle_main_entity_of_page'])){
+                             $input1['mainEntityOfPage'] =    $custom_fields['saswp_scholarlyarticle_main_entity_of_page'];
+                            }
+                            if(isset($custom_fields['saswp_scholarlyarticle_image'])){
+                             $input1['image'] =    $custom_fields['saswp_scholarlyarticle_image'];
+                            }
+                            if(isset($custom_fields['saswp_scholarlyarticle_url'])){
+                             $input1['url'] =    saswp_validate_url($custom_fields['saswp_scholarlyarticle_url']);
+                            }
+                            if(isset($custom_fields['saswp_scholarlyarticle_body'])){
+                             $input1['articleBody'] =    $custom_fields['saswp_scholarlyarticle_body'];
+                            }
+                            if(isset($custom_fields['saswp_scholarlyarticle_keywords'])){
+                             $input1['keywords'] =    $custom_fields['saswp_scholarlyarticle_keywords'];
+                            }
+                            if(isset($custom_fields['saswp_scholarlyarticle_section'])){
+                             $input1['articleSection'] =    $custom_fields['saswp_scholarlyarticle_section'];
+                            }
+                            if(isset($custom_fields['saswp_scholarlyarticle_inlanguage'])){
+                                $input1['inLanguage'] =    $custom_fields['saswp_scholarlyarticle_inlanguage'];
+                            }
+                            if(isset($custom_fields['saswp_scholarlyarticle_headline'])){
+                             $input1['headline'] =    $custom_fields['saswp_scholarlyarticle_headline'];
+                            }                    
+                            if(isset($custom_fields['saswp_scholarlyarticle_description'])){
+                             $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_scholarlyarticle_description'] ));
+                            }
+                            if(isset($custom_fields['saswp_scholarlyarticle_date_published'])){
+                             $input1['datePublished'] =    $custom_fields['saswp_scholarlyarticle_date_published'];
+                            }
+                            if(isset($custom_fields['saswp_scholarlyarticle_date_modified'])){
+                             $input1['dateModified'] =    $custom_fields['saswp_scholarlyarticle_date_modified'];
+                            }
+                           
+                            if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping'])){
+                                $input1['editor'] = array();
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping'])){
+                                    $input1['editor']['@type'] =   "Person";
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping']['name'])){
+                                    $input1['editor']['name'] =    $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['name'];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping']['url'])){
+                                    $input1['editor']['url'] =    $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['url'];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping']['description'])){
+                                    $input1['editor']['description'] =    $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['description'];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['honorificsuffix'][0])){
+                                    $input1['editor']['honorificSuffix'] =    $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['honorificsuffix'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['knowsabout'][0])){
+                                    $input1['editor']['knowsAbout'] =   explode(',', $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['knowsabout'][0]);
+                                }
+    
+                                $sameas = array();
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['team_facebook'][0])){
+                                    $sameas[] =  $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['team_facebook'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['team_twitter'][0])){
+                                    $sameas[] =  $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['team_twitter'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['team_linkedin'][0])){
+                                    $sameas[] =   $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['team_linkedin'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_ascholarlyarticle_editor_global_mapping']['custom_fields']['team_instagram'][0])){
+                                    $sameas[] =   $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['team_instagram'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['team_youtube'][0])){
+                                    $sameas[] =   $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['team_youtube'][0];
+                                }
+                                if($sameas){
+                                    $input1['editor']['sameAs'] = $sameas;
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['alumniof'][0])){
+                                    $str =  $custom_fields['saswp_scholarlyarticle_editor_global_mapping']['custom_fields']['alumniof'][0];
+                                    $itemlist = explode(",", $str);
+                                    foreach ($itemlist as $key => $list){
+                                        $vnewarr['@type'] = 'Organization';
+                                        $vnewarr['Name']   = $list;   
+                                        $input1['editor']['alumniOf'][] = $vnewarr;
+                                    }
+                                }
+                            }else{
+                               
+                                if(isset($custom_fields['saswp_scholarlyarticle_editor_type'])){
+                                    $input1['editor']['@type'] =    $custom_fields['saswp_scholarlyarticle_editor_type'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_editor_name'])){
+                                 $input1['editor']['name'] =    $custom_fields['saswp_scholarlyarticle_editor_name'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_editor_honorific_suffix'])){
+                                    $input1['editor']['honorificSuffix'] =    $custom_fields['saswp_scholarlyarticle_editor_honorific_suffix'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_editor_description'])){
+                                    $input1['editor']['description'] =    $custom_fields['saswp_scholarlyarticle_editor_description'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_editor_url'])){
+                                    $input1['editor']['url'] =    $custom_fields['saswp_scholarlyarticle_editor_url'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_editor_image'])){
+                                    $input1['editor']['Image']['url'] =    $custom_fields['saswp_scholarlyarticle_editor_image'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_editor_jobtitle'])){
+                                    $input1['editor']['JobTitle'] =    $custom_fields['saswp_scholarlyarticle_editor_jobtitle'];
+                                }
+                            }
+    
+                            if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping'])){
+                                $input1['author'] = array();
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping'])){
+                                    $input1['author']['@type'] =   "Person";
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['name'])){
+                                    $input1['author']['name'] =    $custom_fields['saswp_scholarlyarticle_author_global_mapping']['name'];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['url'])){
+                                    $input1['author']['url'] =    $custom_fields['saswp_scholarlyarticle_author_global_mapping']['url'];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['description'])){
+                                    $input1['author']['description'] =    $custom_fields['saswp_scholarlyarticle_author_global_mapping']['description'];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['honorificsuffix'][0])){
+                                    $input1['author']['honorificSuffix'] =    $custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['honorificsuffix'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['knowsabout'][0])){
+                                    $input1['author']['knowsAbout'] =   explode(',', $custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['knowsabout'][0]);
+                                }
+    
+                                $sameas = array();
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['team_facebook'][0])){
+                                    $sameas[] =  $custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['team_facebook'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['team_twitter'][0])){
+                                    $sameas[] =  $custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['team_twitter'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['team_linkedin'][0])){
+                                    $sameas[] =   $custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['team_linkedin'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['team_instagram'][0])){
+                                    $sameas[] =   $custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['team_instagram'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['team_youtube'][0])){
+                                    $sameas[] =   $custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['team_youtube'][0];
+                                }
+                                if($sameas){
+                                    $input1['author']['sameAs'] = $sameas;
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['alumniof'][0])){
+                                    $str =  $custom_fields['saswp_scholarlyarticle_author_global_mapping']['custom_fields']['alumniof'][0];
+                                    $itemlist = explode(",", $str);
+                                    foreach ($itemlist as $key => $list){
+                                        $vnewarr['@type'] = 'Organization';
+                                        $vnewarr['Name']   = $list;   
+                                        $input1['author']['alumniOf'][] = $vnewarr;
+                                    }
+                                }
+                            }else{
+                               
+                                if(isset($custom_fields['saswp_scholarlyarticle_author_type'])){
+                                    $input1['author']['@type'] =    $custom_fields['saswp_scholarlyarticle_author_type'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_author_name'])){
+                                 $input1['author']['name'] =    $custom_fields['saswp_scholarlyarticle_author_name'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_author_honorific_suffix'])){
+                                    $input1['author']['honorificSuffix'] =    $custom_fields['saswp_scholarlyarticle_author_honorific_suffix'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_author_description'])){
+                                    $input1['author']['description'] =    $custom_fields['saswp_scholarlyarticle_author_description'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_author_url'])){
+                                    $input1['author']['url'] =    $custom_fields['saswp_scholarlyarticle_author_url'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_author_image'])){
+                                    $input1['author']['Image']['url'] =    $custom_fields['saswp_scholarlyarticle_author_image'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_author_jobtitle'])){
+                                    $input1['author']['JobTitle'] =    $custom_fields['saswp_scholarlyarticle_author_jobtitle'];
+                                }
+                            }
+    
+                            if(isset($custom_fields['saswp_scholarlyarticle_organization_logo']) && isset($custom_fields['saswp_scholarlyarticle_organization_name'])){
+                             $input1['publisher']['@type']       =    'Organization';
+                             $input1['publisher']['name']        =    $custom_fields['saswp_scholarlyarticle_organization_name'];
+                             $input1['publisher']['logo']        =    $custom_fields['saswp_scholarlyarticle_organization_logo'];
+                            }  
+    
+                            if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping'])){
+                                $input1['reviewedBy'] = array();
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping'])){
+                                    $input1['reviewedBy']['@type'] =   "Person";
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['name'])){
+                                    $input1['reviewedBy']['name'] =    $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['name'];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['url'])){
+                                    $input1['reviewedBy']['url'] =    $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['url'];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['description'])){
+                                    $input1['reviewedBy']['description'] =    $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['description'];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['honorificsuffix'][0])){
+                                    $input1['reviewedBy']['honorificSuffix'] =    $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['honorificsuffix'][0];
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['knowsabout'][0])){
+                                    $input1['reviewedBy']['knowsAbout'] =   explode(',', $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['knowsabout'][0]);
+                                }
+                                
+                                $sameas = array();
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['team_facebook'][0])){
+                                    $sameas[] =    $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['team_facebook'][0];
+                                }
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['team_twitter'][0])){
+                                    $sameas[] =    $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['team_twitter'][0];
+                                }
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['team_linkedin'][0])){
+                                    $sameas[] =    $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['team_linkedin'][0];
+                                }
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['team_instagram'][0])){
+                                    $sameas[] =     $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['team_instagram'][0];
+                                }
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['team_youtube'][0])){
+                                    $sameas[] =    $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['team_youtube'][0];
+                                }
+                                if($sameas){
+                                    $input1['reviewedBy']['sameAs'] = $sameas;
+                                }
+    
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['reviewer_image'])){
+                                    $input1['reviewedBy']['image']  = $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['reviewer_image'];
+                                }
+                            
+                                if(!empty($custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['alumniof'][0])){
+                                    $str =  $custom_fields['saswp_scholarlyarticle_reviewedby_global_mapping']['custom_fields']['alumniof'][0];
+                                    $itemlist = explode(",", $str);
+                                    foreach ($itemlist as $key => $list){
+                                        $vnewarr['@type'] = 'Organization';
+                                        $vnewarr['Name']   = $list;   
+                                        $input1['reviewedBy']['alumniOf'][] = $vnewarr;
+                                    }
+                                }
+    
+    
+                            }else{
+    
+                                if(isset($custom_fields['saswp_scholarlyarticle_reviewedby_type'])){
+                                    $input1['reviewedBy']['@type'] =    $custom_fields['saswp_scholarlyarticle_reviewedby_type'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_reviewedby_name'])){
+                                $input1['reviewedBy']['name'] =    $custom_fields['saswp_scholarlyarticle_reviewedby_name'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_reviewedby_honorific_suffix'])){
+                                    $input1['reviewedBy']['honorificSuffix'] =    $custom_fields['saswp_scholarlyarticle_reviewedby_honorific_suffix'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_reviewedby_description'])){
+                                $input1['reviewedBy']['description'] =    $custom_fields['saswp_scholarlyarticle_reviewedby_description'];
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_reviewedby_url'])){
+                                $input1['reviewedBy']['url'] =    $custom_fields['saswp_scholarlyarticle_reviewedby_url'];
+                                }    
+                            
+                                if(isset($custom_fields['saswp_scholarlyarticle_alumniof'])){
+                                    $str = $custom_fields['saswp_scholarlyarticle_alumniof'];
+                                    $itemlist = explode(",", $str);
+                                    foreach ($itemlist as $key => $list){
+                                        $vnewarr['@type'] = 'Organization';
+                                        $vnewarr['Name']   = $list;   
+                                        $input1['alumniOf'][] = $vnewarr;
+                                    }
+                                }
+                                if(isset($custom_fields['saswp_scholarlyarticle_knowsabout'])){                            
+                                    $input1['knowsAbout'] = explode(',', $custom_fields['saswp_scholarlyarticle_knowsabout']);    
+                                }  
+                            }
+    
+                            if(!empty($custom_fields['saswp_scholarlyarticle_about']) && isset($custom_fields['saswp_scholarlyarticle_about'])){         
+                                $explode_about = explode(',', $custom_fields['saswp_scholarlyarticle_about']);
+                                if(!empty($explode_about)){
+                                    $about_arr = array();
+                                    foreach($explode_about as $val){
+                                        $about_arr[] = array(
+                                                    '@type' => 'Thing',
+                                                    'name'  => $val
+                                        );
+                                    }
+                                    $input1['about'] = $about_arr;
+                                }                            
+                            }  
+                                         
+                            break; 
+
                     case 'CreativeWork':   
                         if(isset($custom_fields['saswp_creativework_id'])){
                             $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_creativework_id'];
@@ -7281,6 +7603,7 @@ Class saswp_output_service{
             switch ($schema_type) {
                                                 
                 case 'Article':   
+                case 'ScholarlyArticle':
                 case 'TechArticle':  
                 case 'Photograph':  
                 case 'Blogposting':

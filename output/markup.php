@@ -4656,6 +4656,162 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
     
 }
 
+
+function saswp_scholarlyarticle_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+    $author_image = get_post_meta( get_the_ID(), 'saswp_scholarlyarticle_author_image_'.$schema_id.'_detail',true);
+    $slogo = get_post_meta( get_the_ID(), 'saswp_scholarlyarticle_organization_logo_'.$schema_id.'_detail',true);
+    $checkIdPro = ((isset($all_post_meta['saswp_scholarlyarticle_id_'.$schema_id][0]) && $all_post_meta['saswp_scholarlyarticle_id_'.$schema_id][0] !='') ? trailingslashit(get_permalink()).$all_post_meta['saswp_scholarlyarticle_id_'.$schema_id][0] : trailingslashit(get_permalink()).'#ScholarlyArticle');
+    $input1 = array(
+            '@context'			            => saswp_context_url(),
+            '@type'				            => 'ScholarlyArticle',
+            '@id'                           => $checkIdPro,
+            'url'				            => saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_url_'.$schema_id, 'saswp_array'),
+            'inLanguage'                    => saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_inlanguage_'.$schema_id, 'saswp_array'),
+            'mainEntityOfPage'              => saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_main_entity_of_page_'.$schema_id, 'saswp_array'),
+            'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_image_'.$schema_id, 'saswp_array'),
+            'headline'			            => saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_headline_'.$schema_id, 'saswp_array'),
+            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_description_'.$schema_id, 'saswp_array'),
+            'articleSection'                => saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_section_'.$schema_id, 'saswp_array'),
+            'articleBody'                   => isset($all_post_meta['saswp_scholarlyarticle_body_'.$schema_id][0]) ? wp_strip_all_tags(strip_shortcodes($all_post_meta['saswp_scholarlyarticle_body_'.$schema_id][0])) : '',
+            'keywords'		                => saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_keywords_'.$schema_id, 'saswp_array'),                
+            'datePublished'                 => isset($all_post_meta['saswp_scholarlyarticle_date_published_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_scholarlyarticle_date_published_'.$schema_id][0], get_post_time('h:i:s')):'',
+            'dateModified'                  => isset($all_post_meta['saswp_scholarlyarticle_date_modified_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_scholarlyarticle_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')):'',                                
+
+    );
+
+    $input1['author']['@type']       = 'Person';
+
+    if(isset( $all_post_meta['saswp_scholarlyarticle_author_type_'.$schema_id][0] )){
+        $input1['author']['@type']       = $all_post_meta['saswp_scholarlyarticle_author_type_'.$schema_id][0];
+    }  
+
+    $input1['author']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_name_'.$schema_id, 'saswp_array');
+    $input1['author']['honorificSuffix']        = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_honorific_suffix_'.$schema_id, 'saswp_array');
+    $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_description_'.$schema_id, 'saswp_array');
+    $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_url_'.$schema_id, 'saswp_array');   
+
+    $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_jobtitle_'.$schema_id, 'saswp_array');   
+    
+    $input1['author']['image']['@type']   = 'ImageObject';
+    $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_image_'.$schema_id, 'saswp_array');       
+    $input1['author']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
+    $input1['author']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+
+    if(!empty($all_post_meta['saswp_scholarlyarticle_editor_type_'.$schema_id][0]) && isset($all_post_meta['saswp_scholarlyarticle_editor_type_'.$schema_id][0])){
+        $input1['editor']['@type']       = 'Person';
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_editor_type_'.$schema_id][0] )){
+            $input1['editor']['@type']       = $all_post_meta['saswp_scholarlyarticle_editor_type_'.$schema_id][0];
+        }  
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_editor_name_'.$schema_id][0] )){
+            $input1['editor']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_editor_name_'.$schema_id, 'saswp_array');
+        }  
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_editor_honorific_suffix_'.$schema_id][0] )){
+            $input1['editor']['honorificSuffix']        = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_editor_honorific_suffix_'.$schema_id, 'saswp_array');
+        }  
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_editor_description_'.$schema_id][0] )){
+            $input1['editor']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_editor_description_'.$schema_id, 'saswp_array');
+        }  
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_editor_url_'.$schema_id][0] )){
+            $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_editor_url_'.$schema_id, 'saswp_array');  
+        }  
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_editor_image_'.$schema_id][0] )){
+            $input1['editor']['image']['@type']   = 'ImageObject';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_editor_image_'.$schema_id, 'saswp_array');       
+            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';  
+        }  
+
+    }
+        
+
+    if(!empty($all_post_meta['saswp_scholarlyarticle_reviewedby_type_'.$schema_id][0]) && isset($all_post_meta['saswp_scholarlyarticle_reviewedby_type_'.$schema_id][0])){
+        $input1['reviewedBy']['@type']       = 'Person';
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_reviewedby_type_'.$schema_id][0] )){
+            $input1['reviewedBy']['@type']       = $all_post_meta['saswp_scholarlyarticle_reviewedby_type_'.$schema_id][0];
+        }  
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_reviewedby_name_'.$schema_id][0] )){
+            $input1['reviewedBy']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_reviewedby_name_'.$schema_id, 'saswp_array');
+        }
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_reviewedby_honorific_suffix_'.$schema_id][0] )){
+            $input1['reviewedBy']['honorificSuffix']        = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_reviewedby_honorific_suffix_'.$schema_id, 'saswp_array');
+        }
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_reviewedby_description_'.$schema_id][0] )){
+            $input1['reviewedBy']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_reviewedby_description_'.$schema_id, 'saswp_array');
+        }
+        if(!empty( $all_post_meta['saswp_scholarlyarticle_reviewedby_url_'.$schema_id][0] )){
+            $input1['reviewedBy']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_reviewedby_url_'.$schema_id, 'saswp_array');   
+        }
+    }
+        if( !empty($all_post_meta['saswp_scholarlyarticle_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_scholarlyarticle_about_'.$schema_id][0] )){
+
+            $explode_about = explode(',', $all_post_meta['saswp_scholarlyarticle_about_'.$schema_id][0]);
+                if(!empty($explode_about)){
+                    $about_arr = array();
+                    foreach($explode_about as $val){
+                        $about_arr[] = array(
+                                    '@type' => 'Thing',
+                                    'name'  => $val
+                        );
+                    }
+                    $input1['about'] = $about_arr;
+                }                                            
+        }
+        if( !empty($all_post_meta['saswp_scholarlyarticle_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_scholarlyarticle_knowsabout_'.$schema_id][0] )){
+            $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_scholarlyarticle_knowsabout_'.$schema_id][0]);
+        }
+
+    if(!empty($all_post_meta['saswp_scholarlyarticle_alumniof_'.$schema_id][0]) && isset( $all_post_meta['saswp_scholarlyarticle_alumniof_'.$schema_id][0] )){
+        $itemlist = explode(',', $all_post_meta['saswp_scholarlyarticle_alumniof_'.$schema_id][0]);
+        foreach ($itemlist as $key => $list){
+            $vnewarr['@type'] = 'Organization';
+            $vnewarr['Name']   = $list;   
+            $input1['alumniOf'][] = $vnewarr;
+        }
+    }
+    if(isset($all_post_meta['saswp_scholarlyarticle_organization_logo_'.$schema_id][0]) || isset($all_post_meta['saswp_scholarlyarticle_organization_name_'.$schema_id][0])){
+    
+        $input1['publisher']['@type']          = 'Organization';
+        $input1['publisher']['logo']['@type']  = 'ImageObject';
+        $input1['publisher']['logo']['url']    = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_organization_logo_'.$schema_id, 'saswp_array');
+        $input1['publisher']['logo']['width']  = saswp_remove_warnings($slogo, 'width', 'saswp_string');
+        $input1['publisher']['logo']['height'] = saswp_remove_warnings($slogo, 'height', 'saswp_string');
+        $input1['publisher']['name']           = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_organization_name_'.$schema_id, 'saswp_array');
+        
+    }
+    
+    $itemlist  = get_post_meta($schema_post_id, 'scholarlyarticle_items_'.$schema_id, true);
+
+    if($itemlist){
+
+        $list_arr = array();
+
+        foreach ($itemlist as $list){
+            $list_arr[] = $list['saswp_scholarlyarticle_items_name'];
+        }
+
+        $input1['mainEntity']['@type']            = 'ItemList';
+        $input1['mainEntity']['itemListElement']  = $list_arr;                 
+        $input1['mainEntity']['itemListOrder']    = 'http://schema.org/ItemListOrderAscending ';
+        $input1['mainEntity']['name']             = saswp_get_the_title();
+
+    }
+
+    if(isset($all_post_meta['saswp_scholarlyarticle_speakable_'.$schema_id]) && $all_post_meta['saswp_scholarlyarticle_speakable_'.$schema_id][0] == 1){
+
+    $input1['speakable']['@type'] = 'SpeakableSpecification';
+    $input1['speakable']['xpath'] = array(
+         "/html/head/title",
+         "/html/head/meta[@name='description']/@content"
+    );
+
+   }
+
+return $input1;
+
+}
+
 function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();

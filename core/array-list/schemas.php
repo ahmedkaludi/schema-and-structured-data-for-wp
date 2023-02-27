@@ -11,6 +11,7 @@ return array(
         ),
          'CreativeWork' => array(
                 'Article'                  => 'Article', 
+                'ScholarlyArticle'         => 'ScholarlyArticle',
                 'Audiobook'                => 'Audiobook',                
                 'BlogPosting'              => 'BlogPosting',
                 'Book'                     => 'Book',

@@ -493,7 +493,7 @@ function saswp_get_all_schema_markup_output() {
             
                     $output_schema_type_id[] = $soutput['@type'];
                     
-                    if($soutput['@type'] == 'BlogPosting'|| $soutput['@type'] == 'Article' || $soutput['@type'] == 'TechArticle' || $soutput['@type'] == 'NewsArticle'){
+                    if($soutput['@type'] == 'BlogPosting'|| $soutput['@type'] == 'Article' || $soutput['@type'] == 'ScholarlyArticle' || $soutput['@type'] == 'TechArticle' || $soutput['@type'] == 'NewsArticle'){
                         
                     
                     $final_output = array();

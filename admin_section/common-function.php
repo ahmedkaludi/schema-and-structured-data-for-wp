@@ -631,7 +631,7 @@ if ( ! defined('ABSPATH') ) exit;
         
                     global $wpdb;
         
-                    $schema_types = array('Event', 'Person', 'Product', 'Recipe', 'Article', 'Service', 'VideoObject', 'SoftwareApplication');
+                    $schema_types = array('Event', 'Person', 'Product', 'Recipe', 'Article', 'ScholarlyArticle', 'Service', 'VideoObject', 'SoftwareApplication');
                                        
                     $args_event   = get_option('bsf_event');
                     $args_person  = get_option('bsf_person');
@@ -734,6 +734,16 @@ if ( ! defined('ABSPATH') ) exit;
                                  $fixed_text['saswp_article_organization_logo']    = $args_article["article_publisher_logo"];
                                  
                                  break;
+                            case 'ScholarlyArticle':
+                                                            
+                                $fixed_text['saswp_scholarlyarticle_image']                = $args_article["scholarlyarticle_name"];
+                                $fixed_text['saswp_scholarlyarticle_headline']             = $args_article["snippet_title"];                                                                  
+                                $fixed_text['saswp_scholarlyarticle_description']          = $args_article["scholarlyarticle_desc"];
+                                $fixed_text['saswp_scholarlyarticle_author_name']          = $args_article["scholarlyarticle_author"];
+                                $fixed_text['saswp_scholarlyarticle_organization_name']    = $args_article["scholarlyarticle_publisher"];
+                                $fixed_text['saswp_scholarlyarticle_organization_logo']    = $args_article["scholarlyarticle_publisher_logo"];
+                                
+                                break;
                              case 'Service':
                                  
                                  $fixed_text['saswp_service_schema_name']          = $args_service["snippet_title"];

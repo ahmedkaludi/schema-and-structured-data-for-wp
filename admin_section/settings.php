@@ -1014,7 +1014,8 @@ function saswp_general_page_callback(){
                 'class'   => 'saswp_archive_schema_type_class',
                 'type'    => 'select',
                 'options' => array(                                
-                                'Article'          => 'Article',                                     
+                                'Article'          => 'Article',     
+                                'ScholarlyArticle' => 'ScholarlyArticle',                                     
                                 'BlogPosting'      => 'BlogPosting',                                     
                                 'NewsArticle'      => 'NewsArticle',          
                                 'AnalysisNewsArticle' => 'AnalysisNewsArticle',    

@@ -1428,6 +1428,27 @@ function saswp_schema_output() {
 			                                
                             break;
 
+                            case 'ScholarlyArticle':
+                                                                
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
+                                
+                                $mainentity = saswp_get_mainEntity($schema_post_id);
+                                
+                                if($mainentity){
+                                   $input1['mainEntity'] = $mainentity;                                     
+                                }
+				                                                                                                                                
+                                $input1 = apply_filters('saswp_modify_scholarlyarticle_schema_output', $input1 );  
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                   
+                                    $input1 = saswp_scholarlyarticle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+			                                
+                            break;
+
                             case 'BreadCrumbs': 
                                 
                                 if(is_single() || is_page() ||is_archive()){

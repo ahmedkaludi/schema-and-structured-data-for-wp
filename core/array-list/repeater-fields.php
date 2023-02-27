@@ -15,6 +15,9 @@ return array( 'schema_type_element' => array(
                         'Article' => array(
                                'article_items' => 'article_items',                                                
                         ),
+						'ScholarlyArticle' => array(
+							'scholarlyarticle_items' => 'scholarlyarticle_items',                                                
+					    ),
                         'ImageObject' => array(
                                'image_object_exif_data' => 'image_object_exif_data',                                                
                         ),

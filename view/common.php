@@ -17,7 +17,8 @@ class saswp_view_common_class {
     public    $schema_type_element       = array();
     public    $itemlist_meta             = array();
     public    $item_list_item = array(
-                             'Article'               => 'Article',                                                              
+                             'Article'               => 'Article',   
+                             'ScholarlyArticle'      => 'ScholarlyArticle',                                                              
                              'Course'                => 'Course',                                                                                                                                                                                                            
                              'Movie'                 => 'Movie',                                   
                              'Product'               => 'Product',                                
