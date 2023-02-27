@@ -284,7 +284,49 @@ Class saswp_output_service{
                                 }
 
                             }
-                            
+
+                        }elseif(strpos($key, "global_mapping") == true || $key == "saswp_itempage_reviewed_by"){
+
+                            $terms               = get_the_terms( $post->ID, $taxonomy_term[$key]);
+
+                            if(count($terms) == 1){
+
+                                foreach ($terms as $term){
+                                
+                                    $saveas = array();
+    
+                                    $facebook = get_term_meta($term->term_id, 'author_facebook', true);
+                                    $twitter  = get_term_meta($term->term_id, 'author_twitter', true);
+                                    $linkedin = get_term_meta($term->term_id, 'author_linkedin', true);
+                                    $a_site   = get_term_meta($term->term_id, 'author_site', true);
+                                    $img_id   = get_term_meta($term->term_id, 'cfe_author_image_id', true);  
+                                                                  
+                                    $image_details   = saswp_get_image_by_id($img_id); 
+    
+                                    if($facebook || $twitter || $linkedin || $a_site){
+                                        if($facebook){
+                                            $response['custom_fields']['team_facebook'][0] = $facebook;
+                                        }
+                                        if($twitter){
+                                            $response['custom_fields']['team_twitter'][0] = $twitter;
+                                        }
+                                        if($linkedin){
+                                            $response['custom_fields']['team_linkedin'][0] = $linkedin;
+                                        }                                        
+                                        
+                                    }
+                                        
+                                    $response['name']        = $term->name;
+                                    $response['url']         = get_home_url().'/author/'.$term->slug;
+                                    $response['description'] = $term->description;
+                                    if($image_details){
+                                        $response['image'] = $image_details;
+                                    }                                    
+    
+                                }
+
+                            }
+                        
                         }else{
 
                             $terms               = get_the_terms( $post->ID, $taxonomy_term[$key]);
@@ -341,6 +383,36 @@ Class saswp_output_service{
                     }elseif(strpos($key, "global_mapping") == true || $key == "saswp_webpage_reviewed_by"){
                             
                         if($key == "saswp_webpage_reviewed_by"){
+                            $tema_id    = get_post_meta($post->ID, "reviewed_by", true);
+                        }else{
+                            $tema_id    = get_post_meta($post->ID, $cus_field[$key], true);
+                        }
+                        if($tema_id && is_numeric($tema_id)){
+                            
+                            $response['@type'] =   "Person"; 
+                            $response['name'] = get_the_title($tema_id);
+                            $response['url'] = get_permalink($tema_id);
+                            $response['description'] =   wp_trim_words(get_post_field('post_content', $tema_id));
+                            $response['custom_fields'] = get_post_meta($tema_id);
+                            $response['custom_fields']['reviewer_image'] =  get_the_post_thumbnail_url($tema_id);
+                           
+                        }else{
+                            if(!empty($tema_id)){
+                                $response['@type'] =   "Person"; 
+                                $response['name'] = get_the_title($tema_id);
+                                $response['url'] = get_permalink($tema_id);
+                                $response['description'] =   wp_trim_words(get_post_field('post_content', $tema_id));
+                                if(!empty($cus_field[$key])){
+                                    $response = get_post_meta($post->ID, $cus_field[$key], true); 
+                                } 
+                                $response['custom_fields'] = get_post_meta($tema_id); 
+                                $response['custom_fields']['reviewer_image'] =  get_the_post_thumbnail_url($tema_id);
+                            }
+                        }
+                  
+                    }elseif(strpos($key, "global_mapping") == true || $key == "saswp_itempage_reviewed_by"){
+                            
+                        if($key == "saswp_itempage_reviewed_by"){
                             $tema_id    = get_post_meta($post->ID, "reviewed_by", true);
                         }else{
                             $tema_id    = get_post_meta($post->ID, $cus_field[$key], true);
@@ -3815,6 +3887,145 @@ Class saswp_output_service{
                     }
                     
                     break;
+
+                    case 'ItemPage':
+                        if(isset($custom_fields['saswp_itempage_id'])){
+                            $input1['@id'] =    trailingslashit(get_permalink()).$custom_fields['saswp_itempage_id'];
+                        }
+                        if(isset($custom_fields['saswp_itempage_name'])){
+                            $input1['name'] =    $custom_fields['saswp_itempage_name'];
+                        }
+                        if(isset($custom_fields['saswp_itempage_url'])){
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_itempage_url']);
+                        }
+                        if(isset($custom_fields['saswp_itempage_description'])){
+                            $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_itempage_description'] )) ;
+                        }
+                        if(isset($custom_fields['saswp_itempage_inlanguage'])){
+                            $input1['inLanguage'] =    $custom_fields['saswp_itempage_inlanguage'];
+                        }
+                        if(isset($custom_fields['saswp_itempage_last_reviewed'])){
+                            $input1['lastReviewed'] =    $custom_fields['saswp_itempage_last_reviewed'];
+                        }
+                        if(isset($custom_fields['saswp_itempage_date_created'])){
+                            $input1['dateCreated'] =    $custom_fields['saswp_itempage_date_created'];
+                        }
+                        
+                        if(isset($custom_fields['saswp_itempage_main_entity_of_page'])){
+                         $input1['mainEntity']['mainEntityOfPage'] =    saswp_validate_url($custom_fields['saswp_itempage_main_entity_of_page']);
+                        }
+                        if(isset($custom_fields['saswp_itempage_image'])){
+                         $input1['mainEntity']['image'] =    $custom_fields['saswp_itempage_image'];
+                        }
+                        if(isset($custom_fields['saswp_itempage_headline'])){
+                         $input1['mainEntity']['headline'] =    $custom_fields['saswp_itempage_headline'];
+                        }
+    
+                        if(isset($custom_fields['saswp_itempage_section'])){
+                            $input1['mainEntity']['articleSection'] =    $custom_fields['saswp_itempage_section'];
+                        }                                        
+                        if(isset($custom_fields['saswp_itempage_keywords'])){
+                            $input1['mainEntity']['keywords'] =    $custom_fields['saswp_itempage_keywords'];
+                        }
+                        
+                        if(isset($custom_fields['saswp_itempage_date_published'])){
+                         $input1['mainEntity']['datePublished'] =    $custom_fields['saswp_itempage_date_published'];
+                        }
+                        if(isset($custom_fields['saswp_itempage_date_modified'])){
+                         $input1['mainEntity']['dateModified'] =    $custom_fields['saswp_itempage_date_modified'];
+                        }
+                        if(isset($custom_fields['saswp_itempage_author_type'])){
+                            $input1['mainEntity']['author']['@type'] =    $custom_fields['saswp_itempage_author_type'];
+                        }
+                        if(isset($custom_fields['saswp_itempage_author_name'])){
+                         $input1['mainEntity']['author']['name'] =    $custom_fields['saswp_itempage_author_name'];
+                        }
+                        if(isset($custom_fields['saswp_itempage_author_url'])){
+                         $input1['mainEntity']['author']['url'] =    $custom_fields['saswp_itempage_author_url'];
+                        }
+                        
+                        if(isset($custom_fields['saswp_itempage_organization_logo']) && isset($custom_fields['saswp_itempage_organization_name'])){
+                            $input1['mainEntity']['publisher']['@type']              =    'Organization';
+                            $input1['mainEntity']['publisher']['logo'] =    $custom_fields['saswp_itempage_organization_logo'];
+                            $input1['mainEntity']['publisher']['name'] =    $custom_fields['saswp_itempage_organization_name'];
+                        }
+    
+                        if(!empty($custom_fields['saswp_itempage_reviewed_by'])){
+                            $input1['reviewedBy'] = array();
+                            if(!empty($custom_fields['saswp_itempage_reviewed_by'])){
+                                $input1['reviewedBy']['@type'] =   "Person";
+                            }
+                            if(!empty($custom_fields['saswp_itempage_reviewed_by']['custom_fields'])){
+                                $fields_name = $custom_fields['saswp_itempage_reviewed_by']['custom_fields'];
+                            }else{
+                                $fields_name = "";
+                            }
+                        
+                            if(!empty($custom_fields['saswp_itempage_reviewed_by']['name'])){
+                                $input1['reviewedBy']['name'] =    $custom_fields['saswp_itempage_reviewed_by']['name'];
+                            }
+                        
+                            if(!empty($custom_fields['saswp_itempage_reviewed_by']['url'])){
+                                $input1['url'] =    $custom_fields['saswp_itempage_reviewed_by']['url'];
+                            }
+                        
+                            if(!empty($custom_fields['saswp_itempage_reviewed_by']['description'])){
+                                $input1['description'] =    $custom_fields['saswp_itempage_reviewed_by']['description'];
+                            }
+                        
+                            if(!empty($fields_name['honorificsuffix'][0])){
+                                $input1['reviewedBy']['honorificSuffix'] =    $fields_name['honorificsuffix'][0];
+                            }
+                        
+                            if(!empty($fields_name['knowsabout'][0])){
+                                $input1['reviewedBy']['knowsAbout'] =   explode(',',$fields_name['knowsabout'][0]);
+                            }
+    
+                            if(!empty($fields_name['reviewer_bio'][0])){
+                                $input1['reviewedBy']['description'] =    $fields_name['reviewer_bio'][0];
+                            }
+                        
+                            $sameas = array();
+                            if(!empty($fields_name['team_facebook'][0])){
+                                $sameas[] =   $fields_name['team_facebook'][0];
+                            }
+                        
+                            if(!empty($fields_name['team_twitter'][0])){
+                                $sameas[] =   $fields_name['team_twitter'][0];
+                            }
+                        
+                            if(!empty($fields_name['team_linkedin'][0])){
+                                $sameas[] =   $fields_name['team_linkedin'][0];
+                            }
+                        
+                            if(!empty($fields_name['team_instagram'][0])){
+                                $sameas[] =   $fields_name['team_instagram'][0];
+                            }
+                        
+                            if(!empty($fields_name['team_youtube'][0])){
+                                $sameas[] =   $fields_name['team_youtube'][0];
+                            }
+                            if($sameas){
+                                $input1['reviewedBy']['sameAs'] = $sameas;
+                            }
+                        
+                            if(!empty($fields_name['reviewer_image'])){
+                                $input1['reviewedBy']['image']  = $fields_name['reviewer_image'];
+                            }
+                        
+                            if(!empty($fields_name['alumniof'][0])){
+                                $str =  $fields_name['alumniof'][0];
+                                $itemlist = explode(",", $str);
+                                foreach ($itemlist as $key => $list){
+                                    $vnewarr['@type'] = 'Organization';
+                                    $vnewarr['Name']   = $list;   
+                                    $input1['reviewedBy']['alumniOf'][] = $vnewarr;
+                                }
+                            }
+                           
+                        }
+                        
+                        break;
                 
             case 'MedicalWebPage':
             
@@ -7172,6 +7383,37 @@ Class saswp_output_service{
 						'author'			=> saswp_get_author_details()						                                               
 					)                    									
 				);
+
+                    if(!empty($publisher)){
+                        $input1['reviewedBy']              = $publisher['publisher'];  
+                        $input1['mainEntity']['publisher'] = $publisher['publisher'];   
+                    }
+                    
+                    break;
+
+            case 'ItemPage':
+            
+                $input1 = array(
+                '@context'			=> saswp_context_url(),
+                '@type'				=> 'ItemPage' ,
+                '@id'				=> trailingslashit(saswp_get_permalink()).'#ItemPage',
+                'name'				=> saswp_get_the_title(),
+                'url'				=> saswp_get_permalink(),
+                'lastReviewed'      => esc_html($modified_date),
+                'dateCreated'       => esc_html($date),                
+                'inLanguage'                    => get_bloginfo('language'),
+                'description'                   => saswp_get_the_excerpt(),
+                'mainEntity'                    => array(
+                        '@type'			=> 'Article',
+                        'mainEntityOfPage'	=> saswp_get_permalink(),						
+                        'headline'		=> saswp_get_the_title(),
+                        'description'		=> saswp_get_the_excerpt(),                        
+                        'keywords'              => saswp_get_the_tags(),
+                        'datePublished' 	=> esc_html($date),
+                        'dateModified'		=> esc_html($modified_date),
+                        'author'			=> saswp_get_author_details()						                                               
+                    )                    									
+                );
 
                     if(!empty($publisher)){
                         $input1['reviewedBy']              = $publisher['publisher'];  

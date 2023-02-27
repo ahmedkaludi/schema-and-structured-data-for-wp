@@ -1023,7 +1023,8 @@ function saswp_general_page_callback(){
                                 'OpinionNewsArticle' => 'OpinionNewsArticle',   
                                 'ReportageNewsArticle' => 'ReportageNewsArticle',     
                                 'ReviewNewsArticle' => 'ReviewNewsArticle',                                                                                                                                                                                                                                                  
-                                'WebPage'          => 'WebPage' 
+                                'WebPage'          => 'WebPage',
+                                'ItemPage'         => 'ItemPage'
                 )
         );
         if(is_plugin_active('woocommerce/woocommerce.php')){

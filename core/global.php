@@ -61,6 +61,7 @@ $without_aggregate = array(
         'qanda',        
         'TechArticle',
         'WebPage',
+        'ItemPage',
         'JobPosting',
         'TaxiService',
         'Trip',

@@ -1294,6 +1294,31 @@ function saswp_schema_output() {
 				
                             break;
 
+                            case 'ItemPage':
+                                                                
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
+				               
+                                if(isset($sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                    $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }                                
+                                if(!empty($aggregateRating)){
+                                    $input1['mainEntity']['aggregateRating'] = $aggregateRating;
+                                }                                
+                                if(!empty($extra_theme_review)){
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }
+                                
+                                $input1 = apply_filters('saswp_modify_itempage_schema_output', $input1 );   
+                             
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_itempage_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+				
+                            break;
+
                             case 'MedicalWebPage':
                                                                 
                                 $input1 = $service_object->saswp_schema_markup_generator($schema_type);
