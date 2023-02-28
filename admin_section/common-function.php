@@ -246,7 +246,7 @@ if ( ! defined('ABSPATH') ) exit;
                         $export_data[$schema->ID]['post']      = (array)$schema;                    
                         $post_meta                             = get_post_meta($schema->ID);    
 
-                        if($post_meta){
+                        if(!empty($post_meta)){
 
                             foreach ($post_meta as $key => $meta){
 
@@ -2490,21 +2490,24 @@ if ( ! defined('ABSPATH') ) exit;
         if(!empty($author_meta['alumniof'][0])){
             $str =  $author_meta['alumniof'][0];
             $itemlist = explode(",", $str);
-            foreach ($itemlist as $key => $list){
-                $vnewarr['@type'] = 'Organization';
-                $vnewarr['Name']   = $list;   
-                $author_details['alumniOf'][] = $vnewarr;
+            if(!empty($itemlist)){
+                foreach ($itemlist as $key => $list){
+                    $vnewarr['@type'] = 'Organization';
+                    $vnewarr['Name']   = $list;   
+                    $author_details['alumniOf'][] = $vnewarr;
+                }
             }
+            
         }
 
         if(!empty($author_meta['author_image'][0])){
             $author_image =  wp_get_attachment_image_src($author_meta['author_image'][0]);
-           
-            $author_details['image']['@type']  = 'ImageObject';
-            $author_details['image']['url']    = $author_image[0];
-            $author_details['image']['height'] = $author_image[1];
-            $author_details['image']['width']  = $author_image[2];
-
+            if(!empty($author_image)){
+                $author_details['image']['@type']  = 'ImageObject';
+                $author_details['image']['url']    = $author_image[0];
+                $author_details['image']['height'] = $author_image[1];
+                $author_details['image']['width']  = $author_image[2];
+            }
         }elseif(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
 
             $author_details['image']['@type']  = 'ImageObject';
