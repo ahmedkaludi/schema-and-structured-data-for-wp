@@ -728,6 +728,9 @@ Compatibility tab css ends
 .saswp-knowledge-label label[for="saswp_breadcrumb_remove_cat_checkbox"] {
     padding-left: 10px;
 }
+.saswp-knowledge-label label[for="saswp_breadcrumb_home_page_title_text"] {
+    padding-left: 10px;
+}
 .saswp-knowledge-label label[for="saswp_breadcrumb_include_parent_cat_checkbox"] {
     padding-left: 10px;
 }

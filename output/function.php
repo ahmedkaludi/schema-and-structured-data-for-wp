@@ -1467,6 +1467,10 @@ function saswp_list_items_generator(){
 		global $sd_data;
 		$bc_titles = array();
 		$bc_links  = array();
+        $settings = saswp_defaultSettings(); 
+        // echo "<pre>";
+        // print_r($settings['saswp_breadcrumb_home_page_title']);
+        // die();
 
         if(empty($sd_data['links'])){
             saswp_custom_breadcrumbs();
@@ -1491,13 +1495,19 @@ function saswp_list_items_generator(){
                                     if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
                                     
                                         if($bc_links[$i] != '' && $bc_titles[$i] != '' ){
+                                           
+                                            if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title'])){
+                                               $titles = $settings['saswp_breadcrumb_home_page_title'];
+                                            }else{
+                                               $titles = $bc_titles[$i];
+                                            }
 
                                             $breadcrumbslist[] = array(
                                                 '@type'			=> 'ListItem',
                                                 'position'		=> $j,
                                                 'item'			=> array(
                                                     '@id'		=> $bc_links[$i],
-                                                    'name'		=> $bc_titles[$i],
+                                                    'name'		=> $titles,
                                                     ),
                                               );
                                             
@@ -1521,12 +1531,18 @@ function saswp_list_items_generator(){
         
                                     if($bc_links[$i] !='' && $bc_titles[$i] != ''){
 
+                                        if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title'])){
+                                            $titles = $settings['saswp_breadcrumb_home_page_title'];
+                                        }else{
+                                            $titles = $bc_titles[$i];
+                                        }
+
                                         $breadcrumbslist[] = array(
                                             '@type'			=> 'ListItem',
                                             'position'		=> $j,
                                             'item'			=> array(
                                                 '@id'		=> $bc_links[$i],
-                                                'name'		=> $bc_titles[$i],
+                                                'name'		=> $titles,
                                                 ),
                                         );
     
@@ -1551,12 +1567,18 @@ function saswp_list_items_generator(){
                                                
                         if($bc_links[$i] != '' && $bc_titles[$i] !=''){
 
+                            if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title'])){
+                                $titles = $settings['saswp_breadcrumb_home_page_title'];
+                            }else{
+                                $titles = $bc_titles[$i];
+                            }
+
                             $breadcrumbslist[] = array(
                                 '@type'		=> 'ListItem',
                                 'position'	=> $j,
                                 'item'		=> array(
                                         '@id'		=> $bc_links[$i],
-                                        'name'		=> $bc_titles[$i],
+                                        'name'		=> $titles,
                                         ),
                                 );
                             $j++;

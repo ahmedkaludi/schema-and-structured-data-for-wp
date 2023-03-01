@@ -9,12 +9,24 @@ jQuery(document).ready(function($){
   jQuery(".saswpforwp-colorpicker").wpColorPicker(); // Color picker
   jQuery(".saswp-onclick-show").hide();
 //edit Schema page in show field for
-var busines_stype = $('#schema_type').find(":selected").val();
-if(busines_stype == 'local_business'){
-  $(document).ready(function(){
-    $(".saswp-business-type-tr").show();
-  }); 
-}
+  var busines_stype = $('#schema_type').find(":selected").val();
+  if(busines_stype == 'local_business'){
+    $(document).ready(function(){
+      $(".saswp-business-type-tr").show();
+    }); 
+  }
+
+// home page title start
+  //add the home title name
+  var homepage_title = $("#saswp_breadcrumb_home_page_title").val();
+  $("#saswp_breadcrumb_home_page_title_text").val(homepage_title); 
+
+  //update and add title 
+  $('#saswp_breadcrumb_home_page_title_text').bind('keydown keyup',function (){
+    var newname = $(this).val();
+    $("#saswp_breadcrumb_home_page_title").val(newname); 
+  });
+// home page title end 
 
  $(document).on("click", '#saswp_loc_display_on_front', function(){ 
   
@@ -1042,15 +1054,17 @@ if(busines_stype == 'local_business'){
                       break;
                       
                       case 'saswp_breadcrumb_schema_checkbox':
-                          
+                            
                             if ($(this).is(':checked')) {              
                               $("#saswp_breadcrumb_schema").val(1);  
                               $("#saswp_breadcrumb_remove_cat").parent().parent().show(); 
-                              $("#saswp_breadcrumb_include_parent_cat").parent().parent().show();            
+                              $("#saswp_breadcrumb_include_parent_cat").parent().parent().show();
+                              $("#saswp_breadcrumb_home_page_title_text").parent().parent().show();               
                             }else{
                               $("#saswp_breadcrumb_schema").val(0);           
                               $("#saswp_breadcrumb_remove_cat").parent().parent().hide();  
-                              $("#saswp_breadcrumb_include_parent_cat").parent().parent().hide();  
+                              $("#saswp_breadcrumb_include_parent_cat").parent().parent().hide(); 
+                              $("#saswp_breadcrumb_home_page_title_text").parent().parent().hide();  
                             }
 
                       break;

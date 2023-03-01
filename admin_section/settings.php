@@ -419,6 +419,12 @@ function saswp_admin_interface_render(){
                 <form action="<?php echo admin_url("options.php") ?>" method="post" enctype="multipart/form-data" class="saswp-settings-form">		
 			<div class="form-wrap saswp-settings-form-wrap">
 			<?php
+
+                        if($_POST){
+                                echo "<pre>";
+                                print_r($_POST);
+                                die();
+                        }
 			// Output nonce, action, and option_page fields for a settings page.
 			settings_fields( 'sd_data_group' );												
 			echo "<div class='saswp-general' ".( $tab != 'general' ? 'style="display:none;"' : '').">";
@@ -1056,6 +1062,15 @@ function saswp_general_page_callback(){
                 )
         );
         $meta_fields_default[] = array(
+                'label'  => 'Home Page Title',
+                'id'     => 'saswp_breadcrumb_home_page_title_text', 
+                'name'   => 'saswp_breadcrumb_home_page_title_text',
+                'type'   => 'text',
+                'class'  => 'text saswp-text',  
+                'default'=>  get_bloginfo(), 
+        );
+        
+        $meta_fields_default[] = array(
                 'label'  => 'Exclude Category',
                 'id'     => 'saswp_breadcrumb_remove_cat_checkbox', 
                 'name'   => 'saswp_breadcrumb_remove_cat_checkbox',
@@ -1132,7 +1147,15 @@ function saswp_general_page_callback(){
               <h2><?php echo saswp_t_string('General Settings'); ?></h2>              
             </div>
             <p><?php echo saswp_t_string('This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type.') ?> <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/"><?php echo saswp_t_string('Learn More') ?></a></p>   
-        <ul><li><div class="saswp-about-contact-page-tooltip"><label class="saswp-tooltip">
+        <ul><li><div class="saswp-about-contact-page-tooltip">
+                <?php
+                        // echo "<pre>";
+                        // print_r($settings);
+                        // die();
+                ?>
+        <input  id="saswp_breadcrumb_home_page_title" name="sd_data[saswp_breadcrumb_home_page_title]" type="hidden" value="<?php if(!empty($settings['saswp_breadcrumb_home_page_title'])){ echo $settings['saswp_breadcrumb_home_page_title']; }else{ echo get_bloginfo(); } ?>">
+        
+        <label class="saswp-tooltip">
         <?php echo saswp_t_string('About') ?>
                 <span class="saswp-tooltiptext"><?php echo saswp_t_string('Set the about page of of your website') ?></span>
                 </label>
