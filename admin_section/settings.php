@@ -419,12 +419,6 @@ function saswp_admin_interface_render(){
                 <form action="<?php echo admin_url("options.php") ?>" method="post" enctype="multipart/form-data" class="saswp-settings-form">		
 			<div class="form-wrap saswp-settings-form-wrap">
 			<?php
-
-                        if($_POST){
-                                echo "<pre>";
-                                print_r($_POST);
-                                die();
-                        }
 			// Output nonce, action, and option_page fields for a settings page.
 			settings_fields( 'sd_data_group' );												
 			echo "<div class='saswp-general' ".( $tab != 'general' ? 'style="display:none;"' : '').">";
