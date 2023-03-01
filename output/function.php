@@ -1468,9 +1468,6 @@ function saswp_list_items_generator(){
 		$bc_titles = array();
 		$bc_links  = array();
         $settings = saswp_defaultSettings(); 
-        // echo "<pre>";
-        // print_r($settings['saswp_breadcrumb_home_page_title']);
-        // die();
 
         if(empty($sd_data['links'])){
             saswp_custom_breadcrumbs();
