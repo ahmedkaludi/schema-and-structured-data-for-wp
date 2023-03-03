@@ -999,7 +999,11 @@ class saswp_reviews_service {
                        }else{
                            $review_link = $value['saswp_review_link'];
                        }
-                     
+                   
+                        if($value['saswp_review_platform_name'] == 'Google'){
+                            $review_link = $value['saswp_review_link'];
+                        }      
+                   
                        if($value['saswp_review_platform_name'] == 'Avvo' && $review_link == ''){
                             $review_link = $value['saswp_review_location_id'].'#client_reviews';
                        }         
