@@ -1880,7 +1880,7 @@ Class saswp_output_service{
                         case 'ScholarlyArticle': 
                                  
                             if(isset($custom_fields['saswp_scholarlyarticle_id'])){
-                                $input1['@id'] =    get_permalink().$custom_fields['saswp_scholarlyarticle_id'];
+                                $input1['@id'] =    get_permalink().'#'.$custom_fields['saswp_scholarlyarticle_id'];
                             }
                             if(isset($custom_fields['saswp_scholarlyarticle_main_entity_of_page'])){
                              $input1['mainEntityOfPage'] =    $custom_fields['saswp_scholarlyarticle_main_entity_of_page'];
