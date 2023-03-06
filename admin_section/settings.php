@@ -1058,7 +1058,7 @@ function saswp_general_page_callback(){
         $meta_fields_default[] = array(
                 'label'  => 'Home Page Title',
                 'id'     => 'saswp_breadcrumb_home_page_title_text', 
-                'name'   => 'saswp_breadcrumb_home_page_title_text',
+                'name'   => 'sd_data[saswp_breadcrumb_home_page_title_text]',
                 'type'   => 'text',
                 'class'  => 'text saswp-text',  
                 'default'=>  get_bloginfo(), 
@@ -1142,11 +1142,6 @@ function saswp_general_page_callback(){
             </div>
             <p><?php echo saswp_t_string('This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type.') ?> <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/"><?php echo saswp_t_string('Learn More') ?></a></p>   
         <ul><li><div class="saswp-about-contact-page-tooltip">
-                <?php
-                        // echo "<pre>";
-                        // print_r($settings);
-                        // die();
-                ?>
         <input  id="saswp_breadcrumb_home_page_title" name="sd_data[saswp_breadcrumb_home_page_title]" type="hidden" value="<?php if(!empty($settings['saswp_breadcrumb_home_page_title'])){ echo $settings['saswp_breadcrumb_home_page_title']; }else{ echo get_bloginfo(); } ?>">
         
         <label class="saswp-tooltip">
