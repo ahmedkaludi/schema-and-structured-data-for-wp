@@ -217,7 +217,7 @@ function saswp_schema_output() {
                                                                                                                                                 
                                 $input1['@context']                     = saswp_context_url();
                                 $input1['@type']                        = 'FAQPage';
-                                $input1['@id']                          = trailingslashit(saswp_get_permalink()).'#FAQPage';                             
+                                $input1['@id']                          = saswp_get_permalink().'#FAQPage';                             
                                 $input1['headline']                     = saswp_get_the_title();
                                 $input1['keywords']                     = saswp_get_the_tags();
                                 $input1['datePublished']                = esc_html($date);
@@ -241,7 +241,7 @@ function saswp_schema_output() {
                                                                                     
                                 $input1['@context']                     = saswp_context_url();
                                 $input1['@type']                        = 'VideoGame';
-                                $input1['@id']                          = trailingslashit(saswp_get_permalink()).'#VideoGame';                             
+                                $input1['@id']                          = saswp_get_permalink().'#VideoGame';                             
                                 $input1['author']['@type']              = 'Organization';                                                        
                                 $input1['offers']['@type']              = 'Offer';   
 
@@ -262,7 +262,7 @@ function saswp_schema_output() {
                             
                                 $input1['@context']                     = saswp_context_url();
                                 $input1['@type']                        = 'MedicalCondition';
-                                $input1['@id']                          = trailingslashit(saswp_get_permalink()).'#MedicalCondition';                                                                                                             
+                                $input1['@id']                          = saswp_get_permalink().'#MedicalCondition';                                                                                                             
                                 $input1['associatedAnatomy']['@type']   = 'AnatomicalStructure';                                                                                    
                                 $input1['code']['@type']                = 'MedicalCode';
 
@@ -281,7 +281,7 @@ function saswp_schema_output() {
                                                                                                                         
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'TVSeries';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#TVSeries';                                                                                                                                
+                                $input1['@id']                   = saswp_get_permalink().'#TVSeries';                                                                                                                                
                                 $input1['author']['@type']       = 'Person';                            
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
@@ -301,7 +301,7 @@ function saswp_schema_output() {
                                                          
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'Movie';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Movie';                                                                                                                                              
+                                $input1['@id']                   = saswp_get_permalink().'#Movie';                                                                                                                                              
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 
@@ -320,7 +320,7 @@ function saswp_schema_output() {
                                                          
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'HowTo';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';                                                                                                                                                    
+                                $input1['@id']                   = saswp_get_permalink().'#HowTo';                                                                                                                                                    
                                 $input1['name']                  = saswp_get_the_title();
                                 $input1['description']           = saswp_get_the_excerpt();
 
@@ -341,7 +341,7 @@ function saswp_schema_output() {
                                                                                    
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'Trip';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Trip';    
+                                $input1['@id']                   = saswp_get_permalink().'#Trip';    
 
                                 $input1 = apply_filters('saswp_modify_trip_schema_output', $input1 );
 
@@ -358,7 +358,7 @@ function saswp_schema_output() {
                                                                                    
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'BoatTrip';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#BoatTrip';    
+                                $input1['@id']                   = saswp_get_permalink().'#BoatTrip';    
 
                                 $input1 = apply_filters('saswp_modify_boat_trip_schema_output', $input1 );
 
@@ -375,7 +375,7 @@ function saswp_schema_output() {
                                                                                                                                             
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'SingleFamilyResidence';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#SingleFamilyResidence';                            
+                                $input1['@id']                   = saswp_get_permalink().'#SingleFamilyResidence';                            
                                 $input1['address']['@type']      = 'PostalAddress';
 
                                 $input1 = apply_filters('saswp_modify_apartment_schema_sfr', $input1 );
@@ -393,7 +393,7 @@ function saswp_schema_output() {
                                                                             
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'House';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#House';
+                                $input1['@id']                   = saswp_get_permalink().'#House';
                                 $input1['address']['@type']      = 'PostalAddress';
 
                                 $input1 = apply_filters('saswp_modify_apartment_schema_house', $input1 );
@@ -411,7 +411,7 @@ function saswp_schema_output() {
                                                                                    
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'Apartment';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Apartment';                                                                                                                                                                            
+                                $input1['@id']                   = saswp_get_permalink().'#Apartment';                                                                                                                                                                            
                                 $input1['address']['@type']      = 'PostalAddress';    
 
                                 $input1 = apply_filters('saswp_modify_apartment_schema_output', $input1 );
@@ -429,7 +429,7 @@ function saswp_schema_output() {
                                                                                                                                                                         
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'MusicPlaylist';
-                                $input1['@id']                   = trailingslashit(get_permalink()).'#MusicPlaylist'; 
+                                $input1['@id']                   = get_permalink().'#MusicPlaylist'; 
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
 
@@ -448,7 +448,7 @@ function saswp_schema_output() {
                                                                                                                                                                                                                                        
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'MusicComposition';
-                                $input1['@id']                   = trailingslashit(get_permalink()).'#MusicComposition'; 
+                                $input1['@id']                   = get_permalink().'#MusicComposition'; 
                                 $input1['inLanguage']            = get_bloginfo('language');
                                 $input1['datePublished']         = esc_html($date);                 
 
@@ -469,7 +469,7 @@ function saswp_schema_output() {
                                                                                                                                                                         
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'Book';
-                                $input1['@id']                   = trailingslashit(get_permalink()).'#Book'; 
+                                $input1['@id']                   = get_permalink().'#Book'; 
                                 
                                  $woo_markp = $service_object->saswp_schema_markup_generator($schema_type);
 
@@ -496,7 +496,7 @@ function saswp_schema_output() {
                                                                                                                                                                         
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'MusicAlbum';
-                                $input1['@id']                   = trailingslashit(get_permalink()).'#MusicAlbum';  
+                                $input1['@id']                   = get_permalink().'#MusicAlbum';  
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                 $input1 = apply_filters('saswp_modify_music_album_schema_output', $input1 );
@@ -514,7 +514,7 @@ function saswp_schema_output() {
                                                                                                                 
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'TouristDestination';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#TouristDestination';                                                                                   
+                                $input1['@id']                   = saswp_get_permalink().'#TouristDestination';                                                                                   
                                 $input1['address']['@type']      = 'PostalAddress';
 
                                 $input1 = apply_filters('saswp_modify_tourist_destination_schema_output', $input1 );
@@ -532,7 +532,7 @@ function saswp_schema_output() {
                                                    
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'TouristAttraction';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#TouristAttraction';                              
+                                $input1['@id']                   = saswp_get_permalink().'#TouristAttraction';                              
                                 $input1['address']['@type']      = 'PostalAddress';   
 
                                 $input1 = apply_filters('saswp_modify_tourist_attraction_schema_output', $input1 );
@@ -550,7 +550,7 @@ function saswp_schema_output() {
                                                    
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'LandmarksOrHistoricalBuildings';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#LandmarksOrHistoricalBuildings';                                                        
+                                $input1['@id']                   = saswp_get_permalink().'#LandmarksOrHistoricalBuildings';                                                        
                                 $input1['address']['@type']      = 'PostalAddress';   
 
                                 $input1 = apply_filters('saswp_modify_lorh_schema_output', $input1 );
@@ -568,7 +568,7 @@ function saswp_schema_output() {
                                                                                    
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'BuddhistTemple';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#BuddhistTemple';
+                                $input1['@id']                   = saswp_get_permalink().'#BuddhistTemple';
                                 $input1['address']['@type']      = 'PostalAddress';  
 
                                 $input1 = apply_filters('saswp_modify_buddhist_temple_schema_output', $input1 );
@@ -586,7 +586,7 @@ function saswp_schema_output() {
                                                                                    
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'HinduTemple';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HinduTemple';
+                                $input1['@id']                   = saswp_get_permalink().'#HinduTemple';
                                 $input1['address']['@type']             = 'PostalAddress';  
 
                                 $input1 = apply_filters('saswp_modify_hindu_temple_schema_output', $input1 );
@@ -604,7 +604,7 @@ function saswp_schema_output() {
                                                                                   
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'Church';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Church';                            
+                                $input1['@id']                   = saswp_get_permalink().'#Church';                            
                                 $input1['address']['@type']      = 'PostalAddress';
 
                                 $input1 = apply_filters('saswp_modify_church_schema_output', $input1 );
@@ -622,7 +622,7 @@ function saswp_schema_output() {
                                                                                                                 
                                 $input1['@context']              = saswp_context_url();
                                 $input1['@type']                 = 'Mosque';
-                                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Mosque';                            
+                                $input1['@id']                   = saswp_get_permalink().'#Mosque';                            
                                 $input1['address']['@type']      = 'PostalAddress';  
 
                                 $input1 = apply_filters('saswp_modify_mosque_schema_output', $input1 );
@@ -640,7 +640,7 @@ function saswp_schema_output() {
                                                                                    
                                 $input1['@context']                        = saswp_context_url();
                                 $input1['@type']                           = 'JobPosting';
-                                $input1['@id']                             = trailingslashit(saswp_get_permalink()).'#JobPosting';                                                          
+                                $input1['@id']                             = saswp_get_permalink().'#JobPosting';                                                          
                                 $input1['datePosted']                      = esc_html($date);                                                                                                                                                
                                 $input1['hiringOrganization']['@type']     = 'Organization'; 
                                 $input1['hiringOrganization']['name']      = (isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' )? $sd_data['sd_name'] : get_bloginfo(); 
@@ -688,10 +688,10 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> $schema_type ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#course',    
+                                '@id'				=> saswp_get_permalink().'#course',    
                                 'name'			    => saswp_get_the_title(),
                                 'description'       => saswp_get_the_excerpt(),			
-                                'url'				=> trailingslashit(saswp_get_permalink()),
+                                'url'				=> saswp_get_permalink(),
                                 'datePublished'     => esc_html($date),
                                 'dateModified'      => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details(),    
@@ -760,8 +760,8 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'DiscussionForumPosting' ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#DiscussionForumPosting',    			
-                                'url'				=> trailingslashit(saswp_get_permalink()),
+                                '@id'				=> saswp_get_permalink().'#DiscussionForumPosting',    			
+                                'url'				=> saswp_get_permalink(),
                                 'mainEntityOfPage'              => saswp_get_permalink(),       
                                 'headline'			=> saswp_get_the_title(),
                                 'description'                   => saswp_get_the_excerpt(),			                                
@@ -826,7 +826,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> ['Product', 'Car'],                                                                  
-                                'url'				=> trailingslashit(saswp_get_current_url()),                                                                                       
+                                'url'				=> saswp_get_current_url(),                                                                                       
                                 'description'       => saswp_get_the_excerpt(),                                                                    
                                 'name'				=> saswp_get_the_title(),			                                
                                 );
@@ -854,7 +854,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> ['Product', 'Vehicle'],                                                                  
-                                'url'				=> trailingslashit(saswp_get_current_url()),                                                                                       
+                                'url'				=> saswp_get_current_url(),                                                                                       
                                 'description'       => saswp_get_the_excerpt(),                                                                    
                                 'name'				=> saswp_get_the_title(),			                                
                                 );
@@ -882,8 +882,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'CreativeWorkSeries',
-                                    '@id'				=> trailingslashit(saswp_get_current_url()).'#CreativeWorkSeries',    
-                                    'url'				=> trailingslashit(saswp_get_current_url()),
+                                    '@id'				=> saswp_get_current_url().'#CreativeWorkSeries',    
+                                    'url'				=> saswp_get_current_url(),
                                     'inLanguage'        => get_bloginfo('language'),                                                                            
                                     'description'       => saswp_get_the_excerpt(),                                    
                                     'keywords'          => saswp_get_the_tags(),    
@@ -919,8 +919,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'EducationalOccupationalCredential',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#EducationalOccupationalCredential',    
-                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    '@id'				=> saswp_get_permalink().'#EducationalOccupationalCredential',    
+                                    'url'				=> saswp_get_permalink(),                                                                                    
                                     'description'       => saswp_get_the_excerpt(),                                                                        
                                     'name'				=> saswp_get_the_title()			                                                                                                            
                                     );                                                                                                                                                                                        
@@ -942,8 +942,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'Audiobook',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#Audiobook',    
-                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    '@id'				=> saswp_get_permalink().'#Audiobook',    
+                                    'url'				=> saswp_get_permalink(),                                                                                    
                                     'description'       => saswp_get_the_excerpt(),                                                                        
                                     'name'				=> saswp_get_the_title(),
                                     'datePublished'     => esc_html($date),
@@ -968,8 +968,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'PodcastEpisode',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#PodcastEpisode',    
-                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    '@id'				=> saswp_get_permalink().'#PodcastEpisode',    
+                                    'url'				=> saswp_get_permalink(),                                                                                    
                                     'description'       => saswp_get_the_excerpt(),                                                                        
                                     'name'				=> saswp_get_the_title(),
                                     'datePublished'     => esc_html($date),
@@ -993,8 +993,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'Hotel',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#Hotel',    
-                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    '@id'				=> saswp_get_permalink().'#Hotel',    
+                                    'url'				=> saswp_get_permalink(),                                                                                    
                                     'description'       => saswp_get_the_excerpt(),                                                                        
                                     'name'				=> saswp_get_the_title()                                    
                                     );                                                                                                                                                                                        
@@ -1016,8 +1016,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'PodcastSeason',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#PodcastSeason',    
-                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    '@id'				=> saswp_get_permalink().'#PodcastSeason',    
+                                    'url'				=> saswp_get_permalink(),                                                                                    
                                     'description'       => saswp_get_the_excerpt(),                                                                        
                                     'name'				=> saswp_get_the_title(),
                                     'datePublished'     => esc_html($date),
@@ -1041,8 +1041,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'Project',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#Project',    
-                                    'url'				=> trailingslashit(saswp_get_permalink()),                                                                                    
+                                    '@id'				=> saswp_get_permalink().'#Project',    
+                                    'url'				=> saswp_get_permalink(),                                                                                    
                                     'description'       => saswp_get_the_excerpt(),                                                                        
                                     'name'				=> saswp_get_the_title()			                                                                                                            
                                     );                                                                                                                                                                                        
@@ -1069,8 +1069,8 @@ function saswp_schema_output() {
                                         $input1 = array(
                                             '@context'			=> saswp_context_url(),
                                             '@type'				=> 'Organization',
-                                            '@id'				=> trailingslashit(saswp_get_current_url()).'#Organization',    
-                                            'url'				=> trailingslashit(saswp_get_current_url()),                                                                                    
+                                            '@id'				=> saswp_get_current_url().'#Organization',    
+                                            'url'				=> saswp_get_current_url(),                                                                                    
                                             'description'       => saswp_get_the_excerpt(),                                                                        
                                             'name'				=> saswp_get_the_title()			                                                                                                            
                                         );
@@ -1097,7 +1097,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> $schema_type ,	
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#audioobject',     			
+                                '@id'				=> saswp_get_permalink().'#audioobject',     			
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details()			
@@ -1137,8 +1137,8 @@ function saswp_schema_output() {
                                                                                            
                                 $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  'EducationalOccupationalProgram';
-                                $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#EducationalOccupationalProgram';
-                                $input1['url']		= trailingslashit(saswp_get_permalink());
+                                $input1['@id']      =  saswp_get_permalink().'#EducationalOccupationalProgram';
+                                $input1['url']		= saswp_get_permalink();
                                                                                                                                                                                                                    
                                 $input1 = apply_filters('saswp_modify_eop_schema_output', $input1 );
                                 
@@ -1157,8 +1157,8 @@ function saswp_schema_output() {
                             
                                 $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $event_type ? $event_type : $schema_type;
-                                $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#event';
-                                $input1['url']		= trailingslashit(saswp_get_permalink());
+                                $input1['@id']      =  saswp_get_permalink().'#event';
+                                $input1['url']		= saswp_get_permalink();
                                                                                        
                                 if(!empty($aggregateRating)){
                                     $input1['aggregateRating'] = $aggregateRating;
@@ -1184,7 +1184,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> $schema_type ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#softwareapplication',         						                        
+                                '@id'				=> saswp_get_permalink().'#softwareapplication',         						                        
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details()			
@@ -1229,7 +1229,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> $schema_type ,
-                                '@id'				=> trailingslashit(saswp_get_permalink()).'#MobileApplication',         						                        
+                                '@id'				=> saswp_get_permalink().'#MobileApplication',         						                        
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
                                 'author'			=> saswp_get_author_details()			
@@ -1367,8 +1367,8 @@ function saswp_schema_output() {
                                 $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#VisualArtwork',     
-                                    'url'				=> trailingslashit(saswp_get_current_url()),                                                                                    
+                                    '@id'				=> saswp_get_permalink().'#VisualArtwork',     
+                                    'url'				=> saswp_get_current_url(),                                                                                    
                                     'description'       => saswp_get_the_excerpt(),                                                                        
                                     'name'				=> saswp_get_the_title(),
                                     'dateCreated'       => esc_html($date),                                    
@@ -1459,7 +1459,7 @@ function saswp_schema_output() {
                                     
                                         $input1['@context']        =  saswp_context_url();
                                         $input1['@type']           =  'BreadcrumbList';
-                                        $input1['@id']             =  trailingslashit($sd_data['breadcrumb_url']).'#breadcrumb';
+                                        $input1['@id']             =  $sd_data['breadcrumb_url'].'#breadcrumb';
                                         $input1['itemListElement'] =  $bread_crumb_list;
                                                                
                                         $input1 = apply_filters('saswp_modify_breadcrumb_output', $input1);  
@@ -1515,8 +1515,8 @@ function saswp_schema_output() {
 				                $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'Recipe',
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#recipe',    
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    '@id'				=> saswp_get_permalink().'#recipe',    
+                                    'url'				=> saswp_get_permalink(),
                                     'name'			    => saswp_get_the_title(),
                                     'datePublished'     => esc_html($date),
                                     'dateModified'      => esc_html($modified_date),
@@ -1555,7 +1555,7 @@ function saswp_schema_output() {
                                 $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'QAPage' ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#QAPage',
+                                    '@id'				=> saswp_get_permalink().'#QAPage',
                                     'mainEntity'	    => array(
                                         '@type'    => 'Question'
                                     ) ,
@@ -1589,8 +1589,8 @@ function saswp_schema_output() {
                                 $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'RealEstateListing',
-                                    '@id'                           => trailingslashit(saswp_get_permalink()).'#RealEstateListing',        
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    '@id'                           => saswp_get_permalink().'#RealEstateListing',        
+                                    'url'				=> saswp_get_permalink(),
                                     'name'			=> saswp_get_the_title(),
                                     'datePosted'                 => esc_html($date),                                    
                                     'description'                   => saswp_get_the_excerpt(),                                    
@@ -1612,8 +1612,8 @@ function saswp_schema_output() {
                                 $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'ApartmentComplex',
-                                    '@id'               => trailingslashit(saswp_get_permalink()).'#ApartmentComplex',        
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    '@id'               => saswp_get_permalink().'#ApartmentComplex',        
+                                    'url'				=> saswp_get_permalink(),
                                     'name'			    => saswp_get_the_title(),                                    
                                     'description'       => saswp_get_the_excerpt()                                    
                                 );
@@ -1634,8 +1634,8 @@ function saswp_schema_output() {
                                 $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'RentAction',
-                                    '@id'               => trailingslashit(saswp_get_permalink()).'#RentAction',        
-                                    'url'				=> trailingslashit(saswp_get_permalink())                                                                                                            
+                                    '@id'               => saswp_get_permalink().'#RentAction',        
+                                    'url'				=> saswp_get_permalink()                                                                                                            
                                     );
                                 	                                                                                                                                                                                                                                                                                                  
                                 $input1 = apply_filters('saswp_modify_rent_action_schema_output', $input1 );
@@ -1654,8 +1654,8 @@ function saswp_schema_output() {
                                 $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> 'PsychologicalTreatment',
-                                    '@id'               => trailingslashit(saswp_get_permalink()).'#PsychologicalTreatment',        
-                                    'url'				=> trailingslashit(saswp_get_permalink()),
+                                    '@id'               => saswp_get_permalink().'#PsychologicalTreatment',        
+                                    'url'				=> saswp_get_permalink(),
                                     'name'			    => saswp_get_the_title(),                                    
                                     'description'       => saswp_get_the_excerpt(),                                    
                                     );
@@ -1713,7 +1713,7 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#newsarticle',
+                                    '@id'				=> saswp_get_permalink().'#newsarticle',
                                     'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
@@ -1729,7 +1729,7 @@ function saswp_schema_output() {
                                     'timeRequired'                  => saswp_remove_warnings($word_count, 'timerequired', 'saswp_string'),            
                                     'mainEntity'                    => array(
                                                                                         '@type' => 'WebPage',
-                                                                                        '@id'   => trailingslashit(saswp_get_permalink()),
+                                                                                        '@id'   => saswp_get_permalink(),
                                     ), 
                                     'author'			=> saswp_get_author_details(),
                                     'editor'            => saswp_get_author_details()
@@ -1785,7 +1785,7 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#analysisnewsarticle',
+                                    '@id'				=> saswp_get_permalink().'#analysisnewsarticle',
                                     'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
@@ -1801,7 +1801,7 @@ function saswp_schema_output() {
                                     'timeRequired'                  => saswp_remove_warnings($word_count, 'timerequired', 'saswp_string'),            
                                     'mainEntity'                    => array(
                                                                                         '@type' => 'WebPage',
-                                                                                        '@id'   => trailingslashit(saswp_get_permalink()),
+                                                                                        '@id'   => saswp_get_permalink(),
                                     ), 
                                     'author'			=> saswp_get_author_details(),
                                     'editor'            => saswp_get_author_details()
@@ -1857,7 +1857,7 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#askpublicnewsarticle',
+                                    '@id'				=> saswp_get_permalink().'#askpublicnewsarticle',
                                     'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
@@ -1873,7 +1873,7 @@ function saswp_schema_output() {
                                     'timeRequired'                  => saswp_remove_warnings($word_count, 'timerequired', 'saswp_string'),            
                                     'mainEntity'                    => array(
                                                                                         '@type' => 'WebPage',
-                                                                                        '@id'   => trailingslashit(saswp_get_permalink()),
+                                                                                        '@id'   => saswp_get_permalink(),
                                     ), 
                                     'author'			=> saswp_get_author_details(),
                                     'editor'            => saswp_get_author_details()
@@ -1929,7 +1929,7 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#backgroundnewsarticle',
+                                    '@id'				=> saswp_get_permalink().'#backgroundnewsarticle',
                                     'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
@@ -1945,7 +1945,7 @@ function saswp_schema_output() {
                                     'timeRequired'                  => saswp_remove_warnings($word_count, 'timerequired', 'saswp_string'),            
                                     'mainEntity'                    => array(
                                                                                         '@type' => 'WebPage',
-                                                                                        '@id'   => trailingslashit(saswp_get_permalink()),
+                                                                                        '@id'   => saswp_get_permalink(),
                                     ), 
                                     'author'			=> saswp_get_author_details(),
                                     'editor'            => saswp_get_author_details()
@@ -2001,7 +2001,7 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#opinionnewsarticle',
+                                    '@id'				=> saswp_get_permalink().'#opinionnewsarticle',
                                     'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
@@ -2017,7 +2017,7 @@ function saswp_schema_output() {
                                     'timeRequired'                  => saswp_remove_warnings($word_count, 'timerequired', 'saswp_string'),            
                                     'mainEntity'                    => array(
                                                                                         '@type' => 'WebPage',
-                                                                                        '@id'   => trailingslashit(saswp_get_permalink()),
+                                                                                        '@id'   => saswp_get_permalink(),
                                     ), 
                                     'author'			=> saswp_get_author_details(),
                                     'editor'            => saswp_get_author_details()
@@ -2073,7 +2073,7 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#reportagenewsarticle',
+                                    '@id'				=> saswp_get_permalink().'#reportagenewsarticle',
                                     'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
@@ -2089,7 +2089,7 @@ function saswp_schema_output() {
                                     'timeRequired'                  => saswp_remove_warnings($word_count, 'timerequired', 'saswp_string'),            
                                     'mainEntity'                    => array(
                                                                                         '@type' => 'WebPage',
-                                                                                        '@id'   => trailingslashit(saswp_get_permalink()),
+                                                                                        '@id'   => saswp_get_permalink(),
                                     ), 
                                     'author'			=> saswp_get_author_details(),
                                     'editor'            => saswp_get_author_details()
@@ -2145,7 +2145,7 @@ function saswp_schema_output() {
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
                                     '@type'				=> $schema_type ,
-                                    '@id'				=> trailingslashit(saswp_get_permalink()).'#reviewnewsarticle',
+                                    '@id'				=> saswp_get_permalink().'#reviewnewsarticle',
                                     'url'				=> saswp_get_permalink(),
                                     'headline'			=> saswp_get_the_title(),
                                     'mainEntityOfPage'	            => get_the_permalink(),            
@@ -2161,7 +2161,7 @@ function saswp_schema_output() {
                                     'timeRequired'                  => saswp_remove_warnings($word_count, 'timerequired', 'saswp_string'),            
                                     'mainEntity'                    => array(
                                                                                         '@type' => 'WebPage',
-                                                                                        '@id'   => trailingslashit(saswp_get_permalink()),
+                                                                                        '@id'   => saswp_get_permalink(),
                                     ), 
                                     'author'			=> saswp_get_author_details(),
                                     'editor'            => saswp_get_author_details()
@@ -2197,7 +2197,7 @@ function saswp_schema_output() {
                                                                                                  
 				                $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $schema_type;
-                                $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#service';
+                                $input1['@id']      =  saswp_get_permalink().'#service';
 
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);   
                                                                                                                                                                                                         
@@ -2216,7 +2216,7 @@ function saswp_schema_output() {
                                                                                                  
 				                $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $schema_type;
-                                $input1['@id']      =  trailingslashit(saswp_get_permalink()).'#TaxiService';
+                                $input1['@id']      =  saswp_get_permalink().'#TaxiService';
                                                                                                                                                                                                                                 
                                 $input1 = apply_filters('saswp_modify_taxi_service_schema_output', $input1 );
                                 
@@ -2240,7 +2240,7 @@ function saswp_schema_output() {
                                 
                                 $input1['@context']               =  saswp_context_url();
                                 $input1['@type']                  =  'Review';
-                                $input1['@id']                    =  trailingslashit(saswp_get_permalink()).'#Review';
+                                $input1['@id']                    =  saswp_get_permalink().'#Review';
                                 $input1['itemReviewed']['@type']  =  $item_reviewed;                                                                
                                                             
                                 if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
@@ -2299,11 +2299,11 @@ function saswp_schema_output() {
                                         $vnewarr = array(
                                             '@type'				            => 'VideoObject',
                                             "position"                      => $vkey+1,
-                                            "@id"                           => trailingslashit(saswp_get_permalink()).'#'.$i++,
+                                            "@id"                           => saswp_get_permalink().'#'.$i++,
                                             'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
                                             'datePublished'                 => esc_html($date),
                                             'dateModified'                  => esc_html($modified_date),
-                                            'url'				            => trailingslashit(saswp_get_permalink()),
+                                            'url'				            => saswp_get_permalink(),
                                             'interactionStatistic'          => array(
                                                 "@type" => "InteractionCounter",
                                                 "interactionType" => array("@type" => "WatchAction" ),
@@ -2344,8 +2344,8 @@ function saswp_schema_output() {
                                     $input1 = array(
                                         '@context'			            => saswp_context_url(),
                                         '@type'				            => 'VideoObject',
-                                        '@id'                           => trailingslashit(saswp_get_permalink()).'#videoobject',        
-                                        'url'				            => trailingslashit(saswp_get_permalink()),
+                                        '@id'                           => saswp_get_permalink().'#videoobject',        
+                                        'url'				            => saswp_get_permalink(),
                                         'headline'			            => saswp_get_the_title(),
                                         'datePublished'                 => esc_html($date),
                                         'dateModified'                  => esc_html($modified_date),
@@ -2422,13 +2422,13 @@ function saswp_schema_output() {
                                 $input1 = array(
                                 '@context'			=> saswp_context_url(),
                                 '@type'				=> 'ImageObject',
-                                '@id'                           => trailingslashit(saswp_get_permalink()).'#imageobject',        
-                                'url'				=> trailingslashit(saswp_get_permalink()),						                                                
+                                '@id'                           => saswp_get_permalink().'#imageobject',        
+                                'url'				=> saswp_get_permalink(),						                                                
                                 'datePublished'                 => esc_html($date),
                                 'dateModified'                  => esc_html($modified_date),
                                 'name'				=> saswp_get_the_title(),
                                 'description'                   => $description,						
-                                'contentUrl'			=> trailingslashit(saswp_get_permalink()),						
+                                'contentUrl'			=> saswp_get_permalink(),						
                                 'uploadDate'                    => esc_html($date),						
                                 'author'			=> saswp_get_author_details()						                                                                                                      
                                 );
@@ -2479,8 +2479,8 @@ function saswp_schema_output() {
                                 $input1 = array(
                                                     '@context'                          => saswp_context_url(),
                                                     '@type'				=> esc_attr($local_business),
-                                                    '@id'                               => trailingslashit(saswp_get_permalink()).'#'. strtolower(esc_attr($local_business)),                                            
-                                                    'url'				=> trailingslashit(saswp_get_permalink()),	
+                                                    '@id'                               => saswp_get_permalink().'#'. strtolower(esc_attr($local_business)),                                            
+                                                    'url'				=> saswp_get_permalink(),	
                                                     'name'				=> get_bloginfo( 'name' )							
                                 );  
                                                                              
@@ -2923,7 +2923,7 @@ function saswp_schema_breadcrumb_output(){
             
                 $input['@context']        =  saswp_context_url();
                 $input['@type']           =  'BreadcrumbList';
-                $input['@id']             =  trailingslashit($sd_data['breadcrumb_url']).'#breadcrumb';
+                $input['@id']             =  $sd_data['breadcrumb_url'].'#breadcrumb';
                 $input['itemListElement'] =  $bread_crumb_list;
                                        
                 return apply_filters('saswp_modify_breadcrumb_output', $input);  
@@ -2968,7 +2968,7 @@ function saswp_kb_website_output(){
                     if(isset($sd_data['saswp_search_box_schema']) && $sd_data['saswp_search_box_schema'] == 1 || !isset($sd_data['saswp_search_box_schema'])){
                         
                         $input['potentialAction']['@type']       = 'SearchAction';
-                        $input['potentialAction']['target']      = esc_url(trailingslashit($site_url)).'?s={search_term_string}';
+                        $input['potentialAction']['target']      = esc_url($site_url).'?s={search_term_string}';
                         $input['potentialAction']['query-input'] = 'required name=search_term_string';
                         
                     }
@@ -3012,7 +3012,7 @@ function saswp_woocommerce_category_schema(){
                         $category_posts['item']  = array_merge( $category_posts['item'], $feature_image);
                         
                         if(saswp_has_slash($current_url)){
-                            $category_posts['item']['url'] =  trailingslashit(saswp_get_category_link($term->term_id)). "#product_".$i;    
+                            $category_posts['item']['url'] =  saswp_get_category_link($term->term_id). "#product_".$i;    
                         }else{
                             $category_posts['item']['url'] =  saswp_remove_slash(saswp_get_category_link($term->term_id)). "#product_".$i;    
                         }
@@ -3034,7 +3034,7 @@ function saswp_woocommerce_category_schema(){
                     $item_list_schema['@type']           = 'ItemList';    
 
                     if(saswp_has_slash($current_url)){
-                        $item_list_schema['url'] =  trailingslashit(saswp_get_category_link($term->term_id));    
+                        $item_list_schema['url'] =  saswp_get_category_link($term->term_id);    
                     }else{                        
                         $item_list_schema['url'] =  saswp_remove_slash(saswp_get_category_link($term->term_id));    
                     }
@@ -3194,7 +3194,7 @@ function saswp_archive_output(){
                     $collection_page = array(       		
                         '@context' 		=> saswp_context_url(),
                         '@type' 		=> "CollectionPage",
-                        '@id' 		    => trailingslashit(esc_url($category_link)).'#CollectionPage',
+                        '@id' 		    => esc_url($category_link).'#CollectionPage',
                         'headline' 		=> esc_attr($category_headline),
                         'description' 	=> strip_tags(get_term($category_id)->description),
                         'url'		 	=> esc_url($category_link),				
@@ -3204,7 +3204,7 @@ function saswp_archive_output(){
                     $blog_page = array(       		
                         '@context' 		=> saswp_context_url(),
                         '@type' 		=> "Blog",
-                        '@id' 		    => trailingslashit(esc_url($category_link)).'#Blog',
+                        '@id' 		    => esc_url($category_link).'#Blog',
                         'headline' 		=> esc_attr($category_headline),
                         'description' 	=> strip_tags(get_term($category_id)->description),
                         'url'		 	=> esc_url($category_link),				
@@ -3260,7 +3260,7 @@ function saswp_archive_output(){
                     $blog_page = array(       		
                         '@context' 		=> saswp_context_url(),
                         '@type' 		=> "Blog",
-                        '@id' 		    => trailingslashit(get_site_url()).'#Blog',				
+                        '@id' 		    => get_site_url().'#Blog',				
                         'url'		 	=> get_site_url(),				
                         'blogPost' 		=> $category_posts
                        );
@@ -3378,9 +3378,9 @@ function saswp_about_page_output(){
 				"@type"		   => "AboutPage",
 				"mainEntityOfPage" => array(
                                                             "@type"           => "WebPage",
-                                                            "@id"             => trailingslashit(saswp_get_permalink()),
+                                                            "@id"             => saswp_get_permalink(),
 						),
-				"url"		   => trailingslashit(saswp_get_permalink()),
+				"url"		   => saswp_get_permalink(),
 				"headline"	   => saswp_get_the_title(),								
 				'description'	   => saswp_get_the_excerpt(),
 			);
@@ -3427,9 +3427,9 @@ function saswp_contact_page_output(){
 				"@type"		    => "ContactPage",
 				"mainEntityOfPage"  => array(
 							"@type" => "WebPage",
-							"@id" 	=> trailingslashit(saswp_get_permalink()),
+							"@id" 	=> saswp_get_permalink(),
 							),
-				"url"		   => trailingslashit(saswp_get_permalink()),
+				"url"		   => saswp_get_permalink(),
 				"headline"	   => saswp_get_the_title(),								
 				'description'	   => saswp_get_the_excerpt(),
 			);
@@ -3484,7 +3484,7 @@ function saswp_site_navigation_output(){
                               $navObj[] = array(
                                      "@context"  => saswp_context_url(),
                                      "@type"     => "SiteNavigationElement",
-                                     "@id"       => trailingslashit(get_home_url()). $menu_name ? '#'.$menu_name->name : '',
+                                     "@id"       => get_home_url(). $menu_name ? '#'.$menu_name->name : '',
                                      "name"      => wp_strip_all_tags($items->title),
                                      "url"       => esc_url($items->url)
                               );

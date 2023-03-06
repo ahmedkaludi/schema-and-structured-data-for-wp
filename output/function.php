@@ -1330,7 +1330,7 @@ function saswp_get_comments($post_id){
         
         $comments[] = array (
                 '@type'         => 'Comment',
-                'id'            => trailingslashit(get_permalink()).'comment-'.$comment->comment_ID,
+                'id'            => get_permalink().'comment-'.$comment->comment_ID,
                 'dateCreated'   => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
                 'description'   => strip_tags($comment->comment_content),
                 'upvoteCount'   => $likes,
@@ -3483,11 +3483,11 @@ function saswp_default_video_object_scjhema(){
                     $vnewarr = array(
                         '@type'				            => 'VideoObject',
                         "position"                      => $vkey+1,
-                        "@id"                           => trailingslashit(saswp_get_permalink()).'#'.$i++,
+                        "@id"                           => saswp_get_permalink().'#'.$i++,
                         'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
                         'datePublished'                 => esc_html($date),
                         'dateModified'                  => esc_html($modified_date),
-                        'url'				            => trailingslashit(saswp_get_permalink()),
+                        'url'				            => saswp_get_permalink(),
                         'interactionStatistic'          => array(
                             "@type" => "InteractionCounter",
                             "interactionType" => array("@type" => "WatchAction" ),
@@ -3530,8 +3530,8 @@ function saswp_default_video_object_scjhema(){
                 $input1 = array(
                     '@context'			            => saswp_context_url(),
                     '@type'				            => 'VideoObject',
-                    '@id'                           => trailingslashit(saswp_get_permalink()).'#videoobject',        
-                    'url'				            => trailingslashit(saswp_get_permalink()),
+                    '@id'                           => saswp_get_permalink().'#videoobject',        
+                    'url'				            => saswp_get_permalink(),
                     'headline'			            => saswp_get_the_title(),
                     'datePublished'                 => esc_html($date),
                     'dateModified'                  => esc_html($modified_date),

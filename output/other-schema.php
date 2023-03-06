@@ -297,7 +297,7 @@ function saswp_classpress_ads_schema($input1){
 
         $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
 
-        $input1['url']         = trailingslashit(saswp_get_permalink());
+        $input1['url']         = saswp_get_permalink();
         $input1['name']        = saswp_get_the_title();
         $input1['identifier']  = $post_meta['cp_sys_ad_conf_id'];
         $input1['description'] = saswp_get_the_excerpt();

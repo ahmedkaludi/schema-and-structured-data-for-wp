@@ -68,7 +68,7 @@ function saswp_elementor_qanda_schema(){
                 
         $input1['@context']              = saswp_context_url();
         $input1['@type']                 = 'QAPage';
-        $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#QAPage';  
+        $input1['@id']                   = saswp_get_permalink().'#QAPage';  
 
         $input1['mainEntity']['@type']                        = 'Question';
         $input1['mainEntity']['name']                         = $data['question_name'];
@@ -102,7 +102,7 @@ function saswp_elementor_faq_schema(){
 
                            $input1['@context']              = saswp_context_url();
                            $input1['@type']                 = 'FAQPage';
-                           $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#FAQPage';                            
+                           $input1['@id']                   = saswp_get_permalink().'#FAQPage';                            
 
                                $faq_question_arr = array();
 
@@ -155,7 +155,7 @@ function saswp_elementor_howto_schema(){
 
                     $input1['@context']              = saswp_context_url();
                     $input1['@type']                 = 'HowTo';
-                    $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';
+                    $input1['@id']                   = saswp_get_permalink().'#HowTo';
                     $input1['name']                  = saswp_get_the_title();                
                     $input1['datePublished']         = get_the_date("c");
                     $input1['dateModified']          = get_the_modified_date("c");
@@ -222,7 +222,7 @@ function saswp_elementor_howto_schema(){
                     }
 
                     $supply_data['@type']   = 'HowToStep';
-                    $supply_data['url']     = trailingslashit(saswp_get_permalink()).'#step'.++$key;
+                    $supply_data['url']     = saswp_get_permalink().'#step'.++$key;
                     $supply_data['name']    = $val['howto_step_title'];    
 
                     if(isset($direction['text']) || isset($tip['text'])){
