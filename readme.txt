@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 1.10.1
+Stable tag: 1.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,23 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.11 (06 March 2023) =
+
+* Enhancement: Remove trailingslash from url and @id schema properties for all the schema types #1852
+* Enhancement: ScholarlyArticle #1854
+* Fixed: Platform Icon is missing in reviews list #1857
+* Fixed: Broke Webiste last version #1858
+* Fixed: Error after last update #1859
+* Enhancement: User want to user profile custom filed in schema #1865
+* Enhancement: An option to change breadcrumb homepage title #1847
+* Fixed: Getting fatal errors with PHP 8.0 #1866
+* Fixed: PHP Warning: Attempt to read property "ID" on bool in /app/web/wp-content/plugins/schema-and-structured-data-for-wp/output/output.php on line 3268 #1867
+* Fixed: Warnings appearing on the frontend #1869
+* Feature: Need to create an Itempage Schema. #1851
+* Fixed: Need to fix the error generated in Query Monitor #1819
+* Fixed: While using the schema plugin, there is an error in the query monitor plugin. #1875
+* Fixed: When a user creates a Google review and clicks on it, the google review link goes to the wrong URL #1876
 
 = 1.10.1 (12 Feb 2023) =
 
