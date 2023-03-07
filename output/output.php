@@ -3458,51 +3458,51 @@ function saswp_contact_page_output(){
  */
 function saswp_site_navigation_output(){
             
-            global $sd_data;
-            $input = array();    
-            $menuItems = array();       
-            $navObj = array();          
-                                       
-            if(isset($sd_data['saswp_site_navigation_menu'])){
-                
-                $menu_id   = $sd_data['saswp_site_navigation_menu'];
-                if(function_exists('icl_object_id')){
-					$menu_id   = apply_filters( 'wpml_object_id', $menu_id, 'nav_menu', FALSE,ICL_LANGUAGE_CODE );	
-				}                
-                $menuItems = get_transient('saswp_nav_menu');
-                
-                if(!$menuItems){
-                    $menuItems = wp_get_nav_menu_items($menu_id);
-                }
-                
-                $menu_name = wp_get_nav_menu_object($menu_id);
-                                             
-                    if(!empty($menuItems)){
-                   
-                        foreach($menuItems as $items){
-                 
-                              $navObj[] = array(
-                                     "@context"  => saswp_context_url(),
-                                     "@type"     => "SiteNavigationElement",
-                                     "@id"       => get_home_url(). $menu_name ? '#'.$menu_name->name : '',
-                                     "name"      => wp_strip_all_tags($items->title),
-                                     "url"       => esc_url($items->url)
-                              );
+    global $sd_data;
+    $input = array();    
 
-                        }                                                                                                                                                                                   
-                    }
-             
-                    if(!empty($navObj)){
+    $navObj = array();          
+                               
+    if(isset($sd_data['saswp_site_navigation_menu'])){
+        
+        $menu_id   = $sd_data['saswp_site_navigation_menu'];
+        if(function_exists('icl_object_id')){
+            $menu_id   = apply_filters( 'wpml_object_id', $menu_id, 'nav_menu', FALSE,ICL_LANGUAGE_CODE );	
+        }                
+        $menuItems = get_transient('saswp_nav_menu');
+        
+        if(!$menuItems){
+            $menuItems = wp_get_nav_menu_items($menu_id);
+        }
+        
+        $menu_name = wp_get_nav_menu_object($menu_id);
+                                     
+        if(!empty($menuItems)){
+           
+                foreach($menuItems as $items){
+         
+                      $navObj[] = array(
+                             "@context"  => saswp_context_url(),
+                             "@type"     => "SiteNavigationElement",
+                             "@id"       => get_home_url().'#'.$menu_name->name,
+                             "name"      => wp_strip_all_tags($items->title),
+                             "url"       => esc_url($items->url)
+                      );
 
-                        $input['@context'] = saswp_context_url(); 
-                        $input['@graph']   = $navObj; 
+                }                                                                                                                                                                                   
+            }
+     
+            if($navObj){
 
-                    }
-                    
-            }                                                
-                                        
+                $input['@context'] = saswp_context_url(); 
+                $input['@graph']   = $navObj; 
+
+            }
+            
+    }                                                
+                                
     return apply_filters('saswp_modify_sitenavigation_output', $input);
-}   
+}  
 
 function saswp_fetched_reviews_json_ld(){
     
