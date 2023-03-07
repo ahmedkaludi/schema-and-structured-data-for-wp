@@ -1014,7 +1014,8 @@ function saswp_general_page_callback(){
                 'class'   => 'saswp_archive_schema_type_class',
                 'type'    => 'select',
                 'options' => array(                                
-                                'Article'          => 'Article',                                     
+                                'Article'          => 'Article',     
+                                'ScholarlyArticle' => 'ScholarlyArticle',                                     
                                 'BlogPosting'      => 'BlogPosting',                                     
                                 'NewsArticle'      => 'NewsArticle',          
                                 'AnalysisNewsArticle' => 'AnalysisNewsArticle',    
@@ -1023,7 +1024,8 @@ function saswp_general_page_callback(){
                                 'OpinionNewsArticle' => 'OpinionNewsArticle',   
                                 'ReportageNewsArticle' => 'ReportageNewsArticle',     
                                 'ReviewNewsArticle' => 'ReviewNewsArticle',                                                                                                                                                                                                                                                  
-                                'WebPage'          => 'WebPage' 
+                                'WebPage'          => 'WebPage',
+                                'ItemPage'         => 'ItemPage'
                 )
         );
         if(is_plugin_active('woocommerce/woocommerce.php')){
@@ -1053,6 +1055,15 @@ function saswp_general_page_callback(){
                         'name' => 'sd_data[saswp_breadcrumb_schema]',                             
                 )
         );
+        $meta_fields_default[] = array(
+                'label'  => 'Home Page Title',
+                'id'     => 'saswp_breadcrumb_home_page_title_text', 
+                'name'   => 'sd_data[saswp_breadcrumb_home_page_title_text]',
+                'type'   => 'text',
+                'class'  => 'text saswp-text',  
+                'default'=>  get_bloginfo(), 
+        );
+        
         $meta_fields_default[] = array(
                 'label'  => 'Exclude Category',
                 'id'     => 'saswp_breadcrumb_remove_cat_checkbox', 
@@ -1130,7 +1141,10 @@ function saswp_general_page_callback(){
               <h2><?php echo saswp_t_string('General Settings'); ?></h2>              
             </div>
             <p><?php echo saswp_t_string('This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type.') ?> <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/"><?php echo saswp_t_string('Learn More') ?></a></p>   
-        <ul><li><div class="saswp-about-contact-page-tooltip"><label class="saswp-tooltip">
+        <ul><li><div class="saswp-about-contact-page-tooltip">
+        <input  id="saswp_breadcrumb_home_page_title" name="sd_data[saswp_breadcrumb_home_page_title]" type="hidden" value="<?php if(!empty($settings['saswp_breadcrumb_home_page_title'])){ echo $settings['saswp_breadcrumb_home_page_title']; }else{ echo get_bloginfo(); } ?>">
+        
+        <label class="saswp-tooltip">
         <?php echo saswp_t_string('About') ?>
                 <span class="saswp-tooltiptext"><?php echo saswp_t_string('Set the about page of of your website') ?></span>
                 </label>

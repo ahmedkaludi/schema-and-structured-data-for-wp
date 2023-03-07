@@ -493,7 +493,7 @@ function saswp_get_all_schema_markup_output() {
             
                     $output_schema_type_id[] = $soutput['@type'];
                     
-                    if($soutput['@type'] == 'BlogPosting'|| $soutput['@type'] == 'Article' || $soutput['@type'] == 'TechArticle' || $soutput['@type'] == 'NewsArticle'){
+                    if($soutput['@type'] == 'BlogPosting'|| $soutput['@type'] == 'Article' || $soutput['@type'] == 'ScholarlyArticle' || $soutput['@type'] == 'TechArticle' || $soutput['@type'] == 'NewsArticle'){
                         
                     
                     $final_output = array();
@@ -1330,7 +1330,7 @@ function saswp_get_comments($post_id){
         
         $comments[] = array (
                 '@type'         => 'Comment',
-                'id'            => trailingslashit(get_permalink()).'comment-'.$comment->comment_ID,
+                'id'            => get_permalink().'comment-'.$comment->comment_ID,
                 'dateCreated'   => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
                 'description'   => strip_tags($comment->comment_content),
                 'upvoteCount'   => $likes,
@@ -1467,6 +1467,7 @@ function saswp_list_items_generator(){
 		global $sd_data;
 		$bc_titles = array();
 		$bc_links  = array();
+        $settings = saswp_defaultSettings(); 
 
         if(empty($sd_data['links'])){
             saswp_custom_breadcrumbs();
@@ -1491,13 +1492,19 @@ function saswp_list_items_generator(){
                                     if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
                                     
                                         if($bc_links[$i] != '' && $bc_titles[$i] != '' ){
+                                           
+                                            if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title'])){
+                                               $titles = $settings['saswp_breadcrumb_home_page_title'];
+                                            }else{
+                                               $titles = $bc_titles[$i];
+                                            }
 
                                             $breadcrumbslist[] = array(
                                                 '@type'			=> 'ListItem',
                                                 'position'		=> $j,
                                                 'item'			=> array(
                                                     '@id'		=> $bc_links[$i],
-                                                    'name'		=> $bc_titles[$i],
+                                                    'name'		=> $titles,
                                                     ),
                                               );
                                             
@@ -1521,12 +1528,18 @@ function saswp_list_items_generator(){
         
                                     if($bc_links[$i] !='' && $bc_titles[$i] != ''){
 
+                                        if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title'])){
+                                            $titles = $settings['saswp_breadcrumb_home_page_title'];
+                                        }else{
+                                            $titles = $bc_titles[$i];
+                                        }
+
                                         $breadcrumbslist[] = array(
                                             '@type'			=> 'ListItem',
                                             'position'		=> $j,
                                             'item'			=> array(
                                                 '@id'		=> $bc_links[$i],
-                                                'name'		=> $bc_titles[$i],
+                                                'name'		=> $titles,
                                                 ),
                                         );
     
@@ -1551,12 +1564,18 @@ function saswp_list_items_generator(){
                                                
                         if($bc_links[$i] != '' && $bc_titles[$i] !=''){
 
+                            if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title'])){
+                                $titles = $settings['saswp_breadcrumb_home_page_title'];
+                            }else{
+                                $titles = $bc_titles[$i];
+                            }
+
                             $breadcrumbslist[] = array(
                                 '@type'		=> 'ListItem',
                                 'position'	=> $j,
                                 'item'		=> array(
                                         '@id'		=> $bc_links[$i],
-                                        'name'		=> $bc_titles[$i],
+                                        'name'		=> $titles,
                                         ),
                                 );
                             $j++;
@@ -3464,11 +3483,11 @@ function saswp_default_video_object_scjhema(){
                     $vnewarr = array(
                         '@type'				            => 'VideoObject',
                         "position"                      => $vkey+1,
-                        "@id"                           => trailingslashit(saswp_get_permalink()).'#'.$i++,
+                        "@id"                           => saswp_get_permalink().'#'.$i++,
                         'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
                         'datePublished'                 => esc_html($date),
                         'dateModified'                  => esc_html($modified_date),
-                        'url'				            => trailingslashit(saswp_get_permalink()),
+                        'url'				            => saswp_get_permalink(),
                         'interactionStatistic'          => array(
                             "@type" => "InteractionCounter",
                             "interactionType" => array("@type" => "WatchAction" ),
@@ -3511,8 +3530,8 @@ function saswp_default_video_object_scjhema(){
                 $input1 = array(
                     '@context'			            => saswp_context_url(),
                     '@type'				            => 'VideoObject',
-                    '@id'                           => trailingslashit(saswp_get_permalink()).'#videoobject',        
-                    'url'				            => trailingslashit(saswp_get_permalink()),
+                    '@id'                           => saswp_get_permalink().'#videoobject',        
+                    'url'				            => saswp_get_permalink(),
                     'headline'			            => saswp_get_the_title(),
                     'datePublished'                 => esc_html($date),
                     'dateModified'                  => esc_html($modified_date),

@@ -11,6 +11,7 @@ return array(
         ),
          'CreativeWork' => array(
                 'Article'                  => 'Article', 
+                'ScholarlyArticle'         => 'ScholarlyArticle',
                 'Audiobook'                => 'Audiobook',                
                 'BlogPosting'              => 'BlogPosting',
                 'Book'                     => 'Book',
@@ -47,6 +48,7 @@ return array(
                 'TechArticle'              => 'TechArticle', 
                 'VisualArtwork'            => 'VisualArtwork',                                           
                 'WebPage'                  => 'WebPage',
+                'ItemPage'                 => 'ItemPage',
                 'MedicalWebPage'           => 'MedicalWebPage',
                 'BreadCrumbs'              => 'BreadCrumbs'  
         ),

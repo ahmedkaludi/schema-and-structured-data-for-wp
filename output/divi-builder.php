@@ -25,7 +25,7 @@ function saswp_divi_builder_faq_schema(){
 
                            $input1['@context']              = saswp_context_url();
                            $input1['@type']                 = 'FAQPage';
-                           $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#FAQPage';                            
+                           $input1['@id']                   = saswp_get_permalink().'#FAQPage';                            
 
                                $faq_question_arr = array();
 

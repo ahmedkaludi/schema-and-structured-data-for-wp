@@ -22,7 +22,7 @@ function saswp_tinymce_how_to_schema(){
                                        
                 $input1['@context']              = saswp_context_url();
                 $input1['@type']                 = 'HowTo';
-                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';
+                $input1['@id']                   = saswp_get_permalink().'#HowTo';
                 $input1['name']                  = saswp_get_the_title();                
                 $input1['datePublished']         = get_the_date("c");
                 $input1['dateModified']          = get_the_modified_date("c");
@@ -64,7 +64,7 @@ function saswp_tinymce_how_to_schema(){
                         }
 
                         $supply_data['@type']   = 'HowToStep';
-                        $supply_data['url']     = trailingslashit(saswp_get_permalink()).'#step'.++$key;
+                        $supply_data['url']     = saswp_get_permalink().'#step'.++$key;
                         $supply_data['name']    = $val['step_title'];    
 
                         if(isset($direction['text']) || isset($tip['text'])){
@@ -143,7 +143,7 @@ function saswp_tinymce_faq_schema(){
 
         $input1['@context']              = saswp_context_url();
         $input1['@type']                     = 'FAQPage';
-        $input1['@id']                       = trailingslashit(saswp_get_permalink()).'#FAQPage';                            
+        $input1['@id']                       = saswp_get_permalink().'#FAQPage';                            
 
         foreach($saswp_tiny_multi_faq['elements'] as $val){
 

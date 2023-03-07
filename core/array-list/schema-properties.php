@@ -2272,6 +2272,145 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     );
                     break;
 
+                case 'ItemPage':
+                        $meta_field = array(
+                                array(
+                                        'label'      => 'ID',
+                                        'id'         => 'saswp_itempage_id_'.$schema_id,
+                                        'type'       => 'text',
+                                        'default'    => 'ItemPage'   
+                                ), 
+                        array(
+                                'label' => 'Name',
+                                'id' => 'saswp_itempage_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title()
+                        ),
+                        array(
+                                'label' => 'URL',
+                                'id' => 'saswp_itempage_url_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label' => 'Description',
+                                'id' => 'saswp_itempage_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'inLanguage',
+                                'id'      => 'saswp_itempage_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                        ),
+                        array(
+                                'label'   => 'ItemPage Section',
+                                'id'      => 'saswp_itempage_section_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),                           
+                        array(
+                                'label' => 'Keywords',
+                                'id' => 'saswp_itempage_keywords_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_tags()
+                        ),
+                        array(
+                                'label' => 'Main Entity Of Page',
+                                'id' => 'saswp_itempage_main_entity_of_page_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_permalink()
+                        ), 
+                        array(
+                                'label' => 'Image',
+                                'id' => 'saswp_itempage_image_'.$schema_id,
+                                'type' => 'media',                            
+                        ), 
+                        array(
+                                'label' => 'Headline',
+                                'id' => 'saswp_itempage_headline_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title(),
+                        ),
+                        array(
+                                'label'   => 'Date Created',
+                                'id'      => 'saswp_itempage_date_created_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Published',
+                                'id' => 'saswp_itempage_date_published_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                                'label' => 'Date Modified',
+                                'id' => 'saswp_itempage_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label'   => 'Last Reviewed',
+                                'id'      => 'saswp_itempage_last_reviewed_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                                array(
+                                'label'   => 'Reviewed By',
+                                'id'      => 'saswp_itempage_reviewed_by_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                                ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_itempage_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label' => 'Author Name',
+                                'id' => 'saswp_itempage_author_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label' => 'Author Description',
+                                'id' => 'saswp_itempage_author_description_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => $author_desc
+                        ), 
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_itempage_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),    
+                        array(
+                                'label' => 'Organization Name',
+                                'id' => 'saswp_itempage_organization_name_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ), 
+                                array(
+                                'label' => 'Organization Logo',
+                                'id' => 'saswp_itempage_organization_logo_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($sd_data['sd_logo']) ? $sd_data['sd_logo']['url']:''
+                        ),
+                        array(
+                                'label' => 'Speakable',
+                                'id' => 'saswp_itempage_speakable_'.$schema_id,
+                                'type' => 'checkbox',
+
+                        )    
+                );
+                break;
+
                 case 'MedicalWebPage':
                     $meta_field = array(
                         array(
@@ -2899,6 +3038,272 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         array(
                                 'label'   => 'Speakable',
                                 'id'      => 'saswp_article_speakable_'.$schema_id,
+                                'type'    => 'checkbox',
+                        )
+                        );
+                        break;
+
+                    case 'ScholarlyArticle':                                        
+                        $meta_field = array(
+                        array(
+                                'label'      => 'ID',
+                                'id'         => 'saswp_scholarlyarticle_id_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => 'ScholarlyArticle'   
+                        ),
+                        array(
+                                'label'   => 'Main Entity Of Page',
+                                'id'      => 'saswp_scholarlyarticle_main_entity_of_page_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_permalink()
+                        ),
+                        array(
+                                'label'   => 'URL',
+                                'id'      => 'saswp_scholarlyarticle_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_permalink(),
+                        ),    
+                        array(
+                                'label'   => 'Image',
+                                'id'      => 'saswp_scholarlyarticle_image_'.$schema_id,
+                                'type'    => 'media'                            
+                        ),
+                        array(
+                                'label'   => 'inLanguage',
+                                'id'      => 'saswp_scholarlyarticle_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                        ),
+                        array(
+                                'label'   => 'Headline',
+                                'id'      => 'saswp_scholarlyarticle_headline_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_get_the_title()
+                        ),
+                        array(
+                                'label'   => 'Description',
+                                'id'      => 'saswp_scholarlyarticle_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'ScholarlyArticle Section',
+                                'id'      => 'saswp_scholarlyarticle_section_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),    
+                        array(
+                                'label'   => 'ScholarlyArticle Body',
+                                'id'      => 'saswp_scholarlyarticle_body_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
+                        ),    
+                        array(
+                                'label'   => 'Keywords',
+                                'id'      => 'saswp_scholarlyarticle_keywords_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_get_the_tags()
+                        ),    
+                        array(
+                                'label'   => 'Date Published',
+                                'id'      => 'saswp_scholarlyarticle_date_published_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_date("Y-m-d")
+                        ), 
+                        array(
+                                'label'   => 'Date Modified',
+                                'id'      => 'saswp_scholarlyarticle_date_modified_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                        ),
+                        array(
+                                'label'   => 'Author',
+                                'id'      => 'saswp_scholarlyarticle_author_global_mapping_'.$schema_id,
+                                'type'    => 'global_mapping'
+                        ),
+                        array(
+                                'label'   => 'Author Type',
+                                'id'      => 'saswp_scholarlyarticle_author_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label'   => 'Author Name',
+                                'id'      => 'saswp_scholarlyarticle_author_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'Author HonorificSuffix',
+                                'id'      => 'saswp_scholarlyarticle_author_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                        ),
+                        ),
+                        array(
+                                'label'   => 'Author Description',
+                                'id'      => 'saswp_scholarlyarticle_author_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_scholarlyarticle_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Author Image URL',
+                                'id' => 'saswp_scholarlyarticle_author_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+                        array(
+                                'label'   => 'JobTitle',
+                                'id'      => 'saswp_scholarlyarticle_author_jobtitle_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => '',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Editor in Chief'
+                                        ),
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy',
+                                'id'      => 'saswp_scholarlyarticle_reviewedby_global_mapping_'.$schema_id,
+                                'type'    => 'global_mapping'
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy Type',
+                                'id'      => 'saswp_scholarlyarticle_reviewedby_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ""                => "Select",
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy Name',
+                                'id'      => 'saswp_scholarlyarticle_reviewedby_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy HonorificSuffix',
+                                'id'      => 'saswp_scholarlyarticle_reviewedby_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                        ),
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy Description',
+                                'id'      => 'saswp_scholarlyarticle_reviewedby_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'ReviewedBy URL',
+                                'id'      => 'saswp_scholarlyarticle_reviewedby_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label'   => 'Editor',
+                                'id'      => 'saswp_scholarlyarticle_editor_global_mapping_'.$schema_id,
+                                'type'    => 'global_mapping'
+                        ),
+                        array(
+                                'label'   => 'Editor Type',
+                                'id'      => 'saswp_scholarlyarticle_editor_type_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ""                => "Select",
+                                        'Person'           => 'Person',
+                                        'Organization'     => 'Organization',                        
+                                )
+                        ),
+                        array(
+                                'label'   => 'Editor Name',
+                                'id'      => 'saswp_scholarlyarticle_editor_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => is_object($current_user) ? $current_user->display_name : ''
+                        ),
+                        array(
+                                'label'   => 'Editor HonorificSuffix',
+                                'id'      => 'saswp_scholarlyarticle_editor_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                        ),
+                        ), 
+                        array(
+                                'label'   => 'Editor Description',
+                                'id'      => 'saswp_scholarlyarticle_editor_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Editor URL',
+                                'id'      => 'saswp_scholarlyarticle_editor_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Editor Image URL',
+                                'id' => 'saswp_scholarlyarticle_editor_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+                        array(
+                                'label'   => 'Organization Name',
+                                'id'      => 'saswp_scholarlyarticle_organization_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                        ),
+                        array(
+                                'label'   => 'Organization Logo',
+                                'id'      => 'saswp_scholarlyarticle_organization_logo_'.$schema_id,
+                                'type'    => 'media',
+                                'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url']:''
+                        ),
+                        array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_scholarlyarticle_about_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Apple is March 21 Announcements'
+                                ),
+                        ),  
+                        array(
+                                'label'   => 'AlumniOf',
+                                'id'      => 'saswp_scholarlyarticle_alumniof_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one AlumniOf, Separate AlumniOf list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: City University of New York-Herbert H. Lehman College, Southern New Hampshire University'
+                                ),
+                        ),  
+                        array(
+                                'label'   => 'knowsAbout',
+                                'id'      => 'saswp_scholarlyarticle_knowsabout_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one knows about, Separate knows about list by comma ( , )',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: Financial services, negotiation, CRM, Project Management, Mentoring, Learning & Development'
+                                        ),   
+                        ),
+                        array(
+                                'label'   => 'Speakable',
+                                'id'      => 'saswp_scholarlyarticle_speakable_'.$schema_id,
                                 'type'    => 'checkbox',
                         )
                         );

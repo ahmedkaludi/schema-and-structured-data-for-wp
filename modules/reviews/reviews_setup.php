@@ -151,7 +151,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     break;
                 case 'saswp_review_platform' :
                     
-                    $platform = get_post_meta( $post_id, $key='saswp_stars_color_picker', true);  
+                    $platform = get_post_meta( $post_id, 'saswp_review_platform', true);  
                     $term     = get_term( $platform, 'platform' );
                     
                     if(isset($term->slug)){

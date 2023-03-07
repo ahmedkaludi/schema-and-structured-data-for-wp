@@ -31,7 +31,7 @@ function saswp_gutenberg_recipe_schema(){
                                        
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'Recipe';
-    $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Recipe';
+    $input1['@id']                   = saswp_get_permalink().'#Recipe';
     $input1['name']                  = isset($attributes['recipeTitle']) ? $attributes['recipeTitle'] : saswp_get_the_title();                
     $input1['description']           = isset($attributes['summary']) ? $attributes['summary'] : saswp_get_the_excerpt();                   
     $input1['datePublished']         = get_the_date("c");
@@ -313,7 +313,7 @@ function saswp_gutenberg_recipe_schema(){
 
             $input1['@context']              = saswp_context_url();
             $input1['@type']                 = 'Recipe';
-            $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Recipe';
+            $input1['@id']                   = saswp_get_permalink().'#Recipe';
             $input1['name']                  = isset($data['title']) ? $data['title'] : saswp_get_the_title();                           
             $input1['datePublished']         = get_the_date("c");
             $input1['dateModified']          = get_the_modified_date("c");            
@@ -476,7 +476,7 @@ function saswp_gutenberg_how_to_schema(){
                                        
                 $input1['@context']              = saswp_context_url();
                 $input1['@type']                 = 'HowTo';
-                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';
+                $input1['@id']                   = saswp_get_permalink().'#HowTo';
                 $input1['name']                  = saswp_get_the_title();                
                 $input1['datePublished']         = get_the_date("c");
                 $input1['dateModified']          = get_the_modified_date("c");
@@ -522,7 +522,7 @@ function saswp_gutenberg_how_to_schema(){
                         }
 
                         $supply_data['@type']   = 'HowToStep';
-                        $supply_data['url']     = trailingslashit(saswp_get_permalink()).'#step'.++$key;
+                        $supply_data['url']     = saswp_get_permalink().'#step'.++$key;
                         $supply_data['name']    = $val['name'][0];    
 
                         if(isset($direction['text']) || isset($tip['text'])){
@@ -564,7 +564,7 @@ function saswp_gutenberg_how_to_schema(){
                     
                     $input1['@context']              = saswp_context_url();
                     $input1['@type']                 = 'HowTo';
-                    $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';
+                    $input1['@id']                   = saswp_get_permalink().'#HowTo';
                     $input1['name']                  = saswp_get_the_title();                
                     $input1['datePublished']         = get_the_date("c");
                     $input1['dateModified']          = get_the_modified_date("c");    
@@ -683,7 +683,7 @@ function saswp_gutenberg_how_to_schema(){
                                        
                 $input1['@context']              = saswp_context_url();
                 $input1['@type']                 = 'HowTo';
-                $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#HowTo';
+                $input1['@id']                   = saswp_get_permalink().'#HowTo';
                 $input1['name']                  = saswp_get_the_title();                
                 $input1['datePublished']         = get_the_date("c");
                 $input1['dateModified']          = get_the_modified_date("c");
@@ -773,7 +773,7 @@ function saswp_gutenberg_how_to_schema(){
                         }
 
                         $supply_data['@type']   = 'HowToStep';
-                        $supply_data['url']     = trailingslashit(saswp_get_permalink()).'#step'.++$key;
+                        $supply_data['url']     = saswp_get_permalink().'#step'.++$key;
                         $supply_data['name']    = $val['title'];    
 
                         if(isset($direction['text']) || isset($tip['text'])){
@@ -853,7 +853,7 @@ function saswp_gutenberg_faq_schema(){
                                 
                            $input1['@context']              = saswp_context_url();
                            $input1['@type']                 = 'FAQPage';
-                           $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#FAQPage';                            
+                           $input1['@id']                   = saswp_get_permalink().'#FAQPage';                            
 
                            $faq_question_arr = array();
 
@@ -889,7 +889,7 @@ function saswp_gutenberg_faq_schema(){
 
                            $input1['@context']              = saswp_context_url();
                            $input1['@type']                 = 'FAQPage';
-                           $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#FAQPage';                            
+                           $input1['@id']                   = saswp_get_permalink().'#FAQPage';                            
 
                            $faq_question_arr = array();
 
@@ -938,7 +938,7 @@ function saswp_gutenberg_event_schema(){
                 
         $input1['@context']              = saswp_context_url();
         $input1['@type']                 = 'Event';
-        $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Event';  
+        $input1['@id']                   = saswp_get_permalink().'#Event';  
         $input1['name']                  = saswp_get_the_title();  
         $input1['description']           = isset($data['description']) ? $data['description'] : saswp_get_the_excerpt();
         $input1['startDate']             = saswp_format_date_time($data['start_date'], $data['start_time']);
@@ -1080,7 +1080,7 @@ function saswp_gutenberg_qanda_schema(){
                 
         $input1['@context']              = saswp_context_url();
         $input1['@type']                 = 'QAPage';
-        $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#QAPage';  
+        $input1['@id']                   = saswp_get_permalink().'#QAPage';  
 
         $input1['mainEntity']['@type']                        = 'Question';
         $input1['mainEntity']['name']                         = $data['question_name'];
@@ -1111,7 +1111,7 @@ function saswp_gutenberg_book_schema(){
 
         $input1['@context']              = saswp_context_url();
         $input1['@type']                 = 'Book';
-        $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#Book';  
+        $input1['@id']                   = saswp_get_permalink().'#Book';  
         $input1['name']                  = $data['title'] ? $data['title'] : saswp_get_the_title(); 
 
         if(!empty($data['description'])){
@@ -1160,7 +1160,7 @@ function saswp_gutenberg_job_schema(){
                 
         $input1['@context']              = saswp_context_url();
         $input1['@type']                 = 'JobPosting';
-        $input1['@id']                   = trailingslashit(saswp_get_permalink()).'#JobPosting';  
+        $input1['@id']                   = saswp_get_permalink().'#JobPosting';  
         $input1['title']                 = saswp_get_the_title();  
         $input1['description']           = $data['job_description'] ? wp_strip_all_tags($data['job_description']) : saswp_get_the_excerpt();
         $input1['datePosted']            = get_the_date("c");        
@@ -1238,7 +1238,7 @@ function saswp_gutenberg_course_schema(){
             $markup['@context']           = saswp_context_url();
             $markup['@type']              = 'Course';
             $markup['url']                = ($course_count > 1 ? saswp_get_permalink().'#course_'.$i : saswp_get_permalink());
-            $markup['@id']                = trailingslashit(saswp_get_permalink()).'#Course'; 
+            $markup['@id']                = saswp_get_permalink().'#Course'; 
             $markup['name']               = $course['name'];
             $markup['description']        = $course['description'];
                         

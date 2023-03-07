@@ -246,7 +246,7 @@ if ( ! defined('ABSPATH') ) exit;
                         $export_data[$schema->ID]['post']      = (array)$schema;                    
                         $post_meta                             = get_post_meta($schema->ID);    
 
-                        if($post_meta){
+                        if(!empty($post_meta)){
 
                             foreach ($post_meta as $key => $meta){
 
@@ -631,7 +631,7 @@ if ( ! defined('ABSPATH') ) exit;
         
                     global $wpdb;
         
-                    $schema_types = array('Event', 'Person', 'Product', 'Recipe', 'Article', 'Service', 'VideoObject', 'SoftwareApplication');
+                    $schema_types = array('Event', 'Person', 'Product', 'Recipe', 'Article', 'ScholarlyArticle', 'Service', 'VideoObject', 'SoftwareApplication');
                                        
                     $args_event   = get_option('bsf_event');
                     $args_person  = get_option('bsf_person');
@@ -734,6 +734,16 @@ if ( ! defined('ABSPATH') ) exit;
                                  $fixed_text['saswp_article_organization_logo']    = $args_article["article_publisher_logo"];
                                  
                                  break;
+                            case 'ScholarlyArticle':
+                                                            
+                                $fixed_text['saswp_scholarlyarticle_image']                = $args_article["scholarlyarticle_name"];
+                                $fixed_text['saswp_scholarlyarticle_headline']             = $args_article["snippet_title"];                                                                  
+                                $fixed_text['saswp_scholarlyarticle_description']          = $args_article["scholarlyarticle_desc"];
+                                $fixed_text['saswp_scholarlyarticle_author_name']          = $args_article["scholarlyarticle_author"];
+                                $fixed_text['saswp_scholarlyarticle_organization_name']    = $args_article["scholarlyarticle_publisher"];
+                                $fixed_text['saswp_scholarlyarticle_organization_logo']    = $args_article["scholarlyarticle_publisher_logo"];
+                                
+                                break;
                              case 'Service':
                                  
                                  $fixed_text['saswp_service_schema_name']          = $args_service["snippet_title"];
@@ -2480,21 +2490,24 @@ if ( ! defined('ABSPATH') ) exit;
         if(!empty($author_meta['alumniof'][0])){
             $str =  $author_meta['alumniof'][0];
             $itemlist = explode(",", $str);
-            foreach ($itemlist as $key => $list){
-                $vnewarr['@type'] = 'Organization';
-                $vnewarr['Name']   = $list;   
-                $author_details['alumniOf'][] = $vnewarr;
+            if(!empty($itemlist)){
+                foreach ($itemlist as $key => $list){
+                    $vnewarr['@type'] = 'Organization';
+                    $vnewarr['Name']   = $list;   
+                    $author_details['alumniOf'][] = $vnewarr;
+                }
             }
+            
         }
 
         if(!empty($author_meta['author_image'][0])){
             $author_image =  wp_get_attachment_image_src($author_meta['author_image'][0]);
-           
-            $author_details['image']['@type']  = 'ImageObject';
-            $author_details['image']['url']    = $author_image[0];
-            $author_details['image']['height'] = $author_image[1];
-            $author_details['image']['width']  = $author_image[2];
-
+            if(!empty($author_image)){
+                $author_details['image']['@type']  = 'ImageObject';
+                $author_details['image']['url']    = $author_image[0];
+                $author_details['image']['height'] = $author_image[1];
+                $author_details['image']['width']  = $author_image[2];
+            }
         }elseif(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
 
             $author_details['image']['@type']  = 'ImageObject';
@@ -3094,6 +3107,7 @@ function saswp_get_field_note($pname){
             'event_on'                    => saswp_t_string('Event On').' <a target="_blank" href="https://www.myeventon.com/">Event On</a>',
             'wordlift'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
             'ampforwp'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
+            'bunyadamp'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">Bunyad AMP</a>',
             'quickandeasyfaq'             => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/quick-and-easy-faqs/">Quick and Easy FAQs</a>',
             'accordionfaq'                => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/responsive-accordion-and-collapse">Accordion FAQ</a>',
             'webfaq10'                    => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/faq-wd/">10WebFAQ</a>',
