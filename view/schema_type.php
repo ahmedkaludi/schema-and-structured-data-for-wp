@@ -1220,7 +1220,9 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
         // if ( ! isset( $_POST['saswp_schema_type_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_type_nonce'], 'saswp_schema_type_nonce' ) ) return;
         if ( ! current_user_can( 'edit_post', $post_id ) ) return;  
-        
+
+        $post = get_post( $post_id );
+
         if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){       
     
            update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 1);
@@ -1241,7 +1243,9 @@ function saswp_schema_type_add_meta_box_save( $post_id ) {
         if(isset($_POST['schema_type'])){     
             update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
         }else{
-            delete_post_meta( $post_id, 'schema_type');
+            if (!empty($post) && 'delete' === $post->post_status) {
+                delete_post_meta( $post_id, 'schema_type');
+            }
         } 
 
         if(isset($_POST['saswp_loc_display_on_front'])){
