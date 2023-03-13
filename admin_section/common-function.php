@@ -1957,42 +1957,41 @@ if ( ! defined('ABSPATH') ) exit;
      */
     function saswp_get_attachment_details($attachments, $post_id = null) {
         
-        $response = array();
-        
         $cached_data = get_transient('saswp_imageobject_' .$post_id); 
         
         if (empty($cached_data)) {
-                       
-            foreach ($attachments as $url){
-             
-                $image_data = array();    
-
-                $image = @getimagesize($url);
-
-                if(is_array($image)){
-
-                    $image_data[0] =  $image[0]; //width
-                    $image_data[1] =  $image[1]; //height
-
-                }                                 
-            
-                if(empty($image) || $image == false){
-                    
-                    $img_id           = attachment_url_to_postid($url);
-                    $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
-
-                    if($imageDetail && is_array($imageDetail)){
-
-                        $image_data[0]    = $imageDetail[1]; // width
-                        $image_data[1]    = $imageDetail[2]; // height
-
-                    }                    
-                    
-                }
+            $response = array();        
+            if(!empty($attachments)){
+                foreach ($attachments as $url){
                 
-              $response[] = $image_data;  
-            }
-                                  
+                    $image_data = array();    
+
+                    $image = @getimagesize($url);
+
+                    if(is_array($image)){
+
+                        $image_data[0] =  $image[0]; //width
+                        $image_data[1] =  $image[1]; //height
+
+                    }                                 
+                
+                    if(empty($image) || $image == false){
+                        
+                        $img_id           = attachment_url_to_postid($url);
+                        $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
+
+                        if($imageDetail && is_array($imageDetail)){
+
+                            $image_data[0]    = $imageDetail[1]; // width
+                            $image_data[1]    = $imageDetail[2]; // height
+
+                        }                    
+                        
+                    }
+                    
+                $response[] = $image_data;  
+                }
+            }                    
             set_transient('saswp_imageobject_' .$post_id, $response,  24*30*HOUR_IN_SECONDS );   
 
             $cached_data = $response;
