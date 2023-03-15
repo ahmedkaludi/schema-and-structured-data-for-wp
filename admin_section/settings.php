@@ -503,10 +503,10 @@ function saswp_admin_interface_render(){
 			?>
 		</div>
 			<div class="button-wrapper">
-				<?php
-				// Output save settings button
-                                submit_button( saswp_t_string('Save Settings') );
-				?>
+                                <?php
+                                // Output save settings button
+                                submit_button( $text = saswp_t_string('Save Settings'), $type = 'button button-primary', $name = 'settings_submit',  $wrap = true );
+                                ?>
 			</div>  
                     <input type="hidden" name="sd_data[sd_initial_wizard_status]" value="1">
 		</form>
