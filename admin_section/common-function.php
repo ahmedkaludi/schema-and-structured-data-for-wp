@@ -3494,7 +3494,10 @@ function saswp_get_video_metadata($content = ''){
                 $content = $post->post_content;
             }    
         }
+  
 
+    
+   
         if(function_exists('has_block')){
             if( has_block('presto-player/youtube') ){
                 $attributes = saswp_get_gutenberg_multiple_block_data('presto-player/youtube');    
@@ -3745,19 +3748,51 @@ function saswp_get_video_metadata($content = ''){
                     
                 }
             }
-           
+
+            if (str_starts_with($content,'https://')) {
+                $video_list = explode("https://",$content);
+                foreach($video_list as $video_src){
+                    if(!empty($video_src)){
+    
+                        $vurl = "https://".$video_src;
+                        if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
+                            continue;
+                        }
+                        $metadata = array();
+                        if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
+                            $vid = saswp_get_youtube_vid($vurl);
+                            $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
+        
+                            if(!empty($video_meta)){
+                                $metadata['title']      = $video_meta['title'];
+                                $metadata['description']      = $video_meta['description'];
+                                $metadata['viewCount']      = $video_meta['viewCount'];
+                                $metadata['duration']      = $video_meta['duration'];
+                                $metadata['uploadDate']      = $video_meta['uploadDate'];
+                                $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
+                            }
+                        }
+
+                        $metadata['video_url'] = $vurl;                    
+                        $response[] = $metadata;
+                       
+                    }
+                }
+            }
+    
         $result = saswp_unique_multidim_array($response,'video_url');
-       
+      
         return $result;
 }
 
-function saswp_unique_multidim_array($array, $key) { 
+function saswp_unique_multidim_array($array, $key) {
+   
     $temp_array = array(); 
     $i = 0; 
     $key_array = array(); 
     if(!empty($array) && !empty($key)){
         foreach($array as $val) { 
-            if(!empty($val[$key])){    
+            if(!empty($val[$key])){   
                 $checked = saswp_youtube_check_validate_url($val[$key]);
                 if (!empty($checked)) {
                     if (!in_array($val[$key], $key_array)) { 
