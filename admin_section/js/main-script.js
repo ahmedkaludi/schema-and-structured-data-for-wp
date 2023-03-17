@@ -2612,7 +2612,7 @@ jQuery(document).ready(function($){
 
                    if(modified == 1){
                     $("."+schema_name).empty();
-                    $("."+schema_name).text('Enable '+schema_name+' on this page');
+                    $("."+schema_name).text('Disable '+schema_name+' on this page');
 
                     $(".saswp-ps-toggle[schema-id="+schema_id+"]").removeClass('saswp_hide'); 
                     $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');

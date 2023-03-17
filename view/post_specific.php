@@ -399,7 +399,7 @@ class saswp_post_specific {
                 
              if((isset($schema_enable['custom']) && $schema_enable['custom'] == 0)){
                 $disable_btn.= '<div class="saswp-disable-btn-container">'
-                . '<span class="saswp-disable-label custom">'.saswp_t_string( 'Disable custom schema on this page' ).'</span>'
+                . '<span class="saswp-disable-label custom">'.saswp_t_string( 'Enable custom schema on this page' ).'</span>'
                 . '<label class="saswp-switch">'
                 . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="custom" data-post-id="'.esc_attr($post->ID).'" '.( (isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'checked' : '' ).'>'
                 . '<span class="saswp-slider"></span>'
@@ -407,7 +407,7 @@ class saswp_post_specific {
                 . '</div>';
              }else{
                 $disable_btn.= '<div class="saswp-enable-btn-container">'
-                . '<span class="saswp-enable-label custom">'.saswp_t_string( 'Enable custom schema on this page' ).'</span>'
+                . '<span class="saswp-enable-label custom">'.saswp_t_string( 'Disable custom schema on this page' ).'</span>'
                 . '<label class="saswp-switch">'
                 . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-id="custom" data-post-id="'.esc_attr($post->ID).'" '.( (isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'checked' : '' ).'>'
                 . '<span class="saswp-slider"></span>'
