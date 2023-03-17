@@ -445,7 +445,7 @@ function saswp_eop_schema_markup($schema_id, $schema_post_id, $all_post_meta){
           $input1['provider']['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_address_country_'.$schema_id, 'saswp_array');
           $input1['provider']['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_address_locality_'.$schema_id, 'saswp_array');
           $input1['provider']['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_address_region_'.$schema_id, 'saswp_array');
-          $input1['provider']['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_postal_code_'.$schema_id, 'saswp_array');
+          $input1['provider']['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_eop_provider_postal_code_'.$schema_id, 'saswp_array');
 
           $input1['provider']['contactPoint']['@type'] = 'ContactPoint';
           $input1['provider']['contactPoint']['contactType'] = 'Admissions';
@@ -782,7 +782,7 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                         $input1['contentLocation']['name']                         =   $all_post_meta['saswp_course_content_location_name_'.$schema_id][0];
                         $input1['contentLocation']['address']['addressLocality']   =   $all_post_meta['saswp_course_content_location_locality_'.$schema_id][0];
                         $input1['contentLocation']['address']['addressRegion']     =   $all_post_meta['saswp_course_content_location_region_'.$schema_id][0];
-                        $input1['contentLocation']['address']['PostalCode']        =   $all_post_meta['saswp_course_content_location_postal_code_'.$schema_id][0];
+                        $input1['contentLocation']['address']['postalCode']        =   $all_post_meta['saswp_course_content_location_postal_code_'.$schema_id][0];
                         $input1['contentLocation']['address']['addressCountry']    =   $all_post_meta['saswp_course_content_location_country_'.$schema_id][0];
 
                 } 
@@ -1709,7 +1709,7 @@ function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post
           $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_organization_country_'.$schema_id, 'saswp_array');
           $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_organization_city_'.$schema_id, 'saswp_array');
           $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_organization_state_'.$schema_id, 'saswp_array');
-          $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_organization_postal_code_'.$schema_id, 'saswp_array');
+          $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_organization_postal_code_'.$schema_id, 'saswp_array');
           $input1['address']['telephone']         = saswp_remove_warnings($all_post_meta, 'saswp_organization_telephone_'.$schema_id, 'saswp_array');                                                        
           $input1['address']['email']             = saswp_remove_warnings($all_post_meta, 'saswp_organization_email_'.$schema_id, 'saswp_array');                                                        
           
@@ -1772,7 +1772,7 @@ function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_project_country_'.$schema_id, 'saswp_array');
         $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_project_city_'.$schema_id, 'saswp_array');
         $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_project_state_'.$schema_id, 'saswp_array');
-        $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_project_postal_code_'.$schema_id, 'saswp_array');
+        $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_project_postal_code_'.$schema_id, 'saswp_array');
         $input1['address']['telephone']         = saswp_remove_warnings($all_post_meta, 'saswp_project_telephone_'.$schema_id, 'saswp_array');                                                        
         $input1['address']['email']             = saswp_remove_warnings($all_post_meta, 'saswp_project_email_'.$schema_id, 'saswp_array');                                                        
         
@@ -2125,7 +2125,7 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_country_'.$schema_id, 'saswp_array');
         $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_locality_'.$schema_id, 'saswp_array');
         $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_region_'.$schema_id, 'saswp_array');
-        $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_postal_code_'.$schema_id, 'saswp_array');
+        $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_postal_code_'.$schema_id, 'saswp_array');
 
         $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_telephone_'.$schema_id, 'saswp_array');                                                        
         $input1['email']                        = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_email_'.$schema_id, 'saswp_array');                                                        
@@ -2151,7 +2151,7 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         }
         if(isset($all_post_meta['saswp_person_schema_b_postal_code_'.$schema_id])){
             $input1['homeLocation']['@type'] = 'Place';
-            $input1['homeLocation']['address']['PostalCode']  =    $all_post_meta['saswp_person_schema_b_postal_code_'.$schema_id];
+            $input1['homeLocation']['address']['postalCode']  =    $all_post_meta['saswp_person_schema_b_postal_code_'.$schema_id];
         }
         if(isset($all_post_meta['saswp_person_schema_b_country_'.$schema_id])){
             $input1['homeLocation']['@type'] = 'Place';
@@ -2652,7 +2652,7 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $job_location_arr['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_locality_'.$schema_id, 'saswp_array');
     $job_location_arr['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_region_'.$schema_id, 'saswp_array');
     $job_location_arr['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_country_'.$schema_id, 'saswp_array');
-    $job_location_arr['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_postalcode_'.$schema_id, 'saswp_array');
+    $job_location_arr['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_postalcode_'.$schema_id, 'saswp_array');
 
     if(isset($all_post_meta['saswp_jobposting_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_jobposting_schema_longitude_'.$schema_id][0])){
 
@@ -2677,7 +2677,7 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
             $supply_data['address']['addressLocality']   = $value['saswp_jobposting_locality'];
             $supply_data['address']['addressRegion']     = $value['saswp_jobposting_region'];
             $supply_data['address']['addressCountry']    = $value['saswp_jobposting_country'];
-            $supply_data['address']['PostalCode']        = $value['saswp_jobposting_postalcode'];
+            $supply_data['address']['postalCode']        = $value['saswp_jobposting_postalcode'];
 
             if( isset($value['saswp_jobposting_latitude']) && isset($value['saswp_jobposting_longitude']) ){
 
@@ -2754,7 +2754,7 @@ function saswp_mosque_schema_markup($schema_id, $schema_post_id, $all_post_meta)
     $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_country_'.$schema_id, 'saswp_array');
     $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_locality_'.$schema_id, 'saswp_array');
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_postal_code_'.$schema_id, 'saswp_array');
+    $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_mosque_schema_postal_code_'.$schema_id, 'saswp_array');
     
     return $input1;
     
@@ -2783,7 +2783,7 @@ function saswp_church_schema_markup($schema_id, $schema_post_id, $all_post_meta)
     $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_country_'.$schema_id, 'saswp_array');
     $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_locality_'.$schema_id, 'saswp_array');
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_postal_code_'.$schema_id, 'saswp_array');
+    $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_church_schema_postal_code_'.$schema_id, 'saswp_array');
     
     return $input1;
     
@@ -2812,7 +2812,7 @@ function saswp_buddhist_temple_schema_markup($schema_id, $schema_post_id, $all_p
     $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_country_'.$schema_id, 'saswp_array');
     $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_locality_'.$schema_id, 'saswp_array');
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_postal_code_'.$schema_id, 'saswp_array');
+    $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_buddhisttemple_schema_postal_code_'.$schema_id, 'saswp_array');
     
     return $input1;
     
@@ -2841,7 +2841,7 @@ function saswp_hindu_temple_schema_markup($schema_id, $schema_post_id, $all_post
     $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_country_'.$schema_id, 'saswp_array');
     $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_locality_'.$schema_id, 'saswp_array');
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_postal_code_'.$schema_id, 'saswp_array');
+    $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_hindutemple_schema_postal_code_'.$schema_id, 'saswp_array');
     
     return $input1;
     
@@ -2869,7 +2869,7 @@ function saswp_lorh_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_country_'.$schema_id, 'saswp_array');
     $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_locality_'.$schema_id, 'saswp_array');
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_postal_code_'.$schema_id, 'saswp_array');
+    $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_lorh_schema_postal_code_'.$schema_id, 'saswp_array');
 
     if(isset($all_post_meta['saswp_lorh_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_lorh_schema_longitude_'.$schema_id][0])){
 
@@ -2903,7 +2903,7 @@ function saswp_tourist_attraction_schema_markup($schema_id, $schema_post_id, $al
         $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_country_'.$schema_id, 'saswp_array');
         $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_locality_'.$schema_id, 'saswp_array');
         $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_region_'.$schema_id, 'saswp_array');
-        $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_postal_code_'.$schema_id, 'saswp_array');
+        $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_ta_schema_postal_code_'.$schema_id, 'saswp_array');
 
         if(isset($all_post_meta['saswp_ta_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_ta_schema_longitude_'.$schema_id][0])){
 
@@ -2936,7 +2936,7 @@ function saswp_tourist_destination_schema_markup($schema_id, $schema_post_id, $a
     $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_country_'.$schema_id, 'saswp_array');
     $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_locality_'.$schema_id, 'saswp_array');
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode'] = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_postal_code_'.$schema_id, 'saswp_array');                                                       
+    $input1['address']['postalCode'] = saswp_remove_warnings($all_post_meta, 'saswp_td_schema_postal_code_'.$schema_id, 'saswp_array');                                                       
     
     if(isset($all_post_meta['saswp_td_schema_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_td_schema_longitude_'.$schema_id][0])){
 
@@ -2970,7 +2970,7 @@ function saswp_apartment_schema_markup($schema_id, $schema_post_id, $all_post_me
     $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_country_'.$schema_id, 'saswp_array');
     $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_locality_'.$schema_id, 'saswp_array');
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_postalcode_'.$schema_id, 'saswp_array');
+    $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_postalcode_'.$schema_id, 'saswp_array');
 
     $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_apartment_schema_telephone_'.$schema_id, 'saswp_array');
 
@@ -3047,7 +3047,7 @@ function saswp_apartment_complex_schema_markup($schema_id, $schema_post_id, $all
     $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_country_'.$schema_id, 'saswp_array');
     $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_locality_'.$schema_id, 'saswp_array');
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_postalcode_'.$schema_id, 'saswp_array');
+    $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_postalcode_'.$schema_id, 'saswp_array');
     $input1['address']['telephone']         = saswp_remove_warnings($all_post_meta, 'saswp_apartment_complex_phone_'.$schema_id, 'saswp_array');    
     
     if(isset($all_post_meta['saswp_apartment_complex_latitude_'.$schema_id][0]) && isset($all_post_meta['saswp_apartment_complex_longitude_'.$schema_id][0])){
@@ -3083,7 +3083,7 @@ function saswp_house_schema_makrup($schema_id, $schema_post_id, $all_post_meta){
     $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_country_'.$schema_id, 'saswp_array');
     $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_locality_'.$schema_id, 'saswp_array');
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_postalcode_'.$schema_id, 'saswp_array');
+    $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_postalcode_'.$schema_id, 'saswp_array');
 
     $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_house_schema_telephone_'.$schema_id, 'saswp_array');
 
@@ -3115,7 +3115,7 @@ function saswp_single_family_residence_schema_markup($schema_id, $schema_post_id
     $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_country_'.$schema_id, 'saswp_array');
     $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_locality_'.$schema_id, 'saswp_array');
     $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_region_'.$schema_id, 'saswp_array');
-    $input1['address']['PostalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_postalcode_'.$schema_id, 'saswp_array');
+    $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_postalcode_'.$schema_id, 'saswp_array');
 
     $input1['telephone']                    = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_telephone_'.$schema_id, 'saswp_array');
     $input1['hasMap']                       = saswp_remove_warnings($all_post_meta, 'saswp_sfr_schema_hasmap_'.$schema_id, 'saswp_array');

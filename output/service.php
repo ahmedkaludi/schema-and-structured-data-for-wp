@@ -4859,7 +4859,7 @@ Class saswp_output_service{
                         $input1['contentLocation']['name']                         =   $custom_fields['saswp_course_content_location_name'];
                         $input1['contentLocation']['address']['addressLocality']   =   $custom_fields['saswp_course_content_location_locality'];
                         $input1['contentLocation']['address']['addressRegion']     =   $custom_fields['saswp_course_content_location_region'];
-                        $input1['contentLocation']['address']['PostalCode']        =   $custom_fields['saswp_course_content_location_postal_code'];
+                        $input1['contentLocation']['address']['postalCode']        =   $custom_fields['saswp_course_content_location_postal_code'];
                         $input1['contentLocation']['address']['addressCountry']    =   $custom_fields['saswp_course_content_location_country'];
 
                     }
@@ -5880,7 +5880,7 @@ Class saswp_output_service{
                      $input1['address']['addressCountry'] =    $custom_fields['saswp_ta_schema_country'];
                     }
                     if(isset($custom_fields['saswp_ta_schema_postal_code'])){
-                     $input1['address']['PostalCode'] =    $custom_fields['saswp_ta_schema_postal_code'];
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_ta_schema_postal_code'];
                     }
                     if(isset($custom_fields['saswp_ta_schema_latitude']) && isset($custom_fields['saswp_ta_schema_longitude'])){                        
                      $input1['geo']['@type']     =    'GeoCoordinates';   
@@ -5967,7 +5967,7 @@ Class saswp_output_service{
                      $input1['address']['addressCountry'] =    $custom_fields['saswp_td_schema_country'];
                     }
                     if(isset($custom_fields['saswp_td_schema_postal_code'])){
-                     $input1['address']['PostalCode'] =    $custom_fields['saswp_td_schema_postal_code'];
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_td_schema_postal_code'];
                     }
                     if(isset($custom_fields['saswp_td_schema_latitude']) && isset($custom_fields['saswp_td_schema_longitude'])){                        
                      $input1['geo']['@type']     =    'GeoCoordinates';   
@@ -6013,7 +6013,7 @@ Class saswp_output_service{
                      $input1['address']['addressCountry'] =    $custom_fields['saswp_lorh_schema_country'];
                     }
                     if(isset($custom_fields['saswp_lorh_schema_postal_code'])){
-                     $input1['address']['PostalCode'] =    $custom_fields['saswp_lorh_schema_postal_code'];
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_lorh_schema_postal_code'];
                     }
                     if(isset($custom_fields['saswp_lorh_schema_latitude']) && isset($custom_fields['saswp_lorh_schema_longitude'])){                        
                      $input1['geo']['@type']     =    'GeoCoordinates';   
@@ -6058,7 +6058,7 @@ Class saswp_output_service{
                      $input1['address']['addressCountry'] =    $custom_fields['saswp_hindutemple_schema_country'];
                     }
                     if(isset($custom_fields['saswp_hindutemple_schema_postal_code'])){
-                     $input1['address']['PostalCode'] =    $custom_fields['saswp_hindutemple_schema_postal_code'];
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_hindutemple_schema_postal_code'];
                     }
                     if(isset($custom_fields['saswp_hindutemple_schema_latitude']) && isset($custom_fields['saswp_hindutemple_schema_longitude'])){                        
                      $input1['geo']['@type']     =    'GeoCoordinates';   
@@ -6103,7 +6103,7 @@ Class saswp_output_service{
                      $input1['address']['addressCountry'] =    $custom_fields['saswp_buddhisttemple_schema_country'];
                     }
                     if(isset($custom_fields['saswp_buddhisttemple_schema_postal_code'])){
-                     $input1['address']['PostalCode'] =    $custom_fields['saswp_buddhisttemple_schema_postal_code'];
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_buddhisttemple_schema_postal_code'];
                     }
                     if(isset($custom_fields['saswp_buddhisttemple_schema_latitude']) && isset($custom_fields['saswp_buddhisttemple_schema_longitude'])){                        
                      $input1['geo']['@type']     =    'GeoCoordinates';   
@@ -6148,7 +6148,7 @@ Class saswp_output_service{
                      $input1['address']['addressCountry'] =    $custom_fields['saswp_church_schema_country'];
                     }
                     if(isset($custom_fields['saswp_church_schema_postal_code'])){
-                     $input1['address']['PostalCode'] =    $custom_fields['saswp_church_schema_postal_code'];
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_church_schema_postal_code'];
                     }
                     if(isset($custom_fields['saswp_church_schema_latitude']) && isset($custom_fields['saswp_church_schema_longitude'])){                        
                      $input1['geo']['@type']     =    'GeoCoordinates';   
@@ -6193,7 +6193,7 @@ Class saswp_output_service{
                      $input1['address']['addressCountry'] =    $custom_fields['saswp_mosque_schema_country'];
                     }
                     if(isset($custom_fields['saswp_mosque_schema_postal_code'])){
-                     $input1['address']['PostalCode'] =    $custom_fields['saswp_mosque_schema_postal_code'];
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_mosque_schema_postal_code'];
                     }
                     if(isset($custom_fields['saswp_mosque_schema_latitude']) && isset($custom_fields['saswp_mosque_schema_longitude'])){                        
                      $input1['geo']['@type']     =    'GeoCoordinates';   
@@ -6234,7 +6234,7 @@ Class saswp_output_service{
                      $input1['address']['addressRegion'] =    $custom_fields['saswp_person_schema_region'];
                     }
                     if(isset($custom_fields['saswp_person_schema_postal_code'])){
-                      $input1['address']['PostalCode']  =    $custom_fields['saswp_person_schema_postal_code'];
+                      $input1['address']['postalCode']  =    $custom_fields['saswp_person_schema_postal_code'];
                     }
                     if(isset($custom_fields['saswp_person_schema_country'])){
                      $input1['address']['addressCountry'] =    $custom_fields['saswp_person_schema_country'];
@@ -6253,7 +6253,7 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_person_schema_b_postal_code'])){
                         $input1['location']['@type'] = 'Place';
-                        $input1['location']['address']['PostalCode']  =    $custom_fields['saswp_person_schema_b_postal_code'];
+                        $input1['location']['address']['postalCode']  =    $custom_fields['saswp_person_schema_b_postal_code'];
                     }
                     if(isset($custom_fields['saswp_person_schema_b_country'])){
                         $input1['location']['@type'] = 'Place';
@@ -6400,7 +6400,7 @@ Class saswp_output_service{
                      $input1['address']['addressRegion'] =    $custom_fields['saswp_apartment_schema_region'];
                     }
                     if(isset($custom_fields['saswp_apartment_schema_postalcode'])){
-                     $input1['address']['PostalCode'] =    $custom_fields['saswp_apartment_schema_postalcode'];
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_apartment_schema_postalcode'];
                     }
                     if(isset($custom_fields['saswp_apartment_schema_telephone'])){
                      $input1['telephone'] =    $custom_fields['saswp_apartment_schema_telephone'];
@@ -6442,7 +6442,7 @@ Class saswp_output_service{
                      $input1['address']['addressRegion'] =    $custom_fields['saswp_house_schema_region'];
                     }
                     if(isset($custom_fields['saswp_house_schema_postalcode'])){
-                     $input1['address']['PostalCode'] =    $custom_fields['saswp_house_schema_postalcode'];
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_house_schema_postalcode'];
                     }
                     if(isset($custom_fields['saswp_house_schema_telephone'])){
                      $input1['telephone'] =    $custom_fields['saswp_house_schema_telephone'];
@@ -6496,7 +6496,7 @@ Class saswp_output_service{
                      $input1['address']['addressRegion'] =    $custom_fields['saswp_sfr_schema_region'];
                     }
                     if(isset($custom_fields['saswp_sfr_schema_postalcode'])){
-                     $input1['address']['PostalCode'] =    $custom_fields['saswp_sfr_schema_postalcode'];
+                     $input1['address']['postalCode'] =    $custom_fields['saswp_sfr_schema_postalcode'];
                     }
                     if(isset($custom_fields['saswp_sfr_schema_telephone'])){
                      $input1['telephone'] =    $custom_fields['saswp_sfr_schema_telephone'];
@@ -6659,7 +6659,7 @@ Class saswp_output_service{
                      $input1['jobLocation']['address']['addressRegion'] =    $custom_fields['saswp_jobposting_schema_region'];
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_postalcode'])){
-                     $input1['jobLocation']['address']['PostalCode'] =    $custom_fields['saswp_jobposting_schema_postalcode'];
+                     $input1['jobLocation']['address']['postalCode'] =    $custom_fields['saswp_jobposting_schema_postalcode'];
                     }
                     if(isset($custom_fields['saswp_jobposting_schema_country'])){
                      $input1['jobLocation']['address']['addressCountry'] =    $custom_fields['saswp_jobposting_schema_country'];
