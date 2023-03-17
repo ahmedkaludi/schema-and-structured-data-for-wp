@@ -1964,32 +1964,35 @@ if ( ! defined('ABSPATH') ) exit;
             if(!empty($attachments)){
                 foreach ($attachments as $url){
                 
-                    $image_data = array();    
+                    if($url && $url != ""){
 
-                    $image = @getimagesize($url);
+                            $image_data = array();    
 
-                    if(is_array($image)){
+                            $image = @getimagesize($url);
 
-                        $image_data[0] =  $image[0]; //width
-                        $image_data[1] =  $image[1]; //height
+                            if(is_array($image)){
 
-                    }                                 
-                
-                    if(empty($image) || $image == false){
+                                $image_data[0] =  $image[0]; //width
+                                $image_data[1] =  $image[1]; //height
+
+                            }                                 
                         
-                        $img_id           = attachment_url_to_postid($url);
-                        $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
+                            if(empty($image) || $image == false){
+                                
+                                $img_id           = attachment_url_to_postid($url);
+                                $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
 
-                        if($imageDetail && is_array($imageDetail)){
+                                if($imageDetail && is_array($imageDetail)){
 
-                            $image_data[0]    = $imageDetail[1]; // width
-                            $image_data[1]    = $imageDetail[2]; // height
+                                    $image_data[0]    = $imageDetail[1]; // width
+                                    $image_data[1]    = $imageDetail[2]; // height
 
-                        }                    
-                        
+                                }                    
+                                
+                            }
+                            
+                            $response[] = $image_data;  
                     }
-                    
-                $response[] = $image_data;  
                 }
             }                    
             set_transient('saswp_imageobject_' .$post_id, $response,  24*30*HOUR_IN_SECONDS );   
