@@ -530,7 +530,7 @@ class saswp_post_specific {
                      
                     if(!empty($disabled)){
                         $btn_in_loop = '<div class="saswp-disable-btn-container">'
-                        . '<span class="saswp-disable-label '.$schema_type_txt.'">'.saswp_t_string( 'Disable '.$schema_type_txt.' on this page' ).'</span>'
+                        . '<span class="saswp-disable-label '.$schema_type_txt.'">'.saswp_t_string( 'Enable '.$schema_type_txt.' on this page' ).'</span>'
                         . '<label class="saswp-switch">'
                         . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-name="'.esc_attr($schema_type_txt).'" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$disabled.'>'
                         . '<span class="saswp-slider"></span>'
@@ -538,7 +538,7 @@ class saswp_post_specific {
                         . '</div>';
                     }else{
                         $btn_in_loop = '<div class="saswp-enable-btn-container">'
-                        . '<span class="saswp-enable-label '.$schema_type_txt.'">'.saswp_t_string( 'Enable '.$schema_type_txt.' on this page' ).'</span>'
+                        . '<span class="saswp-enable-label '.$schema_type_txt.'">'.saswp_t_string( 'Disable '.$schema_type_txt.' on this page' ).'</span>'
                         . '<label class="saswp-switch">'
                         . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-name="'.esc_attr($schema_type_txt).'" data-schema-id="'.esc_attr($schema->ID).'" data-post-id="'.esc_attr($post->ID).'" '.$disabled.'>'
                         . '<span class="saswp-slider"></span>'

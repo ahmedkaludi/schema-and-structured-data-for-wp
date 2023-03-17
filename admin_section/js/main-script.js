@@ -2593,10 +2593,10 @@ jQuery(document).ready(function($){
                if($(this).is(':checked')){
                     var status = 0;  
                     $("."+schema_name).empty();
-                    $("."+schema_name).text('Disable '+schema_name+' on this page');
+                    $("."+schema_name).text('Enable '+schema_name+' on this page');
 
                     $(".custom").empty();
-                    $(".custom").text('Disable custom schema on this page');
+                    $(".custom").text('Enable custom schema on this page');
                   
                     $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
                     $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().addClass('saswp_hide');
@@ -2608,7 +2608,7 @@ jQuery(document).ready(function($){
                     $("#saswp_custom_schema_field[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
 
                     $(".custom").empty();
-                    $(".custom").text('Enable custom schema on this page');
+                    $(".custom").text('Disable custom schema on this page');
 
                    if(modified == 1){
                     $("."+schema_name).empty();
@@ -2618,7 +2618,7 @@ jQuery(document).ready(function($){
                     $(".saswp-restore-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide');
                   }else{
                     $("."+schema_name).empty();
-                    $("."+schema_name).text('Enable '+schema_name+' on this page');
+                    $("."+schema_name).text('Disable '+schema_name+' on this page');
 
                     $(".saswp-modify-schema[schema-id="+schema_id+"]").parent().removeClass('saswp_hide'); 
                     $(".saswp-ps-toggle[schema-id="+schema_id+"]").addClass('saswp_hide'); 
