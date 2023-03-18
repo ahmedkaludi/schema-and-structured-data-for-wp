@@ -451,7 +451,22 @@ Class saswp_output_service{
                                     $response    = get_post_meta($post->ID, $cus_field[$key], true);     
                                 }
                             }else{
-                                $response    = get_post_meta($post->ID, $cus_field[$key], true); 
+
+                                if($key == 'saswp_faq_main_entity'){
+									$resdata    = get_post_meta($post->ID, $cus_field[$key], true); 
+									if(!empty($resdata) && is_array($resdata)){
+										foreach($resdata as $data){
+											$main_entity = array();
+											$main_entity['@type']                   = 'Question';
+											$main_entity['name']                    = $data['question']; 
+											$main_entity['acceptedAnswer']['@type'] = 'Answer';
+											$main_entity['acceptedAnswer']['text']  = $data['answer'];
+											$response [] = $main_entity;     
+										}
+									}									
+								}else{
+									$response    = get_post_meta($post->ID, $cus_field[$key], true); 	
+								}
                             }
                         }
 
