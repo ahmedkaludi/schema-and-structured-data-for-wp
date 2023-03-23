@@ -453,17 +453,9 @@ Class saswp_output_service{
                             }else{
 
                                 if($key == 'saswp_faq_main_entity'){
-									$resdata    = get_post_meta($post->ID, $cus_field[$key], true); 
-									if(!empty($resdata) && is_array($resdata)){
-										foreach($resdata as $data){
-											$main_entity = array();
-											$main_entity['@type']                   = 'Question';
-											$main_entity['name']                    = $data['question']; 
-											$main_entity['acceptedAnswer']['@type'] = 'Answer';
-											$main_entity['acceptedAnswer']['text']  = $data['answer'];
-											$response [] = $main_entity;     
-										}
-									}									
+
+                                    $response = apply_filters('saswp_faq_custom_field_modify', $post->ID, $cus_field[$key]);
+                                    																		
 								}else{
 									$response    = get_post_meta($post->ID, $cus_field[$key], true); 	
 								}
@@ -5925,14 +5917,89 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_faq_date_modified'])){
                      $input1['dateCreated'] =    $custom_fields['saswp_faq_date_modified'];
                     }                    
-                    if(isset($custom_fields['saswp_faq_author'])){
-                       $input1['author']['@type']             =   'Person';                                 
+
+                    if(!empty($custom_fields['saswp_faq_author_global_mapping'])){
+                        $input1['author'] = array();
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping'])){
+                            $input1['author']['@type'] =   "Person";
+                        }
+
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['name'])){
+                            $input1['author']['name'] =    $custom_fields['saswp_faq_author_global_mapping']['name'];
+                        }
+
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['url'])){
+                            $input1['author']['url'] =    $custom_fields['saswp_faq_author_global_mapping']['url'];
+                        }
+
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_faq_author_global_mapping']['description'];
+                        }
+
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['custom_fields']['honorificsuffix'][0])){
+                            $input1['author']['honorificSuffix'] =    $custom_fields['saswp_faq_author_global_mapping']['custom_fields']['honorificsuffix'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['custom_fields']['knowsabout'][0])){
+                            $input1['author']['knowsAbout'] =   explode(',', $custom_fields['saswp_faq_author_global_mapping']['custom_fields']['knowsabout'][0]);
+                        }
+
+                        $sameas = array();
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['custom_fields']['team_facebook'][0])){
+                            $sameas[] =  $custom_fields['saswp_faq_author_global_mapping']['custom_fields']['team_facebook'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['custom_fields']['team_twitter'][0])){
+                            $sameas[] =  $custom_fields['saswp_faq_author_global_mapping']['custom_fields']['team_twitter'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['custom_fields']['team_linkedin'][0])){
+                            $sameas[] =   $custom_fields['saswp_faq_author_global_mapping']['custom_fields']['team_linkedin'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['custom_fields']['team_instagram'][0])){
+                            $sameas[] =   $custom_fields['saswp_faq_author_global_mapping']['custom_fields']['team_instagram'][0];
+                        }
+
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['custom_fields']['team_youtube'][0])){
+                            $sameas[] =   $custom_fields['saswp_faq_author_global_mapping']['custom_fields']['team_youtube'][0];
+                        }
+                        if($sameas){
+                            $input1['author']['sameAs'] = $sameas;
+                        }
+
+                        if(!empty($custom_fields['saswp_faq_author_global_mapping']['custom_fields']['alumniof'][0])){
+                            $str =  $custom_fields['saswp_faq_author_global_mapping']['custom_fields']['alumniof'][0];
+                            $itemlist = explode(",", $str);
+                            foreach ($itemlist as $key => $list){
+                                $vnewarr['@type'] = 'Organization';
+                                $vnewarr['Name']   = $list;   
+                                $input1['author']['alumniOf'][] = $vnewarr;
+                            }
+                        }
+                    }else{
                        
-                       if(isset($custom_fields['saswp_faq_author_type'])){
-                            $input1['author']['@type']             =   $custom_fields['saswp_faq_author_type'];
-                       }
-                       
-                       $input1['author']['name']              =    $custom_fields['saswp_faq_author'];                                              
+                        if(isset($custom_fields['saswp_faq_author_type'])){
+                            $input1['author']['@type'] =    $custom_fields['saswp_faq_author_type'];
+                        }
+                        if(isset($custom_fields['saswp_faq_author_name'])){
+                         $input1['author']['name'] =    $custom_fields['saswp_faq_author_name'];
+                        }
+                        if(isset($custom_fields['saswp_faq_author_honorific_suffix'])){
+                            $input1['author']['honorificSuffix'] =    $custom_fields['saswp_faq_author_honorific_suffix'];
+                        }
+                        if(isset($custom_fields['saswp_faq_author_description'])){
+                            $input1['author']['description'] =    $custom_fields['saswp_faq_author_description'];
+                        }
+                        if(isset($custom_fields['saswp_faq_author_url'])){
+                            $input1['author']['url'] =    $custom_fields['saswp_faq_author_url'];
+                        }
+                        if(isset($custom_fields['saswp_faq_author_image'])){
+                            $input1['author']['Image']['url'] =    $custom_fields['saswp_faq_author_image'];
+                        }
+                        if(isset($custom_fields['saswp_faq_author_jobtitle'])){
+                            $input1['author']['JobTitle'] =    $custom_fields['saswp_faq_author_jobtitle'];
+                        }
                     }
                     
                     if(!empty($custom_fields['saswp_faq_about']) && isset($custom_fields['saswp_faq_about'])){         
