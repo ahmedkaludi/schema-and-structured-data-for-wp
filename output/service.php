@@ -8112,7 +8112,12 @@ Class saswp_output_service{
             
             if(empty($saswp_featured_image[$image_id])){
                 
-                $saswp_featured_image[$image_id]   = wp_get_attachment_image_src($image_id, 'full');            
+                $image_caption = get_the_excerpt( $image_id);
+                $image_alt     = get_post_meta( $image_id, '_wp_attachment_image_alt', true );                
+
+                $saswp_featured_image[$image_id]            = wp_get_attachment_image_src($image_id, 'full');            
+                $saswp_featured_image[$image_id]['caption'] = $image_caption ? $image_caption : $image_alt;
+
             }
             
 	        $image_details = $saswp_featured_image[$image_id];    
@@ -8175,6 +8180,10 @@ Class saswp_output_service{
                                                         $input2['image'][$i]['url']    = esc_url($resize_image[0]);
                                                         $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
                                                         $input2['image'][$i]['height'] = esc_attr($resize_image[2]);  
+
+                                                        if(!empty($image_details['caption'])){
+                                                                $input2['image'][$i]['caption'] = $image_details['caption'];  
+                                                        }
                                                         
                                                     }                                                                                                                                                                                                
                                                 }
@@ -8214,6 +8223,10 @@ Class saswp_output_service{
                                                                     $input2['image'][$i]['url']    = esc_url($resize_image[0]);
                                                                     $input2['image'][$i]['width']  = esc_attr($resize_image[1]);
                                                                     $input2['image'][$i]['height'] = esc_attr($resize_image[2]);
+
+                                                                    if(!empty($image_details['caption'])){
+                                                                        $input2['image'][$i]['caption'] = $image_details['caption'];
+                                                                    }
     
                                                             }
                                                                                                             
@@ -8230,6 +8243,10 @@ Class saswp_output_service{
                                                 $input2['image'][0]['url']    = esc_url($image_details[0]);
                                                 $input2['image'][0]['width']  = esc_attr($image_details[1]);
                                                 $input2['image'][0]['height'] = esc_attr($image_details[2]);
+
+                                                if(!empty($image_details['caption'])){
+                                                    $input2['image'][0]['caption'] = $image_details['caption'];  
+                                                }
                                             
                                         }
                                                                                                                                                                                                                                          
