@@ -8111,12 +8111,11 @@ Class saswp_output_service{
             $image_id 	            = get_post_thumbnail_id();
             
             if(empty($saswp_featured_image[$image_id])){
-                
-                $image_caption = get_the_excerpt( $image_id);
-                $image_alt     = get_post_meta( $image_id, '_wp_attachment_image_alt', true );                
+                                
+                $image_alt     = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
 
                 $saswp_featured_image[$image_id]            = wp_get_attachment_image_src($image_id, 'full');            
-                $saswp_featured_image[$image_id]['caption'] = $image_caption ? $image_caption : $image_alt;
+                $saswp_featured_image[$image_id]['caption'] = $image_alt ? $image_alt : '';
 
             }
             
