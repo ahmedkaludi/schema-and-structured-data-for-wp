@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 1.11
+Stable tag: 1.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.12 (27 March 2023) =
+
+* Fixed: Restoring schema post type from trash does not retain all data what it was earlier #1860
+* Fixed: PHP Recoverable Error: Uncaught exception 'ValueError' with message 'Path cannot be empty #1868
+* Fixed: When we install the Opn Payments plugin, schema seeting is not saving. #1881
+* Fixed: Getting fatal error due to Server crash #1887
+* Fixed: Fatal error while uploading .csv file in review section #1885
+* Fixed: Change the property "PostalCode" to "postalcode" as an error is occurring due to it #1883
+* Fixed: Issues with rank math compatibilty #1889
+* Added: Add Image Caption option to Newsarticle #1850
+
 
 = 1.11 (06 March 2023) =
 
