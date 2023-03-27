@@ -2401,16 +2401,12 @@ if ( ! defined('ABSPATH') ) exit;
         if(saswp_remove_warnings($sd_data, 'saswp-rankmath', 'saswp_string') == 1 && class_exists('RankMath\Post')){
                         
             $c_title = RankMath\Post::get_meta( 'title', get_the_ID() );
-        
-            if(empty($c_title)){
-                $c_title = RankMath\Paper\Paper::get()->get_title();
-            }
 
             if($c_title){
 
                 $title = $c_title;
 
-            }
+            }            
         
         }
         

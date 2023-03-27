@@ -8195,10 +8195,10 @@ Class saswp_output_service{
                                                 }
                                                                                                                                                                                                                                 
                                             }else{
-    
-    
-                                                           
-                                                if($multiple_size){
+
+                                                if(isset($image_details[1])){
+
+                                                    if($multiple_size){
                                                     $width  = array($image_details[1], 1200, 1200);
                                                     $height = array($image_details[2], 900, 675);
                                                 }else{
@@ -8230,7 +8230,8 @@ Class saswp_output_service{
     
                                                             }
                                                                                                             
-                                                    }                                                                                                                                                                                        
+                                                    }
+                                                }                                                                                                                                                                                        
                                                 
                                             }
 
