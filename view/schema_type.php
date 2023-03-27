@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 add_action( 'wp_ajax_saswp_get_manual_fields_on_ajax', 'saswp_get_manual_fields_on_ajax' ) ;
 add_action( 'wp_ajax_saswp_get_reviews_on_load', 'saswp_get_reviews_on_load' ) ;
-add_action( 'save_post', 'saswp_schema_type_add_meta_box_save' ) ;
+add_action( 'save_post', 'saswp_schema_type_add_meta_box_save',10,3 ) ;
 add_action( 'add_meta_boxes', 'saswp_add_all_meta_boxes',99 ) ;
 
 /**
@@ -152,8 +152,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $item_list_custom    = '';
                     $append_reviews      = '';  
                     $event_type          = '';
-                    $post_id             = null;
-                    $style_faq_type      = '';
+                    $post_id             = null;                    
 
                     if($post){
             
@@ -1216,12 +1215,16 @@ function saswp_get_manual_fields_on_ajax(){
  * @return type null
  * @since version 1.0
  */
-function saswp_schema_type_add_meta_box_save( $post_id ) { 
+function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) { 
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-        // if ( ! isset( $_POST['saswp_schema_type_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_type_nonce'], 'saswp_schema_type_nonce' ) ) return;
-        if ( ! current_user_can( 'edit_post', $post_id ) ) return;  
-        
-        if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){       
+        if ( ! isset( $_POST['saswp_schema_type_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_type_nonce'], 'saswp_schema_type_nonce' ) ) return;
+        if ( ! current_user_can( 'edit_post', $post_id ) ) return;          
+
+        if ( 'trash' === $post->post_status ) {
+            return;
+        }
+
+        if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){
     
            update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 1);
     

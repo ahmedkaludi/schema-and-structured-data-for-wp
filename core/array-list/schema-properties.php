@@ -8630,6 +8630,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default'    => saswp_get_the_tags()                            
                         ),
                         array(
+                                'label'   => 'Author',
+                                'id'      => 'saswp_faq_author_global_mapping_'.$schema_id,
+                                'type'    => 'global_mapping'
+                        ),
+                        array(
                                 'label'      => 'Author Type',
                                 'id'         => 'saswp_faq_author_type_'.$schema_id,
                                 'type'    => 'select',
@@ -8639,11 +8644,37 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         )
                         ),
                         array(
-                                'label'      => 'Author',
-                                'id'         => 'saswp_faq_author_'.$schema_id,
+                                'label'      => 'Author Name',
+                                'id'         => 'saswp_faq_author_name_'.$schema_id,
                                 'type'       => 'text',
                                 'default' => is_object($current_user) ? $current_user->display_name : ''                            
                         ),    
+                        array(
+                                'label'   => 'Author HonorificSuffix',
+                                'id'      => 'saswp_faq_author_honorific_suffix_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'eg: M.D. /PhD/MSCSW.'
+                                 ),
+                        ),
+                        array(
+                                'label'   => 'Author Description',
+                                'id'      => 'saswp_faq_author_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => $author_desc
+                        ),
+                        array(
+                                'label'   => 'Author URL',
+                                'id'      => 'saswp_faq_author_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => $author_url
+                        ),
+                        array(
+                                'label' => 'Author Image URL',
+                                'id' => 'saswp_faq_author_image_'.$schema_id,
+                                'type' => 'media',
+                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
                         array(
                                 'label'      => 'DateCreated',
                                 'id'         => 'saswp_faq_date_created_'.$schema_id,

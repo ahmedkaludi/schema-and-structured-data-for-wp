@@ -195,7 +195,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                                                             )
                                                         ),
 							),
-				'address'	    => esc_attr($result['StandardFields']['StreetNumber']).' '. esc_attr($result['StandardFields']['StreetName']).' '.esc_attr($result['StandardFields']['StreetSuffix']) .' '.esc_attr($result['StandardFields']['City']).' '. esc_attr($result['StandardFields']['PostalCode']),
+				'address'	    => esc_attr($result['StandardFields']['StreetNumber']).' '. esc_attr($result['StandardFields']['StreetName']).' '.esc_attr($result['StandardFields']['StreetSuffix']) .' '.esc_attr($result['StandardFields']['City']).' '. esc_attr($result['StandardFields']['postalCode']),
 				'geo'		    => array(
                                                             "@type"             => "GeoCoordinates",
                                                              "address"          => esc_attr($result['StandardFields']['UnparsedFirstLineAddress']), 

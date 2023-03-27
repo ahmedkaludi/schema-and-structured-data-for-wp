@@ -3476,6 +3476,11 @@ function saswp_site_navigation_output(){
         }
         
         $menu_name = wp_get_nav_menu_object($menu_id);
+        if(!empty($menu_name) && !empty($menu_name->name)){
+			$menu_name = $menu_name->name;
+		}else{
+			$menu_name = "";
+		}
                                      
         if(!empty($menuItems)){
            
@@ -3484,7 +3489,7 @@ function saswp_site_navigation_output(){
                       $navObj[] = array(
                              "@context"  => saswp_context_url(),
                              "@type"     => "SiteNavigationElement",
-                             "@id"       => get_home_url().'#'.$menu_name->name,
+                             "@id"       => get_home_url().'#'.$menu_name,
                              "name"      => wp_strip_all_tags($items->title),
                              "url"       => esc_url($items->url)
                       );

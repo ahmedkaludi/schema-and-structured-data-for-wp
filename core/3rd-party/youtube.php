@@ -22,7 +22,7 @@ class SASWP_Youtube
         $api_url = SASWP_Youtube::$api_base . '?' . http_build_query($params);
         $result = json_decode(@file_get_contents($api_url), true);
 
-        if($result['items'][0]['snippet']){
+        if(isset($result['items'][0]['snippet']) && $result['items'][0]['snippet']){
        
             $vinfo['snippet'] = $result['items'][0]['snippet'];
         }        

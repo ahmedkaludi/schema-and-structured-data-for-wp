@@ -345,17 +345,14 @@ class saswp_reviews_service {
        $place_id        = 'upload_by_csv';
        $url             = get_option('saswp_rv_csv_upload_url');
        
-       if($url){
-        if(file_exists($url)) {
-            $handle = fopen($url, "r");
-         }else{
-            $handle = "";
-         }
-       
-        $wpdb->query('START TRANSACTION');    
+       if($url && $url != ''){
 
-        $counter = 0;
-        
+        $handle = fopen($url, "r");
+
+        if($handle){
+               
+        $wpdb->query('START TRANSACTION');    
+        $counter = 0;        
         
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             
@@ -393,14 +390,14 @@ class saswp_reviews_service {
         }    
                  
         update_option('saswp_rv_csv_upload_url','');                                            
-       if ( count($errorDesc) ){
-         echo implode("\n<br/>", $errorDesc);              
-         $wpdb->query('ROLLBACK');             
-       }else{
-         $wpdb->query('COMMIT'); 
-         return true;
-       }
-            
+        if ( count($errorDesc) ){
+            echo implode("\n<br/>", $errorDesc);              
+            $wpdb->query('ROLLBACK');             
+        }else{
+            $wpdb->query('COMMIT'); 
+            return true;
+        }
+        }   
       }
 
     }

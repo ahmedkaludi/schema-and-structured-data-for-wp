@@ -1957,42 +1957,44 @@ if ( ! defined('ABSPATH') ) exit;
      */
     function saswp_get_attachment_details($attachments, $post_id = null) {
         
-        $response = array();
-        
         $cached_data = get_transient('saswp_imageobject_' .$post_id); 
         
         if (empty($cached_data)) {
-                       
-            foreach ($attachments as $url){
-             
-                $image_data = array();    
-
-                $image = @getimagesize($url);
-
-                if(is_array($image)){
-
-                    $image_data[0] =  $image[0]; //width
-                    $image_data[1] =  $image[1]; //height
-
-                }                                 
-            
-                if(empty($image) || $image == false){
-                    
-                    $img_id           = attachment_url_to_postid($url);
-                    $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
-
-                    if($imageDetail && is_array($imageDetail)){
-
-                        $image_data[0]    = $imageDetail[1]; // width
-                        $image_data[1]    = $imageDetail[2]; // height
-
-                    }                    
-                    
-                }
+            $response = array();        
+            if(!empty($attachments)){
+                foreach ($attachments as $url){
                 
-              $response[] = $image_data;  
-            }
-                                  
+                    if($url && $url != ""){
+
+                            $image_data = array();    
+
+                            $image = @getimagesize($url);
+
+                            if(is_array($image)){
+
+                                $image_data[0] =  $image[0]; //width
+                                $image_data[1] =  $image[1]; //height
+
+                            }                                 
+                        
+                            if(empty($image) || $image == false){
+                                
+                                $img_id           = attachment_url_to_postid($url);
+                                $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
+
+                                if($imageDetail && is_array($imageDetail)){
+
+                                    $image_data[0]    = $imageDetail[1]; // width
+                                    $image_data[1]    = $imageDetail[2]; // height
+
+                                }                    
+                                
+                            }
+                            
+                            $response[] = $image_data;  
+                    }
+                }
+            }                    
             set_transient('saswp_imageobject_' .$post_id, $response,  24*30*HOUR_IN_SECONDS );   
 
             $cached_data = $response;
@@ -2397,12 +2399,15 @@ if ( ! defined('ABSPATH') ) exit;
         }
 
         if(saswp_remove_warnings($sd_data, 'saswp-rankmath', 'saswp_string') == 1 && class_exists('RankMath\Post')){
-                        
-            $c_title = RankMath\Post::get_meta( 'title', get_the_ID() );
-        
-            if(empty($c_title)){
-                $c_title = RankMath\Paper\Paper::get()->get_title();
-            }
+                                            
+            if( is_tag() || is_tax() || is_category() ){
+                $c_title = RankMath\Post::get_meta( 'title', get_the_ID() );
+            }else{
+                $c_title = RankMath\Post::get_meta( 'title', get_the_ID() );
+                if(empty($c_title)){
+                    $c_title = RankMath\Paper\Paper::get()->get_title();
+                }
+            }            
 
             if($c_title){
 
@@ -3495,7 +3500,10 @@ function saswp_get_video_metadata($content = ''){
                 $content = $post->post_content;
             }    
         }
+  
 
+    
+   
         if(function_exists('has_block')){
             if( has_block('presto-player/youtube') ){
                 $attributes = saswp_get_gutenberg_multiple_block_data('presto-player/youtube');    
@@ -3745,20 +3753,21 @@ function saswp_get_video_metadata($content = ''){
                     }
                     
                 }
-            }
-           
+            }            
+    
         $result = saswp_unique_multidim_array($response,'video_url');
-       
+      
         return $result;
 }
 
-function saswp_unique_multidim_array($array, $key) { 
+function saswp_unique_multidim_array($array, $key) {
+   
     $temp_array = array(); 
     $i = 0; 
     $key_array = array(); 
     if(!empty($array) && !empty($key)){
         foreach($array as $val) { 
-            if(!empty($val[$key])){    
+            if(!empty($val[$key])){   
                 $checked = saswp_youtube_check_validate_url($val[$key]);
                 if (!empty($checked)) {
                     if (!in_array($val[$key], $key_array)) { 
