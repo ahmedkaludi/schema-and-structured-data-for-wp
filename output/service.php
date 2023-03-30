@@ -8271,7 +8271,7 @@ Class saswp_output_service{
                               
                               $k = 0;
                               
-                              foreach ($attachments[2] as $attachment) {
+                              foreach ($attachments[2] as $att_key => $attachment) {
                                                                                                                                        
                                   if(is_array($attach_details) && !empty($attach_details)){
                                                                             
@@ -8280,6 +8280,18 @@ Class saswp_output_service{
                                                     $attach_images['image'][$k]['url']    = esc_url($attachment);
                                                     $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
                                                     $attach_images['image'][$k]['height'] = isset($attach_details[$k][1]) ? $attach_details[$k][1] : 0;
+                                                    if(isset($attachments[3]) && !empty($attachments[3])){
+                                                        if(is_array($attachments[3])){
+                                                            foreach ($attachments[3] as $aimg_key => $aimg_value) {
+                                                                if($att_key == $aimg_key){
+                                                                    $explode_aimg_value = explode('"',$aimg_value);
+                                                                    if(isset($explode_aimg_value[1]) && !empty($explode_aimg_value[1])){
+                                                                        $attach_images['image'][$k]['caption'] = $explode_aimg_value[1];
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                                                                       
                                   }
