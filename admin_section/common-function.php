@@ -3755,8 +3755,116 @@ function saswp_get_video_metadata($content = ''){
                 }
             }            
     
+        // if elementor video is not found then this code checks for it
+        // This is the solution for issue #1882
+        $parse_content = wp_extract_urls($content);
+        if(!empty($parse_content)){
+            if(is_array($parse_content)){
+                foreach ($parse_content as $parse_key => $parse_value) {
+                    if(!empty($parse_value)){
+                        $explode_url = explode("https://", $parse_value);
+                        if(isset($explode_url) && !empty(is_array($explode_url))){
+                            foreach ($explode_url as $eu_key => $eu_value) {
+                                if(!empty($eu_value)){
+                                    $video_url = "https://".$eu_value;
+                                    $is_video_exist = 0;
+                                    if(!empty($response)){
+                                        foreach ($response as $res_key => $res_value) {
+                                            if($res_value['video_url'] == $video_url){
+                                                if(isset($res_value['thumbnail_url'])){
+                                                    $is_video_exist = 1;
+                                                }
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if($is_video_exist == 0){
+                                        preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $video_url_match);
+                                        if(!empty($video_url_match) && is_array($video_url_match)){
+                                            $metadata = array();
+                                            if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
+                                                $vid = saswp_get_youtube_vid($video_url);
+                                                $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
+                                                if(!empty($video_meta)){
+                                                    $metadata['title']      = $video_meta['title'];
+                                                    $metadata['description']      = $video_meta['description'];
+                                                    $metadata['viewCount']      = $video_meta['viewCount'];
+                                                    $metadata['duration']      = $video_meta['duration'];
+                                                    $metadata['uploadDate']      = $video_meta['uploadDate'];
+                                                    $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
+                                                }
+                                            }else{
+                                                $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($video_url).'&format=json';  
+                                                $result   = @wp_remote_get($rulr);                                    
+                                                $metadata = json_decode(wp_remote_retrieve_body($result),true); 
+                                            } 
+                                            $metadata['video_url'] = $video_url;                  
+                                            $response[] = $metadata;
+                                        }
+
+                                        preg_match('/(http:|https:|)\/\/(?:www\.)?vimeo\.com\/\d{8}/', $video_url, $vimeo_url_match);
+                                        if(!empty($vimeo_url_match) && is_array($vimeo_url_match)){
+                                            $metadata = array();
+                                            if(isset($vimeo_url_match[0]) && !empty($vimeo_url_match[0])){
+                                                $video_id = substr(parse_url($video_url, PHP_URL_PATH), 1);
+                                                $vimeo_api_key = 'be4391cd7e32186dce68a995a851d4e5';
+                                                $args = array('headers' => array(
+                                                    'Authorization' => 'Bearer '.$vimeo_api_key
+                                                ));
+                                                $remote_url = "https://api.vimeo.com/videos/".$video_id;
+                                                $vimeo_video_details = wp_remote_get( $remote_url, $args );
+                                                $vimeo_video_details = json_decode(wp_remote_retrieve_body($vimeo_video_details),true);
+                                                if(isset($vimeo_video_details) && !empty($vimeo_video_details)){
+                                                    $metadata['title']      = isset($vimeo_video_details['name'])?$vimeo_video_details['name']:'';
+                                                    $metadata['description']      = isset($vimeo_video_details['description'])?$vimeo_video_details['description']:'';
+                                                    $metadata['viewCount']      = 0;
+                                                    $metadata['uploadDate']      = isset($vimeo_video_details['created_time'])?$vimeo_video_details['created_time']:'';
+                                                    $metadata['thumbnail_url'] = '';
+                                                    if(isset($vimeo_video_details['pictures']) && isset($vimeo_video_details['pictures']['base_link'])){
+                                                        $metadata['thumbnail_url'] = $vimeo_video_details['pictures']['sizes'][0]['link_with_play_button'];
+                                                    }
+                                                    $metadata['author_name']      = 'Vimeo';
+                                                    $metadata['type']      = 'video';
+                                                    $metadata['video_url'] = $video_url;
+                                                    $response[] = $metadata;
+                                                }  
+                                            }
+                                        }
+
+                                        preg_match('/^.*dailymotion.com\/(?:video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/', $video_url, $daily_url_match);
+                                        if(!empty($daily_url_match) && is_array($daily_url_match)){
+                                            $metadata = array();
+                                            if(isset($daily_url_match[0]) && !empty($daily_url_match[0])){
+                                                $daily_id = substr(parse_url($video_url, PHP_URL_PATH), 1);
+                                                if(isset($daily_url_match[1]) && !empty($daily_url_match[1])){
+                                                    $daily_id = 'video/'.$daily_url_match[1];
+                                                }
+                                                $remote_url = "https://api.dailymotion.com/".$daily_id.'?fields=id,title,description,created_time,thumbnail_url';
+                                                $daily_video_details = wp_remote_get( $remote_url);
+                                                $daily_video_details = json_decode(wp_remote_retrieve_body($daily_video_details),true);
+                                                
+                                                if(isset($daily_video_details) && !empty($daily_video_details)){
+                                                    $metadata['title']      = isset($daily_video_details['title'])?$daily_video_details['title']:'';
+                                                    $metadata['description']      = isset($daily_video_details['description'])?$daily_video_details['description']:'';
+                                                    $metadata['viewCount']      = 0;
+                                                    $metadata['uploadDate']      = isset($daily_video_details['created_time'])?date('Y-m-d H:i:s',$daily_video_details['created_time']):'';
+                                                    $metadata['thumbnail_url'] = isset($daily_video_details['thumbnail_url'])?$daily_video_details['thumbnail_url']:'';
+                                                    $metadata['author_name']      = 'Dailymotion';
+                                                    $metadata['type']      = 'video';
+                                                    $metadata['video_url'] = $video_url;
+                                                    $response[] = $metadata;
+                                                }  
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } // parse_value if end
+                    } // parse_value if end
+                } // parse_content foreach end
+            } // parse_content if end
+        } // parse_content if end
         $result = saswp_unique_multidim_array($response,'video_url');
-      
         return $result;
 }
 
@@ -3769,6 +3877,12 @@ function saswp_unique_multidim_array($array, $key) {
         foreach($array as $val) { 
             if(!empty($val[$key])){   
                 $checked = saswp_youtube_check_validate_url($val[$key]);
+                if(empty($checked)){
+                    $checked = saswp_vimeo_check_validate_url($val);
+                }
+                if(empty($checked)){
+                    $checked = saswp_dailymototion_check_validate_url($val);
+                }
                 if (!empty($checked)) {
                     if (!in_array($val[$key], $key_array)) { 
                         $key_array[$i] = $val[$key]; 
@@ -3794,6 +3908,40 @@ function saswp_youtube_check_validate_url($yt_url) {
         }else{
             return "";
         }  
+    }else{
+        return "";
+    }
+}
+
+function saswp_vimeo_check_validate_url($yt_url) { 
+    if(!empty($yt_url) && isset($yt_url)){
+        if(isset($yt_url['thumbnail_url']) && !empty($yt_url['thumbnail_url'])){
+            $url_parsed_arr = parse_url($yt_url['video_url']);
+            if ((isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "vimeo.com" || $url_parsed_arr['host'] == "www.vimeo.com"))) {
+                return $yt_url;
+            }else{
+                return "";
+            }  
+        }else{
+            return "";
+        }
+    }else{
+        return "";
+    }
+}
+
+function saswp_dailymototion_check_validate_url($yt_url) { 
+    if(!empty($yt_url) && isset($yt_url)){
+        if(isset($yt_url['thumbnail_url']) && !empty($yt_url['thumbnail_url'])){
+            $url_parsed_arr = parse_url($yt_url['video_url']);
+            if ((isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "dailymotion.com" || $url_parsed_arr['host'] == "www.dailymotion.com"))) {
+                return $yt_url;
+            }else{
+                return "";
+            }  
+        }else{
+            return "";
+        }
     }else{
         return "";
     }
