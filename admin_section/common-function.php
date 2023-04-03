@@ -2439,102 +2439,241 @@ if ( ! defined('ABSPATH') ) exit;
         global $post, $sd_data;
 
         $author_details = array();            
-
-        $author_id          = get_the_author_meta('ID');
-        $author_name 	    = get_the_author();
-        $author_desc        = get_the_author_meta( 'user_description' );     
-
-        if(!$author_name && is_object($post)){
-            $author_id    = get_post_field ( 'post_author', $post->ID);
-            $author_name  = get_the_author_meta( 'display_name' , $author_id );             
-        }
-
-        $author_meta =  get_user_meta($author_id);
-
-        $author_url   = get_author_posts_url( $author_id ); 
-        $same_as      = array();
-
-        $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim');
-
-        foreach($social_links as $links){
-
-            $url  = get_the_author_meta($links, $author_id );
-
-            if($url){
-                $same_as[] = $url;
-            }
-
-        }
-                        
-        $author_image = array();
-        
-        if(function_exists('get_avatar_data')){
-            $author_image	= get_avatar_data($author_id);
-        }
-                
-        $author_details['@type']           = 'Person';
-        $author_details['name']            = esc_attr($author_name);
-        if(!empty($author_desc)){
-            $author_details['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
-        }else{
-            if(!empty($author_meta['author_bio'][0])){
-                $author_details['description'] =   $author_meta['author_bio'][0];
-            }
-        }
-        $author_details['url']             = esc_url($author_url);
-        $author_details['sameAs']          = $same_as;
-
-        if(!empty($author_meta['knowsabout'][0])){
-            $author_details['knowsAbout'] =   explode(',', $author_meta['knowsabout'][0]);
-        }
-
-        if(!empty($author_meta['honorificsuffix'][0])){
-            $author_details['honorificSuffix'] =  $author_meta['honorificsuffix'][0];
-        }
-
-        if(!empty($author_meta['alumniof'][0])){
-            $str =  $author_meta['alumniof'][0];
-            $itemlist = explode(",", $str);
-            if(!empty($itemlist)){
-                foreach ($itemlist as $key => $list){
-                    $vnewarr['@type'] = 'Organization';
-                    $vnewarr['Name']   = $list;   
-                    $author_details['alumniOf'][] = $vnewarr;
+        $is_multiple_authors = 0;
+        if(isset($sd_data['saswp-publish-press-authors']) && $sd_data['saswp-publish-press-authors'] == 1){
+            $multiple_authors = get_post_meta(get_the_ID(), 'ppma_authors_name');
+            if(!empty($multiple_authors) && isset($multiple_authors[0])){
+                $explode_authors = explode(',', $multiple_authors[0]);
+                if(count($explode_authors) > 1){
+                    $is_multiple_authors = 1;
                 }
             }
-            
         }
+        if($is_multiple_authors == 0){
+            $author_id          = get_the_author_meta('ID');
+            $author_name 	    = get_the_author();
+            $author_desc        = get_the_author_meta( 'user_description' );     
 
-        if(!empty($author_meta['author_image'][0])){
-            $author_image =  wp_get_attachment_image_src($author_meta['author_image'][0]);
-            if(!empty($author_image)){
-                $author_details['image']['@type']  = 'ImageObject';
-                $author_details['image']['url']    = $author_image[0];
-                $author_details['image']['height'] = $author_image[1];
-                $author_details['image']['width']  = $author_image[2];
+            if(!$author_name && is_object($post)){
+                $author_id    = get_post_field ( 'post_author', $post->ID);
+                $author_name  = get_the_author_meta( 'display_name' , $author_id );             
             }
-        }elseif(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
 
-            $author_details['image']['@type']  = 'ImageObject';
-            $author_details['image']['url']    = $author_image['url'];
-            $author_details['image']['height'] = $author_image['height'];
-            $author_details['image']['width']  = $author_image['width'];
-        }
-        if(isset($sd_data['saswp-simple-author-box']) && $sd_data['saswp-simple-author-box'] == 1 && function_exists('sab_fs') ){
+            $author_meta =  get_user_meta($author_id);
 
-            $sab_image = get_the_author_meta( 'sabox-profile-image', $author_id );
+            $author_url   = get_author_posts_url( $author_id ); 
+            $same_as      = array();
 
-            if($sab_image){
+            $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim');
 
-                $image = @getimagesize($sab_image);
+            foreach($social_links as $links){
 
-                if($image){
+                $url  = get_the_author_meta($links, $author_id );
+
+                if($url){
+                    $same_as[] = $url;
+                }
+
+            }
+                            
+            $author_image = array();
+            
+            if(function_exists('get_avatar_data')){
+                $author_image	= get_avatar_data($author_id);
+            }
+                    
+            $author_details['@type']           = 'Person';
+            $author_details['name']            = esc_attr($author_name);
+            if(!empty($author_desc)){
+                $author_details['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
+            }else{
+                if(!empty($author_meta['author_bio'][0])){
+                    $author_details['description'] =   $author_meta['author_bio'][0];
+                }
+            }
+            $author_details['url']             = esc_url($author_url);
+            $author_details['sameAs']          = $same_as;
+
+            if(!empty($author_meta['knowsabout'][0])){
+                $author_details['knowsAbout'] =   explode(',', $author_meta['knowsabout'][0]);
+            }
+
+            if(!empty($author_meta['honorificsuffix'][0])){
+                $author_details['honorificSuffix'] =  $author_meta['honorificsuffix'][0];
+            }
+
+            if(!empty($author_meta['alumniof'][0])){
+                $str =  $author_meta['alumniof'][0];
+                $itemlist = explode(",", $str);
+                if(!empty($itemlist)){
+                    foreach ($itemlist as $key => $list){
+                        $vnewarr['@type'] = 'Organization';
+                        $vnewarr['Name']   = $list;   
+                        $author_details['alumniOf'][] = $vnewarr;
+                    }
+                }
+                
+            }
+
+            if(!empty($author_meta['author_image'][0])){
+                $author_image =  wp_get_attachment_image_src($author_meta['author_image'][0]);
+                if(!empty($author_image)){
                     $author_details['image']['@type']  = 'ImageObject';
-                    $author_details['image']['url']    = $sab_image;
-                    $author_details['image']['height'] = $image[1];
-                    $author_details['image']['width']  = $image[0];
-                }                
-                                 
+                    $author_details['image']['url']    = $author_image[0];
+                    $author_details['image']['height'] = $author_image[1];
+                    $author_details['image']['width']  = $author_image[2];
+                }
+            }elseif(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
+
+                $author_details['image']['@type']  = 'ImageObject';
+                $author_details['image']['url']    = $author_image['url'];
+                $author_details['image']['height'] = $author_image['height'];
+                $author_details['image']['width']  = $author_image['width'];
+            }
+            if(isset($sd_data['saswp-simple-author-box']) && $sd_data['saswp-simple-author-box'] == 1 && function_exists('sab_fs') ){
+
+                $sab_image = get_the_author_meta( 'sabox-profile-image', $author_id );
+
+                if($sab_image){
+
+                    $image = @getimagesize($sab_image);
+
+                    if($image){
+                        $author_details['image']['@type']  = 'ImageObject';
+                        $author_details['image']['url']    = $sab_image;
+                        $author_details['image']['height'] = $image[1];
+                        $author_details['image']['width']  = $image[0];
+                    }                
+                                     
+                }
+            }
+        }else{
+            $author_details = saswp_get_multiple_author_details($author_details);
+        }    
+        return $author_details;
+    }
+    /**
+     * since @1.13
+     * Get the multiple author details 
+     * @global type $post
+     * @return type array
+     */
+    function saswp_get_multiple_author_details($author_details)
+    {
+        global $post, $sd_data, $wpdb;
+
+        if(isset($sd_data['saswp-publish-press-authors']) && $sd_data['saswp-publish-press-authors'] == 1){
+            $multiple_authors = get_post_meta(get_the_ID(), 'ppma_authors_name');
+            if(!empty($multiple_authors) && isset($multiple_authors[0])){
+                $explode_authors = explode(',', $multiple_authors[0]);
+                if(!empty($explode_authors) && is_array($explode_authors)){
+                    $auth_cnt = 0;
+                    $author_details = array(); 
+                    foreach ($explode_authors as $ea_key => $ea_value) {
+                        $table_name = $wpdb->prefix."users";
+                        $query = $wpdb->prepare("SELECT * FROM $table_name WHERE display_name = %s",trim($ea_value));
+                        $user_results = $wpdb->get_results($query, ARRAY_A);
+                        
+                        if(!empty($user_results) && isset($user_results[0])){
+                            if(isset($user_results[0]['ID'])){
+                                $author_id = $user_results[0]['ID'];  
+                                $author_name        = $ea_value;  
+                                $author_desc        = get_the_author_meta( 'user_description', $author_id);
+
+                                $author_meta =  get_user_meta($author_id);
+
+                                $author_url   = get_author_posts_url( $author_id ); 
+                                $same_as      = array();
+
+                                $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim');
+
+                                foreach($social_links as $links){
+
+                                    $url  = get_the_author_meta($links, $author_id );
+
+                                    if($url){
+                                        $same_as[] = $url;
+                                    }
+
+                                }
+
+                                $author_image = array();
+            
+                                if(function_exists('get_avatar_data')){
+                                    $author_image   = get_avatar_data($author_id);
+                                }
+                                        
+                                $author_details[$auth_cnt]['@type']           = 'Person';
+                                $author_details[$auth_cnt]['name']            = esc_attr($author_name);
+                                if(!empty($author_desc)){
+                                    $author_details[$auth_cnt]['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
+                                }else{
+                                    if(!empty($author_meta['author_bio'][0])){
+                                        $author_details[$auth_cnt]['description'] =   $author_meta['author_bio'][0];
+                                    }
+                                }
+                                $author_details[$auth_cnt]['url']             = esc_url($author_url);
+                                $author_details[$auth_cnt]['sameAs']          = $same_as;
+
+                                if(!empty($author_meta['knowsabout'][0])){
+                                    $author_details[$auth_cnt]['knowsAbout'] =   explode(',', $author_meta['knowsabout'][0]);
+                                }
+
+                                if(!empty($author_meta['honorificsuffix'][0])){
+                                    $author_details[$auth_cnt]['honorificSuffix'] =  $author_meta['honorificsuffix'][0];
+                                }
+
+                                if(!empty($author_meta['alumniof'][0])){
+                                    $str =  $author_meta['alumniof'][0];
+                                    $itemlist = explode(",", $str);
+                                    if(!empty($itemlist)){
+                                        foreach ($itemlist as $key => $list){
+                                            $vnewarr['@type'] = 'Organization';
+                                            $vnewarr['Name']   = $list;   
+                                            $author_details[$auth_cnt]['alumniOf'][] = $vnewarr;
+                                        }
+                                    }
+                                    
+                                }
+
+                                if(!empty($author_meta['author_image'][0])){
+                                    $author_image =  wp_get_attachment_image_src($author_meta['author_image'][0]);
+                                    if(!empty($author_image)){
+                                        $author_details[$auth_cnt]['image']['@type']  = 'ImageObject';
+                                        $author_details[$auth_cnt]['image']['url']    = $author_image[0];
+                                        $author_details[$auth_cnt]['image']['height'] = $author_image[1];
+                                        $author_details[$auth_cnt]['image']['width']  = $author_image[2];
+                                    }
+                                }elseif(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
+
+                                    $author_details[$auth_cnt]['image']['@type']  = 'ImageObject';
+                                    $author_details[$auth_cnt]['image']['url']    = $author_image['url'];
+                                    $author_details[$auth_cnt]['image']['height'] = $author_image['height'];
+                                    $author_details[$auth_cnt]['image']['width']  = $author_image['width'];
+                                }
+
+                                if(isset($sd_data['saswp-simple-author-box']) && $sd_data['saswp-simple-author-box'] == 1 && function_exists('sab_fs') ){
+
+                                    $sab_image = get_the_author_meta( 'sabox-profile-image', $author_id );
+
+                                    if($sab_image){
+
+                                        $image = @getimagesize($sab_image);
+
+                                        if($image){
+                                            $author_details[$auth_cnt]['image']['@type']  = 'ImageObject';
+                                            $author_details[$auth_cnt]['image']['url']    = $sab_image;
+                                            $author_details[$auth_cnt]['image']['height'] = $image[1];
+                                            $author_details[$auth_cnt]['image']['width']  = $image[0];
+                                        }                
+                                                         
+                                    }
+                                }
+                                $auth_cnt++;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -3215,7 +3354,8 @@ function saswp_get_field_note($pname){
             'easy_testimonials'           => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
             'bne_testimonials'            => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
             'testimonial_pro'             => saswp_t_string('Requires').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
-            'tevolution_events'           => saswp_t_string('Requires').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>'
+            'tevolution_events'           => saswp_t_string('Requires').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>',
+            'publishpress_authors'                     => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/publishpress-authors"> Publish Press Authors </a>',
         
         );
           

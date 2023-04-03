@@ -696,6 +696,9 @@ class saswp_output_compatibility{
     public function yet_another_stars_rating_on_activation(){
         $this->saswp_update_option_on_compatibility_activation('saswp-yet-another-stars-rating');
     }
+    public function publishpress_authors_on_activation(){
+        $this->saswp_update_option_on_compatibility_activation('saswp-publish-press-authors');
+    }
     public function saswp_update_option_on_compatibility_activation($opt_name){   
         
         $defaults = get_option('sd_data');   

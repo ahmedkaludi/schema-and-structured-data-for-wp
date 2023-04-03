@@ -2430,7 +2430,16 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
-                                            
+                           
+                      case 'saswp-publish-press-authors-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-publish-press-authors").val(1);             
+                            }else{
+                              $("#saswp-publish-press-authors").val(0);           
+                            }
+                      break;
+                                       
                       default:
                           break;
                   }
