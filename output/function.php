@@ -3475,11 +3475,12 @@ function saswp_default_video_object_scjhema(){
         $modified_date 	    = get_the_modified_date("c"); 
           
         if(count($video_links) > 1){
-            if(isset($v_val['video_url']) && !empty($v_val['video_url'])){    
+                
 
-                $input1['@type'] = "ItemList"; 
-                $i = 1; 
-                foreach($video_links as $vkey => $v_val){
+            $input1['@type'] = "ItemList"; 
+            $i = 1; 
+            foreach($video_links as $vkey => $v_val){
+                if(isset($v_val['video_url']) && !empty($v_val['video_url'])){
                     $vnewarr = array(
                         '@type'				            => 'VideoObject',
                         "position"                      => $vkey+1,
