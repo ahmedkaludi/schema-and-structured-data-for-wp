@@ -2581,7 +2581,6 @@ if ( ! defined('ABSPATH') ) exit;
                                 $author_desc        = get_the_author_meta( 'user_description', $author_id);
 
                                 $author_meta =  get_user_meta($author_id);
-
                                 $author_url   = get_author_posts_url( $author_id ); 
                                 $same_as      = array();
 
@@ -2650,6 +2649,10 @@ if ( ! defined('ABSPATH') ) exit;
                                     $author_details[$auth_cnt]['image']['url']    = $author_image['url'];
                                     $author_details[$auth_cnt]['image']['height'] = $author_image['height'];
                                     $author_details[$auth_cnt]['image']['width']  = $author_image['width'];
+                                }
+
+                                if(!empty(get_the_author_meta('user_email', $author_id))){
+                                    $author_details[$auth_cnt]['email']  = get_the_author_meta('user_email', $author_id);
                                 }
 
                                 if(isset($sd_data['saswp-simple-author-box']) && $sd_data['saswp-simple-author-box'] == 1 && function_exists('sab_fs') ){
