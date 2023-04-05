@@ -3945,35 +3945,6 @@ function saswp_get_video_metadata($content = ''){
                                             $response[] = $metadata;
                                         }
 
-                                        preg_match('/(http:|https:|)\/\/(?:www\.)?vimeo\.com\/\d{8}/', $video_url, $vimeo_url_match);
-                                        if(!empty($vimeo_url_match) && is_array($vimeo_url_match)){
-                                            $metadata = array();
-                                            if(isset($vimeo_url_match[0]) && !empty($vimeo_url_match[0])){
-                                                $video_id = substr(parse_url($video_url, PHP_URL_PATH), 1);
-                                                $vimeo_api_key = 'be4391cd7e32186dce68a995a851d4e5';
-                                                $args = array('headers' => array(
-                                                    'Authorization' => 'Bearer '.$vimeo_api_key
-                                                ));
-                                                $remote_url = "https://api.vimeo.com/videos/".$video_id;
-                                                $vimeo_video_details = wp_remote_get( $remote_url, $args );
-                                                $vimeo_video_details = json_decode(wp_remote_retrieve_body($vimeo_video_details),true);
-                                                if(isset($vimeo_video_details) && !empty($vimeo_video_details)){
-                                                    $metadata['title']      = isset($vimeo_video_details['name'])?$vimeo_video_details['name']:'';
-                                                    $metadata['description']      = isset($vimeo_video_details['description'])?$vimeo_video_details['description']:'';
-                                                    $metadata['viewCount']      = 0;
-                                                    $metadata['uploadDate']      = isset($vimeo_video_details['created_time'])?$vimeo_video_details['created_time']:'';
-                                                    $metadata['thumbnail_url'] = '';
-                                                    if(isset($vimeo_video_details['pictures']) && isset($vimeo_video_details['pictures']['base_link'])){
-                                                        $metadata['thumbnail_url'] = $vimeo_video_details['pictures']['sizes'][0]['link_with_play_button'];
-                                                    }
-                                                    $metadata['author_name']      = 'Vimeo';
-                                                    $metadata['type']      = 'video';
-                                                    $metadata['video_url'] = $video_url;
-                                                    $response[] = $metadata;
-                                                }  
-                                            }
-                                        }
-
                                         preg_match('/^.*dailymotion.com\/(?:video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/', $video_url, $daily_url_match);
                                         if(!empty($daily_url_match) && is_array($daily_url_match)){
                                             $metadata = array();
