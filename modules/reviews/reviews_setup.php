@@ -526,7 +526,8 @@ function saswp_insert_platform_terms(){
             'Yell', 
             'YellowPages', 
             'ZocDoc',
-            'zankyou'                     
+            'zankyou',
+            'Abia.com'                     
         );
 
         foreach($term_array as $term){
