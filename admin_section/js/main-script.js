@@ -1784,6 +1784,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-truncate-product-description-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-truncate-product-description").val(1);                                
+                            }else{
+                              $("#saswp-truncate-product-description").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-rss-feed-image-checkbox':
                           
                             if ($(this).is(':checked')) {              

@@ -4864,3 +4864,18 @@ function saswp_sanitize_textarea_field( $str ) {
 
 	return $filtered;
 }
+
+if(!function_exists('saswp_revalidate_product_description')){
+    function saswp_revalidate_product_description($product_description)
+    {
+        global $sd_data;
+        if(isset($sd_data['saswp-truncate-product-description']) && $sd_data['saswp-truncate-product-description'] == 1){
+            if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_description)){
+                if (mb_strlen($product_description, 'UTF-8') > 5000){
+                    $product_description = mb_substr($product_description, 0, 5000, 'UTF-8');
+                }
+            }
+        }
+        return $product_description;  
+    }
+}

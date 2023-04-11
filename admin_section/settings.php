@@ -1703,7 +1703,19 @@ function saswp_import_callback(){
                                 'id'   => 'saswp-full-heading',
                                 'name' => 'sd_data[saswp-full-heading]',                             
                         )
-                )                  
+                ),
+                array(
+                        'label'  => 'Truncate Product Description',
+                        'id'     => 'saswp-truncate-product-description-checkbox', 
+                        'name'   => 'saswp-truncate-product-description-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
+                        'note'   => 'Google only allows to keep 5000 or less characters in product description. We initially allow full product description. This option will truncate the product description and limit description to 5000 characters.',
+                        'hidden' => array(
+                                'id'   => 'saswp-truncate-product-description',
+                                'name' => 'sd_data[saswp-truncate-product-description]',                             
+                        )  
+                )                
                 
 	);   
         

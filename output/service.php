@@ -7953,7 +7953,9 @@ Class saswp_output_service{
                         $product_details = $this->saswp_woocommerce_product_details(get_the_ID());  
 
                         if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_details)){
-
+                            if(isset($product_details['product_description']) && !empty($product_details['product_description'])){
+                                $product_details['product_description'] = saswp_revalidate_product_description($product_details['product_description']);
+                            }
                             $input1 = array(
                             '@context'			=> saswp_context_url(),
                             '@type'				=> $schema_type,
