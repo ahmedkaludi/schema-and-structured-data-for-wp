@@ -271,7 +271,7 @@ class saswp_reviews_service {
                 }  
                         
                         $review_rating = $review['saswp_review_rating'];
-
+                        $stars_color = isset($stars_color)?$stars_color:"";
                         $starating = saswp_get_rating_html_by_value($review_rating,$stars_color,"");
                         if(!empty($starating)){
                             $starating = $starating;
