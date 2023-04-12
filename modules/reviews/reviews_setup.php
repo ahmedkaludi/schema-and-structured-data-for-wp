@@ -424,7 +424,7 @@ function saswp_insert_platform_terms(){
     
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 100 ){
+    if( $platform_inserted != 101 ){
             
         $term_array = array(    
             'Self',
@@ -552,8 +552,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if( count($term_ids)  == 100 ){
-            set_transient( 'saswp_platform_inserted', 100,  24*7*HOUR_IN_SECONDS ); 
+        if( count($term_ids)  == 101 ){
+            set_transient( 'saswp_platform_inserted', 101,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }
