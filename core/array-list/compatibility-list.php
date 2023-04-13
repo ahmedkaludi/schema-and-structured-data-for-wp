@@ -718,7 +718,13 @@ return array(
             'free'       => 'stampedio-product-reviews/woocommerce-stamped-io.php',               
             'opt_name'   => 'saswp-stamped',
             'part_in'    => 'free',
-        ),                   
+        ),  
+        'publishpress_authors' => array(            
+                    'name'       => 'PublishPress Authors',
+                    'free'       => 'publishpress-authors/publishpress-authors.php',
+                    'opt_name'   => 'saswp-publish-press-authors', 
+                    'part_in'    => 'free',
+        ),                 
     ),
     'themes' => array(
         'enfold' => array(            

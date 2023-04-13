@@ -1784,6 +1784,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-truncate-product-description-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-truncate-product-description").val(1);                                
+                            }else{
+                              $("#saswp-truncate-product-description").val(0);                                          
+                            }
+                            
+                      break;
+
                       case 'saswp-rss-feed-image-checkbox':
                           
                             if ($(this).is(':checked')) {              
@@ -2430,7 +2440,16 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
-                                            
+                           
+                      case 'saswp-publish-press-authors-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-publish-press-authors").val(1);             
+                            }else{
+                              $("#saswp-publish-press-authors").val(0);           
+                            }
+                      break;
+                                       
                       default:
                           break;
                   }

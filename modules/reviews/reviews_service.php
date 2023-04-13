@@ -272,7 +272,7 @@ class saswp_reviews_service {
                         
                         $review_rating = $review['saswp_review_rating'];
 
-                        $starating = saswp_get_rating_html_by_value($review_rating,$stars_color,"");
+                        $starating = saswp_get_rating_html_by_value($review_rating);
                         if(!empty($starating)){
                             $starating = $starating;
                         }else{

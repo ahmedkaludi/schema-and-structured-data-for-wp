@@ -2,9 +2,9 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 1.12
+Stable tag: 1.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+
+= 1.13 (12 April 2023) =
+
+* Added: Need to add compatibility for "https://abia.com.au/" to fetch reviews #1827
+* Fixed: When we add the YouTube video through the elementor in the schema, the video is not showing in the rich result #1882
+* Fixed: Image Caption is not showing for inside Post Attachment Images #1893
+* Added: Add compatibility with the plugin PublishPress Authors #1894
+* Fixed: It says 404 page not found while adding the ID to the FAQ schema  #1898
+* Fixed: PHP Notice: Undefined variable #1901
+* Fixed: Test with WP 6.2 and update readme.txt tested up to field #1903
 
 
 = 1.12 (27 March 2023) =

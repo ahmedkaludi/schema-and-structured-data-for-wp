@@ -1703,7 +1703,19 @@ function saswp_import_callback(){
                                 'id'   => 'saswp-full-heading',
                                 'name' => 'sd_data[saswp-full-heading]',                             
                         )
-                )                  
+                ),
+                array(
+                        'label'  => 'Truncate Product Description',
+                        'id'     => 'saswp-truncate-product-description-checkbox', 
+                        'name'   => 'saswp-truncate-product-description-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',                        
+                        'note'   => 'Google only allows to keep 5000 or less characters in product description. We initially allow full product description. This option will truncate the product description and limit description to 5000 characters.',
+                        'hidden' => array(
+                                'id'   => 'saswp-truncate-product-description',
+                                'name' => 'sd_data[saswp-truncate-product-description]',                             
+                        )  
+                )                
                 
 	);   
         
@@ -4162,6 +4174,19 @@ function saswp_compatibility_page_callback(){
                              'name' => 'sd_data[saswp-flexmlx-compativility]',                             
                         )
 		);
+
+        $publishpress_authors = array(
+                'label'  => 'PublishPress Authors',
+                'id'     => 'saswp-publish-press-authors-checkbox',                        
+                'name'   => 'saswp-publish-press-authors-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('publishpress_authors'),
+                'hidden' => array(
+                        'id'   => 'saswp-publish-press-authors',
+                        'name' => 'sd_data[saswp-publish-press-authors]',                             
+                )
+        ); 
                 
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php')){
                       
@@ -4418,7 +4443,8 @@ function saswp_compatibility_page_callback(){
                 $helpiefaq,
                 $mooberrybm,
                 $novelist,
-                $flex_lmx
+                $flex_lmx,
+                $publishpress_authors
                 
 	);  
                 
@@ -4474,7 +4500,7 @@ function saswp_compatibility_page_callback(){
             $act_meta_fields = $meta_fields;
              
             $active_plugins = saswp_compatible_active_list();
-             
+
             foreach ($act_meta_fields as $key => $field){
                                   
                  if($field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership'){
