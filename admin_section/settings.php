@@ -1744,6 +1744,7 @@ function saswp_import_callback(){
         $wp_custom_rv_message    = '';
         $schema_for_faqs_message = '';
         $starsrating_message    = '';
+        $yoast_seo_message    = '';
         $schema_plugin         = saswp_check_data_imported_from('schema'); 
         $schema_pro_plugin     = saswp_check_data_imported_from('schema_pro');
         $wp_seo_schema_plugin  = saswp_check_data_imported_from('wp_seo_schema');
@@ -1753,6 +1754,7 @@ function saswp_import_callback(){
         $wp_custom_rv          = saswp_check_data_imported_from('wp_custom_rv');
         $schema_for_faqs       = saswp_check_data_imported_from('schema_for_faqs');
         $starsrating           = saswp_check_data_imported_from('starsrating');
+        $yoast_seo           = saswp_check_data_imported_from('yoast_seo');
         
         if($starsrating->post_count !=0 ){
             
@@ -1800,6 +1802,11 @@ function saswp_import_callback(){
         if($wp_seo_schema_plugin->post_count !=0){
             
           $wp_seo_schema_message = $message;   
+         
+        }
+        if($yoast_seo->post_count !=0){
+            
+          $yoast_seo_message = $message;   
          
         }        	 
                               
@@ -1861,6 +1868,12 @@ function saswp_import_callback(){
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('FAQ Schema Markup – FAQ Structured Data'); ?></strong></div><button data-id="schema_for_faqs" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.saswp_t_string($schema_for_faqs_message).'</p>'; ?>                          
+                    </div>
+                </li>
+
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('Yoast SEO'); ?></strong></div><button data-id="yoast_seo" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
+                        <p class="saswp-imported-message"></p>
+                        <?php echo '<p>'.saswp_t_string($yoast_seo_message).'</p>'; ?>                          
                     </div>
                 </li>
                 

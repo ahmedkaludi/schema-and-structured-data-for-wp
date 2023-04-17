@@ -1745,6 +1745,12 @@ function saswp_import_plugin_data(){
                   if ( is_plugin_active('faq-schema-markup-faq-structured-data/schema-for-faqs.php')) {
                       $result = saswp_import_schema_for_faqs_plugin_data();      
                   }                
+                break;
+
+                case 'yoast_seo':                
+                  if ( is_plugin_active('wordpress-seo/wp-seo.php')) {
+                      $result = saswp_import_yoast_seo_plugin_data();      
+                  }                
                 break;                 
 
             default:

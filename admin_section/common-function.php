@@ -1621,7 +1621,14 @@ if ( ! defined('ABSPATH') ) exit;
             }            
         }
                              
-    }    
+    }
+
+    // Import schema data of yoast
+    function saswp_import_yoast_seo_plugin_data()
+    {
+        echo "<pre>===== "; print_r("Yoast SEO"); die;
+    }
+
     //Function to expand html tags form allowed html tags in wordpress    
     function saswp_expanded_allowed_tags() {
         
