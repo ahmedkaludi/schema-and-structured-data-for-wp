@@ -5124,14 +5124,32 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_recipe_ingredient'])){  
                       if(is_array($custom_fields['saswp_recipe_ingredient'])){                   
-                          $input1['recipeIngredient'] =   wp_strip_all_tags($custom_fields['saswp_recipe_ingredient']);                          
+                          $recipe_ingredient = array();
+                            foreach ($custom_fields['saswp_recipe_ingredient'] as $sci_key => $sci_value) {
+                                if(!empty($sci_value)){
+                                    $recipe_ingredient[] = wp_strip_all_tags($sci_value);       
+                                }
+                            }
+                            if(empty($recipe_ingredient)){
+                                $recipe_ingredient = $custom_fields['saswp_recipe_ingredient'];
+                            }  
+                            $input1['recipeIngredient'] =   $recipe_ingredient;                          
                       }else{     
                           $input1['recipeIngredient'] =  saswp_explod_by_semicolon($custom_fields['saswp_recipe_ingredient']);
                       }              
                     }
                     if(isset($custom_fields['saswp_recipe_instructions'])){  
                         if(is_array($custom_fields['saswp_recipe_instructions'])){
-                            $input1['recipeInstructions'] =    wp_strip_all_tags($custom_fields['saswp_recipe_instructions']);   
+                            $recipe_instructions = array();
+                            foreach ($custom_fields['saswp_recipe_instructions'] as $sri_key => $sri_value) {
+                                if(!empty($sri_value)){
+                                    $recipe_instructions[] = wp_strip_all_tags($sri_value);       
+                                }
+                            }
+                            if(empty($recipe_instructions)){
+                                $recipe_instructions = $custom_fields['saswp_recipe_instructions'];
+                            }
+                            $input1['recipeInstructions'] =    $recipe_instructions;   
                         }else{
                             $input1['recipeInstructions'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_instructions']);
                         }                     
