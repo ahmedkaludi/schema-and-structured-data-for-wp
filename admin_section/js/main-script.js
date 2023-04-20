@@ -2516,6 +2516,16 @@ jQuery(document).ready(function($){
                          }
                          
                          $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'"/><a data-id="'+id+'" href="#" class="saswp_prev_close">X</a></div>'+smaller_img_notice);
+                         
+                         if(id == "saswp_collection_image"){
+                            $('.saswp-r1-aimg').each(function(i, e){
+                                let imgSrc = $(this).children('img').attr('src');
+                                let isDefault = imgSrc.includes('default_user');
+                                // if(isDefault){
+                                    $(this).children('img').attr('src', attachment.url);
+                                // }
+                            });   
+                         }
                         
     })
     .open();

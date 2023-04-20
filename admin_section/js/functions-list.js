@@ -1257,7 +1257,7 @@
        }
 
       
-       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color){
+       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color,collectionImg){
                 
                 var html          = '';                
                 var grid_cols     = '';
@@ -1300,8 +1300,15 @@
                             html += '<div class="saswp-rc">';
                             html += '<div class="saswp-rc-a">';
                             if(saswp_coll_hide_col_r_img != 1){
+                                let revCollImg = value.saswp_reviewer_image;
+                                if(collectionImg.length > 20){
+                                    // let isDefault = collectionImg.includes('default_user');
+                                    // if(isDefault){
+                                        revCollImg = collectionImg; 
+                                    // }
+                                }
                                 html += '<div class="saswp-r1-aimg">';
-                                html += '<img src="'+value.saswp_reviewer_image+'" width="56" height="56"/>';
+                                html += '<img src="'+collectionImg+'" width="56" height="56"/>';
                                 html += '</div>';
                             }                            
                             html += '<div class="saswp-rc-nm">';
@@ -1376,13 +1383,13 @@
                                                                                                 
             }     
             
-       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color){
+       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color,collectionImg){
                                                               
                 switch(design) {
                     
                     case "grid":
                         
-                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color);
+                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color,collectionImg);
                         
                         break;
                         
@@ -1422,6 +1429,7 @@
                 var cols                = jQuery("#saswp-collection-cols").val();
                 var slider              = jQuery(".saswp-slider-type").val();
                 var color               = jQuery(".saswpforwp-colorpicker").val();
+                var collectionImg       = jQuery("#saswp_collection_image_thumbnail").val();
                 
                 var fomo_inverval       = jQuery("#saswp_fomo_interval").val();                
                 var perpage             = parseInt(jQuery("#saswp-coll-per-page").val());
@@ -1481,7 +1489,7 @@
                 saswp_create_total_collection( s_rating_enable, s_rating_val );                 
                 saswp_collection_sorting(sorting);  
                 saswp_collection_total_reviews_id();
-                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color);                                                
+                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color,collectionImg);                                                
            
        }  
        
