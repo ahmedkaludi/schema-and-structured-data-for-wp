@@ -1693,6 +1693,18 @@ function saswp_import_callback(){
                         )
                 ),
                 array(
+                        'label'  => 'Default VideoObject Schema',
+                        'id'     => 'saswp-default-videoobject-checkbox',                        
+                        'name'   => 'saswp-default-videoobject-checkbox',
+                        'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',   
+                        'note'   => 'Add default videoObject schema whenever any video found on website. No need to add separate schema type for it, if this option is enabled.',   
+                        'hidden' => array(
+                                'id'   => 'saswp-default-videoobject',
+                                'name' => 'sd_data[saswp-default-videoobject]',                             
+                        )
+                ),
+                array(
                         'label'  => 'Full Heading',
                         'id'     => 'saswp-full-heading-checkbox', 
                         'name'   => 'saswp-full-heading-checkbox',
