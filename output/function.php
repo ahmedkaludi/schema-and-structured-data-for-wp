@@ -272,7 +272,7 @@ function saswp_get_all_schema_markup_output() {
         $author_output            = saswp_author_output();
         $archive_output           = saswp_archive_output();        
         $collection_output        = saswp_fetched_reviews_json_ld();
-        $default_videoObject_schema        = saswp_default_video_object_scjhema();
+        $default_videoObject_schema        = saswp_default_video_object_schema();
         
         if($archive_output){
             
@@ -3448,7 +3448,13 @@ function saswp_render_breadcrumbs_html($atts){
     return $breadcrumbs;
 }
 
-function saswp_default_video_object_scjhema(){
+function saswp_default_video_object_schema(){
+
+    global $sd_data;
+
+    if(isset($sd_data['saswp-default-videoobject']) && $sd_data['saswp-default-videoobject'] == 0){
+        return array();
+    }    
 
     $input1 = array();
     $video_links      = saswp_get_video_metadata();  

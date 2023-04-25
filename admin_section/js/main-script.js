@@ -1813,6 +1813,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-default-videoobject-checkbox':
+                          
+                            if ($(this).is(':checked')) {
+                              $("#saswp-default-videoobject").val(1);
+                            }else{
+                              $("#saswp-default-videoobject").val(0);
+                            }
+                            
+                      break;
+
                       case 'saswp-image-resizing-checkbox':
                           
                             if ($(this).is(':checked')) {              
