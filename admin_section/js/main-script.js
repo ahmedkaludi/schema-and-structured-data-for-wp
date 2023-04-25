@@ -677,6 +677,11 @@ jQuery(document).ready(function($){
           }else{
           $(".saswp-schema-modify-section").show();      
           }
+        if(schematype == 'FAQ'){
+          $(".saswp-enable-faq-markup-class").parent().parent().show();
+        }else{
+          $(".saswp-enable-faq-markup-class").parent().parent().hide();
+        }
          saswp_enable_rating_review();
          saswp_enable_rating_automate();
             
@@ -791,7 +796,11 @@ jQuery(document).ready(function($){
               }else{
               $(".saswp-schema-modify-section").show();      
               }
-             
+            if(schematype == 'FAQ'){
+              $(".saswp-enable-faq-markup-class").parent().parent().show();
+            }else{
+              $(".saswp-enable-faq-markup-class").parent().parent().hide();
+            }
             saswp_enable_rating_review();
             saswp_enable_rating_automate();
         }).change(); 

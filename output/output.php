@@ -181,6 +181,7 @@ function saswp_schema_output() {
                         $schema_type        = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
                         $schema_post_id     = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
                         $enable_videoobject = get_post_meta($schema_post_id, 'saswp_enable_videoobject', true);
+                        $enable_faqschema   = get_post_meta($schema_post_id, 'saswp_enable_faq_schema', true);
                        
 
                         $input1         = array();
@@ -233,6 +234,12 @@ function saswp_schema_output() {
                                 if($modified_schema == 1){
                                     
                                     $input1 = saswp_faq_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+
+                                if(isset($enable_faqschema) && $enable_faqschema == 1){
+                                    if(isset($input1['mainEntity']) && !empty($input1['mainEntity'])){
+                                        $input1 = array();    
+                                    }
                                 }
                                                                                                                                                                                                                                                                               
                             break;
