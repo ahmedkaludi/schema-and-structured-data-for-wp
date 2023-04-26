@@ -237,7 +237,7 @@ function saswp_schema_output() {
                                 }
 
                                 if(isset($enable_faqschema) && $enable_faqschema == 1){
-                                    if(isset($input1['mainEntity']) && !empty($input1['mainEntity'])){
+                                    if(empty($input1['mainEntity'])){
                                         $input1 = array();    
                                     }
                                 }
