@@ -7808,8 +7808,8 @@ Class saswp_output_service{
                     'keywords'          => saswp_get_the_tags(),
 					'datePublished'     => esc_html($date),
 					'dateModified'      => esc_html($modified_date),
-					'author'			=> saswp_get_author_details(),
-                    'editor'			=> saswp_get_author_details()
+					'author'			=> saswp_get_main_authors(),//saswp_get_author_details(),
+                    'editor'			=> saswp_get_edited_authors()//saswp_get_author_details()
 				);
 
                 if($schema_type == 'Photograph'){

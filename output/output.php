@@ -1738,8 +1738,8 @@ function saswp_schema_output() {
                                                                                         '@type' => 'WebPage',
                                                                                         '@id'   => saswp_get_permalink(),
                                     ), 
-                                    'author'			=> saswp_get_author_details(),
-                                    'editor'            => saswp_get_author_details()
+                                    'author'			=> saswp_get_main_authors(),//saswp_get_author_details(),
+                                    'editor'            => saswp_get_edited_authors()//saswp_get_author_details()
                                     );
                                         
                                         $mainentity = saswp_get_mainEntity($schema_post_id);
