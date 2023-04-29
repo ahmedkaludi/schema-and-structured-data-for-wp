@@ -651,12 +651,17 @@ function saswp_comparison_logic_checker($input, $post){
         }
         
         $checker    = '';
-        $post_terms = '';
+        $post_terms = null;
 
           if ( $data != 'all') {
 
             if(is_object($post)){
-              $post_terms = wp_get_post_terms($post->ID, $data);           
+
+                $post_term_data = wp_get_post_terms($post->ID, $data);                
+                if(!is_wp_error($post_term_data)){
+                  $post_terms = $post_term_data;    
+                }        
+                
             }
                                             
             if(isset( $input['key_4'] ) && $input['key_4'] !='all'){
