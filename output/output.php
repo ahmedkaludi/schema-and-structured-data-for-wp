@@ -3473,10 +3473,15 @@ function saswp_site_navigation_output(){
     if(isset($sd_data['saswp_site_navigation_menu'])){
         
         $menu_id   = $sd_data['saswp_site_navigation_menu'];
-        if(function_exists('icl_object_id')){
-            $menu_id   = apply_filters( 'wpml_object_id', $menu_id, 'nav_menu', FALSE,ICL_LANGUAGE_CODE );	
-        }                
-        $menuItems = get_transient('saswp_nav_menu');
+
+        $menu_id    = apply_filters('saswp_modify_menu_id', $menu_id);
+        
+        $menuItems = get_transient('saswp_nav_menu'.$menu_id);
+                
+        if(!$menuItems){
+            $menuItems = wp_get_nav_menu_items($menu_id);
+            set_transient('saswp_nav_menu'.$menu_id, $menuItems);
+        }
         
         if(!$menuItems){
             $menuItems = wp_get_nav_menu_items($menu_id);

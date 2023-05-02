@@ -2281,7 +2281,7 @@ function saswp_save_nav_menu_on_option_update($old, $new, $opt_name){
 function saswp_save_nav_menu_in_transient($menu_id){
                         
     $menuItems = wp_get_nav_menu_items($menu_id);                
-    set_transient('saswp_nav_menu', $menuItems);                
+    set_transient('saswp_nav_menu'.$menu_id, $menuItems);                
                      
 }
 
