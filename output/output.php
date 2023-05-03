@@ -3499,7 +3499,7 @@ function saswp_site_navigation_output(){
                         if(isset($items->type) && $items->type == 'wpml_ls_menu_item'){
                             if(isset($items->attr_title) && !empty($items->attr_title)){
                                 $menu_title = $items->attr_title;
-                                if(isset($current_post_language['display_name'])){
+                                if(!is_wp_error($current_post_language) && isset($current_post_language['display_name'])){
                                     $selected_language = $current_post_language['display_name'];
                                     if(strpos($selected_language, $menu_title) === false){
                                         continue;
