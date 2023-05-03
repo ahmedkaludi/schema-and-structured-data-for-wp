@@ -3483,20 +3483,30 @@ function saswp_site_navigation_output(){
             set_transient('saswp_nav_menu'.$menu_id, $menuItems);
         }
         
-        if(!$menuItems){
-            $menuItems = wp_get_nav_menu_items($menu_id);
-        }
-        
         $menu_name = wp_get_nav_menu_object($menu_id);
         if(!empty($menu_name) && !empty($menu_name->name)){
 			$menu_name = $menu_name->name;
 		}else{
 			$menu_name = "";
 		}
+
+        $current_post_language = apply_filters( 'wpml_post_language_details', NULL);
                                      
         if(!empty($menuItems)){
            
                 foreach($menuItems as $items){
+
+                        if(isset($items->type) && $items->type == 'wpml_ls_menu_item'){
+                            if(isset($items->attr_title) && !empty($items->attr_title)){
+                                $menu_title = $items->attr_title;
+                                if(isset($current_post_language['display_name'])){
+                                    $selected_language = $current_post_language['display_name'];
+                                    if(strpos($selected_language, $menu_title) === false){
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
          
                       $navObj[] = array(
                              "@context"  => saswp_context_url(),
