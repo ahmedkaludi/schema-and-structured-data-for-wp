@@ -5093,6 +5093,9 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
         $author_image = get_post_meta( get_the_ID(), 'saswp_tech_article_author_image_'.$schema_id.'_detail',true);
         $slogo = get_post_meta( get_the_ID(), 'saswp_tech_article_organization_logo_'.$schema_id.'_detail',true);
         $checkIdPro = ((isset($all_post_meta['saswp_tech_article_id_'.$schema_id][0]) && $all_post_meta['saswp_tech_article_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_tech_article_id_'.$schema_id][0] : '');
+
+        $same_as_str = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_same_as_'.$schema_id, 'saswp_array'); 
+
         $input1 = array(
                 '@context'			            => saswp_context_url(),
                 '@type'				            => 'TechArticle',
@@ -5117,6 +5120,13 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
                 ),
 
         ); 
+
+        if(!empty($same_as_str)){
+            $same_as_arr = explode(',', $same_as_str);
+            if(is_array($same_as_arr) && isset($same_as_arr[0])){
+                $input1['sameAs'] = $same_as_arr;       
+            }
+        }
 
         if(empty($input1['@id'])){
             unset($input1['@id']);

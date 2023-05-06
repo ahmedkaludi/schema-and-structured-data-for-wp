@@ -4907,6 +4907,10 @@ Class saswp_output_service{
                         }
                     }
 
+                    if(isset($custom_fields['saswp_tech_article_same_as'])){                            
+                        $input1['sameAs'] = explode(',', $custom_fields['saswp_tech_article_same_as']);    
+                    }
+
                     break;   
                     
                 case 'Course':      
