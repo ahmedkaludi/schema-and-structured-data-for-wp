@@ -826,7 +826,7 @@ class SASWP_Reviews_Collection {
                                             <input type="text" name="saswp_stars_color_picker" id="saswp_stars_color_picker" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $post_meta['saswp_stars_color_picker'][0] ) ? esc_attr( $post_meta['saswp_stars_color_picker'][0]) : '#ffd700'; ?>" data-default-color="#ffd700">
                                         </div>
 
-                                        <div class="saswp-dp-dsg">
+                                        <div class="saswp-dp-dsg saswp-coll-review-wrapper">
                                             <lable><?php echo saswp_t_string('Default Reviewer Image'); ?></lable>  
                                             <div class="saswp_image_div_saswp_collection_image">
                                                 <?php 

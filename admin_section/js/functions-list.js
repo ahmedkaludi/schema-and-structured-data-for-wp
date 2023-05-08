@@ -812,7 +812,7 @@
 	
                }     
             
-       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color){
+       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg=null){
        
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
@@ -839,7 +839,19 @@
                                 html += '<div class="saswp-rc">';
                                 html += '<div class="saswp-rc-a">';
                                 if(saswp_collection_gallery_img_hide !=1){
-                                    html += '<img src="'+value.saswp_reviewer_image+'"/>';
+                                    let isDefaultImg = 0;
+                                    let revCollImg = value.saswp_reviewer_image;
+                                    if(revCollImg.length > 20){
+                                        let isDefault = revCollImg.includes('default_user');
+                                        if(!isDefault){
+                                            isDefaultImg = 1;
+                                        }
+                                    }
+                                    if(isDefaultImg == 0){
+                                        revCollImg = collectionImg; 
+                                    }
+
+                                    html += '<img src="'+revCollImg+'" data-is-default-img="'+isDefaultImg+'"/>';
                                 }
                                 html += '<div class="saswp-rc-nm">';
                                 html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
@@ -856,7 +868,7 @@
                       
        }    
        
-       function saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color){
+       function saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color,collectionImg=null){
                                 
                 var html = '';                               
                 if(saswp_total_collection.length > 0){
@@ -876,7 +888,7 @@
                                                         
                                 html += '<div class="saswp-si">';
                                 
-                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color);
+                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg);
                                 
                                 html += '</div>';
                             
@@ -896,7 +908,7 @@
                                                                     
                                 jQuery.each(p_value, function(index, value){
                                    
-                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color);
+                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg);
                                                                                                
                                 });
                                 
@@ -1399,7 +1411,7 @@
                         
                     case 'gallery':
                         
-                         saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color);
+                         saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color,collectionImg);
                         
                         break;
                     
@@ -1584,6 +1596,14 @@ jQuery(document).on('click', '#saswp_reset_collection_image', function(e){
     jQuery('#saswp_collection_image_thumbnail').val(defaultImg);
     jQuery('.saswp_image_prev').attr('src', defaultImg);
     jQuery('.saswp-r1-aimg').each(function(i, e){
+        let defaultImgFlag = jQuery(this).children('img').attr('data-is-default-img');
+        if(defaultImgFlag == 0){
+            jQuery(this).children('img').attr('src', defaultImg);
+        }
+
+    });
+
+    jQuery('.saswp-rc-a').each(function(i, e){
         let defaultImgFlag = jQuery(this).children('img').attr('data-is-default-img');
         if(defaultImgFlag == 0){
             jQuery(this).children('img').attr('src', defaultImg);
