@@ -2540,10 +2540,10 @@ jQuery(document).ready(function($){
                             $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'" style="max-width: 100px; max-height: 100px;"/></div>'+smaller_img_notice);
                             $('.saswp-r1-aimg').each(function(i, e){
                                 let imgSrc = $(this).children('img').attr('src');
-                                let isDefault = imgSrc.includes('default_user');
-                                // if(isDefault){
+                                let dataDefaultFlag = $(this).children('img').attr('data-is-default-img');
+                                if(dataDefaultFlag == 0){
                                     $(this).children('img').attr('src', attachment.url);
-                                // }
+                                }
                             });   
                          }
                         

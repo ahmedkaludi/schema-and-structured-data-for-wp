@@ -1300,15 +1300,19 @@
                             html += '<div class="saswp-rc">';
                             html += '<div class="saswp-rc-a">';
                             if(saswp_coll_hide_col_r_img != 1){
+                                let isDefaultImg = 0;
                                 let revCollImg = value.saswp_reviewer_image;
-                                if(collectionImg.length > 20){
-                                    // let isDefault = collectionImg.includes('default_user');
-                                    // if(isDefault){
-                                        revCollImg = collectionImg; 
-                                    // }
+                                if(revCollImg.length > 20){
+                                    let isDefault = revCollImg.includes('default_user');
+                                    if(!isDefault){
+                                        isDefaultImg = 1;
+                                    }
+                                }
+                                if(isDefaultImg == 0){
+                                    revCollImg = collectionImg; 
                                 }
                                 html += '<div class="saswp-r1-aimg">';
-                                html += '<img src="'+collectionImg+'" width="56" height="56"/>';
+                                html += '<img src="'+revCollImg+'" width="56" height="56" data-is-default-img="'+isDefaultImg+'"/>';
                                 html += '</div>';
                             }                            
                             html += '<div class="saswp-rc-nm">';
@@ -1578,7 +1582,13 @@ jQuery(document).on('click', '#saswp_reset_collection_image', function(e){
     let defaultImg = jQuery(this).attr('data-img');
     jQuery('#saswp_collection_reviewer_image').attr('src', defaultImg);
     jQuery('#saswp_collection_image_thumbnail').val(defaultImg);
-    jQuery('.saswp-r1-aimg').children('img').attr('src', defaultImg);
     jQuery('.saswp_image_prev').attr('src', defaultImg);
+    jQuery('.saswp-r1-aimg').each(function(i, e){
+        let defaultImgFlag = jQuery(this).children('img').attr('data-is-default-img');
+        if(defaultImgFlag == 0){
+            jQuery(this).children('img').attr('src', defaultImg);
+        }
+
+    });
     
 });
