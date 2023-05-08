@@ -1088,7 +1088,7 @@ function saswp_get_elementor_testomonials(){
             if( isset($sd_data['saswp-elementor']) && $sd_data['saswp-elementor'] == 1 && is_plugin_active('elementor/elementor.php') ){
                
                 $alldata    = get_post_meta( get_the_ID(),'_elementor_data', true );
-                if(!empty($alldata) && !is_array($alldata)){
+                if(!empty($alldata) && is_string($alldata)){
                     $alldata    = json_decode($alldata, true);
                 }
             
