@@ -24,7 +24,7 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting, $stars_color){
+    public function saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting, $stars_color,$collection_review_imag=''){
         
         $badge_collection = array();
         $collection       = array();
@@ -34,7 +34,7 @@ class saswp_reviews_service {
             
             case 'grid':                                
                 $attr['in'] = $total_reviews;
-                $collection = $this->saswp_get_reviews_list_by_parameters($attr); 
+                $collection = $this->saswp_get_reviews_list_by_parameters($attr,null,null,null,null,null,$collection_review_imag); 
                 $collection = $this->saswp_sort_collection($collection, $sorting);     
                 break;
             case 'gallery':              
@@ -46,7 +46,7 @@ class saswp_reviews_service {
 
                     foreach ($platform_id as $key => $val){
 
-                        $reviews_list = $this->saswp_get_reviews_list_by_parameters(null, $key, $val,$stars_color); 
+                        $reviews_list = $this->saswp_get_reviews_list_by_parameters(null, $key, $val,$stars_color,null,null,$collection_review_imag); 
                         $badge_collection[] = $reviews_list;
 
                         if($reviews_list){
@@ -717,7 +717,7 @@ class saswp_reviews_service {
                                             
     }
     
-    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $paged = null, $offset = null,$stars_color = null){
+    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $paged = null, $offset = null,$stars_color = null, $collection_review_imag=null){
                         
             $response   = array();                                
             $arg        = array();
@@ -844,6 +844,16 @@ class saswp_reviews_service {
                 
                 if(!$review_data['saswp_reviewer_image']){
                     $review_data['saswp_reviewer_image'] = SASWP_DIR_URI.'/admin_section/images/default_user.jpg';
+                }
+
+                if(!empty($collection_review_imag)){
+                    if(isset($review_data['saswp_reviewer_image'])){
+                        if(strpos($review_data['saswp_reviewer_image'], 'default_user') !== false){
+                            $review_data['saswp_reviewer_image'] = $collection_review_imag;
+                        }
+                    }else{
+                        $review_data['saswp_reviewer_image'] = $collection_review_imag;
+                    }
                 }
 
                 $term     = get_term( $review_data['saswp_review_platform'], 'platform' );  

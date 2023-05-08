@@ -1621,7 +1621,14 @@ if ( ! defined('ABSPATH') ) exit;
             }            
         }
                              
-    }    
+    }
+
+    // Import schema data of yoast
+    function saswp_import_yoast_seo_plugin_data()
+    {
+        echo "<pre>===== "; print_r("Yoast SEO"); die;
+    }
+
     //Function to expand html tags form allowed html tags in wordpress    
     function saswp_expanded_allowed_tags() {
         
@@ -1804,6 +1811,7 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp-for-wordpress'       => 1,                                                                        
                         'sd_initial_wizard_status'  => 1,
                         'saswp-microdata-cleanup'   => 1,
+                        'saswp-default-videoobject' => 1,
                         'saswp-other-images'        => 1,
                         'saswp_default_review'      => 1,
                         'saswp-multiple-size-image' => 1,
@@ -4877,5 +4885,49 @@ if(!function_exists('saswp_revalidate_product_description')){
             }
         }
         return $product_description;  
+    }
+}
+
+if(!function_exists('saswp_get_main_authors')){
+    function saswp_get_main_authors(){
+        $authors = saswp_get_author_details();
+        $main_authors = $authors;
+        if (!function_exists('is_plugin_active')) {
+            include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+        }
+        if(is_plugin_active('publishpress-authors/publishpress-authors.php')){
+            if(!empty($authors) && is_array($authors)){
+                if(count($authors) > 1 && isset($authors[0])){
+                    $main_authors = array();
+                    $main_authors = $authors[0];
+                }
+            }
+        }
+        return $main_authors;
+    }
+}
+
+if(!function_exists('saswp_get_edited_authors')){
+    function saswp_get_edited_authors(){
+        $authors = saswp_get_author_details();
+        $edited_authors = $authors;
+        if (!function_exists('is_plugin_active')) {
+            include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+        }
+        if(is_plugin_active('publishpress-authors/publishpress-authors.php')){
+            if(!empty($authors) && is_array($authors)){
+                if(count($authors) > 1 && isset($authors[0])){
+                    $edited_authors = array();
+                    unset($authors[0]);
+                    $authors = array_values($authors);
+                    if(count($authors) > 1){
+                        $edited_authors = $authors;
+                    }else{
+                        $edited_authors = $authors[0];
+                    }
+                }
+            }
+        }
+        return $edited_authors;
     }
 }

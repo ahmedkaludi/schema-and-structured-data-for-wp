@@ -677,6 +677,11 @@ jQuery(document).ready(function($){
           }else{
           $(".saswp-schema-modify-section").show();      
           }
+        if(schematype == 'FAQ'){
+          $(".saswp-enable-faq-markup-class").parent().parent().show();
+        }else{
+          $(".saswp-enable-faq-markup-class").parent().parent().hide();
+        }
          saswp_enable_rating_review();
          saswp_enable_rating_automate();
             
@@ -791,7 +796,11 @@ jQuery(document).ready(function($){
               }else{
               $(".saswp-schema-modify-section").show();      
               }
-             
+            if(schematype == 'FAQ'){
+              $(".saswp-enable-faq-markup-class").parent().parent().show();
+            }else{
+              $(".saswp-enable-faq-markup-class").parent().parent().hide();
+            }
             saswp_enable_rating_review();
             saswp_enable_rating_automate();
         }).change(); 
@@ -1804,6 +1813,16 @@ jQuery(document).ready(function($){
                             
                       break;
 
+                      case 'saswp-default-videoobject-checkbox':
+                          
+                            if ($(this).is(':checked')) {
+                              $("#saswp-default-videoobject").val(1);
+                            }else{
+                              $("#saswp-default-videoobject").val(0);
+                            }
+                            
+                      break;
+
                       case 'saswp-image-resizing-checkbox':
                           
                             if ($(this).is(':checked')) {              
@@ -2516,6 +2535,26 @@ jQuery(document).ready(function($){
                          }
                          
                          $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'"/><a data-id="'+id+'" href="#" class="saswp_prev_close">X</a></div>'+smaller_img_notice);
+                         
+                         if(id == "saswp_collection_image"){
+                            $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'" style="max-width: 100px; max-height: 100px;"/></div>'+smaller_img_notice);
+                            $('.saswp-r1-aimg').each(function(i, e){
+                                let imgSrc = $(this).children('img').attr('src');
+                                let dataDefaultFlag = $(this).children('img').attr('data-is-default-img');
+                                if(dataDefaultFlag == 0){
+                                    $(this).children('img').attr('src', attachment.url);
+                                }
+                            }); 
+
+                            $('.saswp-rc-a').each(function(i, e){
+                                let imgSrc = $(this).children('img').attr('src');
+                                let dataDefaultFlag = $(this).children('img').attr('data-is-default-img');
+                                if(dataDefaultFlag == 0){
+                                    $(this).children('img').attr('src', attachment.url);
+                                }
+                            });
+
+                         }
                         
     })
     .open();
@@ -3906,19 +3945,27 @@ jQuery(document).ready(function($){
                     $(".saswp-grid-options").removeClass("saswp_hide");
                     $(".saswp-rmv-coll-rv").show();
                     $(".saswp-add-dynamic-section").show();
+                    $('.saswp-coll-review-wrapper').removeClass('saswp_hide');
                 }
                 
                 if(design == 'gallery'){                    
                     $(".saswp-slider-options").removeClass("saswp_hide");
+                    $('.saswp-coll-review-wrapper').removeClass('saswp_hide');
                 }
                 
                 if(design == 'fomo'){
                     $(".saswp-fomo-options").removeClass("saswp_hide");  
-                    $(".saswp-collection-lp").css('height', '31px'); 
+                    $(".saswp-collection-lp").css('height', '31px');
+                    $('.saswp-coll-review-wrapper').addClass('saswp_hide'); 
                 }
                 
                 if(design == 'popup'){
-                    $(".saswp-collection-lp").css('height', '31px');                   
+                    $(".saswp-collection-lp").css('height', '31px');     
+                    $('.saswp-coll-review-wrapper').addClass('saswp_hide');              
+                }
+
+                if(design == 'badge'){
+                    $('.saswp-coll-review-wrapper').addClass('saswp_hide');
                 }
 
                 if($("#saswp_collection_specific_rating").is(':checked')){

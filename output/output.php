@@ -181,6 +181,7 @@ function saswp_schema_output() {
                         $schema_type        = saswp_remove_warnings($schemaConditionals, 'schema_type', 'saswp_string');         
                         $schema_post_id     = saswp_remove_warnings($schemaConditionals, 'post_id', 'saswp_string');        
                         $enable_videoobject = get_post_meta($schema_post_id, 'saswp_enable_videoobject', true);
+                        $enable_faqschema   = get_post_meta($schema_post_id, 'saswp_enable_faq_schema', true);
                        
 
                         $input1         = array();
@@ -233,6 +234,12 @@ function saswp_schema_output() {
                                 if($modified_schema == 1){
                                     
                                     $input1 = saswp_faq_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+
+                                if(isset($enable_faqschema) && $enable_faqschema == 1){
+                                    if(empty($input1['mainEntity'])){
+                                        $input1 = array();    
+                                    }
                                 }
                                                                                                                                                                                                                                                                               
                             break;
@@ -1731,8 +1738,8 @@ function saswp_schema_output() {
                                                                                         '@type' => 'WebPage',
                                                                                         '@id'   => saswp_get_permalink(),
                                     ), 
-                                    'author'			=> saswp_get_author_details(),
-                                    'editor'            => saswp_get_author_details()
+                                    'author'			=> saswp_get_main_authors(),//saswp_get_author_details(),
+                                    'editor'            => saswp_get_edited_authors()//saswp_get_author_details()
                                     );
                                         
                                         $mainentity = saswp_get_mainEntity($schema_post_id);
@@ -3466,13 +3473,14 @@ function saswp_site_navigation_output(){
     if(isset($sd_data['saswp_site_navigation_menu'])){
         
         $menu_id   = $sd_data['saswp_site_navigation_menu'];
-        if(function_exists('icl_object_id')){
-            $menu_id   = apply_filters( 'wpml_object_id', $menu_id, 'nav_menu', FALSE,ICL_LANGUAGE_CODE );	
-        }                
-        $menuItems = get_transient('saswp_nav_menu');
+
+        $menu_id    = apply_filters('saswp_modify_menu_id', $menu_id);
         
+        $menuItems = get_transient('saswp_nav_menu'.$menu_id);
+                
         if(!$menuItems){
             $menuItems = wp_get_nav_menu_items($menu_id);
+            set_transient('saswp_nav_menu'.$menu_id, $menuItems);
         }
         
         $menu_name = wp_get_nav_menu_object($menu_id);
@@ -3481,10 +3489,24 @@ function saswp_site_navigation_output(){
 		}else{
 			$menu_name = "";
 		}
+
+        $current_post_language = apply_filters( 'wpml_post_language_details', NULL);
                                      
         if(!empty($menuItems)){
            
                 foreach($menuItems as $items){
+
+                        if(isset($items->type) && $items->type == 'wpml_ls_menu_item'){
+                            if(isset($items->attr_title) && !empty($items->attr_title)){
+                                $menu_title = $items->attr_title;
+                                if(!is_wp_error($current_post_language) && isset($current_post_language['display_name'])){
+                                    $selected_language = $current_post_language['display_name'];
+                                    if(strpos($selected_language, $menu_title) === false){
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
          
                       $navObj[] = array(
                              "@context"  => saswp_context_url(),

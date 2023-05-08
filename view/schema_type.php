@@ -174,6 +174,8 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $item_list_custom  = get_post_meta($post->ID, 'saswp_item_list_custom', true);
                         $business_type     = get_post_meta($post->ID, 'saswp_business_type', true);
                         $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
+                        $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
+                        $enable_faqschema  = get_post_meta($post->ID, 'saswp_enable_faq_schema', true);
                                                                                                  
                         if($schema_type != 'local_business'){
 
@@ -664,7 +666,16 @@ function saswp_schema_type_meta_box_callback( $post) {
                    <td>
                       <input id="saswp-enable-markup" class="saswp-enable-markup-class" type="checkbox" name="saswp_enable_videoobject" value="1" <?php if(isset($enable_videoobject) && $enable_videoobject == 1){echo 'checked'; }else{ echo ''; } ?> >
                    </td>
-                </tr>           
+                </tr>
+
+                <tr>
+                   <td>
+                       <label for="saswp-enable-faq-markup"><?php echo saswp_t_string( 'Add FAQ markup, Only if FAQ is available on the page' );?></label>
+                   </td>
+                   <td>
+                      <input id="saswp-enable-faq-markup" class="saswp-enable-faq-markup-class" type="checkbox" name="saswp_enable_faq_schema" value="1" <?php if(isset($enable_faqschema) && $enable_faqschema == 1){echo 'checked'; }else{ echo ''; } ?> >
+                   </td>
+                </tr>             
 
                 <tr>
                    <td>
@@ -1339,6 +1350,11 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
             update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_attached_collection');                                                                       
+        }
+        if(isset($_POST['saswp_enable_faq_schema'])){
+            update_post_meta( $post_id, 'saswp_enable_faq_schema', intval($_POST['saswp_enable_faq_schema']) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_enable_faq_schema');                                                                       
         }
         $common_obj = new saswp_view_common_class();
         

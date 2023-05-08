@@ -651,12 +651,17 @@ function saswp_comparison_logic_checker($input, $post){
         }
         
         $checker    = '';
-        $post_terms = '';
+        $post_terms = null;
 
           if ( $data != 'all') {
 
             if(is_object($post)){
-              $post_terms = wp_get_post_terms($post->ID, $data);           
+
+                $post_term_data = wp_get_post_terms($post->ID, $data);                
+                if(!is_wp_error($post_term_data)){
+                  $post_terms = $post_term_data;    
+                }        
+                
             }
                                             
             if(isset( $input['key_4'] ) && $input['key_4'] !='all'){
@@ -1745,6 +1750,12 @@ function saswp_import_plugin_data(){
                   if ( is_plugin_active('faq-schema-markup-faq-structured-data/schema-for-faqs.php')) {
                       $result = saswp_import_schema_for_faqs_plugin_data();      
                   }                
+                break;
+
+                case 'yoast_seo':                
+                  if ( is_plugin_active('wordpress-seo/wp-seo.php')) {
+                      $result = saswp_import_yoast_seo_plugin_data();      
+                  }                
                 break;                 
 
             default:
@@ -2270,7 +2281,7 @@ function saswp_save_nav_menu_on_option_update($old, $new, $opt_name){
 function saswp_save_nav_menu_in_transient($menu_id){
                         
     $menuItems = wp_get_nav_menu_items($menu_id);                
-    set_transient('saswp_nav_menu', $menuItems);                
+    set_transient('saswp_nav_menu'.$menu_id, $menuItems);                
                      
 }
 

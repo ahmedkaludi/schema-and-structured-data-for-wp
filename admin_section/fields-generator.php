@@ -303,7 +303,10 @@ class saswp_fields_generator {
             "name"  => "cusrev.com"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/abia-com-img.png",
-            "name"  => "abia.com.au"),                                      
+            "name"  => "abia.com.au"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/wordofmouth-img.png",
+            "name"  => "wordofmouth.com.au"),                                      
     );
     
     public function saswp_tooltip_message($meta_field_id){

@@ -482,6 +482,9 @@ class SASWP_Reviews_Collection {
                 if(isset($collection_data['saswp_platform_ids'][0])){
                     $perpage  = $collection_data['saswp_collection_per_page'][0];                
                 }
+                if(isset($collection_data['saswp_collection_image_thumbnail'][0]) && !empty($collection_data['saswp_collection_image_thumbnail'][0])){
+                    $collection_review_imag  = $collection_data['saswp_collection_image_thumbnail'][0];                
+                }
                                            
                 if($total_reviews){
                    
@@ -528,7 +531,7 @@ class SASWP_Reviews_Collection {
                         
                     }
                     
-                    $collection = $this->_service->saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting, $stars_color);                    
+                    $collection = $this->_service->saswp_get_reviews_list_by_design($design, $platform_id, $total_reviews, $sorting, $stars_color,$collection_review_imag);                    
                   
                        
                     if($design == 'badge'){
@@ -821,6 +824,26 @@ class SASWP_Reviews_Collection {
                                         <div class="saswp-dp-dsg">
                                             <lable><?php echo saswp_t_string('Stars Color Picker'); ?></lable>  
                                             <input type="text" name="saswp_stars_color_picker" id="saswp_stars_color_picker" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $post_meta['saswp_stars_color_picker'][0] ) ? esc_attr( $post_meta['saswp_stars_color_picker'][0]) : '#ffd700'; ?>" data-default-color="#ffd700">
+                                        </div>
+
+                                        <div class="saswp-dp-dsg saswp-coll-review-wrapper">
+                                            <lable><?php echo saswp_t_string('Default Reviewer Image'); ?></lable>  
+                                            <div class="saswp_image_div_saswp_collection_image">
+                                                <?php 
+                                                $coll_review_image = SASWP_DIR_URI.'/admin_section/images/default_user.jpg';
+                                                if(isset($post_meta['saswp_collection_image_thumbnail']) && isset($post_meta['saswp_collection_image_thumbnail'][0])){
+                                                    if(!empty($post_meta['saswp_collection_image_thumbnail'][0])){
+                                                        $coll_review_image = $post_meta['saswp_collection_image_thumbnail'][0];
+                                                    }    
+                                                }
+                                                ?>
+                                                <div class="saswp_image_thumbnail">
+                                                    <img class="saswp_image_prev" id="saswp_collection_reviewer_image" src="<?php echo esc_url($coll_review_image); ?>" style="max-width: 100px; max-height: 100px;">
+                                                </div>
+                                            </div>
+                                            <input data-id="media" id="saswp_collection_image_button" name="saswp_collection_image_button" type="button" value="Change Image">
+                                            <input id="saswp_reset_collection_image" type="button" value="Reset Image" data-img="<?= SASWP_DIR_URI.'admin_section/images/default_user.jpg'; ?>" >
+                                            <input type="hidden" data-id="saswp_collection_image_thumbnail" class="upload-thumbnail" name="saswp_collection_image_thumbnail" id="saswp_collection_image_thumbnail" value="<?php echo esc_url( $coll_review_image); ?>">
                                         </div> 
                                                                                                                
                                     </div>
@@ -1044,6 +1067,7 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_collection_where_data']   = array_map('sanitize_text_field', (array) $_POST['saswp_collection_where_data']);
             $post_meta['saswp_total_reviews']           = array_map('intval', (array) json_decode( $_POST['saswp_total_reviews']));
             $post_meta['saswp_stars_color_picker']      = isset($_POST['saswp_stars_color_picker']) ? $_POST['saswp_stars_color_picker'] : '';
+            $post_meta['saswp_collection_image_thumbnail']      = isset($_POST['saswp_collection_image_thumbnail']) ? esc_url($_POST['saswp_collection_image_thumbnail']) : SASWP_DIR_URI.'admin_section/images/default_user.jpg';
             if(!empty($post_meta)){
                 
                 foreach($post_meta as $meta_key => $meta_val){

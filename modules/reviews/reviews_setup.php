@@ -424,7 +424,7 @@ function saswp_insert_platform_terms(){
     
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 101 ){
+    if( $platform_inserted != 102 ){
             
         $term_array = array(    
             'Self',
@@ -527,7 +527,8 @@ function saswp_insert_platform_terms(){
             'YellowPages', 
             'ZocDoc',
             'zankyou',
-            'Abia.com'                     
+            'Abia.com',
+            'WordofMouth'                     
         );
 
         foreach($term_array as $term){
@@ -552,8 +553,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if( count($term_ids)  == 101 ){
-            set_transient( 'saswp_platform_inserted', 101,  24*7*HOUR_IN_SECONDS ); 
+        if( count($term_ids)  == 102 ){
+            set_transient( 'saswp_platform_inserted', 102,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

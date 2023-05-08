@@ -812,7 +812,7 @@
 	
                }     
             
-       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color){
+       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg=null){
        
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
@@ -839,7 +839,19 @@
                                 html += '<div class="saswp-rc">';
                                 html += '<div class="saswp-rc-a">';
                                 if(saswp_collection_gallery_img_hide !=1){
-                                    html += '<img src="'+value.saswp_reviewer_image+'"/>';
+                                    let isDefaultImg = 0;
+                                    let revCollImg = value.saswp_reviewer_image;
+                                    if(revCollImg.length > 20){
+                                        let isDefault = revCollImg.includes('default_user');
+                                        if(!isDefault){
+                                            isDefaultImg = 1;
+                                        }
+                                    }
+                                    if(isDefaultImg == 0){
+                                        revCollImg = collectionImg; 
+                                    }
+
+                                    html += '<img src="'+revCollImg+'" data-is-default-img="'+isDefaultImg+'"/>';
                                 }
                                 html += '<div class="saswp-rc-nm">';
                                 html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
@@ -856,7 +868,7 @@
                       
        }    
        
-       function saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color){
+       function saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color,collectionImg=null){
                                 
                 var html = '';                               
                 if(saswp_total_collection.length > 0){
@@ -876,7 +888,7 @@
                                                         
                                 html += '<div class="saswp-si">';
                                 
-                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color);
+                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg);
                                 
                                 html += '</div>';
                             
@@ -896,7 +908,7 @@
                                                                     
                                 jQuery.each(p_value, function(index, value){
                                    
-                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color);
+                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg);
                                                                                                
                                 });
                                 
@@ -1257,7 +1269,7 @@
        }
 
       
-       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color){
+       function saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color,collectionImg){
                 
                 var html          = '';                
                 var grid_cols     = '';
@@ -1300,8 +1312,19 @@
                             html += '<div class="saswp-rc">';
                             html += '<div class="saswp-rc-a">';
                             if(saswp_coll_hide_col_r_img != 1){
+                                let isDefaultImg = 0;
+                                let revCollImg = value.saswp_reviewer_image;
+                                if(revCollImg.length > 20){
+                                    let isDefault = revCollImg.includes('default_user');
+                                    if(!isDefault){
+                                        isDefaultImg = 1;
+                                    }
+                                }
+                                if(isDefaultImg == 0){
+                                    revCollImg = collectionImg; 
+                                }
                                 html += '<div class="saswp-r1-aimg">';
-                                html += '<img src="'+value.saswp_reviewer_image+'" width="56" height="56"/>';
+                                html += '<img src="'+revCollImg+'" width="56" height="56" data-is-default-img="'+isDefaultImg+'"/>';
                                 html += '</div>';
                             }                            
                             html += '<div class="saswp-rc-nm">';
@@ -1376,19 +1399,19 @@
                                                                                                 
             }     
             
-       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color){
+       function saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_visibility, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color,collectionImg){
                                                               
                 switch(design) {
                     
                     case "grid":
                         
-                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color);
+                         saswp_create_collection_grid(cols, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img,color,collectionImg);
                         
                         break;
                         
                     case 'gallery':
                         
-                         saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color);
+                         saswp_create_collection_slider(slider, arrow, dots, saswp_collection_gallery_img_hide,color,collectionImg);
                         
                         break;
                     
@@ -1422,6 +1445,7 @@
                 var cols                = jQuery("#saswp-collection-cols").val();
                 var slider              = jQuery(".saswp-slider-type").val();
                 var color               = jQuery(".saswpforwp-colorpicker").val();
+                var collectionImg       = jQuery("#saswp_collection_image_thumbnail").val();
                 
                 var fomo_inverval       = jQuery("#saswp_fomo_interval").val();                
                 var perpage             = parseInt(jQuery("#saswp-coll-per-page").val());
@@ -1481,7 +1505,7 @@
                 saswp_create_total_collection( s_rating_enable, s_rating_val );                 
                 saswp_collection_sorting(sorting);  
                 saswp_collection_total_reviews_id();
-                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color);                                                
+                saswp_create_collection_by_design(design, cols, slider, arrow, dots, fomo_inverval, fomo_inverval, pagination, perpage, offset, nextpage, saswp_coll_hide_col_r_img, saswp_collection_gallery_img_hide,color,collectionImg);                                                
            
        }  
        
@@ -1565,3 +1589,26 @@ function saswp_select2(){
     }                    
     
 }
+
+jQuery(document).on('click', '#saswp_reset_collection_image', function(e){
+    let defaultImg = jQuery(this).attr('data-img');
+    jQuery('#saswp_collection_reviewer_image').attr('src', defaultImg);
+    jQuery('#saswp_collection_image_thumbnail').val(defaultImg);
+    jQuery('.saswp_image_prev').attr('src', defaultImg);
+    jQuery('.saswp-r1-aimg').each(function(i, e){
+        let defaultImgFlag = jQuery(this).children('img').attr('data-is-default-img');
+        if(defaultImgFlag == 0){
+            jQuery(this).children('img').attr('src', defaultImg);
+        }
+
+    });
+
+    jQuery('.saswp-rc-a').each(function(i, e){
+        let defaultImgFlag = jQuery(this).children('img').attr('data-is-default-img');
+        if(defaultImgFlag == 0){
+            jQuery(this).children('img').attr('src', defaultImg);
+        }
+
+    });
+    
+});

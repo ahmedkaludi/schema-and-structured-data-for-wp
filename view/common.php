@@ -401,12 +401,7 @@ class saswp_view_common_class {
                                         if(!empty($media_value_meta)){
                                             $media_value = $media_value_meta;  
                                         }  
-                                        
-                                        if (strpos($meta_field['id'], 'author_image') !== false && empty($media_value_meta)) {                                          
-                                                $media_value['height']    = $author_details['height'];                                                                                         
-                                                $media_value['width']     = $author_details['width'];                                                                                         
-                                                $media_value['thumbnail'] = $author_details['url'];                                             
-                                        }
+
                                         if (strpos($meta_field['id'], 'image') !== false && empty($media_value_meta)) {
                                                                                             
                                                 if(!empty($f_image_details)){
@@ -416,8 +411,14 @@ class saswp_view_common_class {
                                                                                                         
                                                 }
                                                                                                                                         
-                                        }          
+                                        }
                                         
+                                        if (strpos($meta_field['id'], 'author_image') !== false && empty($media_value_meta)) {                                          
+                                                $media_value['height']    = $author_details['height'];                                                                                         
+                                                $media_value['width']     = $author_details['width'];                                                                                         
+                                                $media_value['thumbnail'] = $author_details['url'];                                             
+                                        }
+                                                  
                                         if (strpos($meta_field['id'], 'organization_logo') !== false && empty($media_value_meta)) {
                                                                                             
                                                 if(isset($sd_data['sd_logo'])){

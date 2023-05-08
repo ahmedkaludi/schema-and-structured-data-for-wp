@@ -4907,6 +4907,10 @@ Class saswp_output_service{
                         }
                     }
 
+                    if(isset($custom_fields['saswp_tech_article_same_as'])){                            
+                        $input1['sameAs'] = explode(',', $custom_fields['saswp_tech_article_same_as']);    
+                    }
+
                     break;   
                     
                 case 'Course':      
@@ -5124,14 +5128,32 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_recipe_ingredient'])){  
                       if(is_array($custom_fields['saswp_recipe_ingredient'])){                   
-                          $input1['recipeIngredient'] =   wp_strip_all_tags($custom_fields['saswp_recipe_ingredient']);                          
+                          $recipe_ingredient = array();
+                            foreach ($custom_fields['saswp_recipe_ingredient'] as $sci_key => $sci_value) {
+                                if(!empty($sci_value)){
+                                    $recipe_ingredient[] = wp_strip_all_tags($sci_value);       
+                                }
+                            }
+                            if(empty($recipe_ingredient)){
+                                $recipe_ingredient = $custom_fields['saswp_recipe_ingredient'];
+                            }  
+                            $input1['recipeIngredient'] =   $recipe_ingredient;                          
                       }else{     
                           $input1['recipeIngredient'] =  saswp_explod_by_semicolon($custom_fields['saswp_recipe_ingredient']);
                       }              
                     }
                     if(isset($custom_fields['saswp_recipe_instructions'])){  
                         if(is_array($custom_fields['saswp_recipe_instructions'])){
-                            $input1['recipeInstructions'] =    wp_strip_all_tags($custom_fields['saswp_recipe_instructions']);   
+                            $recipe_instructions = array();
+                            foreach ($custom_fields['saswp_recipe_instructions'] as $sri_key => $sri_value) {
+                                if(!empty($sri_value)){
+                                    $recipe_instructions[] = wp_strip_all_tags($sri_value);       
+                                }
+                            }
+                            if(empty($recipe_instructions)){
+                                $recipe_instructions = $custom_fields['saswp_recipe_instructions'];
+                            }
+                            $input1['recipeInstructions'] =    $recipe_instructions;   
                         }else{
                             $input1['recipeInstructions'] =    saswp_explod_by_semicolon($custom_fields['saswp_recipe_instructions']);
                         }                     
@@ -7790,8 +7812,8 @@ Class saswp_output_service{
                     'keywords'          => saswp_get_the_tags(),
 					'datePublished'     => esc_html($date),
 					'dateModified'      => esc_html($modified_date),
-					'author'			=> saswp_get_author_details(),
-                    'editor'			=> saswp_get_author_details()
+					'author'			=> saswp_get_main_authors(),//saswp_get_author_details(),
+                    'editor'			=> saswp_get_edited_authors()//saswp_get_author_details()
 				);
 
                 if($schema_type == 'Photograph'){
