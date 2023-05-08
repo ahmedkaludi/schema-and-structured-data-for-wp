@@ -1573,3 +1573,12 @@ function saswp_select2(){
     }                    
     
 }
+
+jQuery(document).on('click', '#saswp_reset_collection_image', function(e){
+    let defaultImg = jQuery(this).attr('data-img');
+    jQuery('#saswp_collection_reviewer_image').attr('src', defaultImg);
+    jQuery('#saswp_collection_image_thumbnail').val(defaultImg);
+    jQuery('.saswp-r1-aimg').children('img').attr('src', defaultImg);
+    jQuery('.saswp_image_prev').attr('src', defaultImg);
+    
+});
