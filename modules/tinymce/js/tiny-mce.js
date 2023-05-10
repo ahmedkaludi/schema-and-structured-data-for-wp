@@ -220,8 +220,190 @@
 
                         })
                     }
-                }
+                },
                 //HowTo ends here
+                // Recipe starts here
+                {
+                     text: 'Recipe Schema', 
+                     onclick: function() {
+                        editor.windowManager.open({
+                            title: 'SASWP Featured Snippet Recipe',
+                            minWidth: 500,
+                            height: 500,
+                            autoScroll: true,
+                            body:[
+                                {
+                                    type: 'checkbox',
+                                    name: 'saswp_recipe_render_html',
+                                    label: 'Render HTML',
+                                    checked: true,
+                                },
+                                {
+                                    type: 'textbox',
+                                    name: 'saswp_recipe_by',
+                                    label: 'Recipe By',
+                                    value: '',
+                                    placeholder: 'Recipe By',                                    
+                                    
+                                },
+                                {
+                                    type: 'textbox',
+                                    name: 'saswp_recipe_course',
+                                    label: 'Course',
+                                    value: '',
+                                    placeholder: 'Starter',                                    
+                                    
+                                },
+                                {
+                                    type: 'textbox',
+                                    name: 'saswp_recipe_cusine',
+                                    label: 'Cusine',
+                                    value: '',
+                                    placeholder: 'American',                                    
+                                    
+                                },
+                                {
+                                    type: 'textbox',
+                                    name: 'saswp_recipe_difficulty',
+                                    label: 'Difficulty',
+                                    value: '',
+                                    placeholder: 'Easy',                                    
+                                    
+                                },
+                                {
+                                    type: 'textbox',
+                                    name: 'saswp_recipe_servings',
+                                    label: 'Servings',
+                                    value: '',
+                                    placeholder: '30',                                    
+                                    
+                                },
+                                {
+                                    type: 'textbox',
+                                    name: 'saswp_recipe_ptime',
+                                    label: 'Prepration Time (in minutes)',
+                                    value: '',
+                                    placeholder: '20',                                    
+                                    
+                                },
+                                {
+                                    type: 'textbox',
+                                    name: 'saswp_recipe_ctime',
+                                    label: 'Cooking Time  (in minutes)',
+                                    value: '',
+                                    placeholder: '20',                                    
+                                    
+                                },
+                                {
+                                    type: 'textbox',
+                                    name: 'saswp_recipe_calories',
+                                    label: 'Calories (kcal)',
+                                    value: '',
+                                    placeholder: '300',                                    
+                                    
+                                },
+                               {
+                                type: 'container',
+                                name: 'container',
+                                label: '',
+                                html: ` <div>
+                                            <div type="text" id="saswp_recipe_img_id-0" name="saswp_recipe_img_id" class="saswp_tiny_img_container"></div>
+                                            <div class="mce-btn">
+                                                <button type="button"  class="saswp-tiny-select_image" data-target="saswp_recipe_img_id-0">Add Image</button>
+                                            </div>
+                                        </div>
+                                        <form id="saswp-recipe-start-point" class="saswp-tiny-form">
+                                        <div id="saswp-ingredients-fields">
+                                            <hr class="saswp-hr">
+                                            <div>
+                                                <h1 style="font-size=40px;">Ingredients</h1>
+                                                <input type="hidden" value="1" id="saswp-ingredients-count"/>
+                                                <ol class="saswp-ingredients-wrapper">
+                                                    <li id="saswp-li-wrapper-1" style="padding: 10px; margin: 10px;">
+                                                        <input type="text" name="saswp_recipe_ingredients[]" class="saswp_recipe_ingredients saswp-width-70"/>
+                                                    </li>
+                                                </ol>
+                                                <div class="mce-btn">
+                                                    <button type="button" id="saswp-recipe-add-ingredient">Add More Ingredients</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="saswp-direction-fields">
+                                            <hr class="saswp-hr">
+                                            <div>
+                                                <h1 style="font-size=40px;">Directions</h1>
+                                                <input type="hidden" value="1" id="saswp-direction-count"/>
+                                                <ol class="saswp-direction-wrapper">
+                                                    <li id="saswp-li-direction-wrapper-1" style="padding: 10px; margin: 10px;">
+                                                        <input type="text" name="saswp_recipe_directions[]" class="saswp_recipe_directions saswp-width-70"/>
+                                                    </li>
+                                                </ol>
+                                                <div class="mce-btn">
+                                                    <button type="button" id="saswp-recipe-add-directions">Add More Direction</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="saswp-notes-fields">
+                                            <hr class="saswp-hr">
+                                            <div>
+                                                <h1 style="font-size=40px;">Notes</h1>
+                                                <input type="hidden" value="1" id="saswp-notes-count"/>
+                                                <ol class="saswp-notes-wrapper">
+                                                    <li id="saswp-li-notes-wrapper-1" style="padding: 10px; margin: 10px;">
+                                                        <input type="text" name="saswp_recipe_notes[]" class="saswp_recipe_notes saswp-width-70"/>
+                                                    </li>
+                                                </ol>
+                                                <div class="mce-btn">
+                                                    <button type="button" id="saswp-recipe-add-notes">Add More Notes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>`,
+                              }
+                                                                 
+                            ],
+                            onsubmit: function(e){
+                                let recipeBy = jQuery.trim(e.data.saswp_recipe_by); 
+                                let recipeCourse = jQuery.trim(e.data.saswp_recipe_course);                                                                                                          
+                                let recipeCusine = jQuery.trim(e.data.saswp_recipe_cusine);                                                                                                          
+                                let recipeDifficulty = jQuery.trim(e.data.saswp_recipe_difficulty);                                                                                                          
+                                let recipeServings = jQuery.trim(e.data.saswp_recipe_servings);                                                                                                          
+                                let recipePTime = jQuery.trim(e.data.saswp_recipe_ptime);                                                                                                          
+                                let recipeCTime = jQuery.trim(e.data.saswp_recipe_ctime);                                                                                                          
+                                let recipeCalories = jQuery.trim(e.data.saswp_recipe_calories);   
+                                let recipeImageId = jQuery('#saswp_recipe_img_id-0').html();                                                                                                        
+                                let shortcode = '[saswp_tiny_recipe ';
+                                shortcode += 'recipe_by="'+recipeBy+'" course="'+recipeCourse+'" cusine="'+recipeCusine+'" difficulty="'+recipeDifficulty+'" servings="'+recipeServings+'" prepration_time="'+recipePTime+'" cooking_time="'+recipeCTime+'" calories="'+e.data.saswp_recipe_calories+'" image="'+recipeImageId+'"';
+                                let iCount = 0;
+                                jQuery('.saswp_recipe_ingredients').each(function(e){
+                                    let ingradientName = jQuery.trim(jQuery(this).val());
+                                    shortcode += ' ingradient_name-'+iCount+'="'+ingradientName+'"';
+                                    iCount++;
+                                });
+
+                                let dCount = 0;
+                                jQuery('.saswp_recipe_directions').each(function(e){
+                                    let direction = jQuery.trim(jQuery(this).val());
+                                    shortcode += ' direction_name-'+dCount+'="'+direction+'"';
+                                    dCount++;
+                                });
+
+                                let nCount = 0;
+                                jQuery('.saswp_recipe_notes').each(function(e){
+                                    let notes = jQuery.trim(jQuery(this).val());
+                                    shortcode += ' notes_name-'+nCount+'="'+notes+'"';
+                                    nCount++;
+                                }); 
+                                shortcode += ' html="'+e.data.saswp_recipe_render_html+'"]';                    
+                                editor.insertContent(shortcode)     
+                                        
+                            }
+
+                        })
+                    } 
+                }
+                // Recipe schema end
 
             ]
         });
@@ -353,6 +535,81 @@ jQuery(document).ready(function($){
 
     });
 
-    //Multi FAQ ends here    
+    //Multi FAQ ends here   
+
+    // Add More Recipe Ingredients
+    $(document).on('click', '#saswp-recipe-add-ingredient', function(e){
+        e.preventDefault();
+        let ingredientCount = $('#saswp-ingredients-count').val();
+        ingredientCount = parseInt(ingredientCount) + 1;
+        let wrapperClass = "saswp-li-wrapper-"+ingredientCount;
+        let ingredientInput = '';
+        ingredientInput  = '<li id="'+wrapperClass+'" style="padding: 10px; margin: 10px;">';
+        ingredientInput  += '<input type="text" name="saswp_recipe_ingredients[]" class="saswp_recipe_ingredients saswp-width-70"/>';
+        ingredientInput  += '<span><div class="mce-btn" style="float: right;"><button type="button" class="saswp-remove-ingredient" data-id="'+ingredientCount+'">- Remove</button></div></span>';
+        ingredientInput  += '</li>';
+        $('.saswp-ingredients-wrapper').append(ingredientInput);
+        $('.saswp-ingredients-wrapper').sortable();
+        $('#saswp-ingredients-count').val(ingredientCount);
+    }); 
+
+    // Remove Added Recipe Ingredients
+    $(document).on('click', '.saswp-remove-ingredient', function(e){
+        e.preventDefault();
+        let dataId = $(this).attr('data-id');
+        let wrapperClass = "#saswp-li-wrapper-"+dataId;
+        $(wrapperClass).remove();
+        $('.saswp-ingredients-wrapper').sortable();
+    });
+
+    // Add More Recipe Ingredients
+    $(document).on('click', '#saswp-recipe-add-directions', function(e){
+        e.preventDefault();
+        let directionCount = $('#saswp-direction-count').val();
+        directionCount = parseInt(directionCount) + 1;
+        let wrapperClass = "saswp-li-direction-wrapper-"+directionCount;
+        let directionInput = '';
+        directionInput  = '<li id="'+wrapperClass+'" style="padding: 10px; margin: 10px;">';
+        directionInput  += '<input type="text" name="saswp_recipe_directions[]" class="saswp_recipe_directions saswp-width-70"/>';
+        directionInput  += '<span><div class="mce-btn" style="float: right;"><button type="button" class="saswp-remove-direction" data-id="'+directionCount+'">- Remove</button></div></span>';
+        directionInput  += '</li>';
+        $('.saswp-direction-wrapper').append(directionInput);
+        $('.saswp-direction-wrapper').sortable();
+        $('#saswp-direction-count').val(directionCount);
+    });
+
+    // Remove Added Recipe Directions
+    $(document).on('click', '.saswp-remove-direction', function(e){
+        e.preventDefault();
+        let dataId = $(this).attr('data-id');
+        let wrapperClass = "#saswp-li-direction-wrapper-"+dataId;
+        $(wrapperClass).remove();
+        $('.saswp-direction-wrapper').sortable();
+    });
+
+    // Add More Recipe Notes
+    $(document).on('click', '#saswp-recipe-add-notes', function(e){
+        e.preventDefault();
+        let notesCount = $('#saswp-direction-count').val();
+        notesCount = parseInt(notesCount) + 1;
+        let wrapperClass = "saswp-li-notes-wrapper-"+notesCount;
+        let notesInput = '';
+        notesInput  = '<li id="'+wrapperClass+'" style="padding: 10px; margin: 10px;">';
+        notesInput  += '<input type="text" name="saswp_recipe_notes[]" class="saswp_recipe_notes saswp-width-70"/>';
+        notesInput  += '<span><div class="mce-btn" style="float: right;"><button type="button" class="saswp-remove-notes" data-id="'+notesCount+'">- Remove</button></div></span>';
+        notesInput  += '</li>';
+        $('.saswp-notes-wrapper').append(notesInput);
+        $('.saswp-notes-wrapper').sortable();
+        $('#saswp-notes-count').val(notesCount);
+    });
+
+    // Remove Added Recipe Directions
+    $(document).on('click', '.saswp-remove-notes', function(e){
+        e.preventDefault();
+        let dataId = $(this).attr('data-id');
+        let wrapperClass = "#saswp-li-notes-wrapper-"+dataId;
+        $(wrapperClass).remove();
+        $('.saswp-notes-wrapper').sortable();
+    });
     
 });
