@@ -1069,20 +1069,23 @@ function saswp_schema_output() {
                                 break;    
 
                                 case 'Organization':                                
-                                    
+                                    $organization_type = get_post_meta($schema_post_id, 'saswp_schema_organization_type', true);
+                                    if(empty($organization_type)){
+                                        $organization_type = 'Organization';
+                                    }
                                     $input1 = saswp_kb_schema_output();                                    
                                     if($input1['@type'] == 'Person'){
                                         $input1 = array();
                                         $input1 = array(
                                             '@context'			=> saswp_context_url(),
-                                            '@type'				=> 'Organization',
+                                            '@type'				=> $organization_type,
                                             '@id'				=> saswp_get_current_url().'#Organization',    
                                             'url'				=> saswp_get_current_url(),                                                                                    
                                             'description'       => saswp_get_the_excerpt(),                                                                        
                                             'name'				=> saswp_get_the_title()			                                                                                                            
                                         );
                                     }else{
-                                        $input1['@type'] = 'Organization';
+                                        $input1['@type'] = $organization_type;
                                     }
                                                                                                                                                                                                                                                                                                                                         
                                     $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);

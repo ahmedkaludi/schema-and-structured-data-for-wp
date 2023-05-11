@@ -682,6 +682,10 @@ jQuery(document).ready(function($){
         }else{
           $(".saswp-enable-faq-markup-class").parent().parent().hide();
         }
+        if(schematype == 'Organization'){
+            $(".saswp-organization-type-tr").show();
+            $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+        }
          saswp_enable_rating_review();
          saswp_enable_rating_automate();
             
@@ -800,6 +804,10 @@ jQuery(document).ready(function($){
               $(".saswp-enable-faq-markup-class").parent().parent().show();
             }else{
               $(".saswp-enable-faq-markup-class").parent().parent().hide();
+            }
+            if(schematype == 'Organization'){
+                $(".saswp-organization-type-tr").show();
+                $(".saswp-option-table-class tr").find('select').attr('disabled', false);
             }
             saswp_enable_rating_review();
             saswp_enable_rating_automate();

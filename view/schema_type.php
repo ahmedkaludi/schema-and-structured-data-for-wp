@@ -176,6 +176,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
                         $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
                         $enable_faqschema  = get_post_meta($post->ID, 'saswp_enable_faq_schema', true);
+                        $organization_type = get_post_meta($post->ID, 'saswp_schema_organization_type', true);
                                                                                                  
                         if($schema_type != 'local_business'){
 
@@ -244,7 +245,23 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 'SportsEvent'      => 'SportsEvent',
                                 'TheaterEvent'     => 'TheaterEvent',
                                 'VisualArtsEvent'  => 'VisualArtsEvent'                           
-                          );  
+                          ); 
+
+                          $organization_type_list = array(                                
+                                ''                          => 'Select (Optional)',
+                                'Airline'                   => 'Airline',
+                                'Consortium'                => 'Consortium',
+                                'Corporation'               => 'Corporation',
+                                'EducationalOrganization'   => 'EducationalOrganization',
+                                'GovernmentOrganization'    => 'GovernmentOrganization',
+                                'LibrarySystem'             => 'LibrarySystem',                                
+                                'MedicalOrganization'       => 'MedicalOrganization',
+                                'NewsMediaOrganization'     => 'NewsMediaOrganization',
+                                'NGO'                       => 'NGO',
+                                'PerformingGroup'           => 'PerformingGroup',
+                                'SportsOrganization'        => 'SportsOrganization',
+                                'WorkersUnion'              => 'WorkersUnion',
+                            ); 
                         
                           $all_business_type               = $sub_business_arr['all_business_type'];
 
@@ -326,6 +343,26 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </td>
                 </tr>
                 
+                <tr class="saswp-organization-type-tr" <?php echo $style_business_type; ?>>
+                    <td>
+                    <?php echo saswp_t_string('Organization Type' ); ?>    
+                    </td>
+                    <td>
+                      <select id="saswp_schema_organization_type" name="saswp_schema_organization_type">
+                        <?php
+                        
+                          foreach ($organization_type_list as $key => $value) {
+                            $sel = '';
+                            if($organization_type==$key){
+                              $sel = 'selected';
+                            }
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".saswp_t_string($value )."</option>";
+                          }
+                        ?>
+                    </select>  
+                    </td>
+                </tr>
+
                 <tr class="saswp-event-text-field-tr" <?php echo $style_business_type; ?>>
                     <td>
                     <?php echo saswp_t_string('Event Type' ); ?>    
@@ -1355,6 +1392,12 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
             update_post_meta( $post_id, 'saswp_enable_faq_schema', intval($_POST['saswp_enable_faq_schema']) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_enable_faq_schema');                                                                       
+        }
+
+        if(isset($_POST['saswp_schema_organization_type'])){
+            update_post_meta( $post_id, 'saswp_schema_organization_type', $_POST['saswp_schema_organization_type']);                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_schema_organization_type');                                                                       
         }
         $common_obj = new saswp_view_common_class();
         
