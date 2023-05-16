@@ -39,7 +39,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 }
                 
                 $author_desc        = get_the_author_meta( 'user_description' );
-                $author_url         = get_the_author_meta( 'user_url' );                
+                $author_url         = get_the_author_meta( 'user_url' ); 
+
+                $author_id = get_post_field( 'post_author', get_the_ID() );
+                if(empty($author_desc)){
+                    $author_desc = get_the_author_meta('user_description',$author_id);
+                }
+                if(empty($author_url)){
+                    $author_url = get_the_author_meta('user_url',$author_id);
+                }               
 
                 if(function_exists('get_avatar_data') && is_object($current_user) ){
                     $author_details	= get_avatar_data($current_user->ID);           
