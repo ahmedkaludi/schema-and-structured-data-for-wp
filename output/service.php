@@ -4228,6 +4228,7 @@ Class saswp_output_service{
 
                             if(!empty($custom_fields['saswp_webpage_reviewed_by'])){
                                 $input1['reviewedBy']['@type'] =   "Person";
+                                $input1['reviewedBy']['name'] =    $custom_fields['saswp_webpage_reviewed_by'];
                             }
                             if(!empty($custom_fields['saswp_webpage_reviewed_by']['custom_fields'])){
                                 $fields_name = $custom_fields['saswp_webpage_reviewed_by']['custom_fields'];
@@ -4238,13 +4239,13 @@ Class saswp_output_service{
                             if(!empty($custom_fields['saswp_webpage_reviewed_by']['name'])){
                                 $input1['reviewedBy']['name'] =    $custom_fields['saswp_webpage_reviewed_by']['name'];
                             }
-                        
+                            
                             if(!empty($custom_fields['saswp_webpage_reviewed_by']['url'])){
-                                $input1['url'] =    $custom_fields['saswp_webpage_reviewed_by']['url'];
+                                $input1['reviewedBy']['url'] =    $custom_fields['saswp_webpage_reviewed_by']['url'];
                             }
                         
                             if(!empty($custom_fields['saswp_webpage_reviewed_by']['description'])){
-                                $input1['description'] =    $custom_fields['saswp_webpage_reviewed_by']['description'];
+                                $input1['reviewedBy']['description'] =    $custom_fields['saswp_webpage_reviewed_by']['description'];
                             }
                         
                             if(!empty($fields_name['honorificsuffix'][0])){
