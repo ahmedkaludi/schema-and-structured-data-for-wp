@@ -3945,9 +3945,11 @@ function saswp_get_video_metadata($content = ''){
                      }
  
                    }else{
+                    if (filter_var($vurl, FILTER_VALIDATE_URL) !== FALSE) {
                      $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
                      $result   = @wp_remote_get($rulr);                                    
                      $metadata = json_decode(wp_remote_retrieve_body($result),true);
+                    }
                    }
                    
                    $metadata['video_url'] = $vurl;          
@@ -4083,9 +4085,11 @@ function saswp_get_video_metadata($content = ''){
                                                     $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
                                                 }
                                             }else{
+                                                if (filter_var($video_url, FILTER_VALIDATE_URL) !== FALSE) {
                                                 $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($video_url).'&format=json';  
                                                 $result   = @wp_remote_get($rulr);                                    
                                                 $metadata = json_decode(wp_remote_retrieve_body($result),true); 
+                                                }
                                             } 
                                             $metadata['video_url'] = $video_url;                  
                                             $response[] = $metadata;
