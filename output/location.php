@@ -167,6 +167,9 @@ function saswp_add_location_content( $post_id ){
     if( !empty($post_meta['local_state_'.$post_id][0]) ){
         $html .= '<span> '.esc_html($post_meta['local_state_'.$post_id][0]).'</span>';   
     }
+    if( !empty($post_meta['local_country_'.$post_id][0]) ){
+        $html .= '<span> '.esc_html($post_meta['local_country_'.$post_id][0]).'</span>';   
+    }
     if( !empty($post_meta['local_postal_code_'.$post_id][0]) ){
         $html .= '<span> '.esc_html($post_meta['local_postal_code_'.$post_id][0]).'</span>';   
     }

@@ -1590,6 +1590,7 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                                             "addressLocality" => saswp_remove_warnings($all_post_meta, 'local_city_'.$schema_id, 'saswp_array'),
                                             "addressRegion"   => saswp_remove_warnings($all_post_meta, 'local_state_'.$schema_id, 'saswp_array'),
                                             "postalCode"      => saswp_remove_warnings($all_post_meta, 'local_postal_code_'.$schema_id, 'saswp_array'),                                                                                                                                  
+                                            "addressCountry"      => saswp_remove_warnings($all_post_meta, 'local_country_'.$schema_id, 'saswp_array'),                                                                                                                                  
                                              ),	
             'telephone'                   => saswp_remove_warnings($all_post_meta, 'local_phone_'.$schema_id, 'saswp_array'),
             'openingHours'                => $operation_days,                                                                                                     

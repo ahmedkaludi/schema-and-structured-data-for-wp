@@ -170,6 +170,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                         
                         $meta_field[] = array(
+                            'label' => 'Country',
+                            'id' => 'local_country_'.$schema_id,
+                            'type' => 'text',                                   
+                        );
+
+                        $meta_field[] = array(
                               'label' => 'Postal Code',
                             'id' => 'local_postal_code_'.$schema_id,
                             'type' => 'text',                     
