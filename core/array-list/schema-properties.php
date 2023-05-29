@@ -459,6 +459,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'default' => isset($author_details['url']) ? $author_details['url']: ''
                     ),
                     array(
+                            'label' => 'Author Social Profile',
+                            'id' => 'saswp_blogposting_author_social_profile_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => '',
+                            'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
+                    ),
+                    array(
                         'label'   => 'JobTitle',
                         'id'      => 'saswp_blogposting_author_jobtitle_'.$schema_id,
                         'type'    => 'text',
@@ -752,6 +759,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_newsarticle_author_image_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
+                    array(
+                            'label' => 'Author Social Profile',
+                            'id' => 'saswp_newsarticle_author_social_profile_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => '',
+                            'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
                     ),
 
                     array(
@@ -2911,6 +2925,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => isset($author_details['url']) ? $author_details['url']: ''
                         ),
                         array(
+                                'label' => 'Author Social Profile',
+                                'id' => 'saswp_article_author_social_profile_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
+                        ),
+                        array(
                                 'label'   => 'JobTitle',
                                 'id'      => 'saswp_article_author_jobtitle_'.$schema_id,
                                 'type'    => 'text',
@@ -4477,6 +4498,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_tech_article_author_image_'.$schema_id,
                         'type' => 'media',
                         'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
+                    array(
+                            'label' => 'Author Social Profile',
+                            'id' => 'saswp_tech_article_author_social_profile_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => '',
+                            'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
                     ),
                     array(
                         'label'   => 'JobTitle',
