@@ -1271,16 +1271,7 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         if ( 'trash' === $post->post_status ) {
             return;
         }
-
-        if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){
-    
-           update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 1);
-    
-        }else{
-            // delete_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros');   
-            update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 0);
-        }
-    
+            
         if(isset($_POST['saswp_schema_type_product_pros_enable_cons'])){       
                         
             update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_cons', 1);
@@ -1306,19 +1297,12 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         }else{
             delete_post_meta( $post_id, 'saswp_business_type');   
         }
-        if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){       
-                        
+        
+        if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){                        
             update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 1);
         }else{
             delete_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros');   
-        }
-    
-        // if(isset($_POST['product-enable-cons'])){
-        //     update_post_meta( $post_id, 'product-enable-cons', intval( $_POST['product-enable-cons'] ) );
-        // }else{
-        //     delete_post_meta( $post_id, 'product-enable-cons');   
-        // }
-    
+        }                
     
         if(isset($_POST['saswp_event_type'])){
             update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
