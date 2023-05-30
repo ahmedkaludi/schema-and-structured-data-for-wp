@@ -5301,7 +5301,7 @@ Class saswp_output_service{
                                           
                     }
                     if(isset($custom_fields['saswp_product_schema_currency'])){
-                     $input1['offers']['priceCurrency'] = saswp_replace_IRT_product_currency($custom_fields['saswp_product_schema_currency']);
+                     $input1['offers']['priceCurrency'] = saswp_modify_currency_code($custom_fields['saswp_product_schema_currency']);
                      $input1['offers']['url'] =    $custom_fields['saswp_product_schema_url'];
                     }
                     if(isset($custom_fields['saswp_product_schema_vat'])){
@@ -8030,7 +8030,7 @@ Class saswp_output_service{
                                                         '@type'	        => 'Offer',
                                                         'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
                                                         'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
-                                                        'priceCurrency'     => saswp_replace_IRT_product_currency(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string')),
+                                                        'priceCurrency'     => saswp_modify_currency_code(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string')),
                                                         'url'               => saswp_get_permalink(),
                                                         'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')
                                                     );
@@ -8053,7 +8053,7 @@ Class saswp_output_service{
                                             '@type'	        => 'Offer',
                                             'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
                                             'price'             => $price,
-                                            'priceCurrency'     => saswp_replace_IRT_product_currency(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string')),
+                                            'priceCurrency'     => saswp_modify_currency_code(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string')),
                                             'url'               => saswp_get_permalink(),
                                             'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')
                                         );
@@ -8064,7 +8064,7 @@ Class saswp_output_service{
                                     $input1['offers']['@type']         = 'AggregateOffer';
                                     $input1['offers']['lowPrice']      = min($product_details['product_varible_price']);
                                     $input1['offers']['highPrice']     = max($product_details['product_varible_price']);
-                                    $input1['offers']['priceCurrency'] = saswp_replace_IRT_product_currency(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'));
+                                    $input1['offers']['priceCurrency'] = saswp_modify_currency_code(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'));
                                     $input1['offers']['availability']  = saswp_remove_warnings($product_details, 'product_availability', 'saswp_string');
                                     $input1['offers']['offerCount']    = count($product_details['product_varible_price']);
 

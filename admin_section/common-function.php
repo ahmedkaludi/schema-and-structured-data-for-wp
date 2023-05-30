@@ -5074,13 +5074,11 @@ if(!function_exists('saswp_get_edited_authors')){
     }
 }
 
-if(!function_exists('saswp_replace_IRT_product_currency')){
-    function saswp_replace_IRT_product_currency($currency='')
-    {
-        $check_currency = trim(strtoupper($currency));
-        if($check_currency == 'IRT'){
-            $currency = 'IRR';
-        }
-        return $currency;
+function saswp_modify_currency_code($currency='')
+{
+    $check_currency = trim(strtoupper($currency));
+    if($check_currency == 'IRT'){
+        $currency = 'IRR';
     }
+    return $currency;
 }
