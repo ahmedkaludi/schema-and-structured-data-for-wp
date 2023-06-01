@@ -2157,8 +2157,32 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_reviewnewsarticle_speakable_'.$schema_id,
                                 'type' => 'checkbox',
         
-                        )                        
+                        ),                        
                         );
+                        if($manual == null){
+                         
+                            $meta_field[] = array(
+                            'label'   => 'Item Reviewed Type',
+                            'id'      => 'saswp_review_item_reviewed_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                        'Book'                  => 'Book',                             
+                                        'Course'                => 'Course',                             
+                                        'Event'                 => 'Event',                              
+                                        'HowTo'                 => 'HowTo',   
+                                        'local_business'        => 'LocalBusiness',                                 
+                                        'MusicPlaylist'         => 'Music Playlist',
+                                        'Movie'                 => 'Movie',
+                                        'Organization'          => 'Organization', 
+                                        'Product'               => 'Product',                                
+                                        'Recipe'                => 'Recipe',                             
+                                        'SoftwareApplication'   => 'SoftwareApplication',
+                                        'MobileApplication'     => 'MobileApplication',
+                                        'VideoGame'             => 'VideoGame', 
+                            )                                                        
+                         );
+                                                        
+                        }
                         break;
                 
                 case 'WebPage':

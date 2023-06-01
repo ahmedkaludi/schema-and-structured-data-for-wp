@@ -2132,7 +2132,9 @@ function saswp_schema_output() {
                             break;
 
                             case 'ReviewNewsArticle':
-                                                                                            
+                                                  
+                                $review_markup = $service_object->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                
+                                $item_reviewed = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);                                          
                                 $image_details 	 = wp_get_attachment_image_src($image_id);
 
                                 $category_detail = get_the_category(get_the_ID());//$post->ID
@@ -2176,6 +2178,21 @@ function saswp_schema_output() {
                                     'author'			=> saswp_get_author_details(),
                                     'editor'            => saswp_get_author_details()
                                     );
+                                        $input1['itemReviewed']['@type']  =  $item_reviewed;
+                                        if(isset($review_markup['item_reviewed'])){                                            
+                                            $item_reviewed          = array( '@type' => $item_reviewed) + $review_markup['item_reviewed'];                                        
+                                            $input1['itemReviewed'] = $item_reviewed;
+                                            
+                                        }
+
+                                        $added_reviews = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                
+                                        if(isset($added_reviews['review'])){
+                                            
+                                            $input1['itemReviewed']['review']                    = $added_reviews['review'];
+                                            $input1['itemReviewed']['aggregateRating']           = $added_reviews['aggregateRating'];
+                                        
+                                        }
                                         
                                         $mainentity = saswp_get_mainEntity($schema_post_id);
                                         
@@ -2545,7 +2562,7 @@ function saswp_schema_output() {
                         if(!in_array($schema_type, $without_aggregate) && !empty($input1) ){ 
                                                      
                                 
-                                    if($schema_type == 'Review'){
+                                    if($schema_type == 'Review' || $schema_type == 'ReviewNewsArticle'){
 
                                     //Ratency Rating 
                             

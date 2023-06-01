@@ -6149,7 +6149,88 @@ function saswp_review_newsarticle_schema_markup($schema_id, $schema_post_id, $al
         );
 
         }
+    
+    $item_reviewed = isset($all_post_meta['saswp_review_item_reviewed_'.$schema_id][0]) ? $all_post_meta['saswp_review_item_reviewed_'.$schema_id][0] : '';
+     $item_schema = array();
+     switch ($item_reviewed) {
+         case 'Book':
 
+             $item_schema = saswp_book_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         case 'Course':
+
+             $item_schema = saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta);   
+
+             break;
+         case 'Event':
+
+             $item_schema = saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         case 'HowTo':
+
+             $item_schema = saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         case 'local_business':
+
+             $item_schema = saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         case 'MusicPlaylist':
+
+             $item_schema = saswp_music_playlist_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         case 'Product':
+
+             $item_schema = saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         case 'Recipe':
+
+             $item_schema = saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         case 'SoftwareApplication':
+
+             $item_schema = saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         case 'MobileApplication':
+
+             $item_schema = saswp_mobile_app_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+   
+            break;    
+         case 'VideoGame':
+
+             $item_schema = saswp_video_game_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         
+         case 'Organization':
+
+             $item_schema = saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+         
+         case 'Movie':
+
+             $item_schema = saswp_movie_schema_markup($schema_id, $schema_post_id, $all_post_meta);
+
+             break;
+
+         default:
+             break;
+     }
+
+     if($item_schema){
+         unset($item_schema['@context']);
+         unset($item_schema['@id']);
+         $input1['itemReviewed'] = $item_schema;
+
+     }
 return $input1;
 
 }

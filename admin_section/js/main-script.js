@@ -659,7 +659,7 @@ jQuery(document).ready(function($){
          $(".saswp-event-text-field-tr").show();
          $(".saswp-option-table-class tr").find('select').attr('disabled', false);
          }
-         if(schematype == 'Review'){            
+         if(schematype == 'Review' || schematype == 'ReviewNewsArticle'){            
          $(".saswp-review-text-field-tr").show();  
          $(".saswp-option-table-class tr").find('select').attr('disabled', false); 
          $(".saswp-item-reivewed-list").change();
@@ -780,7 +780,7 @@ jQuery(document).ready(function($){
                 $("#saswp_location_meta_box").removeClass('saswp_hide');         
             } 
                           
-             if(schematype == 'Review'){            
+             if(schematype == 'Review' || schematype == 'ReviewNewsArticle'){            
                 $(".saswp-review-text-field-tr").show(); 
                 $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
              }

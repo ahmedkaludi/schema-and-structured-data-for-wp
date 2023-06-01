@@ -969,6 +969,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $review_fields['saswp_review_url']            = 'Review URL'; 
                                
                             }
+
+                            if($schema_type == 'ReviewNewsArticle'){
+                                $review_fields = $service->saswp_get_all_schema_type_fields($schema_type);
+
+                                $item_reviewed = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);
+                                if(!empty($item_reviewed)){                                                                
+                                    $schema_type   = $item_reviewed;
+                                }
+                            }
                             
                             $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
                             

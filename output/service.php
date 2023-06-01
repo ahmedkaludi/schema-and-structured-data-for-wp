@@ -722,7 +722,7 @@ Class saswp_output_service{
                                                            
                 }   
                                                                             
-                if($schema_type == 'Review'){
+                if($schema_type == 'Review' || $schema_type == 'ReviewNewsArticle'){
 
                     $main_schema_type = $schema_type;                                                                                  
                     $schema_type = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
@@ -7024,7 +7024,7 @@ Class saswp_output_service{
                          break;
                  }    
              
-             if($main_schema_type == 'Review'){
+             if($main_schema_type == 'Review' || $main_schema_type == 'ReviewNewsArticle'){
                  
                  $review_response['item_reviewed'] = $input1;
                  $review_response['review']        = $review_markup;

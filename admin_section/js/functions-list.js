@@ -300,7 +300,7 @@
            schema_type = jQuery(".saswp-tab-links.selected").attr('saswp-schema-type');    
         }
         
-        if(schema_type === 'Review'){
+        if(schema_type === 'Review' || schema_type === 'ReviewNewsArticle'){
             var current = jQuery(this);
             saswp_item_reviewed_ajax(schema_type, current);
                     
@@ -352,14 +352,16 @@
                                 var schema_type    = jQuery('select#schema_type option:selected').val();
                                 var schema_subtype = '';
 
-                                if(schema_type == 'Review'){
+                                if(schema_type == 'Review' || schema_type == 'ReviewNewsArticle'){
                                     schema_subtype = jQuery('select.saswp-item-reivewed-list option:selected').val();
                                 }
           
                                  var html = '<tr>';                                                                                                                            
                                      html += '<td>';                                     
                                      html += '<select class="saswp-custom-fields-name">';
-                                     
+                                     if(schema_type == 'ReviewNewsArticle'){
+                                        html += '<optgroup label="ReviewNewsArticle">';
+                                     }
                                      if(schema_type == 'Review'){
                                        html += '<optgroup label="Review">';
                                        html += '<option value="saswp_review_name">Review Name</option>';    
@@ -385,10 +387,34 @@
                                        html += '<option value="'+key+'">'+value+'</option>';                                       
                                      });
                                      
-                                     if(schema_type == 'Review'){
+                                     if(schema_type == 'Review' || schema_type == 'ReviewNewsArticle'){
                                          html += '</optgroup>'; 
                                      }
-                                     
+
+                                     let reviewSubSchema = '';
+                                     if(schema_type == 'ReviewNewsArticle'){
+                                        let post_id = jQuery('#post_ID').val();
+                                        jQuery.ajax({
+                                            type: "POST",    
+                                            url:ajaxurl,                    
+                                            dataType: "json",
+                                            async: false,
+                                            data:{action:"saswp_get_schema_type_fields",post_id:post_id, schema_type:'Review',schema_subtype:schema_subtype, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                                            success:function(schemaResponse){  
+                                                html += '<optgroup label="'+schema_subtype+'">';
+                                                if(schemaResponse){
+                                                    jQuery.each(schemaResponse, function(resKey,resValue){                                        
+                                                       html += '<option value="'+resKey+'">'+resValue+'</option>';                                      
+                                                     });     
+                                                } 
+                                                reviewSubSchema += '</optgroup>';                                                                                                          
+                                            },
+                                            error: function(schemaResponse){                    
+                                            console.log(schemaResponse);
+                                            }
+                                        });
+                                     }
+            
                                     html += '</select>';                                     
                                     html += '</td>';                                                                                                                                                                                                       
                                     html += '<td>';                                                                       
