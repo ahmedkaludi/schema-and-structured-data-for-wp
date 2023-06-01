@@ -3237,8 +3237,8 @@ function saswp_archive_output(){
                             $pos_cnt = 1;
                             foreach ($category_posts as $cat_key => $cat_value) {
                                 $collection_page['itemListElement'][$cat_key]['@type'] = 'ListItem';
-                                $collection_page['itemListElement'][$cat_key]['@position'] = $pos_cnt;
-                                $collection_page['itemListElement'][$cat_key]['@item'] = $cat_value;
+                                $collection_page['itemListElement'][$cat_key]['position'] = $pos_cnt;
+                                $collection_page['itemListElement'][$cat_key]['item'] = $cat_value;
                                 $pos_cnt++;
                             }
                         }
