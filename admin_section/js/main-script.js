@@ -1026,9 +1026,11 @@ jQuery(document).ready(function($){
                             if ($(this).is(':checked')) {              
                                 $("#saswp_archive_schema").val(1);
                                 $(".saswp_archive_schema_type_class").parent().parent().show();
+                                $(".saswp_archive_list_type_class").parent().parent().show();
                               }else{
                                 $("#saswp_archive_schema").val(0);           
                                 $(".saswp_archive_schema_type_class").parent().parent().hide();
+                                $(".saswp_archive_list_type_class").parent().parent().hide();
                               }
                       break;
                       

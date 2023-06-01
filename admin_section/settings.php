@@ -1006,7 +1006,18 @@ function saswp_general_page_callback(){
                         'id'   => 'saswp_archive_schema',
                         'name' => 'sd_data[saswp_archive_schema]',                             
                 )
-        );               
+        );   
+        $meta_fields_default[] = array(
+                'label'   => 'List Type',
+                'id'      => 'saswp_archive_list_type',
+                'name'    => 'sd_data[saswp_archive_list_type]',
+                'class'   => 'saswp_archive_list_type_class',
+                'type'    => 'select',
+                'options' => array(                                
+                                'CollectionPage'    => 'CollectionPage',
+                                'ItemList'          => 'ItemList',                                          
+                )
+        );            
         $meta_fields_default[] = array(
                 'label'   => 'Schema Type',
                 'id'      => 'saswp_archive_schema_type',
