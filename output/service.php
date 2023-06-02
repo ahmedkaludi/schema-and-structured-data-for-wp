@@ -5333,7 +5333,76 @@ Class saswp_output_service{
                             $input1['offers']['offerCount']     = $custom_fields['saswp_product_schema_offer_count'];
                         }
                     }
-                    
+                    // Changes since version 1.15
+                    if(isset($custom_fields['saswp_product_schema_rp_country_code']) || isset($custom_fields['saswp_product_schema_rp_category']) || isset($custom_fields['saswp_product_schema_rp_return_days']) || isset($custom_fields['saswp_product_schema_rp_return_method']) || isset($custom_fields['saswp_product_schema_rp_return_fees'])){
+                        $input1['offers']['hasMerchantReturnPolicy']['@type'] = 'MerchantReturnPolicy';
+                        $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($custom_fields['saswp_product_schema_rp_country_code']);
+                        if(isset($custom_fields['saswp_product_schema_rp_category'])){
+                            $rp_category = array('MerchantReturnFiniteReturnWindow','MerchantReturnNotPermitted','MerchantReturnUnlimitedWindow','MerchantReturnUnspecified');
+                            if(in_array($custom_fields['saswp_product_schema_rp_category'], $rp_category)){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnPolicyCategory'] = esc_attr($custom_fields['saswp_product_schema_rp_category']);
+                            }
+                        }
+                        if(isset($custom_fields['saswp_product_schema_rp_return_days'])){
+                                $input1['offers']['hasMerchantReturnPolicy']['merchantReturnDays'] = esc_attr($custom_fields['saswp_product_schema_rp_return_days']);
+                        }
+                        if(isset($custom_fields['saswp_product_schema_rp_return_method'])){
+                            $rm_category = array('ReturnAtKiosk','ReturnByMail','ReturnInStore');
+                            if(in_array($custom_fields['saswp_product_schema_rp_return_method'], $rm_category)){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnMethod'] = esc_attr($custom_fields['saswp_product_schema_rp_return_method']);
+                            }
+                        }
+                        if(isset($custom_fields['saswp_product_schema_rp_return_fees'])){
+                            $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
+                            if(in_array($custom_fields['saswp_product_schema_rp_return_fees'], $rf_category)){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($custom_fields['saswp_product_schema_rp_return_fees']);
+                            }
+                        }
+                    }
+
+                    if(isset($custom_fields['saswp_product_schema_sr_value'])){
+                        $input1['offers']['shippingDetails']['@type'] = 'OfferShippingDetails';
+                        $input1['offers']['shippingDetails']['shippingRate']['@type'] = 'MonetaryAmount';
+                        $input1['offers']['shippingDetails']['shippingRate']['value'] = esc_attr($custom_fields['saswp_product_schema_sr_value']);
+                        if(isset($custom_fields['saswp_product_schema_sr_currency'])){
+                            $input1['offers']['shippingDetails']['shippingRate']['currency'] = esc_attr($custom_fields['saswp_product_schema_sr_currency']);
+                        }
+                        if(isset($custom_fields['saswp_product_schema_sr_currency'])){
+                            $input1['offers']['shippingDetails']['shippingRate']['currency'] = esc_attr($custom_fields['saswp_product_schema_sr_currency']);
+                        }
+                        if(isset($custom_fields['saswp_product_schema_sa_locality']) || isset($custom_fields['saswp_product_schema_sa_region']) || isset($custom_fields['saswp_product_schema_sa_postal_code']) || isset($custom_fields['saswp_product_schema_sa_address']) || isset($custom_fields['saswp_product_schema_sa_country'])){
+                            $input1['offers']['shippingDetails']['shippingDestination']['@type'] = 'DefinedRegion';
+                            if(isset($custom_fields['saswp_product_schema_sa_locality'])){
+                                $input1['offers']['shippingDetails']['shippingDestination']['addressLocality'] = esc_attr($custom_fields['saswp_product_schema_sa_locality']);
+                            }
+                            if(isset($custom_fields['saswp_product_schema_sa_region'])){
+                                $input1['offers']['shippingDetails']['shippingDestination']['addressRegion'] = esc_attr($custom_fields['saswp_product_schema_sa_region']);
+                            }
+                            if(isset($custom_fields['saswp_product_schema_sa_postal_code'])){
+                                $input1['offers']['shippingDetails']['shippingDestination']['postalCode'] = esc_attr($custom_fields['saswp_product_schema_sa_postal_code']);
+                            }
+                            if(isset($custom_fields['saswp_product_schema_sa_address'])){
+                                $input1['offers']['shippingDetails']['shippingDestination']['streetAddress'] = esc_attr($custom_fields['saswp_product_schema_sa_address']);
+                            }
+                            if(isset($custom_fields['saswp_product_schema_sa_country'])){
+                                $input1['offers']['shippingDetails']['shippingDestination']['addressCountry'] = esc_attr($custom_fields['saswp_product_schema_sa_country']);
+                            }
+                        }
+                        if(isset($custom_fields['saswp_product_schema_sdh_minval']) && isset($custom_fields['saswp_product_schema_sdh_maxval']) && isset($custom_fields['saswp_product_schema_sdh_unitcode'])){
+                            $input1['offers']['shippingDetails']['deliveryTime']['@type'] = 'ShippingDeliveryTime';
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['@type'] = 'QuantitativeValue';
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['minValue'] = esc_attr($custom_fields['saswp_product_schema_sdh_minval']);
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['maxValue'] = esc_attr($custom_fields['saswp_product_schema_sdh_maxval']);
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['unitCode'] = esc_attr($custom_fields['saswp_product_schema_sdh_unitcode']);
+                        }
+                        if(isset($custom_fields['saswp_product_schema_sdt_minval']) && isset($custom_fields['saswp_product_schema_sdt_maxval']) && isset($custom_fields['saswp_product_schema_sdt_unitcode'])){
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['@type'] = 'QuantitativeValue';
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['minValue'] = esc_attr($custom_fields['saswp_product_schema_sdt_minval']);
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['maxValue'] = esc_attr($custom_fields['saswp_product_schema_sdt_maxval']);
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['unitCode'] = esc_attr($custom_fields['saswp_product_schema_sdt_unitcode']);
+                        }
+                    }
+
                     if(isset($custom_fields['saswp_product_schema_rating']) && isset($custom_fields['saswp_product_schema_review_count'])){
                         $input1['aggregateRating']['@type']       = 'aggregateRating';
                         $input1['aggregateRating']['ratingValue'] = $custom_fields['saswp_product_schema_rating'];

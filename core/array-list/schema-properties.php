@@ -6145,7 +6145,118 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_review_count_'.$schema_id,
                             'type'    => 'text',
                             'default' => saswp_remove_warnings($product_details, 'product_review_count', 'saswp_string')
-                        )
+                        ),
+                        array(
+                            'label'   => 'Return Policy Applicable Country Code',
+                            'id'      => 'saswp_product_schema_rp_country_code_'.$schema_id,
+                            'type'    => 'text'
+                        ),
+                        array(
+                            'label'   => 'Return Policy Category',
+                            'id'      => 'saswp_product_schema_rp_category_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                     'MerchantReturnFiniteReturnWindow'                 => 'MerchantReturnFiniteReturnWindow',
+                                     'MerchantReturnNotPermitted'                       => 'MerchantReturnNotPermitted',
+                                     'MerchantReturnUnlimitedWindow'                    => 'MerchantReturnUnlimitedWindow',
+                                     'MerchantReturnUnspecified'                        => 'MerchantReturnUnspecified',
+                            )
+                        ),
+                        array(
+                            'label'   => 'Return Policy Merchant Return Days',
+                            'id'      => 'saswp_product_schema_rp_return_days_'.$schema_id,
+                            'type'    => 'number'
+                        ),
+                        array(
+                            'label'   => 'Return Policy Return Method',
+                            'id'      => 'saswp_product_schema_rp_return_method_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                    'ReturnAtKiosk'     => 'ReturnAtKiosk',
+                                    'ReturnByMail'      => 'ReturnByMail',
+                                    'ReturnInStore'     => 'ReturnInStore',
+                            )
+                        ),
+                        array(
+                            'label'   => 'Return Policy Return Fees',
+                            'id'      => 'saswp_product_schema_rp_return_fees_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                    'FreeReturn'                        => 'FreeReturn',
+                                    'OriginalShippingFees'              => 'OriginalShippingFees',
+                                    'RestockingFees'                    => 'RestockingFees',
+                                    'ReturnFeesCustomerResponsibility'  => 'ReturnFeesCustomerResponsibility',
+                                    'ReturnShippingFees'                => 'ReturnShippingFees',
+                            )
+                        ),
+                        array(
+                            'label'   => 'Shipping Rate Value',
+                            'id'      => 'saswp_product_schema_sr_value_'.$schema_id,
+                            'type'    => 'text',
+                        ),
+                        array(
+                            'label'   => 'Shipping Rate Currency',
+                            'id'      => 'saswp_product_schema_sr_currency_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => 'USD',
+                        ),
+                        array(
+                            'label'   => 'Shipping Address Destination Locality',
+                            'id'      => 'saswp_product_schema_sa_locality_'.$schema_id,
+                            'type'    => 'text',                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Address Destination Region',
+                            'id'      => 'saswp_product_schema_sa_region_'.$schema_id,
+                            'type'    => 'text',                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Address Destination Postal Code',
+                            'id'      => 'saswp_product_schema_sa_postal_code_'.$schema_id,
+                            'type'    => 'text',                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Destination Street Address',
+                            'id'      => 'saswp_product_schema_sa_address_'.$schema_id,
+                            'type'    => 'textarea',                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Address Destination Country',
+                            'id'      => 'saswp_product_schema_sa_country_'.$schema_id,
+                            'type'    => 'text',                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Delivery Handling Time Min Value',
+                            'id'      => 'saswp_product_schema_sdh_minval_'.$schema_id,
+                            'type'    => 'number',                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Delivery Handling Time Max Value',
+                            'id'      => 'saswp_product_schema_sdh_maxval_'.$schema_id,
+                            'type'    => 'number',                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Delivery Handling Time Unit Code',
+                            'id'      => 'saswp_product_schema_sdh_unitcode_'.$schema_id,
+                            'type'    => 'text',     
+                            'note'    => 'Note: Enter unit code in DAY or WEEK',                   
+                        ),
+                        array(
+                            'label'   => 'Shipping Delivery Transit Time Min Value',
+                            'id'      => 'saswp_product_schema_sdt_minval_'.$schema_id,
+                            'type'    => 'number',                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Delivery Transit Time Max Value',
+                            'id'      => 'saswp_product_schema_sdt_maxval_'.$schema_id,
+                            'type'    => 'number',                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Delivery Transit Time Unit Code',
+                            'id'      => 'saswp_product_schema_sdt_unitcode_'.$schema_id,
+                            'type'    => 'text',     
+                            'note'    => 'Note: Enter unit code in DAY or WEEK',                   
+                        ),
                         
                     );
                     
