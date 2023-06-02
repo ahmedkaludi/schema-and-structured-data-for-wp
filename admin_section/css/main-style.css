@@ -385,7 +385,10 @@ float:left;
 clear: both;
 }
 label[for="saswp_archive_schema_type"] {
-    padding-left: 10px;
+    padding-left: 10px !important;
+}
+label[for="saswp_archive_list_type"] {
+    padding-left: 10px !important;
 }
 label[for="saswp-single-price-type"] {
     padding-left: 10px;
@@ -957,7 +960,7 @@ Google review module ends here
     float: right;
     margin-top: -31px;
 }
-.form-wrap .saswp-sts-txt{
+.saswp-settings-form-wrap .saswp-sts-txt{
     font-size: 14px;
     color:#000;
 }
@@ -2755,7 +2758,7 @@ span#saswp-addon-dashicons-no {
     left: -163px
 }
 
-.license_key_input_inactive {
+.saswp_license_key_input_inactive {
     display: inline-block;
     bottom: 8px;
     position: relative
@@ -2796,7 +2799,7 @@ p#enter_key_woocommerce {
     top: 20px
 }
 
-input.license_key_input_active::placeholder {
+input.saswp_license_key_input_active::placeholder {
     color: #000
 }
 
@@ -2873,12 +2876,12 @@ input.saswp_reviewslicense_key_input_inactive.reviews_addon_inactive {
     margin: 0 0 0 10px
 }
 
-span.limit_span {
+span.saswp-limit-span {
     font-weight: 400;
     color: #646970;
 }
 
-input.license_key_input_inactive.reviews_addon_inactive {
+input.saswp_license_key_input_inactive.reviews_addon_inactive {
     display: none
 }
 
@@ -2894,21 +2897,21 @@ a#saswp_license_activation_ {
     display: none
 }
 
-.license_key_input_inactive {
+.saswp_license_key_input_inactive {
     top: 0
 }
 
-span.reviews_inactive {
+span.saswp_reviews_inactive {
     padding-left: 5px;
     font-weight: 400
 }
 
-.form-wrap label {
+.saswp-settings-form-wrap label {
     display: block;
     padding: 0 0
 }
 
-.form-wrap label {
+.saswp-settings-form-wrap label {
     display: block;
     padding: 8px 0
 }
@@ -2917,11 +2920,11 @@ span.reviews_inactive {
     margin: -7px 0 0 -1em
 }
 
-input.license_key_input_active {
+input.saswp_license_key_input_active {
     margin-left: 10px
 }
 
-input.license_key_input_inactive {
+input.saswp_license_key_input_inactive {
     margin-left: 10px
 }
 

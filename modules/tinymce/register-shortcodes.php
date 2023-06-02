@@ -288,61 +288,61 @@ function saswp_tiny_recipe_render( $atts, $content = null ){
         $output .= '<div class="saswp-recipe-block-container">';
         $output .= '<div class="saswp-recipe-field-banner"><div class="saswp-book-banner-div">';
         if(!empty($image_thumburl)){    
-            $output .= '<img decoding="async" src="'.$image_thumburl.'">';
+            $output .= '<img decoding="async" src="'.esc_attr($image_thumburl).'">';
         }else{
             $output .= '<img decoding="async" src="" alt="No Image">';
         }
         $output .= '</div></div>'; // saswp-recipe-field-banner div end
         $output .= '<div class="saswp-recipe-block-heading">';
         $output .= '<h4></h5>';
-        $output .= '<p class="saswp-recipe-block-author"><strong>Recipe By '.$saswp_tiny_recipe['recipe_by'].'</strong></p>';
+        $output .= '<p class="saswp-recipe-block-author"><strong>'.esc_html__('Recipe By ', 'saswp-for-wp').esc_html($saswp_tiny_recipe['recipe_by']).'</strong></p>';
         $output .= '<div class="saswp-r-course-section">';
-        $output .= '<span class="saswp-recipe-block-course" style="width: 30%;"> Course: <strong>'.$saswp_tiny_recipe['course'].'</strong></span>';
-        $output .= '<span class="saswp-recipe-block-cuisine" style="width: 30%;"> Cusine: <strong>'.$saswp_tiny_recipe['cusine'].'</strong></span>';
-        $output .= '<span class="saswp-recipe-block-difficulty" style="width: 30%;"> Difficulty: <strong>'.$saswp_tiny_recipe['difficulty'].'</strong></span>';
+        $output .= '<span class="saswp-recipe-block-course" style="width: 30%;"> '.esc_html__('Course: ', 'saswp-for-wp'). '<strong>'.esc_html($saswp_tiny_recipe['course']).'</strong></span>';
+        $output .= '<span class="saswp-recipe-block-cuisine" style="width: 30%;"> '.esc_html__('Cusine: ', 'saswp-for-wp'). ' <strong>'.esc_html($saswp_tiny_recipe['cusine']).'</strong></span>';
+        $output .= '<span class="saswp-recipe-block-difficulty" style="width: 30%;"> '.esc_html__('Difficulty: ', 'saswp-for-wp'). ': <strong>'.esc_html($saswp_tiny_recipe['difficulty']).'</strong></span>';
         $output .= '</div>'; // saswp-r-course-section div end
         $output .= '</div>'; // saswp-recipe-block-heading div end
         $output .= '<div class="saswp-recipe-block-details"><div class="saswp-recipe-block-details-items">';
         $output .= '<div class="saswp-recipe-block-details-item">';
-        $output .= '<p class="saswp-r-b-label">Servings</p>';
-        $output .= '<p class="saswp-r-b-unit">'.$saswp_tiny_recipe['servings'].' minutes</p>';
+        $output .= '<p class="saswp-r-b-label">'.esc_html__('Servings', 'saswp-for-wp').'</p>';
+        $output .= '<p class="saswp-r-b-unit">'.esc_html($saswp_tiny_recipe['servings']). esc_html__(' minutes', 'saswp-for-wp').' </p>';
         $output .= '</div>';
         $output .= '<div class="saswp-recipe-block-details-item">';
-        $output .= '<p class="saswp-r-b-label">Preparing Time</p>';
-        $output .= '<p class="saswp-r-b-unit">'.$saswp_tiny_recipe['prepration_time'].' minutes</p>';
+        $output .= '<p class="saswp-r-b-label">'.esc_html__('Preparing Time', 'saswp-for-wp').'</p>';
+        $output .= '<p class="saswp-r-b-unit">'.esc_html($saswp_tiny_recipe['prepration_time']). esc_html__(' minutes', 'saswp-for-wp').' </p>';
         $output .= '</div>';
         $output .= '<div class="saswp-recipe-block-details-item">';
-        $output .= '<p class="saswp-r-b-label">Cooking Time</p>';
-        $output .= '<p class="saswp-r-b-unit">'.$saswp_tiny_recipe['cooking_time'].' minutes</p>';
+        $output .= '<p class="saswp-r-b-label">'.esc_html__('Cooking Time', 'saswp-for-wp').'</p>';
+        $output .= '<p class="saswp-r-b-unit">'.esc_html($saswp_tiny_recipe['cooking_time']). esc_html__(' minutes', 'saswp-for-wp').' </p>';
         $output .= '</div>';
         $output .= '<div class="saswp-recipe-block-details-item">';
-        $output .= '<p class="saswp-r-b-label">Cooking Time</p>';
-        $output .= '<p class="saswp-r-b-unit">'.$saswp_tiny_recipe['calories'].' kcal</p>';
+        $output .= '<p class="saswp-r-b-label">'.esc_html__('Calories', 'saswp-for-wp').'</p>';
+        $output .= '<p class="saswp-r-b-unit">'.esc_html($saswp_tiny_recipe['calories']). esc_html__(' kcal', 'saswp-for-wp').' </p>';
         $output .= '</div>';
         $output .= '</div></div>'; // saswp-recipe-block-details div end
         $output .= '<div class="saswp-recipe-block-ingredients">';
-        $output .= '<h4>INGREDIENTS</h4>';
+        $output .= '<h4>'.esc_html__('INGREDIENTS', 'saswp-for-wp').'</h4>';
         if(isset($saswp_tiny_recipe['ingredients']) && isset($saswp_tiny_recipe['ingredients'][0])){
             $output .= '<ol class="saswp-dirction-ul">';
             foreach ($saswp_tiny_recipe['ingredients'] as $stci_key => $stci_value) {
-                $output .= '<li class="saswp-r-b-direction-item"><p>'.$stci_value.'</p></li>';       
+                $output .= '<li class="saswp-r-b-direction-item"><p>'.esc_html($stci_value).'</p></li>';       
             }
             $output .= '</ol>';
         }
         $output .= '</div>'; // saswp-recipe-block-ingredients div end
         $output .= '<div class="saswp-recipe-block-direction">';
-        $output .= '<h4>DIRECTION</h4><ol class="saswp-dirction-ul">';
+        $output .= '<h4>'.esc_html__('DIRECTION', 'saswp-for-wp').'</h4><ol class="saswp-dirction-ul">';
         if(isset($saswp_tiny_recipe['directions']) && isset($saswp_tiny_recipe['directions'][0])){
             foreach ($saswp_tiny_recipe['directions'] as $stcd_key => $stcd_value) {
-                $output .= '<li class="saswp-r-b-direction-item"><p>'.$stcd_value.'</p></li>';       
+                $output .= '<li class="saswp-r-b-direction-item"><p>'.esc_html($stcd_value).'</p></li>';       
             }
         }
         $output .= '</ol></div>'; // saswp-recipe-block-direction div end
         $output .= '<div class="saswp-recipe-block-direction">';
-        $output .= '<h4>NOTES</h4><ol class="saswp-dirction-ul">';
+        $output .= '<h4>'.esc_html__('NOTES', 'saswp-for-wp').'</h4><ol class="saswp-dirction-ul">';
         if(isset($saswp_tiny_recipe['notes']) && isset($saswp_tiny_recipe['notes'][0])){
             foreach ($saswp_tiny_recipe['notes'] as $stcn_key => $stcn_value) {
-                $output .= '<li class="saswp-r-b-direction-item"><p>'.$stcn_value.'</p></li>';       
+                $output .= '<li class="saswp-r-b-direction-item"><p>'.esc_html($stcn_value).'</p></li>';       
             }
         }
         $output .= '</ol></div>'; // saswp-recipe-block-direction div end

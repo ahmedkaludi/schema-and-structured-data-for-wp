@@ -3144,7 +3144,6 @@ function saswp_get_loop_markup($i) {
     $schema_properties  = array();
 
     $schema_type        =  $sd_data['saswp_archive_schema_type'];    
-    $list_type          =  $sd_data['saswp_archive_list_type'];    
     $service_object     = new saswp_output_service();    
     $publisher_info     = $service_object->saswp_get_publisher();   
     $feature_image      = $service_object->saswp_get_fetaure_image();             
