@@ -6129,27 +6129,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'    => 'saswp_product_additional_type_'.$schema_id,
                         'type'  => 'text',                             
                        ),
-                        array(
-                            'label' => 'Aggregate Rating',
-                            'id'    => 'saswp_product_schema_enable_rating_'.$schema_id,
-                            'type'  => 'checkbox',                            
-                        ),                       
-                        array(
-                            'label'   => 'Rating',
-                            'id'      => 'saswp_product_schema_rating_'.$schema_id,
-                            'type'    => 'text',
-                            'default' => saswp_remove_warnings($product_details, 'product_average_rating', 'saswp_string')
-                        ),
-                        array(
-                            'label'   => 'Number of Reviews',
-                            'id'      => 'saswp_product_schema_review_count_'.$schema_id,
-                            'type'    => 'text',
-                            'default' => saswp_remove_warnings($product_details, 'product_review_count', 'saswp_string')
-                        ),
-                        array(
+                       array(
                             'label'   => 'Return Policy Applicable Country Code',
                             'id'      => 'saswp_product_schema_rp_country_code_'.$schema_id,
-                            'type'    => 'text'
+                            'type'    => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'US'
+                            ),
                         ),
                         array(
                             'label'   => 'Return Policy Category',
@@ -6165,7 +6151,10 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         array(
                             'label'   => 'Return Policy Merchant Return Days',
                             'id'      => 'saswp_product_schema_rp_return_days_'.$schema_id,
-                            'type'    => 'number'
+                            'type'    => 'number',
+                            'attributes' => array(
+                                'placeholder' => '5'
+                            ),
                         ),
                         array(
                             'label'   => 'Return Policy Return Method',
@@ -6193,71 +6182,128 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Shipping Rate Value',
                             'id'      => 'saswp_product_schema_sr_value_'.$schema_id,
                             'type'    => 'text',
+                            'attributes' => array(
+                                'placeholder' => '3.8'
+                            ),
                         ),
                         array(
                             'label'   => 'Shipping Rate Currency',
                             'id'      => 'saswp_product_schema_sr_currency_'.$schema_id,
                             'type'    => 'text',
                             'default' => 'USD',
+                            'attributes' => array(
+                                'placeholder' => 'USD'
+                            ),
                         ),
                         array(
-                            'label'   => 'Shipping Address Destination Locality',
+                            'label'   => 'Shipping Destination Locality',
                             'id'      => 'saswp_product_schema_sa_locality_'.$schema_id,
-                            'type'    => 'text',                        
+                            'type'    => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'New York'
+                            ),                        
                         ),
                         array(
-                            'label'   => 'Shipping Address Destination Region',
+                            'label'   => 'Shipping Destination Region',
                             'id'      => 'saswp_product_schema_sa_region_'.$schema_id,
-                            'type'    => 'text',                        
+                            'type'    => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'NY'
+                            ),                       
                         ),
                         array(
-                            'label'   => 'Shipping Address Destination Postal Code',
+                            'label'   => 'Shipping Destination Postal Code',
                             'id'      => 'saswp_product_schema_sa_postal_code_'.$schema_id,
-                            'type'    => 'text',                        
+                            'type'    => 'text',  
+                            'attributes' => array(
+                                'placeholder' => '10019'
+                            ),                      
                         ),
                         array(
                             'label'   => 'Shipping Destination Street Address',
                             'id'      => 'saswp_product_schema_sa_address_'.$schema_id,
-                            'type'    => 'textarea',                        
+                            'type'    => 'textarea', 
+                            'attributes' => array(
+                                'placeholder' => '148 W 51st St'
+                            ),                       
                         ),
                         array(
-                            'label'   => 'Shipping Address Destination Country',
+                            'label'   => 'Shipping Destination Country',
                             'id'      => 'saswp_product_schema_sa_country_'.$schema_id,
-                            'type'    => 'text',                        
+                            'type'    => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'US'
+                            ),                       
                         ),
                         array(
-                            'label'   => 'Shipping Delivery Handling Time Min Value',
+                            'label'   => 'Shipping Handling Time Min Value',
                             'id'      => 'saswp_product_schema_sdh_minval_'.$schema_id,
-                            'type'    => 'number',                        
+                            'type'    => 'number',
+                            'attributes' => array(
+                                'placeholder' => '0'
+                            ),                        
                         ),
                         array(
-                            'label'   => 'Shipping Delivery Handling Time Max Value',
+                            'label'   => 'Shipping Handling Time Max Value',
                             'id'      => 'saswp_product_schema_sdh_maxval_'.$schema_id,
-                            'type'    => 'number',                        
+                            'type'    => 'number',
+                            'attributes' => array(
+                                'placeholder' => '1'
+                            ),                        
                         ),
                         array(
-                            'label'   => 'Shipping Delivery Handling Time Unit Code',
+                            'label'   => 'Shipping Handling Time Unit Code',
                             'id'      => 'saswp_product_schema_sdh_unitcode_'.$schema_id,
                             'type'    => 'text',     
-                            'note'    => 'Note: Enter unit code in DAY or WEEK',                   
+                            'note'    => 'Note: Enter unit code as DAY',
+                            'default' => 'DAY', 
+                            'attributes' => array(
+                                'placeholder' => 'DAY'
+                            ),                 
                         ),
                         array(
-                            'label'   => 'Shipping Delivery Transit Time Min Value',
+                            'label'   => 'Shipping Transit Time Min Value',
                             'id'      => 'saswp_product_schema_sdt_minval_'.$schema_id,
-                            'type'    => 'number',                        
+                            'type'    => 'number', 
+                            'attributes' => array(
+                                'placeholder' => '2'
+                            ),                       
                         ),
                         array(
-                            'label'   => 'Shipping Delivery Transit Time Max Value',
+                            'label'   => 'Shipping Transit Time Max Value',
                             'id'      => 'saswp_product_schema_sdt_maxval_'.$schema_id,
-                            'type'    => 'number',                        
+                            'type'    => 'number',  
+                            'attributes' => array(
+                                'placeholder' => '5'
+                            ),                      
                         ),
                         array(
-                            'label'   => 'Shipping Delivery Transit Time Unit Code',
+                            'label'   => 'Shipping Transit Time Unit Code',
                             'id'      => 'saswp_product_schema_sdt_unitcode_'.$schema_id,
                             'type'    => 'text',     
-                            'note'    => 'Note: Enter unit code in DAY or WEEK',                   
+                            'note'    => 'Note: Enter unit code as DAY',
+                            'default' => 'DAY',  
+                            'attributes' => array(
+                                'placeholder' => 'DAY'
+                            ),                 
                         ),
-                        
+                        array(
+                            'label' => 'Aggregate Rating',
+                            'id'    => 'saswp_product_schema_enable_rating_'.$schema_id,
+                            'type'  => 'checkbox',                            
+                        ),                       
+                        array(
+                            'label'   => 'Rating',
+                            'id'      => 'saswp_product_schema_rating_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => saswp_remove_warnings($product_details, 'product_average_rating', 'saswp_string')
+                        ),
+                        array(
+                            'label'   => 'Number of Reviews',
+                            'id'      => 'saswp_product_schema_review_count_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => saswp_remove_warnings($product_details, 'product_review_count', 'saswp_string')
+                        ),
                     );
                     
                     break;
