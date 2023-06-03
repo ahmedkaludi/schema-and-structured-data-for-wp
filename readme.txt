@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 1.14
+Stable tag: 1.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,25 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.15 (03 June 2023) =
+
+* Added: Recipe Schema block in classic editor #1571
+* Added: SameAS field in Person and Organization schema #1844
+* Added: Country Field in Local Business Schema #1864
+* Fixed: Identical property values given, but unique values are required (optional) appear in rich results test #1871
+* Added: Added the itemList schema for the category #1892
+* New Feature: Yoast SEO Schema Migration support #1895
+* Fixed: Invalid ISO 4217 currency code error for Iranian toman currency as IRT #1904
+* Added: Added organization type for Organization schema #1911
+* Added: itemReviewed field in markup for ReviewNewsArticle #1918
+* Fixed: Reviews still showing even after Collection has been deleted #1923
+* Added: shippingDetails and hasMerchantDetails fields in markup for Product Schema #1925
+* Fixed: Fatal error in settings section of schema #1929
+* Fixed: Reviewed By filed showing empty in webpage schema #1932
+* Fixed: HTTP API call query monitor showing Cannot parse supplied IRI and 404 Not Found #1933
+* Fixed: Pros/Cons option issue of Product Schema #1935
+
 
 = 1.14 (08 May 2023) =
 
