@@ -239,12 +239,10 @@ class saswp_view_common_class {
                             
                            
                             $howto_data[$value.'_'.$schema_id]  = saswp_get_post_meta($post_id, $value.'_'.$schema_id, true);  
-                            $prosCheckBoxMeta= saswp_get_post_meta($post_id,"saswp_schema_type_product_pros_enable_pros", true);
-                            $consCheckBoxMeta= saswp_get_post_meta($post_id,"saswp_schema_type_product_pros_enable_cons", true);
-                              
-                            
+                            $prosCheckBoxMeta = saswp_get_post_meta($post_id,"saswp_schema_type_product_pros_enable_pros", true);                            
+                                                          
                             $enablePros ='';
-                            if(isset($prosCheckBoxMeta) && !empty($prosCheckBoxMeta)){
+                            if(isset($prosCheckBoxMeta)){
                                 $enablePros = 'checked';
                             }
                             $prosCheckboxFalse = false;
@@ -254,9 +252,9 @@ class saswp_view_common_class {
                                 <table class="form-table" style="margin: 23px 0 4px 0;">
                                     <tr>
                                         <th>
-                                        <label for="saswp_schema_type_product_pros_enable_pros"><b>Pros & Cons</b></label>
+                                        <label for="saswp_schema_type_product_pros_enable_pros"><b>'.saswp_t_string( 'Pros & Cons' ).'</b></label>
                                         </th> 
-                                        <td><input type="checkbox" id="saswp_schema_type_product_pros_enable_pros" name="saswp_schema_type_product_pros_enable_pros" value="1" '.$enablePros.'>
+                                        <td><input type="checkbox" id="saswp_schema_type_product_pros_enable_pros" name="saswp_schema_type_product_pros_enable_pros" value="1" '.esc_attr($enablePros).'>
                                         </td>
                                     </tr>
                                 </table>';       

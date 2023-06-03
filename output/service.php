@@ -722,7 +722,7 @@ Class saswp_output_service{
                                                            
                 }   
                                                                             
-                if($schema_type == 'Review'){
+                if($schema_type == 'Review' || $schema_type == 'ReviewNewsArticle'){
 
                     $main_schema_type = $schema_type;                                                                                  
                     $schema_type = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
@@ -1763,6 +1763,12 @@ Class saswp_output_service{
                             }
                             if(isset($custom_fields['saswp_article_author_image'])){
                                 $input1['author']['Image']['url'] =    $custom_fields['saswp_article_author_image'];
+                            }
+                            if(isset($custom_fields['saswp_article_author_social_profile']) && !empty($custom_fields['saswp_article_author_social_profile'])){
+                                $explode_sp = explode(',', $custom_fields['saswp_article_author_social_profile']);
+                                if(is_array($explode_sp)){
+                                    $input1['author']['sameAs'] =    $explode_sp;
+                                }
                             }
                             if(isset($custom_fields['saswp_article_author_jobtitle'])){
                                 $input1['author']['JobTitle'] =    $custom_fields['saswp_article_author_jobtitle'];
@@ -3047,6 +3053,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_blogposting_editor_url'])){
                         $input1['editor']['url'] =    $custom_fields['saswp_blogposting_author_url'];
                     }
+                    if(isset($custom_fields['saswp_blogposting_author_social_profile']) && !empty($custom_fields['saswp_blogposting_author_social_profile'])){
+                        $explode_sp = explode(',', $custom_fields['saswp_blogposting_author_social_profile']);
+                        if(is_array($explode_sp)){
+                            $input1['editor']['sameAs'] =    $explode_sp;
+                        }
+                    }
                     if(isset($custom_fields['saswp_blogposting_editor_description'])){
                         $input1['editor']['description'] =    $custom_fields['saswp_blogposting_editor_description'];
                     }
@@ -3127,6 +3139,12 @@ Class saswp_output_service{
                         }
                         if(isset($custom_fields['saswp_blogposting_author_url'])){
                         $input1['author']['url'] =    $custom_fields['saswp_blogposting_author_url'];
+                        }
+                        if(isset($custom_fields['saswp_blogposting_author_social_profile']) && !empty($custom_fields['saswp_blogposting_author_social_profile'])){
+                            $explode_sp = explode(',', $custom_fields['saswp_blogposting_author_social_profile']);
+                            if(is_array($explode_sp)){
+                                $input1['author']['sameAs'] =    $explode_sp;
+                            }
                         }
                         if(isset($custom_fields['saswp_blogposting_author_description'])){
                         $input1['author']['description'] =    $custom_fields['saswp_blogposting_author_description'];
@@ -3459,6 +3477,12 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_newsarticle_author_image'])){
                        $input1['author']['Image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
+                    }
+                    if(isset($custom_fields['saswp_newsarticle_author_social_profile']) && !empty($custom_fields['saswp_newsarticle_author_social_profile'])){
+                        $explode_sp = explode(',', $custom_fields['saswp_newsarticle_author_social_profile']);
+                        if(is_array($explode_sp)){
+                            $input1['author']['sameAs'] =    $explode_sp;
+                        }
                     }
                     if(!empty($custom_fields['saswp_newsarticle_about']) && isset($custom_fields['saswp_newsarticle_about'])){         
                         $input1['about']['@type'] = 'Event';                   
@@ -4228,6 +4252,7 @@ Class saswp_output_service{
 
                             if(!empty($custom_fields['saswp_webpage_reviewed_by'])){
                                 $input1['reviewedBy']['@type'] =   "Person";
+                                $input1['reviewedBy']['name'] =    $custom_fields['saswp_webpage_reviewed_by'];
                             }
                             if(!empty($custom_fields['saswp_webpage_reviewed_by']['custom_fields'])){
                                 $fields_name = $custom_fields['saswp_webpage_reviewed_by']['custom_fields'];
@@ -4238,13 +4263,13 @@ Class saswp_output_service{
                             if(!empty($custom_fields['saswp_webpage_reviewed_by']['name'])){
                                 $input1['reviewedBy']['name'] =    $custom_fields['saswp_webpage_reviewed_by']['name'];
                             }
-                        
+                            
                             if(!empty($custom_fields['saswp_webpage_reviewed_by']['url'])){
-                                $input1['url'] =    $custom_fields['saswp_webpage_reviewed_by']['url'];
+                                $input1['reviewedBy']['url'] =    $custom_fields['saswp_webpage_reviewed_by']['url'];
                             }
                         
                             if(!empty($custom_fields['saswp_webpage_reviewed_by']['description'])){
-                                $input1['description'] =    $custom_fields['saswp_webpage_reviewed_by']['description'];
+                                $input1['reviewedBy']['description'] =    $custom_fields['saswp_webpage_reviewed_by']['description'];
                             }
                         
                             if(!empty($fields_name['honorificsuffix'][0])){
@@ -4778,6 +4803,12 @@ Class saswp_output_service{
                         if(isset($custom_fields['saswp_tech_article_author_image'])){
                             $input1['author']['Image']['url'] =    $custom_fields['saswp_tech_article_author_image'];  
                         }
+                        if(isset($custom_fields['saswp_tech_article_author_social_profile']) && !empty($custom_fields['saswp_tech_article_author_social_profile'])){
+                            $explode_sp = explode(',', $custom_fields['saswp_tech_article_author_social_profile']);
+                            if(is_array($explode_sp)){
+                                $input1['author']['sameAs'] =    $explode_sp;
+                            }
+                        }
                     }
 
                     if(isset($custom_fields['saswp_tech_article_editor_name']) && $custom_fields['saswp_tech_article_editor_name'] != '') {
@@ -4801,7 +4832,12 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_tech_article_editor_image'])){
                         $input1['editor']['Image']['url'] =    $custom_fields['saswp_tech_article_editor_image'];  
                     }
-                   
+                    if(isset($custom_fields['saswp_tech_article_author_social_profile']) && !empty($custom_fields['saswp_tech_article_author_social_profile'])){
+                        $explode_sp = explode(',', $custom_fields['saswp_tech_article_author_social_profile']);
+                        if(is_array($explode_sp)){
+                            $input1['editor']['sameAs'] =    $explode_sp;
+                        }
+                    }
                     if(isset($custom_fields['saswp_tech_article_organization_logo']) && isset($custom_fields['saswp_tech_article_organization_name'])){
                      $input1['publisher']['@type']       =    'Organization';
                      $input1['publisher']['name']        =    $custom_fields['saswp_tech_article_organization_name'];
@@ -5265,7 +5301,7 @@ Class saswp_output_service{
                                           
                     }
                     if(isset($custom_fields['saswp_product_schema_currency'])){
-                     $input1['offers']['priceCurrency'] =    $custom_fields['saswp_product_schema_currency'];
+                     $input1['offers']['priceCurrency'] = saswp_modify_currency_code($custom_fields['saswp_product_schema_currency']);
                      $input1['offers']['url'] =    $custom_fields['saswp_product_schema_url'];
                     }
                     if(isset($custom_fields['saswp_product_schema_vat'])){
@@ -5297,7 +5333,76 @@ Class saswp_output_service{
                             $input1['offers']['offerCount']     = $custom_fields['saswp_product_schema_offer_count'];
                         }
                     }
-                    
+                    // Changes since version 1.15
+                    if(isset($custom_fields['saswp_product_schema_rp_country_code']) || isset($custom_fields['saswp_product_schema_rp_category']) || isset($custom_fields['saswp_product_schema_rp_return_days']) || isset($custom_fields['saswp_product_schema_rp_return_method']) || isset($custom_fields['saswp_product_schema_rp_return_fees'])){
+                        $input1['offers']['hasMerchantReturnPolicy']['@type'] = 'MerchantReturnPolicy';
+                        $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($custom_fields['saswp_product_schema_rp_country_code']);
+                        if(isset($custom_fields['saswp_product_schema_rp_category'])){
+                            $rp_category = array('MerchantReturnFiniteReturnWindow','MerchantReturnNotPermitted','MerchantReturnUnlimitedWindow','MerchantReturnUnspecified');
+                            if(in_array($custom_fields['saswp_product_schema_rp_category'], $rp_category)){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnPolicyCategory'] = esc_attr($custom_fields['saswp_product_schema_rp_category']);
+                            }
+                        }
+                        if(isset($custom_fields['saswp_product_schema_rp_return_days'])){
+                                $input1['offers']['hasMerchantReturnPolicy']['merchantReturnDays'] = esc_attr($custom_fields['saswp_product_schema_rp_return_days']);
+                        }
+                        if(isset($custom_fields['saswp_product_schema_rp_return_method'])){
+                            $rm_category = array('ReturnAtKiosk','ReturnByMail','ReturnInStore');
+                            if(in_array($custom_fields['saswp_product_schema_rp_return_method'], $rm_category)){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnMethod'] = esc_attr($custom_fields['saswp_product_schema_rp_return_method']);
+                            }
+                        }
+                        if(isset($custom_fields['saswp_product_schema_rp_return_fees'])){
+                            $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
+                            if(in_array($custom_fields['saswp_product_schema_rp_return_fees'], $rf_category)){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($custom_fields['saswp_product_schema_rp_return_fees']);
+                            }
+                        }
+                    }
+
+                    if(isset($custom_fields['saswp_product_schema_sr_value'])){
+                        $input1['offers']['shippingDetails']['@type'] = 'OfferShippingDetails';
+                        $input1['offers']['shippingDetails']['shippingRate']['@type'] = 'MonetaryAmount';
+                        $input1['offers']['shippingDetails']['shippingRate']['value'] = esc_attr($custom_fields['saswp_product_schema_sr_value']);
+                        if(isset($custom_fields['saswp_product_schema_sr_currency'])){
+                            $input1['offers']['shippingDetails']['shippingRate']['currency'] = esc_attr($custom_fields['saswp_product_schema_sr_currency']);
+                        }
+                        if(isset($custom_fields['saswp_product_schema_sr_currency'])){
+                            $input1['offers']['shippingDetails']['shippingRate']['currency'] = esc_attr($custom_fields['saswp_product_schema_sr_currency']);
+                        }
+                        if(isset($custom_fields['saswp_product_schema_sa_locality']) || isset($custom_fields['saswp_product_schema_sa_region']) || isset($custom_fields['saswp_product_schema_sa_postal_code']) || isset($custom_fields['saswp_product_schema_sa_address']) || isset($custom_fields['saswp_product_schema_sa_country'])){
+                            $input1['offers']['shippingDetails']['shippingDestination']['@type'] = 'DefinedRegion';
+                            if(isset($custom_fields['saswp_product_schema_sa_locality'])){
+                                $input1['offers']['shippingDetails']['shippingDestination']['addressLocality'] = esc_attr($custom_fields['saswp_product_schema_sa_locality']);
+                            }
+                            if(isset($custom_fields['saswp_product_schema_sa_region'])){
+                                $input1['offers']['shippingDetails']['shippingDestination']['addressRegion'] = esc_attr($custom_fields['saswp_product_schema_sa_region']);
+                            }
+                            if(isset($custom_fields['saswp_product_schema_sa_postal_code'])){
+                                $input1['offers']['shippingDetails']['shippingDestination']['postalCode'] = esc_attr($custom_fields['saswp_product_schema_sa_postal_code']);
+                            }
+                            if(isset($custom_fields['saswp_product_schema_sa_address'])){
+                                $input1['offers']['shippingDetails']['shippingDestination']['streetAddress'] = esc_attr($custom_fields['saswp_product_schema_sa_address']);
+                            }
+                            if(isset($custom_fields['saswp_product_schema_sa_country'])){
+                                $input1['offers']['shippingDetails']['shippingDestination']['addressCountry'] = esc_attr($custom_fields['saswp_product_schema_sa_country']);
+                            }
+                        }
+                        if(isset($custom_fields['saswp_product_schema_sdh_minval']) && isset($custom_fields['saswp_product_schema_sdh_maxval']) && isset($custom_fields['saswp_product_schema_sdh_unitcode'])){
+                            $input1['offers']['shippingDetails']['deliveryTime']['@type'] = 'ShippingDeliveryTime';
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['@type'] = 'QuantitativeValue';
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['minValue'] = esc_attr($custom_fields['saswp_product_schema_sdh_minval']);
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['maxValue'] = esc_attr($custom_fields['saswp_product_schema_sdh_maxval']);
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['unitCode'] = esc_attr($custom_fields['saswp_product_schema_sdh_unitcode']);
+                        }
+                        if(isset($custom_fields['saswp_product_schema_sdt_minval']) && isset($custom_fields['saswp_product_schema_sdt_maxval']) && isset($custom_fields['saswp_product_schema_sdt_unitcode'])){
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['@type'] = 'QuantitativeValue';
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['minValue'] = esc_attr($custom_fields['saswp_product_schema_sdt_minval']);
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['maxValue'] = esc_attr($custom_fields['saswp_product_schema_sdt_maxval']);
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['unitCode'] = esc_attr($custom_fields['saswp_product_schema_sdt_unitcode']);
+                        }
+                    }
+
                     if(isset($custom_fields['saswp_product_schema_rating']) && isset($custom_fields['saswp_product_schema_review_count'])){
                         $input1['aggregateRating']['@type']       = 'aggregateRating';
                         $input1['aggregateRating']['ratingValue'] = $custom_fields['saswp_product_schema_rating'];
@@ -6988,7 +7093,7 @@ Class saswp_output_service{
                          break;
                  }    
              
-             if($main_schema_type == 'Review'){
+             if($main_schema_type == 'Review' || $main_schema_type == 'ReviewNewsArticle'){
                  
                  $review_response['item_reviewed'] = $input1;
                  $review_response['review']        = $review_markup;
@@ -7994,7 +8099,7 @@ Class saswp_output_service{
                                                         '@type'	        => 'Offer',
                                                         'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
                                                         'price'             => saswp_remove_warnings($product_details, 'product_price', 'saswp_string'),
-                                                        'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                                        'priceCurrency'     => saswp_modify_currency_code(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string')),
                                                         'url'               => saswp_get_permalink(),
                                                         'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')
                                                     );
@@ -8017,7 +8122,7 @@ Class saswp_output_service{
                                             '@type'	        => 'Offer',
                                             'availability'      => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string'),
                                             'price'             => $price,
-                                            'priceCurrency'     => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'),
+                                            'priceCurrency'     => saswp_modify_currency_code(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string')),
                                             'url'               => saswp_get_permalink(),
                                             'priceValidUntil'   => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')
                                         );
@@ -8028,7 +8133,7 @@ Class saswp_output_service{
                                     $input1['offers']['@type']         = 'AggregateOffer';
                                     $input1['offers']['lowPrice']      = min($product_details['product_varible_price']);
                                     $input1['offers']['highPrice']     = max($product_details['product_varible_price']);
-                                    $input1['offers']['priceCurrency'] = saswp_remove_warnings($product_details, 'product_currency', 'saswp_string');
+                                    $input1['offers']['priceCurrency'] = saswp_modify_currency_code(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'));
                                     $input1['offers']['availability']  = saswp_remove_warnings($product_details, 'product_availability', 'saswp_string');
                                     $input1['offers']['offerCount']    = count($product_details['product_varible_price']);
 
@@ -8121,6 +8226,7 @@ Class saswp_output_service{
             global $post, $sd_data, $saswp_featured_image;
 
             $input2              = array();
+            $image_details       = array();
             $image_resize        = false;
             $multiple_size       = false;
 
@@ -8134,7 +8240,7 @@ Class saswp_output_service{
 
             $image_id 	            = get_post_thumbnail_id();
             
-            if(empty($saswp_featured_image[$image_id])){
+            if(is_array($saswp_featured_image) && isset($saswp_featured_image[$image_id])){
                                 
                 $image_alt     = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
 
@@ -8142,9 +8248,9 @@ Class saswp_output_service{
                 $saswp_featured_image[$image_id]['caption'] = $image_alt ? $image_alt : '';
 
             }
-            
-	        $image_details = $saswp_featured_image[$image_id];    
-
+            if(isset($saswp_featured_image[$image_id])){
+                $image_details = $saswp_featured_image[$image_id];
+            }	        
             if( is_array($image_details) && !empty($image_details)){                                
                                                                                     
                                         if($image_resize){

@@ -50,6 +50,16 @@ form.saswp-tiny-form fieldset div[name=saswp_howto_img_id]:before {
     pointer-events: none;
 }
 
+div[name=saswp_recipe_img_id] {
+    width: 44%;
+    float: left;
+}
+
+div[name=saswp_recipe_img_id]:before {
+    content: "Image ID: ";
+    pointer-events: none;
+}
+
 form.saswp-tiny-form fieldset .mce-btn.long {
     width: 100%;
 }
@@ -85,4 +95,7 @@ form.saswp-tiny-form .saswp-hr {
 }
 form.saswp-tiny-form{
     padding-bottom: 5px;
+}
+.saswp-width-70{
+    width: 70% !important;
 }

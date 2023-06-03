@@ -444,10 +444,14 @@ class saswp_fields_generator {
                                             }
                                         
                                         $image_pre = '';
+                                        $thumbnail_url = '';
                                         if(saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string')){
-                                            
+                                           $thumbnail_url = saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string');
+                                           if(!empty($thumbnail_url)){
+                                            $thumbnail_url = urldecode($thumbnail_url);
+                                           } 
                                            $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'.esc_attr(saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string')).'" />
+                                                         <img class="saswp_image_prev" src="'.esc_attr($thumbnail_url).'" />
                                                          <a data-id="'.esc_attr($meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             
@@ -459,7 +463,7 @@ class saswp_fields_generator {
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_id" class="upload-id " name="sd_data['.esc_attr($meta_field['id']).'][id]" id="sd_data['.esc_attr($meta_field['id']).'][id]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'id', 'saswp_string')).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="sd_data['.esc_attr($meta_field['id']).'][height]" id="sd_data['.esc_attr($meta_field['id']).'][height]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'height', 'saswp_string')).'">'
                                                 . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="sd_data['.esc_attr($meta_field['id']).'][width]" id="sd_data['.esc_attr($meta_field['id']).'][width]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'width', 'saswp_string')).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" id="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string')).'">'
+                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" id="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" value="'.esc_attr($thumbnail_url).'">'
                                                 . '<div class="saswp_image_div_'.esc_attr($meta_field['id']).'">'                                               
                                                 . $image_pre                                                 
                                                 . '</div>'	

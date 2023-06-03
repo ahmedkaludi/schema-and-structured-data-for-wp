@@ -583,8 +583,8 @@ jQuery(document).ready(function($){
         if(currentTab=="premium_features" && jQuery(this).attr('data-extmgr')=='yes'){
             window.location.href = "edit.php?post_type=saswp&page=saswp-extension-manager";
         }else{
-        $(".form-wrap").find(".saswp-"+currentTab).siblings().hide();
-        $(".form-wrap .saswp-"+currentTab).show();
+        $(".saswp-settings-form-wrap").find(".saswp-"+currentTab).siblings().hide();
+        $(".saswp-settings-form-wrap .saswp-"+currentTab).show();
         window.history.pushState("", "", href);
         return false;
     }
@@ -659,7 +659,7 @@ jQuery(document).ready(function($){
          $(".saswp-event-text-field-tr").show();
          $(".saswp-option-table-class tr").find('select').attr('disabled', false);
          }
-         if(schematype == 'Review'){            
+         if(schematype == 'Review' || schematype == 'ReviewNewsArticle'){            
          $(".saswp-review-text-field-tr").show();  
          $(".saswp-option-table-class tr").find('select').attr('disabled', false); 
          $(".saswp-item-reivewed-list").change();
@@ -681,6 +681,10 @@ jQuery(document).ready(function($){
           $(".saswp-enable-faq-markup-class").parent().parent().show();
         }else{
           $(".saswp-enable-faq-markup-class").parent().parent().hide();
+        }
+        if(schematype == 'Organization'){
+            $(".saswp-organization-type-tr").show();
+            $(".saswp-option-table-class tr").find('select').attr('disabled', false);
         }
          saswp_enable_rating_review();
          saswp_enable_rating_automate();
@@ -776,7 +780,7 @@ jQuery(document).ready(function($){
                 $("#saswp_location_meta_box").removeClass('saswp_hide');         
             } 
                           
-             if(schematype == 'Review'){            
+             if(schematype == 'Review' || schematype == 'ReviewNewsArticle'){            
                 $(".saswp-review-text-field-tr").show(); 
                 $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
              }
@@ -800,6 +804,10 @@ jQuery(document).ready(function($){
               $(".saswp-enable-faq-markup-class").parent().parent().show();
             }else{
               $(".saswp-enable-faq-markup-class").parent().parent().hide();
+            }
+            if(schematype == 'Organization'){
+                $(".saswp-organization-type-tr").show();
+                $(".saswp-option-table-class tr").find('select').attr('disabled', false);
             }
             saswp_enable_rating_review();
             saswp_enable_rating_automate();
@@ -1018,9 +1026,11 @@ jQuery(document).ready(function($){
                             if ($(this).is(':checked')) {              
                                 $("#saswp_archive_schema").val(1);
                                 $(".saswp_archive_schema_type_class").parent().parent().show();
+                                $(".saswp_archive_list_type_class").parent().parent().show();
                               }else{
                                 $("#saswp_archive_schema").val(0);           
                                 $(".saswp_archive_schema_type_class").parent().parent().hide();
+                                $(".saswp_archive_list_type_class").parent().parent().hide();
                               }
                       break;
                       
@@ -2786,7 +2796,7 @@ jQuery(document).ready(function($){
                                $("span.addon-activated_" + add_on + "").text('Inactive');
                                $("span.addon-activated_" + add_on + "").css("color", "#bebfc0");
                                $("span.addon-activated_" + add_on + "").removeClass("addon-activated_" + add_on + "").addClass("inactive_status_" + add_on + "");
-                               $("span.limit_span").css("display", "none");
+                               $("span.saswp-limit-span").css("display", "none");
                               }
                                current.removeClass('updating-message');                                                           
                             },

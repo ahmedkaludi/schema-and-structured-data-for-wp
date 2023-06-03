@@ -180,7 +180,7 @@ class saswp_post_specific {
              
              $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, null, $disabled, $modify_this, $modified ); 
 
-             if($schema_type == 'Review'){
+             if($schema_type == 'Review' || $schema_type == 'ReviewNewsArticle'){
                         
                 $item_reviewed     = saswp_get_post_meta($post_id, 'saswp_review_item_reviewed_'.$schema_id, true);                         
                 if(!$item_reviewed){
@@ -471,7 +471,7 @@ class saswp_post_specific {
                          $item_type         = '('.get_post_meta($schema->ID, 'saswp_itemlist_item_type', true).')';
                      }
                      
-                     if($schema_type == 'Review' && $modify_this){
+                     if(($schema_type == 'Review' && $modify_this) || ($schema_type == 'ReviewNewsArticle' && $modify_this)){
                         
                          $item_reviewed     = saswp_get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$schema->ID, true);                         
                          if(!$item_reviewed){

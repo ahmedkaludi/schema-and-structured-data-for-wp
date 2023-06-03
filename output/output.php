@@ -1069,20 +1069,23 @@ function saswp_schema_output() {
                                 break;    
 
                                 case 'Organization':                                
-                                    
+                                    $organization_type = get_post_meta($schema_post_id, 'saswp_schema_organization_type', true);
+                                    if(empty($organization_type)){
+                                        $organization_type = 'Organization';
+                                    }
                                     $input1 = saswp_kb_schema_output();                                    
                                     if($input1['@type'] == 'Person'){
                                         $input1 = array();
                                         $input1 = array(
                                             '@context'			=> saswp_context_url(),
-                                            '@type'				=> 'Organization',
+                                            '@type'				=> $organization_type,
                                             '@id'				=> saswp_get_current_url().'#Organization',    
                                             'url'				=> saswp_get_current_url(),                                                                                    
                                             'description'       => saswp_get_the_excerpt(),                                                                        
                                             'name'				=> saswp_get_the_title()			                                                                                                            
                                         );
                                     }else{
-                                        $input1['@type'] = 'Organization';
+                                        $input1['@type'] = $organization_type;
                                     }
                                                                                                                                                                                                                                                                                                                                         
                                     $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
@@ -2129,7 +2132,9 @@ function saswp_schema_output() {
                             break;
 
                             case 'ReviewNewsArticle':
-                                                                                            
+                                                  
+                                $review_markup = $service_object->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                
+                                $item_reviewed = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);                                          
                                 $image_details 	 = wp_get_attachment_image_src($image_id);
 
                                 $category_detail = get_the_category(get_the_ID());//$post->ID
@@ -2173,6 +2178,21 @@ function saswp_schema_output() {
                                     'author'			=> saswp_get_author_details(),
                                     'editor'            => saswp_get_author_details()
                                     );
+                                        $input1['itemReviewed']['@type']  =  $item_reviewed;
+                                        if(isset($review_markup['item_reviewed'])){                                            
+                                            $item_reviewed          = array( '@type' => $item_reviewed) + $review_markup['item_reviewed'];                                        
+                                            $input1['itemReviewed'] = $item_reviewed;
+                                            
+                                        }
+
+                                        $added_reviews = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                
+                                        if(isset($added_reviews['review'])){
+                                            
+                                            $input1['itemReviewed']['review']                    = $added_reviews['review'];
+                                            $input1['itemReviewed']['aggregateRating']           = $added_reviews['aggregateRating'];
+                                        
+                                        }
                                         
                                         $mainentity = saswp_get_mainEntity($schema_post_id);
                                         
@@ -2310,7 +2330,7 @@ function saswp_schema_output() {
                                             'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
                                             'datePublished'                 => esc_html($date),
                                             'dateModified'                  => esc_html($modified_date),
-                                            'url'				            => saswp_get_permalink(),
+                                            'url'				            => isset($v_val['video_url'])?saswp_validate_url($v_val['video_url']):saswp_get_permalink(),
                                             'interactionStatistic'          => array(
                                                 "@type" => "InteractionCounter",
                                                 "interactionType" => array("@type" => "WatchAction" ),
@@ -2542,7 +2562,7 @@ function saswp_schema_output() {
                         if(!in_array($schema_type, $without_aggregate) && !empty($input1) ){ 
                                                      
                                 
-                                    if($schema_type == 'Review'){
+                                    if($schema_type == 'Review' || $schema_type == 'ReviewNewsArticle'){
 
                                     //Ratency Rating 
                             
@@ -3207,7 +3227,24 @@ function saswp_archive_output(){
                         'url'		 	=> esc_url($category_link),				
                         'hasPart' 		=> $category_posts
                     );
-                
+
+                    // Changes since version 1.15
+                    if(isset($sd_data['saswp_archive_list_type']) && $sd_data['saswp_archive_list_type'] == 'ItemList'){
+                        if(!empty($category_posts) && isset($category_posts[0])){
+                            $collection_page = array();
+                            $collection_page['@context']    = saswp_context_url();
+                            $collection_page['@type']       = 'ItemList';
+                            $pos_cnt = 1;
+                            foreach ($category_posts as $cat_key => $cat_value) {
+                                $collection_page['itemListElement'][$cat_key]['@type'] = 'ListItem';
+                                $collection_page['itemListElement'][$cat_key]['position'] = $pos_cnt;
+                                $collection_page['itemListElement'][$cat_key]['item'] = $cat_value;
+                                $pos_cnt++;
+                            }
+                        }
+                    }
+                    // Changes end
+
                     $blog_page = array(       		
                         '@context' 		=> saswp_context_url(),
                         '@type' 		=> "Blog",

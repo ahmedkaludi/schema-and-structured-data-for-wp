@@ -39,7 +39,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 }
                 
                 $author_desc        = get_the_author_meta( 'user_description' );
-                $author_url         = get_the_author_meta( 'user_url' );                
+                $author_url         = get_the_author_meta( 'user_url' ); 
+
+                $author_id = get_post_field( 'post_author', get_the_ID() );
+                if(empty($author_desc)){
+                    $author_desc = get_the_author_meta('user_description',$author_id);
+                }
+                if(empty($author_url)){
+                    $author_url = get_the_author_meta('user_url',$author_id);
+                }               
 
                 if(function_exists('get_avatar_data') && is_object($current_user) ){
                     $author_details	= get_avatar_data($current_user->ID);           
@@ -161,6 +169,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',                      
                         );
                         
+                        $meta_field[] = array(
+                            'label' => 'Country',
+                            'id' => 'local_country_'.$schema_id,
+                            'type' => 'text',                                   
+                        );
+
                         $meta_field[] = array(
                               'label' => 'Postal Code',
                             'id' => 'local_postal_code_'.$schema_id,
@@ -443,6 +457,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_blogposting_author_image_'.$schema_id,
                         'type' => 'media',
                         'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
+                    array(
+                            'label' => 'Author Social Profile',
+                            'id' => 'saswp_blogposting_author_social_profile_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => '',
+                            'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
                     ),
                     array(
                         'label'   => 'JobTitle',
@@ -738,6 +759,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_newsarticle_author_image_'.$schema_id,
                             'type' => 'media',
                             'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
+                    array(
+                            'label' => 'Author Social Profile',
+                            'id' => 'saswp_newsarticle_author_social_profile_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => '',
+                            'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
                     ),
 
                     array(
@@ -2129,8 +2157,32 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_reviewnewsarticle_speakable_'.$schema_id,
                                 'type' => 'checkbox',
         
-                        )                        
+                        ),                        
                         );
+                        if($manual == null){
+                         
+                            $meta_field[] = array(
+                            'label'   => 'Item Reviewed Type',
+                            'id'      => 'saswp_review_item_reviewed_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                        'Book'                  => 'Book',                             
+                                        'Course'                => 'Course',                             
+                                        'Event'                 => 'Event',                              
+                                        'HowTo'                 => 'HowTo',   
+                                        'local_business'        => 'LocalBusiness',                                 
+                                        'MusicPlaylist'         => 'Music Playlist',
+                                        'Movie'                 => 'Movie',
+                                        'Organization'          => 'Organization', 
+                                        'Product'               => 'Product',                                
+                                        'Recipe'                => 'Recipe',                             
+                                        'SoftwareApplication'   => 'SoftwareApplication',
+                                        'MobileApplication'     => 'MobileApplication',
+                                        'VideoGame'             => 'VideoGame', 
+                            )                                                        
+                         );
+                                                        
+                        }
                         break;
                 
                 case 'WebPage':
@@ -2895,6 +2947,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_article_author_image_'.$schema_id,
                                 'type' => 'media',
                                 'default' => isset($author_details['url']) ? $author_details['url']: ''
+                        ),
+                        array(
+                                'label' => 'Author Social Profile',
+                                'id' => 'saswp_article_author_social_profile_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
                         ),
                         array(
                                 'label'   => 'JobTitle',
@@ -4463,6 +4522,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_tech_article_author_image_'.$schema_id,
                         'type' => 'media',
                         'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
+                    array(
+                            'label' => 'Author Social Profile',
+                            'id' => 'saswp_tech_article_author_social_profile_'.$schema_id,
+                            'type' => 'textarea',
+                            'default' => '',
+                            'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
                     ),
                     array(
                         'label'   => 'JobTitle',
@@ -6063,6 +6129,164 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'    => 'saswp_product_additional_type_'.$schema_id,
                         'type'  => 'text',                             
                        ),
+                       array(
+                            'label'   => 'Return Policy Applicable Country Code',
+                            'id'      => 'saswp_product_schema_rp_country_code_'.$schema_id,
+                            'type'    => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'US'
+                            ),
+                        ),
+                        array(
+                            'label'   => 'Return Policy Category',
+                            'id'      => 'saswp_product_schema_rp_category_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                     'MerchantReturnFiniteReturnWindow'                 => 'MerchantReturnFiniteReturnWindow',
+                                     'MerchantReturnNotPermitted'                       => 'MerchantReturnNotPermitted',
+                                     'MerchantReturnUnlimitedWindow'                    => 'MerchantReturnUnlimitedWindow',
+                                     'MerchantReturnUnspecified'                        => 'MerchantReturnUnspecified',
+                            )
+                        ),
+                        array(
+                            'label'   => 'Return Policy Merchant Return Days',
+                            'id'      => 'saswp_product_schema_rp_return_days_'.$schema_id,
+                            'type'    => 'number',
+                            'attributes' => array(
+                                'placeholder' => '5'
+                            ),
+                        ),
+                        array(
+                            'label'   => 'Return Policy Return Method',
+                            'id'      => 'saswp_product_schema_rp_return_method_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                    'ReturnAtKiosk'     => 'ReturnAtKiosk',
+                                    'ReturnByMail'      => 'ReturnByMail',
+                                    'ReturnInStore'     => 'ReturnInStore',
+                            )
+                        ),
+                        array(
+                            'label'   => 'Return Policy Return Fees',
+                            'id'      => 'saswp_product_schema_rp_return_fees_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                    'FreeReturn'                        => 'FreeReturn',
+                                    'OriginalShippingFees'              => 'OriginalShippingFees',
+                                    'RestockingFees'                    => 'RestockingFees',
+                                    'ReturnFeesCustomerResponsibility'  => 'ReturnFeesCustomerResponsibility',
+                                    'ReturnShippingFees'                => 'ReturnShippingFees',
+                            )
+                        ),
+                        array(
+                            'label'   => 'Shipping Rate Value',
+                            'id'      => 'saswp_product_schema_sr_value_'.$schema_id,
+                            'type'    => 'text',
+                            'attributes' => array(
+                                'placeholder' => '3.8'
+                            ),
+                        ),
+                        array(
+                            'label'   => 'Shipping Rate Currency',
+                            'id'      => 'saswp_product_schema_sr_currency_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => 'USD',
+                            'attributes' => array(
+                                'placeholder' => 'USD'
+                            ),
+                        ),
+                        array(
+                            'label'   => 'Shipping Destination Locality',
+                            'id'      => 'saswp_product_schema_sa_locality_'.$schema_id,
+                            'type'    => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'New York'
+                            ),                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Destination Region',
+                            'id'      => 'saswp_product_schema_sa_region_'.$schema_id,
+                            'type'    => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'NY'
+                            ),                       
+                        ),
+                        array(
+                            'label'   => 'Shipping Destination Postal Code',
+                            'id'      => 'saswp_product_schema_sa_postal_code_'.$schema_id,
+                            'type'    => 'text',  
+                            'attributes' => array(
+                                'placeholder' => '10019'
+                            ),                      
+                        ),
+                        array(
+                            'label'   => 'Shipping Destination Street Address',
+                            'id'      => 'saswp_product_schema_sa_address_'.$schema_id,
+                            'type'    => 'textarea', 
+                            'attributes' => array(
+                                'placeholder' => '148 W 51st St'
+                            ),                       
+                        ),
+                        array(
+                            'label'   => 'Shipping Destination Country',
+                            'id'      => 'saswp_product_schema_sa_country_'.$schema_id,
+                            'type'    => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'US'
+                            ),                       
+                        ),
+                        array(
+                            'label'   => 'Shipping Handling Time Min Value',
+                            'id'      => 'saswp_product_schema_sdh_minval_'.$schema_id,
+                            'type'    => 'number',
+                            'attributes' => array(
+                                'placeholder' => '0'
+                            ),                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Handling Time Max Value',
+                            'id'      => 'saswp_product_schema_sdh_maxval_'.$schema_id,
+                            'type'    => 'number',
+                            'attributes' => array(
+                                'placeholder' => '1'
+                            ),                        
+                        ),
+                        array(
+                            'label'   => 'Shipping Handling Time Unit Code',
+                            'id'      => 'saswp_product_schema_sdh_unitcode_'.$schema_id,
+                            'type'    => 'text',     
+                            'note'    => 'Note: Enter unit code as DAY',
+                            'default' => 'DAY', 
+                            'attributes' => array(
+                                'placeholder' => 'DAY'
+                            ),                 
+                        ),
+                        array(
+                            'label'   => 'Shipping Transit Time Min Value',
+                            'id'      => 'saswp_product_schema_sdt_minval_'.$schema_id,
+                            'type'    => 'number', 
+                            'attributes' => array(
+                                'placeholder' => '2'
+                            ),                       
+                        ),
+                        array(
+                            'label'   => 'Shipping Transit Time Max Value',
+                            'id'      => 'saswp_product_schema_sdt_maxval_'.$schema_id,
+                            'type'    => 'number',  
+                            'attributes' => array(
+                                'placeholder' => '5'
+                            ),                      
+                        ),
+                        array(
+                            'label'   => 'Shipping Transit Time Unit Code',
+                            'id'      => 'saswp_product_schema_sdt_unitcode_'.$schema_id,
+                            'type'    => 'text',     
+                            'note'    => 'Note: Enter unit code as DAY',
+                            'default' => 'DAY',  
+                            'attributes' => array(
+                                'placeholder' => 'DAY'
+                            ),                 
+                        ),
                         array(
                             'label' => 'Aggregate Rating',
                             'id'    => 'saswp_product_schema_enable_rating_'.$schema_id,
@@ -6079,8 +6303,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_review_count_'.$schema_id,
                             'type'    => 'text',
                             'default' => saswp_remove_warnings($product_details, 'product_review_count', 'saswp_string')
-                        )
-                        
+                        ),
                     );
                     
                     break;

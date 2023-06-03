@@ -3496,7 +3496,7 @@ function saswp_default_video_object_schema(){
                         'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
                         'datePublished'                 => esc_html($date),
                         'dateModified'                  => esc_html($modified_date),
-                        'url'				            => saswp_get_permalink(),
+                        'url'				            => isset($v_val['video_url'])?saswp_validate_url($v_val['video_url']):saswp_get_permalink(),
                         'interactionStatistic'          => array(
                             "@type" => "InteractionCounter",
                             "interactionType" => array("@type" => "WatchAction" ),

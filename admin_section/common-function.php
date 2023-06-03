@@ -1626,7 +1626,145 @@ if ( ! defined('ABSPATH') ) exit;
     // Import schema data of yoast
     function saswp_import_yoast_seo_plugin_data()
     {
-        echo "<pre>===== "; print_r("Yoast SEO"); die;
+        global $wpdb;
+        $user_id        = get_current_user_id();
+
+        $yoast_wpseo = get_option('wpseo');
+        $yoast_wpseo_titles = get_option('wpseo_titles');
+        $yoast_wpseo_social = get_option('wpseo_social');
+        $yoast_wpseo_premium = get_option('wpseo_premium');
+
+        $saswp_plugin_options = array();
+        if(isset($yoast_wpseo_titles['company_name'])){
+            $saswp_plugin_options['sd_name'] = $yoast_wpseo_titles['company_name'];
+        }
+        if(isset($yoast_wpseo_titles['company_logo'])){
+            $saswp_plugin_options['sd_logo']['url'] = $yoast_wpseo_titles['company_logo'];
+        }
+        if(isset($yoast_wpseo_titles['company_logo_id'])){
+            $saswp_plugin_options['sd_logo']['id'] = $yoast_wpseo_titles['company_logo_id'];
+        }
+        if(isset($yoast_wpseo_titles['company_or_person']) && $yoast_wpseo_titles['company_or_person'] == 'person'){
+            $saswp_plugin_options['saswp_kb_type'] = 'Person';
+        }
+        if(isset($yoast_wpseo_titles['company_or_person']) && $yoast_wpseo_titles['company_or_person'] == 'company'){
+            $saswp_plugin_options['saswp_kb_type'] = 'Organization';
+        }
+        if(isset($yoast_wpseo_titles['company_or_person_user_id']) && !empty($yoast_wpseo_titles['company_or_person_user_id'])){
+            $user_details = get_userdata($yoast_wpseo_titles['company_or_person_user_id']);
+            if(isset($user_details->data) && isset($user_details->data->display_name)){
+                $saswp_plugin_options['sd-person-name'] = $user_details->data->display_name;
+            }
+        }
+        if(isset($yoast_wpseo_titles['website_name'])){
+            $saswp_plugin_options['sd_url'] = $yoast_wpseo_titles['website_name'];
+        }
+        if(isset($yoast_wpseo_titles['breadcrumbs-home'])){
+            $saswp_plugin_options['saswp_breadcrumb_home_page_title'] = $yoast_wpseo_titles['breadcrumbs-home'];
+        }
+        if(isset($yoast_wpseo_titles['person_logo']) && !empty($yoast_wpseo_titles['person_logo'])){
+            $saswp_plugin_options['sd-person-image']['url'] = $yoast_wpseo_titles['person_logo'];
+        }
+        if(isset($yoast_wpseo_titles['person_logo_id'])){
+            $saswp_plugin_options['sd-person-image']['id'] = $yoast_wpseo_titles['person_logo_id'];
+        }
+        if(isset($yoast_wpseo_social['facebook_site'])){
+          $saswp_plugin_options['sd_facebook'] =  $yoast_wpseo_social['facebook_site']; 
+          $saswp_plugin_options['saswp-facebook-enable'] =  1; 
+        }
+        if(isset($yoast_wpseo_social['twitter_site'])){
+          $saswp_plugin_options['sd_twitter'] =  $yoast_wpseo_social['twitter_site']; 
+          $saswp_plugin_options['saswp-twitter-enable'] =  1;
+        }
+
+        $get_options = get_option('sd_data');
+        $merge_options = array_merge($get_options, $saswp_plugin_options);
+        update_option('sd_data', $merge_options);
+
+        $mappings_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
+         
+        $all_schema_array = array();        
+        if ( file_exists( $mappings_file ) ) {
+            $all_schema_array = include $mappings_file;
+        }
+        if(!empty($all_schema_array) && is_array($all_schema_array)){
+            $wpdb->query('START TRANSACTION');
+            foreach ($all_schema_array as $ask_key => $ask_value) {
+                if(!empty($ask_value) && is_array($ask_value)){
+                    foreach ($ask_value as $ask_key1 => $ask_value1) {
+                        $schema_post = array();
+                        $key3 = 'post';
+                        if((isset($yoast_wpseo_titles['schema-page-type-post']) && $ask_value1 == $yoast_wpseo_titles['schema-page-type-post']) || (isset($yoast_wpseo_titles['schema-article-type-post']) && $ask_value1 == $yoast_wpseo_titles['schema-article-type-post'])){
+                            $schema_post = array(
+                                'post_author'           => $user_id,
+                                'post_date'             => date('Y-m-d H:i:s'),
+                                'post_date_gmt'         => date('Y-m-d H:i:s'),
+                                'post_content'          => '',
+                                'post_title'            => $ask_value1. ' (Migrated from Yoast plugin)',
+                                'post_status'           => 'publish',
+                                'comment_status'        => 'closed',
+                                'ping_status'           => 'closed',
+                                'post_name'             => $ask_value1,
+                                'post_type'             => 'saswp',                   
+                            ); 
+                            $key3 = 'post';
+                        }else if((isset($yoast_wpseo_titles['schema-page-type-page']) && $ask_value1 == $yoast_wpseo_titles['schema-page-type-page']) || (isset($yoast_wpseo_titles['schema-article-type-page']) && $ask_value1 == $yoast_wpseo_titles['schema-article-type-page'])){
+                            $schema_post = array(
+                                'post_author'           => $user_id,
+                                'post_date'             => date('Y-m-d H:i:s'),
+                                'post_date_gmt'         => date('Y-m-d H:i:s'),
+                                'post_content'          => '',
+                                'post_title'            => $ask_value1. ' (Migrated from Yoast plugin)',
+                                'post_status'           => 'publish',
+                                'comment_status'        => 'closed',
+                                'ping_status'           => 'closed',
+                                'post_name'             => $ask_value1,
+                                'post_type'             => 'saswp',                   
+                            ); 
+                            $key3 = 'page';
+                        }
+                        if(!empty($schema_post)){    
+                            $post_id = wp_insert_post($schema_post);
+                            $result  = $post_id;
+                            $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
+                            $wpdb->get_results("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
+                            $data_group_array = array();     
+                            $data_group_array['group-0'] =array(
+                              'data_array' => array(
+                                array(
+                                'key_1' => 'post_type',
+                                'key_2' => 'equal',
+                                'key_3' => $key3,
+                                )
+                              )               
+                             );                                                                             
+
+                            $saswp_meta_key = array(
+                                'schema_type'      => $ask_value1,
+                                'data_group_array' => $data_group_array,
+                                'imported_from'    => 'yoast'
+                            );
+                            
+                            foreach ($saswp_meta_key as $key => $val){                     
+                                update_post_meta($post_id, $key, $val);  
+                            }
+
+                            if(is_wp_error($result)){
+                                $errorDesc[] = $result->get_error_message();
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!empty($errorDesc) && is_array($errorDesc) && count($errorDesc) ){
+              echo implode("\n<br/>", $errorDesc); 
+              $wpdb->query('ROLLBACK');             
+            }else{
+              $wpdb->query('COMMIT');
+              return true;
+            }
+        }
     }
 
     //Function to expand html tags form allowed html tags in wordpress    
@@ -3807,9 +3945,11 @@ function saswp_get_video_metadata($content = ''){
                      }
  
                    }else{
+                    if (filter_var($vurl, FILTER_VALIDATE_URL) !== FALSE) {
                      $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
                      $result   = @wp_remote_get($rulr);                                    
                      $metadata = json_decode(wp_remote_retrieve_body($result),true);
+                    }
                    }
                    
                    $metadata['video_url'] = $vurl;          
@@ -3945,9 +4085,11 @@ function saswp_get_video_metadata($content = ''){
                                                     $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
                                                 }
                                             }else{
+                                                if (filter_var($video_url, FILTER_VALIDATE_URL) !== FALSE) {
                                                 $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($video_url).'&format=json';  
                                                 $result   = @wp_remote_get($rulr);                                    
                                                 $metadata = json_decode(wp_remote_retrieve_body($result),true); 
+                                                }
                                             } 
                                             $metadata['video_url'] = $video_url;                  
                                             $response[] = $metadata;
@@ -4930,4 +5072,13 @@ if(!function_exists('saswp_get_edited_authors')){
         }
         return $edited_authors;
     }
+}
+
+function saswp_modify_currency_code($currency='')
+{
+    $check_currency = trim(strtoupper($currency));
+    if($check_currency == 'IRT'){
+        $currency = 'IRR';
+    }
+    return $currency;
 }

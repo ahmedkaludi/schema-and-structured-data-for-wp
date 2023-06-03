@@ -176,6 +176,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
                         $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
                         $enable_faqschema  = get_post_meta($post->ID, 'saswp_enable_faq_schema', true);
+                        $organization_type = get_post_meta($post->ID, 'saswp_schema_organization_type', true);
                                                                                                  
                         if($schema_type != 'local_business'){
 
@@ -244,7 +245,23 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 'SportsEvent'      => 'SportsEvent',
                                 'TheaterEvent'     => 'TheaterEvent',
                                 'VisualArtsEvent'  => 'VisualArtsEvent'                           
-                          );  
+                          ); 
+
+                          $organization_type_list = array(                                
+                                ''                          => 'Select (Optional)',
+                                'Airline'                   => 'Airline',
+                                'Consortium'                => 'Consortium',
+                                'Corporation'               => 'Corporation',
+                                'EducationalOrganization'   => 'EducationalOrganization',
+                                'GovernmentOrganization'    => 'GovernmentOrganization',
+                                'LibrarySystem'             => 'LibrarySystem',                                
+                                'MedicalOrganization'       => 'MedicalOrganization',
+                                'NewsMediaOrganization'     => 'NewsMediaOrganization',
+                                'NGO'                       => 'NGO',
+                                'PerformingGroup'           => 'PerformingGroup',
+                                'SportsOrganization'        => 'SportsOrganization',
+                                'WorkersUnion'              => 'WorkersUnion',
+                            ); 
                         
                           $all_business_type               = $sub_business_arr['all_business_type'];
 
@@ -326,6 +343,26 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </td>
                 </tr>
                 
+                <tr class="saswp-organization-type-tr" <?php echo $style_business_type; ?>>
+                    <td>
+                    <?php echo saswp_t_string('Organization Type' ); ?>    
+                    </td>
+                    <td>
+                      <select id="saswp_schema_organization_type" name="saswp_schema_organization_type">
+                        <?php
+                        
+                          foreach ($organization_type_list as $key => $value) {
+                            $sel = '';
+                            if($organization_type==$key){
+                              $sel = 'selected';
+                            }
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".saswp_t_string($value )."</option>";
+                          }
+                        ?>
+                    </select>  
+                    </td>
+                </tr>
+
                 <tr class="saswp-event-text-field-tr" <?php echo $style_business_type; ?>>
                     <td>
                     <?php echo saswp_t_string('Event Type' ); ?>    
@@ -932,6 +969,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $review_fields['saswp_review_url']            = 'Review URL'; 
                                
                             }
+
+                            if($schema_type == 'ReviewNewsArticle'){
+                                $review_fields = $service->saswp_get_all_schema_type_fields($schema_type);
+
+                                $item_reviewed = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);
+                                if(!empty($item_reviewed)){                                                                
+                                    $schema_type   = $item_reviewed;
+                                }
+                            }
                             
                             $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
                             
@@ -1234,16 +1280,7 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         if ( 'trash' === $post->post_status ) {
             return;
         }
-
-        if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){
-    
-           update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 1);
-    
-        }else{
-            // delete_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros');   
-            update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 0);
-        }
-    
+            
         if(isset($_POST['saswp_schema_type_product_pros_enable_cons'])){       
                         
             update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_cons', 1);
@@ -1269,19 +1306,12 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         }else{
             delete_post_meta( $post_id, 'saswp_business_type');   
         }
-        if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){       
-                        
+        
+        if(isset($_POST['saswp_schema_type_product_pros_enable_pros'])){                        
             update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros', 1);
         }else{
             delete_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_pros');   
-        }
-    
-        // if(isset($_POST['product-enable-cons'])){
-        //     update_post_meta( $post_id, 'product-enable-cons', intval( $_POST['product-enable-cons'] ) );
-        // }else{
-        //     delete_post_meta( $post_id, 'product-enable-cons');   
-        // }
-    
+        }                
     
         if(isset($_POST['saswp_event_type'])){
             update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
@@ -1355,6 +1385,12 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
             update_post_meta( $post_id, 'saswp_enable_faq_schema', intval($_POST['saswp_enable_faq_schema']) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_enable_faq_schema');                                                                       
+        }
+
+        if(isset($_POST['saswp_schema_organization_type'])){
+            update_post_meta( $post_id, 'saswp_schema_organization_type', $_POST['saswp_schema_organization_type']);                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_schema_organization_type');                                                                       
         }
         $common_obj = new saswp_view_common_class();
         
