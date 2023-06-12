@@ -8240,7 +8240,7 @@ Class saswp_output_service{
 
             $image_id 	            = get_post_thumbnail_id();
             
-            if(is_array($saswp_featured_image) && isset($saswp_featured_image[$image_id])){
+            if(empty($saswp_featured_image[$image_id])){
                                 
                 $image_alt     = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
 
@@ -8248,9 +8248,9 @@ Class saswp_output_service{
                 $saswp_featured_image[$image_id]['caption'] = $image_alt ? $image_alt : '';
 
             }
-            if(isset($saswp_featured_image[$image_id])){
-                $image_details = $saswp_featured_image[$image_id];
-            }	        
+                
+            $image_details = $saswp_featured_image[$image_id];	 
+                   
             if( is_array($image_details) && !empty($image_details)){                                
                                                                                     
                                         if($image_resize){
