@@ -4033,9 +4033,13 @@ function saswp_get_video_metadata($content = ''){
                                     $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
                                 }
                             }else{
-                                $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
-                                $result   = @wp_remote_get($rulr);                                    
-                                $metadata = json_decode(wp_remote_retrieve_body($result),true); 
+                                if(strpos($vurl, 'twitter') !== false){
+                                    $metadata['video_url'] = $vurl;
+                                }else{
+                                    $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                                    $result   = @wp_remote_get($rulr);                                    
+                                    $metadata = json_decode(wp_remote_retrieve_body($result),true); 
+                                }
                             }
                             $metadata['video_url'] = $vurl;                  
                             $response[] = $metadata;
