@@ -399,7 +399,7 @@ class SASWP_Reviews_Collection {
                         $data_id              = null;
                         $dots = $f_interval = $f_visibility = $arrow = 1;
                         $g_type = $design = $cols = $sorting = $date_format = '';
-                        
+                        $stars_color = '';
                         $collection_data = get_post_meta($attr['id']);
                         
                         if(isset($collection_data['saswp_collection_design'][0])){
