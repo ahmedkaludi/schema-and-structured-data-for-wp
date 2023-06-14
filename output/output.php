@@ -225,7 +225,28 @@ function saswp_schema_output() {
                                 $input1['dateModified']                 = esc_html($modified_date);
                                 $input1['dateCreated']                  = esc_html($date);
                                 $input1['author']                       = saswp_get_author_details();											                            
-
+                                $faq_post_meta_data = get_post_meta($schema_post_id);
+                                if(isset($faq_post_meta_data['saswp_faq_id_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_id_'.$schema_post_id][0])){
+                                    unset($input1['@id']);
+                                }
+                                if(isset($faq_post_meta_data['saswp_faq_headline_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_headline_'.$schema_post_id][0])){
+                                    unset($input1['headline']);
+                                }
+                                if(isset($faq_post_meta_data['saswp_faq_keywords_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_keywords_'.$schema_post_id][0])){
+                                    unset($input1['keywords']);
+                                }
+                                if(isset($faq_post_meta_data['saswp_faq_date_published_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_date_published_'.$schema_post_id][0])){
+                                    unset($input1['datePublished']);
+                                }
+                                if(isset($faq_post_meta_data['saswp_faq_date_modified_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_date_modified_'.$schema_post_id][0])){
+                                    unset($input1['dateModified']);
+                                }
+                                if(isset($faq_post_meta_data['saswp_faq_date_created_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_date_created_'.$schema_post_id][0])){
+                                    unset($input1['dateCreated']);
+                                }
+                                if((isset($faq_post_meta_data['saswp_faq_author_type_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_author_type_'.$schema_post_id][0])) && (isset($faq_post_meta_data['saswp_faq_author_name_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_author_name_'.$schema_post_id][0])) && (isset($faq_post_meta_data['saswp_faq_author_description_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_author_description_'.$schema_post_id][0])) && (isset($faq_post_meta_data['saswp_faq_author_url_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_author_url_'.$schema_post_id][0])) && (isset($faq_post_meta_data['saswp_faq_author_image_'.$schema_post_id]) && empty($faq_post_meta_data['saswp_faq_author_image_'.$schema_post_id][0]))){
+                                    unset($input1['author']);
+                                }
 
                                 $input1 = apply_filters('saswp_modify_faq_schema_output', $input1 );
 
@@ -240,8 +261,7 @@ function saswp_schema_output() {
                                     if(empty($input1['mainEntity'])){
                                         $input1 = array();    
                                     }
-                                }
-                                                                                                                                                                                                                                                                              
+                                }                                                                                                                       
                             break;
                         
                             case 'VideoGame':
