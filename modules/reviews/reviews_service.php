@@ -717,7 +717,7 @@ class saswp_reviews_service {
                                             
     }
     
-    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $paged = null, $offset = null,$stars_color = null, $collection_review_imag=null){
+    public function saswp_get_reviews_list_by_parameters($attr = null, $platform_id = null, $rvcount = null, $paged = null, $offset = null,$stars_color = null, $collection_review_imag=null, $platform_place='all'){
                         
             $response   = array();                                
             $arg        = array();
@@ -803,6 +803,14 @@ class saswp_reviews_service {
                         );                    
                  }
 
+                 if(isset($platform_place) && $platform_place != 'all'){
+                    $meta_query[] =   array(
+                            'key'     => 'saswp_review_location_id',
+                            'value'   => $platform_place,
+                            'compare' => '=='
+                        );                    
+                 }
+
                  $meta_query_args = array(            
                     array(
                         'relation' => 'AND',
@@ -814,7 +822,7 @@ class saswp_reviews_service {
             }
                         
             $posts_list = get_posts($arg); 
-                                   
+                     
             if($posts_list){
             
              $post_meta = array(                     
