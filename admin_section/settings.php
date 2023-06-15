@@ -1300,6 +1300,7 @@ function saswp_general_page_callback(){
                                 'Consortium'                => 'Consortium',
                                 'Corporation'               => 'Corporation',
                                 'EducationalOrganization'   => 'EducationalOrganization',
+                                'School'                    => 'School',
                                 'GovernmentOrganization'    => 'GovernmentOrganization',
                                 'LibrarySystem'             => 'LibrarySystem',                                
                                 'MedicalOrganization'       => 'MedicalOrganization',

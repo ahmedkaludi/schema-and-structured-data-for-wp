@@ -253,6 +253,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 'Consortium'                => 'Consortium',
                                 'Corporation'               => 'Corporation',
                                 'EducationalOrganization'   => 'EducationalOrganization',
+                                'School'                    => 'School',
                                 'GovernmentOrganization'    => 'GovernmentOrganization',
                                 'LibrarySystem'             => 'LibrarySystem',                                
                                 'MedicalOrganization'       => 'MedicalOrganization',
