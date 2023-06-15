@@ -765,10 +765,12 @@ class SASWP_Reviews_Collection {
                                         <input type="number" id="saswp-review-count" name="saswp-review-count" min="0" value="5">
                                         <a class="button button-default saswp-add-to-collection"><?php echo saswp_t_string('Add'); ?></a>
                                       </div>
-                                      <label>Platform URL</label>
-                                      <select id="saswp-review-platform-places" style="margin-top: 10px;">
-                                        <option>Records Not Found</option>
-                                      </select>
+                                      <div class="platform-places-wrapper" style="margin-top: 10px;">
+                                          <label><strong>Platform URL</strong></label>
+                                          <select id="saswp-review-platform-places">
+                                            <option>Records Not Found</option>
+                                          </select>
+                                       </div>
                                       <div class="saswp-platform-added-list">  
                                           
                                       </div>
