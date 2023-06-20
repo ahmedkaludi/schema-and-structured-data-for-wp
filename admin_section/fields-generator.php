@@ -69,7 +69,7 @@ class saswp_fields_generator {
             "image" => "/admin_section/images/reviews_platform_icon/cargurus-img.png",
             "name"  => "Cargurus"),
         array(
-            "image" => "/admin_section/images/reviews_platform_icon/clutch-img.png",
+            "image" => "/admin_section/images/reviews_platform_icon/clutch-co-img.png",
             "name"  => "Clutch"),
         array("image" => "/admin_section/images/reviews_platform_icon/citysearch-img.png",
             "name"  => "Citysearch"),
