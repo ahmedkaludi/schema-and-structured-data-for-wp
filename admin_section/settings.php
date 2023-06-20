@@ -1651,7 +1651,7 @@ function saswp_import_callback(){
                         'name'   => 'saswp-image-resizing-checkbox',
                         'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',   
-                        'note'   => 'If the featured image do not match with google image guidlines. This option creates a copy of the image and resize it as per google guidlines. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/what-is-allow-image-resizing-in-schema-structured-data-for-wp-amp">Learn More</a>',
+                        'note'   => 'If the featured image do not match with google image guidelines. This option creates a copy of the image and resize it as per google guidlines. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/what-is-allow-image-resizing-in-schema-structured-data-for-wp-amp">Learn More</a>',
                         'hidden' => array(
                                 'id'   => 'saswp-image-resizing',
                                 'name' => 'sd_data[saswp-image-resizing]',                             

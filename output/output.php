@@ -2871,7 +2871,7 @@ function saswp_schema_output() {
 
                             if( !empty($input1) && !isset($input1['mainEntity']['image'])){
                                                           
-                                $input2             = $service_object->saswp_get_fetaure_image();
+                                $input2             = $service_object->saswp_get_featured_image();
                                 
                                 if(!empty($input2)){
                                     $input1['mainEntity'] = apply_filters('saswp_modify_featured_image', array_merge($input1['mainEntity'],$input2));
@@ -2888,7 +2888,7 @@ function saswp_schema_output() {
                             
                             if( !empty($input1) && !isset($input1['image'])){
                                                               
-                                $input2             = $service_object->saswp_get_fetaure_image();
+                                $input2             = $service_object->saswp_get_featured_image();
                                 
                                 if(!empty($input2)){
                                     
@@ -3055,7 +3055,7 @@ function saswp_woocommerce_category_schema(){
                         $category_posts['position']    = $i;
 			            $category_posts['item']        = $service->saswp_schema_markup_generator('Product');
                         
-                        $feature_image           = $service->saswp_get_fetaure_image();
+                        $feature_image           = $service->saswp_get_featured_image();
                         $category_posts['item']  = array_merge( $category_posts['item'], $feature_image);
                         
                         if(saswp_has_slash($current_url)){
@@ -3434,7 +3434,7 @@ function saswp_about_page_output(){
 	if((isset($sd_data['sd_about_page'])) && in_array($sd_data['sd_about_page'], $page_ids) ){   
             
                         $service_object     = new saswp_output_service();
-                        $feature_image      = $service_object->saswp_get_fetaure_image();
+                        $feature_image      = $service_object->saswp_get_featured_image();
                         $publisher          = $service_object->saswp_get_publisher();
                         
 			$input = array(
@@ -3482,7 +3482,7 @@ function saswp_contact_page_output(){
 	if(isset($sd_data['sd_contact_page']) && in_array($sd_data['sd_contact_page'], $page_ids ) ){
                         
                         $service_object     = new saswp_output_service();
-                        $feature_image      = $service_object->saswp_get_fetaure_image();
+                        $feature_image      = $service_object->saswp_get_featured_image();
                         $publisher          = $service_object->saswp_get_publisher();
                         			
 			$input = array(

@@ -8221,7 +8221,7 @@ Class saswp_output_service{
          * @global type $sd_data
          * @return type array
          */
-        public function saswp_get_fetaure_image(){
+        public function saswp_get_featured_image(){
             
             global $post, $sd_data, $saswp_featured_image;
 
