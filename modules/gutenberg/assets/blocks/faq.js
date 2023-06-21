@@ -314,7 +314,12 @@
             return modified_desc;
           }
           function saswpImageUpdate(value, item, height, width, image_type,image_align){
-                      
+                      if(typeof value == 'undefined'){
+                        value = 'full';
+                      }
+                      if(typeof image_align == 'undefined'){
+                        image_align = 'right';  
+                      }
                       let image_url;
                       let image;
                       
