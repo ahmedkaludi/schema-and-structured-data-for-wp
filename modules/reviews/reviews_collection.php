@@ -766,9 +766,9 @@ class SASWP_Reviews_Collection {
                                         <a class="button button-default saswp-add-to-collection"><?php echo saswp_t_string('Add'); ?></a>
                                       </div>
                                       <div class="platform-places-wrapper" style="margin-top: 10px;">
-                                          <label><strong>Platform URL</strong></label>
+                                          <label><strong><?= saswp_t_string('Platform URL'); ?></strong></label>
                                           <select id="saswp-review-platform-places">
-                                            <option>Records Not Found</option>
+                                            <option><?= saswp_t_string('Records Not Found') ?></option>
                                           </select>
                                        </div>
                                       <div class="saswp-platform-added-list">  
