@@ -595,16 +595,19 @@ class SASWP_Gutenberg {
                                         break;  
                                     case 'p':
                                             echo '<p>'. html_entity_decode(esc_attr($item['title'])).'</p>';
+                                        break;
+                                    case 'strong':
+                                            echo '<strong>'. html_entity_decode(esc_attr($item['title'])).'</strong>';
                                         break;   
     
     
                                     default:
-                                    echo '<h3>'. html_entity_decode(esc_attr($item['title'])).'</h3>';
+                                    echo '<h5>'. html_entity_decode(esc_attr($item['title'])).'</h5>';
                                         break;
                                 }
     
                             }else{
-                                echo '<strong class="saswp-faq-question-title">'. html_entity_decode(esc_attr($item['title'])).'</strong>';    
+                                echo '<h5 class="saswp-faq-question-title">'. html_entity_decode(esc_attr($item['title'])).'</h5>';    
                             }
                                                     
                             echo '<p class="saswp-faq-answer-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';

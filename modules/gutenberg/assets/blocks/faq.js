@@ -34,7 +34,7 @@
           },
           headingTag: {
             type: 'string' ,
-            default:'H5',             
+            default:'h5',             
           },
           listStyle:{
                 type: 'string',
@@ -672,7 +672,8 @@
                   { label: 'H5', value: 'h5' },
                   { label: 'H6', value: 'h6' },
                   { label: 'Div', value:'div' },
-                  { label:'P', value:'p' }
+                  { label:'P', value:'p' },
+                  { label:'Strong', value:'strong' }
 
                 ] ,
                 onChange: function(value){
