@@ -178,7 +178,6 @@ jQuery(document).ready(function($){
 	
 	function saswp_show_page(page){
 		
-		$(".saswp-grid-page").hide();
 		$(".saswp-pagination-first-last").show();		
 		
 		var min = (parseInt(page) - 3);
