@@ -27,8 +27,7 @@ $with_aggregate = array(
         'VideoObject',              
         'local_business',
         'Organization', 
-        'project', 
-        'Service',                 
+        'project',                  
         'Product'              
 );
 $without_aggregate = array(
@@ -79,7 +78,8 @@ $without_aggregate = array(
         'Church',
         'Mosque',
         'Person',
-        'SpecialAnnouncement'
+        'SpecialAnnouncement',
+        'Service',
 );
 $translation_labels = array(
     'translation-pros'            => 'Pros',
