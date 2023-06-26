@@ -153,12 +153,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				return;
 			}
 			
-			// Check to see if the user has opted in to tracking
-			/*$allow_tracking = $this->get_is_tracking_allowed();
-			if( ! $allow_tracking ) {
-				return;
-			}
-			*/
+
 			// Check to see if it's time to track
 			$track_time = $this->get_is_time_to_track();
 			if( ! $track_time && ! $force ) {
@@ -350,16 +345,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 */
 		public function deactivate_this_plugin() {
 
-			// Check to see if the user has opted in to tracking
-			/*if( $this->what_am_i == 'theme' ) {
-				$allow_tracking = $this->theme_allows_tracking;
-			} else {
-				$allow_tracking = $this->get_is_tracking_allowed();
-			}
 			
-			if( ! $allow_tracking ) {
-				return;
-			}*/
 			
 			$body = $this->get_data();
 
@@ -388,10 +374,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 */
 		public function get_is_tracking_allowed() {
 			// First, check if the user has changed their mind and opted out of tracking
-			/*if( $this->has_user_opted_out() ) {
-				$this->set_is_tracking_allowed( false, $this->plugin_name );
-				return false;
-			}*/
+			
 			
 			if( $this->what_am_i == 'theme' ) {
 				
@@ -790,9 +773,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 */
 		public function filter_action_links( $links ) {
 			// Check to see if the user has opted in to tracking
-			/*if( ! $this->get_is_tracking_allowed() ) {
-				return $links;
-			}*/
+			
 			if( isset( $links['deactivate'] ) && $this->include_goodbye_form ) {
 				$deactivation_link = $links['deactivate'];
 				// Insert an onClick action to allow form before deactivating

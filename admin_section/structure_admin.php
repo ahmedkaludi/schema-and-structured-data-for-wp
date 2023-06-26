@@ -2123,11 +2123,7 @@ function saswp_license_status_check(){
         $add_on           = sanitize_text_field($_POST['add_on']);
         $license_status   = sanitize_text_field($_POST['license_status']);
         $license_key      = sanitize_text_field($_POST['license_key']);
-        // $match_asterick_pattern = "**********************";
-        // if (strpos($license_key, $match_asterick_pattern)===0) {
-        //   $data = get_option('sd_data');
-        //   $license_key = $data[$add_on.'_addon_license_key'];
-        // }
+        
 
         if($add_on && $license_status && $license_key){
             
