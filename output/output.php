@@ -2244,9 +2244,7 @@ function saswp_schema_output() {
                                                                                                  
 				                $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $schema_type;
-                                $input1['@id']      =  saswp_get_permalink().'#service';
-
-                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);   
+                                $input1['@id']      =  saswp_get_permalink().'#service';   
                                                                                                                                                                                                         
                                 $input1 = apply_filters('saswp_modify_service_schema_output', $input1 );
                                 
