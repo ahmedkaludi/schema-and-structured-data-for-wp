@@ -3041,6 +3041,23 @@ function saswp_woocommerce_category_schema(){
                 $current_url = saswp_get_current_url();
                 
                 $i = 1;
+
+                $schema_id_array = array();
+                $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
+                if(!$schema_id_array){
+                   $schema_id_array = saswp_get_saved_schema_ids();
+                } 
+                $product_schema_id = '';
+                if(is_array($schema_id_array) && count($schema_id_array) > 0){
+                    foreach ($schema_id_array as $sid_key => $sid_value) {
+                        $schema_post_meta = get_post_meta($sid_value);
+                        if(isset($schema_post_meta['schema_type']) && isset($schema_post_meta['schema_type'][0])){
+                            if($schema_post_meta['schema_type'][0] == 'Product'){
+                                $product_schema_id = $sid_value;      
+                            }
+                        }
+                    }
+                }
                 
 		if ( $category_loop->have_posts() ):
 			while( $category_loop->have_posts() ): $category_loop->the_post();
@@ -3049,7 +3066,17 @@ function saswp_woocommerce_category_schema(){
                         $category_posts['@type']       = 'ListItem';
                         $category_posts['position']    = $i;
 			            $category_posts['item']        = $service->saswp_schema_markup_generator('Product');
-                        
+                        if(!empty($product_schema_id)){
+                            $category_posts['item'] = saswp_append_fetched_reviews($category_posts['item'], $product_schema_id);
+                            $category_posts['item'] = apply_filters('saswp_modify_product_schema_output', $category_posts['item'] );
+                            $schema_options = get_post_meta( $product_schema_id, 'schema_options', true);
+                            $modified_schema    = get_post_meta(get_the_ID(), 'saswp_modify_this_schema_'.$product_schema_id, true);
+                            $category_posts['item'] = saswp_get_modified_markup($category_posts['item'], 'Product', $product_schema_id, $schema_options);
+                            if($modified_schema == 1){
+                                $schema_post_meta      = get_post_meta(get_the_ID(), null, null);;
+                                $category_posts['item'] = saswp_product_schema_markup($product_schema_id, get_the_ID(), $schema_post_meta);
+                            }
+                        }
                         $feature_image           = $service->saswp_get_featured_image();
                         $category_posts['item']  = array_merge( $category_posts['item'], $feature_image);
                         
