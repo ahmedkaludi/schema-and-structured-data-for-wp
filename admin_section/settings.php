@@ -1043,6 +1043,17 @@ function saswp_general_page_callback(){
                                 'name' => 'sd_data[saswp_woocommerce_archive]',                             
                         )
                 );
+                $meta_fields_default[] = array(
+                        'label'   => 'List Type',
+                        'id'      => 'saswp_woocommerce_archive_list_type',
+                        'name'    => 'sd_data[saswp_woocommerce_archive_list_type]',
+                        'class'   => 'saswp_woocommerce_archive_list_type_class',
+                        'type'    => 'select',
+                        'options' => array(                                
+                                'DetailedItemList'      => 'DetailedItemList',
+                                'ItemList'              => 'ItemList',                                          
+                        )
+                );
 
         }                                      
 

@@ -1205,9 +1205,11 @@ jQuery(document).ready(function($){
                       case 'saswp_woocommerce_archive_checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
-                              $("#saswp_woocommerce_archive").val(1);                              
+                              $("#saswp_woocommerce_archive").val(1); 
+                              $(".saswp_woocommerce_archive_list_type_class").parent().parent().show();                             
                             }else{
-                              $("#saswp_woocommerce_archive").val(0);                                         
+                              $("#saswp_woocommerce_archive").val(0);  
+                              $(".saswp_woocommerce_archive_list_type_class").parent().parent().hide();                                       
                             }
                       break;
 
