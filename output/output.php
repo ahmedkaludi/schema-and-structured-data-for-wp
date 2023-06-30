@@ -3053,7 +3053,8 @@ function saswp_woocommerce_category_schema(){
                         $schema_post_meta = get_post_meta($sid_value);
                         if(isset($schema_post_meta['schema_type']) && isset($schema_post_meta['schema_type'][0])){
                             if($schema_post_meta['schema_type'][0] == 'Product'){
-                                $product_schema_id = $sid_value;      
+                                $product_schema_id = $sid_value; 
+                                break;     
                             }
                         }
                     }
