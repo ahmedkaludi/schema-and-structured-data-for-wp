@@ -2637,7 +2637,7 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1['datePublished']         = date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_published_'.$schema_id][0]));
     }
     if(isset($all_post_meta['saswp_faq_date_modified_'.$schema_id]) && isset($all_post_meta['saswp_faq_date_modified_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_date_modified_'.$schema_id][0])){  
-        $input1['dateModified']          = date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_modified_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_date_modified_'.$schema_id][0]));
+        $input1['dateModified']          = date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_modified_'.$schema_id][0]));
     }
     if(isset($all_post_meta['saswp_faq_date_created_'.$schema_id]) && isset($all_post_meta['saswp_faq_date_created_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_date_created_'.$schema_id][0])){
         $input1['dateCreated']           = date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_created_'.$schema_id][0]));
