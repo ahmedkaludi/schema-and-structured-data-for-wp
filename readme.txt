@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 1.15
+Stable tag: 1.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,34 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.16 (30 June 2023) =
+
+* Added: School Schema #1464
+* Added: Filter that allows users to add reviews based on their location when creating review collection #1810
+* Fixed: When reviews are added for the services schema, "missing reviewed item name" and "item does not support reviews" errors in schema markup #1843
+* Fixed: Schema markup error when twitter video is added to the post or page #1877
+* Fixed: Conflict issue with Etsy review fetch #1938
+* Fixed: Conflict issue with Oneflare review fetch #1943
+* Fixed: Bugs in FAQ manual schema and post specific schema settings #1950
+* Fixed: Resolved schema warning related to review collection #1951
+* Fixed: Wrong path to Clutch image #1953
+* Fixed: Error on changes to image width in new FAQ block #1955
+* Fixed: Default Heading Tag is shown as "H1" but actually is "strong" #1956
+* Fixed: List style type on How To Block has no effect #1959
+* Fixed: Spelling mistakes in function name and text in code #1961
+* Fixed: Remove dead Code from plugin #1962
+* Added: Option to add details and normal itemlist in archive schema #1963
+* Fixed: Itemlist details markup and singular markup for the particular product are not same #1964
+* Fixed: Resolve pagination issue on frontend for review collection #1968
+* Fixed: Author's names are not appearing correctly in the schema #1969
+* Fixed: Update values of employmentType attribute for Job Posting schema #1971
+
+
+= 1.15.1 (12 June 2023) =
+
+* Fixed: Featured image is not being added in markup after last update #1952
+
 
 = 1.15 (03 June 2023) =
 

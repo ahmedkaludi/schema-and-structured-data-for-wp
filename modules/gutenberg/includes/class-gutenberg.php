@@ -595,16 +595,19 @@ class SASWP_Gutenberg {
                                         break;  
                                     case 'p':
                                             echo '<p>'. html_entity_decode(esc_attr($item['title'])).'</p>';
+                                        break;
+                                    case 'strong':
+                                            echo '<strong>'. html_entity_decode(esc_attr($item['title'])).'</strong>';
                                         break;   
     
     
                                     default:
-                                    echo '<h3>'. html_entity_decode(esc_attr($item['title'])).'</h3>';
+                                    echo '<h5>'. html_entity_decode(esc_attr($item['title'])).'</h5>';
                                         break;
                                 }
     
                             }else{
-                                echo '<strong class="saswp-faq-question-title">'. html_entity_decode(esc_attr($item['title'])).'</strong>';    
+                                echo '<h5 class="saswp-faq-question-title">'. html_entity_decode(esc_attr($item['title'])).'</h5>';    
                             }
                                                     
                             echo '<p class="saswp-faq-answer-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';
@@ -699,15 +702,12 @@ class SASWP_Gutenberg {
                         $className = 'class="'.esc_attr($attributes['className']).'"';
                     }
 
-                    if(!isset($attributes['listStyleType']))
-                    {
-                        $attributes['listStyleType']='none';
-                    }
+                    
 
                     if(($attributes['listStyleType']=='none')){
                         echo'<ol '.$className.' style="list-style-type:none;">';
-                     }elseif(($attributes['listStyleType']=='number')){
-                        echo '<ol>';
+                     }elseif(($attributes['listStyleType']=='disc')){
+                        echo'<ol '.$className.' style="list-style-type:disc;">';
                      }else{
                         echo '<ol>';
                      }
@@ -733,11 +733,11 @@ class SASWP_Gutenberg {
                     foreach($attributes['items'] as $item){
                        
                       if($item['title'] || $item['description']){
-                        echo '<li style="list-style-type: '.esc_attr($attributes['headingTag']).'">'; 
+                        echo '<li>'; 
                         if(!empty($attributes['headingTag']) && $attributes['headingTag'] == 'h1' || $attributes['headingTag'] == 'h2' || $attributes['headingTag'] == 'h3' || $attributes['headingTag'] == 'h4' || $attributes['headingTag'] == 'h5' || $attributes['headingTag'] == 'h6'){
                             echo '<'.html_entity_decode(esc_attr($attributes['headingTag'])).'>'. html_entity_decode(esc_attr($item['title'])).'</'.html_entity_decode(esc_attr($attributes['headingTag'])).'>';
                         }else{
-                            echo '<strong class="saswp-how-to-step-name">'. html_entity_decode(esc_attr($item['title'])).'</strong>';
+                            echo '<h1 class="saswp-how-to-step-name">'. html_entity_decode(esc_attr($item['title'])).'</h1>';
                         }
                         echo '<p class="saswp-how-to-step-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';
                         echo '</li>';

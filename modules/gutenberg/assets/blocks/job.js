@@ -316,11 +316,14 @@
                 el(RadioControl,{
                     selected: attributes.job_types,
                     options : [
-                            { label: 'Freelance', value: 'freelance' },
-                            { label: 'Full Time', value: 'full_time' },
-                            { label: 'Internship', value: 'internship' },
-                            { label: 'Part Time', value: 'part_time' },
-                            { label: 'Temporary', value: 'temporary' },
+                            { label: 'FULL_TIME',  value: 'FULL_TIME'  },
+                            { label: 'PART_TIME',  value: 'PART_TIME'  },
+                            { label: 'CONTRACTOR', value: 'CONTRACTOR' },
+                            { label: 'TEMPORARY',  value: 'TEMPORARY'  },
+                            { label: 'INTERN',     value: 'INTERN'     },
+                            { label: 'VOLUNTEER',  value: 'VOLUNTEER'  },
+                            { label: 'PER_DIEM',   value: 'PER_DIEM'   },
+                            { label: 'OTHER',      value: 'OTHER'      },
 			],
                     onChange: function(value) {
                             props.setAttributes( { job_types: value } );

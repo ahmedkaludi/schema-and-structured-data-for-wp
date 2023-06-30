@@ -35,7 +35,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 $current_user       = null;
 
                 if( function_exists('wp_get_current_user') ){
-                        $current_user       = wp_get_current_user();
+                        // $current_user       = wp_get_current_user();
+                        $aid = get_the_author_meta('ID');
+                        $a_display_name = get_the_author_meta('display_name');
+                        $current_user['ID'] = $aid;
+                        $current_user['display_name'] = $a_display_name;
+                        $current_user = json_encode($current_user);
+                        $current_user = json_decode($current_user);
                 }
                 
                 $author_desc        = get_the_author_meta( 'user_description' );
@@ -6355,6 +6361,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                      'Airline'                      => 'Airline',
                                      'Corporation'                  => 'Corporation',
                                      'EducationalOrganization'      => 'Educational Organization',
+                                     'School'                       => 'School',
                                      'GovernmentOrganization'       => 'Government Organization',
                                      'LocalBusiness'                => 'Local Business',
                                      'MedicalOrganization'          => 'Medical Organization',  
@@ -6482,6 +6489,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                          'Airline'                      => 'Airline',
                                          'Corporation'                  => 'Corporation',
                                          'EducationalOrganization'      => 'Educational Organization',
+                                         'School'                       => 'School',
                                          'GovernmentOrganization'       => 'Government Organization',
                                          'LocalBusiness'                => 'Local Business',
                                          'MedicalOrganization'          => 'Medical Organization',  
@@ -8564,12 +8572,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'         => 'saswp_jobposting_schema_employment_type_'.$schema_id,
                             'type'       => 'select', 
                             'options'    => array(
-                                'Full-Time'  => 'Full-Time',
-                                'Part-Time'  => 'Part-Time',
-                                'Contractor' => 'Contractor',                                
-                                'Temporary'  => 'Temporary',
-                                'Seasonal'   => 'Seasonal',
-                                'Internship' => 'Internship',
+                                'FULL_TIME'  => 'FULL_TIME',
+                                'PART_TIME'  => 'PART_TIME',
+                                'CONTRACTOR' => 'CONTRACTOR',                                
+                                'TEMPORARY'  => 'TEMPORARY',
+                                'INTERN'     => 'INTERN',
+                                'VOLUNTEER'  => 'VOLUNTEER',
+                                'PER_DIEM'   => 'PER_DIEM',
+                                'OTHER'      => 'OTHER',
                             )
                         ), 
                     array(
@@ -8841,25 +8851,74 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     break;
 
                     case 'FAQ':
-                    
+                        $faq_post_meta_data = get_post_meta(get_the_ID());
+                        $faq_post_meta_id = 'FAQ';
+                        if(isset($faq_post_meta_data['saswp_faq_id_'.$schema_id])){
+                            $faq_post_meta_id = $faq_post_meta_data['saswp_faq_id_'.$schema_id][0];
+                        }
+                        $faq_post_meta_headline = get_the_title();
+                        if(isset($faq_post_meta_data['saswp_faq_headline_'.$schema_id])){
+                            $faq_post_meta_headline = $faq_post_meta_data['saswp_faq_headline_'.$schema_id][0];
+                        }
+                        $faq_post_meta_tags = saswp_get_the_tags();
+                        if(isset($faq_post_meta_data['saswp_faq_keywords_'.$schema_id])){
+                            $faq_post_meta_tags = $faq_post_meta_data['saswp_faq_keywords_'.$schema_id][0];
+                        }
+                        $faq_post_meta_atype = '';
+                        if(isset($faq_post_meta_data['saswp_faq_author_type_'.$schema_id])){
+                            $faq_post_meta_atype = $faq_post_meta_data['saswp_faq_author_type_'.$schema_id][0];
+                        }
+                        $faq_post_meta_aname = is_object($current_user) ? $current_user->display_name : '';
+                        if(isset($faq_post_meta_data['saswp_faq_author_name_'.$schema_id])){
+                            $faq_post_meta_aname = $faq_post_meta_data['saswp_faq_author_name_'.$schema_id][0];
+                        }
+                        $faq_post_meta_adesc = $author_desc;
+                        if(isset($faq_post_meta_data['saswp_faq_author_description_'.$schema_id])){
+                            $faq_post_meta_adesc = $faq_post_meta_data['saswp_faq_author_description_'.$schema_id][0];
+                        }
+                        $faq_post_meta_aurl = $author_url;
+                        if(isset($faq_post_meta_data['saswp_faq_author_url_'.$schema_id])){
+                            $faq_post_meta_aurl = $faq_post_meta_data['saswp_faq_author_url_'.$schema_id][0];
+                        }
+                        $faq_post_meta_aiurl = isset($author_details['url']) ? $author_details['url']: '';
+                        if(isset($faq_post_meta_data['saswp_faq_author_image_'.$schema_id])){
+                            $faq_post_meta_aiurl = $faq_post_meta_data['saswp_faq_author_image_'.$schema_id][0];
+                        }
+                        $faq_post_meta_dcreated = get_the_date("Y-m-d");
+                        if(isset($faq_post_meta_data['saswp_faq_date_created_'.$schema_id])){
+                            $faq_post_meta_dcreated = $faq_post_meta_data['saswp_faq_date_created_'.$schema_id][0];
+                        }
+                        $faq_post_meta_dpublished = get_the_date("Y-m-d");
+                        if(isset($faq_post_meta_data['saswp_faq_date_published_'.$schema_id])){
+                            $faq_post_meta_dpublished = $faq_post_meta_data['saswp_faq_date_published_'.$schema_id][0];
+                        }
+                        $faq_post_meta_dmodified = get_the_modified_date("Y-m-d");
+                        if(isset($faq_post_meta_data['saswp_faq_date_modified_'.$schema_id])){
+                            $faq_post_meta_dmodified = $faq_post_meta_data['saswp_faq_date_modified_'.$schema_id][0];
+                        }
+                        $faq_post_meta_about = '';
+                        if(isset($faq_post_meta_data['saswp_faq_about_'.$schema_id])){
+                            $faq_post_meta_about = $faq_post_meta_data['saswp_faq_about_'.$schema_id][0];
+                        }
+
                         $meta_field = array(
                         array(
                                 'label'      => 'ID',
                                 'id'         => 'saswp_faq_id_'.$schema_id,
                                 'type'       => 'text',
-                                'default'    => 'FAQ'   
+                                'default'    => $faq_post_meta_id   
                                 ),
                         array(
                                 'label'      => 'Headline',
                                 'id'         => 'saswp_faq_headline_'.$schema_id,
                                 'type'       => 'text',
-                                'default'    => get_the_title()                             
+                                'default'    => $faq_post_meta_headline                             
                         ),
                         array(
                                 'label'      => 'Tags',
                                 'id'         => 'saswp_faq_keywords_'.$schema_id,
                                 'type'       => 'text',
-                                'default'    => saswp_get_the_tags()                            
+                                'default'    => $faq_post_meta_tags                            
                         ),
                         array(
                                 'label'   => 'Author',
@@ -8871,15 +8930,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_faq_author_type_'.$schema_id,
                                 'type'    => 'select',
                                 'options' => array(
+                                        ''           => 'Select Author Type',
                                         'Person'           => 'Person',
                                         'Organization'     => 'Organization',                        
-                        )
+                                ),
+                                'default' => $faq_post_meta_atype
                         ),
                         array(
                                 'label'      => 'Author Name',
                                 'id'         => 'saswp_faq_author_name_'.$schema_id,
                                 'type'       => 'text',
-                                'default' => is_object($current_user) ? $current_user->display_name : ''                            
+                                'default' => $faq_post_meta_aname                            
                         ),    
                         array(
                                 'label'   => 'Author HonorificSuffix',
@@ -8893,37 +8954,37 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label'   => 'Author Description',
                                 'id'      => 'saswp_faq_author_description_'.$schema_id,
                                 'type'    => 'textarea',
-                                'default' => $author_desc
+                                'default' => $faq_post_meta_adesc
                         ),
                         array(
                                 'label'   => 'Author URL',
                                 'id'      => 'saswp_faq_author_url_'.$schema_id,
                                 'type'    => 'text',
-                                'default' => $author_url
+                                'default' => $faq_post_meta_aurl
                         ),
                         array(
                                 'label' => 'Author Image URL',
                                 'id' => 'saswp_faq_author_image_'.$schema_id,
                                 'type' => 'media',
-                                'default' => isset($author_details['url']) ? $author_details['url']: ''
+                                'default' => $faq_post_meta_aiurl
                         ),
                         array(
                                 'label'      => 'DateCreated',
                                 'id'         => 'saswp_faq_date_created_'.$schema_id,
                                 'type'       => 'text',
-                                'default'    => get_the_date("Y-m-d")                            
+                                'default'    => $faq_post_meta_dcreated                            
                         ),
                         array(
                                 'label'      => 'DatePublished',
                                 'id'         => 'saswp_faq_date_published_'.$schema_id,
                                 'type'       => 'text',
-                                'default'    => get_the_date("Y-m-d")                            
+                                'default'    => $faq_post_meta_dpublished                            
                         ),
                         array(
                                 'label'      => 'DateModified',
                                 'id'         => 'saswp_faq_date_modified_'.$schema_id,
                                 'type'       => 'text',
-                                'default'    => get_the_modified_date("Y-m-d")                            
+                                'default'    => $faq_post_meta_dmodified                            
                         ),
                         array(
                                 'label'      => 'MainEntity (Questions & Answers) ',
@@ -8934,7 +8995,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label'   => 'About',
                                 'id'      => 'saswp_faq_about_'.$schema_id,
                                 'type'    => 'textarea',
-                                'default' => '',
+                                'default' => $faq_post_meta_about,
                                 'note'    => 'Note: If There are more than one About, Separate About list by comma ( , )',
                                 'attributes' => array(
                                         'placeholder' => 'eg: Apple is March 21 Announcements'

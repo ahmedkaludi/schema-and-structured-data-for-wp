@@ -27,7 +27,7 @@ function saswp_gutenberg_recipe_schema(){
     $service_object          = new saswp_output_service();   
     $structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
     $helpers                 = new WPZOOM_Helpers();
-    $feature_image           = $service_object->saswp_get_fetaure_image();                  
+    $feature_image           = $service_object->saswp_get_featured_image();                  
                                        
     $input1['@context']              = saswp_context_url();
     $input1['@type']                 = 'Recipe';
@@ -472,7 +472,7 @@ function saswp_gutenberg_how_to_schema(){
                 if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 && $yoast_howto && isset($yoast_howto['attrs'])){
                     
                 $service_object     = new saswp_output_service();   
-                $feature_image      = $service_object->saswp_get_fetaure_image();                  
+                $feature_image      = $service_object->saswp_get_featured_image();                  
                                        
                 $input1['@context']              = saswp_context_url();
                 $input1['@type']                 = 'HowTo';
@@ -679,7 +679,7 @@ function saswp_gutenberg_how_to_schema(){
                 if(isset($parse_blocks['attrs'])){
                     
                 $service_object     = new saswp_output_service();   
-                $feature_image      = $service_object->saswp_get_fetaure_image();                  
+                $feature_image      = $service_object->saswp_get_featured_image();                  
                                        
                 $input1['@context']              = saswp_context_url();
                 $input1['@type']                 = 'HowTo';
@@ -1012,7 +1012,7 @@ function saswp_gutenberg_event_schema(){
         if( !empty($input1) && !isset($input1['image'])){
 
                         $service_object     = new saswp_output_service();
-                        $input2             = $service_object->saswp_get_fetaure_image();
+                        $input2             = $service_object->saswp_get_featured_image();
 
                         if(!empty($input2)){
 
@@ -1204,7 +1204,7 @@ function saswp_gutenberg_job_schema(){
         if( !empty($input1) && !isset($input1['image'])){
 
                         $service_object     = new saswp_output_service();
-                        $input2             = $service_object->saswp_get_fetaure_image();
+                        $input2             = $service_object->saswp_get_featured_image();
 
                         if(!empty($input2)){
 

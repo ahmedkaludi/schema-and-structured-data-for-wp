@@ -431,6 +431,13 @@ class saswp_view_common_class {
                                         $media_width     = '';
                                         $media_thumbnail = '';
                                         
+                                        if (strpos($meta_field['id'], 'faq_author_image') !== false) {
+                                            $media_meta_data = get_post_meta( $post_id, $meta_field['id']);
+                                            if(isset($media_meta_data[0]) && empty($media_meta_data[0])){
+                                                $media_value = array();
+                                            }
+                                        } 
+
                                         if(isset($media_value['thumbnail'])){
                                             $media_thumbnail =$media_value['thumbnail'];
                                         }

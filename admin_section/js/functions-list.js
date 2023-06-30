@@ -1535,10 +1535,10 @@
            
        }  
        
-       function saswp_get_collection_data(rvcount, platform_id, current = null, review_id =  null, reviews_ids = null){
+       function saswp_get_collection_data(rvcount, platform_id, current = null, review_id =  null, reviews_ids = null, platformPlace='all'){
            
             jQuery.get(ajaxurl, 
-                             { action:"saswp_add_to_collection", rvcount:rvcount, reviews_ids:reviews_ids, review_id:review_id, platform_id:platform_id, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                             { action:"saswp_add_to_collection", rvcount:rvcount, reviews_ids:reviews_ids, review_id:review_id, platform_id:platform_id,platform_place:platformPlace, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                              
                               function(response){                                  
                     
@@ -1614,6 +1614,30 @@ function saswp_select2(){
 
     }                    
     
+}
+
+function saswp_get_platform_place_list(getPlatformId) {
+    let platformPlaceOpt = '<option value="all" selected>All</option>';
+    if(getPlatformId > 0){
+        jQuery.get(ajaxurl, 
+        { 
+            action:"saswp_get_platform_place_list", platform_id:getPlatformId, saswp_security_nonce:saswp_localize_data.saswp_security_nonce
+        },
+        function(response){                                  
+          if(response['status']){   
+            if(response['message'] && jQuery.type(response['message']) == 'object'){
+                jQuery.each(response['message'], function(index, value){
+                    platformPlaceOpt += '<option value="'+value+'">'+value+'</option>';
+                    jQuery('#saswp-review-platform-places').html(platformPlaceOpt);
+                });
+            }else{
+                jQuery('#saswp-review-platform-places').html('<option value="all">All</option>'); 
+            }                                       
+          }else{
+            jQuery('#saswp-review-platform-places').html('<option>Pleace Not Found</option>');
+          }
+        },'json');
+    }
 }
 
 jQuery(document).on('click', '#saswp_reset_collection_image', function(e){

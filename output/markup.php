@@ -2623,23 +2623,51 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1['@id']               = $checkIdPro;  
     }  
 
-    $input1['headline']              = saswp_remove_warnings($all_post_meta, 'saswp_faq_headline_'.$schema_id, 'saswp_array');                                                        
-    $input1['keywords']              = saswp_remove_warnings($all_post_meta, 'saswp_faq_keywords_'.$schema_id, 'saswp_array');                                                        
-    $input1['datePublished']         = isset($all_post_meta['saswp_faq_date_published_'.$schema_id][0])&& $all_post_meta['saswp_faq_date_published_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_published_'.$schema_id][0])):'';
-    $input1['dateModified']          = isset($all_post_meta['saswp_faq_date_modified_'.$schema_id][0])&& $all_post_meta['saswp_faq_date_modified_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_modified_'.$schema_id][0])):'';
-    $input1['dateCreated']           = isset($all_post_meta['saswp_faq_date_created_'.$schema_id][0])&& $all_post_meta['saswp_faq_date_created_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_created_'.$schema_id][0])):'';
-
-    if(isset($all_post_meta['saswp_faq_author_'.$schema_id][0])){
-
-        $input1['author']['@type']       = 'Person';
-
-        if(isset($all_post_meta['saswp_faq_author_type_'.$schema_id][0])){
-            $input1['author']['@type']       = $all_post_meta['saswp_faq_author_type_'.$schema_id][0];
-        }
-
-        $input1['author']['name']        = $all_post_meta['saswp_faq_author_'.$schema_id][0];
+    if(isset($all_post_meta['saswp_faq_id_'.$schema_id]) && isset($all_post_meta['saswp_faq_id_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_id_'.$schema_id][0])){
+        $input1['@id']                   = saswp_remove_warnings($all_post_meta, 'saswp_faq_id_'.$schema_id, 'saswp_array');
     }
 
+    if(isset($all_post_meta['saswp_faq_headline_'.$schema_id]) && isset($all_post_meta['saswp_faq_headline_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_headline_'.$schema_id][0])){
+        $input1['headline']              = saswp_remove_warnings($all_post_meta, 'saswp_faq_headline_'.$schema_id, 'saswp_array');
+    }           
+    if(isset($all_post_meta['saswp_faq_keywords_'.$schema_id]) && isset($all_post_meta['saswp_faq_keywords_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_keywords_'.$schema_id][0])){              
+        $input1['keywords']              = saswp_remove_warnings($all_post_meta, 'saswp_faq_keywords_'.$schema_id, 'saswp_array');
+    }               
+    if(isset($all_post_meta['saswp_faq_date_published_'.$schema_id]) && isset($all_post_meta['saswp_faq_date_published_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_date_published_'.$schema_id][0])){     
+        $input1['datePublished']         = date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_published_'.$schema_id][0]));
+    }
+    if(isset($all_post_meta['saswp_faq_date_modified_'.$schema_id]) && isset($all_post_meta['saswp_faq_date_modified_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_date_modified_'.$schema_id][0])){  
+        $input1['dateModified']          = date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_modified_'.$schema_id][0]));
+    }
+    if(isset($all_post_meta['saswp_faq_date_created_'.$schema_id]) && isset($all_post_meta['saswp_faq_date_created_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_date_created_'.$schema_id][0])){
+        $input1['dateCreated']           = date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_created_'.$schema_id][0]));
+    }
+
+    if(isset($all_post_meta['saswp_faq_author_name_'.$schema_id]) && isset($all_post_meta['saswp_faq_author_name_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_author_name_'.$schema_id][0])){
+
+        $input1['author']['@type']       = 'Person';
+        $input1['author']['name']       = saswp_remove_warnings($all_post_meta, 'saswp_faq_author_name_'.$schema_id, 'saswp_array');
+
+        if(isset($all_post_meta['saswp_faq_author_type_'.$schema_id]) && isset($all_post_meta['saswp_faq_author_type_'.$schema_id][0])){
+            $input1['author']['@type']       = saswp_remove_warnings($all_post_meta, 'saswp_faq_author_type_'.$schema_id, 'saswp_array');
+        }
+        if(isset($all_post_meta['saswp_faq_author_description_'.$schema_id]) && isset($all_post_meta['saswp_faq_author_description_'.$schema_id][0])){
+            $input1['author']['description']        = saswp_remove_warnings($all_post_meta, 'saswp_faq_author_description_'.$schema_id, 'saswp_array');
+        }
+        if(isset($all_post_meta['saswp_faq_author_url_'.$schema_id]) && isset($all_post_meta['saswp_faq_author_url_'.$schema_id][0])){
+            $input1['author']['url']        = saswp_remove_warnings($all_post_meta, 'saswp_faq_author_url_'.$schema_id, 'saswp_array');
+        }
+        if(isset($all_post_meta['saswp_faq_author_image_'.$schema_id]) && isset($all_post_meta['saswp_faq_author_image_'.$schema_id][0])){
+            if(!empty($all_post_meta['saswp_faq_author_image_'.$schema_id][0])){
+                $author_details = array();
+                $author_details['@type']  = 'ImageObject';
+                $author_details['url']    = $all_post_meta['saswp_faq_author_image_'.$schema_id][0];
+
+                $input1['author']['image']         = $author_details; 
+            }
+        } 
+    }
+    
     $faq_question  = get_post_meta($schema_post_id, 'faq_question_'.$schema_id, true);
 
     $faq_question_arr = array();

@@ -18,7 +18,7 @@ function saswp_tinymce_how_to_schema(){
                 if( !empty($saswp_tiny_howto['elements']) ){
                     
                 $service_object     = new saswp_output_service();   
-                $feature_image      = $service_object->saswp_get_fetaure_image();                  
+                $feature_image      = $service_object->saswp_get_featured_image();                  
                                        
                 $input1['@context']              = saswp_context_url();
                 $input1['@type']                 = 'HowTo';

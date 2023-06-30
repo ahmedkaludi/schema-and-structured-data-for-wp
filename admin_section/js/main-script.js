@@ -623,7 +623,6 @@ jQuery(document).ready(function($){
            || schematype == 'SoftwareApplication'
            || schematype == 'Event'
            || schematype == 'VideoGame'
-           || schematype == 'Service'
            || schematype == 'AudioObject'
            || schematype == 'VideoObject'
            || schematype == 'local_business'
@@ -752,8 +751,7 @@ jQuery(document).ready(function($){
                || schematype == 'TVSeries'
                || schematype == 'SoftwareApplication'
                || schematype == 'Event'
-               || schematype == 'VideoGame'
-               || schematype == 'Service'               
+               || schematype == 'VideoGame'               
                || schematype == 'AudioObject'
                || schematype == 'VideoObject'
                || schematype == 'local_business'
@@ -1207,9 +1205,11 @@ jQuery(document).ready(function($){
                       case 'saswp_woocommerce_archive_checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
-                              $("#saswp_woocommerce_archive").val(1);                              
+                              $("#saswp_woocommerce_archive").val(1); 
+                              $(".saswp_woocommerce_archive_list_type_class").parent().parent().show();                             
                             }else{
-                              $("#saswp_woocommerce_archive").val(0);                                         
+                              $("#saswp_woocommerce_archive").val(0);  
+                              $(".saswp_woocommerce_archive_list_type_class").parent().parent().hide();                                       
                             }
                       break;
 
@@ -4009,13 +4009,14 @@ jQuery(document).ready(function($){
                 
                 var current     = $(this);
                 var platform_id = $("#saswp-plaftorm-list").val();
-                var rvcount     = $("#saswp-review-count").val();                
+                var rvcount     = $("#saswp-review-count").val();
+                let platformPlace = $("#saswp-review-platform-places").val();                 
                 
                 if(platform_id && rvcount > 0){
                     
                     current.addClass('updating-message');
                     
-                    saswp_get_collection_data(rvcount, platform_id, current, null);
+                    saswp_get_collection_data(rvcount, platform_id, current, null, null, platformPlace);
                     
                 }else{
                     
@@ -4031,7 +4032,10 @@ jQuery(document).ready(function($){
                 
               saswp_get_collection_data(null, null, null, null, reviews_list);
                                            
-            }                   
+            }   
+
+            let getPlatformId = $('#saswp-plaftorm-list').find("option:first-child").val();
+            saswp_get_platform_place_list(getPlatformId);                
             //Collection js ends here
 
 
@@ -4099,5 +4103,10 @@ if(motivatebox){
     
 } 
 
+$(document).on('change', '#saswp-plaftorm-list', function(e){
+    e.preventDefault();
+    let selectedPlatForm = $(this).val();
+    saswp_get_platform_place_list(selectedPlatForm);
+});
       
 });

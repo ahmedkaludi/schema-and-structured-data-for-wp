@@ -512,16 +512,7 @@ function saswp_admin_interface_render(){
 		</form>
 	</div>
     <div class="saswp-settings-second-div">
-<!--        <a target="_blank" href="http://structured-data-for-wp.com/pricing/">
-        <div class="saswp-upgrade-pro promo-cpn">
-            <h2><?php echo saswp_t_string('50% OFF on PRO') ?></h2>
-            <span><?php echo saswp_t_string('Limited Time Offer for this festive season') ?></span>
-            <div class="saswp-promo">
-                <span class="prm-txt"><?php echo saswp_t_string('Promo:') ?></span>
-                <span class="prm-cpn"><?php echo saswp_t_string('BFCM2019') ?></span>
-            </div>
-        </div>
-        </a>-->
+
         <?php if(!saswp_ext_installed_status()) { ?>
             <div class="saswp-upgrade-pro">
                 <h2><?php echo saswp_t_string('Upgrade to Pro!') ?></h2>
@@ -1052,6 +1043,17 @@ function saswp_general_page_callback(){
                                 'name' => 'sd_data[saswp_woocommerce_archive]',                             
                         )
                 );
+                $meta_fields_default[] = array(
+                        'label'   => 'List Type',
+                        'id'      => 'saswp_woocommerce_archive_list_type',
+                        'name'    => 'sd_data[saswp_woocommerce_archive_list_type]',
+                        'class'   => 'saswp_woocommerce_archive_list_type_class',
+                        'type'    => 'select',
+                        'options' => array(                                
+                                'DetailedItemList'      => 'DetailedItemList',
+                                'ItemList'              => 'ItemList',                                          
+                        )
+                );
 
         }                                      
 
@@ -1300,6 +1302,7 @@ function saswp_general_page_callback(){
                                 'Consortium'                => 'Consortium',
                                 'Corporation'               => 'Corporation',
                                 'EducationalOrganization'   => 'EducationalOrganization',
+                                'School'                    => 'School',
                                 'GovernmentOrganization'    => 'GovernmentOrganization',
                                 'LibrarySystem'             => 'LibrarySystem',                                
                                 'MedicalOrganization'       => 'MedicalOrganization',
@@ -1650,7 +1653,7 @@ function saswp_import_callback(){
                         'name'   => 'saswp-image-resizing-checkbox',
                         'type'   => 'checkbox',
                         'class'  => 'checkbox saswp-checkbox',   
-                        'note'   => 'If the featured image do not match with google image guidlines. This option creates a copy of the image and resize it as per google guidlines. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/what-is-allow-image-resizing-in-schema-structured-data-for-wp-amp">Learn More</a>',
+                        'note'   => 'If the featured image do not match with google image guidelines. This option creates a copy of the image and resize it as per google guidlines. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/what-is-allow-image-resizing-in-schema-structured-data-for-wp-amp">Learn More</a>',
                         'hidden' => array(
                                 'id'   => 'saswp-image-resizing',
                                 'name' => 'sd_data[saswp-image-resizing]',                             
@@ -2167,42 +2170,42 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                 if($label == true && $on == 'OCIAIFS'){
                                 
                         $response.= '<div class="saswp-license-label">';
-                        // $response.= '<strong>'.saswp_t_string('1-Click Indexing API Integration').'</strong>';
+                        
                         $response.= '</div>';
                 
                 }
                 if($label == true && $on == 'Polylang'){
                                 
                         $response.= '<div class="saswp-license-label">';
-                        // $response.= '<strong>'.saswp_t_string(''.$on.' Schema Compatibility').'</strong>';
+                        
                         $response.= '</div>';
                 
                 }
                 if($label == true && $on == 'CPC'){
                                 
                         $response.= '<div class="saswp-license-label">';
-                        // $response.= '<strong>'.saswp_t_string('Classifieds Plugin Compatibility').'</strong>';
+                        
                         $response.= '</div>';
                 
                 }
                 if($label == true && $on == 'WPML'){
                         
                         $response.= '<div class="saswp-license-label">';
-                        // $response.= '<strong>'.saswp_t_string(''.$on.' Schema Compatibility').'</strong>';
+                        
                         $response.= '</div>';
                 
                 }
                if($label == true && $on == 'Cooked'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    // $response.= '<strong>'.saswp_t_string(''.$on.' Compatibility For Schema').'</strong>';
+                    
                     $response.= '</div>';
                 
                }
                if($label == true && $on == 'Woocommerce'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    // $response.= '<strong>'.saswp_t_string(''.$on.' Compatibility For Schema').'</strong>';
+                    
                     $response.= '</div>';
                 
                }
@@ -2210,7 +2213,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                if($label == true && $on == 'Res'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    // $response.= '<strong>'.saswp_t_string('Real Estate Schema').'</strong>';
+                    
                     $response.= '</div>';
                 
                }
@@ -2218,7 +2221,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                if($label == true && $on == 'Jobposting'){
                    
                 $response.= '<div class="saswp-license-label">';
-                // $response.= '<strong>'.saswp_t_string('JobPosting Schema Compatibility').'</strong>';
+                
                 $response.= '</div>';
             
                 }
@@ -2226,14 +2229,14 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                if($label == true && $on == 'Cs'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    // $response.= '<strong>'.saswp_t_string('Course Schema').'</strong>';
+                    
                     $response.= '</div>';
                 
                }
                if($label == true && $on == 'Es'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    // $response.= '<strong>'.saswp_t_string('Event Schema').'</strong>';
+                    
                     $response.= '</div>';
                 
                }
@@ -2241,7 +2244,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                if($label == true && $on == 'qanda'){
                    
                 $response.= '<div class="saswp-license-label">';
-                // $response.= '<strong>'.saswp_t_string('Q&A Schema').'</strong>';
+                
                 $response.= '</div>';
             
                 }
@@ -2249,7 +2252,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                 if($label == true && $on == 'faq'){
                    
                         $response.= '<div class="saswp-license-label">';
-                        // $response.= '<strong>'.saswp_t_string('FAQ Schema Compatibility').'</strong>';
+                        
                         $response.= '</div>';
                     
                 }
@@ -2257,22 +2260,13 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                if($label == true && $on == 'Rs'){
                    
                     $response.= '<div class="saswp-license-label">';
-                    // $response.= '<strong>'.saswp_t_string('Recipe Schema').'</strong>';
+                    
                     $response.= '</div>';
                 
                }
 
                 $original_license = $license_key;
-                // $unreadable_license_k = $license_key;                   
-                // $strlen = strlen($unreadable_license_k);
-                // $show_key = "";
-                // for( $i=1; $i<$strlen; $i++) {
-                //     if( $i<$strlen-9 ){
-                //         $show_key .= "*";
-                //     }else{
-                //         $show_key .= $unreadable_license_k[$i];
-                //     }
-                // }
+                
                 if($license_status == 'active'){
                  if ( !defined('SASWPPRO_PLUGIN_DIR')){
 
@@ -4784,9 +4778,7 @@ function saswp_enqueue_style_js( $hook ) {
         
         wp_enqueue_style( 'saswp-main-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'main-style.min.css' : 'main-style.css'), false , SASWP_VERSION );
         
-        // wp_enqueue_style( 'saswp-frontend-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-frontend.min.css' : 'saswp-frontend.css'), false , SASWP_VERSION );	
-        // wp_enqueue_script( 'saswp-rateyo-front-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.rateyo.min.js', array('jquery', 'jquery-ui-core'), SASWP_VERSION , true );                                                                                        
-        // wp_enqueue_style( 'jquery-rateyo-min-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'jquery.rateyo.min.css' : 'jquery.rateyo.min.css'), false, SASWP_VERSION );
+        
         
         wp_style_add_data( 'saswp-main-css', 'rtl', 'replace' );
         
@@ -4905,10 +4897,7 @@ add_filter( 'option_page_capability_sd_data_group', 'saswp_option_page_capabilit
 
 function saswp_pre_update_settings($value, $old_value,  $option){
     
-        // if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user') ) {
-        //         require_once( ABSPATH . '/wp-includes/capabilities.php' );
-        //         require_once( ABSPATH . '/wp-includes/pluggable.php' );
-        // }   
+           
         
         if( function_exists('is_super_admin') && function_exists('wp_get_current_user') ){
 

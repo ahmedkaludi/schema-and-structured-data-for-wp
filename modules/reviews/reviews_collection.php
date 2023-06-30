@@ -34,6 +34,7 @@ class SASWP_Reviews_Collection {
           add_action( 'init', array($this, 'saswp_register_collection_post_type' ),20);
           add_action( 'admin_init', array($this, 'saswp_save_collection_data' ));
           add_action( 'wp_ajax_saswp_add_to_collection', array($this, 'saswp_add_to_collection' ));
+          add_action( 'wp_ajax_saswp_get_platform_place_list', array($this, 'saswp_get_platform_place_list' ));
           add_action( 'wp_ajax_saswp_add_reviews_to_select2', array($this, 'saswp_add_reviews_to_select2' ));
           add_action( 'wp_ajax_saswp_get_collection_platforms', array($this, 'saswp_get_collection_platforms' ));          
           add_action( 'amp_post_template_data', array($this, 'saswp_reviews_collection_amp_script'));                                   
@@ -346,6 +347,7 @@ class SASWP_Reviews_Collection {
             $rvcount     = intval($_GET['rvcount']);
             $review_id   = ''; 
             $attr        = array();
+            $platform_place = 'Mahishri';
 
             if(isset($_GET['reviews_ids']) && $_GET['reviews_ids'] != ''){
                 $attr['in'] = json_decode($_GET['reviews_ids']);
@@ -355,9 +357,13 @@ class SASWP_Reviews_Collection {
                 $review_id   = intval($_GET['review_id']);
                 $attr['in'] = array($review_id);
             }
-                        
+                      
+            if(isset($_GET['platform_place']) && !empty($_GET['platform_place'])){
+                $platform_place = sanitize_text_field($_GET['platform_place']);
+            }          
+
             if( $platform_id ||  isset($attr['in']) ){
-            $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters($attr, $platform_id, $rvcount); 
+            $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters($attr, $platform_id, $rvcount, null, null, null, null, $platform_place); 
              
             if($reviews_list){
                 
@@ -376,6 +382,41 @@ class SASWP_Reviews_Collection {
             }
                         
             wp_die();
+        }
+
+        public function saswp_get_platform_place_list()
+        {
+            if ( ! isset( $_GET['saswp_security_nonce'] ) ){
+                return; 
+            }
+            if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+               return;  
+            }
+            if(isset($_GET['platform_id']) && $_GET['platform_id'] > 0){
+                $platform_id = intval($_GET['platform_id']);
+                global $wpdb;
+                $post_meta_data = $wpdb->get_results( 
+                  $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta where meta_value = %d", $platform_id)
+                 ); 
+                if(!empty($post_meta_data) && isset($post_meta_data[0])){
+                    $review_location_array = array();
+                    foreach ($post_meta_data as $pmd_key => $pmd_value) {
+                        $meta_data = get_post_meta($pmd_value->post_id, 'saswp_review_location_id');
+                        if(isset($meta_data[0]) && !empty($meta_data[0])){
+                            $review_location_array[] = $meta_data[0];
+                        }
+                    }
+                    if(!empty($review_location_array)){
+                        $review_location_array = array_unique($review_location_array);
+                    }
+                    echo json_encode(array('status' => true, 'message'=> $review_location_array));
+                }else{
+                    echo json_encode(array('status' => false, 'message'=> 'No Records Found'));
+                }
+            }else{
+                echo json_encode(array('status' => false, 'message'=> 'Platform id is missing'));
+            }  
+            wp_die(); 
         }
                             
         public function saswp_reviews_collection_shortcode_render($attr){
@@ -399,7 +440,7 @@ class SASWP_Reviews_Collection {
                         $data_id              = null;
                         $dots = $f_interval = $f_visibility = $arrow = 1;
                         $g_type = $design = $cols = $sorting = $date_format = '';
-                        
+                        $stars_color = '';
                         $collection_data = get_post_meta($attr['id']);
                         
                         if(isset($collection_data['saswp_collection_design'][0])){
@@ -724,6 +765,12 @@ class SASWP_Reviews_Collection {
                                         <input type="number" id="saswp-review-count" name="saswp-review-count" min="0" value="5">
                                         <a class="button button-default saswp-add-to-collection"><?php echo saswp_t_string('Add'); ?></a>
                                       </div>
+                                      <div class="platform-places-wrapper" style="margin-top: 10px;">
+                                          <label><strong><?php echo saswp_t_string('Platform URL'); ?></strong></label>
+                                          <select id="saswp-review-platform-places" style="width: 100%;">
+                                            <option value="all"><?php echo saswp_t_string('All') ?></option>
+                                          </select>
+                                       </div>
                                       <div class="saswp-platform-added-list">  
                                           
                                       </div>
@@ -995,7 +1042,7 @@ class SASWP_Reviews_Collection {
                             </ul>
                             <div class="saswp-sv-btn">
                                 <button type="submit" class="button button-primary" > 
-                                    <?php echo saswp_t_string('Save Menu'); ?>
+                                    <?php echo saswp_t_string('Save Collection'); ?>
                                 </button>
                             </div>   
                         </div><!-- /.saswp-collection-body -->

@@ -225,6 +225,24 @@ function saswp_schema_output() {
                                 $input1['dateModified']                 = esc_html($modified_date);
                                 $input1['dateCreated']                  = esc_html($date);
                                 $input1['author']                       = saswp_get_author_details();											                            
+                                if(isset($all_post_meta['saswp_faq_id_'.$schema_post_id]) && empty($all_post_meta['saswp_faq_id_'.$schema_post_id][0])){
+                                    unset($input1['@id']);
+                                }
+                                if(isset($all_post_meta['saswp_faq_headline_'.$schema_post_id]) && empty($all_post_meta['saswp_faq_headline_'.$schema_post_id][0])){
+                                    unset($input1['headline']);
+                                }
+                                if(isset($all_post_meta['saswp_faq_keywords_'.$schema_post_id]) && empty($all_post_meta['saswp_faq_keywords_'.$schema_post_id][0])){
+                                    unset($input1['keywords']);
+                                }
+                                if(isset($all_post_meta['saswp_faq_date_published_'.$schema_post_id]) && empty($all_post_meta['saswp_faq_date_published_'.$schema_post_id][0])){
+                                    unset($input1['datePublished']);
+                                }
+                                if(isset($all_post_meta['saswp_faq_date_modified_'.$schema_post_id]) && empty($all_post_meta['saswp_faq_date_modified_'.$schema_post_id][0])){
+                                    unset($input1['dateModified']);
+                                }
+                                if(isset($all_post_meta['saswp_faq_date_created_'.$schema_post_id]) && empty($all_post_meta['saswp_faq_date_created_'.$schema_post_id][0])){
+                                    unset($input1['dateCreated']);
+                                }
 
 
                                 $input1 = apply_filters('saswp_modify_faq_schema_output', $input1 );
@@ -240,8 +258,7 @@ function saswp_schema_output() {
                                     if(empty($input1['mainEntity'])){
                                         $input1 = array();    
                                     }
-                                }
-                                                                                                                                                                                                                                                                              
+                                }                                                                                                                       
                             break;
                         
                             case 'VideoGame':
@@ -2224,9 +2241,7 @@ function saswp_schema_output() {
                                                                                                  
 				                $input1['@context'] =  saswp_context_url();
                                 $input1['@type']    =  $schema_type;
-                                $input1['@id']      =  saswp_get_permalink().'#service';
-
-                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);   
+                                $input1['@id']      =  saswp_get_permalink().'#service';   
                                                                                                                                                                                                         
                                 $input1 = apply_filters('saswp_modify_service_schema_output', $input1 );
                                 
@@ -2851,7 +2866,7 @@ function saswp_schema_output() {
 
                             if( !empty($input1) && !isset($input1['mainEntity']['image'])){
                                                           
-                                $input2             = $service_object->saswp_get_fetaure_image();
+                                $input2             = $service_object->saswp_get_featured_image();
                                 
                                 if(!empty($input2)){
                                     $input1['mainEntity'] = apply_filters('saswp_modify_featured_image', array_merge($input1['mainEntity'],$input2));
@@ -2868,7 +2883,7 @@ function saswp_schema_output() {
                             
                             if( !empty($input1) && !isset($input1['image'])){
                                                               
-                                $input2             = $service_object->saswp_get_fetaure_image();
+                                $input2             = $service_object->saswp_get_featured_image();
                                 
                                 if(!empty($input2)){
                                     
@@ -3026,6 +3041,24 @@ function saswp_woocommerce_category_schema(){
                 $current_url = saswp_get_current_url();
                 
                 $i = 1;
+
+                $schema_id_array = array();
+                $schema_id_array = json_decode(get_transient('saswp_transient_schema_ids'), true); 
+                if(!$schema_id_array){
+                   $schema_id_array = saswp_get_saved_schema_ids();
+                } 
+                $product_schema_id = '';
+                if(is_array($schema_id_array) && count($schema_id_array) > 0){
+                    foreach ($schema_id_array as $sid_key => $sid_value) {
+                        $schema_post_meta = get_post_meta($sid_value);
+                        if(isset($schema_post_meta['schema_type']) && isset($schema_post_meta['schema_type'][0])){
+                            if($schema_post_meta['schema_type'][0] == 'Product'){
+                                $product_schema_id = $sid_value; 
+                                break;     
+                            }
+                        }
+                    }
+                }
                 
 		if ( $category_loop->have_posts() ):
 			while( $category_loop->have_posts() ): $category_loop->the_post();
@@ -3033,21 +3066,34 @@ function saswp_woocommerce_category_schema(){
                         $category_posts = array();
                         $category_posts['@type']       = 'ListItem';
                         $category_posts['position']    = $i;
-			            $category_posts['item']        = $service->saswp_schema_markup_generator('Product');
-                        
-                        $feature_image           = $service->saswp_get_fetaure_image();
-                        $category_posts['item']  = array_merge( $category_posts['item'], $feature_image);
-                        
-                        if(saswp_has_slash($current_url)){
-                            $category_posts['item']['url'] =  saswp_get_category_link($term->term_id). "#product_".$i;    
+                        if(isset($sd_data['saswp_woocommerce_archive_list_type']) && $sd_data['saswp_woocommerce_archive_list_type'] == 'ItemList'){
+                            $category_posts['url'] = saswp_get_permalink();
                         }else{
-                            $category_posts['item']['url'] =  saswp_remove_slash(saswp_get_category_link($term->term_id)). "#product_".$i;    
+    			            $category_posts['item']        = $service->saswp_schema_markup_generator('Product');
+                            if(!empty($product_schema_id)){
+                                $category_posts['item'] = saswp_append_fetched_reviews($category_posts['item'], $product_schema_id);
+                                $schema_options = get_post_meta( $product_schema_id, 'schema_options', true);
+                                $modified_schema    = get_post_meta(get_the_ID(), 'saswp_modify_this_schema_'.$product_schema_id, true);
+                                $category_posts['item'] = saswp_get_modified_markup($category_posts['item'], 'Product', $product_schema_id, $schema_options);
+                                if($modified_schema == 1){
+                                    $schema_post_meta      = get_post_meta(get_the_ID(), null, null);;
+                                    $category_posts['item'] = saswp_product_schema_markup($product_schema_id, get_the_ID(), $schema_post_meta);
+                                }
+                            }
+                            $feature_image           = $service->saswp_get_featured_image();
+                            $category_posts['item']  = array_merge( $category_posts['item'], $feature_image);
+                            
+                            if(saswp_has_slash($current_url)){
+                                $category_posts['item']['url'] =  saswp_get_category_link($term->term_id). "#product_".$i;    
+                            }else{
+                                $category_posts['item']['url'] =  saswp_remove_slash(saswp_get_category_link($term->term_id)). "#product_".$i;    
+                            }
+                                                    
+                            unset($category_posts['item']['@id']);
+                            unset($category_posts['item']['@context']);
                         }
-                                                
-                        unset($category_posts['item']['@id']);
-                        unset($category_posts['item']['@context']);
                         $list_item[] = $category_posts;
-                        
+                            
                         $i++;
 	        endwhile;
 
@@ -3414,7 +3460,7 @@ function saswp_about_page_output(){
 	if((isset($sd_data['sd_about_page'])) && in_array($sd_data['sd_about_page'], $page_ids) ){   
             
                         $service_object     = new saswp_output_service();
-                        $feature_image      = $service_object->saswp_get_fetaure_image();
+                        $feature_image      = $service_object->saswp_get_featured_image();
                         $publisher          = $service_object->saswp_get_publisher();
                         
 			$input = array(
@@ -3462,7 +3508,7 @@ function saswp_contact_page_output(){
 	if(isset($sd_data['sd_contact_page']) && in_array($sd_data['sd_contact_page'], $page_ids ) ){
                         
                         $service_object     = new saswp_output_service();
-                        $feature_image      = $service_object->saswp_get_fetaure_image();
+                        $feature_image      = $service_object->saswp_get_featured_image();
                         $publisher          = $service_object->saswp_get_publisher();
                         			
 			$input = array(

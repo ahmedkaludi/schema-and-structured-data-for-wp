@@ -3146,7 +3146,7 @@ function saswp_get_loop_markup($i) {
     $schema_type        =  $sd_data['saswp_archive_schema_type'];    
     $service_object     = new saswp_output_service();    
     $publisher_info     = $service_object->saswp_get_publisher();   
-    $feature_image      = $service_object->saswp_get_fetaure_image();             
+    $feature_image      = $service_object->saswp_get_featured_image();             
                                                                                                                                                                                                                                                                               
     $schema_properties['@type']            = esc_attr($schema_type);
     $schema_properties['headline']         = saswp_get_the_title();

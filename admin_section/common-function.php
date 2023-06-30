@@ -1978,9 +1978,7 @@ if ( ! defined('ABSPATH') ) exit;
             
     function saswp_defaultSettings(){
         
-        // if(!function_exists('wp_get_current_user')) {
-        //     include(ABSPATH . "wp-includes/pluggable.php"); 
-        // }           
+                   
                 global $sd_data; 
                 
                 $sd_data = get_option( 'sd_data', saswp_default_settings_array());     
@@ -3182,10 +3180,7 @@ function saswp_remove_unwanted_notice_boxes(){
         
        remove_all_actions('admin_notices'); 
        
-    //    global $saswp_wisdom;
-       
-    //    add_action( 'admin_notices', array($saswp_wisdom , 'optin_notice') );
-    //    add_action( 'admin_notices', array($saswp_wisdom , 'marketing_notice') );
+    
        add_action( 'admin_notices', 'saswp_admin_notice' );
     }
         
@@ -3621,9 +3616,7 @@ function saswp_current_user_allowed(){
     global $sd_data;
     $currentuserrole = array();
     
-    // if(!function_exists('wp_get_current_user')) {                
-    //     require_once( ABSPATH . '/wp-includes/pluggable.php' );
-    // } 
+     
 
     if( ( function_exists('is_user_logged_in') && is_user_logged_in() )  && function_exists('wp_get_current_user') ) {
     
@@ -3667,10 +3660,7 @@ function saswp_post_type_capabilities(){
         
         $caplist = array();
             
-        // if(!function_exists('is_super_admin') || !function_exists('wp_get_current_user')) {                
-        //     require_once( ABSPATH . '/wp-includes/capabilities.php' );
-        //     require_once( ABSPATH . '/wp-includes/pluggable.php' );
-        // }
+        
 
         if( function_exists('is_super_admin') && function_exists('wp_get_current_user') ){
 
@@ -4033,9 +4023,13 @@ function saswp_get_video_metadata($content = ''){
                                     $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
                                 }
                             }else{
-                                $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
-                                $result   = @wp_remote_get($rulr);                                    
-                                $metadata = json_decode(wp_remote_retrieve_body($result),true); 
+                                if(strpos($vurl, 'twitter') !== false){
+                                    $metadata['video_url'] = $vurl;
+                                }else{
+                                    $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                                    $result   = @wp_remote_get($rulr);                                    
+                                    $metadata = json_decode(wp_remote_retrieve_body($result),true); 
+                                }
                             }
                             $metadata['video_url'] = $vurl;                  
                             $response[] = $metadata;
