@@ -3072,7 +3072,6 @@ function saswp_woocommerce_category_schema(){
     			            $category_posts['item']        = $service->saswp_schema_markup_generator('Product');
                             if(!empty($product_schema_id)){
                                 $category_posts['item'] = saswp_append_fetched_reviews($category_posts['item'], $product_schema_id);
-                                $category_posts['item'] = apply_filters('saswp_modify_product_schema_output', $category_posts['item'] );
                                 $schema_options = get_post_meta( $product_schema_id, 'schema_options', true);
                                 $modified_schema    = get_post_meta(get_the_ID(), 'saswp_modify_this_schema_'.$product_schema_id, true);
                                 $category_posts['item'] = saswp_get_modified_markup($category_posts['item'], 'Product', $product_schema_id, $schema_options);
