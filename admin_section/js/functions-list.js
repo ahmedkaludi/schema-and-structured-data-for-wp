@@ -1625,12 +1625,14 @@ function saswp_get_platform_place_list(getPlatformId) {
         },
         function(response){                                  
           if(response['status']){   
-                                                  
-            jQuery.each(response['message'], function(index, value){
-                platformPlaceOpt += '<option value="'+value+'">'+value+'</option>';
-                jQuery('#saswp-review-platform-places').html(platformPlaceOpt);
-                // console.log("platformPlaceOpt " + platformPlaceOpt);
-            });                                       
+            if(response['message'] && jQuery.type(response['message']) == 'object'){
+                jQuery.each(response['message'], function(index, value){
+                    platformPlaceOpt += '<option value="'+value+'">'+value+'</option>';
+                    jQuery('#saswp-review-platform-places').html(platformPlaceOpt);
+                });
+            }else{
+                jQuery('#saswp-review-platform-places').html('<option value="all">All</option>'); 
+            }                                       
           }else{
             jQuery('#saswp-review-platform-places').html('<option>Pleace Not Found</option>');
           }
