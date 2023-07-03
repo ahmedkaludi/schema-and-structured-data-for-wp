@@ -3602,8 +3602,11 @@ function saswp_get_capability_by_role($role){
             case 'subscriber':
                 $cap = 'read';                
                 break;
-
+            case 'administrator':
+                $cap = 'manage_options';                
+                break;
             default:
+                $cap = 'edit_posts';
                 break;
         }   
     
