@@ -889,7 +889,9 @@ class saswp_reviews_service {
                 }
                 
                 if(!$review_data['saswp_review_platform_name']){
-                    $review_data['saswp_review_platform_name'] = $term->name;
+                    if(isset($term->name)){
+                        $review_data['saswp_review_platform_name'] = $term->name;
+                    }
                 }
                 
                    $review_data['saswp_review_post_id'] = $rv_post->ID;
