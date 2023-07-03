@@ -1126,7 +1126,11 @@ class saswp_reviews_service {
                             if($i == 1){
                                 $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page active" href="#">'.esc_attr($i).'</a>';    
                             }else{
-                                $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page" href="#">'.esc_attr($i).'</a>';    
+                                if($i > 7){
+                                    $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page saswp_grid_dp_none" href="#">'.esc_attr($i).'</a>'; 
+                                }else{
+                                    $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page" href="#">'.esc_attr($i).'</a>';
+                                }   
                             }
                             
                         }      
@@ -1134,6 +1138,7 @@ class saswp_reviews_service {
                         $html .= '<a data-id="'.esc_attr($page_count).'" class="saswp-grid-page saswp-pagination-first-last" href="#">&raquo;</a>';                                     
                         
                         $html .= '</div>';  
+                        $html .= '<input type="hidden" id="saswp-no-page-load" value="'.$pagination_wpr.'"/>';  
 
                 }
                                              
