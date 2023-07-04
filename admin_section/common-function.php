@@ -4622,7 +4622,14 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         $authors = get_users('orderby=display_name&order=ASC');
         foreach ($authors as $author) {
                $choices[] = array('id'  => $author->ID, 'text' => $author->display_name);
-        }               
+        }      
+        if(!empty($saved_data) && is_string($saved_data)){
+            $selected_userdata = get_userdata($saved_data);
+            if(isset($selected_userdata->data)){
+                $choices = array();
+                $choices[] = array('id'  => $selected_userdata->data->ID, 'text' => $selected_userdata->display_name);
+            }
+        }         
         break;      
 
         case "all":
