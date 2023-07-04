@@ -1126,7 +1126,7 @@ class saswp_reviews_service {
                             if($i == 1){
                                 $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page active" href="#">'.esc_attr($i).'</a>';    
                             }else{
-                                if($i > 7){
+                                if($i > 5 ){
                                     $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page saswp_grid_dp_none" href="#">'.esc_attr($i).'</a>'; 
                                 }else{
                                     $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page" href="#">'.esc_attr($i).'</a>';

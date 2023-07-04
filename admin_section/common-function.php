@@ -4926,8 +4926,10 @@ function saswp_get_page_range($current, $max, $total_pages = 5) {
     }
     if ($current > $middle && $current <= ($max - $middle)) {
         return [
-            $current - $middle,
-            $current + $middle
+            // $current - $middle,
+            $current - 2,
+            // $current + $middle
+            $current + 2
         ];
     }
     if ($current <= $max ) {
