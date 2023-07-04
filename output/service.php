@@ -3000,7 +3000,13 @@ Class saswp_output_service{
                        $input1['aggregateRating']['ratingValue'] =    $custom_fields['local_rating_value'];
                        $input1['aggregateRating']['ratingCount'] =    $custom_fields['local_rating_count'];
                     }
-                                     
+                    if(isset($input1['address']) && is_array($input1['address'])){
+                        if(count($input1['address']) > 0 && !isset($input1['address']['@type'])){
+                            $input1['address']['@type'] = 'PostalAddress';
+                            $new_address_array = array_merge(array_splice($input1['address'], -1), $input1['address']);
+                            $input1['address'] = $new_address_array;
+                        }
+                    }               
                     break;
                 
                 case 'Blogposting':
