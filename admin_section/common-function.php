@@ -69,9 +69,9 @@ if ( ! defined('ABSPATH') ) exit;
             
             $json_array      = json_decode($json_data, true);   
         
-            $posts_data      = $json_array['posts'];                   
+            $posts_data      = isset($json_array['posts'])?$json_array['posts']:'';                   
                         
-            if($posts_data && is_array($posts_data)){  
+            if($posts_data && is_array($posts_data) && json_last_error() ===  0){  
                 
             foreach($posts_data as $data){
                     
@@ -5129,4 +5129,21 @@ function saswp_sanitize_post_data($array_sanitize = array())
         $response = array();
     }
     return $response;
+}
+
+function saswp_validate_image_extension($image_url = '')
+{
+    $status = false;
+    if(!empty($image_url)){
+        $valid_extensions = array('gif', 'jpg', 'jpeg', 'webp', 'png', 'swf', 'psd', 'bmp', 'wbmp', 'xbm', 'xpm', 'tiff', 'dpx', 'svg');
+        $explode_url = explode('.', $image_url);
+        $explode_count = count($explode_url);
+        $img_extension = strtolower(sanitize_text_field($explode_url[$explode_count - 1]));
+        if(!empty($img_extension)){
+            if(in_array($img_extension, $valid_extensions)){
+                $status = true;
+            }
+        }
+    }
+    return $status;
 }

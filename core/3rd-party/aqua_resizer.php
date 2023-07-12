@@ -314,6 +314,12 @@ if(!function_exists('saswp_aq_resize')) {
      * need to change any code in your own WP themes. Usage is still the same :)
      */
     function saswp_aq_resize( $url, $width = null, $height = null, $crop = null, $single = true, $upscale = false ) {
+        if(function_exists('saswp_validate_image_extension')){
+            $valid_extension = saswp_validate_image_extension($url);
+            if($valid_extension === false){
+                return array();
+            }
+        }
 
         $stop_resize = apply_filters('saswp_stop_image_resizer', false );
 

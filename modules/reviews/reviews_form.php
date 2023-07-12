@@ -104,7 +104,7 @@ class SASWP_Reviews_Form {
             if(!isset($form_data['saswp_review_nonce'])){
                 die('-1');
             }
-            $rv_link   = $_SERVER['HTTP_REFERER']; //$form_data['saswp_review_link'];
+            $rv_link   = sanitize_url($_SERVER['HTTP_REFERER']); //$form_data['saswp_review_link'];
             if(!wp_verify_nonce($form_data['saswp_review_nonce'], 'saswp_review_form')){
                 if($is_amp){
                     header("AMP-Redirect-To: ".$rv_link);
