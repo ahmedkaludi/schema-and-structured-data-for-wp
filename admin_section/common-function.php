@@ -5137,11 +5137,13 @@ function saswp_validate_image_extension($image_url = '')
     if(!empty($image_url)){
         $valid_extensions = array('gif', 'jpg', 'jpeg', 'webp', 'png', 'swf', 'psd', 'bmp', 'wbmp', 'xbm', 'xpm', 'tiff', 'dpx', 'svg');
         $explode_url = explode('.', $image_url);
-        $explode_count = count($explode_url);
-        $img_extension = strtolower(sanitize_text_field($explode_url[$explode_count - 1]));
-        if(!empty($img_extension)){
-            if(in_array($img_extension, $valid_extensions)){
-                $status = true;
+        if(!empty($explode_url) && is_array($explode_url)){
+            $explode_count = count($explode_url);
+            $img_extension = strtolower(sanitize_text_field($explode_url[$explode_count - 1]));
+            if(!empty($img_extension)){
+                if(in_array($img_extension, $valid_extensions)){
+                    $status = true;
+                }
             }
         }
     }
