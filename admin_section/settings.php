@@ -4803,7 +4803,9 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         if($saswp_metaboxes || $post_type == 'saswp' || $post_type == 'saswp-collections' || $post_type == 'saswp_reviews' || $hook == 'saswp_page_structured_data_options' || $hook == 'saswp_page_collection' || $hook == 'term.php'  ){
 
         //DIGINEX theme compatibility starts         
-        wp_dequeue_script( 'select2-js' );                
+        wp_dequeue_script( 'select2-js' );
+        wp_dequeue_script( 'chats-js' ); 
+        wp_dequeue_script( 'custom_wp_admin_js' );                
         //DIGINEX theme compatibility ends 
         if($post_type != 'case27_listing_type'){
                 wp_dequeue_script( 'select2' );
