@@ -99,7 +99,10 @@ class saswp_post_specific {
             if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }  
-                
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
+                            
                 $post_id        = intval($_POST['post_id']);
                 $schema_id      = intval($_POST['schema_id']);            
              
@@ -165,7 +168,10 @@ class saswp_post_specific {
             }
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
-            }  
+            } 
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            } 
             
              $post_id        = intval($_GET['post_id']);             
              $schema_id      = intval($_GET['schema_id']);
@@ -211,6 +217,9 @@ class saswp_post_specific {
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             } 
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             
             $output        = '';
             $disabled      = '';
@@ -246,6 +255,9 @@ class saswp_post_specific {
                 if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                    return;  
                 } 
+                if(!current_user_can( saswp_current_user_can())){
+                    die( '-1' );    
+                }
                 
                 $schema_enable = array();
                 $post_id       = intval($_POST['post_id']);
@@ -350,6 +362,9 @@ class saswp_post_specific {
             }
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
+            }
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
             }
             $meta_name   = '';
             $meta_array  = array();            
@@ -675,6 +690,9 @@ class saswp_post_specific {
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             } 
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             $business_type = sanitize_text_field($_GET['business_type']);
                                        
             $response = $this->_local_sub_business[$business_type]; 

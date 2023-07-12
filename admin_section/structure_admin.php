@@ -12,7 +12,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function saswp_skip_wizard(){                  
-    
+        if(!current_user_can( saswp_current_user_can())){
+            die( '-1' );    
+        }
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
            return; 
         }
@@ -1591,7 +1593,9 @@ add_filter( 'manage_saswp_posts_columns', 'saswp_custom_columns' );
      * @return type json string
      */
 function saswp_send_query_message(){   
-    
+        if(!current_user_can( saswp_current_user_can())){
+            die( '-1' );    
+        }
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
            return; 
         }
@@ -1651,7 +1655,9 @@ add_action('wp_ajax_saswp_send_query_message', 'saswp_send_query_message');
 add_action('wp_ajax_saswp_dismiss_notices', 'saswp_dismiss_notices');
 
 function saswp_dismiss_notices(){
-
+  if(!current_user_can( saswp_current_user_can())){
+      die( '-1' );    
+  }
   if ( ! isset( $_POST['saswp_security_nonce'] ) ){
     return; 
   }
@@ -2140,6 +2146,15 @@ add_action('wp_ajax_saswp_license_status_check', 'saswp_license_status_check');
 
 add_action('wp_ajax_saswp_license_transient', 'saswp_license_transient');
 function saswp_license_transient(){
+            if ( ! current_user_can( saswp_current_user_can() ) ) {
+                 return;
+            }
+            if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+                 die( '-1' );  
+            }
+            if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+                 return;  
+            }
             $transient_load =  'saswp_addons_set_transient';
             $value_load =  'saswp_addons_set_transient_value';
             $expiration_load =  86400 ;
@@ -2148,6 +2163,15 @@ function saswp_license_transient(){
 
 add_action('wp_ajax_saswp_expired_license_transient', 'saswp_expired_license_transient');
 function saswp_expired_license_transient(){
+            if ( ! current_user_can( saswp_current_user_can() ) ) {
+                 return;
+            }
+            if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+                 die( '-1' );  
+            }
+            if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+                 return;  
+            }
             $transient_load =  'saswp_addons_expired_set_transient';
             $value_load =  'saswp_addons_expired_set_transient_value';
             $expiration_load =  3600 ;
@@ -2284,7 +2308,9 @@ function saswp_save_nav_menu_in_transient($menu_id){
 add_action( 'wp_ajax_saswp_get_select2_data', 'saswp_get_select2_data'); 
 
 function saswp_get_select2_data(){
-            
+        if(!current_user_can( saswp_current_user_can())){
+            die( '-1' );    
+        }    
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
           return; 
         }
@@ -2306,7 +2332,9 @@ function saswp_get_select2_data(){
 }
 
 function saswp_clear_resized_image_folder(){
-
+  if(!current_user_can( saswp_current_user_can())){
+    die( '-1' );    
+  }
   if ( ! isset( $_POST['saswp_security_nonce'] ) ){
       return; 
   }
@@ -2344,7 +2372,9 @@ function saswp_clear_resized_image_folder(){
 }
 
 function saswp_create_resized_image_folder(){                  
-    
+  if(!current_user_can( saswp_current_user_can())){
+    die( '-1' );    
+  }  
   if ( ! isset( $_POST['saswp_security_nonce'] ) ){
      return; 
   }

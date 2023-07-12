@@ -20,7 +20,9 @@ class saswp_ads_newsletter {
         }
         
         function saswp_subscribe_to_news_letter(){
-
+                if(!current_user_can( saswp_current_user_can())){
+                    die( '-1' );    
+                }
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                     return; 
                 }

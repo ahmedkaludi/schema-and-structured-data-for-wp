@@ -945,6 +945,9 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 * @since 1.0.0
 		 */
 		public function goodbye_form_callback() {
+			if(!current_user_can( saswp_current_user_can())){
+			    die( '-1' );    
+			}
 			check_ajax_referer( 'saswp_goodbye_form', 'security' );
 			if( isset( $_POST['values'] ) ) {
 				$values = json_encode( wp_unslash( $_POST['values'] ) );

@@ -378,7 +378,9 @@ $saswp_add_data_type_config = array(
 
 		
 	function saswp_add_new_save_steps_data(){    
-            
+            	if(!current_user_can( saswp_current_user_can())){
+		            die( '-1' );    
+		        }
                  if ( ! isset( $_POST['wpnonce'] ) ){
                     return; 
                  }
@@ -400,11 +402,11 @@ $saswp_add_data_type_config = array(
                 $user_id = get_current_user_id();
                 
                 $schema_post = array(
-                    'post_author' => $user_id,
+                    'post_author' => intval($user_id),
                     'post_date'   => date("Y-m-d"),                                        
-                    'post_title'  => ucfirst($schema_type),                    
+                    'post_title'  => sanitize_text_field(ucfirst($schema_type)),                    
                     'post_status' => 'publish',                    
-                    'post_name'   =>  ucfirst($schema_type),                    
+                    'post_name'   =>  sanitize_text_field(ucfirst($schema_type)),                    
                     'post_type'   => 'saswp',                                                            
                 );
                 

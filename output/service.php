@@ -102,6 +102,9 @@ Class saswp_output_service{
              if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             
             $response = array();    
             $mappings_file = SASWP_DIR_NAME . '/core/array-list/meta_list.php';
@@ -7124,6 +7127,9 @@ Class saswp_output_service{
              if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             
             $schema_subtype = isset( $_POST['schema_subtype'] ) ? sanitize_text_field( $_POST['schema_subtype'] ) : ''; 
             $schema_type    = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';                      
@@ -7152,6 +7158,9 @@ Class saswp_output_service{
              if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             
             $search_string = isset( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';                                    
 	        $data          = array();

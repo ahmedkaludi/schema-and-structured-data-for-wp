@@ -258,7 +258,9 @@ class SASWP_Reviews_Collection {
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
-            
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             $collection_id = intval($_GET['collection_id']);            
             
             if($collection_id){
@@ -293,7 +295,9 @@ class SASWP_Reviews_Collection {
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
-            
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             $platform_id = intval($_GET['platform_id']);
                          
             $attr        = array();
@@ -342,7 +346,9 @@ class SASWP_Reviews_Collection {
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
-            
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             $platform_id = intval($_GET['platform_id']);
             $rvcount     = intval($_GET['rvcount']);
             $review_id   = ''; 
@@ -391,6 +397,9 @@ class SASWP_Reviews_Collection {
             }
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
+            }
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
             }
             if(isset($_GET['platform_id']) && $_GET['platform_id'] > 0){
                 $platform_id = intval($_GET['platform_id']);

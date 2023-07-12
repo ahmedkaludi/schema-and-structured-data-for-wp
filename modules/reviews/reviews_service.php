@@ -140,7 +140,7 @@ class saswp_reviews_service {
                     'post_type'             => 'saswp_reviews',
                                                                              
                 );
-                                        
+                // Data is sanitized at the top of this function                        
                 $post_id = wp_insert_post(  $postarr );    
                     
                 $term     = get_term_by( 'slug','self', 'platform' );   
@@ -584,7 +584,7 @@ class saswp_reviews_service {
                     'post_type'             => 'saswp_rvs_location',
                                                                              
                 );
-                   
+                // Data is sanitized at the top of this function    
                 $post_id = wp_insert_post(  $postarr );   
                 $place_saved[] = $post_id;                                                  
                 $review_meta = array(
@@ -614,14 +614,14 @@ class saswp_reviews_service {
                
                 $user_id     = get_current_user_id();
                 $postarr = array(
-                    'post_author'           => $user_id,                                                            
+                    'post_author'           => intval($user_id),                                                            
                     'post_title'            => isset($review['title']) ? sanitize_text_field($review['title']) : sanitize_text_field($review['author_name']),
                     'post_status'           => 'publish',                                                            
                     'post_name'             => 'Default Review',                                                            
                     'post_type'             => 'saswp_reviews',
                                                                              
                 );
-                   
+                // Data is sanitized at the top of this function   
                 $post_id = wp_insert_post(  $postarr );   
                 $reviews_saved[] = $post_id;
 
