@@ -1199,6 +1199,9 @@ function saswp_get_reviews_on_load(){
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             $reviews    = array();
             $offset     = intval($_GET['offset']);
             $paged      = intval($_GET['paged']);
@@ -1251,6 +1254,9 @@ function saswp_get_manual_fields_on_ajax(){
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             } 
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             $output      = '';
             $post_id     = intval($_GET['post_id']);
             $schema_type = sanitize_text_field($_GET['schema_type']);

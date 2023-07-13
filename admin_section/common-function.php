@@ -69,9 +69,9 @@ if ( ! defined('ABSPATH') ) exit;
             
             $json_array      = json_decode($json_data, true);   
         
-            $posts_data      = $json_array['posts'];                   
+            $posts_data      = isset($json_array['posts'])?$json_array['posts']:'';                   
                         
-            if($posts_data){  
+            if($posts_data && is_array($posts_data) && json_last_error() ===  0){  
                 
             foreach($posts_data as $data){
                     
@@ -85,17 +85,21 @@ if ( ! defined('ABSPATH') ) exit;
             
             foreach($all_schema_post as $schema_post){  
                               
-                $post_meta =     $schema_post['post_meta'];   
-                
+                $post_meta =     $schema_post['post_meta'];
+
+                $sanitized_post = saswp_sanitize_post_data($schema_post['post']);   
+                if(empty($sanitized_post)){
+                    continue;
+                }
                 if(saswp_post_exists($schema_post['post']['ID'])){
                     
-                    $post_id    =     wp_update_post($schema_post['post']);  
+                    $post_id    =     wp_update_post($sanitized_post);  
                      
                 }else{
                     
                     unset($schema_post['post']['ID']);
                     
-                    $post_id    =     wp_insert_post($schema_post['post']); 
+                    $post_id    =     wp_insert_post($sanitized_post); 
                     
                     if($post_meta){
                         
@@ -151,7 +155,12 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     if(is_array($val)){
                         
-                        $saswp_sd_data[$key] = $meta = array_map( 'sanitize_text_field' ,$val);   
+                        $saswp_sd_data[$key] = $meta = array_map( 'sanitize_text_field' ,$val); 
+                        if(isset($val[0]) && is_array($val[0])){
+                            foreach ($val as $key1 => $value1) {
+                                $saswp_sd_data[$key][$key1] = array_map('sanitize_text_field', $value1);
+                            }
+                        }  
                         
                     }else{
                         
@@ -160,7 +169,7 @@ if ( ! defined('ABSPATH') ) exit;
                     }
                     
                 }
-                
+
                 update_option('sd_data', $saswp_sd_data); 
             } 
             //Saving settings data ends here 
@@ -308,27 +317,27 @@ if ( ! defined('ABSPATH') ) exit;
                 
                 $schema_post = array(
                     
-                    'post_author'           => $user_id,
-                    'post_date'             => $schema->post_date,
-                    'post_date_gmt'         => $schema->post_date_gmt,
-                    'post_content'          => $schema->post_content,
-                    'post_title'            => $schema->post_title. ' (Migrated from Schema plugin)',
-                    'post_excerpt'          => $schema->post_excerpt,
-                    'post_status'           => $schema->post_status,
-                    'comment_status'        => $schema->comment_status,
-                    'ping_status'           => $schema->ping_status,
+                    'post_author'           => intval($user_id),
+                    'post_date'             => date('Y-m-d H:i:s', strtotime($schema->post_date)),
+                    'post_date_gmt'         => date('Y-m-d H:i:s', strtotime($schema->post_date_gmt)),
+                    'post_content'          => sanitize_text_field($schema->post_content),
+                    'post_title'            => sanitize_text_field($schema->post_title. ' (Migrated from Schema plugin)'),
+                    'post_excerpt'          => sanitize_text_field($schema->post_excerpt),
+                    'post_status'           => sanitize_text_field($schema->post_status),
+                    'comment_status'        => sanitize_text_field($schema->comment_status),
+                    'ping_status'           => sanitize_text_field($schema->ping_status),
                     'post_password'         => $schema->post_password,
-                    'post_name'             => $schema->post_name,
-                    'to_ping'               => $schema->to_ping,
-                    'pinged'                => $schema->pinged,
-                    'post_modified'         => $schema->post_modified,
-                    'post_modified_gmt'     => $schema->post_modified_gmt,
-                    'post_content_filtered' => $schema->post_content_filtered,
-                    'post_parent'           => $schema->post_parent,                                        
-                    'menu_order'            => $schema->menu_order,
+                    'post_name'             => sanitize_text_field($schema->post_name),
+                    'to_ping'               => sanitize_text_field($schema->to_ping),
+                    'pinged'                => sanitize_text_field($schema->pinged),
+                    'post_modified'         => date('Y-m-d H:i:s', strtotime($schema->post_modified)),
+                    'post_modified_gmt'     => date('Y-m-d H:i:s', strtotime($schema->post_modified_gmt)),
+                    'post_content_filtered' => date('Y-m-d H:i:s', strtotime($schema->post_content_filtered)),
+                    'post_parent'           => intval($schema->post_parent),                                        
+                    'menu_order'            => intval($schema->menu_order),
                     'post_type'             => 'saswp',
-                    'post_mime_type'        => $schema->post_mime_type,
-                    'comment_count'         => $schema->comment_count,
+                    'post_mime_type'        => sanitize_text_field($schema->post_mime_type),
+                    'comment_count'         => intval($schema->comment_count),
                     'filter'                => $schema->filter, 
                     
                 );    
@@ -591,17 +600,17 @@ if ( ! defined('ABSPATH') ) exit;
                     );
                     
                     $review_meta = array(
-                        'saswp_review_platform'       => $term->term_id,
-                        'saswp_review_location_id'    => $wp_post_meta['wpcr3_review_post'][0],                        
-                        'saswp_review_date'           => $wp_rv_date,
-                        'saswp_review_time'           => $wp_rv_time,
-                        'saswp_review_rating'         => $wp_post_meta['wpcr3_review_rating'][0],
-                        'saswp_review_text'           => $review_post['post_content'],                                                        
-                        'saswp_reviewer_name'         => $wp_post_meta['wpcr3_review_name'][0],
-                        'saswp_reviewer_email'        => $wp_post_meta['wpcr3_review_email'][0],
-                        'saswp_reviewer_website'      => $wp_post_meta['wpcr3_review_website'][0],
-                        'saswp_review_link'           => get_permalink($wp_post_meta['wpcr3_review_post'][0]),
-                        'saswp_reviewer_image'        => SASWP_DIR_URI.'/admin_section/images/default_user.jpg',
+                        'saswp_review_platform'       => intval($term->term_id),
+                        'saswp_review_location_id'    => sanitize_text_field($wp_post_meta['wpcr3_review_post'][0]),                        
+                        'saswp_review_date'           => sanitize_text_field($wp_rv_date),
+                        'saswp_review_time'           => sanitize_text_field($wp_rv_time),
+                        'saswp_review_rating'         => intval($wp_post_meta['wpcr3_review_rating'][0]),
+                        'saswp_review_text'           => sanitize_text_field($review_post['post_content']),                                                        
+                        'saswp_reviewer_name'         => sanitize_text_field($wp_post_meta['wpcr3_review_name'][0]),
+                        'saswp_reviewer_email'        => sanitize_email($wp_post_meta['wpcr3_review_email'][0]),
+                        'saswp_reviewer_website'      => sanitize_text_field($wp_post_meta['wpcr3_review_website'][0]),
+                        'saswp_review_link'           => sanitize_text_field(get_permalink($wp_post_meta['wpcr3_review_post'][0])),
+                        'saswp_reviewer_image'        => sanitize_text_field(SASWP_DIR_URI.'/admin_section/images/default_user.jpg'),
                         'saswp_reviewer_image_detail' => $media_detail
                     );
 
@@ -648,7 +657,7 @@ if ( ! defined('ABSPATH') ) exit;
                     foreach($schema_types as $schema){
                         
                         $schema_post = array(
-                                'post_title'  => $schema,                                                            
+                                'post_title'  => sanitize_text_field($schema),                                                            
                                 'post_status' => 'publish',                    
                                 'post_type'   => 'saswp',                    
                         ); 
@@ -839,7 +848,7 @@ if ( ! defined('ABSPATH') ) exit;
          }
                    
         $schema_post = array(
-                'post_title' => $wpsso_option['schema_type_for_home_index'],                                                            
+                'post_title' => sanitize_text_field($wpsso_option['schema_type_for_home_index']),                                                            
                 'post_status' => 'publish',                    
                 'post_type'   => 'saswp',                    
         ); 
@@ -984,7 +993,7 @@ if ( ! defined('ABSPATH') ) exit;
                     if($settings['seop_local_name'] !=''){ 
                         
                          $schema_post = array(
-                            'post_author' => $user_id,                                                            
+                            'post_author' => intval($user_id),                                                            
                             'post_status' => 'publish',                    
                             'post_type'   => 'saswp',                    
                         );   
@@ -993,7 +1002,7 @@ if ( ! defined('ABSPATH') ) exit;
                                       
                     if(isset($settings['seop_local_name'])){
                         
-                     $schema_post['post_title'] = $settings['seop_local_name'].'(Migrated from WP SEO Plugin)'; 
+                     $schema_post['post_title'] = sanitize_text_field($settings['seop_local_name']).'(Migrated from WP SEO Plugin)'; 
                      
                     }
                     if(isset($settings['seop_home_logo'])){
@@ -1089,14 +1098,14 @@ if ( ! defined('ABSPATH') ) exit;
                     if($settings['site_type'] !='Organization'){
                         
                          $schema_post = array(
-                            'post_author' => $user_id,                                                            
+                            'post_author' => intval($user_id),                                                            
                             'post_status' => 'publish',                    
                             'post_type'   => 'saswp',                    
                         );                        
                     $schema_post['post_title'] = 'Organization (Migrated from WP SEO Plugin)';
                                       
                     if(isset($settings['type_name'])){
-                     $schema_post['post_title'] = $settings['type_name'].'(Migrated from WP SEO Plugin)';    
+                     $schema_post['post_title'] = sanitize_text_field($settings['type_name']).'(Migrated from WP SEO Plugin)';    
                     }
                     if(isset($settings['site_image'])){
                        $image_details 	= wp_get_attachment_image_src($settings['site_image'], 'full');
@@ -1247,28 +1256,28 @@ if ( ! defined('ABSPATH') ) exit;
             foreach($all_schema_post as $schema){    
                 
                 $schema_post = array(
-                    'post_author'           => $user_id,
-                    'post_date'             => $schema->post_date,
-                    'post_date_gmt'         => $schema->post_date_gmt,
-                    'post_content'          => $schema->post_content,
-                    'post_title'            => $schema->post_title. ' (Migrated from Schema_pro plugin)',
-                    'post_excerpt'          => $schema->post_excerpt,
-                    'post_status'           => $schema->post_status,
-                    'comment_status'        => $schema->comment_status,
-                    'ping_status'           => $schema->ping_status,
+                    'post_author'           => intval($user_id),
+                    'post_date'             => sanitize_text_field($schema->post_date),
+                    'post_date_gmt'         => sanitize_text_field($schema->post_date_gmt),
+                    'post_content'          => sanitize_text_field($schema->post_content),
+                    'post_title'            => sanitize_text_field($schema->post_title). ' (Migrated from Schema_pro plugin)',
+                    'post_excerpt'          => sanitize_text_field($schema->post_excerpt),
+                    'post_status'           => sanitize_text_field($schema->post_status),
+                    'comment_status'        => sanitize_text_field($schema->comment_status),
+                    'ping_status'           => sanitize_text_field($schema->ping_status),
                     'post_password'         => $schema->post_password,
-                    'post_name'             => $schema->post_name,
-                    'to_ping'               => $schema->to_ping,
-                    'pinged'                => $schema->pinged,
-                    'post_modified'         => $schema->post_modified,
-                    'post_modified_gmt'     => $schema->post_modified_gmt,
-                    'post_content_filtered' => $schema->post_content_filtered,
-                    'post_parent'           => $schema->post_parent,                                        
-                    'menu_order'            => $schema->menu_order,
+                    'post_name'             => sanitize_text_field($schema->post_name),
+                    'to_ping'               => sanitize_text_field($schema->to_ping),
+                    'pinged'                => sanitize_text_field($schema->pinged),
+                    'post_modified'         => sanitize_text_field($schema->post_modified),
+                    'post_modified_gmt'     => sanitize_text_field($schema->post_modified_gmt),
+                    'post_content_filtered' => sanitize_text_field($schema->post_content_filtered),
+                    'post_parent'           => intval($schema->post_parent),                                        
+                    'menu_order'            => intval($schema->menu_order),
                     'post_type'             => 'saswp',
-                    'post_mime_type'        => $schema->post_mime_type,
-                    'comment_count'         => $schema->comment_count,
-                    'filter'                => $schema->filter,                    
+                    'post_mime_type'        => sanitize_text_field($schema->post_mime_type),
+                    'comment_count'         => intval($schema->comment_count),
+                    'filter'                => sanitize_text_field($schema->filter),                    
                 );   
                 
                 $post_id = wp_insert_post($schema_post);
@@ -1710,15 +1719,15 @@ if ( ! defined('ABSPATH') ) exit;
                             $key3 = 'post';
                         }else if((isset($yoast_wpseo_titles['schema-page-type-page']) && $ask_value1 == $yoast_wpseo_titles['schema-page-type-page']) || (isset($yoast_wpseo_titles['schema-article-type-page']) && $ask_value1 == $yoast_wpseo_titles['schema-article-type-page'])){
                             $schema_post = array(
-                                'post_author'           => $user_id,
+                                'post_author'           => intval($user_id),
                                 'post_date'             => date('Y-m-d H:i:s'),
                                 'post_date_gmt'         => date('Y-m-d H:i:s'),
                                 'post_content'          => '',
-                                'post_title'            => $ask_value1. ' (Migrated from Yoast plugin)',
+                                'post_title'            => sanitize_text_field($ask_value1). ' (Migrated from Yoast plugin)',
                                 'post_status'           => 'publish',
                                 'comment_status'        => 'closed',
                                 'ping_status'           => 'closed',
-                                'post_name'             => $ask_value1,
+                                'post_name'             => sanitize_text_field($ask_value1),
                                 'post_type'             => 'saswp',                   
                             ); 
                             $key3 = 'page';
@@ -3602,8 +3611,11 @@ function saswp_get_capability_by_role($role){
             case 'subscriber':
                 $cap = 'read';                
                 break;
-
+            case 'administrator':
+                $cap = 'manage_options';                
+                break;
             default:
+                $cap = 'edit_posts';
                 break;
         }   
     
@@ -4283,7 +4295,7 @@ function saswp_insert_schema_type($title){
 
   $postarr = array(
         'post_type'   =>'saswp',
-        'post_title'  =>$title,
+        'post_title'  => sanitize_text_field($title),
         'post_status' =>'publish',
   );
 
@@ -4619,7 +4631,14 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         $authors = get_users('orderby=display_name&order=ASC');
         foreach ($authors as $author) {
                $choices[] = array('id'  => $author->ID, 'text' => $author->display_name);
-        }               
+        }      
+        if(!empty($saved_data) && is_string($saved_data)){
+            $selected_userdata = get_userdata($saved_data);
+            if(isset($selected_userdata->data)){
+                $choices = array();
+                $choices[] = array('id'  => $selected_userdata->data->ID, 'text' => $selected_userdata->display_name);
+            }
+        }         
         break;      
 
         case "all":
@@ -4916,8 +4935,10 @@ function saswp_get_page_range($current, $max, $total_pages = 5) {
     }
     if ($current > $middle && $current <= ($max - $middle)) {
         return [
-            $current - $middle,
-            $current + $middle
+            // $current - $middle,
+            $current - 2,
+            // $current + $middle
+            $current + 2
         ];
     }
     if ($current <= $max ) {
@@ -5075,4 +5096,56 @@ function saswp_modify_currency_code($currency='')
         $currency = 'IRR';
     }
     return $currency;
+}
+
+function saswp_sanitize_post_data($array_sanitize = array())
+{
+    $response = array(); $error_flag = 0;
+    if(!empty($array_sanitize) && is_array($array_sanitize)){
+        $date_key_array = array('post_date','post_date_gmt','post_modified','post_modified_gmt');
+        $int_key_array = array('ID','post_author','post_parent','menu_order','comment_count');
+        $text_key_array = array('post_content','post_title','post_excerpt','post_status','comment_status','ping_status','post_name','to_ping','pinged','post_content_filtered','guid','post_type','post_mime_type','filter');
+        $ignore_key_array = array('post_password');
+        foreach ($array_sanitize as $askey => $asvalue) {
+            if(in_array($askey, $int_key_array)){
+                $response[$askey] = intval($asvalue);    
+            }else if(in_array($askey, $date_key_array)){
+                if(substr($asvalue, 0,4) == '0000'){
+                    $response[$askey] = $asvalue;
+                }else{
+                    $response[$askey] = date('Y-m-d H:i:s', strtotime($asvalue));
+                }    
+            }else if(in_array($askey, $text_key_array)){
+                $response[$askey] = sanitize_text_field($asvalue);    
+            }else if(in_array($askey, $ignore_key_array)){
+                continue;   
+            }else{
+                $error_flag = 1; 
+                break;
+            }
+        }
+    }
+    if($error_flag == 1){
+        $response = array();
+    }
+    return $response;
+}
+
+function saswp_validate_image_extension($image_url = '')
+{
+    $status = false;
+    if(!empty($image_url)){
+        $valid_extensions = array('gif', 'jpg', 'jpeg', 'webp', 'png', 'swf', 'psd', 'bmp', 'wbmp', 'xbm', 'xpm', 'tiff', 'dpx', 'svg');
+        $explode_url = explode('.', $image_url);
+        if(!empty($explode_url) && is_array($explode_url)){
+            $explode_count = count($explode_url);
+            $img_extension = strtolower(sanitize_text_field($explode_url[$explode_count - 1]));
+            if(!empty($img_extension)){
+                if(in_array($img_extension, $valid_extensions)){
+                    $status = true;
+                }
+            }
+        }
+    }
+    return $status;
 }

@@ -32,6 +32,7 @@ shuffle($reasons);
 	    <input id="saswp-reloaded-feedback-submit" class="button button-primary" type="submit" name="saswp_disable_submit" value="<?php _e('Submit & Deactivate', 'saswp-for-wp'); ?>"/>
 	    <a class="button"><?php _e('Only Deactivate', 'saswp-for-wp'); ?></a>
 	    <a class="saswp-for-wp-feedback-not-deactivate" href="#"><?php _e('Don\'t deactivate', 'saswp-for-wp'); ?></a>
+	    <?php wp_nonce_field( 'saswp_feedback_nonce', 'saswp_feedback_nonce' );   ?>
 	</form>
     </div>
 </div>

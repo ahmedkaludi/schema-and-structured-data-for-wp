@@ -102,6 +102,9 @@ Class saswp_output_service{
              if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             
             $response = array();    
             $mappings_file = SASWP_DIR_NAME . '/core/array-list/meta_list.php';
@@ -3000,7 +3003,13 @@ Class saswp_output_service{
                        $input1['aggregateRating']['ratingValue'] =    $custom_fields['local_rating_value'];
                        $input1['aggregateRating']['ratingCount'] =    $custom_fields['local_rating_count'];
                     }
-                                     
+                    if(isset($input1['address']) && is_array($input1['address'])){
+                        if(count($input1['address']) > 0 && !isset($input1['address']['@type'])){
+                            $input1['address']['@type'] = 'PostalAddress';
+                            $new_address_array = array_merge(array_splice($input1['address'], -1), $input1['address']);
+                            $input1['address'] = $new_address_array;
+                        }
+                    }               
                     break;
                 
                 case 'Blogposting':
@@ -7118,6 +7127,9 @@ Class saswp_output_service{
              if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             
             $schema_subtype = isset( $_POST['schema_subtype'] ) ? sanitize_text_field( $_POST['schema_subtype'] ) : ''; 
             $schema_type    = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';                      
@@ -7146,6 +7158,9 @@ Class saswp_output_service{
              if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
+            if(!current_user_can( saswp_current_user_can())){
+                die( '-1' );    
+            }
             
             $search_string = isset( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';                                    
 	        $data          = array();

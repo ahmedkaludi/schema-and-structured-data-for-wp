@@ -177,19 +177,28 @@ jQuery(document).ready(function($){
 	
 	
 	function saswp_show_page(page){
-		
-		$(".saswp-pagination-first-last").show();		
-		
-		var min = (parseInt(page) - 3);
-		var max = (parseInt(page) + 3);
-		
-		$(".saswp-grid-wpr a").each(function(n) {
-						
-			if (n > min && n < max){				
-				$(this).show();
+		if(typeof $('#saswp-no-page-load').val() != 'undefined'){
+			$(".saswp-pagination-first-last").show();		
+			
+			var min = (parseInt(page) - 2);
+			var max = (parseInt(page) + 4);
+			if(page == 1){
+				max = 6;
 			}
-				
-		});
+			
+			if(parseInt(page) > min && parseInt(page) < max){
+				$(".saswp-grid-page").hide();	
+				$(".saswp-pagination-first-last").show();	
+			}
+
+			$(".saswp-grid-wpr a").each(function(n) {
+							
+				if (n > min && n < max){			
+					$(this).show();
+				}
+					
+			});
+		}
 
 	}
 

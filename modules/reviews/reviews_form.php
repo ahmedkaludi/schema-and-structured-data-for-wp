@@ -99,10 +99,26 @@ class SASWP_Reviews_Form {
                 }
             }  
             
-            $form_data = $_POST;                                         
+            $form_data = $_POST;  
+
+            if(!isset($form_data['saswp_review_nonce'])){
+                die('-1');
+            }
+            $rv_link   = sanitize_url($_SERVER['HTTP_REFERER']); //$form_data['saswp_review_link'];
+            if(!wp_verify_nonce($form_data['saswp_review_nonce'], 'saswp_review_form')){
+                if($is_amp){
+                    header("AMP-Redirect-To: ".$rv_link);
+                    header("Access-Control-Expose-Headers: AMP-Redirect-To, AMP-Access-Control-Allow-Source-Origin");                                 
+                    echo json_decode(array('message'=> 'Nonce MisMatch'));die;
+                }else{
+                    wp_redirect( $rv_link );
+                    exit; 
+                }
+                
+           }
+
             $headers = getallheaders();
             $is_amp  = false;
-            $rv_link   = $form_data['saswp_review_link'];
             if(isset($headers['AMP-Same-Origin'])){
                 $is_amp = true;
             }
@@ -134,19 +150,6 @@ class SASWP_Reviews_Form {
             }
                                     
             if($form_data['action'] == 'saswp_review_form'){
-                
-                if(!wp_verify_nonce($form_data['saswp_review_nonce'], 'saswp_review_form')){
-                    
-                    if($is_amp){
-                        header("AMP-Redirect-To: ".$rv_link);
-                        header("Access-Control-Expose-Headers: AMP-Redirect-To, AMP-Access-Control-Allow-Source-Origin");                                 
-                        echo json_decode(array('message'=> 'Nonce MisMatch'));die;
-                    }else{
-                        wp_redirect( $rv_link );
-                        exit; 
-                    }
-                    
-               }
                                
                if($is_amp){
                    

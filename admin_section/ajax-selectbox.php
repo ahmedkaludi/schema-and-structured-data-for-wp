@@ -26,6 +26,10 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
     if( $_SERVER['REQUEST_METHOD']=='POST'){
         
         $is_ajax = true;
+
+        if(!current_user_can( saswp_current_user_can())){
+          die( '-1' );    
+        }
         
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
             

@@ -140,7 +140,7 @@ class saswp_reviews_service {
                     'post_type'             => 'saswp_reviews',
                                                                              
                 );
-                                        
+                // Data is sanitized at the top of this function                        
                 $post_id = wp_insert_post(  $postarr );    
                     
                 $term     = get_term_by( 'slug','self', 'platform' );   
@@ -584,7 +584,7 @@ class saswp_reviews_service {
                     'post_type'             => 'saswp_rvs_location',
                                                                              
                 );
-                   
+                // Data is sanitized at the top of this function    
                 $post_id = wp_insert_post(  $postarr );   
                 $place_saved[] = $post_id;                                                  
                 $review_meta = array(
@@ -614,14 +614,14 @@ class saswp_reviews_service {
                
                 $user_id     = get_current_user_id();
                 $postarr = array(
-                    'post_author'           => $user_id,                                                            
+                    'post_author'           => intval($user_id),                                                            
                     'post_title'            => isset($review['title']) ? sanitize_text_field($review['title']) : sanitize_text_field($review['author_name']),
                     'post_status'           => 'publish',                                                            
                     'post_name'             => 'Default Review',                                                            
                     'post_type'             => 'saswp_reviews',
                                                                              
                 );
-                   
+                // Data is sanitized at the top of this function   
                 $post_id = wp_insert_post(  $postarr );   
                 $reviews_saved[] = $post_id;
 
@@ -889,7 +889,9 @@ class saswp_reviews_service {
                 }
                 
                 if(!$review_data['saswp_review_platform_name']){
-                    $review_data['saswp_review_platform_name'] = $term->name;
+                    if(isset($term->name)){
+                        $review_data['saswp_review_platform_name'] = $term->name;
+                    }
                 }
                 
                    $review_data['saswp_review_post_id'] = $rv_post->ID;
@@ -1124,7 +1126,11 @@ class saswp_reviews_service {
                             if($i == 1){
                                 $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page active" href="#">'.esc_attr($i).'</a>';    
                             }else{
-                                $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page" href="#">'.esc_attr($i).'</a>';    
+                                if($i > 5 ){
+                                    $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page saswp_grid_dp_none" href="#">'.esc_attr($i).'</a>'; 
+                                }else{
+                                    $html .= '<a data-id="'.esc_attr($i).'" class="saswp-grid-page" href="#">'.esc_attr($i).'</a>';
+                                }   
                             }
                             
                         }      
@@ -1132,6 +1138,7 @@ class saswp_reviews_service {
                         $html .= '<a data-id="'.esc_attr($page_count).'" class="saswp-grid-page saswp-pagination-first-last" href="#">&raquo;</a>';                                     
                         
                         $html .= '</div>';  
+                        $html .= '<input type="hidden" id="saswp-no-page-load" value="'.$pagination_wpr.'"/>';  
 
                 }
                                              
