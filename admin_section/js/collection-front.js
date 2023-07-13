@@ -29,10 +29,9 @@ function saswpCollectionSlider(){
                                             totalOffset = activeItemOffset - itemsContainerOffset;
 
                             $itemscontainer.css({"transform": "translate( -"+totalOffset+"px, 0px)"})
-                            
-                        }
-                        						
-		}
+                            setInterval(nextSlide, 3000);
+                        }            						
+		}	
 		function nextSlide(){
 			var activeItem = $itemscontainer.find(".saswp-si.saswp-active"),
 					activeItemIndex = activeItem.index(),
@@ -96,7 +95,7 @@ function saswpCollectionSlider(){
 		setTransform();
 		makeDots();
 		
-                jQuery(window).load( function(){
+                jQuery(window).on("load",function(e) {
 					setWidth();
 					setTransform();
 		});
