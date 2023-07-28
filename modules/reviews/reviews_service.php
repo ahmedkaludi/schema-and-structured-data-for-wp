@@ -494,24 +494,24 @@ class saswp_reviews_service {
                                     
                                     $rv_limits = get_option('reviews_addon_reviews_limits');
                                     
-                                    $result['message'] = saswp_t_string('Reviews fetched').' : '. ($rv_limits - $result['message'] ). ', '.saswp_t_string('Remains Limit').' : '.$result['message'];                                    
+                                    $result['message'] = esc_html__('Reviews fetched', 'schema-and-structured-data-for-wp').' : '. ($rv_limits - $result['message'] ). ', '.esc_html__('Remains Limit', 'schema-and-structured-data-for-wp').' : '.$result['message'];                                    
                                     
                                     update_option('reviews_addon_reviews_limits', intval($result['message']));
                                 }
 
                                 }else{
                                     $result['status']  = false;
-                                    $result['message'] = saswp_t_string( 'Reviews for schema plugin is not activated' );
+                                    $result['message'] = esc_html__( 'Reviews for schema plugin is not activated', 'schema-and-structured-data-for-wp' );
                                 }
                                 
                             }else{
                                 $result['status']  = false;
-                                $result['message'] = saswp_t_string( 'User is not register' );
+                                $result['message'] = esc_html__( 'User is not register', 'schema-and-structured-data-for-wp' );
                             }                                                        
                             
                         }else{
                                 $result['status']  = false;
-                                $result['message'] = saswp_t_string( 'License key is not active' );
+                                $result['message'] = esc_html__( 'License key is not active', 'schema-and-structured-data-for-wp' );
                         }  
                                                   
                         
@@ -538,7 +538,7 @@ class saswp_reviews_service {
                     
                 }else{
                     
-                  echo json_encode(array('status' => false, 'message' => saswp_t_string( 'Place id is empty' ))); 
+                  echo json_encode(array('status' => false, 'message' => esc_html__( 'Place id is empty', 'schema-and-structured-data-for-wp' ))); 
                   
                 }
                 
@@ -698,16 +698,16 @@ class saswp_reviews_service {
                $response = $this->saswp_save_free_reviews_data($result['result'], $place_id);
                
                if($response){
-                    return array('status' => true, 'message' => saswp_t_string( 'Fetched Successfully' ));
+                    return array('status' => true, 'message' => esc_html__( 'Fetched Successfully', 'schema-and-structured-data-for-wp' ));
                }else{                                             
-                    return array('status' => false, 'message' => saswp_t_string( 'Not fetched' ));
+                    return array('status' => false, 'message' => esc_html__( 'Not fetched', 'schema-and-structured-data-for-wp' ));
                }
                
            }else{
                if($result['error_message']){
                    return array('status' => false, 'message' => $result['error_message']);
                }else{
-                   return array('status' => false, 'message' => saswp_t_string( 'Something went wrong' ));
+                   return array('status' => false, 'message' => esc_html__( 'Something went wrong', 'schema-and-structured-data-for-wp' ));
                }                             
            }
                                                        
@@ -1383,7 +1383,7 @@ class saswp_reviews_service {
                             }
 
                             if($platform_name == 'Self'){
-                                $platform_name = saswp_t_string(saswp_label_text('translation-self'));
+                                $platform_name = esc_html__(saswp_label_text('translation-self'));
                             }
 
                             $platform_icon  = $value['saswp_review_platform_icon'];
@@ -1416,7 +1416,7 @@ class saswp_reviews_service {
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-r3-brv">';
-                      $html .= saswp_t_string(saswp_label_text('translation-based-on')).' '.esc_attr($review_count).' '.saswp_t_string(saswp_label_text('translation-reviews'));
+                      $html .= esc_html__(saswp_label_text('translation-based-on')).' '.esc_attr($review_count).' '.esc_html__(saswp_label_text('translation-reviews'));
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '</a>';
@@ -1445,7 +1445,7 @@ class saswp_reviews_service {
                             $platform_name  = $value['saswp_review_platform_name'];
                             $review_id = $value['saswp_review_id'];
                             if($platform_name == 'Self'){
-                                $platform_name = saswp_t_string(saswp_label_text('translation-self'));
+                                $platform_name = esc_html__(saswp_label_text('translation-self'));
                             }
                             $platform_icon  = $value['saswp_review_platform_icon'];
                             $sum_of_rating += $value['saswp_review_rating'];
@@ -1477,7 +1477,7 @@ class saswp_reviews_service {
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-r3-brv">';
-                      $html .= saswp_t_string(saswp_label_text('translation-based-on')).' '.esc_attr($review_count).' '.saswp_t_string(saswp_label_text('translation-reviews'));
+                      $html .= esc_html__(saswp_label_text('translation-based-on')).' '.esc_attr($review_count).' '.esc_html__(saswp_label_text('translation-reviews'));
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '</a>';
@@ -1554,11 +1554,11 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating,$stars_color,$review_id);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-r4-rnm">'.esc_attr(number_format ($average_rating, 1)).' from '.esc_attr($review_count).' '.saswp_t_string('reviews').'</span>';                    
+                        $html .= '<span class="saswp-r4-rnm">'.esc_attr(number_format ($average_rating, 1)).' from '.esc_attr($review_count).' '.esc_html__('reviews', 'schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '</div>';
 
                         $html .= '<div class="saswp-onclick-show">';
-                        $html .= '<span class="saswp-rar">'.saswp_t_string('Ratings and reviews').'</span>';                    
+                        $html .= '<span class="saswp-rar">'.esc_html__('Ratings and reviews', 'schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '<span class="saswp-mines"></span>';                    
                         $html .= '</div>';
 
@@ -1571,7 +1571,7 @@ class saswp_reviews_service {
                         $html .= '<span class="saswp-popup">';
                         $html .= saswp_get_rating_html_by_value($average_rating,$stars_color,$review_id);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-r4-rnm">'. esc_attr(number_format ($average_rating, 1)).' from '. esc_attr($review_count).' '.saswp_t_string('reviews').'</span>';                    
+                        $html .= '<span class="saswp-r4-rnm">'. esc_attr(number_format ($average_rating, 1)).' from '. esc_attr($review_count).' '.esc_html__('reviews', 'schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '</li>';                                        
                         $html .= $html_list;
                         $html .= '</ul>';                    
@@ -1590,10 +1590,10 @@ class saswp_reviews_service {
                         $html .= '<span class="saswp-popup">';
                         $html .= saswp_get_rating_html_by_value($average_rating,$stars_color,$review_id);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-r4-rnm">'.esc_attr(number_format($average_rating, 1) ).' from '.esc_attr($review_count).' '.saswp_t_string('reviews').'</span>';                    
+                        $html .= '<span class="saswp-r4-rnm">'.esc_attr(number_format($average_rating, 1) ).' from '.esc_attr($review_count).' '.esc_html__('reviews', 'schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '</div>';
                         $html .= '<div class="saswp-onclick-show">';
-                        $html .= '<span class="saswp-rar">'.saswp_t_string('Ratings and reviews').'</span>';                    
+                        $html .= '<span class="saswp-rar">'.esc_html__('Ratings and reviews', 'schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '<span class="saswp-mines"></span>';                    
                         $html .= '</div>';
                         $html .= '</div>';

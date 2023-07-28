@@ -784,7 +784,7 @@ function saswp_paywall_data_for_login($content){
                     			
 			$redirect       =  home_url( $wp->request );
 			$breakedContent = explode("<!--more-->", $content);
-			$content        = $breakedContent[0].'<a href="'.esc_url(wp_login_url( $redirect )) .'">'.saswp_t_string( 'Login' ).'</a>';
+			$content        = $breakedContent[0].'<a href="'.esc_url(wp_login_url( $redirect )) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
                         
 		}elseif(strpos($content, '<!--more-->')!==false && is_user_logged_in()){
                     			
@@ -811,7 +811,7 @@ function saswp_memberpress_form_update($form){
 		},11); 
 		global $wp;
 		$redirect =  home_url( $wp->request );
-		$form = '<a class="amp-mem-login" href="'.esc_url(wp_login_url( $redirect )) .'">'.saswp_t_string( 'Login' ).'</a>';
+		$form = '<a class="amp-mem-login" href="'.esc_url(wp_login_url( $redirect )) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
 	}
         
 	return $form;

@@ -133,7 +133,7 @@ function saswp_add_plugin_meta_links($meta_fields, $file) {
                        
       $forum_url  = "https://structured-data-for-wp.com/contact-us/";
       
-      $meta_fields[] = "<a href='" . esc_url($forum_url) . "' target='_blank'>" . saswp_t_string( 'Technical Support' ) . "</a>";
+      $meta_fields[] = "<a href='" . esc_url($forum_url) . "' target='_blank'>" . esc_html__( 'Technical Support', 'schema-and-structured-data-for-wp' ) . "</a>";
      
     }
 

@@ -87,7 +87,7 @@ class saswp_reviews_admin {
 			
 			add_meta_box(
 				'saswp_review_content',
-				saswp_t_string( 'Review Content' ),
+				esc_html__( 'Review Content', 'schema-and-structured-data-for-wp' ),
 				array( $this, 'saswp_meta_box_callback' ),
 				$single_screen,
 				'normal',
@@ -124,7 +124,7 @@ class saswp_reviews_admin {
                     if(isset($meta_field['label'])){
                       $label =  $meta_field['label']; 
                     }
-			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $label ) . '</label>';
+			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $label ) . '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
                         
 			if ( empty( $meta_value ) ) {
@@ -148,7 +148,7 @@ class saswp_reviews_admin {
 							'<option %s value="%s">%s</option>',
 							$meta_value == $key ? 'selected' : '',
 							$key,
-							saswp_t_string($value)
+							esc_html__($value)
 						);
 					}
                                         $input .= '</select>';

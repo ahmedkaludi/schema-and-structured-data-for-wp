@@ -31,10 +31,10 @@ function saswp_register_saswp_reviews_location() {
                         
         $post_type = array(
 	    'labels' => array(
-	        'name' 		            	=> saswp_t_string( 'Location' ),	        
-	        'add_new' 		            => saswp_t_string( 'Add Location' ),
-	        'add_new_item'  	        => saswp_t_string( 'Edit Location' ),
-            'edit_item'                 => saswp_t_string( 'Edit Location'),                
+	        'name' 		            	=> esc_html__( 'Location', 'schema-and-structured-data-for-wp' ),	        
+	        'add_new' 		            => esc_html__( 'Add Location', 'schema-and-structured-data-for-wp' ),
+	        'add_new_item'  	        => esc_html__( 'Edit Location', 'schema-and-structured-data-for-wp' ),
+            'edit_item'                 => esc_html__( 'Edit Location', 'schema-and-structured-data-for-wp'),                
 	    ),
       	'public' 		        => false,
       	'has_archive' 		    => false,
@@ -69,10 +69,10 @@ function saswp_register_saswp_reviews() {
                         
         $post_type = array(
             'labels' => array(
-                'name' 			    => saswp_t_string( 'Reviews' ),	        
-                'add_new' 		    => saswp_t_string( 'Add Review' ),
-                'add_new_item'  	=> saswp_t_string( 'Edit Review' ),
-                'edit_item'         => saswp_t_string( 'Edit Review'),                
+                'name' 			    => esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ),	        
+                'add_new' 		    => esc_html__( 'Add Review', 'schema-and-structured-data-for-wp' ),
+                'add_new_item'  	=> esc_html__( 'Edit Review', 'schema-and-structured-data-for-wp' ),
+                'edit_item'         => esc_html__( 'Edit Review', 'schema-and-structured-data-for-wp'),                
             ),
             'public' 		        => true,
             'has_archive' 		    => false,
@@ -116,7 +116,7 @@ function saswp_collection_custom_columns($columns) {
     
     unset($columns['date']);
     
-    $columns['saswp_collection_shortcode']       = '<a>'.saswp_t_string( 'Shortcode' ).'<a>';
+    $columns['saswp_collection_shortcode']       = '<a>'.esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' ).'<a>';
     
     return $columns;
     
@@ -191,7 +191,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                             $string    = $endPoint? substr($stringCut, 0, $endPoint):substr($stringCut, 0);
 
                             $string    =  esc_html($string);
-                            $string   .= '... <a style="cursor: pointer;" href="'.esc_url($url).'" >'.saswp_t_string('Read More').'</a>';
+                            $string   .= '... <a style="cursor: pointer;" href="'.esc_url($url).'" >'.esc_html__('Read More', 'schema-and-structured-data-for-wp').'</a>';
                             echo $string;    
                             
                         }else{
@@ -259,14 +259,14 @@ function saswp_reviews_custom_columns($columns) {
     unset($columns);
     
     $columns['cb']                         = '<input type="checkbox" />';
-    $columns['saswp_reviewer_image']       = saswp_t_string( 'Image' );
-    $columns['title']                      = saswp_t_string( 'Title' ); 
-    $columns['saswp_review_text']          = saswp_t_string( 'Text' );    
-    $columns['saswp_review_rating']        = saswp_t_string( 'Rating' );    
-    $columns['saswp_review_platform']      = saswp_t_string( 'Platform' );    
-    $columns['saswp_review_date']          = saswp_t_string( 'Review Date' ); 
-    $columns['saswp_review_place_id']      = saswp_t_string( 'Place ID/Reviewed To' );    
-    $columns['saswp_review_shortcode']     = saswp_t_string( 'Shortcode' );    
+    $columns['saswp_reviewer_image']       = esc_html__( 'Image', 'schema-and-structured-data-for-wp' );
+    $columns['title']                      = esc_html__( 'Title', 'schema-and-structured-data-for-wp' ); 
+    $columns['saswp_review_text']          = esc_html__( 'Text', 'schema-and-structured-data-for-wp' );    
+    $columns['saswp_review_rating']        = esc_html__( 'Rating', 'schema-and-structured-data-for-wp' );    
+    $columns['saswp_review_platform']      = esc_html__( 'Platform', 'schema-and-structured-data-for-wp' );    
+    $columns['saswp_review_date']          = esc_html__( 'Review Date', 'schema-and-structured-data-for-wp' ); 
+    $columns['saswp_review_place_id']      = esc_html__( 'Place ID/Reviewed To', 'schema-and-structured-data-for-wp' );    
+    $columns['saswp_review_shortcode']     = esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' );    
     
     return $columns;
 }
@@ -631,13 +631,13 @@ add_filter( 'parse_query', 'saswp_sort_reviews_by_platform' );
 
 function saswp_reviews_form_shortcode_metabox($post){
     
-    echo '<p>'.saswp_t_string( 'Use Below shortcode to show reviews form in your website. Using this you can collect reviews from your website directly.').'</p>';
+    echo '<p>'.esc_html__( 'Use Below shortcode to show reviews form in your website. Using this you can collect reviews from your website directly.', 'schema-and-structured-data-for-wp').'</p>';
     echo '<input type="text" value="[saswp-reviews-form]" readonly>';
 }
 
 function saswp_reviews_usage_metabox ($post) {
 
-    echo '<p>'.saswp_t_string( 'Use these reviews to create a collection and use them to show on frontend.').'</p>';
-    echo '<div><a href="'.esc_url( admin_url("edit.php?post_type=saswp-collections") ).'">'.saswp_t_string( 'Add to collection').'</a></div>';
+    echo '<p>'.esc_html__( 'Use these reviews to create a collection and use them to show on frontend.', 'schema-and-structured-data-for-wp').'</p>';
+    echo '<div><a href="'.esc_url( admin_url("edit.php?post_type=saswp-collections") ).'">'.esc_html__( 'Add to collection', 'schema-and-structured-data-for-wp').'</a></div>';
 
 }
