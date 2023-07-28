@@ -207,7 +207,6 @@ function saswp_schema_markup_output(){
  */
 function saswp_get_all_schema_markup_output() {
        
-        saswp_update_global_post();
 
         global $sd_data;
         global $post;

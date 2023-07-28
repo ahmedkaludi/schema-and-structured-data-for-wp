@@ -452,7 +452,7 @@ class saswp_view_common_class {
                                         if($media_thumbnail){
                                             
                                            $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'.esc_attr($media_thumbnail).'" />
+                                                         <img class="saswp_image_prev" src="'.esc_url($media_thumbnail).'" />
                                                          <a data-id="'.esc_attr($meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             

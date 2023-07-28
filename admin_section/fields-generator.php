@@ -454,7 +454,7 @@ class saswp_fields_generator {
                                             $thumbnail_url = urldecode($thumbnail_url);
                                            } 
                                            $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'.esc_attr($thumbnail_url).'" />
+                                                         <img class="saswp_image_prev" src="'.esc_url($thumbnail_url).'" />
                                                          <a data-id="'.esc_attr($meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             

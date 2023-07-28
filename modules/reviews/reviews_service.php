@@ -314,7 +314,7 @@ class saswp_reviews_service {
                                             <div>'.(($days_ago_format) ? esc_attr($days_ago_format) : '').'</div>                                  
                                         </div> 
                                         <span class="saswp-g-plus">
-                                            <a target="_blank" href="'.esc_attr($link).'"><img alt="'.esc_attr($review['saswp_reviewer_name']).'" width="20" height="20" src="'.esc_url($review['saswp_review_platform_icon']).'"></a>
+                                            <a target="_blank" href="'.esc_url($link).'"><img alt="'.esc_attr($review['saswp_reviewer_name']).'" width="20" height="20" src="'.esc_url($review['saswp_review_platform_icon']).'"></a>
                                         </span>
                                     </div>                                                
                                    <div class="saswp-rv-txt"> <p>'.wp_strip_all_tags(html_entity_decode($review['saswp_review_text'])).'</p></div>
@@ -1647,7 +1647,7 @@ class saswp_reviews_service {
                     $html .= '<div class="saswp-r5-r">';                            
                     $html .= '<div class="saswp-r5-lg">';
                     $html .= '<span>';
-                    $html .= '<img alt="'.esc_attr($value['saswp_review_platform_name']).'" height="70" width="70" src="'. esc_attr($value['saswp_review_platform_icon']).'"/>';
+                    $html .= '<img alt="'.esc_attr($value['saswp_review_platform_name']).'" height="70" width="70" src="'. esc_url($value['saswp_review_platform_icon']).'"/>';
                     $html .= '</span>';
                     $html .= '</div>';                            
                     $html .= '<div class="saswp-r5-rng saswp-star">';
@@ -1680,7 +1680,7 @@ class saswp_reviews_service {
                     $html .= '<div class="saswp-r5-r">';                            
                     $html .= '<div class="saswp-r5-lg">';
                     $html .= '<span>';
-                    $html .= '<img alt="'.esc_attr($value['saswp_review_platform_name']).'" height="70" width="70" src="'. esc_attr($value['saswp_review_platform_icon']).'"/>';
+                    $html .= '<img alt="'.esc_attr($value['saswp_review_platform_name']).'" height="70" width="70" src="'. esc_url($value['saswp_review_platform_icon']).'"/>';
                     $html .= '</span>';
                     $html .= '</div>';                            
                     $html .= '<div class="saswp-r5-rng saswp-star">';

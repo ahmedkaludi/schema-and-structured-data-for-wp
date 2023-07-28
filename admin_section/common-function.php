@@ -3547,9 +3547,13 @@ function saswp_get_current_url(){
         $link = "https"; 
     } 
   
-    $link .= "://"; 
-    $link .= $_SERVER['HTTP_HOST']; 
-    $link .= $_SERVER['REQUEST_URI']; 
+    $link .= "://";
+    if(isset($_SERVER['HTTP_HOST'])){ 
+        $link .= $_SERVER['HTTP_HOST']; 
+    }
+    if(isset($_SERVER['REQUEST_URI'])){
+        $link .= $_SERVER['REQUEST_URI']; 
+    }
       
     return $link;
 }
@@ -4258,27 +4262,6 @@ function saswp_remove_all_images($content){
 
 }
 
-function saswp_update_global_post(){
-
-  global $post, $redux_builder_amp, $saswp_post_data;
-  
-  if( (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) && (function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint()) ){
-
-    $page_id = ampforwp_get_the_ID();  
-    
-    if($page_id){
-
-        if(!$saswp_post_data){
-                $saswp_post_data = get_post($page_id);      
-        }
-
-         $post = $saswp_post_data;     
-
-    }            
-  }
-
-}
-
 add_filter('wpseo_metadesc', 'saswp_yoast_homepage_meta_desc', 10,2);
 
 function saswp_yoast_homepage_meta_desc($description, $peresentation = false){
@@ -4944,6 +4927,7 @@ function saswp_get_post_meta( $post_id, $key=null, $single = null ){
             return get_post_meta($post_id, $key, $single);
         }                        
 }
+// Nonce check for this function is already done from where thsi function is getting called
 function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){
     
     if((!empty($_POST['tag_ID']) || !empty($_GET['tag_ID'])) && is_admin()){      

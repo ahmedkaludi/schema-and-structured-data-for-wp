@@ -1107,7 +1107,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                             if($media_url){
                                             
                                                     $image_pre = '<div class="saswp_image_thumbnail">
-                                                                 <img class="saswp_image_prev" src="'.esc_attr($media_url).'" />
+                                                                 <img class="saswp_image_prev" src="'.esc_url($media_url).'" />
                                                                  <a data-id="'.esc_attr($el_id).'" href="#" class="saswp_prev_close">X</a>
                                                                  </div>'; 
                                             
