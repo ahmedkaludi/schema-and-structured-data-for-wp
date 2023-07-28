@@ -124,7 +124,7 @@ class saswp_reviews_admin {
                     if(isset($meta_field['label'])){
                       $label =  $meta_field['label']; 
                     }
-			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $label ) . '</label>';
+			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html( $label ) . '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
                         
 			if ( empty( $meta_value ) ) {
@@ -148,7 +148,7 @@ class saswp_reviews_admin {
 							'<option %s value="%s">%s</option>',
 							$meta_value == $key ? 'selected' : '',
 							$key,
-							esc_html__($value)
+							esc_html($value)
 						);
 					}
                                         $input .= '</select>';

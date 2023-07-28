@@ -24,7 +24,7 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
 
 $saswp_add_data_type_config = array(
 				'installer_dir' => 'admin_section',
-				'plugin_title'  => esc_html__( ucfirst( 'Schema & Structured Data for WP' ), 'schema-and-structured-data-for-wp'),
+				'plugin_title'  => ucfirst(esc_html__('Schema & Structured Data for WP', 'schema-and-structured-data-for-wp')),
 				'start_steps'   => 1,
 				'total_steps'   => 3,
 				'installerpage' => 'saswp_add_new_data_type',
@@ -656,12 +656,12 @@ $saswp_add_data_type_config = array(
 
 		// If there is a title, display it.
 		if ( $args['title'] ) {
-			$svg .= '<title>' . esc_html__( $args['title'] ) . '</title>';
+			$svg .= '<title>' . esc_html( $args['title'] ) . '</title>';
 		}
 
 		// If there is a description, display it.
 		if ( $args['desc'] ) {
-			$svg .= '<desc>' . esc_html__( $args['desc'] ) . '</desc>';
+			$svg .= '<desc>' . esc_html( $args['desc'] ) . '</desc>';
 		}
 
 		$svg .= '<use xlink:href="#icon-' . esc_html( $args['icon'] ) . '"></use>';

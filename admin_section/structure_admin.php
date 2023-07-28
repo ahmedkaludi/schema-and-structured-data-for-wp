@@ -940,7 +940,7 @@ if(is_admin()){
                   <optgroup label="<?php echo esc_attr($choice_key);?>">
                   <?php
                   foreach ($choice_value as $sub_key => $sub_value) { ?> 
-                    <option class="pt-child" value="<?php echo esc_attr( $sub_key );?>" <?php selected( $selected_val_key_1, $sub_key );?> > <?php echo esc_html__($sub_value);?> </option>
+                    <option class="pt-child" value="<?php echo esc_attr( $sub_key );?>" <?php selected( $selected_val_key_1, $sub_key );?> > <?php echo esc_html($sub_value);?> </option>
                     <?php
                   }
                   ?> </optgroup > <?php
@@ -955,7 +955,7 @@ if(is_admin()){
                     $selcomp = 'selected';
                   }
                   ?>
-                  <option class="pt-child" value="<?php echo esc_attr( $key );?>" <?php echo esc_attr($selcomp); ?> > <?php echo esc_html__($value);?> </option>
+                  <option class="pt-child" value="<?php echo esc_attr( $key );?>" <?php echo esc_attr($selcomp); ?> > <?php echo esc_html($value);?> </option>
                   <?php
                 } ?>
               </select>
@@ -1352,8 +1352,8 @@ function saswp_custom_breadcrumbs() {
   
                       foreach($cat_parents as $parents) {
                         
-                        $cat_display .= '<li class="item-cat">'.esc_html__( $parents ).'</li>';
-                        $cat_display .= '<li class="separator"> ' . esc_html__( $separator ) . ' </li>';
+                        $cat_display .= '<li class="item-cat">'.esc_html( $parents ).'</li>';
+                        $cat_display .= '<li class="separator"> ' . esc_html( $separator ) . ' </li>';
                         
                       }
   
@@ -1436,7 +1436,7 @@ function saswp_custom_breadcrumbs() {
                 foreach ( $anc as $ancestor ) {
                     
                     $parents .= '<li class="item-parent item-parent-' . esc_attr($ancestor) . '"><a class="bread-parent bread-parent-' . esc_attr($ancestor) . '" href="' . esc_url(get_permalink($ancestor)) . '" title="' . esc_attr(@get_the_title($ancestor)) . '">' . esc_html__(@get_the_title($ancestor) ) . '</a></li>';
-                    $parents .= '<li class="separator separator-' . esc_attr($ancestor) . '"> ' . esc_html__($separator ) . ' </li>';
+                    $parents .= '<li class="separator separator-' . esc_attr($ancestor) . '"> ' . esc_html($separator ) . ' </li>';
                     $variables1_titles[]    = @get_the_title($ancestor);
                     $variables2_links[]     = get_permalink($ancestor);
                     $breadcrumb_url         = get_permalink($ancestor);

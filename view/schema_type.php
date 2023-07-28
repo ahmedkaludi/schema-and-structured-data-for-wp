@@ -308,7 +308,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                         $sel = 'selected';
                                     }
                                     
-                                    $option_html.= "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";    
+                                    $option_html.= "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";    
 
                                 }   
 
@@ -337,7 +337,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_type==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>  
@@ -357,7 +357,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($organization_type==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>  
@@ -377,7 +377,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($event_type==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>  
@@ -395,7 +395,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                             
@@ -414,7 +414,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -431,7 +431,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name == $key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -449,7 +449,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name == $key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -466,7 +466,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name == $key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -482,7 +482,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -500,7 +500,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -517,7 +517,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -534,7 +534,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -551,7 +551,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -568,7 +568,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -586,7 +586,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($business_name==$key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>
@@ -608,7 +608,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($item == $key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>                                                                
@@ -630,7 +630,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if($item == $key){
                               $sel = 'selected';
                             }
-                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html__($value )."</option>";
+                            echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";
                           }
                         ?>
                     </select>                                                                

@@ -76,7 +76,7 @@ class saswp_view_common_class {
                      foreach ( $meta_fields as $meta_field ) {
                     
                     
-			$label = '<label for="' . $meta_field['name'] . '">' . esc_html__( $meta_field['label'] ) . '</label>';			
+			$label = '<label for="' . $meta_field['name'] . '">' . esc_html( $meta_field['label'] ) . '</label>';			
 			                                                                        
 			switch ( $meta_field['type'] ) {
                                                             								                                
@@ -144,7 +144,7 @@ class saswp_view_common_class {
 							'<option %s value="%s">%s</option>',
 							$data[$meta_field['name']] === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							esc_html__($value )
+							esc_html($value )
 						);
 					}
 					$input .= '</select>';
@@ -365,7 +365,7 @@ class saswp_view_common_class {
                         $meta_value = array();
                     if($meta_field['type'] != 'global_mapping'){
                         if($meta_field['type'] != 'repeater'){
-                            $label      = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $meta_field['label'] ). '</label>';
+                            $label      = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html( $meta_field['label'] ). '</label>';
                             $meta_value = saswp_get_post_meta( $post_id, $meta_field['id'], true );
                         }
                     }                                
@@ -518,7 +518,7 @@ class saswp_view_common_class {
 							'<option %s value="%s">%s</option>',
 							$meta_value === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							esc_html__($value )
+							esc_html($value )
 						);
 					}
 					$input .= '</select>';

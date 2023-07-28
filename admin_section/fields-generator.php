@@ -414,11 +414,11 @@ class saswp_fields_generator {
                         }
                         if($tooltip_message){
                             
-                            $label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $meta_field['label'] ).' <span class="saswp-tooltiptext">'.esc_html__($tooltip_message).'</span></label>';			
+                            $label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . esc_html( $meta_field['label'] ).' <span class="saswp-tooltiptext">'.esc_html($tooltip_message).'</span></label>';			
                         
                         }else{
                             
-                            $label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . esc_html__( $meta_field['label'] ).' <span class="saswp-tooltiptext"></span></label>';			    
+                            $label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . esc_html( $meta_field['label'] ).' <span class="saswp-tooltiptext"></span></label>';			    
                         
                         }
 			
@@ -540,7 +540,7 @@ class saswp_fields_generator {
 							'<option %s value="%s">%s</option>',
 							$settings_meta_field == $key ? 'selected' : '',                                                        
 							$key,
-							esc_html__( $value )
+							esc_html( $value )
 						);
 					}
 					$input .= '</select>';
@@ -565,7 +565,7 @@ class saswp_fields_generator {
 							'<option %s value="%s">%s (Default)</option>',
 							'selected',                                                        
 							$key,
-							esc_html__( $value )
+							esc_html( $value )
 						   );
                                                     
                                                 }else{                                                    
@@ -573,7 +573,7 @@ class saswp_fields_generator {
 							'<option %s value="%s">%s</option>',
 							in_array($key, $settings_meta_field)  ? 'selected' : '',                                                        
 							$key,
-							esc_html__( $value )
+							esc_html( $value )
 						   );
                                                     
                                                 }                                            

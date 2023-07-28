@@ -536,7 +536,7 @@ class saswp_post_specific {
                              $schema_type_txt = 'Q&A';
                          }
                          
-                         $setting_options  .= '<span>'.esc_html__( $schema_type_txt.' schema is fetched automatically' ).'</span><br><br>';
+                         $setting_options  .= '<span>'.esc_html( $schema_type_txt.' schema is fetched automatically' ).'</span><br><br>';
                          $setting_options  .= '<a class="button button-default saswp-modify-schema button" schema-id="'.esc_attr($schema->ID).'">'.esc_html__( 'Modify '.$schema_type.' Schema Output' ).'</a>';
                          $setting_options  .= '</div>';                                                                  
                                         

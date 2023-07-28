@@ -813,7 +813,7 @@ class SASWP_Reviews_Collection {
                                             if(!empty($coll_desing)){
                                                 foreach($coll_desing as $key => $val){
                                                     
-                                                    echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_design'][0]) && $post_meta['saswp_collection_design'][0] == $key) ? 'selected':'').' >'.esc_html__( $val  ).'</option>';
+                                                    echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_design'][0]) && $post_meta['saswp_collection_design'][0] == $key) ? 'selected':'').' >'.esc_html( $val  ).'</option>';
                                                 }
                                             }
                                             ?>                                    
@@ -868,7 +868,7 @@ class SASWP_Reviews_Collection {
                                         <select name="saswp_collection_date_format" class="saswp-collection-date-format saswp-coll-settings-options">
                                             <?php
                                             foreach($date_format as $key => $val){                                                
-                                                echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_date_format'][0] == $key ? 'selected':'').' >'.esc_html__( $val  ).'</option>';
+                                                echo '<option value="'.esc_attr($key).'" '.($post_meta['saswp_collection_date_format'][0] == $key ? 'selected':'').' >'.esc_html( $val  ).'</option>';
                                             }
                                             ?>                                    
                                          </select>                                         
@@ -911,7 +911,7 @@ class SASWP_Reviews_Collection {
                                           <?php
                                           if(!empty($coll_sorting)){
                                             foreach($coll_sorting as $key => $val){
-                                                echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_sorting'][0]) && $post_meta['saswp_collection_sorting'][0] == $key) ? 'selected':'').' >'.esc_html__( $val  ).'</option>';
+                                                echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_sorting'][0]) && $post_meta['saswp_collection_sorting'][0] == $key) ? 'selected':'').' >'.esc_html( $val  ).'</option>';
                                                 
                                             }
                                           }
@@ -930,7 +930,7 @@ class SASWP_Reviews_Collection {
                                           <?php
                                             if(!empty($rating_specific_sel)){
                                                 foreach($rating_specific_sel as $key => $val){
-                                                    echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_specific_rating_sel'][0]) && $post_meta['saswp_collection_specific_rating_sel'][0] == $key) ? 'selected':'').' >'.esc_html__( $val  ).'</option>';
+                                                    echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_specific_rating_sel'][0]) && $post_meta['saswp_collection_specific_rating_sel'][0] == $key) ? 'selected':'').' >'.esc_html( $val  ).'</option>';
                                                     
                                                 }
                                             }
@@ -951,7 +951,7 @@ class SASWP_Reviews_Collection {
                                             if(!empty($coll_display_type)){
                                                 foreach($coll_display_type as $key => $val){
                                                     
-                                                    echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_display_type'][0]) && $post_meta['saswp_collection_display_type'][0] == $key) ? 'selected':'').' >'.esc_html__( $val  ).'</option>';
+                                                    echo '<option value="'.esc_attr($key).'" '.((isset($post_meta['saswp_collection_display_type'][0]) && $post_meta['saswp_collection_display_type'][0] == $key) ? 'selected':'').' >'.esc_html( $val  ).'</option>';
                                                 }
                                             }
                                             ?> 
@@ -1035,7 +1035,7 @@ class SASWP_Reviews_Collection {
 
                                                         if($saved_choices){
                                                             foreach($saved_choices as $value){
-                                                                echo '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html__($value['text']) .'</option>';                     
+                                                                echo '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html($value['text']) .'</option>';                     
                                                             }
                                                         }
 

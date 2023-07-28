@@ -68,12 +68,12 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
           $output = '<select data-type="'.esc_attr($response).'"  class="widefat ajax-output saswp-select2" name="data_group_array[group-'.esc_attr($current_group_number).'][data_array]['. esc_attr($current_number) .'][key_3]">'; 
           
           foreach ($choices as $value) {              
-           $output .= '<option value="' . esc_attr($value['id']) .'"> ' .  esc_html__($value['text']) .'</option>';                     
+           $output .= '<option value="' . esc_attr($value['id']) .'"> ' .  esc_html($value['text']) .'</option>';                     
           }
           
           if($saved_choices){
             foreach($saved_choices as $value){
-              $output .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html__($value['text']) .'</option>';                     
+              $output .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html($value['text']) .'</option>';                     
             }
           } 
         
@@ -183,12 +183,12 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     if(!empty($taxonomies)){
         
         foreach($taxonomies as $taxonomy) {                    
-            $choices .= '<option value="'.esc_attr($taxonomy['id']).'">'.esc_html__($taxonomy['text']).'</option>';                                    
+            $choices .= '<option value="'.esc_attr($taxonomy['id']).'">'.esc_html($taxonomy['text']).'</option>';                                    
         }
     
         if($saved_choices){
           foreach($saved_choices as $value){
-            $choices .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html__($value['text']) .'</option>';                     
+            $choices .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html($value['text']) .'</option>';                     
           }
         }   
 
