@@ -1200,7 +1200,7 @@ function saswp_general_page_callback(){
                                         $html_str .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html($value['text']) .'</option>';                     
                                 }
                         } 
-
+                        // Escaping of $html_str variable is already done above in this function
                         echo $html_str;
                          ?>                               
                         </select>
@@ -1253,6 +1253,7 @@ function saswp_general_page_callback(){
                                 }
                         } 
 
+                        // Escaping of $html_str variable is already done above in this function
                         echo $html_str;
                          ?>                               
                         </select>
@@ -2329,10 +2330,10 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                     $Reviews_h = $limits_html;
                 }
                 $response.= '<div class="saswp-sts-active-main '.strtolower($on).'_addon "><label class="saswp-sts-txt '.$license_status.'">'.esc_html__('Status', 'schema-and-structured-data-for-wp').':<span class="addon-activated_'.strtolower($on).'" '.$license_Status_id.'>'.$license_Status_.'</span>
-                <input type="password" class="saswp_license_key_input_active '.strtolower($on).'_addon_license_key" value="'.esc_attr(''.$original_license.'').'" placeholder="'.esc_html__('Enter License Key', 'schema-and-structured-data-for-wp').'" id="'.strtolower($on).'_addon_license_key">
+                <input type="password" class="saswp_license_key_input_active '.strtolower($on).'_addon_license_key" value="'.esc_attr(''.$original_license.'').'" placeholder="'.esc_attr('Enter License Key').'" id="'.strtolower($on).'_addon_license_key">
                 <a license-status="inactive" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation deactive_state '.strtolower($on).''.strtolower($on).'" id="saswp_license_deactivation">'.esc_html__('Deactivate', 'schema-and-structured-data-for-wp').'</a>'.$Reviews_h.' 
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_expires_normal" name="sd_data['.strtolower($on).'_addon_license_key_expires_normal]" value="'.esc_attr($license_expnormal).'">
-                <input type="hidden" class="saswp_license_key_input_active '.strtolower($on).'_addon_license_key" placeholder="'.esc_html__('Enter License Key', 'schema-and-structured-data-for-wp').'"  name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($original_license).'">
+                <input type="hidden" class="saswp_license_key_input_active '.strtolower($on).'_addon_license_key" placeholder="'.esc_html('Enter License Key').'"  name="sd_data['.strtolower($on).'_addon_license_key]" value="'.esc_attr($original_license).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'.esc_attr($license_status).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_user_name" name="sd_data['.strtolower($on).'_addon_license_key_user_name]" value="'.esc_attr($license_user_name).'">
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_download_id" name="sd_data['.strtolower($on).'_addon_license_key_download_id]" value="'.esc_attr($license_download_id).'">

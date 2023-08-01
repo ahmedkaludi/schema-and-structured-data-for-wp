@@ -761,9 +761,11 @@ class SASWP_Reviews_Collection {
                                           }
                                           
                                          echo '<optgroup label="Active">';
+                                         // Escaping of variable $active_options is already done above
                                          echo $active_options;
                                          echo '</optgroup>';
                                          echo '<optgroup label="InActive">';
+                                         // Escaping of variable $inactive_options is already done above
                                          echo $inactive_options;
                                          echo '</optgroup>';
                                          echo '</select>';

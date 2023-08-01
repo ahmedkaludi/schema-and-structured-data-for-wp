@@ -224,9 +224,9 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
-			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
-			<p><?php echo isset($stepDetails['description'])? esc_html($stepDetails['description']) : ''; ?></p>
+			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 									
 		</div>
 		<form action="" method="post">
@@ -272,8 +272,8 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
-			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
-			<p><?php echo isset($stepDetails['description'])? esc_html($stepDetails['description']) : ''; ?></p>
+			<h1><?php echo $stepDetails['title']; ?></h1>
+			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 		</div>
                     
 		<form action="" method="post">
@@ -343,9 +343,9 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
-			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
+			<h1><?php echo $stepDetails['title']; ?></h1>
 
-			<p><?php echo isset($stepDetails['description'])? esc_html($stepDetails['description']) : ''; ?></p>
+			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
 			
 			
 			
@@ -354,7 +354,7 @@ $saswp_add_data_type_config = array(
 			
 			<ul class="merlin__drawer--import-content">
 				<?php 
-					echo esc_html($stepDetails['fields']);
+					echo $stepDetails['fields'];
 				?>
 			</ul>
 			
@@ -536,7 +536,7 @@ $saswp_add_data_type_config = array(
                         }
                         ?>
                         
-			<a href="<?php echo esc_attr($lets_go); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html__( 'Let\'s Go', 'schema-and-structured-data-for-wp' ); ?></a>
+			<a href="<?php echo esc_url($lets_go); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html__( 'Let\'s Go', 'schema-and-structured-data-for-wp' ); ?></a>
 			
 			
 			<ul class="merlin__drawer merlin__drawer--extras">

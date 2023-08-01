@@ -324,7 +324,7 @@ class SASWP_Reviews_Form {
                     . '</form>'
                     . '</div>';
             
-            
+            // Escaping of $form variable is already done above in this function
              echo $form;
              return ob_get_clean();
             

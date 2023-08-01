@@ -32,7 +32,7 @@ public function widget( $args, $instance ) {
     foreach($all_loc as $ad){
         
         if($ad['value'] == $instance['loc']){   
-                            
+            // Escaping is already done in callback function                
             echo saswp_add_location_content($instance['loc']);
                 
         }   
@@ -141,6 +141,7 @@ add_shortcode( 'saswp-location', 'saswp_location_shortcode_render');
 function saswp_location_shortcode_render($attr){
 
     if(isset($attr['id'])){
+        // Escaping is already done in callback function
         echo saswp_add_location_content($attr['id']);
     }
     

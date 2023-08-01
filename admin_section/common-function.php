@@ -3232,7 +3232,7 @@ function saswp_admin_notice(){
     $sd_data         = get_option('sd_data'); 
         
     if(($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') && !isset($sd_data['sd_initial_wizard_status'])){
-            
+        // Escaping for $setup_notice variable is already done above in this function    
         echo $setup_notice;
         
     }     

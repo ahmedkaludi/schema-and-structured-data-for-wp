@@ -1554,7 +1554,7 @@ class saswp_reviews_service {
                         $html .= '<span>';
                         $html .= saswp_get_rating_html_by_value($average_rating,$stars_color,$review_id);
                         $html .= '</span>';
-                        $html .= '<span class="saswp-r4-rnm">'.esc_attr(number_format ($average_rating, 1)).' from '.esc_attr($review_count).' '.esc_html__('reviews', 'schema-and-structured-data-for-wp').'</span>';                    
+                        $html .= '<span class="saswp-r4-rnm">'.esc_html(number_format ($average_rating, 1)).' from '.esc_html($review_count).' '.esc_html__('reviews', 'schema-and-structured-data-for-wp').'</span>';                    
                         $html .= '</div>';
 
                         $html .= '<div class="saswp-onclick-show">';

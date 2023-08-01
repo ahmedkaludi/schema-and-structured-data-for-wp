@@ -705,8 +705,10 @@ class SASWP_Gutenberg {
                     
 
                     if(($attributes['listStyleType']=='none')){
+                        // Escaping of $className variable is already done above 
                         echo'<ol '.$className.' style="list-style-type:none;">';
                      }elseif(($attributes['listStyleType']=='disc')){
+                        // Escaping of $className variable is already done above
                         echo'<ol '.$className.' style="list-style-type:disc;">';
                      }else{
                         echo '<ol>';

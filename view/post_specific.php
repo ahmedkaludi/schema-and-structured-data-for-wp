@@ -198,6 +198,7 @@ class saswp_post_specific {
                 
             }
 
+            // Escaping is already done in the callback function
              echo $output;
                                                
              wp_die();
@@ -239,7 +240,7 @@ class saswp_post_specific {
             $response          = saswp_get_fields_by_schema_type($schema_id, null, $item_reviewed);                                                              
             $saswp_meta_fields = array_filter($response);                
             $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, $item_reviewed, $disabled, $modify_this); 
-                                 
+            // Escaping is already done in the callback function                     
             echo $output;
 
             wp_die();
@@ -260,10 +261,10 @@ class saswp_post_specific {
                 }
                 
                 $schema_enable = array();
-                $post_id       = intval($_POST['post_id']);
-                $schema_id     = sanitize_text_field($_POST['schema_id']);
-                $status        = sanitize_text_field($_POST['status']);
-                $req_from      = sanitize_text_field($_POST['req_from']);
+                $post_id       = isset($_POST['post_id'])?intval($_POST['post_id']):'';
+                $schema_id     = isset($_POST['schema_id'])?sanitize_text_field($_POST['schema_id']):'';
+                $status        = isset($_POST['status'])?sanitize_text_field($_POST['status']):'';
+                $req_from      = isset($_POST['req_from'])?sanitize_text_field($_POST['req_from']):'';
                             
                 if($req_from == 'post'){
                     $schema_enable_status = get_post_meta($post_id, 'saswp_enable_disable_schema', true);  
@@ -299,7 +300,7 @@ class saswp_post_specific {
                     update_term_meta( $post_id, 'saswp_enable_disable_schema', $schema_enable);                   
                 }
                                                                 
-                echo json_encode(array('status'=>'t'));
+                echo wp_json_encode(array('status'=>'t'));
                 wp_die();                        
                 
         }
@@ -632,6 +633,7 @@ class saswp_post_specific {
         public function saswp_post_meta_box_callback($post) { 
                                                  
 		        wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );  
+                // Escaping already done in the callback function
                 echo $this->saswp_post_meta_box_fields($post);                                             
                                                                                                                                                                    		
         }        

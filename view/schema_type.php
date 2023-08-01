@@ -383,7 +383,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>  
                     </td>
                 </tr>
-                
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-automotivebusiness-tr" <?php if(!array_key_exists($business_name, $all_automotive_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                     <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
@@ -403,6 +403,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </td>
 
                 </tr>
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-emergencyservice-tr" <?php if(!array_key_exists($business_name, $all_emergency_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
@@ -420,6 +421,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-entertainmentbusiness-tr" <?php if(!array_key_exists($business_name, $all_entertainment_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp'); ?></td>    
                 <td>
@@ -437,7 +439,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
-                
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-medicalbusiness-tr" <?php if(!array_key_exists($business_name, $all_medical_business_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
@@ -455,7 +457,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
-                
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-financialservice-tr" <?php if(!array_key_exists($business_name, $all_financial_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
@@ -472,6 +474,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>                        
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-foodestablishment-tr" <?php if(!array_key_exists($business_name, $all_food_establishment_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>  
                 <td>
@@ -488,6 +491,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-healthandbeautybusiness-tr" <?php if(!array_key_exists($business_name, $all_health_and_beauty_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>   
                 <td>
@@ -506,6 +510,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>                        
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-homeandconstructionbusiness-tr" <?php if(!array_key_exists($business_name, $all_home_and_construction_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
@@ -523,6 +528,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-legalservice-tr" <?php if(!array_key_exists($business_name, $all_legal_service_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
@@ -540,6 +546,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-lodgingbusiness-tr" <?php if(!array_key_exists($business_name, $all_lodging_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
@@ -557,6 +564,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-sportsactivitylocation-tr" <?php if(!array_key_exists($business_name, $all_sports_activity_location)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
@@ -574,6 +582,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
+                <!-- style_business_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-store-tr" <?php if(!array_key_exists($business_name, $all_store)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
@@ -594,6 +603,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </tr>                
                                 
                 <!-- ItemList Schema type starts here -->
+                <!-- style_review_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-itemlist-text-field-tr" <?php echo $style_review_name; ?>>
                     <td><?php echo esc_html__('Item Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
@@ -617,11 +627,12 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <!-- ItemList Schema type ends here -->
                                 
                 <!-- Review Schema type starts here -->
+                <!-- style_review_name has a static value which is assigned inside top of the function so no need to sanitize -->
                 <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
                     <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
 
-                        <select data-id="<?php echo esc_attr($post_id);  ?>" name="saswp_review_item_reviewed_<?php echo $post_id; ?>" class="saswp-item-reivewed-list">
+                        <select data-id="<?php echo esc_attr($post_id);  ?>" name="saswp_review_item_reviewed_<?php echo esc_attr($post_id); ?>" class="saswp-item-reivewed-list">
                         <?php
                         
                           $item = get_post_meta($post_id, 'saswp_review_item_reviewed_'.$post_id, true);                                                                                        
@@ -797,7 +808,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                            $checked = 'checked';
                                        }
                                        
-                                       echo '<input class="saswp-attach-rv-checkbox" type="checkbox" '.$checked.'>  <strong> '.esc_html($val['saswp_reviewer_name']).' ( Rating - '.esc_html($val['saswp_review_rating']).' ) <span class="saswp-g-plus"><img src="'.esc_url($val['saswp_review_platform_icon']).'"/></span></strong>';
+                                       echo '<input class="saswp-attach-rv-checkbox" type="checkbox" '.esc_attr($checked).'>  <strong> '.esc_html($val['saswp_reviewer_name']).' ( Rating - '.esc_html($val['saswp_review_rating']).' ) <span class="saswp-g-plus"><img src="'.esc_url($val['saswp_review_platform_icon']).'"/></span></strong>';
                                        echo '</div>';
                                        
                                    }
@@ -839,7 +850,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                            $checked = 'checked';
                                        }
                                        
-                                       echo '<input class="saswp-attach-rv-checkbox" type="checkbox" '.$checked.'>  <strong> '.esc_html($val['label']).' </strong>';
+                                       echo '<input class="saswp-attach-rv-checkbox" type="checkbox" '.esc_attr($checked).'>  <strong> '.esc_html($val['label']).' </strong>';
                                        echo '</div>';
                                        
                                    }
@@ -1045,7 +1056,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                                                     
                             foreach($meta_list_arr as $list){
                             
-                                $list_html.= '<optgroup label="'.$list['label'].'">';
+                                $list_html.= '<optgroup label="'.esc_attr($list['label']).'">';
                                 
                                 foreach ($list['meta-list'] as $key => $val){
                                     
@@ -1061,7 +1072,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 
                             } 
                             echo '<td>';
-                            echo '<select class="saswp-custom-meta-list" name="saswp_meta_list_val['.$fieldkey.']">';
+                            echo '<select class="saswp-custom-meta-list" name="saswp_meta_list_val['.esc_attr($fieldkey).']">';
                             echo $list_html;
                             echo '</select>';
                             echo '</td>';
