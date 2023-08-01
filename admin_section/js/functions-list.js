@@ -334,18 +334,18 @@
                             field_name = Object.keys(fields)[0];                            
                         }                        
                         var re_html = '';   
-                            re_html += '<select class="saswp-custom-meta-list" name="saswp_meta_list_val['+field_name+']">';
+                            re_html += `<select class="saswp-custom-meta-list" name="saswp_meta_list_val[${field_name}]">`;
                           jQuery.each(response, function(key,value){ 
 
-                               re_html += '<optgroup label="'+value['label']+'">';   
+                               re_html += `<optgroup label="${value['label']}">`;   
 
                                jQuery.each(value['meta-list'], function(key, value){
-                                   re_html += '<option value="'+key+'">'+value+'</option>';
+                                   re_html += `<option value="${key}">${value}</option>`;
                                });                                                                                  
-                               re_html += '</optgroup>';
+                               re_html += `</optgroup>`;
 
                            });                                     
-                           re_html += '</select>';
+                           re_html += `</select>`;
                                             
                       if(fields){ 
                                                     
@@ -583,8 +583,7 @@
                                                                                             
             });                                                             
             html += `</table>`
-                    + `</div>`;
-            console.log("html " + html);         
+                    + `</div>`;       
             return html;
             
         }
@@ -633,8 +632,8 @@
 
                 var starating = '';
         
-                    starating += '<div class="saswp-rvw-str">';
-                       starating += '<div class="saswp-rvw-str">';
+                    starating += `<div class="saswp-rvw-str">`;
+                       starating += `<div class="saswp-rvw-str">`;
                   
                     for(var j=0; j<5; j++){  
                        
@@ -646,27 +645,27 @@
 
                                     if(j < explod[0]){
                                         var a = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
-                                        starating +='<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'+review_id+a+'"><stop offset="100%" class="saswp_star" stop-color='+color+' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'+review_id+a+')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg>';
+                                        starating +=`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad${review_id}${a}"><stop offset="100%" class="saswp_star" stop-color=${color} /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad${review_id}${a})" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg>`;
 
                                     }else{
                                         var b = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
-                                      starating +='<span class="saswp_half_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'+review_id+b+'"><stop offset="50%" class="saswp_star" stop-color='+color+' /><stop offset="50%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'+review_id+b+')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
+                                      starating +=`<span class="saswp_half_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad${review_id}${b}"><stop offset="50%" class="saswp_star" stop-color=${color} /><stop offset="50%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad${review_id}${b})" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>`;
                                       
                                     }                                           
                                 }else{
                                     var c = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
-                                    starating +='<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'+review_id+c+'"><stop offset="100%" class="saswp_star" stop-color='+color+' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'+review_id+c+')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg>';
+                                    starating +=`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad${review_id}${c}"><stop offset="100%" class="saswp_star" stop-color=${color} /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad${review_id}${c})" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg>`;
                                 }
 
                           } else{  
                                var d = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
-                               starating +='<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad1'+review_id+d+'"><stop offset="100%" stop-color="grey" /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad1'+review_id+d+')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg>';
+                               starating +=`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad1${review_id}${d}"><stop offset="100%" stop-color="grey" /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad1${review_id}${d})" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg>`;
                               
                           }                                                                                                                                
                         }
 
-                        starating += '</div>';
-                    starating += '</div>';
+                        starating += `</div>`;
+                    starating += `</div>`;
 
                     return starating;
                 
@@ -848,24 +847,24 @@
                             }
                             var html = '';
            
-                                html += '<div class="saswp-r2-sli">';
-                                html += '<div class="saswp-r2-b">';                                
-                                html += '<div class="saswp-r2-q">';
-                                html += '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="95.333px" height="95.332px" viewBox="0 0 95.333 95.332" style="enable-background:new 0 0 95.333 95.332;" xml:space="preserve"><path d="M30.512,43.939c-2.348-0.676-4.696-1.019-6.98-1.019c-3.527,0-6.47,0.806-8.752,1.793    c2.2-8.054,7.485-21.951,18.013-23.516c0.975-0.145,1.774-0.85,2.04-1.799l2.301-8.23c0.194-0.696,0.079-1.441-0.318-2.045    s-1.035-1.007-1.75-1.105c-0.777-0.106-1.569-0.16-2.354-0.16c-12.637,0-25.152,13.19-30.433,32.076    c-3.1,11.08-4.009,27.738,3.627,38.223c4.273,5.867,10.507,9,18.529,9.313c0.033,0.001,0.065,0.002,0.098,0.002    c9.898,0,18.675-6.666,21.345-16.209c1.595-5.705,0.874-11.688-2.032-16.851C40.971,49.307,36.236,45.586,30.512,43.939z"></path><path d="M92.471,54.413c-2.875-5.106-7.61-8.827-13.334-10.474c-2.348-0.676-4.696-1.019-6.979-1.019    c-3.527,0-6.471,0.806-8.753,1.793c2.2-8.054,7.485-21.951,18.014-23.516c0.975-0.145,1.773-0.85,2.04-1.799l2.301-8.23    c0.194-0.696,0.079-1.441-0.318-2.045c-0.396-0.604-1.034-1.007-1.75-1.105c-0.776-0.106-1.568-0.16-2.354-0.16    c-12.637,0-25.152,13.19-30.434,32.076c-3.099,11.08-4.008,27.738,3.629,38.225c4.272,5.866,10.507,9,18.528,9.312    c0.033,0.001,0.065,0.002,0.099,0.002c9.897,0,18.675-6.666,21.345-16.209C96.098,65.559,95.376,59.575,92.471,54.413z"></path></svg>';
-                                html += '</div>';
-                                html += '<div class="saswp-rc-cnt">';
-                                html += '<p>';
+                                html += `<div class="saswp-r2-sli">`;
+                                html += `<div class="saswp-r2-b">`;                                
+                                html += `<div class="saswp-r2-q">`;
+                                html += `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="95.333px" height="95.332px" viewBox="0 0 95.333 95.332" style="enable-background:new 0 0 95.333 95.332;" xml:space="preserve"><path d="M30.512,43.939c-2.348-0.676-4.696-1.019-6.98-1.019c-3.527,0-6.47,0.806-8.752,1.793    c2.2-8.054,7.485-21.951,18.013-23.516c0.975-0.145,1.774-0.85,2.04-1.799l2.301-8.23c0.194-0.696,0.079-1.441-0.318-2.045    s-1.035-1.007-1.75-1.105c-0.777-0.106-1.569-0.16-2.354-0.16c-12.637,0-25.152,13.19-30.433,32.076    c-3.1,11.08-4.009,27.738,3.627,38.223c4.273,5.867,10.507,9,18.529,9.313c0.033,0.001,0.065,0.002,0.098,0.002    c9.898,0,18.675-6.666,21.345-16.209c1.595-5.705,0.874-11.688-2.032-16.851C40.971,49.307,36.236,45.586,30.512,43.939z"></path><path d="M92.471,54.413c-2.875-5.106-7.61-8.827-13.334-10.474c-2.348-0.676-4.696-1.019-6.979-1.019    c-3.527,0-6.471,0.806-8.753,1.793c2.2-8.054,7.485-21.951,18.014-23.516c0.975-0.145,1.773-0.85,2.04-1.799l2.301-8.23    c0.194-0.696,0.079-1.441-0.318-2.045c-0.396-0.604-1.034-1.007-1.75-1.105c-0.776-0.106-1.568-0.16-2.354-0.16    c-12.637,0-25.152,13.19-30.434,32.076c-3.099,11.08-4.008,27.738,3.629,38.225c4.272,5.866,10.507,9,18.528,9.312    c0.033,0.001,0.065,0.002,0.099,0.002c9.897,0,18.675-6.666,21.345-16.209C96.098,65.559,95.376,59.575,92.471,54.413z"></path></svg>`;
+                                html += `</div>`;
+                                html += `<div class="saswp-rc-cnt">`;
+                                html += `<p>`;
                                 html += value.saswp_review_text;
-                                html += '</p>';
-                                html += '</div>';
-                                html += '<div class="saswp-r2-strs">';
-                                html += '<span class="saswp-r2-s">';
+                                html += `</p>`;
+                                html += `</div>`;
+                                html += `<div class="saswp-r2-strs">`;
+                                html += `<span class="saswp-r2-s">`;
                                 html += saswp_create_rating_html_by_value(value.saswp_review_rating,color,value.saswp_review_id);
-                                html += '</span>';
-                                html += '</div>';
-                                html += '</div>';
-                                html += '<div class="saswp-rc">';
-                                html += '<div class="saswp-rc-a">';
+                                html += `</span>`;
+                                html += `</div>`;
+                                html += `</div>`;
+                                html += `<div class="saswp-rc">`;
+                                html += `<div class="saswp-rc-a">`;
                                 if(saswp_collection_gallery_img_hide !=1){
                                     let isDefaultImg = 0;
                                     let revCollImg = value.saswp_reviewer_image;
@@ -879,18 +878,18 @@
                                         revCollImg = collectionImg; 
                                     }
 
-                                    html += '<img src="'+revCollImg+'" data-is-default-img="'+isDefaultImg+'"/>';
+                                    html += `<img src="${revCollImg}" data-is-default-img="${isDefaultImg}"/>`;
                                 }
-                                html += '<div class="saswp-rc-nm">';
-                                html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
-                                html += '<span class="saswp-rc-dt">'+date_str.date+'</span>';
-                                html += '</div>';
-                                html += '<div class="saswp-rc-lg">';
-                                html += '<img src="'+value.saswp_review_platform_icon+'"/>';
-                                html += '</div>';
-                                html += '</div>';
-                                html += '</div>';
-                                html += '</div>';
+                                html += `<div class="saswp-rc-nm">`;
+                                html += `<a href="#">${value.saswp_reviewer_name}</a>`;
+                                html += `<span class="saswp-rc-dt">${date_str.date}</span>`;
+                                html += `</div>`;
+                                html += `<div class="saswp-rc-lg">`;
+                                html += `<img src="${value.saswp_review_platform_icon}"/>`;
+                                html += `</div>`;
+                                html += `</div>`;
+                                html += `</div>`;
+                                html += `</div>`;
                                 
                                 return html;
                       
@@ -985,8 +984,8 @@
 
                   
                     
-                    html += '<div class="saswp-rd3-warp">';
-                    html += '<ul>';
+                    html += `<div class="saswp-rd3-warp">`;
+                    html += `<ul>`;
                                         
                     for (var key in saswp_collection) {
                           
@@ -1026,42 +1025,42 @@
                         
                         if(saswp_collection[key]){
                             
-                            html += '<li>';                       
-                      html += '<a target="_blank" href="'+source_url+'">'; 
+                            html += `<li>`;                       
+                      html += `<a target="_blank" href="${source_url}">`; 
 
-                        html += '<div class="saswp-r3-lg">';
-                          html += '<span>';
-                           html += '<img src="'+platform_icon+'"/>';
-                          html += '</span>';
-                          html += '<span class="saswp-r3-tlt">'+platform_name+'</span">';                          
-                        html += '</div>';
+                        html += `<div class="saswp-r3-lg">`;
+                          html += `<span>`;
+                           html += `<img src="${platform_icon}"/>`;
+                          html += `</span>`;
+                          html += `<span class="saswp-r3-tlt">${platform_name}</span">`;                          
+                        html += `</div>`;
 
-                      html += '<div class="saswp-r3-rtng">';
+                      html += `<div class="saswp-r3-rtng">`;
 
-                        html += '<div class="saswp-r3-rtxt">';
-                          html += '<span class="saswp-r3-num">';
+                        html += `<div class="saswp-r3-rtxt">`;
+                          html += `<span class="saswp-r3-num">`;
                             html += average_rating.toFixed(1);
-                          html += '</span>';
-                          html += '<span class="saswp-stars saswp-badge">';
+                          html += `</span>`;
+                          html += `<span class="saswp-stars saswp-badge">`;
                            html += saswp_create_rating_html_by_value(average_rating.toString(),color,review_id); 
-                          html += '</span>';
-                        html += '</div>';
+                          html += `</span>`;
+                        html += `</div>`;
 
-                        html += '<span class="saswp-r3-brv">';
+                        html += `<span class="saswp-r3-brv">`;
                         html += saswp_localize_data.trans_based_on +' '+ review_count+' '+saswp_localize_data.trans_reviews;
-                        html += '</span>';
+                        html += `</span>`;
 
-                      html += '</div>';
-                      html += '</a>';
-                      html += '</li>';                            
+                      html += `</div>`;
+                      html += `</a>`;
+                      html += `</li>`;                            
                                                       
                             
                         }
                                                                                                 
                     }
                     
-                    html += '</ul>';
-                    html += '</div>';
+                    html += `</ul>`;
+                    html += `</div>`;
                                          
                 }
                 
@@ -1092,20 +1091,20 @@
                             if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
                                 date_str.date = value.saswp_review_date;
                             }
-                            html_list += '<li>';
-                            html_list += '<div class="saswp-r4-b">';
-                            html_list += '<span class="saswp-r4-str saswp-popup">';
+                            html_list += `<li>`;
+                            html_list += `<div class="saswp-r4-b">`;
+                            html_list += `<span class="saswp-r4-str saswp-popup">`;
                             html_list += saswp_create_rating_html_by_value(value.saswp_review_rating,color,value.saswp_review_id);
-                            html_list += '</span>';
-                            html_list += '<span class="saswp-r4-tx">'+date_str.date+'</span>';
-                            html_list += '</div>';
+                            html_list += `</span>`;
+                            html_list += `<span class="saswp-r4-tx">${date_str.date}</span>`;
+                            html_list += `</div>`;
                             
-                            html_list += '<div class="saswp-r4-cnt">';
-                            html_list += '<h3>'+value.saswp_reviewer_name+'</h3>';
-                            html_list += '<p>'+value.saswp_review_text+'</p>';
-                            html_list += '</div>';
+                            html_list += `<div class="saswp-r4-cnt">`;
+                            html_list += `<h3>${value.saswp_reviewer_name}</h3>`;
+                            html_list += `<p>${value.saswp_review_text}</p>`;
+                            html_list += `</div>`;
                             
-                            html_list += '</li>';
+                            html_list += `</li>`;
                                                                                   
                         });
                        
@@ -1117,39 +1116,39 @@
                     
                     if(review_count > 0){
                         
-                        html += '<div id="saswp-sticky-review">';
-                        html += '<div class="saswp-open-class saswp-popup-btn">';
-                        html += '<div class="saswp-opn-cls-btn">';
+                        html += `<div id="saswp-sticky-review">`;
+                        html += `<div class="saswp-open-class saswp-popup-btn">`;
+                        html += `<div class="saswp-opn-cls-btn">`;
 
-                        html += '<div class="saswp-onclick-hide">';
-                        html += '<span class="saswp-popup2">';
+                        html += `<div class="saswp-onclick-hide">`;
+                        html += `<span class="saswp-popup2">`;
                         html += saswp_create_rating_html_by_value(average_rating.toString(),color,review_id);
-                        html += '</span>';
-                        html += '<span class="saswp-r4-rnm">'+average_rating.toFixed(1)+' from '+review_count+' reviews</span>';                    
-                        html += '</div>';
+                        html += `</span>`;
+                        html += `<span class="saswp-r4-rnm">${average_rating.toFixed(1)} from ${review_count} reviews</span>`;                    
+                        html += `</div>`;
 
-                        html += '<div class="saswp-onclick-show" style="display: none;">';
-                        html += '<span>Ratings and reviews</span>';                    
-                        html += '<span class="saswp-mines"></span>';                    
-                        html += '</div>';
+                        html += `<div class="saswp-onclick-show" style="display: none;">`;
+                        html += `<span>Ratings and reviews</span>`;                    
+                        html += `<span class="saswp-mines"></span>`;                    
+                        html += `</div>`;
 
-                        html += '</div>';
-                        html += '<div id="saswp-reviews-cntn">';
-                        html += '<div class="saswp-r4-info">';
-                        html += '<ul>';
+                        html += `</div>`;
+                        html += `<div id="saswp-reviews-cntn">`;
+                        html += `<div class="saswp-r4-info">`;
+                        html += `<ul>`;
 
-                        html += '<li class="saswp-r4-r">';
-                        html += '<span>';
+                        html += `<li class="saswp-r4-r">`;
+                        html += `<span>`;
                         html += saswp_create_rating_html_by_value(average_rating.toString(),color,review_id);
-                        html += '</span>';
-                        html += '<span class="saswp-r4-rnm">'+average_rating.toFixed(1)+' from '+review_count+' reviews</span>';                    
-                        html += '</li>';                                        
+                        html += `</span>`;
+                        html += `<span class="saswp-r4-rnm">${average_rating.toFixed(1)} from ${review_count} reviews</span>`;                    
+                        html += `</li>`;                                        
                         html += html_list;
-                        html += '</ul>';                    
-                        html += '</div>';
-                        html += '</div>';
-                        html += '</div>';
-                        html += '</div>';
+                        html += `</ul>`;                    
+                        html += `</div>`;
+                        html += `</div>`;
+                        html += `</div>`;
+                        html += `</div>`;
                                                 
                     }
                                            
@@ -1172,24 +1171,24 @@
                     if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
                         date_str.date = value.saswp_review_date;
                     }
-                    html += '<div id="'+index+'" class="saswp-r5">';
-                    html += '<div class="saswp-r5-r">';                            
-                    html += '<div class="saswp-r5-lg">';
-                    html += '<span>';
-                    html += '<img height="70" width="70" src="'+value.saswp_review_platform_icon+'"/>';
-                    html += '</span>';
-                    html += '</div>';                            
-                    html += '<div class="saswp-r5-rng">';
+                    html += `<div id="${index}" class="saswp-r5">`;
+                    html += `<div class="saswp-r5-r">`;                            
+                    html += `<div class="saswp-r5-lg">`;
+                    html += `<span>`;
+                    html += `<img height="70" width="70" src="${value.saswp_review_platform_icon}"/>`;
+                    html += `</span>`;
+                    html += `</div>`;                            
+                    html += `<div class="saswp-r5-rng">`;
                       html += saswp_create_rating_html_by_value(value.saswp_review_rating,color,value.saswp_review_id);
-                     html +='<div class="saswp-r5-txrng">';
-                     html +='<span>'+value.saswp_review_rating+' Stars</span>';
-                     html +='<span>by</span>';
-                     html +='<span>'+value.saswp_reviewer_name+'</span>';
-                     html +='</div>';
-                     html += '<span class="saswp-r5-dt">'+date_str.date+'</span>';
-                    html += '</div>';                            
-                    html += '</div>';
-                    html += '</div>';                   
+                     html +=`<div class="saswp-r5-txrng">`;
+                     html +=`<span>${value.saswp_review_rating} Stars</span>`;
+                     html +=`<span>by</span>`;
+                     html +=`<span>${value.saswp_reviewer_name}</span>`;
+                     html +=`</div>`;
+                     html += `<span class="saswp-r5-dt">${date_str.date}</span>`;
+                    html += `</div>`;                            
+                    html += `</div>`;
+                    html += `</div>`;                   
 
                 });
 			                                                                              
@@ -1307,16 +1306,16 @@
                     
                     page_count = Math.ceil(saswp_total_collection.length / perpage);
                     
-                    html += '<div class="saswp-r1">';
+                    html += `<div class="saswp-r1">`;
                     
                     for(var i=1; i <= cols; i++){
                         grid_cols +=' 1fr'; 
                     }    
 
                       if(cols.length > 3){
-                      html += '<ul style="grid-template-columns:'+grid_cols+';overflow-y: scroll;">'; 
+                      html += `<ul style="grid-template-columns:${grid_cols};overflow-y: scroll;">`; 
                       }else{
-                      html += '<ul style="grid-template-columns:'+grid_cols+';overflow-y:hidden;">';     
+                      html += `<ul style="grid-template-columns:${grid_cols};overflow-y:hidden;">`;     
                       }
                     
                                                                                                                                                                                                                           
@@ -1336,9 +1335,9 @@
                             // if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
                             //     date_str.date = value.saswp_review_date;
                             // }
-                            html += '<li>';                       
-                            html += '<div class="saswp-rc">';
-                            html += '<div class="saswp-rc-a">';
+                            html += `<li>`;                       
+                            html += `<div class="saswp-rc">`;
+                            html += `<div class="saswp-rc-a">`;
                             if(saswp_coll_hide_col_r_img != 1){
                                 let isDefaultImg = 0;
                                 let revCollImg = value.saswp_reviewer_image;
@@ -1351,47 +1350,47 @@
                                 if(isDefaultImg == 0){
                                     revCollImg = collectionImg; 
                                 }
-                                html += '<div class="saswp-r1-aimg">';
-                                html += '<img src="'+revCollImg+'" width="56" height="56" data-is-default-img="'+isDefaultImg+'"/>';
-                                html += '</div>';
+                                html += `<div class="saswp-r1-aimg">`;
+                                html += `<img src="${revCollImg}" width="56" height="56" data-is-default-img="${isDefaultImg}"/>`;
+                                html += `</div>`;
                             }                            
-                            html += '<div class="saswp-rc-nm">';
-                            html += '<a href="#">'+value.saswp_reviewer_name+'</a>';
+                            html += `<div class="saswp-rc-nm">`;
+                            html += `<a href="#">${value.saswp_reviewer_name}</a>`;
                             html += saswp_create_rating_html_by_value(value.saswp_review_rating,color,value.saswp_review_id);  
 
                             if(date_str.date){
-                              html += '<span class="saswp-rc-dt">'+date_str.date+'</span>';
+                              html += `<span class="saswp-rc-dt">${date_str.date}</span>`;
 
                             }
                             
-                            html += '</div>';
-                            html += '</div>';
+                            html += `</div>`;
+                            html += `</div>`;
                             
-                            html += '<div class="saswp-rc-lg">';
-                            html += '<img src="'+value.saswp_review_platform_icon+'"/>';
-                            html += '</div>';
+                            html += `<div class="saswp-rc-lg">`;
+                            html += `<img src="${value.saswp_review_platform_icon}"/>`;
+                            html += `</div>`;
                             
-                            html += '</div>';
-                            html += '<div class="saswp-rc-cnt">';
-                            html += '<p>'+value.saswp_review_text+'</p>';
-                            html += '</div>';
+                            html += `</div>`;
+                            html += `<div class="saswp-rc-cnt">`;
+                            html += `<p>${value.saswp_review_text}</p>`;
+                            html += `</div>`;
 
                             if(value.is_remove){
-                                html += '<span platform-id="'+value.saswp_review_platform+'" data-id="'+value.saswp_review_id+'" class="dashicons dashicons-remove saswp-remove-coll-rv"></span>';
+                                html += `<span platform-id="${value.saswp_review_platform}" data-id="${value.saswp_review_id}" class="dashicons dashicons-remove saswp-remove-coll-rv"></span>`;
                             }
                             
-                            html += '</li>';
+                            html += `</li>`;
                                                                                   
                         });
                                                       
                     }
                                                                                                                                         
-                    html += '</ul>';
+                    html += `</ul>`;
                
                     if(page_count > 0 && pagination){
                
-                        html += '<div class="saswp-grid-pagination">';                    
-                        html += '<a class="saswp-grid-page" data-id="1" href="#">&laquo;</a>'; 
+                        html += `<div class="saswp-grid-pagination">`;                    
+                        html += `<a class="saswp-grid-page" data-id="1" href="#">&laquo;</a>`; 
                         
                         var min = (parseInt(saswp_grid_page) - 3);
                         var max = (parseInt(saswp_grid_page) + 3);
@@ -1405,20 +1404,20 @@
                             }
                             
                             if(i == saswp_grid_page){
-                                html += '<a class="active saswp-grid-page '+hide_class+'" data-id="'+i+'" href="#">'+i+'</a>';    
+                                html += `<a class="active saswp-grid-page ${hide_class}" data-id="${i}" href="#">${i}</a>`;    
                             }else{
-                                html += '<a class="saswp-grid-page '+hide_class+'" data-id="'+i+'" href="#">'+i+'</a>';    
+                                html += `<a class="saswp-grid-page ${hide_class}" data-id="${i}" href="#">${i}</a>`;    
                             }
                             
                         }      
                         
-                        html += '<a class="saswp-grid-page" data-id="'+page_count+'" href="#">&raquo;</a>';                                     
+                        html += `<a class="saswp-grid-page" data-id="${page_count}" href="#">&raquo;</a>`;                                     
                         
-                        html += '</div>';                        
+                        html += `</div>`;                        
                         
                     }
                                                     
-                    html += '</div>';
+                    html += `</div>`;
                                                                                 
                 }
                     jQuery(".saswp-collection-preview").html('');                    
@@ -1629,7 +1628,7 @@ function saswp_get_platform_place_list(getPlatformId) {
           if(response['status']){   
             if(response['message'] && jQuery.type(response['message']) == 'object'){
                 jQuery.each(response['message'], function(index, value){
-                    platformPlaceOpt += '<option value="'+value+'">'+value+'</option>';
+                    platformPlaceOpt += `<option value="${value}">${value}</option>`;
                     jQuery('#saswp-review-platform-places').html(platformPlaceOpt);
                 });
             }else{

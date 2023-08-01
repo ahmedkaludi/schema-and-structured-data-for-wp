@@ -200,7 +200,7 @@ $saswp_add_data_type_config = array(
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php echo esc_attr(ucwords($current_step)); ?></title>
+			<title><?php echo esc_html(ucwords($current_step)); ?></title>
 			<?php do_action( 'admin_print_styles' ); ?>
 			<?php do_action( 'admin_print_scripts' ); ?>
 			<?php do_action( 'admin_head' ); ?>
@@ -224,9 +224,9 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
 
-			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
+			<p><?php echo isset($stepDetails['description'])? esc_html($stepDetails['description']) : ''; ?></p>
 									
 		</div>
 		<form action="" method="post">
@@ -272,8 +272,8 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
-			<h1><?php echo $stepDetails['title']; ?></h1>
-			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
+			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
+			<p><?php echo isset($stepDetails['description'])? esc_html($stepDetails['description']) : ''; ?></p>
 		</div>
                     
 		<form action="" method="post">
@@ -288,7 +288,7 @@ $saswp_add_data_type_config = array(
                                         
                                         if(isset($_GET['step'])){
                                             
-                                            $step =     $_GET['step']; 
+                                            $step =     intval($_GET['step']); 
 
                                             if($step == 2){
                                                 
@@ -343,9 +343,9 @@ $saswp_add_data_type_config = array(
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
 
-			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
+			<p><?php echo isset($stepDetails['description'])? esc_html($stepDetails['description']) : ''; ?></p>
 			
 			
 			
@@ -354,7 +354,7 @@ $saswp_add_data_type_config = array(
 			
 			<ul class="merlin__drawer--import-content">
 				<?php 
-					echo $stepDetails['fields'];
+					echo esc_html($stepDetails['fields']);
 				?>
 			</ul>
 			
@@ -427,7 +427,7 @@ $saswp_add_data_type_config = array(
 			        update_post_meta( $post_id, 'data_group_array', $post_data_array);					
 				}                                
 
-                set_transient('saswp_last_post_id', json_encode(array('post_id'=>$post_id))); 
+                set_transient('saswp_last_post_id', wp_json_encode(array('post_id'=>$post_id))); 
                 
 				}    
 				if(isset($_POST['saswp_review_item_reviewed_'])){
@@ -536,14 +536,14 @@ $saswp_add_data_type_config = array(
                         }
                         ?>
                         
-			<a href="<?php echo $lets_go; ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html__( 'Let\'s Go', 'schema-and-structured-data-for-wp' ); ?></a>
+			<a href="<?php echo esc_attr($lets_go); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html__( 'Let\'s Go', 'schema-and-structured-data-for-wp' ); ?></a>
 			
 			
 			<ul class="merlin__drawer merlin__drawer--extras">
 
-				<li><?php //echo wp_kses( $link_1, $allowed_html_array ); ?></li>
-				<li><?php //echo wp_kses( $link_2, $allowed_html_array ); ?></li>
-				<li><?php //echo wp_kses( $link_3, $allowed_html_array ); ?></li>
+				<li></li>
+				<li></li>
+				<li></li>
 
 			</ul>
 
@@ -595,7 +595,7 @@ $saswp_add_data_type_config = array(
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php echo esc_attr(ucwords($current_step)); ?></title>
+			<title><?php echo esc_html(ucwords($current_step)); ?></title>
 			<?php do_action( 'admin_print_styles' ); ?>
 			<?php do_action( 'admin_print_scripts' ); ?>
 			<?php do_action( 'admin_head' ); ?>

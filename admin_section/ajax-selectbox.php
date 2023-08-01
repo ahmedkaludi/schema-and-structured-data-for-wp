@@ -23,7 +23,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
     $response = $data;
     $is_ajax = false;
     
-    if( $_SERVER['REQUEST_METHOD']=='POST'){
+    if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD']=='POST'){
         
         $is_ajax = true;
 
@@ -135,7 +135,7 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     
     $is_ajax = false;
     
-    if( $_SERVER['REQUEST_METHOD']=='POST'){
+    if( isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD']=='POST'){
         
         $is_ajax = true;
         

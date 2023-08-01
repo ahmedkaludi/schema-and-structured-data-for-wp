@@ -284,7 +284,7 @@ if ( ! defined('ABSPATH') ) exit;
                 
                 header('Content-type: application/json');
                 header('Content-disposition: attachment; filename=structuredatabackup.json');
-                echo json_encode($export_data_all);   
+                echo wp_json_encode($export_data_all);   
                                               
                 wp_die();
     }    
@@ -3555,10 +3555,10 @@ function saswp_get_current_url(){
   
     $link .= "://";
     if(isset($_SERVER['HTTP_HOST'])){ 
-        $link .= $_SERVER['HTTP_HOST']; 
+        $link .= sanitize_text_field($_SERVER['HTTP_HOST']); 
     }
     if(isset($_SERVER['REQUEST_URI'])){
-        $link .= $_SERVER['REQUEST_URI']; 
+        $link .= sanitize_text_field($_SERVER['REQUEST_URI']); 
     }
       
     return $link;
@@ -4177,7 +4177,7 @@ function saswp_unique_multidim_array($array, $key) {
 
 function saswp_youtube_check_validate_url($yt_url) { 
     if(!empty($yt_url) && isset($yt_url)){
-        $url_parsed_arr = parse_url($yt_url);
+        $url_parsed_arr = wp_parse_url($yt_url);
         if (
             (isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "youtu.be" || $url_parsed_arr['host'] == "www.youtube.com"))
             || 
@@ -4195,7 +4195,7 @@ function saswp_youtube_check_validate_url($yt_url) {
 function saswp_vimeo_check_validate_url($yt_url) { 
     if(!empty($yt_url) && isset($yt_url)){
         if(isset($yt_url['thumbnail_url']) && !empty($yt_url['thumbnail_url'])){
-            $url_parsed_arr = parse_url($yt_url['video_url']);
+            $url_parsed_arr = wp_parse_url($yt_url['video_url']);
             if ((isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "vimeo.com" || $url_parsed_arr['host'] == "www.vimeo.com"))) {
                 return $yt_url;
             }else{
@@ -4212,7 +4212,7 @@ function saswp_vimeo_check_validate_url($yt_url) {
 function saswp_dailymototion_check_validate_url($yt_url) { 
     if(!empty($yt_url) && isset($yt_url)){
         if(isset($yt_url['thumbnail_url']) && !empty($yt_url['thumbnail_url'])){
-            $url_parsed_arr = parse_url($yt_url['video_url']);
+            $url_parsed_arr = wp_parse_url($yt_url['video_url']);
             if ((isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "dailymotion.com" || $url_parsed_arr['host'] == "www.dailymotion.com"))) {
                 return $yt_url;
             }else{
@@ -4911,9 +4911,9 @@ function saswp_get_page_range($current, $max, $total_pages = 5) {
     }
     if ($current > $middle && $current <= ($max - $middle)) {
         return [
-            // $current - $middle,
+
             $current - 2,
-            // $current + $middle
+
             $current + 2
         ];
     }

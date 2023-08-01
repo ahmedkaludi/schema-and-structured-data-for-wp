@@ -61,7 +61,7 @@ jQuery(document).ready(function($){
             var html = '';
 
               $.each(result, function(index, data){
-                html +='<option value="'+data.id+'">'+data.text+'</option>';      
+                html +=`<option value="${data.id}">${data.text}</option>`;      
               });
 
               $(".saswp-collection-where-data").html('');
@@ -245,16 +245,16 @@ jQuery(document).ready(function($){
                             }
                           }
                           
-                         html += '<div class="saswp-add-rv-loop" data-type="'+data_type+'" data-id="'+e.saswp_review_id+'">';
+                         html += `<div class="saswp-add-rv-loop" data-type="${data_type}" data-id="${e.saswp_review_id}">`;
 
                          if(data_type == 'review'){
-                             html += '<input class="saswp-attach-rv-checkbox" type="checkbox" '+checked+'>  <strong> '+e.saswp_reviewer_name+' ( Rating - '+e.saswp_review_rating+' ) <span class="saswp-g-plus"><img src="'+e.saswp_review_platform_icon+'"/></span></strong>';
+                             html += `<input class="saswp-attach-rv-checkbox" type="checkbox" ${checked}>  <strong> ${e.saswp_reviewer_name} ( Rating - ${e.saswp_review_rating} ) <span class="saswp-g-plus"><img src="${e.saswp_review_platform_icon}"/></span></strong>`;
                          }
                          if(data_type == 'collection'){
-                              html += '<input class="saswp-attach-rv-checkbox" type="checkbox" '+checked+'>  <strong> '+e.saswp_reviewer_name+' </strong>';
+                              html += `<input class="saswp-attach-rv-checkbox" type="checkbox" ${checked}>  <strong> ${e.saswp_reviewer_name} </strong>`;
                          }
                          
-                         html += '</div>';
+                         html += `</div>`;
                         
                      });
                       $(".saswp-add-rv-automatic-list[data-type="+data_type+"]").append(html);                      
@@ -338,17 +338,17 @@ jQuery(document).ready(function($){
                                 
                 e.preventDefault();
                     var html = '';
-                        html    += '<tr>'
-                                + '<td style="width:12%;"><strong>'+saswp_localize_data.translable_txt.place_id+'</strong></td>'
-                                + '<td style="width:15%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value=""></td>'                                
-                                + '<td style="width:10%;"><strong>'+saswp_localize_data.translable_txt.language+'</strong></td>'
-                                + '<td style="width:10%;"><input class="saswp-g-language-field" name="sd_data[saswp_reviews_language_name][]" type="text" value="" placeholder="nl"></td>'                                
-                                + '<td style="width:10%;"><strong>'+saswp_localize_data.translable_txt.reviews+'</strong></td>'
-                                + '<td style="width:10%;">'+blocks_field+'</td>'                                                            
-                                + '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">'+saswp_localize_data.translable_txt.fetch+'</a></td>'
-                                + '<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>'
-                                + '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>' 
-                                + '</tr>';                
+                        html    += `<tr>`
+                        html    += `<td style="width:12%;"><strong>${saswp_localize_data.translable_txt.place_id}</strong></td>`
+                        html    += `<td style="width:15%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value=""></td>`                                
+                        html    += `<td style="width:10%;"><strong>${saswp_localize_data.translable_txt.language}</strong></td>`
+                        html    += `<td style="width:10%;"><input class="saswp-g-language-field" name="sd_data[saswp_reviews_language_name][]" type="text" value="" placeholder="nl"></td>`                               
+                        html    += `<td style="width:10%;"><strong>${saswp_localize_data.translable_txt.reviews}</strong></td>`
+                        html    += `<td style="width:10%;">${blocks_field}</td>`                                                            
+                        html    += `<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">${saswp_localize_data.translable_txt.fetch}</a></td>`
+                        html    += `<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>`
+                        html    += `<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>`
+                        html    += `</tr>`;                
                 if(html){
                     $(".saswp-g-reviews-settings-table").append(html);
                 }
@@ -438,29 +438,29 @@ jQuery(document).ready(function($){
         
      if(saswp_localize_data.do_tour){
                 
-                   var  content = '<h3>'+saswp_localize_data.translable_txt.using_schema+'</h3>';
-                        content += '<p>'+saswp_localize_data.translable_txt.do_you_want+' <b>'+saswp_localize_data.translable_txt.sd_update+'</b> '+saswp_localize_data.translable_txt.before_others+'</p>';
-                        content += '<style type="text/css">';
-                        content += '.wp-pointer-buttons{ padding:0; overflow: hidden; }';
-                        content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}  #saswp_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
-                        content += '</style>';                        
-                        content += '<div id="saswp_mc_embed_signup">';
-                        content += '<form method="POST" accept-charset="utf-8" id="saswp-news-letter-form">';
-                        content += '<div id="saswp_mc_embed_signup_scroll">';
-                        content += '<div class="saswp-mc-field-group" style="    margin-left: 15px;    width: 195px;    float: left;">';
-                        content += '<input type="text" name="saswp_subscriber_name" class="form-control" placeholder="Name" hidden value="'+saswp_localize_data.current_user_name+'" style="display:none">';
-                        content += '<input type="text" value="'+saswp_localize_data.current_user_email+'" name="saswp_subscriber_email" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">';                        
-                        content += '<input type="text" name="saswp_subscriber_website" class="form-control" placeholder="Website" hidden style=" display:none; width: 168px; padding: 6px 5px;" value="'+saswp_localize_data.get_home_url+'">';
-                        content += '<input type="hidden" name="ml-submit" value="1" />';
-                        content += '</div>';
-                        content += '<div id="mce-responses">';                                                
-                        content += '</div>';
-                        content += '<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a631df13442f19caede5a5baf_c9a71edce6" tabindex="-1" value=""></div>';
-                        content += '<input type="submit" value="Subscribe" name="subscribe" id="pointer-close" class="button mc-newsletter-sent" style=" background: #0085ba; border-color: #006799; padding: 0px 16px; text-shadow: 0 -1px 1px #006799,1px 0 1px #006799,0 1px 1px #006799,-1px 0 1px #006799; height: 30px; margin-top: 1px; color: #fff; box-shadow: 0 1px 0 #006799;">';
-                        content += '<p id="saswp-news-letter-status"></p>';
-                        content += '</div>';
-                        content += '</form>';
-                        content += '</div>';
+                   var  content = `<h3>${saswp_localize_data.translable_txt.using_schema}</h3>`;
+                        content += `<p>${saswp_localize_data.translable_txt.do_you_want} <b>${saswp_localize_data.translable_txt.sd_update}</b> ${saswp_localize_data.translable_txt.before_others}</p>`;
+                        content += `<style type="text/css">`;
+                        content += `.wp-pointer-buttons{ padding:0; overflow: hidden; }`;
+                        content += `.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}  #saswp_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }`;
+                        content += `</style>`;                        
+                        content += `<div id="saswp_mc_embed_signup">`;
+                        content += `<form method="POST" accept-charset="utf-8" id="saswp-news-letter-form">`;
+                        content += `<div id="saswp_mc_embed_signup_scroll">`;
+                        content += `<div class="saswp-mc-field-group" style="    margin-left: 15px;    width: 195px;    float: left;">`;
+                        content += `<input type="text" name="saswp_subscriber_name" class="form-control" placeholder="Name" hidden value="${saswp_localize_data.current_user_name}" style="display:none">`;
+                        content += `<input type="text" value="${saswp_localize_data.current_user_email}" name="saswp_subscriber_email" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">`;                        
+                        content += `<input type="text" name="saswp_subscriber_website" class="form-control" placeholder="Website" hidden style=" display:none; width: 168px; padding: 6px 5px;" value="${saswp_localize_data.get_home_url}">`;
+                        content += `<input type="hidden" name="ml-submit" value="1" />`;
+                        content += `</div>`;
+                        content += `<div id="mce-responses">`;                                                
+                        content += `</div>`;
+                        content += `<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a631df13442f19caede5a5baf_c9a71edce6" tabindex="-1" value=""></div>`;
+                        content += `<input type="submit" value="Subscribe" name="subscribe" id="pointer-close" class="button mc-newsletter-sent" style=" background: #0085ba; border-color: #006799; padding: 0px 16px; text-shadow: 0 -1px 1px #006799,1px 0 1px #006799,0 1px 1px #006799,-1px 0 1px #006799; height: 30px; margin-top: 1px; color: #fff; box-shadow: 0 1px 0 #006799;">`;
+                        content += `<p id="saswp-news-letter-status"></p>`;
+                        content += `</div>`;
+                        content += `</form>`;
+                        content += `</div>`;
 
                         $(document).on("submit", "#saswp-news-letter-form", function(e){
                           e.preventDefault(); 
@@ -523,7 +523,7 @@ jQuery(document).ready(function($){
                                 
                 wp_pointers_tour_opts = $.extend (wp_pointers_tour_opts, {
                         buttons: function (event, t) {
-                                button= jQuery ('<a id="pointer-close" class="button-secondary">' + saswp_localize_data.button1 + '</a>');
+                                button= jQuery (`<a id="pointer-close" class="button-secondary">${saswp_localize_data.button1}</a>`);
                                 button_2= jQuery ('#pointer-close.button');
                                 button.bind ('click.pointer', function () {
                                         t.element.pointer ('close');
@@ -549,7 +549,7 @@ jQuery(document).ready(function($){
                 setup = function () {
                         $(saswp_localize_data.displayID).pointer(wp_pointers_tour_opts).pointer('open');
                          if (saswp_localize_data.button2) {
-                                jQuery ('#pointer-close').after ('<a id="pointer-primary" class="button-primary">' + saswp_localize_data.button2+ '</a>');
+                                jQuery ('#pointer-close').after (`<a id="pointer-primary" class="button-primary">${saswp_localize_data.button2}</a>`);
                                 jQuery ('#pointer-primary').click (function () {
                                         saswp_localize_data.function_name;
                                 });
@@ -2544,10 +2544,10 @@ jQuery(document).ready(function($){
                               smaller_img_notice = '<p class="saswp_warning">Image size is smaller than recommended size</p>';
                          }
                          
-                         $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'"/><a data-id="'+id+'" href="#" class="saswp_prev_close">X</a></div>'+smaller_img_notice);
+                         $(".saswp_image_div_"+id).html(`<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="${attachment.url}"/><a data-id="${id}" href="#" class="saswp_prev_close">X</a></div>${smaller_img_notice}`);
                          
                          if(id == "saswp_collection_image"){
-                            $(".saswp_image_div_"+id).html('<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="'+attachment.url+'" style="max-width: 100px; max-height: 100px;"/></div>'+smaller_img_notice);
+                            $(".saswp_image_div_"+id).html(`<div class="saswp_image_thumbnail"><img class="saswp_image_prev" src="${attachment.url}" style="max-width: 100px; max-height: 100px;"/></div>${smaller_img_notice}`);
                             $('.saswp-r1-aimg').each(function(i, e){
                                 let imgSrc = $(this).children('img').attr('src');
                                 let dataDefaultFlag = $(this).children('img').attr('data-is-default-img');
@@ -3176,13 +3176,13 @@ jQuery(document).ready(function($){
                               if(response['status'] =='t'){ 
                                    $(".saswp-local-business-name-select").parents('tr').remove();  
                                 var schema_id = current.parents('.saswp-post-specific-wrapper').attr('data-id');                                
-                                var html ='<tr><th><label for="saswp_business_name_'+schema_id+'">Sub Business Type</label></th>';
-                                    html +='<td><select class="saswp-local-business-name-select" id="saswp_business_name_'+schema_id+'" name="saswp_business_name_'+schema_id+'">';    
+                                var html =`<tr><th><label for="saswp_business_name_${schema_id}">Sub Business Type</label></th>`;
+                                    html +=`<td><select class="saswp-local-business-name-select" id="saswp_business_name_${schema_id}" name="saswp_business_name_${schema_id}">`;    
                                     $.each(response['result'], function(index, element){
-                                        html +='<option value="'+index+'">'+element+'</option>';      
+                                        html +=`<option value="${index}">${element}</option>`;      
                                     });                                    
-                                    html +='</select></td>';    
-                                    html +='</tr>'; 
+                                    html +=`</select></td>`;    
+                                    html +=`</tr>`; 
                                     current.parents('.form-table tr:first').after(html);
                               }else{
                                     $(".saswp-local-business-name-select").parents('tr').remove();
@@ -3466,8 +3466,8 @@ jQuery(document).ready(function($){
           var media_name = 'saswp_fixed_image['+field_name+']';
           
           if(meta_val == 'manual_text'){
-              html += '<td><textarea cols="35" rows="2" name="saswp_fixed_text['+field_name+']"></textarea></td>';              
-              html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+              html += `<td><textarea cols="35" rows="2" name="saswp_fixed_text[${field_name}]"></textarea></td>`;              
+              html += `<td><a class="button button-default saswp-rmv-modify_row">X</a></td>`;
               
               $(this).parent().parent('tr').find("td:gt(1)").remove();
               $(this).parent().parent('tr').append(html);
@@ -3504,34 +3504,34 @@ jQuery(document).ready(function($){
                  }     
                
           }else if(meta_val == 'custom_field'){
-              html += '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['+field_name+']">';
-              html += '</select></td>';              
-              html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+              html += `<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field[${field_name}]">`;
+              html += `</select></td>`;              
+              html += `<td><a class="button button-default saswp-rmv-modify_row">X</a></td>`;
               
               $(this).parent().parent('tr').find("td:gt(1)").remove();
               $(this).parent().parent('tr').append(html);
               saswpCustomSelect2();
               
           }else if(meta_val == 'fixed_image'){           
-              html += '<td>';              
-              html += '<fieldset>';
-              html += '<input data-id="media" style="width: 30%;" class="button" id="'+el_id+'_button" name="'+el_id+'_button" type="button" value="Upload" />';
-              html += '<input type="hidden" data-id="'+el_id+'_height" class="upload-height" name="'+media_name+'[height]" id="'+el_id+'_height" value="">';
-              html += '<input type="hidden" data-id="'+el_id+'_width" class="upload-width" name="'+media_name+'[width]" id="'+el_id+'_width" value="">';
-              html += '<input type="hidden" data-id="'+el_id+'_thumbnail" class="upload-thumbnail" name="'+media_name+'[thumbnail]" id="'+el_id+'_thumbnail" value="">';
-              html += '<div class="saswp_image_div_'+el_id+'">';
-              html += '</div>';
-              html += '</fieldset>';                                          
-              html += '</td>';              
-              html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+              html += `<td>`;              
+              html += `<fieldset>`;
+              html += `<input data-id="media" style="width: 30%;" class="button" id="${el_id}_button" name="${el_id}_button" type="button" value="Upload" />`;
+              html += `<input type="hidden" data-id="${el_id}_height" class="upload-height" name="${media_name}[height]" id="${el_id}_height" value="">`;
+              html += `<input type="hidden" data-id="${el_id}_width" class="upload-width" name="${media_name}[width]" id="${el_id}_width" value="">`;
+              html += `<input type="hidden" data-id="${el_id}_thumbnail" class="upload-thumbnail" name="${media_name}[thumbnail]" id="${el_id}_thumbnail" value="">`;
+              html += `<div class="saswp_image_div_${el_id}">`;
+              html += `</div>`;
+              html += `</fieldset>`;                                          
+              html += `</td>`;              
+              html += `<td><a class="button button-default saswp-rmv-modify_row">X</a></td>`;
               
               $(this).parent().parent('tr').find("td:gt(1)").remove();
               $(this).parent().parent('tr').append(html);
               saswpCustomSelect2();
           }
           else{
-              html += '<td></td>';
-              html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+              html += `<td></td>`;
+              html += `<td><a class="button button-default saswp-rmv-modify_row">X</a></td>`;
               
               $(this).parent().parent('tr').find("td:gt(1)").remove();
               $(this).parent().parent('tr').append(html);
@@ -3735,7 +3735,7 @@ jQuery(document).ready(function($){
           
           //jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>"+offer_banner);
 
-          jQuery(jQuery(".wrap a")[0]).after("<a href='"+saswp_localize_data.saswp_settings_url+"' id='' class='page-title-action'>Settings</a>");
+          jQuery(jQuery(".wrap a")[0]).after(`<a href='${saswp_localize_data.saswp_settings_url}' id='' class='page-title-action'>Settings</a>`);
          
         }
         
@@ -3802,15 +3802,15 @@ jQuery(document).ready(function($){
 
                 if(rmv_boolean){
                   var html ='';
-                  html +='<div class="saswp-add-dynamic-section">';
-                  html += '<div class="saswp-add-dynamic-btn">';
-                  html +='<span class="dashicons dashicons-plus-alt saswp-add-rv-btn"></span>';
-                  html += '</div>';
-                  html +='<div class="saswp-dynamic-platforms" style="display:none;">';
+                  html +=`<div class="saswp-add-dynamic-section">`;
+                  html += `<div class="saswp-add-dynamic-btn">`;
+                  html +=`<span class="dashicons dashicons-plus-alt saswp-add-rv-btn"></span>`;
+                  html += `</div>`;
+                  html +=`<div class="saswp-dynamic-platforms" style="display:none;">`;
                   var platforms_html = jQuery("#saswp-plaftorm-list").html();
-                  html +='<select name="saswp_dynamic_platforms" id="saswp_dynamic_platforms"><option value="">Choose Platform</option>'+platforms_html+'</select>';
-                  html +='</div>';                    
-                  html +='</div>';
+                  html +=`<select name="saswp_dynamic_platforms" id="saswp_dynamic_platforms"><option value="">Choose Platform</option>${platforms_html}</select>`;
+                  html +=`</div>`;                    
+                  html +=`</div>`;
                 
                   jQuery(jQuery(".saswp-collection-preview")[0]).after(html);                
                 }
