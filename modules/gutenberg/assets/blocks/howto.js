@@ -376,7 +376,7 @@
                         el(MediaUpload, {
                             onSelect: function(media){  
                                     
-                                    const image = '<img style="height:'+media.height+'px; width: '+media.width+'px;" src="'+media.url+'" alt="'+media.alt+'" key="'+media.id+'"/>'; 
+                                    const image = `<img style="height:${media.height}px; width: ${media.width}px;" src="${media.url}" alt="${media.alt}" key="${media.id}"/>`; 
                                     
                                     const oldAttributes      =  attributes; 
                                     const oldItems           =  attributes.items;                                                                                                        
@@ -503,7 +503,7 @@
                               }
                               
                               image_url    = item.image_sizes.full.url;
-                              image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />'; 
+                              image = `<img style="height:${height}px; width: ${width}px;" src="${item.image_sizes.full.url}"  key="${item.image_sizes.full.url}" />`; 
                             break;
 
                             case 'large':
@@ -514,7 +514,7 @@
                               }                              
                               
                               image_url    = item.image_sizes.full.url;
-                              image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
+                              image = `<img style="height:${height}px; width: ${width}px;" src="${item.image_sizes.full.url}"  key="${item.image_sizes.full.url}" />`;
                             break;
 
                             case 'medium':
@@ -525,7 +525,7 @@
                               }                              
                               
                               image_url    = item.image_sizes.medium.url;
-                              image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.medium.url+'"  key="'+item.image_sizes.medium.url+'" />';
+                              image = `<img style="height:${height}px; width: ${width}'px;" src="${item.image_sizes.medium.url}"  key="${item.image_sizes.medium.url}" />`;
                             break;
 
                             case 'thumbnail':
@@ -536,18 +536,18 @@
                               }                              
                               
                               image_url    = item.image_sizes.thumbnail.url;
-                              image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.thumbnail.url+'"  key="'+item.image_sizes.thumbnail.url+'" />';
+                              image = `<img style="height:'+height+'px; width: '+width+'px;" src="${item.image_sizes.thumbnail.url}"  key="${item.image_sizes.thumbnail.url}" />`;
                             break;
 
                             case 'right':
-                              image = '<img class="alignright" style="height:300px; width: 300px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
+                              image = `<img class="alignright" style="height:300px; width: 300px;" src="${item.image_sizes.full.url}"  key="${item.image_sizes.full.url}" />`;
                               image_align = value;
                               value = item.image_size;
                               height = item.image_height;
                               width = item.image_width;
                             break;
                             case 'left':                              
-                                image = '<img class="alignleft" style="height:300px; width: 300px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
+                                image = `<img class="alignleft" style="height:300px; width: 300px;" src="${item.image_sizes.full.url}"  key="${item.image_sizes.full.url}" />`;
                                 image_align = value;
                                 value = item.image_size;
                                 height = item.image_height;

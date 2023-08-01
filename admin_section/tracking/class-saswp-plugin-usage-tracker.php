@@ -104,9 +104,6 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 
 			// Hook our do_tracking function to the daily action
 			add_action( 'put_do_weekly_action', array( $this, 'do_tracking' ) );
-
-			// Use this action for local testing
-			// add_action( 'admin_init', array( $this, 'do_tracking' ) );
 			
 			// Display the admin notice on activation
 			add_action( 'admin_notices', array( $this, 'optin_notice' ) );
@@ -116,10 +113,6 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->plugin_file ), array( $this, 'filter_action_links' ),10 );
 			add_action( 'admin_footer-plugins.php', array( $this, 'goodbye_ajax' ) );
 			add_action( 'wp_ajax_goodbye_form', array( $this, 'goodbye_form_callback' ) );
-			/*$body = $this->get_data();
-
-			// Send the data
-			$this->send_data( $body );*/
 			
 		}
 		
@@ -229,7 +222,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			}
 			$body['marketing_method'] = $this->marketing;
 	
-			$body['server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '';
+			$body['server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field($_SERVER['SERVER_SOFTWARE']) : '';
 
 			// Retrieve current plugin information
 			if( ! function_exists( 'get_plugins' ) ) {
@@ -713,8 +706,8 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 					<p><?php echo '<strong>Love using Schema & Structured Data for WP & AMP?</strong>'; ?></p>
 					<p><?php echo esc_html( $notice_text ); ?> <a href="https://structured-data-for-wp.com/docs/article/usage-data-tracking/" target="_blank"><?php echo esc_html__( 'Learn more.', 'schema-and-structured-data-for-wp' ); ?></a></p>
 					<p>
-						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php echo _e( 'Sure! I\'d love to help', 'singularity' ); ?></a>&nbsp;&nbsp;
-						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php echo _e( 'No thanks', 'singularity' ); ?></a>
+						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php echo esc_html__( 'Sure! I\'d love to help', 'singularity' ); ?></a>&nbsp;&nbsp;
+						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php echo esc_html__( 'No thanks', 'singularity' ); ?></a>
 					</p>
 				</div>
 			<?php
@@ -835,7 +828,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			if( is_array( $form['options'] ) ) {
 				$html .= '<div class="put-goodbye-options"><p>';
 				foreach( $form['options'] as $option ) {
-					$html .= '<input type="checkbox" name="put-goodbye-options[]" id="' . str_replace( " ", "", esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( " ", "", esc_attr( $option ) ) . '">' . esc_attr( $option ) . '</label><br>';
+					$html .= '<input type="checkbox" name="put-goodbye-options[]" id="' . str_replace( " ", "", esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( " ", "", esc_attr( $option ) ) . '">' . esc_html( $option ) . '</label><br>';
 				}
 				$html .= '</p><label for="put-goodbye-reasons">' . esc_html( $form['details'] ) .'</label><textarea name="put-goodbye-reasons" id="put-goodbye-reasons" rows="2" style="width:100%"></textarea>';
 				$html .= '</div><!-- .put-goodbye-options -->';

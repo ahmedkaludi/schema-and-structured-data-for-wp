@@ -170,7 +170,7 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
 
 			<p><?php echo esc_html__( 'This Installation Wizard helps you to setup the necessary options for schema & structured data. It is optional & should take only a few minutes.', 'schema-and-structured-data-for-wp' ); ?></p>
 	
@@ -199,9 +199,9 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
 
-                        <p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
+                        <p><?php echo isset($stepDetails['description'])? esc_html($stepDetails['description']) : ''; ?></p>
 			
 		</div>
 		<form action="" method="post">
@@ -244,9 +244,9 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
 
-			<p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
+			<p><?php echo isset($stepDetails['description'])? esc_html($stepDetails['description']) : ''; ?></p>
 			
 			
 		</div>
@@ -254,7 +254,7 @@
 			
 			<ul class="merlin__drawer--import-content">
 				<?php 
-					echo $stepDetails['fields'];
+					echo esc_html($stepDetails['fields']);
 				?>
 				
 			</ul>
@@ -289,16 +289,16 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
 
-                        <p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
+                        <p><?php echo isset($stepDetails['description'])? esc_html($stepDetails['description']) : ''; ?></p>
 		</div>
 		<form action="" method="post">
 			
 			<ul class="merlin__drawer--import-content">
 				<li>
 				<?php 
-					echo $stepDetails['fields'];
+					echo esc_html($stepDetails['fields']);
 				?>
 				</li>
 			</ul>
@@ -332,9 +332,9 @@
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
 			</svg>
 			<!--Escaping has been done above while adding to array ref array $saswp_installer_config-->
-			<h1><?php echo $stepDetails['title']; ?></h1>
+			<h1><?php echo esc_html($stepDetails['title']); ?></h1>
 
-                        <p><?php echo isset($stepDetails['description'])? $stepDetails['description'] : ''; ?></p>
+                        <p><?php echo isset($stepDetails['description'])? esc_html($stepDetails['description']) : ''; ?></p>
 									
 		</div>
 		<form action="" method="post">
@@ -388,13 +388,13 @@
 		
 		if(isset($_POST['sd_data_create__post_schema']) && isset($_POST['sd_data_create__post_schema_checkbox'])){
                     
-			$checkbox = array_filter($_POST['sd_data_create__post_schema_checkbox']);
+			$checkbox = isset($_POST['sd_data_create__post_schema_checkbox'])?array_filter($_POST['sd_data_create__post_schema_checkbox']):array();
 			if(count($checkbox)>0){
                             
 				foreach ($checkbox as $key => $value) {
                                     
-					$postType   = sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['posttype']);
-					$schemaType = sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['schema_type']);
+					$postType   = isset($_POST['sd_data_create__post_schema'][$key]['posttype'])?sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['posttype']):'';
+					$schemaType = isset($_POST['sd_data_create__post_schema'][$key]['schema_type'])?sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['schema_type']):'';
 					
 					$postarr = array(
                                             'post_type'   => 'saswp',
@@ -480,9 +480,9 @@
 						
 			<ul class="merlin__drawer merlin__drawer--extras">
 
-				<li><?php //echo wp_kses( $link_1, $allowed_html_array ); ?></li>
-				<li><?php //echo wp_kses( $link_2, $allowed_html_array ); ?></li>
-				<li><?php //echo wp_kses( $link_3, $allowed_html_array ); ?></li>
+				<li></li>
+				<li></li>
+				<li></li>
 
 			</ul>
 
@@ -533,7 +533,7 @@
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php echo esc_attr(ucwords($current_step)); ?></title>
+			<title><?php echo esc_html(ucwords($current_step)); ?></title>
 			<?php do_action( 'admin_print_styles' ); ?>
 			<?php do_action( 'admin_print_scripts' ); ?>
 			<?php do_action( 'admin_head' ); ?>
@@ -691,8 +691,8 @@ function saswp_general_setting_fields_callback(){
             
             foreach ($pages as $page){
               
-               $about_page .= '<option value="'.esc_attr($page->ID).'">'.esc_attr($page->post_title).'</option>'; 
-               $contact_page .= '<option value="'.esc_attr($page->ID).'">'.esc_attr($page->post_title).'</option>'; 
+               $about_page .= '<option value="'.esc_attr($page->ID).'">'.esc_html($page->post_title).'</option>'; 
+               $contact_page .= '<option value="'.esc_attr($page->ID).'">'.esc_html($page->post_title).'</option>'; 
                 
             }
             
@@ -745,22 +745,22 @@ function saswp_social_profile_fields_callback(){
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-facebook-enable]" id="saswp-facebook-enable" class="checkbox" value="1" '.($sd_facebook!=''? 'checked': '').'>
 			<label for="saswp-facebook-enable"><i></i><span>'.esc_html__('Facebook', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text"  name="sd_data[sd_facebook]" value="'.esc_url($sd_facebook).'" placeholder="'.esc_html__('Enter Facebook Page UR', 'schema-and-structured-data-for-wp', 'schema-and-structured-data-for-wp').'">
+			<input type="text"  name="sd_data[sd_facebook]" value="'.esc_attr($sd_facebook).'" placeholder="'.esc_html__('Enter Facebook Page UR', 'schema-and-structured-data-for-wp', 'schema-and-structured-data-for-wp').'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-twitter-enable]" id="saswp-twitter-enable" class="checkbox" value="1" '.($sd_twitter!=''? 'checked': '').'>
 			<label for="saswp-twitter-enable"><i></i><span>'.esc_html__('Twitter', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text" name="sd_data[sd_twitter]" value="'.esc_url($sd_twitter).'" placeholder="'.esc_html__('Enter Twitter Page UR', 'schema-and-structured-data-for-wp').'">
+			<input type="text" name="sd_data[sd_twitter]" value="'.esc_attr($sd_twitter).'" placeholder="'.esc_html__('Enter Twitter Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-linkedin-enable]" id="saswp-linkedin-enable" class="checkbox" value="1" '.($sd_linkedin!=''? 'checked': '').'>
 			<label for="saswp-linkedin-enable"><i></i><span>'.esc_html__('Linkedin', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text" name="sd_data[sd_linkedin]" value="'.esc_url($sd_linkedin).'" placeholder="'.esc_html__('Enter Linkedin Page UR', 'schema-and-structured-data-for-wp').'">
+			<input type="text" name="sd_data[sd_linkedin]" value="'.esc_attr($sd_linkedin).'" placeholder="'.esc_html__('Enter Linkedin Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>
 		<li class="merlin__drawer--import-content__list-item status saswp-social-fields">
 			<input type="checkbox" name="sd_data[saswp-instagram-enable]" id="saswp-instagram-enable" class="checkbox" value="1" '.($sd_instagram!=''? 'checked': '').'>
 			<label for="saswp-instagram-enable"><i></i><span>'.esc_html__('Instagram', 'schema-and-structured-data-for-wp').'</span></label>
-			<input type="text" name="sd_data[sd_instagram]" value="'.esc_url($sd_instagram).'" placeholder="'.esc_html__('Enter Linkedin Page UR', 'schema-and-structured-data-for-wp').'">
+			<input type="text" name="sd_data[sd_instagram]" value="'.esc_attr($sd_instagram).'" placeholder="'.esc_html__('Enter Linkedin Page UR', 'schema-and-structured-data-for-wp').'">
 		</li>';
 		return $returnHtml;
 }

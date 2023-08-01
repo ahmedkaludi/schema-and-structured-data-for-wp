@@ -96,10 +96,10 @@ jQuery(document).ready(function($){
               placement_group_html +='</table>';  
                               
           var html='';  
-              html +='<div class="saswp-placement-group" name="data_group_array['+group_index+']" data-id="'+group_index+'">';
-              html +='<span style="margin-left:10px;font-weight:600">Or</span>';
+              html +=`<div class="saswp-placement-group" name="data_group_array[${group_index}]" data-id="${group_index}">`;
+              html +=`<span style="margin-left:10px;font-weight:600">Or</span>`;
               html +=placement_group_html;
-              html +='</div>';                
+              html +=`</div>`;                
            $(".saswp-placement-group[data-id="+(group_index-1)+"]").after(html); 
            group_index++;
            clone();
@@ -109,7 +109,7 @@ jQuery(document).ready(function($){
         });
     
 	var selectrow = $("#saswp_amp_select").find("table.widefat tr").html();
-	$("body").append("<script type='template/html' id='call_html_template_sdwp'><tr class='toclone cloneya'>"+selectrow+"</tr>");
+	$("body").append(`<script type='template/html' id='call_html_template_sdwp'><tr class='toclone cloneya'>${selectrow}</tr>`);
 	clone();	
 	removeHtml();
   saswp_select2();

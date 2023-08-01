@@ -259,8 +259,8 @@ class Qanda_Block extends Widget_Base {
               //Escaping has been done above for all below html  
         $response = '<div class="saswp-qanda-block-html">
         '.$question.'
-        <div class="saswp-qanda-block-answer"><h3>'.__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.$accepted_answers.'</div>
-        <div class="saswp-qanda-block-answer"><h3>'.__( 'Suggested Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.$suggested_answers.'</div>
+        <div class="saswp-qanda-block-answer"><h3>'.esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.esc_html($accepted_answers).'</div>
+        <div class="saswp-qanda-block-answer"><h3>'.esc_html__( 'Suggested Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.esc_html($suggested_answers).'</div>
         </div>';
                 
         echo $response;
@@ -301,7 +301,7 @@ class Qanda_Block extends Widget_Base {
 		if ( settings.accepted_answers.length ) {					
 
 			#>
-			<h3><?php echo __( 'Accepted Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
+			<h3><?php echo esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
             <ul>
 			<# _.each( settings.accepted_answers, function( item, index ) { 
 				
@@ -328,7 +328,7 @@ class Qanda_Block extends Widget_Base {
 
 				if(item.vote){
 					#>
-					<br> <?php echo __( 'Vote', 'schema-and-structured-data-for-wp' ); ?> <span class="dashicons dashicons-thumbs-up"></span> ({{{ item.vote }}})
+					<br> <?php echo esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ); ?> <span class="dashicons dashicons-thumbs-up"></span> ({{{ item.vote }}})
 					<# 
 				}
 				#>	
@@ -342,7 +342,7 @@ class Qanda_Block extends Widget_Base {
 		<# if ( settings.suggested_answers.length ) {					
 
 			#>
-			<h3><?php echo __( 'Suggested Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
+			<h3><?php echo esc_html__( 'Suggested Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
 			<ul>
 			<# _.each( settings.suggested_answers, function( item, index ) { 
 				

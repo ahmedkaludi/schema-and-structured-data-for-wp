@@ -83,7 +83,7 @@ function saswp_published(){
         
         if($schema_post_ids){
             
-            $schema_id_json = json_encode($schema_post_ids);
+            $schema_id_json = wp_json_encode($schema_post_ids);
             set_transient('saswp_transient_schema_ids', $schema_id_json);  
             
         }
@@ -134,9 +134,9 @@ function saswp_reset_all_settings(){
         }
                         
         if($result){
-            echo json_encode(array('status'=>'t'));            
+            echo wp_json_encode(array('status'=>'t'));            
         }else{
-            echo json_encode(array('status'=>'f'));            
+            echo wp_json_encode(array('status'=>'f'));            
         }        
            wp_die();           
 }
@@ -1548,12 +1548,12 @@ function saswp_custom_column_set( $column, $post_id ) {
                     } 
                     if($enabled){
                         
-                        echo '<div><strong>'.esc_html__( 'Enable on: ', 'schema-and-structured-data-for-wp' ).'</strong> '.esc_attr($enabled).'</div>';    
+                        echo '<div><strong>'.esc_html__( 'Enable on: ', 'schema-and-structured-data-for-wp' ).'</strong> '.esc_html($enabled).'</div>';    
                     
                     }
                     if($exclude){
                         
-                        echo '<div><strong>'.esc_html__( 'Exclude from: ', 'schema-and-structured-data-for-wp' ).'</strong>'.esc_attr($exclude).'</div>';   
+                        echo '<div><strong>'.esc_html__( 'Exclude from: ', 'schema-and-structured-data-for-wp' ).'</strong>'.esc_html($exclude).'</div>';   
                     
                     }                    
                     }                    
@@ -1603,9 +1603,9 @@ function saswp_send_query_message(){
            return;  
         }   
         $customer_type  = 'Are you a premium customer ? No';
-        $message        = saswp_sanitize_textarea_field($_POST['message']); 
-        $email          = saswp_sanitize_textarea_field($_POST['email']); 
-        $premium_cus    = saswp_sanitize_textarea_field($_POST['premium_cus']);   
+        $message        = isset($_POST['message'])?saswp_sanitize_textarea_field($_POST['message']):''; 
+        $email          = isset($_POST['email'])?saswp_sanitize_textarea_field($_POST['email']):''; 
+        $premium_cus    = isset($_POST['premium_cus'])?saswp_sanitize_textarea_field($_POST['premium_cus']):'';   
                                 
         if(function_exists('wp_get_current_user')){
 
@@ -1637,11 +1637,11 @@ function saswp_send_query_message(){
 
             if($sent){
 
-                 echo json_encode(array('status'=>'t'));  
+                 echo wp_json_encode(array('status'=>'t'));  
 
             }else{
 
-                echo json_encode(array('status'=>'f'));            
+                echo wp_json_encode(array('status'=>'f'));            
 
             }
             
@@ -1667,7 +1667,7 @@ function saswp_dismiss_notices(){
   
   if(isset($_POST['notice_type'])){
     
-    $notice_type = $_POST['notice_type'];
+    $notice_type = sanitize_text_field($_POST['notice_type']);
 
     $user_id      = get_current_user_id();
     
@@ -1675,9 +1675,9 @@ function saswp_dismiss_notices(){
     $updated = update_user_meta( $user_id, $notice_type.'_dismiss_date', date("Y-m-d"));
 
     if($updated){
-      echo json_encode(array('status'=>'t'));  
+      echo wp_json_encode(array('status'=>'t'));  
     }else{
-      echo json_encode(array('status'=>'f'));  
+      echo wp_json_encode(array('status'=>'f'));  
     }
 
   }
@@ -1701,7 +1701,7 @@ function saswp_import_plugin_data(){
            return;  
         }    
         
-        $plugin_name   = sanitize_text_field($_GET['plugin_name']);         
+        $plugin_name   = isset($_GET['plugin_name'])?sanitize_text_field($_GET['plugin_name']):'';         
         $result        = '';
         
         switch ($plugin_name) {
@@ -1769,11 +1769,11 @@ function saswp_import_plugin_data(){
         }                             
         if($result){
             
-             echo json_encode(array('status'=>'t', 'message'=>esc_html__('Data has been imported succeessfully', 'schema-and-structured-data-for-wp')));            
+             echo wp_json_encode(array('status'=>'t', 'message'=>esc_html__('Data has been imported succeessfully', 'schema-and-structured-data-for-wp')));            
              
         }else{
             
-            echo json_encode(array('status'=>'f', 'message'=>esc_html__('Plugin data is not available or it is not activated', 'schema-and-structured-data-for-wp')));            
+            echo wp_json_encode(array('status'=>'f', 'message'=>esc_html__('Plugin data is not available or it is not activated', 'schema-and-structured-data-for-wp')));            
         
         }        
            wp_die();           
@@ -1798,11 +1798,11 @@ function saswp_feeback_no_thanks(){
         
         if($result){
             
-            echo json_encode(array('status'=>'t'));            
+            echo wp_json_encode(array('status'=>'t'));            
             
         }else{
             
-            echo json_encode(array('status'=>'f'));            
+            echo wp_json_encode(array('status'=>'f'));            
             
         }   
         
@@ -1828,11 +1828,11 @@ function saswp_feeback_remindme(){
         
         if($result){
             
-            echo json_encode(array('status'=>'t'));            
+            echo wp_json_encode(array('status'=>'t'));            
         
         }else{
             
-            echo json_encode(array('status'=>'f'));            
+            echo wp_json_encode(array('status'=>'f'));            
         
         }        
         wp_die();           
@@ -2126,16 +2126,16 @@ function saswp_license_status_check(){
              return;  
         }    
         
-        $add_on           = sanitize_text_field($_POST['add_on']);
-        $license_status   = sanitize_text_field($_POST['license_status']);
-        $license_key      = sanitize_text_field($_POST['license_key']);
+        $add_on           = isset($_POST['add_on'])?sanitize_text_field($_POST['add_on']):'';
+        $license_status   = isset($_POST['license_status'])?sanitize_text_field($_POST['license_status']):'';
+        $license_key      = isset($_POST['license_key'])?sanitize_text_field($_POST['license_key']):'';
         
 
         if($add_on && $license_status && $license_key){
             
           $result = saswp_license_status($add_on, $license_status, $license_key);
           
-          echo json_encode($result);
+          echo wp_json_encode($result);
                         
         }          
                         
@@ -2459,7 +2459,7 @@ function extra_user_profile_fields( $user ) {
     <tr>
         <th><label for="saswp_user_custom_schema_field"><?php echo esc_html__("Custom Schema (SASWP)", 'schema-and-structured-data-for-wp'); ?></label></th>
         <td>
-            <textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85"><?php if(!empty($custom_markp)){ echo $custom_markp; } ?></textarea><br />
+            <textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85"><?php if(!empty($custom_markp)){ echo esc_html($custom_markp); } ?></textarea><br />
             <span class="description"><strong><?php echo esc_html__("Note: ", 'schema-and-structured-data-for-wp') ?></strong><?php echo esc_html__("Please enter the valid Json-ld. Whatever you enter will be added in page source", 'schema-and-structured-data-for-wp'); ?></span>
         </td>
     </tr>

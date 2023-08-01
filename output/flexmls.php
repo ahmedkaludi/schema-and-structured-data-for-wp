@@ -66,11 +66,11 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                         
                         if($count > 1){
                             
-                            echo json_encode($this->saswp_generate_schema_markup($result)).',';   
+                            echo wp_json_encode($this->saswp_generate_schema_markup($result)).',';   
                         
                         }else{
                             
-                            echo json_encode($this->saswp_generate_schema_markup($result));   
+                            echo wp_json_encode($this->saswp_generate_schema_markup($result));   
                          
                         }   
                         
@@ -149,7 +149,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
 				"@context" 	    => saswp_context_url(),
 				"@type"		    => ["Product", "Apartment"],
 				"name"              => esc_attr($result['StandardFields']['UnparsedFirstLineAddress']),
-                                "description"       => isset($result['StandardFields']['PublicRemarks'])? $result['StandardFields']['PublicRemarks']:strip_tags(get_the_excerpt()),
+                                "description"       => isset($result['StandardFields']['PublicRemarks'])? $result['StandardFields']['PublicRemarks']:wp_strip_all_tags(get_the_excerpt()),
                                 "sku"               => esc_attr($result['StandardFields']['BuildingAreaTotal']),
                                 "brand"             => array(
                                     '@type' => 'Brand',

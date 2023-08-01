@@ -668,9 +668,9 @@ function saswp_schema_type_meta_box_callback( $post) {
                            foreach ($list_tags as $key => $tag){
                                
                                if($item_list_tags == $key){
-                                   echo ' <option value="'.$key.'" selected>'.$tag.'</option>';
+                                   echo ' <option value="'.esc_attr($key).'" selected>'.esc_html($tag).'</option>';
                                }else{
-                                   echo ' <option value="'.$key.'">'.$tag.'</option>';
+                                   echo ' <option value="'.esc_attr($key).'">'.esc_html($tag).'</option>';
                                }
                                                               
                            }
@@ -728,13 +728,13 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $attached_rv_json = '';
                                 $attached_rv      = get_post_meta($post_id, 'saswp_attahced_reviews', true);     
                                 if($attached_rv){
-                                    $attached_rv_json = json_encode($attached_rv);
+                                    $attached_rv_json = wp_json_encode($attached_rv);
                                 }
                                 
                                 $attached_col_json = '';
                                 $attached_col      = get_post_meta($post_id, 'saswp_attached_collection', true);     
                                 if($attached_col){
-                                    $attached_col_json = json_encode($attached_col);
+                                    $attached_col_json = wp_json_encode($attached_col);
                                 }
                                                                 
                                 if($append_reviews == 1){
@@ -797,7 +797,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                            $checked = 'checked';
                                        }
                                        
-                                       echo '<input class="saswp-attach-rv-checkbox" type="checkbox" '.$checked.'>  <strong> '.esc_attr($val['saswp_reviewer_name']).' ( Rating - '.esc_attr($val['saswp_review_rating']).' ) <span class="saswp-g-plus"><img src="'.esc_url($val['saswp_review_platform_icon']).'"/></span></strong>';
+                                       echo '<input class="saswp-attach-rv-checkbox" type="checkbox" '.$checked.'>  <strong> '.esc_html($val['saswp_reviewer_name']).' ( Rating - '.esc_html($val['saswp_review_rating']).' ) <span class="saswp-g-plus"><img src="'.esc_url($val['saswp_review_platform_icon']).'"/></span></strong>';
                                        echo '</div>';
                                        
                                    }
@@ -839,7 +839,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                            $checked = 'checked';
                                        }
                                        
-                                       echo '<input class="saswp-attach-rv-checkbox" type="checkbox" '.$checked.'>  <strong> '.esc_attr($val['label']).' </strong>';
+                                       echo '<input class="saswp-attach-rv-checkbox" type="checkbox" '.$checked.'>  <strong> '.esc_html($val['label']).' </strong>';
                                        echo '</div>';
                                        
                                    }
@@ -888,7 +888,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     <tr>
                         <td>    
                             <a class="button button-default saswp-modify-schema-toggle"><?php echo esc_html__( 'Modify Schema Output', 'schema-and-structured-data-for-wp' ) ?></a>                                                                                    
-                            <input type="hidden" name="saswp_enable_custom_field" id="saswp_enable_custom_field" value="<?php echo isset($schema_options['enable_custom_field']) ? $schema_options['enable_custom_field']:'0'; ?>">
+                            <input type="hidden" name="saswp_enable_custom_field" id="saswp_enable_custom_field" value="<?php echo isset($schema_options['enable_custom_field']) ? esc_attr($schema_options['enable_custom_field']):'0'; ?>">
                         </td>
                     </tr>   
                 </table>  
@@ -996,11 +996,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 
                                 if( $fieldkey == $key){
                                     
-                                    $option .='<option value="'.esc_attr($key).'" selected>'.esc_attr($val).'</option>';   
+                                    $option .='<option value="'.esc_attr($key).'" selected>'.esc_html($val).'</option>';   
                                  
                                 }else{
                                     
-                                    $option .='<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';   
+                                    $option .='<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';   
                                  
                                 }
                                 
@@ -1016,11 +1016,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 
                                 if( $fieldkey == $key){
                                     
-                                    $option .='<option value="'.esc_attr($key).'" selected>'.esc_attr($val).'</option>';   
+                                    $option .='<option value="'.esc_attr($key).'" selected>'.esc_html($val).'</option>';   
                                  
                                 }else{
                                     
-                                    $option .='<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';   
+                                    $option .='<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';   
                                  
                                 }
                                 
@@ -1082,7 +1082,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                     
                                     foreach ($choices as $key => $val){
                                         
-                                        echo '<option value="'.esc_attr($key).'" '.((isset($taxonomy_term[$fieldkey]) && $taxonomy_term[$fieldkey] == $key) ? 'selected' :'').'>'.esc_attr($val).'</option>';
+                                        echo '<option value="'.esc_attr($key).'" '.((isset($taxonomy_term[$fieldkey]) && $taxonomy_term[$fieldkey] == $key) ? 'selected' :'').'>'.esc_html($val).'</option>';
                                         
                                     }
                                     echo '</select>';
@@ -1203,9 +1203,9 @@ function saswp_get_reviews_on_load(){
                 die( '-1' );    
             }
             $reviews    = array();
-            $offset     = intval($_GET['offset']);
-            $paged      = intval($_GET['paged']);
-            $data_type  = sanitize_text_field($_GET['data_type']);
+            $offset     = isset($_GET['offset'])?intval($_GET['offset']):'';
+            $paged      = isset($_GET['paged'])?intval($_GET['paged']):'';
+            $data_type  = isset($_GET['data_type'])?sanitize_text_field($_GET['data_type']):'';
             
             if($paged && $offset){
                 
@@ -1235,13 +1235,13 @@ function saswp_get_reviews_on_load(){
                 }
                 
                 if($reviews){
-                    echo json_encode(array('status' => 't', 'result' => $reviews));
+                    echo wp_json_encode(array('status' => 't', 'result' => $reviews));
                 }else{
-                    echo json_encode(array('status' => 't', 'message' => 'Reviews not found'));
+                    echo wp_json_encode(array('status' => 't', 'message' => 'Reviews not found'));
                 }
                 
             }else{
-                echo json_encode(array('status' => 'f', 'message' => 'Page number or offset is missing'));
+                echo wp_json_encode(array('status' => 'f', 'message' => 'Page number or offset is missing'));
             }
         wp_die();        
 }
@@ -1258,8 +1258,8 @@ function saswp_get_manual_fields_on_ajax(){
                 die( '-1' );    
             }
             $output      = '';
-            $post_id     = intval($_GET['post_id']);
-            $schema_type = sanitize_text_field($_GET['schema_type']);
+            $post_id     = isset($_GET['post_id'])?intval($_GET['post_id']):'';
+            $schema_type = isset($_GET['schema_type'])?sanitize_text_field($_GET['schema_type']):'';
         
             $common_obj = new saswp_view_common_class();
 
@@ -1291,8 +1291,7 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         if(isset($_POST['saswp_schema_type_product_pros_enable_cons'])){       
                         
             update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_cons', 1);
-        }else{
-            // delete_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_cons');   
+        }else{   
             update_post_meta( $post_id, 'saswp_schema_type_product_pros_enable_cons', 0);
     
         } 
@@ -1395,7 +1394,7 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         }
 
         if(isset($_POST['saswp_schema_organization_type'])){
-            update_post_meta( $post_id, 'saswp_schema_organization_type', $_POST['saswp_schema_organization_type']);                                                                       
+            update_post_meta( $post_id, 'saswp_schema_organization_type', sanitize_text_field($_POST['saswp_schema_organization_type']));                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_schema_organization_type');                                                                       
         }

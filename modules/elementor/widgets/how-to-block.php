@@ -273,16 +273,16 @@ class HowTo_Block extends Widget_Base {
 
 			if($settings['howto_days'] || $settings['howto_hours'] || $settings['howto_minutes']){
 				echo '<div class="elementor-how-to-time-needed">';				
-				echo '<strong>'.__( 'Time Needed', 'schema-and-structured-data-for-wp' ).' : </strong>';
+				echo '<strong>'.esc_html__( 'Time Needed', 'schema-and-structured-data-for-wp' ).' : </strong>';
 
 				if($settings['howto_days']){
-					echo esc_html($settings['howto_days']) .' '. __( 'days', 'schema-and-structured-data-for-wp' ).' ';
+					echo esc_html($settings['howto_days']) .' '. esc_html__( 'days', 'schema-and-structured-data-for-wp' ).' ';
 				}
 				if($settings['howto_hours']){
-					echo esc_html($settings['howto_hours']) .' '. __( 'hours', 'schema-and-structured-data-for-wp' ).' ';
+					echo esc_html($settings['howto_hours']) .' '. esc_html__( 'hours', 'schema-and-structured-data-for-wp' ).' ';
 				}
 				if($settings['howto_minutes']){
-					echo esc_html($settings['howto_minutes']) .' '. __( 'minutes', 'schema-and-structured-data-for-wp' );
+					echo esc_html($settings['howto_minutes']) .' '. esc_html__( 'minutes', 'schema-and-structured-data-for-wp' );
 				}
 
 				echo '</div>';
@@ -290,7 +290,7 @@ class HowTo_Block extends Widget_Base {
 
 			if($settings['howto_currency'] && $settings['howto_price']){
 				echo '<div class="elementor-how-to-estimate-cost">';				
-				echo '<strong> '.__( 'Estimate Cost', 'schema-and-structured-data-for-wp' ).' : </strong>';
+				echo '<strong> '.esc_html__( 'Estimate Cost', 'schema-and-structured-data-for-wp' ).' : </strong>';
 				echo esc_html($settings['howto_currency']). ' '. esc_html($settings['howto_price']); 						
 				echo '</div>';
 			}
@@ -303,11 +303,11 @@ class HowTo_Block extends Widget_Base {
 			echo '<ul>';
                         $i = 1;
 			foreach (  $settings['step_list'] as $item ) {
-				echo '<li '.$style.' class="elementor-repeater-item-' . esc_attr($item['_id']) . '">';
+				echo '<li '.esc_attr($style).' class="elementor-repeater-item-' . esc_attr($item['_id']) . '">';
                                 echo '<h3>';
                                 
                                 if($order_type == 'order_list'){
-                                    echo '<span>'.$i.'. </span>';
+                                    echo '<span>'.esc_html($i).'. </span>';
                                 } 
                                 echo esc_html($item['howto_step_title']);
                                 echo '</h3>';
@@ -321,15 +321,15 @@ class HowTo_Block extends Widget_Base {
 			if($settings['tool_list']){
 
 				echo '<div class="elementor-repeater-tools-div">';
-				echo '<h5>'.__( 'Tools', 'schema-and-structured-data-for-wp' ).'</h5>';
+				echo '<h5>'.esc_html__( 'Tools', 'schema-and-structured-data-for-wp' ).'</h5>';
 				echo '<ul>';
 							$i = 1;
 				foreach (  $settings['tool_list'] as $item ) {
-					echo '<li '.$style.' class="elementor-repeater-tool-' . esc_attr($item['_id']) . '">';
+					echo '<li '.esc_attr($style).' class="elementor-repeater-tool-' . esc_attr($item['_id']) . '">';
 									echo '<strong>';
 									
 									if($order_type == 'order_list'){
-										echo '<span>'.$i.'. </span>';
+										echo '<span>'.esc_html($i).'. </span>';
 									} 
 									echo esc_html($item['howto_tool_name']);
 									echo '</strong>';				                                
@@ -343,15 +343,15 @@ class HowTo_Block extends Widget_Base {
 			if($settings['material_list']){
 
 				echo '<div class="elementor-repeater-material-div">';
-				echo '<h5>'.__( 'Material', 'schema-and-structured-data-for-wp' ).'</h5>';
+				echo '<h5>'.esc_html__( 'Material', 'schema-and-structured-data-for-wp' ).'</h5>';
 				echo '<ul>';
 							$i = 1;
 				foreach (  $settings['material_list'] as $item ) {
-					echo '<li '.$style.' class="elementor-repeater-material-' . esc_attr($item['_id']) . '">';
+					echo '<li '.esc_attr($style).' class="elementor-repeater-material-' . esc_attr($item['_id']) . '">';
 									echo '<strong>';
 									
 									if($order_type == 'order_list'){
-										echo '<span>'.$i.'. </span>';
+										echo '<span>'.esc_html($i).'. </span>';
 									} 
 									echo esc_html($item['howto_material_name']);
 									echo '</strong>';				                                

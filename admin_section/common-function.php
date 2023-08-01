@@ -2296,7 +2296,8 @@ if ( ! defined('ABSPATH') ) exit;
                         
                  global $wpdb;
                 
-                 $query = "SELECT * FROM " . $wpdb->prefix . "qss where post_id=".$post->ID;
+                 $table_name = $wpdb->prefix."qss";
+                 $query = $wpdb->prepare("SELECT * FROM {$table_name} WHERE post_id = %d",$post->ID);
                  
                  if ($rows = $wpdb->get_results($query, OBJECT)) {
                      
@@ -2430,7 +2431,8 @@ if ( ! defined('ABSPATH') ) exit;
                         
                 global $wpdb;
                 
-                 $query = "SELECT * FROM " . $wpdb->prefix . "qss where post_id=".$post->ID;
+                 $table_name = $wpdb->prefix."qss";
+                 $query = $wpdb->prepare("SELECT * FROM {$table_name} WHERE post_id = %d",$post->ID);
                  
                  if ($rows = $wpdb->get_results($query, OBJECT)) {
                      
@@ -2724,7 +2726,7 @@ if ( ! defined('ABSPATH') ) exit;
                     $author_details = array(); 
                     foreach ($explode_authors as $ea_key => $ea_value) {
                         $table_name = $wpdb->prefix."users";
-                        $query = $wpdb->prepare("SELECT * FROM $table_name WHERE display_name = %s",trim($ea_value));
+                        $query = $wpdb->prepare("SELECT * FROM {$table_name} WHERE display_name = %s",trim($ea_value));
                         $user_results = $wpdb->get_results($query, ARRAY_A);
                         
                         if(!empty($user_results) && isset($user_results[0])){
@@ -2918,13 +2920,14 @@ function saswp_uninstall_single($blog_id = null){
                         array( 'post_type' => 'saswp' ),
                         array( '%s' )
                 );
-
-                $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $post_ids ) . " )" );
+                $placeholders = array_fill(0, count($post_ids), '%d');
+                $placeholders_str = implode(', ', $placeholders);
+                $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id IN ($placeholders_str)", $post_ids));
         }
         
         if($post_ids){
             
-            $query = "SELECT ID FROM " . $wpdb->posts;
+            $query = $wpdb->prepare("SELECT ID FROM {$wpdb->posts}");
             $all_post_id   = $wpdb->get_results($query, ARRAY_A );
             $all_post_id   = wp_list_pluck( $all_post_id, 'ID' );              
                         
@@ -2933,8 +2936,10 @@ function saswp_uninstall_single($blog_id = null){
                $meta_fields = saswp_get_fields_by_schema_type($post_id); 
                $meta_fields = wp_list_pluck( $meta_fields, 'id' );
                
-               foreach ($meta_fields as $meta_key){                   
-                   $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $all_post_id ) . " ) AND meta_key = '".$meta_key."'" );
+               foreach ($meta_fields as $meta_key){   
+                   $placeholders = array_fill(0, count($all_post_id), '%d');
+                   $placeholders_str = implode(', ', $placeholders);
+                   $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id IN ($placeholders_str) AND meta_key = %s", $all_post_id,$meta_key));     
                    
                }
                                               
@@ -2952,8 +2957,9 @@ function saswp_uninstall_single($blog_id = null){
                         array( 'post_type' => 'saswp_reviews' ),
                         array( '%s' )
                 );
-
-                $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $post_ids ) . " )" );
+                $placeholders = array_fill(0, count($post_ids), '%d');
+                $placeholders_str = implode(', ', $placeholders);
+                $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id IN ($placeholders_str)", $post_ids));
         }
                 
         //All options                    

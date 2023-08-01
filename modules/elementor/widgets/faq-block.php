@@ -108,11 +108,11 @@ class Faq_Block extends Widget_Base {
 			echo '<ul>';
                         $i = 1;
 			foreach (  $settings['list'] as $item ) {
-				echo '<li '.$style.' class="elementor-repeater-item-' . esc_attr($item['_id']) . '">';
+				echo '<li '.esc_attr($style).' class="elementor-repeater-item-' . esc_attr($item['_id']) . '">';
                                 echo '<h3>';
                                 
                                 if($order_type == 'order_list'){
-                                    echo '<span>'.$i.'. </span>';
+                                    echo '<span>'.esc_html($i).'. </span>';
                                 } 
                                 echo esc_html($item['faq_question']);
                                 echo '</h3>';

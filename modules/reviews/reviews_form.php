@@ -104,7 +104,7 @@ class SASWP_Reviews_Form {
             if(!isset($form_data['saswp_review_nonce'])){
                 die('-1');
             }
-            $rv_link   = sanitize_url($_SERVER['HTTP_REFERER']); //$form_data['saswp_review_link'];
+            $rv_link   = isset($_SERVER['HTTP_REFERER'])?sanitize_url($_SERVER['HTTP_REFERER']):'';
             if(!wp_verify_nonce($form_data['saswp_review_nonce'], 'saswp_review_form')){
                 if($is_amp){
                     header("AMP-Redirect-To: ".$rv_link);
@@ -152,11 +152,11 @@ class SASWP_Reviews_Form {
             if($form_data['action'] == 'saswp_review_form'){
                                
                if($is_amp){
-                   
+                   $server_http_origin = isset($_SERVER['HTTP_ORIGIN'])?sanitize_text_field($_SERVER['HTTP_ORIGIN']):'';
                     header("access-control-allow-credentials:true");
                     header("access-control-allow-headers:Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token");
-                    header("Access-Control-Allow-Origin:".$_SERVER['HTTP_ORIGIN']);
-                    $siteUrl = parse_url(  get_site_url() );
+                    header("Access-Control-Allow-Origin:".$server_http_origin);
+                    $siteUrl = wp_parse_url(  get_site_url() );
                     header("AMP-Access-Control-Allow-Source-Origin:".$siteUrl['scheme'] . '://' . $siteUrl['host']);        
                     header("Content-Type:application/json;charset=utf-8");
                    

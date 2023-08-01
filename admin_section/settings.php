@@ -187,7 +187,6 @@ function saswp_admin_interface_render(){
                 }
 
                 if (isset($sd_data[strtolower($addon).'_addon_license_key_expires'])) {
-                    // $sd_data['woocommerce_addon_license_key_expires'] = -1;
                 $license_expires =   $sd_data[strtolower($addon).'_addon_license_key_expires'];
                 $expiredLicensedata[strtolower($addon)] = $license_expires < 0 ? 1 : 0 ;
                 }
@@ -221,7 +220,6 @@ function saswp_admin_interface_render(){
                 $settings_url = esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'));
                 if ( $days == 'Lifetime' ) {
                     $expire_msg = " ".esc_html__('Valid for Lifetime', 'schema-and-structured-data-for-wp')." ";
-                    // $expire_msg = " Active ";
                     $expire_msg_before = '<span class="before_msg_active">'.esc_html__('Your License is', 'schema-and-structured-data-for-wp').'</span>';
                     $span_class = "saswp_addon_icon dashicons dashicons-yes pro_icon saswppro_icon";
                     $color = 'color:green';
@@ -229,14 +227,12 @@ function saswp_admin_interface_render(){
                 elseif( $days >= 0 && $days <= 7 ){
                     $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
                     $expire_msg_before = '<span class="before_msg">'.esc_html__('Your License is', 'schema-and-structured-data-for-wp').'</span> <span class="saswp-addon-alert">'.esc_html__('expiring in', 'schema-and-structured-data-for-wp').' '.$days.' '.esc_html__('days', 'schema-and-structured-data-for-wp').'</span><a target="blank" class="renewal-license" href="'.esc_url($renew_url).'"><span class="renew-lic">'.esc_html__('Renew', 'schema-and-structured-data-for-wp').'</span></a>';
-                    // $span_class = "saswp_addon_icon dashicons dashicons-alert pro_icon";
                     $color = 'color:green';
                     $alert_icon = '<span class="saswp_addon_icon dashicons dashicons-warning pro_warning"></span>';
                 }
                 elseif( $days>=0 && $days<=30 ){
                     $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
                     $expire_msg_before = '<span class="before_msg">'.esc_html__('Your License is', 'schema-and-structured-data-for-wp').'</span> <span class="saswp-addon-alert">'.esc_html__('expiring in', 'schema-and-structured-data-for-wp').' '.$days.' '.esc_html__('days', 'schema-and-structured-data-for-wp').'</span><a target="blank" class="renewal-license" href="'.esc_url($renew_url).'"><span class="renew-lic">'.esc_html__('Renew', 'schema-and-structured-data-for-wp').'</span></a>';
-                    // $span_class = "saswp_addon_icon dashicons dashicons-alert pro_icon";
                     $color = 'color:green';
                     $alert_icon = '<span class="saswp_addon_icon dashicons dashicons-warning pro_warning"></span>';
                 }
@@ -657,8 +653,10 @@ function saswp_handle_file_upload($option){
     }
 
    if(isset($_FILES['saswp_import_backup'])){
-     
-       $fileInfo = wp_check_filetype(basename($_FILES['saswp_import_backup']['name']));
+       $fileInfo = array();
+       if(isset($_FILES['saswp_import_backup']) && isset($_FILES['saswp_import_backup']['name'])){ 
+            $fileInfo = wp_check_filetype(basename($_FILES['saswp_import_backup']['name']));
+        }
     
         if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
 
@@ -674,8 +672,10 @@ function saswp_handle_file_upload($option){
    }
    
    if(isset($_FILES['saswp_upload_rv_csv'])){
-     
-        $fileInfo = wp_check_filetype(basename($_FILES['saswp_upload_rv_csv']['name']));
+        $fileInfo = array();
+        if(isset($_FILES['saswp_upload_rv_csv']) && isset($_FILES['saswp_upload_rv_csv']['name'])){
+            $fileInfo = wp_check_filetype(basename($_FILES['saswp_upload_rv_csv']['name']));
+        }
      
          if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'csv') {
  
@@ -2000,7 +2000,7 @@ if(is_array($translation_labels)){
             $translation = $val;
         }               
          echo  '<li>'
-             . '<div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong>'.esc_attr($val).'</strong></div>'
+             . '<div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong>'.esc_html($val).'</strong></div>'
              . '<input class="regular-text" type="text" name="sd_data['.esc_attr($key).']" value="'. esc_attr($translation).'">'
              . '</div></li>';
         }
@@ -2097,8 +2097,6 @@ echo '</ul>';
                 
         if(!empty($add_on)){
             
-            // echo '<h2 id="saswp-license-heading">'.esc_html__('License').'</h2>';
-            
             echo '<ul>';
             
             foreach($add_on as $on){
@@ -2134,9 +2132,6 @@ echo '</ul>';
                 if (isset($sd_data[strtolower($on).'_addon_license_key_expires_normal'])) {
                 $license_expnormal =   $sd_data[strtolower($on).'_addon_license_key_expires_normal'];
                 }
-                // echo '<li>';
-                // echo saswp_get_license_section_html($on, $license_key, $license_status, $license_status_msg, $license_user_name, $license_download_id, $license_expires, true, false);
-                // echo '</li>';
                 
             }
             

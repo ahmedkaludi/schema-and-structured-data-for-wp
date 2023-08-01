@@ -115,7 +115,7 @@ Class saswp_rating_box_frontend{
                                         'worstRating' => 1,
                                         'bestRating'  => 5,
                                         'ratingValue' => esc_attr($total_score),
-                                        'description' => strip_tags(get_post_meta( get_the_ID(), 'saswp-review-item-description', true )),
+                                        'description' => wp_strip_all_tags(get_post_meta( get_the_ID(), 'saswp-review-item-description', true )),
                                      ); 
                             
                             if(!empty($input1)){

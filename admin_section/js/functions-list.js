@@ -96,15 +96,15 @@
        
        function saswp_taxonomy_term_html(taxonomy, field_name){
            
-            var html ='';
-                html += '<td>';
-                html += '<select name="saswp_taxonomy_term['+field_name+']">';
+            var html =``;
+                html += `<td>`;
+                html += `<select name="saswp_taxonomy_term[${field_name}]">`;
                 jQuery.each(taxonomy, function(key, value){
-                         html += '<option value="'+key+'">'+value+'</option>';
+                         html += `<option value="${key}">${value}</option>`;
                 }); 
-                html += '</select>';   
-                html += '</td>';              
-                html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+                html += `</select>`;   
+                html += `</td>`;              
+                html += `<td><a class="button button-default saswp-rmv-modify_row">X</a></td>`;
                           
                 return html;
            
@@ -356,39 +356,39 @@
                                     schema_subtype = jQuery('select.saswp-item-reivewed-list option:selected').val();
                                 }
           
-                                 var html = '<tr>';                                                                                                                            
-                                     html += '<td>';                                     
-                                     html += '<select class="saswp-custom-fields-name">';
+                                 var html = `<tr>`;                                                                                                                            
+                                     html += `<td>`;                                     
+                                     html += `<select class="saswp-custom-fields-name">`;
                                      if(schema_type == 'ReviewNewsArticle'){
-                                        html += '<optgroup label="ReviewNewsArticle">';
+                                        html += `<optgroup label="ReviewNewsArticle">`;
                                      }
                                      if(schema_type == 'Review'){
-                                       html += '<optgroup label="Review">';
-                                       html += '<option value="saswp_review_name">Review Name</option>';    
-                                       html += '<option value="saswp_review_description">Review Description</option>';                                              
-                                       html += '<option value="saswp_review_body">Review Body</option>';                                              
-                                       html += '<option value="saswp_review_author">Review Author</option>';
-                                       html += '<option value="saswp_review_author_url">Review Author Profile URL</option>';
-                                       html += '<option value="saswp_review_publisher">Review Publisher</option>';
-                                       html += '<option value="saswp_review_publisher_url">Review Publisher URL</option>';    
-                                       html += '<option value="saswp_review_rating_value">Review Rating Value</option>';
-                                       html += '<option value="saswp_review_date_published">Review Published Date</option>';
-                                       html += '<option value="saswp_review_date_modified">Review Modified Date</option>';
-                                       html += '<option value="saswp_review_url">Review URL</option>';
-                                       html += '</optgroup>'; 
+                                       html += `<optgroup label="Review">`;
+                                       html += `<option value="saswp_review_name">Review Name</option>`;    
+                                       html += `<option value="saswp_review_description">Review Description</option>`;                                              
+                                       html += `<option value="saswp_review_body">Review Body</option>`;                                              
+                                       html += `<option value="saswp_review_author">Review Author</option>`;
+                                       html += `<option value="saswp_review_author_url">Review Author Profile URL</option>`;
+                                       html += `<option value="saswp_review_publisher">Review Publisher</option>`;
+                                       html += `<option value="saswp_review_publisher_url">Review Publisher URL</option>`;    
+                                       html += `<option value="saswp_review_rating_value">Review Rating Value</option>`;
+                                       html += `<option value="saswp_review_date_published">Review Published Date</option>`;
+                                       html += `<option value="saswp_review_date_modified">Review Modified Date</option>`;
+                                       html += `<option value="saswp_review_url">Review URL</option>`;
+                                       html += `</optgroup>`; 
                                       
                                      }
                                      
                                      if(schema_type == 'Review'){
-                                       html += '<optgroup label="'+schema_subtype+'">';   
+                                       html += `<optgroup label="${schema_subtype}">`;   
                                      }
                                      
                                      jQuery.each(fields, function(key,value){                                         
-                                       html += '<option value="'+key+'">'+value+'</option>';                                       
+                                       html += `<option value="${key}">${value}</option>`;                                       
                                      });
                                      
                                      if(schema_type == 'Review' || schema_type == 'ReviewNewsArticle'){
-                                         html += '</optgroup>'; 
+                                         html += `</optgroup>`; 
                                      }
 
                                      let reviewSubSchema = '';
@@ -401,13 +401,13 @@
                                             async: false,
                                             data:{action:"saswp_get_schema_type_fields",post_id:post_id, schema_type:'Review',schema_subtype:schema_subtype, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                             success:function(schemaResponse){  
-                                                html += '<optgroup label="'+schema_subtype+'">';
+                                                html += `<optgroup label="${schema_subtype}">`;
                                                 if(schemaResponse){
                                                     jQuery.each(schemaResponse, function(resKey,resValue){                                        
-                                                       html += '<option value="'+resKey+'">'+resValue+'</option>';                                      
+                                                       html += `<option value="${resKey}">${resValue}</option>`;                                      
                                                      });     
                                                 } 
-                                                reviewSubSchema += '</optgroup>';                                                                                                          
+                                                reviewSubSchema += `</optgroup>`;                                                                                                          
                                             },
                                             error: function(schemaResponse){                    
                                             console.log(schemaResponse);
@@ -415,13 +415,13 @@
                                         });
                                      }
             
-                                    html += '</select>';                                     
-                                    html += '</td>';                                                                                                                                                                                                       
-                                    html += '<td>';                                                                       
+                                    html += `</select>`;                                     
+                                    html += `</td>`;                                                                                                                                                                                                       
+                                    html += `<td>`;                                                                       
                                     html += re_html;
-                                    html += '</td>';  
-                                    html += '<td></td><td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
-                                    html += '</tr>';
+                                    html += `</td>`;  
+                                    html += `<td></td><td><a class="button button-default saswp-rmv-modify_row">X</a></td>`;
+                                    html += `</tr>`;
                                     jQuery(".saswp-custom-fields-table").append(html); 
                                     if(current_fly != null){
                                         current_fly.removeClass('updating-message');
@@ -493,24 +493,24 @@
           
             $newclosebtn = '';
             otherRepeatorClose = '';
-            $reviewtitle = index+1
+            reviewtitle = index+1
             if(fields_type == 'product_pros_' || fields_type == 'product_cons_'){
                 $newclosebtn = '<td class="saswp-table-close-new-td"><a class="saswp-table-close-new">X</a></td>';
                
             }else{
                 otherRepeatorClose = '<a class="saswp-table-close">X</a>';
             }
-            $addRevewTitle = '';
+            addRevewTitle = ``;
             if(fields_type == 'product_reviews_'){
-                $addRevewTitle = '<h3 style="float: left;">Review '+$reviewtitle+'</h3>';
+                addRevewTitle = `<h3 style="float: left;">Review ${reviewtitle}</h3>`;
             }
 
-            var html = '';
+            var html = ``;
             
-            html += '<div class="saswp-'+div_type+'-table-div saswp-dynamic-properties" data-id="'+index+'">'
-                        + $addRevewTitle
+            html += `<div class="saswp-${div_type}-table-div saswp-dynamic-properties" data-id="${index}">`
+                        + addRevewTitle
                         +  otherRepeatorClose
-                        + '<table class="form-table saswp-'+div_type+'-table">' 
+                        + `<table class="form-table saswp-${div_type}-table">` 
                 
             jQuery.each(schema_fields, function(eachindex, element){
                                 
@@ -525,54 +525,56 @@
                     case "number":
                     case "text":
                       
-                        html += '<tr>'
-                        + '<th>'+element.label+'</th><td><input class="'+meta_class+'" style="width:100%" type="'+element.type+'" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']"></td>'                        
+                        html += `<tr>`
+                        html += `<th>${element.label}</th>`
+                        html += `<td><input class="${meta_class}" style="width:100%" type="${element.type}" id="${element.name}_${index}_${schema_id}" name="${fields_type}${schema_id}[${index}][${element.name}]"></td>`                       
                         +$newclosebtn
-                        + '</tr>';                        
+                        + `</tr>`;                        
                       
                       break;
                       
                     case "textarea":
                       
-                        html += '<tr>'
-                        + '<th>'+element.label+'</th><td><textarea style="width: 100%" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']" rows="5"></textarea></td>'
-                        + '</tr>';                        
+                        html += `<tr>`
+                        html += `<th>${element.label}</th>`
+                        html += `<td><textarea style="width: 100%" id="${element.name}_${index}_${schema_id}" name="${fields_type}${schema_id}[${index}][${element.name}]" rows="5"></textarea></td>`
+                        + `</tr>`;                        
                       
                       break;
                      case "select":
                         
                         var options_html = "";                        
                         jQuery.each(element.options, function(opt_index, opt_element){                            
-                            options_html += '<option value="'+opt_index+'">'+opt_element+'</option>';
+                            options_html += `<option value="${opt_index}">${opt_element}</option>`;
                         });
                         
-                         html += '<tr>'
-                        + '<th>'+element.label+'</th>'
-                        + '<td>'
+                         html += `<tr>`
+                        + `<th>${element.label}</th>`
+                        + `<td>`
                         
-                        + '<select id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']">'
+                        + `<select id="${element.name}_${index}_${schema_id}" name="${fields_type}${schema_id}[${index}][${element.name}]">`
                         + options_html
-                        + '</select>'
+                        + `</select>`
                         
-                        + '</td>'
-                        + '</tr>';
+                        + `</td>`
+                        + `</tr>`;
                          
                      break;
                       
                     case "media":
                         
-                        html += '<tr>'
-                        + '<th>'+element.label+'</th>'
-                        + '<td>'
-                        + '<fieldset>'
-                        + '<input style="width:80%" type="text" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+element.name+'_'+index+'_'+schema_id+'">'
-                        + '<input type="hidden" data-id="'+element.name+'_'+index+'_'+schema_id+'_id" name="'+fields_type+schema_id+'['+index+']['+element.name+'_id]" id="'+element.name+'_'+index+'_'+schema_id+'_id">'
-                        + '<input data-id="media" style="width: 19%" class="button" id="'+element.name+'_'+index+'_'+schema_id+'_button" name="'+element.name+'_'+index+'_'+schema_id+'_button" type="button" value="Upload">'
-                        + '<div class="saswp_image_div_'+element.name+'_'+index+'_'+schema_id+'">'                                                
-                        + '</div>'
-                        + '</fieldset>'
-                        + '</td>'
-                        + '</tr>';
+                        html += `<tr>`
+                        + `<th>${element.label}</th>`
+                        + `<td>`
+                        + `<fieldset>`
+                        + `<input style="width:80%" type="text" id="${element.name}_${index}_${schema_id}" name="${element.name}_${index}_${schema_id}">`
+                        + `<input type="hidden" data-id="${element.name}_${index}_${schema_id}_id" name="${fields_type}${schema_id}[${index}][${element.name}_id]" id="${element.name}_${index}_${schema_id}_id">`
+                        + `<input data-id="media" style="width: 19%" class="button" id="${element.name}_${index}_${schema_id}_button" name="${element.name}_${index}_${schema_id}_button" type="button" value="Upload">`
+                        + `<div class="saswp_image_div_${element.name}_${index}_${schema_id}">`                                                
+                        + `</div>`
+                        + `</fieldset>`
+                        + `</td>`
+                        + `</tr>`;
                       
                       break;
                     default:
@@ -580,9 +582,9 @@
                   }
                                                                                             
             });                                                             
-            html += '</table>'
-                    + '</div>';
-                     
+            html += `</table>`
+                    + `</div>`;
+            console.log("html " + html);         
             return html;
             
         }

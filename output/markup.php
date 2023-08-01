@@ -1225,12 +1225,7 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
 
             if( isset($all_post_meta['saswp_product_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_id_'.$schema_id][0] != '' ){
                     $input1['@id'] = $all_post_meta['saswp_product_schema_id_'.$schema_id][0];
-            }
-
-            // if( isset($all_post_meta['product_pros_'.$schema_id][0]) && $all_post_meta['product_pros_'.$schema_id][0] != '' ){
-            //     $input1['brand']['url'] = $all_post_meta['product_pros_'.$schema_id][0];
-            // }
-           
+            }           
             
             $input1 = saswp_get_modified_image('saswp_product_schema_image_'.$schema_id.'_detail', $input1);
             

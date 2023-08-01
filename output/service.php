@@ -7932,8 +7932,8 @@ Class saswp_output_service{
                     'keywords'          => saswp_get_the_tags(),
 					'datePublished'     => esc_html($date),
 					'dateModified'      => esc_html($modified_date),
-					'author'			=> saswp_get_main_authors(),//saswp_get_author_details(),
-                    'editor'			=> saswp_get_edited_authors()//saswp_get_author_details()
+					'author'			=> saswp_get_main_authors(),
+                    'editor'			=> saswp_get_edited_authors()
 				);
 
                 if($schema_type == 'Photograph'){
@@ -7974,7 +7974,6 @@ Class saswp_output_service{
                         $input1 = array(
                         '@context'			=> saswp_context_url(),
                         '@type'				=> 'SpecialAnnouncement',
-                        // '@id'				=> saswp_get_permalink().'#SpecialAnnouncement',
                         'url'				=> saswp_get_permalink(),
                         'inLanguage'        => get_bloginfo('language'),                        
                         'name'			    => saswp_get_the_title(),                        

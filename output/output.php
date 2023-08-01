@@ -1720,7 +1720,7 @@ function saswp_schema_output() {
                                                                                             
                                 $image_details 	 = wp_get_attachment_image_src($image_id);
 
-                                $category_detail = get_the_category(get_the_ID());//$post->ID
+                                $category_detail = get_the_category(get_the_ID());
                                 $article_section = '';
 
                                 if($category_detail){
@@ -1758,8 +1758,8 @@ function saswp_schema_output() {
                                                                                         '@type' => 'WebPage',
                                                                                         '@id'   => saswp_get_permalink(),
                                     ), 
-                                    'author'			=> saswp_get_main_authors(),//saswp_get_author_details(),
-                                    'editor'            => saswp_get_edited_authors()//saswp_get_author_details()
+                                    'author'			=> saswp_get_main_authors(),
+                                    'editor'            => saswp_get_edited_authors()
                                     );
                                         
                                         $mainentity = saswp_get_mainEntity($schema_post_id);
@@ -1792,7 +1792,7 @@ function saswp_schema_output() {
                                                                                             
                                 $image_details 	 = wp_get_attachment_image_src($image_id);
 
-                                $category_detail = get_the_category(get_the_ID());//$post->ID
+                                $category_detail = get_the_category(get_the_ID());
                                 $analysis_article_section = '';
 
                                 if($category_detail){
@@ -1864,7 +1864,7 @@ function saswp_schema_output() {
                                                                                             
                                 $image_details 	 = wp_get_attachment_image_src($image_id);
 
-                                $category_detail = get_the_category(get_the_ID());//$post->ID
+                                $category_detail = get_the_category(get_the_ID());
                                 $askpublic_article_section = '';
 
                                 if($category_detail){
@@ -1936,7 +1936,7 @@ function saswp_schema_output() {
                                                                                             
                                 $image_details 	 = wp_get_attachment_image_src($image_id);
 
-                                $category_detail = get_the_category(get_the_ID());//$post->ID
+                                $category_detail = get_the_category(get_the_ID());
                                 $background_article_section = '';
 
                                 if($category_detail){
@@ -2008,7 +2008,7 @@ function saswp_schema_output() {
                                                                                             
                                 $image_details 	 = wp_get_attachment_image_src($image_id);
 
-                                $category_detail = get_the_category(get_the_ID());//$post->ID
+                                $category_detail = get_the_category(get_the_ID());
                                 $background_article_section = '';
 
                                 if($category_detail){
@@ -2080,7 +2080,7 @@ function saswp_schema_output() {
                                                                                             
                                 $image_details 	 = wp_get_attachment_image_src($image_id);
 
-                                $category_detail = get_the_category(get_the_ID());//$post->ID
+                                $category_detail = get_the_category(get_the_ID());
                                 $reportage_article_section = '';
 
                                 if($category_detail){
@@ -2154,7 +2154,7 @@ function saswp_schema_output() {
                                 $item_reviewed = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);                                          
                                 $image_details 	 = wp_get_attachment_image_src($image_id);
 
-                                $category_detail = get_the_category(get_the_ID());//$post->ID
+                                $category_detail = get_the_category(get_the_ID());
                                 $reportage_article_section = '';
 
                                 if($category_detail){
@@ -3269,7 +3269,7 @@ function saswp_archive_output(){
                         '@type' 		=> "CollectionPage",
                         '@id' 		    => esc_url($category_link).'#CollectionPage',
                         'headline' 		=> esc_attr($category_headline),
-                        'description' 	=> strip_tags(get_term($category_id)->description),
+                        'description' 	=> wp_strip_all_tags(get_term($category_id)->description),
                         'url'		 	=> esc_url($category_link),				
                         'hasPart' 		=> $category_posts
                     );
@@ -3296,7 +3296,7 @@ function saswp_archive_output(){
                         '@type' 		=> "Blog",
                         '@id' 		    => esc_url($category_link).'#Blog',
                         'headline' 		=> esc_attr($category_headline),
-                        'description' 	=> strip_tags(get_term($category_id)->description),
+                        'description' 	=> wp_strip_all_tags(get_term($category_id)->description),
                         'url'		 	=> esc_url($category_link),				
                         'blogPost' 		=> $category_posts
                     );
@@ -3434,7 +3434,7 @@ function saswp_author_output(){
             }
 
             if ( get_the_author_meta( 'description', $post_author->ID ) ) {
-                $input['description'] = strip_tags( get_the_author_meta( 'description', $post_author->ID ) );
+                $input['description'] = wp_strip_all_tags( get_the_author_meta( 'description', $post_author->ID ) );
             }
         }		
 		return apply_filters('saswp_modify_author_output', $input);

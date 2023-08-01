@@ -586,7 +586,7 @@ class saswp_view_common_class {
 					);
                                         if(isset($meta_field['note'])){
                                             
-                                          $input .='<p>'.esc_attr($meta_field['note']).'</p>';  
+                                          $input .='<p>'.esc_html($meta_field['note']).'</p>';  
                                           
                                         }
 					break;
@@ -731,6 +731,7 @@ class saswp_view_common_class {
             
         }    
         
+    // Nonce verification for this function is already done from where this function is getting called.    
     public function saswp_save_common_view($post_id, $all_schema = null){
                          
                 $post_meta    = array();                    

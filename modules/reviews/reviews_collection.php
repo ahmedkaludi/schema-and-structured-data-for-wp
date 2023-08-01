@@ -228,8 +228,7 @@ class SASWP_Reviews_Collection {
                     'has_archive' 	    => true,
                     'exclude_from_search'   => true,
                     'publicly_queryable'    => false,
-                    'show_in_admin_bar'     => false,
-                    //'show_in_menu'          => 'edit.php?post_type=saswp',                
+                    'show_in_admin_bar'     => false,                
                     'show_in_menu'          => false,                
                     'show_ui'               => true,
                     'show_in_nav_menus'     => true,			
@@ -261,7 +260,7 @@ class SASWP_Reviews_Collection {
             if(!current_user_can( saswp_current_user_can())){
                 die( '-1' );    
             }
-            $collection_id = intval($_GET['collection_id']);            
+            $collection_id = isset($_GET['collection_id'])?intval($_GET['collection_id']):'';            
             
             if($collection_id){
                 
@@ -269,17 +268,17 @@ class SASWP_Reviews_Collection {
              
             if($reviews_list){
                 
-                echo json_encode(array('status' => true, 'message'=> $reviews_list));
+                echo wp_json_encode(array('status' => true, 'message'=> $reviews_list));
                                                   
             }else{
                 
-                echo json_encode(array('status' => false, 'message'=> 'Data not found'));
+                echo wp_json_encode(array('status' => false, 'message'=> 'Data not found'));
                 
             }
                                          
             }else{
                 
-                echo json_encode(array('status' => false, 'message'=> 'Collection id is missing'));
+                echo wp_json_encode(array('status' => false, 'message'=> 'Collection id is missing'));
                 
             }
                         
@@ -298,7 +297,7 @@ class SASWP_Reviews_Collection {
             if(!current_user_can( saswp_current_user_can())){
                 die( '-1' );    
             }
-            $platform_id = intval($_GET['platform_id']);
+            $platform_id = isset($_GET['platform_id'])?intval($_GET['platform_id']):'';
                          
             $attr        = array();
 
@@ -321,17 +320,17 @@ class SASWP_Reviews_Collection {
              
             if($reviews_data){
                 
-                echo json_encode(array('status' => true, 'message'=> $reviews_data));
+                echo wp_json_encode(array('status' => true, 'message'=> $reviews_data));
                                                   
             }else{
                 
-                echo json_encode(array('status' => false, 'message'=> 'Data not found'));
+                echo wp_json_encode(array('status' => false, 'message'=> 'Data not found'));
                 
             }
                                          
             }else{
                 
-                echo json_encode(array('status' => false, 'message'=> 'Platform id is missing'));
+                echo wp_json_encode(array('status' => false, 'message'=> 'Platform id is missing'));
                 
             }
                         
@@ -349,8 +348,8 @@ class SASWP_Reviews_Collection {
             if(!current_user_can( saswp_current_user_can())){
                 die( '-1' );    
             }
-            $platform_id = intval($_GET['platform_id']);
-            $rvcount     = intval($_GET['rvcount']);
+            $platform_id = isset($_GET['platform_id'])?intval($_GET['platform_id']):'';
+            $rvcount     = isset($_GET['rvcount'])?intval($_GET['rvcount']):'';
             $review_id   = ''; 
             $attr        = array();
             $platform_place = 'Mahishri';
@@ -373,17 +372,17 @@ class SASWP_Reviews_Collection {
              
             if($reviews_list){
                 
-                echo json_encode(array('status' => true, 'message'=> $reviews_list));
+                echo wp_json_encode(array('status' => true, 'message'=> $reviews_list));
                                                   
             }else{
                 
-                echo json_encode(array('status' => false, 'message'=> 'Data not found'));
+                echo wp_json_encode(array('status' => false, 'message'=> 'Data not found'));
                 
             }
                                          
             }else{
                 
-                echo json_encode(array('status' => false, 'message'=> 'Platform id or review count is missing'));
+                echo wp_json_encode(array('status' => false, 'message'=> 'Platform id or review count is missing'));
                 
             }
                         
@@ -405,7 +404,7 @@ class SASWP_Reviews_Collection {
                 $platform_id = intval($_GET['platform_id']);
                 global $wpdb;
                 $post_meta_data = $wpdb->get_results( 
-                  $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta where meta_value = %d", $platform_id)
+                  $wpdb->prepare("SELECT post_id FROM {$wpdb->postmeta} where meta_value = %d", $platform_id)
                  ); 
                 if(!empty($post_meta_data) && isset($post_meta_data[0])){
                     $review_location_array = array();
@@ -418,12 +417,12 @@ class SASWP_Reviews_Collection {
                     if(!empty($review_location_array)){
                         $review_location_array = array_unique($review_location_array);
                     }
-                    echo json_encode(array('status' => true, 'message'=> $review_location_array));
+                    echo wp_json_encode(array('status' => true, 'message'=> $review_location_array));
                 }else{
-                    echo json_encode(array('status' => false, 'message'=> 'No Records Found'));
+                    echo wp_json_encode(array('status' => false, 'message'=> 'No Records Found'));
                 }
             }else{
-                echo json_encode(array('status' => false, 'message'=> 'Platform id is missing'));
+                echo wp_json_encode(array('status' => false, 'message'=> 'Platform id is missing'));
             }  
             wp_die(); 
         }
@@ -726,7 +725,7 @@ class SASWP_Reviews_Collection {
                       <div class="saswp-collection-body">
                         <div class="saswp-collection-lp">
                             <div class="saswp-collection-title">
-                                <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo get_the_title($post_id); } ?>" id="saswp_collection_title" name="saswp_collection_title">
+                                <input type="text" value="<?php if(get_the_title($post_id) == 'Auto Draft'){ echo 'Untitled'; }else{ echo esc_html(get_the_title($post_id)); } ?>" id="saswp_collection_title" name="saswp_collection_title">
                                 <span class="saswp-rmv-coll-rv dashicons dashicons-admin-generic"></span>
                             </div>
                             <span class="spinner saswp-spinner"></span>
@@ -755,9 +754,9 @@ class SASWP_Reviews_Collection {
                                           
                                           foreach($platforms as $key => $val){
                                             if(in_array($key, array_column($exists_platforms, 'meta_value'))){
-                                                   $active_options .= '<option value="'.esc_attr($key).'">'.esc_attr($val).'</option>';
+                                                   $active_options .= '<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';
                                             }else{
-                                               $inactive_options.= '<option value="'.esc_attr($key).'" disabled>'.esc_attr($val).'</option>';
+                                               $inactive_options.= '<option value="'.esc_attr($key).'" disabled>'.esc_html($val).'</option>';
                                             }
                                           }
                                           
@@ -792,7 +791,7 @@ class SASWP_Reviews_Collection {
                                             $reviews_list = unserialize($post_meta['saswp_total_reviews'][0]);
 
                                             if(is_array($reviews_list)){
-                                                echo '<input type="hidden" id="saswp_total_reviews_list" name="saswp_total_reviews" value="'.json_encode($reviews_list).'">';
+                                                echo '<input type="hidden" id="saswp_total_reviews_list" name="saswp_total_reviews" value="'.wp_json_encode($reviews_list).'">';
                                             }
                                                                                         
                                         }
@@ -821,7 +820,7 @@ class SASWP_Reviews_Collection {
                                         </div>
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
                                         <label><?php echo esc_html__( 'Columns', 'schema-and-structured-data-for-wp' ); ?></label>
-                                        <input type="number" id="saswp-collection-cols" name="saswp_collection_cols" min="1" value="<?php echo (isset($post_meta['saswp_collection_cols'][0]) ? $post_meta['saswp_collection_cols'][0] : '2' ); ?>" class="saswp-number-change saswp-coll-settings-options saswp-coll-options saswp-grid-options">    
+                                        <input type="number" id="saswp-collection-cols" name="saswp_collection_cols" min="1" value="<?php echo (isset($post_meta['saswp_collection_cols'][0]) ? intval($post_meta['saswp_collection_cols'][0]) : '2' ); ?>" class="saswp-number-change saswp-coll-settings-options saswp-coll-options saswp-grid-options">    
                                         </div>
                                         
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
@@ -838,7 +837,7 @@ class SASWP_Reviews_Collection {
                                         </div>                                        
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm saswp_hide_imp">
                                             <label><?php echo esc_html__( 'Per Page', 'schema-and-structured-data-for-wp' ); ?></label>
-                                            <input name="saswp_collection_per_page" type="number" min="1" id="saswp-coll-per-page"  class="saswp-coll-settings-options" value="<?php echo (isset($post_meta['saswp_collection_per_page'][0]) ? $post_meta['saswp_collection_per_page'][0] : '10' ); ?>">
+                                            <input name="saswp_collection_per_page" type="number" min="1" id="saswp-coll-per-page"  class="saswp-coll-settings-options" value="<?php echo (isset($post_meta['saswp_collection_per_page'][0]) ? intval($post_meta['saswp_collection_per_page'][0]) : '10' ); ?>">
                                         </div>
                                         
                                         <div class="saswp-dp-dsg saswp-dp-dtm saswp-slider-options saswp-coll-options">
@@ -860,7 +859,7 @@ class SASWP_Reviews_Collection {
                                             <div class="saswp-dp-dsg saswp-dp-dtm">
                                             <span><?php echo esc_html__('Delay Time In Sec', 'schema-and-structured-data-for-wp'); ?>
                                             </span>
-                                            <input type="number" id="saswp_fomo_interval" name="saswp_fomo_interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp_fomo_interval'][0]) ? $post_meta['saswp_fomo_interval'][0] : '3' ); ?>"> 
+                                            <input type="number" id="saswp_fomo_interval" name="saswp_fomo_interval" class="saswp-number-change" min="1" value="<?php echo (isset($post_meta['saswp_fomo_interval'][0]) ? intval($post_meta['saswp_fomo_interval'][0]) : '3' ); ?>"> 
                                             </div>                                                                           
                                         </div>      
                                         <div class="saswp-dp-dsg">
@@ -961,7 +960,7 @@ class SASWP_Reviews_Collection {
                                     
                                     <div id="saswp-motivatebox" class="saswp-collection-shortcode">
                                         <span class="motivate">
-                                        [saswp-reviews-collection id="<?php echo $post_id; ?>"]
+                                        [saswp-reviews-collection id="<?php echo intval($post_id); ?>"]
                                         </span>
                                     </div>                                                                                                                   
 
@@ -992,9 +991,9 @@ class SASWP_Reviews_Collection {
                                                     foreach ($choice as $key => $value) {
 
                                                         if(isset($selected_val[0]) && !empty($selected_val[0]) && $selected_val[0] == $key){
-                                                            echo '<option value="'.$key.'" selected>'.$value.'</option>';
+                                                            echo '<option value="'.esc_attr($key).'" selected>'.esc_html($value).'</option>';
                                                         }else{
-                                                            echo '<option value="'.$key.'">'.$value.'</option>';
+                                                            echo '<option value="'.esc_attr($key).'">'.esc_html($value).'</option>';
                                                         }
                                                         
                                                     }
@@ -1072,9 +1071,9 @@ class SASWP_Reviews_Collection {
             
             if(isset($_POST['saswp_collection_id'])){
             $display_type_opt    = array();
-            $post_id         = intval($_POST['saswp_collection_id']);
-            $collection_page = intval($_POST['saswp-collection-page']);
-            $post_title      = sanitize_text_field($_POST['saswp_collection_title']);
+            $post_id         = isset($_POST['saswp_collection_id'])?intval($_POST['saswp_collection_id']):'';
+            $collection_page = isset($_POST['saswp-collection-page'])?intval($_POST['saswp-collection-page']):'';
+            $post_title      = isset($_POST['saswp_collection_title'])?sanitize_text_field($_POST['saswp_collection_title']):'';
                         
             $post = array(                 
                     'ID'                    => $post_id,
@@ -1119,7 +1118,7 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_collection_where']        = array_map('sanitize_text_field', (array) $_POST['saswp_collection_where']);
             $post_meta['saswp_collection_where_data']   = array_map('sanitize_text_field', (array) $_POST['saswp_collection_where_data']);
             $post_meta['saswp_total_reviews']           = array_map('intval', (array) json_decode( $_POST['saswp_total_reviews']));
-            $post_meta['saswp_stars_color_picker']      = isset($_POST['saswp_stars_color_picker']) ? $_POST['saswp_stars_color_picker'] : '';
+            $post_meta['saswp_stars_color_picker']      = isset($_POST['saswp_stars_color_picker']) ? sanitize_text_field($_POST['saswp_stars_color_picker']) : '';
             $post_meta['saswp_collection_image_thumbnail']      = isset($_POST['saswp_collection_image_thumbnail']) ? esc_url($_POST['saswp_collection_image_thumbnail']) : SASWP_DIR_URI.'admin_section/images/default_user.jpg';
             if(!empty($post_meta)){
                 

@@ -660,7 +660,7 @@ class SASWP_Gutenberg {
                     }
                                         
                     if($time_html !=''){
-                     echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-estimate-cost').' :</strong> </span>';    
+                     echo '<span class="saswp-how-to-duration-time-text"><strong>'.esc_html(saswp_label_text('translation-estimate-cost')).' :</strong> </span>';    
                      echo $time_html;
                     }
                                         
@@ -685,7 +685,7 @@ class SASWP_Gutenberg {
                     }
                     
                     if($time_html !=''){
-                     echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-time-needed').' :</strong> </span>';    
+                     echo '<span class="saswp-how-to-duration-time-text"><strong>'.esc_html(saswp_label_text('translation-time-needed')).' :</strong> </span>';    
                      echo $time_html;
                     }
                                         

@@ -35,12 +35,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 $current_user       = null;
 
                 if( function_exists('wp_get_current_user') ){
-                        // $current_user       = wp_get_current_user();
                         $aid = get_the_author_meta('ID');
                         $a_display_name = get_the_author_meta('display_name');
                         $current_user['ID'] = $aid;
                         $current_user['display_name'] = $a_display_name;
-                        $current_user = json_encode($current_user);
+                        $current_user = wp_json_encode($current_user);
                         $current_user = json_decode($current_user);
                 }
                 
@@ -616,7 +615,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 
                 case 'NewsArticle':
                     
-                    $category_detail=get_the_category(get_the_ID());//$post->ID
+                    $category_detail=get_the_category(get_the_ID());
                     $article_section = '';
                     
                     foreach($category_detail as $cd){
@@ -849,7 +848,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                     case 'AnalysisNewsArticle':
                     
-                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $category_detail=get_the_category(get_the_ID());
                         $article_section = '';
                         
                         foreach($category_detail as $cd){
@@ -1069,7 +1068,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         case 'AskPublicNewsArticle':
                     
-                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $category_detail=get_the_category(get_the_ID());
                         $article_section = '';
                         
                         foreach($category_detail as $cd){
@@ -1289,7 +1288,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         case 'BackgroundNewsArticle':
                 
-                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $category_detail=get_the_category(get_the_ID());
                         $article_section = '';
                         
                         foreach($category_detail as $cd){
@@ -1509,7 +1508,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         case 'OpinionNewsArticle':
                 
-                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $category_detail=get_the_category(get_the_ID());
                         $article_section = '';
                         
                         foreach($category_detail as $cd){
@@ -1729,7 +1728,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         case 'ReportageNewsArticle':
                 
-                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $category_detail=get_the_category(get_the_ID());
                         $article_section = '';
                         
                         foreach($category_detail as $cd){
@@ -1949,7 +1948,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         case 'ReviewNewsArticle':
         
-                        $category_detail=get_the_category(get_the_ID());//$post->ID
+                        $category_detail=get_the_category(get_the_ID());
                         $article_section = '';
                         
                         foreach($category_detail as $cd){
@@ -3992,7 +3991,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         case 'SpecialAnnouncement':    
                                 
-                                $category_detail =get_the_category(get_the_ID());//$post->ID
+                                $category_detail =get_the_category(get_the_ID());
                                 $article_section = '';
                                 
                                 if($category_detail){
