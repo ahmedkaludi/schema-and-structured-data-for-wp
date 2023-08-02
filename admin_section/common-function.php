@@ -2121,7 +2121,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                             $image_data = array();    
 
-                            $image = @getimagesize($url);
+                            $image = @wp_getimagesize($url);
 
                             if(is_array($image)){
 
@@ -2691,7 +2691,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                 if($sab_image){
 
-                    $image = @getimagesize($sab_image);
+                    $image = @wp_getimagesize($sab_image);
 
                     if($image){
                         $author_details['image']['@type']  = 'ImageObject';
@@ -2816,7 +2816,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                                     if($sab_image){
 
-                                        $image = @getimagesize($sab_image);
+                                        $image = @wp_getimagesize($sab_image);
 
                                         if($image){
                                             $author_details[$auth_cnt]['image']['@type']  = 'ImageObject';
@@ -3514,6 +3514,7 @@ function saswp_get_field_note($pname){
             'testimonial_pro'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
             'tevolution_events'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>',
             'publishpress_authors'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/publishpress-authors"> Publish Press Authors </a>',
+            'jetpackrecipe'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/"> Publish Press Authors </a>',
         
         );
           
@@ -3714,7 +3715,7 @@ function saswp_get_image_by_url($url){
     
     if($url){        
                 
-            $image_details      = @getimagesize($url);                    
+            $image_details      = @wp_getimagesize($url);                    
             
             if($image_details){
 

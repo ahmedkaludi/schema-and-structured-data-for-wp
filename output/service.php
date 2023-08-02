@@ -195,7 +195,7 @@ Class saswp_output_service{
 
                         if ($ext == 'jpg' || $ext == 'png' || $ext == 'gif' || $ext == 'jpeg') {
                         
-                        $image_details = @getimagesize($fixed_text[$key]);
+                        $image_details = @wp_getimagesize($fixed_text[$key]);
                         
                         if(is_array($image_details)){
                             $response['@type']  = 'ImageObject';

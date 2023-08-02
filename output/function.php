@@ -1959,7 +1959,7 @@ function saswp_wp_recipe_schema_json($recipe){
                         
             if( isset($metadata['image'][0]) && $metadata['image'][0]  != '' ) {
 
-                $image_size = @getimagesize($metadata['image'][0]);
+                $image_size = @wp_getimagesize($metadata['image'][0]);
 
                 if( !empty($image_size) ) {
 
