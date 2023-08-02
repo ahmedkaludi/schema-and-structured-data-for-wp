@@ -3514,7 +3514,7 @@ function saswp_get_field_note($pname){
             'testimonial_pro'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
             'tevolution_events'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>',
             'publishpress_authors'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/publishpress-authors"> Publish Press Authors </a>',
-            'jetpackrecipe'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/"> Publish Press Authors </a>',
+            'jetpackrecipe'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/"> Jetpack Recipe Schema </a>',
         
         );
           
