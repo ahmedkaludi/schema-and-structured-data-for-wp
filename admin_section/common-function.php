@@ -2296,8 +2296,7 @@ if ( ! defined('ABSPATH') ) exit;
                         
                  global $wpdb;
                 
-                 $table_name = $wpdb->prefix."qss";
-                 $query = $wpdb->prepare("SELECT * FROM {$table_name} WHERE post_id = %d",$post->ID);
+                 $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID);
                  
                  if ($rows = $wpdb->get_results($query, OBJECT)) {
                      
@@ -2431,8 +2430,7 @@ if ( ! defined('ABSPATH') ) exit;
                         
                 global $wpdb;
                 
-                 $table_name = $wpdb->prefix."qss";
-                 $query = $wpdb->prepare("SELECT * FROM {$table_name} WHERE post_id = %d",$post->ID);
+                 $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID);
                  
                  if ($rows = $wpdb->get_results($query, OBJECT)) {
                      
@@ -2725,8 +2723,7 @@ if ( ! defined('ABSPATH') ) exit;
                     $auth_cnt = 0;
                     $author_details = array(); 
                     foreach ($explode_authors as $ea_key => $ea_value) {
-                        $table_name = $wpdb->prefix."users";
-                        $query = $wpdb->prepare("SELECT * FROM {$table_name} WHERE display_name = %s",trim($ea_value));
+                        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}users WHERE display_name = %s",trim($ea_value));
                         $user_results = $wpdb->get_results($query, ARRAY_A);
                         
                         if(!empty($user_results) && isset($user_results[0])){
