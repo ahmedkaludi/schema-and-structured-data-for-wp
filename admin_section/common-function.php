@@ -3557,8 +3557,8 @@ function saswp_get_current_url(){
     } 
   
     $link .= "://"; 
-    $link .= sanitize_text_field($_SERVER['HTTP_HOST']); 
-    $link .= sanitize_text_field($_SERVER['REQUEST_URI']); 
+    $link .= isset($_SERVER['HTTP_HOST'])?sanitize_text_field($_SERVER['HTTP_HOST']):''; 
+    $link .= isset($_SERVER['REQUEST_URI'])?sanitize_text_field($_SERVER['REQUEST_URI']):''; 
       
     return $link;
 }
