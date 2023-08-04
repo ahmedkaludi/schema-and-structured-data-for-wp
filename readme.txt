@@ -123,7 +123,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.18 (04 Aug 2023) =
 
-* Fixed: Warnings and code improvement #1992
+* Fixed: Security warnings and code improvement #1992
 
 
 = 1.17 (12 July 2023) =
