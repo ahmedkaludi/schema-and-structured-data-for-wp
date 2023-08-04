@@ -112,7 +112,7 @@ class Faq_Block extends Widget_Base {
                                 echo '<h3>';
                                 
                                 if($order_type == 'order_list'){
-                                    echo '<span>'.$i.'. </span>';
+                                    echo '<span>'.esc_html($i).'. </span>';
                                 } 
                                 echo esc_html($item['faq_question']);
                                 echo '</h3>';

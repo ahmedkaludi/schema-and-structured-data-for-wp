@@ -393,8 +393,8 @@
                             
 				foreach ($checkbox as $key => $value) {
                                     
-					$postType   = sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['posttype']);
-					$schemaType = sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['schema_type']);
+					$postType   = isset($_POST['sd_data_create__post_schema'][$key]['posttype'])?sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['posttype']):'';
+					$schemaType = isset($_POST['sd_data_create__post_schema'][$key]['schema_type'])?sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['schema_type']):'';
 					
 					$postarr = array(
                                             'post_type'   => 'saswp',
@@ -533,7 +533,7 @@
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php echo esc_attr(ucwords($current_step)); ?></title>
+			<title><?php echo esc_html(ucwords($current_step)); ?></title>
 			<?php do_action( 'admin_print_styles' ); ?>
 			<?php do_action( 'admin_print_scripts' ); ?>
 			<?php do_action( 'admin_head' ); ?>
@@ -594,12 +594,12 @@
 
 		// If there is a title, display it.
 		if ( $args['title'] ) {
-			$svg .= '<title>' . saswp_t_string( $args['title'] ) . '</title>';
+			$svg .= '<title>' . esc_html( $args['title'] ) . '</title>';
 		}
 
 		// If there is a description, display it.
 		if ( $args['desc'] ) {
-			$svg .= '<desc>' . saswp_t_string( $args['desc'] ) . '</desc>';
+			$svg .= '<desc>' . esc_html( $args['desc'] ) . '</desc>';
 		}
 
 		$svg .= '<use xlink:href="#icon-' . esc_html( $args['icon'] ) . '"></use>';
@@ -691,8 +691,8 @@ function saswp_general_setting_fields_callback(){
             
             foreach ($pages as $page){
               
-               $about_page .= '<option value="'.esc_attr($page->ID).'">'.esc_attr($page->post_title).'</option>'; 
-               $contact_page .= '<option value="'.esc_attr($page->ID).'">'.esc_attr($page->post_title).'</option>'; 
+               $about_page .= '<option value="'.esc_attr($page->ID).'">'.esc_html($page->post_title).'</option>'; 
+               $contact_page .= '<option value="'.esc_attr($page->ID).'">'.esc_html($page->post_title).'</option>'; 
                 
             }
             

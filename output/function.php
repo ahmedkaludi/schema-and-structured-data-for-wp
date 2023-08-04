@@ -1960,7 +1960,7 @@ function saswp_wp_recipe_schema_json($recipe){
                         
             if( isset($metadata['image'][0]) && $metadata['image'][0]  != '' ) {
 
-                $image_size = @getimagesize($metadata['image'][0]);
+                $image_size = @wp_getimagesize($metadata['image'][0]);
 
                 if( !empty($image_size) ) {
 
@@ -3204,7 +3204,7 @@ function saswp_get_ryviu_reviews ($product_id){
             $result = @wp_remote_post(
                 $url, [
                     'headers'   => [ 'Content-Type' => 'application/json' ],
-                    'body'       => json_encode($body),
+                    'body'       => wp_json_encode($body),
                 ]
             );
             

@@ -27,7 +27,7 @@ shuffle($reasons);
                 ?>
 	    </ul>
 	    <?php if ($email) : ?>
-    	    <input type="hidden" name="saswp_disable_from" value="<?php echo $email; ?>"/>
+    	    <input type="hidden" name="saswp_disable_from" value="<?php echo esc_attr($email); ?>"/>
 	    <?php endif; ?>
 	    <input id="saswp-reloaded-feedback-submit" class="button button-primary" type="submit" name="saswp_disable_submit" value="<?php _e('Submit & Deactivate', 'saswp-for-wp'); ?>"/>
 	    <a class="button"><?php _e('Only Deactivate', 'saswp-for-wp'); ?></a>

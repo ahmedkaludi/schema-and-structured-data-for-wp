@@ -199,7 +199,7 @@ class SASWP_Gutenberg_Render {
                     
                     if($attributes['app_email_or_website']){
                         $response.= saswp_t_string('To apply for this job').' <strong>'.esc_html($attributes['app_email_or_website']).'</strong> '
-                       . '<a href="mailto:'.esc_attr($attributes['app_email_or_website']).'">'.esc_attr($attributes['app_email_or_website']).'</a>';
+                       . '<a href="mailto:'.esc_attr($attributes['app_email_or_website']).'">'.esc_html($attributes['app_email_or_website']).'</a>';
                     }
                                                             
                     $response.= '</div>'

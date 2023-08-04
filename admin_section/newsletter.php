@@ -30,9 +30,9 @@ class saswp_ads_newsletter {
                    return;  
                 }
                                 
-	        $name    = sanitize_text_field($_POST['name']);
-                $email   = sanitize_text_field($_POST['email']);
-                $website = sanitize_text_field($_POST['website']);
+	        $name    = isset($_POST['name'])?sanitize_text_field($_POST['name']):'';
+                $email   = isset($_POST['email'])?sanitize_text_field($_POST['email']):'';
+                $website = isset($_POST['website'])?sanitize_text_field($_POST['website']):'';
                 
                 if($email){
                         
@@ -70,7 +70,7 @@ class saswp_ads_newsletter {
                         
                 global $current_user;                
 		$tour     = array ();
-                $tab      = isset($_GET['tab']) ? esc_attr($_GET['tab']) : '';                   
+                $tab      = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : '';                   
                 
                 if (!array_key_exists($tab, $tour)) {                
 			                                           			            	
@@ -91,4 +91,3 @@ class saswp_ads_newsletter {
        
 }
 $saswp_ads_newsletter = new saswp_ads_newsletter();
-?>

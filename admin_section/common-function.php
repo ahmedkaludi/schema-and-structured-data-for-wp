@@ -284,7 +284,7 @@ if ( ! defined('ABSPATH') ) exit;
                 
                 header('Content-type: application/json');
                 header('Content-disposition: attachment; filename=structuredatabackup.json');
-                echo json_encode($export_data_all);   
+                echo wp_json_encode($export_data_all);   
                                               
                 wp_die();
     }    
@@ -2121,7 +2121,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                             $image_data = array();    
 
-                            $image = @getimagesize($url);
+                            $image = @wp_getimagesize($url);
 
                             if(is_array($image)){
 
@@ -2296,7 +2296,7 @@ if ( ! defined('ABSPATH') ) exit;
                         
                  global $wpdb;
                 
-                 $query = "SELECT * FROM " . $wpdb->prefix . "qss where post_id=".$post->ID;
+                 $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID);
                  
                  if ($rows = $wpdb->get_results($query, OBJECT)) {
                      
@@ -2430,7 +2430,8 @@ if ( ! defined('ABSPATH') ) exit;
                         
                 global $wpdb;
                 
-                 $query = "SELECT * FROM " . $wpdb->prefix . "qss where post_id=".$post->ID;
+                 $table_name = $wpdb->prefix."qss";
+                 $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID);
                  
                  if ($rows = $wpdb->get_results($query, OBJECT)) {
                      
@@ -2689,7 +2690,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                 if($sab_image){
 
-                    $image = @getimagesize($sab_image);
+                    $image = @wp_getimagesize($sab_image);
 
                     if($image){
                         $author_details['image']['@type']  = 'ImageObject';
@@ -2724,7 +2725,7 @@ if ( ! defined('ABSPATH') ) exit;
                     $author_details = array(); 
                     foreach ($explode_authors as $ea_key => $ea_value) {
                         $table_name = $wpdb->prefix."users";
-                        $query = $wpdb->prepare("SELECT * FROM $table_name WHERE display_name = %s",trim($ea_value));
+                        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}users WHERE display_name = %s",trim($ea_value));
                         $user_results = $wpdb->get_results($query, ARRAY_A);
                         
                         if(!empty($user_results) && isset($user_results[0])){
@@ -2814,7 +2815,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                                     if($sab_image){
 
-                                        $image = @getimagesize($sab_image);
+                                        $image = @wp_getimagesize($sab_image);
 
                                         if($image){
                                             $author_details[$auth_cnt]['image']['@type']  = 'ImageObject';
@@ -2919,12 +2920,14 @@ function saswp_uninstall_single($blog_id = null){
                         array( '%s' )
                 );
 
-                $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $post_ids ) . " )" );
+                $placeholders = array_fill(0, count($post_ids), '%d');
+                $placeholders_str = implode(', ', $placeholders);
+                $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id IN ($placeholders_str)", $post_ids));
         }
         
         if($post_ids){
             
-            $query = "SELECT ID FROM " . $wpdb->posts;
+            $query = $wpdb->prepare("SELECT ID FROM {$wpdb->posts}");
             $all_post_id   = $wpdb->get_results($query, ARRAY_A );
             $all_post_id   = wp_list_pluck( $all_post_id, 'ID' );              
                         
@@ -2934,7 +2937,9 @@ function saswp_uninstall_single($blog_id = null){
                $meta_fields = wp_list_pluck( $meta_fields, 'id' );
                
                foreach ($meta_fields as $meta_key){                   
-                   $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $all_post_id ) . " ) AND meta_key = '".$meta_key."'" );
+                   $placeholders = array_fill(0, count($all_post_id), '%d');
+                   $placeholders_str = implode(', ', $placeholders);
+                   $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id IN ($placeholders_str) AND meta_key = %s", $all_post_id,$meta_key)); 
                    
                }
                                               
@@ -2953,7 +2958,9 @@ function saswp_uninstall_single($blog_id = null){
                         array( '%s' )
                 );
 
-                $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id IN( " . implode( ',', $post_ids ) . " )" );
+                $placeholders = array_fill(0, count($post_ids), '%d');
+                $placeholders_str = implode(', ', $placeholders);
+                $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id IN ($placeholders_str)", $post_ids));
         }
                 
         //All options                    
@@ -3509,6 +3516,7 @@ function saswp_get_field_note($pname){
             'testimonial_pro'             => saswp_t_string('Requires').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
             'tevolution_events'           => saswp_t_string('Requires').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>',
             'publishpress_authors'                     => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/publishpress-authors"> Publish Press Authors </a>',
+            'jetpackrecipe'               => saswp_t_string('Requires').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/"> Jetpack Recipe Schema </a>',
         
         );
           
@@ -3549,8 +3557,8 @@ function saswp_get_current_url(){
     } 
   
     $link .= "://"; 
-    $link .= $_SERVER['HTTP_HOST']; 
-    $link .= $_SERVER['REQUEST_URI']; 
+    $link .= sanitize_text_field($_SERVER['HTTP_HOST']); 
+    $link .= sanitize_text_field($_SERVER['REQUEST_URI']); 
       
     return $link;
 }
@@ -3705,7 +3713,7 @@ function saswp_get_image_by_url($url){
     
     if($url){        
                 
-            $image_details      = @getimagesize($url);                    
+            $image_details      = @wp_getimagesize($url);                    
             
             if($image_details){
 
@@ -4105,7 +4113,7 @@ function saswp_get_video_metadata($content = ''){
                                         if(!empty($daily_url_match) && is_array($daily_url_match)){
                                             $metadata = array();
                                             if(isset($daily_url_match[0]) && !empty($daily_url_match[0])){
-                                                $daily_id = substr(parse_url($video_url, PHP_URL_PATH), 1);
+                                                $daily_id = substr(wp_parse_url($video_url, PHP_URL_PATH), 1);
                                                 if(isset($daily_url_match[1]) && !empty($daily_url_match[1])){
                                                     $daily_id = 'video/'.$daily_url_match[1];
                                                 }
@@ -4168,7 +4176,7 @@ function saswp_unique_multidim_array($array, $key) {
 
 function saswp_youtube_check_validate_url($yt_url) { 
     if(!empty($yt_url) && isset($yt_url)){
-        $url_parsed_arr = parse_url($yt_url);
+        $url_parsed_arr = wp_parse_url($yt_url);
         if (
             (isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "youtu.be" || $url_parsed_arr['host'] == "www.youtube.com"))
             || 
@@ -4186,7 +4194,7 @@ function saswp_youtube_check_validate_url($yt_url) {
 function saswp_vimeo_check_validate_url($yt_url) { 
     if(!empty($yt_url) && isset($yt_url)){
         if(isset($yt_url['thumbnail_url']) && !empty($yt_url['thumbnail_url'])){
-            $url_parsed_arr = parse_url($yt_url['video_url']);
+            $url_parsed_arr = wp_parse_url($yt_url['video_url']);
             if ((isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "vimeo.com" || $url_parsed_arr['host'] == "www.vimeo.com"))) {
                 return $yt_url;
             }else{
@@ -4203,7 +4211,7 @@ function saswp_vimeo_check_validate_url($yt_url) {
 function saswp_dailymototion_check_validate_url($yt_url) { 
     if(!empty($yt_url) && isset($yt_url)){
         if(isset($yt_url['thumbnail_url']) && !empty($yt_url['thumbnail_url'])){
-            $url_parsed_arr = parse_url($yt_url['video_url']);
+            $url_parsed_arr = wp_parse_url($yt_url['video_url']);
             if ((isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "dailymotion.com" || $url_parsed_arr['host'] == "www.dailymotion.com"))) {
                 return $yt_url;
             }else{

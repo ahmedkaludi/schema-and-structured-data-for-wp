@@ -200,7 +200,7 @@ $saswp_add_data_type_config = array(
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php echo esc_attr(ucwords($current_step)); ?></title>
+			<title><?php echo esc_html(ucwords($current_step)); ?></title>
 			<?php do_action( 'admin_print_styles' ); ?>
 			<?php do_action( 'admin_print_scripts' ); ?>
 			<?php do_action( 'admin_head' ); ?>
@@ -288,7 +288,7 @@ $saswp_add_data_type_config = array(
                                         
                                         if(isset($_GET['step'])){
                                             
-                                            $step =     $_GET['step']; 
+                                            $step =     intval($_GET['step']); 
 
                                             if($step == 2){
                                                 
@@ -427,7 +427,7 @@ $saswp_add_data_type_config = array(
 			        update_post_meta( $post_id, 'data_group_array', $post_data_array);					
 				}                                
 
-                set_transient('saswp_last_post_id', json_encode(array('post_id'=>$post_id))); 
+                set_transient('saswp_last_post_id', wp_json_encode(array('post_id'=>$post_id))); 
                 
 				}    
 				if(isset($_POST['saswp_review_item_reviewed_'])){
@@ -595,7 +595,7 @@ $saswp_add_data_type_config = array(
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php echo esc_attr(ucwords($current_step)); ?></title>
+			<title><?php echo esc_html(ucwords($current_step)); ?></title>
 			<?php do_action( 'admin_print_styles' ); ?>
 			<?php do_action( 'admin_print_scripts' ); ?>
 			<?php do_action( 'admin_head' ); ?>
@@ -656,12 +656,12 @@ $saswp_add_data_type_config = array(
 
 		// If there is a title, display it.
 		if ( $args['title'] ) {
-			$svg .= '<title>' . saswp_t_string( $args['title'] ) . '</title>';
+			$svg .= '<title>' . esc_html( $args['title'] ) . '</title>';
 		}
 
 		// If there is a description, display it.
 		if ( $args['desc'] ) {
-			$svg .= '<desc>' . saswp_t_string( $args['desc'] ) . '</desc>';
+			$svg .= '<desc>' . esc_html( $args['desc'] ) . '</desc>';
 		}
 
 		$svg .= '<use xlink:href="#icon-' . esc_html( $args['icon'] ) . '"></use>';

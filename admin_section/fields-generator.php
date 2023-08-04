@@ -414,11 +414,11 @@ class saswp_fields_generator {
                         }
                         if($tooltip_message){
                             
-                            $label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ).' <span class="saswp-tooltiptext">'.saswp_t_string($tooltip_message).'</span></label>';			
+                            $label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . esc_html( $meta_field['label'] ).' <span class="saswp-tooltiptext">'.esc_html($tooltip_message).'</span></label>';			
                         
                         }else{
                             
-                            $label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ).' <span class="saswp-tooltiptext"></span></label>';			    
+                            $label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . esc_html( $meta_field['label'] ).' <span class="saswp-tooltiptext"></span></label>';			    
                         
                         }
 			
@@ -454,7 +454,7 @@ class saswp_fields_generator {
                                             $thumbnail_url = urldecode($thumbnail_url);
                                            } 
                                            $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'.esc_attr($thumbnail_url).'" />
+                                                         <img class="saswp_image_prev" src="'.esc_url($thumbnail_url).'" />
                                                          <a data-id="'.esc_attr($meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             
@@ -540,7 +540,7 @@ class saswp_fields_generator {
 							'<option %s value="%s">%s</option>',
 							$settings_meta_field == $key ? 'selected' : '',                                                        
 							$key,
-							saswp_t_string( $value )
+							esc_html( $value )
 						);
 					}
 					$input .= '</select>';
@@ -565,7 +565,7 @@ class saswp_fields_generator {
 							'<option %s value="%s">%s (Default)</option>',
 							'selected',                                                        
 							$key,
-							saswp_t_string( $value )
+							esc_html( $value )
 						   );
                                                     
                                                 }else{                                                    
@@ -573,7 +573,7 @@ class saswp_fields_generator {
 							'<option %s value="%s">%s</option>',
 							in_array($key, $settings_meta_field)  ? 'selected' : '',                                                        
 							$key,
-							saswp_t_string( $value )
+							esc_html( $value )
 						   );
                                                     
                                                 }                                            

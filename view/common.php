@@ -76,7 +76,7 @@ class saswp_view_common_class {
                      foreach ( $meta_fields as $meta_field ) {
                     
                     
-			$label = '<label for="' . $meta_field['name'] . '">' . saswp_t_string( $meta_field['label'] ) . '</label>';			
+			$label = '<label for="' . $meta_field['name'] . '">' . esc_html( $meta_field['label'] ) . '</label>';			
 			                                                                        
 			switch ( $meta_field['type'] ) {
                                                             								                                
@@ -144,7 +144,7 @@ class saswp_view_common_class {
 							'<option %s value="%s">%s</option>',
 							$data[$meta_field['name']] === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							saswp_t_string($value )
+							esc_html($value )
 						);
 					}
 					$input .= '</select>';
@@ -365,7 +365,7 @@ class saswp_view_common_class {
                         $meta_value = array();
                     if($meta_field['type'] != 'global_mapping'){
                         if($meta_field['type'] != 'repeater'){
-                            $label      = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ). '</label>';
+                            $label      = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html( $meta_field['label'] ). '</label>';
                             $meta_value = saswp_get_post_meta( $post_id, $meta_field['id'], true );
                         }
                     }                                
@@ -452,7 +452,7 @@ class saswp_view_common_class {
                                         if($media_thumbnail){
                                             
                                            $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'.esc_attr($media_thumbnail).'" />
+                                                         <img class="saswp_image_prev" src="'.esc_url($media_thumbnail).'" />
                                                          <a data-id="'.esc_attr($meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             
@@ -518,7 +518,7 @@ class saswp_view_common_class {
 							'<option %s value="%s">%s</option>',
 							$meta_value === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							saswp_t_string($value )
+							esc_html($value )
 						);
 					}
 					$input .= '</select>';
@@ -586,7 +586,7 @@ class saswp_view_common_class {
 					);
                                         if(isset($meta_field['note'])){
                                             
-                                          $input .='<p>'.esc_attr($meta_field['note']).'</p>';  
+                                          $input .='<p>'.esc_html($meta_field['note']).'</p>';  
                                           
                                         }
 					break;
