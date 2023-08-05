@@ -549,7 +549,7 @@ function saswp_add_mooberrybm_schema( $input1 ){
         
         $publisher = array();
         $imprint   = array();
-        $book_table = $wpdb->get_row("select * from {$wpdb->prefix}mbdb_books where book_id = '{$post->ID}'", 'ARRAY_A');  
+        $book_table = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}mbdb_books WHERE book_id = %d",trim($post->ID)), 'ARRAY_A');  
         
         if(!empty($book_table)){
 

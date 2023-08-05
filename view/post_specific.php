@@ -103,8 +103,8 @@ class saswp_post_specific {
                 die( '-1' );    
             }
                             
-                $post_id        = intval($_POST['post_id']);
-                $schema_id      = intval($_POST['schema_id']);            
+                $post_id        = isset($_POST['post_id'])?intval($_POST['post_id']):'';
+                $schema_id      = isset($_POST['schema_id'])?intval($_POST['schema_id']):'';            
              
                 saswp_delete_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id); 
 
@@ -115,7 +115,7 @@ class saswp_post_specific {
                         saswp_delete_post_meta($post_id, $field['id']); 
                     }
                 }                             
-                echo json_encode(array('status'=> 't', 'msg'=>saswp_t_string( 'Schema has been restored' )));                
+                echo wp_json_encode(array('status'=> 't', 'msg'=>saswp_t_string( 'Schema has been restored' )));                
                 wp_die();
              
             }
@@ -173,8 +173,8 @@ class saswp_post_specific {
                 die( '-1' );    
             } 
             
-             $post_id        = intval($_GET['post_id']);             
-             $schema_id      = intval($_GET['schema_id']);
+             $post_id        = isset($_GET['post_id'])?intval($_GET['post_id']):'';             
+             $schema_id      = isset($_GET['schema_id'])?intval($_GET['schema_id']):'';
              $modify_this    = 1;
              $disabled       = '';
              $modified       = false;
@@ -224,11 +224,11 @@ class saswp_post_specific {
             $output        = '';
             $disabled      = '';
             
-            $item_reviewed = sanitize_text_field($_GET['item']);  
-            $schema_id     = sanitize_text_field($_GET['schema_id']);
-            $schema_type   = sanitize_text_field($_GET['schema_type']);
-            $post_id       = intval($_GET['post_id']);  
-            $modify_this   = intval($_GET['modify_this']);
+            $item_reviewed = isset($_GET['item'])?sanitize_text_field($_GET['item']):'';  
+            $schema_id     = isset($_GET['schema_id'])?sanitize_text_field($_GET['schema_id']):'';
+            $schema_type   = isset($_GET['schema_type'])?sanitize_text_field($_GET['schema_type']):'';
+            $post_id       = isset($_GET['post_id'])?intval($_GET['post_id']):'';  
+            $modify_this   = isset($_GET['modify_this'])?intval($_GET['modify_this']):'';
             
             $schema_enable     = get_post_meta($post_id, 'saswp_enable_disable_schema', true); 
                         
@@ -260,10 +260,10 @@ class saswp_post_specific {
                 }
                 
                 $schema_enable = array();
-                $post_id       = intval($_POST['post_id']);
-                $schema_id     = sanitize_text_field($_POST['schema_id']);
-                $status        = sanitize_text_field($_POST['status']);
-                $req_from      = sanitize_text_field($_POST['req_from']);
+                $post_id       = isset($_POST['post_id'])?intval($_POST['post_id']):'';
+                $schema_id     = isset($_POST['schema_id'])?sanitize_text_field($_POST['schema_id']):'';
+                $status        = isset($_POST['status'])?sanitize_text_field($_POST['status']):'';
+                $req_from      = isset($_POST['req_from'])?sanitize_text_field($_POST['req_from']):'';
                             
                 if($req_from == 'post'){
                     $schema_enable_status = get_post_meta($post_id, 'saswp_enable_disable_schema', true);  
@@ -299,7 +299,7 @@ class saswp_post_specific {
                     update_term_meta( $post_id, 'saswp_enable_disable_schema', $schema_enable);                   
                 }
                                                                 
-                echo json_encode(array('status'=>'t'));
+                echo wp_json_encode(array('status'=>'t'));
                 wp_die();                        
                 
         }
@@ -394,7 +394,7 @@ class saswp_post_specific {
                 }                                                           
             }           
             if(!empty($meta_array)){
-             echo json_encode($meta_array);   
+             echo wp_json_encode($meta_array);   
             }            
             wp_die();
         }
@@ -537,7 +537,7 @@ class saswp_post_specific {
                          }
                          
                          $setting_options  .= '<span>'.saswp_t_string( $schema_type_txt.' schema is fetched automatically' ).'</span><br><br>';
-                         $setting_options  .= '<a class="button button-default saswp-modify-schema button" schema-id="'.esc_attr($schema->ID).'">'.saswp_t_string( 'Modify '.$schema_type.' Schema Output' ).'</a>';
+                         $setting_options  .= '<a class="button button-default saswp-modify-schema button" schema-id="'.esc_attr($schema->ID).'">'.esc_html( 'Modify '.$schema_type.' Schema Output' ).'</a>';
                          $setting_options  .= '</div>';                                                                  
                                         
                     $setting_options.= '</div>';                                                
@@ -605,7 +605,7 @@ class saswp_post_specific {
                 $response_html .= $cus_schema;                                
                 $response_html .= '</div>';
                                                                                 
-                $response_html .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. json_encode($schema_ids).'">';
+                $response_html .= '<input class="saswp-post-specific-schema-ids" type="hidden" value="'. wp_json_encode($schema_ids).'">';
                 $response_html .= '</div>'; 
                                   
                 }
@@ -645,7 +645,7 @@ class saswp_post_specific {
 
         $allowed_html = saswp_expanded_allowed_tags(); 
                                                  
-        $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
+        $custom_schema  = isset($_POST['saswp_custom_schema_field'])?wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html):'';
 
         if(!empty($custom_schema)){
             update_term_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
@@ -671,7 +671,7 @@ class saswp_post_specific {
                                        
                 $allowed_html = saswp_expanded_allowed_tags(); 
                                                  
-                $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
+                $custom_schema  = isset($_POST['saswp_custom_schema_field'])?wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html):'';
 
                 if(!empty($custom_schema)){
                     update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
@@ -693,14 +693,14 @@ class saswp_post_specific {
             if(!current_user_can( saswp_current_user_can())){
                 die( '-1' );    
             }
-            $business_type = sanitize_text_field($_GET['business_type']);
+            $business_type = isset($_GET['business_type'])?sanitize_text_field($_GET['business_type']):'';
                                        
             $response = $this->_local_sub_business[$business_type]; 
             
            if($response){                              
-              echo json_encode(array('status'=>'t', 'result'=>$response)); 
+              echo wp_json_encode(array('status'=>'t', 'result'=>$response)); 
            }else{
-              echo json_encode(array('status'=>'f', 'result'=>'data not available')); 
+              echo wp_json_encode(array('status'=>'f', 'result'=>'data not available')); 
            }
             wp_die();
         }

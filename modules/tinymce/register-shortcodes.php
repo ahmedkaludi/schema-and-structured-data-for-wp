@@ -288,7 +288,7 @@ function saswp_tiny_recipe_render( $atts, $content = null ){
         $output .= '<div class="saswp-recipe-block-container">';
         $output .= '<div class="saswp-recipe-field-banner"><div class="saswp-book-banner-div">';
         if(!empty($image_thumburl)){    
-            $output .= '<img decoding="async" src="'.esc_attr($image_thumburl).'">';
+            $output .= '<img decoding="async" src="'.esc_url($image_thumburl).'">';
         }else{
             $output .= '<img decoding="async" src="" alt="No Image">';
         }

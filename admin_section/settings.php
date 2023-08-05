@@ -228,14 +228,14 @@ function saswp_admin_interface_render(){
                 }
                 elseif( $days >= 0 && $days <= 7 ){
                     $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
-                    $expire_msg_before = '<span class="before_msg">'.saswp_t_string('Your License is').'</span> <span class="saswp-addon-alert">'.saswp_t_string('expiring in').' '.$days.' '.saswp_t_string('days').'</span><a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
+                    $expire_msg_before = '<span class="before_msg">'.saswp_t_string('Your License is').'</span> <span class="saswp-addon-alert">'.saswp_t_string('expiring in').' '.$days.' '.saswp_t_string('days').'</span><a target="blank" class="renewal-license" href="'.esc_url($renew_url).'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
                     // $span_class = "saswp_addon_icon dashicons dashicons-alert pro_icon";
                     $color = 'color:green';
                     $alert_icon = '<span class="saswp_addon_icon dashicons dashicons-warning pro_warning"></span>';
                 }
                 elseif( $days>=0 && $days<=30 ){
                     $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
-                    $expire_msg_before = '<span class="before_msg">'.saswp_t_string('Your License is').'</span> <span class="saswp-addon-alert">'.saswp_t_string('expiring in').' '.$days.' '.saswp_t_string('days').'</span><a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
+                    $expire_msg_before = '<span class="before_msg">'.saswp_t_string('Your License is').'</span> <span class="saswp-addon-alert">'.saswp_t_string('expiring in').' '.$days.' '.saswp_t_string('days').'</span><a target="blank" class="renewal-license" href="'.esc_url($renew_url).'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
                     // $span_class = "saswp_addon_icon dashicons dashicons-alert pro_icon";
                     $color = 'color:green';
                     $alert_icon = '<span class="saswp_addon_icon dashicons dashicons-warning pro_warning"></span>';
@@ -254,7 +254,7 @@ function saswp_admin_interface_render(){
                     $exp_class_2 = 'renew_license_key_';
                     $span_class = "saswp_addon_icon dashicons dashicons-no";
                     
-                     $renew_mesg = '<a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
+                     $renew_mesg = '<a target="blank" class="renewal-license" href="'.esc_url($renew_url).'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
     $color = 'color:red';
 }
                     else{
@@ -266,7 +266,7 @@ function saswp_admin_interface_render(){
                         if ($one_of_plugin_expired == 1) {
                             $renew_url = "https://structured-data-for-wp.com/order/?edd_license_key=".$license_k."&download_id=".$download_id."";
                         $expire_msg = " <span class='one_of_expired'>".saswp_t_string('Expired')."</span> ";
-                        $renew_mesg = '<a target="blank" class="renewal-license" href="'.$renew_url.'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
+                        $renew_mesg = '<a target="blank" class="renewal-license" href="'.esc_url($renew_url).'"><span class="renew-lic">'.esc_html__('Renew', 'saswp').'</span></a>';
                         }
                         else{
                             $expire_msg = " Active ";
@@ -657,8 +657,10 @@ function saswp_handle_file_upload($option){
     }
 
    if(isset($_FILES['saswp_import_backup'])){
-     
-       $fileInfo = wp_check_filetype(basename($_FILES['saswp_import_backup']['name']));
+       $fileInfo = array(); 
+       if(isset($_FILES['saswp_import_backup']['name'])){ 
+            $fileInfo = wp_check_filetype(basename($_FILES['saswp_import_backup']['name']));
+        }
     
         if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
 
@@ -674,8 +676,10 @@ function saswp_handle_file_upload($option){
    }
    
    if(isset($_FILES['saswp_upload_rv_csv'])){
-     
-        $fileInfo = wp_check_filetype(basename($_FILES['saswp_upload_rv_csv']['name']));
+        $fileInfo = array();
+        if(isset($_FILES['saswp_upload_rv_csv']['name'])){
+            $fileInfo = wp_check_filetype(basename($_FILES['saswp_upload_rv_csv']['name']));
+        }
      
          if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'csv') {
  
@@ -797,7 +801,7 @@ foreach($main_ext_array as $value){
     $css                = '';
 
     if($addon_status == false){
-        $addon_status = '<label class="saswp-sts-txt inactive">'. saswp_t_string('Status') .' :<span class="saswp_inactive_key">'.saswp_t_string('Inactive').'</span></label><a target="_blank" href="'.$addon_href.'"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
+        $addon_status = '<label class="saswp-sts-txt inactive">'. saswp_t_string('Status') .' :<span class="saswp_inactive_key">'.saswp_t_string('Inactive').'</span></label><a target="_blank" href="'.esc_url($addon_href).'"><span class="saswp-d-btn">'.saswp_t_string('Download').'</span></a>';
     }    
 
     $plist =   "<li>
@@ -806,8 +810,8 @@ foreach($main_ext_array as $value){
                 <img src=".esc_url($addon_image).">
                 </div>
                 <div class='saswp-ele-tlt'>
-                <h3>".saswp_t_string($addon_name)."</h3>
-                <p>".saswp_t_string($addon_desc)."</p>
+                <h3>".esc_html($addon_name)."</h3>
+                <p>".esc_html($addon_desc)."</p>
                 </div>    
                 <div class='saswp-sts-btn' ".$css.">".$addon_status."
                 </div>
@@ -1197,7 +1201,7 @@ function saswp_general_page_callback(){
                          }
                          if($saved_choices){
                                 foreach($saved_choices as $value){
-                                        $html_str .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  saswp_t_string($value['text']) .'</option>';                     
+                                        $html_str .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html($value['text']) .'</option>';                     
                                 }
                         } 
 
@@ -1249,7 +1253,7 @@ function saswp_general_page_callback(){
                          }
                          if($saved_choices){
                                 foreach($saved_choices as $value){
-                                        $html_str .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  saswp_t_string($value['text']) .'</option>';                     
+                                        $html_str .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html($value['text']) .'</option>';                     
                                 }
                         } 
 
@@ -1851,55 +1855,55 @@ function saswp_import_callback(){
                                         <?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('Schema Plugin'); ?></strong></div>
                                         <button data-id="schema" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo '<p>'.saswp_t_string($schema_message).'</p>'; ?>    
+                        <?php echo '<p>'.esc_html($schema_message).'</p>'; ?>    
                     </div>
                 </li>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('Schema Pro'); ?></strong></div><button data-id="schema_pro" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo '<p>'.saswp_t_string($schema_pro_message).'</p>'; ?>                       
+                        <?php echo '<p>'.esc_html($schema_pro_message).'</p>'; ?>                       
                     </div>
                 </li>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('WP SEO Schema'); ?></strong></div><button data-id="wp_seo_schema" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo '<p>'.saswp_t_string($wp_seo_schema_message).'</p>'; ?>                       
+                        <?php echo '<p>'.esc_html($wp_seo_schema_message).'</p>'; ?>                       
                     </div>
                 </li>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('SEO Pressor'); ?></strong></div><button data-id="seo_pressor" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo '<p>'.saswp_t_string($seo_pressor_message).'</p>'; ?>                          
+                        <?php echo '<p>'.esc_html($seo_pressor_message).'</p>'; ?>                          
                     </div>
                 </li>
                 
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('WPSSO Core'); ?></strong></div><button data-id="wpsso_core" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo '<p>'.saswp_t_string($wpsso_core_message).'</p>'; ?>                          
+                        <?php echo '<p>'.esc_html($wpsso_core_message).'</p>'; ?>                          
                     </div>
                 </li>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('Schema – All In One Schema Rich Snippets'); ?></strong></div><button data-id="aiors" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo '<p>'.saswp_t_string($aiors_message).'</p>'; ?>                          
+                        <?php echo '<p>'.esc_html($aiors_message).'</p>'; ?>                          
                     </div>
                 </li>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('WP Customer Reviews'); ?></strong></div><button data-id="wp_custom_rv" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo '<p>'.saswp_t_string($wp_custom_rv_message).'</p>'; ?>                          
+                        <?php echo '<p>'.esc_html($wp_custom_rv_message).'</p>'; ?>                          
                     </div>
                 </li>
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the reviews can be imported from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('Stars Rating'); ?></strong></div><button data-id="starsrating" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo '<p>'.saswp_t_string($starsrating_message).'</p>'; ?>                          
+                        <?php echo '<p>'.esc_html($starsrating_message).'</p>'; ?>                          
                     </div>
                 </li>
 
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('FAQ Schema Markup – FAQ Structured Data'); ?></strong></div><button data-id="schema_for_faqs" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo '<p>'.saswp_t_string($schema_for_faqs_message).'</p>'; ?>                          
+                        <?php echo '<p>'.esc_html($schema_for_faqs_message).'</p>'; ?>                          
                     </div>
                 </li>
 
                 <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo saswp_t_string('All the settings and data you can import from this plugin when you click start importing') ?></span><strong><?php echo saswp_t_string('Yoast SEO'); ?></strong></div><button data-id="yoast_seo" class="button saswp-import-plugins"><?php echo saswp_t_string('Import'); ?></button>
                         <p class="saswp-imported-message"></p>
-                        <?php echo '<p>'.saswp_t_string($yoast_seo_message).'</p>'; ?>                          
+                        <?php echo '<p>'.esc_html($yoast_seo_message).'</p>'; ?>                          
                     </div>
                 </li>
                 
@@ -2000,8 +2004,8 @@ if(is_array($translation_labels)){
             $translation = $val;
         }               
          echo  '<li>'
-             . '<div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong>'.esc_attr($val).'</strong></div>'
-             . '<input class="regular-text" type="text" name="sd_data['.esc_attr($key).']" value="'. esc_attr($translation).'">'
+             . '<div class="saswp-tools-field-title"><div class="saswp-tooltip"><strong>'.esc_html($val).'</strong></div>'
+             . '<input class="regular-text" type="text" name="sd_data['.esc_attr($key).']" value="'. esc_html($translation).'">'
              . '</div></li>';
         }
     
@@ -2295,37 +2299,37 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                     <input type="hidden" license-status="inactive"  licensestatusinternal="'.$license_status.'" add-on="'.strtolower($license_name_).'" class="button button-default saswp_license_activation '.$license_status.'mode '.strtolower($license_name_).''.strtolower($license_name_).'" id="saswp_license_deactivation_internal">';
 
                 if ( $license_expires == 'Lifetime' ) {
-                    $expire_msg_before = '<span class="before_msg_active">'.esc_html__('License is', 'saswp').'</span>';
-                    $single_expire_msg = " ".esc_html__('Valid for Lifetime', 'saswp')." ";
-                    $renew_text = 'Renew';
+                    $expire_msg_before = '<span class="before_msg_active">'.saswp_t_string('License is').'</span>';
+                    $single_expire_msg = " ".saswp_t_string('Valid for Lifetime')." ";
+                    $renew_text = saswp_t_string('Renew');
                     $license_expires_class = "lifetime_";
                 }
                 else if( $license_expires < 0 ){
-                    $expire_msg_before = '<span class="before_msg">'.esc_html__('Your', 'saswp').' <span class="less_than_zero">'.esc_html__('License is', 'saswp').'</span></span>';
-                    $single_expire_msg = " ".esc_html__('Expired', 'saswp')." ";
-                    $renew_text = 'Renew';
+                    $expire_msg_before = '<span class="before_msg">'.saswp_t_string('Your').' <span class="less_than_zero">'.saswp_t_string('License is').'</span></span>';
+                    $single_expire_msg = " ".saswp_t_string('Expired')." ";
+                    $renew_text = saswp_t_string('Renew');
                     $license_expires_class = "expire_msg";
                  }
                  else if( $license_expires >=0 && $license_expires <=30 ){
-                    $expire_msg_before = '<span class="before_msg">'.esc_html__('Your', 'saswp').' <span class="zero_to_30">'.esc_html__('License is', 'saswp').'</span></span>';
+                    $expire_msg_before = '<span class="before_msg">'.saswp_t_string('Your').' <span class="zero_to_30">'.saswp_t_string('License is').'</span></span>';
                     $license_expires_class = "zero2thirty";
-                    $single_expire_msg = '<span class="saswp-addon-alert">'.esc_html__('expiring in', 'saswp').' '.$license_expires .' '.esc_html__('days', 'saswp').'</span>';
-                    $renew_text = 'Renew';
+                    $single_expire_msg = '<span class="saswp-addon-alert">'.saswp_t_string('expiring in').' '.$license_expires .' '.saswp_t_string('days').'</span>';
+                    $renew_text = saswp_t_string('Renew');
                     $alert_icon = '<span class="saswp_addon_icon dashicons dashicons-warning single_addon_warning"></span>';
                 }
                 else{
-                    $expire_msg_before = '<span class="saswp-addon-active">'.esc_html__('', 'saswp').'</span>';
-                    $single_expire_msg = "".esc_html__('', 'saswp')." ".$license_expires ." ".esc_html__("days remaning", "saswp")." ";
+                    $expire_msg_before = '<span class="saswp-addon-active">'.saswp_t_string('').'</span>';
+                    $single_expire_msg = "".esc_html__('', 'saswp')." ".$license_expires ." ".saswp_t_string("days remaning")." ";
                     $license_expires_class = "lic_is_active";
-                    $renew_text = 'Renew License';
+                    $renew_text = saswp_t_string('Renew License');
                 }
 
                 
                 if ( !empty($license_expires) ) {
                     $when_active = '<span class="saswp-license-tenure" days_remaining='.$license_expires.'>'.$alert_icon.' '.$expire_msg_before.'
                 <span expired-days-dataa="'.$license_expires.'" class='.$license_expires_class.'>'.$single_expire_msg.'
-                <a target="blank" class="renewal-license" href="'.$renew_url.'">
-                <span class="renew-lic">'.esc_html__( $renew_text , 'saswp').'</span></a>'.$user_refresh_addon.'
+                <a target="blank" class="renewal-license" href="'.esc_url($renew_url).'">
+                <span class="renew-lic">'.$renew_text.'</span></a>'.$user_refresh_addon.'
                 </span>
                 </span>';
                 }
@@ -2376,7 +2380,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                     $license_expires_class = "expire_msg";
                     $final_otp = '<span class="expired-saswp-license-tenure" days_remaining='.$license_expires.'>'.$alert_icon.' '.$expire_msg_before.'
                 <span expired-days-data="'.$license_expires.'" class='.$license_expires_class.'>'.$single_expire_msg.'
-                <a target="blank" class="renewal-license" href="'.$renew_url.'">
+                <a target="blank" class="renewal-license" href="'.esc_url($renew_url).'">
                 <span class="renew-lic">'.esc_html__('Renew', 'saswp-for-wp').'</span></a>'.$user_refresh_addon.'
                 </span>
                 </span>';

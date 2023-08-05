@@ -229,7 +229,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			}
 			$body['marketing_method'] = $this->marketing;
 	
-			$body['server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '';
+			$body['server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field($_SERVER['SERVER_SOFTWARE']) : '';
 
 			// Retrieve current plugin information
 			if( ! function_exists( 'get_plugins' ) ) {
@@ -835,7 +835,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			if( is_array( $form['options'] ) ) {
 				$html .= '<div class="put-goodbye-options"><p>';
 				foreach( $form['options'] as $option ) {
-					$html .= '<input type="checkbox" name="put-goodbye-options[]" id="' . str_replace( " ", "", esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( " ", "", esc_attr( $option ) ) . '">' . esc_attr( $option ) . '</label><br>';
+					$html .= '<input type="checkbox" name="put-goodbye-options[]" id="' . str_replace( " ", "", esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( " ", "", esc_attr( $option ) ) . '">' . esc_html( $option ) . '</label><br>';
 				}
 				$html .= '</p><label for="put-goodbye-reasons">' . esc_html( $form['details'] ) .'</label><textarea name="put-goodbye-reasons" id="put-goodbye-reasons" rows="2" style="width:100%"></textarea>';
 				$html .= '</div><!-- .put-goodbye-options -->';
@@ -950,7 +950,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			}
 			check_ajax_referer( 'saswp_goodbye_form', 'security' );
 			if( isset( $_POST['values'] ) ) {
-				$values = json_encode( wp_unslash( $_POST['values'] ) );
+				$values = wp_json_encode( wp_unslash( $_POST['values'] ) );
 				update_option( 'wisdom_deactivation_reason_' . $this->plugin_name, $values );
 			}
 			if( isset( $_POST['details'] ) ) {

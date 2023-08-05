@@ -40,7 +40,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $a_display_name = get_the_author_meta('display_name');
                         $current_user['ID'] = $aid;
                         $current_user['display_name'] = $a_display_name;
-                        $current_user = json_encode($current_user);
+                        $current_user = wp_json_encode($current_user);
                         $current_user = json_decode($current_user);
                 }
                 

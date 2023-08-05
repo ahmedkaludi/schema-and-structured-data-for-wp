@@ -307,7 +307,7 @@ class HowTo_Block extends Widget_Base {
                                 echo '<h3>';
                                 
                                 if($order_type == 'order_list'){
-                                    echo '<span>'.$i.'. </span>';
+                                    echo '<span>'.esc_html($i).'. </span>';
                                 } 
                                 echo esc_html($item['howto_step_title']);
                                 echo '</h3>';
@@ -329,7 +329,7 @@ class HowTo_Block extends Widget_Base {
 									echo '<strong>';
 									
 									if($order_type == 'order_list'){
-										echo '<span>'.$i.'. </span>';
+										echo '<span>'.esc_html($i).'. </span>';
 									} 
 									echo esc_html($item['howto_tool_name']);
 									echo '</strong>';				                                
@@ -351,7 +351,7 @@ class HowTo_Block extends Widget_Base {
 									echo '<strong>';
 									
 									if($order_type == 'order_list'){
-										echo '<span>'.$i.'. </span>';
+										echo '<span>'.esc_html($i).'. </span>';
 									} 
 									echo esc_html($item['howto_material_name']);
 									echo '</strong>';				                                

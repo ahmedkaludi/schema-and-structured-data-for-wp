@@ -52,7 +52,7 @@ function saswp_register_schema_output() {
                             $restApiObj = new SASWP_Output_Rest_Api_Service();
                             $response = $restApiObj->get_schema($post->ID);
                             
-                            return [ 'json_ld' => json_encode($response, JSON_UNESCAPED_SLASHES )];
+                            return [ 'json_ld' => wp_json_encode($response, JSON_UNESCAPED_SLASHES )];
 
                           }
                        ] 
