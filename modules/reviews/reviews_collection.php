@@ -448,7 +448,7 @@ class SASWP_Reviews_Collection {
                         $perpage              = null;
                         $data_id              = null;
                         $dots = $f_interval = $f_visibility = $arrow = 1;
-                        $g_type = $design = $cols = $sorting = $date_format = '';
+                        $g_type = $design = $cols = $sorting = $date_format = $collection_review_imag = '';
                         $stars_color = '';
                         $collection_data = get_post_meta($attr['id']);
                         
