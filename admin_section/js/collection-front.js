@@ -29,10 +29,21 @@ function saswpCollectionSlider(){
                                             totalOffset = activeItemOffset - itemsContainerOffset;
 
                             $itemscontainer.css({"transform": "translate( -"+totalOffset+"px, 0px)"})
-                            
+                            saswpAutoSlide();
                         }
                         						
 		}
+
+		function saswpAutoSlide(){
+			let autoSlider = jQuery('#saswp-review-auto-slider').val();
+		    if(typeof autoSlider != 'undefined' && autoSlider == 1){
+		        let sliderInterval = jQuery('#saswp-review-slider-interval').val();
+		        if(typeof sliderInterval != 'undefined'){
+		        	setInterval(nextSlide, sliderInterval);
+		        }
+		    }
+		}
+		
 		function nextSlide(){
 			var activeItem = $itemscontainer.find(".saswp-si.saswp-active"),
 					activeItemIndex = activeItem.index(),
@@ -96,14 +107,14 @@ function saswpCollectionSlider(){
 		setTransform();
 		makeDots();
 		
-                jQuery(window).load( function(){
+                jQuery(window).on("load",function(e) {
 					setWidth();
-					setTransform();
+					// setTransform();
 		});
                 
 		jQuery(window).resize( function(){
 					setWidth();
-					setTransform();
+					// setTransform();
 		});
 		
 		var nextBtn = $slider.find(".saswp-slider-controls").find(".saswp-slider-next-btn"),
