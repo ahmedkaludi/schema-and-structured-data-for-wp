@@ -5311,7 +5311,7 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_product_schema_currency'])){
                      $input1['offers']['priceCurrency'] = saswp_modify_currency_code($custom_fields['saswp_product_schema_currency']);
-                     $input1['offers']['url'] =    $custom_fields['saswp_product_schema_url'];
+                     $input1['offers']['url'] =    isset($custom_fields['saswp_product_schema_url'])?$custom_fields['saswp_product_schema_url']:'';
                     }
                     if(isset($custom_fields['saswp_product_schema_vat'])){
                         $input1['offers']['priceSpecification']['@type']                 =    'priceSpecification';
