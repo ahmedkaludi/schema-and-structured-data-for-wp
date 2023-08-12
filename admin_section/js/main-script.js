@@ -4107,18 +4107,5 @@ $(document).on('change', '#saswp-plaftorm-list', function(e){
     e.preventDefault();
     let selectedPlatForm = $(this).val();
     saswp_get_platform_place_list(selectedPlatForm);
-});
-
-$('#saswp_gallery_slide_auto, #saswp_collection_gallery_type').on('change', function(e){
-    if($('#saswp_gallery_slide_auto').is(':checked')){
-        $('.saswp-collection-interval-wrapper').removeClass('saswp_hide');
-    }else{
-        $('.saswp-collection-interval-wrapper').addClass('saswp_hide');
-    }
-})
-
-if($('#saswp_gallery_slide_auto').is(':checked')){
-    $('.saswp-collection-interval-wrapper').removeClass('saswp_hide');
-}
-      
+});      
 });
