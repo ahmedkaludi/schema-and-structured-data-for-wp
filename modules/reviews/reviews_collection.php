@@ -353,7 +353,6 @@ class SASWP_Reviews_Collection {
             $rvcount     = isset($_GET['rvcount'])?intval($_GET['rvcount']):'';
             $review_id   = ''; 
             $attr        = array();
-            $platform_place = 'Mahishri';
 
             if(isset($_GET['reviews_ids']) && $_GET['reviews_ids'] != ''){
                 $attr['in'] = json_decode($_GET['reviews_ids']);
