@@ -3957,7 +3957,7 @@ function saswp_get_video_metadata($content = ''){
                    }else{
                     if (filter_var($vurl, FILTER_VALIDATE_URL) !== FALSE) {
                      $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
-                     $result   = @wp_remote_get($rulr);                                    
+                     $result   = @wp_remote_get(esc_url_raw($rulr));                                    
                      $metadata = json_decode(wp_remote_retrieve_body($result),true);
                     }
                    }
@@ -3995,7 +3995,7 @@ function saswp_get_video_metadata($content = ''){
 
                   }else{
                     $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
-                    $result   = @wp_remote_get($rulr);                                    
+                    $result   = @wp_remote_get(esc_url_raw($rulr));                                    
                     $metadata = json_decode(wp_remote_retrieve_body($result),true);
                   }
                   
@@ -4047,7 +4047,7 @@ function saswp_get_video_metadata($content = ''){
                                     $metadata['video_url'] = $vurl;
                                 }else{
                                     $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
-                                    $result   = @wp_remote_get($rulr);                                    
+                                    $result   = @wp_remote_get(esc_url_raw($rulr));                                    
                                     $metadata = json_decode(wp_remote_retrieve_body($result),true); 
                                 }
                             }
@@ -4101,7 +4101,7 @@ function saswp_get_video_metadata($content = ''){
                                             }else{
                                                 if (filter_var($video_url, FILTER_VALIDATE_URL) !== FALSE) {
                                                 $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($video_url).'&format=json';  
-                                                $result   = @wp_remote_get($rulr);                                    
+                                                $result   = @wp_remote_get(esc_url_raw($rulr));                                    
                                                 $metadata = json_decode(wp_remote_retrieve_body($result),true); 
                                                 }
                                             } 
@@ -4118,7 +4118,7 @@ function saswp_get_video_metadata($content = ''){
                                                     $daily_id = 'video/'.$daily_url_match[1];
                                                 }
                                                 $remote_url = "https://api.dailymotion.com/".$daily_id.'?fields=id,title,description,created_time,thumbnail_url';
-                                                $daily_video_details = wp_remote_get( $remote_url);
+                                                $daily_video_details = wp_remote_get( esc_url_raw($remote_url));
                                                 $daily_video_details = json_decode(wp_remote_retrieve_body($daily_video_details),true);
                                                 
                                                 if(isset($daily_video_details) && !empty($daily_video_details)){
