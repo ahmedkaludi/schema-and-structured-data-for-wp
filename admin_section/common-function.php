@@ -4091,12 +4091,12 @@ function saswp_get_video_metadata($content = ''){
                                                 $vid = saswp_get_youtube_vid($video_url);
                                                 $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
                                                 if(!empty($video_meta)){
-                                                    $metadata['title']      = $video_meta['title'];
-                                                    $metadata['description']      = $video_meta['description'];
-                                                    $metadata['viewCount']      = $video_meta['viewCount'];
-                                                    $metadata['duration']      = $video_meta['duration'];
-                                                    $metadata['uploadDate']      = $video_meta['uploadDate'];
-                                                    $metadata['thumbnail_url'] = $video_meta['thumbnail']['sdDefault'];
+                                                    $metadata['title']      = isset($video_meta['title'])?$video_meta['title']:'';
+                                                    $metadata['description']      = isset($video_meta['description'])?$video_meta['description']:'';
+                                                    $metadata['viewCount']      = isset($video_meta['viewCount'])?$video_meta['viewCount']:'';
+                                                    $metadata['duration']      = isset($video_meta['duration'])?$video_meta['duration']:'';
+                                                    $metadata['uploadDate']      = isset($video_meta['uploadDate'])?$video_meta['uploadDate']:'';
+                                                    $metadata['thumbnail_url'] = isset($video_meta['thumbnail']['sdDefault'])?$video_meta['thumbnail']['sdDefault']:'';
                                                 }
                                             }else{
                                                 if (filter_var($video_url, FILTER_VALIDATE_URL) !== FALSE) {

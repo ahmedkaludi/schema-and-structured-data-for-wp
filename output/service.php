@@ -2959,7 +2959,9 @@ Class saswp_output_service{
                         if(isset($custom_fields['local_service_offered_url'])){                                             
                             $input1['makesOffer']['itemOffered']['url']  = $custom_fields['local_service_offered_url']; 
                         }
-                        $input1['makesOffer']['itemOffered']['areaServed'] = saswp_explode_comma_seprated( $custom_fields['local_area_served'], 'Place' );
+                        if(isset($custom_fields['local_area_served'])){
+                            $input1['makesOffer']['itemOffered']['areaServed'] = saswp_explode_comma_seprated( $custom_fields['local_area_served'], 'Place' );
+                        }
                         
                     }
 
