@@ -2405,7 +2405,7 @@ function saswp_create_resized_image_folder(){
     if(file_exists($new_url)){
       $response = array('status' => 't');   
     }else{
-      $response = array('status' => 'f', esc_html__('message' => 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp'));
+      $response = array('status' => 'f', 'message' => esc_html__('We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp'));
     }
 
   }else{
