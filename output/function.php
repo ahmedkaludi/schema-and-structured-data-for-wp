@@ -2719,14 +2719,13 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
                      
                      $collection_data = get_post_meta($col_id);
                      
-                     if(isset($collection_data['saswp_platform_ids'][0])){
-                        $platform_ids  = unserialize($collection_data['saswp_platform_ids'][0]);                
-                        
-                        foreach($platform_ids as $key => $val){
-                            
-                            $reviews_list   = $service->saswp_get_reviews_list_by_parameters(null, $key, $val); 
-                            $total_col_rv   = array_merge($total_col_rv, $reviews_list);
-                            
+                     if(isset($collection_data['saswp_total_reviews'][0])){
+                        $total_review_ids  = unserialize($collection_data['saswp_total_reviews'][0]);                
+                        if(!empty($total_review_ids) && is_array($total_review_ids)){
+                            $attr = array();
+                            $attr['in'] = $total_review_ids;
+                            $reviews_list = $service->saswp_get_reviews_list_by_parameters($attr);                                                      
+                            $total_col_rv = array_merge($total_col_rv, $reviews_list);
                         }
                                                 
                      }
