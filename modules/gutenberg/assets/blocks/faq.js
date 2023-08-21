@@ -314,83 +314,57 @@
             return modified_desc;
           }
           function saswpImageUpdate(value, item, height, width, image_type,image_align){
-                      let image_url;
-                      let image;
-                      let imageClass = 'alignright';
                       if(typeof value == 'undefined'){
                         value = 'full';
                       }
                       if(typeof image_align == 'undefined'){
-                        image_align = 'right';
-                      }else if(image_align == 'left'){
-                        imageClass = 'alignleft';
+                        image_align = 'right';  
                       }
-                      image_url = item.imageUrl;
+                      let image_url;
+                      let image;
                       
                       switch (value) {
                           case 'full':
                             if(image_type != null){
-                              if(typeof item.image_sizes.full != 'undefined'){
-                                height = item.image_sizes.full.height;                                
-                                width  = item.image_sizes.full.width;
-                                image_url    = item.image_sizes.full.url;
-                              }else{
-                                height = item.image_height
-                                width = item.image_width
-                              }
+                              height = item.image_sizes.full.height;                                
+                              width  = item.image_sizes.full.width;
                             }
                             
-                            image = '<img class="'+imageClass+'" style="height:'+height+'px; width: '+width+'px;" src="'+image_url+'"  key="'+image_url+'" />';
+                            image_url    = item.image_sizes.full.url;
+                            image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
                           break;
                           case 'large':
                             if(image_type != null){
-                              if(typeof item.image_sizes.large != 'undefined'){
-                                height = item.image_sizes.large.height;                                
-                                width = item.image_sizes.large.width;
-                                image_url    = item.image_sizes.large.url;
-                              }else{
-                                height = item.image_height
-                                width = item.image_width
-                              }
+                              height = item.image_sizes.large.height;                                
+                              width = item.image_sizes.large.width;
                             }                              
                             
-                            image = '<img class="'+imageClass+'" style="height:'+height+'px; width: '+width+'px;" src="'+image_url+'"  key="'+image_url+'" />';
+                            image_url    = item.image_sizes.large.url;
+                            image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.large.url+'"  key="'+item.image_sizes.large.url+'" />';
                           break;
                           case 'medium':
                             if(image_type != null){
-                              if(typeof item.image_sizes.medium != 'undefined'){
-                                height = item.image_sizes.medium.height;                                
-                                width = item.image_sizes.medium.width;
-                                image_url    = item.image_sizes.medium.url;
-                              }else{
-                                height = item.image_height
-                                width = item.image_width
-                              }
+                              height = item.image_sizes.medium.height;                                
+                              width = item.image_sizes.medium.width;
                             }                              
                             
-                            image = '<img class="'+imageClass+'" style="height:'+height+'px; width: '+width+'px;" src="'+image_url+'"  key="'+image_url+'" />';
+                            image_url    = item.image_sizes.medium.url;
+                            image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.medium.url+'"  key="'+item.image_sizes.medium.url+'" />';
                           break;
                           case 'thumbnail':
                             if(image_type != null){
-                              if(typeof item.image_sizes.thumbnail != 'undefined'){
-                                height = item.image_sizes.thumbnail.height;                                
-                                width  = item.image_sizes.thumbnail.width;
-                                image_url    = item.image_sizes.thumbnail.url;
-                              }else{
-                                height = item.image_height
-                                width = item.image_width
-                              }
+                              height = item.image_sizes.thumbnail.height;                                
+                              width  = item.image_sizes.thumbnail.width;
                             }                              
                             
-                            image = '<img class="'+imageClass+'" style="height:'+height+'px; width: '+width+'px;" src="'+image_url+'"  key="'+image_url+'" />';
+                            image_url    = item.image_sizes.thumbnail.url;
+                            image = '<img style="height:'+height+'px; width: '+width+'px;" src="'+item.image_sizes.thumbnail.url+'"  key="'+item.image_sizes.thumbnail.url+'" />';
                           break;
                           case 'right':
-                              image = '<img class="alignright" style="height:'+height+'px; width: '+width+'px; float:right;" src="'+image_url+'"  key="'+image_url+'" />';
-                              image_align = 'right';
+                              image = '<img class="alignright" style="height:'+height+'px; width: '+width+'px; float:right;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
                             break;
                           case 'left':
-                                image = '<img class="alignleft" style="height:'+height+'px; width: '+width+'px; float:left;" src="'+image_url+'"  key="'+image_url+'" />';
-                                image_align = 'left';
+                                image = '<img class="alignleft" style="height:'+height+'px; width: '+width+'px; float:left;" src="'+item.image_sizes.full.url+'"  key="'+item.image_sizes.full.url+'" />';
                             break;
                       
                         default:
@@ -403,7 +377,6 @@
                         image_align: image_align,
                         image_width: width,
                         imageUrl   : image_url,
-                        image_align : image_align,
                         description : saswpReplaceImage(item.description, image)                          
                       });
                       return newObject;
@@ -431,7 +404,7 @@
                       { label: 'Thumbnail', value: 'thumbnail' },
                     ] ,
                     onChange: function(value){
-                      var newObject = saswpImageUpdate(value, item, item.image_height, item.image_width, 'image_type', item.image_align);
+                      var newObject = saswpImageUpdate(value, item, '', '', 'image_type');
                       return props.setAttributes({
                         items: [].concat(_cloneArray(props.attributes.items.filter(function (itemFilter) {
                           return itemFilter.index != item.index;
@@ -451,7 +424,7 @@
                   
                  ],
                   onChange: function(value){
-                    var newObject = saswpImageUpdate(value, item, item.image_height, item.image_width, 'image_type', item.image_align);
+                    var newObject = saswpImageUpdate(value, item, '', '', 'image_type');
                   return props.setAttributes({
                     items: [].concat(_cloneArray(props.attributes.items.filter(function (itemFilter) {
                       return itemFilter.index != item.index;
@@ -473,7 +446,7 @@
                   placeholder: __('20', 'schema-and-structured-data-for-wp'),                          
                   value: item.image_height,                                                    
                   onChange: function( value ) {
-                    var newObject = saswpImageUpdate(item.image_size, item, value, item.image_width, null, item.image_align);
+                    var newObject = saswpImageUpdate(item.image_size, item, value, item.image_width, null);
                     
                     return props.setAttributes({
                       items: [].concat(_cloneArray(props.attributes.items.filter(function (itemFilter) {
@@ -492,7 +465,7 @@
                 value: item.image_width,                                                    
                 onChange: function( value ) {                                
                   
-                  var newObject = saswpImageUpdate(item.image_size, item, item.image_height, value, null, item.image_align);
+                  var newObject = saswpImageUpdate(item.image_size, item, item.image_height, value, null);
                   return props.setAttributes({
                     items: [].concat(_cloneArray(props.attributes.items.filter(function (itemFilter) {
                       return itemFilter.index != item.index;
@@ -747,46 +720,7 @@
           
       },
       save: function( props ) {
-        var attributes = props.attributes;
-        var listTypeElStart = 'ol';
-        if(attributes.listStyle == 'none'){
-          listTypeElStart = 'ol';
-        }else{
-          listTypeElStart = 'ul';
-        }  
-
-        var listWrapper = attributes.items.map(function(item){
-          var itemDescription = item.description;
-          var liAttributes = {style:{listStyleType:attributes.listStyle}}
-          if(typeof item.questionID != 'undefined'){
-            liAttributes = {id: item.questionID, style:{listStyleType:attributes.listStyle}}
-          }
-          var liImagetag = '';
-          if(typeof item.imageUrl != 'undefined' && item.imageUrl.length > 0){
-            var imageHeight = `${item.image_height}px`;
-            var imageWidth = `${item.image_width}px`;
-            var imageAlign = 'right';
-            if(typeof item.image_align != 'undefined'){
-              imageAlign = item.image_align;
-            }
-            console.log("imageAlign " + imageAlign);
-            liImagetag = el('img', 
-                            {src:item.imageUrl,key:item.imageUrl, style:{height:imageHeight,width:imageWidth,float:imageAlign}});
-            itemDescription = item.description.replace(/<img[^>]*>/g,"");
-          }
-          return el('li', 
-                    liAttributes,
-                    el( attributes.headingTag, {className:'saswp-faq-question-title'}, item.title),
-                    el( 'p', {className: 'saswp-faq-answer-text'}, 
-                      el('span', {}, liImagetag),
-                      el('span', {}, itemDescription),
-                    )
-                );
-        });
-
-          return el( 'div', {className: 'saswp-faq-block-section'},
-              el(listTypeElStart, {}, listWrapper),
-          );                      
+          return null                        
         }
   } );
 }(

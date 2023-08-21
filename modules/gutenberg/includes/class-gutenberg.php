@@ -367,7 +367,7 @@ class SASWP_Gutenberg {
                             'style'           => $block['style'],
                             'editor_style'    => $block['editor'],
                             'editor_script'   => $block['handler'],
-                            // 'render_callback' => array( $this, $block['render_func'] ),
+                            'render_callback' => array( $this, $block['render_func'] ),
                       ) );
                         
                     }
