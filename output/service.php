@@ -2959,7 +2959,9 @@ Class saswp_output_service{
                         if(isset($custom_fields['local_service_offered_url'])){                                             
                             $input1['makesOffer']['itemOffered']['url']  = $custom_fields['local_service_offered_url']; 
                         }
-                        $input1['makesOffer']['itemOffered']['areaServed'] = saswp_explode_comma_seprated( $custom_fields['local_area_served'], 'Place' );
+                        if(isset($custom_fields['local_area_served'])){
+                            $input1['makesOffer']['itemOffered']['areaServed'] = saswp_explode_comma_seprated( $custom_fields['local_area_served'], 'Place' );
+                        }
                         
                     }
 
@@ -5311,7 +5313,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_product_schema_currency'])){
                      $input1['offers']['priceCurrency'] = saswp_modify_currency_code($custom_fields['saswp_product_schema_currency']);
-                     $input1['offers']['url'] =    $custom_fields['saswp_product_schema_url'];
+                        if(isset($custom_fields['saswp_product_schema_url'])){
+                            $input1['offers']['url'] =    $custom_fields['saswp_product_schema_url'];
+                        }
                     }
                     if(isset($custom_fields['saswp_product_schema_vat'])){
                         $input1['offers']['priceSpecification']['@type']                 =    'priceSpecification';

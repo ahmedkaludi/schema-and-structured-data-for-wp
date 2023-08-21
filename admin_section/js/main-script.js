@@ -4107,6 +4107,5 @@ $(document).on('change', '#saswp-plaftorm-list', function(e){
     e.preventDefault();
     let selectedPlatForm = $(this).val();
     saswp_get_platform_place_list(selectedPlatForm);
-});
-      
+});      
 });

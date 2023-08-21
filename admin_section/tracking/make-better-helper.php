@@ -52,14 +52,14 @@ function saswp_send_feedback() {
     if(!current_user_can( saswp_current_user_can())){
         die( '-1' );    
     }
-    if ( ! isset( $_POST['saswp_feedback_nonce'] ) ){
-       return; 
-    }
-    if ( !wp_verify_nonce( $_POST['saswp_feedback_nonce'], 'saswp_feedback_nonce' ) ){
-       return;  
-    }
     if( isset( $_POST['data'] ) ) {
         parse_str( $_POST['data'], $form );
+    }
+    if ( ! isset( $form['saswp_feedback_nonce'] ) ){
+       return; 
+    }
+    if ( !wp_verify_nonce( $form['saswp_feedback_nonce'], 'saswp_feedback_nonce' ) ){
+       return;  
     }
 
     $text = '';

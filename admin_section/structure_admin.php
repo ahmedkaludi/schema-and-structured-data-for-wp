@@ -1884,7 +1884,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 $message        = '';
                 $fname        = '';
                 $current_status = '';
-                $response       = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+                $response       = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 30, 'sslverify' => false, 'body' => $api_params ) );
                            
                 // make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
@@ -2400,16 +2400,16 @@ function saswp_create_resized_image_folder(){
     $new_url    = $make_new_dir.'/sd-logo-white.png';    
     @copy($old_url, $new_url);
 
-    $result = @wp_remote_get($url);
     
-    if(wp_remote_retrieve_response_code($result) == 200){
+    
+    if(file_exists($new_url)){
       $response = array('status' => 't');   
     }else{
-      $response = array('status' => 'f', 'message' => 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.');
+      $response = array('status' => 'f', 'message' => esc_html__('We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp'));
     }
 
   }else{
-    $response = array('status' => 'f', 'message' => 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.');
+    $response = array('status' => 'f', 'message' => esc_html__('We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp'));
   }
 
   wp_send_json( $response );

@@ -353,7 +353,6 @@ class SASWP_Reviews_Collection {
             $rvcount     = isset($_GET['rvcount'])?intval($_GET['rvcount']):'';
             $review_id   = ''; 
             $attr        = array();
-            $platform_place = 'Mahishri';
 
             if(isset($_GET['reviews_ids']) && $_GET['reviews_ids'] != ''){
                 $attr['in'] = json_decode($_GET['reviews_ids']);
@@ -448,8 +447,8 @@ class SASWP_Reviews_Collection {
                         $perpage              = null;
                         $data_id              = null;
                         $dots = $f_interval = $f_visibility = $arrow = 1;
-                        $g_type = $design = $cols = $sorting = $date_format = '';
-                        $stars_color = '';
+                        $g_type = $design = $cols = $sorting = $date_format = $collection_review_imag = '';
+                        $stars_color = ''; $g_interval = 3000; $auto_slider = 0;
                         $collection_data = get_post_meta($attr['id']);
                         
                         if(isset($collection_data['saswp_collection_design'][0])){
@@ -497,6 +496,13 @@ class SASWP_Reviews_Collection {
                                     
                         if(isset($collection_data['saswp_collection_gallery_type'][0])){
                             $g_type       = $collection_data['saswp_collection_gallery_type'][0];
+                        }
+
+                        if(isset($collection_data['saswp_collection_gallery_interval'][0])){
+                            $g_interval       = $collection_data['saswp_collection_gallery_interval'][0];
+                        }
+                        if(isset($collection_data['saswp_gallery_slide_auto'][0])){
+                            $auto_slider       = $collection_data['saswp_gallery_slide_auto'][0];
                         }
                         
                         if(isset($collection_data['saswp_fomo_interval'][0])){
@@ -615,7 +621,7 @@ class SASWP_Reviews_Collection {
                                     
                                 case 'gallery':
                                     
-                                    $html = $this->_service->saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide,$stars_color);
+                                    $html = $this->_service->saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide,$stars_color,$g_interval,$auto_slider);
                                     
                                     break;
                                 
@@ -851,6 +857,11 @@ class SASWP_Reviews_Collection {
                                         <div class="saswp-slider-display saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
                                             <span><input type="checkbox" id="saswp_gallery_arrow" name="saswp_gallery_arrow" value="1" <?php echo (isset($post_meta['saswp_gallery_arrow'][0]) && $post_meta['saswp_gallery_arrow'][0] == 1 ? 'checked' : '' ); ?>> <?php echo saswp_t_string('Arrows'); ?></span>
                                             <span><input type="checkbox" id="saswp_gallery_dots" name="saswp_gallery_dots" value="1" <?php echo (isset($post_meta['saswp_gallery_dots'][0]) && $post_meta['saswp_gallery_dots'][0] == 1 ? 'checked' : '' ); ?>> <?php echo saswp_t_string('Dots'); ?></span>
+                                            <span><input type="checkbox" id="saswp_gallery_slide_auto" name="saswp_gallery_slide_auto" value="1" <?php echo (isset($post_meta['saswp_gallery_slide_auto'][0]) && $post_meta['saswp_gallery_slide_auto'][0] == 1 ? 'checked' : '' ); ?>> <?php echo saswp_t_string('Auto Slide'); ?></span>
+                                        </div>
+                                        <div class="saswp-dp-dsg saswp-dp-dtm saswp_hide saswp-collection-interval-wrapper">
+                                             <label><?php echo saswp_t_string( 'Slider Inteval' ); ?></label>
+                                             <input type="number" name="saswp_collection_gallery_interval" id="saswp_collection_gallery_interval" class="saswp-slider-interval saswp-collection-interval-wrapper" value="<?php echo isset($post_meta['saswp_collection_gallery_interval'][0])?intval($post_meta['saswp_collection_gallery_interval'][0]):3000; ?>">
                                         </div>
                                         <div class="saswp-slider-display saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
                                             <input type="checkbox" id="saswp_collection_gallery_img_hide" name="saswp_collection_gallery_img_hide" value="1" <?php echo (isset($post_meta['saswp_collection_gallery_img_hide'][0]) && $post_meta['saswp_collection_gallery_img_hide'][0] == 1 ? 'checked' : '' ); ?>> <?php echo saswp_t_string('Hide Review Image'); ?>
@@ -1104,6 +1115,8 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_collection_specific_rating'] = isset($_POST['saswp_collection_specific_rating']) ? sanitize_text_field($_POST['saswp_collection_specific_rating']) : '';
             $post_meta['saswp_collection_display_type'] = $display_type;
             $post_meta['saswp_collection_gallery_type'] = isset($_POST['saswp_collection_gallery_type']) ? sanitize_text_field($_POST['saswp_collection_gallery_type']) : '';
+            $post_meta['saswp_collection_gallery_interval'] = isset($_POST['saswp_collection_gallery_interval']) ? intval($_POST['saswp_collection_gallery_interval']) : 3000;
+            $post_meta['saswp_gallery_slide_auto'] = isset($_POST['saswp_gallery_slide_auto']) ? intval($_POST['saswp_gallery_slide_auto']) : 0;
             $post_meta['saswp_collection_cols']         = isset($_POST['saswp_collection_cols']) ? intval($_POST['saswp_collection_cols']) : '';
             $post_meta['saswp_collection_specific_rating_sel'] = isset($_POST['saswp_collection_specific_rating_sel']) ? intval($_POST['saswp_collection_specific_rating_sel']) : '';
             $post_meta['saswp_gallery_arrow']           = isset($_POST['saswp_gallery_arrow']) ? intval($_POST['saswp_gallery_arrow']) : '';

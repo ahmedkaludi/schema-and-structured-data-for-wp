@@ -1222,12 +1222,13 @@ class saswp_reviews_service {
 
     }
 
-    public function saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide,$stars_color){
+    public function saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide,$stars_color,$g_interval=3000,$auto_slider=0){
                 
                 $html = '';                               
                 
                 if($collection){
-                    
+                    $html .= '<input type="hidden" id="saswp-review-slider-interval" value="'.esc_attr($g_interval).'"/>';      
+                    $html .= '<input type="hidden" id="saswp-review-auto-slider" value="'.esc_attr($auto_slider).'"/>';
                     if(saswp_non_amp()){
                       
                         if($g_type == 'slider'){
@@ -1238,8 +1239,7 @@ class saswp_reviews_service {
 
                         
                         $html .= '<div class="saswp-cs">';
-                        $html .= '<div class="saswp-sic">';
-                              
+                        $html .= '<div class="saswp-sic">';      
                     if($g_type == 'slider'){
                             
                          foreach ($collection as $value){
