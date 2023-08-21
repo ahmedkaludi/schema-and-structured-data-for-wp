@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.3
 Requires PHP: 5.6.20
-Stable tag: 1.18
+Stable tag: 1.19
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.19 (21 Aug 2023) =
+
+* Fixed: Checking success of folder creation via HTTP #1954
+* Fixed: Warning shown in the schema #1979
+* Fixed: wp_remote_post timeout for some users while activating reviews api #1983
+* Feature: Added slide interval option to perform auto slide for review collection #1984
+* Fixed: PHP Warning in reveiw module #1986
+* Fixed: Markup warning #1987
+* Fixed: Collection reviews are not showing in schema markup #1988
+* Fixed: Tested with WordPress 6.3 and updated readme.txt #1996
 
 = 1.18 (04 Aug 2023) =
 
