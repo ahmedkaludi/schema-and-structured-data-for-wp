@@ -2799,6 +2799,7 @@ jQuery(document).ready(function($){
                                $("span.saswp-limit-span").css("display", "none");
                               }
                                current.removeClass('updating-message');                                                           
+                               $('.saswp-note-p').text(response['message']); 
                             },
                             error: function(response){                    
                                 console.log(response);

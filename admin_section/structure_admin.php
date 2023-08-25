@@ -1884,12 +1884,22 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 $message        = '';
                 $fname        = '';
                 $current_status = '';
-                $response       = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 30, 'sslverify' => false, 'body' => $api_params ) );
+                $response       = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 60, 'sslverify' => false, 'body' => $api_params ) );
                            
                 // make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-                        
-			$message =  ( is_wp_error( $response ) && $response->get_error_message() ) ? $response->get_error_message() : __( 'An error occurred, please try again.' );
+      if(!empty($response->get_error_message())){
+          $error_message = strtolower($response->get_error_message());
+          $error_pos = strpos($error_message, 'operation timed out');
+          if($error_pos !== false){
+              $message = esc_html__('Request timed out, please try again', 'schema-and-structured-data-for-wp');
+          }else{
+              $message = esc_html($response->get_error_message());
+          }
+      }
+      if(empty($message)){ 
+			   $message =   esc_html__( 'An error occurred, please try again.', 'schema-and-structured-data-for-wp');
+      }
 		} else {
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
                         
