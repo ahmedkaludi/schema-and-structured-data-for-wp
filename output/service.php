@@ -8559,7 +8559,12 @@ Class saswp_output_service{
                                                     
                             $publisher['publisher']['@type']         = 'Organization';
                             $publisher['publisher']['name']          = esc_attr($site_name);                            
-                            $publisher['publisher']['url']           = get_home_url();
+                            $publisher['publisher']['url']           = get_site_url();
+                            if(isset($sd_data['sd_url']) && !empty($sd_data['sd_url'])){
+                                if(filter_var($sd_data['sd_url'], FILTER_VALIDATE_URL)){
+                                    $publisher['publisher']['url']           = $sd_data['sd_url'];
+                                }
+                            }
                             
                             if($logo !='' && $height !='' && $width !=''){
                                                                              
