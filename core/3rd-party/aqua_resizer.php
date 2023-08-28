@@ -79,6 +79,9 @@ if(!class_exists('SASWP_Aq_Resize')) {
          * Run, forest.
          */
         public function process( $url, $width = null, $height = null, $crop = null, $single = true, $upscale = false ) {
+            if (!function_exists( 'wp_getimagesize' ) ){
+                require_once( ABSPATH . '/wp-admin/includes/media.php' );
+            }
             try {
                 // Validate inputs.
                 if (!$url)
