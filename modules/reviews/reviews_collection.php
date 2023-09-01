@@ -794,8 +794,10 @@ class SASWP_Reviews_Collection {
                                         <?php 
                                         
                                         if(isset($post_meta['saswp_total_reviews'][0])){
-
-                                            $reviews_list = unserialize($post_meta['saswp_total_reviews'][0]);
+                                            $reviews_list = $post_meta['saswp_total_reviews'][0];
+                                            if(is_string($reviews_list)){
+                                                $reviews_list = unserialize($post_meta['saswp_total_reviews'][0]);
+                                            }
 
                                             if(is_array($reviews_list)){
                                                 echo '<input type="hidden" id="saswp_total_reviews_list" name="saswp_total_reviews" value="'.wp_json_encode($reviews_list).'">';

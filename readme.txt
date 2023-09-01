@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.3
 Requires PHP: 5.6.20
-Stable tag: 1.19
+Stable tag: 1.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.20 (01 Sep 2023) =
+
+* Enhancement: Corrected summery page for archive schema #1980
+* Fixed: Resolved Organization URL issue in the knowledge graph  #1989
+* Fixed: Added proper display message on license activation/deactivation timeout #1998
+* Fixed: Plugin Upgrade (v1.18) Causing Internal Page Breakage and Blank Screen #2001
+* Fixed: Fatal error in review collection #2004
+* Fixed: Breadcrumb schema showing wrong id in schema markup for custom post type #2005
+* Fixed: PHP Warnings for Undefined Array Keys in Course Schema URL's #2006
+
 
 = 1.19 (21 Aug 2023) =
 

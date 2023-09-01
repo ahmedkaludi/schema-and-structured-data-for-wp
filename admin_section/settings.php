@@ -1010,6 +1010,7 @@ function saswp_general_page_callback(){
                 'type'    => 'select',
                 'options' => array(                                
                                 'CollectionPage'    => 'CollectionPage',
+                                'DetailedItemList'  => 'DetailedItemList',
                                 'ItemList'          => 'ItemList',                                          
                 )
         );            

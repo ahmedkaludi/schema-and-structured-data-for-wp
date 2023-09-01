@@ -3275,7 +3275,7 @@ function saswp_archive_output(){
                     );
 
                     // Changes since version 1.15
-                    if(isset($sd_data['saswp_archive_list_type']) && $sd_data['saswp_archive_list_type'] == 'ItemList'){
+                    if(isset($sd_data['saswp_archive_list_type']) && $sd_data['saswp_archive_list_type'] == 'DetailedItemList'){
                         if(!empty($category_posts) && isset($category_posts[0])){
                             $collection_page = array();
                             $collection_page['@context']    = saswp_context_url();
@@ -3285,6 +3285,22 @@ function saswp_archive_output(){
                                 $collection_page['itemListElement'][$cat_key]['@type'] = 'ListItem';
                                 $collection_page['itemListElement'][$cat_key]['position'] = $pos_cnt;
                                 $collection_page['itemListElement'][$cat_key]['item'] = $cat_value;
+                                $pos_cnt++;
+                            }
+                        }
+                    }
+                    // Changes end
+                    // Changes since version 1.20
+                    if(isset($sd_data['saswp_archive_list_type']) && $sd_data['saswp_archive_list_type'] == 'ItemList'){
+                        if(!empty($category_posts) && isset($category_posts[0])){
+                            $collection_page = array();
+                            $collection_page['@context']    = saswp_context_url();
+                            $collection_page['@type']       = 'ItemList';
+                            $pos_cnt = 1;
+                            foreach ($category_posts as $cat_key => $cat_value) {
+                                $collection_page['itemListElement'][$cat_key]['@type'] = 'ListItem';
+                                $collection_page['itemListElement'][$cat_key]['position'] = $pos_cnt;
+                                $collection_page['itemListElement'][$cat_key]['url'] = $cat_value['url'];
                                 $pos_cnt++;
                             }
                         }

@@ -1025,6 +1025,9 @@ jQuery(document).ready(function($){
                                 $("#saswp_archive_schema").val(1);
                                 $(".saswp_archive_schema_type_class").parent().parent().show();
                                 $(".saswp_archive_list_type_class").parent().parent().show();
+                                if($('.saswp_archive_list_type_class').val() == 'ItemList'){
+                                    $(".saswp_archive_schema_type_class").parent().parent().hide();    
+                                }
                               }else{
                                 $("#saswp_archive_schema").val(0);           
                                 $(".saswp_archive_schema_type_class").parent().parent().hide();
@@ -2799,6 +2802,7 @@ jQuery(document).ready(function($){
                                $("span.saswp-limit-span").css("display", "none");
                               }
                                current.removeClass('updating-message');                                                           
+                               $('.saswp-note-p').text(response['message']); 
                             },
                             error: function(response){                    
                                 console.log(response);
@@ -4107,5 +4111,14 @@ $(document).on('change', '#saswp-plaftorm-list', function(e){
     e.preventDefault();
     let selectedPlatForm = $(this).val();
     saswp_get_platform_place_list(selectedPlatForm);
+});
+
+$(document).on('change', '.saswp_archive_list_type_class', function(e){
+    e.preventDefault();
+    if($(this).val() == 'ItemList'){
+        $(".saswp_archive_schema_type_class").parent().parent().hide();
+    }else{
+        $(".saswp_archive_schema_type_class").parent().parent().show();
+    }
 });      
 });

@@ -4999,11 +4999,11 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_course_content_location_name']) || isset($custom_fields['saswp_course_content_location_locality']) || isset($custom_fields['saswp_course_content_location_country'])){
 
                         $input1['contentLocation']['@type']                        =   'Place';
-                        $input1['contentLocation']['name']                         =   $custom_fields['saswp_course_content_location_name'];
-                        $input1['contentLocation']['address']['addressLocality']   =   $custom_fields['saswp_course_content_location_locality'];
-                        $input1['contentLocation']['address']['addressRegion']     =   $custom_fields['saswp_course_content_location_region'];
-                        $input1['contentLocation']['address']['postalCode']        =   $custom_fields['saswp_course_content_location_postal_code'];
-                        $input1['contentLocation']['address']['addressCountry']    =   $custom_fields['saswp_course_content_location_country'];
+                        $input1['contentLocation']['name']                         =   isset($custom_fields['saswp_course_content_location_name'])?$custom_fields['saswp_course_content_location_name']:'';
+                        $input1['contentLocation']['address']['addressLocality']   =   isset($custom_fields['saswp_course_content_location_locality'])?$custom_fields['saswp_course_content_location_locality']:'';
+                        $input1['contentLocation']['address']['addressRegion']     =   isset($custom_fields['saswp_course_content_location_region'])?$custom_fields['saswp_course_content_location_region']:'';
+                        $input1['contentLocation']['address']['postalCode']        =   isset($custom_fields['saswp_course_content_location_postal_code'])?$custom_fields['saswp_course_content_location_postal_code']:'';
+                        $input1['contentLocation']['address']['addressCountry']    =   isset($custom_fields['saswp_course_content_location_country'])?$custom_fields['saswp_course_content_location_country']:'';
 
                     }
                     
@@ -8560,6 +8560,11 @@ Class saswp_output_service{
                             $publisher['publisher']['@type']         = 'Organization';
                             $publisher['publisher']['name']          = esc_attr($site_name);                            
                             $publisher['publisher']['url']           = get_site_url();
+                            if(isset($sd_data['sd_url']) && !empty($sd_data['sd_url'])){
+                                if(filter_var($sd_data['sd_url'], FILTER_VALIDATE_URL)){
+                                    $publisher['publisher']['url']           = $sd_data['sd_url'];
+                                }
+                            }
                             
                             if($logo !='' && $height !='' && $width !=''){
                                                                              
