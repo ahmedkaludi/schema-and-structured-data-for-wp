@@ -1238,8 +1238,8 @@ function saswp_custom_breadcrumbs() {
                     $post_type_object   = get_post_type_object($post_type);
                     $post_type_archive  = get_post_type_archive_link($post_type);  
                     
-                    if(!$post_type_archive){
-                        $post_type_archive = get_permalink();
+                    if(empty($post_type_archive)){
+                        $post_type_archive = get_home_url().'/'.$post_type.'/';
                     }
                     
                     if(is_object($post_type_object)){
