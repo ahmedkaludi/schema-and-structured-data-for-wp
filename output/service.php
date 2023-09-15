@@ -8263,8 +8263,10 @@ Class saswp_output_service{
                                 
                 $image_alt     = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
 
-                $saswp_featured_image[$image_id]            = wp_get_attachment_image_src($image_id, 'full');            
-                $saswp_featured_image[$image_id]['caption'] = $image_alt ? $image_alt : '';
+                $saswp_featured_image[$image_id]            = wp_get_attachment_image_src($image_id, 'full'); 
+                if(!empty($image_alt)){           
+                    $saswp_featured_image[$image_id]['caption'] = $image_alt;
+                }
 
             }
                 

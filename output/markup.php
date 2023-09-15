@@ -6605,9 +6605,12 @@ function saswp_image_object_schema_markup($schema_id, $schema_post_id, $all_post
         $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswpimage_object_author_url_'.$schema_id, 'saswp_array');       
 
         $input1['author']['image']['@type']   = 'ImageObject';
-        $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswpimage_object_author_image_'.$schema_id, 'saswp_array');       
-        $input1['author']['image']['height']  = $author_image['height'];
-        $input1['author']['image']['width']   = $author_image['width'];
+        $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswpimage_object_author_image_'.$schema_id, 'saswp_array'); 
+        if((isset($author_image['height']) && !empty($author_image['height'])) && (isset($author_image['height']) && !empty($author_image['height'])))
+        {      
+            $input1['author']['image']['height']  = $author_image['height'];
+            $input1['author']['image']['width']   = $author_image['width'];
+        }
 
         $itinerary  = get_post_meta($schema_post_id, 'image_object_exif_data_'.$schema_id, true);
 
