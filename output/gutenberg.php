@@ -421,9 +421,37 @@ function saswp_get_gutenberg_block_data($block){
         
     }
     
+    if(empty($response)){
+        $block_matched = saswp_search_gutenberg_block($block_data, $block);
+        if(!empty($block_matched) && is_array($block_matched)){
+            if(isset($block_matched[0]) && !empty($block_matched[0])){
+                $response = $block_matched[0];
+            }
+        }
+    }
+
     return $response;
     
 }
+
+function saswp_search_gutenberg_block($block_data, $block) {
+    $matches = [];
+    if(!empty($block_data) && is_array($block_data)){
+        foreach ($block_data as $item) {
+            if (is_array($item)) {
+                // If the item is an array, recursively search it
+                $nestedMatches = saswp_search_gutenberg_block($item, $block);
+                $matches = array_merge($matches, $nestedMatches);
+            } elseif ($item === $block) {
+                // If the item matches the desired value, add the entire subarray to the matches
+                $matches[] = $block_data;
+                break; // If you want to find only the first match, you can remove this line.
+            }
+        }
+    }
+    return $matches;
+}
+
 /* multiple videos */
 function saswp_get_gutenberg_multiple_block_data($block){
     
