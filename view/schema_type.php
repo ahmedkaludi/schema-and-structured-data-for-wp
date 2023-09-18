@@ -153,6 +153,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $append_reviews      = '';  
                     $event_type          = '';
                     $post_id             = null;                    
+                    $organization_type   = '';
 
                     if($post){
             
@@ -173,7 +174,6 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $item_list_tags    = get_post_meta($post->ID, 'saswp_item_list_tags', true);
                         $item_list_custom  = get_post_meta($post->ID, 'saswp_item_list_custom', true);
                         $business_type     = get_post_meta($post->ID, 'saswp_business_type', true);
-                        $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
                         $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
                         $enable_faqschema  = get_post_meta($post->ID, 'saswp_enable_faq_schema', true);
                         $organization_type = get_post_meta($post->ID, 'saswp_schema_organization_type', true);
