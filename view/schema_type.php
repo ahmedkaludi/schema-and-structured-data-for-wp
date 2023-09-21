@@ -187,6 +187,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                         }
                         $item_list_item = array(                                                                                    
+                             'ItemType'              => 'Select Item Type',
                              'Article'               => 'Article',    
                              'ScholarlyArticle'      => 'ScholarlyArticle',                                                           
                              'Course'                => 'Course',                                                                                                                                                                                                            
