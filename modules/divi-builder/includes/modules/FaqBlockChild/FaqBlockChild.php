@@ -186,7 +186,7 @@ class SASWP_Divi_FaqBlockChild extends ET_Builder_Module {
 	// 	return $advanced_fields;
 	// }
 
-	function render( $attrs, $content = null, $render_slug ) {
+	function render( $attrs, $content, $render_slug ) {
             
              global $saswp_divi_faq; 
              $saswp_divi_faq[] = $attrs;      
