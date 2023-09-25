@@ -84,16 +84,18 @@ function saswp_schema_markup_hook_on_init() {
             if(isset($sd_data['saswp-webstories']) && $sd_data['saswp-webstories'] == 1){
                     add_action('web_stories_story_head', 'saswp_schema_markup_output');                     
             }                                               
-            if(isset($sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
-                ob_start("saswp_remove_microdata");                
-            }
                                                                                                            
         }                       
 }
 
 function saswp_wp_hook_operation(){
-    
-    ob_start('saswp_schema_markup_output_in_buffer');
+    if(!is_admin()){
+        global $sd_data;
+        if(isset($sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
+            ob_start("saswp_remove_microdata");                
+        }
+        ob_start('saswp_schema_markup_output_in_buffer');
+    }
     
 }
 
