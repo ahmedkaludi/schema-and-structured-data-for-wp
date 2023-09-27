@@ -927,9 +927,9 @@ function saswp_gutenberg_faq_schema(){
 
                                    $supply_data = array();
                                    $supply_data['@type']                   = 'Question';
-                                   $supply_data['name']                    = wp_strip_all_tags($val['title']);
+                                   $supply_data['name']                    = htmlspecialchars(wp_strip_all_tags($val['title']), ENT_QUOTES, 'UTF-8');
                                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
-                                   $supply_data['acceptedAnswer']['text']  = wp_strip_all_tags(do_shortcode($val['description']));
+                                   $supply_data['acceptedAnswer']['text']  = htmlspecialchars(do_shortcode(wp_strip_all_tags($val['description'])), ENT_QUOTES, 'UTF-8');
 
                                     if(isset($val['imageId']) && $val['imageId'] !=''){
 
