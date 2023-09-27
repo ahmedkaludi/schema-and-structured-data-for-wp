@@ -2601,11 +2601,42 @@ function saswp_itemlist_schema_markup($schema_id, $schema_post_id, $all_post_met
                 }
             
                     $response['@context']                     = saswp_context_url();
-                    $response['@context']                     = saswp_context_url();
                     $response['@type']                        = 'ItemList';  
                     $response['url']                          = saswp_get_permalink(); 
                     $response['itemListElement']              = $list_item;
        
+    }else{
+        if($itemtype == 'ItemType'){
+            global $wp_query;
+            $item_list = array();
+            $loop_query_string = array(
+                'posts_per_page' => 10
+            );
+            
+            if($wp_query->query_vars['posts_per_page']){
+                $loop_query_string = array(
+                    'posts_per_page' => $wp_query->query_vars['posts_per_page']
+                );  
+            }
+            
+            $post_loop = new WP_Query( $loop_query_string );                
+
+            $i = 1;
+            if ( $post_loop->have_posts() ):
+                while( $post_loop->have_posts() ): $post_loop->the_post();
+                    $result            = saswp_get_loop_markup($i);                                                                                                     
+                    $item_list[]       = isset($result['itemlist'])?$result['itemlist']:'';                
+                    $i++;
+                endwhile;
+            endif;
+            wp_reset_postdata();
+            if(!empty($item_list) && is_array($item_list) && count($item_list)){
+                $response['@context']                     = saswp_context_url();
+                $response['@type']                        = 'ItemList';  
+                $response['url']                          = saswp_get_permalink(); 
+                $response['itemListElement']              = $item_list;        
+            }
+        }         
     }    
     
     return $response;
@@ -6605,9 +6636,12 @@ function saswp_image_object_schema_markup($schema_id, $schema_post_id, $all_post
         $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswpimage_object_author_url_'.$schema_id, 'saswp_array');       
 
         $input1['author']['image']['@type']   = 'ImageObject';
-        $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswpimage_object_author_image_'.$schema_id, 'saswp_array');       
-        $input1['author']['image']['height']  = $author_image['height'];
-        $input1['author']['image']['width']   = $author_image['width'];
+        $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswpimage_object_author_image_'.$schema_id, 'saswp_array'); 
+        if((isset($author_image['height']) && !empty($author_image['height'])) && (isset($author_image['height']) && !empty($author_image['height'])))
+        {      
+            $input1['author']['image']['height']  = $author_image['height'];
+            $input1['author']['image']['width']   = $author_image['width'];
+        }
 
         $itinerary  = get_post_meta($schema_post_id, 'image_object_exif_data_'.$schema_id, true);
 

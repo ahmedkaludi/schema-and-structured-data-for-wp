@@ -734,7 +734,7 @@ class SASWP_Gutenberg {
                        
                       if($item['title'] || $item['description']){
                         echo '<li>'; 
-                        if(!empty($attributes['headingTag']) && $attributes['headingTag'] == 'h1' || $attributes['headingTag'] == 'h2' || $attributes['headingTag'] == 'h3' || $attributes['headingTag'] == 'h4' || $attributes['headingTag'] == 'h5' || $attributes['headingTag'] == 'h6'){
+                        if(isset($attributes['headingTag']) && !empty($attributes['headingTag']) && $attributes['headingTag'] == 'h1' || $attributes['headingTag'] == 'h2' || $attributes['headingTag'] == 'h3' || $attributes['headingTag'] == 'h4' || $attributes['headingTag'] == 'h5' || $attributes['headingTag'] == 'h6'){
                             echo '<'.html_entity_decode(esc_attr($attributes['headingTag'])).'>'. html_entity_decode(esc_attr($item['title'])).'</'.html_entity_decode(esc_attr($attributes['headingTag'])).'>';
                         }else{
                             echo '<h1 class="saswp-how-to-step-name">'. html_entity_decode(esc_attr($item['title'])).'</h1>';
