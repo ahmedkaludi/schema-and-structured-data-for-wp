@@ -2704,7 +2704,7 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     $faq_question_arr = array();
 
     if(!empty($faq_question)){
-        echo "<pre>faq_question===== "; print_r($faq_question); die;
+
         foreach($faq_question as $val){
 
             $supply_data = array();
