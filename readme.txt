@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.3
 Requires PHP: 5.6.20
-Stable tag: 1.20
+Stable tag: 1.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.21 (27 Sep 2023) =
+
+* Fixed: Gutenberg FAQ Block schema markup issue #2003
+* Enhancement: Improvements in ItemList schema type #2008
+* Fixed: PHP Deprecated Error: $render_slug Follows Optional $content Parameter #2009
+* Fixed: Output Buffering Interferes with WP CLI #2010
+* Fixed: A deprecated warning with author image in schema markup #2012
+* Fixed: Undefined array key "headingTag" #2013
+
 
 = 1.20 (01 Sep 2023) =
 
