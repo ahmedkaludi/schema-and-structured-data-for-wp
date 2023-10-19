@@ -1133,14 +1133,21 @@ function saswp_schema_type_meta_box_callback( $post) {
                             echo '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
                                                                                    
                             echo '</tr>';
-                            
+                            if($fieldkey == 'saswp_faq_main_entity' && $fieldval == 'saswp_repeater_mapping'){
+                                if(function_exists('saswp_repeater_html_render')){
+                                    $rendered_html = saswp_repeater_html_render($post_id, $meta_list_arr);
+                                    $allowed_html = saswp_expanded_allowed_tags();
+                                    echo $rendered_html; //wp_kses($rendered_html, $allowed_html);
+                                }
+                            }
+
                             }
                             
                         }
                         
                         ?>
                                                       
-                        </table>                    
+                        </table>                   
                         <table class="option-table-class">
                             <tr><td><a class="button button-primary saswp-add-custom-fields"><?php echo saswp_t_string( 'Add Property' ); ?></a></td><td></td></tr>   
                         </table>
@@ -1399,6 +1406,25 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
             update_post_meta( $post_id, 'saswp_schema_organization_type', sanitize_text_field($_POST['saswp_schema_organization_type']));                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_schema_organization_type');                                                                       
+        }
+
+        if(isset($_POST['faq_repeater_question_'.$post_id]) && is_array($_POST['faq_repeater_question_'.$post_id])){
+            $element_val = array();
+            $repeater_que_data = $_POST['faq_repeater_question_'.$post_id];
+            foreach ($repeater_que_data as $supply){
+                $sanitize_data = array();
+                    foreach($supply as $k => $el){   
+                        if(isset($el)){
+                            $sanitize_data[$k] = wp_kses_post(wp_unslash($el));                                                                                           
+                        }                                                     
+                    }
+                    if($sanitize_data){
+                        $element_val[] = $sanitize_data;     
+                    }                                         
+            }
+            if(!empty($element_val)){
+                update_post_meta($post_id, 'faq_repeater_question_'.$post_id, $element_val);
+            }
         }
         $common_obj = new saswp_view_common_class();
         

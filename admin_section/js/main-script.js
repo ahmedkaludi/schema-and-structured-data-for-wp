@@ -4120,5 +4120,48 @@ $(document).on('change', '.saswp_archive_list_type_class', function(e){
     }else{
         $(".saswp_archive_schema_type_class").parent().parent().show();
     }
-});      
+});  
+
+/**
+ * @since 1.22
+ * Function to display metalist options
+ * Solution to ticket id #2026
+ * */
+$(document).on("change", ".saswp-custom-fields-name, .saswp-custom-meta-list", function(e){
+    e.preventDefault();
+    let customField = $('.saswp-custom-fields-name').val(); 
+    let customList = $('.saswp-custom-meta-list').val();
+    let currentClass = $(this).attr('class');
+    if(currentClass == 'saswp-custom-fields-name'){
+        customField = $(this).val();
+        customList =  $(this).parent().next().find("select").val();   
+    }
+    if(currentClass == 'saswp-custom-meta-list'){
+        customList =  $(this).val();
+        customField = $(this).closest("tr").find(".saswp-custom-fields-name").val();   
+    }
+
+    if(customField == 'saswp_faq_main_entity' && customList == 'saswp_repeater_mapping'){
+        let postId = $('.saswp-itemlist-item-type-list').attr('data-id');
+        if($('.saswp-add-faq-repeat-que').length == 0){
+             $(this).closest("tr").after('<tr class="saswp-add-faq-repeat-que"><td><a class="button saswp_add_schema_fields_on_fly saswp-faq-question saswp-faq-repeater-btn" data-id="'+postId+'" div_type="faq_repeater_question" fields_type="faq_repeater_question">Add Faq Question</a></td><td></td></tr>');    
+        }
+        if($('.saswp-faq-repeater-tr').length == 0){
+            $(this).closest("tr").after('<tr class="saswp-faq-repeater-tr"><td colspan="5"><div class="saswp-faq-repeater-question-section-main "><div class="saswp-faq_repeater_question-section" data-id="'+postId+'"></div></div></td></tr>');
+        }
+    }else{
+        let removeFlag = 0;
+        $('.saswp-custom-meta-list').each(function(e){
+            if($(this).val() == 'saswp_repeater_mapping'){
+                removeFlag = 1;    
+            }
+        });
+        if(removeFlag == 0){
+            $('.saswp-faq-repeater-tr').remove();
+            $('.saswp-faq-question').remove();
+            $('.saswp-add-faq-repeat-que').remove();
+        }
+    }
+});
+// Code ends here    
 });

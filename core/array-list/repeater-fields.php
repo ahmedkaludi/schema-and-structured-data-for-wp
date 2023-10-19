@@ -789,6 +789,20 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_music_album_track_url',
 			'type'      => 'text',                        
 		    ),                           
+             ),
+             'faq_repeater_question' => array(
+             		array(
+				'label'     => 'Question',
+				'name'      => 'saswp_faq_repeater_question_name',
+				'type'      => 'select',
+					'options'   => array()                      
+			),	
+                     array(
+				'label'     => 'Accepted Answer',
+				'name'      => 'saswp_faq_repeater_question_answer',
+				'type'      => 'select',
+					'options'   => array()                            
+		    )
              )                    
         )    
 );

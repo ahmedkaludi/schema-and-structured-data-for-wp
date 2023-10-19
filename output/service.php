@@ -87,6 +87,13 @@ Class saswp_output_service{
 				}
 			}
 
+            if(is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){
+                $fields['text'][] = array(
+                    'label'     => __( 'Repeater Mapping', 'schema-and-structured-data-for-wp' ),
+                    'meta-list' => array('saswp_repeater_mapping' => 'Repeater Mapping'),
+                );
+            }
+            
 			return $fields;
             
         }
@@ -524,11 +531,23 @@ Class saswp_output_service{
                          $response['height'] = array_key_exists(1, $custom_logo)? $custom_logo[1]:'';
                                               
                     }
+                break;
+                case 'saswp_repeater_mapping':
+                    switch ($schema_type) {
+                        case 'FAQ':
+                            $field_key = 'faq_repeater_question_'.$schema_post_id;
+                            $response = apply_filters('saswp_faq_acf_repeater_mapping', $post->ID, $schema_post_id, $field_key);
+                        break;
+                    }    
                 break;                    
                 default:
                     if(function_exists('get_field_object')){
                      
                         $acf_obj = get_field_object($field);
+                        if(is_archive()){
+                            $term_id = get_queried_object_id(); // Get the current term's ID
+                            $acf_obj = get_field_object($field, 'term_' . $term_id);
+                        }
                                             
                         if($acf_obj){
 
