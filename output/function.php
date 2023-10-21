@@ -1952,6 +1952,10 @@ function saswp_wp_recipe_schema_json($recipe){
     
             global $saswp_featured_image;
 
+            if (!function_exists( 'wp_getimagesize' ) ){
+                require_once( ABSPATH . '/wp-admin/includes/media.php' );
+            }
+
             if ( 'food' === $recipe->type() ) {
                     $metadata = WPRM_Metadata::get_food_metadata( $recipe );
             } elseif ( 'howto' === $recipe->type() ) {

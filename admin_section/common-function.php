@@ -2111,6 +2111,10 @@ if ( ! defined('ABSPATH') ) exit;
     function saswp_get_attachment_details($attachments, $post_id = null) {
         
         $cached_data = get_transient('saswp_imageobject_' .$post_id); 
+
+        if (!function_exists( 'wp_getimagesize' ) ){
+            require_once( ABSPATH . '/wp-admin/includes/media.php' );
+        }
         
         if (empty($cached_data)) {
             $response = array();        
