@@ -1114,11 +1114,12 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
                 $input1['author']['name']           = $all_post_meta['saswp_recipe_author_name_'.$schema_id][0];
                 $input1['author']['description']    = $all_post_meta['saswp_recipe_author_description_'.$schema_id][0];
+                $input1['author']['url']            = saswp_remove_warnings($all_post_meta, 'saswp_recipe_author_url_'.$schema_id, 'saswp_array');
 
                 $input1['author']['image']['@type']  = 'ImageObject';
                 $input1['author']['image']['url']    = $all_post_meta['saswp_recipe_author_image_'.$schema_id][0];
-                $input1['author']['image']['height'] = $recipe_author_image['height'];
-                $input1['author']['image']['width']  = $recipe_author_image['width'];
+                $input1['author']['image']['height'] = isset($recipe_author_image['height'])?$recipe_author_image['height']:'';
+                $input1['author']['image']['width']  = isset($recipe_author_image['width'])?$recipe_author_image['width']:'';
 
             }
 
