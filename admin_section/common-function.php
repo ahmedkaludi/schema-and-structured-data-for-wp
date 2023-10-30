@@ -1934,8 +1934,15 @@ if ( ! defined('ABSPATH') ) exit;
                 $current_url    = get_home_url();           
                 $custom_logo_id = get_theme_mod( 'custom_logo' );
 
-                if($custom_logo_id){                
-                    $logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               
+                if($custom_logo_id){
+                    
+                    if(class_exists('FOXIZ_CORE')){
+						if(function_exists('wp_get_current_user')){
+							$logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               		
+						}						
+					}else{
+						$logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               	
+					}                                  
                 }
 
                 $user_id        = get_current_user_id();
