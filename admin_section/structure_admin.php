@@ -1190,7 +1190,7 @@ function saswp_custom_breadcrumbs() {
               
             // If post is a custom post type
                 $post_type = get_post_type();
-              
+                $exclude_shop = isset($sd_data['saswp_breadcrumb_exclude_shop'])?$sd_data['saswp_breadcrumb_exclude_shop']:'';
             // If it is a custom post type display name and link
                 if($post_type != 'post') {
 
@@ -1212,9 +1212,18 @@ function saswp_custom_breadcrumbs() {
                         }
                         
                     }else{
-                        $variables1_titles[] = $post_type_object->labels->name;
-                        $variables2_links[]  = $post_type_archive;
-                        $breadcrumb_url      = $post_type_archive;
+                        $pos = strpos($post_type_archive, '/shop/');
+                        if($exclude_shop == 1){
+                          if($pos === false){
+                            $variables1_titles[] = $post_type_object->labels->name;
+                            $variables2_links[]  = $post_type_archive;
+                            $breadcrumb_url      = $post_type_archive;
+                          }
+                        }else{
+                          $variables1_titles[] = $post_type_object->labels->name;
+                          $variables2_links[]  = $post_type_archive;
+                          $breadcrumb_url      = $post_type_archive;  
+                        }
                     }
 
                 }
@@ -1231,7 +1240,7 @@ function saswp_custom_breadcrumbs() {
               
             // If post is a custom post type
                $post_type = get_post_type();
-              
+               $exclude_shop = isset($sd_data['saswp_breadcrumb_exclude_shop'])?$sd_data['saswp_breadcrumb_exclude_shop']:''; 
             // If it is a custom post type display name and link
             if($post_type != 'post') {
                   
@@ -1243,9 +1252,18 @@ function saswp_custom_breadcrumbs() {
                     }
                     
                     if(is_object($post_type_object)){
-                      $variables1_titles[]= $post_type_object->labels->name;
-                      $variables2_links[] = $post_type_archive;     
-                      $breadcrumb_url     = $post_type_archive;
+                      $pos = strpos($post_type_archive, '/shop/');
+                      if($exclude_shop == 1){
+                        if($pos === false){
+                          $variables1_titles[]= $post_type_object->labels->name;
+                          $variables2_links[] = $post_type_archive;     
+                          $breadcrumb_url     = $post_type_archive;
+                        }
+                      }else{
+                        $variables1_titles[]= $post_type_object->labels->name;
+                        $variables2_links[] = $post_type_archive;     
+                        $breadcrumb_url     = $post_type_archive;  
+                      }
                     }
                     
             }

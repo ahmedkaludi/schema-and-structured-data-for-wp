@@ -1064,6 +1064,15 @@ jQuery(document).ready(function($){
                             }
                       break;
 
+                      case 'saswp_breadcrumb_exclude_shop_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp_breadcrumb_exclude_shop").val(1);             
+                            }else{
+                              $("#saswp_breadcrumb_exclude_shop").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp_breadcrumb_include_parent_cat_checkbox':
                           
                         if ($(this).is(':checked')) {              
@@ -1078,11 +1087,13 @@ jQuery(document).ready(function($){
                             if ($(this).is(':checked')) {              
                               $("#saswp_breadcrumb_schema").val(1);  
                               $("#saswp_breadcrumb_remove_cat").parent().parent().show(); 
+                              $("#saswp_breadcrumb_exclude_shop").parent().parent().show(); 
                               $("#saswp_breadcrumb_include_parent_cat").parent().parent().show();
                               $("#saswp_breadcrumb_home_page_title_text").parent().parent().show();               
                             }else{
                               $("#saswp_breadcrumb_schema").val(0);           
                               $("#saswp_breadcrumb_remove_cat").parent().parent().hide();  
+                              $("#saswp_breadcrumb_exclude_shop").parent().parent().hide();  
                               $("#saswp_breadcrumb_include_parent_cat").parent().parent().hide(); 
                               $("#saswp_breadcrumb_home_page_title_text").parent().parent().hide();  
                             }

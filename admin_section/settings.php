@@ -1093,6 +1093,19 @@ function saswp_general_page_callback(){
                         'name' => 'sd_data[saswp_breadcrumb_remove_cat]',                             
                 )
         );
+        if(is_plugin_active('woocommerce/woocommerce.php')){
+            $meta_fields_default[] = array(
+                    'label'  => 'Exclude Shop Page',
+                    'id'     => 'saswp_breadcrumb_exclude_shop_checkbox', 
+                    'name'   => 'saswp_breadcrumb_exclude_shop_checkbox',
+                    'type'   => 'checkbox',
+                    'class'  => 'checkbox saswp-checkbox',                        
+                    'hidden' => array(
+                            'id'   => 'saswp_breadcrumb_exclude_shop',
+                            'name' => 'sd_data[saswp_breadcrumb_exclude_shop]',                             
+                    )
+            );
+        }
         $meta_fields_default[] = array(
                 'label'  => 'Include Parent Category',
                 'id'     => 'saswp_breadcrumb_include_parent_cat_checkbox', 
