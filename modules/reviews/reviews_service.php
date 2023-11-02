@@ -148,7 +148,7 @@ class saswp_reviews_service {
                 if(!empty($rv_image)){
                     
                     $image_details = saswp_get_attachment_details($rv_image);   
-                    if(!empty($image_details)){
+                    if((isset($image_details[0]) && isset($image_details[0][0])) && (isset($image_details[0]) && isset($image_details[0][1]))){
                         $media_detail = array(                                                    
                             'width'      => $image_details[0][0],
                             'height'     => $image_details[0][1],
@@ -639,12 +639,13 @@ class saswp_reviews_service {
                 if(isset($review['profile_photo_url']) && $review['profile_photo_url'] != ''){
                     
                     $image_details = saswp_get_attachment_details(array($review['profile_photo_url']));   
-                    
-                    $media_detail = array(                                                    
-                        'width'      => intval($image_details[0][0]),
-                        'height'     => intval($image_details[0][1]),
-                        'thumbnail'  => esc_url($review['profile_photo_url']),
-                    );
+                    if((isset($image_details[0]) && isset($image_details[0][0])) && (isset($image_details[0]) && isset($image_details[0][1]))){
+                        $media_detail = array(                                                    
+                            'width'      => intval($image_details[0][0]),
+                            'height'     => intval($image_details[0][1]),
+                            'thumbnail'  => esc_url($review['profile_photo_url']),
+                        );
+                    }
                     
                 }                
                 
