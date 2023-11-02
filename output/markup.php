@@ -1738,6 +1738,12 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                 if(isset($all_post_meta['local_youtube_'.$schema_id][0]) && $all_post_meta['local_youtube_'.$schema_id][0] !=''){
                   $local_social[] = esc_url($all_post_meta['local_youtube_'.$schema_id][0]);   
                 }
+                if(isset($all_post_meta['local_threads_'.$schema_id][0]) && $all_post_meta['local_threads_'.$schema_id][0] !=''){
+                  $local_social[] = esc_url($all_post_meta['local_threads_'.$schema_id][0]);   
+                }
+                if(isset($all_post_meta['local_mastodon_'.$schema_id][0]) && $all_post_meta['local_mastodon_'.$schema_id][0] !=''){
+                  $local_social[] = esc_url($all_post_meta['local_mastodon_'.$schema_id][0]);   
+                }
 
                 if(!empty($local_social)){
                   $input1['sameAs'] =  $local_social; 
@@ -1846,7 +1852,27 @@ function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post
                 $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_organization_rating_value_'.$schema_id][0];
                 $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_organization_rating_count_'.$schema_id][0];                                
           }          
-                              
+          
+        $sameas = array();
+
+        if(isset($all_post_meta['saswp_organization_facebook_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_facebook_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_organization_twitter_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_twitter_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_organization_linkedin_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_linkedin_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_organization_threads_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_threads_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_organization_mastodon_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_mastodon_'.$schema_id][0];
+        }
+        if($sameas){
+            $input1['sameAs'] = $sameas;
+        }                    
         return $input1;
 }
 
@@ -1911,7 +1937,27 @@ function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_project_rating_value_'.$schema_id][0];
                 $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_project_rating_count_'.$schema_id][0];                                
         }          
-                            
+        
+        $sameas = array();
+
+        if(isset($all_post_meta['saswp_project_facebook_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_facebook_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_project_twitter_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_twitter_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_project_linkedin_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_linkedin_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_project_threads_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_threads_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_project_mastodon_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_mastodon_'.$schema_id][0];
+        }
+        if($sameas){
+            $input1['sameAs'] = $sameas;
+        }                         
         return $input1;
 }
 
@@ -2321,6 +2367,12 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         }
         if(isset($all_post_meta['saswp_person_schema_snapchat_'.$schema_id][0])){
             $sameas[]        = $all_post_meta['saswp_person_schema_snapchat_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_threads_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_threads_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_mastodon_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_mastodon_'.$schema_id][0];
         }
         if($sameas){
             $input1['sameAs'] = $sameas;

@@ -2629,7 +2629,7 @@ if ( ! defined('ABSPATH') ) exit;
             $author_url   = get_author_posts_url( $author_id ); 
             $same_as      = array();
 
-            $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim');
+            $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim', 'threads', 'mastodon');
 
             foreach($social_links as $links){
 
@@ -2749,7 +2749,7 @@ if ( ! defined('ABSPATH') ) exit;
                                 $author_url   = get_author_posts_url( $author_id ); 
                                 $same_as      = array();
 
-                                $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim');
+                                $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim', 'threads', 'mastodon');
 
                                 foreach($social_links as $links){
 

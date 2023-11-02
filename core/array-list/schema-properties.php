@@ -322,6 +322,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Youtube',
                             'id' => 'local_youtube_'.$schema_id,
                             'type' => 'text',                            
+                        );
+                        $meta_field[] =  array(
+                            'label' => 'Threads',
+                            'id' => 'local_threads_'.$schema_id,
+                            'type' => 'text',                            
+                        );
+                        $meta_field[] =  array(
+                            'label' => 'Mastodon',
+                            'id' => 'local_mastodon_'.$schema_id,
+                            'type' => 'text',                            
                         );                                                                                                                        
                         $meta_field[] =   array(
                             'label' => 'Aggregate Rating',
@@ -9240,6 +9250,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'       => 'text',                            
                     ),
                     array(
+                        'label'      => 'Threads',
+                        'id'         => 'saswp_person_schema_threads_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Mastodon',
+                        'id'         => 'saswp_person_schema_mastodon_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
                         'label'      => 'Sponsor',
                         'id'         => 'saswp_person_schema_sponsor_'.$schema_id,
                         'type'       => 'text',                            
@@ -10204,6 +10224,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_organization_linkedin_'.$schema_id,
                                 'type'       => 'text',                           
                             ),
+                           array(
+                                'label'      => 'Threads',
+                                'id'         => 'saswp_organization_threads_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                           array(
+                                'label'      => 'Mastodon',
+                                'id'         => 'saswp_organization_mastodon_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
                             array(
                                 'label'      => 'Founder',
                                 'id'         => 'saswp_organization_founder_'.$schema_id,
@@ -10345,6 +10375,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                array(
                                     'label'      => 'LinkedIn',
                                     'id'         => 'saswp_project_linkedin_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                               array(
+                                    'label'      => 'Threads',
+                                    'id'         => 'saswp_project_threads_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                               array(
+                                    'label'      => 'Mastodon',
+                                    'id'         => 'saswp_project_mastodon_'.$schema_id,
                                     'type'       => 'text',                           
                                 ),
                                 array(
