@@ -1744,6 +1744,9 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                 if(isset($all_post_meta['local_mastodon_'.$schema_id][0]) && $all_post_meta['local_mastodon_'.$schema_id][0] !=''){
                   $local_social[] = esc_url($all_post_meta['local_mastodon_'.$schema_id][0]);   
                 }
+                if(isset($all_post_meta['local_vibehut_'.$schema_id][0]) && $all_post_meta['local_vibehut_'.$schema_id][0] !=''){
+                  $local_social[] = esc_url($all_post_meta['local_vibehut_'.$schema_id][0]);   
+                }
 
                 if(!empty($local_social)){
                   $input1['sameAs'] =  $local_social; 
@@ -1870,6 +1873,9 @@ function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post
         if(isset($all_post_meta['saswp_organization_mastodon_'.$schema_id][0])){
             $sameas[]        = $all_post_meta['saswp_organization_mastodon_'.$schema_id][0];
         }
+        if(isset($all_post_meta['saswp_organization_vibehut_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_vibehut_'.$schema_id][0];
+        }
         if($sameas){
             $input1['sameAs'] = $sameas;
         }                    
@@ -1954,6 +1960,9 @@ function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta
         }
         if(isset($all_post_meta['saswp_project_mastodon_'.$schema_id][0])){
             $sameas[]        = $all_post_meta['saswp_project_mastodon_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_project_vibehut_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_vibehut_'.$schema_id][0];
         }
         if($sameas){
             $input1['sameAs'] = $sameas;
@@ -2373,6 +2382,9 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         }
         if(isset($all_post_meta['saswp_person_schema_mastodon_'.$schema_id][0])){
             $sameas[]        = $all_post_meta['saswp_person_schema_mastodon_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_vibehut_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_vibehut_'.$schema_id][0];
         }
         if($sameas){
             $input1['sameAs'] = $sameas;

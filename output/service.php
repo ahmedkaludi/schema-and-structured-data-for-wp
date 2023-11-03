@@ -1462,6 +1462,9 @@ Class saswp_output_service{
                         if(isset($custom_fields['saswp_project_mastodon'])){
                             $sameas[] =    $custom_fields['saswp_project_mastodon'];
                         }
+                        if(isset($custom_fields['saswp_project_vibehut'])){
+                            $sameas[] =    $custom_fields['saswp_project_vibehut'];
+                        }
                         if($sameas){
                             $input1['sameAs'] = $sameas;
                         }
@@ -1559,6 +1562,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_organization_mastodon'])){
                         $sameas[] =    $custom_fields['saswp_organization_mastodon'];
+                    }
+                    if(isset($custom_fields['saswp_organization_vibehut'])){
+                        $sameas[] =    $custom_fields['saswp_organization_vibehut'];
                     }
                     if($sameas){
                         $input1['sameAs'] = $sameas;
@@ -3073,6 +3079,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['local_mastodon'])){
                         $sameas[] =    $custom_fields['local_mastodon'];
+                    }
+                    if(isset($custom_fields['local_vibehut'])){
+                        $sameas[] =    $custom_fields['local_vibehut'];
                     }
                     if($sameas){
                         $input1['sameAs'] = $sameas;
@@ -6741,6 +6750,9 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_person_schema_mastodon'])){
                         $sameas[] =    $custom_fields['saswp_person_schema_mastodon'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_vibehut'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_vibehut'];
                     }
                     if($sameas){
                         $input1['sameAs'] = $sameas;

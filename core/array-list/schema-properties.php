@@ -332,6 +332,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Mastodon',
                             'id' => 'local_mastodon_'.$schema_id,
                             'type' => 'text',                            
+                        );
+                        $meta_field[] =  array(
+                            'label' => 'Vibehut',
+                            'id' => 'local_vibehut_'.$schema_id,
+                            'type' => 'text',                            
                         );                                                                                                                        
                         $meta_field[] =   array(
                             'label' => 'Aggregate Rating',
@@ -9260,6 +9265,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'       => 'text',                            
                     ),
                     array(
+                        'label'      => 'Vibehut',
+                        'id'         => 'saswp_person_schema_vibehut_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
                         'label'      => 'Sponsor',
                         'id'         => 'saswp_person_schema_sponsor_'.$schema_id,
                         'type'       => 'text',                            
@@ -10234,6 +10244,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_organization_mastodon_'.$schema_id,
                                 'type'       => 'text',                           
                             ),
+                           array(
+                                'label'      => 'Vibehut',
+                                'id'         => 'saswp_organization_vibehut_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
                             array(
                                 'label'      => 'Founder',
                                 'id'         => 'saswp_organization_founder_'.$schema_id,
@@ -10385,6 +10400,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                array(
                                     'label'      => 'Mastodon',
                                     'id'         => 'saswp_project_mastodon_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                               array(
+                                    'label'      => 'Vibehut',
+                                    'id'         => 'saswp_project_vibehut_'.$schema_id,
                                     'type'       => 'text',                           
                                 ),
                                 array(
