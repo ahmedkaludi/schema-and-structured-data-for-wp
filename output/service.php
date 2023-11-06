@@ -2396,6 +2396,12 @@ Class saswp_output_service{
                             if(isset($custom_fields['saswp_creativework_knowsabout'])){                            
                                 $input1['knowsAbout'] = explode(',', $custom_fields['saswp_creativework_knowsabout']);    
                             }
+                            if(isset($custom_fields['saswp_creativework_size'])){                            
+                                $input1['size'] = $custom_fields['saswp_creativework_size'];    
+                            }
+                            if(isset($custom_fields['saswp_creativework_license'])){                            
+                                $input1['license'] = $custom_fields['saswp_creativework_license'];    
+                            }
                         }
 
                         if(!empty($custom_fields['saswp_creativework_about']) && isset($custom_fields['saswp_creativework_about'])){         
@@ -2560,6 +2566,12 @@ Class saswp_output_service{
                         }
                         if(isset($custom_fields['saswp_visualartwork_author_url'])){
                             $input1['creator']['url'] =    $custom_fields['saswp_visualartwork_author_url'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_size'])){
+                            $input1['size'] =    $custom_fields['saswp_visualartwork_size'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_license'])){
+                            $input1['license'] =    $custom_fields['saswp_visualartwork_license'];
                         }
                          
                         

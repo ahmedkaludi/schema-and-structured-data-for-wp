@@ -4696,6 +4696,12 @@ function saswp_visualartwork_schema_markup($schema_id, $schema_post_id, $all_pos
     if(isset( $all_post_meta['saswp_visualartwork_artmedium_'.$schema_id][0] )){
         $input1['artMedium']       = explode(',', $all_post_meta['saswp_visualartwork_artmedium_'.$schema_id][0]);
     }
+    if(isset( $all_post_meta['saswp_visualartwork_size_'.$schema_id][0] )){
+        $input1['size']       = $all_post_meta['saswp_visualartwork_size_'.$schema_id][0];
+    }
+    if(isset( $all_post_meta['saswp_visualartwork_license_'.$schema_id][0] )){
+        $input1['license']       = $all_post_meta['saswp_visualartwork_license_'.$schema_id][0];
+    }
     if(isset( $all_post_meta['saswp_visualartwork_width_'.$schema_id][0] )){
         $input1['width']['@type']       = 'Distance';
         $input1['width']['name']       = $all_post_meta['saswp_visualartwork_width_'.$schema_id][0];
@@ -5265,6 +5271,12 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
 
     if( !empty($all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0] )){
         $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0]);
+    }
+    if(isset( $all_post_meta['saswp_creativework_size_'.$schema_id][0] )){
+        $input1['size']       = $all_post_meta['saswp_creativework_size_'.$schema_id][0];
+    }
+    if(isset( $all_post_meta['saswp_creativework_license_'.$schema_id][0] )){
+        $input1['license']       = $all_post_meta['saswp_creativework_license_'.$schema_id][0];
     }
     if( !empty($all_post_meta['saswp_creativework_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_creativework_about_'.$schema_id][0] )){
         $input1['about']['@type']       = 'Event';

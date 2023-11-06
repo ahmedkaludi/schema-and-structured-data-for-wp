@@ -3495,7 +3495,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'      => 'saswp_visualartwork_author_url_'.$schema_id,
                                         'type'    => 'text',
                                         'default' => $author_url
-                                )                                                                                      
+                                ),
+                                array(
+                                        'label'   => 'Size',
+                                        'id'      => 'saswp_visualartwork_size_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'License',
+                                        'id'      => 'saswp_visualartwork_license_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => ''
+                                )                                                                                       
                                 );
                                 break;
 
@@ -4001,6 +4013,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'type'    => 'textarea',
                                         'default' => '',
                                         'note'    => 'Note: If There are more than one knows about, Separate knows about list by comma ( , )'       
+                                ),
+                                array(
+                                        'label'   => 'Size',
+                                        'id'      => 'saswp_creativework_size_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'License',
+                                        'id'      => 'saswp_creativework_license_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => ''
                                 )                                                     
                                 );
                         break;        
