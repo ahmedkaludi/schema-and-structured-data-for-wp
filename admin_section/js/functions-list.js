@@ -463,6 +463,9 @@
                                      function(response){                                  
                                          saswp_meta_fields[fields_type] = response;                                         
                                          var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, response);
+                                         if(meta_name == 'faq_repeater_question'){
+                                            html = saswp_acf_repeaters_html_generator(index, schema_id, fields_type, div_type, response);
+                                         }
 
                                            if(html){
                                                jQuery('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
@@ -476,7 +479,9 @@
                             }else{
                                 
                               var html = saswp_fields_html_generator(index, schema_id, fields_type, div_type, saswp_meta_fields[fields_type]);
-
+                              if(meta_name == 'faq_repeater_question'){
+                                    html = saswp_acf_repeaters_html_generator(index, schema_id, fields_type, div_type, saswp_meta_fields[fields_type]);
+                              }
                                if(html){
                                    jQuery('.saswp-'+div_type+'-section[data-id="'+schema_id+'"]').append(html);
                                    saswp_schema_datepicker();
@@ -1677,6 +1682,79 @@ function saswp_get_platform_place_list(getPlatformId) {
         },'json');
     }
 }
+
+/**
+ * @since 1.22
+ * Function to display metalist options
+ * Solution to ticket id #2026
+ * */
+function saswp_acf_repeaters_html_generator(index, schema_id, fields_type, div_type, schema_fields){
+          
+    $newclosebtn = '';
+    otherRepeatorClose = '';
+    $reviewtitle = index+1
+
+    $addRevewTitle = '';
+
+    var html = '';
+    otherRepeatorClose = '<a class="saswp-table-close">X</a>';
+    html += '<div class="saswp-'+div_type+'-table-div saswp-dynamic-propertie" data-id="'+index+'">'
+                + $addRevewTitle
+                +  otherRepeatorClose
+                + '<table class="form-table saswp-'+div_type+'-table">' 
+
+    if (!saswp_meta_list['text']) {
+        jQuery.ajax({
+            type: 'GET',
+            url: ajaxurl,
+            dataType: 'json',
+            async: false,
+            data: {action:"saswp_get_meta_list", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+            success: function(response){
+                saswp_meta_list['text'] = response['text'];    
+            } 
+        }); 
+    }
+        
+    jQuery.each(schema_fields, function(eachindex, element){
+                        
+        var meta_class = "";
+                
+        var options_html = "";          
+        options_html = '';     
+        if(saswp_meta_list['text']){         
+            jQuery.each(saswp_meta_list['text'], function(key,value){ 
+               if(value['label'] != 'Repeater Mapping'){ 
+                   options_html += '<optgroup label="'+value['label']+'">';   
+
+                   jQuery.each(value['meta-list'], function(key, value){
+                       options_html += '<option value="'+key+'">'+value+'</option>';
+                   });                                                                                  
+                   options_html += '</optgroup>';
+                }
+
+            });
+        }
+        
+         html += '<tr>'
+        + '<th class="saswp-p-l-10">'+element.label+'</th>'
+        + '<td>'
+        
+        + '<select id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']">'
+        + options_html
+        + '</select>'
+        
+        + '</td>'
+        + '</tr>';
+                                                                                    
+    });                                                             
+    html += '</table>'
+            + '</div>';
+             
+    return html;
+    
+}
+// End of function for ticket id #2026
 
 jQuery(document).on('click', '#saswp_reset_collection_image', function(e){
     let defaultImg = jQuery(this).attr('data-img');

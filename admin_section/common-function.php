@@ -1934,8 +1934,15 @@ if ( ! defined('ABSPATH') ) exit;
                 $current_url    = get_home_url();           
                 $custom_logo_id = get_theme_mod( 'custom_logo' );
 
-                if($custom_logo_id){                
-                    $logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               
+                if($custom_logo_id){
+                    
+                    if(class_exists('FOXIZ_CORE')){
+						if(function_exists('wp_get_current_user')){
+							$logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               		
+						}						
+					}else{
+						$logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               	
+					}                                  
                 }
 
                 $user_id        = get_current_user_id();
@@ -2111,6 +2118,10 @@ if ( ! defined('ABSPATH') ) exit;
     function saswp_get_attachment_details($attachments, $post_id = null) {
         
         $cached_data = get_transient('saswp_imageobject_' .$post_id); 
+
+        if (!function_exists( 'wp_getimagesize' ) ){
+            require_once( ABSPATH . '/wp-admin/includes/media.php' );
+        }
         
         if (empty($cached_data)) {
             $response = array();        
@@ -2618,7 +2629,7 @@ if ( ! defined('ABSPATH') ) exit;
             $author_url   = get_author_posts_url( $author_id ); 
             $same_as      = array();
 
-            $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim');
+            $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim', 'threads', 'mastodon');
 
             foreach($social_links as $links){
 
@@ -2738,7 +2749,7 @@ if ( ! defined('ABSPATH') ) exit;
                                 $author_url   = get_author_posts_url( $author_id ); 
                                 $same_as      = array();
 
-                                $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim');
+                                $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim', 'threads', 'mastodon');
 
                                 foreach($social_links as $links){
 

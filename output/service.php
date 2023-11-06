@@ -87,6 +87,13 @@ Class saswp_output_service{
 				}
 			}
 
+            if(is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php')){
+                $fields['text'][] = array(
+                    'label'     => __( 'Repeater Mapping', 'schema-and-structured-data-for-wp' ),
+                    'meta-list' => array('saswp_repeater_mapping' => 'Repeater Mapping'),
+                );
+            }
+            
 			return $fields;
             
         }
@@ -524,11 +531,23 @@ Class saswp_output_service{
                          $response['height'] = array_key_exists(1, $custom_logo)? $custom_logo[1]:'';
                                               
                     }
+                break;
+                case 'saswp_repeater_mapping':
+                    switch ($schema_type) {
+                        case 'FAQ':
+                            $field_key = 'faq_repeater_question_'.$schema_post_id;
+                            $response = apply_filters('saswp_faq_acf_repeater_mapping', $post->ID, $schema_post_id, $field_key);
+                        break;
+                    }    
                 break;                    
                 default:
                     if(function_exists('get_field_object')){
                      
                         $acf_obj = get_field_object($field);
+                        if(is_archive()){
+                            $term_id = get_queried_object_id(); // Get the current term's ID
+                            $acf_obj = get_field_object($field, 'term_' . $term_id);
+                        }
                                             
                         if($acf_obj){
 
@@ -1437,6 +1456,15 @@ Class saswp_output_service{
                         if(isset($custom_fields['saswp_project_linkedin'])){
                             $sameas[] =    $custom_fields['saswp_project_linkedin'];
                         }
+                        if(isset($custom_fields['saswp_project_threads'])){
+                            $sameas[] =    $custom_fields['saswp_project_threads'];
+                        }
+                        if(isset($custom_fields['saswp_project_mastodon'])){
+                            $sameas[] =    $custom_fields['saswp_project_mastodon'];
+                        }
+                        if(isset($custom_fields['saswp_project_vibehut'])){
+                            $sameas[] =    $custom_fields['saswp_project_vibehut'];
+                        }
                         if($sameas){
                             $input1['sameAs'] = $sameas;
                         }
@@ -1528,6 +1556,15 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_organization_linkedin'])){
                         $sameas[] =    $custom_fields['saswp_organization_linkedin'];
+                    }
+                    if(isset($custom_fields['saswp_organization_threads'])){
+                        $sameas[] =    $custom_fields['saswp_organization_threads'];
+                    }
+                    if(isset($custom_fields['saswp_organization_mastodon'])){
+                        $sameas[] =    $custom_fields['saswp_organization_mastodon'];
+                    }
+                    if(isset($custom_fields['saswp_organization_vibehut'])){
+                        $sameas[] =    $custom_fields['saswp_organization_vibehut'];
                     }
                     if($sameas){
                         $input1['sameAs'] = $sameas;
@@ -2359,6 +2396,12 @@ Class saswp_output_service{
                             if(isset($custom_fields['saswp_creativework_knowsabout'])){                            
                                 $input1['knowsAbout'] = explode(',', $custom_fields['saswp_creativework_knowsabout']);    
                             }
+                            if(isset($custom_fields['saswp_creativework_size'])){                            
+                                $input1['size'] = $custom_fields['saswp_creativework_size'];    
+                            }
+                            if(isset($custom_fields['saswp_creativework_license'])){                            
+                                $input1['license'] = $custom_fields['saswp_creativework_license'];    
+                            }
                         }
 
                         if(!empty($custom_fields['saswp_creativework_about']) && isset($custom_fields['saswp_creativework_about'])){         
@@ -2523,6 +2566,12 @@ Class saswp_output_service{
                         }
                         if(isset($custom_fields['saswp_visualartwork_author_url'])){
                             $input1['creator']['url'] =    $custom_fields['saswp_visualartwork_author_url'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_size'])){
+                            $input1['size'] =    $custom_fields['saswp_visualartwork_size'];
+                        }
+                        if(isset($custom_fields['saswp_visualartwork_license'])){
+                            $input1['license'] =    $custom_fields['saswp_visualartwork_license'];
                         }
                          
                         
@@ -3011,6 +3060,43 @@ Class saswp_output_service{
                             $new_address_array = array_merge(array_splice($input1['address'], -1), $input1['address']);
                             $input1['address'] = $new_address_array;
                         }
+                    }
+                    $sameas = array();
+                    if(isset($custom_fields['local_facebook'])){
+                        $sameas[] =    $custom_fields['local_facebook'];
+                    }
+                    if(isset($custom_fields['local_twitter'])){
+                        $sameas[] =    $custom_fields['local_twitter'];
+                    }
+                    if(isset($custom_fields['local_instagram'])){
+                        $sameas[] =    $custom_fields['local_instagram'];
+                    }
+                    if(isset($custom_fields['local_pinterest'])){
+                        $sameas[] =    $custom_fields['local_pinterest'];
+                    }
+                    if(isset($custom_fields['local_linkedin'])){
+                        $sameas[] =    $custom_fields['local_linkedin'];
+                    }
+                    if(isset($custom_fields['local_soundcloud'])){
+                        $sameas[] =    $custom_fields['local_soundcloud'];
+                    }
+                    if(isset($custom_fields['local_tumblr'])){
+                        $sameas[] =    $custom_fields['local_tumblr'];
+                    }
+                    if(isset($custom_fields['local_youtube'])){
+                        $sameas[] =    $custom_fields['local_youtube'];
+                    }
+                    if(isset($custom_fields['local_threads'])){
+                        $sameas[] =    $custom_fields['local_threads'];
+                    }
+                    if(isset($custom_fields['local_mastodon'])){
+                        $sameas[] =    $custom_fields['local_mastodon'];
+                    }
+                    if(isset($custom_fields['local_vibehut'])){
+                        $sameas[] =    $custom_fields['local_vibehut'];
+                    }
+                    if($sameas){
+                        $input1['sameAs'] = $sameas;
                     }               
                     break;
                 
@@ -6670,6 +6756,15 @@ Class saswp_output_service{
                     }
                     if(isset($custom_fields['saswp_person_schema_snapchat'])){
                         $sameas[] =    $custom_fields['saswp_person_schema_snapchat'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_threads'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_threads'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_mastodon'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_mastodon'];
+                    }
+                    if(isset($custom_fields['saswp_person_schema_vibehut'])){
+                        $sameas[] =    $custom_fields['saswp_person_schema_vibehut'];
                     }
                     if($sameas){
                         $input1['sameAs'] = $sameas;

@@ -734,6 +734,9 @@ Compatibility tab css ends
 .saswp-knowledge-label label[for="saswp_breadcrumb_remove_cat_checkbox"] {
     padding-left: 10px;
 }
+.saswp-knowledge-label label[for="saswp_breadcrumb_exclude_shop_checkbox"] {
+    padding-left: 10px;
+}
 .saswp-knowledge-label label[for="saswp_breadcrumb_home_page_title_text"] {
     padding-left: 10px;
 }
@@ -3081,6 +3084,15 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 }
 .saswp-popup2 .saswp_half_star_color{
     margin-top: 4px;
+}
+.saswp-faq_repeater_question-table-div{
+  background-color: #FFF;
+  margin-bottom: 10px ;
+  border-radius: 10px;
+  border: 2px solid #E5E5E5;
+}
+.saswp-p-l-10{
+    padding-left: 10px !important;
 }
 /* Offer Banner Starts Here */
 /* .saswp-offer-banner{

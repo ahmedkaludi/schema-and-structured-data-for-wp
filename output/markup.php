@@ -1114,11 +1114,12 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
                 $input1['author']['name']           = $all_post_meta['saswp_recipe_author_name_'.$schema_id][0];
                 $input1['author']['description']    = $all_post_meta['saswp_recipe_author_description_'.$schema_id][0];
+                $input1['author']['url']            = saswp_remove_warnings($all_post_meta, 'saswp_recipe_author_url_'.$schema_id, 'saswp_array');
 
                 $input1['author']['image']['@type']  = 'ImageObject';
                 $input1['author']['image']['url']    = $all_post_meta['saswp_recipe_author_image_'.$schema_id][0];
-                $input1['author']['image']['height'] = $recipe_author_image['height'];
-                $input1['author']['image']['width']  = $recipe_author_image['width'];
+                $input1['author']['image']['height'] = isset($recipe_author_image['height'])?$recipe_author_image['height']:'';
+                $input1['author']['image']['width']  = isset($recipe_author_image['width'])?$recipe_author_image['width']:'';
 
             }
 
@@ -1737,6 +1738,15 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                 if(isset($all_post_meta['local_youtube_'.$schema_id][0]) && $all_post_meta['local_youtube_'.$schema_id][0] !=''){
                   $local_social[] = esc_url($all_post_meta['local_youtube_'.$schema_id][0]);   
                 }
+                if(isset($all_post_meta['local_threads_'.$schema_id][0]) && $all_post_meta['local_threads_'.$schema_id][0] !=''){
+                  $local_social[] = esc_url($all_post_meta['local_threads_'.$schema_id][0]);   
+                }
+                if(isset($all_post_meta['local_mastodon_'.$schema_id][0]) && $all_post_meta['local_mastodon_'.$schema_id][0] !=''){
+                  $local_social[] = esc_url($all_post_meta['local_mastodon_'.$schema_id][0]);   
+                }
+                if(isset($all_post_meta['local_vibehut_'.$schema_id][0]) && $all_post_meta['local_vibehut_'.$schema_id][0] !=''){
+                  $local_social[] = esc_url($all_post_meta['local_vibehut_'.$schema_id][0]);   
+                }
 
                 if(!empty($local_social)){
                   $input1['sameAs'] =  $local_social; 
@@ -1845,7 +1855,30 @@ function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post
                 $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_organization_rating_value_'.$schema_id][0];
                 $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_organization_rating_count_'.$schema_id][0];                                
           }          
-                              
+          
+        $sameas = array();
+
+        if(isset($all_post_meta['saswp_organization_facebook_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_facebook_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_organization_twitter_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_twitter_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_organization_linkedin_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_linkedin_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_organization_threads_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_threads_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_organization_mastodon_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_mastodon_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_organization_vibehut_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_organization_vibehut_'.$schema_id][0];
+        }
+        if($sameas){
+            $input1['sameAs'] = $sameas;
+        }                    
         return $input1;
 }
 
@@ -1910,7 +1943,30 @@ function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_project_rating_value_'.$schema_id][0];
                 $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_project_rating_count_'.$schema_id][0];                                
         }          
-                            
+        
+        $sameas = array();
+
+        if(isset($all_post_meta['saswp_project_facebook_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_facebook_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_project_twitter_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_twitter_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_project_linkedin_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_linkedin_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_project_threads_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_threads_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_project_mastodon_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_mastodon_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_project_vibehut_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_project_vibehut_'.$schema_id][0];
+        }
+        if($sameas){
+            $input1['sameAs'] = $sameas;
+        }                         
         return $input1;
 }
 
@@ -2320,6 +2376,15 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         }
         if(isset($all_post_meta['saswp_person_schema_snapchat_'.$schema_id][0])){
             $sameas[]        = $all_post_meta['saswp_person_schema_snapchat_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_threads_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_threads_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_mastodon_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_mastodon_'.$schema_id][0];
+        }
+        if(isset($all_post_meta['saswp_person_schema_vibehut_'.$schema_id][0])){
+            $sameas[]        = $all_post_meta['saswp_person_schema_vibehut_'.$schema_id][0];
         }
         if($sameas){
             $input1['sameAs'] = $sameas;
@@ -4631,6 +4696,12 @@ function saswp_visualartwork_schema_markup($schema_id, $schema_post_id, $all_pos
     if(isset( $all_post_meta['saswp_visualartwork_artmedium_'.$schema_id][0] )){
         $input1['artMedium']       = explode(',', $all_post_meta['saswp_visualartwork_artmedium_'.$schema_id][0]);
     }
+    if(isset( $all_post_meta['saswp_visualartwork_size_'.$schema_id][0] )){
+        $input1['size']       = $all_post_meta['saswp_visualartwork_size_'.$schema_id][0];
+    }
+    if(isset( $all_post_meta['saswp_visualartwork_license_'.$schema_id][0] )){
+        $input1['license']       = $all_post_meta['saswp_visualartwork_license_'.$schema_id][0];
+    }
     if(isset( $all_post_meta['saswp_visualartwork_width_'.$schema_id][0] )){
         $input1['width']['@type']       = 'Distance';
         $input1['width']['name']       = $all_post_meta['saswp_visualartwork_width_'.$schema_id][0];
@@ -5200,6 +5271,12 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
 
     if( !empty($all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0] )){
         $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0]);
+    }
+    if(isset( $all_post_meta['saswp_creativework_size_'.$schema_id][0] )){
+        $input1['size']       = $all_post_meta['saswp_creativework_size_'.$schema_id][0];
+    }
+    if(isset( $all_post_meta['saswp_creativework_license_'.$schema_id][0] )){
+        $input1['license']       = $all_post_meta['saswp_creativework_license_'.$schema_id][0];
     }
     if( !empty($all_post_meta['saswp_creativework_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_creativework_about_'.$schema_id][0] )){
         $input1['about']['@type']       = 'Event';

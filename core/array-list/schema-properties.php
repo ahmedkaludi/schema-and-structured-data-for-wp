@@ -322,6 +322,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label' => 'Youtube',
                             'id' => 'local_youtube_'.$schema_id,
                             'type' => 'text',                            
+                        );
+                        $meta_field[] =  array(
+                            'label' => 'Threads',
+                            'id' => 'local_threads_'.$schema_id,
+                            'type' => 'text',                            
+                        );
+                        $meta_field[] =  array(
+                            'label' => 'Mastodon',
+                            'id' => 'local_mastodon_'.$schema_id,
+                            'type' => 'text',                            
+                        );
+                        $meta_field[] =  array(
+                            'label' => 'Vibehut',
+                            'id' => 'local_vibehut_'.$schema_id,
+                            'type' => 'text',                            
                         );                                                                                                                        
                         $meta_field[] =   array(
                             'label' => 'Aggregate Rating',
@@ -3480,7 +3495,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'      => 'saswp_visualartwork_author_url_'.$schema_id,
                                         'type'    => 'text',
                                         'default' => $author_url
-                                )                                                                                      
+                                ),
+                                array(
+                                        'label'   => 'Size',
+                                        'id'      => 'saswp_visualartwork_size_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'License',
+                                        'id'      => 'saswp_visualartwork_license_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => ''
+                                )                                                                                       
                                 );
                                 break;
 
@@ -3986,6 +4013,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'type'    => 'textarea',
                                         'default' => '',
                                         'note'    => 'Note: If There are more than one knows about, Separate knows about list by comma ( , )'       
+                                ),
+                                array(
+                                        'label'   => 'Size',
+                                        'id'      => 'saswp_creativework_size_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => ''
+                                ),
+                                array(
+                                        'label'   => 'License',
+                                        'id'      => 'saswp_creativework_license_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => ''
                                 )                                                     
                                 );
                         break;        
@@ -9240,6 +9279,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'       => 'text',                            
                     ),
                     array(
+                        'label'      => 'Threads',
+                        'id'         => 'saswp_person_schema_threads_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Mastodon',
+                        'id'         => 'saswp_person_schema_mastodon_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
+                        'label'      => 'Vibehut',
+                        'id'         => 'saswp_person_schema_vibehut_'.$schema_id,
+                        'type'       => 'text',                            
+                    ),
+                    array(
                         'label'      => 'Sponsor',
                         'id'         => 'saswp_person_schema_sponsor_'.$schema_id,
                         'type'       => 'text',                            
@@ -10204,6 +10258,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_organization_linkedin_'.$schema_id,
                                 'type'       => 'text',                           
                             ),
+                           array(
+                                'label'      => 'Threads',
+                                'id'         => 'saswp_organization_threads_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                           array(
+                                'label'      => 'Mastodon',
+                                'id'         => 'saswp_organization_mastodon_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                           array(
+                                'label'      => 'Vibehut',
+                                'id'         => 'saswp_organization_vibehut_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
                             array(
                                 'label'      => 'Founder',
                                 'id'         => 'saswp_organization_founder_'.$schema_id,
@@ -10345,6 +10414,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                array(
                                     'label'      => 'LinkedIn',
                                     'id'         => 'saswp_project_linkedin_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                               array(
+                                    'label'      => 'Threads',
+                                    'id'         => 'saswp_project_threads_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                               array(
+                                    'label'      => 'Mastodon',
+                                    'id'         => 'saswp_project_mastodon_'.$schema_id,
+                                    'type'       => 'text',                           
+                                ),
+                               array(
+                                    'label'      => 'Vibehut',
+                                    'id'         => 'saswp_project_vibehut_'.$schema_id,
                                     'type'       => 'text',                           
                                 ),
                                 array(

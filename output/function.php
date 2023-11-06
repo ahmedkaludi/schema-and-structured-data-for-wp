@@ -101,14 +101,14 @@ function saswp_wp_hook_operation(){
 
 function saswp_schema_markup_output_in_buffer($content){
     
-    global $saswp_post_reviews, $saswp_elementor_qanda, $saswp_elementor_faq, $saswp_divi_faq, $saswp_elementor_howto, $saswp_evo_json_ld;
+    global $saswp_post_reviews, $saswp_elementor_qanda, $saswp_elementor_faq, $saswp_divi_faq, $saswp_elementor_howto, $saswp_evo_json_ld, $saswp_tiny_multi_faq, $saswp_tiny_howto, $saswp_tiny_recipe;
     
     if(!$saswp_divi_faq){
         $regex = "<script type='text/javascript' src='".SASWP_PLUGIN_URL."modules/divi-builder/scripts/frontend-bundle.min.js?ver=1.0.0'></script>";
         $content = str_replace($regex, '', $content);
     }
      
-     if($saswp_post_reviews || $saswp_elementor_qanda || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto || $saswp_evo_json_ld){
+     if($saswp_post_reviews || $saswp_elementor_qanda || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto || $saswp_evo_json_ld || $saswp_tiny_multi_faq || $saswp_tiny_howto || $saswp_tiny_recipe){
         
             $saswp_json_ld =  saswp_get_all_schema_markup_output();  
             
@@ -1951,6 +1951,10 @@ function saswp_get_ids_from_content_by_type($type){
 function saswp_wp_recipe_schema_json($recipe){
     
             global $saswp_featured_image;
+
+            if (!function_exists( 'wp_getimagesize' ) ){
+                require_once( ABSPATH . '/wp-admin/includes/media.php' );
+            }
 
             if ( 'food' === $recipe->type() ) {
                     $metadata = WPRM_Metadata::get_food_metadata( $recipe );

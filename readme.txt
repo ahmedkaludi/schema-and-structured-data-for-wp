@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.3
 Requires PHP: 5.6.20
-Stable tag: 1.21.1
+Stable tag: 1.22
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,21 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.22 (6 Nov 2023) =
+
+* Feature: Added few new fields in creativework schema #2015
+* Enhancement: Added support for newer social networks on the 'sameAs' field #2019
+* Fixed: A PHP warning shown in the schema markup #2020
+* Fixed: Classic Editor FAQ issue in schema markup #2022
+* Fixed: Issue with modify option in Recipe schema #2024
+* Feature: Added new feature (FAQ schema should be crawled from individual ACF fields step by step) #2026
+* Fixed: Fatal Error Call to undefined function wp_getimagesize() #2027
+* Fixed: Errors from schema pro extensions #2029
+* Enhancement: Added option to add or remove shop page url from Breadcrumbs #2034
+* Fixed: Conflict issue with FOXIZ CORE plugin which causes fatal error #2035
+* Fixed: Warning in debug log #2036
+
 
 = 1.21.1 (27 Sep 2023) =
 * Fixed: Minor Fix

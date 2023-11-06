@@ -208,6 +208,12 @@ function saswp_add_location_content( $post_id ){
     }
     if( !empty($post_meta['local_youtube_'.$post_id][0]) ){
         $html .= '<div>Youtube : '.esc_html($post_meta['local_youtube_'.$post_id][0]).'</div>';
+    }
+    if( !empty($post_meta['local_threads_'.$post_id][0]) ){
+        $html .= '<div>Threads : '.esc_html($post_meta['local_threads_'.$post_id][0]).'</div>';
+    }
+    if( !empty($post_meta['local_mastodon_'.$post_id][0]) ){
+        $html .= '<div>Mastodon : '.esc_html($post_meta['local_mastodon_'.$post_id][0]).'</div>';
     }    
             
     if(!empty($post_meta['saswp_dayofweek_'.$post_id][0])){
