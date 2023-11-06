@@ -1134,11 +1134,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                                                    
                             echo '</tr>';
                             if($fieldkey == 'saswp_faq_main_entity' && $fieldval == 'saswp_repeater_mapping'){
-                                if(function_exists('saswp_repeater_html_render')){
-                                    $rendered_html = saswp_repeater_html_render($post_id, $meta_list_arr);
-                                    $allowed_html = saswp_expanded_allowed_tags();
-                                    echo $rendered_html; //wp_kses($rendered_html, $allowed_html);
-                                }
+                                echo apply_filters( 'saswp_repeater_html_render_filter', $post_id, $meta_list_arr); 
                             }
 
                             }
