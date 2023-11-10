@@ -2130,11 +2130,13 @@ if ( ! defined('ABSPATH') ) exit;
                 
                     if($url && $url != ""){
 
-                            $image_data = array();    
+                            $image_data = array();
+                            $image = '';    
+                            if(function_exists('wp_getimagesize')){
+                                $image = @wp_getimagesize($url);
+                            }
 
-                            $image = @wp_getimagesize($url);
-
-                            if(is_array($image)){
+                            if(!empty($image) && is_array($image)){
 
                                 $image_data[0] =  $image[0]; //width
                                 $image_data[1] =  $image[1]; //height
@@ -2603,6 +2605,10 @@ if ( ! defined('ABSPATH') ) exit;
 
         global $post, $sd_data;
 
+        if (!function_exists( 'wp_getimagesize' ) ){
+            require_once( ABSPATH . '/wp-admin/includes/media.php' );
+        }
+
         $author_details = array();            
         $is_multiple_authors = 0;
         if(isset($sd_data['saswp-publish-press-authors']) && $sd_data['saswp-publish-press-authors'] == 1){
@@ -2701,9 +2707,12 @@ if ( ! defined('ABSPATH') ) exit;
 
                 if($sab_image){
 
-                    $image = @wp_getimagesize($sab_image);
+                    $image = '';
+                    if(function_exists('wp_getimagesize')){
+                        $image = @wp_getimagesize($sab_image);
+                    }
 
-                    if($image){
+                    if(!empty($image) && is_array($image)){
                         $author_details['image']['@type']  = 'ImageObject';
                         $author_details['image']['url']    = $sab_image;
                         $author_details['image']['height'] = $image[1];
@@ -2726,6 +2735,10 @@ if ( ! defined('ABSPATH') ) exit;
     function saswp_get_multiple_author_details($author_details)
     {
         global $post, $sd_data, $wpdb;
+
+        if (!function_exists( 'wp_getimagesize' ) ){
+            require_once( ABSPATH . '/wp-admin/includes/media.php' );
+        }
 
         if(isset($sd_data['saswp-publish-press-authors']) && $sd_data['saswp-publish-press-authors'] == 1){
             $multiple_authors = get_post_meta(get_the_ID(), 'ppma_authors_name');
@@ -2826,9 +2839,12 @@ if ( ! defined('ABSPATH') ) exit;
 
                                     if($sab_image){
 
-                                        $image = @wp_getimagesize($sab_image);
+                                        $image = '';
+                                        if(function_exists('wp_getimagesize')){
+                                            $image = @wp_getimagesize($sab_image);
+                                        }
 
-                                        if($image){
+                                        if(!empty($image) && is_array($image)){
                                             $author_details[$auth_cnt]['image']['@type']  = 'ImageObject';
                                             $author_details[$auth_cnt]['image']['url']    = $sab_image;
                                             $author_details[$auth_cnt]['image']['height'] = $image[1];
@@ -3721,12 +3737,19 @@ function saswp_post_type_capabilities(){
 function saswp_get_image_by_url($url){
     
     $response = array();
+
+    if (!function_exists( 'wp_getimagesize' ) ){
+        require_once( ABSPATH . '/wp-admin/includes/media.php' );
+    }
     
     if($url){        
                 
-            $image_details      = @wp_getimagesize($url);                    
+            $image_details = '';
+            if(function_exists('wp_getimagesize')){    
+                $image_details      = @wp_getimagesize($url);   
+            }                 
             
-            if($image_details){
+            if(!empty($image_details) && is_array($image_details)){
 
                     $response['@type']  = 'ImageObject';
                     $response['url']    = $url;
