@@ -39,6 +39,7 @@ class SASWP_Reviews_Collection {
           add_action( 'wp_ajax_saswp_get_collection_platforms', array($this, 'saswp_get_collection_platforms' ));          
           add_action( 'amp_post_template_data', array($this, 'saswp_reviews_collection_amp_script'));                                   
           add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ),10);        
+          add_action( 'saswp_set_collection_card_height', array($this, 'saswp_set_collection_card_height_clbk'), 10);        
 
           add_filter('the_content', array( $this, 'saswp_reviews_display_collection' ));
                                  
@@ -447,7 +448,7 @@ class SASWP_Reviews_Collection {
                         $perpage              = null;
                         $data_id              = null;
                         $dots = $f_interval = $f_visibility = $arrow = 1;
-                        $g_type = $design = $cols = $sorting = $date_format = $collection_review_imag = '';
+                        $g_type = $design = $cols = $sorting = $date_format = $collection_review_imag = $saswp_collection_readmore_desc = $saswp_collection_gallery_readmore_desc = '';
                         $stars_color = ''; $g_interval = 3000; $auto_slider = 0;
                         $collection_data = get_post_meta($attr['id']);
                         
@@ -542,6 +543,12 @@ class SASWP_Reviews_Collection {
                         if(isset($collection_data['saswp_collection_image_thumbnail'][0]) && !empty($collection_data['saswp_collection_image_thumbnail'][0])){
                             $collection_review_imag  = $collection_data['saswp_collection_image_thumbnail'][0];                
                         }
+                        if(isset($collection_data['saswp_collection_readmore_desc'][0])){
+                            $saswp_collection_readmore_desc   = $collection_data['saswp_collection_readmore_desc'][0];                    
+                        }
+                        if(isset($collection_data['saswp_collection_gallery_readmore_desc'][0])){
+                            $saswp_collection_gallery_readmore_desc   = $collection_data['saswp_collection_gallery_readmore_desc'][0];                    
+                        }
                                                    
                     if($total_reviews){
                            
@@ -615,13 +622,13 @@ class SASWP_Reviews_Collection {
                                 
                                 case "grid":
                                    
-                                    $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr, $saswp_collection_hide_col_rew_img,$stars_color);
+                                    $html = $this->_service->saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr, $saswp_collection_hide_col_rew_img,$stars_color,$saswp_collection_readmore_desc);
                                     
                                     break;
                                     
                                 case 'gallery':
                                     
-                                    $html = $this->_service->saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide,$stars_color,$g_interval,$auto_slider);
+                                    $html = $this->_service->saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide,$stars_color,$g_interval,$auto_slider,$saswp_collection_gallery_readmore_desc);
                                     
                                     break;
                                 
@@ -843,6 +850,10 @@ class SASWP_Reviews_Collection {
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
                                             <span><?php echo saswp_t_string( 'Hide Review Image'); ?></span>
                                             <span><input name="saswp_collection_hide_col_r_img" type="checkbox" id="saswp-coll-hide_col_r_img" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_hide_col_r_img'][0]) && $post_meta['saswp_collection_hide_col_r_img'][0] == 1 ? 'checked' : '' ); ?>></span>
+                                        </div>
+                                        <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
+                                            <span><?php echo saswp_t_string( 'Read More'); ?></span>
+                                            <span><input name="saswp_collection_readmore_desc" type="checkbox" id="saswp-collection-readmore-desc" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_readmore_desc'][0]) && $post_meta['saswp_collection_readmore_desc'][0] == 1 ? 'checked' : '' ); ?>></span>
                                         </div>                                        
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm saswp_hide_imp">
                                             <label><?php echo saswp_t_string( 'Per Page' ); ?></label>
@@ -867,6 +878,9 @@ class SASWP_Reviews_Collection {
                                         </div>
                                         <div class="saswp-slider-display saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
                                             <input type="checkbox" id="saswp_collection_gallery_img_hide" name="saswp_collection_gallery_img_hide" value="1" <?php echo (isset($post_meta['saswp_collection_gallery_img_hide'][0]) && $post_meta['saswp_collection_gallery_img_hide'][0] == 1 ? 'checked' : '' ); ?>> <?php echo saswp_t_string('Hide Review Image'); ?>
+                                        </div>
+                                        <div class="saswp-slider-display saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
+                                            <input type="checkbox" id="saswp-collection-gallery-readmore-desc" name="saswp_collection_gallery_readmore_desc" value="1" <?php echo (isset($post_meta['saswp_collection_gallery_readmore_desc'][0]) && $post_meta['saswp_collection_gallery_readmore_desc'][0] == 1 ? 'checked' : '' ); ?>> <?php echo saswp_t_string('Read More'); ?>
                                         </div>
                                         
                                         <div class="saswp-fomo-options saswp_hide saswp-coll-options"> 
@@ -1136,6 +1150,8 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_total_reviews']           = array_map('intval', (array) json_decode( $_POST['saswp_total_reviews']));
             $post_meta['saswp_stars_color_picker']      = isset($_POST['saswp_stars_color_picker']) ? sanitize_text_field($_POST['saswp_stars_color_picker']) : '';
             $post_meta['saswp_collection_image_thumbnail']      = isset($_POST['saswp_collection_image_thumbnail']) ? esc_url($_POST['saswp_collection_image_thumbnail']) : SASWP_DIR_URI.'admin_section/images/default_user.jpg';
+            $post_meta['saswp_collection_readmore_desc'] = isset($_POST['saswp_collection_readmore_desc']) ? intval($_POST['saswp_collection_readmore_desc']) : '';
+            $post_meta['saswp_collection_gallery_readmore_desc'] = isset($_POST['saswp_collection_gallery_readmore_desc']) ? intval($_POST['saswp_collection_gallery_readmore_desc']) : '';
             if(!empty($post_meta)){
                 
                 foreach($post_meta as $meta_key => $meta_val){
@@ -1156,7 +1172,29 @@ class SASWP_Reviews_Collection {
          }
                                     
         }
-            
+        
+
+        /**
+         * change collection set collection card height to auto
+         * @since 1.23
+         * */    
+        public function saswp_set_collection_card_height_clbk()
+        {
+            add_action('wp_enqueue_scripts', array($this, 'saswp_collection_card_style'));
+        }
+
+        /**
+         * Add inline css for collection card
+         * @since 1.23
+         * */
+        public function saswp_collection_card_style()
+        {
+            $card_style = "
+                    .saswp-rc-cnt{
+                        height: auto !important;
+                    }";
+            wp_add_inline_style('saswp-collection-front-css', $card_style);
+        }
 }
 
 if ( class_exists( 'SASWP_Reviews_Collection') ) {

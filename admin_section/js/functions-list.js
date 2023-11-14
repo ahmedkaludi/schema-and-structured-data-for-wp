@@ -1413,7 +1413,11 @@
                             html += '</div>';
                             
                             html += '</div>';
-                            html += '<div class="saswp-rc-cnt">';
+                            if(jQuery('#saswp-collection-readmore-desc').is(':checked')){
+                                html += '<div class="saswp-rc-cnt" style="height: auto;">';
+                            }else{
+                                html += '<div class="saswp-rc-cnt" style="height: 80px;">';
+                            }
                             html += '<p>'+value.saswp_review_text+'</p>';
                             html += '</div>';
 
@@ -1777,4 +1781,18 @@ jQuery(document).on('click', '#saswp_reset_collection_image', function(e){
 
     });
     
+});
+
+// Remove height of review card
+jQuery(document).on('change', '#saswp-collection-readmore-desc, #saswp-collection-gallery-readmore-desc', function(e){
+    let readId = jQuery(this).attr('id');
+    if(jQuery(this).is(':checked')){
+        jQuery('.saswp-rc-cnt').css('height', 'auto');
+    }else{
+        if(readId == 'saswp-collection-readmore-desc'){
+            jQuery('.saswp-rc-cnt').css('height', '80px !important');
+        }else if(readId == 'saswp-collection-gallery-readmore-desc'){
+            jQuery('.saswp-rc-cnt').css('height', '120px !important');
+        }
+    }
 });

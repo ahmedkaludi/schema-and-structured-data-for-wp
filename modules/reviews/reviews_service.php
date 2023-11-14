@@ -980,8 +980,8 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr = null, $saswp_collection_hide_col_rew_img = null,$stars_color= null){
-       
+    public function saswp_create_collection_grid($cols, $collection, $total_reviews, $pagination, $perpage, $offset, $nextpage, $data_id, $total_reviews_count, $date_format, $pagination_wpr = null, $saswp_collection_hide_col_rew_img = null,$stars_color= null,$saswp_collection_readmore_desc=null){
+        
            $html          = '';                
            $grid_cols     = '';
            $perpage_break = $perpage; 
@@ -1144,7 +1144,10 @@ class saswp_reviews_service {
                 }
                                              
                $html .= '</div>';
-               
+
+                if($saswp_collection_readmore_desc == 1){
+                    do_action('saswp_set_collection_card_height');
+                } 
            }           
            return $html;
         
@@ -1223,7 +1226,7 @@ class saswp_reviews_service {
 
     }
 
-    public function saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide,$stars_color,$g_interval=3000,$auto_slider=0){
+    public function saswp_create_collection_slider($g_type, $arrow, $dots, $collection, $date_format, $saswp_collection_gallery_img_hide,$stars_color,$g_interval=3000,$auto_slider=0,$saswp_collection_readmore_desc=null){
                 
                 $html = '';                               
                 
@@ -1341,7 +1344,10 @@ class saswp_reviews_service {
                         
                         
                     }
-                                                                                 
+                    
+                    if($saswp_collection_readmore_desc == 1){
+                        do_action('saswp_set_collection_card_height');
+                    }                                                             
                  }
                  
                  return $html;
