@@ -21,6 +21,8 @@ Class saswp_output_service{
            add_action( 'wp_ajax_saswp_get_schema_type_fields', array($this, 'saswp_get_schema_type_fields'));            
            add_action( 'wp_ajax_saswp_get_meta_list', array($this, 'saswp_get_meta_list'));            
            add_filter( 'saswp_modify_post_meta_list', array( $this, 'saswp_get_acf_meta_keys' ) );
+           add_filter( 'saswp_modify_post_meta_list', array( $this, 'saswp_get_cpt_meta_keys' ) ); // Custom Post Types
+           add_filter( 'saswp_modify_custom_fields_group', array( $this, 'saswp_modify_custom_fields_group_clbk' ),10,3 ); // Custom Post Types
            
         }    
         /**
@@ -713,6 +715,8 @@ Class saswp_output_service{
                     }else{
                         $response = get_post_meta($post->ID, $field, true );
                     }                    
+                    
+                    $response = apply_filters('saswp_modify_custom_fields_group', $response, $field, $schema_type);                    
                     
                     break;
             }
@@ -8684,6 +8688,287 @@ Class saswp_output_service{
                             return $publisher;
                         }                        
                         
+        }
+
+        /**
+         * Fetch custom group fields and add it
+         * */
+        public function saswp_get_cpt_meta_keys($fields)
+        {
+            $cpt_text_fields = array();
+            $cpt_file_fields = array();
+            if(class_exists('CPT_Field_Groups')){
+                $field_groups = cpt_field_groups()->get_registered_groups();
+
+                $field_groups = get_posts(
+                    array(
+                        'posts_per_page' => -1,
+                        'post_type'      => CPT_UI_PREFIX . '_field',
+                        'post_status'    => 'publish',
+                    )
+                );
+
+                if(!empty($field_groups) && is_array($field_groups)){
+                    foreach ($field_groups as $grp_key => $grp_value) {
+                        $cpt_fields = array();
+                        $cpt_fields       = ! empty( get_post_meta( $grp_value->ID, 'fields', true ) ) ? get_post_meta( $grp_value->ID, 'fields',true ) : array();
+                        if(!empty($cpt_fields) && is_array($cpt_fields)){
+                            foreach ($cpt_fields as $cpt_key => $cpt_value) {
+                                if(!empty($cpt_value) && is_array($cpt_value)){
+                                    if(isset($cpt_value['key']) && $cpt_value['label']){
+                                        if ( 'file' == $cpt_value['type'] ) {
+                                            $cpt_file_fields[$cpt_value['key']] = $cpt_value['label'];
+                                        }else{
+                                            $cpt_text_fields[$cpt_value['key']] = $cpt_value['label'];    
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if ( ! empty( $cpt_text_fields ) ) {
+                    $fields['text'][] = array(
+                        'label'     => __( 'TotalPress Custom Fields', 'schema-and-structured-data-for-wp' ),
+                        'meta-list' => $cpt_text_fields,
+                    );
+                }
+
+                if ( ! empty( $cpt_file_fields ) ) {
+                    $fields['image'][] = array(
+                        'label'     => __( 'TotalPress Custom Fields', 'schema-and-structured-data-for-wp' ),
+                        'meta-list' => $cpt_file_fields,
+                    );
+                }
+            }
+            return $fields;
+        }
+
+        /**
+         * Get custom filed object
+         * @since 1.23
+         * $field string
+         * */
+        public function saswp_get_cpt_field_object($field)
+        {
+            $cpt_field_object = array();
+            global $post;
+            if(class_exists('CPT_Fields')){
+                $cpt_field_object = cpt_fields()->get_field_object( $field, \CPT_Field_Groups::SUPPORT_TYPE_CPT, $post->post_type );
+                if(isset($cpt_field_object['type']) && $cpt_field_object['type'] == 'file'){
+                    if(isset($cpt_field_object['extra']) && isset($cpt_field_object['extra']['types'])){
+                        if(empty($cpt_field_object['extra']['types']) || (isset($cpt_field_object['extra']['types'][0]) && $cpt_field_object['extra']['types'][0] == 'image')){
+                            $cpt_field_object['type'] = 'image';    
+                        }
+                    }
+                }
+            }
+            return $cpt_field_object;
+        }
+
+        public function saswp_modify_custom_fields_group_clbk($response, $field, $schema_type)
+        {
+            global $post;
+            $cpt_response = null;
+            if(class_exists('CPT_Field_Groups')){
+                $cpt_object = $this->saswp_get_cpt_field_object($field);
+                $post_meta_value = get_post_meta($post->ID, $field, true );
+                if(is_archive()){
+                    $term_id = get_queried_object_id(); // Get the current term's ID
+                    $post_meta_value = get_term_meta($term_id, $field, true);
+                }
+                if(!empty($cpt_object) && is_array($cpt_object)){
+                    if(isset($cpt_object['type']) && $cpt_object['type'] == 'image'){                             
+                        $img_details           = saswp_get_image_by_id($post_meta_value);
+                        if(!empty($img_details) && is_array($img_details) && isset($img_details['url'])){
+                            $cpt_response = $img_details['url'];     
+                        }
+                    }else if(isset($cpt_object['type']) && $cpt_object['type'] == 'repeater'){
+
+                        switch ($schema_type) {
+
+                            case 'FAQ':                                                                                
+                                if(!empty($post_meta_value) && is_array($post_meta_value) && isset($post_meta_value[0])){
+
+                                    foreach($post_meta_value as $value){
+                                        if(!empty($value) && is_array($value)){    
+                                            $main_entity = array();
+
+                                            $ar_values = array_values($value);
+                                            
+                                            $main_entity['@type']                   = 'Question';
+                                          
+                                            if(!empty($ar_values[0])){
+                                                $main_entity['name'] = $ar_values[0]; 
+                                            }
+                                            $main_entity['acceptedAnswer']['@type'] = 'Answer';
+                                            if(!empty($ar_values[1])){
+                                                $main_entity['acceptedAnswer']['text'] = $ar_values[1];
+                                            }
+                                            if(!empty($ar_values[2])){
+                                                $main_entity['acceptedAnswer']['image'] = $ar_values[2];
+                                            }
+                                            
+                                            $cpt_response [] = $main_entity;  
+                                        }                                   
+                                    }
+                                }
+
+                                break;
+
+                                case 'HowTo':
+                                    
+                                    if(strpos(strtolower($cpt_object['label']), "tool") !== false){
+
+                                        if(!empty($post_meta_value) && is_array($post_meta_value) && isset($post_meta_value[0])){
+    
+                                            foreach($post_meta_value as $value){
+                                                if(!empty($value) && is_array($value)){ 
+                                                    $main_entity = array();
+    
+                                                    $ar_values = array_values($value);
+                                                    
+                                                    $main_entity['@type']                   = 'HowToTool';
+                                                  
+                                                    if(isset($ar_values[0]) && !empty($ar_values[0])){
+                                                        $main_entity['name'] = $ar_values[0]; 
+                                                    }
+                                                    if( $ar_values[1] && !empty($ar_values[1])){
+                                                        $main_entity['url'] = $ar_values[1]; 
+                                                    }                                                        
+                                                    if(isset($ar_values[2]) && !empty($ar_values[2])){
+                                                        if(isset($cpt_object['extra']) && isset($cpt_object['extra']['fields']) && isset($cpt_object['extra']['fields'][2])){
+                                                            $extra_field = $cpt_object['extra']['fields'][2];
+                                                            if(isset($extra_field['extra']) && isset($extra_field['extra']['types']) && isset($extra_field['extra']['types'][0]) && $extra_field['extra']['types'][0] == 'image' || empty($extra_field['extra']['types'][0])){
+                                                                $image_details           = saswp_get_image_by_id($ar_values[2]);
+                                                                if(!empty($image_details) && isset($image_details['url'])){
+                                                                    $main_entity['image'] = $image_details['url'];
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    $cpt_response [] = $main_entity;  
+                                                }
+                                               
+                                            }
+                                            
+                                        }
+
+                                    }
+                                    
+                                    if(strpos(strtolower($cpt_object['label']), "supp") !== false){
+                                        
+                                        if(!empty($post_meta_value) && is_array($post_meta_value) && isset($post_meta_value[0])){
+
+                                            foreach($post_meta_value as $value){
+                                                if(!empty($value) && is_array($value)){
+
+                                                    $main_entity = array();
+    
+                                                    $ar_values = array_values($value);
+                                                    
+                                                    $main_entity['@type']                   = 'HowToSupply';
+                                                  
+                                                    if(!empty($ar_values[0])){
+                                                        $main_entity['name'] = $ar_values[0]; 
+                                                    }
+                                                    if(!empty($ar_values[1])){
+                                                        $main_entity['url'] = $ar_values[1]; 
+                                                    }                                                        
+                                                    if(isset($ar_values[2]) && !empty($ar_values[2])){
+                                                        if(isset($cpt_object['extra']) && isset($cpt_object['extra']['fields']) && isset($cpt_object['extra']['fields'][2])){
+                                                            $extra_field = $cpt_object['extra']['fields'][2];
+                                                            if(isset($extra_field['extra']) && isset($extra_field['extra']['types']) && isset($extra_field['extra']['types'][0]) && $extra_field['extra']['types'][0] == 'image' || empty($extra_field['extra']['types'][0])){
+                                                                $image_details           = saswp_get_image_by_id($ar_values[2]);
+                                                                if(!empty($image_details) && isset($image_details['url'])){
+                                                                    $main_entity['image'] = $image_details['url'];
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    $cpt_response [] = $main_entity;  
+                                                }                                 
+                                        
+                                            }
+                                            
+                                        }
+
+                                    }
+                            
+                                    if(strpos(strtolower($cpt_object['label']), "step") !== false){
+
+                                        if(!empty($post_meta_value) && is_array($post_meta_value) && isset($post_meta_value[0])){
+
+                                            foreach($post_meta_value as $value){
+                                                if(!empty($value) && is_array($value)){
+                                                    $main_entity = array();
+    
+                                                    $ar_values = array_values($value);
+                                                    
+                                                    $main_entity['@type']                   = 'HowToStep';
+                                                  
+                                                    if(!empty($ar_values[0])){
+                                                        $main_entity['name'] = $ar_values[0]; 
+                                                    }
+                                                    if(!empty($ar_values[1])){
+                                                        $main_entity['url'] = $ar_values[1]; 
+                                                    }
+                                                    if(!empty($ar_values[2])){
+                                                        $main_entity['text'] = $ar_values[2]; 
+                                                    }                                                        
+                                                    if(isset($ar_values[3]) && !empty($ar_values[3])){
+                                                        if(isset($cpt_object['extra']) && isset($cpt_object['extra']['fields']) && isset($cpt_object['extra']['fields'][3])){
+                                                            $extra_field = $cpt_object['extra']['fields'][3];
+                                                            if(isset($extra_field['extra']) && isset($extra_field['extra']['types']) && isset($extra_field['extra']['types'][0]) && $extra_field['extra']['types'][0] == 'image' || empty($extra_field['extra']['types'][0])){
+                                                                $image_details           = saswp_get_image_by_id($ar_values[3]);
+                                                                if(!empty($image_details) && isset($image_details['url'])){
+                                                                    $main_entity['image'] = $image_details['url'];
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    $cpt_response [] = $main_entity;  
+                                                }                                 
+                                               
+                                            }
+                                            
+                                        }
+
+                                    }
+
+                                    break;
+                                
+                            
+                            default:
+                                if(!empty($post_meta_value) && is_array($post_meta_value) && isset($post_meta_value[0])){
+                                    foreach($post_meta_value as $value){
+                                        if(!empty($value) && is_array($value)){ 
+                                            foreach ($value as $val_key => $val) {
+                                                $cpt_response .= $val.' '; 
+                                            }   
+                                        }
+                                    }
+                                }     
+                                break;
+                        }
+                    }else{ 
+                        if(is_archive()){
+                            $term_id = get_queried_object_id(); // Get the current term's ID
+                            $cpt_response = get_term_meta($term_id, $field, true);
+                        }else{
+                            $cpt_response = get_post_meta($post->ID, $field, true );
+                        }       
+                    }
+                }
+            }
+            
+            if(!empty($cpt_response)){
+                $response = $cpt_response;
+            }
+            return $response;
         }
                 
 }
