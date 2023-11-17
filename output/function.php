@@ -1769,7 +1769,7 @@ function saswp_remove_microdata($content){
 
             preg_match( $regex, $content, $match);
             
-            if($match[1] && is_string($match[1])){
+            if(isset($match[1]) && is_string($match[1])){
                 
                 $data_decode = json_decode($match[1], true);
 
