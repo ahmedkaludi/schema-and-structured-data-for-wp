@@ -1067,8 +1067,10 @@
                         
                         if(saswp_collection[key]){
                             
-                            html += '<li>';                       
-                      html += '<a target="_blank" href="'+source_url+'">'; 
+                            html += '<li>';
+                      if(!jQuery('#saswp-collection-badge-souce-link').is(':not(:checked)')){                       
+                        html += '<a target="_blank" href="'+source_url+'">'; 
+                      }
 
                         html += '<div class="saswp-r3-lg">';
                           html += '<span>';

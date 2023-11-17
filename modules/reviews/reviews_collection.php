@@ -448,7 +448,7 @@ class SASWP_Reviews_Collection {
                         $perpage              = null;
                         $data_id              = null;
                         $dots = $f_interval = $f_visibility = $arrow = 1;
-                        $g_type = $design = $cols = $sorting = $date_format = $collection_review_imag = $saswp_collection_readmore_desc = $saswp_collection_gallery_readmore_desc = '';
+                        $g_type = $design = $cols = $sorting = $date_format = $collection_review_imag = $saswp_collection_readmore_desc = $saswp_collection_gallery_readmore_desc = $saswp_collection_badge_souce_link = '';
                         $stars_color = ''; $g_interval = 3000; $auto_slider = 0;
                         $collection_data = get_post_meta($attr['id']);
                         
@@ -549,6 +549,9 @@ class SASWP_Reviews_Collection {
                         if(isset($collection_data['saswp_collection_gallery_readmore_desc'][0])){
                             $saswp_collection_gallery_readmore_desc   = $collection_data['saswp_collection_gallery_readmore_desc'][0];                    
                         }
+                        if(isset($collection_data['saswp_collection_badge_souce_link'][0])){
+                            $saswp_collection_badge_souce_link   = $collection_data['saswp_collection_badge_souce_link'][0];                    
+                        }
                                                    
                     if($total_reviews){
                            
@@ -634,7 +637,7 @@ class SASWP_Reviews_Collection {
                                 
                                 case 'badge':
                                
-                                    $html = $this->_service->saswp_create_collection_badge($collection, $saswp_collection_hide_col_rew_img,$stars_color);
+                                    $html = $this->_service->saswp_create_collection_badge($collection, $saswp_collection_hide_col_rew_img,$stars_color,$saswp_collection_badge_souce_link);
                                     
                                     break;
                                     
@@ -900,6 +903,10 @@ class SASWP_Reviews_Collection {
                                             ?>                                    
                                          </select>                                         
                                         </div> 
+                                        <div class="saswp-dp-dsg saswp-coll-options saswp-badge-options saswp-dp-dtm">
+                                            <span><?php echo saswp_t_string( 'Exclude Source Link'); ?></span>
+                                            <span><input name="saswp_collection_badge_souce_link" type="checkbox" id="saswp-collection-badge-souce-link" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_badge_souce_link'][0]) && $post_meta['saswp_collection_badge_souce_link'][0] == 1 ? 'checked' : '' ); ?>></span>
+                                        </div>
 
                                         <div class="saswp-dp-dsg">
                                             <lable><?php echo saswp_t_string('Stars Color Picker'); ?></lable>  
@@ -1152,6 +1159,7 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_collection_image_thumbnail']      = isset($_POST['saswp_collection_image_thumbnail']) ? esc_url($_POST['saswp_collection_image_thumbnail']) : SASWP_DIR_URI.'admin_section/images/default_user.jpg';
             $post_meta['saswp_collection_readmore_desc'] = isset($_POST['saswp_collection_readmore_desc']) ? intval($_POST['saswp_collection_readmore_desc']) : '';
             $post_meta['saswp_collection_gallery_readmore_desc'] = isset($_POST['saswp_collection_gallery_readmore_desc']) ? intval($_POST['saswp_collection_gallery_readmore_desc']) : '';
+            $post_meta['saswp_collection_badge_souce_link'] = isset($_POST['saswp_collection_badge_souce_link']) ? intval($_POST['saswp_collection_badge_souce_link']) : '';
             if(!empty($post_meta)){
                 
                 foreach($post_meta as $meta_key => $meta_val){

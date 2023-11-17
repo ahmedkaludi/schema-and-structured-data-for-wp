@@ -1353,7 +1353,7 @@ class saswp_reviews_service {
                  return $html;
                 
     }
-    public function saswp_create_collection_badge($collection,$saswp_collection_hide_col_rew_img='',$stars_color=''){
+    public function saswp_create_collection_badge($collection,$saswp_collection_hide_col_rew_img='',$stars_color='',$saswp_collection_gallery_readmore_desc=''){
    
                 $html = '';                
                 if($collection){       
@@ -1361,7 +1361,7 @@ class saswp_reviews_service {
                     if(saswp_non_amp()){
                         
                     $html .= '<div class="saswp-r3">';
-                    $html .= '<ul>';
+                    $html .= '<ul style="list-style-type: none;">';
                                                             
                     foreach ($collection as $platform_wise){
 
@@ -1406,7 +1406,9 @@ class saswp_reviews_service {
                         }
                             
                       $html .= '<li>';                       
-                      $html .= '<a target="_blank" href="'.esc_url($source_url).'">'; 
+                      if(empty($saswp_collection_gallery_readmore_desc)){                       
+                        $html .= '<a target="_blank" href="'.esc_url($source_url).'">'; 
+                      }
                       $html .= '<div class="saswp-r3-lg">';
                       $html .= '<span>';
                       $html .= '<img alt="'.esc_attr($platform_name).'" src="'.esc_url($platform_icon).'"/>';
