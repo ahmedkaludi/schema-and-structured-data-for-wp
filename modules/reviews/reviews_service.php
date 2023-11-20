@@ -1075,7 +1075,11 @@ class saswp_reviews_service {
 
                        $html .= '</div>';
                        $html .='<div class="saswp-rc-cnt">';
-                       $html .= '<p>'. wp_strip_all_tags(html_entity_decode($value['saswp_review_text'])).'</p>';
+                       $review_text = wp_strip_all_tags(html_entity_decode($value['saswp_review_text']));
+                       if($saswp_collection_readmore_desc == 1){
+                        $review_text = $this->saswp_add_readmore_to_review_text($review_text, 20);
+                       } 
+                       $html .= '<p>'. $review_text.'</p>';
                        $html .= '</div>';
                        $html .= '</li>'; 
 
@@ -1153,7 +1157,7 @@ class saswp_reviews_service {
         
     }
     
-    public function saswp_review_desing_for_slider($value, $date_format = '', $saswp_collection_gallery_img_hide = '',$stars_color=''){
+    public function saswp_review_desing_for_slider($value, $date_format = '', $saswp_collection_gallery_img_hide = '',$stars_color='', $g_type='slider',$saswp_review_desing_for_slider=null){
         
                 if(!empty($value['saswp_review_location_id'])){
                     $review_link = $value['saswp_review_location_id'];
@@ -1196,7 +1200,15 @@ class saswp_reviews_service {
                 $html .= '</div>';
                 $html .= '<div class="saswp-rc-cnt">';
                 $html .= '<p>';
-                $html .= esc_attr($value['saswp_review_text']);
+                $review_text = esc_attr($value['saswp_review_text']);
+                if($saswp_review_desing_for_slider == 1){
+                    if($g_type == 'slider'){
+                        $review_text = $this->saswp_add_readmore_to_review_text(esc_attr($value['saswp_review_text']) , 40);
+                    }else{
+                        $review_text = $this->saswp_add_readmore_to_review_text(esc_attr($value['saswp_review_text']), 20);
+                    }
+                }
+                $html .= $review_text;
                 $html .= '</p>';
                 $html .= '</div>';
                 $html .= '<div class="saswp-r2-strs">';
@@ -1233,6 +1245,7 @@ class saswp_reviews_service {
                 if($collection){
                     $html .= '<input type="hidden" id="saswp-review-slider-interval" value="'.esc_attr($g_interval).'"/>';      
                     $html .= '<input type="hidden" id="saswp-review-auto-slider" value="'.esc_attr($auto_slider).'"/>';
+                    $html .= '<input type="hidden" id="saswp-presentation-type" value="'.esc_attr($g_type).'"/>';
                     if(saswp_non_amp()){
                       
                         if($g_type == 'slider'){
@@ -1250,7 +1263,7 @@ class saswp_reviews_service {
                                                           
                                 $html .= '<div class="saswp-si">';
                                 
-                                $html .= $this->saswp_review_desing_for_slider($value, $date_format, $saswp_collection_gallery_img_hide,$stars_color);
+                                $html .= $this->saswp_review_desing_for_slider($value, $date_format, $saswp_collection_gallery_img_hide,$stars_color,$g_type,$saswp_collection_readmore_desc);
                                 
                                 $html .= '</div>';
                              
@@ -1270,7 +1283,7 @@ class saswp_reviews_service {
                                                                     
                                 foreach($coll as $value){
 
-                                     $html .= $this->saswp_review_desing_for_slider($value, $date_format, $saswp_collection_gallery_img_hide,$stars_color);
+                                     $html .= $this->saswp_review_desing_for_slider($value, $date_format, $saswp_collection_gallery_img_hide,$stars_color,$g_type,$saswp_collection_readmore_desc);
 
                                 }
                                 
@@ -1738,6 +1751,37 @@ class saswp_reviews_service {
         }
         return $response;
 
+    }
+
+    /**
+     * Add Read more anchor link to review text
+     * @since 1.23
+     * @param $review_text  string
+     * @param $strip_index  integer
+     * */
+    public function saswp_add_readmore_to_review_text($review_text, $strip_index)
+    {
+        if(!empty($review_text)){
+            $r_word_count = str_word_count($review_text, 1);
+            if(is_array($r_word_count) && count($r_word_count) > $strip_index){
+                $wcnt = 1;
+                $brief_text = $read_more_text = '';
+                $brief_text = '<span class="saswp-breaf-review-text">';
+                $read_more_text = '<span class="saswp-more-review-text" style="display: none;">';
+                foreach ($r_word_count as $rkey => $rvalue) {
+                    if($wcnt <= $strip_index){
+                        $brief_text .= $rvalue ." ";
+                    }else{
+                        $read_more_text .= $rvalue . " ";
+                    }
+                    $wcnt++;
+                }
+                $brief_text .= ' <a href="javascript:void(0)" class="saswp-read-more">Read More</a> </span>';
+                $read_more_text .= '</span>';
+                $review_text = $brief_text.$read_more_text;
+            } 
+        }
+        return $review_text;
     }
 }
 

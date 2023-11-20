@@ -230,5 +230,24 @@ jQuery(document).ready(function($){
 		$('.saswp-r1 li[data-id="'+data_id+'"]').removeClass('saswp_grid_dp_none');
 		
 	});
+
+	// Expand review text on click on Read More
+	$(document).on('click', '.saswp-read-more', function(e){
+	    $(this).parent().next().show();
+	    if($('#saswp-presentation-type').val()  == 'carousel'){
+	    	$('.saswp-r2-b').height('auto');
+	    }
+	    $(this).remove();
+	    let divHeight = [];
+	    $.each($('.saswp-r2-b'), function(e1){
+	        divHeight.push($(this).height());
+	    }); 
+	    let maxHight = Math.max.apply(null, divHeight);
+	    $('.saswp-r2-b').height(maxHight);
+	});
+
+	if($('#saswp-presentation-type').val() == 'carousel'){
+		$('.saswp-r2-b').css(180);
+	}
     
 });  
