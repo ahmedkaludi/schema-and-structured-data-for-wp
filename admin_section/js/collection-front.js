@@ -247,7 +247,7 @@ jQuery(document).ready(function($){
 	});
 
 	if($('#saswp-presentation-type').val() == 'carousel'){
-		$('.saswp-r2-b').css(180);
+		$('.saswp-r2-b').height(180);
 	}
     
 });  
