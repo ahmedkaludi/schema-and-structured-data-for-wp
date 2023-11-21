@@ -2131,7 +2131,7 @@ if ( ! defined('ABSPATH') ) exit;
                     if($url && $url != ""){
 
                             $image_data = array();
-                            $image = '';    
+                            $image = array();    
                             if(function_exists('wp_getimagesize')){
                                 $image = @wp_getimagesize($url);
                             }
@@ -2707,7 +2707,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                 if($sab_image){
 
-                    $image = '';
+                    $image = array();
                     if(function_exists('wp_getimagesize')){
                         $image = @wp_getimagesize($sab_image);
                     }
@@ -2839,7 +2839,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                                     if($sab_image){
 
-                                        $image = '';
+                                        $image = array();
                                         if(function_exists('wp_getimagesize')){
                                             $image = @wp_getimagesize($sab_image);
                                         }
@@ -3744,7 +3744,7 @@ function saswp_get_image_by_url($url){
     
     if($url){        
                 
-            $image_details = '';
+            $image_details = array();
             if(function_exists('wp_getimagesize')){    
                 $image_details      = @wp_getimagesize($url);   
             }                 
