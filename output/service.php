@@ -159,7 +159,11 @@ Class saswp_output_service{
                     break;
                 case 'post_content':
                     $response = @get_the_content();
-					$response = wp_strip_all_tags(strip_shortcodes($response));                    
+                    if($schema_type == 'JobPosting'){
+                        $response = strip_shortcodes($response);
+                    }else{
+					   $response = wp_strip_all_tags(strip_shortcodes($response)); 
+                    }                   
                     break;
                 case 'post_category':
                     $categories = get_the_category();
