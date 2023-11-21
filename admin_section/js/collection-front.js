@@ -233,6 +233,7 @@ jQuery(document).ready(function($){
 
 	// Expand review text on click on Read More
 	$(document).on('click', '.saswp-read-more', function(e){
+		e.preventDefault();
 	    $(this).parent().next().show();
 	    if($('#saswp-presentation-type').val()  == 'carousel'){
 	    	$('.saswp-r2-b').height('auto');

@@ -1776,7 +1776,7 @@ class saswp_reviews_service {
                     }
                     $wcnt++;
                 }
-                $brief_text .= ' <a href="javascript:void(0)" class="saswp-read-more">Read More</a> </span>';
+                $brief_text .= ' <a href="#" class="saswp-read-more">Read More</a> </span>';
                 $read_more_text .= '</span>';
                 $review_text = $brief_text.$read_more_text;
             } 

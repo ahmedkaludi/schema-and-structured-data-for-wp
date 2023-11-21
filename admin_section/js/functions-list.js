@@ -1858,7 +1858,7 @@ function saswpAddReadmoreToReviewext(reviewText, wordLimit) {
                 }
                 wcnt++;    
             });
-            briefText += '<a href="javascript:void(0)" class="saswp-read-more">Read More</a> </span>';
+            briefText += '<a href="#" class="saswp-read-more">Read More</a> </span>';
             readMoreText += '</span>';
             reviewText = briefText + readMoreText;
         }
@@ -1868,6 +1868,7 @@ function saswpAddReadmoreToReviewext(reviewText, wordLimit) {
 
 // Expand review text on click on Read More
 jQuery(document).on('click', '.saswp-read-more', function(e){
+    e.preventDefault();
     jQuery(this).parent().next().show();
     jQuery('.saswp-rc-cnt').css('height', 'auto');
     jQuery(this).remove();
