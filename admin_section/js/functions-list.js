@@ -881,7 +881,7 @@
 	
                }     
             
-       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg=null){
+       function saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg=null,slider=null){
        
                             var date_str = saswp_convert_datetostring(value.saswp_review_date); 
                             if(value.saswp_is_date_in_days != '' && value.saswp_is_date_in_days == 'days'){
@@ -894,9 +894,25 @@
                                 html += '<div class="saswp-r2-q">';
                                 html += '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="95.333px" height="95.332px" viewBox="0 0 95.333 95.332" style="enable-background:new 0 0 95.333 95.332;" xml:space="preserve"><path d="M30.512,43.939c-2.348-0.676-4.696-1.019-6.98-1.019c-3.527,0-6.47,0.806-8.752,1.793    c2.2-8.054,7.485-21.951,18.013-23.516c0.975-0.145,1.774-0.85,2.04-1.799l2.301-8.23c0.194-0.696,0.079-1.441-0.318-2.045    s-1.035-1.007-1.75-1.105c-0.777-0.106-1.569-0.16-2.354-0.16c-12.637,0-25.152,13.19-30.433,32.076    c-3.1,11.08-4.009,27.738,3.627,38.223c4.273,5.867,10.507,9,18.529,9.313c0.033,0.001,0.065,0.002,0.098,0.002    c9.898,0,18.675-6.666,21.345-16.209c1.595-5.705,0.874-11.688-2.032-16.851C40.971,49.307,36.236,45.586,30.512,43.939z"></path><path d="M92.471,54.413c-2.875-5.106-7.61-8.827-13.334-10.474c-2.348-0.676-4.696-1.019-6.979-1.019    c-3.527,0-6.471,0.806-8.753,1.793c2.2-8.054,7.485-21.951,18.014-23.516c0.975-0.145,1.773-0.85,2.04-1.799l2.301-8.23    c0.194-0.696,0.079-1.441-0.318-2.045c-0.396-0.604-1.034-1.007-1.75-1.105c-0.776-0.106-1.568-0.16-2.354-0.16    c-12.637,0-25.152,13.19-30.434,32.076c-3.099,11.08-4.008,27.738,3.629,38.225c4.272,5.866,10.507,9,18.528,9.312    c0.033,0.001,0.065,0.002,0.099,0.002c9.897,0,18.675-6.666,21.345-16.209C96.098,65.559,95.376,59.575,92.471,54.413z"></path></svg>';
                                 html += '</div>';
-                                html += '<div class="saswp-rc-cnt">';
+                                if(jQuery('#saswp-collection-gallery-readmore-desc').is(':checked')){
+                                    if(slider == 'slider'){
+                                        html += '<div class="saswp-rc-cnt" style="height: 80px;">';
+                                    }else{
+                                        html += '<div class="saswp-rc-cnt" style="height: 120px;">';
+                                    }
+                                }else{
+                                    html += '<div class="saswp-rc-cnt">';
+                                }
                                 html += '<p>';
-                                html += value.saswp_review_text;
+                                let reviewText = value.saswp_review_text;
+                                if(jQuery('#saswp-collection-gallery-readmore-desc').is(':checked')){
+                                    if(slider == 'slider'){
+                                        reviewText = saswpAddReadmoreToReviewext(reviewText, 40);
+                                    }else{
+                                        reviewText = saswpAddReadmoreToReviewext(reviewText, 20);
+                                    }
+                                }
+                                html += reviewText;
                                 html += '</p>';
                                 html += '</div>';
                                 html += '<div class="saswp-r2-strs">';
@@ -957,7 +973,7 @@
                                                         
                                 html += '<div class="saswp-si">';
                                 
-                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg);
+                                html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg,slider);
                                 
                                 html += '</div>';
                             
@@ -977,7 +993,7 @@
                                                                     
                                 jQuery.each(p_value, function(index, value){
                                    
-                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg);
+                                    html += saswp_review_desing_for_slider(value, saswp_collection_gallery_img_hide,color,collectionImg,slider);
                                                                                                
                                 });
                                 
@@ -1067,8 +1083,10 @@
                         
                         if(saswp_collection[key]){
                             
-                            html += '<li>';                       
-                      html += '<a target="_blank" href="'+source_url+'">'; 
+                            html += '<li>';
+                      if(!jQuery('#saswp-collection-badge-souce-link').is(':not(:checked)')){                       
+                        html += '<a target="_blank" href="'+source_url+'">'; 
+                      }
 
                         html += '<div class="saswp-r3-lg">';
                           html += '<span>';
@@ -1413,8 +1431,16 @@
                             html += '</div>';
                             
                             html += '</div>';
-                            html += '<div class="saswp-rc-cnt">';
-                            html += '<p>'+value.saswp_review_text+'</p>';
+                            if(jQuery('#saswp-collection-readmore-desc').is(':checked')){
+                                html += '<div class="saswp-rc-cnt" style="height: auto;">';
+                            }else{
+                                html += '<div class="saswp-rc-cnt" style="height: 80px;">';
+                            }
+                            let reviewText = value.saswp_review_text;
+                            if(jQuery('#saswp-collection-readmore-desc').is(':checked')){
+                                reviewText = saswpAddReadmoreToReviewext(reviewText, 20);
+                            }
+                            html += '<p>'+reviewText+'</p>';
                             html += '</div>';
 
                             if(value.is_remove){
@@ -1777,4 +1803,79 @@ jQuery(document).on('click', '#saswp_reset_collection_image', function(e){
 
     });
     
+});
+
+// Remove height of review card
+jQuery(document).on('change', '#saswp-collection-readmore-desc, #saswp-collection-gallery-readmore-desc', function(e){
+    let readId = jQuery(this).attr('id');
+    if(jQuery(this).is(':checked')){
+        // jQuery('.saswp-rc-cnt').css('height', 'auto');
+
+        jQuery.each(jQuery('.saswp-rc-cnt p'), function(e){
+            let reviewText = jQuery(this).text();
+            if(reviewText.length > 0){
+                if(readId == 'saswp-collection-readmore-desc'){
+                    reviewText = saswpAddReadmoreToReviewext(reviewText, 20);
+                    jQuery(this).html(reviewText);
+                }
+                if(readId == 'saswp-collection-gallery-readmore-desc'){
+                    if(jQuery('#saswp_collection_gallery_type').val() == 'slider'){
+                        reviewText = saswpAddReadmoreToReviewext(reviewText, 40);
+                        jQuery(this).html(reviewText);
+                    }else{
+                        reviewText = saswpAddReadmoreToReviewext(reviewText, 20);
+                        // jQuery('.saswp-rc-cnt').css('height', '00px !important');
+                        jQuery(this).html(reviewText);    
+                    }    
+                }
+            }
+        });
+
+    }else{
+        // jQuery('.saswp-rc-cnt').css('height', 'auto');
+        if(readId == 'saswp-collection-readmore-desc'){
+            // jQuery('.saswp-rc-cnt').css('height', '80px !important');
+        }else if(readId == 'saswp-collection-gallery-readmore-desc'){
+            // jQuery('.saswp-rc-cnt').css('height', '120px !important');
+        }
+    }
+});
+
+function saswpAddReadmoreToReviewext(reviewText, wordLimit) {
+    reviewText = jQuery.trim(reviewText);
+    if(reviewText.length > 0){
+        let splitText = reviewText.split(" ");
+        if(splitText.length > wordLimit){
+            let wcnt = 1;
+            let briefText = readMoreText = '';
+            briefText = '<span class="saswp-breaf-review-text">';
+            readMoreText = '<span class="saswp-more-review-text" style="display: none;">';
+            jQuery.each(splitText, function(i, e){
+                if(wcnt <= wordLimit){
+                    briefText += e  + " ";
+                }else{
+                    readMoreText += e + " ";
+                }
+                wcnt++;    
+            });
+            briefText += '<a href="#" class="saswp-read-more">Read More</a> </span>';
+            readMoreText += '</span>';
+            reviewText = briefText + readMoreText;
+        }
+    }
+    return reviewText;
+}
+
+// Expand review text on click on Read More
+jQuery(document).on('click', '.saswp-read-more', function(e){
+    e.preventDefault();
+    jQuery(this).parent().next().show();
+    jQuery('.saswp-rc-cnt').css('height', 'auto');
+    jQuery(this).remove();
+    let divHeight = [];
+    jQuery.each(jQuery('.saswp-r2-b'), function(e1){
+        divHeight.push(jQuery(this).height());
+    }); 
+    let maxHight = Math.max.apply(null, divHeight);
+    jQuery('.saswp-r2-b').height(maxHight);
 });

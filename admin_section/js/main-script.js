@@ -3971,26 +3971,31 @@ jQuery(document).ready(function($){
                     $(".saswp-rmv-coll-rv").show();
                     $(".saswp-add-dynamic-section").show();
                     $('.saswp-coll-review-wrapper').removeClass('saswp_hide');
+                    $('.saswp-badge-options').addClass('saswp_hide');
                 }
                 
                 if(design == 'gallery'){                    
                     $(".saswp-slider-options").removeClass("saswp_hide");
                     $('.saswp-coll-review-wrapper').removeClass('saswp_hide');
+                    $('.saswp-badge-options').addClass('saswp_hide');
                 }
                 
                 if(design == 'fomo'){
                     $(".saswp-fomo-options").removeClass("saswp_hide");  
                     $(".saswp-collection-lp").css('height', '31px');
                     $('.saswp-coll-review-wrapper').addClass('saswp_hide'); 
+                    $('.saswp-badge-options').addClass('saswp_hide'); 
                 }
                 
                 if(design == 'popup'){
                     $(".saswp-collection-lp").css('height', '31px');     
                     $('.saswp-coll-review-wrapper').addClass('saswp_hide');              
+                    $('.saswp-badge-options').addClass('saswp_hide');              
                 }
 
                 if(design == 'badge'){
                     $('.saswp-coll-review-wrapper').addClass('saswp_hide');
+                    $('.saswp-badge-options').removeClass('saswp_hide');
                 }
 
                 if($("#saswp_collection_specific_rating").is(':checked')){

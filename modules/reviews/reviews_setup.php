@@ -424,7 +424,7 @@ function saswp_insert_platform_terms(){
     
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 103 ){
+    if( $platform_inserted != 104 ){
             
         $term_array = array(    
             'Self',
@@ -530,6 +530,7 @@ function saswp_insert_platform_terms(){
             'Abia.com',
             'WordofMouth',
             'Guaranteed',                     
+            'Webwinkelkeur',                     
         );
 
         foreach($term_array as $term){
@@ -554,8 +555,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if( count($term_ids)  == 103 ){
-            set_transient( 'saswp_platform_inserted', 103,  24*7*HOUR_IN_SECONDS ); 
+        if( count($term_ids)  == 104 ){
+            set_transient( 'saswp_platform_inserted', 104,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

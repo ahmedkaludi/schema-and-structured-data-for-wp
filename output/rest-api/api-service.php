@@ -14,7 +14,7 @@ class SASWP_Output_Rest_Api_Service {
 
             $result = wp_remote_get($permalink);
 
-            if(isset($result['body'])){
+            if( !is_wp_error( $result ) && 200 === wp_remote_retrieve_response_code( $result )){
 
                 $regex = '/<script type\=\"application\/ld\+json\" class\=\"saswp\-schema\-markup\-output\"\>(.*?)<\/script>/s'; 
 

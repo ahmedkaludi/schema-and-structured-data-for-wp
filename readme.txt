@@ -2,9 +2,9 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, AMP
 Requires at least: 3.0
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.6.20
-Stable tag: 1.22
+Stable tag: 1.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.23 (21 Nov 2023) =
+
+* Feature: Added compatibility with "custom-post-types" plugin #2017
+* Fixed: Fixed Fatal Error: Call to undefined function wp_getimagesize() #2027
+* Feature: Created an option of 'Read More' in the description of review #2028
+* Enhancement: Do not strip html tags from job posting description #2030
+* Feature: Added compatibility with Webwinkelkeur to fetch reviews #2032
+* Feature: Added an option to hide the Place ID URL #2037
+* Fixed: The issue with Graphql on the pages shows the internal server error #2039
+* Fixed: Test with wordpress v6.4 #2040
+* Fixed: PHP warning in query monitor "Undefined array key 1" #2043
+
 
 = 1.22 (6 Nov 2023) =
 
