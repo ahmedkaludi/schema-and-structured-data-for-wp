@@ -144,12 +144,15 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
         if( !empty($saswp_tiny_multi_faq['elements']) ){
 
             foreach ($saswp_tiny_multi_faq['elements'] as $value) {
-                
+                $validate_headings = array('h1','h2','h3','h4','h5','h6','p');
+                if(!in_array(strtolower($value['headline']), $validate_headings)){
+                    continue;
+                }
                 $output .= '<section>';
                 $output .= '<summary>';
-                $output .= '<'.esc_attr($value['headline']).'>';
+                $output .= '<'.esc_html($value['headline']).'>';
                 $output .=  esc_html($value['question']);
-                $output .= '</'.esc_attr($value['headline']).'>';
+                $output .= '</'.esc_html($value['headline']).'>';
                 $output .= '</summary>';
 
                 $output .= '<div>';
@@ -196,13 +199,13 @@ function saswp_tiny_faq_render( $atts, $content = null ){
             ], $atts );
             
         $output = '';
-
-        if($saswp_tiny_faq['html'] == 'true'){                        
+        $validate_headings = array('h1','h2','h3','h4','h5','h6','p');
+        if($saswp_tiny_faq['html'] == 'true' && in_array(strtolower($saswp_tiny_faq['headline']), $validate_headings)){                        
 
             $output .= '<summary>';
-            $output .= '<'.esc_attr($saswp_tiny_faq['headline']).'>';
+            $output .= '<'.esc_html($saswp_tiny_faq['headline']).'>';
             $output .=  esc_html($saswp_tiny_faq['question']);
-            $output .= '</'.esc_attr($saswp_tiny_faq['headline']).'>';
+            $output .= '</'.esc_html($saswp_tiny_faq['headline']).'>';
             $output .= '</summary>';
 
             $output .= '<div>';
