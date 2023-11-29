@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.4
 Requires PHP: 5.6.20
-Stable tag: 1.23
+Stable tag: 1.24
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.24 (29 Nov 2023) =
+
+* Fixed: Fatal Error Call to undefined function wp_getimagesize() #2027
+* Fixed: Schema type not displaying in admin for post specific #2045
+* Fixed: Review Title Link Displays 404 Error #2046
+* Fixed: Broken Access Control vulnerability reported by patchstack.com
 
 = 1.23 (21 Nov 2023) =
 
