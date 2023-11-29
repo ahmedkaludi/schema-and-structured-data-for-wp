@@ -79,9 +79,6 @@ if(!class_exists('SASWP_Aq_Resize')) {
          * Run, forest.
          */
         public function process( $url, $width = null, $height = null, $crop = null, $single = true, $upscale = false ) {
-            if (!function_exists( 'wp_getimagesize' ) ){
-                require_once( ABSPATH . '/wp-admin/includes/media.php' );
-            }
             try {
                 // Validate inputs.
                 if (!$url)
@@ -171,7 +168,7 @@ if(!class_exists('SASWP_Aq_Resize')) {
                 }
 
                 // Check if img path exists, and is an image indeed.
-                if ( ! file_exists( $img_path ) or ! @wp_getimagesize( $img_path ) ){
+                if ( ! file_exists( $img_path ) or ! saswp_get_image_details($img_path) ){
                     // Return the Original CDN array
                     return array (
                                 0 => $cdn_url_main,
@@ -182,7 +179,7 @@ if(!class_exists('SASWP_Aq_Resize')) {
                 // Get image info.
                 $info = pathinfo( $img_path );
                 $ext = isset($info['extension']) ? $info['extension'] : '';
-                list( $orig_w, $orig_h ) = @wp_getimagesize( $img_path );
+                list( $orig_w, $orig_h ) = saswp_get_image_details($img_path);
 
                 // Get image size after cropping.
                 $dims = image_resize_dimensions( $orig_w, $orig_h, $width, $height, $crop );
@@ -205,7 +202,7 @@ if(!class_exists('SASWP_Aq_Resize')) {
                         throw new SASWP_Aq_Exception('Unable to resize image because image_resize_dimensions() failed');
                     }
                     // Else check if cache exists.
-                    elseif ( file_exists( $destfilename ) && @wp_getimagesize( $destfilename ) ) {
+                    elseif ( file_exists( $destfilename ) && saswp_get_image_details($destfilename) ) {
                         $img_url = "{$upload_url}{$dst_rel_path}-{$suffix}.{$ext}";
                     }
                     // Else, we resize the image and return the new resized image url.

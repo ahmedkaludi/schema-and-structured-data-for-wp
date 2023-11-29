@@ -2118,10 +2118,6 @@ if ( ! defined('ABSPATH') ) exit;
     function saswp_get_attachment_details($attachments, $post_id = null) {
         
         $cached_data = get_transient('saswp_imageobject_' .$post_id); 
-
-        if (!function_exists( 'wp_getimagesize' ) ){
-            require_once( ABSPATH . '/wp-admin/includes/media.php' );
-        }
         
         if (empty($cached_data)) {
             $response = array();        
@@ -2132,9 +2128,7 @@ if ( ! defined('ABSPATH') ) exit;
 
                             $image_data = array();
                             $image = array();    
-                            if(function_exists('wp_getimagesize')){
-                                $image = @wp_getimagesize($url);
-                            }
+                            $image = saswp_get_image_details($url);
 
                             if(!empty($image) && is_array($image)){
 
@@ -2605,10 +2599,6 @@ if ( ! defined('ABSPATH') ) exit;
 
         global $post, $sd_data;
 
-        if (!function_exists( 'wp_getimagesize' ) ){
-            require_once( ABSPATH . '/wp-admin/includes/media.php' );
-        }
-
         $author_details = array();            
         $is_multiple_authors = 0;
         if(isset($sd_data['saswp-publish-press-authors']) && $sd_data['saswp-publish-press-authors'] == 1){
@@ -2708,9 +2698,7 @@ if ( ! defined('ABSPATH') ) exit;
                 if($sab_image){
 
                     $image = array();
-                    if(function_exists('wp_getimagesize')){
-                        $image = @wp_getimagesize($sab_image);
-                    }
+                    $image = saswp_get_image_details($sab_image);
 
                     if(!empty($image) && is_array($image)){
                         $author_details['image']['@type']  = 'ImageObject';
@@ -2735,10 +2723,6 @@ if ( ! defined('ABSPATH') ) exit;
     function saswp_get_multiple_author_details($author_details)
     {
         global $post, $sd_data, $wpdb;
-
-        if (!function_exists( 'wp_getimagesize' ) ){
-            require_once( ABSPATH . '/wp-admin/includes/media.php' );
-        }
 
         if(isset($sd_data['saswp-publish-press-authors']) && $sd_data['saswp-publish-press-authors'] == 1){
             $multiple_authors = get_post_meta(get_the_ID(), 'ppma_authors_name');
@@ -2840,9 +2824,7 @@ if ( ! defined('ABSPATH') ) exit;
                                     if($sab_image){
 
                                         $image = array();
-                                        if(function_exists('wp_getimagesize')){
-                                            $image = @wp_getimagesize($sab_image);
-                                        }
+                                        $image = saswp_get_image_details($sab_image);
 
                                         if(!empty($image) && is_array($image)){
                                             $author_details[$auth_cnt]['image']['@type']  = 'ImageObject';
@@ -3737,17 +3719,11 @@ function saswp_post_type_capabilities(){
 function saswp_get_image_by_url($url){
     
     $response = array();
-
-    if (!function_exists( 'wp_getimagesize' ) ){
-        require_once( ABSPATH . '/wp-admin/includes/media.php' );
-    }
     
     if($url){        
                 
             $image_details = array();
-            if(function_exists('wp_getimagesize')){    
-                $image_details      = @wp_getimagesize($url);   
-            }                 
+            $image_details = saswp_get_image_details($url);                 
             
             if(!empty($image_details) && is_array($image_details)){
 
@@ -5190,4 +5166,24 @@ function saswp_validate_image_extension($image_url = '')
         }
     }
     return $status;
+}
+
+/**
+ * Get image size using wp_getimagesize
+ * @since 1.24
+ * @param   $url    string
+ * @return  $image  array return image details array
+ * */
+function saswp_get_image_details($url)
+{
+    $image = array();
+    if (!function_exists( 'wp_getimagesize' ) ){
+        require_once( ABSPATH . '/wp-admin/includes/media.php' );
+    }
+    if(function_exists('wp_getimagesize')){
+        $image = @wp_getimagesize($url);
+    }else{
+        $image = @getimagesize($url);
+    }
+    return $image;
 }

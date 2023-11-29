@@ -1062,7 +1062,11 @@ class saswp_reviews_service {
                        }
                       
                        $html .= '<div class="saswp-rc-nm saswp-grid">';
-                       $html .= '<a target="_blank" rel="noopener" href="'.esc_url($review_link).'">'.esc_html($value['saswp_reviewer_name']).'</a>';
+                        if(empty($review_link) || is_numeric($review_link)){
+                            $html .= '<span><strong>'. esc_html($value['saswp_reviewer_name']).'</strong></span>';
+                        }else{
+                            $html .= '<a target="_blank" rel="noopener" href="'.esc_url($review_link).'">'. esc_html($value['saswp_reviewer_name']).'</a>';
+                        }
 
                        $html .= saswp_get_rating_html_by_value($value['saswp_review_rating'],$stars_color,$value['saswp_review_id']);                       
                        $html .= '<span class="saswp-rc-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
@@ -1224,7 +1228,11 @@ class saswp_reviews_service {
                     $html .= '<img alt="'.esc_attr($value['saswp_reviewer_name']).'" loading="lazy" src="'.esc_url($value['saswp_reviewer_image']).'"/>';
                 }                
                 $html .= '<div class="saswp-rc-nm">';
-                $html .= '<a target="_blank" rel="noopener" href="'.esc_url($review_link).'">'. esc_html($value['saswp_reviewer_name']).'</a>';
+                if(empty($review_link) || is_numeric($review_link)){
+                    $html .= '<span><strong>'. esc_html($value['saswp_reviewer_name']).'</strong></span>';
+                }else{
+                    $html .= '<a target="_blank" rel="noopener" href="'.esc_url($review_link).'">'. esc_html($value['saswp_reviewer_name']).'</a>';
+                }
                 $html .= '<span class="saswp-rc-dt">'.(isset($date_str['date']) ? esc_attr($date_str['date']): '' ).'</span>';
                 $html .= '</div>';
                 $html .= '</div>';

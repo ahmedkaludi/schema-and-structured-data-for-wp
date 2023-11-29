@@ -388,6 +388,10 @@ function saswp_comparison_logic_checker($input, $post){
                $homepage = 'true';  
             }
                       
+            if(is_admin() && isset($post->ID) && $post->ID == get_option('page_on_front')){
+              $homepage = 'true';  
+            }
+
             if ( $comparison == 'equal' ) {
                 if ( $homepage == $data ) {
                   $result = true;
