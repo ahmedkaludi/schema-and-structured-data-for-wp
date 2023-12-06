@@ -4481,8 +4481,8 @@ function saswp_medicalwebpage_schema_markup($schema_id, $schema_post_id, $all_po
     'inLanguage'                    => get_bloginfo('language'),    
     'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_medicalwebpage_name_'.$schema_id, 'saswp_array'),
     'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_medicalwebpage_url_'.$schema_id, 'saswp_array'),
-    'lastReviewed' 	    => isset($all_post_meta['saswp_medicalwebpage_last_reviewed_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_last_reviewed_'.$schema_id][0], get_post_time('h:i:s')) :'',
-    'dateCreated' 	    => isset($all_post_meta['saswp_medicalwebpage_date_created_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_created_'.$schema_id][0], get_post_time('h:i:s')) :'',
+    'lastReviewed' 	    => isset($all_post_meta['saswp_medicalwebpage_last_reviewed_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_medicalwebpage_last_reviewed_'.$schema_id][0], get_post_time('h:i:s')) :'',
+    'dateCreated' 	    => isset($all_post_meta['saswp_medicalwebpage_date_created_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_medicalwebpage_date_created_'.$schema_id][0], get_post_time('h:i:s')) :'',
     'reviewedBy'	    => array(
         '@type'			=> 'Organization',
         'logo' 			=> array(
@@ -4502,8 +4502,8 @@ function saswp_medicalwebpage_schema_markup($schema_id, $schema_post_id, $all_po
                     'description'		=> saswp_remove_warnings($all_post_meta, 'saswp_medicalwebpage_description_'.$schema_id, 'saswp_array'),
                     'keywords'		=> saswp_remove_warnings($all_post_meta, 'saswp_medicalwebpage_keywords_'.$schema_id, 'saswp_array'),
                     'articleSection'	=> saswp_remove_warnings($all_post_meta, 'saswp_medicalwebpage_section_'.$schema_id, 'saswp_array'),                        
-                    'datePublished' 	=> isset($all_post_meta['saswp_medicalwebpage_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
-                    'dateModified'		=> isset($all_post_meta['saswp_medicalwebpage_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',                        
+                    'datePublished' 	=> isset($all_post_meta['saswp_medicalwebpage_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_medicalwebpage_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
+                    'dateModified'		=> isset($all_post_meta['saswp_medicalwebpage_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_medicalwebpage_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',                        
                     'publisher'			=> array(
                             '@type'			=> 'Organization',
                             'logo' 			=> array(
