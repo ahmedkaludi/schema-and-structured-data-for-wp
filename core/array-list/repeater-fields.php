@@ -114,7 +114,10 @@ return array( 'schema_type_element' => array(
 						),
 						'BoatTrip' => array(
 							'boat-trip-itinerary'  => 'boat_trip_itinerary'
-					    )
+					    ),
+			   'TouristTrip' => array(
+					'tourist-trip-itinerary'  => 'tourist_trip_itinerary'
+			    )
 						                                                                          
                     ),
     'meta_name' => array(
@@ -803,6 +806,18 @@ return array( 'schema_type_element' => array(
 				'type'      => 'select',
 					'options'   => array()                            
 		    )
-             )                    
+             ),
+             'tourist_trip_itinerary' => array(                    
+		array(
+			'label'     => 'Itinerary Name',
+			'name'      => 'saswp_tourist_trip_itinerary_name',
+			'type'      => 'text'                        
+			),
+		 array(
+			'label'     => 'Itinerary Description',
+			'name'      => 'saswp_tourist_trip_itinerary_description',
+			'type'      => 'textarea'                        
+			),  
+		)                    
         )    
 );

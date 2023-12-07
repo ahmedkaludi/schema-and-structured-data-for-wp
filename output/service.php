@@ -7204,6 +7204,36 @@ Class saswp_output_service{
                     }                    
                     
                 break;
+                
+                case 'TouristTrip':
+                    if(isset($custom_fields['saswp_tt_schema_id'])){
+                        $input1['@id'] =    get_permalink().$custom_fields['saswp_tt_schema_id'];
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_name'])){
+                        $input1['name'] =    $custom_fields['saswp_tt_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_description'])){
+                        $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_tt_schema_description'] ));
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_ttype'])){
+                        if(is_string($custom_fields['saswp_tt_schema_ttype'])){
+                            $explode_type = explode(',', $custom_fields['saswp_tt_schema_ttype']);
+                            if(!empty($explode_type) && is_array($explode_type)){
+                                $input1['touristType'] =   $explode_type;
+                            }
+                        }
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_son']) || isset($custom_fields['saswp_tt_schema_sou'])){
+                        $input1['subjectOf']['@type'] =   "CreativeWork";    
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_son'])){
+                        $input1['subjectOf']['name'] =   $custom_fields['saswp_tt_schema_son'];    
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_sou'])){
+                        $input1['subjectOf']['url'] =   $custom_fields['saswp_tt_schema_sou'];    
+                    }
+
+                break;
                
                      default:
                          break;

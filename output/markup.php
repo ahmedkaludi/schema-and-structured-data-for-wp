@@ -3214,6 +3214,69 @@ function saswp_tourist_destination_schema_markup($schema_id, $schema_post_id, $a
     return $input1;
 }
 
+/**
+ * Prepare markup for post specific
+ * @since 1.25
+ * @param $schema_id            int
+ * @param $schema_post_id       int
+ * @param $all_post_meta        array
+ * @return array
+ * */
+function saswp_tourist_trip_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_tt_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_tt_schema_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_tt_schema_id_'.$schema_id][0] : '');
+        
+    $input1['@context']              = saswp_context_url();
+    $input1['@type']                 = 'TouristTrip';
+    if($checkIdPro){
+        $input1['@id']               = $checkIdPro;  
+    }                            
+    $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_tt_schema_name_'.$schema_id, 'saswp_array');                            
+    $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_tt_schema_description_'.$schema_id, 'saswp_array');
+    if(isset($all_post_meta['saswp_tt_schema_ttype_'.$schema_id]) && isset($all_post_meta['saswp_tt_schema_ttype_'.$schema_id][0])){
+        if(is_string($all_post_meta['saswp_tt_schema_ttype_'.$schema_id][0])){
+            $explode_type = explode(',', $all_post_meta['saswp_tt_schema_ttype_'.$schema_id][0]);
+            if(!empty($explode_type) && is_array($explode_type)){
+                $input1['touristType'] =   $explode_type;
+            }
+        }
+    }
+    if((isset($all_post_meta['saswp_tt_schema_son_'.$schema_id]) && isset($all_post_meta['saswp_tt_schema_son_'.$schema_id][0]) && !empty($all_post_meta['saswp_tt_schema_son_'.$schema_id][0])) || (isset($all_post_meta['saswp_tt_schema_sou_'.$schema_id]) && isset($all_post_meta['saswp_tt_schema_sou_'.$schema_id][0]) && !empty($all_post_meta['saswp_tt_schema_sou_'.$schema_id][0]))){
+        $input1['subjectOf']['@type'] =   "CreativeWork";    
+    }
+    if(isset($all_post_meta['saswp_tt_schema_son_'.$schema_id]) && isset($all_post_meta['saswp_tt_schema_son_'.$schema_id][0])){
+        $input1['subjectOf']['name'] =   saswp_remove_warnings($all_post_meta, 'saswp_tt_schema_son_'.$schema_id, 'saswp_array');    
+    }
+    if(isset($all_post_meta['saswp_tt_schema_sou_'.$schema_id]) && isset($all_post_meta['saswp_tt_schema_sou_'.$schema_id][0])){
+        $input1['subjectOf']['url'] =   saswp_remove_warnings($all_post_meta, 'saswp_tt_schema_sou_'.$schema_id, 'saswp_array');    
+    }
+    $tourist_itinerary  = get_post_meta($schema_post_id, 'tourist_trip_itinerary_'.$schema_id, true);
+    if(!empty($tourist_itinerary) && is_array($tourist_itinerary)){
+        $cnt = 1;
+        $itemlist_array = array();
+        foreach ($tourist_itinerary as $tt_key => $tt_value) {
+            if(!empty($tt_value) && is_array($tt_value)){
+                $itemlist_element = array();
+                $itemlist_element['@type'] = 'ListItem';
+                $itemlist_element['position'] = $cnt;
+                $itemlist_element['item']['@type'] = 'TouristAttraction';
+                $itemlist_element['item']['name'] = isset($tt_value['saswp_tourist_trip_itinerary_name'])?$tt_value['saswp_tourist_trip_itinerary_name']:'';
+                $itemlist_element['item']['description'] = isset($tt_value['saswp_tourist_trip_itinerary_description'])?$tt_value['saswp_tourist_trip_itinerary_description']:'';
+                $cnt++;
+
+                $itemlist_array[] = $itemlist_element;
+            }
+        }
+        if(count($tourist_itinerary) > 0){
+            $input1['itinerary']['@type'] = 'ItemList';
+            $input1['itinerary']['numberOfItems'] = count($tourist_itinerary);
+            $input1['itinerary']['itemListElement'] = $itemlist_array;
+        }
+    }
+    
+    return $input1;
+}
+
 function saswp_apartment_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
