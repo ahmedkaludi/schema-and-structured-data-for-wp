@@ -5459,11 +5459,25 @@ Class saswp_output_service{
                                 $input1['offers']['hasMerchantReturnPolicy']['returnMethod'] = esc_attr($custom_fields['saswp_product_schema_rp_return_method']);
                             }
                         }
-                        if(isset($custom_fields['saswp_product_schema_rp_return_fees'])){
-                            $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
-                            if(in_array($custom_fields['saswp_product_schema_rp_return_fees'], $rf_category)){
-                                $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($custom_fields['saswp_product_schema_rp_return_fees']);
+                        if(isset($custom_fields['saswp_product_schema_rsf_name']) || isset($custom_fields['saswp_product_schema_rsf_value']) || isset($custom_fields['saswp_product_schema_rsf_currency'])){
+                            $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['@type'] = 'MonetaryAmount';
+                            if(isset($custom_fields['saswp_product_schema_rsf_name'])){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['name'] = esc_attr($custom_fields['saswp_product_schema_rsf_name']);    
                             }
+                            if(isset($custom_fields['saswp_product_schema_rsf_value'])){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['value'] = esc_attr($custom_fields['saswp_product_schema_rsf_value']);    
+                            }
+                            if(isset($custom_fields['saswp_product_schema_rsf_currency'])){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['currency'] = esc_attr($custom_fields['saswp_product_schema_rsf_currency']);    
+                            }    
+                        }else{
+                            if(isset($custom_fields['saswp_product_schema_rp_return_fees'])){
+                                $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
+                                // if(in_array($custom_fields['saswp_product_schema_rp_return_fees'], $rf_category)){
+                                    $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($custom_fields['saswp_product_schema_rp_return_fees']);
+                                // }
+                            }
+                                
                         }
                     }
 

@@ -1327,11 +1327,24 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                             $input1['offers']['hasMerchantReturnPolicy']['returnMethod'] = esc_attr($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0]);
                         }
                     }
-                    if(isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0])){
-                        $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
-                        if(in_array($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0], $rf_category)){
-                            $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]);
+                    if((isset($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0]))){
+                        $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['@type'] = 'MonetaryAmount';
+                        if(isset($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0])){
+                            $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['name'] = esc_attr($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0]);    
                         }
+                        if(isset($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0])){
+                            $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['value'] = esc_attr($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0]);    
+                        }
+                        if(isset($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0])){
+                            $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['currency'] = esc_attr($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0]);    
+                        }    
+                    }else{
+                        if(isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0])){
+                            $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
+                            // if(in_array($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0], $rf_category)){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]);
+                            // }
+                        }   
                     }
                 }
 
