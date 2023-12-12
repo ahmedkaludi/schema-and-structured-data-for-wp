@@ -805,7 +805,48 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                                        "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_course_review_count_'.$schema_id, 'saswp_array')
                     );                                       
             }
-    
+            
+            /**
+             * Add hasCourseInstance field to schema markup
+             * @since 1.25
+             * */
+            $course_instance = get_post_meta($schema_post_id, 'course_instance_'.$schema_id, true);
+            if(!empty($course_instance) && is_array($course_instance)){
+                foreach ($course_instance as $ci_key => $ci_value) {
+                    $instance_array = array();
+                    if(!empty($ci_value) && is_array($ci_value)){
+                        $instance_array['@type'] = 'CourseInstance';
+                        $instance_array['courseMode'] = isset($ci_value['saswp_course_instance_mode'])?sanitize_text_field($ci_value['saswp_course_instance_mode']):'';
+                        if(!empty($ci_value['saswp_course_instance_mode']) && !empty($ci_value['saswp_course_instance_mode'])){
+                            $explode_mode = explode(',', $ci_value['saswp_course_instance_mode']);
+                            if(!empty($explode_mode) && is_array($explode_mode)){
+                                if(count($explode_mode) > 1){
+                                    $cmode = array();
+                                    foreach ($explode_mode as $em_key => $em_value) {
+                                        if(!empty($em_value)){
+                                            array_push($cmode, $em_value);
+                                        }
+                                    }
+                                    $instance_array['courseMode'] = $cmode;
+                                }else if(count($explode_mode) == 1){
+                                    $instance_array['courseMode'] = isset($explode_mode[0])?sanitize_text_field($explode_mode[0]):'';
+                                }
+                            } 
+                        }
+                        $instance_array['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
+                        $instance_array['location'] = isset($ci_value['saswp_course_instance_location'])?sanitize_text_field($ci_value['saswp_course_instance_location']):'';
+                        $instance_array['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
+                        if(isset($ci_value['saswp_course_instance_offer_price']) && isset($ci_value['saswp_course_instance_offer_currency'])){
+                            if(!empty($ci_value['saswp_course_instance_offer_price']) && !empty($ci_value['saswp_course_instance_offer_currency'])){
+                                $instance_array['offers']['@type'] = 'Offer';   
+                                $instance_array['offers']['price'] = sanitize_text_field($ci_value['saswp_course_instance_offer_price']);   
+                                $instance_array['offers']['priceCurrency'] = sanitize_text_field($ci_value['saswp_course_instance_offer_currency']);   
+                            }
+                        }
+                        $input1['hasCourseInstance'][] = $instance_array;
+                    }
+                }
+            }
     return $input1;
     
 }

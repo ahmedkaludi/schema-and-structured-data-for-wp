@@ -117,6 +117,9 @@ return array( 'schema_type_element' => array(
 					    ),
 			   'TouristTrip' => array(
 					'tourist-trip-itinerary'  => 'tourist_trip_itinerary'
+			    ),
+			    'Course' => array(
+					'course-instance'  => 'course_instance'
 			    )
 						                                                                          
                     ),
@@ -818,6 +821,40 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_tourist_trip_itinerary_description',
 			'type'      => 'textarea'                        
 			),  
+		),
+		'course_instance' => array(                    
+		array(
+			'label'     => 'Course Mode',
+			'name'      => 'saswp_course_instance_mode',
+			'type'      => 'text'                     
+			),
+		 array(
+			'label'     => 'Start Date',
+			'name'      => 'saswp_course_instance_start_date',
+			'type'      => 'text',
+			'default' => get_the_date("Y-m-d")
+			),  
+		 array(
+			'label'     => 'End Date',
+			'name'      => 'saswp_course_instance_end_date',
+			'type'      => 'text',
+			'default' => get_the_date("Y-m-d")
+			),
+		array(
+			'label'     => 'Location',
+			'name'      => 'saswp_course_instance_location',
+			'type'      => 'text'
+			), 
+		array(
+			'label'     => 'Offer Price',
+			'name'      => 'saswp_course_instance_offer_price',
+			'type'      => 'number'
+			), 
+		array(
+			'label'     => 'Offer Price Currency',
+			'name'      => 'saswp_course_instance_offer_currency',
+			'type'      => 'text'
+			), 
 		)                    
         )    
 );
