@@ -7694,9 +7694,10 @@ Class saswp_output_service{
                                   
              foreach($reviews as $review){                 
                 
-                $rating = get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5';
-
-                $sumofrating += $rating;
+                $rating = get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : 5;
+                if(is_numeric($rating)){
+                    $sumofrating += floatval($rating);
+                }
                 
                  $reviews_arr[] = array(
                      'author'        => $review->comment_author ? $review->comment_author : 'Anonymous' ,
