@@ -3623,14 +3623,17 @@ function saswp_site_navigation_output(){
                                 }
                             }
                         }
-         
-                      $navObj[] = array(
-                             "@context"  => saswp_context_url(),
-                             "@type"     => "SiteNavigationElement",
-                             "@id"       => get_home_url().'#'.$menu_name,
-                             "name"      => wp_strip_all_tags($items->title),
-                             "url"       => esc_url($items->url)
-                      );
+                        
+                      $utm_response = saswp_remove_utm_parameters_from_url($items->url);
+                      if($utm_response['flag'] == 0){
+                          $navObj[] = array(
+                                 "@context"  => saswp_context_url(),
+                                 "@type"     => "SiteNavigationElement",
+                                 "@id"       => get_home_url().'#'.$menu_name,
+                                 "name"      => wp_strip_all_tags($items->title),
+                                 "url"       => esc_url($utm_response['url'])
+                          );
+                        }
 
                 }                                                                                                                                                                                   
             }
@@ -3719,4 +3722,58 @@ function saswp_fetched_reviews_schema_markup(){
                     }
                   
                 return $input1;
+}
+
+/**
+ * Remove UTM parameters from URL
+ * @since 1.25
+ * @date 15-12-2023
+ * @param $url  String
+ * @return $response  Array
+ * */
+function saswp_remove_utm_parameters_from_url($url = '')
+{
+    $response = array(); 
+    $response['flag'] = 0;
+    $response['url'] = $url;
+    $url = esc_url($url);
+    if(!empty($url)){
+        if($url == '#'){
+            $response['flag'] = 1;  
+          }else{
+            if(is_string($url) && !empty($url)){
+                $explode_url = explode('?', $url);
+                if(!empty($explode_url) && is_array($explode_url)){
+                    if(isset($explode_url[1]) && !empty($explode_url[1])){
+                        if(is_string($explode_url[1])){
+                            $host_url = $explode_url[0];
+                            $explode_qs = explode('&', $explode_url[1]);
+                            if(!empty($explode_qs) && is_array($explode_qs)){
+                                $valid_qs = array();
+                                $valid_utm_code = array('utm_source','utm_medium','utm_campaign','utm_term','utm_content');
+                                foreach ($explode_qs as $qs_key => $qs_value) {
+                                    $utm_flag = 0;
+                                    foreach ($valid_utm_code as $vuc_key => $vuc_value) {
+                                        if(strpos($qs_value, $vuc_value) !== false){
+                                            $utm_flag = 1;
+                                        }
+                                    }
+                                    if($utm_flag == 0){
+                                        $valid_qs[] = $qs_value;   
+                                    }
+                                }
+                                if(!empty($valid_qs)){
+                                    $valid_qs = implode('&', $valid_qs);
+                                    $response['url'] = $host_url.'?'.$valid_qs;
+                                }else{
+                                    $response['url'] = $host_url;    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return $response;
 }
