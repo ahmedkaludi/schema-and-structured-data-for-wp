@@ -805,7 +805,48 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                                        "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_course_review_count_'.$schema_id, 'saswp_array')
                     );                                       
             }
-    
+            
+            /**
+             * Add hasCourseInstance field to schema markup
+             * @since 1.25
+             * */
+            $course_instance = get_post_meta($schema_post_id, 'course_instance_'.$schema_id, true);
+            if(!empty($course_instance) && is_array($course_instance)){
+                foreach ($course_instance as $ci_key => $ci_value) {
+                    $instance_array = array();
+                    if(!empty($ci_value) && is_array($ci_value)){
+                        $instance_array['@type'] = 'CourseInstance';
+                        $instance_array['courseMode'] = isset($ci_value['saswp_course_instance_mode'])?sanitize_text_field($ci_value['saswp_course_instance_mode']):'';
+                        if(isset($ci_value['saswp_course_instance_mode']) && !empty($ci_value['saswp_course_instance_mode'])){
+                            $explode_mode = explode(',', $ci_value['saswp_course_instance_mode']);
+                            if(!empty($explode_mode) && is_array($explode_mode)){
+                                if(count($explode_mode) > 1){
+                                    $cmode = array();
+                                    foreach ($explode_mode as $em_key => $em_value) {
+                                        if(!empty($em_value)){
+                                            array_push($cmode, $em_value);
+                                        }
+                                    }
+                                    $instance_array['courseMode'] = $cmode;
+                                }else if(count($explode_mode) == 1){
+                                    $instance_array['courseMode'] = isset($explode_mode[0])?sanitize_text_field($explode_mode[0]):'';
+                                }
+                            } 
+                        }
+                        $instance_array['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
+                        $instance_array['location'] = isset($ci_value['saswp_course_instance_location'])?sanitize_text_field($ci_value['saswp_course_instance_location']):'';
+                        $instance_array['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
+                        if(isset($ci_value['saswp_course_instance_offer_price']) && isset($ci_value['saswp_course_instance_offer_currency'])){
+                            if(!empty($ci_value['saswp_course_instance_offer_price']) && !empty($ci_value['saswp_course_instance_offer_currency'])){
+                                $instance_array['offers']['@type'] = 'Offer';   
+                                $instance_array['offers']['price'] = sanitize_text_field($ci_value['saswp_course_instance_offer_price']);   
+                                $instance_array['offers']['priceCurrency'] = sanitize_text_field($ci_value['saswp_course_instance_offer_currency']);   
+                            }
+                        }
+                        $input1['hasCourseInstance'][] = $instance_array;
+                    }
+                }
+            }
     return $input1;
     
 }
@@ -1286,11 +1327,22 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                             $input1['offers']['hasMerchantReturnPolicy']['returnMethod'] = esc_attr($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0]);
                         }
                     }
-                    if(isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0])){
-                        $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
-                        if(in_array($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0], $rf_category)){
-                            $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]);
+                    if((isset($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0]))){
+                        $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['@type'] = 'MonetaryAmount';
+                        if(isset($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0])){
+                            $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['name'] = esc_attr($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0]);    
                         }
+                        if(isset($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0])){
+                            $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['value'] = esc_attr($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0]);    
+                        }
+                        if(isset($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0])){
+                            $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['currency'] = esc_attr($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0]);    
+                        }    
+                    }else{
+                        if(isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0])){
+                            $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
+                                $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]);
+                        }   
                     }
                 }
 
@@ -3214,6 +3266,69 @@ function saswp_tourist_destination_schema_markup($schema_id, $schema_post_id, $a
     return $input1;
 }
 
+/**
+ * Prepare markup for post specific
+ * @since 1.25
+ * @param $schema_id            int
+ * @param $schema_post_id       int
+ * @param $all_post_meta        array
+ * @return array
+ * */
+function saswp_tourist_trip_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_tt_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_tt_schema_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_tt_schema_id_'.$schema_id][0] : '');
+        
+    $input1['@context']              = saswp_context_url();
+    $input1['@type']                 = 'TouristTrip';
+    if($checkIdPro){
+        $input1['@id']               = $checkIdPro;  
+    }                            
+    $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_tt_schema_name_'.$schema_id, 'saswp_array');                            
+    $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_tt_schema_description_'.$schema_id, 'saswp_array');
+    if(isset($all_post_meta['saswp_tt_schema_ttype_'.$schema_id]) && isset($all_post_meta['saswp_tt_schema_ttype_'.$schema_id][0])){
+        if(is_string($all_post_meta['saswp_tt_schema_ttype_'.$schema_id][0])){
+            $explode_type = explode(',', $all_post_meta['saswp_tt_schema_ttype_'.$schema_id][0]);
+            if(!empty($explode_type) && is_array($explode_type)){
+                $input1['touristType'] =   $explode_type;
+            }
+        }
+    }
+    if((isset($all_post_meta['saswp_tt_schema_son_'.$schema_id]) && isset($all_post_meta['saswp_tt_schema_son_'.$schema_id][0]) && !empty($all_post_meta['saswp_tt_schema_son_'.$schema_id][0])) || (isset($all_post_meta['saswp_tt_schema_sou_'.$schema_id]) && isset($all_post_meta['saswp_tt_schema_sou_'.$schema_id][0]) && !empty($all_post_meta['saswp_tt_schema_sou_'.$schema_id][0]))){
+        $input1['subjectOf']['@type'] =   "CreativeWork";    
+    }
+    if(isset($all_post_meta['saswp_tt_schema_son_'.$schema_id]) && isset($all_post_meta['saswp_tt_schema_son_'.$schema_id][0])){
+        $input1['subjectOf']['name'] =   saswp_remove_warnings($all_post_meta, 'saswp_tt_schema_son_'.$schema_id, 'saswp_array');    
+    }
+    if(isset($all_post_meta['saswp_tt_schema_sou_'.$schema_id]) && isset($all_post_meta['saswp_tt_schema_sou_'.$schema_id][0])){
+        $input1['subjectOf']['url'] =   saswp_remove_warnings($all_post_meta, 'saswp_tt_schema_sou_'.$schema_id, 'saswp_array');    
+    }
+    $tourist_itinerary  = get_post_meta($schema_post_id, 'tourist_trip_itinerary_'.$schema_id, true);
+    if(!empty($tourist_itinerary) && is_array($tourist_itinerary)){
+        $cnt = 1;
+        $itemlist_array = array();
+        foreach ($tourist_itinerary as $tt_key => $tt_value) {
+            if(!empty($tt_value) && is_array($tt_value)){
+                $itemlist_element = array();
+                $itemlist_element['@type'] = 'ListItem';
+                $itemlist_element['position'] = $cnt;
+                $itemlist_element['item']['@type'] = 'TouristAttraction';
+                $itemlist_element['item']['name'] = isset($tt_value['saswp_tourist_trip_itinerary_name'])?$tt_value['saswp_tourist_trip_itinerary_name']:'';
+                $itemlist_element['item']['description'] = isset($tt_value['saswp_tourist_trip_itinerary_description'])?$tt_value['saswp_tourist_trip_itinerary_description']:'';
+                $cnt++;
+
+                $itemlist_array[] = $itemlist_element;
+            }
+        }
+        if(count($tourist_itinerary) > 0){
+            $input1['itinerary']['@type'] = 'ItemList';
+            $input1['itinerary']['numberOfItems'] = count($tourist_itinerary);
+            $input1['itinerary']['itemListElement'] = $itemlist_array;
+        }
+    }
+    
+    return $input1;
+}
+
 function saswp_apartment_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
@@ -4481,8 +4596,8 @@ function saswp_medicalwebpage_schema_markup($schema_id, $schema_post_id, $all_po
     'inLanguage'                    => get_bloginfo('language'),    
     'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_medicalwebpage_name_'.$schema_id, 'saswp_array'),
     'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_medicalwebpage_url_'.$schema_id, 'saswp_array'),
-    'lastReviewed' 	    => isset($all_post_meta['saswp_medicalwebpage_last_reviewed_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_last_reviewed_'.$schema_id][0], get_post_time('h:i:s')) :'',
-    'dateCreated' 	    => isset($all_post_meta['saswp_medicalwebpage_date_created_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_created_'.$schema_id][0], get_post_time('h:i:s')) :'',
+    'lastReviewed' 	    => isset($all_post_meta['saswp_medicalwebpage_last_reviewed_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_medicalwebpage_last_reviewed_'.$schema_id][0], get_post_time('h:i:s')) :'',
+    'dateCreated' 	    => isset($all_post_meta['saswp_medicalwebpage_date_created_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_medicalwebpage_date_created_'.$schema_id][0], get_post_time('h:i:s')) :'',
     'reviewedBy'	    => array(
         '@type'			=> 'Organization',
         'logo' 			=> array(
@@ -4502,8 +4617,8 @@ function saswp_medicalwebpage_schema_markup($schema_id, $schema_post_id, $all_po
                     'description'		=> saswp_remove_warnings($all_post_meta, 'saswp_medicalwebpage_description_'.$schema_id, 'saswp_array'),
                     'keywords'		=> saswp_remove_warnings($all_post_meta, 'saswp_medicalwebpage_keywords_'.$schema_id, 'saswp_array'),
                     'articleSection'	=> saswp_remove_warnings($all_post_meta, 'saswp_medicalwebpage_section_'.$schema_id, 'saswp_array'),                        
-                    'datePublished' 	=> isset($all_post_meta['saswp_medicalwebpage_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
-                    'dateModified'		=> isset($all_post_meta['saswp_medicalwebpage_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',                        
+                    'datePublished' 	=> isset($all_post_meta['saswp_medicalwebpage_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_medicalwebpage_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
+                    'dateModified'		=> isset($all_post_meta['saswp_medicalwebpage_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_medicalwebpage_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',                        
                     'publisher'			=> array(
                             '@type'			=> 'Organization',
                             'logo' 			=> array(

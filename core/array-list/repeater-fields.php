@@ -114,7 +114,13 @@ return array( 'schema_type_element' => array(
 						),
 						'BoatTrip' => array(
 							'boat-trip-itinerary'  => 'boat_trip_itinerary'
-					    )
+					    ),
+			   'TouristTrip' => array(
+					'tourist-trip-itinerary'  => 'tourist_trip_itinerary'
+			    ),
+			    'Course' => array(
+					'course-instance'  => 'course_instance'
+			    )
 						                                                                          
                     ),
     'meta_name' => array(
@@ -803,6 +809,52 @@ return array( 'schema_type_element' => array(
 				'type'      => 'select',
 					'options'   => array()                            
 		    )
-             )                    
+             ),
+             'tourist_trip_itinerary' => array(                    
+		array(
+			'label'     => 'Itinerary Name',
+			'name'      => 'saswp_tourist_trip_itinerary_name',
+			'type'      => 'text'                        
+			),
+		 array(
+			'label'     => 'Itinerary Description',
+			'name'      => 'saswp_tourist_trip_itinerary_description',
+			'type'      => 'textarea'                        
+			),  
+		),
+		'course_instance' => array(                    
+		array(
+			'label'     => 'Course Mode',
+			'name'      => 'saswp_course_instance_mode',
+			'type'      => 'text'                     
+			),
+		 array(
+			'label'     => 'Start Date',
+			'name'      => 'saswp_course_instance_start_date',
+			'type'      => 'text',
+			'default' => get_the_date("Y-m-d")
+			),  
+		 array(
+			'label'     => 'End Date',
+			'name'      => 'saswp_course_instance_end_date',
+			'type'      => 'text',
+			'default' => get_the_date("Y-m-d")
+			),
+		array(
+			'label'     => 'Location',
+			'name'      => 'saswp_course_instance_location',
+			'type'      => 'text'
+			), 
+		array(
+			'label'     => 'Offer Price',
+			'name'      => 'saswp_course_instance_offer_price',
+			'type'      => 'number'
+			), 
+		array(
+			'label'     => 'Offer Price Currency',
+			'name'      => 'saswp_course_instance_offer_currency',
+			'type'      => 'text'
+			), 
+		)                    
         )    
 );

@@ -6217,10 +6217,6 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'    => 'select',
                             'options' => array(
                                     'FreeReturn'                        => 'FreeReturn',
-                                    'OriginalShippingFees'              => 'OriginalShippingFees',
-                                    'RestockingFees'                    => 'RestockingFees',
-                                    'ReturnFeesCustomerResponsibility'  => 'ReturnFeesCustomerResponsibility',
-                                    'ReturnShippingFees'                => 'ReturnShippingFees',
                             )
                         ),
                         array(
@@ -6331,6 +6327,27 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'attributes' => array(
                                 'placeholder' => 'DAY'
                             ),                 
+                        ),
+                        array(
+                            'label'   => 'Return Shipping Fees Name',
+                            'id'      => 'saswp_product_schema_rsf_name_'.$schema_id,
+                            'type'    => 'text'                       
+                        ),
+                        array(
+                            'label'   => 'Return Shipping Fees Value',
+                            'id'      => 'saswp_product_schema_rsf_value_'.$schema_id,
+                            'type'    => 'number', 
+                            'attributes' => array(
+                                'placeholder' => '100'
+                            ),                       
+                        ),
+                        array(
+                            'label'   => 'Return Shipping Fees Currency',
+                            'id'      => 'saswp_product_schema_rsf_currency_'.$schema_id,
+                            'type'    => 'text', 
+                            'attributes' => array(
+                                'placeholder' => 'USD'
+                            ),                       
                         ),
                         array(
                             'label' => 'Aggregate Rating',
@@ -10545,6 +10562,57 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text',                            
                         )                                                                                         
                    );
+                    break;
+                
+                case 'TouristTrip':
+                    $meta_field = array(
+                        array(
+                            'label'      => 'ID',
+                            'id'         => 'saswp_tt_schema_id_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => 'TouristTrip'   
+                        ),
+                        array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_tt_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                        ),
+                        array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_tt_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Description'
+                            ), 
+                        ),
+                        array(
+                            'label'      => 'Tourist Type',
+                            'id'         => 'saswp_tt_schema_ttype_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Tourist Type'
+                            ) 
+                        ),
+                        array(
+                            'label'      => 'Subject Of Name',
+                            'id'         => 'saswp_tt_schema_son_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Subject Of Name'
+                            ), 
+                        ),
+                        array(
+                            'label'      => 'Subject Of URL',
+                            'id'         => 'saswp_tt_schema_sou_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Subject Of URL'
+                            ), 
+                        ),
+                    );
                     break;
                                 
                 default:

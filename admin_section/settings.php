@@ -4833,6 +4833,9 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         // Dequeue mediclinic theme's select2 on schema dashboard to remove conflict.
         wp_dequeue_script( 'mkdf-select2-script' );        
         
+        // Dequeue Mobile Menu Premium plugin select2 on schema dashboard to remove conflict
+        wp_dequeue_script( 'mm-select2' );        
+        
         if($post_type == 'saswp'){
 
                 //conflict with jupitor theme fixed starts here

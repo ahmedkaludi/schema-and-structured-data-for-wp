@@ -5459,11 +5459,23 @@ Class saswp_output_service{
                                 $input1['offers']['hasMerchantReturnPolicy']['returnMethod'] = esc_attr($custom_fields['saswp_product_schema_rp_return_method']);
                             }
                         }
-                        if(isset($custom_fields['saswp_product_schema_rp_return_fees'])){
-                            $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
-                            if(in_array($custom_fields['saswp_product_schema_rp_return_fees'], $rf_category)){
-                                $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($custom_fields['saswp_product_schema_rp_return_fees']);
+                        if(isset($custom_fields['saswp_product_schema_rsf_name']) || isset($custom_fields['saswp_product_schema_rsf_value']) || isset($custom_fields['saswp_product_schema_rsf_currency'])){
+                            $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['@type'] = 'MonetaryAmount';
+                            if(isset($custom_fields['saswp_product_schema_rsf_name'])){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['name'] = esc_attr($custom_fields['saswp_product_schema_rsf_name']);    
                             }
+                            if(isset($custom_fields['saswp_product_schema_rsf_value'])){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['value'] = esc_attr($custom_fields['saswp_product_schema_rsf_value']);    
+                            }
+                            if(isset($custom_fields['saswp_product_schema_rsf_currency'])){
+                                $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['currency'] = esc_attr($custom_fields['saswp_product_schema_rsf_currency']);    
+                            }    
+                        }else{
+                            if(isset($custom_fields['saswp_product_schema_rp_return_fees'])){
+                                $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
+                                    $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($custom_fields['saswp_product_schema_rp_return_fees']);
+                            }
+                                
                         }
                     }
 
@@ -7204,6 +7216,36 @@ Class saswp_output_service{
                     }                    
                     
                 break;
+                
+                case 'TouristTrip':
+                    if(isset($custom_fields['saswp_tt_schema_id'])){
+                        $input1['@id'] =    get_permalink().$custom_fields['saswp_tt_schema_id'];
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_name'])){
+                        $input1['name'] =    $custom_fields['saswp_tt_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_description'])){
+                        $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_tt_schema_description'] ));
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_ttype'])){
+                        if(is_string($custom_fields['saswp_tt_schema_ttype'])){
+                            $explode_type = explode(',', $custom_fields['saswp_tt_schema_ttype']);
+                            if(!empty($explode_type) && is_array($explode_type)){
+                                $input1['touristType'] =   $explode_type;
+                            }
+                        }
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_son']) || isset($custom_fields['saswp_tt_schema_sou'])){
+                        $input1['subjectOf']['@type'] =   "CreativeWork";    
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_son'])){
+                        $input1['subjectOf']['name'] =   $custom_fields['saswp_tt_schema_son'];    
+                    }
+                    if(isset($custom_fields['saswp_tt_schema_sou'])){
+                        $input1['subjectOf']['url'] =   $custom_fields['saswp_tt_schema_sou'];    
+                    }
+
+                break;
                
                      default:
                          break;
@@ -7650,9 +7692,10 @@ Class saswp_output_service{
                                   
              foreach($reviews as $review){                 
                 
-                $rating = get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : '5';
-
-                $sumofrating += $rating;
+                $rating = get_comment_meta( $review->comment_ID, 'rating', true ) ? get_comment_meta( $review->comment_ID, 'rating', true ) : 5;
+                if(is_numeric($rating)){
+                    $sumofrating += floatval($rating);
+                }
                 
                  $reviews_arr[] = array(
                      'author'        => $review->comment_author ? $review->comment_author : 'Anonymous' ,
