@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.4
 Requires PHP: 5.6.20
-Stable tag: 1.24
+Stable tag: 1.25
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.25 (16 Dec 2023) =
+
+* Enhancement: Added ‘acceptedAnswer’ and ‘suggestedAnswer’ globally in Q&A schema #1967
+* Feature: Added TouristTrip schema type #2023
+* Feature: Added "hasCourseInstance" & "offers" properties to Course schema type #2042
+* Enhancement: Removed UTM parameters and # from menus url #2047
+* Fixed: PHP warnings and errors #2051
+* Fixed: PHP 8.1 Fatal Error : Unsupported Operand Types: int + string in Schema Plugin #2052
+* Fixed: Conflict with Mobile Menu premium plugin #2053
+* Enhancement: Added returnShippingFeesAmount property for product schema #2054
 
 = 1.24 (29 Nov 2023) =
 
