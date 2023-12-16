@@ -817,7 +817,7 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                     if(!empty($ci_value) && is_array($ci_value)){
                         $instance_array['@type'] = 'CourseInstance';
                         $instance_array['courseMode'] = isset($ci_value['saswp_course_instance_mode'])?sanitize_text_field($ci_value['saswp_course_instance_mode']):'';
-                        if(!empty($ci_value['saswp_course_instance_mode']) && !empty($ci_value['saswp_course_instance_mode'])){
+                        if(isset($ci_value['saswp_course_instance_mode']) && !empty($ci_value['saswp_course_instance_mode'])){
                             $explode_mode = explode(',', $ci_value['saswp_course_instance_mode']);
                             if(!empty($explode_mode) && is_array($explode_mode)){
                                 if(count($explode_mode) > 1){
