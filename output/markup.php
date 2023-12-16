@@ -1341,9 +1341,7 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                     }else{
                         if(isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0])){
                             $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
-                            // if(in_array($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0], $rf_category)){
                                 $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]);
-                            // }
                         }   
                     }
                 }

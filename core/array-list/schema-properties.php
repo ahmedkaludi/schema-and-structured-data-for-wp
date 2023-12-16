@@ -6217,10 +6217,6 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'    => 'select',
                             'options' => array(
                                     'FreeReturn'                        => 'FreeReturn',
-                                    // 'OriginalShippingFees'              => 'OriginalShippingFees',
-                                    // 'RestockingFees'                    => 'RestockingFees',
-                                    // 'ReturnFeesCustomerResponsibility'  => 'ReturnFeesCustomerResponsibility',
-                                    // 'ReturnShippingFees'                => 'ReturnShippingFees',
                             )
                         ),
                         array(
