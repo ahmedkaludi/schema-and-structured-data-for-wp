@@ -155,7 +155,10 @@ Class saswp_output_service{
                     $response = get_site_url();                    
                     break;
                 case 'post_title':
-                    $response = @get_the_title();                    
+                    $response = @get_the_title(); 
+                    if(empty($response)){
+                        $response = @get_the_title(get_the_ID());
+                    }                   
                     break;
                 case 'post_content':
                     $response = @get_the_content();
