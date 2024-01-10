@@ -74,7 +74,7 @@ function saswp_tiny_howto_render( $atts, $content = null ){
         }
 
         if( !empty($saswp_tiny_howto['description']) ){
-            $output .= '<p>'.wp_kses_post(html_entity_decode(esc_attr($saswp_tiny_howto['description']))).'</p>';
+            $output .= '<p>'.wp_kses_post($saswp_tiny_howto['description']).'</p>';
         }
         
         if( !empty($saswp_tiny_howto['elements']) ){
@@ -87,8 +87,8 @@ function saswp_tiny_howto_render( $atts, $content = null ){
                 if($value['step_title'] || $value['step_description']){
                     
                     $output .= '<li>'; 
-                    $output .= '<strong class="saswp-how-to-step-name">'. wp_kses_post(html_entity_decode(esc_attr($value['step_title']))).'</strong>';
-                    $output .= '<p class="saswp-how-to-step-text">'.wp_kses_post(html_entity_decode(esc_textarea($value['step_description'])));
+                    $output .= '<strong class="saswp-how-to-step-name">'. wp_kses_post($value['step_title']).'</strong>';
+                    $output .= '<p class="saswp-how-to-step-text">'.wp_kses_post($value['step_description']);
 
                     if ( ! empty( $value['image'] ) ) {
                     
@@ -358,6 +358,12 @@ function saswp_tiny_recipe_render( $atts, $content = null ){
     return $output;
 }
 
+/**
+ * Sanitize shortcode attributes
+ * @since 1.26
+ * @param $atts array
+ * @return $atts array
+ * */
 function saswp_wp_kses_post($atts=array())
 {
     if(!empty($atts) && is_array($atts)){
