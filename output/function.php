@@ -1852,9 +1852,12 @@ function saswp_get_the_tags(){
 
             $meta_tag = array_column($post_meta, 'value');
             $key      = array_search("keywords",$meta_tag);
-            
-            if(array_key_exists($key, $post_meta)){
-                $tag_str = $post_meta[$key]['content'];
+            if(!empty($key)){
+                if(is_numeric($key) || is_string($key)){
+                    if(array_key_exists($key, $post_meta)){
+                        $tag_str = $post_meta[$key]['content'];
+                    }
+                }
             }
 
         }
