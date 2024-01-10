@@ -28,9 +28,12 @@ Class saswp_rating_box_frontend{
          */
         public function saswp_review_display_via_shortcode($attr){
             
-            $review_id = $attr['id'];
+            $review_id = '';
+            if(isset($attr['id'])){
+                $review_id = $attr['id'];
+            }
             
-            if(isset($review_id)){
+            if($review_id > 0){
                 
               $result = $this->saswp_get_review_box_content();  
               return $result;

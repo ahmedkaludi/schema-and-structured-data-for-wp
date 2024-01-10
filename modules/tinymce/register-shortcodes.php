@@ -8,6 +8,7 @@ function saswp_tiny_howto_render( $atts, $content = null ){
 
     $output = '';
 
+    $atts = saswp_wp_kses_post($atts);
     $saswp_tiny_howto = shortcode_atts(
         [
             'css_class'     => '',
@@ -73,7 +74,7 @@ function saswp_tiny_howto_render( $atts, $content = null ){
         }
 
         if( !empty($saswp_tiny_howto['description']) ){
-            $output .= '<p>'.html_entity_decode(esc_attr($saswp_tiny_howto['description'])).'</p>';
+            $output .= '<p>'.wp_kses_post($saswp_tiny_howto['description']).'</p>';
         }
         
         if( !empty($saswp_tiny_howto['elements']) ){
@@ -86,8 +87,8 @@ function saswp_tiny_howto_render( $atts, $content = null ){
                 if($value['step_title'] || $value['step_description']){
                     
                     $output .= '<li>'; 
-                    $output .= '<strong class="saswp-how-to-step-name">'. html_entity_decode(esc_attr($value['step_title'])).'</strong>';
-                    $output .= '<p class="saswp-how-to-step-text">'.html_entity_decode(esc_textarea($value['step_description']));
+                    $output .= '<strong class="saswp-how-to-step-name">'. wp_kses_post($value['step_title']).'</strong>';
+                    $output .= '<p class="saswp-how-to-step-text">'.wp_kses_post($value['step_description']);
 
                     if ( ! empty( $value['image'] ) ) {
                     
@@ -123,6 +124,7 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
 
     $output = '';
 
+    $atts = saswp_wp_kses_post($atts);
     $saswp_tiny_multi_faq = shortcode_atts(
         [
             'css_class' => '',
@@ -188,6 +190,7 @@ function saswp_tiny_faq_render( $atts, $content = null ){
 
         global $saswp_tiny_faq;
 
+        $atts = saswp_wp_kses_post($atts);
         $saswp_tiny_faq = shortcode_atts(
             [            
                 'headline'  => 'h2',
@@ -244,6 +247,7 @@ function saswp_tiny_recipe_render( $atts, $content = null ){
 
     $output = '';
 
+    $atts = saswp_wp_kses_post($atts);
     $saswp_tiny_recipe = shortcode_atts(
         [
             'recipe_by'         => '',
@@ -352,4 +356,20 @@ function saswp_tiny_recipe_render( $atts, $content = null ){
         $output .= '</div>'; // saswp-recipe-block-container div end
     }
     return $output;
+}
+
+/**
+ * Sanitize shortcode attributes
+ * @since 1.26
+ * @param $atts array
+ * @return $atts array
+ * */
+function saswp_wp_kses_post($atts=array())
+{
+    if(!empty($atts) && is_array($atts)){
+        foreach ($atts as $atts_key => $atts_value) {
+            $atts[$atts_key] = wp_kses_post($atts_value);
+        }
+    }
+    return $atts;
 }

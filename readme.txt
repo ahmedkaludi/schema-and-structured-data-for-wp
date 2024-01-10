@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.4
 Requires PHP: 5.6.20
-Stable tag: 1.25
+Stable tag: 1.26
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.26 (10 Jan 2024) =
+
+* Fixed: Event schema automation issues #2058
+* Fixed: PHP warnings #2059
+* Fixed: Cross Site Scripting (XSS) vulnerability reported by patchstack.com
 
 = 1.25 (16 Dec 2023) =
 

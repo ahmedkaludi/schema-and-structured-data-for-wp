@@ -436,7 +436,7 @@ class SASWP_Reviews_Collection {
             
             if(!is_admin()){
                 
-                if(isset($attr['id'])){
+                if(isset($attr['id']) && $attr['id'] > 0){
                     $collection_post_status = get_post_status($attr['id']);
                     if($collection_post_status == 'publish'){
                         $total_reviews        = array();                 
