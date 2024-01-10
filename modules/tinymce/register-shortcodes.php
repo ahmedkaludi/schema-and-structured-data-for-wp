@@ -8,6 +8,7 @@ function saswp_tiny_howto_render( $atts, $content = null ){
 
     $output = '';
 
+    $atts = saswp_wp_kses_post($atts);
     $saswp_tiny_howto = shortcode_atts(
         [
             'css_class'     => '',
@@ -123,6 +124,7 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
 
     $output = '';
 
+    $atts = saswp_wp_kses_post($atts);
     $saswp_tiny_multi_faq = shortcode_atts(
         [
             'css_class' => '',
@@ -188,6 +190,7 @@ function saswp_tiny_faq_render( $atts, $content = null ){
 
         global $saswp_tiny_faq;
 
+        $atts = saswp_wp_kses_post($atts);
         $saswp_tiny_faq = shortcode_atts(
             [            
                 'headline'  => 'h2',
@@ -244,6 +247,7 @@ function saswp_tiny_recipe_render( $atts, $content = null ){
 
     $output = '';
 
+    $atts = saswp_wp_kses_post($atts);
     $saswp_tiny_recipe = shortcode_atts(
         [
             'recipe_by'         => '',
@@ -352,4 +356,14 @@ function saswp_tiny_recipe_render( $atts, $content = null ){
         $output .= '</div>'; // saswp-recipe-block-container div end
     }
     return $output;
+}
+
+function saswp_wp_kses_post($atts=array())
+{
+    if(!empty($atts) && is_array($atts)){
+        foreach ($atts as $atts_key => $atts_value) {
+            $atts[$atts_key] = wp_kses_post($atts_value);
+        }
+    }
+    return $atts;
 }

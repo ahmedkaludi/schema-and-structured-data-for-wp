@@ -209,7 +209,7 @@ class SASWP_Reviews_Form {
         }
         
         public function saswp_reviews_form_render($attr){
-            
+            $attr = saswp_wp_kses_post($attr);
             $on_button = false;
             
             update_option('saswp_g_site_key', '');

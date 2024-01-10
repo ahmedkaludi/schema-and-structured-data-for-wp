@@ -555,6 +555,12 @@ class saswp_reviews_service {
     public function saswp_reviews_shortcode($attr){
                             
         $response = '';
+        if(isset($attr['id'])){
+            $attr['id'] = intval($attr['id']);
+            if($attr['id'] <= 0){
+                return $response;
+            }
+        }
         
         $reviews = $this->saswp_get_reviews_list_by_parameters($attr);
         
