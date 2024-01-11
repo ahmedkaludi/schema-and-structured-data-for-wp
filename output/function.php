@@ -727,7 +727,22 @@ function saswp_get_all_schema_markup_output() {
             $filter_string = str_replace(',]', ']',$stroutput);               
             $response_html.= '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
             $response_html.= "\n";       
-            $response_html.= $filter_string;       
+            $obj = json_decode($filter_string, true);
+	    foreach($obj as $key => $values){
+	        if(($values['@type'] == 'HowTo') && (isset($values['video']))){
+	            if(
+	                (trim($values['video']['name']) == "") &&
+	                (trim($values['video']['description']) == "") &&
+	                (trim($values['video']['thumbnailUrl']) == "") &&
+	                (trim($values['video']['uploadDate']) == "")
+	            ){
+	                unset($obj[$key]['video']);
+	                break;
+	            }
+	        }
+	    }
+	    $filter_string = json_encode($obj);
+	    $response_html .= $filter_string;       
             $response_html.= "\n";
             $response_html.= '</script>';            
         }
