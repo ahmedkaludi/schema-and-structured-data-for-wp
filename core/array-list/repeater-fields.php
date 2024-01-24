@@ -831,13 +831,13 @@ return array( 'schema_type_element' => array(
 		 array(
 			'label'     => 'Start Date',
 			'name'      => 'saswp_course_instance_start_date',
-			'type'      => 'text',
+			'type'      => 'date',
 			'default' => get_the_date("Y-m-d")
 			),  
 		 array(
 			'label'     => 'End Date',
 			'name'      => 'saswp_course_instance_end_date',
-			'type'      => 'text',
+			'type'      => 'date',
 			'default' => get_the_date("Y-m-d")
 			),
 		array(

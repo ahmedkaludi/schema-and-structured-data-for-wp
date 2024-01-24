@@ -529,6 +529,7 @@
                     
                     case "number":
                     case "text":
+                    case "date":
                       
                         html += '<tr>'
                         + '<th>'+element.label+'</th><td><input class="'+meta_class+'" style="width:100%" type="'+element.type+'" id="'+element.name+'_'+index+'_'+schema_id+'" name="'+fields_type+schema_id+'['+index+']['+element.name+']"></td>'                        

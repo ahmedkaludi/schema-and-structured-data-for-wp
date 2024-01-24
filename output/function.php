@@ -2883,6 +2883,13 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
                             
                                 break;    
                                 
+                            case 'Course':
+                                                                                                
+                                $data          = saswp_course_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
+                                $input1        = array_merge($input1, $data);
+                            
+                                break;    
+                                
                             default:
                                 break;
                         }
