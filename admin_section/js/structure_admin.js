@@ -56,6 +56,7 @@ var clone = function(){
 			nextId = jQuery(this).parents("tbody").find("tr").length;			
                         selectrow = selectrow.replace(/\[0\]/g, "["+nextId+"]"); 
                         selectrow = selectrow.replace(/\[group-0\]/g, "[group-"+group_index+"]"); 			
+                        selectrow = selectrow.replace(/select-post-type 0/g, "select-post-type "+nextId);           
 			jQuery(this).parents("tr").after(selectrow);removeHtml();clone();saswp_select2();saswp_schema_datepicker();
 		});
 	}
