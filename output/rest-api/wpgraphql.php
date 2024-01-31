@@ -50,7 +50,67 @@ function saswp_register_schema_output() {
                           
                             require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api-service.php'; 
                             $restApiObj = new SASWP_Output_Rest_Api_Service();
-                            $response = $restApiObj->get_schema($post->ID);
+                            $response = $restApiObj->get_schema($post->ID, 'saswpSchema');
+                            
+                            if(is_array($response) && !empty($response)){
+
+                                return [ 'json_ld' => wp_json_encode($response, JSON_UNESCAPED_SLASHES )];
+                            }else{
+                                return [ 'json_ld' => wp_json_encode(array(), JSON_UNESCAPED_SLASHES )];
+                            }
+
+                          }
+                       ] 
+                    );
+
+                    register_graphql_field( $post_type_object->graphql_single_name, 'saswpCustomSchema', [
+                        
+                        'type' => 'saswpSchemaType',
+                        'resolve' => function($post, array $args, AppContext $context) {
+                          
+                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api-service.php'; 
+                            $restApiObj = new SASWP_Output_Rest_Api_Service();
+                            $response = $restApiObj->get_schema($post->ID, 'saswpCustomSchema');
+                            
+                            if(is_array($response) && !empty($response)){
+
+                                return [ 'json_ld' => wp_json_encode($response, JSON_UNESCAPED_SLASHES )];
+                            }else{
+                                return [ 'json_ld' => wp_json_encode(array(), JSON_UNESCAPED_SLASHES )];
+                            }
+
+                          }
+                       ] 
+                    );
+
+                    register_graphql_field( $post_type_object->graphql_single_name, 'saswpUserSchema', [
+                        
+                        'type' => 'saswpSchemaType',
+                        'resolve' => function($post, array $args, AppContext $context) {
+                          
+                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api-service.php'; 
+                            $restApiObj = new SASWP_Output_Rest_Api_Service();
+                            $response = $restApiObj->get_schema($post->ID, 'saswpUserSchema');
+                            
+                            if(is_array($response) && !empty($response)){
+
+                                return [ 'json_ld' => wp_json_encode($response, JSON_UNESCAPED_SLASHES )];
+                            }else{
+                                return [ 'json_ld' => wp_json_encode(array(), JSON_UNESCAPED_SLASHES )];
+                            }
+
+                          }
+                       ] 
+                    );
+
+                    register_graphql_field( $post_type_object->graphql_single_name, 'saswpOtherSchema', [
+                        
+                        'type' => 'saswpSchemaType',
+                        'resolve' => function($post, array $args, AppContext $context) {
+                          
+                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api-service.php'; 
+                            $restApiObj = new SASWP_Output_Rest_Api_Service();
+                            $response = $restApiObj->get_schema($post->ID, 'saswpOtherSchema');
                             
                             if(is_array($response) && !empty($response)){
 
