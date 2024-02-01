@@ -3107,3 +3107,11 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
     cursor: pointer;
 } */
 /* Offer Banner Ends Here */
+.saswp-faq-font-wrapper{
+    display: inline;
+}
+
+.saswp-faq-font-wrapper .saswp_faq_font_elements{
+    width: 50px !important;
+    display: inline !important;
+} 

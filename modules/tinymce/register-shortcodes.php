@@ -135,7 +135,7 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
 
     foreach ( $atts as $key => $merged_att ) {
         if ( strpos( $key, 'headline' ) !== false || strpos( $key, 'question' ) !== false || strpos( $key,
-                'answer' ) !== false || strpos( $key, 'image' ) !== false ) {
+                'answer' ) !== false || strpos( $key, 'image' ) !== false || strpos( $key, 'fontsize' ) !== false || strpos( $key, 'fontunit' ) !== false ) {
             $saswp_tiny_multi_faq['elements'][ explode( '-', $key )[1] ][ substr( $key, 0, strpos( $key, '-' ) ) ] = $merged_att;
         }
     }
@@ -150,9 +150,18 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
                 if(!in_array(strtolower($value['headline']), $validate_headings)){
                     continue;
                 }
+                $title_css = '';
+                if(isset($value['fontsize']) && $value['fontsize'] > 0){
+                    if(isset($value['fontunit']) && is_string($value['fontunit'])){
+                        $valid_units = array('pt', 'px', '%', 'em');
+                        if(in_array($value['fontunit'], $valid_units)){
+                            $title_css = 'style=font-size:'.$value['fontsize'].$value['fontunit'].';';    
+                        }
+                    }
+                }
                 $output .= '<section>';
                 $output .= '<summary>';
-                $output .= '<'.esc_html($value['headline']).'>';
+                $output .= '<'.esc_html($value['headline']).' '.esc_html($title_css). '>';
                 $output .=  esc_html($value['question']);
                 $output .= '</'.esc_html($value['headline']).'>';
                 $output .= '</summary>';
