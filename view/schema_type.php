@@ -81,7 +81,7 @@ function saswp_add_all_meta_boxes() {
                 'low' 
     );          
     add_meta_box(
-            'saswp_submitdiv',
+            'submitdiv',
                 saswp_t_string( 'Publish' ), 
                 'post_submit_meta_box',
                 array('saswp', 'saswp_reviews'), 
@@ -93,7 +93,6 @@ function saswp_add_all_meta_boxes() {
             $saswp_metaboxes[]= 'saswp_help_meta_box';
             $saswp_metaboxes[]= 'saswp_schema_options';
             $saswp_metaboxes[]= 'saswp_amp_select';
-            $saswp_metaboxes[]= 'saswp_submitdiv';
             $saswp_metaboxes[]= 'saswp_reviews_form';
 }
 /**
