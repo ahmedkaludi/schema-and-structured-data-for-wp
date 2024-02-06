@@ -3115,3 +3115,37 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
     width: 50px !important;
     display: inline !important;
 } 
+
+.saswp-rating-box-custom-css{
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+} 
+
+.saswp-rating-box-custom-css label{
+    font-weight: 500;
+}
+
+.saswp-rbcc-tr-row{
+    border-top: 1px solid #eee;
+}
+
+.saswp-rbcc-field-table{
+    width: 100%;
+    border: 1px solid #eee;
+    margin-top: 10px;
+    line-height: 3;
+    padding: 5px;
+}
+
+.saswp-rbcc-td-headings{
+    width: 16%;
+}
+
+.saswp-rbcc-review-input-num{
+    width: 60px;
+}
+
+.saswp-rbcc-td-attributes{
+    width: 15%;
+}

@@ -4180,4 +4180,16 @@ $(document).on("change", ".saswp-custom-fields-name, .saswp-custom-meta-list", f
     }
 });
 // Code ends here    
+
+/**
+ * Display review custom css related elements if checkbox is checked
+ * @since 1.27
+ * */
+$('#saswp-rating-box-css-enable').change(function(e){
+    if($(this).is(':checked')){
+        $('.saswp-rbcc-fields').show();
+    }else{
+        $('.saswp-rbcc-fields').hide();
+    }
+}).change();
 });

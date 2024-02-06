@@ -132,6 +132,153 @@ class saswp_rating_box_backend {
                         <div class="saswp-over-all-raring"><label><?php echo saswp_t_string('Over All Rating'); ?></label><input type="text" id="saswp-review-item-over-all" name="saswp-review-item-over-all" value="<?php if ( isset( $saswp_review_details['saswp-review-item-over-all'] ) && ( ! empty( $saswp_review_details['saswp-review-item-over-all'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-over-all'] ); ?>" readonly></div>
                         <div><a class="button saswp-add-more-item"><?php echo saswp_t_string('Add Item'); ?></a></div>
                     </div>
+
+                    <div class="saswp-rating-box-custom-css">
+                        <label><?php echo saswp_t_string('Rating Box Appearance'); ?>   
+                            <input type="checkbox" id="saswp-rating-box-css-enable" name="saswp-rating-box-css-enable" <?php echo (isset( $saswp_review_details['saswp-rating-box-css-enable'] ) &&  $saswp_review_details['saswp-rating-box-css-enable'] == 1 ? 'checked="checked"' : ''); ?> value="1">
+                        </label>
+                    </div>
+
+                    <div class="saswp-rbcc-fields">
+                        <div class="saswp-rbcc-fields-items">
+                            <table class="saswp-rbcc-field-table">
+                                <tbody>
+                                    <tr class="saswp-rbcc-tr-row">
+                                        <td class="saswp-rbcc-td-headings"><?php echo saswp_t_string('Review Overview'); ?></td>
+                                        <td class="saswp-rbcc-td-attributes">
+                                            <div><?php echo saswp_t_string('Background Color'); ?></div>
+                                            <input type="text" name="saswp-rbcc-review-bg-color" id="saswp-rbcc-review-bg-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $saswp_review_details['saswp-rbcc-review-bg-color'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-review-bg-color']) : '#000'; ?>" data-default-color="#000">
+                                        </td>
+                                        <td class="saswp-rbcc-td-attributes">
+                                            <div><?php echo saswp_t_string('Font Color'); ?></div>
+                                            <input type="text" name="saswp-rbcc-review-f-color" id="saswp-rbcc-review-f-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $saswp_review_details['saswp-rbcc-review-f-color'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-review-f-color']) : '#fff'; ?>" data-default-color="#fff">
+                                        </td>
+                                        <td class="saswp-rbcc-td-attributes">
+                                            <div><?php echo saswp_t_string('Font Size'); ?></div>
+                                            <input type="number" name="saswp-rbcc-review-f-size" id="saswp-rbcc-review-f-size" class="saswp-rbcc-review-input-num" value="<?php echo isset( $saswp_review_details['saswp-rbcc-review-f-size'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-review-f-size']) : '15'; ?>">
+                                            <select name="saswp-rbcc-review-f-unit" id="saswp-rbcc-review-f-unit">
+                                            <?php 
+                                            $unit_array = array('px', 'pt', '%', 'em');
+                                            foreach ($unit_array as $ukey => $uvalue) {
+                                                $selected_value = isset($saswp_review_details['saswp-rbcc-review-f-unit'])?$saswp_review_details['saswp-rbcc-review-f-unit']:'';
+                                                if($uvalue == $selected_value){
+                                                ?>
+                                                    <option value="<?php echo esc_attr($uvalue);?>" selected><?php echo esc_html($uvalue);?></option>    
+                                                <?php    
+                                                }else{
+                                                ?>  
+                                                    <option value="<?php echo esc_attr($uvalue);?>"><?php echo esc_html($uvalue);?></option>    
+                                                <?php    
+                                                }
+                                            }
+                                            ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr class="saswp-rbcc-tr-row">
+                                        <td class="saswp-rbcc-td-headings"><?php echo saswp_t_string('Review Item Feature'); ?></td>
+                                        <td class="saswp-rbcc-td-attributes">
+                                            <div><?php echo saswp_t_string('Color'); ?></div>
+                                            <input type="text" name="saswp-rbcc-if-color" id="saswp-rbcc-if-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $saswp_review_details['saswp-rbcc-if-color'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-if-color']) : '#000'; ?>" data-default-color="#000">
+                                        </td>
+                                        <td class="saswp-rbcc-td-attributes"> 
+                                            <div><?php echo saswp_t_string('Size'); ?></div>
+                                            <input type="number" name="saswp-rbcc-if-f-size" id="saswp-rbcc-if-f-size" class="saswp-rbcc-review-input-num" value="<?php echo isset( $saswp_review_details['saswp-rbcc-if-f-size'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-if-f-size']) : '18'; ?>">
+                                            <select name="saswp-rbcc-if-f-unit" id="saswp-rbcc-if-f-unit">
+                                                <?php 
+                                                $unit_array = array('px', 'pt', '%', 'em');
+                                                foreach ($unit_array as $ukey => $uvalue) {
+                                                    $selected_value = isset($saswp_review_details['saswp-rbcc-if-f-unit'])?$saswp_review_details['saswp-rbcc-if-f-unit']:'';
+                                                    if($uvalue == $selected_value){
+                                                    ?>
+                                                        <option value="<?php echo esc_attr($uvalue);?>" selected><?php echo esc_html($uvalue);?></option>    
+                                                    <?php    
+                                                    }else{
+                                                    ?>  
+                                                        <option value="<?php echo esc_attr($uvalue);?>"><?php echo esc_html($uvalue);?></option>    
+                                                    <?php    
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr class="saswp-rbcc-tr-row">
+                                        <td class="saswp-rbcc-td-headings"><?php echo saswp_t_string('Review Rating Stars'); ?></td>
+                                        <td class="saswp-rbcc-td-attributes">
+                                            <div><?php echo saswp_t_string('Color'); ?></div>
+                                            <input type="text" name="saswp-rbcc-stars-color" id="saswp-rbcc-stars-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $saswp_review_details['saswp-rbcc-stars-color'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-stars-color']) : '#000'; ?>" data-default-color="#000">
+                                        </td>
+                                        <td class="saswp-rbcc-td-attributes"> 
+                                            <div><?php echo saswp_t_string('Width'); ?></div>
+                                            <input type="number" name="saswp-rbcc-stars-f-size" id="saswp-rbcc-stars-f-size" class="saswp-rbcc-review-input-num" value="<?php echo isset( $saswp_review_details['saswp-rbcc-stars-f-size'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-stars-f-size']) : '18'; ?>">
+                                            <input type="text" name="saswp-rbcc-stars-f-unit" id="saswp-rbcc-stars-f-unit" class="saswp-rbcc-review-input-num" value="px" readonly disabled>
+                                        </td>
+                                    </tr>
+                                    <tr class="saswp-rbcc-tr-row">
+                                        <td class="saswp-rbcc-td-headings"><?php echo saswp_t_string('Review Summary'); ?></td>
+                                        <td class="saswp-rbcc-td-attributes">
+                                            <div><?php echo saswp_t_string('Background Color'); ?></div>
+                                            <input type="text" name="saswp-rbcc-summary-bg-color" id="saswp-rbcc-summary-bg-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $saswp_review_details['saswp-rbcc-summary-bg-color'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-summary-bg-color']) : '#000'; ?>" data-default-color="#000">
+                                        </td>
+                                        <td class="saswp-rbcc-td-attributes">
+                                            <div><?php echo saswp_t_string('Font Color'); ?></div>
+                                            <input type="text" name="saswp-rbcc-summary-f-color" id="saswp-rbcc-summary-f-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $saswp_review_details['saswp-rbcc-summary-f-color'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-summary-f-color']) : '#fff'; ?>" data-default-color="#fff">
+                                        </td>
+                                        <td class="saswp-rbcc-td-attributes">
+                                            <div><?php echo saswp_t_string('Font Size'); ?></div>
+                                            <input type="number" name="saswp-rbcc-summary-f-size" id="saswp-rbcc-summary-f-size" class="saswp-rbcc-review-input-num" value="<?php echo isset( $saswp_review_details['saswp-rbcc-summary-f-size'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-summary-f-size']) : '15'; ?>">
+                                            <select name="saswp-rbcc-summary-f-unit" id="saswp-rbcc-summary-f-unit">
+                                                <?php 
+                                                $unit_array = array('px', 'pt', '%', 'em');
+                                                foreach ($unit_array as $ukey => $uvalue) {
+                                                    $selected_value = isset($saswp_review_details['saswp-rbcc-summary-f-unit'])?$saswp_review_details['saswp-rbcc-summary-f-unit']:'';
+                                                    if($uvalue == $selected_value){
+                                                    ?>
+                                                        <option value="<?php echo esc_attr($uvalue);?>" selected><?php echo esc_html($uvalue);?></option>    
+                                                    <?php    
+                                                    }else{
+                                                    ?>  
+                                                        <option value="<?php echo esc_attr($uvalue);?>"><?php echo esc_html($uvalue);?></option>    
+                                                    <?php    
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr class="saswp-rbcc-tr-row">
+                                        <td class="saswp-rbcc-td-headings"><?php echo saswp_t_string('Average Rating'); ?></td>
+                                        <td class="saswp-rbcc-td-attributes">
+                                            <div><?php echo saswp_t_string('Color'); ?></div>
+                                            <input type="text" name="saswp-rbcc-ar-color" id="saswp-rbcc-ar-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $saswp_review_details['saswp-rbcc-ar-color'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-ar-color']) : '#000'; ?>" data-default-color="#000">
+                                        </td>
+                                        <td class="saswp-rbcc-td-attributes"> 
+                                            <div><?php echo saswp_t_string('Size'); ?></div>
+                                            <input type="number" name="saswp-rbcc-ar-f-size" id="saswp-rbcc-ar-f-size" class="saswp-rbcc-review-input-num" value="<?php echo isset( $saswp_review_details['saswp-rbcc-ar-f-size'] ) ? esc_attr( $saswp_review_details['saswp-rbcc-ar-f-size']) : '48'; ?>">
+                                            <select name="saswp-rbcc-ar-f-unit" id="saswp-rbcc-ar-f-unit">
+                                                <?php 
+                                                $unit_array = array('px', 'pt', '%', 'em');
+                                                foreach ($unit_array as $ukey => $uvalue) {
+                                                    $selected_value = isset($saswp_review_details['saswp-rbcc-ar-f-unit'])?$saswp_review_details['saswp-rbcc-ar-f-unit']:'';
+                                                    if($uvalue == $selected_value){
+                                                    ?>
+                                                        <option value="<?php echo esc_attr($uvalue);?>" selected><?php echo esc_html($uvalue);?></option>    
+                                                    <?php    
+                                                    }else{
+                                                    ?>  
+                                                        <option value="<?php echo esc_attr($uvalue);?>"><?php echo esc_html($uvalue);?></option>    
+                                                    <?php    
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>    
+                    </div>
                 
                     <div class="saswp-review-description">
                         <div><label><?php echo saswp_t_string('Summary Title'); ?></label> <input type="text" id="saswp-review-item-description-title" name="saswp-review-item-description-title" value="<?php if ( isset( $saswp_review_details['saswp-review-item-description-title'] ) && ( ! empty( $saswp_review_details['saswp-review-item-description-title'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-description-title'] ); ?>"></div>  
@@ -225,6 +372,57 @@ class saswp_rating_box_backend {
                 if(isset($_POST['saswp-review-item-cons']) && $_POST['saswp-review-item-cons'] != ''){
                     update_post_meta( $post_id, 'saswp-review-item-cons', wp_kses_post( wp_unslash( $_POST['saswp-review-item-cons'] )) );                    
                 }                          
+                if(isset($_POST['saswp-rating-box-css-enable'])){
+                    $saswp_review_details['saswp-rating-box-css-enable'] = sanitize_text_field($_POST['saswp-rating-box-css-enable']);
+                }
+                if(isset($_POST['saswp-rbcc-review-bg-color'])){
+                    $saswp_review_details['saswp-rbcc-review-bg-color'] = sanitize_text_field($_POST['saswp-rbcc-review-bg-color']);
+                }
+                if(isset($_POST['saswp-rbcc-review-f-color'])){
+                    $saswp_review_details['saswp-rbcc-review-f-color'] = sanitize_text_field($_POST['saswp-rbcc-review-f-color']);
+                }
+                if(isset($_POST['saswp-rbcc-review-f-size'])){
+                    $saswp_review_details['saswp-rbcc-review-f-size'] = sanitize_text_field($_POST['saswp-rbcc-review-f-size']);
+                }
+                if(isset($_POST['saswp-rbcc-review-f-unit'])){
+                    $saswp_review_details['saswp-rbcc-review-f-unit'] = sanitize_text_field($_POST['saswp-rbcc-review-f-unit']);
+                }
+                if(isset($_POST['saswp-rbcc-if-color'])){
+                    $saswp_review_details['saswp-rbcc-if-color'] = sanitize_text_field($_POST['saswp-rbcc-if-color']);
+                }                        
+                if(isset($_POST['saswp-rbcc-if-f-size'])){
+                    $saswp_review_details['saswp-rbcc-if-f-size'] = sanitize_text_field($_POST['saswp-rbcc-if-f-size']);
+                }
+                if(isset($_POST['saswp-rbcc-if-f-unit'])){
+                    $saswp_review_details['saswp-rbcc-if-f-unit'] = sanitize_text_field($_POST['saswp-rbcc-if-f-unit']);
+                }
+                if(isset($_POST['saswp-rbcc-stars-color'])){
+                    $saswp_review_details['saswp-rbcc-stars-color'] = sanitize_text_field($_POST['saswp-rbcc-stars-color']);
+                }
+                if(isset($_POST['saswp-rbcc-stars-f-size'])){
+                    $saswp_review_details['saswp-rbcc-stars-f-size'] = sanitize_text_field($_POST['saswp-rbcc-stars-f-size']);
+                }
+                if(isset($_POST['saswp-rbcc-summary-bg-color'])){
+                    $saswp_review_details['saswp-rbcc-summary-bg-color'] = sanitize_text_field($_POST['saswp-rbcc-summary-bg-color']);
+                }
+                if(isset($_POST['saswp-rbcc-summary-f-col'])){
+                    $saswp_review_details['saswp-rbcc-summary-f-col'] = sanitize_text_field($_POST['saswp-rbcc-summary-f-col']);
+                }
+                if(isset($_POST['saswp-rbcc-summary-f-size'])){
+                    $saswp_review_details['saswp-rbcc-summary-f-size'] = sanitize_text_field($_POST['saswp-rbcc-summary-f-size']);
+                }
+                if(isset($_POST['saswp-rbcc-summary-f-unit'])){
+                    $saswp_review_details['saswp-rbcc-summary-f-unit'] = sanitize_text_field($_POST['saswp-rbcc-summary-f-unit']);
+                }
+                if(isset($_POST['saswp-rbcc-ar-color'])){
+                    $saswp_review_details['saswp-rbcc-ar-color'] = sanitize_text_field($_POST['saswp-rbcc-ar-color']);
+                }                        
+                if(isset($_POST['saswp-rbcc-ar-f-size'])){
+                    $saswp_review_details['saswp-rbcc-ar-f-size'] = sanitize_text_field($_POST['saswp-rbcc-ar-f-size']);
+                }
+                if(isset($_POST['saswp-rbcc-ar-f-unit'])){
+                    $saswp_review_details['saswp-rbcc-ar-f-unit'] = sanitize_text_field($_POST['saswp-rbcc-ar-f-unit']);
+                }
                 if(!empty($saswp_review_details)){
                     update_post_meta( $post_id, 'saswp_review_details', $saswp_review_details );   
                 }               
