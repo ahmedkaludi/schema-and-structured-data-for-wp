@@ -44,11 +44,11 @@
                                                     </select>
                                                 </div>
                                                 <div class="saswp-faq-font-wrapper">
-                                                    <label>Change Title Font Size</label>
+                                                    <label>Title Font Size</label>
                                                     <input type="text" id="saswp_faq_headline_font_size-0" name="saswp_faq_headline_font_size" class="saswp_faq_font_elements">
                                                     <select name="saswp_faq_headline_font_unit" id="saswp_faq_headline_font_unit-0" class="saswp_faq_font_elements">
-                                                        <option value="pt">pt</option>
                                                         <option value="px">px</option>
+                                                        <option value="pt">pt</option>
                                                         <option value="%">%</option>
                                                         <option value="em">em</option>
                                                     </select>
@@ -90,7 +90,10 @@
                                               fontSize = jQuery(`#saswp_faq_headline_font_size-`+key).val();                                            
                                               fontUnit = jQuery(`#saswp_faq_headline_font_unit-`+key).val();                                            
 
-                                          shortcode += `headline-`+key+`="`+headlineTag+`" question-`+key+`="`+question+`" answer-`+key+`="`+answer+`" image-`+key+`="`+imageID+`" fontsize-${key}="${fontSize}" fontunit-${key}="${fontUnit}" `;
+                                              shortcode += `headline-`+key+`="`+headlineTag+`" question-`+key+`="`+question+`" answer-`+key+`="`+answer+`" image-`+key+`="`+imageID+`" `;
+                                              if(jQuery.trim(fontSize).length > 0){
+                                                shortcode += ` fontsize-${key}="${fontSize}" fontunit-${key}="${fontUnit}" `;
+                                              }
                                         }
                                                                               
                                         shortcode += ` count="`+fieldsets.length+`" html="`+e.data.saswp_multi_faq_render_html+`"]`;
@@ -503,11 +506,11 @@ jQuery(document).ready(function($){
                             </select>
                         </div>
                         <div class="saswp-faq-font-wrapper">
-                                <label>Change Title Font Size</label>
+                                <label>Title Font Size</label>
                                 <input type="text" id="saswp_faq_headline_font_size-`+id+`" name="saswp_faq_headline_font_size" class="saswp_faq_font_elements">
                                 <select name="saswp_faq_headline_font_unit" id="saswp_faq_headline_font_unit-`+id+`" class="saswp_faq_font_elements">
-                                    <option value="pt">pt</option>
                                     <option value="px">px</option>
+                                    <option value="pt">pt</option>
                                     <option value="%">%</option>
                                     <option value="em">em</option>
                                 </select>
