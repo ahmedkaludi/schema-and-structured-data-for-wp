@@ -1597,7 +1597,10 @@
                     },
                 });
 
-                                                
+                if(jQuery('#saswp_review_custom_chk_box').is(':checked')){
+                    jQuery('#saswp-review-cccc').show();
+                }
+
                 saswp_create_total_collection( s_rating_enable, s_rating_val );                 
                 saswp_collection_sorting(sorting);  
                 saswp_collection_total_reviews_id();

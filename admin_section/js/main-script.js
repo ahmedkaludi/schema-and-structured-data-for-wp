@@ -4182,7 +4182,7 @@ $(document).on("change", ".saswp-custom-fields-name, .saswp-custom-meta-list", f
 // Code ends here    
 
 /**
- * Display review custom css related elements if checkbox is checked
+ * Display ratingbox custom css related elements if checkbox is checked
  * @since 1.27
  * */
 $('#saswp-rating-box-css-enable').change(function(e){
@@ -4192,4 +4192,16 @@ $('#saswp-rating-box-css-enable').change(function(e){
         $('.saswp-rbcc-fields').hide();
     }
 }).change();
+
+/**
+ * Display review collection textarea if checkbox is checked
+ * @since 1.27
+ * */
+ $(document).on('change', '#saswp_review_custom_chk_box', function(e){
+    if($(this).is(':checked')){
+        $('#saswp-review-cccc').show();
+    }else{
+        $('#saswp-review-cccc').hide();
+    }
+ });
 });
