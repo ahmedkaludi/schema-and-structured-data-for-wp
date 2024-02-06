@@ -7891,15 +7891,16 @@ Class saswp_output_service{
                         if(is_object($authorinfo) && isset($authorinfo->data) && isset($authorinfo->data->user_nicename)){
                             $sa_author = $authorinfo->data->user_nicename;
                         }  
-                        
-                        $suggested_answer[] =  array(
-                            '@type'       => 'Answer',
-                            'upvoteCount' => 1,
-                            'url'         => get_permalink().'#post-'.$answer->ID,
-                            'text'        => wp_strip_all_tags($answer->post_content),
-                            'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
-                            'author'      => array('@type' => 'Person', 'name' => $sa_author),
-                        );
+                        $suggested_answer_values = array();
+                        $suggested_answer_values['@type'] = 'Answer';
+                        $suggested_answer_values['upvoteCount'] = 1;
+                        $suggested_answer_values['url'] = get_permalink().'#post-'.$answer->ID;
+                        $suggested_answer_values['text'] = wp_strip_all_tags($answer->post_content);
+                        $suggested_answer_values['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z", $answer);
+                        if(!empty($sa_author)){
+                            $suggested_answer_values['author'] = array('@type' => 'Person', 'name' => $sa_author);
+                        }
+                        $suggested_answer[] =  $suggested_answer_values;
                         
                     
                 }
