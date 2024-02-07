@@ -850,6 +850,10 @@ class SASWP_Reviews_Collection {
                                             <span><?php echo saswp_t_string( 'Pagination' ); ?></span>
                                             <span><input name="saswp_collection_pagination" type="checkbox" id="saswp-coll-pagination" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_pagination'][0]) && $post_meta['saswp_collection_pagination'][0] == 1 ? 'checked' : '' ); ?>></span>
                                         </div>
+                                        <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm saswp_hide_imp">
+                                            <label><?php echo saswp_t_string( 'Per Page' ); ?></label>
+                                            <input name="saswp_collection_per_page" type="number" min="1" id="saswp-coll-per-page"  class="saswp-coll-settings-options" value="<?php echo (isset($post_meta['saswp_collection_per_page'][0]) ? intval($post_meta['saswp_collection_per_page'][0]) : '10' ); ?>">
+                                        </div>
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
                                             <span><?php echo saswp_t_string( 'Without Page Reload' ); ?></span>
                                             <span><input name="saswp_collection_pagination_wpr" type="checkbox" id="saswp-coll-pagination-wpr" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_pagination_wpr'][0]) && $post_meta['saswp_collection_pagination_wpr'][0] == 1 ? 'checked' : '' ); ?>></span>
@@ -862,11 +866,6 @@ class SASWP_Reviews_Collection {
                                             <span><?php echo saswp_t_string( 'Read More'); ?></span>
                                             <span><input name="saswp_collection_readmore_desc" type="checkbox" id="saswp-collection-readmore-desc" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_readmore_desc'][0]) && $post_meta['saswp_collection_readmore_desc'][0] == 1 ? 'checked' : '' ); ?>></span>
                                         </div>                                        
-                                        <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm saswp_hide_imp">
-                                            <label><?php echo saswp_t_string( 'Per Page' ); ?></label>
-                                            <input name="saswp_collection_per_page" type="number" min="1" id="saswp-coll-per-page"  class="saswp-coll-settings-options" value="<?php echo (isset($post_meta['saswp_collection_per_page'][0]) ? intval($post_meta['saswp_collection_per_page'][0]) : '10' ); ?>">
-                                        </div>
-                                        
                                         <div class="saswp-dp-dsg saswp-dp-dtm saswp-slider-options saswp-coll-options">
                                          <label><?php echo saswp_t_string( 'Slider Type' ); ?></label>
                                         <select name="saswp_collection_gallery_type" id="saswp_collection_gallery_type" class="saswp-slider-type saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
