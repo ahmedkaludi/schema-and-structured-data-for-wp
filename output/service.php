@@ -5109,6 +5109,19 @@ Class saswp_output_service{
                         $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_course_rating'];
                         $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_course_review_count'];
                      }
+                     
+                    if(isset($custom_fields['saswp_course_offer_type']) || isset($custom_fields['saswp_course_offer_category']) || isset($custom_fields['saswp_course_offer_price']) || isset($custom_fields['saswp_course_offer_currency'])){
+                        $input1['offers']['@type'] = isset($custom_fields['saswp_course_offer_type'])?$custom_fields['saswp_course_offer_type']:'Offer';
+                        if(isset($custom_fields['saswp_course_offer_category'])){
+                            $input1['offers']['category'] = $custom_fields['saswp_course_offer_category'];
+                        }
+                        if(isset($custom_fields['saswp_course_offer_price'])){
+                            $input1['offers']['price'] = $custom_fields['saswp_course_offer_price'];
+                        }
+                        if(isset($custom_fields['saswp_course_offer_currency'])){
+                            $input1['offers']['priceCurrency'] = $custom_fields['saswp_course_offer_currency'];
+                        }
+                     }
                     break;    
                     
                 case 'DiscussionForumPosting':      
