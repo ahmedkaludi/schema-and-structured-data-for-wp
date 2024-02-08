@@ -289,32 +289,24 @@ Class saswp_rating_box_frontend{
         {
             global $sd_data;
             if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
-                $saswp_review_details = get_post_meta(get_the_ID(), 'saswp_review_details', true);
-
-                if(isset($saswp_review_details['saswp-review-item-enable']) && isset($saswp_review_details['saswp-rating-box-css-enable'])){
-                    $custom_css = ".saswp-rb-hd span{
-                                background-color: {$saswp_review_details['saswp-rbcc-review-bg-color']};
-                                color: {$saswp_review_details['saswp-rbcc-review-f-color']};
-                                font-size: {$saswp_review_details['saswp-rbcc-review-f-size']}{$saswp_review_details['saswp-rbcc-review-f-unit']}; 
+                if(isset($sd_data['saswp-rating-module-css-app']) && $sd_data['saswp-rating-module-css-app'] == 1){
+                    $custom_css = ".saswp-rb-hd span, .saswp-rvw-sm span{
+                                background-color: {$sd_data['saswp-rbcc-review-bg-color']};
+                                color: {$sd_data['saswp-rbcc-review-f-color']};
+                                font-size: {$sd_data['saswp-rbcc-review-f-size']}{$sd_data['saswp-rbcc-review-f-unit']}; 
                             }
                             .saswp-rb-rif{
-                                color: {$saswp_review_details['saswp-rbcc-if-color']};
-                                font-size: {$saswp_review_details['saswp-rbcc-if-f-size']}{$saswp_review_details['saswp-rbcc-if-f-unit']};
+                                color: {$sd_data['saswp-rbcc-if-color']};
+                                font-size: {$sd_data['saswp-rbcc-if-f-size']}{$sd_data['saswp-rbcc-if-f-unit']};
                             }
                             .saswp-rvw-str .saswp_star_color svg, .saswp-rvw-str .saswp_star_color_gray svg, .saswp-rvw-str .saswp_half_star_color svg{
-                                width: {$saswp_review_details['saswp-rbcc-stars-f-size']}px; 
-                            }
-                            .saswp-rvw-sm span{
-                                background-color: {$saswp_review_details['saswp-rbcc-summary-bg-color']};
-                                color: {$saswp_review_details['saswp-rbcc-summary-f-col']};
-                                font-size: {$saswp_review_details['saswp-rbcc-summary-f-size']}{$saswp_review_details['saswp-rbcc-summary-f-unit']}; 
+                                width: {$sd_data['saswp-rbcc-stars-f-size']}px; 
                             }
                             .saswp-rvw-fs{
-                                color: {$saswp_review_details['saswp-rbcc-ar-color']};
-                                font-size: {$saswp_review_details['saswp-rbcc-ar-f-size']}{$saswp_review_details['saswp-rbcc-ar-f-unit']};
+                                color: {$sd_data['saswp-rbcc-ar-color']};
+                                font-size: {$sd_data['saswp-rbcc-ar-f-size']}{$sd_data['saswp-rbcc-ar-f-unit']};
                             }
                         ";
-                    // echo "<pre>custom_css===== "; print_r($custom_css); die;
                     wp_add_inline_style( 'saswp-style', $custom_css );
                 }
             }
@@ -329,11 +321,10 @@ Class saswp_rating_box_frontend{
         {
             global $sd_data;
             if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
-                $saswp_review_details = get_post_meta(get_the_ID(), 'saswp_review_details', true);
-                if(isset($saswp_review_details['saswp-review-item-enable']) && isset($saswp_review_details['saswp-rating-box-css-enable'])){
+                 if(isset($sd_data['saswp-rating-module-css-app']) && $sd_data['saswp-rating-module-css-app'] == 1){
                 ?>
                     <script type="text/javascript">
-                        let saswpStarColor = "<?php echo $saswp_review_details['saswp-rbcc-stars-color'];  ?>"
+                        let saswpStarColor = "<?php echo $sd_data['saswp-rbcc-stars-color'];  ?>"
                         jQuery('.saswp_star_color .saswp_star').attr('stop-color', saswpStarColor);   
                     </script>
                 <?php    

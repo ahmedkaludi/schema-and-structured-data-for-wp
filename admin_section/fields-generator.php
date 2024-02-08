@@ -730,6 +730,26 @@ class saswp_fields_generator {
                         $reviews =  $pro_api = '';
                         
                         $subfields = '';
+                        
+                        if($meta_field['id'] == 'saswp-review-module-checkbox'){
+                            if(isset($settings['saswp-review-module']) && $settings['saswp-review-module'] == 1){
+                                $subfields .= '<li class="saswp-rating-box-app-fields">'; 
+                            }else{
+                                $subfields .= '<li class="saswp_hide saswp-rating-box-app-fields" id="saswp-rating-box-app">';
+                            }   
+                            $css_checked = '';
+                            if(isset($settings['saswp-rating-module-css-app']) && $settings['saswp-rating-module-css-app'] == 1){
+                                $css_checked = 'checked';    
+                            }
+                            $subfields .= '<div class="saswp-knowledge-label">'.saswp_t_string('Rating Box Appearance').'</div>';    
+                            $subfields .= '<div class="saswp-knowledge-field">';
+                            $subfields .= '<input id="saswp-rating-module-css-app" name="sd_data[saswp-rating-module-css-app]" type="checkbox" value="1" '.$css_checked.'>';
+                            $subfields .= '<p class="saswp-note-p">'.saswp_t_string('This option enables the rating box appearance').'</p>';
+                            $obj = new saswp_rating_box_backend;
+                            $subfields .= $obj->saswp_rating_box_appearance();
+                            $subfields .= '</div>';    
+                            $subfields .= '</li>';    
+                        }
 
                         if($meta_field['id'] == 'saswp-stars-rating-checkbox'){
                             
@@ -763,12 +783,12 @@ class saswp_fields_generator {
                         $allowed_html = saswp_expanded_allowed_tags();
                         
                         if($meta_field['id'] == 'saswp-reviews-module-section'){
-                            $output .= '<li class="saswp-rev-mod">'                                                                
+                            $output .= '<li class="saswp-rev-mod" style="list-style-type:none;">'                                                                
                                 .  '<div class="saswp-knowledge-label">'.$label.'</div>'
                                 .  '<div class="saswp-knowledge-field">'.$input.'<p class="saswp-note-p">'.$note.'</p>'.$subfields.'</div>'                                                               
                                 .  '</li>';
                         }else{
-                            $output .= '<li>'                                                                
+                            $output .= '<li style="list-style-type:none;">'                                                                
                                 .  '<div class="saswp-knowledge-label">'.$label.'</div>'
                                 .  '<div class="saswp-knowledge-field">'.$input.'<p class="saswp-note-p">'.$note.'</p>'.$subfields.'</div>'
                                                                

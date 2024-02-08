@@ -1130,9 +1130,11 @@ jQuery(document).ready(function($){
                       case 'saswp-review-module-checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp-review-module").val(1);             
+                              $("#saswp-review-module").val(1);
+                              $('.saswp-rating-box-app-fields').removeClass('saswp_hide');             
                             }else{
-                              $("#saswp-review-module").val(0);           
+                              $("#saswp-review-module").val(0);
+                              $('.saswp-rating-box-app-fields').addClass('saswp_hide');           
                             }
                       break;
 
@@ -4185,11 +4187,11 @@ $(document).on("change", ".saswp-custom-fields-name, .saswp-custom-meta-list", f
  * Display ratingbox custom css related elements if checkbox is checked
  * @since 1.27
  * */
-$('#saswp-rating-box-css-enable').change(function(e){
+$('#saswp-rating-module-css-app').change(function(e){
     if($(this).is(':checked')){
-        $('.saswp-rbcc-fields').show();
+        $('.saswp-rbcc-fields').removeClass('saswp_hide');
     }else{
-        $('.saswp-rbcc-fields').hide();
+        $('.saswp-rbcc-fields').addClass('saswp_hide');
     }
 }).change();
 

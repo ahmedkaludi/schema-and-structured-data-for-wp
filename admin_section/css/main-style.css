@@ -3149,3 +3149,7 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 .saswp-rbcc-td-attributes{
     width: 15%;
 }
+
+.saswp-rbcc-fields-items{
+    background-color: #fff;
+}
