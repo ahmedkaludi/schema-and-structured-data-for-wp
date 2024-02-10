@@ -509,6 +509,12 @@ function saswp_admin_interface_render(){
                                 ?>
 			</div>  
                     <input type="hidden" name="sd_data[sd_initial_wizard_status]" value="1">
+            <?php 
+            if (class_exists('saswp_rating_box_backend')) {
+                $class_obj = new saswp_rating_box_backend;
+                $class_obj->saswp_rating_box_appearance();
+            }
+            ?>
 		</form>
 	</div>
     <div class="saswp-settings-second-div">

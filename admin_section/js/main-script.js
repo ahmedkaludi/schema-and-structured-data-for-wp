@@ -1132,9 +1132,11 @@ jQuery(document).ready(function($){
                             if ($(this).is(':checked')) {              
                               $("#saswp-review-module").val(1);
                               $('.saswp-rating-box-app-fields').removeClass('saswp_hide');             
+                              $('#saswp-rtb-link').removeClass('saswp_hide');             
                             }else{
                               $("#saswp-review-module").val(0);
-                              $('.saswp-rating-box-app-fields').addClass('saswp_hide');           
+                              $('.saswp-rating-box-app-fields').addClass('saswp_hide');
+                              $('#saswp-rtb-link').addClass('saswp_hide');           
                             }
                       break;
 
@@ -4196,6 +4198,116 @@ $('#saswp-rating-module-css-app').change(function(e){
 }).change();
 
 /**
+ * Preview design changes on preforming the changes in settings
+ * */
+$(document).on('click', '#saswp-rtb-link', function(e){
+    $('#saswp-appearance-modal').fadeIn();
+});
+$(document).on('click', '#saswp-appearance-modal-close', function(e){
+    $('#saswp-appearance-modal').fadeOut();
+});
+
+$('#saswp-rbcc-review-bg-color').wpColorPicker({
+    change: function (event, ui) {
+        var element = event.target;
+        var color = ui.color.toString();
+        $('.saswp-rbcc-preview-head').css('background', color);
+        $('.saswp-rbcc-rvs span').css('background', color);
+    },
+});
+
+$('#saswp-rbcc-review-f-color').wpColorPicker({
+    change: function (event, ui) {
+        var element = event.target;
+        var color = ui.color.toString();
+        $('.saswp-rbcc-preview-head').css('color', color);
+        $('.saswp-rbcc-rvs span').css('color', color);
+    },
+});
+
+$('#saswp-rbcc-review-f-size').on('keyup',function(e){
+    e.preventDefault();
+    var rbccHdFsize = $(this).val() ;
+    var rbccHdFunit = $('#saswp-rbcc-review-f-unit').val();
+    if(rbccHdFsize <= 0){
+        rbccHdFsize = 15;   
+    }
+    $('.saswp-rbcc-preview-head, .saswp-rbcc-rvs span').css('font-size', rbccHdFsize+rbccHdFunit);
+});
+
+$('#saswp-rbcc-review-f-unit').change(function(e){
+    var rbccHdFsize = $('#saswp-rbcc-review-f-size').val() ;
+    var rbccHdFunit = $(this).val();   
+    $('.saswp-rbcc-preview-head, .saswp-rbcc-rvs span').css('font-size', rbccHdFsize+rbccHdFunit);
+}).change();
+
+$('#saswp-rbcc-if-color').wpColorPicker({
+    change: function (event, ui) {
+        var element = event.target;
+        var color = ui.color.toString();
+        $('.saswp-rbcc-rif').css('color', color);
+    },
+});
+
+$('#saswp-rbcc-if-f-size').on('keyup',function(e){
+    e.preventDefault();
+    var rbccHdFsize = $(this).val() ;
+    var rbccHdFunit = $('#saswp-rbcc-if-f-unit').val();
+    if(rbccHdFsize <= 0){
+        rbccHdFsize = 15;   
+    }
+    $('.saswp-rbcc-rif').css('font-size', rbccHdFsize+rbccHdFunit);
+});
+
+$('#saswp-rbcc-if-f-unit').change(function(e){
+    var rbccHdFsize = $('#saswp-rbcc-if-f-size').val() ;
+    var rbccHdFunit = $(this).val();   
+    $('.saswp-rbcc-rif').css('font-size', rbccHdFsize+rbccHdFunit);
+}).change();
+
+$('#saswp-rbcc-stars-color').wpColorPicker({
+    change: function (event, ui) {
+        var element = event.target;
+        var color = ui.color.toString();
+        $('.saswp_star_color .saswp_star').attr('stop-color', color);  
+    },
+});
+
+$('#saswp-rbcc-stars-f-size').on('keyup',function(e){
+    e.preventDefault();
+    var rbccHdFsize = $(this).val() ;
+    var rbccHdFunit = 'px';
+    if(rbccHdFsize <= 0){
+        rbccHdFsize = 18;   
+    }
+    $('.saswp-rvw-str .saswp_star_color svg').css('width', rbccHdFsize+rbccHdFunit);
+});
+
+$('#saswp-rbcc-ar-color').wpColorPicker({
+    change: function (event, ui) {
+        var element = event.target;
+        var color = ui.color.toString();
+        $('.saswp-rbcc-rvar').css('color', color);
+    },
+});
+
+$('#saswp-rbcc-ar-f-size').on('keyup',function(e){
+    e.preventDefault();
+    var rbccHdFsize = $(this).val() ;
+    var rbccHdFunit = $('#saswp-rbcc-ar-f-unit').val();
+    if(rbccHdFsize <= 0){
+        rbccHdFsize = 48;   
+    }
+    $('.saswp-rbcc-rvar').css('font-size', rbccHdFsize+rbccHdFunit);
+});
+
+$('#saswp-rbcc-ar-f-unit').change(function(e){
+    var rbccHdFsize = $('#saswp-rbcc-ar-f-size').val() ;
+    var rbccHdFunit = $(this).val();   
+    $('.saswp-rbcc-rvar').css('font-size', rbccHdFsize+rbccHdFunit);
+}).change();
+
+/**
  * Display review collection textarea if checkbox is checked
  * @since 1.27
  * */
@@ -4205,5 +4317,40 @@ $('#saswp-rating-module-css-app').change(function(e){
     }else{
         $('#saswp-review-cccc').hide();
     }
+ });
+
+ $(document).on('click', '#saswp-rbcc-reset', function(e){
+    e.preventDefault();
+    d_css = {'background':'#000', 'color':'#fff', 'font-size':'15px'}
+    $('.saswp-rbcc-preview-head').css(d_css);
+    $('.saswp-rbcc-rvs span').css(d_css);
+
+    d_css = {'color':'#000', 'font-size':'18px'}
+    $('.saswp-rbcc-rif').css(d_css);
+
+    $('.saswp_star_color .saswp_star').attr('stop-color', '#000');
+    $('.saswp-rvw-str .saswp_star_color svg').css('width', '18px');
+
+    d_css = {'color':'#000', 'font-size':'48px'}
+    $('.saswp-rbcc-rvar').css(d_css);
+
+    bg_color = '#000'; font_color = '#fff';
+
+    $('#saswp-rbcc-review-bg-color, #saswp-rbcc-if-color, #saswp-rbcc-stars-color, #saswp-rbcc-ar-color').val(bg_color);
+    $('#saswp-rbcc-review-f-color').val(font_color);
+    $('#saswp-rbcc-review-f-size').val('15');
+    $('#saswp-rbcc-review-f-unit').val('px');
+    $('#saswp-rbcc-if-f-size').val('18');
+    $('#saswp-rbcc-if-f-unit').val('px');
+    $('#saswp-rbcc-ar-f-size').val('48');
+    $('#saswp-rbcc-ar-f-unit').val('px');
+    $('#saswp-rbcc-stars-f-size').val('18');
+    $('#saswp-rbcc-stars-f-unit').val('px');
+
+    $('.saswp-rbcc-font-color .wp-color-result').css('background-color', '#fff');
+    $('.saswp-rbcc-bg-color .wp-color-result').css('background-color', bg_color);
+    $('.saswp-rbcc-bg-color .wp-color-result').css('color', font_color);
+    $('.saswp-rbcc-dc .wp-color-result').css('background-color', bg_color);
+
  });
 });

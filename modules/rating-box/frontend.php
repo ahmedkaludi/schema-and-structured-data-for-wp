@@ -289,7 +289,7 @@ Class saswp_rating_box_frontend{
         {
             global $sd_data;
             if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
-                if(isset($sd_data['saswp-rating-module-css-app']) && $sd_data['saswp-rating-module-css-app'] == 1){
+                // if(isset($sd_data['saswp-rating-module-css-app']) && $sd_data['saswp-rating-module-css-app'] == 1){
                     $custom_css = ".saswp-rb-hd span, .saswp-rvw-sm span{
                                 background-color: {$sd_data['saswp-rbcc-review-bg-color']};
                                 color: {$sd_data['saswp-rbcc-review-f-color']};
@@ -308,7 +308,7 @@ Class saswp_rating_box_frontend{
                             }
                         ";
                     wp_add_inline_style( 'saswp-style', $custom_css );
-                }
+                // }
             }
             
         }
@@ -321,14 +321,14 @@ Class saswp_rating_box_frontend{
         {
             global $sd_data;
             if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
-                 if(isset($sd_data['saswp-rating-module-css-app']) && $sd_data['saswp-rating-module-css-app'] == 1){
+                 // if(isset($sd_data['saswp-rating-module-css-app']) && $sd_data['saswp-rating-module-css-app'] == 1){
                 ?>
                     <script type="text/javascript">
                         let saswpStarColor = "<?php echo $sd_data['saswp-rbcc-stars-color'];  ?>"
                         jQuery('.saswp_star_color .saswp_star').attr('stop-color', saswpStarColor);   
                     </script>
                 <?php    
-                }
+                // }
             }
         }
         

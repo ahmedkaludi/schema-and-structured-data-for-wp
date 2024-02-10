@@ -3132,14 +3132,12 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 
 .saswp-rbcc-field-table{
     width: 100%;
-    border: 1px solid #eee;
-    margin-top: 10px;
     line-height: 3;
-    padding: 5px;
 }
 
 .saswp-rbcc-td-headings{
     width: 16%;
+    padding-left: 10px;
 }
 
 .saswp-rbcc-review-input-num{
@@ -3148,8 +3146,83 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 
 .saswp-rbcc-td-attributes{
     width: 15%;
+/*    padding: 15px 7px !important;*/
+}
+
+#saswp-appearance-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    overflow: scroll;
+    z-index: 9999;
+}
+
+.saswp-rbcc-fields{
+    background-color: #fefefe;
+    position: relative;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 84%;
+    left: 5%;
+    top: 15%;
 }
 
 .saswp-rbcc-fields-items{
     background-color: #fff;
+    display: flex;
+}
+
+#saswp-rbcc-app-wrapper{
+    width: 55%;
+    border: 1px solid #eee;
+    margin: 8px;
+/*    border-radius: 20px;*/
+}
+
+#saswp-rbcc-app-preview{
+    width: 45%;
+    margin: 10px;
+    border: 1px solid #eee;
+    padding: 10px;
+/*    border-radius: 20px;*/
+}
+
+#saswp-rbcc-preview-table{
+    width: 100%;
+}
+
+.saswp-rbcc-preview-head{
+    padding: 8px 12px;
+    width: 250px;
+    margin-bottom: 10px;
+}
+
+#saswp-rbcc-preview-hd{
+    margin: 20px 10px 10px 10px;
+}
+
+#saswp-rtb-link{
+    font-size: 13px;
+    margin-left: 11px;
+    color: #2271b1;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#saswp-appearance-modal-close{
+    float: right;
+    font-size: 30px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#saswp-rbcc-reset{
+    padding-right: 10px;
+    text-align: right;
+    cursor: pointer;
 }
