@@ -328,7 +328,7 @@ class saswp_rating_box_backend {
                                         <input type="text" name="sd_data[saswp-rbcc-stars-color]" id="saswp-rbcc-stars-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $sd_data['saswp-rbcc-stars-color'] ) ? esc_attr( $sd_data['saswp-rbcc-stars-color']) : '#000'; ?>" data-default-color="#000">
                                     </td>
                                     <td class="saswp-rbcc-td-attributes"> 
-                                        <div><?php echo saswp_t_string('Width'); ?></div>
+                                        <div><?php echo saswp_t_string('Size'); ?></div>
                                         <input type="number" name="sd_data[saswp-rbcc-stars-f-size]" id="saswp-rbcc-stars-f-size" class="saswp-rbcc-review-input-num" value="<?php echo isset( $sd_data['saswp-rbcc-stars-f-size'] ) ? esc_attr( $sd_data['saswp-rbcc-stars-f-size']) : '18'; ?>">
                                         <input type="text" name="sd_data[saswp-rbcc-stars-f-unit]" id="saswp-rbcc-stars-f-unit" class="saswp-rbcc-review-input-num" value="px" readonly disabled>
                                     </td>
