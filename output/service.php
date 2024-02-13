@@ -5488,7 +5488,7 @@ Class saswp_output_service{
                             }    
                             if(isset($custom_fields['saswp_product_schema_rp_return_fees'])){
                                 $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
-                                    $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = saswp_t_string('ReturnShippingFees');
+                                    $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = 'ReturnShippingFees';
                             }
                         }else{
                             if(isset($custom_fields['saswp_product_schema_rp_return_fees'])){
