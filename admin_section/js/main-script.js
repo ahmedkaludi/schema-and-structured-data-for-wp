@@ -705,7 +705,7 @@ jQuery(document).ready(function($){
               
             });
             
-            if(schematype == 'HowTo' || schematype == 'local_business' || schematype == 'FAQ' || schematype == 'Service' ){
+            if(schematype == 'HowTo' || schematype == 'local_business' || schematype == 'FAQ' || schematype == 'Service' || schematype == 'qanda' || schematype == 'Course'){
                 
                 $(".saswp-enable-modify-schema").show();
                 

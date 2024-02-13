@@ -806,7 +806,7 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                     );                                       
             }
             
-            $input1['offers']['@type'] = saswp_remove_warnings($all_post_meta, 'saswp_course_offer_type_'.$schema_id, 'saswp_array');
+            $input1['offers']['@type'] = 'Offer';
             $input1['offers']['category'] = saswp_remove_warnings($all_post_meta, 'saswp_course_offer_category_'.$schema_id, 'saswp_array');
             $input1['offers']['price'] = saswp_remove_warnings($all_post_meta, 'saswp_course_offer_price_'.$schema_id, 'saswp_array');
             $input1['offers']['priceCurrency'] = saswp_remove_warnings($all_post_meta, 'saswp_course_offer_currency_'.$schema_id, 'saswp_array');;

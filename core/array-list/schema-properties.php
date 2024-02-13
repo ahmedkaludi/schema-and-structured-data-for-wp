@@ -4809,12 +4809,6 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_home_url() 
                     ),
                     array(
-                            'label'   => 'Offer Type',
-                            'id'      => 'saswp_course_offer_type_'.$schema_id,
-                            'type'    => 'text',
-                            'default' => 'Offer' 
-                    ),
-                    array(
                             'label'   => 'Offer Category',
                             'id'      => 'saswp_course_offer_category_'.$schema_id,
                             'type'    => 'text',
