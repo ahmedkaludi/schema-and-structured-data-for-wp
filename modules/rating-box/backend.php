@@ -270,11 +270,11 @@ class saswp_rating_box_backend {
                                         <input type="text" name="sd_data[saswp-rbcc-review-bg-color]" id="saswp-rbcc-review-bg-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo esc_attr($rating_head_bgcolor); ?>" data-default-color="#000">
                                     </td>
                                     <td class="saswp-rbcc-td-attributes saswp-rbcc-font-color">
-                                        <div><?php echo saswp_t_string('Font Color'); ?></div>
+                                        <div><?php echo saswp_t_string('Color'); ?></div>
                                         <input type="text" name="sd_data[saswp-rbcc-review-f-color]" id="saswp-rbcc-review-f-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo esc_attr($rating_head_fcolor); ?>" data-default-color="#fff">
                                     </td>
                                     <td class="saswp-rbcc-td-attributes">
-                                        <div><?php echo saswp_t_string('Font Size'); ?></div>
+                                        <div><?php echo saswp_t_string('Size'); ?></div>
                                         <input type="number" name="sd_data[saswp-rbcc-review-f-size]" id="saswp-rbcc-review-f-size" class="saswp-rbcc-review-input-num" value="<?php echo esc_attr($rating_head_fsize); ?>">
                                         <select name="sd_data[saswp-rbcc-review-f-unit]" id="saswp-rbcc-review-f-unit">
                                         <?php 
