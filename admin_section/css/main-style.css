@@ -3226,3 +3226,17 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
     text-align: right;
     cursor: pointer;
 }
+
+#saswp_enable_gcaptcha{
+    width: auto !important;
+}
+
+#TB_ajaxContent{
+    height: 400px !important;
+}
+
+.saswp-ar-save-btn{
+    bottom: 0;
+    position: absolute;
+    margin-bottom: 10px;
+}

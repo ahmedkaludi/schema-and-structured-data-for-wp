@@ -3675,21 +3675,35 @@ jQuery(document).ready(function($){
         
         if( ( saswp_localize_data.post_type == 'saswp_reviews' || saswp_localize_data.post_type == 'saswp-collections' ) && (saswp_localize_data.page_now == 'edit.php')){
             
+            let is_enable_gcaptcha = '';
+            let captcha_class = 'saswp_hide';
+            if(saswp_localize_data.saswp_enable_gcaptcha){
+                if(saswp_localize_data.saswp_enable_gcaptcha == 1){
+                    is_enable_gcaptcha = 'checked';    
+                    captcha_class = '';
+                }
+            }
             var html  = '<div class="saswp-custom-post-tab">';
             
                 html += '<div style="display:none;" id="saswp-accept-reviews-popup">';
                 html += '<div class="saswp-accept-rv-container">';
-                html += '<p>Use Below shortcode to show reviews form in your website. Using this you can accept reviews from your website directly</p>';
+                html += '<p>Use Below shortcode to show reviews form in your website. Using this you can accept reviews from your website directly. <a href="https://structured-data-for-wp.com/docs/article/how-to-add-dynamic-aggregate-rating/" target="_blank">Learn More</a></p>';
                 html += '<div class="saswp-show-form-on-tab"><strong>Simple Form</strong> <input value="[saswp-reviews-form]" type="text" readonly></div>';
                 html += '<div class="saswp-show-form-on-tab"><strong>Show form on button tap</strong> <input value="[saswp-reviews-form onbutton=&quot;1&quot;]" type="text" readonly></div>';
-                html += '<p><strong>Note:</strong> To enable google reCAPTCHA v2 add SITE KEY & SECRET KEY respectively as parameters in above shortcode. Eg <input value="[saswp-reviews-form site_key=&quot;your key&quot; secret_key=&quot;your key&quot;]" type="text" readonly>. To get keys <a target="_blank" href="https://www.google.com/recaptcha/admin/create">Click here.</a> You must choose reCAPTCHA type v2 </p>'
+                html += '<div class="saswp-show-form-on-tab"><strong>Enable reCAPTCHA v2</strong> <input name="sd_data[saswp_enable_gcaptcha]" id="saswp_enable_gcaptcha" value="1" type="checkbox" '+is_enable_gcaptcha+'></div>';
+                html += '<div id="saswp-gkey-captcha-wrapper" class="'+captcha_class+'">';
+                html += '<div class="saswp-show-form-on-tab"><strong>Site Key</strong> <input name="sd_data[saswp_g_site_key]" id="saswp_g_site_key" value="'+saswp_localize_data.saswp_g_site_key+'" type="text"></div>';
+                html += '<div class="saswp-show-form-on-tab"><strong>Secret Key</strong> <input name="sd_data[saswp_g_secret_key]" id="saswp_g_secret_key" value="'+saswp_localize_data.saswp_g_secret_key+'" type="text"></div>';
+                html += '</div>';
+                html += '<p><strong>Note:</strong> To get SITE KEY & SECRET KEY <a target="_blank" href="https://www.google.com/recaptcha/admin/create">Click here</a> and you must choose reCAPTCHA type v2 </p>'
+                html += '<div class="saswp-ar-save-btn"><input type="button" class="button button-primary" value="Save Settings" id="saswp-ar-form-btn"></div>';
                 html += '</div>';
                 html += '</div>';
                 
                 html += '<h2 class="nav-tab-wrapper">';
                 html += '<a href='+saswp_localize_data.reviews_page_url+' class="nav-tab '+(saswp_localize_data.current_url == saswp_localize_data.reviews_page_url ? 'saswp-global-selected' : '' )+'">Reviews</a>';
                 html += '<a href='+saswp_localize_data.collections_page_url+' class="nav-tab '+(saswp_localize_data.current_url == saswp_localize_data.collections_page_url ? 'saswp-global-selected' : '' )+'">Collections</a>';
-                html += '<a class="nav-tab saswp-show-accept-rv-popup">Accept Reviews</a>';
+                html += '<a class="nav-tab saswp-show-accept-rv-popup" style="cursor: pointer;">Accept Reviews</a>';
                 html += '</h2>';
                 
                 html += '</div>';
@@ -4352,5 +4366,40 @@ $('#saswp-rbcc-ar-f-unit').change(function(e){
     $('.saswp-rbcc-bg-color .wp-color-result').css('color', font_color);
     $('.saswp-rbcc-dc .wp-color-result').css('background-color', bg_color);
 
+ });
+
+ /**
+  * Code to save site key and secret key for accepted reviews
+  * @since 1.27
+  * */
+
+ $(document).on('change', '#saswp_enable_gcaptcha', function(e){
+    if($(this).is(':checked')){
+        $('#saswp-gkey-captcha-wrapper').removeClass('saswp_hide');
+    }else{
+        $('#saswp-gkey-captcha-wrapper').addClass('saswp_hide');
+    }
+ });
+
+ $(document).on('click', '#saswp-ar-form-btn', function(e){
+    let gsitekey = $('#saswp_g_site_key').val();
+    let gsecretkey = $('#saswp_g_secret_key').val();
+    let captchaEnable = 0;
+    let postData = {};
+    if($('#saswp_enable_gcaptcha').is(':checked')){
+        captchaEnable = 1;
+        postData = {action:'saswp_update_google_captch_keys', captcha_enable:captchaEnable, gsitekey: gsitekey, gsecretkey: gsecretkey, saswp_security_nonce:saswp_localize_data.saswp_security_nonce};
+    }else{
+        postData = {action:'saswp_update_google_captch_keys', captcha_enable:captchaEnable, saswp_security_nonce:saswp_localize_data.saswp_security_nonce};
+    }
+
+    $.ajax({
+        url : ajaxurl,
+        method : "POST",
+        data: postData,
+        success: function(responseData){
+            location.reload();
+        }
+    });
  });
 });
