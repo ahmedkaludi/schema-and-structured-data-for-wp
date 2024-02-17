@@ -297,7 +297,7 @@ function saswp_get_all_schema_markup_output() {
         $custom_markup             = saswp_taxonomy_schema_output();  
         $user_custom_markup        = saswp_fetched_user_custom_schema();  
         if( is_singular() && is_object($post) ){
-            $custom_markup         = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+            $custom_markup         = get_post_meta($post->ID, 'saswp_custom_schema_field', true);            
         }        
          
         $schema_output              = saswp_schema_output();                  
@@ -684,11 +684,12 @@ function saswp_get_all_schema_markup_output() {
                 preg_match( $cus_regex, $custom_markup, $match );
                 
                 if(empty($match)){
-                    
-                    $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
-                    $custom_output .= $custom_markup;                            
-                    $custom_output .= '</script>';
-                    
+                    json_decode($custom_markup);
+                    if(json_last_error() === JSON_ERROR_NONE){
+                        $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
+                        $custom_output .= $custom_markup;                            
+                        $custom_output .= '</script>';
+                    }                                        
                 }else{
                     
                     $custom_output = $custom_markup;
@@ -704,10 +705,12 @@ function saswp_get_all_schema_markup_output() {
                         preg_match( $cus_regex, $user_custom_markup, $match );
                         
                         if(empty($match)){
-                            
-                            $user_custom_output .= '<script type="application/ld+json" class="saswp-user-custom-schema-markup-output">';                            
-                            $user_custom_output .= $user_custom_markup;                            
-                            $user_custom_output .= '</script>';
+                            json_decode($user_custom_markup);
+                            if(json_last_error() === JSON_ERROR_NONE){
+                                $user_custom_output .= '<script type="application/ld+json" class="saswp-user-custom-schema-markup-output">';                            
+                                $user_custom_output .= $user_custom_markup;                            
+                                $user_custom_output .= '</script>';   
+                            }                            
                             
                         }else{
                             
