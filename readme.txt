@@ -136,6 +136,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Feature: Added the custom schema support in WPGraphQL #2072
 * Fixed: Users Unable to Edit Publish Date/Time for Schema Type #2075
 * Enhancement: Saved reCaptcha details in options table #2077
+* Fixed: Security vulnerability issues raised by Wordfence
 
 = 1.26 (10 Jan 2024) =
 
