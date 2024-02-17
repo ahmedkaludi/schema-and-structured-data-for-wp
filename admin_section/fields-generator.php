@@ -506,8 +506,16 @@ class saswp_fields_generator {
                                          }   
                                         $message =''; 
                                                                                                                                                                                                          
-					$input = sprintf(
-						'<input class="%s" id="%s" name="%s" type="checkbox" %s %s><p>'.$message.'</p>',
+					$alink = '';
+                    if($meta_field['id'] == 'saswp-review-module-checkbox'){
+                        if(isset($settings['saswp-review-module']) && $settings['saswp-review-module'] == 1){
+                            $alink = '<span id="saswp-rtb-link">'.saswp_t_string('Customize the Design').'</span>';
+                        }else{
+                            $alink = '<span id="saswp-rtb-link" class="saswp_hide">'.saswp_t_string('Customize the Design').'</span>';
+                        }
+                    }
+                    $input = sprintf(
+						'<input class="%s" id="%s" name="%s" type="checkbox" %s %s>'.$alink.'<p>'.$message.'</p>',
                                                 esc_attr($class),
                                                 esc_attr($meta_field['id']),    
 						esc_attr($meta_field['name']),                                              

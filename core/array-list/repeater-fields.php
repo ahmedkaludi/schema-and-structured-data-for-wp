@@ -831,20 +831,46 @@ return array( 'schema_type_element' => array(
 		 array(
 			'label'     => 'Start Date',
 			'name'      => 'saswp_course_instance_start_date',
-			'type'      => 'text',
+			'type'      => 'date',
 			'default' => get_the_date("Y-m-d")
 			),  
 		 array(
 			'label'     => 'End Date',
 			'name'      => 'saswp_course_instance_end_date',
-			'type'      => 'text',
+			'type'      => 'date',
 			'default' => get_the_date("Y-m-d")
 			),
+		array(
+			'label'     => 'Course Workload',
+			'name'      => 'saswp_course_instance_wl',
+			'type'      => 'text'
+			),  
+		array(
+			'label'     => 'Schedule Duration',
+			'name'      => 'saswp_course_instance_sd',
+			'type'      => 'text'
+			), 
+		array(
+			'label'     => 'Schedule Repeat Count',
+			'name'      => 'saswp_course_instance_src',
+			'type'      => 'number'
+			),
+		array(
+			'label'     => 'Schedule Repeat Frequency',
+			'name'      => 'saswp_course_instance_srf',
+			'type'      => 'select',
+			'options'   => array(                                                                                              
+					'Daily'      => 'Daily',
+					'Weekly'     => 'Weekly',
+					'Monthly'    => 'Monthly',
+					'Yearly'     => 'Yearly'
+				)
+			), 
 		array(
 			'label'     => 'Location',
 			'name'      => 'saswp_course_instance_location',
 			'type'      => 'text'
-			), 
+			),
 		array(
 			'label'     => 'Offer Price',
 			'name'      => 'saswp_course_instance_offer_price',

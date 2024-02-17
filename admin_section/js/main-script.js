@@ -705,7 +705,7 @@ jQuery(document).ready(function($){
               
             });
             
-            if(schematype == 'HowTo' || schematype == 'local_business' || schematype == 'FAQ' || schematype == 'Service' ){
+            if(schematype == 'HowTo' || schematype == 'local_business' || schematype == 'FAQ' || schematype == 'Service' || schematype == 'qanda' || schematype == 'Course'){
                 
                 $(".saswp-enable-modify-schema").show();
                 
@@ -1130,9 +1130,13 @@ jQuery(document).ready(function($){
                       case 'saswp-review-module-checkbox':
                           
                             if ($(this).is(':checked')) {              
-                              $("#saswp-review-module").val(1);             
+                              $("#saswp-review-module").val(1);
+                              $('.saswp-rating-box-app-fields').removeClass('saswp_hide');             
+                              $('#saswp-rtb-link').removeClass('saswp_hide');             
                             }else{
-                              $("#saswp-review-module").val(0);           
+                              $("#saswp-review-module").val(0);
+                              $('.saswp-rating-box-app-fields').addClass('saswp_hide');
+                              $('#saswp-rtb-link').addClass('saswp_hide');           
                             }
                       break;
 
@@ -3671,21 +3675,35 @@ jQuery(document).ready(function($){
         
         if( ( saswp_localize_data.post_type == 'saswp_reviews' || saswp_localize_data.post_type == 'saswp-collections' ) && (saswp_localize_data.page_now == 'edit.php')){
             
+            let is_enable_gcaptcha = '';
+            let captcha_class = 'saswp_hide';
+            if(saswp_localize_data.saswp_enable_gcaptcha){
+                if(saswp_localize_data.saswp_enable_gcaptcha == 1){
+                    is_enable_gcaptcha = 'checked';    
+                    captcha_class = '';
+                }
+            }
             var html  = '<div class="saswp-custom-post-tab">';
             
                 html += '<div style="display:none;" id="saswp-accept-reviews-popup">';
                 html += '<div class="saswp-accept-rv-container">';
-                html += '<p>Use Below shortcode to show reviews form in your website. Using this you can accept reviews from your website directly</p>';
+                html += '<p>Use Below shortcode to show reviews form in your website. Using this you can accept reviews from your website directly. <a href="https://structured-data-for-wp.com/docs/article/how-to-add-dynamic-aggregate-rating/" target="_blank">Learn More</a></p>';
                 html += '<div class="saswp-show-form-on-tab"><strong>Simple Form</strong> <input value="[saswp-reviews-form]" type="text" readonly></div>';
                 html += '<div class="saswp-show-form-on-tab"><strong>Show form on button tap</strong> <input value="[saswp-reviews-form onbutton=&quot;1&quot;]" type="text" readonly></div>';
-                html += '<p><strong>Note:</strong> To enable google reCAPTCHA v2 add SITE KEY & SECRET KEY respectively as parameters in above shortcode. Eg <input value="[saswp-reviews-form site_key=&quot;your key&quot; secret_key=&quot;your key&quot;]" type="text" readonly>. To get keys <a target="_blank" href="https://www.google.com/recaptcha/admin/create">Click here.</a> You must choose reCAPTCHA type v2 </p>'
+                html += '<div class="saswp-show-form-on-tab"><strong>Enable reCAPTCHA v2</strong> <input name="sd_data[saswp_enable_gcaptcha]" id="saswp_enable_gcaptcha" value="1" type="checkbox" '+is_enable_gcaptcha+'></div>';
+                html += '<div id="saswp-gkey-captcha-wrapper" class="'+captcha_class+'">';
+                html += '<div class="saswp-show-form-on-tab"><strong>Site Key</strong> <input class="saswp-ta-left" name="sd_data[saswp_g_site_key]" id="saswp_g_site_key" value="'+saswp_localize_data.saswp_g_site_key+'" type="text"></div>';
+                html += '<div class="saswp-show-form-on-tab"><strong>Secret Key</strong> <input class="saswp-ta-left" name="sd_data[saswp_g_secret_key]" id="saswp_g_secret_key" value="'+saswp_localize_data.saswp_g_secret_key+'" type="text"></div>';
+                html += '</div>';
+                html += '<p><strong>Note:</strong> To get SITE KEY & SECRET KEY <a target="_blank" href="https://www.google.com/recaptcha/admin/create">Click here</a> and you must choose reCAPTCHA type v2 </p>'
+                html += '<div class="saswp-ar-save-btn"><input type="button" class="button button-primary" value="Save Settings" id="saswp-ar-form-btn"></div>';
                 html += '</div>';
                 html += '</div>';
                 
                 html += '<h2 class="nav-tab-wrapper">';
                 html += '<a href='+saswp_localize_data.reviews_page_url+' class="nav-tab '+(saswp_localize_data.current_url == saswp_localize_data.reviews_page_url ? 'saswp-global-selected' : '' )+'">Reviews</a>';
                 html += '<a href='+saswp_localize_data.collections_page_url+' class="nav-tab '+(saswp_localize_data.current_url == saswp_localize_data.collections_page_url ? 'saswp-global-selected' : '' )+'">Collections</a>';
-                html += '<a class="nav-tab saswp-show-accept-rv-popup">Accept Reviews</a>';
+                html += '<a class="nav-tab saswp-show-accept-rv-popup" style="cursor: pointer;">Accept Reviews</a>';
                 html += '</h2>';
                 
                 html += '</div>';
@@ -4180,4 +4198,208 @@ $(document).on("change", ".saswp-custom-fields-name, .saswp-custom-meta-list", f
     }
 });
 // Code ends here    
+
+/**
+ * Display ratingbox custom css related elements if checkbox is checked
+ * @since 1.27
+ * */
+$('#saswp-rating-module-css-app').change(function(e){
+    if($(this).is(':checked')){
+        $('.saswp-rbcc-fields').removeClass('saswp_hide');
+    }else{
+        $('.saswp-rbcc-fields').addClass('saswp_hide');
+    }
+}).change();
+
+/**
+ * Preview design changes on preforming the changes in settings
+ * */
+$(document).on('click', '#saswp-rtb-link', function(e){
+    $('#saswp-appearance-modal').fadeIn();
+});
+$(document).on('click', '#saswp-appearance-modal-close', function(e){
+    $('#saswp-appearance-modal').fadeOut();
+});
+
+$('#saswp-rbcc-review-bg-color').wpColorPicker({
+    change: function (event, ui) {
+        var element = event.target;
+        var color = ui.color.toString();
+        $('.saswp-rbcc-preview-head').css('background', color);
+        $('.saswp-rbcc-rvs span').css('background', color);
+    },
+});
+
+$('#saswp-rbcc-review-f-color').wpColorPicker({
+    change: function (event, ui) {
+        var element = event.target;
+        var color = ui.color.toString();
+        $('.saswp-rbcc-preview-head').css('color', color);
+        $('.saswp-rbcc-rvs span').css('color', color);
+    },
+});
+
+$('#saswp-rbcc-review-f-size').on('keyup',function(e){
+    e.preventDefault();
+    var rbccHdFsize = $(this).val() ;
+    var rbccHdFunit = $('#saswp-rbcc-review-f-unit').val();
+    if(rbccHdFsize <= 0){
+        rbccHdFsize = 15;   
+    }
+    $('.saswp-rbcc-preview-head, .saswp-rbcc-rvs span').css('font-size', rbccHdFsize+rbccHdFunit);
+});
+
+$('#saswp-rbcc-review-f-unit').change(function(e){
+    var rbccHdFsize = $('#saswp-rbcc-review-f-size').val() ;
+    var rbccHdFunit = $(this).val();   
+    $('.saswp-rbcc-preview-head, .saswp-rbcc-rvs span').css('font-size', rbccHdFsize+rbccHdFunit);
+}).change();
+
+$('#saswp-rbcc-if-color').wpColorPicker({
+    change: function (event, ui) {
+        var element = event.target;
+        var color = ui.color.toString();
+        $('.saswp-rbcc-rif').css('color', color);
+    },
+});
+
+$('#saswp-rbcc-if-f-size').on('keyup',function(e){
+    e.preventDefault();
+    var rbccHdFsize = $(this).val() ;
+    var rbccHdFunit = $('#saswp-rbcc-if-f-unit').val();
+    if(rbccHdFsize <= 0){
+        rbccHdFsize = 15;   
+    }
+    $('.saswp-rbcc-rif').css('font-size', rbccHdFsize+rbccHdFunit);
+});
+
+$('#saswp-rbcc-if-f-unit').change(function(e){
+    var rbccHdFsize = $('#saswp-rbcc-if-f-size').val() ;
+    var rbccHdFunit = $(this).val();   
+    $('.saswp-rbcc-rif').css('font-size', rbccHdFsize+rbccHdFunit);
+}).change();
+
+$('#saswp-rbcc-stars-color').wpColorPicker({
+    change: function (event, ui) {
+        var element = event.target;
+        var color = ui.color.toString();
+        $('.saswp_star_color .saswp_star').attr('stop-color', color);  
+    },
+});
+
+$('#saswp-rbcc-stars-f-size').on('keyup',function(e){
+    e.preventDefault();
+    var rbccHdFsize = $(this).val() ;
+    var rbccHdFunit = 'px';
+    if(rbccHdFsize <= 0){
+        rbccHdFsize = 18;   
+    }
+    $('.saswp-rvw-str .saswp_star_color svg').css('width', rbccHdFsize+rbccHdFunit);
+});
+
+$('#saswp-rbcc-ar-color').wpColorPicker({
+    change: function (event, ui) {
+        var element = event.target;
+        var color = ui.color.toString();
+        $('.saswp-rbcc-rvar').css('color', color);
+    },
+});
+
+$('#saswp-rbcc-ar-f-size').on('keyup',function(e){
+    e.preventDefault();
+    var rbccHdFsize = $(this).val() ;
+    var rbccHdFunit = $('#saswp-rbcc-ar-f-unit').val();
+    if(rbccHdFsize <= 0){
+        rbccHdFsize = 48;   
+    }
+    $('.saswp-rbcc-rvar').css('font-size', rbccHdFsize+rbccHdFunit);
+});
+
+$('#saswp-rbcc-ar-f-unit').change(function(e){
+    var rbccHdFsize = $('#saswp-rbcc-ar-f-size').val() ;
+    var rbccHdFunit = $(this).val();   
+    $('.saswp-rbcc-rvar').css('font-size', rbccHdFsize+rbccHdFunit);
+}).change();
+
+/**
+ * Display review collection textarea if checkbox is checked
+ * @since 1.27
+ * */
+ $(document).on('change', '#saswp_review_custom_chk_box', function(e){
+    if($(this).is(':checked')){
+        $('#saswp-review-cccc').show();
+    }else{
+        $('#saswp-review-cccc').hide();
+    }
+ });
+
+ $(document).on('click', '#saswp-rbcc-reset', function(e){
+    e.preventDefault();
+    d_css = {'background':'#000', 'color':'#fff', 'font-size':'15px'}
+    $('.saswp-rbcc-preview-head').css(d_css);
+    $('.saswp-rbcc-rvs span').css(d_css);
+
+    d_css = {'color':'#000', 'font-size':'18px'}
+    $('.saswp-rbcc-rif').css(d_css);
+
+    $('.saswp_star_color .saswp_star').attr('stop-color', '#000');
+    $('.saswp-rvw-str .saswp_star_color svg').css('width', '18px');
+
+    d_css = {'color':'#000', 'font-size':'48px'}
+    $('.saswp-rbcc-rvar').css(d_css);
+
+    bg_color = '#000'; font_color = '#fff';
+
+    $('#saswp-rbcc-review-bg-color, #saswp-rbcc-if-color, #saswp-rbcc-stars-color, #saswp-rbcc-ar-color').val(bg_color);
+    $('#saswp-rbcc-review-f-color').val(font_color);
+    $('#saswp-rbcc-review-f-size').val('15');
+    $('#saswp-rbcc-review-f-unit').val('px');
+    $('#saswp-rbcc-if-f-size').val('18');
+    $('#saswp-rbcc-if-f-unit').val('px');
+    $('#saswp-rbcc-ar-f-size').val('48');
+    $('#saswp-rbcc-ar-f-unit').val('px');
+    $('#saswp-rbcc-stars-f-size').val('18');
+    $('#saswp-rbcc-stars-f-unit').val('px');
+
+    $('.saswp-rbcc-font-color .wp-color-result').css('background-color', '#fff');
+    $('.saswp-rbcc-bg-color .wp-color-result').css('background-color', bg_color);
+    $('.saswp-rbcc-bg-color .wp-color-result').css('color', font_color);
+    $('.saswp-rbcc-dc .wp-color-result').css('background-color', bg_color);
+
+ });
+
+ /**
+  * Code to save site key and secret key for accepted reviews
+  * @since 1.27
+  * */
+
+ $(document).on('change', '#saswp_enable_gcaptcha', function(e){
+    if($(this).is(':checked')){
+        $('#saswp-gkey-captcha-wrapper').removeClass('saswp_hide');
+    }else{
+        $('#saswp-gkey-captcha-wrapper').addClass('saswp_hide');
+    }
+ });
+
+ $(document).on('click', '#saswp-ar-form-btn', function(e){
+    let gsitekey = $('#saswp_g_site_key').val();
+    let gsecretkey = $('#saswp_g_secret_key').val();
+    let captchaEnable = 0;
+    let postData = {};
+    if($('#saswp_enable_gcaptcha').is(':checked')){
+        captchaEnable = 1;
+        postData = {action:'saswp_update_google_captch_keys', captcha_enable:captchaEnable, gsitekey: gsitekey, gsecretkey: gsecretkey, saswp_security_nonce:saswp_localize_data.saswp_security_nonce};
+    }else{
+        postData = {action:'saswp_update_google_captch_keys', captcha_enable:captchaEnable, saswp_security_nonce:saswp_localize_data.saswp_security_nonce};
+    }
+
+    $.ajax({
+        url : ajaxurl,
+        method : "POST",
+        data: postData,
+        success: function(responseData){
+            location.reload();
+        }
+    });
+ });
 });

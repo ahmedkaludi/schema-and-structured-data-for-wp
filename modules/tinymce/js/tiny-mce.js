@@ -43,6 +43,16 @@
                                                         <option value="p">p</option>
                                                     </select>
                                                 </div>
+                                                <div class="saswp-faq-font-wrapper">
+                                                    <label>Title Font Size</label>
+                                                    <input type="text" id="saswp_faq_headline_font_size-0" name="saswp_faq_headline_font_size" class="saswp_faq_font_elements">
+                                                    <select name="saswp_faq_headline_font_unit" id="saswp_faq_headline_font_unit-0" class="saswp_faq_font_elements">
+                                                        <option value="px">px</option>
+                                                        <option value="pt">pt</option>
+                                                        <option value="%">%</option>
+                                                        <option value="em">em</option>
+                                                    </select>
+                                                </div>
                                                 <div>
                                                     <label>Question</label>
                                                     <input type="text" id="saswp_faq_question-0" name="saswp_faq_question" placeholder="Enter Your Question here...">
@@ -77,8 +87,13 @@
                                               question = jQuery(`#saswp_faq_question-`+key).val(),
                                               answer = jQuery(`#saswp_faq_answer-`+key).val(),
                                               imageID = jQuery(`#saswp_faq_img_id-`+key).html();                                            
+                                              fontSize = jQuery(`#saswp_faq_headline_font_size-`+key).val();                                            
+                                              fontUnit = jQuery(`#saswp_faq_headline_font_unit-`+key).val();                                            
 
-                                          shortcode += `headline-`+key+`="`+headlineTag+`" question-`+key+`="`+question+`" answer-`+key+`="`+answer+`" image-`+key+`="`+imageID+`" `;
+                                              shortcode += `headline-`+key+`="`+headlineTag+`" question-`+key+`="`+question+`" answer-`+key+`="`+answer+`" image-`+key+`="`+imageID+`" `;
+                                              if(jQuery.trim(fontSize).length > 0){
+                                                shortcode += ` fontsize-${key}="${fontSize}" fontunit-${key}="${fontUnit}" `;
+                                              }
                                         }
                                                                               
                                         shortcode += ` count="`+fieldsets.length+`" html="`+e.data.saswp_multi_faq_render_html+`"]`;
@@ -490,6 +505,16 @@ jQuery(document).ready(function($){
                                 <option value="p">p</option>
                             </select>
                         </div>
+                        <div class="saswp-faq-font-wrapper">
+                                <label>Title Font Size</label>
+                                <input type="text" id="saswp_faq_headline_font_size-`+id+`" name="saswp_faq_headline_font_size" class="saswp_faq_font_elements">
+                                <select name="saswp_faq_headline_font_unit" id="saswp_faq_headline_font_unit-`+id+`" class="saswp_faq_font_elements">
+                                    <option value="px">px</option>
+                                    <option value="pt">pt</option>
+                                    <option value="%">%</option>
+                                    <option value="em">em</option>
+                                </select>
+                            </div>
                         <div>
                             <label>Question</label>
                             <input type="text" id="saswp_faq_question-`+id+`" name="saswp_faq_question" placeholder="Enter Your Question here...">

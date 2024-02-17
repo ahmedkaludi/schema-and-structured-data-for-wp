@@ -38,6 +38,8 @@ class SASWP_Reviews_Form {
           
           add_filter( 'amp_content_sanitizers_template_mode',array($this, 'saswp_review_form_blacklist_sanitizer'), 99);
           add_filter( 'amp_content_sanitizers',array($this, 'saswp_review_form_blacklist_sanitizer'), 99);          
+          
+          add_action( 'wp_ajax_saswp_update_google_captch_keys', array($this, 'saswp_update_google_captch_keys') );          
                                  
         }
        
@@ -211,16 +213,9 @@ class SASWP_Reviews_Form {
         public function saswp_reviews_form_render($attr){
             $attr = saswp_wp_kses_post($attr);
             $on_button = false;
+            global $sd_data;
             
-            update_option('saswp_g_site_key', '');
-            update_option('saswp_g_secret_key', '');
-
-            if(isset($attr['site_key'])){
-                update_option('saswp_g_site_key', sanitize_text_field($attr['site_key']));
-            }
-            if(isset($attr['secret_key'])){
-                update_option('saswp_g_secret_key', sanitize_text_field($attr['secret_key']));
-            }
+            
             
             if(isset($attr['onbutton'])){
                 $on_button = true;
@@ -253,7 +248,7 @@ class SASWP_Reviews_Form {
             wp_enqueue_style(  'saswp-review-form-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'review-form.min.css' : 'review-form.css'), false, SASWP_VERSION );
             wp_enqueue_style(  'jquery-rateyo-min-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'jquery.rateyo.min.css' : 'jquery.rateyo.min.css'), false, SASWP_VERSION );
             
-            if( isset($attr['site_key']) && isset($attr['secret_key']) ){
+            if( isset($sd_data['saswp_ar_captcha_checkbox']) && $sd_data['saswp_ar_captcha_checkbox'] == 1 ){
                 wp_enqueue_script( 'saswp-recaptcha', 'https://www.google.com/recaptcha/api.js'); 
             }
 
@@ -315,8 +310,9 @@ class SASWP_Reviews_Form {
                     . '<input type="hidden" name="saswp_place_id" value="'.esc_attr($post->ID).'">'
                     . '<input type="hidden" name="action" value="saswp_review_form">';
                     
-                    if( isset($attr['site_key']) && isset($attr['secret_key']) ) {
-                        $form.=    '<div class="g-recaptcha" data-sitekey="'.esc_attr($attr['site_key']).'"></div>';
+                    if( isset($sd_data['saswp_ar_captcha_checkbox']) && $sd_data['saswp_ar_captcha_checkbox'] == 1 ) {
+                        if((isset($sd_data['saswp_g_site_key']) && !empty($sd_data['saswp_g_site_key'])) && (isset($sd_data['saswp_g_secret_key']) && !empty($sd_data['saswp_g_secret_key'])))
+                        $form.=    '<div class="g-recaptcha" data-sitekey="'.esc_attr($sd_data['saswp_g_site_key']).'"></div>';
                     }
 
                     $form.= '<input name="saswp-review-save" type="submit" class="submit">'                                        
@@ -329,7 +325,45 @@ class SASWP_Reviews_Form {
              return ob_get_clean();
             
         }
-            
+        
+    /**
+     * Save google captcha site key and secret keys
+     * @since 1.27
+     * */
+    public function saswp_update_google_captch_keys()
+    {
+        if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+            return; 
+        }
+        if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+           return;  
+        } 
+        if(!current_user_can( saswp_current_user_can())){
+            die( '-1' );    
+        }
+
+        if(!isset($_POST['gsitekey']) && !isset($_POST['gsecretkey'])){
+            $captcha_enable = intval($_POST['captcha_enable']);
+            $keys['saswp_ar_captcha_checkbox'] = $captcha_enable;
+
+            $get_options   = get_option('sd_data');
+            $merge_options = array_merge($get_options, $keys);
+            update_option('sd_data', $merge_options);
+        }else if(isset($_POST['gsitekey']) && isset($_POST['gsecretkey'])){
+            $gsitekey = sanitize_text_field($_POST['gsitekey']);
+            $gsecretkey = sanitize_text_field($_POST['gsecretkey']);
+            $captcha_enable = intval($_POST['captcha_enable']);
+
+            $keys['saswp_g_site_key'] = $gsitekey;
+            $keys['saswp_g_secret_key'] = $gsecretkey;
+            $keys['saswp_ar_captcha_checkbox'] = $captcha_enable;
+
+            $get_options   = get_option('sd_data');
+            $merge_options = array_merge($get_options, $keys);
+            update_option('sd_data', $merge_options);
+        }
+        wp_die();
+    }    
 }
 
 if ( class_exists( 'SASWP_Reviews_Form') ) {

@@ -4809,6 +4809,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_home_url() 
                     ),
                     array(
+                            'label'   => 'Offer Category',
+                            'id'      => 'saswp_course_offer_category_'.$schema_id,
+                            'type'    => 'text',
+                    ),
+                    array(
+                            'label'   => 'Offer Price',
+                            'id'      => 'saswp_course_offer_price_'.$schema_id,
+                            'type'    => 'number',
+                    ),
+                    array(
+                            'label'   => 'Offer Currency',
+                            'id'      => 'saswp_course_offer_currency_'.$schema_id,
+                            'type'    => 'text',
+                    ),
+                    array(
                             'label' => 'Aggregate Rating',
                             'id'    => 'saswp_course_enable_rating_'.$schema_id,
                             'type'  => 'checkbox',                            

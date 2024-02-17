@@ -5109,6 +5109,19 @@ Class saswp_output_service{
                         $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_course_rating'];
                         $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_course_review_count'];
                      }
+                     
+                    if(isset($custom_fields['saswp_course_offer_category']) || isset($custom_fields['saswp_course_offer_price']) || isset($custom_fields['saswp_course_offer_currency'])){
+                        $input1['offers']['@type'] = 'Offer';
+                        if(isset($custom_fields['saswp_course_offer_category'])){
+                            $input1['offers']['category'] = $custom_fields['saswp_course_offer_category'];
+                        }
+                        if(isset($custom_fields['saswp_course_offer_price'])){
+                            $input1['offers']['price'] = $custom_fields['saswp_course_offer_price'];
+                        }
+                        if(isset($custom_fields['saswp_course_offer_currency'])){
+                            $input1['offers']['priceCurrency'] = $custom_fields['saswp_course_offer_currency'];
+                        }
+                     }
                     break;    
                     
                 case 'DiscussionForumPosting':      
@@ -5473,6 +5486,10 @@ Class saswp_output_service{
                             if(isset($custom_fields['saswp_product_schema_rsf_currency'])){
                                 $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['currency'] = esc_attr($custom_fields['saswp_product_schema_rsf_currency']);    
                             }    
+                            if(isset($custom_fields['saswp_product_schema_rp_return_fees'])){
+                                $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
+                                    $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = 'ReturnShippingFees';
+                            }
                         }else{
                             if(isset($custom_fields['saswp_product_schema_rp_return_fees'])){
                                 $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
@@ -7883,15 +7900,20 @@ Class saswp_output_service{
                 foreach($answer_array as $answer){
                                        
                         $authorinfo = get_userdata($answer->post_author);  
-                        
-                        $suggested_answer[] =  array(
-                            '@type'       => 'Answer',
-                            'upvoteCount' => 1,
-                            'url'         => get_permalink().'#post-'.$answer->ID,
-                            'text'        => wp_strip_all_tags($answer->post_content),
-                            'dateCreated' => get_the_date("Y-m-d\TH:i:s\Z", $answer),
-                            'author'      => array('@type' => 'Person', 'name' => $authorinfo->data->user_nicename),
-                        );
+                        $sa_author = '';
+                        if(is_object($authorinfo) && isset($authorinfo->data) && isset($authorinfo->data->user_nicename)){
+                            $sa_author = $authorinfo->data->user_nicename;
+                        }  
+                        $suggested_answer_values = array();
+                        $suggested_answer_values['@type'] = 'Answer';
+                        $suggested_answer_values['upvoteCount'] = 1;
+                        $suggested_answer_values['url'] = get_permalink().'#post-'.$answer->ID;
+                        $suggested_answer_values['text'] = wp_strip_all_tags($answer->post_content);
+                        $suggested_answer_values['dateCreated'] = get_the_date("Y-m-d\TH:i:s\Z", $answer);
+                        if(!empty($sa_author)){
+                            $suggested_answer_values['author'] = array('@type' => 'Person', 'name' => $sa_author);
+                        }
+                        $suggested_answer[] =  $suggested_answer_values;
                         
                     
                 }

@@ -806,6 +806,11 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                     );                                       
             }
             
+            $input1['offers']['@type'] = 'Offer';
+            $input1['offers']['category'] = saswp_remove_warnings($all_post_meta, 'saswp_course_offer_category_'.$schema_id, 'saswp_array');
+            $input1['offers']['price'] = saswp_remove_warnings($all_post_meta, 'saswp_course_offer_price_'.$schema_id, 'saswp_array');
+            $input1['offers']['priceCurrency'] = saswp_remove_warnings($all_post_meta, 'saswp_course_offer_currency_'.$schema_id, 'saswp_array');;
+            
             /**
              * Add hasCourseInstance field to schema markup
              * @since 1.25
@@ -833,9 +838,23 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                                 }
                             } 
                         }
-                        $instance_array['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
+                        // If course work load data is empty then add course schedule in the markup otherwise add course work load
+                        if((isset($ci_value['saswp_course_instance_wl']) && empty($ci_value['saswp_course_instance_wl'])) && (isset($ci_value['saswp_course_instance_sd']) || isset($ci_value['saswp_course_instance_src']) || isset($ci_value['saswp_course_instance_srf']))){
+                            $instance_array['courseSchedule']['@type'] = 'Schedule';
+                            $instance_array['courseSchedule']['duration'] = isset($ci_value['saswp_course_instance_sd'])?sanitize_text_field($ci_value['saswp_course_instance_sd']):'';
+                            $instance_array['courseSchedule']['repeatFrequency'] = isset($ci_value['saswp_course_instance_srf'])?sanitize_text_field($ci_value['saswp_course_instance_srf']):'';
+                            $instance_array['courseSchedule']['repeatCount'] = isset($ci_value['saswp_course_instance_src'])?intval($ci_value['saswp_course_instance_src']):'';
+                            $instance_array['courseSchedule']['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
+                            $instance_array['courseSchedule']['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
+                        }else if(isset($ci_value['saswp_course_instance_wl']) && !empty($ci_value['saswp_course_instance_wl'])){
+                            $instance_array['courseWorkload'] = sanitize_text_field($ci_value['saswp_course_instance_wl']);
+                            $instance_array['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
+                            $instance_array['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
+                        }else{
+                            $instance_array['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
+                            $instance_array['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
+                        }
                         $instance_array['location'] = isset($ci_value['saswp_course_instance_location'])?sanitize_text_field($ci_value['saswp_course_instance_location']):'';
-                        $instance_array['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
                         if(isset($ci_value['saswp_course_instance_offer_price']) && isset($ci_value['saswp_course_instance_offer_currency'])){
                             if(!empty($ci_value['saswp_course_instance_offer_price']) && !empty($ci_value['saswp_course_instance_offer_currency'])){
                                 $instance_array['offers']['@type'] = 'Offer';   

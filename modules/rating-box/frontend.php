@@ -19,6 +19,8 @@ Class saswp_rating_box_frontend{
             add_filter('the_content', array($this, 'saswp_display_review_box'));             
             add_action('wp_head', array($this, 'saswp_display_review_box_schema')); 
             add_action('amp_post_template_head', array($this, 'saswp_display_review_box_schema')); 
+            add_action('wp_enqueue_scripts', array($this, 'saswp_rating_box_custom_style')); 
+            add_action('wp_footer', array($this, 'saswp_rating_box_custom_script')); 
                                     
         }
         /**
@@ -192,7 +194,7 @@ Class saswp_rating_box_frontend{
                 
                 $boxdata.='<table class="saswp-rvw">
                         <tbody>
-                        <div class="saswp-rvw-hd">
+                        <div class="saswp-rvw-hd saswp-rb-hd">
                             <span>'.saswp_t_string(saswp_label_text('translation-review-overview')).'</span>
                         </div>';  
                   
@@ -201,8 +203,8 @@ Class saswp_rating_box_frontend{
                     for($i=0; $i<count($saswp_review_item_feature); $i++){
                         
                      $boxdata.='<tr>
-                            <td>'.esc_attr($saswp_review_item_feature[$i]).'</td>
-                            <td>
+                            <td class="saswp-rb-rif">'.esc_attr($saswp_review_item_feature[$i]).'</td>
+                            <td class="saswp-rb-risr">
                                 '.saswp_get_rating_html_by_value($saswp_review_item_star_rating[$i]).'
                             </td>
                         </tr>'; 
@@ -277,6 +279,57 @@ Class saswp_rating_box_frontend{
             }
             
             return $content;
+        }
+        
+        /**
+         * Add custom css of rating box module
+         * @since 1.27
+         * */
+        public function saswp_rating_box_custom_style()
+        {
+            global $sd_data;
+            if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
+                // if(isset($sd_data['saswp-rating-module-css-app']) && $sd_data['saswp-rating-module-css-app'] == 1){
+                    $custom_css = ".saswp-rb-hd span, .saswp-rvw-sm span{
+                                background-color: {$sd_data['saswp-rbcc-review-bg-color']};
+                                color: {$sd_data['saswp-rbcc-review-f-color']};
+                                font-size: {$sd_data['saswp-rbcc-review-f-size']}{$sd_data['saswp-rbcc-review-f-unit']}; 
+                            }
+                            .saswp-rb-rif{
+                                color: {$sd_data['saswp-rbcc-if-color']};
+                                font-size: {$sd_data['saswp-rbcc-if-f-size']}{$sd_data['saswp-rbcc-if-f-unit']};
+                            }
+                            .saswp-rvw-str .saswp_star_color svg, .saswp-rvw-str .saswp_star_color_gray svg, .saswp-rvw-str .saswp_half_star_color svg{
+                                width: {$sd_data['saswp-rbcc-stars-f-size']}px; 
+                            }
+                            .saswp-rvw-fs{
+                                color: {$sd_data['saswp-rbcc-ar-color']};
+                                font-size: {$sd_data['saswp-rbcc-ar-f-size']}{$sd_data['saswp-rbcc-ar-f-unit']};
+                            }
+                        ";
+                    wp_add_inline_style( 'saswp-style', $custom_css );
+                // }
+            }
+            
+        }
+
+        /**
+         * Add custom js of rating box module
+         * @since 1.27
+         * */
+        public function saswp_rating_box_custom_script()
+        {
+            global $sd_data;
+            if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
+                 // if(isset($sd_data['saswp-rating-module-css-app']) && $sd_data['saswp-rating-module-css-app'] == 1){
+                ?>
+                    <script type="text/javascript">
+                        let saswpStarColor = "<?php echo $sd_data['saswp-rbcc-stars-color'];  ?>"
+                        jQuery('.saswp_star_color .saswp_star').attr('stop-color', saswpStarColor);   
+                    </script>
+                <?php    
+                // }
+            }
         }
         
 }

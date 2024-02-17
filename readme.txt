@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.4
 Requires PHP: 5.6.20
-Stable tag: 1.26
+Stable tag: 1.27
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,23 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.27 (17 Feb 2024) =
+
+* Feature: Added an option to edit/modify star rating box #1930
+* Fixed: Shopify Reviews fetching issue #1944
+* Feature:  Added an option of custom CSS for review collection #2025
+* Feature:  "@type":"Course" is Missing fields "hasCourseInstance" & "offers" (Critical Issue - Rich Results Checker) #2042
+* Enhancement: Resolved course schema generated errors in rich result test #2057
+* Feature: Changed H2 Font Size in FAQ Scheme Code Without Changing SEO Structure #2060
+* Enhancement: Resolved warning appearing in the GSC #2064
+* Feature: Automated the instructions and ingrediencies from gutenberg list block #2066
+* Fixed: Resolved warning appearing on the wp-admin dashboard #2067
+* Fixed: Resolved placement issue while adding multiple placements for schema type with and condition #2069
+* Feature: Added the custom schema support in WPGraphQL #2072
+* Fixed: Users Unable to Edit Publish Date/Time for Schema Type #2075
+* Enhancement: Saved reCaptcha details in options table #2077
+* Fixed: Security vulnerability issues raised by Wordfence
 
 = 1.26 (10 Jan 2024) =
 

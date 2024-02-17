@@ -509,6 +509,12 @@ function saswp_admin_interface_render(){
                                 ?>
 			</div>  
                     <input type="hidden" name="sd_data[sd_initial_wizard_status]" value="1">
+            <?php 
+            if (class_exists('saswp_rating_box_backend')) {
+                $class_obj = new saswp_rating_box_backend;
+                $class_obj->saswp_rating_box_appearance();
+            }
+            ?>
 		</form>
 	</div>
     <div class="saswp-settings-second-div">
@@ -4682,6 +4688,7 @@ function saswp_support_page_callback(){
 function saswp_enqueue_style_js( $hook ) { 
              
         global $saswp_metaboxes;
+        global $sd_data;
 
         $translable_txt = array(
                 'attach_review'     => saswp_t_string( 'Attach reviews to this schema type'  ),
@@ -4759,6 +4766,9 @@ function saswp_enqueue_style_js( $hook ) {
             'is_rtl'                       => is_rtl(),     
             'tag_ID'                       => isset($_GET['tag_ID']) ? intval($_GET['tag_ID']) : '',
             'req_from'                     => $req_from,     
+            'saswp_g_site_key'             => isset($sd_data['saswp_g_site_key'])?sanitize_text_field($sd_data['saswp_g_site_key']):'',    
+            'saswp_g_secret_key'           => isset($sd_data['saswp_g_secret_key'])?sanitize_text_field($sd_data['saswp_g_secret_key']):'',    
+            'saswp_enable_gcaptcha'        => isset($sd_data['saswp_ar_captcha_checkbox'])?intval($sd_data['saswp_ar_captcha_checkbox']):0,    
 
         );
                         

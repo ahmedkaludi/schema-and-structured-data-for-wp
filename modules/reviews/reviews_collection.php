@@ -20,6 +20,7 @@ class SASWP_Reviews_Collection {
         private static $instance;
         private $_service = null;
         private $_design  = null;
+        private $collection_id = null;
 
         private function __construct() {
             
@@ -656,6 +657,9 @@ class SASWP_Reviews_Collection {
                             }                       
                         }                              
                     }
+                    if(isset($collection_data['saswp_review_custom_chk_box']) && isset($collection_data['saswp_review_custom_chk_box'][0]) && $collection_data['saswp_review_custom_chk_box'][0] == 1){
+                        $this->saswp_apply_collection_custom_css($attr['id']);
+                    }
                 }
                 $htmlp .= '<div class="saswp-r">';
                 $htmlp .= $html;  
@@ -846,6 +850,10 @@ class SASWP_Reviews_Collection {
                                             <span><?php echo saswp_t_string( 'Pagination' ); ?></span>
                                             <span><input name="saswp_collection_pagination" type="checkbox" id="saswp-coll-pagination" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_pagination'][0]) && $post_meta['saswp_collection_pagination'][0] == 1 ? 'checked' : '' ); ?>></span>
                                         </div>
+                                        <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm saswp_hide_imp">
+                                            <label><?php echo saswp_t_string( 'Per Page' ); ?></label>
+                                            <input name="saswp_collection_per_page" type="number" min="1" id="saswp-coll-per-page"  class="saswp-coll-settings-options" value="<?php echo (isset($post_meta['saswp_collection_per_page'][0]) ? intval($post_meta['saswp_collection_per_page'][0]) : '10' ); ?>">
+                                        </div>
                                         <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm">
                                             <span><?php echo saswp_t_string( 'Without Page Reload' ); ?></span>
                                             <span><input name="saswp_collection_pagination_wpr" type="checkbox" id="saswp-coll-pagination-wpr" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_pagination_wpr'][0]) && $post_meta['saswp_collection_pagination_wpr'][0] == 1 ? 'checked' : '' ); ?>></span>
@@ -858,11 +866,6 @@ class SASWP_Reviews_Collection {
                                             <span><?php echo saswp_t_string( 'Read More'); ?></span>
                                             <span><input name="saswp_collection_readmore_desc" type="checkbox" id="saswp-collection-readmore-desc" class="saswp-coll-settings-options" value="1" <?php echo (isset($post_meta['saswp_collection_readmore_desc'][0]) && $post_meta['saswp_collection_readmore_desc'][0] == 1 ? 'checked' : '' ); ?>></span>
                                         </div>                                        
-                                        <div class="saswp-dp-dsg saswp-coll-options saswp-grid-options saswp-dp-dtm saswp_hide_imp">
-                                            <label><?php echo saswp_t_string( 'Per Page' ); ?></label>
-                                            <input name="saswp_collection_per_page" type="number" min="1" id="saswp-coll-per-page"  class="saswp-coll-settings-options" value="<?php echo (isset($post_meta['saswp_collection_per_page'][0]) ? intval($post_meta['saswp_collection_per_page'][0]) : '10' ); ?>">
-                                        </div>
-                                        
                                         <div class="saswp-dp-dsg saswp-dp-dtm saswp-slider-options saswp-coll-options">
                                          <label><?php echo saswp_t_string( 'Slider Type' ); ?></label>
                                         <select name="saswp_collection_gallery_type" id="saswp_collection_gallery_type" class="saswp-slider-type saswp-slider-options saswp_hide saswp-coll-settings-options saswp-coll-options">
@@ -932,6 +935,14 @@ class SASWP_Reviews_Collection {
                                             <input id="saswp_reset_collection_image" type="button" value="Reset Image" data-img="<?= SASWP_DIR_URI.'admin_section/images/default_user.jpg'; ?>" >
                                             <input type="hidden" data-id="saswp_collection_image_thumbnail" class="upload-thumbnail" name="saswp_collection_image_thumbnail" id="saswp_collection_image_thumbnail" value="<?php echo esc_url( $coll_review_image); ?>">
                                         </div> 
+                                        
+                                        <div class="saswp-dp-dsg saswp-review-custom-css">
+                                            <lable><?php echo saswp_t_string('Custom CSS'); ?></lable> 
+                                            <input name="saswp_review_custom_chk_box" type="checkbox" id="saswp_review_custom_chk_box" value="1" <?php echo (isset($post_meta['saswp_review_custom_chk_box'][0]) && $post_meta['saswp_review_custom_chk_box'][0] == 1 ? 'checked' : '' ); ?>> 
+                                        </div> 
+                                        <div id="saswp-review-cccc" class="saswp_hide">
+                                            <textarea name="saswp_review_custom_css" id="saswp_review_custom_css" rows="5" style="width: 100%;"><?php echo isset( $post_meta['saswp_review_custom_css'][0] ) ? esc_attr( $post_meta['saswp_review_custom_css'][0]) : ''; ?></textarea>
+                                        </div>
                                                                                                                
                                     </div>
                                 </li>
@@ -1160,6 +1171,8 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_collection_readmore_desc'] = isset($_POST['saswp_collection_readmore_desc']) ? intval($_POST['saswp_collection_readmore_desc']) : '';
             $post_meta['saswp_collection_gallery_readmore_desc'] = isset($_POST['saswp_collection_gallery_readmore_desc']) ? intval($_POST['saswp_collection_gallery_readmore_desc']) : '';
             $post_meta['saswp_collection_badge_souce_link'] = isset($_POST['saswp_collection_badge_souce_link']) ? intval($_POST['saswp_collection_badge_souce_link']) : '';
+            $post_meta['saswp_review_custom_css'] = isset($_POST['saswp_review_custom_css']) ? sanitize_textarea_field($_POST['saswp_review_custom_css']) : '';
+            $post_meta['saswp_review_custom_chk_box'] = isset($_POST['saswp_review_custom_chk_box']) ? sanitize_textarea_field($_POST['saswp_review_custom_chk_box']) : '';
             if(!empty($post_meta)){
                 
                 foreach($post_meta as $meta_key => $meta_val){
@@ -1176,6 +1189,8 @@ class SASWP_Reviews_Collection {
                 wp_redirect( $current_url );
                 exit;
             }
+            
+
             
          }
                                     
@@ -1202,6 +1217,37 @@ class SASWP_Reviews_Collection {
                         height: auto !important;
                     }";
             wp_add_inline_style('saswp-collection-front-css', $card_style);
+        }
+        
+        /**
+         * Add review collection custom css to frontend
+         * @since 1.27
+         * @param @collection_id    Integer
+         * */
+        public function saswp_apply_collection_custom_css($collection_id)
+        {
+            $this->collection_id = $collection_id;
+            add_action('wp_head', array($this, 'saswp_render_collection_custom_css'));
+        }
+
+        /**
+         * Render collection custom css in <head> tag
+         * @since 1.27
+         * */
+        public function saswp_render_collection_custom_css()
+        {
+            if($this->collection_id > 0){
+                $custom_css = get_post_meta($this->collection_id, 'saswp_review_custom_css');
+                if(isset($custom_css[0]) && !empty($custom_css[0])){
+                    if(is_string($custom_css[0])){
+                    ?>
+                        <style type="text/css" class="saswp-collection-custom-css">
+                         <?php echo esc_html($custom_css[0]); ?>   
+                        </style>
+                    <?php    
+                    }
+                }
+            }
         }
 }
 
