@@ -3692,8 +3692,8 @@ jQuery(document).ready(function($){
                 html += '<div class="saswp-show-form-on-tab"><strong>Show form on button tap</strong> <input value="[saswp-reviews-form onbutton=&quot;1&quot;]" type="text" readonly></div>';
                 html += '<div class="saswp-show-form-on-tab"><strong>Enable reCAPTCHA v2</strong> <input name="sd_data[saswp_enable_gcaptcha]" id="saswp_enable_gcaptcha" value="1" type="checkbox" '+is_enable_gcaptcha+'></div>';
                 html += '<div id="saswp-gkey-captcha-wrapper" class="'+captcha_class+'">';
-                html += '<div class="saswp-show-form-on-tab"><strong>Site Key</strong> <input name="sd_data[saswp_g_site_key]" id="saswp_g_site_key" value="'+saswp_localize_data.saswp_g_site_key+'" type="text"></div>';
-                html += '<div class="saswp-show-form-on-tab"><strong>Secret Key</strong> <input name="sd_data[saswp_g_secret_key]" id="saswp_g_secret_key" value="'+saswp_localize_data.saswp_g_secret_key+'" type="text"></div>';
+                html += '<div class="saswp-show-form-on-tab"><strong>Site Key</strong> <input class="saswp-ta-left" name="sd_data[saswp_g_site_key]" id="saswp_g_site_key" value="'+saswp_localize_data.saswp_g_site_key+'" type="text"></div>';
+                html += '<div class="saswp-show-form-on-tab"><strong>Secret Key</strong> <input class="saswp-ta-left" name="sd_data[saswp_g_secret_key]" id="saswp_g_secret_key" value="'+saswp_localize_data.saswp_g_secret_key+'" type="text"></div>';
                 html += '</div>';
                 html += '<p><strong>Note:</strong> To get SITE KEY & SECRET KEY <a target="_blank" href="https://www.google.com/recaptcha/admin/create">Click here</a> and you must choose reCAPTCHA type v2 </p>'
                 html += '<div class="saswp-ar-save-btn"><input type="button" class="button button-primary" value="Save Settings" id="saswp-ar-form-btn"></div>';

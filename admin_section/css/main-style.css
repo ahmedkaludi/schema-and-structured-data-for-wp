@@ -3240,3 +3240,7 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
     position: absolute;
     margin-bottom: 10px;
 }
+
+.saswp-ta-left{
+    text-align: left !important;
+}
