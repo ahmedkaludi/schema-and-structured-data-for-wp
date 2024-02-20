@@ -1628,7 +1628,11 @@ Class saswp_output_service{
                          $input1['url'] =    saswp_validate_url($custom_fields['saswp_article_url']);
                         }
                         if(isset($custom_fields['saswp_article_body'])){
-                         $input1['articleBody'] =    $custom_fields['saswp_article_body'];
+                            if($custom_fields['saswp_article_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_article_body'];
+                            }else{
+                                unset($input1['articleBody']);
+                            }
                         }
                         if(isset($custom_fields['saswp_article_keywords'])){
                          $input1['keywords'] =    $custom_fields['saswp_article_keywords'];
@@ -2277,7 +2281,11 @@ Class saswp_output_service{
                             $input1['url'] =    saswp_validate_url($custom_fields['saswp_creativework_url']);
                         }
                         if(isset($custom_fields['saswp_creativework_body'])){
-                            $input1['articleBody'] =    $custom_fields['saswp_creativework_body'];
+                            if($custom_fields['saswp_creativework_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_creativework_body'];
+                            }else{
+                                unset($input1['articleBody']);
+                            }
                         }
                         if(isset($custom_fields['saswp_creativework_keywords'])){
                             $input1['keywords'] =    $custom_fields['saswp_creativework_keywords'];
@@ -3129,7 +3137,11 @@ Class saswp_output_service{
                      $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_blogposting_description'] ));
                     }
                     if(isset($custom_fields['saswp_blogposting_body'])){
-                        $input1['articleBody'] =    $custom_fields['saswp_blogposting_body'];
+                        if($custom_fields['saswp_blogposting_body']){
+                            $input1['articleBody'] =    $custom_fields['saswp_blogposting_body'];
+                        }else{
+                            unset($input1['articleBody']);
+                        }
                     }                                           
                     if(isset($custom_fields['saswp_blogposting_name'])){
                      $input1['name'] =    $custom_fields['saswp_blogposting_name'];
@@ -3530,7 +3542,11 @@ Class saswp_output_service{
                        $input1['articleSection'] = $custom_fields['saswp_newsarticle_section'];  
                     }
                     if(isset($custom_fields['saswp_newsarticle_body'])){
-                       $input1['articleBody'] =    $custom_fields['saswp_newsarticle_body'];  
+                        if($custom_fields['saswp_newsarticle_body']){
+                            $input1['articleBody'] =    $custom_fields['saswp_newsarticle_body'];  
+                        }else{
+                            unset($input1['articleBody']);
+                        }
                     }
                     if(isset($custom_fields['saswp_newsarticle_name'])){
                        $input1['name'] =    $custom_fields['saswp_newsarticle_name'];  
@@ -3637,7 +3653,11 @@ Class saswp_output_service{
                            $input1['articleSection'] = $custom_fields['saswp_analysisnewsarticle_section'];  
                         }
                         if(isset($custom_fields['saswp_analysisnewsarticle_body'])){
-                           $input1['articleBody'] =    $custom_fields['saswp_analysisnewsarticle_body'];  
+                            if($custom_fields['saswp_analysisnewsarticle_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_analysisnewsarticle_body']; 
+                            }else{
+                                unset($input1['articleBody']);
+                            } 
                         }
                         if(isset($custom_fields['saswp_analysisnewsarticle_name'])){
                            $input1['name'] =    $custom_fields['saswp_analysisnewsarticle_name'];  
@@ -3738,7 +3758,11 @@ Class saswp_output_service{
                                $input1['articleSection'] = $custom_fields['saswp_askpublicnewsarticle_section'];  
                             }
                             if(isset($custom_fields['saswp_askpublicnewsarticle_body'])){
-                               $input1['articleBody'] =    $custom_fields['saswp_askpublicnewsarticle_body'];  
+                                if($custom_fields['saswp_askpublicnewsarticle_body']){
+                                    $input1['articleBody'] =    $custom_fields['saswp_askpublicnewsarticle_body']; 
+                                }else{
+                                    unset($input1['articleBody']);
+                                } 
                             }
                             if(isset($custom_fields['saswp_askpublicnewsarticle_name'])){
                                $input1['name'] =    $custom_fields['saswp_askpublicnewsarticle_name'];  
@@ -3839,7 +3863,11 @@ Class saswp_output_service{
                         $input1['articleSection'] = $custom_fields['saswp_backgroundnewsarticle_section'];  
                     }
                     if(isset($custom_fields['saswp_backgroundnewsarticle_body'])){
-                        $input1['articleBody'] =    $custom_fields['saswp_backgroundnewsarticle_body'];  
+                        if($custom_fields['saswp_backgroundnewsarticle_body']){
+                            $input1['articleBody'] =    $custom_fields['saswp_backgroundnewsarticle_body'];  
+                        }else{
+                            unset($input1['articleBody']);
+                        }
                     }
                     if(isset($custom_fields['saswp_backgroundnewsarticle_name'])){
                         $input1['name'] =    $custom_fields['saswp_backgroundnewsarticle_name'];  
@@ -3940,7 +3968,11 @@ Class saswp_output_service{
                             $input1['articleSection'] = $custom_fields['saswp_opinionnewsarticle_section'];  
                         }
                         if(isset($custom_fields['saswp_opinionnewsarticle_body'])){
-                            $input1['articleBody'] =    $custom_fields['saswp_opinionnewsarticle_body'];  
+                            if($custom_fields['saswp_opinionnewsarticle_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_opinionnewsarticle_body'];
+                            }else{
+                                unset($input1['articleBody']);
+                            }  
                         }
                         if(isset($custom_fields['saswp_opinionnewsarticle_name'])){
                             $input1['name'] =    $custom_fields['saswp_opinionnewsarticle_name'];  
@@ -4041,7 +4073,11 @@ Class saswp_output_service{
                             $input1['articleSection'] = $custom_fields['saswp_reportagenewsarticle_section'];  
                         }
                         if(isset($custom_fields['saswp_reportagenewsarticle_body'])){
-                            $input1['articleBody'] =    $custom_fields['saswp_reportagenewsarticle_body'];  
+                            if($custom_fields['saswp_reportagenewsarticle_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_reportagenewsarticle_body'];
+                            }else{
+                                unset($input1['articleBody']);
+                            }  
                         }
                         if(isset($custom_fields['saswp_reportagenewsarticle_name'])){
                             $input1['name'] =    $custom_fields['saswp_reportagenewsarticle_name'];  
@@ -4142,7 +4178,11 @@ Class saswp_output_service{
                             $input1['articleSection'] = $custom_fields['saswp_reviewnewsarticle_section'];  
                         }
                         if(isset($custom_fields['saswp_reviewnewsarticle_body'])){
-                            $input1['articleBody'] =    $custom_fields['saswp_reviewnewsarticle_body'];  
+                            if($custom_fields['saswp_reviewnewsarticle_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_reviewnewsarticle_body'];
+                            }else{
+                                unset($input1['articleBody']);
+                            }  
                         }
                         if(isset($custom_fields['saswp_reviewnewsarticle_name'])){
                             $input1['name'] =    $custom_fields['saswp_reviewnewsarticle_name'];  
@@ -4804,7 +4844,11 @@ Class saswp_output_service{
                      $input1['url'] =    saswp_validate_url($custom_fields['saswp_tech_article_url']);
                     }
                     if(isset($custom_fields['saswp_tech_article_body'])){
-                     $input1['articleBody'] =    $custom_fields['saswp_tech_article_body'];
+                        if($custom_fields['saswp_tech_article_body']){
+                            $input1['articleBody'] =    $custom_fields['saswp_tech_article_body'];
+                        }else{
+                            unset($input1['articleBody']);
+                        }
                     }
                     if(isset($custom_fields['saswp_tech_article_keywords'])){
                      $input1['keywords'] =    $custom_fields['saswp_tech_article_keywords'];
