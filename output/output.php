@@ -3122,7 +3122,7 @@ function saswp_woocommerce_category_schema(){
                     
                     $item_list_schema['@context']        = saswp_context_url();
                     $item_list_schema['@type']           = 'ItemList';    
-                    $item_list_schema['id']             = saswp_get_category_link($term->term_id).'#ItemList';    
+                    $item_list_schema['@id']             = saswp_get_category_link($term->term_id).'#ItemList';    
 
                     if(saswp_has_slash($current_url)){
                         $item_list_schema['url'] =  saswp_get_category_link($term->term_id);    
