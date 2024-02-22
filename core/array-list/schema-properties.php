@@ -10629,6 +10629,220 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         ),
                     );
                     break;
+                    
+                    case 'VacationRental':
+                    $meta_field = array(
+                        array(
+                            'label'   => 'Additional Type',
+                            'id'      => 'saswp_vr_schema_additional_type_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                    'Apartment'             => 'Apartment',
+                                    'Bungalow'              => 'Bungalow',                        
+                                    'Cabin'                 => 'Cabin',                        
+                                    'Chalet'                => 'Chalet',                        
+                                    'Cottage'               => 'Cottage',                        
+                                    'Gite'                  => 'Gite',                        
+                                    'HolidayVillageRental'  => 'HolidayVillageRental',                        
+                                    'House'                 => 'House',                        
+                                    'Villa'                 => 'Villa',                        
+                                    'VacationRental'        => 'VacationRental'                        
+                            )
+                        ),
+                        array(
+                            'label'      => 'Brand',
+                            'id'         => 'saswp_vr_schema_brand_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Brand ID'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Contains Place Additional Type',
+                            'id'         => 'saswp_vr_schema_cpat_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                'EntirePlace' => 'EntirePlace',
+                                'PrivateRoom' => 'PrivateRoom',
+                                'SharedRoom' => 'SharedRoom'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Occupancy',
+                            'id'         => 'saswp_vr_schema_occupancy_'.$schema_id,
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '4'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Floor Size Value',
+                            'id'         => 'saswp_vr_schema_floor_value_'.$schema_id,
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '75'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Floor Size Unit Code',
+                            'id'         => 'saswp_vr_schema_floor_uc_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                'FTK' => 'FTK',
+                                'SQFT' => 'SQFT',
+                                'MTK' => 'MTK',
+                                'SQM' => 'SQM'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Total Bathrooms',
+                            'id'         => 'saswp_vr_schema_total_bathrooms_'.$schema_id,
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '1'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Number Of Bedrooms',
+                            'id'         => 'saswp_vr_schema_total_bedrooms_'.$schema_id,
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '3'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Number Of Rooms',
+                            'id'         => 'saswp_vr_schema_total_rooms_'.$schema_id,
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '5'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Identifier',
+                            'id'         => 'saswp_vr_schema_identifier_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Enter Identifier'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Latitude',
+                            'id'         => 'saswp_vr_schema_latitude_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Enter Latitude'
+                            )
+                        ),
+                        array(
+                            'label'      => 'longitude',
+                            'id'         => 'saswp_vr_schema_longitude_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Enter Longitude'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_vr_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Enter Name'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_vr_schema_country_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'US'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_vr_schema_locality_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Mountain View'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_vr_schema_region_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'California'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_vr_schema_p_code_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '94043'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Street Address',
+                            'id'         => 'saswp_vr_schema_s_address_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '1600 Amphitheatre Pkwy'
+                            )
+                        ),
+                        array(
+                                'label'    => 'Checkin Time',
+                                'id'       => 'saswp_vr_schema_checkin_time_'.$schema_id,
+                                'type'     => 'text',
+                                'attributes' => array(
+                                    'placeholder' => '18:00:00+08:00'
+                                )                               
+                            ),
+                        array(
+                                'label'    => 'Checkout Time',
+                                'id'       => 'saswp_vr_schema_checkout_time_'.$schema_id,
+                                'type'     => 'text',
+                                'attributes' => array(
+                                    'placeholder' => '11:00:00+08:00'
+                                )                              
+                            ),
+                        array(
+                                'label'    => 'Description',
+                                'id'       => 'saswp_vr_schema_description_'.$schema_id,
+                                'type'     => 'text'                             
+                            ),
+                        array(
+                                'label'    => 'Knows Language',
+                                'id'       => 'saswp_vr_schema_knows_language_'.$schema_id,
+                                'type'     => 'text'                             
+                            ),
+                        array(
+                                'label' => 'Aggregate Rating',
+                                'id'    => 'saswp_vr_schema_enable_rating_'.$schema_id,
+                                'type'  => 'checkbox',                           
+                            ),
+                        array(
+                                'label' => 'Rating Value',
+                                'id'    => 'saswp_vr_schema_rating_value_'.$schema_id,
+                                'type'  => 'text',                           
+                            ),
+                        array(
+                                'label' => 'Rating Count',
+                                'id'    => 'saswp_vr_schema_rating_count_'.$schema_id,
+                                'type'  => 'text',                            
+                            ),
+                        array(
+                                'label' => 'Review Count',
+                                'id'    => 'saswp_vr_schema_review_count_'.$schema_id,
+                                'type'  => 'text',                            
+                            ),
+                        array(
+                                'label' => 'Best rating',
+                                'id'    => 'saswp_vr_schema_best_rating_'.$schema_id,
+                                'type'  => 'text',                            
+                            )
+                    );
+                    break;
                                 
                 default:
                     break;

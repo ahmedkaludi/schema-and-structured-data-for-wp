@@ -2566,6 +2566,23 @@ function saswp_schema_output() {
 
                             break;
                             
+                            case 'VacationRental':
+
+                                $input1['@context']              = saswp_context_url();
+                                $input1['@type']                 = 'VacationRental';
+                                $input1['@id']                   = saswp_get_permalink().'#VacationRental';                                
+
+                                $input1 = apply_filters('saswp_modify_vacation_rental_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_vacation_rental_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+
+                            break;
+                            
                             default:
                                 break;
                            

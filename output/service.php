@@ -7310,6 +7310,97 @@ Class saswp_output_service{
                     }
 
                 break;
+                
+                case 'VacationRental':
+                    if(isset($custom_fields['saswp_vr_schema_additional_type'])){
+                        $input1['additionalType'] = $custom_fields['saswp_vr_schema_additional_type'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_brand'])){
+                        $input1['brand'] = $custom_fields['saswp_vr_schema_brand'];
+                    }
+                    $input1['containsPlace']['@type'] = 'Accommodation';
+                    if(isset($custom_fields['saswp_vr_schema_cpat'])){
+                        $input1['containsPlace']['additionalType'] = $custom_fields['saswp_vr_schema_cpat'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_occupancy'])){
+                        $input1['containsPlace']['occupancy']['@type'] = 'QuantitativeValue';
+                        $input1['containsPlace']['occupancy']['value'] = $custom_fields['saswp_vr_schema_occupancy'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_floor_value']) || isset($custom_fields['saswp_vr_schema_floor_uc'])){
+                        $input1['containsPlace']['floorSize']['@type'] = 'QuantitativeValue';   
+                        $input1['containsPlace']['floorSize']['value'] = isset($custom_fields['saswp_vr_schema_floor_value'])?$custom_fields['saswp_vr_schema_floor_value']:'';   
+                        $input1['containsPlace']['floorSize']['unitCode'] = isset($custom_fields['saswp_vr_schema_floor_uc'])?$custom_fields['saswp_vr_schema_floor_uc']:'';   
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_total_bathrooms'])){
+                        $input1['containsPlace']['numberOfBathroomsTotal'] = $custom_fields['saswp_vr_schema_total_bathrooms'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_total_bedrooms'])){
+                        $input1['containsPlace']['numberOfBedrooms'] = $custom_fields['saswp_vr_schema_total_bedrooms'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_total_rooms'])){
+                        $input1['containsPlace']['numberOfRooms'] = $custom_fields['saswp_vr_schema_total_rooms'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_identifier'])){
+                        $input1['identifier'] = $custom_fields['saswp_vr_schema_identifier'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_latitude'])){
+                        $input1['latitude'] = $custom_fields['saswp_vr_schema_latitude'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_longitude'])){
+                        $input1['longitude'] = $custom_fields['saswp_vr_schema_longitude'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_name'])){
+                        $input1['name'] = $custom_fields['saswp_vr_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_country'])){
+                        $input1['address']['addressCountry'] = $custom_fields['saswp_vr_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_locality'])){
+                        $input1['address']['addressLocality'] = $custom_fields['saswp_vr_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_region'])){
+                        $input1['address']['addressRegion'] = $custom_fields['saswp_vr_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_p_code'])){
+                        $input1['address']['postalCode'] = $custom_fields['saswp_vr_schema_p_code'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_s_address'])){
+                        $input1['address']['streetAddress'] = $custom_fields['saswp_vr_schema_s_address'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_rating_value'])){
+                        $input1['aggregateRating']['ratingValue'] = $custom_fields['saswp_vr_schema_rating_value'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_rating_count'])){
+                        $input1['aggregateRating']['ratingCount'] = $custom_fields['saswp_vr_schema_rating_count'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_review_count'])){
+                        $input1['aggregateRating']['reviewCount'] = $custom_fields['saswp_vr_schema_review_count'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_best_rating'])){
+                        $input1['aggregateRating']['bestRating'] = $custom_fields['saswp_vr_schema_best_rating'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_checkin_time'])){
+                        $input1['checkinTime'] = $custom_fields['saswp_vr_schema_checkin_time'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_checkout_time'])){
+                        $input1['checkoutTime'] = $custom_fields['saswp_vr_schema_checkout_time'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_description'])){
+                        $input1['description'] = $custom_fields['saswp_vr_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_knows_language'])){
+                        if(!empty($custom_fields['saswp_vr_schema_knows_language'])){
+                            $explode_lang = explode(',', $custom_fields['saswp_vr_schema_knows_language']);
+                            if(!empty($explode_lang) && is_array($explode_lang)){
+                                foreach ($explode_lang as $el_key => $el_value) {
+                                    if(!empty($el_value)){
+                                        $input1['knowsLanguage'] = $el_value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                break;
                
                      default:
                          break;

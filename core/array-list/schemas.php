@@ -8,6 +8,7 @@ return array(
                 'House'                    => 'House',
                 'HotelRoom'                => 'HotelRoom',
                 'SingleFamilyResidence'    => 'SingleFamilyResidence',
+                'VacationRental'           => 'VacationRental'
         ),
          'CreativeWork' => array(
                 'Article'                  => 'Article', 
