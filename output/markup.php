@@ -3724,8 +3724,10 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                         $supply_data['author']['@type'] = $val['saswp_qa_accepted_author_type'];
                     }
 
-                    $supply_data['author']['name']      = $val['saswp_qa_accepted_author_name'];                    
-                    $supply_data['author']['url']      = $val['saswp_qa_accepted_author_url'];                    
+                    $supply_data['author']['name']      = $val['saswp_qa_accepted_author_name'];        
+                    if(isset($val['saswp_qa_accepted_author_url'])){            
+                        $supply_data['author']['url']      = $val['saswp_qa_accepted_author_url'];   
+                    }                 
                 }
 
                $answer_arr[] =  $supply_data;
@@ -3756,8 +3758,10 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                         $supply_data['author']['@type'] = $val['saswp_qa_suggested_author_type'];
                     }
 
-                    $supply_data['author']['name']      = $val['saswp_qa_suggested_author_name'];                    
-                    $supply_data['author']['url']      = $val['saswp_qa_suggested_author_url'];                    
+                    $supply_data['author']['name']      = $val['saswp_qa_suggested_author_name'];
+                    if(isset($val['saswp_qa_suggested_author_url'])){                    
+                        $supply_data['author']['url']      = $val['saswp_qa_suggested_author_url'];  
+                    }                  
                 }
 
                $answer_arr[] =  $supply_data;
