@@ -6190,6 +6190,10 @@ Class saswp_output_service{
                      }
 
                      $input1['mainEntity']['author']['name'] =    $custom_fields['saswp_qa_question_author_name'];
+                     
+                     if(isset($custom_fields['saswp_qa_question_author_url'])){
+                        $input1['mainEntity']['author']['url'] =    $custom_fields['saswp_qa_question_author_url'];
+                     }
                     }
                     if(isset($custom_fields['saswp_qa_accepted_answer_text'])){
                      $input1['mainEntity']['acceptedAnswer']['@type'] =    'Answer';   

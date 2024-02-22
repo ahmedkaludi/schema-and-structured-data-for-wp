@@ -453,7 +453,12 @@ return array( 'schema_type_element' => array(
 								'label'     => 'Accepted Answer Author Name',
 								'name'      => 'saswp_qa_accepted_author_name',
 								'type'      => 'text',                        
-							)                                        
+							),
+						array(
+			                            'label'      => 'Author URL',
+			                            'name'         => 'saswp_qa_accepted_author_url',
+			                            'type'       => 'text'
+			                    )                                        
                     ),
 					'suggested_answer' => array(                    
 						array(
@@ -489,7 +494,12 @@ return array( 'schema_type_element' => array(
 								'label'     => 'suggested Answer Author Name',
 								'name'      => 'saswp_qa_suggested_author_name',
 								'type'      => 'text',                        
-						)                                        
+						),
+						array(
+			                            'label'      => 'Author URL',
+			                            'name'         => 'saswp_qa_suggested_author_url',
+			                            'type'       => 'text'
+			                    )                                        
                     ),
                     'howto_tool' => array(                    
                     array(

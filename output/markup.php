@@ -3697,6 +3697,7 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         }
 
         $input1['mainEntity']['author']['name']   =  saswp_remove_warnings($all_post_meta, 'saswp_qa_question_author_name_'.$schema_id, 'saswp_array');
+        $input1['mainEntity']['author']['url']   =  saswp_remove_warnings($all_post_meta, 'saswp_qa_question_author_url_'.$schema_id, 'saswp_array');
         
         $input1['mainEntity']['answerCount']   = saswp_remove_warnings($all_post_meta, 'saswp_qa_answer_count_'.$schema_id, 'saswp_array');
         
@@ -3724,6 +3725,7 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                     }
 
                     $supply_data['author']['name']      = $val['saswp_qa_accepted_author_name'];                    
+                    $supply_data['author']['url']      = $val['saswp_qa_accepted_author_url'];                    
                 }
 
                $answer_arr[] =  $supply_data;
@@ -3755,6 +3757,7 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                     }
 
                     $supply_data['author']['name']      = $val['saswp_qa_suggested_author_name'];                    
+                    $supply_data['author']['url']      = $val['saswp_qa_suggested_author_url'];                    
                 }
 
                $answer_arr[] =  $supply_data;
