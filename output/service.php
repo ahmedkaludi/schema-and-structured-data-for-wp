@@ -7405,6 +7405,64 @@ Class saswp_output_service{
                         }
                     }
                 break;
+                
+                case 'LearningResource':
+                    if(isset($custom_fields['saswp_lr_name'])){
+                        $input1['name'] = $custom_fields['saswp_lr_name'];
+                    }
+                    if(isset($custom_fields['saswp_lr_description'])){
+                        $input1['description'] = $custom_fields['saswp_lr_description'];
+                    }
+                    if(isset($custom_fields['saswp_lr_keywords'])){
+                        $input1['keywords'] = $custom_fields['saswp_lr_keywords'];
+                    }
+                    if(isset($custom_fields['saswp_lr_lrt'])){
+                        $input1['learningResourceType'] = $custom_fields['saswp_lr_lrt'];
+                    }
+                    $input1['author'] = saswp_get_author_details();
+                    if(isset($custom_fields['saswp_lr_inlanguage'])){
+                        if(!empty($custom_fields['saswp_lr_inlanguage']) && is_string($custom_fields['saswp_lr_inlanguage'])){
+                            $explode_lang = explode(',', $custom_fields['saswp_lr_inlanguage']);
+                            if(!empty($explode_lang) && is_array($explode_lang)){
+                                foreach ($explode_lang as $el_key => $el_value) {
+                                    $input1['inLanguage'][] = $el_value;
+                                }
+                            }
+                        }
+                    }
+                    $input1['dateCreated'] = date('Y-m-d', strtotime(get_the_date()));
+                    if(isset($custom_fields['saswp_lr_date_created'])){
+                        $input1['dateCreated'] = date('Y-m-d', strtotime($custom_fields['saswp_lr_date_created']));
+                    }
+                    $input1['dateModified'] = date('Y-m-d', strtotime(get_the_modified_date()));
+                    if(isset($custom_fields['saswp_lr_date_modified'])){
+                        $input1['dateModified'] = $custom_fields['saswp_lr_date_modified'];
+                    }
+                    if(isset($custom_fields['saswp_lr_tar'])){
+                        $input1['typicalAgeRange'] = $custom_fields['saswp_lr_tar'];
+                    }
+                    if(isset($custom_fields['saswp_lr_education_level_name']) || isset($custom_fields['saswp_lr_education_level_url']) || isset($custom_fields['saswp_lr_education_level_term_set'])){
+                        $input1['educationalLevel']['@type'] = 'DefinedTerm';
+                        if(isset($custom_fields['saswp_lr_education_level_name'])){
+                            $input1['educationalLevel']['name'] = $custom_fields['saswp_lr_education_level_name'];
+                        }
+                        if(isset($custom_fields['saswp_lr_education_level_url'])){
+                            $input1['educationalLevel']['url'] = $custom_fields['saswp_lr_education_level_url'];
+                        }
+                        if(isset($custom_fields['saswp_lr_education_level_term_set'])){
+                            $input1['educationalLevel']['inDefinedTermSet'] = $custom_fields['saswp_lr_education_level_term_set'];
+                        }
+                    } 
+                    if(isset($custom_fields['saswp_lr_time_required'])){
+                        $input1['timeRequired'] = $custom_fields['saswp_lr_time_required'];
+                    }
+                    if(isset($custom_fields['saswp_lr_license'])){
+                        $input1['license'] = $custom_fields['saswp_lr_license'];
+                    } 
+                    if(isset($custom_fields['saswp_lr_time_iaff'])){
+                        $input1['isAccessibleForFree'] = $custom_fields['saswp_lr_time_iaff'];
+                    }  
+                break;
                
                      default:
                          break;

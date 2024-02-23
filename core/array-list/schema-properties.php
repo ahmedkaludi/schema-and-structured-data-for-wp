@@ -10849,6 +10849,110 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             )
                     );
                     break;
+                    
+                    case 'LearningResource':
+                    $meta_field = array(
+                        array(
+                               'label'      => 'ID',
+                               'id'         => 'saswp_lr_id_'.$schema_id,
+                               'type'       => 'text',
+                               'default'    => 'LearningResource'   
+                            ),
+                        array(
+                                'label'   => 'Name',
+                                'id'      => 'saswp_lr_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_get_the_title()
+                            ),
+                        array(
+                                'label'   => 'Description',
+                                'id'      => 'saswp_lr_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => is_object($post) ? $post->post_excerpt : ''
+                            ),
+                        array(
+                                'label' => 'Keywords',
+                                'id' => 'saswp_lr_keywords_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_tags()
+                            ),
+                        array(
+                                'label' => 'Learning Resource Type',
+                                'id' => 'saswp_lr_lrt_'.$schema_id,
+                                'type' => 'text'
+                            ),
+                        array(
+                                'label'   => 'In Language',
+                                'id'      => 'saswp_lr_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                                'note' => 'Note: If there are ore than one language, separate language list by comma ( , )' 
+                            ),
+                        array(
+                                'label'      => 'Date Created',
+                                'id'         => 'saswp_lr_date_created_'.$schema_id,
+                                'type'       => 'text'                          
+                            ),
+                        array(
+                                'label'      => 'Date Modified',
+                                'id'         => 'saswp_lr_date_modified_'.$schema_id,
+                                'type'       => 'text'                         
+                            ),
+                        array(
+                                'label'      => 'Typical Age Range',
+                                'id'         => 'saswp_lr_tar_'.$schema_id,
+                                'type'       => 'text'                           
+                            ),
+                        array(
+                                'label'   => 'Educational Level Name',
+                                'id'      => 'saswp_lr_education_level_name_'.$schema_id,
+                                'type'    => 'text'
+                            ),
+                        array(
+                                'label'   => 'Educational Level URL',
+                                'id'      => 'saswp_lr_education_level_url_'.$schema_id,
+                                'type'    => 'text'
+                            ),
+                        array(
+                                'label'   => 'Educational Level Term Set',
+                                'id'      => 'saswp_lr_education_level_term_set_'.$schema_id,
+                                'type'    => 'text'
+                            ),
+                        array(
+                                'label'   => 'Time Required',
+                                'id'      => 'saswp_lr_time_required_'.$schema_id,
+                                'type'    => 'text'
+                            ),
+                        array(
+                                'label'   => 'License',
+                                'id'      => 'saswp_lr_license_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                    'All rights reserved'                                                   => 'All rights reserved',
+                                    'CC BY (Attribution)'                                                   => 'CC BY (Attribution)',
+                                    'CC BY-SA (Attribution - Share alike)'                                  => 'CC BY-SA (Attribution - Share alike)',
+                                    'CC BY-ND (Attribution - No derivative works)'                          => 'CC BY-ND (Attribution - No derivative works)',
+                                    'CC BY-NC (Attribution - No commercial use)'                            => 'CC BY-NC (Attribution - No commercial use)',
+                                    'CC BY-NC-SA (Attribution - No commercial use - Share alike)'           => 'CC BY-NC-SA (Attribution - No commercial use - Share alike)',
+                                    'CC BY-NC-ND (Attribution - No commercial use - No derivatives works)'  => 'CC BY-NC-ND (Attribution - No commercial use - No derivatives works)',
+                                    'GNU General Public License (GPL)'                                      => 'GNU General Public License (GPL)',
+                                    'GNU Free Documentation License (GFDL)'                                 => 'GNU Free Documentation License (GFDL)',
+                                    'Public domain'                                                         => 'Public domain',
+                                    'Other'                                                                 => 'Other'
+                                )
+                            ),
+                        array(
+                                'label'   => 'Is Accessible For Free',
+                                'id'      => 'saswp_lr_time_iaff_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                    'True' => 'Yes',
+                                    'False' => 'No'
+                                )
+                            ),
+
+                        );
+                    break;
                                 
                 default:
                     break;

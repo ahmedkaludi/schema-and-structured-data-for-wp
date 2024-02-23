@@ -7366,3 +7366,112 @@ function saswp_vacation_rental_schema_markup($schema_id, $schema_post_id, $all_p
 
     return $input1;
 }
+
+/**
+ * Schema markup function for Learning Resource Schema
+ * @since 1.28
+ * @param   $schema_id  Integer
+ * @param   $schema_post_id  Integer
+ * @param   $all_post_meta  Array
+ * @return  $input1  Array
+ * */
+function saswp_learning_resource_schema_markup($schema_id, $schema_post_id, $all_post_meta)
+{
+    $input1['@context']              = saswp_context_url();
+    $input1['@type']                 = 'LearningResource';
+    $input1['@id']                   = saswp_get_permalink().'#LearningResource';                                
+    $input1['url']                   = saswp_get_permalink();  
+
+    $thumbnail_id = get_post_thumbnail_id(get_the_ID());
+    $thumbnail_url = wp_get_attachment_url($thumbnail_id);
+    if(!empty($thumbnail_url) && is_string($thumbnail_url)){
+        $image_details                   = saswp_get_image_by_url($thumbnail_url);
+        if(!empty($image_details) && is_array($image_details)){
+            $input1['image']         = $image_details;
+        }
+    }    
+
+    $thumbnail_details   = wp_get_attachment_image_src($thumbnail_id, 'thumbnail');
+    if(is_array($thumbnail_details) && isset($thumbnail_details[0])){
+        $image_details                   = saswp_get_image_by_url($thumbnail_details[0]);
+        if(!empty($image_details) && is_array($image_details)){
+            $input1['thumbnail']     = $image_details;
+        } 
+        $input1['thumbnailUrl']  = saswp_remove_warnings($thumbnail_details, 0, 'saswp_string');
+    }     
+    if(isset($all_post_meta['saswp_lr_name_'.$schema_id]) && isset($all_post_meta['saswp_lr_name_'.$schema_id][0])){
+        $input1['name'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_name_'.$schema_id, 'saswp_array');
+    }
+    if(isset($all_post_meta['saswp_lr_description_'.$schema_id]) && isset($all_post_meta['saswp_lr_description_'.$schema_id][0])){
+        $input1['description'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_description_'.$schema_id, 'saswp_array');
+    } 
+    if(isset($all_post_meta['saswp_lr_keywords_'.$schema_id]) && isset($all_post_meta['saswp_lr_keywords_'.$schema_id][0])){
+        $input1['keywords'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_keywords_'.$schema_id, 'saswp_array');
+    } 
+    if(isset($all_post_meta['saswp_lr_lrt_'.$schema_id]) && isset($all_post_meta['saswp_lr_lrt_'.$schema_id][0])){
+        $input1['learningResourceType'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_lrt_'.$schema_id, 'saswp_array');
+    }
+    if(isset($all_post_meta['saswp_lr_lrt_'.$schema_id]) && isset($all_post_meta['saswp_lr_lrt_'.$schema_id][0])){
+        $input1['learningResourceType'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_lrt_'.$schema_id, 'saswp_array');
+    }                
+    $input1['author'] = saswp_get_author_details();
+    if(isset($all_post_meta['saswp_lr_inlanguage_'.$schema_id]) && isset($all_post_meta['saswp_lr_inlanguage_'.$schema_id][0])){
+        if(!empty($all_post_meta['saswp_lr_inlanguage_'.$schema_id][0]) && is_string($all_post_meta['saswp_lr_inlanguage_'.$schema_id][0])){
+            $explode_lang = explode(',', $all_post_meta['saswp_lr_inlanguage_'.$schema_id][0]);
+            if(!empty($explode_lang) && is_array($explode_lang)){
+                foreach ($explode_lang as $el_key => $el_value) {
+                    $input1['inLanguage'][] = $el_value;
+                }
+            }
+        }
+    } 
+    $input1['dateCreated'] = date('Y-m-d', strtotime(get_the_date()));  
+    if(isset($all_post_meta['saswp_lr_date_created_'.$schema_id]) && isset($all_post_meta['saswp_lr_date_created__'.$schema_id][0])){
+        $input1['dateCreated'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_date_created_'.$schema_id, 'saswp_array');
+    } 
+    $input1['dateModified'] = date('Y-m-d', strtotime(get_the_modified_date()));
+    if(isset($all_post_meta['saswp_lr_date_modified_'.$schema_id]) && isset($all_post_meta['saswp_lr_date_modified_'.$schema_id][0])){
+        $input1['dateModified'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_date_modified_'.$schema_id, 'saswp_array');
+    }
+    if(isset($all_post_meta['saswp_lr_tar_'.$schema_id]) && isset($all_post_meta['saswp_lr_tar_'.$schema_id][0])){
+        $input1['typicalAgeRange'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_tar_'.$schema_id, 'saswp_array');
+    } 
+    if(isset($all_post_meta['saswp_lr_education_level_name_'.$schema_id]) || isset($all_post_meta['saswp_lr_education_level_url'.$schema_id]) || isset($all_post_meta['saswp_lr_education_level_term_set'.$schema_id])){
+        $input1['educationalLevel']['@type'] = 'DefinedTerm';
+        if(isset($all_post_meta['saswp_lr_education_level_name_'.$schema_id])){
+            $input1['educationalLevel']['name'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_education_level_name_'.$schema_id, 'saswp_array');
+        }
+        if(isset($all_post_meta['saswp_lr_education_level_url_'.$schema_id])){
+            $input1['educationalLevel']['url'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_education_level_url_'.$schema_id, 'saswp_array');
+        }
+        if(isset($all_post_meta['saswp_lr_education_level_term_set_'.$schema_id])){
+            $input1['educationalLevel']['inDefinedTermSet'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_education_level_term_set_'.$schema_id, 'saswp_array');
+        }
+    }
+
+    $education_alignment  = get_post_meta($schema_post_id, 'learning_resource_educational_alignment_'.$schema_id, true);
+    if(!empty($education_alignment) && is_array($education_alignment) && count($education_alignment) > 0){
+        $eacnt = 0;
+        foreach ($education_alignment as $ea_key => $ea_value) {
+            if(!empty($ea_value) && is_array($ea_value)){
+                $input1['educationalAlignment'][$eacnt]['@type'] = 'AlignmentObject';    
+                $input1['educationalAlignment'][$eacnt]['alignmentType'] = isset($ea_value['saswp_lr_eaat'])?sanitize_text_field($ea_value['saswp_lr_eaat']):'';    
+                $input1['educationalAlignment'][$eacnt]['educationalFramework'] = isset($ea_value['saswp_lr_eaef'])?sanitize_text_field($ea_value['saswp_lr_eaef']):'';    
+                $input1['educationalAlignment'][$eacnt]['targetName'] = isset($ea_value['saswp_lr_eatn'])?sanitize_text_field($ea_value['saswp_lr_eatn']):'';    
+                $input1['educationalAlignment'][$eacnt]['targetUrl'] = isset($ea_value['saswp_lr_eatu'])?sanitize_text_field($ea_value['saswp_lr_eatu']):'';    
+            }
+        }
+    }
+    
+    if(isset($all_post_meta['saswp_lr_time_required_'.$schema_id]) && isset($all_post_meta['saswp_lr_time_required_'.$schema_id][0])){
+        $input1['timeRequired'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_time_required_'.$schema_id, 'saswp_array');
+    }
+    if(isset($all_post_meta['saswp_lr_license_'.$schema_id]) && isset($all_post_meta['saswp_lr_license_'.$schema_id][0])){
+        $input1['license'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_license_'.$schema_id, 'saswp_array');
+    }
+    if(isset($all_post_meta['saswp_lr_time_iaff_'.$schema_id]) && isset($all_post_meta['saswp_lr_time_iaff_'.$schema_id][0])){
+        $input1['isAccessibleForFree'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_time_iaff_'.$schema_id, 'saswp_array');
+    }
+
+    return $input1;
+}

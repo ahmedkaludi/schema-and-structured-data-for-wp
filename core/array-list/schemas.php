@@ -51,7 +51,8 @@ return array(
                 'WebPage'                  => 'WebPage',
                 'ItemPage'                 => 'ItemPage',
                 'MedicalWebPage'           => 'MedicalWebPage',
-                'BreadCrumbs'              => 'BreadCrumbs'  
+                'BreadCrumbs'              => 'BreadCrumbs',  
+                'LearningResource'         => 'LearningResource'  
         ),
         'Event' => array(
             'Event'                    => 'Event',

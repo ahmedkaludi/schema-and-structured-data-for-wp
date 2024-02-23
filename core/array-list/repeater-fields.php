@@ -126,6 +126,9 @@ return array( 'schema_type_element' => array(
 					'vacation-rental-bed-details'  	=> 'vacation_rental_bed_details',
 					'vacation-rental-amenity-feature'  => 'vacation_rental_amenity_feature',
 					'vacation-rental-review-rating'  	=> 'vacation_rental_review_rating'
+			    ),
+			    'LearningResource' => array(
+					'learning-resource-educational-alignment'  => 'learning_resource_educational_alignment',
 			    )
 						                                                                          
                     ),
@@ -966,6 +969,28 @@ return array( 'schema_type_element' => array(
 			'type'      => 'date',
 			'default'   => get_the_date("Y-m-d")
 			)
+		),
+		'learning_resource_educational_alignment' => array(
+		array(
+			'label'     => 'Alignment Type',
+			'name'      => 'saswp_lr_eaat',
+			'type'      => 'text'
+			),
+		array(
+			'label'     => 'Educational Framework',
+			'name'      => 'saswp_lr_eaef',
+			'type'      => 'text'
+			),
+		array(
+			'label'     => 'Target Name',
+			'name'      => 'saswp_lr_eatn',
+			'type'      => 'text'
+			),
+		array(
+			'label'     => 'Target URL',
+			'name'      => 'saswp_lr_eatu',
+			'type'      => 'text'
+			),
 		)
 		                    
         )    

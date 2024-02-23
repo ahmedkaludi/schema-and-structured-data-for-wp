@@ -81,7 +81,8 @@ $without_aggregate = array(
         'SpecialAnnouncement',
         'Service',
         'TouristTrip',
-        'VacationRental'
+        'VacationRental',
+        'LearningResource'
 );
 $translation_labels = array(
     'translation-pros'            => 'Pros',
