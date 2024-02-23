@@ -691,7 +691,7 @@ function saswp_get_all_schema_markup_output() {
                         $custom_output .= '</script>';
                     }                                        
                 }else{
-                    $regex = '/<script type=\"application\/ld\+json">(.*?)<\/script>/';
+                    $regex = '/<script type=\"application\/ld\+json">(.*?)<\/script>/s';
                     preg_match_all( $regex, $custom_markup, $matches );
                     if(!empty($matches) && isset($matches[1])){
                         foreach ($matches[1] as $value) {
