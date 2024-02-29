@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Google Snippets, Rich Snippets, Schema.org, SEO, 
 Requires at least: 3.0
 Tested up to: 6.4
 Requires PHP: 5.6.20
-Stable tag: 1.27
+Stable tag: 1.28
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.28 (29 Feb 2024) =
+
+* Enhancement: Implemented new LearningResource schema type #1789
+* Enhancement: Implemented new Vacationrental schema type #2068
+* Enhancement: Remove articleBody property from schema markup when it is empty #2070
+* Fixed: Resolved problem with DOM after filling data in the product schema #2073
+* Fixed: Added field "@id" in itemlist #2074
+* Fixed: Ratingbox Warning that appeared after latest update #2079
+* Enhacement: Author url is missing in QandA schema #2081
+* Fixed: Q&A Schema is not getting enabled and disabled on post page #2082
+* Fixed: Custom Schema markup breakage #2083
+* Fixed: Review collection PHP error on the user end  #2084
 
 = 1.27 (17 Feb 2024) =
 
