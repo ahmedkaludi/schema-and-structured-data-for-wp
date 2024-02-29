@@ -520,7 +520,9 @@ class SASWP_Reviews_Collection {
                         }
                         
                         if(isset($collection_data['saswp_platform_ids'][0])){
-                            $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]);                
+                            if(!empty($collection_data['saswp_platform_ids'][0]) && is_string($collection_data['saswp_platform_ids'][0])){
+                                $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]); 
+                            }              
                         }
 
                         
@@ -1029,8 +1031,10 @@ class SASWP_Reviews_Collection {
                                             
                                             <?php
                                                 $selected_val = array();
-                                                if(isset($post_meta['saswp_collection_where'][0]) && !empty($post_meta['saswp_collection_where'][0])){
-                                                    $selected_val = unserialize($post_meta['saswp_collection_where'][0]);
+                                                if(isset($post_meta['saswp_collection_where']) && isset($post_meta['saswp_collection_where'][0])){
+                                                    if(!empty($post_meta['saswp_collection_where'][0]) && is_string($post_meta['saswp_collection_where'][0])){
+                                                        $selected_val = unserialize($post_meta['saswp_collection_where'][0]);
+                                                    }
                                                 }
 
                                                 if(!empty($choice)){
@@ -1062,8 +1066,10 @@ class SASWP_Reviews_Collection {
                                                     $type_list = saswp_get_condition_list($condition_val);
                                                     
                                                     $where_data = array();
-                                                    if(isset($post_meta['saswp_collection_where_data'][0]) && !empty($post_meta['saswp_collection_where_data'][0])){
-                                                        $where_data = unserialize($post_meta['saswp_collection_where_data'][0]);
+                                                    if(isset($post_meta['saswp_collection_where_data']) && isset($post_meta['saswp_collection_where_data'][0])){
+                                                        if(!empty($post_meta['saswp_collection_where_data'][0]) && is_string($post_meta['saswp_collection_where_data'][0])){
+                                                            $where_data = unserialize($post_meta['saswp_collection_where_data'][0]);
+                                                        }
                                                     }
                                                     
                                                     if ( isset($where_data[0]) && $where_data[0] !=  '' ) {
