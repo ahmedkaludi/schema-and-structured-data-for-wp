@@ -8,6 +8,7 @@ return array(
                 'House'                    => 'House',
                 'HotelRoom'                => 'HotelRoom',
                 'SingleFamilyResidence'    => 'SingleFamilyResidence',
+                'VacationRental'           => 'VacationRental'
         ),
          'CreativeWork' => array(
                 'Article'                  => 'Article', 
@@ -50,7 +51,8 @@ return array(
                 'WebPage'                  => 'WebPage',
                 'ItemPage'                 => 'ItemPage',
                 'MedicalWebPage'           => 'MedicalWebPage',
-                'BreadCrumbs'              => 'BreadCrumbs'  
+                'BreadCrumbs'              => 'BreadCrumbs',  
+                'LearningResource'         => 'LearningResource'  
         ),
         'Event' => array(
             'Event'                    => 'Event',

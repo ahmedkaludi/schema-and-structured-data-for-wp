@@ -120,6 +120,15 @@ return array( 'schema_type_element' => array(
 			    ),
 			    'Course' => array(
 					'course-instance'  => 'course_instance'
+			    ),
+			    'VacationRental' => array(
+					'vacation-rental-porperty-images'  => 'vacation_rental_property_images',
+					'vacation-rental-bed-details'  	=> 'vacation_rental_bed_details',
+					'vacation-rental-amenity-feature'  => 'vacation_rental_amenity_feature',
+					'vacation-rental-review-rating'  	=> 'vacation_rental_review_rating'
+			    ),
+			    'LearningResource' => array(
+					'learning-resource-educational-alignment'  => 'learning_resource_educational_alignment',
 			    )
 						                                                                          
                     ),
@@ -447,7 +456,12 @@ return array( 'schema_type_element' => array(
 								'label'     => 'Accepted Answer Author Name',
 								'name'      => 'saswp_qa_accepted_author_name',
 								'type'      => 'text',                        
-							)                                        
+							),
+						array(
+			                            'label'      => 'Author URL',
+			                            'name'         => 'saswp_qa_accepted_author_url',
+			                            'type'       => 'text'
+			                    )                                        
                     ),
 					'suggested_answer' => array(                    
 						array(
@@ -483,7 +497,12 @@ return array( 'schema_type_element' => array(
 								'label'     => 'suggested Answer Author Name',
 								'name'      => 'saswp_qa_suggested_author_name',
 								'type'      => 'text',                        
-						)                                        
+						),
+						array(
+			                            'label'      => 'Author URL',
+			                            'name'         => 'saswp_qa_suggested_author_url',
+			                            'type'       => 'text'
+			                    )                                        
                     ),
                     'howto_tool' => array(                    
                     array(
@@ -881,6 +900,98 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_course_instance_offer_currency',
 			'type'      => 'text'
 			), 
-		)                    
+		),
+		'vacation_rental_bed_details' => array(
+		array(
+			'label'     => 'Number Of Beds',
+			'name'      => 'saswp_vr_bed_details_nob',
+			'type'      => 'number'
+			),
+		array(
+			'label'     => 'Type Of Bed',
+			'name'      => 'saswp_vr_bed_details_tob',
+			'type'      => 'text'
+			),
+		),
+		'vacation_rental_amenity_feature' => array(
+		array(
+			'label'     => 'Name',
+			'name'      => 'saswp_vr_amenity_feature_name',
+			'type'      => 'text'
+			),
+		array(
+			'label'     => 'Value',
+			'name'      => 'saswp_vr_amenity_feature_value',
+			'type'      => 'text'
+			)
+		),
+		'vacation_rental_property_images' => array(
+			array(
+			'label'     => 'Property Image',
+			'name'      => 'saswp_vr_property_image',
+			'type'      => 'media',                        
+			) 
+		),
+		'vacation_rental_review_rating' => array(
+		array(
+			'label'     => 'Rating Value',
+			'name'      => 'saswp_vr_review_rating_value',
+			'type'      => 'number'
+			),
+		array(
+			'label'     => 'Best Rating',
+			'name'      => 'saswp_vr_review_rating_best_value',
+			'type'      => 'number'
+			),
+		array(
+			'label'     => 'Author Type',
+			'name'      => 'saswp_vr_review_rating_author_type',
+			'type'      => 'select',
+			'options'   => array(
+				'Person' 		=> 'Person',
+				'Organization'  	=> 'Organization'
+				)                       
+			),
+		array(
+			'label'     => 'Author Name',
+			'name'      => 'saswp_vr_review_rating_author_name',
+			'type'      => 'text'
+			),
+		array(
+			'label'     => 'Date Published',
+			'name'      => 'saswp_vr_review_rating_date_pub',
+			'type'      => 'date',
+			'default'   => get_the_date("Y-m-d")
+			),
+		array(
+			'label'     => 'Content Reference Time',
+			'name'      => 'saswp_vr_review_rating_cr_time',
+			'type'      => 'date',
+			'default'   => get_the_date("Y-m-d")
+			)
+		),
+		'learning_resource_educational_alignment' => array(
+		array(
+			'label'     => 'Alignment Type',
+			'name'      => 'saswp_lr_eaat',
+			'type'      => 'text'
+			),
+		array(
+			'label'     => 'Educational Framework',
+			'name'      => 'saswp_lr_eaef',
+			'type'      => 'text'
+			),
+		array(
+			'label'     => 'Target Name',
+			'name'      => 'saswp_lr_eatn',
+			'type'      => 'text'
+			),
+		array(
+			'label'     => 'Target URL',
+			'name'      => 'saswp_lr_eatu',
+			'type'      => 'text'
+			),
+		)
+		                    
         )    
 );

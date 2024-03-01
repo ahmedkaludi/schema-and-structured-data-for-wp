@@ -532,9 +532,7 @@ class saswp_post_specific {
                          if($schema_type == 'local_business'){
                              $schema_type_txt = 'Local Business';
                          }
-                         if($schema_type == 'qanda'){
-                             $schema_type_txt = 'Q&A';
-                         }
+                         
                          
                          $setting_options  .= '<span>'.saswp_t_string( $schema_type_txt.' schema is fetched automatically' ).'</span><br><br>';
                          $setting_options  .= '<a class="button button-default saswp-modify-schema button" schema-id="'.esc_attr($schema->ID).'">'.esc_html( 'Modify '.$schema_type.' Schema Output' ).'</a>';

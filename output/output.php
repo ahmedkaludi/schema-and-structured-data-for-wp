@@ -2566,6 +2566,59 @@ function saswp_schema_output() {
 
                             break;
                             
+                            case 'VacationRental':
+
+                                $input1['@context']              = saswp_context_url();
+                                $input1['@type']                 = 'VacationRental';
+                                $input1['@id']                   = saswp_get_permalink().'#VacationRental';                                
+
+                                $input1 = apply_filters('saswp_modify_vacation_rental_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_vacation_rental_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+
+                            break;
+                            
+                            case 'LearningResource':
+
+                                $input1['@context']              = saswp_context_url();
+                                $input1['@type']                 = 'LearningResource';
+                                $input1['@id']                   = saswp_get_permalink().'#LearningResource';                                
+                                $input1['url']                   = saswp_get_permalink();  
+
+                                $thumbnail_id = get_post_thumbnail_id(get_the_ID());
+                                $thumbnail_url = wp_get_attachment_url($thumbnail_id);
+                                if(!empty($thumbnail_url) && is_string($thumbnail_url)){
+                                    $image_details                   = saswp_get_image_by_url($thumbnail_url);
+                                    if(!empty($image_details) && is_array($image_details)){
+                                        $input1['image']         = $image_details;
+                                    }
+                                }    
+
+                                $thumbnail_details   = wp_get_attachment_image_src($image_id, 'thumbnail');
+                                if(is_array($thumbnail_details) && isset($thumbnail_details[0])){
+                                    $image_details                   = saswp_get_image_by_url($thumbnail_details[0]);
+                                    if(!empty($image_details) && is_array($image_details)){
+                                        $input1['thumbnail']     = $image_details;
+                                    } 
+                                    $input1['thumbnailUrl']  = saswp_remove_warnings($thumbnail_details, 0, 'saswp_string');
+                                }                          
+
+                                $input1 = apply_filters('saswp_modify_learning_resource_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_learning_resource_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+
+                            break;
+                            
                             default:
                                 break;
                            
@@ -3122,6 +3175,7 @@ function saswp_woocommerce_category_schema(){
                     
                     $item_list_schema['@context']        = saswp_context_url();
                     $item_list_schema['@type']           = 'ItemList';    
+                    $item_list_schema['@id']             = saswp_get_category_link($term->term_id).'#ItemList';    
 
                     if(saswp_has_slash($current_url)){
                         $item_list_schema['url'] =  saswp_get_category_link($term->term_id);    

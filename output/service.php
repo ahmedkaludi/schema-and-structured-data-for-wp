@@ -1628,7 +1628,11 @@ Class saswp_output_service{
                          $input1['url'] =    saswp_validate_url($custom_fields['saswp_article_url']);
                         }
                         if(isset($custom_fields['saswp_article_body'])){
-                         $input1['articleBody'] =    $custom_fields['saswp_article_body'];
+                            if($custom_fields['saswp_article_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_article_body'];
+                            }else{
+                                unset($input1['articleBody']);
+                            }
                         }
                         if(isset($custom_fields['saswp_article_keywords'])){
                          $input1['keywords'] =    $custom_fields['saswp_article_keywords'];
@@ -2277,7 +2281,11 @@ Class saswp_output_service{
                             $input1['url'] =    saswp_validate_url($custom_fields['saswp_creativework_url']);
                         }
                         if(isset($custom_fields['saswp_creativework_body'])){
-                            $input1['articleBody'] =    $custom_fields['saswp_creativework_body'];
+                            if($custom_fields['saswp_creativework_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_creativework_body'];
+                            }else{
+                                unset($input1['articleBody']);
+                            }
                         }
                         if(isset($custom_fields['saswp_creativework_keywords'])){
                             $input1['keywords'] =    $custom_fields['saswp_creativework_keywords'];
@@ -3129,7 +3137,11 @@ Class saswp_output_service{
                      $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_blogposting_description'] ));
                     }
                     if(isset($custom_fields['saswp_blogposting_body'])){
-                        $input1['articleBody'] =    $custom_fields['saswp_blogposting_body'];
+                        if($custom_fields['saswp_blogposting_body']){
+                            $input1['articleBody'] =    $custom_fields['saswp_blogposting_body'];
+                        }else{
+                            unset($input1['articleBody']);
+                        }
                     }                                           
                     if(isset($custom_fields['saswp_blogposting_name'])){
                      $input1['name'] =    $custom_fields['saswp_blogposting_name'];
@@ -3530,7 +3542,11 @@ Class saswp_output_service{
                        $input1['articleSection'] = $custom_fields['saswp_newsarticle_section'];  
                     }
                     if(isset($custom_fields['saswp_newsarticle_body'])){
-                       $input1['articleBody'] =    $custom_fields['saswp_newsarticle_body'];  
+                        if($custom_fields['saswp_newsarticle_body']){
+                            $input1['articleBody'] =    $custom_fields['saswp_newsarticle_body'];  
+                        }else{
+                            unset($input1['articleBody']);
+                        }
                     }
                     if(isset($custom_fields['saswp_newsarticle_name'])){
                        $input1['name'] =    $custom_fields['saswp_newsarticle_name'];  
@@ -3637,7 +3653,11 @@ Class saswp_output_service{
                            $input1['articleSection'] = $custom_fields['saswp_analysisnewsarticle_section'];  
                         }
                         if(isset($custom_fields['saswp_analysisnewsarticle_body'])){
-                           $input1['articleBody'] =    $custom_fields['saswp_analysisnewsarticle_body'];  
+                            if($custom_fields['saswp_analysisnewsarticle_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_analysisnewsarticle_body']; 
+                            }else{
+                                unset($input1['articleBody']);
+                            } 
                         }
                         if(isset($custom_fields['saswp_analysisnewsarticle_name'])){
                            $input1['name'] =    $custom_fields['saswp_analysisnewsarticle_name'];  
@@ -3738,7 +3758,11 @@ Class saswp_output_service{
                                $input1['articleSection'] = $custom_fields['saswp_askpublicnewsarticle_section'];  
                             }
                             if(isset($custom_fields['saswp_askpublicnewsarticle_body'])){
-                               $input1['articleBody'] =    $custom_fields['saswp_askpublicnewsarticle_body'];  
+                                if($custom_fields['saswp_askpublicnewsarticle_body']){
+                                    $input1['articleBody'] =    $custom_fields['saswp_askpublicnewsarticle_body']; 
+                                }else{
+                                    unset($input1['articleBody']);
+                                } 
                             }
                             if(isset($custom_fields['saswp_askpublicnewsarticle_name'])){
                                $input1['name'] =    $custom_fields['saswp_askpublicnewsarticle_name'];  
@@ -3839,7 +3863,11 @@ Class saswp_output_service{
                         $input1['articleSection'] = $custom_fields['saswp_backgroundnewsarticle_section'];  
                     }
                     if(isset($custom_fields['saswp_backgroundnewsarticle_body'])){
-                        $input1['articleBody'] =    $custom_fields['saswp_backgroundnewsarticle_body'];  
+                        if($custom_fields['saswp_backgroundnewsarticle_body']){
+                            $input1['articleBody'] =    $custom_fields['saswp_backgroundnewsarticle_body'];  
+                        }else{
+                            unset($input1['articleBody']);
+                        }
                     }
                     if(isset($custom_fields['saswp_backgroundnewsarticle_name'])){
                         $input1['name'] =    $custom_fields['saswp_backgroundnewsarticle_name'];  
@@ -3940,7 +3968,11 @@ Class saswp_output_service{
                             $input1['articleSection'] = $custom_fields['saswp_opinionnewsarticle_section'];  
                         }
                         if(isset($custom_fields['saswp_opinionnewsarticle_body'])){
-                            $input1['articleBody'] =    $custom_fields['saswp_opinionnewsarticle_body'];  
+                            if($custom_fields['saswp_opinionnewsarticle_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_opinionnewsarticle_body'];
+                            }else{
+                                unset($input1['articleBody']);
+                            }  
                         }
                         if(isset($custom_fields['saswp_opinionnewsarticle_name'])){
                             $input1['name'] =    $custom_fields['saswp_opinionnewsarticle_name'];  
@@ -4041,7 +4073,11 @@ Class saswp_output_service{
                             $input1['articleSection'] = $custom_fields['saswp_reportagenewsarticle_section'];  
                         }
                         if(isset($custom_fields['saswp_reportagenewsarticle_body'])){
-                            $input1['articleBody'] =    $custom_fields['saswp_reportagenewsarticle_body'];  
+                            if($custom_fields['saswp_reportagenewsarticle_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_reportagenewsarticle_body'];
+                            }else{
+                                unset($input1['articleBody']);
+                            }  
                         }
                         if(isset($custom_fields['saswp_reportagenewsarticle_name'])){
                             $input1['name'] =    $custom_fields['saswp_reportagenewsarticle_name'];  
@@ -4142,7 +4178,11 @@ Class saswp_output_service{
                             $input1['articleSection'] = $custom_fields['saswp_reviewnewsarticle_section'];  
                         }
                         if(isset($custom_fields['saswp_reviewnewsarticle_body'])){
-                            $input1['articleBody'] =    $custom_fields['saswp_reviewnewsarticle_body'];  
+                            if($custom_fields['saswp_reviewnewsarticle_body']){
+                                $input1['articleBody'] =    $custom_fields['saswp_reviewnewsarticle_body'];
+                            }else{
+                                unset($input1['articleBody']);
+                            }  
                         }
                         if(isset($custom_fields['saswp_reviewnewsarticle_name'])){
                             $input1['name'] =    $custom_fields['saswp_reviewnewsarticle_name'];  
@@ -4804,7 +4844,11 @@ Class saswp_output_service{
                      $input1['url'] =    saswp_validate_url($custom_fields['saswp_tech_article_url']);
                     }
                     if(isset($custom_fields['saswp_tech_article_body'])){
-                     $input1['articleBody'] =    $custom_fields['saswp_tech_article_body'];
+                        if($custom_fields['saswp_tech_article_body']){
+                            $input1['articleBody'] =    $custom_fields['saswp_tech_article_body'];
+                        }else{
+                            unset($input1['articleBody']);
+                        }
                     }
                     if(isset($custom_fields['saswp_tech_article_keywords'])){
                      $input1['keywords'] =    $custom_fields['saswp_tech_article_keywords'];
@@ -6146,6 +6190,10 @@ Class saswp_output_service{
                      }
 
                      $input1['mainEntity']['author']['name'] =    $custom_fields['saswp_qa_question_author_name'];
+                     
+                     if(isset($custom_fields['saswp_qa_question_author_url'])){
+                        $input1['mainEntity']['author']['url'] =    $custom_fields['saswp_qa_question_author_url'];
+                     }
                     }
                     if(isset($custom_fields['saswp_qa_accepted_answer_text'])){
                      $input1['mainEntity']['acceptedAnswer']['@type'] =    'Answer';   
@@ -7265,6 +7313,155 @@ Class saswp_output_service{
                         $input1['subjectOf']['url'] =   $custom_fields['saswp_tt_schema_sou'];    
                     }
 
+                break;
+                
+                case 'VacationRental':
+                    if(isset($custom_fields['saswp_vr_schema_additional_type'])){
+                        $input1['additionalType'] = $custom_fields['saswp_vr_schema_additional_type'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_brand'])){
+                        $input1['brand'] = $custom_fields['saswp_vr_schema_brand'];
+                    }
+                    $input1['containsPlace']['@type'] = 'Accommodation';
+                    if(isset($custom_fields['saswp_vr_schema_cpat'])){
+                        $input1['containsPlace']['additionalType'] = $custom_fields['saswp_vr_schema_cpat'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_occupancy'])){
+                        $input1['containsPlace']['occupancy']['@type'] = 'QuantitativeValue';
+                        $input1['containsPlace']['occupancy']['value'] = $custom_fields['saswp_vr_schema_occupancy'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_floor_value']) || isset($custom_fields['saswp_vr_schema_floor_uc'])){
+                        $input1['containsPlace']['floorSize']['@type'] = 'QuantitativeValue';   
+                        $input1['containsPlace']['floorSize']['value'] = isset($custom_fields['saswp_vr_schema_floor_value'])?$custom_fields['saswp_vr_schema_floor_value']:'';   
+                        $input1['containsPlace']['floorSize']['unitCode'] = isset($custom_fields['saswp_vr_schema_floor_uc'])?$custom_fields['saswp_vr_schema_floor_uc']:'';   
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_total_bathrooms'])){
+                        $input1['containsPlace']['numberOfBathroomsTotal'] = $custom_fields['saswp_vr_schema_total_bathrooms'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_total_bedrooms'])){
+                        $input1['containsPlace']['numberOfBedrooms'] = $custom_fields['saswp_vr_schema_total_bedrooms'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_total_rooms'])){
+                        $input1['containsPlace']['numberOfRooms'] = $custom_fields['saswp_vr_schema_total_rooms'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_identifier'])){
+                        $input1['identifier'] = $custom_fields['saswp_vr_schema_identifier'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_latitude'])){
+                        $input1['latitude'] = $custom_fields['saswp_vr_schema_latitude'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_longitude'])){
+                        $input1['longitude'] = $custom_fields['saswp_vr_schema_longitude'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_name'])){
+                        $input1['name'] = $custom_fields['saswp_vr_schema_name'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_country'])){
+                        $input1['address']['addressCountry'] = $custom_fields['saswp_vr_schema_country'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_locality'])){
+                        $input1['address']['addressLocality'] = $custom_fields['saswp_vr_schema_locality'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_region'])){
+                        $input1['address']['addressRegion'] = $custom_fields['saswp_vr_schema_region'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_p_code'])){
+                        $input1['address']['postalCode'] = $custom_fields['saswp_vr_schema_p_code'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_s_address'])){
+                        $input1['address']['streetAddress'] = $custom_fields['saswp_vr_schema_s_address'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_rating_value'])){
+                        $input1['aggregateRating']['ratingValue'] = $custom_fields['saswp_vr_schema_rating_value'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_rating_count'])){
+                        $input1['aggregateRating']['ratingCount'] = $custom_fields['saswp_vr_schema_rating_count'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_review_count'])){
+                        $input1['aggregateRating']['reviewCount'] = $custom_fields['saswp_vr_schema_review_count'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_best_rating'])){
+                        $input1['aggregateRating']['bestRating'] = $custom_fields['saswp_vr_schema_best_rating'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_checkin_time'])){
+                        $input1['checkinTime'] = $custom_fields['saswp_vr_schema_checkin_time'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_checkout_time'])){
+                        $input1['checkoutTime'] = $custom_fields['saswp_vr_schema_checkout_time'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_description'])){
+                        $input1['description'] = $custom_fields['saswp_vr_schema_description'];
+                    }
+                    if(isset($custom_fields['saswp_vr_schema_knows_language'])){
+                        if(!empty($custom_fields['saswp_vr_schema_knows_language'])){
+                            $explode_lang = explode(',', $custom_fields['saswp_vr_schema_knows_language']);
+                            if(!empty($explode_lang) && is_array($explode_lang)){
+                                foreach ($explode_lang as $el_key => $el_value) {
+                                    if(!empty($el_value)){
+                                        $input1['knowsLanguage'] = $el_value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                break;
+                
+                case 'LearningResource':
+                    if(isset($custom_fields['saswp_lr_name'])){
+                        $input1['name'] = $custom_fields['saswp_lr_name'];
+                    }
+                    if(isset($custom_fields['saswp_lr_description'])){
+                        $input1['description'] = $custom_fields['saswp_lr_description'];
+                    }
+                    if(isset($custom_fields['saswp_lr_keywords'])){
+                        $input1['keywords'] = $custom_fields['saswp_lr_keywords'];
+                    }
+                    if(isset($custom_fields['saswp_lr_lrt'])){
+                        $input1['learningResourceType'] = $custom_fields['saswp_lr_lrt'];
+                    }
+                    $input1['author'] = saswp_get_author_details();
+                    if(isset($custom_fields['saswp_lr_inlanguage'])){
+                        if(!empty($custom_fields['saswp_lr_inlanguage']) && is_string($custom_fields['saswp_lr_inlanguage'])){
+                            $explode_lang = explode(',', $custom_fields['saswp_lr_inlanguage']);
+                            if(!empty($explode_lang) && is_array($explode_lang)){
+                                foreach ($explode_lang as $el_key => $el_value) {
+                                    $input1['inLanguage'][] = $el_value;
+                                }
+                            }
+                        }
+                    }
+                    $input1['dateCreated'] = date('Y-m-d', strtotime(get_the_date()));
+                    if(isset($custom_fields['saswp_lr_date_created'])){
+                        $input1['dateCreated'] = date('Y-m-d', strtotime($custom_fields['saswp_lr_date_created']));
+                    }
+                    $input1['dateModified'] = date('Y-m-d', strtotime(get_the_modified_date()));
+                    if(isset($custom_fields['saswp_lr_date_modified'])){
+                        $input1['dateModified'] = $custom_fields['saswp_lr_date_modified'];
+                    }
+                    if(isset($custom_fields['saswp_lr_tar'])){
+                        $input1['typicalAgeRange'] = $custom_fields['saswp_lr_tar'];
+                    }
+                    if(isset($custom_fields['saswp_lr_education_level_name']) || isset($custom_fields['saswp_lr_education_level_url']) || isset($custom_fields['saswp_lr_education_level_term_set'])){
+                        $input1['educationalLevel']['@type'] = 'DefinedTerm';
+                        if(isset($custom_fields['saswp_lr_education_level_name'])){
+                            $input1['educationalLevel']['name'] = $custom_fields['saswp_lr_education_level_name'];
+                        }
+                        if(isset($custom_fields['saswp_lr_education_level_url'])){
+                            $input1['educationalLevel']['url'] = $custom_fields['saswp_lr_education_level_url'];
+                        }
+                        if(isset($custom_fields['saswp_lr_education_level_term_set'])){
+                            $input1['educationalLevel']['inDefinedTermSet'] = $custom_fields['saswp_lr_education_level_term_set'];
+                        }
+                    } 
+                    if(isset($custom_fields['saswp_lr_time_required'])){
+                        $input1['timeRequired'] = $custom_fields['saswp_lr_time_required'];
+                    }
+                    if(isset($custom_fields['saswp_lr_license'])){
+                        $input1['license'] = $custom_fields['saswp_lr_license'];
+                    } 
+                    if(isset($custom_fields['saswp_lr_time_iaff'])){
+                        $input1['isAccessibleForFree'] = $custom_fields['saswp_lr_time_iaff'];
+                    }  
                 break;
                
                      default:

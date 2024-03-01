@@ -7261,6 +7261,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',                           
                     ),  
                     array(
+                            'label'      => 'Author URL',
+                            'id'         => 'saswp_qa_question_author_url_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => $author_url
+                    ),      
+                    array(
                         'label' => 'Answer Count',
                         'id'    => 'saswp_qa_answer_count_'.$schema_id,
                         'type'  => 'number',                           
@@ -10628,6 +10634,324 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             ), 
                         ),
                     );
+                    break;
+                    
+                    case 'VacationRental':
+                    $meta_field = array(
+                        array(
+                            'label'   => 'Additional Type',
+                            'id'      => 'saswp_vr_schema_additional_type_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                    'Apartment'             => 'Apartment',
+                                    'Bungalow'              => 'Bungalow',                        
+                                    'Cabin'                 => 'Cabin',                        
+                                    'Chalet'                => 'Chalet',                        
+                                    'Cottage'               => 'Cottage',                        
+                                    'Gite'                  => 'Gite',                        
+                                    'HolidayVillageRental'  => 'HolidayVillageRental',                        
+                                    'House'                 => 'House',                        
+                                    'Villa'                 => 'Villa',                        
+                                    'VacationRental'        => 'VacationRental'                        
+                            )
+                        ),
+                        array(
+                            'label'      => 'Brand',
+                            'id'         => 'saswp_vr_schema_brand_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Brand ID'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Contains Place Additional Type',
+                            'id'         => 'saswp_vr_schema_cpat_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                'EntirePlace' => 'EntirePlace',
+                                'PrivateRoom' => 'PrivateRoom',
+                                'SharedRoom' => 'SharedRoom'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Occupancy',
+                            'id'         => 'saswp_vr_schema_occupancy_'.$schema_id,
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '4'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Floor Size Value',
+                            'id'         => 'saswp_vr_schema_floor_value_'.$schema_id,
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '75'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Floor Size Unit Code',
+                            'id'         => 'saswp_vr_schema_floor_uc_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                'FTK' => 'FTK',
+                                'SQFT' => 'SQFT',
+                                'MTK' => 'MTK',
+                                'SQM' => 'SQM'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Total Bathrooms',
+                            'id'         => 'saswp_vr_schema_total_bathrooms_'.$schema_id,
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '1'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Number Of Bedrooms',
+                            'id'         => 'saswp_vr_schema_total_bedrooms_'.$schema_id,
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '3'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Number Of Rooms',
+                            'id'         => 'saswp_vr_schema_total_rooms_'.$schema_id,
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '5'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Identifier',
+                            'id'         => 'saswp_vr_schema_identifier_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Enter Identifier'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Latitude',
+                            'id'         => 'saswp_vr_schema_latitude_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Enter Latitude'
+                            )
+                        ),
+                        array(
+                            'label'      => 'longitude',
+                            'id'         => 'saswp_vr_schema_longitude_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Enter Longitude'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_vr_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Enter Name'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Address Country',
+                            'id'         => 'saswp_vr_schema_country_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'US'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Address Locality',
+                            'id'         => 'saswp_vr_schema_locality_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Mountain View'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Address Region',
+                            'id'         => 'saswp_vr_schema_region_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'California'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Postal Code',
+                            'id'         => 'saswp_vr_schema_p_code_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '94043'
+                            )
+                        ),
+                        array(
+                            'label'      => 'Street Address',
+                            'id'         => 'saswp_vr_schema_s_address_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '1600 Amphitheatre Pkwy'
+                            )
+                        ),
+                        array(
+                                'label'    => 'Checkin Time',
+                                'id'       => 'saswp_vr_schema_checkin_time_'.$schema_id,
+                                'type'     => 'text',
+                                'attributes' => array(
+                                    'placeholder' => '18:00:00+08:00'
+                                )                               
+                            ),
+                        array(
+                                'label'    => 'Checkout Time',
+                                'id'       => 'saswp_vr_schema_checkout_time_'.$schema_id,
+                                'type'     => 'text',
+                                'attributes' => array(
+                                    'placeholder' => '11:00:00+08:00'
+                                )                              
+                            ),
+                        array(
+                                'label'    => 'Description',
+                                'id'       => 'saswp_vr_schema_description_'.$schema_id,
+                                'type'     => 'text'                             
+                            ),
+                        array(
+                                'label'    => 'Knows Language',
+                                'id'       => 'saswp_vr_schema_knows_language_'.$schema_id,
+                                'type'     => 'text'                             
+                            ),
+                        array(
+                                'label' => 'Aggregate Rating',
+                                'id'    => 'saswp_vr_schema_enable_rating_'.$schema_id,
+                                'type'  => 'checkbox',                           
+                            ),
+                        array(
+                                'label' => 'Rating Value',
+                                'id'    => 'saswp_vr_schema_rating_value_'.$schema_id,
+                                'type'  => 'text',                           
+                            ),
+                        array(
+                                'label' => 'Rating Count',
+                                'id'    => 'saswp_vr_schema_rating_count_'.$schema_id,
+                                'type'  => 'text',                            
+                            ),
+                        array(
+                                'label' => 'Review Count',
+                                'id'    => 'saswp_vr_schema_review_count_'.$schema_id,
+                                'type'  => 'text',                            
+                            ),
+                        array(
+                                'label' => 'Best rating',
+                                'id'    => 'saswp_vr_schema_best_rating_'.$schema_id,
+                                'type'  => 'text',                            
+                            )
+                    );
+                    break;
+                    
+                    case 'LearningResource':
+                    $meta_field = array(
+                        array(
+                               'label'      => 'ID',
+                               'id'         => 'saswp_lr_id_'.$schema_id,
+                               'type'       => 'text',
+                               'default'    => 'LearningResource'   
+                            ),
+                        array(
+                                'label'   => 'Name',
+                                'id'      => 'saswp_lr_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_get_the_title()
+                            ),
+                        array(
+                                'label'   => 'Description',
+                                'id'      => 'saswp_lr_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => is_object($post) ? $post->post_excerpt : ''
+                            ),
+                        array(
+                                'label' => 'Keywords',
+                                'id' => 'saswp_lr_keywords_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_tags()
+                            ),
+                        array(
+                                'label' => 'Learning Resource Type',
+                                'id' => 'saswp_lr_lrt_'.$schema_id,
+                                'type' => 'text'
+                            ),
+                        array(
+                                'label'   => 'In Language',
+                                'id'      => 'saswp_lr_inlanguage_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_bloginfo('language'),
+                                'note' => 'Note: If there are ore than one language, separate language list by comma ( , )' 
+                            ),
+                        array(
+                                'label'      => 'Date Created',
+                                'id'         => 'saswp_lr_date_created_'.$schema_id,
+                                'type'       => 'text'                          
+                            ),
+                        array(
+                                'label'      => 'Date Modified',
+                                'id'         => 'saswp_lr_date_modified_'.$schema_id,
+                                'type'       => 'text'                         
+                            ),
+                        array(
+                                'label'      => 'Typical Age Range',
+                                'id'         => 'saswp_lr_tar_'.$schema_id,
+                                'type'       => 'text'                           
+                            ),
+                        array(
+                                'label'   => 'Educational Level Name',
+                                'id'      => 'saswp_lr_education_level_name_'.$schema_id,
+                                'type'    => 'text'
+                            ),
+                        array(
+                                'label'   => 'Educational Level URL',
+                                'id'      => 'saswp_lr_education_level_url_'.$schema_id,
+                                'type'    => 'text'
+                            ),
+                        array(
+                                'label'   => 'Educational Level Term Set',
+                                'id'      => 'saswp_lr_education_level_term_set_'.$schema_id,
+                                'type'    => 'text'
+                            ),
+                        array(
+                                'label'   => 'Time Required',
+                                'id'      => 'saswp_lr_time_required_'.$schema_id,
+                                'type'    => 'text'
+                            ),
+                        array(
+                                'label'   => 'License',
+                                'id'      => 'saswp_lr_license_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                    'All rights reserved'                                                   => 'All rights reserved',
+                                    'CC BY (Attribution)'                                                   => 'CC BY (Attribution)',
+                                    'CC BY-SA (Attribution - Share alike)'                                  => 'CC BY-SA (Attribution - Share alike)',
+                                    'CC BY-ND (Attribution - No derivative works)'                          => 'CC BY-ND (Attribution - No derivative works)',
+                                    'CC BY-NC (Attribution - No commercial use)'                            => 'CC BY-NC (Attribution - No commercial use)',
+                                    'CC BY-NC-SA (Attribution - No commercial use - Share alike)'           => 'CC BY-NC-SA (Attribution - No commercial use - Share alike)',
+                                    'CC BY-NC-ND (Attribution - No commercial use - No derivatives works)'  => 'CC BY-NC-ND (Attribution - No commercial use - No derivatives works)',
+                                    'GNU General Public License (GPL)'                                      => 'GNU General Public License (GPL)',
+                                    'GNU Free Documentation License (GFDL)'                                 => 'GNU Free Documentation License (GFDL)',
+                                    'Public domain'                                                         => 'Public domain',
+                                    'Other'                                                                 => 'Other'
+                                )
+                            ),
+                        array(
+                                'label'   => 'Is Accessible For Free',
+                                'id'      => 'saswp_lr_time_iaff_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                    'True' => 'Yes',
+                                    'False' => 'No'
+                                )
+                            ),
+
+                        );
                     break;
                                 
                 default:

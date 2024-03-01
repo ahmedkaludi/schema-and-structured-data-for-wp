@@ -326,6 +326,9 @@ class saswp_view_common_class {
                                 $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.saswp_t_string( 'Add '.$btn_text ).'</a>';   
                             }                                                                                                  
                             $tabs_fields .= '</div>';                                                                                                
+                            if($prosCheckboxFalse){
+                                $tabs_fields .='</div>';
+                            }                                                                                                
                          
                         }
                         

@@ -289,26 +289,62 @@ Class saswp_rating_box_frontend{
         {
             global $sd_data;
             if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
-                // if(isset($sd_data['saswp-rating-module-css-app']) && $sd_data['saswp-rating-module-css-app'] == 1){
-                    $custom_css = ".saswp-rb-hd span, .saswp-rvw-sm span{
-                                background-color: {$sd_data['saswp-rbcc-review-bg-color']};
-                                color: {$sd_data['saswp-rbcc-review-f-color']};
-                                font-size: {$sd_data['saswp-rbcc-review-f-size']}{$sd_data['saswp-rbcc-review-f-unit']}; 
-                            }
-                            .saswp-rb-rif{
-                                color: {$sd_data['saswp-rbcc-if-color']};
-                                font-size: {$sd_data['saswp-rbcc-if-f-size']}{$sd_data['saswp-rbcc-if-f-unit']};
-                            }
-                            .saswp-rvw-str .saswp_star_color svg, .saswp-rvw-str .saswp_star_color_gray svg, .saswp-rvw-str .saswp_half_star_color svg{
-                                width: {$sd_data['saswp-rbcc-stars-f-size']}px; 
-                            }
-                            .saswp-rvw-fs{
-                                color: {$sd_data['saswp-rbcc-ar-color']};
-                                font-size: {$sd_data['saswp-rbcc-ar-f-size']}{$sd_data['saswp-rbcc-ar-f-unit']};
-                            }
-                        ";
-                    wp_add_inline_style( 'saswp-style', $custom_css );
-                // }
+
+                $bg_review_color = '#000'; $review_f_color = '#fff'; $review_f_size = '15'; $review_f_unit = 'px';
+                $review_if_color = '#000'; $review_if_size = '18'; $review_if_unit = 'px';
+                $stars_size = '18px';
+                $review_ar_color = '#000'; $review_ar_size = '48'; $review_ar_unit = 'px';
+                if(isset($sd_data['saswp-rbcc-review-bg-color'])){
+                    $bg_review_color =  esc_attr($sd_data['saswp-rbcc-review-bg-color']);
+                }
+                if(isset($sd_data['saswp-rbcc-review-f-color'])){
+                    $review_f_color =  esc_attr($sd_data['saswp-rbcc-review-f-color']);
+                }
+                if(isset($sd_data['saswp-rbcc-review-f-size'])){
+                    $review_f_size =  esc_attr($sd_data['saswp-rbcc-review-f-size']);
+                }
+                if(isset($sd_data['saswp-rbcc-review-f-unit'])){
+                    $review_f_unit =  esc_attr($sd_data['saswp-rbcc-review-f-unit']);
+                }
+                if(isset($sd_data['saswp-rbcc-if-color'])){
+                    $review_if_color =  esc_attr($sd_data['saswp-rbcc-if-color']);
+                }
+                if(isset($sd_data['saswp-rbcc-if-f-size'])){
+                    $review_if_size =  esc_attr($sd_data['saswp-rbcc-if-f-size']);
+                }
+                if(isset($sd_data['saswp-rbcc-if-f-unit'])){
+                    $review_if_unit =  esc_attr($sd_data['saswp-rbcc-if-f-unit']);
+                } 
+                if(isset($sd_data['saswp-rbcc-stars-f-size'])){
+                    $stars_size = esc_attr($sd_data['saswp-rbcc-stars-f-size'].'px');
+                }
+                if(isset($sd_data['saswp-rbcc-ar-color'])){
+                    $review_ar_color = esc_attr($sd_data['saswp-rbcc-ar-color']);
+                }
+                if(isset($sd_data['saswp-rbcc-ar-f-size'])){
+                    $review_ar_size = esc_attr($sd_data['saswp-rbcc-ar-f-size']);
+                }
+                if(isset($sd_data['saswp-rbcc-ar-f-unit'])){
+                    $review_ar_unit = esc_attr($sd_data['saswp-rbcc-ar-f-unit']);
+                }    
+                $custom_css = ".saswp-rb-hd span, .saswp-rvw-sm span{
+                            background-color: {$bg_review_color};
+                            color: {$review_f_color};
+                            font-size: {$review_f_size}{$review_f_unit}; 
+                        }
+                        .saswp-rb-rif{
+                            color: {$review_if_color};
+                            font-size: {$review_if_size}{$review_if_unit};
+                        }
+                        .saswp-rvw-str .saswp_star_color svg, .saswp-rvw-str .saswp_star_color_gray svg, .saswp-rvw-str .saswp_half_star_color svg{
+                            width: {$stars_size}; 
+                        }
+                        .saswp-rvw-fs{
+                            color: {$review_ar_color};
+                            font-size: {$review_ar_size}{$review_ar_unit};
+                        }
+                    ";
+                wp_add_inline_style( 'saswp-style', $custom_css );
             }
             
         }
@@ -321,14 +357,12 @@ Class saswp_rating_box_frontend{
         {
             global $sd_data;
             if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
-                 // if(isset($sd_data['saswp-rating-module-css-app']) && $sd_data['saswp-rating-module-css-app'] == 1){
                 ?>
                     <script type="text/javascript">
-                        let saswpStarColor = "<?php echo $sd_data['saswp-rbcc-stars-color'];  ?>"
+                        let saswpStarColor = "<?php echo isset($sd_data['saswp-rbcc-stars-color'])?$sd_data['saswp-rbcc-stars-color']:'#000';  ?>";
                         jQuery('.saswp_star_color .saswp_star').attr('stop-color', saswpStarColor);   
                     </script>
                 <?php    
-                // }
             }
         }
         
