@@ -527,12 +527,14 @@ class SASWP_Reviews_Collection {
 
                         
                         if(isset($collection_data['saswp_platform_ids'][0])){
-                            
-                            $total_reviews  = unserialize($collection_data['saswp_total_reviews'][0]);
-                            if( is_array($total_reviews) && !empty($total_reviews) ){
-                                $total_reviews_count = count($total_reviews);
+                            if(isset($collection_data['saswp_total_reviews']) && isset($collection_data['saswp_total_reviews'][0])){
+                                if(!empty($collection_data['saswp_total_reviews'][0]) && is_string($collection_data['saswp_total_reviews'][0])){
+                                    $total_reviews  = unserialize($collection_data['saswp_total_reviews'][0]);
+                                    if( is_array($total_reviews) && !empty($total_reviews) ){
+                                        $total_reviews_count = count($total_reviews);
+                                    }
+                                }
                             }
-                            
                         }
                         if(isset($collection_data['saswp_collection_pagination'][0])){
                             $pagination  = $collection_data['saswp_collection_pagination'][0];                
@@ -589,7 +591,13 @@ class SASWP_Reviews_Collection {
                            
                                 if(!$collection_aggregate){
 
-                                    $col_average = $this->_service->saswp_get_collection_average_rating(unserialize($collection_data['saswp_total_reviews'][0]));
+                                    $saswp_total_re = array();
+                                    if(isset($collection_data['saswp_total_reviews']) && isset($collection_data['saswp_total_reviews'][0])){
+                                        if(!empty($collection_data['saswp_total_reviews'][0]) && is_string($collection_data['saswp_total_reviews'][0])){
+                                            $saswp_total_re = unserialize($collection_data['saswp_total_reviews'][0]);
+                                        }
+                                    }
+                                    $col_average = $this->_service->saswp_get_collection_average_rating($saswp_total_re);
 
                                     if($col_average){
                                         $collection_aggregate['count'] = $total_reviews_count;
