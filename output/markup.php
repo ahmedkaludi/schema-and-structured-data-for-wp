@@ -26,10 +26,12 @@ function saswp_get_reviews_schema_markup($reviews){
                             if($reviews){
                                 
                                 foreach($reviews as $rv){
-                                                                        
-                                    $sumofrating += $rv['saswp_review_rating'];
                                     
                                     if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name'] !='' ){
+                                        $review_rate = intval($rv['saswp_review_rating']);
+                                        if($review_rate > 0){
+                                            $sumofrating += $review_rate;
+                                        }
                                         
                                         $reviews_arr[] = array(
                                             '@type'         => 'Review',
