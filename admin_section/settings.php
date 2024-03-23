@@ -4846,6 +4846,9 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         // Dequeue Mobile Menu Premium plugin select2 on schema dashboard to remove conflict
         wp_dequeue_script( 'mm-select2' );        
         
+        // Dequeue Widget Options plugin select2 on schema dashboard to remove conflict
+        wp_dequeue_script('jquery-widgetopts-select2-script');        
+        
         if($post_type == 'saswp'){
 
                 //conflict with jupitor theme fixed starts here
