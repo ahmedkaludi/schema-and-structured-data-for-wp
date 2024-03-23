@@ -361,6 +361,7 @@ class saswp_fields_generator {
                             $rv_limits          = '';
                             $license_status_msg = '';
                             $license_download_id = '';
+                            $license_user_name = '';
                             
                             if(isset($settings[strtolower($on).'_addon_license_key'])){
                             $license_key =   $settings[strtolower($on).'_addon_license_key'];
