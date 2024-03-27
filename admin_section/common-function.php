@@ -4774,7 +4774,7 @@ function saswp_explode_comma_seprated ($data, $type) {
 
     $response = array();
 
-    if($data){
+    if(!empty($data) && is_string($data)){
 
         $area_served = explode(',', $data);
 
