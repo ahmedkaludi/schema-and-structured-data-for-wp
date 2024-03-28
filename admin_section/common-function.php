@@ -98,6 +98,7 @@ if ( ! defined('ABSPATH') ) exit;
                 }else{
                     
                     unset($schema_post['post']['ID']);
+                    unset($sanitized_post['ID']);
                     
                     $post_id    =     wp_insert_post($sanitized_post); 
                     
