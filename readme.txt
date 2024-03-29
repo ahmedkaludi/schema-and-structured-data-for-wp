@@ -2,9 +2,9 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 3.0
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 5.6.20
-Stable tag: 1.28
+Stable tag: 1.29
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.29 (29 March 2024) =
+
+* Fixed: PHP warning is showing on the user's end #2080
+* Fixed: Conflict issue with Widget Options plugin #2087
+* Fixed: Product reviews compatibility issue #2092
+* Fixed: Fatal error for collection review #2094
+* Fixed: PHP Warning on schema settings Review tab #2095
+* Fixed: Test with new version of wordpress i.e. 6.5v #2096
+* Fixed: Issue with Import/export option #2098
 
 = 1.28 (29 Feb 2024) =
 
@@ -275,29 +285,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Resolve pagination issue on frontend for review collection #1968
 * Fixed: Author's names are not appearing correctly in the schema #1969
 * Fixed: Update values of employmentType attribute for Job Posting schema #1971
-
-
-= 1.15.1 (12 June 2023) =
-
-* Fixed: Featured image is not being added in markup after last update #1952
-
-
-= 1.15 (03 June 2023) =
-
-* Added: Recipe Schema block in classic editor #1571
-* Added: SameAS field in Person and Organization schema #1844
-* Added: Country Field in Local Business Schema #1864
-* Fixed: Identical property values given, but unique values are required (optional) appear in rich results test #1871
-* Added: Added the itemList schema for the category #1892
-* New Feature: Yoast SEO Schema Migration support #1895
-* Fixed: Invalid ISO 4217 currency code error for Iranian toman currency as IRT #1904
-* Added: Added organization type for Organization schema #1911
-* Added: itemReviewed field in markup for ReviewNewsArticle #1918
-* Fixed: Reviews still showing even after Collection has been deleted #1923
-* Added: shippingDetails and hasMerchantDetails fields in markup for Product Schema #1925
-* Fixed: Fatal error in settings section of schema #1929
-* Fixed: Reviewed By filed showing empty in webpage schema #1932
-* Fixed: HTTP API call query monitor showing Cannot parse supplied IRI and 404 Not Found #1933
-* Fixed: Pros/Cons option issue of Product Schema #1935
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

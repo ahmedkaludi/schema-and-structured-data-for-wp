@@ -98,6 +98,7 @@ if ( ! defined('ABSPATH') ) exit;
                 }else{
                     
                     unset($schema_post['post']['ID']);
+                    unset($sanitized_post['ID']);
                     
                     $post_id    =     wp_insert_post($sanitized_post); 
                     
@@ -4774,7 +4775,7 @@ function saswp_explode_comma_seprated ($data, $type) {
 
     $response = array();
 
-    if($data){
+    if(!empty($data) && is_string($data)){
 
         $area_served = explode(',', $data);
 
