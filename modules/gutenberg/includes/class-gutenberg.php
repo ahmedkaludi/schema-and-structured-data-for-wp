@@ -547,20 +547,23 @@ class SASWP_Gutenberg {
     
                                 
                                   case 'right':
-                                    echo  '<img class="alignright" style="float:right;" '. html_entity_decode(esc_attr($item['image_align'])).'>';
+                                    echo  '<img class="alignright" style="float:right;" '. esc_attr($item['image_align']).'>';
                                     break;
                                   case 'left':
-                                    echo  '<img  class="alignleft" style="float:left;" '. html_entity_decode(esc_attr($item['image_align'])).'>';
+                                    echo  '<img  class="alignleft" style="float:left;" '. esc_attr($item['image_align']).'>';
                                     break;
     
                                 default:
-                                echo  '<img class="alignleft" style="float:left;" '. html_entity_decode(esc_attr($item['image_align'])).'>';
+                                echo  '<img class="alignleft" style="float:left;" '. esc_attr($item['image_align']).'>';
                                 break;
                             }
                         }
                         
                         foreach($attributes['items'] as $item){
                             
+                          $block_title = isset($item['title'])?$item['title']:'';
+                          $block_description = isset($item['description'])?$item['description']:'';
+
                           if($item['title'] || $item['description']){
     
                             if(!empty($item['questionID'])){
@@ -573,44 +576,57 @@ class SASWP_Gutenberg {
                                 switch ($attributes['headingTag']) {
     
                                     case 'h1':
-                                            echo '<h1>'. html_entity_decode(esc_attr($item['title'])).'</h1>';
+                                            echo sprintf('<h1>%s</h1>', esc_html($block_title));
                                         break;
                                     case 'h2':
-                                            echo '<h2>'. html_entity_decode(esc_attr($item['title'])).'</h2>';
+                                            echo sprintf('<h2>%s</h2>', esc_html($block_title));
                                         break;
                                     case 'h3':
-                                            echo '<h3>'. html_entity_decode(esc_attr($item['title'])).'</h3>';
+                                            echo sprintf('<h3>%s</h3>', esc_html($block_title));
                                         break;
                                     case 'h4':
-                                            echo '<h4>'. html_entity_decode(esc_attr($item['title'])).'</h4>';
+                                            echo sprintf('<h4>%s</h4>', esc_html($block_title));
                                         break;
                                     case 'h5':
-                                            echo '<h5>'. html_entity_decode(esc_attr($item['title'])).'</h5>';
+                                            echo sprintf('<h5>%s</h5>', esc_html($block_title));
                                         break;
                                     case 'h6':
-                                            echo '<h6>'. html_entity_decode(esc_attr($item['title'])).'</h6>';
+                                            echo sprintf('<h6>%s</h6>', esc_html($block_title));
                                         break;   
                                     case 'div':
-                                            echo '<div>'. html_entity_decode(esc_attr($item['title'])).'</div>';
+                                            echo sprintf('<div>%s</div>', esc_html($block_title));
                                         break;  
                                     case 'p':
-                                            echo '<p>'. html_entity_decode(esc_attr($item['title'])).'</p>';
+                                            echo sprintf('<p>%s</p>', esc_html($block_title));
                                         break;
                                     case 'strong':
-                                            echo '<strong>'. html_entity_decode(esc_attr($item['title'])).'</strong>';
+                                            echo sprintf('<strong>%s</strong>', esc_html($block_title));
                                         break;   
     
     
                                     default:
-                                    echo '<h5>'. html_entity_decode(esc_attr($item['title'])).'</h5>';
+                                    echo sprintf('<h5>%s</h5>', esc_html($block_title));
                                         break;
                                 }
     
                             }else{
-                                echo '<h5 class="saswp-faq-question-title">'. html_entity_decode(esc_attr($item['title'])).'</h5>';    
+                                echo sprintf('<h5 class="saswp-faq-question-title">%s</h5>', esc_html($block_title));    
                             }
                                                     
-                            echo '<p class="saswp-faq-answer-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';
+                            if(isset($item['description'])){
+                                $allowed_tags = array('img' => array(
+                                            'class'     =>  array(),
+                                            'id'        =>  array(),
+                                            'style'     =>  array(),
+                                            'src'       =>  array(),
+                                            'key'       =>  array(),
+                                            'alt'       =>  array(),
+                                            'height'    =>  array(),
+                                            'width'     =>  array()
+                                        )
+                                );
+                                echo sprintf('<p class="saswp-faq-answer-text">%s</p>', wp_kses($item['description'], $allowed_tags));
+                            }
                            
                           }  
                            
@@ -692,7 +708,7 @@ class SASWP_Gutenberg {
                     echo '</p>';
                 }                
                 if(isset($attributes['description'])){
-                    echo '<p>'.html_entity_decode(esc_attr($attributes['description'])).'</p>';
+                    echo sprintf('<p>%s</p>', esc_html($attributes['description']));
                 }
                                 
                 if(isset($attributes['items'])){
@@ -704,13 +720,17 @@ class SASWP_Gutenberg {
 
                     
 
-                    if(($attributes['listStyleType']=='none')){
-                        echo'<ol '.$className.' style="list-style-type:none;">';
-                     }elseif(($attributes['listStyleType']=='disc')){
-                        echo'<ol '.$className.' style="list-style-type:disc;">';
-                     }else{
+                    if(isset($attributes['listStyleType'])){
+                        if(($attributes['listStyleType']=='none')){
+                            echo'<ol '.$className.' style="list-style-type:none;">';
+                         }elseif(($attributes['listStyleType']=='disc')){
+                            echo'<ol '.$className.' style="list-style-type:disc;">';
+                         }else{
+                            echo '<ol>';
+                         }
+                    }else{
                         echo '<ol>';
-                     }
+                    }
                     
                     if(isset($item['image_align'])){
 
@@ -718,28 +738,46 @@ class SASWP_Gutenberg {
 
                             
                               case 'right':
-                                echo  '<img class="alignright"'. html_entity_decode(esc_attr($item['image_align'])).'>';
+                                echo  '<img class="alignright"'. esc_attr($item['image_align']).'>';
                                 break;
                               case 'left':
-                                echo  '<img class="alignleft" '. html_entity_decode(esc_attr($item['image_align'])).'>';
+                                echo  '<img class="alignleft" '. esc_attr($item['image_align']).'>';
                                 break;
 
                             default:
-                            echo  '<img class="alignleft" '. html_entity_decode(esc_attr($item['image_align'])).'>';
+                            echo  '<img class="alignleft" '. esc_attr($item['image_align']).'>';
                             break;
                         }
                     }
                    
                     foreach($attributes['items'] as $item){
                        
+                      $block_title = isset($item['title'])?$item['title']:'';
+                      $block_description = isset($item['description'])?$item['description']:'';
+
                       if($item['title'] || $item['description']){
                         echo '<li>'; 
-                        if(isset($attributes['headingTag']) && !empty($attributes['headingTag']) && $attributes['headingTag'] == 'h1' || $attributes['headingTag'] == 'h2' || $attributes['headingTag'] == 'h3' || $attributes['headingTag'] == 'h4' || $attributes['headingTag'] == 'h5' || $attributes['headingTag'] == 'h6'){
-                            echo '<'.html_entity_decode(esc_attr($attributes['headingTag'])).'>'. html_entity_decode(esc_attr($item['title'])).'</'.html_entity_decode(esc_attr($attributes['headingTag'])).'>';
+                        if(isset($attributes['headingTag']) && !empty($attributes['headingTag'])){
+                            $heading_array = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+                            if(in_array($attributes['headingTag'], $heading_array)){
+                                echo sprintf('<%s> %s </%s>', esc_html($attributes['headingTag']), esc_html($block_title), esc_html($attributes['headingTag']));
+                            }
                         }else{
-                            echo '<h1 class="saswp-how-to-step-name">'. html_entity_decode(esc_attr($item['title'])).'</h1>';
+                            echo sprintf('<h1 class="saswp-how-to-step-name">%s</h1>', esc_html($block_title));
                         }
-                        echo '<p class="saswp-how-to-step-text">'.html_entity_decode(esc_textarea($item['description'])).'</p>';
+                        $allowed_tags = array('img' => array(
+                                            'class'     =>  array(),
+                                            'id'        =>  array(),
+                                            'style'     =>  array(),
+                                            'src'       =>  array(),
+                                            'key'       =>  array(),
+                                            'alt'       =>  array(),
+                                            'height'    =>  array(),
+                                            'width'     =>  array()
+                                        )
+                            );
+                        
+                        echo sprintf('<p class="saswp-how-to-step-text">%s</p>', wp_kses($item['description'], $allowed_tags));
                         echo '</li>';
                       }  
                        
