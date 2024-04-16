@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 3.0
 Tested up to: 6.5
 Requires PHP: 5.6.20
-Stable tag: 1.29
+Stable tag: 1.30
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,10 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.30 (16 April 2024) =
+
+* Fixed: Security vulnerability issues raised by Wordfence
 
 = 1.29 (29 March 2024) =
 
