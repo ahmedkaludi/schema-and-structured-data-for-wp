@@ -312,7 +312,10 @@ class saswp_fields_generator {
             "name"  => "guaranteed"),
         array(
             "image" => "/admin_section/images/reviews_platform_icon/webwinkelkeur-img.png",
-            "name"  => "webwinkelkeur"),                                      
+            "name"  => "webwinkelkeur"),
+        array(
+            "image" => "/admin_section/images/reviews_platform_icon/dreams-co-img.png",
+            "name"  => "dreams.co.uk")                                      
     );
     
     public function saswp_tooltip_message($meta_field_id){
