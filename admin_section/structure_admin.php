@@ -1063,7 +1063,7 @@ function saswp_dequeue_script() {
   add_action ( 'save_post' , 'saswp_select_save_data' );
   
   function saswp_select_save_data ( $post_id ) {           
-      
+   
     if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
        
       // if our nonce isn't there, or we can't verify it, bail
@@ -1124,7 +1124,7 @@ function saswp_post_type_generator(){
     $post_types = get_post_types( array( 'public' => true ), 'names' );
 
     // Remove Unsupported Post types
-    unset($post_types['attachment'], $post_types['amp_acf'], $post_types['saswp-collections'], $post_types['saswp_reviews'], $post_types['saswp_reviews_server'], $post_types['saswp'] );
+    unset($post_types['amp_acf'], $post_types['saswp-collections'], $post_types['saswp_reviews'], $post_types['saswp_reviews_server'], $post_types['saswp'] );
 
     return $post_types;
 }

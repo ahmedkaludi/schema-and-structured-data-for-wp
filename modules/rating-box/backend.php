@@ -29,7 +29,7 @@ class saswp_rating_box_backend {
             if(saswp_remove_warnings($sd_data, 'saswp-review-module', 'saswp_string')==1){
                 
             $show_post_types = get_post_types();
-            unset($show_post_types['adsforwp'],$show_post_types['saswp'],$show_post_types['attachment'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
+            unset($show_post_types['adsforwp'],$show_post_types['saswp'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
             $this->screen = $show_post_types;
             
             if($this->screen){

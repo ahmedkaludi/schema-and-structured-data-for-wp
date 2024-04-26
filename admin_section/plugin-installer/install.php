@@ -772,7 +772,7 @@ function saswp_select_schema_fields_callback(){
         $post_types = get_post_types( array( 'public' => true ), 'names' );
     // Remove Unsupported Post types
 	
-	unset($post_types['attachment'], $post_types['amp_acf'], $post_types['saswp-collections'], $post_types['saswp_reviews'], $post_types['saswp_reviews_server'], $post_types['saswp'] );
+	unset($post_types['amp_acf'], $post_types['saswp-collections'], $post_types['saswp_reviews'], $post_types['saswp_reviews_server'], $post_types['saswp'] );
         $option = '';
         
         if(count($post_types)>0){
