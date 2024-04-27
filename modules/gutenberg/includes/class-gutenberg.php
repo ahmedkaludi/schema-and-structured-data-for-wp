@@ -559,6 +559,9 @@ class SASWP_Gutenberg {
                             }
                         }
                         
+                        $allowed_tags_title = self::saswp_blocks_description_allowed_tags('title');
+                        $allowed_tags_desc = self::saswp_blocks_description_allowed_tags('description');
+
                         foreach($attributes['items'] as $item){
                             
                           $block_title = isset($item['title'])?$item['title']:'';
@@ -576,56 +579,45 @@ class SASWP_Gutenberg {
                                 switch ($attributes['headingTag']) {
     
                                     case 'h1':
-                                            echo sprintf('<h1>%s</h1>', esc_html($block_title));
+                                            echo sprintf('<h1>%s</h1>', wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'h2':
-                                            echo sprintf('<h2>%s</h2>', esc_html($block_title));
+                                            echo sprintf('<h2>%s</h2>', wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'h3':
-                                            echo sprintf('<h3>%s</h3>', esc_html($block_title));
+                                            echo sprintf('<h3>%s</h3>', wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'h4':
-                                            echo sprintf('<h4>%s</h4>', esc_html($block_title));
+                                            echo sprintf('<h4>%s</h4>', wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'h5':
-                                            echo sprintf('<h5>%s</h5>', esc_html($block_title));
+                                            echo sprintf('<h5>%s</h5>', wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'h6':
-                                            echo sprintf('<h6>%s</h6>', esc_html($block_title));
+                                            echo sprintf('<h6>%s</h6>', wp_kses($block_title, $allowed_tags_title));
                                         break;   
                                     case 'div':
-                                            echo sprintf('<div>%s</div>', esc_html($block_title));
+                                            echo sprintf('<div>%s</div>', wp_kses($block_title, $allowed_tags_title));
                                         break;  
                                     case 'p':
-                                            echo sprintf('<p>%s</p>', esc_html($block_title));
+                                            echo sprintf('<p>%s</p>', wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'strong':
-                                            echo sprintf('<strong>%s</strong>', esc_html($block_title));
+                                            echo sprintf('<strong>%s</strong>', wp_kses($block_title, $allowed_tags_title));
                                         break;   
     
     
                                     default:
-                                    echo sprintf('<h5>%s</h5>', esc_html($block_title));
+                                    echo sprintf('<h5>%s</h5>', wp_kses($block_title, $allowed_tags_title));
                                         break;
                                 }
     
                             }else{
-                                echo sprintf('<h5 class="saswp-faq-question-title">%s</h5>', esc_html($block_title));    
+                                echo sprintf('<h5 class="saswp-faq-question-title">%s</h5>', wp_kses($block_title, $allowed_tags_title));    
                             }
                                                     
                             if(isset($item['description'])){
-                                $allowed_tags = array('img' => array(
-                                            'class'     =>  array(),
-                                            'id'        =>  array(),
-                                            'style'     =>  array(),
-                                            'src'       =>  array(),
-                                            'key'       =>  array(),
-                                            'alt'       =>  array(),
-                                            'height'    =>  array(),
-                                            'width'     =>  array()
-                                        )
-                                );
-                                echo sprintf('<p class="saswp-faq-answer-text">%s</p>', wp_kses($item['description'], $allowed_tags));
+                                echo sprintf('<p class="saswp-faq-answer-text">%s</p>', wp_kses($item['description'], $allowed_tags_desc));
                             }
                            
                           }  
@@ -750,6 +742,9 @@ class SASWP_Gutenberg {
                         }
                     }
                    
+                    $allowed_tags_title = self::saswp_blocks_description_allowed_tags('title');
+                    $allowed_tags_desc = self::saswp_blocks_description_allowed_tags('description');
+
                     foreach($attributes['items'] as $item){
                        
                       $block_title = isset($item['title'])?$item['title']:'';
@@ -760,24 +755,13 @@ class SASWP_Gutenberg {
                         if(isset($attributes['headingTag']) && !empty($attributes['headingTag'])){
                             $heading_array = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
                             if(in_array($attributes['headingTag'], $heading_array)){
-                                echo sprintf('<%s> %s </%s>', esc_html($attributes['headingTag']), esc_html($block_title), esc_html($attributes['headingTag']));
+                                echo sprintf('<%s> %s </%s>', esc_html($attributes['headingTag']), wp_kses($block_title, $allowed_tags_title), esc_html($attributes['headingTag']));
                             }
                         }else{
-                            echo sprintf('<h1 class="saswp-how-to-step-name">%s</h1>', esc_html($block_title));
+                            echo sprintf('<h1 class="saswp-how-to-step-name">%s</h1>', wp_kses($block_title, $allowed_tags_title));
                         }
-                        $allowed_tags = array('img' => array(
-                                            'class'     =>  array(),
-                                            'id'        =>  array(),
-                                            'style'     =>  array(),
-                                            'src'       =>  array(),
-                                            'key'       =>  array(),
-                                            'alt'       =>  array(),
-                                            'height'    =>  array(),
-                                            'width'     =>  array()
-                                        )
-                            );
                         
-                        echo sprintf('<p class="saswp-how-to-step-text">%s</p>', wp_kses($item['description'], $allowed_tags));
+                        echo sprintf('<p class="saswp-how-to-step-text">%s</p>', wp_kses($item['description'], $allowed_tags_desc));
                         echo '</li>';
                       }  
                        
@@ -861,6 +845,41 @@ class SASWP_Gutenberg {
 			self::$instance = new self;
 		}
 		return self::$instance;
+    }
+
+    /**
+     * Return the allowed html tags for description text
+     * @since 1.31
+     * @return $allowed_tags Array
+     * */
+    public static function saswp_blocks_description_allowed_tags($type = '')
+    {
+        $allowed_tags = array();
+
+        if($type == 'description'){
+            $allowed_tags['img'] = array(
+                'class'     =>  array(),
+                'id'        =>  array(),
+                'style'     =>  array(),
+                'src'       =>  array(),
+                'key'       =>  array(),
+                'alt'       =>  array(),
+                'height'    =>  array(),
+                'width'     =>  array()
+            );
+        }
+
+        $allowed_tags['em'] = array();
+        $allowed_tags['strong'] = array();
+        $allowed_tags['a'] = array(
+            'href'          =>  array(),
+            'target'        =>  array(),
+            'class'         =>  array(),
+            'data-type'     =>  array(),
+            'data-id'       =>  array(),
+            'rel'           =>  array(),
+        );
+        return $allowed_tags;
     }
 
 }
