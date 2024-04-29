@@ -564,7 +564,7 @@ class SASWP_Gutenberg {
 
                         $alignment_class = '';
                         if(isset($attributes['alignment']) && !empty($attributes['alignment'])){
-                            $alignment_class = sanitize_text_field($attributes['alignment']);
+                            $alignment_class = $attributes['alignment'];
                             if($alignment_class == 'left'){
                                 $alignment_class = 'has-text-align-left';    
                             }else if($alignment_class == 'right'){
@@ -760,7 +760,7 @@ class SASWP_Gutenberg {
 
                     $alignment_class = '';
                     if(isset($attributes['alignment']) && !empty($attributes['alignment'])){
-                        $alignment_class = sanitize_text_field($attributes['alignment']);
+                        $alignment_class = $attributes['alignment'];
                         if($alignment_class == 'left'){
                             $alignment_class = 'has-text-align-left';    
                         }else if($alignment_class == 'right'){
