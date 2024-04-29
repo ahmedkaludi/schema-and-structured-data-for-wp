@@ -424,7 +424,7 @@ function saswp_insert_platform_terms(){
     
     $platform_inserted = get_transient('saswp_platform_inserted');
     
-    if( $platform_inserted != 104 ){
+    if( $platform_inserted != 105 ){
             
         $term_array = array(    
             'Self',
@@ -531,6 +531,7 @@ function saswp_insert_platform_terms(){
             'WordofMouth',
             'Guaranteed',                     
             'Webwinkelkeur',                     
+            'Dreams.co'                    
         );
 
         foreach($term_array as $term){
@@ -555,8 +556,8 @@ function saswp_insert_platform_terms(){
 
         }
 
-        if( count($term_ids)  == 104 ){
-            set_transient( 'saswp_platform_inserted', 104,  24*7*HOUR_IN_SECONDS ); 
+        if( count($term_ids)  == 105 ){
+            set_transient( 'saswp_platform_inserted', 105,  24*7*HOUR_IN_SECONDS ); 
         }
 
     }

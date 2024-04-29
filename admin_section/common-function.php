@@ -4424,7 +4424,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
             $args['name'] = $saved_data; 
           }
           $choices = get_post_types( $args, 'names');    
-          unset($choices['attachment'], $choices['amp_acf'], $choices['saswp-collections'], $choices['saswp_reviews'], $choices['saswp_reviews_server'], $choices['saswp'] );                    
+          unset($choices['amp_acf'], $choices['saswp-collections'], $choices['saswp_reviews'], $choices['saswp_reviews_server'], $choices['saswp'] );                    
           
           if($choices){
             foreach($choices as $key =>$value){
@@ -4473,7 +4473,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         }else{
 
           $post_types = get_post_types();                        
-          unset( $post_types['page'], $post_types['attachment'], $post_types['revision'] , $post_types['nav_menu_item'], $post_types['acf'] , $post_types['amp_acf'],$post_types['saswp']  );
+          unset( $post_types['page'], $post_types['revision'] , $post_types['nav_menu_item'], $post_types['acf'] , $post_types['amp_acf'],$post_types['saswp']  );
 
         }
 
