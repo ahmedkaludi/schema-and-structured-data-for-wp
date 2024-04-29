@@ -716,9 +716,7 @@ Class saswp_output_service{
                             }
 
                         }else{
-                            if(is_object($post) && isset($post->ID)){
-                                $response = get_post_meta($post->ID, $field, true );
-                            }
+                            $response = get_post_meta($post->ID, $field, true );
                         }
                         
                     }else{
