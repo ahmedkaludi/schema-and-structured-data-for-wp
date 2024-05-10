@@ -7388,6 +7388,16 @@ Class saswp_output_service{
                             if(isset($address_array['address']) && !empty($address_array['address'])){
                                 $input1['address']['streetAddress'] = $address_array['address'];    
                             }
+                            
+                            // Latitude and Longitude
+                            if(isset($address_array['lat']) || isset($address_array['lng'])){
+                                if(!isset($input1['latitude']) && isset($address_array['lat']) && !empty($address_array['lat'])){
+                                    $input1['latitude'] = $address_array['lat'];   
+                                } 
+                                if(!isset($input1['longitude']) && isset($address_array['lng']) && !empty($address_array['lng'])){
+                                    $input1['longitude'] = $address_array['lng'];   
+                                } 
+                            }
                         }else{
                             $input1['address']['streetAddress'] = $custom_fields['saswp_vr_schema_s_address'];
                         }
