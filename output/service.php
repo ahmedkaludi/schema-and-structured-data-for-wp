@@ -7371,7 +7371,26 @@ Class saswp_output_service{
                         $input1['address']['postalCode'] = $custom_fields['saswp_vr_schema_p_code'];
                     }
                     if(isset($custom_fields['saswp_vr_schema_s_address'])){
-                        $input1['address']['streetAddress'] = $custom_fields['saswp_vr_schema_s_address'];
+                        if(!empty($custom_fields['saswp_vr_schema_s_address']) && is_array($custom_fields['saswp_vr_schema_s_address'])){
+                            $address_array = $custom_fields['saswp_vr_schema_s_address'];
+                            if(!isset($input1['address']) && !isset($input1['address']['addressCountry']) && isset($address_array['country_short']) && !empty($address_array['country_short'])){
+                                $input1['address']['addressCountry'] = $address_array['country_short'];
+                            }
+                            if(!isset($input1['address']['addressLocality']) && isset($address_array['city']) && !empty($address_array['city'])){
+                                $input1['address']['addressLocality'] = $address_array['city'];
+                            }
+                            if(!isset($input1['address']['addressRegion']) && isset($address_array['state']) && !empty($address_array['state'])){
+                                $input1['address']['addressRegion'] = $address_array['state'];
+                            }
+                            if(!isset($input1['address']['addressRegion']) && isset($address_array['state']) && !empty($address_array['state'])){
+                                $input1['address']['addressRegion'] = $address_array['state'];
+                            }
+                            if(isset($address_array['address']) && !empty($address_array['address'])){
+                                $input1['address']['streetAddress'] = $address_array['address'];    
+                            }
+                        }else{
+                            $input1['address']['streetAddress'] = $custom_fields['saswp_vr_schema_s_address'];
+                        }
                     }
                     if(isset($custom_fields['saswp_vr_schema_rating_value'])){
                         $input1['aggregateRating']['ratingValue'] = $custom_fields['saswp_vr_schema_rating_value'];
