@@ -1628,6 +1628,15 @@ jQuery(document).ready(function($){
                               $("#saswp-modern-events-calendar").val(0);           
                             }
                       break;
+                      
+                      case 'saswp-event-prime-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-event-prime").val(1);             
+                            }else{
+                              $("#saswp-event-prime").val(0);           
+                            }
+                      break;
                                                                  
                       case 'saswp-woocommerce-booking-checkbox':
                           saswp_compatibliy_notes(current, id); 
