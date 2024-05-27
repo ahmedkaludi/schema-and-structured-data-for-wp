@@ -918,6 +918,7 @@ class SASWP_Gutenberg {
         $allowed_tags['s']    = array();
         $allowed_tags['sub']  = array();
         $allowed_tags['sup']  = array();
+        $allowed_tags['br']  = array();
         return $allowed_tags;
     }
 
