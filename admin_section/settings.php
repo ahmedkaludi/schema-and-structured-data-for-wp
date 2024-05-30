@@ -3051,6 +3051,19 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-wpresponsivefaq]',                             
                 )
         );
+        
+        $jolifaq   = array(
+                'label'  => 'Joli FAQ SEO',
+                'id'     => 'saswp-jolifaq-checkbox',                        
+                'name'   => 'saswp-jolifaq-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('jolifaq'),
+                'hidden' => array(
+                        'id'   => 'saswp-jolifaq',
+                        'name' => 'sd_data[saswp-jolifaq]',                             
+                )
+        );
 
         $ameliabooking = array(
                 'label'  => 'Amelia Booking',
@@ -4316,6 +4329,7 @@ function saswp_compatibility_page_callback(){
                 $faqschemaforpost['note']     = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $webfaq10['note']             = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $enfold['note']               = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $jolifaq['note']               = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
 
          }
          if(!is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
@@ -4513,7 +4527,8 @@ function saswp_compatibility_page_callback(){
                 $mooberrybm,
                 $novelist,
                 $flex_lmx,
-                $publishpress_authors
+                $publishpress_authors,
+                $jolifaq
                 
 	);  
                 

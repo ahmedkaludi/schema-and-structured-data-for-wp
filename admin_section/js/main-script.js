@@ -2228,6 +2228,16 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
+                      
+                      case 'saswp-jolifaq-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-jolifaq").val(1);                                
+                            }else{
+                              $("#saswp-jolifaq").val(0);                                          
+                            }
+                            
+                      break;
 
                       case 'saswp-ameliabooking-checkbox':
                            saswp_compatibliy_notes(current, id); 

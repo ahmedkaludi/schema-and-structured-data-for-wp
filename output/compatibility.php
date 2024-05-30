@@ -709,6 +709,9 @@ class saswp_output_compatibility{
         update_option('sd_data', $defaults); 
         
     }
+    public function jolifaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-jolifaq');
+    }
     /**
      * Functions on compatiblity plugin activation ends here
      */

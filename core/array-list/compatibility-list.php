@@ -114,6 +114,13 @@ return array(
             'opt_name'   => 'saswp-wpresponsivefaq',
             'part_in'    => 'pro',
         ),
+        'jolifaq'  =>  array(            
+            'name'       => 'Joli FAQ SEO',
+            'free'       => 'joli-faq-seo/joli-faq-seo.php', 
+            'pro'        => 'joli-faq-seo-pro/joli-faq-seo.php',                    
+            'opt_name'   => 'saswp-jolifaq',
+            'part_in'    => 'pro',
+        ),
         'ultimatefaqs'  =>  array(            
             'name'       => 'Ultimate FAQs – WordPress Knowledgebase Plugin',
             'free'       => 'ultimate-faqs/Main.php',                    
