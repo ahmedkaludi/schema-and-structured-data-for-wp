@@ -1339,6 +1339,8 @@ function saswp_get_comments($post_id){
       
     if ( count( $post_comments ) ) {
         
+    $permalink = get_permalink();    
+        
     foreach ( $post_comments as $comment ) {
         
         $likes    = 0;
@@ -1360,7 +1362,7 @@ function saswp_get_comments($post_id){
         
         $comments[] = array (
                 '@type'         => 'Comment',
-                'id'            => get_permalink().'comment-'.$comment->comment_ID,
+                'id'            => $permalink.'#comment-'.$comment->comment_ID,
                 'dateCreated'   => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
                 'description'   => strip_tags($comment->comment_content),
                 'upvoteCount'   => $likes,
