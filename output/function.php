@@ -1037,23 +1037,29 @@ function saswp_extract_wpdiscuz(){
 
     if(isset($sd_data['saswp-wpdiscuz']) && $sd_data['saswp-wpdiscuz'] == 1 && is_plugin_active('wpdiscuz/class.WpdiscuzCore.php') ){
            
-        $rating = (float) get_post_meta($post->ID, 'wpdiscuz_post_rating', true);
-        $count = (int) get_post_meta($post->ID, 'wpdiscuz_post_rating_count', true);
-         
-        if($rating){
-           
-            $star_rating['@type']        = 'AggregateRating';
-            $star_rating['bestRating']   = 5;
-            $star_rating['worstRating']  = 1;            
-            $star_rating['ratingCount'] = $count;
-            $star_rating['ratingValue'] = $rating;                                                           
-            
-            return $star_rating;
-            
+        if(is_object($post) && isset($post->ID)){
+            $rating = (float) get_post_meta($post->ID, 'wpdiscuz_post_rating', true);
+            $count = (int) get_post_meta($post->ID, 'wpdiscuz_post_rating_count', true);
+             
+            if($rating){
+               
+                $star_rating['@type']        = 'AggregateRating';
+                $star_rating['bestRating']   = 5;
+                $star_rating['worstRating']  = 1;            
+                $star_rating['ratingCount'] = $count;
+                $star_rating['ratingValue'] = $rating;                                                           
+                
+                return $star_rating;
+                
+            }else{
+                
+                return array();    
+                
+            }
         }else{
-            
-            return array();    
-            
+
+            return array();   
+
         }
         
     }else{
