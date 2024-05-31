@@ -1186,8 +1186,12 @@ Class saswp_output_service{
 
                             $input1['makesOffer']['priceSpecification']['priceCurrency']  = $custom_fields['saswp_hotelroom_offer_price_currency']; 
                             $input1['makesOffer']['priceSpecification']['price']          = $custom_fields['saswp_hotelroom_offer_price']; 
-                            $input1['makesOffer']['priceSpecification']['unitCode']       = $custom_fields['saswp_hotelroom_offer_unitcode']; 
-                            $input1['makesOffer']['priceSpecification']['validThrough']   = $custom_fields['saswp_hotelroom_offer_validthrough']; 
+                            if(isset($custom_fields['saswp_hotelroom_offer_unitcode'])){
+                                $input1['makesOffer']['priceSpecification']['unitCode']       = $custom_fields['saswp_hotelroom_offer_unitcode']; 
+                            }
+                            if(isset($custom_fields['saswp_hotelroom_offer_validthrough'])){
+                                $input1['makesOffer']['priceSpecification']['validThrough']   = $custom_fields['saswp_hotelroom_offer_validthrough']; 
+                            }
                                                         
                         }
 
