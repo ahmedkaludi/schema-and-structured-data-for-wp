@@ -87,7 +87,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     
                     if($condition !=null){
                                                 
-                        if(!empty($local_sub_business)){
+                        if(!empty($local_sub_business) && array_key_exists($business_type, $local_sub_business)){
                         
                         $sub_business_options = array(
                              'label'     => 'Sub Business Type',
