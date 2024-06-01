@@ -3527,6 +3527,8 @@ function saswp_get_field_note($pname){
             'tevolution_events'           => saswp_t_string('Requires').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>',
             'publishpress_authors'                     => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/publishpress-authors"> Publish Press Authors </a>',
             'jetpackrecipe'               => saswp_t_string('Requires').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/"> Jetpack Recipe Schema </a>',
+            'event_prime'                   => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/eventprime-event-calendar-management/"> EventPrime – Events Calendar, Bookings and Tickets </a>',
+            'jolifaq'                       => saswp_t_string('Requires').' <a target="_blank" href="https://wordpress.org/plugins/joli-faq-seo/"> Joli FAQ SEO – WordPress FAQ Plugin </a>',
         
         );
           

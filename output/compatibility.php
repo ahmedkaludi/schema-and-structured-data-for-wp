@@ -440,6 +440,9 @@ class saswp_output_compatibility{
     public function modern_events_calendar_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-modern-events-calendar');
     }
+    public function event_prime_on_activation(){
+         $this->saswp_update_option_on_compatibility_activation('saswp-event-prime');
+    }
     public function wp_event_manager_on_activation(){
          $this->saswp_update_option_on_compatibility_activation('saswp-wp-event-manager');
     }
@@ -705,6 +708,9 @@ class saswp_output_compatibility{
         $defaults[$opt_name] = 1;        
         update_option('sd_data', $defaults); 
         
+    }
+    public function jolifaq_on_activation(){        
+        $this->saswp_update_option_on_compatibility_activation('saswp-jolifaq');
     }
     /**
      * Functions on compatiblity plugin activation ends here

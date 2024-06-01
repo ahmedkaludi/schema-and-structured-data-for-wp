@@ -1330,19 +1330,19 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 }
 
                 // Changes since version 1.15
-                if(isset($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0]) || isset($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0]) || isset($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0]) || isset($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0]) || isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0])){
+                if((isset($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]))){
                     $input1['offers']['hasMerchantReturnPolicy']['@type'] = 'MerchantReturnPolicy';
                     $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0]);
-                    if(isset($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0])){
+                    if(isset($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0])){
                         $rp_category = array('MerchantReturnFiniteReturnWindow','MerchantReturnNotPermitted','MerchantReturnUnlimitedWindow','MerchantReturnUnspecified');
                         if(in_array($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0], $rp_category)){
                             $input1['offers']['hasMerchantReturnPolicy']['returnPolicyCategory'] = esc_attr($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0]);
                         }
                     }
-                    if(isset($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0])){
+                    if(isset($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0])){
                             $input1['offers']['hasMerchantReturnPolicy']['merchantReturnDays'] = esc_attr($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0]);
                     }
-                    if(isset($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0])){
+                    if(isset($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0])){
                         $rm_category = array('ReturnAtKiosk','ReturnByMail','ReturnInStore');
                         if(in_array($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0], $rm_category)){
                             $input1['offers']['hasMerchantReturnPolicy']['returnMethod'] = esc_attr($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0]);
@@ -1350,59 +1350,56 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                     }
                     if((isset($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0]))){
                         $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['@type'] = 'MonetaryAmount';
-                        if(isset($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0])){
+                        if(isset($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0])){
                             $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['name'] = esc_attr($all_post_meta['saswp_product_schema_rsf_name_'.$schema_id][0]);    
                         }
-                        if(isset($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0])){
+                        if(isset($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0])){
                             $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['value'] = esc_attr($all_post_meta['saswp_product_schema_rsf_value_'.$schema_id][0]);    
                         }
-                        if(isset($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0])){
+                        if(isset($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0])){
                             $input1['offers']['hasMerchantReturnPolicy']['returnShippingFeesAmount']['currency'] = esc_attr($all_post_meta['saswp_product_schema_rsf_currency_'.$schema_id][0]);    
                         }    
                     }else{
-                        if(isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0])){
+                        if(isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0])){
                             $rf_category = array('FreeReturn','OriginalShippingFees','RestockingFees','ReturnFeesCustomerResponsibility','ReturnShippingFees');
                                 $input1['offers']['hasMerchantReturnPolicy']['returnFees'] = esc_attr($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]);
                         }   
                     }
                 }
 
-                if(isset($all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0])){
+                if(isset($all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0])){
                     $input1['offers']['shippingDetails']['@type'] = 'OfferShippingDetails';
                     $input1['offers']['shippingDetails']['shippingRate']['@type'] = 'MonetaryAmount';
                     $input1['offers']['shippingDetails']['shippingRate']['value'] = esc_attr($all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0]);
-                    if(isset($all_post_meta['saswp_product_schema_sr_currency'])){
+                    if(isset($all_post_meta['saswp_product_schema_sr_currency']) && !empty($all_post_meta['saswp_product_schema_sr_currency'])){
                         $input1['offers']['shippingDetails']['shippingRate']['currency'] = esc_attr($all_post_meta['saswp_product_schema_sr_currency_'.$schema_id][0]);
                     }
-                    if(isset($all_post_meta['saswp_product_schema_sr_currency'])){
-                        $input1['offers']['shippingDetails']['shippingRate']['currency'] = esc_attr($all_post_meta['saswp_product_schema_sr_currency_'.$schema_id][0]);
-                    }
-                    if(isset($all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0]) || isset($all_post_meta['saswp_product_schema_sa_region_'.$schema_id][0]) || isset($all_post_meta['saswp_product_schema_sa_postal_code_'.$schema_id][0]) || isset($all_post_meta['saswp_product_schema_sa_address_'.$schema_id][0]) || isset($all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0])){
+                    if((isset($all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0]))  || (isset($all_post_meta['saswp_product_schema_sa_region_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_region_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_sa_postal_code_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_postal_code_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_sa_address_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_address_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0]))){
                         $input1['offers']['shippingDetails']['shippingDestination']['@type'] = 'DefinedRegion';
-                        if(isset($all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0])){
+                        if(isset($all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0])){
                             $input1['offers']['shippingDetails']['shippingDestination']['addressLocality'] = esc_attr($all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0]);
                         }
-                        if(isset($all_post_meta['saswp_product_schema_sa_region_'.$schema_id][0])){
+                        if(isset($all_post_meta['saswp_product_schema_sa_region_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_region_'.$schema_id][0])){
                             $input1['offers']['shippingDetails']['shippingDestination']['addressRegion'] = esc_attr($all_post_meta['saswp_product_schema_sa_region_'.$schema_id][0]);
                         }
-                        if(isset($all_post_meta['saswp_product_schema_sa_postal_code_'.$schema_id][0])){
+                        if(isset($all_post_meta['saswp_product_schema_sa_postal_code_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_postal_code_'.$schema_id][0])){
                             $input1['offers']['shippingDetails']['shippingDestination']['postalCode'] = esc_attr($all_post_meta['saswp_product_schema_sa_postal_code_'.$schema_id][0]);
                         }
-                        if(isset($all_post_meta['saswp_product_schema_sa_address_'.$schema_id][0])){
+                        if(isset($all_post_meta['saswp_product_schema_sa_address_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_address_'.$schema_id][0])){
                             $input1['offers']['shippingDetails']['shippingDestination']['streetAddress'] = esc_attr($all_post_meta['saswp_product_schema_sa_address_'.$schema_id][0]);
                         }
-                        if(isset($all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0])){
+                        if(isset($all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0])){
                             $input1['offers']['shippingDetails']['shippingDestination']['addressCountry'] = esc_attr($all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0]);
                         }
                     }
-                    if(isset($all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0])){
+                    if((isset($all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0])) && (isset($all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0])) && (isset($all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0]))){
                         $input1['offers']['shippingDetails']['deliveryTime']['@type'] = 'ShippingDeliveryTime';
                         $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['@type'] = 'QuantitativeValue';
                         $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['minValue'] = esc_attr($all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0]);
                         $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['maxValue'] = esc_attr($all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0]);
                         $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['unitCode'] = esc_attr($all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0]);
                     }
-                    if(isset($all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0])){
+                    if((isset($all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0])) && (isset($all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0])) && (isset($all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0]))){
                         $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['@type'] = 'QuantitativeValue';
                         $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['minValue'] = esc_attr($all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0]);
                         $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['maxValue'] = esc_attr($all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0]);

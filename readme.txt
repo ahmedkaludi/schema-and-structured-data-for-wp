@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 3.0
 Tested up to: 6.5
 Requires PHP: 5.6.20
-Stable tag: 1.31
+Stable tag: 1.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.32 (01 June 2024) =
+
+* Fixed: Fix PHP warning #2111
+* Fixed: Line Breaks issue in schema using FAQ block #2112
+* Fixed: Mapping issue with ACF Google Map type for VacationalRental Schema type #2113
+* Fixed: Issue with comments url in schema #2114
+* Feature: Added compatibility with EventPrime #2115
+* Fixed: Issue with HotelRoom Schema #2116
+* Fixed: Issue with LocalBusiness schema #2120
+* Feature: Added compatibility with the plugin Joli FAQ SEO #2122
+* Enhancement: Added changes related to Product schema Return Policy #2124
 
 = 1.31 (29 April 2024) =
 
@@ -264,15 +276,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 = 1.18 (04 Aug 2023) =
 
 * Fixed: Security warnings and code improvement #1992
-
-
-= 1.17 (12 July 2023) =
-
-* Fixed: Address type automatically added in the dentist schema #1941
-* Fixed: Review pagination not working properly #1970
-* Fixed: Warning in error log #1973
-* Fixed: Placement in person schema in stuck to one author when using Author Name #1976
-* Fixed: Role Base Access Issue #1978
-* Fixed: Review for schema plugin Conflicting combination plugin #1981
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

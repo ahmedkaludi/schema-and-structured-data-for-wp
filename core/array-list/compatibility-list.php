@@ -114,6 +114,13 @@ return array(
             'opt_name'   => 'saswp-wpresponsivefaq',
             'part_in'    => 'pro',
         ),
+        'jolifaq'  =>  array(            
+            'name'       => 'Joli FAQ SEO',
+            'free'       => 'joli-faq-seo/joli-faq-seo.php', 
+            'pro'        => 'joli-faq-seo-pro/joli-faq-seo.php',                    
+            'opt_name'   => 'saswp-jolifaq',
+            'part_in'    => 'pro',
+        ),
         'ultimatefaqs'  =>  array(            
             'name'       => 'Ultimate FAQs – WordPress Knowledgebase Plugin',
             'free'       => 'ultimate-faqs/Main.php',                    
@@ -499,6 +506,12 @@ return array(
                     'pro'        => 'modern-events-calendar/mec.php',
                     'free'       => 'modern-events-calendar-lite/modern-events-calendar-lite.php',            
                     'opt_name'   => 'saswp-modern-events-calendar', 
+                    'part_in'    => 'pro',
+        ),
+        'event_prime' => array(            
+                    'name'       => 'EventPrime – Events Calendar, Bookings and Tickets',
+                    'free'       => 'eventprime-event-calendar-management/event-prime.php',            
+                    'opt_name'   => 'saswp-event-prime', 
                     'part_in'    => 'pro',
         ),
         'wp_event_manager' => array(            

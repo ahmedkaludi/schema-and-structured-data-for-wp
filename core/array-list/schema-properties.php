@@ -87,7 +87,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     
                     if($condition !=null){
                                                 
-                        if(!empty($local_sub_business)){
+                        if(!empty($local_sub_business) && array_key_exists($business_type, $local_sub_business)){
                         
                         $sub_business_options = array(
                              'label'     => 'Sub Business Type',
@@ -6202,6 +6202,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_rp_category_'.$schema_id,
                             'type'    => 'select',
                             'options' => array(
+                                     ''                                                 => 'Select Return Policy Category',
                                      'MerchantReturnFiniteReturnWindow'                 => 'MerchantReturnFiniteReturnWindow',
                                      'MerchantReturnNotPermitted'                       => 'MerchantReturnNotPermitted',
                                      'MerchantReturnUnlimitedWindow'                    => 'MerchantReturnUnlimitedWindow',
@@ -6221,6 +6222,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_rp_return_method_'.$schema_id,
                             'type'    => 'select',
                             'options' => array(
+                                    ''                  => 'Select Return Policy Method',
                                     'ReturnAtKiosk'     => 'ReturnAtKiosk',
                                     'ReturnByMail'      => 'ReturnByMail',
                                     'ReturnInStore'     => 'ReturnInStore',
@@ -6231,6 +6233,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_rp_return_fees_'.$schema_id,
                             'type'    => 'select',
                             'options' => array(
+                                    ''                                  => 'Select Return Policy Fees',
                                     'FreeReturn'                        => 'FreeReturn',
                             )
                         ),
@@ -6246,7 +6249,6 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Shipping Rate Currency',
                             'id'      => 'saswp_product_schema_sr_currency_'.$schema_id,
                             'type'    => 'text',
-                            'default' => 'USD',
                             'attributes' => array(
                                 'placeholder' => 'USD'
                             ),
@@ -6312,7 +6314,6 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_product_schema_sdh_unitcode_'.$schema_id,
                             'type'    => 'text',     
                             'note'    => 'Note: Enter unit code as DAY',
-                            'default' => 'DAY', 
                             'attributes' => array(
                                 'placeholder' => 'DAY'
                             ),                 
@@ -6337,8 +6338,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Shipping Transit Time Unit Code',
                             'id'      => 'saswp_product_schema_sdt_unitcode_'.$schema_id,
                             'type'    => 'text',     
-                            'note'    => 'Note: Enter unit code as DAY',
-                            'default' => 'DAY',  
+                            'note'    => 'Note: Enter unit code as DAY',  
                             'attributes' => array(
                                 'placeholder' => 'DAY'
                             ),                 

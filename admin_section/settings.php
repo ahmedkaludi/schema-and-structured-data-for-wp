@@ -3051,6 +3051,19 @@ function saswp_compatibility_page_callback(){
                         'name' => 'sd_data[saswp-wpresponsivefaq]',                             
                 )
         );
+        
+        $jolifaq   = array(
+                'label'  => 'Joli FAQ SEO',
+                'id'     => 'saswp-jolifaq-checkbox',                        
+                'name'   => 'saswp-jolifaq-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('jolifaq'),
+                'hidden' => array(
+                        'id'   => 'saswp-jolifaq',
+                        'name' => 'sd_data[saswp-jolifaq]',                             
+                )
+        );
 
         $ameliabooking = array(
                 'label'  => 'Amelia Booking',
@@ -3655,6 +3668,19 @@ function saswp_compatibility_page_callback(){
                                 'name' => 'sd_data[saswp-modern-events-calendar]',                             
                 )
 	);
+    
+        $event_prime = array(
+            'label'  => 'Event Prime',
+            'id'     => 'saswp-event-prime-checkbox',                        
+                        'name'   => 'saswp-event-prime-checkbox',
+            'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('event_prime'),
+                        'hidden' => array(
+                                'id'   => 'saswp-event-prime',
+                                'name' => 'sd_data[saswp-event-prime]',                             
+                )
+    );
                 
         $seo_press = array(
 			'label'  => 'SEOPress',
@@ -4303,6 +4329,7 @@ function saswp_compatibility_page_callback(){
                 $faqschemaforpost['note']     = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $webfaq10['note']             = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
                 $enfold['note']               = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $jolifaq['note']               = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
 
          }
          if(!is_plugin_active('reviews-for-schema/reviews-for-schema.php')){
@@ -4338,6 +4365,7 @@ function saswp_compatibility_page_callback(){
              $events_manager['note']              = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $event_organiser['note']             = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $modern_events_calendar['note']      = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
+             $event_prime['note']                 = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
              $tevolution_events['note']           = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $wp_event_aggregator['note']         = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
              $stachethemes_events['note']         = saswp_t_string('This feature requires').' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
@@ -4457,6 +4485,7 @@ function saswp_compatibility_page_callback(){
                 $events_calendar_wd,
                 $event_organiser,
                 $modern_events_calendar,
+                $event_prime,
                 $tevolution_events,
                 $wp_event_aggregator,
                 $all_in_one_event_calendar,
@@ -4498,7 +4527,8 @@ function saswp_compatibility_page_callback(){
                 $mooberrybm,
                 $novelist,
                 $flex_lmx,
-                $publishpress_authors
+                $publishpress_authors,
+                $jolifaq
                 
 	);  
                 
