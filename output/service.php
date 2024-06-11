@@ -5810,19 +5810,34 @@ Class saswp_output_service{
                         
                         if(isset($custom_fields['saswp_real_estate_listing_location_name'])){
 
-                            $location = array(
-                                '@type' => 'Place',
-                                'name' => $custom_fields['saswp_real_estate_listing_location_name'],                                                               
-                                'telephone' => $custom_fields['saswp_real_estate_listing_location_name'],                                
-                                'address' => array(
-                                            '@type' => 'PostalAddress',
-                                            'streetAddress'   => $custom_fields['saswp_real_estate_listing_streetaddress'],
-                                            'addressLocality' => $custom_fields['saswp_real_estate_listing_locality'],
-                                            'addressRegion'   => $custom_fields['saswp_real_estate_listing_region'],
-                                            'addressCountry'   => $custom_fields['saswp_real_estate_listing_country'],
-                                            'postalCode'      => $custom_fields['saswp_real_estate_listing_postalcode'],  
-                                ),
-                            );
+                            $location['@type']  =   'Place';   
+                            $location['name']   =   $custom_fields['saswp_real_estate_listing_location_name'];
+                            if(!empty($custom_fields['saswp_real_estate_listing_phone'])){
+                                $location['telephone']      =   $custom_fields['saswp_real_estate_listing_phone'];
+                            }
+                            if(!empty($custom_fields['saswp_real_estate_listing_streetaddress']) || !empty($custom_fields['saswp_real_estate_listing_locality']) || !empty($custom_fields['saswp_real_estate_listing_region']) || !empty($custom_fields['saswp_real_estate_listing_country']) || !empty($custom_fields['saswp_real_estate_listing_postalcode'])){
+
+                                $location['address']['@type']       =   'PostalAddress';
+                                if(!empty($custom_fields['saswp_real_estate_listing_streetaddress'])){
+                                    $location['address']['streetAddress']     =    $custom_fields['saswp_real_estate_listing_streetaddress'];   
+                                }
+
+                                if(!empty($custom_fields['saswp_real_estate_listing_locality'])){
+                                    $location['address']['addressLocality']   =    $custom_fields['saswp_real_estate_listing_locality'];   
+                                }
+
+                                if(!empty($custom_fields['saswp_real_estate_listing_region'])){
+                                    $location['address']['addressRegion']     =    $custom_fields['saswp_real_estate_listing_region'];   
+                                }
+
+                                if(!empty($custom_fields['saswp_real_estate_listing_country'])){
+                                    $location['address']['addressCountry']   =    $custom_fields['saswp_real_estate_listing_country'];   
+                                }
+
+                                if(!empty($custom_fields['saswp_real_estate_listing_postalcode'])){
+                                    $location['address']['postalCode']   =    $custom_fields['saswp_real_estate_listing_postalcode'];   
+                                }
+                            }
 
                             $input1['contentLocation'] = $location;
                         }
