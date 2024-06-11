@@ -107,6 +107,7 @@ function saswp_update_ids_on_untrash(){
 add_action( 'publish_saswp', 'saswp_published' );
 add_action( 'trash_saswp', 'saswp_update_ids_on_trash' );    
 add_action( 'untrash_saswp', 'saswp_update_ids_on_untrash' );
+add_action( 'draft_saswp', 'saswp_update_ids_on_trash' );
 
 function saswp_reset_all_settings(){   
     
@@ -224,7 +225,7 @@ function saswp_get_all_schema_posts(){
       foreach ($schema_id_array as $post_id){ 
         
           $unique_checker = saswp_check_advance_display_status($post_id, $post);
-                                        
+          
           if ( $unique_checker === 1 || $unique_checker === true || $unique_checker == 'notset') {
               
               $conditions = array();
