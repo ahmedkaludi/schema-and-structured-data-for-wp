@@ -4371,16 +4371,9 @@ function saswp_get_posts_by_arg($arg){
               $data['post_title']    =  get_the_title();
               $data['post_status']   =  get_post_status();
               $data['post_modified'] =  get_the_date('M, d Y');
-              $post_meta             = get_post_meta(get_the_ID(), '', true);
-              if($post_meta){
-                  foreach($post_meta as $key => $val ){
-                      $post_meta[$key] = $val[0];
-                  }
-              }
               
               $posts_data[] = array(
-              'post'        => (array) $data,
-              'post_meta'   => $post_meta                
+              'post'        => (array) $data              
               ); 
 
           }
