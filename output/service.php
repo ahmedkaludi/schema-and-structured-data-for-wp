@@ -7509,6 +7509,23 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_lr_time_iaff'])){
                         $input1['isAccessibleForFree'] = $custom_fields['saswp_lr_time_iaff'];
                     }  
+                    if(!empty($custom_fields['saswp_lr_eaef']) || !empty($custom_fields['saswp_lr_eatn']) || !empty($custom_fields['saswp_lr_eatu'])){
+                        $input1['educationalAlignment']['@type']                    = 'AlignmentObject';
+                        $input1['educationalAlignment']['alignmentType']            = 'educationalSubject';
+                        if(!empty($custom_fields['saswp_lr_eaef'])){
+                            $input1['educationalAlignment']['educationalFramework'] = $custom_fields['saswp_lr_eaef']; 
+                        }
+                        if(!empty($custom_fields['saswp_lr_eatn'])){
+                            $input1['educationalAlignment']['targetName'] = $custom_fields['saswp_lr_eatn']; 
+                        }
+                        if(!empty($custom_fields['saswp_lr_eatu'])){
+                            $input1['educationalAlignment']['targetUrl']  = $custom_fields['saswp_lr_eatu']; 
+                        }
+                    }
+                    if(!empty($custom_fields['saswp_lr_audience'])){
+                        $input1['audience']['@type'] = 'EducationalAudience';
+                        $input1['audience']['educationalRole'] = $custom_fields['saswp_lr_audience'];
+                    }  
                 break;
                
                      default:

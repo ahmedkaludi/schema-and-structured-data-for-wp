@@ -991,6 +991,11 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_lr_eatu',
 			'type'      => 'text'
 			),
+		array(
+			'label'     => 'Audience',
+			'name'      => 'saswp_lr_audience',
+			'type'      => 'text'
+			),
 		)
 		                    
         )    

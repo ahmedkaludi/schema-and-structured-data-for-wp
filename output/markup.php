@@ -7471,6 +7471,10 @@ function saswp_learning_resource_schema_markup($schema_id, $schema_post_id, $all
     if(isset($all_post_meta['saswp_lr_time_iaff_'.$schema_id]) && isset($all_post_meta['saswp_lr_time_iaff_'.$schema_id][0])){
         $input1['isAccessibleForFree'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_time_iaff_'.$schema_id, 'saswp_array');
     }
+    if(isset($all_post_meta['saswp_lr_audience_'.$schema_id]) && isset($all_post_meta['saswp_lr_audience_'.$schema_id][0])){
+        $input1['audience']['@type'] = 'EducationalAudience';
+        $input1['audience']['educationalRole'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_audience_'.$schema_id, 'saswp_array');
+    }
 
     return $input1;
 }
