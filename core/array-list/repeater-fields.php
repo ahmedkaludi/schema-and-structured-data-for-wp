@@ -898,6 +898,11 @@ return array( 'schema_type_element' => array(
 		),
 		'course_instance' => array(                    
 		array(
+			'label'     => 'Name',
+			'name'      => 'saswp_course_instance_name',
+			'type'      => 'text'                     
+			),
+		array(
 			'label'     => 'Course Mode',
 			'name'      => 'saswp_course_instance_mode',
 			'type'      => 'text'                     
@@ -914,6 +919,16 @@ return array( 'schema_type_element' => array(
 			'type'      => 'date',
 			'default' => get_the_date("Y-m-d")
 			),
+		  array(
+              	'label' => 'Start Time',
+              	'name'  => 'saswp_course_instance_start_time',
+              	'type'  => 'text',                                
+	              ),
+	              array(
+              	'label' => 'End Time',
+                     'name'  => 'saswp_course_instance_end_time',
+                     'type' => 'text',                                
+	              ),
 		array(
 			'label'     => 'Course Workload',
 			'name'      => 'saswp_course_instance_wl',
@@ -939,7 +954,25 @@ return array( 'schema_type_element' => array(
 					'Monthly'    => 'Monthly',
 					'Yearly'     => 'Yearly'
 				)
-			), 
+			),
+		array(
+                  	'label' => 'Schedule byDay',
+                  	'name'  => 'saswp_course_instance_sbyd',
+                  	'type'  => 'text',
+                  	'attributes' => array(
+                          'placeholder' => 'Monday, Wednesday'
+                   	),
+                  	'note' => 'Note: Separate it by comma ( , )'                                  
+          	),
+          	array(
+                  	'label' => 'Schedule byMonthDay',
+                  	'name'  => 'saswp_course_instance_sbmd',
+                  	'type'  => 'text',
+                  	'attributes' => array(
+                          'placeholder' => '1, 13, 24'
+                   	),
+                   	'note' => 'Note: Separate it by comma ( , )'                                                                  
+          	), 
 		array(
 			'label'     => 'Location',
 			'name'      => 'saswp_course_instance_location',

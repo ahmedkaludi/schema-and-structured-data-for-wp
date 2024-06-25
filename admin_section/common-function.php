@@ -5186,3 +5186,23 @@ function saswp_get_image_details($url)
     }
     return $image;
 }
+
+/**
+ * Display time picker for input field
+ * @since 1.33
+ * */
+function saswp_is_time_field($time_str){
+    
+    $response = false;
+    
+    if (strpos($time_str, 'saswp_event_schema_schedule_st')                  !== false 
+        || strpos($time_str, 'saswp_event_schema_schedule_et')               !== false
+        || strpos($time_str, 'saswp_course_instance_start_time')             !== false
+        || strpos($time_str, 'saswp_course_instance_end_time')               !== false
+        ) {
+            $response = true;
+        }
+    
+    return $response;
+    
+}

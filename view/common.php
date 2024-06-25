@@ -171,7 +171,7 @@ class saswp_view_common_class {
                                     if (saswp_is_date_field($meta_field['name'].'_'.$index.'_'.$schema_id)) {
                                                 $class='saswp-datepicker-picker';    
                                     }
-                                    if ($meta_field['name'] == 'saswp_event_schema_schedule_st' || $meta_field['name'] == 'saswp_event_schema_schedule_et' ) {
+                                    if (saswp_is_time_field($meta_field['name'])) {
                                                 $class='saswp-timepicker';    
                                     }
                                     $data_value = isset($data[$meta_field['name']]) ? $data[$meta_field['name']] : '';
