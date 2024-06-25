@@ -754,6 +754,52 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                         $input1['organizer'] = $organizer_arr;
                     }
                     //Organizer ends here
+                    
+                    // Event Schedule Starts Here
+                     $event_schedule  = get_post_meta($schema_post_id, 'event_schedule_'.$schema_id, true);
+                     if(!empty($event_schedule) && is_array($event_schedule)){
+                        foreach ($event_schedule as $es_key => $es_value) {
+                            $schedule_array = array();
+                            if(!empty($es_value) && is_array($es_value)){
+                                if( !empty($es_value['saswp_event_schema_schedule_n']) || !empty($es_value['saswp_event_schema_schedule_st']) || !empty($es_value['saswp_event_schema_schedule_et']) || !empty($es_value['saswp_event_schema_schedule_rf']) || !empty($es_value['saswp_event_schema_schedule_bd']) || !empty($es_value['saswp_event_schema_schedule_bmd']) ){
+                                    
+                                    $schedule_array['@type']           = 'Schedule';
+                                    if(!empty($es_value['saswp_event_schema_schedule_n'])){
+                                        $schedule_array['name']        = $es_value['saswp_event_schema_schedule_n'];
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_st'])){
+                                        $schedule_array['startTime']       = $es_value['saswp_event_schema_schedule_st'];
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_et'])){
+                                        $schedule_array['endTime']         = $es_value['saswp_event_schema_schedule_et'];
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_rf'])){
+                                        $schedule_array['repeatFrequency'] = $es_value['saswp_event_schema_schedule_rf'];
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_bd'])){
+                                        $explode_bday = explode(',', $es_value['saswp_event_schema_schedule_bd']);
+                                        if(!empty($explode_bday) && is_array($explode_bday)){
+                                            $schedule_array['byDay'] = $explode_bday;
+                                        }
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_bmd'])){
+                                        $explode_bmday = explode(',', $es_value['saswp_event_schema_schedule_bmd']);
+                                        if(!empty($explode_bmday) && is_array($explode_bmday)){
+                                            $schedule_array['byMonthDay'] = $explode_bmday;
+                                        }
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_tmz'])){
+                                        $schedule_array['scheduleTimezone'] = $es_value['saswp_event_schema_schedule_tmz'];
+                                    }
+
+                                    $input1['eventSchedule'][] = $schedule_array;
+
+                                }
+                            }
+                        }
+                     }
+                    // Event Schedule Ends Here
+
     
     
     return $input1;
