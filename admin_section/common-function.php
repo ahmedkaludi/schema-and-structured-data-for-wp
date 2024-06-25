@@ -408,6 +408,7 @@ if ( ! defined('ABSPATH') ) exit;
                     //AMP Block           
                     'saswp-for-amp'            => 1, 
                     'saswp-for-wordpress'      => 1,      
+                    'saswp-for-cschema'        => 1,      
                     'saswp-logo-width'         => '60',
                     'saswp-logo-height'        => '60',                    
                     'sd_initial_wizard_status' => 1,
@@ -1561,6 +1562,7 @@ if ( ! defined('ABSPATH') ) exit;
                     //AMP Block           
                     'saswp-for-amp'             => 1, 
                     'saswp-for-wordpress'       => 1,      
+                    'saswp-for-cschema'         => 1,      
                     'saswp-logo-width'          => '60',
                     'saswp-logo-height'         => '60',                    
                     'sd_initial_wizard_status'  => 1,
@@ -1964,6 +1966,7 @@ if ( ! defined('ABSPATH') ) exit;
                         'sd-person-url'             => $current_url,                                                                                                
                         'saswp_kb_contact_1'        => 0,                                                                                            
                         'saswp-for-wordpress'       => 1,                                                                        
+                        'saswp-for-cschema'         => 1,                                                                        
                         'sd_initial_wizard_status'  => 1,
                         'saswp-microdata-cleanup'   => 1,
                         'saswp-default-videoobject' => 1,

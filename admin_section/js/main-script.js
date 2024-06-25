@@ -999,6 +999,14 @@ jQuery(document).ready(function($){
                             $("#saswp-for-amp").val(0);  
                           }                                           
                       break;
+                      case 'saswp-for-cschema-checkbox':
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-for-cschema").val(1);  
+                          }else{
+                            $("#saswp-for-cschema").val(0);  
+                          }                                           
+                      break;
                       case 'saswp_kb_contact_1_checkbox':
                           
                         if ($(this).is(':checked')) {              
