@@ -971,11 +971,6 @@ function saswp_amp_page_callback(){
                         )
         )                                         
 	);        
-    
-    // If data is not set for custom schema option then  set default data to 1
-    if(!array_key_exists('saswp-for-cschema', $settings)){
-        $settings['saswp-for-cschema'] = 1;
-    }
 
          echo '<div class="saswp-heading">';
          echo '<h2>'.saswp_t_string('Enable On').'</h2>';        
