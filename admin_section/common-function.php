@@ -15,6 +15,7 @@ if ( ! defined('ABSPATH') ) exit;
      * List of hooks used in this context
      */
     add_action( 'admin_init', 'saswp_import_all_settings_and_schema',9);
+    add_action( 'admin_init', 'saswp_initialize_option_data');
     add_action( 'wp_ajax_saswp_export_all_settings_and_schema', 'saswp_export_all_settings_and_schema'); 
     add_action( 'wp_ajax_saswp_download_csv_review_format', 'saswp_download_csv_review_format');  
     add_action( 'plugins_loaded', 'saswp_defaultSettings' );
@@ -5205,4 +5206,18 @@ function saswp_is_time_field($time_str){
     
     return $response;
     
+}
+
+/**
+ * Initialize option values if they are not set
+ * @since 1.33
+ * */
+function saswp_initialize_option_data(){
+    $sd_data = get_option('sd_data');
+
+    // Check if custom schema option is set in sd_data option, if not then add the key to sd_data
+    if(is_array($sd_data) && !array_key_exists('saswp-for-cschema', $sd_data)){
+        $sd_data['saswp-for-cschema'] = 1;
+        update_option('sd_data', $sd_data);
+    }
 }

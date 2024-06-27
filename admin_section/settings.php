@@ -959,7 +959,7 @@ function saswp_amp_page_callback(){
                         )
 		),
         array(
-            'label'  => 'Structured Data for Custom Schema',
+            'label'  => 'Custom Schema',
             'id'     => 'saswp-for-cschema-checkbox',
                         'name'   => 'saswp-for-cschema-checkbox',
             'type'   => 'checkbox',
