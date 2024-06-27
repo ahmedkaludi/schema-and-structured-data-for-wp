@@ -5509,7 +5509,9 @@ Class saswp_output_service{
                     // Changes since version 1.15
                     if((isset($custom_fields['saswp_product_schema_rp_country_code']) && !empty($custom_fields['saswp_product_schema_rp_country_code'])) || (isset($custom_fields['saswp_product_schema_rp_category']) && !empty($custom_fields['saswp_product_schema_rp_category'])) || (isset($custom_fields['saswp_product_schema_rp_return_days']) && !empty($custom_fields['saswp_product_schema_rp_return_days'])) || (isset($custom_fields['saswp_product_schema_rp_return_method']) && !empty($custom_fields['saswp_product_schema_rp_return_method'])) || (isset($custom_fields['saswp_product_schema_rp_return_fees']) && !empty($custom_fields['saswp_product_schema_rp_return_method']))){
                         $input1['offers']['hasMerchantReturnPolicy']['@type'] = 'MerchantReturnPolicy';
-                        $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($custom_fields['saswp_product_schema_rp_country_code']);
+                        if(!empty($custom_fields['saswp_product_schema_rp_country_code'])){
+                            $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($custom_fields['saswp_product_schema_rp_country_code']);
+                        }
                         if(isset($custom_fields['saswp_product_schema_rp_category']) && !empty($custom_fields['saswp_product_schema_rp_category'])){
                             $rp_category = array('MerchantReturnFiniteReturnWindow','MerchantReturnNotPermitted','MerchantReturnUnlimitedWindow','MerchantReturnUnspecified');
                             if(in_array($custom_fields['saswp_product_schema_rp_category'], $rp_category)){

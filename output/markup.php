@@ -1393,7 +1393,9 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 // Changes since version 1.15
                 if((isset($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]))){
                     $input1['offers']['hasMerchantReturnPolicy']['@type'] = 'MerchantReturnPolicy';
-                    $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0]);
+                    if(!empty($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0])){
+                        $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0]);
+                    }
                     if(isset($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0])){
                         $rp_category = array('MerchantReturnFiniteReturnWindow','MerchantReturnNotPermitted','MerchantReturnUnlimitedWindow','MerchantReturnUnspecified');
                         if(in_array($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0], $rp_category)){
