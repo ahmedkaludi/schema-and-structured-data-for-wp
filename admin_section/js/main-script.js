@@ -999,6 +999,14 @@ jQuery(document).ready(function($){
                             $("#saswp-for-amp").val(0);  
                           }                                           
                       break;
+                      case 'saswp-for-cschema-checkbox':
+                          
+                          if ($(this).is(':checked')) {              
+                            $("#saswp-for-cschema").val(1);  
+                          }else{
+                            $("#saswp-for-cschema").val(0);  
+                          }                                           
+                      break;
                       case 'saswp_kb_contact_1_checkbox':
                           
                         if ($(this).is(':checked')) {              
@@ -3467,7 +3475,8 @@ jQuery(document).ready(function($){
           var fields_type = $(this).attr('fields_type'); 
           var div_type    = $(this).attr('div_type');          
           var schema_type = $(this).attr('itemlist_sub_type');
-          var count =  $("saswp_specific_"+schema_id+" , .saswp-"+div_type+"-table-div").length;
+          // var count =  $("saswp_specific_"+schema_id+" , .saswp-"+div_type+"-table-div").length;
+          var count = $("#saswp_specific_"+schema_id).find(".saswp-"+div_type+"-table-div").length;
           var index =  $( "saswp_specific_"+schema_id+" , .saswp-"+div_type+"-table-div:nth-child("+count+")" ).attr('data-id');
               index = ++index;
            

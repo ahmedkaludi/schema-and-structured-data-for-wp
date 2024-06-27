@@ -754,6 +754,52 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                         $input1['organizer'] = $organizer_arr;
                     }
                     //Organizer ends here
+                    
+                    // Event Schedule Starts Here
+                     $event_schedule  = get_post_meta($schema_post_id, 'event_schedule_'.$schema_id, true);
+                     if(!empty($event_schedule) && is_array($event_schedule)){
+                        foreach ($event_schedule as $es_key => $es_value) {
+                            $schedule_array = array();
+                            if(!empty($es_value) && is_array($es_value)){
+                                if( !empty($es_value['saswp_event_schema_schedule_n']) || !empty($es_value['saswp_event_schema_schedule_st']) || !empty($es_value['saswp_event_schema_schedule_et']) || !empty($es_value['saswp_event_schema_schedule_rf']) || !empty($es_value['saswp_event_schema_schedule_bd']) || !empty($es_value['saswp_event_schema_schedule_bmd']) ){
+                                    
+                                    $schedule_array['@type']           = 'Schedule';
+                                    if(!empty($es_value['saswp_event_schema_schedule_n'])){
+                                        $schedule_array['name']        = $es_value['saswp_event_schema_schedule_n'];
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_st'])){
+                                        $schedule_array['startTime']       = $es_value['saswp_event_schema_schedule_st'];
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_et'])){
+                                        $schedule_array['endTime']         = $es_value['saswp_event_schema_schedule_et'];
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_rf'])){
+                                        $schedule_array['repeatFrequency'] = $es_value['saswp_event_schema_schedule_rf'];
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_bd'])){
+                                        $explode_bday = explode(',', $es_value['saswp_event_schema_schedule_bd']);
+                                        if(!empty($explode_bday) && is_array($explode_bday)){
+                                            $schedule_array['byDay'] = $explode_bday;
+                                        }
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_bmd'])){
+                                        $explode_bmday = explode(',', $es_value['saswp_event_schema_schedule_bmd']);
+                                        if(!empty($explode_bmday) && is_array($explode_bmday)){
+                                            $schedule_array['byMonthDay'] = $explode_bmday;
+                                        }
+                                    }
+                                    if(!empty($es_value['saswp_event_schema_schedule_tmz'])){
+                                        $schedule_array['scheduleTimezone'] = $es_value['saswp_event_schema_schedule_tmz'];
+                                    }
+
+                                    $input1['eventSchedule'][] = $schedule_array;
+
+                                }
+                            }
+                        }
+                     }
+                    // Event Schedule Ends Here
+
     
     
     return $input1;
@@ -843,11 +889,26 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                         // If course work load data is empty then add course schedule in the markup otherwise add course work load
                         if((isset($ci_value['saswp_course_instance_wl']) && empty($ci_value['saswp_course_instance_wl'])) && (isset($ci_value['saswp_course_instance_sd']) || isset($ci_value['saswp_course_instance_src']) || isset($ci_value['saswp_course_instance_srf']))){
                             $instance_array['courseSchedule']['@type'] = 'Schedule';
+                            if(!empty($ci_value['saswp_course_instance_name'])){
+                                $instance_array['courseSchedule']['name'] = $ci_value['saswp_course_instance_name'];
+                            }
                             $instance_array['courseSchedule']['duration'] = isset($ci_value['saswp_course_instance_sd'])?sanitize_text_field($ci_value['saswp_course_instance_sd']):'';
                             $instance_array['courseSchedule']['repeatFrequency'] = isset($ci_value['saswp_course_instance_srf'])?sanitize_text_field($ci_value['saswp_course_instance_srf']):'';
                             $instance_array['courseSchedule']['repeatCount'] = isset($ci_value['saswp_course_instance_src'])?intval($ci_value['saswp_course_instance_src']):'';
+                            if(!empty($ci_value['saswp_course_instance_sbyd'])){
+                                $instance_array['courseSchedule']['byDay'] = $ci_value['saswp_course_instance_sbyd'];
+                            }
+                            if(!empty($ci_value['saswp_course_instance_sbmd'])){
+                                $instance_array['courseSchedule']['byMonthDay'] = $ci_value['saswp_course_instance_sbmd'];
+                            }
                             $instance_array['courseSchedule']['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
+                            if(!empty($ci_value['saswp_course_instance_end_time'])){
+                                $instance_array['courseSchedule']['endTime'] = $ci_value['saswp_course_instance_end_time'];
+                            }
                             $instance_array['courseSchedule']['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
+                            if(!empty($ci_value['saswp_course_instance_start_time'])){
+                                $instance_array['courseSchedule']['startTime'] = $ci_value['saswp_course_instance_start_time'];
+                            }
                         }else if(isset($ci_value['saswp_course_instance_wl']) && !empty($ci_value['saswp_course_instance_wl'])){
                             $instance_array['courseWorkload'] = sanitize_text_field($ci_value['saswp_course_instance_wl']);
                             $instance_array['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
@@ -1332,7 +1393,9 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 // Changes since version 1.15
                 if((isset($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]))){
                     $input1['offers']['hasMerchantReturnPolicy']['@type'] = 'MerchantReturnPolicy';
-                    $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0]);
+                    if(!empty($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0])){
+                        $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0]);
+                    }
                     if(isset($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0])){
                         $rp_category = array('MerchantReturnFiniteReturnWindow','MerchantReturnNotPermitted','MerchantReturnUnlimitedWindow','MerchantReturnUnspecified');
                         if(in_array($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0], $rp_category)){
@@ -7470,6 +7533,10 @@ function saswp_learning_resource_schema_markup($schema_id, $schema_post_id, $all
     }
     if(isset($all_post_meta['saswp_lr_time_iaff_'.$schema_id]) && isset($all_post_meta['saswp_lr_time_iaff_'.$schema_id][0])){
         $input1['isAccessibleForFree'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_time_iaff_'.$schema_id, 'saswp_array');
+    }
+    if(isset($all_post_meta['saswp_lr_audience_'.$schema_id]) && isset($all_post_meta['saswp_lr_audience_'.$schema_id][0])){
+        $input1['audience']['@type'] = 'EducationalAudience';
+        $input1['audience']['educationalRole'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_audience_'.$schema_id, 'saswp_array');
     }
 
     return $input1;

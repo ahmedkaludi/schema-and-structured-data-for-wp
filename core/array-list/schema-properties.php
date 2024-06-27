@@ -10950,6 +10950,26 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                     'False' => 'No'
                                 )
                             ),
+                        array(
+                                'label'     => 'Educational Framework',
+                                'id'        => 'saswp_lr_eaef_'.$schema_id,
+                                'type'      => 'text'
+                            ),
+                        array(
+                                'label'     => 'Target Name',
+                                'id'        => 'saswp_lr_eatn_'.$schema_id,
+                                'type'      => 'text'
+                            ),
+                        array(
+                                'label'     => 'Target URL',
+                                'id'      => 'saswp_lr_eatu_'.$schema_id,
+                                'type'      => 'text'
+                            ),
+                        array(
+                                'label'     => 'Audience',
+                                'id'      => 'saswp_lr_audience_'.$schema_id,
+                                'type'      => 'text'
+                            )
 
                         );
                     break;

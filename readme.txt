@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 3.0
 Tested up to: 6.5
 Requires PHP: 5.6.20
-Stable tag: 1.32
+Stable tag: 1.33
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.33 (27 June 2024) =
+
+* Enhancement: Schema markup is being added to the post types even if set to "Draft" #2118
+* Feature: Added an option to enable only custom schema #2121
+* Fixed: Warning messages when trying to preview pages after making changes #2126
+* Fixed: Warning of Realestate Schema #2127
+* Fixed: Conflict issues with WP-Multilang Plugin #2128
+* Enhancement: Added an educationalAlignment property to Learning Resource Schema. #2131
+* Enhancement: Added Event Schedule repeater property to Event Schema #2133
+* Fixed: A warning Undefined array key "saswp_product_schema_rp_country_code" #2134
 
 = 1.32 (01 June 2024) =
 
@@ -272,9 +283,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Markup warning #1987
 * Fixed: Collection reviews are not showing in schema markup #1988
 * Fixed: Tested with WordPress 6.3 and updated readme.txt #1996
-
-= 1.18 (04 Aug 2023) =
-
-* Fixed: Security warnings and code improvement #1992
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

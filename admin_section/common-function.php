@@ -408,6 +408,7 @@ if ( ! defined('ABSPATH') ) exit;
                     //AMP Block           
                     'saswp-for-amp'            => 1, 
                     'saswp-for-wordpress'      => 1,      
+                    'saswp-for-cschema'        => 1,      
                     'saswp-logo-width'         => '60',
                     'saswp-logo-height'        => '60',                    
                     'sd_initial_wizard_status' => 1,
@@ -1561,6 +1562,7 @@ if ( ! defined('ABSPATH') ) exit;
                     //AMP Block           
                     'saswp-for-amp'             => 1, 
                     'saswp-for-wordpress'       => 1,      
+                    'saswp-for-cschema'         => 1,      
                     'saswp-logo-width'          => '60',
                     'saswp-logo-height'         => '60',                    
                     'sd_initial_wizard_status'  => 1,
@@ -1964,6 +1966,7 @@ if ( ! defined('ABSPATH') ) exit;
                         'sd-person-url'             => $current_url,                                                                                                
                         'saswp_kb_contact_1'        => 0,                                                                                            
                         'saswp-for-wordpress'       => 1,                                                                        
+                        'saswp-for-cschema'         => 1,                                                                        
                         'sd_initial_wizard_status'  => 1,
                         'saswp-microdata-cleanup'   => 1,
                         'saswp-default-videoobject' => 1,
@@ -1994,11 +1997,15 @@ if ( ! defined('ABSPATH') ) exit;
     }        
             
     function saswp_defaultSettings(){
-        
-                   
+                           
                 global $sd_data; 
                 
                 $sd_data = get_option( 'sd_data', saswp_default_settings_array());     
+
+                // If data is not set for custom schema option then  set default data to 1
+                if(!array_key_exists('saswp-for-cschema', $sd_data)){
+                    $sd_data['saswp-for-cschema'] = 1;
+                }
 
                 return $sd_data;
 
@@ -4371,16 +4378,9 @@ function saswp_get_posts_by_arg($arg){
               $data['post_title']    =  get_the_title();
               $data['post_status']   =  get_post_status();
               $data['post_modified'] =  get_the_date('M, d Y');
-              $post_meta             = get_post_meta(get_the_ID(), '', true);
-              if($post_meta){
-                  foreach($post_meta as $key => $val ){
-                      $post_meta[$key] = $val[0];
-                  }
-              }
               
               $posts_data[] = array(
-              'post'        => (array) $data,
-              'post_meta'   => $post_meta                
+              'post'        => (array) $data              
               ); 
 
           }
@@ -5189,4 +5189,24 @@ function saswp_get_image_details($url)
         $image = @getimagesize($url);
     }
     return $image;
+}
+
+/**
+ * Display time picker for input field
+ * @since 1.33
+ * */
+function saswp_is_time_field($time_str){
+    
+    $response = false;
+    
+    if (strpos($time_str, 'saswp_event_schema_schedule_st')                  !== false 
+        || strpos($time_str, 'saswp_event_schema_schedule_et')               !== false
+        || strpos($time_str, 'saswp_course_instance_start_time')             !== false
+        || strpos($time_str, 'saswp_course_instance_end_time')               !== false
+        ) {
+            $response = true;
+        }
+    
+    return $response;
+    
 }

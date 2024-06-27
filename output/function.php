@@ -294,10 +294,44 @@ function saswp_get_all_schema_markup_output() {
                $kb_schema_output         = saswp_kb_schema_output();
         }
                  
-        $custom_markup             = saswp_taxonomy_schema_output();  
-        $user_custom_markup        = saswp_fetched_user_custom_schema();  
-        if( is_singular() && is_object($post) ){
-            $custom_markup         = get_post_meta($post->ID, 'saswp_custom_schema_field', true);            
+        $user_custom_markup        = saswp_fetched_user_custom_schema();
+
+        if(saswp_global_custom_schema_option()){         
+            $custom_markup             = saswp_taxonomy_schema_output();    
+            if( is_singular() && is_object($post) ){
+                $custom_markup         = get_post_meta($post->ID, 'saswp_custom_schema_field', true);            
+            }
+
+            if($custom_markup){    
+                
+                $cus_regex = '/\<script type\=\"application\/ld\+json\"\>/';
+                preg_match( $cus_regex, $custom_markup, $match );
+                
+                if(empty($match)){
+                    json_decode($custom_markup);
+                    if(json_last_error() === JSON_ERROR_NONE){
+                        $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
+                        $custom_output .= $custom_markup;                            
+                        $custom_output .= '</script>';
+                    }                                        
+                }else{
+                    $regex = '/<script type=\"application\/ld\+json">(.*?)<\/script>/s';
+                    preg_match_all( $regex, $custom_markup, $matches );
+                    if(!empty($matches) && isset($matches[1])){
+                        foreach ($matches[1] as $value) {
+                            json_decode($value);
+                            if(json_last_error() === JSON_ERROR_NONE){
+                                $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
+                                $custom_output .= $value;                            
+                                $custom_output .= '</script>';
+                            }                            
+                        }
+                    } 
+                    
+                }
+                                                                                                                                                                                                                              
+            }
+
         }        
          
         $schema_output              = saswp_schema_output();                  
@@ -677,35 +711,6 @@ function saswp_get_all_schema_markup_output() {
                             $output .= ",";                        
                         }       
                 
-            }
-            if($custom_markup){    
-                
-                $cus_regex = '/\<script type\=\"application\/ld\+json\"\>/';
-                preg_match( $cus_regex, $custom_markup, $match );
-                
-                if(empty($match)){
-                    json_decode($custom_markup);
-                    if(json_last_error() === JSON_ERROR_NONE){
-                        $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
-                        $custom_output .= $custom_markup;                            
-                        $custom_output .= '</script>';
-                    }                                        
-                }else{
-                    $regex = '/<script type=\"application\/ld\+json">(.*?)<\/script>/s';
-                    preg_match_all( $regex, $custom_markup, $matches );
-                    if(!empty($matches) && isset($matches[1])){
-                        foreach ($matches[1] as $value) {
-                            json_decode($value);
-                            if(json_last_error() === JSON_ERROR_NONE){
-                                $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
-                                $custom_output .= $value;                            
-                                $custom_output .= '</script>';
-                            }                            
-                        }
-                    } 
-                    
-                }
-                                                                                                                                                                                                                              
             }            
             if($user_custom_markup){    
                 
@@ -3612,4 +3617,19 @@ function saswp_default_video_object_schema(){
         }
     }
     return $input1;
+}
+
+/**
+ * Render the custom schema markup only if option is enabled in schema settings
+ * @since 1.33
+ * */
+function saswp_global_custom_schema_option(){
+    global $sd_data;       
+    if( saswp_remove_warnings($sd_data, 'saswp-for-cschema', 'saswp_string') == '' || saswp_remove_warnings($sd_data, 'saswp-for-cschema', 'saswp_string') == 1 ) {
+        return true;
+
+    }else{
+        return false;
+        
+    } 
 }

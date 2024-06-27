@@ -5509,7 +5509,9 @@ Class saswp_output_service{
                     // Changes since version 1.15
                     if((isset($custom_fields['saswp_product_schema_rp_country_code']) && !empty($custom_fields['saswp_product_schema_rp_country_code'])) || (isset($custom_fields['saswp_product_schema_rp_category']) && !empty($custom_fields['saswp_product_schema_rp_category'])) || (isset($custom_fields['saswp_product_schema_rp_return_days']) && !empty($custom_fields['saswp_product_schema_rp_return_days'])) || (isset($custom_fields['saswp_product_schema_rp_return_method']) && !empty($custom_fields['saswp_product_schema_rp_return_method'])) || (isset($custom_fields['saswp_product_schema_rp_return_fees']) && !empty($custom_fields['saswp_product_schema_rp_return_method']))){
                         $input1['offers']['hasMerchantReturnPolicy']['@type'] = 'MerchantReturnPolicy';
-                        $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($custom_fields['saswp_product_schema_rp_country_code']);
+                        if(!empty($custom_fields['saswp_product_schema_rp_country_code'])){
+                            $input1['offers']['hasMerchantReturnPolicy']['applicableCountry'] = esc_attr($custom_fields['saswp_product_schema_rp_country_code']);
+                        }
                         if(isset($custom_fields['saswp_product_schema_rp_category']) && !empty($custom_fields['saswp_product_schema_rp_category'])){
                             $rp_category = array('MerchantReturnFiniteReturnWindow','MerchantReturnNotPermitted','MerchantReturnUnlimitedWindow','MerchantReturnUnspecified');
                             if(in_array($custom_fields['saswp_product_schema_rp_category'], $rp_category)){
@@ -5810,19 +5812,34 @@ Class saswp_output_service{
                         
                         if(isset($custom_fields['saswp_real_estate_listing_location_name'])){
 
-                            $location = array(
-                                '@type' => 'Place',
-                                'name' => $custom_fields['saswp_real_estate_listing_location_name'],                                                               
-                                'telephone' => $custom_fields['saswp_real_estate_listing_location_name'],                                
-                                'address' => array(
-                                            '@type' => 'PostalAddress',
-                                            'streetAddress'   => $custom_fields['saswp_real_estate_listing_streetaddress'],
-                                            'addressLocality' => $custom_fields['saswp_real_estate_listing_locality'],
-                                            'addressRegion'   => $custom_fields['saswp_real_estate_listing_region'],
-                                            'addressCountry'   => $custom_fields['saswp_real_estate_listing_country'],
-                                            'postalCode'      => $custom_fields['saswp_real_estate_listing_postalcode'],  
-                                ),
-                            );
+                            $location['@type']  =   'Place';   
+                            $location['name']   =   $custom_fields['saswp_real_estate_listing_location_name'];
+                            if(!empty($custom_fields['saswp_real_estate_listing_phone'])){
+                                $location['telephone']      =   $custom_fields['saswp_real_estate_listing_phone'];
+                            }
+                            if(!empty($custom_fields['saswp_real_estate_listing_streetaddress']) || !empty($custom_fields['saswp_real_estate_listing_locality']) || !empty($custom_fields['saswp_real_estate_listing_region']) || !empty($custom_fields['saswp_real_estate_listing_country']) || !empty($custom_fields['saswp_real_estate_listing_postalcode'])){
+
+                                $location['address']['@type']       =   'PostalAddress';
+                                if(!empty($custom_fields['saswp_real_estate_listing_streetaddress'])){
+                                    $location['address']['streetAddress']     =    $custom_fields['saswp_real_estate_listing_streetaddress'];   
+                                }
+
+                                if(!empty($custom_fields['saswp_real_estate_listing_locality'])){
+                                    $location['address']['addressLocality']   =    $custom_fields['saswp_real_estate_listing_locality'];   
+                                }
+
+                                if(!empty($custom_fields['saswp_real_estate_listing_region'])){
+                                    $location['address']['addressRegion']     =    $custom_fields['saswp_real_estate_listing_region'];   
+                                }
+
+                                if(!empty($custom_fields['saswp_real_estate_listing_country'])){
+                                    $location['address']['addressCountry']   =    $custom_fields['saswp_real_estate_listing_country'];   
+                                }
+
+                                if(!empty($custom_fields['saswp_real_estate_listing_postalcode'])){
+                                    $location['address']['postalCode']   =    $custom_fields['saswp_real_estate_listing_postalcode'];   
+                                }
+                            }
 
                             $input1['contentLocation'] = $location;
                         }
@@ -7493,6 +7510,23 @@ Class saswp_output_service{
                     } 
                     if(isset($custom_fields['saswp_lr_time_iaff'])){
                         $input1['isAccessibleForFree'] = $custom_fields['saswp_lr_time_iaff'];
+                    }  
+                    if(!empty($custom_fields['saswp_lr_eaef']) || !empty($custom_fields['saswp_lr_eatn']) || !empty($custom_fields['saswp_lr_eatu'])){
+                        $input1['educationalAlignment']['@type']                    = 'AlignmentObject';
+                        $input1['educationalAlignment']['alignmentType']            = 'educationalSubject';
+                        if(!empty($custom_fields['saswp_lr_eaef'])){
+                            $input1['educationalAlignment']['educationalFramework'] = $custom_fields['saswp_lr_eaef']; 
+                        }
+                        if(!empty($custom_fields['saswp_lr_eatn'])){
+                            $input1['educationalAlignment']['targetName'] = $custom_fields['saswp_lr_eatn']; 
+                        }
+                        if(!empty($custom_fields['saswp_lr_eatu'])){
+                            $input1['educationalAlignment']['targetUrl']  = $custom_fields['saswp_lr_eatu']; 
+                        }
+                    }
+                    if(!empty($custom_fields['saswp_lr_audience'])){
+                        $input1['audience']['@type'] = 'EducationalAudience';
+                        $input1['audience']['educationalRole'] = $custom_fields['saswp_lr_audience'];
                     }  
                 break;
                

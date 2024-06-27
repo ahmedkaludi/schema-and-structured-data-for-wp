@@ -957,8 +957,21 @@ function saswp_amp_page_callback(){
                              'id'   => 'saswp-for-wordpress',
                              'name' => 'sd_data[saswp-for-wordpress]',                             
                         )
-		)                                         
+		),
+        array(
+            'label'  => 'Custom Schema',
+            'id'     => 'saswp-for-cschema-checkbox',
+                        'name'   => 'saswp-for-cschema-checkbox',
+            'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => '',
+                        'hidden' => array(
+                             'id'   => 'saswp-for-cschema',
+                             'name' => 'sd_data[saswp-for-cschema]',                             
+                        )
+        )                                         
 	);        
+
          echo '<div class="saswp-heading">';
          echo '<h2>'.saswp_t_string('Enable On').'</h2>';        
          echo '</div>';

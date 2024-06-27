@@ -171,6 +171,9 @@ class saswp_view_common_class {
                                     if (saswp_is_date_field($meta_field['name'].'_'.$index.'_'.$schema_id)) {
                                                 $class='saswp-datepicker-picker';    
                                     }
+                                    if (saswp_is_time_field($meta_field['name'])) {
+                                                $class='saswp-timepicker';    
+                                    }
                                     $data_value = isset($data[$meta_field['name']]) ? $data[$meta_field['name']] : '';
                                      $input = sprintf(
 						'<input class="%s"  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
@@ -690,44 +693,46 @@ class saswp_view_common_class {
             
             foreach ( $response as $meta_field ) {
                             
-			if ( isset( $post_meta[ $meta_field['id'] ] ) ) {
+			if ( isset($meta_field['id']) && isset( $post_meta[ $meta_field['id'] ] ) ) {
                             
-				switch ( $meta_field['type'] ) {
-                                    
-                    case 'media':                                                                                                  
-                            $media_key       = $meta_field['id'].'_detail';
-                            $media_height    = sanitize_text_field( $post_meta[ $meta_field['id'].'_height' ] );
-                            $media_width     = sanitize_text_field( $post_meta[ $meta_field['id'].'_width' ] );
-                            $media_thumbnail = sanitize_text_field( $post_meta[ $meta_field['id'].'_thumbnail' ] );
-                            
-                            if($media_height && $media_width && $media_thumbnail){
+				if(isset($meta_field['type'])){
+                    switch ( $meta_field['type'] ) {
+                                        
+                        case 'media':                                                                                                  
+                                $media_key       = $meta_field['id'].'_detail';
+                                $media_height    = sanitize_text_field( $post_meta[ $meta_field['id'].'_height' ] );
+                                $media_width     = sanitize_text_field( $post_meta[ $meta_field['id'].'_width' ] );
+                                $media_thumbnail = sanitize_text_field( $post_meta[ $meta_field['id'].'_thumbnail' ] );
+                                
+                                if($media_height && $media_width && $media_thumbnail){
 
-                                $media_detail = array(                                                    
-                                    'height'    => $media_height,
-                                    'width'     => $media_width,
-                                    'thumbnail' => $media_thumbnail,
-                                );
-                            
-                                saswp_update_post_meta( $post_id, $media_key, $media_detail);
+                                    $media_detail = array(                                                    
+                                        'height'    => $media_height,
+                                        'width'     => $media_width,
+                                        'thumbnail' => $media_thumbnail,
+                                    );
+                                
+                                    saswp_update_post_meta( $post_id, $media_key, $media_detail);
 
-                            }
-                            
-                            break;
-					case 'email':
-						$post_meta[ $meta_field['id'] ] = sanitize_email( $post_meta[ $meta_field['id'] ] );
-						break;
-					case 'text':
-						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );
-						break;
-                    case 'textarea':
-						$post_meta[ $meta_field['id'] ] = saswp_sanitize_textarea_field( $post_meta[ $meta_field['id'] ] );
-						break;    
-                    default:
-						$post_meta[ $meta_field['id'] ] = wp_unslash( $post_meta[ $meta_field['id'] ] );						
-                                            
-				}
+                                }
+                                
+                                break;
+    					case 'email':
+    						$post_meta[ $meta_field['id'] ] = sanitize_email( $post_meta[ $meta_field['id'] ] );
+    						break;
+    					case 'text':
+    						$post_meta[ $meta_field['id'] ] = sanitize_text_field( $post_meta[ $meta_field['id'] ] );
+    						break;
+                        case 'textarea':
+    						$post_meta[ $meta_field['id'] ] = saswp_sanitize_textarea_field( $post_meta[ $meta_field['id'] ] );
+    						break;    
+                        default:
+    						$post_meta[ $meta_field['id'] ] = wp_unslash( $post_meta[ $meta_field['id'] ] );						
+                                                
+    				}
+                }
 				saswp_update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
-			} else if ( $meta_field['type'] === 'checkbox' ) {
+			} else if ( isset($meta_field['type']) && $meta_field['type'] === 'checkbox' ) {
 				saswp_delete_post_meta( $post_id, $meta_field['id']);
 			}
 		    }

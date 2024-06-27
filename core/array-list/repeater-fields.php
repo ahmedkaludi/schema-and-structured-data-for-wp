@@ -65,8 +65,9 @@ return array( 'schema_type_element' => array(
                                'faq-question' => 'faq_question',                                                
                         ),
                         'Event' => array(
+							   'event_schedule'=> 'event_schedule',
 							   'performer'     => 'performer', 
-							   'organizer'     => 'organizer',                                                
+							   'organizer'     => 'organizer',                                                                                                
 						),
 						'EducationalOccupationalProgram' => array(
 							'eopidentifier'     => 'eopidentifier', 
@@ -367,6 +368,60 @@ return array( 'schema_type_element' => array(
 								'type'      => 'text',                        
 							),							                                                            
 						),
+			'event_schedule'	=> array(
+				array(
+					'label'	=> 'Schedule Name',
+					'name'		=> 'saswp_event_schema_schedule_n',
+					'type'		=> 'text',
+				),
+	                     array(
+                            	'label' => 'Start Time',
+                            	'name'  => 'saswp_event_schema_schedule_st',
+                            	'type'  => 'text',                                
+	                     ),
+	                     array(
+	                     	'label' => 'End Time',
+	                            'name'  => 'saswp_event_schema_schedule_et',
+	                            'type' => 'text',                                
+	                     ),
+				array(
+					'label'	=> 'Schedule Repeat Frequency',
+					'name'		=> 'saswp_event_schema_schedule_rf',
+					'type'    	=> 'select',
+                                	'options' 	=> array(
+                                        ''      => 'Choose',
+                                        'P1W'   => 'Weekly',
+                                        'P1M'   => 'Monthly',
+                                        'P1D'   => 'EveryDay'                                        
+                               ) 
+				),
+				array(
+                                	'label' => 'Schedule byDay',
+                                	'name'  => 'saswp_event_schema_schedule_bd',
+                                	'type'  => 'text',
+                                	'attributes' => array(
+                                        'placeholder' => 'Monday, Wednesday'
+                                 	),
+                                	'note' => 'Note: Separate it by comma ( , )'                                  
+                        	),
+                        	array(
+                                	'label' => 'Schedule byMonthDay',
+                                	'name'  => 'saswp_event_schema_schedule_bmd',
+                                	'type'  => 'text',
+                                	'attributes' => array(
+                                        'placeholder' => '1, 13, 24'
+                                 	),
+                                 	'note' => 'Note: Separate it by comma ( , )'                                                                  
+                        	),
+                        	array(
+                                'label'  => 'Schedule Timezone',
+                                'name'     => 'saswp_event_schema_schedule_tmz',
+                                'type'   => 'text',
+                                'attributes' => array(
+                                        'placeholder' => 'Europe/London'
+                                 ),                                
+                        	)
+			),
 						'joblocation' => array(                    						
 							array(
 								'label'     => 'Street Address',
@@ -843,6 +898,11 @@ return array( 'schema_type_element' => array(
 		),
 		'course_instance' => array(                    
 		array(
+			'label'     => 'Name',
+			'name'      => 'saswp_course_instance_name',
+			'type'      => 'text'                     
+			),
+		array(
 			'label'     => 'Course Mode',
 			'name'      => 'saswp_course_instance_mode',
 			'type'      => 'text'                     
@@ -859,6 +919,16 @@ return array( 'schema_type_element' => array(
 			'type'      => 'date',
 			'default' => get_the_date("Y-m-d")
 			),
+		  array(
+              	'label' => 'Start Time',
+              	'name'  => 'saswp_course_instance_start_time',
+              	'type'  => 'text',                                
+	              ),
+	              array(
+              	'label' => 'End Time',
+                     'name'  => 'saswp_course_instance_end_time',
+                     'type' => 'text',                                
+	              ),
 		array(
 			'label'     => 'Course Workload',
 			'name'      => 'saswp_course_instance_wl',
@@ -884,7 +954,25 @@ return array( 'schema_type_element' => array(
 					'Monthly'    => 'Monthly',
 					'Yearly'     => 'Yearly'
 				)
-			), 
+			),
+		array(
+                  	'label' => 'Schedule byDay',
+                  	'name'  => 'saswp_course_instance_sbyd',
+                  	'type'  => 'text',
+                  	'attributes' => array(
+                          'placeholder' => 'Monday, Wednesday'
+                   	),
+                  	'note' => 'Note: Separate it by comma ( , )'                                  
+          	),
+          	array(
+                  	'label' => 'Schedule byMonthDay',
+                  	'name'  => 'saswp_course_instance_sbmd',
+                  	'type'  => 'text',
+                  	'attributes' => array(
+                          'placeholder' => '1, 13, 24'
+                   	),
+                   	'note' => 'Note: Separate it by comma ( , )'                                                                  
+          	), 
 		array(
 			'label'     => 'Location',
 			'name'      => 'saswp_course_instance_location',
@@ -989,6 +1077,11 @@ return array( 'schema_type_element' => array(
 		array(
 			'label'     => 'Target URL',
 			'name'      => 'saswp_lr_eatu',
+			'type'      => 'text'
+			),
+		array(
+			'label'     => 'Audience',
+			'name'      => 'saswp_lr_audience',
 			'type'      => 'text'
 			),
 		)
