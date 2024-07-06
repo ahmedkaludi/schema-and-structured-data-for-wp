@@ -2820,7 +2820,19 @@ function saswp_get_mainEntity($schema_id){
         if($item_list_enable){
 
             if(is_object($post)){
-                $post_content = apply_filters('the_content', $post->post_content);
+                if(isset($post->post_type) && $post->post_type == 'al_product'){
+                    /**
+                     * If product is created using  eCommerce Product Catalog Plugin for WordPress plugin
+                     * then get product description using get_product_description() function of that plugin
+                     * */
+                    if(function_exists('get_product_description')){
+                        $post_content = get_product_description( $post->ID );
+                    }else{
+                        $post_content = apply_filters('the_content', $post->post_content);
+                    }
+                }else{
+                    $post_content = apply_filters('the_content', $post->post_content);
+                }
             }
             
             $listitem = array();
