@@ -113,7 +113,7 @@ class Qanda_Block extends Widget_Base {
 		$accepted_repeater->add_control(
 			'url', [
 				'label' => __( 'URL', 'schema-and-structured-data-for-wp' ),
-				'type' => Controls_Manager::TEXT,				
+				'type' => Controls_Manager::URL,				
 				'show_label' => true                
 			]
 		);          
@@ -174,7 +174,7 @@ class Qanda_Block extends Widget_Base {
 		$suggested_repeater->add_control(
 			'url', [
 				'label' => __( 'URL', 'schema-and-structured-data-for-wp' ),
-				'type' => Controls_Manager::TEXT,				
+				'type' => Controls_Manager::URL,				
 				'show_label' => true                
 			]
 		);          
@@ -311,7 +311,7 @@ class Qanda_Block extends Widget_Base {
 
 				#>
 				<li class="elementor-repeater-item-{{ item._id }}">                                   
-				<a href="{{ item.url }}">
+				<a href="{{ _.escape(item.url) }}">
                 <p>{{{ item.text }}}</p>                        
 				</a>
 				<# 
@@ -352,7 +352,7 @@ class Qanda_Block extends Widget_Base {
 
 				#>
 				<li class="elementor-repeater-item-{{ item._id }}">                                   
-				<a href="{{ item.url }}">
+				<a href="{{ _.escape(item.url) }}">
 				<p>{{{ item.text }}}</p>                        
 				</a>
 				<# 
