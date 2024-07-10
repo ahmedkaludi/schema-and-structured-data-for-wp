@@ -111,7 +111,7 @@ class SASWP_Reviews_Form {
                 if($is_amp){
                     header("AMP-Redirect-To: ".$rv_link);
                     header("Access-Control-Expose-Headers: AMP-Redirect-To, AMP-Access-Control-Allow-Source-Origin");                                 
-                    echo json_decode(array('message'=> 'Nonce MisMatch'));die;
+                    echo wp_json_encode(array('message'=> 'Nonce MisMatch'));die;
                 }else{
                     wp_redirect( $rv_link );
                     exit; 

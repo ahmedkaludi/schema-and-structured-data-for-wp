@@ -15,7 +15,7 @@ class Faq_Block extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __( 'Faq Block', 'elementor' );
+		return esc_html__( 'Faq Block', 'schema-and-structured-data-for-wp' );
 	}
         public function get_keywords() {
 		return [ 'faq', 'faq schema', 'schema', 'structured data' ];
@@ -29,7 +29,7 @@ class Faq_Block extends Widget_Base {
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' => __( 'FAQ Block', 'plugin-name' ),
+				'label' => esc_html__( 'FAQ Block', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -38,10 +38,10 @@ class Faq_Block extends Widget_Base {
 
 		$repeater->add_control(
 			'faq_question', [
-				'label' => __( 'Question', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Question', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::TEXT,				
 				'label_block' => true,
-                                'default' => __( 'Question' , 'schema-and-structured-data-for-wp' ),
+                                'default' => esc_html__( 'Question' , 'schema-and-structured-data-for-wp' ),
                                 'dynamic' => [
 					'active' => true,
 				],
@@ -50,22 +50,22 @@ class Faq_Block extends Widget_Base {
 
 		$repeater->add_control(
 			'faq_answer', [
-				'label' => __( 'Answer', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Answer', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::WYSIWYG,				
 				'show_label' => false,
-                                'default' => __( 'Answer' , 'schema-and-structured-data-for-wp' ),
+                                'default' => esc_html__( 'Answer' , 'schema-and-structured-data-for-wp' ),
 			]
 		);
 
                 $this->add_control(
 			'order_type',
 			[
-				'label'     => __( 'Order Type', 'schema-and-structured-data-for-wp' ),
+				'label'     => esc_html__( 'Order Type', 'schema-and-structured-data-for-wp' ),
 				'type'      =>   Controls_Manager::SELECT,
                                 'options' => [
-                                        ''               => __( 'Select', 'schema-and-structured-data-for-wp' ),
-					'order_list'     => __( 'Order List', 'schema-and-structured-data-for-wp' ),
-					'unorder_list'   => __( 'Unorder List', 'schema-and-structured-data-for-wp' ),					
+                                        ''               => esc_html__( 'Select', 'schema-and-structured-data-for-wp' ),
+					'order_list'     => esc_html__( 'Order List', 'schema-and-structured-data-for-wp' ),
+					'unorder_list'   => esc_html__( 'Unorder List', 'schema-and-structured-data-for-wp' ),					
 				],
 			]
 		);
@@ -73,13 +73,13 @@ class Faq_Block extends Widget_Base {
 		$this->add_control(
 			'list',
 			[
-				'label' => __( 'Question List', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Question List', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::REPEATER,
 				'fields' => $repeater->get_controls(),
 				'default' => [
 					[
-						'saswp_faq_question' => __( 'First Question', 'schema-and-structured-data-for-wp' ),
-						'saswp_faq_answer' => __( 'First Answer. Click the edit button to change this text.', 'schema-and-structured-data-for-wp' ),
+						'saswp_faq_question' => esc_html__( 'First Question', 'schema-and-structured-data-for-wp' ),
+						'saswp_faq_answer' => esc_html__( 'First Answer. Click the edit button to change this text.', 'schema-and-structured-data-for-wp' ),
 					]					
 				],
 				'title_field' => '{{{ faq_question }}}',

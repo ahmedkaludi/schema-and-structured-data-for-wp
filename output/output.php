@@ -3340,7 +3340,7 @@ function saswp_archive_output(){
                         '@type' 		=> "CollectionPage",
                         '@id' 		    => esc_url($category_link).'#CollectionPage',
                         'headline' 		=> esc_attr($category_headline),
-                        'description' 	=> strip_tags(get_term($category_id)->description),
+                        'description' 	=> wp_strip_all_tags(get_term($category_id)->description),
                         'url'		 	=> esc_url($category_link),				
                         'hasPart' 		=> $category_posts
                     );
@@ -3383,7 +3383,7 @@ function saswp_archive_output(){
                         '@type' 		=> "Blog",
                         '@id' 		    => esc_url($category_link).'#Blog',
                         'headline' 		=> esc_attr($category_headline),
-                        'description' 	=> strip_tags(get_term($category_id)->description),
+                        'description' 	=> wp_strip_all_tags(get_term($category_id)->description),
                         'url'		 	=> esc_url($category_link),				
                         'blogPost' 		=> $category_posts
                     );
@@ -3521,7 +3521,7 @@ function saswp_author_output(){
             }
 
             if ( get_the_author_meta( 'description', $post_author->ID ) ) {
-                $input['description'] = strip_tags( get_the_author_meta( 'description', $post_author->ID ) );
+                $input['description'] = wp_strip_all_tags( get_the_author_meta( 'description', $post_author->ID ) );
             }
         }		
 		return apply_filters('saswp_modify_author_output', $input);

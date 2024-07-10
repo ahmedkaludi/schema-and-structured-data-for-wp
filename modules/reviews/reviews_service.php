@@ -391,7 +391,7 @@ class saswp_reviews_service {
                  
         update_option('saswp_rv_csv_upload_url','');                                            
         if ( count($errorDesc) ){
-            echo implode("\n<br/>", $errorDesc);              
+            echo esc_html(implode("\n<br/>", $errorDesc));              
             $wpdb->query('ROLLBACK');             
         }else{
             $wpdb->query('COMMIT'); 
@@ -1153,7 +1153,7 @@ class saswp_reviews_service {
                         $html .= '<a data-id="'.esc_attr($page_count).'" class="saswp-grid-page saswp-pagination-first-last" href="#">&raquo;</a>';                                     
                         
                         $html .= '</div>';  
-                        $html .= '<input type="hidden" id="saswp-no-page-load" value="'.$pagination_wpr.'"/>';  
+                        $html .= '<input type="hidden" id="saswp-no-page-load" value="'.esc_attr($pagination_wpr).'"/>';  
 
                 }
                                              

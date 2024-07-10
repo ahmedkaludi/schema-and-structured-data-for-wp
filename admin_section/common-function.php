@@ -180,7 +180,7 @@ if ( ! defined('ABSPATH') ) exit;
         }
                                      
         if ( count($errorDesc) ){
-          echo implode("\n<br/>", $errorDesc);              
+          echo esc_html(implode("\n<br/>", $errorDesc));              
           $wpdb->query('ROLLBACK');             
         }else{
           $wpdb->query('COMMIT'); 
@@ -488,7 +488,7 @@ if ( ! defined('ABSPATH') ) exit;
                 //Importing settings ends here
               
             if ( count($errorDesc) ){
-              echo implode("\n<br/>", $errorDesc); 
+              echo esc_html(implode("\n<br/>", $errorDesc)); 
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -556,7 +556,7 @@ if ( ! defined('ABSPATH') ) exit;
       }                      
       
       if ( count($errorDesc) ){
-        echo implode("\n<br/>", $errorDesc);           
+        echo esc_html(implode("\n<br/>", $errorDesc));           
         $wpdb->query('ROLLBACK');             
       }else{
         $wpdb->query('COMMIT'); 
@@ -629,7 +629,7 @@ if ( ! defined('ABSPATH') ) exit;
             }
                                  
            if ( count($errorDesc) ){
-              echo implode("\n<br/>", $errorDesc);           
+              echo esc_html(implode("\n<br/>", $errorDesc));           
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -791,7 +791,7 @@ if ( ! defined('ABSPATH') ) exit;
                     }                                    
           
            if ( count($errorDesc) ){
-              echo implode("\n<br/>", $errorDesc);           
+              echo esc_html(implode("\n<br/>", $errorDesc));           
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -891,7 +891,7 @@ if ( ! defined('ABSPATH') ) exit;
                     }
           
            if ( count($errorDesc) ){
-              echo implode("\n<br/>", $errorDesc);           
+              echo esc_html(implode("\n<br/>", $errorDesc));           
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -1074,7 +1074,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $result        = update_option('sd_data', $merge_options);
           
            if ( count($errorDesc) ){
-              echo implode("\n<br/>", $errorDesc);           
+              echo esc_html(implode("\n<br/>", $errorDesc));           
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -1226,7 +1226,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $result        = update_option('sd_data', $merge_options);
           
            if ( count($errorDesc) ){
-              echo implode("\n<br/>", $errorDesc);             
+              echo esc_html(implode("\n<br/>", $errorDesc));             
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -1625,7 +1625,7 @@ if ( ! defined('ABSPATH') ) exit;
                
               
             if ( count($errorDesc) ){
-              echo implode("\n<br/>", $errorDesc);              
+              echo esc_html(implode("\n<br/>", $errorDesc));              
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT'); 
@@ -1770,7 +1770,7 @@ if ( ! defined('ABSPATH') ) exit;
             }
 
             if (!empty($errorDesc) && is_array($errorDesc) && count($errorDesc) ){
-              echo implode("\n<br/>", $errorDesc); 
+              echo esc_html(implode("\n<br/>", $errorDesc)); 
               $wpdb->query('ROLLBACK');             
             }else{
               $wpdb->query('COMMIT');

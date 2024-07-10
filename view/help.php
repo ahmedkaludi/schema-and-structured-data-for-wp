@@ -49,7 +49,7 @@ function saswp_location_meta_box_cb($post){
 		<li><?php echo esc_html__('1. Using Gutenberg Block', 'schema-and-structured-data-for-wp'); ?> <a target="_blank" href="https://structured-data-for-wp.com/docs/" ><?php echo esc_html__('Learn More', 'schema-and-structured-data-for-wp'); ?></a></li>
 		<li><?php echo esc_html__('2. Using Widget', 'schema-and-structured-data-for-wp'); ?> <a target="_blank" href="https://structured-data-for-wp.com/docs/" ><?php echo esc_html__('Learn More', 'schema-and-structured-data-for-wp'); ?></a></li>
 		<li><?php echo esc_html__('3. Using shortcode', 'schema-and-structured-data-for-wp'); ?> <a target="_blank" href="https://structured-data-for-wp.com/docs/" ><?php echo esc_html__('Learn More', 'schema-and-structured-data-for-wp'); ?></a></li>
-		<li><?php echo esc_html__('Shortcode', 'schema-and-structured-data-for-wp'); ?> <input type="text" value='[saswp-location id="<?php echo get_the_ID(); ?>"]' readonly /></li>
+		<li><?php echo esc_html__('Shortcode', 'schema-and-structured-data-for-wp'); ?> <input type="text" value='[saswp-location id="<?php echo esc_attr(get_the_ID()); ?>"]' readonly /></li>
 		</ul>
 	</div>
 		

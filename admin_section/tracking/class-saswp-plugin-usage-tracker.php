@@ -269,7 +269,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			if( empty( $plugin ) ) {
 				// We can't find the plugin data
 				// Send a message back to our home site
-				$body['message'] .= __( 'We can\'t detect any product information. This is most probably because you have not included the code snippet.', 'singularity' );
+				$body['message'] .= __( 'We can\'t detect any product information. This is most probably because you have not included the code snippet.', 'schema-and-structured-data-for-wp' );
 				$body['status'] = 'Data not found'; // Never translated
 			} else {
 				if( isset( $plugin['Name'] ) ) {
@@ -702,7 +702,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				} else {
 					// If we have option 1 for marketing, we include reference to sending product information here
 					$notice_text = sprintf(
-						__( 'Thank you for installing our %1$s. We\'d like your permission to track its usage on your site and subscribe you to our newsletter. We won\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.', 'singularity' ),
+						__( 'Thank you for installing our %1$s. We\'d like your permission to track its usage on your site and subscribe you to our newsletter. We won\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.', 'schema-and-structured-data-for-wp' ),
 						$this->what_am_i
 					);
 				}
@@ -713,8 +713,8 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 					<p><?php echo '<strong>Love using Schema & Structured Data for WP & AMP?</strong>'; ?></p>
 					<p><?php echo esc_html( $notice_text ); ?> <a href="https://structured-data-for-wp.com/docs/article/usage-data-tracking/" target="_blank"><?php echo esc_html__( 'Learn more.', 'schema-and-structured-data-for-wp' ); ?></a></p>
 					<p>
-						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php echo _e( 'Sure! I\'d love to help', 'singularity' ); ?></a>&nbsp;&nbsp;
-						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php echo _e( 'No thanks', 'singularity' ); ?></a>
+						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php echo esc_html__( 'Sure! I\'d love to help', 'schema-and-structured-data-for-wp' ); ?></a>&nbsp;&nbsp;
+						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php echo esc_html__( 'No thanks', 'schema-and-structured-data-for-wp' ); ?></a>
 					</p>
 				</div>
 			<?php
@@ -751,7 +751,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				) );
 				
 				$marketing_text = sprintf(
-					__( 'Thank you for opting in to tracking. Would you like to receive occasional news about this %s, including details of new features and special offers?', 'singularity' ),
+					__( 'Thank you for opting in to tracking. Would you like to receive occasional news about this %s, including details of new features and special offers?', 'schema-and-structured-data-for-wp' ),
 					$this->what_am_i
 				);
 				$marketing_text = apply_filters( 'wisdom_marketing_text_' . esc_attr( $this->plugin_name ), $marketing_text ); ?>
@@ -760,8 +760,8 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 					<p><?php echo '<strong>' . esc_html( $plugin_name ) . '</strong>'; ?></p>
 					<p><?php echo esc_html( $marketing_text ); ?></p>
 					<p>
-						<a href="<?php echo esc_url( $url_yes ); ?>" data-putnotice="yes" class="button-secondary"><?php _e( 'Yes Please', 'singularity' ); ?></a>
-						<a href="<?php echo esc_url( $url_no ); ?>" data-putnotice="no" class="button-secondary"><?php _e( 'No Thank You', 'singularity' ); ?></a>
+						<a href="<?php echo esc_url( $url_yes ); ?>" data-putnotice="yes" class="button-secondary"><?php echo esc_html__( 'Yes Please', 'schema-and-structured-data-for-wp' ); ?></a>
+						<a href="<?php echo esc_url( $url_no ); ?>" data-putnotice="no" class="button-secondary"><?php echo esc_html__( 'No Thank You', 'schema-and-structured-data-for-wp' ); ?></a>
 					</p>
 				</div>
 				<?php }
@@ -790,18 +790,18 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 */
 		public function form_default_text() {
 			$form = array();
-			$form['heading'] = __( 'Sorry to see you go', 'singularity' );
-			$form['body'] = __( 'Before you deactivate the plugin, would you quickly give us your reason for doing so?', 'singularity' );
+			$form['heading'] = __( 'Sorry to see you go', 'schema-and-structured-data-for-wp' );
+			$form['body'] = __( 'Before you deactivate the plugin, would you quickly give us your reason for doing so?', 'schema-and-structured-data-for-wp' );
 			$form['options'] = array(
-				__( 'Set up is too difficult', 'singularity' ),
-				__( 'Lack of documentation', 'singularity' ),
-				__( 'Not the features I wanted', 'singularity' ),
-				__( 'Found a better plugin', 'singularity' ),
-				__( 'Installed by mistake', 'singularity' ),
-				__( 'Only required temporarily', 'singularity' ),
-				__( 'Didn\'t work', 'singularity' )
+				__( 'Set up is too difficult', 'schema-and-structured-data-for-wp' ),
+				__( 'Lack of documentation', 'schema-and-structured-data-for-wp' ),
+				__( 'Not the features I wanted', 'schema-and-structured-data-for-wp' ),
+				__( 'Found a better plugin', 'schema-and-structured-data-for-wp' ),
+				__( 'Installed by mistake', 'schema-and-structured-data-for-wp' ),
+				__( 'Only required temporarily', 'schema-and-structured-data-for-wp' ),
+				__( 'Didn\'t work', 'schema-and-structured-data-for-wp' )
 			);
-			$form['details'] = __( 'Details (optional)', 'singularity' );
+			$form['details'] = __( 'Details (optional)', 'schema-and-structured-data-for-wp' );
 			return $form;
 		}
 		
@@ -841,7 +841,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				$html .= '</div><!-- .put-goodbye-options -->';
 			}
 			$html .= '</div><!-- .put-goodbye-form-body -->';
-			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . __( 'Submitting form', 'singularity' ) . '</p>';
+			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . __( 'Submitting form', 'schema-and-structured-data-for-wp' ) . '</p>';
 			?>
 			<div class="put-goodbye-form-bg"></div>
 			<style type="text/css">
@@ -901,7 +901,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 						var url = document.getElementById("put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>");
 						$('body').toggleClass('put-form-active');
 						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeIn();
-						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").html( '<?php echo $html; ?>' + '<div class="put-goodbye-form-footer"><p><a id="put-submit-form" class="button primary" href="#"><?php _e( 'Submit and Deactivate', 'singularity' ); ?></a>&nbsp;<a class="secondary button" href="'+url+'"><?php _e( 'Just Deactivate', 'singularity' ); ?></a></p></div>');
+						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").html( '<?php echo $html; ?>' + '<div class="put-goodbye-form-footer"><p><a id="put-submit-form" class="button primary" href="#"><?php echo esc_html__( 'Submit and Deactivate', 'schema-and-structured-data-for-wp' ); ?></a>&nbsp;<a class="secondary button" href="'+url+'"><?php echo esc_html__( 'Just Deactivate', 'schema-and-structured-data-for-wp' ); ?></a></p></div>');
 						$('#put-submit-form').on('click', function(e){
 							// As soon as we click, the body of the form should disappear
 							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .put-goodbye-form-body").fadeOut();

@@ -885,7 +885,7 @@ function saswp_reading_time_and_word_count() {
 
     // Count the words in the content.
     $word_count      = 0;
-    $text            = trim( strip_tags( @get_the_content() ) );
+    $text            = trim( wp_strip_all_tags( @get_the_content() ) );
     
     if(!$text && is_object($post)){
         $text = $post->post_content;
@@ -1369,7 +1369,7 @@ function saswp_get_comments($post_id){
                 '@type'         => 'Comment',
                 'id'            => $permalink.'#comment-'.$comment->comment_ID,
                 'dateCreated'   => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
-                'description'   => strip_tags($comment->comment_content),
+                'description'   => wp_strip_all_tags($comment->comment_content),
                 'upvoteCount'   => $likes,
                 'downvoteCount' => $dislikes,
                 'author'      => array (
@@ -1436,7 +1436,7 @@ function saswp_get_comments_with_rating(){
                 $comments[] = array (
 					'@type'         => 'Review',
 					'datePublished' => saswp_format_date_time($comment->comment_date),
-					'description'   => strip_tags($comment->comment_content),
+					'description'   => wp_strip_all_tags($comment->comment_content),
 					'author'        => array (
                                             '@type' => 'Person',
                                             'name'  => esc_attr($comment->comment_author),

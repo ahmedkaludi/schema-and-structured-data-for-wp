@@ -422,7 +422,7 @@ class saswp_rating_box_backend {
                     </div> <!-- saswp-rbcc-app-preview -->
                 </div> 
                 <div id="saswp-modal-save-settings" style="margin-left: 10px;">
-                    <p class="submit"><input type="submit" name="saswp_settings_save" class="button button-primary" value="Save Settings"></p>
+                    <p class="submit"><input type="submit" name="saswp_settings_save" class="button button-primary" value="<?php esc_attr_e('Save Settings', 'schema-and-structured-data-for-wp'); ?>"></p>
                 </div>   
             </div>
         </div>

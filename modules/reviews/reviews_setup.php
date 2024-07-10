@@ -597,7 +597,7 @@ function saswp_reviews_filter() {
         $current_plugin = sanitize_text_field($_GET['slug']); // Check if option has been selected
       } ?>
       <select name="slug" id="slug">
-        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php esc_html_e( 'All' ); ?></option>
+        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php echo esc_html__( 'All', 'schema-and-structured-data-for-wp' ); ?></option>
         <?php foreach( $plugins as $key=>$value ) { ?>
           <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $current_plugin ); ?>><?php echo esc_html( $value ); ?></option>
         <?php } ?>

@@ -36,7 +36,7 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 			$body = $this->get_body_node();
 
-			$this->strip_tags( $body, $blacklisted_tags );
+			$this->strip_all_tags( $body, $blacklisted_tags );
 
 			$this->strip_attributes_recursive( $body, $blacklisted_attributes, $blacklisted_protocols );
 
@@ -136,7 +136,7 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 			}
 
 		}		
-		private function strip_tags( $node, $tag_names ) {
+		private function strip_all_tags( $node, $tag_names ) {
 
 			foreach ( $tag_names as $tag_name ) {
 

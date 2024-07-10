@@ -15,7 +15,7 @@ class HowTo_Block extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __( 'HowTo Block', 'elementor' );
+		return esc_html__( 'HowTo Block', 'schema-and-structured-data-for-wp' );
 	}
         public function get_keywords() {
 		return [ 'howto', 'how to','how to schema', 'schema', 'structured data' ];
@@ -29,7 +29,7 @@ class HowTo_Block extends Widget_Base {
 		$this->start_controls_section(
 			'time_section',
 			[
-				'label' => __( 'Time Needed', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Time Needed', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -37,7 +37,7 @@ class HowTo_Block extends Widget_Base {
 		$this->add_control(
 			'howto_days',
 			[
-				'label'       => __( 'Days', 'schema-and-structured-data-for-wp' ),
+				'label'       => esc_html__( 'Days', 'schema-and-structured-data-for-wp' ),
 				'type'        =>   Controls_Manager::NUMBER, 
 				'placeholder' => 'DD'                               
 			]
@@ -46,7 +46,7 @@ class HowTo_Block extends Widget_Base {
 		$this->add_control(
 			'howto_hours',
 			[
-				'label'       => __( 'Hours', 'schema-and-structured-data-for-wp' ),
+				'label'       => esc_html__( 'Hours', 'schema-and-structured-data-for-wp' ),
 				'type'        =>   Controls_Manager::NUMBER,                                
 				'placeholder' => 'HH'  
 			]
@@ -55,7 +55,7 @@ class HowTo_Block extends Widget_Base {
 		$this->add_control(
 			'howto_minutes',
 			[
-				'label'       => __( 'Minutes', 'schema-and-structured-data-for-wp' ),
+				'label'       => esc_html__( 'Minutes', 'schema-and-structured-data-for-wp' ),
 				'type'        =>   Controls_Manager::NUMBER,                                
 				'placeholder' => 'MM'  
 			]
@@ -66,7 +66,7 @@ class HowTo_Block extends Widget_Base {
 		$this->start_controls_section(
 			'cost_section',
 			[
-				'label' => __( 'Estimate Cost', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Estimate Cost', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -74,7 +74,7 @@ class HowTo_Block extends Widget_Base {
 		$this->add_control(
 			'howto_currency',
 			[
-				'label'            => __( 'Currency', 'schema-and-structured-data-for-wp' ),
+				'label'            => esc_html__( 'Currency', 'schema-and-structured-data-for-wp' ),
 				'type'             =>   Controls_Manager::TEXT,
 				'placeholder'      =>   'USD',                                
 			]
@@ -83,7 +83,7 @@ class HowTo_Block extends Widget_Base {
 		$this->add_control(
 			'howto_price',
 			[
-				'label'       => __( 'Price', 'schema-and-structured-data-for-wp' ),
+				'label'       => esc_html__( 'Price', 'schema-and-structured-data-for-wp' ),
 				'type'        =>   Controls_Manager::NUMBER,                                
 				'placeholder' => '20'
 			]
@@ -94,7 +94,7 @@ class HowTo_Block extends Widget_Base {
 		$this->start_controls_section(
 			'description_section',
 			[
-				'label' => __( 'Description', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -102,9 +102,9 @@ class HowTo_Block extends Widget_Base {
 		$this->add_control(
 			'howto_description',
 			[
-				'label'            => __( 'Description', 'schema-and-structured-data-for-wp' ),
+				'label'            => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
 				'type'             =>   Controls_Manager::TEXTAREA,
-				'placeholder'      =>  __( 'Enter how to description', 'schema-and-structured-data-for-wp' ),                                
+				'placeholder'      =>  esc_html__( 'Enter how to description', 'schema-and-structured-data-for-wp' ),                                
 			]
 		);
 
@@ -113,7 +113,7 @@ class HowTo_Block extends Widget_Base {
 		$this->start_controls_section(
 			'step_section',
 			[
-				'label' => __( 'Steps', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Steps', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);		
@@ -122,9 +122,9 @@ class HowTo_Block extends Widget_Base {
 
 		$repeater->add_control(
 			'howto_step_title', [
-				'label' => __( 'Step', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Step', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::TEXT,
-				'placeholder' => __( 'Enter step title', 'schema-and-structured-data-for-wp' ),				
+				'placeholder' => esc_html__( 'Enter step title', 'schema-and-structured-data-for-wp' ),				
 				'label_block' => true,                                
                                 'dynamic' => [
 					'active' => true,
@@ -134,7 +134,7 @@ class HowTo_Block extends Widget_Base {
 
 		$repeater->add_control(
 			'howto_step_description', [
-				'label' => __( 'Description', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::WYSIWYG,				
 				'show_label' => false                                
 			]
@@ -143,13 +143,13 @@ class HowTo_Block extends Widget_Base {
 		$this->add_control(
 			'step_list',
 			[
-				'label' => __( 'Steps', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Steps', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::REPEATER,
 				'fields' => $repeater->get_controls(),
 				'default' => [
 					[
-						'saswp_howto_step_title' => __( 'Step Title', 'schema-and-structured-data-for-wp' ),
-						'saswp_howto_step_description' => __( 'Step Description. Click the edit button to change this text.', 'schema-and-structured-data-for-wp' ),
+						'saswp_howto_step_title' => esc_html__( 'Step Title', 'schema-and-structured-data-for-wp' ),
+						'saswp_howto_step_description' => esc_html__( 'Step Description. Click the edit button to change this text.', 'schema-and-structured-data-for-wp' ),
 					]					
 				],
 				'title_field' => '{{{ howto_step_title }}}',
@@ -161,7 +161,7 @@ class HowTo_Block extends Widget_Base {
 		$this->start_controls_section(
 			'tools_section',
 			[
-				'label' => __( 'Tools', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Tools', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -170,9 +170,9 @@ class HowTo_Block extends Widget_Base {
 
 		$tool_repeater->add_control(
 			'howto_tool_name', [
-				'label' => __( 'Tool Name', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Tool Name', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::TEXT,				
-				'placeholder' => __( 'Enter tool name', 'schema-and-structured-data-for-wp' ),
+				'placeholder' => esc_html__( 'Enter tool name', 'schema-and-structured-data-for-wp' ),
 				'label_block' => true,                                
                                 'dynamic' => [
 					'active' => true,
@@ -183,7 +183,7 @@ class HowTo_Block extends Widget_Base {
 		$this->add_control(
 			'tool_list',
 			[
-				'label' => __( 'Tool', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Tool', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::REPEATER,
 				'fields' => $tool_repeater->get_controls(),				
 				'title_field' => '{{{ howto_tool_name }}}',
@@ -196,7 +196,7 @@ class HowTo_Block extends Widget_Base {
 		$this->start_controls_section(
 			'materials_section',
 			[
-				'label' => __( 'Materials', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Materials', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -205,9 +205,9 @@ class HowTo_Block extends Widget_Base {
 
 		$material_repeater->add_control(
 			'howto_material_name', [
-				'label' => __( 'Material Name', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Material Name', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::TEXT,
-				'placeholder' => __( 'Enter material name', 'schema-and-structured-data-for-wp' ),				
+				'placeholder' => esc_html__( 'Enter material name', 'schema-and-structured-data-for-wp' ),				
 				'label_block' => true,                                
                                 'dynamic' => [
 					'active' => true,
@@ -218,7 +218,7 @@ class HowTo_Block extends Widget_Base {
 		$this->add_control(
 			'material_list',
 			[
-				'label' => __( 'Material', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Material', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::REPEATER,
 				'fields' => $material_repeater->get_controls(),				
 				'title_field' => '{{{ howto_material_name }}}',
@@ -231,7 +231,7 @@ class HowTo_Block extends Widget_Base {
 		$this->start_controls_section(
 			'settings_section',
 			[
-				'label' => __( 'Settings', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Settings', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -239,12 +239,12 @@ class HowTo_Block extends Widget_Base {
 		$this->add_control(
 			'order_type',
 			[
-				'label'     => __( 'Order Type', 'schema-and-structured-data-for-wp' ),
+				'label'     => esc_html__( 'Order Type', 'schema-and-structured-data-for-wp' ),
 				'type'      =>   Controls_Manager::SELECT,
                                 'options' => [
-                                        ''               => __( 'Select', 'schema-and-structured-data-for-wp' ),
-								'order_list'     => __( 'Order List', 'schema-and-structured-data-for-wp' ),
-								'unorder_list'   => __( 'Unorder List', 'schema-and-structured-data-for-wp' ),					
+                                        ''               => esc_html__( 'Select', 'schema-and-structured-data-for-wp' ),
+								'order_list'     => esc_html__( 'Order List', 'schema-and-structured-data-for-wp' ),
+								'unorder_list'   => esc_html__( 'Unorder List', 'schema-and-structured-data-for-wp' ),					
 				],
 			]
 		);
@@ -273,16 +273,16 @@ class HowTo_Block extends Widget_Base {
 
 			if($settings['howto_days'] || $settings['howto_hours'] || $settings['howto_minutes']){
 				echo '<div class="elementor-how-to-time-needed">';				
-				echo '<strong>'.__( 'Time Needed', 'schema-and-structured-data-for-wp' ).' : </strong>';
+				echo '<strong>'.esc_html__( 'Time Needed', 'schema-and-structured-data-for-wp' ).' : </strong>';
 
 				if($settings['howto_days']){
-					echo esc_html($settings['howto_days']) .' '. __( 'days', 'schema-and-structured-data-for-wp' ).' ';
+					echo esc_html($settings['howto_days']) .' '. esc_html__( 'days', 'schema-and-structured-data-for-wp' ).' ';
 				}
 				if($settings['howto_hours']){
-					echo esc_html($settings['howto_hours']) .' '. __( 'hours', 'schema-and-structured-data-for-wp' ).' ';
+					echo esc_html($settings['howto_hours']) .' '. esc_html__( 'hours', 'schema-and-structured-data-for-wp' ).' ';
 				}
 				if($settings['howto_minutes']){
-					echo esc_html($settings['howto_minutes']) .' '. __( 'minutes', 'schema-and-structured-data-for-wp' );
+					echo esc_html($settings['howto_minutes']) .' '. esc_html__( 'minutes', 'schema-and-structured-data-for-wp' );
 				}
 
 				echo '</div>';
@@ -290,7 +290,7 @@ class HowTo_Block extends Widget_Base {
 
 			if($settings['howto_currency'] && $settings['howto_price']){
 				echo '<div class="elementor-how-to-estimate-cost">';				
-				echo '<strong> '.__( 'Estimate Cost', 'schema-and-structured-data-for-wp' ).' : </strong>';
+				echo '<strong> '.esc_html__( 'Estimate Cost', 'schema-and-structured-data-for-wp' ).' : </strong>';
 				echo esc_html($settings['howto_currency']). ' '. esc_html($settings['howto_price']); 						
 				echo '</div>';
 			}
@@ -321,7 +321,7 @@ class HowTo_Block extends Widget_Base {
 			if($settings['tool_list']){
 
 				echo '<div class="elementor-repeater-tools-div">';
-				echo '<h5>'.__( 'Tools', 'schema-and-structured-data-for-wp' ).'</h5>';
+				echo '<h5>'.esc_html__( 'Tools', 'schema-and-structured-data-for-wp' ).'</h5>';
 				echo '<ul>';
 							$i = 1;
 				foreach (  $settings['tool_list'] as $item ) {
@@ -343,7 +343,7 @@ class HowTo_Block extends Widget_Base {
 			if($settings['material_list']){
 
 				echo '<div class="elementor-repeater-material-div">';
-				echo '<h5>'.__( 'Material', 'schema-and-structured-data-for-wp' ).'</h5>';
+				echo '<h5>'.esc_html__( 'Material', 'schema-and-structured-data-for-wp' ).'</h5>';
 				echo '<ul>';
 							$i = 1;
 				foreach (  $settings['material_list'] as $item ) {

@@ -138,7 +138,7 @@ $saswp_add_data_type_config = array(
 		ob_start();
 		saswp_add_new_header(); ?>
 		<div class="merlin__wrapper">
-            <div class="saswp_install_wizard"><?php esc_html_e('ADD NEW SCHEMA'); ?></div>
+            <div class="saswp_install_wizard"><?php echo esc_html__('ADD NEW SCHEMA', 'schema-and-structured-data-for-wp'); ?></div>
 			<div class="merlin__content merlin__content--<?php echo esc_attr( strtolower( $title ) ); ?>">
 				<?php
 				// Content Handlers.

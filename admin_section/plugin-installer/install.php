@@ -117,7 +117,7 @@
 		ob_start();
 		saswp_install_header(); ?>
 		<div class="merlin__wrapper">
-            <div class="saswp_install_wizard"><?php esc_html_e('Schema and Structured Data Installation Wizard'); ?></div>
+            <div class="saswp_install_wizard"><?php echo esc_html__('Schema and Structured Data Installation Wizard', 'schema-and-structured-data-for-wp'); ?></div>
 			<div class="merlin__content merlin__content--<?php echo esc_attr( strtolower( $title ) ); ?>">
 				<?php
 				// Content Handlers.

@@ -179,8 +179,8 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                                                                  
                         if($schema_type != 'local_business'){
 
-                            $style_business_type = 'style="display:none"';
-                            $style_business_name = 'style="display:none"';
+                            $style_business_type = 'none';
+                            $style_business_name = 'none';
 
                          }  
 
@@ -323,8 +323,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>                      
                    </td>
                 </tr>   
-
-                <tr class="saswp-business-type-tr" <?php echo $style_business_type; ?>>
+            <?php if($style_business_type){ ?>
+                <tr class="saswp-business-type-tr" style="display:none;">
+            <?php }else{ ?>
+                <tr class="saswp-business-type-tr">
+            <?php } ?>
                     <td>
                     <?php echo esc_html__('Business Type', 'schema-and-structured-data-for-wp' ); ?>    
                     </td>
@@ -343,8 +346,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>  
                     </td>
                 </tr>
-                
-                <tr class="saswp-organization-type-tr" <?php echo $style_business_type; ?>>
+            <?php if($style_business_type){ ?>
+                <tr class="saswp-organization-type-tr" style="display:none;">
+            <?php }else{ ?>
+                <tr class="saswp-organization-type-tr">
+            <?php } ?>                
                     <td>
                     <?php echo esc_html__('Organization Type', 'schema-and-structured-data-for-wp' ); ?>    
                     </td>
@@ -362,9 +368,12 @@ function saswp_schema_type_meta_box_callback( $post) {
                         ?>
                     </select>  
                     </td>
-                </tr>
-
-                <tr class="saswp-event-text-field-tr" <?php echo $style_business_type; ?>>
+                </tr>                
+            <?php if($style_business_type){ ?>
+                <tr class="saswp-event-text-field-tr" style="display:none;">
+            <?php }else{ ?>
+                <tr class="saswp-event-text-field-tr">
+            <?php } ?>
                     <td>
                     <?php echo esc_html__('Event Type', 'schema-and-structured-data-for-wp' ); ?>    
                     </td>

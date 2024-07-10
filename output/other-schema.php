@@ -196,7 +196,7 @@ function saswp_recipress_json_ld($input1){
             $input1['totalTime'] = recipress_recipe('ready_time','iso');
         }
 
-        $cuisines = strip_tags( get_the_term_list( $post->ID, 'cuisine', '', ', ') );
+        $cuisines = wp_strip_all_tags( get_the_term_list( $post->ID, 'cuisine', '', ', ') );
 
         if($cuisines){
               $input1['recipeCuisine'] = $cuisines;

@@ -1049,9 +1049,9 @@ class SASWP_Reviews_Collection {
                                                     foreach ($choice as $key => $value) {
 
                                                         if(isset($selected_val[0]) && !empty($selected_val[0]) && $selected_val[0] == $key){
-                                                            echo '<option value="'.$key.'" selected>'.esc_html($value).'</option>';
+                                                            echo '<option value="'.esc_attr($key).'" selected>'.esc_html($value).'</option>';
                                                         }else{
-                                                            echo '<option value="'.$key.'">'.esc_html($value).'</option>';
+                                                            echo '<option value="'.esc_attr($key).'">'.esc_html($value).'</option>';
                                                         }
                                                         
                                                     }
