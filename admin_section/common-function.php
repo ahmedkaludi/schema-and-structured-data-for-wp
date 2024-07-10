@@ -1915,6 +1915,162 @@ if ( ! defined('ABSPATH') ) exit;
 
                 return $tab;
             }
+    
+/**
+ * Set default values for all options
+ * @since 1.34
+ * @param $data_type String
+ * @return $response Array
+ * */
+function saswp_fields_and_type($data_type = 'value'){
+
+    $sd_name  = 'default';
+    $logo     = array();
+    $bloginfo = get_bloginfo('name', 'display'); 
+
+    if($bloginfo){
+
+    $sd_name = $bloginfo;
+
+    }
+
+    $current_url    = get_home_url();           
+    $custom_logo_id = get_theme_mod( 'custom_logo' );
+
+    if($custom_logo_id){
+        
+        if(class_exists('FOXIZ_CORE')){
+            if(function_exists('wp_get_current_user')){
+                $logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );                      
+            }                       
+        }else{
+            $logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );                  
+        }                                  
+    }
+
+    $user_id        = get_current_user_id();
+    $username       = '';
+
+    if($user_id > 0){
+
+        $user_info = get_userdata($user_id);
+        $username  = $user_info->data->display_name;
+
+    }
+
+
+    // General Settings
+    $defaults = array(
+        'saswp_website_schema'                          => array('type' => 'checkbox', 'value' => 0),
+        'saswp_search_box_schema'                       => array('type' => 'checkbox', 'value' => 0),
+        'saswp_archive_schema'                          => array('type' => 'checkbox', 'value' => 0),
+        'saswp_archive_list_type'                       => array('type' => 'select', 'value' => 'CollectionPage'),
+        'saswp_archive_schema_type'                     => array('type' => 'select', 'value' => 'Article'),
+        'saswp_woocommerce_archive'                     => array('type' => 'checkbox', 'value' => 1),
+        'saswp_woocommerce_archive_list_type'           => array('type' => 'select', 'value' => 'DetailedItemList'),
+        'saswp_breadcrumb_schema'                       => array('type' => 'checkbox', 'value' => 0),
+        'saswp_breadcrumb_home_page_title_text'         => array('type' => 'text', 'value' => get_bloginfo()),
+        'saswp_breadcrumb_remove_cat'                   => array('type' => 'checkbox', 'value' => 0),
+        'saswp_breadcrumb_exclude_shop'                 => array('type' => 'checkbox', 'value' => 0),
+        'saswp_breadcrumb_include_parent_cat'           => array('type' => 'checkbox', 'value' => 0),
+        'saswp_comments_schema'                         => array('type' => 'checkbox', 'value' => 0),
+        'saswp_remove_version_tag'                      => array('type' => 'checkbox', 'value' => 0),
+
+        // Knowledge Graph Settings
+        'saswp_kb_type'                                 => array('type' => 'select', 'value' => 'Organization'),
+        'saswp_organization_type'                       => array('type' => 'select', 'value' => ''),
+        'sd_name'                                       => array('type' => 'text', 'value' => $sd_name),
+        'sd_alt_name'                                   => array('type' => 'text', 'value' => $sd_name),
+        'sd_legal_name'                                 => array('type' => 'text', 'value' => ''),
+        'sd_url'                                        => array('type' => 'text', 'value' => $current_url),
+        'saswp_contact_type'                            => array('type' => 'select', 'value' => ''),
+        'saswp_kb_telephone'                            => array('type' => 'text', 'value' => ''),
+        'saswp_kb_contact_url'                          => array('type' => 'text', 'value' => ''),
+        'sd-person-name'                                => array('type' => 'text', 'value' => $username),
+        'sd-person-job-title'                           => array('type' => 'text', 'value' => ''),
+        'sd-person-phone-number'                        => array('type' => 'text', 'value' => ''),
+        'sd-person-url'                                 => array('type' => 'text', 'value' => $current_url),
+        'saswp_kb_contact_1'                            => array('type' => 'checkbox', 'value' => 0),
+        'sd_initial_wizard_status'                      => array('type' => 'checkbox', 'value' => 1),
+        'sd_default_image_width'                        => array('type' => 'text', 'value' => ''),
+        'sd_default_image_height'                       => array('type' => 'text', 'value' => ''),
+        'saswp_default_review'                          => array('type' => 'checkbox', 'value' => 1),
+        'saswp-single-price-product'                    => array('type' => 'checkbox', 'value' => 0),
+        'saswp-single-price-type'                       => array('type' => 'select', 'value' => 'high'),
+        'saswp-for-amp'                                 => array('type' => 'checkbox', 'value' => 0),
+        'saswp-for-wordpress'                           => array('type' => 'checkbox', 'value' => 1),
+        'saswp-for-cschema'                             => array('type' => 'checkbox', 'value' => 1),
+        'saswp-review-module'                           => array('type' => 'checkbox', 'value' => 0),
+        'saswp-stars-rating'                            => array('type' => 'checkbox', 'value' => 0),
+        'saswp-default-rating'                          => array('type' => 'number', 'value' => 5),
+        'instant_indexing_action'                       => array('type' => 'checkbox', 'value' => 1),
+        'instant_indexing'                              => array('type' => 'select', 'value' => array('post' => 1, 'page' => 1)),
+        'saswp-rbcc-review-bg-color'                    => array('type' => 'text', 'value' => '#000'),
+        'saswp-rbcc-review-f-color'                     => array('type' => 'text', 'value' => '#fff'),
+        'saswp-rbcc-review-f-size'                      => array('type' => 'number', 'value' => '15'),
+        'saswp-rbcc-review-f-unit'                      => array('type' => 'select', 'value' => 'px'),
+        'saswp-rbcc-if-color'                           => array('type' => 'text', 'value' => '#000'),
+        'saswp-rbcc-if-f-size'                          => array('type' => 'text', 'value' => '18'),
+        'saswp-rbcc-stars-color'                        => array('type' => 'text', 'value' => '#000'),
+        'saswp-rbcc-stars-f-size'                       => array('type' => 'number', 'value' => '18'),
+        'saswp-rbcc-if-f-unit'                          => array('type' => 'select', 'value' => 'px'),
+        'saswp-rbcc-stars-f-unit'                       => array('type' => 'text', 'value' => 'px'),
+        'saswp-rbcc-if-f-unit'                          => array('type' => 'text', 'value' => 'px'),
+        'saswp-rbcc-ar-color'                           => array('type' => 'text', 'value' => '#000'),
+        'saswp-rbcc-ar-f-size'                          => array('type' => 'number', 'value' => '48'),
+        'saswp-rbcc-ar-f-unit'                          => array('type' => 'select', 'value' => 'px'),
+        'saswp-defragment'                              => array('type' => 'checkbox', 'value' => 0),
+        'saswp-markup-footer'                           => array('type' => 'checkbox', 'value' => 0),
+        'saswp-pretty-print'                            => array('type' => 'checkbox', 'value' => 0),
+        'saswp-microdata-cleanup'                       => array('type' => 'checkbox', 'value' => 1),
+        'saswp-other-images'                            => array('type' => 'checkbox', 'value' => 1),
+        'saswp-image-resizing'                          => array('type' => 'checkbox', 'value' => 1),
+        'saswp-multiple-size-image'                     => array('type' => 'checkbox', 'value' => 1),
+        'saswp-resized-image-folder'                    => array('type' => 'checkbox', 'value' => 0),
+        'saswp-youtube-api'                             => array('type' => 'text', 'value' => ''),
+        'saswp-rss-feed-image'                          => array('type' => 'checkbox', 'value' => 0),
+        'saswp-default-videoobject'                     => array('type' => 'checkbox', 'value' => 1),
+        'saswp-full-heading'                            => array('type' => 'checkbox', 'value' => 0),
+        'saswp-truncate-product-description'            => array('type' => 'checkbox', 'value' => 0),
+        'saswp-role-based-access'                       => array('type' => 'select', 'value' => array('administrator'))
+    );
+    
+    if(is_array($logo)){
+
+        $defaults['sd_logo']  = array(
+                    'type' => 'text',
+                    'value' => array(
+                        'url'           => array_key_exists(0, $logo)? $logo[0]:'',
+                        'id'            => $custom_logo_id,
+                        'height'        => array_key_exists(2, $logo)? $logo[2]:'',
+                        'width'         => array_key_exists(1, $logo)? $logo[1]:'',
+                        'thumbnail'     => array_key_exists(0, $logo)? $logo[0]:'' )
+                    );                  
+        
+    }
+    
+    $response = [];
+    switch ($data_type) {
+        case 'type':
+            foreach ($defaults as $key => $value) {
+                $response[$key] = $value['type'];
+            }
+            break;
+        case 'value':
+            foreach ($defaults as $key => $value) {
+                $response[$key] = $value['value'];
+            }
+            break;
+        
+        default:
+            $response = $defaults;
+            break;
+    }
+
+    return $response; 
+}  
+
+
     /**
      * Function to get schema settings
      * @global type $sd_data
@@ -1923,77 +2079,9 @@ if ( ! defined('ABSPATH') ) exit;
      */   
             
     function saswp_default_settings_array(){
-                        
-                $sd_name  = 'default';
-                $logo     = array();
-                $bloginfo = get_bloginfo('name', 'display'); 
-
-                if($bloginfo){
-
-                $sd_name = $bloginfo;
-
-                }
-
-                $current_url    = get_home_url();           
-                $custom_logo_id = get_theme_mod( 'custom_logo' );
-
-                if($custom_logo_id){
-                    
-                    if(class_exists('FOXIZ_CORE')){
-						if(function_exists('wp_get_current_user')){
-							$logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               		
-						}						
-					}else{
-						$logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );               	
-					}                                  
-                }
-
-                $user_id        = get_current_user_id();
-                $username       = '';
-
-                if($user_id > 0){
-
-                    $user_info = get_userdata($user_id);
-                    $username  = $user_info->data->display_name;
-
-                }
-                $defaults = array(                                                                                                
-                        'saswp_kb_type'             => 'Organization',    
-                        'sd_name'                   => $sd_name,   
-                        'sd_alt_name'               => $sd_name,
-                        'sd_url'                    => $current_url,                    
-                        'sd-person-name'            => $username,                                            
-                        'sd-person-url'             => $current_url,                                                                                                
-                        'saswp_kb_contact_1'        => 0,                                                                                            
-                        'saswp-for-wordpress'       => 1,                                                                        
-                        'saswp-for-cschema'         => 1,                                                                        
-                        'sd_initial_wizard_status'  => 1,
-                        'saswp-microdata-cleanup'   => 1,
-                        'saswp-default-videoobject' => 1,
-                        'saswp-other-images'        => 1,
-                        'saswp_default_review'      => 1,
-                        'saswp-multiple-size-image' => 1,
-                        'saswp-image-resizing'      => 1,
-                        'saswp_woocommerce_archive' => 1,
-                        'saswp-default-rating'      => 5,
-                        'instant_indexing_action'   => 1,
-                        'instant_indexing'          => array('post' => 1, 'page' => 1)   
-                );	  
-                
-                if(is_array($logo)){
-
-                    $defaults['sd_logo']  = array(
-                                    'url'           => array_key_exists(0, $logo)? $logo[0]:'',
-                                    'id'            => $custom_logo_id,
-                                    'height'        => array_key_exists(2, $logo)? $logo[2]:'',
-                                    'width'         => array_key_exists(1, $logo)? $logo[1]:'',
-                                    'thumbnail'     => array_key_exists(0, $logo)? $logo[0]:''        
-                                );                   
-                    
-                }
-                
-                return $defaults;
-        
+        $defaults = saswp_fields_and_type();
+        $defaults = apply_filters("saswp_default_settings_vals",$defaults);
+        return $defaults;
     }        
             
     function saswp_defaultSettings(){

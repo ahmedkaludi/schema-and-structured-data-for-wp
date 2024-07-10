@@ -33,12 +33,18 @@ function saswp_elementor_qanda_schema(){
 
         if($accepted_answer){
             foreach($accepted_answer as $answer){
+
+                $ans_url = '';
+                if(is_array($answer) && isset($answer['url']) && isset($answer['url']['url'])){
+                    $ans_url = $answer['url']['url'];
+                }
+
                 $accepted_json[] = array(
                     '@type'         => 'Answer',
                     'text'          => $answer['text'],
                     'dateCreated'   => $answer['date'],
                     'upvoteCount'   => $answer['vote'],
-                    'url'           => $answer['url'],
+                    'url'           => $ans_url,
                     'author'        => array(
                                     '@type' => 'Person',
                                     'name'  => $answer['author']
@@ -51,12 +57,18 @@ function saswp_elementor_qanda_schema(){
 
         if($suggested_answer){
             foreach($suggested_answer as $answer){
+
+                $ans_url = '';
+                if(is_array($answer) && isset($answer['url']) && isset($answer['url']['url'])){
+                    $ans_url = $answer['url']['url'];
+                }
+
                 $suggested_json[] = array(
                     '@type'         => 'Answer',
                     'text'          => $answer['text'],
                     'dateCreated'   => $answer['date'],
                     'upvoteCount'   => $answer['vote'],
-                    'url'           => $answer['url'],
+                    'url'           => $ans_url,
                     'author'        => array(
                                     '@type' => 'Person',
                                     'name'  => $answer['author']

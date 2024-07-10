@@ -700,6 +700,46 @@ function saswp_handle_file_upload($option){
         
   }
    
+  $schema_setting_fields = saswp_fields_and_type('type');
+
+    foreach ($option as $key => $value) {
+        if (isset($fields_type_data[$key])) {
+            $fields_type = $fields_type_data[$key];
+            if (is_array($value)) {
+                foreach ($value as $k => $val) {
+                    $value[sanitize_key($k)] = sanitize_text_field($val);
+                }       
+                $option[sanitize_key($key)] = $value;
+            }else{
+                switch ($fields_type) {
+                    case 'text':
+                        $option[sanitize_key($key)] = sanitize_text_field($value);
+                        break;
+                    case 'textarea':
+                        $option[sanitize_key($key)] = sanitize_textarea_field($value);
+                        break;
+                    case 'checkbox':
+                        $option[sanitize_key($key)] = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+                        break;
+                    
+                    default:
+                        $option[sanitize_key($key)] = sanitize_text_field($value);
+                        break;
+                }
+                
+            }
+        }else{
+            if (is_array($value)) {
+                foreach ($value as $k => $val) {
+                    $value[sanitize_key($k)] = sanitize_text_field($val);
+                }       
+                $option[sanitize_key($key)] = $value;
+            }else{
+                $option[sanitize_key($key)] = sanitize_text_field($value);
+            }
+        }
+    } 
+
   return $option;
   
 }

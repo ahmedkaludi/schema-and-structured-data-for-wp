@@ -230,8 +230,13 @@ class Qanda_Block extends Widget_Base {
 
                     foreach($attributes['accepted_answers'] as $answer){
 
+                    	$ans_url = '';
+                    	if(is_array($answer) && isset($answer['url']) && isset($answer['url']['url'])){
+                    		$ans_url = $answer['url']['url'];
+                    	}
+                        
                         $accepted_answers .= '<li>
-                        <a href="'.esc_url($answer['url']).'">
+                        <a href="'.esc_url($ans_url).'">
                         <p>'.esc_html($answer['text']).'</p>                        
                         </a>
                         <span class="saswp-qand-date">'.esc_html($answer['date']).' '.__( 'By', 'schema-and-structured-data-for-wp' ).' <strong>'.esc_html($answer['author']).'</strong></span>                        
@@ -246,8 +251,13 @@ class Qanda_Block extends Widget_Base {
 
                     foreach($attributes['suggested_answers'] as $answer){
 
+                        $ans_url = '';
+                    	if(is_array($answer) && isset($answer['url']) && isset($answer['url']['url'])){
+                    		$ans_url = $answer['url']['url'];
+                    	}
+
                         $suggested_answers .= '<li>
-                        <a href="'.esc_url($answer['url']).'">
+                        <a href="'.esc_url($ans_url).'">
                         <p>'.esc_html($answer['text']).'</p>                        
                         </a>
                         <span class="saswp-qand-date">'.esc_html($answer['date']).' '.__( 'by', 'schema-and-structured-data-for-wp' ).' <strong>'.esc_html($answer['author']).'</strong></span>                        
@@ -311,7 +321,7 @@ class Qanda_Block extends Widget_Base {
 
 				#>
 				<li class="elementor-repeater-item-{{ item._id }}">                                   
-				<a href="{{ _.escape(item.url) }}">
+				<a href="{{ _.escape(item.url.url) }}">
                 <p>{{{ item.text }}}</p>                        
 				</a>
 				<# 
@@ -352,7 +362,7 @@ class Qanda_Block extends Widget_Base {
 
 				#>
 				<li class="elementor-repeater-item-{{ item._id }}">                                   
-				<a href="{{ _.escape(item.url) }}">
+				<a href="{{ _.escape(item.url.url) }}">
 				<p>{{{ item.text }}}</p>                        
 				</a>
 				<# 
