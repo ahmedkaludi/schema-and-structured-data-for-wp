@@ -179,11 +179,11 @@ Class saswp_rating_box_frontend{
              $boxdata .='
                 <div class="saswp-pc-wrap">
                     <div class="saswp-lst">
-                        <span>'.saswp_t_string(saswp_label_text('translation-pros')).'</span><br>
+                        <span>'.esc_html__(saswp_label_text('translation-pros'), 'schema-and-structured-data-for-wp').'</span><br>
                          '.wpautop( stripslashes ( $saswp_review_props ) ).'
                     </div>
                     <div class="saswp-lst">   
-                        <span>'.saswp_t_string(saswp_label_text('translation-cons')).'</span><br>
+                        <span>'.esc_html__(saswp_label_text('translation-cons'), 'schema-and-structured-data-for-wp').'</span><br>
                         '.wpautop( stripslashes ( $saswp_review_cons ) ).'
                     </div>
                 </div>';   
@@ -195,7 +195,7 @@ Class saswp_rating_box_frontend{
                 $boxdata.='<table class="saswp-rvw">
                         <tbody>
                         <div class="saswp-rvw-hd saswp-rb-hd">
-                            <span>'.saswp_t_string(saswp_label_text('translation-review-overview')).'</span>
+                            <span>'.esc_html__(saswp_label_text('translation-review-overview'), 'schema-and-structured-data-for-wp').'</span>
                         </div>';  
                   
                 if(isset($saswp_review_item_feature)){
@@ -212,7 +212,7 @@ Class saswp_rating_box_frontend{
                 }                                                                                                              
                 $boxdata.='<tr>
                             <td class="saswp-rvw-sm">
-                                <span>'.saswp_t_string(saswp_label_text('translation-summary')).'</span>
+                                <span>'.esc_html__(saswp_label_text('translation-summary'), 'schema-and-structured-data-for-wp').'</span>
                                 <div class="rvw-dsc">
                                 '.wpautop( stripslashes ( $saswp_review_description ) ).'
                                 </div>

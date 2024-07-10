@@ -33,8 +33,8 @@ class Saswp_Reviews_Widget extends WP_Widget {
             
 		parent::__construct(
 			'saswp_google_review_widget', // Base ID
-			saswp_t_string( 'Reviews' ), // Name
-			array( 'description' => saswp_t_string( 'Widget to display Reviews' ), ) // Args
+			esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ), // Name
+			array( 'description' => esc_html__( 'Widget to display Reviews', 'schema-and-structured-data-for-wp' ), ) // Args
 		);
 	}
 

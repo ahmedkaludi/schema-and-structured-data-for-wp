@@ -87,7 +87,7 @@ class saswp_reviews_admin {
 			
 			add_meta_box(
 				'saswp_review_content',
-				saswp_t_string( 'Review Content' ),
+				esc_html__( 'Review Content', 'schema-and-structured-data-for-wp' ),
 				array( $this, 'saswp_meta_box_callback' ),
 				$single_screen,
 				'normal',

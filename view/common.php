@@ -76,7 +76,7 @@ class saswp_view_common_class {
                      foreach ( $meta_fields as $meta_field ) {
                     
                     
-			$label = '<label for="' . $meta_field['name'] . '">' . saswp_t_string( $meta_field['label'] ) . '</label>';			
+			$label = '<label for="' . $meta_field['name'] . '">' . esc_html( $meta_field['label'] ) . '</label>';			
 			                                                                        
 			switch ( $meta_field['type'] ) {
                                                             								                                
@@ -144,7 +144,7 @@ class saswp_view_common_class {
 							'<option %s value="%s">%s</option>',
 							$data[$meta_field['name']] === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							saswp_t_string($value )
+							esc_html($value )
 						);
 					}
 					$input .= '</select>';
@@ -255,7 +255,7 @@ class saswp_view_common_class {
                                 <table class="form-table" style="margin: 23px 0 4px 0;">
                                     <tr>
                                         <th>
-                                        <label for="saswp_schema_type_product_pros_enable_pros"><b>'.saswp_t_string( 'Pros & Cons' ).'</b></label>
+                                        <label for="saswp_schema_type_product_pros_enable_pros"><b>'.esc_html__( 'Pros & Cons', 'schema-and-structured-data-for-wp' ).'</b></label>
                                         </th> 
                                         <td><input type="checkbox" id="saswp_schema_type_product_pros_enable_pros" name="saswp_schema_type_product_pros_enable_pros" value="1" '.esc_attr($enablePros).'>
                                         </td>
@@ -322,11 +322,11 @@ class saswp_view_common_class {
                             }
                                                         
                             if($value == 'product_pros'){
-                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.saswp_t_string( 'New Pros' ).'</a>';   
+                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'New Pros', 'schema-and-structured-data-for-wp' ).'</a>';   
                             }else if($value == 'product_cons'){
-                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.saswp_t_string( 'New Cons' ).'</a>';   
+                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'New Cons', 'schema-and-structured-data-for-wp' ).'</a>';   
                             }else{
-                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.saswp_t_string( 'Add '.$btn_text ).'</a>';   
+                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'Add '.$btn_text , 'schema-and-structured-data-for-wp').'</a>';   
                             }                                                                                                  
                             $tabs_fields .= '</div>';                                                                                                
                             if($prosCheckboxFalse){
@@ -371,7 +371,7 @@ class saswp_view_common_class {
                         $meta_value = array();
                     if($meta_field['type'] != 'global_mapping'){
                         if($meta_field['type'] != 'repeater'){
-                            $label      = '<label for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ). '</label>';
+                            $label      = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html( $meta_field['label'] ). '</label>';
                             $meta_value = saswp_get_post_meta( $post_id, $meta_field['id'], true );
                         }
                     }                                
@@ -524,7 +524,7 @@ class saswp_view_common_class {
 							'<option %s value="%s">%s</option>',
 							$meta_value === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							saswp_t_string($value )
+							esc_html($value )
 						);
 					}
 					$input .= '</select>';
@@ -592,7 +592,7 @@ class saswp_view_common_class {
 					);
                                         if(isset($meta_field['note'])){
                                             
-                                          $input .='<p>'.saswp_t_string($meta_field['note']).'</p>';  
+                                          $input .='<p>'.esc_html($meta_field['note']).'</p>';  
                                           
                                         }
 					break;

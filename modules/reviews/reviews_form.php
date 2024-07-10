@@ -263,7 +263,7 @@ class SASWP_Reviews_Form {
             if(!$is_amp){ 
                 
                 if($on_button){
-                    $form       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default">'.saswp_t_string(saswp_label_text('translation-review-form')).'</a></div>';
+                    $form       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default">'.esc_html__(saswp_label_text('translation-review-form'), 'schema-and-structured-data-for-wp').'</a></div>';
                 }
                 
                 $rating_html = '<div class="saswp-rating-container"><div class="saswp-rating-front-div"></div><div class="saswp-rateyo-counter"></div><input type="hidden" name="saswp_review_rating" value="5"></div>';
@@ -274,7 +274,7 @@ class SASWP_Reviews_Form {
                 add_action( 'amp_post_template_data', array($this, 'saswp_reviews_form_amp_script'));  
                 
                 if($on_button){
-                    $form       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default" on="tap:AMP.setState({ saswp_review_form_toggle: !saswp_review_form_toggle })" role="button" tabindex="1">'.saswp_t_string(saswp_label_text('translation-review-form')).'</a></div>';
+                    $form       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default" on="tap:AMP.setState({ saswp_review_form_toggle: !saswp_review_form_toggle })" role="button" tabindex="1">'.esc_html__(saswp_label_text('translation-review-form'), 'schema-and-structured-data-for-wp').'</a></div>';
                 }
                 
                 $form   .= '<form   action-xhr="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'" [class]="saswp_review_form_toggle ? \'saswp-review-submission-form\' : \'saswp_hide saswp-review-submission-form\' ">';
@@ -296,12 +296,12 @@ class SASWP_Reviews_Form {
                     . '<div class="saswp-form-tbl">'
                     
                     . '<div class="saswp-form-fld">'
-                    .   '<span>'.saswp_t_string(saswp_label_text('translation-name')).'</span>'
+                    .   '<span>'.esc_html__(saswp_label_text('translation-name'), 'schema-and-structured-data-for-wp').'</span>'
                     .   '<input type="text" name="saswp_reviewer_name" required>'
                     . '</div>'
 
                     . '<div class="saswp-form-fld">'
-                    .   '<span>'.saswp_t_string(saswp_label_text('translation-comment')).'</span>'
+                    .   '<span>'.esc_html__(saswp_label_text('translation-comment'), 'schema-and-structured-data-for-wp').'</span>'
                     .   '<textarea name="saswp_review_text"></textarea>'
                     . '</div>'
 

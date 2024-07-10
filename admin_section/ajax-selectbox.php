@@ -178,7 +178,7 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
       $saved_choices = saswp_get_condition_list($selectedParentValue, '', $selectedValue);                              
     }
                  
-    $choices = '<option value="all">'.saswp_t_string('All').'</option>';
+    $choices = '<option value="all">'.esc_html__( 'All' , 'schema-and-structured-data-for-wp').'</option>';
     
     if(!empty($taxonomies)){
         

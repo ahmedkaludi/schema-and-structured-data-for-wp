@@ -40,7 +40,7 @@ class saswp_rating_box_backend {
 
                             add_meta_box(
                               'saswp_rating_box',
-                              saswp_t_string( 'Rating Box' ),
+                              esc_html__( 'Rating Box', 'schema-and-structured-data-for-wp' ),
                               array( $this, 'saswp_meta_box_callback' ),
                               $single_screen,
                               'advanced',
@@ -82,23 +82,23 @@ class saswp_rating_box_backend {
                 
                 ?>                     
                 <div>
-                    <div class="saswp-enable-review-on-post"><label><?php echo saswp_t_string('Enable/Disable'); ?>   <input type="checkbox" id="saswp-review-item-enable" name="saswp-review-item-enable" <?php echo (isset( $saswp_review_details['saswp-review-item-enable'] ) &&  $saswp_review_details['saswp-review-item-enable'] == 1 ? 'checked="checked"' : ''); ?> value="1"></label></div>
+                    <div class="saswp-enable-review-on-post"><label><?php echo esc_html__('Enable/Disable', 'schema-and-structured-data-for-wp'); ?>   <input type="checkbox" id="saswp-review-item-enable" name="saswp-review-item-enable" <?php echo (isset( $saswp_review_details['saswp-review-item-enable'] ) &&  $saswp_review_details['saswp-review-item-enable'] == 1 ? 'checked="checked"' : ''); ?> value="1"></label></div>
                     
                     <div class="saswp-review-fields">
                     <div class="saswp-review-item">
                         <table class="saswp-review-tables">
                         <tr>
-                            <td><label><?php echo saswp_t_string('Review Title'); ?></label></td>                            
+                            <td><label><?php echo esc_html__('Review Title', 'schema-and-structured-data-for-wp'); ?></label></td>                            
                             <td><div class="saswp-field"><input type="text" id="saswp-review-item-title" name="saswp-review-item-title" value="<?php if ( isset( $saswp_review_details['saswp-review-item-title'] ) && ( ! empty( $saswp_review_details['saswp-review-item-title'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-title'] ); ?>"></div></td>
                         </tr>
                         <tr>
-                            <td><label><?php echo saswp_t_string('Review Location'); ?></label></td>                            
+                            <td><label><?php echo esc_html__('Review Location', 'schema-and-structured-data-for-wp'); ?></label></td>                            
                             <td>
                                 <div class="saswp-field">
                                     <select id="saswp-review-location" name="saswp-review-location">                                        
-                                        <option value="1" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 1 ) )  echo 'selected'; ?>><?php echo saswp_t_string('After The Content'); ?></option>    
-                                        <option value="2" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 2 ) )  echo 'selected'; ?>><?php echo saswp_t_string('Before The Content'); ?></option>    
-                                        <option value="3" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 3 ) )  echo 'selected'; ?>><?php echo saswp_t_string('Custom (Use ShortCode)'); ?></option>    
+                                        <option value="1" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 1 ) )  echo 'selected'; ?>><?php echo esc_html__('After The Content', 'schema-and-structured-data-for-wp'); ?></option>    
+                                        <option value="2" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 2 ) )  echo 'selected'; ?>><?php echo esc_html__('Before The Content', 'schema-and-structured-data-for-wp'); ?></option>    
+                                        <option value="3" <?php if ( isset( $saswp_review_details['saswp-review-location'] ) && (  $saswp_review_details['saswp-review-location'] == 3 ) )  echo 'selected'; ?>><?php echo esc_html__('Custom (Use ShortCode)', 'schema-and-structured-data-for-wp'); ?></option>    
                                     </select>
                                     <input class="saswp-review-shortcode" type="text" value="<?php echo '[saswp-review id=&quot;review&quot;]'; ?>" readonly> 
                                 </div>
@@ -117,9 +117,9 @@ class saswp_rating_box_backend {
                                 for ($i=0; $i<count($saswp_review_item_feature); $i++){
                                 ?>
                                 <tr class="saswp-review-item-tr">
-                                <td><?php echo saswp_t_string('Review Item Feature'); ?></td>
+                                <td><?php echo esc_html__('Review Item Feature', 'schema-and-structured-data-for-wp'); ?></td>
                                 <td><input type="text" name="saswp-review-item-feature[]" value="<?php echo esc_attr($saswp_review_item_feature[$i]); ?>"></td>
-                                <td><?php echo saswp_t_string('Rating'); ?></td>
+                                <td><?php echo esc_html__('Rating', 'schema-and-structured-data-for-wp'); ?></td>
                                 <td><input step="0.1" min="0" max="5" type="number" name="saswp-review-item-star-rating[]" value="<?php echo esc_attr($saswp_review_item_star_rating[$i]); ?>"></td>
                                 <td><a type="button" class="saswp-remove-review-item button">x</a></td>
                                 </tr>
@@ -129,13 +129,13 @@ class saswp_rating_box_backend {
                             }
                             ?>
                         </table>
-                        <div class="saswp-over-all-raring"><label><?php echo saswp_t_string('Over All Rating'); ?></label><input type="text" id="saswp-review-item-over-all" name="saswp-review-item-over-all" value="<?php if ( isset( $saswp_review_details['saswp-review-item-over-all'] ) && ( ! empty( $saswp_review_details['saswp-review-item-over-all'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-over-all'] ); ?>" readonly></div>
-                        <div><a class="button saswp-add-more-item"><?php echo saswp_t_string('Add Item'); ?></a></div>
+                        <div class="saswp-over-all-raring"><label><?php echo esc_html__('Over All Rating', 'schema-and-structured-data-for-wp'); ?></label><input type="text" id="saswp-review-item-over-all" name="saswp-review-item-over-all" value="<?php if ( isset( $saswp_review_details['saswp-review-item-over-all'] ) && ( ! empty( $saswp_review_details['saswp-review-item-over-all'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-over-all'] ); ?>" readonly></div>
+                        <div><a class="button saswp-add-more-item"><?php echo esc_html__('Add Item', 'schema-and-structured-data-for-wp'); ?></a></div>
                     </div>
              
                     <div class="saswp-review-description">
-                        <div><label><?php echo saswp_t_string('Summary Title'); ?></label> <input type="text" id="saswp-review-item-description-title" name="saswp-review-item-description-title" value="<?php if ( isset( $saswp_review_details['saswp-review-item-description-title'] ) && ( ! empty( $saswp_review_details['saswp-review-item-description-title'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-description-title'] ); ?>"></div>  
-                        <div class="saswp-wp-ediot-desc"><label><?php echo saswp_t_string('Description'); ?></label></div>
+                        <div><label><?php echo esc_html__('Summary Title', 'schema-and-structured-data-for-wp'); ?></label> <input type="text" id="saswp-review-item-description-title" name="saswp-review-item-description-title" value="<?php if ( isset( $saswp_review_details['saswp-review-item-description-title'] ) && ( ! empty( $saswp_review_details['saswp-review-item-description-title'] ) ) ) echo esc_attr( $saswp_review_details['saswp-review-item-description-title'] ); ?>"></div>  
+                        <div class="saswp-wp-ediot-desc"><label><?php echo esc_html__('Description', 'schema-and-structured-data-for-wp'); ?></label></div>
                         <?php                        
                         $content       = get_post_meta( $post->ID, 'saswp-review-item-description', true );                        
                         wp_editor( $content, 'saswp-review-item-description', array('textarea_rows'=> '5', 'media_buttons' => FALSE,) );                   
@@ -144,7 +144,7 @@ class saswp_rating_box_backend {
 
                     <div class="saswp-review-pros-and-cons">                        
                     <div class="saswp-props">
-                        <div class="saswp-wp-ediot-desc"><label><?php echo saswp_t_string('Pros'); ?></label></div>
+                        <div class="saswp-wp-ediot-desc"><label><?php echo esc_html__('Pros', 'schema-and-structured-data-for-wp'); ?></label></div>
                         <?php
                         $content       = get_post_meta( $post->ID, 'saswp-review-item-props', true );                                         
                         wp_editor( $content, 'saswp-review-item-props',
@@ -162,7 +162,7 @@ class saswp_rating_box_backend {
                    ?> 
                     </div>
                     <div class="saswp-cons">
-                        <div class="saswp-wp-ediot-desc"><label><?php echo saswp_t_string('Cons'); ?></label></div>
+                        <div class="saswp-wp-ediot-desc"><label><?php echo esc_html__('Cons', 'schema-and-structured-data-for-wp'); ?></label></div>
                          <?php
                         $content       = get_post_meta( $post->ID, 'saswp-review-item-cons', true );  
                         wp_editor( $content, 
@@ -258,23 +258,23 @@ class saswp_rating_box_backend {
         <div id="saswp-appearance-modal">
             <div class="saswp-rbcc-fields">
                 <span id="saswp-appearance-modal-close">&times;</span>
-                <h1 style="margin-left: 10px;"><?php echo saswp_t_string('Customize The Design Appearance'); ?></h1>
+                <h1 style="margin-left: 10px;"><?php echo esc_html__('Customize The Design Appearance', 'schema-and-structured-data-for-wp'); ?></h1>
                 <div class="saswp-rbcc-fields-items">
                     <div id="saswp-rbcc-app-wrapper" class="saswp-rbcc-containers">
                         <table class="saswp-rbcc-field-table">
                             <tbody>
                                 <tr class="saswp-rbcc-tr-row">
-                                    <td class="saswp-rbcc-td-headings"><?php echo saswp_t_string('Rating Heading'); ?></td>
+                                    <td class="saswp-rbcc-td-headings"><?php echo esc_html__('Rating Heading', 'schema-and-structured-data-for-wp'); ?></td>
                                     <td class="saswp-rbcc-td-attributes saswp-rbcc-bg-color">
-                                        <div><?php echo saswp_t_string('Background Color'); ?></div>
+                                        <div><?php echo esc_html__('Background Color', 'schema-and-structured-data-for-wp'); ?></div>
                                         <input type="text" name="sd_data[saswp-rbcc-review-bg-color]" id="saswp-rbcc-review-bg-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo esc_attr($rating_head_bgcolor); ?>" data-default-color="#000">
                                     </td>
                                     <td class="saswp-rbcc-td-attributes saswp-rbcc-font-color">
-                                        <div><?php echo saswp_t_string('Color'); ?></div>
+                                        <div><?php echo esc_html__('Color', 'schema-and-structured-data-for-wp'); ?></div>
                                         <input type="text" name="sd_data[saswp-rbcc-review-f-color]" id="saswp-rbcc-review-f-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo esc_attr($rating_head_fcolor); ?>" data-default-color="#fff">
                                     </td>
                                     <td class="saswp-rbcc-td-attributes">
-                                        <div><?php echo saswp_t_string('Size'); ?></div>
+                                        <div><?php echo esc_html__('Size', 'schema-and-structured-data-for-wp'); ?></div>
                                         <input type="number" name="sd_data[saswp-rbcc-review-f-size]" id="saswp-rbcc-review-f-size" class="saswp-rbcc-review-input-num" value="<?php echo esc_attr($rating_head_fsize); ?>">
                                         <select name="sd_data[saswp-rbcc-review-f-unit]" id="saswp-rbcc-review-f-unit">
                                         <?php 
@@ -295,13 +295,13 @@ class saswp_rating_box_backend {
                                     </td>
                                 </tr>
                                 <tr class="saswp-rbcc-tr-row">
-                                    <td class="saswp-rbcc-td-headings"><?php echo saswp_t_string('Review Item Feature'); ?></td>
+                                    <td class="saswp-rbcc-td-headings"><?php echo esc_html__('Review Item Feature', 'schema-and-structured-data-for-wp'); ?></td>
                                     <td class="saswp-rbcc-td-attributes saswp-rbcc-dc">
-                                        <div><?php echo saswp_t_string('Color'); ?></div>
+                                        <div><?php echo esc_html__('Color', 'schema-and-structured-data-for-wp'); ?></div>
                                         <input type="text" name="sd_data[saswp-rbcc-if-color]" id="saswp-rbcc-if-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo esc_attr($rating_item_fcolor); ?>" data-default-color="#000">
                                     </td>
                                     <td class="saswp-rbcc-td-attributes"> 
-                                        <div><?php echo saswp_t_string('Size'); ?></div>
+                                        <div><?php echo esc_html__('Size', 'schema-and-structured-data-for-wp'); ?></div>
                                         <input type="number" name="sd_data[saswp-rbcc-if-f-size]" id="saswp-rbcc-if-f-size" class="saswp-rbcc-review-input-num" value="<?php echo esc_attr($rating_item_fsize); ?>">
                                         <select name="sd_data[saswp-rbcc-if-f-unit]" id="saswp-rbcc-if-f-unit">
                                             <?php 
@@ -322,25 +322,25 @@ class saswp_rating_box_backend {
                                     </td>
                                 </tr>
                                 <tr class="saswp-rbcc-tr-row">
-                                    <td class="saswp-rbcc-td-headings"><?php echo saswp_t_string('Review Rating Stars'); ?></td>
+                                    <td class="saswp-rbcc-td-headings"><?php echo esc_html__('Review Rating Stars', 'schema-and-structured-data-for-wp'); ?></td>
                                     <td class="saswp-rbcc-td-attributes saswp-rbcc-dc">
-                                        <div><?php echo saswp_t_string('Color'); ?></div>
+                                        <div><?php echo esc_html__('Color', 'schema-and-structured-data-for-wp'); ?></div>
                                         <input type="text" name="sd_data[saswp-rbcc-stars-color]" id="saswp-rbcc-stars-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo isset( $sd_data['saswp-rbcc-stars-color'] ) ? esc_attr( $sd_data['saswp-rbcc-stars-color']) : '#000'; ?>" data-default-color="#000">
                                     </td>
                                     <td class="saswp-rbcc-td-attributes"> 
-                                        <div><?php echo saswp_t_string('Size'); ?></div>
+                                        <div><?php echo esc_html__('Size', 'schema-and-structured-data-for-wp'); ?></div>
                                         <input type="number" name="sd_data[saswp-rbcc-stars-f-size]" id="saswp-rbcc-stars-f-size" class="saswp-rbcc-review-input-num" value="<?php echo isset( $sd_data['saswp-rbcc-stars-f-size'] ) ? esc_attr( $sd_data['saswp-rbcc-stars-f-size']) : '18'; ?>">
                                         <input type="text" name="sd_data[saswp-rbcc-stars-f-unit]" id="saswp-rbcc-stars-f-unit" class="saswp-rbcc-review-input-num" value="px" readonly disabled>
                                     </td>
                                 </tr>
                                 <tr class="saswp-rbcc-tr-row">
-                                    <td class="saswp-rbcc-td-headings"><?php echo saswp_t_string('Average Rating'); ?></td>
+                                    <td class="saswp-rbcc-td-headings"><?php echo esc_html__('Average Rating', 'schema-and-structured-data-for-wp'); ?></td>
                                     <td class="saswp-rbcc-td-attributes saswp-rbcc-dc">
-                                        <div><?php echo saswp_t_string('Color'); ?></div>
+                                        <div><?php echo esc_html__('Color', 'schema-and-structured-data-for-wp'); ?></div>
                                         <input type="text" name="sd_data[saswp-rbcc-ar-color]" id="saswp-rbcc-ar-color" class="saswpforwp-colorpicker" data-alpha-enabled="false"  value="<?php echo esc_attr($overall_rating_fcolor); ?>" data-default-color="#000">
                                     </td>
                                     <td class="saswp-rbcc-td-attributes"> 
-                                        <div><?php echo saswp_t_string('Size'); ?></div>
+                                        <div><?php echo esc_html__('Size', 'schema-and-structured-data-for-wp'); ?></div>
                                         <input type="number" name="sd_data[saswp-rbcc-ar-f-size]" id="saswp-rbcc-ar-f-size" class="saswp-rbcc-review-input-num" value="<?php echo esc_attr($overall_rating_fsize); ?>">
                                         <select name="sd_data[saswp-rbcc-ar-f-unit]" id="saswp-rbcc-ar-f-unit">
                                             <?php 
@@ -361,13 +361,13 @@ class saswp_rating_box_backend {
                                     </td>
                                 </tr>
                                 <tr class="saswp-rbcc-tr-row">
-                                    <td colspan="4" class="saswp-rbcc-td-attributes" id="saswp-rbcc-reset"><h4><a href="#"><?php echo saswp_t_string('Reset to Default') ?></a></h4></td>
+                                    <td colspan="4" class="saswp-rbcc-td-attributes" id="saswp-rbcc-reset"><h4><a href="#"><?php echo esc_html__('Reset to Default', 'schema-and-structured-data-for-wp') ?></a></h4></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div> <!-- saswp-rbcc-app-wrapper -->
 
-                    <!-- <h3 id="saswp-rbcc-preview-hd"><?php echo saswp_t_string('Design Preview'); ?></h3> -->
+                    <!-- <h3 id="saswp-rbcc-preview-hd"><?php echo esc_html__('Design Preview', 'schema-and-structured-data-for-wp'); ?></h3> -->
                     <div id="saswp-rbcc-app-preview" class="saswp-rbcc-containers">
                         <?php 
                         $preview_head_style = "background-color: ".$rating_head_bgcolor."; color: ".$rating_head_fcolor."; font-size: ".$rating_head_fsize.$rating_head_funit;
@@ -381,7 +381,7 @@ class saswp_rating_box_backend {
                                     for ($j=1; $j <= 3 ; $j++) { 
                                     ?>    
                                         <tr>
-                                            <td class="saswp-rb-rif saswp-rbcc-rif" style="<?php echo esc_attr($preview_review_item_style); ?>"><?php echo saswp_t_string('Demo Review Text'); ?></td>
+                                            <td class="saswp-rb-rif saswp-rbcc-rif" style="<?php echo esc_attr($preview_review_item_style); ?>"><?php echo esc_html__('Demo Review Text', 'schema-and-structured-data-for-wp'); ?></td>
                                             <td class="saswp-rb-risr">
                                                 <div class="saswp-rvw-str">
                                                     <?php 
@@ -404,7 +404,7 @@ class saswp_rating_box_backend {
                                     </td>
                                     <td>
                                         <div class="saswp-rvw-ov">
-                                            <div class="saswp-rvw-fs saswp-rbcc-rvar" style="<?php echo esc_attr($preview_overall_rating_style); ?>"><?php echo saswp_t_string('5') ?></div>                                                                        
+                                            <div class="saswp-rvw-fs saswp-rbcc-rvar" style="<?php echo esc_attr($preview_overall_rating_style); ?>"><?php echo esc_html__('5', 'schema-and-structured-data-for-wp') ?></div>                                                                        
                                             <div class="saswp-rvw-str">
                                                 <?php 
                                                 for ($i=1; $i <= 5 ; $i++) { 

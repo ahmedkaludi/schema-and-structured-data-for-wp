@@ -9,8 +9,8 @@ function __construct() {
                                
     parent::__construct(
         'saswp_location_widget', // Base ID
-        saswp_t_string('SASWP Location'), // Name
-        array( 'description' => saswp_t_string('Widget to display location') ) // Args
+        esc_html__('SASWP Location', 'schema-and-structured-data-for-wp'), // Name
+        array( 'description' => esc_html__('Widget to display location', 'schema-and-structured-data-for-wp') ) // Args
     );
 }
 
@@ -51,15 +51,15 @@ public function widget( $args, $instance ) {
  */
 public function form( $instance ) {
             
-    $loc = ! empty( $instance['loc'] ) ? $instance['loc'] : saswp_t_string('Widget to display location');?>
+    $loc = ! empty( $instance['loc'] ) ? $instance['loc'] : esc_html__('Widget to display location', 'schema-and-structured-data-for-wp');?>
 
-    <p><label for="<?php echo esc_attr( $this->get_field_id( 'loc' ) ); ?>"><?php saswp_t_string('Locations'); ?></label><?php 
+    <p><label for="<?php echo esc_attr( $this->get_field_id( 'loc' ) ); ?>"><?php esc_html__('Locations', 'schema-and-structured-data-for-wp'); ?></label><?php 
     
     $loc_select_html = '';
             
     $all_loc = saswp_get_location_list();    
     
-    $loc_select_html .= '<option value="">'.saswp_t_string('Select Location').'</option>';
+    $loc_select_html .= '<option value="">'.esc_html__('Select Location', 'schema-and-structured-data-for-wp').'</option>';
 
     foreach($all_loc as $ad){
      
