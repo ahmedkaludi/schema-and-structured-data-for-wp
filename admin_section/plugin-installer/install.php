@@ -32,7 +32,7 @@
 									),
 									2=>array(
 									'title'=>esc_html__('General Settings', 'schema-and-structured-data-for-wp'),
-									'description'=>esc_html__('', 'schema-and-structured-data-for-wp'),
+									'description'=>'',
 									'fields'=>saswp_general_setting_fields_callback()
 									),
 									3=>array(

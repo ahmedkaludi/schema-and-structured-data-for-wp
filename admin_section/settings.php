@@ -2387,8 +2387,8 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                     $alert_icon = '<span class="saswp_addon_icon dashicons dashicons-warning single_addon_warning"></span>';
                 }
                 else{
-                    $expire_msg_before = '<span class="saswp-addon-active">'.esc_html__('', 'schema-and-structured-data-for-wp').'</span>';
-                    $single_expire_msg = "".esc_html__('', 'saswp')." ".$license_expires ." ".esc_html__("days remaning", 'schema-and-structured-data-for-wp')." ";
+                    $expire_msg_before = '<span class="saswp-addon-active"></span>';
+                    $single_expire_msg = " ".$license_expires ." ".esc_html__("days remaning", 'schema-and-structured-data-for-wp')." ";
                     $license_expires_class = "lic_is_active";
                     $renew_text = esc_html__('Renew License', 'schema-and-structured-data-for-wp');
                 }
