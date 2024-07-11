@@ -218,14 +218,17 @@ class Qanda_Block extends Widget_Base {
          $accepted_answers  	= '';
          $suggested_answers 	= '';        
          $question          	= '';
-
-         $question  = '<div class="saswp-qanda-block-question">
+         ?>
+         <div class="saswp-qanda-block-html">
+        <?php echo '<div class="saswp-qanda-block-question">
                 <h3>'.esc_html($attributes['question_name']).'</h3>
                 <span class="saswp-qand-date">'.esc_html($attributes['question_date']).' '. esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).' '.esc_html($attributes['question_author']).'</span>                
                 <p>'.esc_html($attributes['question_text']).'</p>
                 '.esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($attributes['question_vote']).')
-                </div>';
-                
+                </div>'; 
+        ?>	
+            <div class="saswp-qanda-block-answer"><h3><?php echo esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
+                <?php
                 if(isset($attributes['accepted_answers']) && !empty($attributes['accepted_answers'])){
 
                     foreach($attributes['accepted_answers'] as $answer){
@@ -235,7 +238,7 @@ class Qanda_Block extends Widget_Base {
                     		$ans_url = $answer['url']['url'];
                     	}
                         
-                        $accepted_answers .= '<li>
+                        echo '<li>
                         <a href="'.esc_url($ans_url).'">
                         <p>'.esc_html($answer['text']).'</p>                        
                         </a>
@@ -246,7 +249,11 @@ class Qanda_Block extends Widget_Base {
                     }
 
                 }
+            ?>
+        	</div> <!-- saswp-qanda-block-answer div end -->
 
+        	<div class="saswp-qanda-block-answer"><h3><?php echo esc_html__( 'Suggested Answers', 'schema-and-structured-data-for-wp' );?></h3>
+            <?php    
                 if(isset($attributes['suggested_answers']) && !empty($attributes['suggested_answers'])){
 
                     foreach($attributes['suggested_answers'] as $answer){
@@ -256,7 +263,7 @@ class Qanda_Block extends Widget_Base {
                     		$ans_url = $answer['url']['url'];
                     	}
 
-                        $suggested_answers .= '<li>
+                        echo '<li>
                         <a href="'.esc_url($ans_url).'">
                         <p>'.esc_html($answer['text']).'</p>                        
                         </a>
@@ -266,14 +273,11 @@ class Qanda_Block extends Widget_Base {
                     }
 
                 }
-              //Escaping has been done above for all below html  
-        $response = '<div class="saswp-qanda-block-html">
-        '.$question.'
-        <div class="saswp-qanda-block-answer"><h3>'.esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.$accepted_answers.'</div>
-        <div class="saswp-qanda-block-answer"><h3>'.esc_html__( 'Suggested Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.$suggested_answers.'</div>
-        </div>';
-                
-        echo $response;
+              //Escaping has been done above for all below html 
+            ?>
+            </div><!-- saswp-qanda-block-answer div end --> 
+        </div> <!-- saswp-qanda-block-html div end -->
+    <?php
 	}
 
 	protected function content_template() {

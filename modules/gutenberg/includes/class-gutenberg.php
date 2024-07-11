@@ -463,7 +463,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->job_block_data($attributes);
+            $this->render->job_block_data($attributes);
             
             return ob_get_clean();
             

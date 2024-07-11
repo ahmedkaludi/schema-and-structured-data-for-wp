@@ -261,11 +261,6 @@ class HowTo_Block extends Widget_Base {
 				$settings              = $this->get_settings_for_display();
 				$saswp_elementor_howto = $settings;
                 $order_type            = $settings['order_type'];                
-                $style                 = '';												
-
-                if($order_type == 'order_list' || $order_type == ''){
-                    $style = 'style="list-style:none"';
-                }
                 
 		if ( $settings['step_list'] ) {                    			
 			
@@ -296,14 +291,22 @@ class HowTo_Block extends Widget_Base {
 			}
 			if($settings['howto_description']){
 				echo '<div class="elementor-how-to-description">';
-				echo wp_unslash($settings['howto_description']);
+				echo wp_kses($settings['howto_description'], wp_kses_allowed_html('post'));
 				echo '</div>';
 			}
 			echo '<div class="elementor-repeater-steps-div">';
 			echo '<ul>';
                         $i = 1;
 			foreach (  $settings['step_list'] as $item ) {
-				echo '<li '.$style.' class="elementor-repeater-item-' . esc_attr($item['_id']) . '">';
+				if($order_type == 'order_list' || $order_type == ''){
+				?>
+					<li style="list-style:none;" class="elementor-repeater-item-<?php echo esc_attr($item['_id']); ?>">
+				<?php 	
+				}else{
+				?>
+					<li class="elementor-repeater-item-<?php echo esc_attr($item['_id']); ?>">
+				<?php	
+				}
                                 echo '<h3>';
                                 
                                 if($order_type == 'order_list'){
@@ -311,7 +314,7 @@ class HowTo_Block extends Widget_Base {
                                 } 
                                 echo esc_html($item['howto_step_title']);
                                 echo '</h3>';
-								echo '<p>' . wp_unslash($item['howto_step_description']) . '</p>';
+								echo '<p>' . wp_kses($item['howto_step_description'], wp_kses_allowed_html('post')) . '</p>';
                                 
                                 $i++;
 			}
@@ -325,7 +328,15 @@ class HowTo_Block extends Widget_Base {
 				echo '<ul>';
 							$i = 1;
 				foreach (  $settings['tool_list'] as $item ) {
-					echo '<li '.$style.' class="elementor-repeater-tool-' . esc_attr($item['_id']) . '">';
+					if($order_type == 'order_list' || $order_type == ''){
+					?>
+						<li style="list-style:none;" class="elementor-repeater-tool-<?php echo esc_attr($item['_id']); ?>">
+					<?php 	
+					}else{
+					?>
+						<li class="elementor-repeater-tool-<?php echo esc_attr($item['_id']); ?>">
+					<?php	
+					}
 									echo '<strong>';
 									
 									if($order_type == 'order_list'){
@@ -347,7 +358,15 @@ class HowTo_Block extends Widget_Base {
 				echo '<ul>';
 							$i = 1;
 				foreach (  $settings['material_list'] as $item ) {
-					echo '<li '.$style.' class="elementor-repeater-material-' . esc_attr($item['_id']) . '">';
+					if($order_type == 'order_list' || $order_type == ''){
+					?>
+						<li style="list-style:none;" class="elementor-repeater-material-<?php echo esc_attr($item['_id']); ?>">
+					<?php 	
+					}else{
+					?>
+						<li class="elementor-repeater-material-<?php echo esc_attr($item['_id']); ?>">
+					<?php	
+					}
 									echo '<strong>';
 									
 									if($order_type == 'order_list'){
