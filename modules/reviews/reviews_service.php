@@ -128,8 +128,8 @@ class saswp_reviews_service {
                 $rv_rating   = floatval($form_data['saswp_review_rating']);  
                 $rv_place_id = intval($form_data['saswp_place_id']);  
                 $rv_link     = sanitize_text_field($form_data['saswp_review_link']);
-                $rv_date     = date('Y-m-d');
-                $rv_time     = date("h:i:sa");
+                $rv_date     = gmdate('Y-m-d');
+                $rv_time     = gmdate("h:i:sa");
                                 
                 if($rv_rating){
                     
@@ -246,7 +246,7 @@ class saswp_reviews_service {
 
                     if($sd_data['saswp_date_format'] == 'days'){
                         
-                        $curr_date = date("Y-m-d"); // Start date
+                        $curr_date = gmdate("Y-m-d"); // Start date
                         $interval = $review['saswp_review_date']; // End date
 
             
@@ -265,7 +265,7 @@ class saswp_reviews_service {
                    
                 }           
                 if(!empty($sd_data['saswp_date_format']) && $sd_data['saswp_date_format'] == 'default'){
-                    $days_ago_format = date('d-m-Y',strtotime($review['saswp_review_date']));
+                    $days_ago_format = gmdate('d-m-Y',strtotime($review['saswp_review_date']));
                 }else{
                     $days_ago_format = "";
                 }  
@@ -974,12 +974,12 @@ class saswp_reviews_service {
         
         if($date_str){
             if(!empty($date_format)){
-                $response['date'] = date($date_format, strtotime($date_str));
+                $response['date'] = gmdate($date_format, strtotime($date_str));
             }else{
-                $response['date'] = date('Y-m-d', strtotime($date_str));
+                $response['date'] = gmdate('Y-m-d', strtotime($date_str));
             }
             
-            $response['time'] = date('G:i:s', strtotime($date_str));
+            $response['time'] = gmdate('G:i:s', strtotime($date_str));
         }
         
         return $response;
@@ -1417,7 +1417,7 @@ class saswp_reviews_service {
                             }
 
                             if($platform_name == 'Self'){
-                                $platform_name = esc_html__(saswp_label_text('translation-self'), 'schema-and-structured-data-for-wp');
+                                $platform_name = saswp_label_text('translation-self');
                             }
 
                             $platform_icon  = $value['saswp_review_platform_icon'];
@@ -1452,7 +1452,7 @@ class saswp_reviews_service {
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-r3-brv">';
-                      $html .= esc_html__(saswp_label_text('translation-based-on'), 'schema-and-structured-data-for-wp').' '.esc_attr($review_count).' '.esc_html__(saswp_label_text('translation-reviews'), 'schema-and-structured-data-for-wp');
+                      $html .= saswp_label_text('translation-based-on').' '.esc_attr($review_count).' '.saswp_label_text('translation-reviews');
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '</a>';
@@ -1481,7 +1481,7 @@ class saswp_reviews_service {
                             $platform_name  = $value['saswp_review_platform_name'];
                             $review_id = $value['saswp_review_id'];
                             if($platform_name == 'Self'){
-                                $platform_name = esc_html__(saswp_label_text('translation-self'), 'schema-and-structured-data-for-wp');
+                                $platform_name = saswp_label_text('translation-self');
                             }
                             $platform_icon  = $value['saswp_review_platform_icon'];
                             $sum_of_rating += $value['saswp_review_rating'];
@@ -1513,7 +1513,7 @@ class saswp_reviews_service {
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '<span class="saswp-r3-brv">';
-                      $html .= esc_html__(saswp_label_text('translation-based-on'), 'schema-and-structured-data-for-wp').' '.esc_attr($review_count).' '.esc_html__(saswp_label_text('translation-reviews'), 'schema-and-structured-data-for-wp');
+                      $html .= saswp_label_text('translation-based-on').' '.esc_attr($review_count).' '.saswp_label_text('translation-reviews');
                       $html .= '</span>';
                       $html .= '</div>';
                       $html .= '</a>';

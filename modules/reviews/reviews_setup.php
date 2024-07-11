@@ -206,7 +206,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     $date = get_post_meta( $post_id, $key='saswp_review_date', true);
 
                     if($date){                        
-                        $date = date('m-d-Y H:i:s', strtotime($date));
+                        $date = gmdate('m-d-Y H:i:s', strtotime($date));
                         echo esc_attr($date);
                     }
                                                                                                                                                                                                     

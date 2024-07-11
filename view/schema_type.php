@@ -140,8 +140,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     wp_nonce_field( 'saswp_schema_type_nonce', 'saswp_schema_type_nonce' );  
 
                     $style_business_type = '';
-                    $style_business_name = '';         
-                    $style_review_name   = ''; 
+                    $style_business_name = '';                             
                     $business_name       = '';
                     $schema_type         = '';
                     $business_type       = '';                                    
@@ -393,7 +392,16 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </td>
                 </tr>
                 
-                <tr class="saswp-automotivebusiness-tr" <?php if(!array_key_exists($business_name, $all_automotive_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                <?php if(!array_key_exists($business_name, $all_automotive_array)){ ?>                    
+                        <tr class="saswp-automotivebusiness-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-automotivebusiness-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-automotivebusiness-tr">
+                        <?php } ?>
+                <?php } ?> 
+                        
                     <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
                         <select class="saswp-local-sub-type-2" id="saswp_automotive" name="saswp_business_name">
@@ -412,7 +420,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </td>
 
                 </tr>
-                <tr class="saswp-emergencyservice-tr" <?php if(!array_key_exists($business_name, $all_emergency_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+
+                <?php if(!array_key_exists($business_name, $all_emergency_array)){ ?>                    
+                        <tr class="saswp-emergencyservice-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-emergencyservice-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-emergencyservice-tr">
+                        <?php } ?>
+                <?php } ?>
+                
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_emergency_service" name="saswp_business_name">
@@ -429,7 +447,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
-                <tr class="saswp-entertainmentbusiness-tr" <?php if(!array_key_exists($business_name, $all_entertainment_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                                    
+                <?php if(!array_key_exists($business_name, $all_entertainment_array)){ ?>                    
+                        <tr class="saswp-entertainmentbusiness-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-entertainmentbusiness-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-entertainmentbusiness-tr">
+                        <?php } ?>
+                <?php } ?>
+
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp'); ?></td>    
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_entertainment" name="saswp_business_name">
@@ -446,8 +474,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
-                
-                <tr class="saswp-medicalbusiness-tr" <?php if(!array_key_exists($business_name, $all_medical_business_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                                
+                <?php if(!array_key_exists($business_name, $all_medical_business_array)){ ?>                    
+                        <tr class="saswp-medicalbusiness-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-medicalbusiness-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-medicalbusiness-tr">
+                        <?php } ?>
+                <?php } ?>
+
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_medicalbusiness" name="saswp_business_name">
@@ -464,8 +501,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
-                
-                <tr class="saswp-financialservice-tr" <?php if(!array_key_exists($business_name, $all_financial_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                                
+                <?php if(!array_key_exists($business_name, $all_financial_array)){ ?>                    
+                        <tr class="saswp-financialservice-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-financialservice-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-financialservice-tr">
+                        <?php } ?>
+                <?php } ?>
+
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_financial_service" name="saswp_business_name">
@@ -481,7 +527,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>                        
-                <tr class="saswp-foodestablishment-tr" <?php if(!array_key_exists($business_name, $all_food_establishment_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                
+                <?php if(!array_key_exists($business_name, $all_food_establishment_array)){ ?>                    
+                        <tr class="saswp-foodestablishment-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-foodestablishment-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-foodestablishment-tr">
+                        <?php } ?>
+                <?php } ?>
+
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>  
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_food_establishment" name="saswp_business_name">                        
@@ -497,7 +553,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
-                <tr class="saswp-healthandbeautybusiness-tr" <?php if(!array_key_exists($business_name, $all_health_and_beauty_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                
+                <?php if(!array_key_exists($business_name, $all_health_and_beauty_array)){ ?>                    
+                        <tr class="saswp-healthandbeautybusiness-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-healthandbeautybusiness-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-healthandbeautybusiness-tr">
+                        <?php } ?>
+                <?php } ?>
+
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>   
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_health_and_beauty" name="saswp_business_name">
@@ -515,7 +581,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>                        
-                <tr class="saswp-homeandconstructionbusiness-tr" <?php if(!array_key_exists($business_name, $all_home_and_construction_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                
+                <?php if(!array_key_exists($business_name, $all_home_and_construction_array)){ ?>                    
+                        <tr class="saswp-homeandconstructionbusiness-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-homeandconstructionbusiness-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-homeandconstructionbusiness-tr">
+                        <?php } ?>
+                <?php } ?>
+
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_home_and_construction" name="saswp_business_name">
@@ -532,7 +608,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
-                <tr class="saswp-legalservice-tr" <?php if(!array_key_exists($business_name, $all_legal_service_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                
+                <?php if(!array_key_exists($business_name, $all_legal_service_array)){ ?>                    
+                        <tr class="saswp-legalservice-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-legalservice-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-legalservice-tr">
+                        <?php } ?>
+                <?php } ?>
+
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_legal_service" name="saswp_business_name">
@@ -549,7 +635,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
-                <tr class="saswp-lodgingbusiness-tr" <?php if(!array_key_exists($business_name, $all_lodging_array)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                
+                <?php if(!array_key_exists($business_name, $all_lodging_array)){ ?>                    
+                        <tr class="saswp-lodgingbusiness-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-lodgingbusiness-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-lodgingbusiness-tr">
+                        <?php } ?>
+                <?php } ?>
+
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_lodging" name="saswp_business_name">
@@ -565,8 +661,18 @@ function saswp_schema_type_meta_box_callback( $post) {
                         ?>
                     </select>
                 </td>    
-                </tr>
-                <tr class="saswp-sportsactivitylocation-tr" <?php if(!array_key_exists($business_name, $all_sports_activity_location)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                </tr>                
+
+                <?php if(!array_key_exists($business_name, $all_sports_activity_location)){ ?>                    
+                        <tr class="saswp-sportsactivitylocation-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-sportsactivitylocation-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-sportsactivitylocation-tr">
+                        <?php } ?>
+                <?php } ?>
+
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_sports_activity_location" name="saswp_business_name">
@@ -583,7 +689,17 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>
                 </td>    
                 </tr>
-                <tr class="saswp-store-tr" <?php if(!array_key_exists($business_name, $all_store)){ echo 'style="display:none;"';}else{ echo $style_business_name;} ?>>
+                
+                <?php if(!array_key_exists($business_name, $all_store)){ ?>                    
+                        <tr class="saswp-store-tr" style="display:none;">
+                <?php }else{?>
+                        <?php if($style_business_name){ ?>
+                            <tr class="saswp-store-tr" style="display:none;">
+                        <?php }else{ ?>
+                            <tr class="saswp-store-tr">
+                        <?php } ?>
+                <?php } ?>
+
                 <td><?php echo esc_html__('Sub Business Type', 'schema-and-structured-data-for-wp' ); ?></td>    
                 <td>
                     <select class="saswp-local-sub-type-2" id="saswp_store" name="saswp_business_name">
@@ -603,7 +719,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </tr>                
                                 
                 <!-- ItemList Schema type starts here -->
-                <tr class="saswp-itemlist-text-field-tr" <?php echo $style_review_name; ?>>
+                <tr class="saswp-itemlist-text-field-tr">
                     <td><?php echo esc_html__('Item Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
 
@@ -626,7 +742,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 <!-- ItemList Schema type ends here -->
                                 
                 <!-- Review Schema type starts here -->
-                <tr class="saswp-review-text-field-tr" <?php echo $style_review_name; ?>>
+                <tr class="saswp-review-text-field-tr">
                     <td><?php echo esc_html__('Item Reviewed Type', 'schema-and-structured-data-for-wp' ); ?></td>
                     <td>
 

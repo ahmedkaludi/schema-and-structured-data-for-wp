@@ -1695,7 +1695,7 @@ function saswp_dismiss_notices(){
     $user_id      = get_current_user_id();
     
     
-    $updated = update_user_meta( $user_id, $notice_type.'_dismiss_date', date("Y-m-d"));
+    $updated = update_user_meta( $user_id, $notice_type.'_dismiss_date', gmdate("Y-m-d"));
 
     if($updated){
       echo wp_json_encode(array('status'=>'t'));  
@@ -1847,7 +1847,7 @@ function saswp_feeback_remindme(){
            return;  
         }
     
-        $result = update_option( "saswp_activation_date", date("Y-m-d"));   
+        $result = update_option( "saswp_activation_date", gmdate("Y-m-d"));   
         
         if($result){
             
@@ -1950,9 +1950,9 @@ function saswp_license_status($add_on, $license_status, $license_key){
                      $fname =  ucwords($fname);
                       } 
               // Get Expiring Date 
-              $license_exp = date('Y-m-d', strtotime($license_data->expires)); 
+              $license_exp = gmdate('Y-m-d', strtotime($license_data->expires)); 
               $license_info_lifetime = $license_data->expires; 
-              $today = date('Y-m-d');
+              $today = gmdate('Y-m-d');
                $exp_date =$license_exp; 
                $date1 = date_create($today);
                 $date2 = date_create($exp_date);
@@ -1970,7 +1970,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
               // Get Download_ID 
               $download_id = $license_data->payment_id;
                } 
-               $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
+               $license_exp_norml = gmdate('Y-m-d', strtotime($license_data->expires));
                $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname; 
                $license[strtolower($add_on).'_addon_license_key_expires'] = $days; 
                $license[strtolower($add_on).'_addon_license_key_expires_normal'] = $license_exp_norml;
@@ -2069,10 +2069,10 @@ function saswp_license_status($add_on, $license_status, $license_key){
                           }
 
                           // Get Expiring Date
-                          $license_exp = date('Y-m-d', strtotime($license_data->expires));
-                          $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
+                          $license_exp = gmdate('Y-m-d', strtotime($license_data->expires));
+                          $license_exp_norml = gmdate('Y-m-d', strtotime($license_data->expires));
                           $license_info_lifetime = $license_data->expires;
-                          $today = date('Y-m-d');
+                          $today = gmdate('Y-m-d');
                           $exp_date =$license_exp;
                           $date1 = date_create($today);
                           $date2 = date_create($exp_date);
@@ -2124,7 +2124,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                           }
                         }
 
-                        $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
+                        $license_exp_norml = gmdate('Y-m-d', strtotime($license_data->expires));
                         $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname;
 
                         $license[strtolower($add_on).'_addon_license_key_expires'] = $days;
@@ -2296,7 +2296,7 @@ function saswp_review_module_upgradation(){
                                                             
                 } 
                 
-                 update_option('saswp_google_upgrade', date("Y-m-d"));
+                 update_option('saswp_google_upgrade', gmdate("Y-m-d"));
                  
            }
                                     

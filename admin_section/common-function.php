@@ -32,14 +32,17 @@ if ( ! defined('ABSPATH') ) exit;
          
          global $translation_labels;
          global $sd_data;
+         $label_text = '';
          
          if(isset($sd_data[$label_key]) && $sd_data[$label_key] !=''){
-             return $sd_data[$label_key];
+             $label_text = $sd_data[$label_key];
          }else{
-             return $translation_labels[$label_key];
+            $label_text = $translation_labels[$label_key];
          }
+
+         return esc_html__($label_text, 'schema-and-structured-data-for-wp');
                                     
-     }     
+     }
     
     /**
      * We are here fetching all schema and its settings from backup files
@@ -319,8 +322,8 @@ if ( ! defined('ABSPATH') ) exit;
                 $schema_post = array(
                     
                     'post_author'           => intval($user_id),
-                    'post_date'             => date('Y-m-d H:i:s', strtotime($schema->post_date)),
-                    'post_date_gmt'         => date('Y-m-d H:i:s', strtotime($schema->post_date_gmt)),
+                    'post_date'             => gmdate('Y-m-d H:i:s', strtotime($schema->post_date)),
+                    'post_date_gmt'         => gmdate('Y-m-d H:i:s', strtotime($schema->post_date_gmt)),
                     'post_content'          => sanitize_text_field($schema->post_content),
                     'post_title'            => sanitize_text_field($schema->post_title. ' (Migrated from Schema plugin)'),
                     'post_excerpt'          => sanitize_text_field($schema->post_excerpt),
@@ -331,9 +334,9 @@ if ( ! defined('ABSPATH') ) exit;
                     'post_name'             => sanitize_text_field($schema->post_name),
                     'to_ping'               => sanitize_text_field($schema->to_ping),
                     'pinged'                => sanitize_text_field($schema->pinged),
-                    'post_modified'         => date('Y-m-d H:i:s', strtotime($schema->post_modified)),
-                    'post_modified_gmt'     => date('Y-m-d H:i:s', strtotime($schema->post_modified_gmt)),
-                    'post_content_filtered' => date('Y-m-d H:i:s', strtotime($schema->post_content_filtered)),
+                    'post_modified'         => gmdate('Y-m-d H:i:s', strtotime($schema->post_modified)),
+                    'post_modified_gmt'     => gmdate('Y-m-d H:i:s', strtotime($schema->post_modified_gmt)),
+                    'post_content_filtered' => gmdate('Y-m-d H:i:s', strtotime($schema->post_content_filtered)),
                     'post_parent'           => intval($schema->post_parent),                                        
                     'menu_order'            => intval($schema->menu_order),
                     'post_type'             => 'saswp',
@@ -1709,8 +1712,8 @@ if ( ! defined('ABSPATH') ) exit;
                         if((isset($yoast_wpseo_titles['schema-page-type-post']) && $ask_value1 == $yoast_wpseo_titles['schema-page-type-post']) || (isset($yoast_wpseo_titles['schema-article-type-post']) && $ask_value1 == $yoast_wpseo_titles['schema-article-type-post'])){
                             $schema_post = array(
                                 'post_author'           => $user_id,
-                                'post_date'             => date('Y-m-d H:i:s'),
-                                'post_date_gmt'         => date('Y-m-d H:i:s'),
+                                'post_date'             => gmdate('Y-m-d H:i:s'),
+                                'post_date_gmt'         => gmdate('Y-m-d H:i:s'),
                                 'post_content'          => '',
                                 'post_title'            => $ask_value1. ' (Migrated from Yoast plugin)',
                                 'post_status'           => 'publish',
@@ -1723,8 +1726,8 @@ if ( ! defined('ABSPATH') ) exit;
                         }else if((isset($yoast_wpseo_titles['schema-page-type-page']) && $ask_value1 == $yoast_wpseo_titles['schema-page-type-page']) || (isset($yoast_wpseo_titles['schema-article-type-page']) && $ask_value1 == $yoast_wpseo_titles['schema-article-type-page'])){
                             $schema_post = array(
                                 'post_author'           => intval($user_id),
-                                'post_date'             => date('Y-m-d H:i:s'),
-                                'post_date_gmt'         => date('Y-m-d H:i:s'),
+                                'post_date'             => gmdate('Y-m-d H:i:s'),
+                                'post_date_gmt'         => gmdate('Y-m-d H:i:s'),
                                 'post_content'          => '',
                                 'post_title'            => sanitize_text_field($ask_value1). ' (Migrated from Yoast plugin)',
                                 'post_status'           => 'publish',
@@ -3109,7 +3112,7 @@ function saswp_on_activation(){
     
     if(!$installation_date){
         
-        update_option('saswp_installation_date', date("Y-m-d"));        
+        update_option('saswp_installation_date', gmdate("Y-m-d"));        
         
     }
             
@@ -3224,7 +3227,7 @@ function saswp_migrate_old_social_profile(){
             $sd_data['saswp_social_links'] = $sd_social_profile;        
             update_option('sd_data', $sd_data);
             
-            update_option('saswp_social_profile_upgrade', date("Y-m-d"));
+            update_option('saswp_social_profile_upgrade', gmdate("Y-m-d"));
         }
     
 }
@@ -3253,10 +3256,10 @@ function saswp_format_date_time($date, $time=null){
     }    
     
     if($date && $time){
-        $formated =  date('c',strtotime($date.' '.$time));       
+        $formated = gmdate('c',strtotime($date.' '.$time));       
     }else{
         if($date){
-        $formated =  date('c',strtotime($date));      
+        $formated = gmdate('c',strtotime($date));      
         }        
     }               
     
@@ -3346,8 +3349,8 @@ function saswp_admin_notice(){
     $activation_date  =  get_option("saswp_activation_date");  
     $activation_never =  get_option("saswp_activation_never");      
     $next_days        =  strtotime("+7 day", strtotime($activation_date));
-    $next_days        =  date('Y-m-d', $next_days);   
-    $current_date     =  date("Y-m-d");
+    $next_days        = gmdate('Y-m-d', $next_days);   
+    $current_date     = gmdate("Y-m-d");
 
     $notice_msg = '';
 
@@ -4233,7 +4236,7 @@ function saswp_get_video_metadata($content = ''){
                                                     $metadata['title']      = isset($daily_video_details['title'])?$daily_video_details['title']:'';
                                                     $metadata['description']      = isset($daily_video_details['description'])?$daily_video_details['description']:'';
                                                     $metadata['viewCount']      = 0;
-                                                    $metadata['uploadDate']      = isset($daily_video_details['created_time'])?date('Y-m-d H:i:s',$daily_video_details['created_time']):'';
+                                                    $metadata['uploadDate']      = isset($daily_video_details['created_time'])? gmdate('Y-m-d H:i:s',$daily_video_details['created_time']):'';
                                                     $metadata['thumbnail_url'] = isset($daily_video_details['thumbnail_url'])?$daily_video_details['thumbnail_url']:'';
                                                     $metadata['author_name']      = 'Dailymotion';
                                                     $metadata['type']      = 'video';
@@ -5222,7 +5225,7 @@ function saswp_sanitize_post_data($array_sanitize = array())
                 if(substr($asvalue, 0,4) == '0000'){
                     $response[$askey] = $asvalue;
                 }else{
-                    $response[$askey] = date('Y-m-d H:i:s', strtotime($asvalue));
+                    $response[$askey] = gmdate('Y-m-d H:i:s', strtotime($asvalue));
                 }    
             }else if(in_array($askey, $text_key_array)){
                 $response[$askey] = sanitize_text_field($asvalue);    

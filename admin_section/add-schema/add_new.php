@@ -403,7 +403,7 @@ $saswp_add_data_type_config = array(
                 
                 $schema_post = array(
                     'post_author' => intval($user_id),
-                    'post_date'   => date("Y-m-d"),                                        
+                    'post_date'   => gmdate("Y-m-d"),                                        
                     'post_title'  => sanitize_text_field(ucfirst($schema_type)),                    
                     'post_status' => 'publish',                    
                     'post_name'   =>  sanitize_text_field(ucfirst($schema_type)),                    

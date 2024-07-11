@@ -378,7 +378,7 @@ function saswp_admin_interface_render(){
         }
 
         if( $license_expires !== 'Lifetime' ){
-        $today = date('Y-m-d');
+        $today = gmdate('Y-m-d');
                $exp_date = $license_expnormal; 
                $date1 = date_create($today);
                 $date2 = date_create($exp_date);
@@ -4838,9 +4838,9 @@ function saswp_enqueue_style_js( $hook ) {
             'page_now'                     => $hook,
             'saswp_settings_url'           => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options')),
             'saswp_schema_types'           =>  $all_schema_array,
-            'trans_based_on'               => esc_html__(saswp_label_text('translation-based-on'), 'schema-and-structured-data-for-wp'),
-            'trans_reviews'                => esc_html__(saswp_label_text('translation-reviews'), 'schema-and-structured-data-for-wp'),
-            'trans_self'                   => esc_html__(saswp_label_text('translation-self'), 'schema-and-structured-data-for-wp'),
+            'trans_based_on'               => saswp_label_text('translation-based-on'),
+            'trans_reviews'                => saswp_label_text('translation-reviews'),
+            'trans_self'                   => saswp_label_text('translation-self'),
             'translable_txt'               => $translable_txt,
             'is_rtl'                       => is_rtl(),     
             'tag_ID'                       => isset($_GET['tag_ID']) ? intval($_GET['tag_ID']) : '',

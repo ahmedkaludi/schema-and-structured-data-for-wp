@@ -806,7 +806,7 @@ Class saswp_output_service{
                         if(saswp_validate_date($custom_fields['saswp_review_date_published'], 'Y-m-d\TH:i:sP')){
                             $review_markup['datePublished'] =    $custom_fields['saswp_review_date_published'];
                         }else{
-                            $review_markup['datePublished'] =    date('c',strtotime($custom_fields['saswp_review_date_published']));
+                            $review_markup['datePublished'] =    gmdate('c',strtotime($custom_fields['saswp_review_date_published']));
                         }
                        
                     }
@@ -816,7 +816,7 @@ Class saswp_output_service{
                         if(saswp_validate_date($custom_fields['saswp_review_date_modified'], 'Y-m-d\TH:i:sP')){
                             $review_markup['dateModified'] =    $custom_fields['saswp_review_date_modified'];
                         }else{
-                            $review_markup['dateModified'] =    date('c',strtotime($custom_fields['saswp_review_date_modified']));
+                            $review_markup['dateModified'] =    gmdate('c',strtotime($custom_fields['saswp_review_date_modified']));
                         }
                        
                     }
@@ -871,7 +871,7 @@ Class saswp_output_service{
                      $input1['image']         =    $custom_fields['saswp_book_image'];
                     }
                     if(isset($custom_fields['saswp_book_date_published'])){                        
-                     $input1['datePublished'] =    date('c',strtotime($custom_fields['saswp_book_date_published']));
+                     $input1['datePublished'] =    gmdate('c',strtotime($custom_fields['saswp_book_date_published']));
                     }                    
                     if(isset($custom_fields['saswp_book_price_currency']) && isset($custom_fields['saswp_book_price'])){
                         $input1['offers']['@type']         = 'Offer';
@@ -7209,7 +7209,7 @@ Class saswp_output_service{
                     if(isset($custom_fields['saswp_jobposting_schema_es_unittext'])){
                     $input1['estimatedSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_es_unittext'];
                     }                    
-                    if(isset($custom_fields['saswp_jobposting_schema_validthrough'])  && $custom_fields['saswp_jobposting_schema_validthrough'] !='' && date('Y-m-d',strtotime($custom_fields['saswp_jobposting_schema_validthrough'])) < date('Y-m-d') ){
+                    if(isset($custom_fields['saswp_jobposting_schema_validthrough'])  && $custom_fields['saswp_jobposting_schema_validthrough'] !='' && gmdate('Y-m-d',strtotime($custom_fields['saswp_jobposting_schema_validthrough'])) < gmdate('Y-m-d') ){
                         $input1 = array();    
                     }
                     
@@ -7479,11 +7479,11 @@ Class saswp_output_service{
                             }
                         }
                     }
-                    $input1['dateCreated'] = date('Y-m-d', strtotime(get_the_date()));
+                    $input1['dateCreated'] = gmdate('Y-m-d', strtotime(get_the_date()));
                     if(isset($custom_fields['saswp_lr_date_created'])){
-                        $input1['dateCreated'] = date('Y-m-d', strtotime($custom_fields['saswp_lr_date_created']));
+                        $input1['dateCreated'] = gmdate('Y-m-d', strtotime($custom_fields['saswp_lr_date_created']));
                     }
-                    $input1['dateModified'] = date('Y-m-d', strtotime(get_the_modified_date()));
+                    $input1['dateModified'] = gmdate('Y-m-d', strtotime(get_the_modified_date()));
                     if(isset($custom_fields['saswp_lr_date_modified'])){
                         $input1['dateModified'] = $custom_fields['saswp_lr_date_modified'];
                     }
@@ -7863,7 +7863,7 @@ Class saswp_output_service{
              
              if(isset($date_on_sale)){
                  
-             $product_details['product_priceValidUntil'] = $date_on_sale->date('Y-m-d G:i:s');    
+             $product_details['product_priceValidUntil'] = $date_on_sale->gmdate('Y-m-d G:i:s');    
              
              }else{
             
@@ -7871,7 +7871,7 @@ Class saswp_output_service{
                 
                 if($mdate){
                     $mdate = strtotime($mdate);                    
-                    $product_details['product_priceValidUntil'] = date("c", strtotime("+1 years", $mdate)); 
+                    $product_details['product_priceValidUntil'] = gmdate("c", strtotime("+1 years", $mdate)); 
                 }    
                                                           
              }       

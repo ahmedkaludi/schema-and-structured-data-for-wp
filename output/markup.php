@@ -140,7 +140,7 @@ function saswp_book_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                 
             }
                                     
-            $input1['datePublished']        = isset($all_post_meta['saswp_book_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_book_date_published_'.$schema_id][0])):'';
+            $input1['datePublished']        = isset($all_post_meta['saswp_book_date_published_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_book_date_published_'.$schema_id][0])):'';
             $input1['isbn']                 = saswp_remove_warnings($all_post_meta, 'saswp_book_isbn_'.$schema_id, 'saswp_array');                          
             $input1['inLanguage']           = saswp_remove_warnings($all_post_meta, 'saswp_book_inlanguage_'.$schema_id, 'saswp_array');                          
             $input1['bookFormat']           = saswp_remove_warnings($all_post_meta, 'saswp_book_format_'.$schema_id, 'saswp_array');                          
@@ -179,7 +179,7 @@ function saswp_movie_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_movie_name_'.$schema_id, 'saswp_array');
         $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_movie_url_'.$schema_id, 'saswp_array');
         $input1['sameAs']                = saswp_remove_warnings($all_post_meta, 'saswp_movie_url_'.$schema_id, 'saswp_array');
-        $input1['dateCreated']           = isset($all_post_meta['saswp_movie_date_created_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_movie_date_created_'.$schema_id][0])):'';        
+        $input1['dateCreated']           = isset($all_post_meta['saswp_movie_date_created_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_movie_date_created_'.$schema_id][0])):'';        
         $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_movie_description_'.$schema_id, 'saswp_array');
 
         $input1                          = saswp_get_modified_image('saswp_movie_image_'.$schema_id.'_detail', $input1);                      
@@ -572,7 +572,7 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                             'price'           => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_price_'.$schema_id, 'saswp_array'),
                             'priceCurrency'   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_price_currency_'.$schema_id, 'saswp_array'),
                             'availability'    => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_availability_'.$schema_id, 'saswp_array'),
-                            'validFrom'       => isset($all_post_meta['saswp_event_schema_validfrom_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_event_schema_validfrom_'.$schema_id][0])):'',
+                            'validFrom'       => isset($all_post_meta['saswp_event_schema_validfrom_'.$schema_id])? gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_event_schema_validfrom_'.$schema_id][0])):'',
                         );
 
                 }else{
@@ -585,7 +585,7 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                                 'price'           => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_price_'.$schema_id, 'saswp_array'),
                                 'priceCurrency'   => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_price_currency_'.$schema_id, 'saswp_array'),
                                 'availability'    => saswp_remove_warnings($all_post_meta, 'saswp_event_schema_availability_'.$schema_id, 'saswp_array'),
-                                'validFrom'       => isset($all_post_meta['saswp_event_schema_validfrom_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_event_schema_validfrom_'.$schema_id][0])):'',
+                                'validFrom'       => isset($all_post_meta['saswp_event_schema_validfrom_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_event_schema_validfrom_'.$schema_id][0])):'',
                             );
 
                     }
@@ -901,21 +901,21 @@ function saswp_course_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                             if(!empty($ci_value['saswp_course_instance_sbmd'])){
                                 $instance_array['courseSchedule']['byMonthDay'] = $ci_value['saswp_course_instance_sbmd'];
                             }
-                            $instance_array['courseSchedule']['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
+                            $instance_array['courseSchedule']['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?gmdate('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
                             if(!empty($ci_value['saswp_course_instance_end_time'])){
                                 $instance_array['courseSchedule']['endTime'] = $ci_value['saswp_course_instance_end_time'];
                             }
-                            $instance_array['courseSchedule']['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
+                            $instance_array['courseSchedule']['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?gmdate('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
                             if(!empty($ci_value['saswp_course_instance_start_time'])){
                                 $instance_array['courseSchedule']['startTime'] = $ci_value['saswp_course_instance_start_time'];
                             }
                         }else if(isset($ci_value['saswp_course_instance_wl']) && !empty($ci_value['saswp_course_instance_wl'])){
                             $instance_array['courseWorkload'] = sanitize_text_field($ci_value['saswp_course_instance_wl']);
-                            $instance_array['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
-                            $instance_array['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
+                            $instance_array['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?gmdate('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
+                            $instance_array['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?gmdate('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
                         }else{
-                            $instance_array['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
-                            $instance_array['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?date('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
+                            $instance_array['endDate'] = isset($ci_value['saswp_course_instance_end_date'])?gmdate('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_end_date']))):'';
+                            $instance_array['startDate'] = isset($ci_value['saswp_course_instance_start_date'])?gmdate('Y-m-d', strtotime(sanitize_text_field($ci_value['saswp_course_instance_start_date']))):'';
                         }
                         $instance_array['location'] = isset($ci_value['saswp_course_instance_location'])?sanitize_text_field($ci_value['saswp_course_instance_location']):'';
                         if(isset($ci_value['saswp_course_instance_offer_price']) && isset($ci_value['saswp_course_instance_offer_currency'])){
@@ -1168,8 +1168,8 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             'recipeCuisine'                  => saswp_remove_warnings($all_post_meta, 'saswp_recipe_cuisine_'.$schema_id, 'saswp_array'),              
             'recipeIngredient'               => $ingredient, 
             'recipeInstructions'             => $instruction,                                                                                                                                                                                 
-            'datePublished'                 => isset($all_post_meta['saswp_recipe_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_published_'.$schema_id][0])):'',
-            'dateModified'                  => isset($all_post_meta['saswp_recipe_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_modified_'.$schema_id][0])):'',            
+            'datePublished'                 => isset($all_post_meta['saswp_recipe_date_published_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_published_'.$schema_id][0])):'',
+            'dateModified'                  => isset($all_post_meta['saswp_recipe_date_modified_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_date_modified_'.$schema_id][0])):'',            
             'mainEntity'                    => array(
                             '@type'				=> 'WebPage',
                             '@id'				=> saswp_remove_warnings($all_post_meta, 'saswp_recipe_main_entity_'.$schema_id, 'saswp_array'),						
@@ -1302,7 +1302,7 @@ function saswp_recipe_schema_markup($schema_id, $schema_post_id, $all_post_meta)
                 $input1['video']['thumbnailUrl'] = saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_thumbnailurl_'.$schema_id, 'saswp_array');
                 $input1['video']['contentUrl']   = saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_contenturl_'.$schema_id, 'saswp_array');
                 $input1['video']['embedUrl']     = saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_embedurl_'.$schema_id, 'saswp_array');
-                $input1['video']['uploadDate']   = isset($all_post_meta['saswp_recipe_video_upload_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_video_upload_date_'.$schema_id][0])):'';
+                $input1['video']['uploadDate']   = isset($all_post_meta['saswp_recipe_video_upload_date_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_recipe_video_upload_date_'.$schema_id][0])):'';
                 $input1['video']['duration']     = saswp_remove_warnings($all_post_meta, 'saswp_recipe_video_duration_'.$schema_id, 'saswp_array');
             } 
             
@@ -1367,7 +1367,7 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['offers']['price']           = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_price_'.$schema_id, 'saswp_array');
                 $input1['offers']['priceCurrency']   = saswp_modify_currency_code(saswp_remove_warnings($all_post_meta, 'saswp_product_schema_currency_'.$schema_id, 'saswp_array'));
                 $input1['offers']['url']             = saswp_get_permalink();
-                $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id][0])):'';
+                $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id][0])):'';
             
                 if( isset($all_post_meta['saswp_product_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_low_price_'.$schema_id][0]) ){
                     $input1['offers']['@type']           = 'AggregateOffer';
@@ -1657,7 +1657,7 @@ function saswp_real_estate_listing_schema_markup($schema_id, $schema_post_id, $a
             unset($input1['@id']);
         }
 
-        $input1['datePosted']           = isset($all_post_meta['saswp_real_estate_listing_date_posted_'.$schema_id][0])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_real_estate_listing_date_posted_'.$schema_id][0])):'';
+        $input1['datePosted']           = isset($all_post_meta['saswp_real_estate_listing_date_posted_'.$schema_id][0])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_real_estate_listing_date_posted_'.$schema_id][0])):'';
         
         $input1 = saswp_get_modified_image('saswp_real_estate_listing_image_'.$schema_id.'_detail', $input1);
 
@@ -1667,7 +1667,7 @@ function saswp_real_estate_listing_schema_markup($schema_id, $schema_post_id, $a
             $input1['offers']['availability']    = saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_availability_'.$schema_id, 'saswp_array');        
             $input1['offers']['price']           = saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_price_'.$schema_id, 'saswp_array');
             $input1['offers']['priceCurrency']   = saswp_remove_warnings($all_post_meta, 'saswp_real_estate_listing_currency_'.$schema_id, 'saswp_array');        
-            $input1['offers']['validFrom']       = isset($all_post_meta['saswp_real_estate_listing_validfrom_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_real_estate_listing_validfrom_'.$schema_id][0])):'';
+            $input1['offers']['validFrom']       = isset($all_post_meta['saswp_real_estate_listing_validfrom_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_real_estate_listing_validfrom_'.$schema_id][0])):'';
                 
         }
 
@@ -2361,7 +2361,7 @@ function saswp_music_composition_schema_markup($schema_id, $schema_post_id, $all
             $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_description_'.$schema_id, 'saswp_array');                                
             $input1['iswcCode']              = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_iswccode_'.$schema_id, 'saswp_array');                                
             $input1['inLanguage']            = saswp_remove_warnings($all_post_meta, 'saswp_music_composition_inlanguage_'.$schema_id, 'saswp_array');                                
-            $input1['datePublished']         = isset($all_post_meta['saswp_music_composition_date_published_'.$schema_id][0])&& $all_post_meta['saswp_music_composition_date_published_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_music_composition_date_published_'.$schema_id][0])):'';
+            $input1['datePublished']         = isset($all_post_meta['saswp_music_composition_date_published_'.$schema_id][0])&& $all_post_meta['saswp_music_composition_date_published_'.$schema_id][0] !='' ? gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_music_composition_date_published_'.$schema_id][0])):'';
                         
             if(isset($all_post_meta['saswp_music_composition_lyrics_'.$schema_id][0])){
                 $input1['lyrics']['@type'] = 'CreativeWork';
@@ -2414,8 +2414,8 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
         $input1['familyName']            = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_family_name_'.$schema_id, 'saswp_array');                                                        
         $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_description_'.$schema_id, 'saswp_array');                                                        
         $input1['gender']                = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_gender_'.$schema_id, 'saswp_array');                                                        
-        $input1['birthDate']             = isset($all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id][0])&& $all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id][0])):'';
-        $input1['deathDate']             = isset($all_post_meta['saswp_person_schema_date_of_death_'.$schema_id][0])&& $all_post_meta['saswp_person_schema_date_of_death_'.$schema_id][0] !='' ? date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_person_schema_date_of_death_'.$schema_id][0])):'';
+        $input1['birthDate']             = isset($all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id][0])&& $all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id][0] !='' ? gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_person_schema_date_of_birth_'.$schema_id][0])):'';
+        $input1['deathDate']             = isset($all_post_meta['saswp_person_schema_date_of_death_'.$schema_id][0])&& $all_post_meta['saswp_person_schema_date_of_death_'.$schema_id][0] !='' ? gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_person_schema_date_of_death_'.$schema_id][0])):'';
         $input1['nationality']           = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_nationality_'.$schema_id, 'saswp_array');                                                        
         $input1['jobTitle']              = saswp_remove_warnings($all_post_meta, 'saswp_person_schema_job_title_'.$schema_id, 'saswp_array');                                                        
 
@@ -2863,13 +2863,13 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1['keywords']              = saswp_remove_warnings($all_post_meta, 'saswp_faq_keywords_'.$schema_id, 'saswp_array');
     }               
     if(isset($all_post_meta['saswp_faq_date_published_'.$schema_id]) && isset($all_post_meta['saswp_faq_date_published_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_date_published_'.$schema_id][0])){     
-        $input1['datePublished']         = date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_published_'.$schema_id][0]));
+        $input1['datePublished']         = gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_published_'.$schema_id][0]));
     }
     if(isset($all_post_meta['saswp_faq_date_modified_'.$schema_id]) && isset($all_post_meta['saswp_faq_date_modified_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_date_modified_'.$schema_id][0])){  
-        $input1['dateModified']          = date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_modified_'.$schema_id][0]));
+        $input1['dateModified']          = gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_modified_'.$schema_id][0]));
     }
     if(isset($all_post_meta['saswp_faq_date_created_'.$schema_id]) && isset($all_post_meta['saswp_faq_date_created_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_date_created_'.$schema_id][0])){
-        $input1['dateCreated']           = date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_created_'.$schema_id][0]));
+        $input1['dateCreated']           = gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_faq_date_created_'.$schema_id][0]));
     }
 
     if(isset($all_post_meta['saswp_faq_author_name_'.$schema_id]) && isset($all_post_meta['saswp_faq_author_name_'.$schema_id][0]) && !empty($all_post_meta['saswp_faq_author_name_'.$schema_id][0])){
@@ -3000,9 +3000,9 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['title']                 = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_title_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_description_'.$schema_id, 'saswp_array');
-    $input1['datePosted']            = isset($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])):'';                            
+    $input1['datePosted']            = isset($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])):'';                            
     $input1['directApply']           = isset($all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id][0])?$all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id][0]:'false';                            
-    $input1['validThrough']          = isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])):'';                            
+    $input1['validThrough']          = isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])):'';                            
     $input1['employmentType']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_employment_type_'.$schema_id, 'saswp_array');
     $input1['industry']              = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_industry_'.$schema_id, 'saswp_array');
     $input1['occupationalCategory']  = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_occupational_category_'.$schema_id, 'saswp_array');
@@ -3110,7 +3110,7 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
         $input1['estimatedSalary']['value']['maxValue'] = $all_post_meta['saswp_jobposting_schema_es_max_value_'.$schema_id][0];
     }
 
-    if( ( isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] ) && $all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] !='' ) && date('Y-m-d',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]) ) < date('Y-m-d') ){        
+    if( ( isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] ) && $all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] !='' ) && gmdate('Y-m-d',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]) ) < gmdate('Y-m-d') ){        
         $input1 = array();    
     }    
     return $input1;            
@@ -3750,7 +3750,7 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1['mainEntity']['name']          = saswp_remove_warnings($all_post_meta, 'saswp_qa_question_title_'.$schema_id, 'saswp_array');
         $input1['mainEntity']['text']          = saswp_remove_warnings($all_post_meta, 'saswp_qa_question_description_'.$schema_id, 'saswp_array');
         $input1['mainEntity']['upvoteCount']   = saswp_remove_warnings($all_post_meta, 'saswp_qa_upvote_count_'.$schema_id, 'saswp_array');
-        $input1['mainEntity']['dateCreated']   = isset($all_post_meta['saswp_qa_date_created_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_qa_date_created_'.$schema_id][0])):'';
+        $input1['mainEntity']['dateCreated']   = isset($all_post_meta['saswp_qa_date_created_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_qa_date_created_'.$schema_id][0])):'';
 
         $input1['mainEntity']['author']['@type']  = 'Person';
        
@@ -3847,7 +3847,7 @@ function saswp_data_feed_schema_markup($schema_id, $schema_post_id, $all_post_me
                 '@id'                       => get_permalink().'#DataFeed',    
                 'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_data_feed_schema_name_'.$schema_id, 'saswp_array'),
                 'description'               => saswp_remove_warnings($all_post_meta, 'saswp_data_feed_schema_description_'.$schema_id, 'saswp_array'),									                                             
-                'dateModified'              => isset($all_post_meta['saswp_data_feed_schema_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_data_feed_schema_date_modified_'.$schema_id][0])):'',                               
+                'dateModified'              => isset($all_post_meta['saswp_data_feed_schema_date_modified_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_data_feed_schema_date_modified_'.$schema_id][0])):'',                               
                 'license'                   => saswp_remove_warnings($all_post_meta, 'saswp_data_feed_schema_license_'.$schema_id, 'saswp_array'),									                                             
             );
 
@@ -3862,7 +3862,7 @@ function saswp_data_feed_schema_markup($schema_id, $schema_post_id, $all_post_me
 
                     $supply_data = array();
                     $supply_data['@type']        = 'DataFeedItem';
-                    $supply_data['dateCreated']  = isset($val['saswp_feed_element_date_created'])?date('Y-m-d\TH:i:s\Z',strtotime($val['saswp_feed_element_date_created'])):'';  
+                    $supply_data['dateCreated']  = isset($val['saswp_feed_element_date_created'])?gmdate('Y-m-d\TH:i:s\Z',strtotime($val['saswp_feed_element_date_created'])):'';  
                     $supply_data['item']  = array(
                        '@type'    => 'Person',
                        'name'     => $val['saswp_feed_element_name'],
@@ -3896,8 +3896,8 @@ function saswp_dfp_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         'headline'			=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_headline_'.$schema_id, 'saswp_array'),
         'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_dfp_description_'.$schema_id, 'saswp_array'),			
         'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_dfp_url_'.$schema_id, 'saswp_array'),        
-        'datePublished'                 => isset($all_post_meta['saswp_dfp_date_published_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_dfp_date_published_'.$schema_id][0])):'',
-        'dateModified'                  => isset($all_post_meta['saswp_dfp_date_modified_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_dfp_date_modified_'.$schema_id][0])):'',        
+        'datePublished'                 => isset($all_post_meta['saswp_dfp_date_published_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_dfp_date_published_'.$schema_id][0])):'',
+        'dateModified'                  => isset($all_post_meta['saswp_dfp_date_modified_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_dfp_date_modified_'.$schema_id][0])):'',        
         'publisher'			=> array(
                         '@type'			=> 'Organization',
                         'logo' 			=> array(
@@ -4130,7 +4130,7 @@ function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1['offers']['price']           = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_price_'.$schema_id, 'saswp_array');
         $input1['offers']['priceCurrency']   = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_currency_'.$schema_id, 'saswp_array');
         $input1['offers']['url']             = saswp_get_permalink();
-        $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_vehicle_schema_priceValidUntil_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_vehicle_schema_priceValidUntil_'.$schema_id][0])):'';
+        $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_vehicle_schema_priceValidUntil_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_vehicle_schema_priceValidUntil_'.$schema_id][0])):'';
     
         if( isset($all_post_meta['saswp_vehicle_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_vehicle_schema_low_price_'.$schema_id][0]) ){
             $input1['offers']['@type']           = 'AggregateOffer';
@@ -4295,7 +4295,7 @@ function saswp_car_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1['offers']['price']           = saswp_remove_warnings($all_post_meta, 'saswp_car_schema_price_'.$schema_id, 'saswp_array');
         $input1['offers']['priceCurrency']   = saswp_remove_warnings($all_post_meta, 'saswp_car_schema_currency_'.$schema_id, 'saswp_array');
         $input1['offers']['url']             = saswp_get_permalink();
-        $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_car_schema_priceValidUntil_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_car_schema_priceValidUntil_'.$schema_id][0])):'';
+        $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_car_schema_priceValidUntil_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_car_schema_priceValidUntil_'.$schema_id][0])):'';
     
         if( isset($all_post_meta['saswp_car_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_car_schema_low_price_'.$schema_id][0]) ){
             $input1['offers']['@type']           = 'AggregateOffer';
@@ -6808,7 +6808,7 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_video_object_description_'.$schema_id, 'saswp_array'),
         'transcript'                    => saswp_remove_warnings($all_post_meta, 'saswp_video_object_transcript_'.$schema_id, 'saswp_array'),
         'name'				            => saswp_remove_warnings($all_post_meta, 'saswp_video_object_name_'.$schema_id, 'saswp_array'),
-        'uploadDate'                    => isset($all_post_meta['saswp_video_object_upload_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_video_object_upload_date_'.$schema_id][0])):'',
+        'uploadDate'                    => isset($all_post_meta['saswp_video_object_upload_date_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_video_object_upload_date_'.$schema_id][0])):'',
         'thumbnailUrl'                  => saswp_remove_warnings($all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array'),        
         'mainEntity'                    => array(
                         '@type'				=> 'WebPage',
@@ -6890,7 +6890,7 @@ function saswp_image_object_schema_markup($schema_id, $schema_post_id, $all_post
         'name'				            => saswp_remove_warnings($all_post_meta, 'saswpimage_object_name_'.$schema_id, 'saswp_array'),
         'license'				        => saswp_remove_warnings($all_post_meta, 'saswpimage_object_license_'.$schema_id, 'saswp_array'),
         'acquireLicensePage'	        => saswp_remove_warnings($all_post_meta, 'saswpimage_object_acquire_license_page_'.$schema_id, 'saswp_array'),
-        'uploadDate'                    => isset($all_post_meta['saswpimage_object_upload_date_'.$schema_id])?date('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswpimage_object_upload_date_'.$schema_id][0])):'',						
+        'uploadDate'                    => isset($all_post_meta['saswpimage_object_upload_date_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswpimage_object_upload_date_'.$schema_id][0])):'',						
         'contentUrl'                    => saswp_remove_warnings($all_post_meta, 'saswpimage_object_content_url_'.$schema_id, 'saswp_array'),
         'contentLocation'                    => saswp_remove_warnings($all_post_meta, 'saswpimage_object_content_location_'.$schema_id, 'saswp_array'),						        
         'publisher'			=> array(
@@ -7419,8 +7419,8 @@ function saswp_vacation_rental_schema_markup($schema_id, $schema_post_id, $all_p
                 $input1['review'][$rrcnt]['reviewRating']['bestRating'] = isset($rr_value['saswp_vr_review_rating_best_value'])?intval($rr_value['saswp_vr_review_rating_best_value']):'';
                 $input1['review'][$rrcnt]['author']['@type'] = isset($rr_value['saswp_vr_review_rating_author_type'])?sanitize_text_field($rr_value['saswp_vr_review_rating_author_type']):'';
                 $input1['review'][$rrcnt]['author']['name'] = isset($rr_value['saswp_vr_review_rating_author_name'])?sanitize_text_field($rr_value['saswp_vr_review_rating_author_name']):'';
-                $input1['review'][$rrcnt]['datePublished'] = isset($rr_value['saswp_vr_review_rating_date_pub'])?date('Y-m-d', strtotime($rr_value['saswp_vr_review_rating_date_pub'])):'';
-                $input1['review'][$rrcnt]['contentReferenceTime'] = isset($rr_value['saswp_vr_review_rating_cr_time'])?date('Y-m-d', strtotime($rr_value['saswp_vr_review_rating_cr_time'])):'';
+                $input1['review'][$rrcnt]['datePublished'] = isset($rr_value['saswp_vr_review_rating_date_pub'])?gmdate('Y-m-d', strtotime($rr_value['saswp_vr_review_rating_date_pub'])):'';
+                $input1['review'][$rrcnt]['contentReferenceTime'] = isset($rr_value['saswp_vr_review_rating_cr_time'])?gmdate('Y-m-d', strtotime($rr_value['saswp_vr_review_rating_cr_time'])):'';
                 $rrcnt++;    
             }
         }
@@ -7487,11 +7487,11 @@ function saswp_learning_resource_schema_markup($schema_id, $schema_post_id, $all
             }
         }
     } 
-    $input1['dateCreated'] = date('Y-m-d', strtotime(get_the_date()));  
+    $input1['dateCreated'] = gmdate('Y-m-d', strtotime(get_the_date()));  
     if(isset($all_post_meta['saswp_lr_date_created_'.$schema_id]) && isset($all_post_meta['saswp_lr_date_created__'.$schema_id][0])){
         $input1['dateCreated'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_date_created_'.$schema_id, 'saswp_array');
     } 
-    $input1['dateModified'] = date('Y-m-d', strtotime(get_the_modified_date()));
+    $input1['dateModified'] = gmdate('Y-m-d', strtotime(get_the_modified_date()));
     if(isset($all_post_meta['saswp_lr_date_modified_'.$schema_id]) && isset($all_post_meta['saswp_lr_date_modified_'.$schema_id][0])){
         $input1['dateModified'] = saswp_remove_warnings($all_post_meta, 'saswp_lr_date_modified_'.$schema_id, 'saswp_array');
     }

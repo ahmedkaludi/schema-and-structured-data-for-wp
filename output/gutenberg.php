@@ -225,7 +225,7 @@ function saswp_gutenberg_recipe_schema(){
                          'description' => $video_attachment->post_content,
                          'thumbnailUrl' => $thumbnail_url,
                          'contentUrl' => $video_url,
-                         'uploadDate' => date( 'c', strtotime( $video_attachment->post_date ) ),
+                         'uploadDate' => gmdate( 'c', strtotime( $video_attachment->post_date ) ),
                          'duration' => 'PT' . $video_data['length'] . 'S',
                      )
                  );

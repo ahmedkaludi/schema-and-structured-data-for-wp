@@ -351,7 +351,7 @@ function saswp_wpecommerce_product_schema($input1){
                 'price'         => $price,   
                 'url'           => get_permalink(),       
                 'priceCurrency' => $currency, 
-                'priceValidUntil' => date( 'Y-12-31', time() + YEAR_IN_SECONDS ),                   
+                'priceValidUntil' => gmdate( 'Y-12-31', time() + YEAR_IN_SECONDS ),                   
                 'availability'  => $availability,                                        
               );
 
