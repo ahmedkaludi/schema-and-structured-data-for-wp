@@ -479,7 +479,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->qanda_block_data($attributes);
+            $this->render->qanda_block_data($attributes);
             
             return ob_get_clean();
             
@@ -495,7 +495,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->event_block_data($attributes);
+            $this->render->event_block_data($attributes);
             
             return ob_get_clean();
             
