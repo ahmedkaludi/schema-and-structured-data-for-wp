@@ -287,7 +287,12 @@ class SASWP_Gutenberg_Render {
             <?php if(isset($attributes['ingredients'])){
                     echo '<ol class="saswp-dirction-ul">';
                     foreach ($attributes['directions'] as $value) {
-                        echo '<li class="saswp-r-b-direction-item"><strong>'.esc_html($value['name']).'</strong><p>'.esc_html($value['text']).'</p></li>';
+                        echo '<li class="saswp-r-b-direction-item">';
+                        echo '<strong>'.esc_html($value['name']).'</strong>';
+                        if(isset($value['text'])){
+                            echo '<p>'.wp_kses($value['text'], wp_kses_allowed_html('post')).'</p>';
+                        }                        
+                        echo '</li>';
                     }
                     echo '</ol>';
 
@@ -300,7 +305,7 @@ class SASWP_Gutenberg_Render {
                 <?php if(isset($attributes['notes'])){
                     echo '<ol class="saswp-dirction-ul">';
                     foreach ($attributes['notes'] as $value) {
-                        echo '<p>'.esc_html($value['text']).'</p>';
+                        echo '<p>'.wp_kses($value['text'], wp_kses_allowed_html('post')).'</p>';
                     }
                     echo '</ol>';
 
@@ -398,31 +403,31 @@ class SASWP_Gutenberg_Render {
                               
     }
     public function course_block_data($attributes){
-        
-        $response = '';
-        
+                        
         if(isset($attributes['courses'])){
                         
           foreach($attributes['courses'] as $course){
-            
-            $response .= '<div class="saswp-course-loop">'
-                      . '<h3 class="saswp-course-detail">'.esc_html__('Course Details', 'schema-and-structured-data-for-wp').'</h3>'
-                      . '<h5>'.esc_html($course['name']).'</h5>'
-                      . '<p>';
-            if($course['image_url']){
-                $response .='<img src="'.esc_url($course['image_url']).'">';
-            }          
-            $response .= ''.esc_html($course['description']).'</p>'
-                      . '<h5>'.esc_html__('Provider Details', 'schema-and-structured-data-for-wp').'</h5>'
-                      . '<div><strong>'.esc_html__('Provider Name', 'schema-and-structured-data-for-wp').'</strong> : '. esc_html($course['provider_name']). '</div>'
-                      . '<div><strong>'.esc_html__('Provider Website', 'schema-and-structured-data-for-wp').'</strong> : '. '<a href="'.esc_url($course['provider_website']).'">'.esc_url($course['provider_website']).'</a></div>'                    
-                      . '</div>';  
+            ?>            
+            <div class="saswp-course-loop">
+                      <h3 class="saswp-course-detail"><?php echo esc_html__('Course Details', 'schema-and-structured-data-for-wp') ?></h3>
+                      <h5><?php echo esc_html($course['name']) ?></h5>
+                      <p>
+                        <?php if($course['image_url']){ ?>
+                            <img src="<?php echo esc_url($course['image_url']); ?>">
+                        <?php } ?>                                                                
+                      <?php echo esc_html($course['description']); ?>
+                      </p>
+                      <h5><?php echo esc_html__('Provider Details', 'schema-and-structured-data-for-wp'); ?></h5>
+                      <div><strong><?php echo esc_html__('Provider Name', 'schema-and-structured-data-for-wp'); ?></strong> : <?php echo esc_html($course['provider_name']) ?></div>
+                      <div><strong><?php echo esc_html__('Provider Website', 'schema-and-structured-data-for-wp'); ?></strong> : <a href="<?php echo esc_url($course['provider_website']); ?>">
+                        <?php echo esc_url($course['provider_website']) ?></a></div>                   
+                      </div>
+            <?php
 
             }  
                         
         }
-        
-        return $response;        
+                
     }
     
     public function collection_block_data($attributes){

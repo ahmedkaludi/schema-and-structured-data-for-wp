@@ -352,7 +352,9 @@ function saswp_gutenberg_recipe_schema(){
             if(!empty($data['notes'])){
                 $ing = '';
                 foreach ($data['notes'] as $value) {
-                    $ing .= $value['name']. ', ';
+                    if(isset($value['name'])){
+                        $ing .= $value['name']. ', ';
+                    }                    
                 }
                 $input1['description'] = $ing;
             }
@@ -371,7 +373,7 @@ function saswp_gutenberg_recipe_schema(){
                     $ing[] = array(
                         '@type' => 'HoWToStep',
                         'name'  => $value['name'],
-                        'text'  => $value['text'], 
+                        'text'  => isset($value['text']) ? $value['text'] : '', 
                     );
                 }
                 $input1['recipeInstructions'] = $ing;

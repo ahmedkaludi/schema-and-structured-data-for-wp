@@ -431,7 +431,7 @@ class SASWP_Gutenberg {
 			    return '';
             }
             
-            echo $this->render->recipe_block_data($attributes);
+            $this->render->recipe_block_data($attributes);
             
             return ob_get_clean();
             
@@ -447,7 +447,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->course_block_data($attributes);
+            $this->render->course_block_data($attributes);
             
             return ob_get_clean();
             
