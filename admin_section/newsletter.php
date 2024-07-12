@@ -43,11 +43,8 @@ class saswp_ads_newsletter {
 		        'email'   => $email,
 		        'website' => $website,
 		        'type'    => 'schema'
-                    );
-                    
-		    $response = wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
-                    $response = wp_remote_retrieve_body( $response );                    
-		    echo $response;
+                    );                    
+		    wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );                    
 
                 }else{
                         echo esc_html__('Email id required', 'schema-and-structured-data-for-wp');                        

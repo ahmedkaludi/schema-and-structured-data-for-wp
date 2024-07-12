@@ -1981,10 +1981,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                $message = 'Activated'; 
                $days_remaining = $days; 
                $username = $fname;
-               $message = sprintf(
-              __( 'Your license key expired on %s.' ),
-              date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
-            );
+               /* translators: %s: date */
+               $message = sprintf(__( 'Your license key expired on %s.' ),date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) ));
 						break;
 					case 'revoked' :
 						$message = __( 'Your license key has been disabled.' );

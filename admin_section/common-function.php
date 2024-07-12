@@ -39,9 +39,8 @@ if ( ! defined('ABSPATH') ) exit;
          }else{
             $label_text = $translation_labels[$label_key];
          }
-
-         return esc_html__($label_text, 'schema-and-structured-data-for-wp');
-                                    
+        /* translators: %s: list of static string which user can use in traslation or can modify it in advanced settings section */
+         return esc_html(sprintf(__('%s', 'schema-and-structured-data-for-wp'),$label_text));
      }
     
     /**
@@ -206,12 +205,10 @@ if ( ! defined('ABSPATH') ) exit;
         if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
                 return;  
         }
-                                                                   
-       $data = "Author, Author Url, Author Image, Date, Time, Rating, Title, Text, Platform, Language, Source Url/ Place ID";
-
+                                                                          
        header('Content-Type: text/csv; charset=utf-8');
        header('Content-disposition: attachment; filename=reviewscsv.csv');
-       echo $data;   
+       echo "Author, Author Url, Author Image, Date, Time, Rating, Title, Text, Platform, Language, Source Url/ Place ID";   
                                      
        wp_die();
 
@@ -3078,7 +3075,7 @@ function saswp_uninstall_single($blog_id = null){
         wp_cache_flush();
             
         }catch(Exception $ex){
-            echo $ex->getMessage();
+            echo esc_html($ex->getMessage());
         }            
                 
 }
@@ -3323,28 +3320,21 @@ function saswp_admin_notice(){
     }
     
     $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );  
-    
-    $setup_notice = '<div class="updated notice message notice notice-alt saswp-setup-notice">'
-                    . '<p>'
-                    . '<strong>'.esc_html__( 'Welcome to Schema & Structured Data For WP' , 'schema-and-structured-data-for-wp').'</strong>'
-                    .' - '.esc_html__('You are almost ready :)', 'schema-and-structured-data-for-wp')
-                    . '</p>'
-                    . '<p>'
-                    . '<a class="button button-primary" href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'
-                    . esc_html__('Run the Setup Wizard', 'schema-and-structured-data-for-wp')
-                    . '</a> '
-                    .'<a class="button saswp-skip-button">'
-                    . esc_html__('Skip Setup', 'schema-and-structured-data-for-wp')
-                    . '</a>'
-                    . '</p>'
-                    . '</div>';        
+                
                                       
     $sd_data         = get_option('sd_data'); 
         
     if(($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') && !isset($sd_data['sd_initial_wizard_status'])){
-            
-        echo $setup_notice;
-        
+        ?>
+        <div class="updated notice message notice notice-alt saswp-setup-notice">'
+            <p><strong><?php echo esc_html__( 'Welcome to Schema & Structured Data For WP' , 'schema-and-structured-data-for-wp'); ?></strong> 
+            - <?php echo esc_html__('You are almost ready :)', 'schema-and-structured-data-for-wp'); ?></p>
+            <p><a class="button button-primary" href="<?php echo esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce); ?>">
+            <?php echo esc_html__('Run the Setup Wizard', 'schema-and-structured-data-for-wp'); ?></a>
+            <a class="button saswp-skip-button">
+            <?php echo esc_html__('Skip Setup', 'schema-and-structured-data-for-wp'); ?></a></p>                    
+        </div>
+        <?php                            
     }     
      //Feedback notice    
     $activation_date  =  get_option("saswp_activation_date");  
@@ -3370,7 +3360,8 @@ function saswp_admin_notice(){
             <p class="saswp-notice-p">
             <?php   echo esc_html__('Awesome, you\'ve been using ', 'schema-and-structured-data-for-wp'); 
                     echo '<strong>' .esc_html__(' Schema & Structured Data ', 'schema-and-structured-data-for-wp'). '</strong>' ;
-                    echo esc_html__('plugin for more than '. $notice_msg, 'schema-and-structured-data-for-wp');
+                    /* translators: %s: notice message */
+                    echo esc_html(sprintf(__('plugin for more than %s', 'schema-and-structured-data-for-wp'),$notice_msg));                    
                     echo '<p class="saswp-notice-p">'.esc_html__('May we ask you to give it a 5-star rating on WordPress?', 'schema-and-structured-data-for-wp').'</p>';                                     
             ?>
             <div>- SASWP dev team</div>

@@ -134,7 +134,7 @@ class SASWP_Reviews_Collection {
             
              add_submenu_page( 'edit.php?post_type=saswp',
                 esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
-                esc_html__( '', 'schema-and-structured-data-for-wp' ),
+                '',
                 saswp_current_user_can(),
                 'collection',
                 array($this, 'saswp_admin_collection_interface_render'));   
@@ -1177,7 +1177,7 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_collection_per_page']     = isset($_POST['saswp_collection_per_page']) ? intval($_POST['saswp_collection_per_page']) : '';            
             $post_meta['saswp_fomo_interval']           = isset($_POST['saswp_fomo_interval']) ? intval($_POST['saswp_fomo_interval']) : '';
             $post_meta['saswp_fomo_visibility']         = isset($_POST['saswp_fomo_visibility']) ? intval($_POST['saswp_fomo_visibility']) : '';                                                        
-            $post_meta['saswp_platform_ids']            = array_map('intval', (array)$_POST['saswp_platform_ids']);
+            $post_meta['saswp_platform_ids']            = !empty($_POST['saswp_platform_ids']) ? array_map('intval', (array)$_POST['saswp_platform_ids']) : '';
             $post_meta['saswp_collection_where']        = array_map('sanitize_text_field', (array) $_POST['saswp_collection_where']);
             $post_meta['saswp_collection_where_data']   = array_map('sanitize_text_field', (array) $_POST['saswp_collection_where_data']);
             $post_meta['saswp_total_reviews']           = array_map('intval', (array) json_decode( $_POST['saswp_total_reviews']));

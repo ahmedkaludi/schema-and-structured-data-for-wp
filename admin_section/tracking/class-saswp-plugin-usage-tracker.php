@@ -695,19 +695,12 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				) );
 				
 				// Decide on notice text
-				if( $this->marketing != 1 ) {
-					// Standard notice text
-					$notice_text = sprintf(
-						__( 'Become a super contributor by opting in to our anonymous %1$s data collection and to our updates. We guarantee no sensitive data is collected.'),
-						$this->what_am_i
-						
-					);
-				} else {
-					// If we have option 1 for marketing, we include reference to sending product information here
-					$notice_text = sprintf(
-						__( 'Thank you for installing our %1$s. We\'d like your permission to track its usage on your site and subscribe you to our newsletter. We won\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.', 'schema-and-structured-data-for-wp' ),
-						$this->what_am_i
-					);
+				if( $this->marketing != 1 ) {					
+					/* translators: %s: product type */
+					$notice_text = sprintf(__( 'Become a super contributor by opting in to our anonymous %1$s data collection and to our updates. We guarantee no sensitive data is collected.'),$this->what_am_i);
+				} else {					
+					/* translators: %s: product type */
+					$notice_text = sprintf(__( 'Thank you for installing our %1$s. We\'d like your permission to track its usage on your site and subscribe you to our newsletter. We won\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.', 'schema-and-structured-data-for-wp' ),$this->what_am_i);
 				}
 				// And we allow you to filter the text anyway
 				$notice_text = apply_filters( 'wisdom_notice_text_' . esc_attr( $this->plugin_name ), $notice_text ); ?>
@@ -755,11 +748,8 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 					'plugin' 			=> $this->plugin_name,
 					'marketing_optin'	=> 'no'
 				) );
-				
-				$marketing_text = sprintf(
-					__( 'Thank you for opting in to tracking. Would you like to receive occasional news about this %s, including details of new features and special offers?', 'schema-and-structured-data-for-wp' ),
-					$this->what_am_i
-				);
+				/* translators: %s: product type */
+				$marketing_text = sprintf(__( 'Thank you for opting in to tracking. Would you like to receive occasional news about this %s, including details of new features and special offers?', 'schema-and-structured-data-for-wp' ),$this->what_am_i);
 				$marketing_text = apply_filters( 'wisdom_marketing_text_' . esc_attr( $this->plugin_name ), $marketing_text ); ?>
 				
 				<div class="notice notice-info updated put-dismiss-notice">

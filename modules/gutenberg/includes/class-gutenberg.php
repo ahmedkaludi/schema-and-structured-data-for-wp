@@ -684,6 +684,7 @@ class SASWP_Gutenberg {
                     }
                                         
                     if($time_html !=''){
+                    // WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
                      echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-estimate-cost').' :</strong> </span>';    
                      echo $time_html;
                     }
@@ -803,8 +804,8 @@ class SASWP_Gutenberg {
                 echo '<div class="saswp-how-to-block-tools">';
                 
                 if(!empty($attributes['tools'])){
-                    
-                    echo '<h5>'.esc_html__(saswp_label_text('translation-tools'), 'schema-and-structured-data-for-wp').'</h5>';
+                    // WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
+                    echo '<h5>'.saswp_label_text('translation-tools').'</h5>';
                     
                     echo '<ul>';
                     foreach($attributes['tools'] as $val){
@@ -822,8 +823,8 @@ class SASWP_Gutenberg {
                 echo '<div class="saswp-how-to-block-material">';
                 
                 if(!empty($attributes['materials'])){
-                    
-                    echo '<h5>'.esc_html__(saswp_label_text('translation-materials'), 'schema-and-structured-data-for-wp').'</h5>';  
+                    // WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
+                    echo '<h5>'.saswp_label_text('translation-materials').'</h5>';  
                     
                     echo '<ul>';
                     foreach($attributes['materials'] as $val){

@@ -408,6 +408,7 @@ function saswp_admin_interface_render(){
                                 ), $tab);
                                 
                                 foreach($tab_links as $link_escaped){
+                                        // WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Escaping is done just above
                                         echo $link_escaped;
                                 }
 			?>
@@ -1238,7 +1239,7 @@ function saswp_general_page_callback(){
             </div>
             <p><?php echo esc_html__('This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type.', 'schema-and-structured-data-for-wp') ?> <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/"><?php echo esc_html__('Learn More', 'schema-and-structured-data-for-wp') ?></a></p>   
         <ul><li><div class="saswp-about-contact-page-tooltip">
-        <input  id="saswp_breadcrumb_home_page_title" name="sd_data[saswp_breadcrumb_home_page_title]" type="hidden" value="<?php if(!empty($settings['saswp_breadcrumb_home_page_title'])){ echo $settings['saswp_breadcrumb_home_page_title']; }else{ echo get_bloginfo(); } ?>">
+        <input  id="saswp_breadcrumb_home_page_title" name="sd_data[saswp_breadcrumb_home_page_title]" type="hidden" value="<?php if(!empty($settings['saswp_breadcrumb_home_page_title'])){ echo esc_attr($settings['saswp_breadcrumb_home_page_title']); }else{ echo esc_attr(get_bloginfo()); } ?>">
         
         <label class="saswp-tooltip">
         <?php echo esc_html__('About', 'schema-and-structured-data-for-wp') ?>
