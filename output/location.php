@@ -23,23 +23,21 @@ function __construct() {
  * @param array $instance Saved values from database.
  */
 public function widget( $args, $instance ) {
-                      
-    echo html_entity_decode(esc_attr($args['before_widget']));
-                            
-    
+
+    echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
+                                
     $all_loc = saswp_get_location_list();    
     
     foreach($all_loc as $ad){
         
         if($ad['value'] == $instance['loc']){   
-                            
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The html all dynamic value has been escaped in called function
             echo saswp_add_location_content($instance['loc']);
                 
         }   
         
     }
-    
-    echo html_entity_decode(esc_attr($args['after_widget']));		
+    echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));   
 }
 
 /**

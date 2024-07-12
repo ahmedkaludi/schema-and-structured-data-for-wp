@@ -47,9 +47,8 @@ class Saswp_Reviews_Widget extends WP_Widget {
 	 * @param array $instance Saved values from database.
 	 */
 	public function widget( $args, $instance ) {
-                          
-        echo html_entity_decode(esc_attr($args['before_widget']));
-	
+
+		echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));	
                 
         if(saswp_global_option()){
           
@@ -61,13 +60,14 @@ class Saswp_Reviews_Widget extends WP_Widget {
 
             if($reviews){
                    global $saswp_post_reviews;
-                   $saswp_post_reviews = array_merge($saswp_post_reviews, $reviews);    
+                   $saswp_post_reviews = array_merge($saswp_post_reviews, $reviews); 
+				   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The html all dynamic value has been escaped in called function   
                    echo $this->_serviceClass->saswp_reviews_html_markup($reviews);                                                                                         
             }
                         
         }
-        
-        echo html_entity_decode(esc_attr($args['after_widget']));
+                
+		echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
     }
 
 	/**

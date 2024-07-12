@@ -684,8 +684,9 @@ class SASWP_Gutenberg {
                     }
                                         
                     if($time_html !=''){
-                    // WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
                      echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-estimate-cost').' :</strong> </span>';    
+                     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
                      echo $time_html;
                     }
                                         
@@ -804,7 +805,7 @@ class SASWP_Gutenberg {
                 echo '<div class="saswp-how-to-block-tools">';
                 
                 if(!empty($attributes['tools'])){
-                    // WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
                     echo '<h5>'.saswp_label_text('translation-tools').'</h5>';
                     
                     echo '<ul>';
@@ -823,7 +824,7 @@ class SASWP_Gutenberg {
                 echo '<div class="saswp-how-to-block-material">';
                 
                 if(!empty($attributes['materials'])){
-                    // WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
                     echo '<h5>'.saswp_label_text('translation-materials').'</h5>';  
                     
                     echo '<ul>';

@@ -408,7 +408,7 @@ function saswp_admin_interface_render(){
                                 ), $tab);
                                 
                                 foreach($tab_links as $link_escaped){
-                                        // WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Escaping is done just above
+                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Escaping is done just above
                                         echo $link_escaped;
                                 }
 			?>
