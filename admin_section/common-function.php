@@ -65,11 +65,11 @@ if ( ! defined('ABSPATH') ) exit;
         
         if($url){
             
-        $json_data       = @file_get_contents($url);
-        
-        if($json_data){
+        $resultset       = wp_remote_get($url);
+                
+        if(!is_wp_error($resultset)){
             
-            $json_array      = json_decode($json_data, true);   
+            $json_array      = json_decode(wp_remote_retrieve_body($resultset), true);   
         
             $posts_data      = isset($json_array['posts'])?$json_array['posts']:'';                   
                         
@@ -2148,7 +2148,7 @@ function saswp_fields_and_type($data_type = 'value'){
          if( ( isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1 ) && $saswp_rv_item_enable == 1){  
              
               $rating_module_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/rating-module.css';  
-              echo @file_get_contents($rating_module_css);
+              saswp_local_file_get_contents($rating_module_css);
               
         ?>
         
@@ -2184,7 +2184,7 @@ function saswp_fields_and_type($data_type = 'value'){
         <?php
         
               $rating_module_front_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/rating-module-front.css';  
-              echo @file_get_contents($rating_module_front_css);
+              saswp_local_file_get_contents($rating_module_front_css);
         
         }
           
@@ -5297,4 +5297,26 @@ function saswp_is_time_field($time_str){
     
     return $response;
     
+}
+function saswp_local_file_get_contents($file_path){
+
+    // Include WordPress Filesystem API
+    if ( ! function_exists( 'WP_Filesystem' ) ) {
+        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+    }
+
+    // Initialize the API
+    global $wp_filesystem;
+    if ( ! WP_Filesystem() ) {
+        return false;
+    }
+    // Check if the file exists
+    if ( $wp_filesystem->exists( $file_path ) ) {
+        // Read the file content
+        $file_content = $wp_filesystem->get_contents( $file_path );
+        echo $file_content;
+    } else {
+        echo esc_html__('File does not exist.', 'schema-and-structured-data-for-wp');
+    }
+
 }

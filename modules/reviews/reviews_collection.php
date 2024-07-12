@@ -189,24 +189,24 @@ class SASWP_Reviews_Collection {
                                
            if($this->_design){               
                
-                echo @file_get_contents($global_css);
+                saswp_local_file_get_contents($global_css);
                 
                 switch ($this->_design) {
                     
                     case 'grid':                       
-                            echo @file_get_contents($grid_css);
+                        saswp_local_file_get_contents($grid_css);                            
                         break;
                     case 'gallery':
-                            echo @file_get_contents($gallery_css);
+                        saswp_local_file_get_contents($gallery_css);                                                        
                         break;
                     case 'badge':
-                            echo @file_get_contents($badge_css);
+                        saswp_local_file_get_contents($badge_css);                                                        
                         break;
                     case 'popup':
-                            echo @file_get_contents($popup_css);
+                        saswp_local_file_get_contents($popup_css);                                                        
                         break;
                     case 'fomo':
-                            echo @file_get_contents($fomo_css);
+                        saswp_local_file_get_contents($fomo_css);                                                        
                         break;
 
                     default:
@@ -451,7 +451,7 @@ class SASWP_Reviews_Collection {
                         $dots = $f_interval = $f_visibility = $arrow = 1;
                         $g_type = $design = $cols = $sorting = $date_format = $collection_review_imag = $saswp_collection_readmore_desc = $saswp_collection_gallery_readmore_desc = $saswp_collection_badge_souce_link = '';
                         $stars_color = ''; $g_interval = 3000; $auto_slider = 0;
-                        $collection_data = get_post_meta($attr['id']);
+                        $collection_data = get_post_meta($attr['id']);                        
                         
                         if(isset($collection_data['saswp_collection_design'][0])){
                             $design        = $collection_data['saswp_collection_design'][0];
@@ -556,8 +556,7 @@ class SASWP_Reviews_Collection {
                         }
                         if(isset($collection_data['saswp_collection_badge_souce_link'][0])){
                             $saswp_collection_badge_souce_link   = $collection_data['saswp_collection_badge_souce_link'][0];                    
-                        }
-                                                   
+                        }                       
                     if($total_reviews){
                            
                             wp_enqueue_style( 'saswp-collection-front-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'collection-front.min.css' : 'collection-front.css'), false , SASWP_VERSION );
@@ -779,24 +778,21 @@ class SASWP_Reviews_Collection {
                                          );  ?>
                                         <div class="saswp-plf-lst-rv-cnt">
                                           <?php
-                                          echo '<select id="saswp-plaftorm-list" name="saswp-plaftorm-list">';
-                                       
-                                          $active_options   = '';
-                                          $inactive_options = '';
-                                          
-                                          foreach($platforms as $key => $val){
+                                         echo '<select id="saswp-plaftorm-list" name="saswp-plaftorm-list">';
+                                                                                                                                                                                                              
+                                         echo '<optgroup label="Active">';
+                                         foreach($platforms as $key => $val){
                                             if(in_array($key, array_column($exists_platforms, 'meta_value'))){
-                                                   $active_options .= '<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';
-                                            }else{
-                                               $inactive_options.= '<option value="'.esc_attr($key).'" disabled>'.esc_html($val).'</option>';
+                                                   echo '<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';
                                             }
                                           }
-                                          
-                                         echo '<optgroup label="Active">';
-                                         echo $active_options;
                                          echo '</optgroup>';
                                          echo '<optgroup label="InActive">';
-                                         echo $inactive_options;
+                                         foreach($platforms as $key => $val){
+                                            if(!in_array($key, array_column($exists_platforms, 'meta_value'))){
+                                                echo '<option value="'.esc_attr($key).'" disabled>'.esc_html($val).'</option>';
+                                            }
+                                          }
                                          echo '</optgroup>';
                                          echo '</select>';
                                                     
@@ -943,7 +939,7 @@ class SASWP_Reviews_Collection {
                                                 </div>
                                             </div>
                                             <input data-id="media" id="saswp_collection_image_button" name="saswp_collection_image_button" type="button" value="Change Image">
-                                            <input id="saswp_reset_collection_image" type="button" value="Reset Image" data-img="<?= SASWP_DIR_URI.'admin_section/images/default_user.jpg'; ?>" >
+                                            <input id="saswp_reset_collection_image" type="button" value="Reset Image" data-img="<?php echo esc_url(SASWP_DIR_URI.'admin_section/images/default_user.jpg'); ?>" >
                                             <input type="hidden" data-id="saswp_collection_image_thumbnail" class="upload-thumbnail" name="saswp_collection_image_thumbnail" id="saswp_collection_image_thumbnail" value="<?php echo esc_url( $coll_review_image); ?>">
                                         </div> 
                                         

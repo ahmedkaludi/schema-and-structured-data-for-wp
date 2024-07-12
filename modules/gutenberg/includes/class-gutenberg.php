@@ -158,27 +158,27 @@ class SASWP_Gutenberg {
                             
                             if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/event-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/event.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
                             if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/qanda-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/qanda.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
                             if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/job.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
                             if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/course-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/course.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
                             if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/book-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/book.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
                             if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/recipe-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/recipe.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
                             
                         }

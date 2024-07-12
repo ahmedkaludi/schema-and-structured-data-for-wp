@@ -136,13 +136,14 @@ class SASWP_Reviews_Form {
                 }
                 
                 $url          = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secret_key) .  '&response=' . urlencode($captcha);
-                $response     = file_get_contents($url);
-                $responseKeys = json_decode($response,true);
-                
-                if(!$responseKeys["success"]){
-                    wp_redirect( $rv_link );
-                    exit;
-                }
+                $resultset       = wp_remote_get($url);
+                if(!is_wp_error($resultset)){
+                    $responseKeys = json_decode(wp_remote_retrieve_body($resultset), true);
+                    if(!$responseKeys["success"]){
+                        wp_redirect( $rv_link );
+                        exit;
+                    }
+                }                                                                
 
             }
                                     
@@ -193,7 +194,7 @@ class SASWP_Reviews_Form {
 
             <?php
                           
-             echo @file_get_contents($review_css);
+             saswp_local_file_get_contents($review_css);
             
         }
         
