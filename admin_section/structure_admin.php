@@ -509,10 +509,11 @@ function saswp_comparison_logic_checker($input, $post){
 
           global $cat_id_obj;
           $cat_id_arr = array();  
-          
+          // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
           if(isset($_GET['tag_ID'] ) && is_admin()){
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
             $cat_id_arr[] = intval($_GET['tag_ID'] );
-          }
+          }          
           
           if(is_object($post)){
 
@@ -680,10 +681,11 @@ function saswp_comparison_logic_checker($input, $post){
 
                 $queried_obj   = get_queried_object();
                 $termChoices[] = $queried_obj->slug;
-
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
               }else if( isset($_GET['tag_ID'] ) && is_admin() ){
-
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
                 $term_object = get_term( intval($_GET['tag_ID']) );
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
                 $termChoices[] = $term_object->slug;
 
               }else{
@@ -724,10 +726,10 @@ function saswp_comparison_logic_checker($input, $post){
             }
 
             }else{
-              
-              if( isset($_GET['tag_ID'] ) && is_admin() ){
-
-                $term_object  = get_term( intval($_GET['tag_ID']) );
+              // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+              if( isset($_GET['tag_ID'] ) && is_admin() ){            
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+                $term_object  = get_term( intval($_GET['tag_ID']) );              
                 $post_terms[] = $term_object->slug;
 
               }
@@ -2509,10 +2511,11 @@ function save_extra_user_profile_fields( $user_id ) {
     if ( !current_user_can( 'edit_user', $user_id ) ) { 
         return false; 
     }
-   
+   // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only used inside core edit_user_profile_update hook.
     if(!empty($_POST['saswp_custom_schema_field'])){
-        $allowed_html = saswp_expanded_allowed_tags();                                                  
-        $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
+        $allowed_html = saswp_expanded_allowed_tags();                                            
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only used inside core edit_user_profile_update hook.      
+        $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);    
         update_user_meta( $user_id, 'saswp_user_custom_schema_field',  $custom_schema );               
     }else{
         delete_user_meta( $user_id, 'saswp_user_custom_schema_field');  

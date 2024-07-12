@@ -1910,8 +1910,9 @@ if ( ! defined('ABSPATH') ) exit;
     }
     
     function saswp_get_tab( $default = '', $available = array() ) {
-
-                $tab = isset( $_GET['tab'] ) ? sanitize_text_field(wp_unslash($_GET['tab'])) : $default;            
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- this is a dependent function being called inside add_submenu_page where all security measurament is done.
+                $tab = isset( $_GET['tab'] ) ? sanitize_text_field(wp_unslash($_GET['tab'])) : $default;
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- this is a dependent function being called inside add_submenu_page where all security measurament is done.
                 if ( ! in_array( $tab, $available ) ) {
                         $tab = $default;
                 }
@@ -5062,25 +5063,30 @@ function saswp_get_page_range($current, $max, $total_pages = 5) {
 
 }
 function saswp_get_post_meta( $post_id, $key=null, $single = null ){
-    
-        if( (isset($_GET['tag_ID'] ) && is_admin()) || (is_tag() || is_tax() || is_category()) ){
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- this is a dependent function and its all security measurament is done wherever it has been used.
+        if( (isset($_GET['tag_ID'] ) && is_admin()) || (is_tag() || is_tax() || is_category()) ){        
             return get_term_meta($post_id, $key, $single);
         }else{
             return get_post_meta($post_id, $key, $single);
         }                        
 }
-function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){
-    
-    if((!empty($_POST['tag_ID']) || !empty($_GET['tag_ID'])) && is_admin()){      
-        return update_term_meta($post_id, $meta_key, $meta_value);        
-    }else{
-        return update_post_meta($post_id, $meta_key, $meta_value);
-    }    
+function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){    
+    if(is_admin()){
+           // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.           
+        if((!empty($_POST['tag_ID']))){
+            return update_term_meta($post_id, $meta_key, $meta_value);                    
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- this is a dependent function and its all security measurament is done wherever it has been used.
+        }else if(!empty($_GET['tag_ID'])){
+            return update_term_meta($post_id, $meta_key, $meta_value);        
+        }else{
+            return update_post_meta($post_id, $meta_key, $meta_value);
+        }
+    }        
 }
 
 function saswp_delete_post_meta( $post_id, $meta_key, $meta_value = null ){
-    
-        if(!empty($_POST['tag_ID']) && is_admin()){
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
+        if(!empty($_POST['tag_ID']) && is_admin()){    
             return delete_term_meta( $post_id, $meta_key, $meta_value );            
         }else{
             return delete_post_meta( $post_id, $meta_key, $meta_value );

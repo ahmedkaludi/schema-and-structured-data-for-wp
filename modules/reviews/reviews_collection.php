@@ -574,8 +574,9 @@ class SASWP_Reviews_Collection {
                                 if($pagination && !$pagination_wpr){
 
                                     $data_id = 1; 
-                                    
+                                    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the shortcode calls.
                                     if(isset($_GET['rv_page'])){
+                                        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the shortcode calls.
                                         $data_id = sanitize_text_field($_GET['rv_page']); 
                                     }
                                     
@@ -747,7 +748,7 @@ class SASWP_Reviews_Collection {
             <div class="saswp-collection-wrapper">  
                 
                 <form method="post" action="post.php">
-                    <input type="hidden" name="saswp_collection_nonce" value="<?php echo wp_create_nonce('saswp_collection_nonce_data');    ?>">
+                    <input type="hidden" name="saswp_collection_nonce" value="<?php echo esc_attr(wp_create_nonce('saswp_collection_nonce_data'));    ?>">
                     <input type="hidden" name="post_type" value="saswp-collections">
                     <input type="hidden" name="saswp-collection-page" value="1">
                     <input type="hidden" id="saswp_collection_id" name="saswp_collection_id" value="<?php echo esc_attr($post_id); ?>">                   

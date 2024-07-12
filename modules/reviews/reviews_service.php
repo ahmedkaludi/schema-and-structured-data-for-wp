@@ -1106,8 +1106,9 @@ class saswp_reviews_service {
                         }        
                         
                         $sidenr = 1;
-
+                        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the shortcode calls.
                         if(isset($_GET['rv_page'])){
+                            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the shortcode calls.
                             $sidenr = intval($_GET['rv_page']);   
                         }
                         

@@ -593,7 +593,9 @@ function saswp_reviews_filter() {
     if ( $typenow == 'saswp_reviews' ) { // Your custom post type slug
       $plugins = saswp_get_terms_as_array();
       $current_plugin = '';
+      // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the restrict_manage_posts hook.
       if( isset( $_GET['slug'] ) ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the restrict_manage_posts hook.
         $current_plugin = sanitize_text_field($_GET['slug']); // Check if option has been selected
       } ?>
       <select name="slug" id="slug">
@@ -614,15 +616,18 @@ add_action( 'restrict_manage_posts', 'saswp_reviews_filter' );
  * @param type $query
  */
 function saswp_sort_reviews_by_platform( $query ) {
-    
-  global $pagenow;
-  // Get the post type
-  $post_type = isset( $_GET['post_type'] ) ? sanitize_text_field($_GET['post_type']) : '';
-  
-  if ( is_admin() && $pagenow == 'edit.php' && $post_type == 'saswp_reviews' && isset( $_GET['slug'] ) && $_GET['slug'] !='all' ) {
+
+   if ( ! $query->is_main_query() ) {
+        return;
+   }    
+  global $pagenow;  
+  $post_type = get_query_var('post_type');
+  // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside parse_query filter.
+  $slug = isset($_GET['slug']) ? $_GET['slug'] : '';  
+  if ( is_admin() && $pagenow == 'edit.php' && $post_type == 'saswp_reviews' && $slug !='all' ) {
       
     $query->query_vars['meta_key']     = 'saswp_review_platform';
-    $query->query_vars['meta_value']   = sanitize_text_field($_GET['slug']);
+    $query->query_vars['meta_value']   = sanitize_text_field($slug);
     $query->query_vars['meta_compare'] = '=';
     
   }

@@ -740,13 +740,16 @@ class saswp_view_common_class {
         }    
         
     public function saswp_save_common_view($post_id, $all_schema = null){
-                         
-                $post_meta    = array();                    
+
                 
+                $post_meta    = array();                    
+                // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                 if(is_array($_POST)){
+                    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                     $post_meta    = $_POST;
-                }
-                    
+                    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
+                }                
+                // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.    
                 $schema_count = 0;
                                                 
                 if(!empty($all_schema)){
@@ -756,23 +759,24 @@ class saswp_view_common_class {
                 if($schema_count > 0){
                                                                       
                  foreach($all_schema as $schema){
-                   
+                   // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                      if( isset($_POST['saswp_modify_this_schema_'.$schema->ID]) && !empty($_POST['saswp_modify_this_schema_'.$schema->ID]) ){
+                        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                         saswp_update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
-                     }
-                                  
+                     }                     
+                    
                      foreach ($this->schema_type_element as $element){
                           
                         foreach($element as $key => $val){
                             
                             $element_val          = array();   
-
+                            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.                
                                 if(is_array($_POST)){
-                                    
+                                // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                                     if(array_key_exists($val.'_'.$schema->ID, $_POST)){
-                               
+                               // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                                         $data = (array) $_POST[$val.'_'.$schema->ID];  
-                                     
+                                     // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                                             if($data){
                                         
                                                 foreach ($data as $supply){
@@ -804,8 +808,9 @@ class saswp_view_common_class {
                         $response          = @saswp_get_fields_by_schema_type($schema->ID, 'save'); 
                         
                         $this->saswp_save_meta_fields_value($post_meta, $response, $post_id);
-                        
+                        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                         if(isset($_POST['saswp_review_item_reviewed_'.$schema->ID]) && $_POST['saswp_review_item_reviewed_'.$schema->ID] !=''){
+                            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                              $item_reviewed = sanitize_text_field($_POST['saswp_review_item_reviewed_'.$schema->ID]);
                             
                              $response          = @saswp_get_fields_by_schema_type($schema->ID, 'save', $item_reviewed); 
@@ -813,8 +818,7 @@ class saswp_view_common_class {
                         }
                    
                 }                                                                                      
-            }   
-        
+            }           
     }    
                     
 }

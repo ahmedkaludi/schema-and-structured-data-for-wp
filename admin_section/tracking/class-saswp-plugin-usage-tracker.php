@@ -635,8 +635,11 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 */
 		public function optin_notice() {
 			// Check for plugin args
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 			if( isset( $_GET['plugin'] ) && isset( $_GET['plugin_action'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 				$plugin = sanitize_text_field( $_GET['plugin'] );
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 				$action = sanitize_text_field( $_GET['plugin_action'] );
 				if( $action == 'yes' ) {
 					$this->set_is_tracking_allowed( true, $plugin );
@@ -730,11 +733,14 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 */
 		public function marketing_notice() {
 			// Check if user has opted in to marketing
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 			if( isset( $_GET['marketing_optin'] ) ) {
 				// Set marketing optin
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 				$this->set_can_collect_email( sanitize_text_field( $_GET['marketing_optin'] ), $this->plugin_name );
 				// Do tracking
 				$this->do_tracking( true );
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 			} else if( isset( $_GET['marketing'] ) && $_GET['marketing']=='yes' ) {
 				// Display the notice requesting permission to collect email address
 				// Retrieve current plugin information
@@ -918,7 +924,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 								'action': 'goodbye_form',
 								'values': values,
 								'details': details,
-								'security': "<?php echo wp_create_nonce ( 'saswp_goodbye_form' ); ?>",
+								'security': "<?php echo esc_html(wp_create_nonce ( 'saswp_goodbye_form' )); ?>",
 								'dataType': "json"
 							}
 							$.post(

@@ -92,6 +92,7 @@ function saswp_admin_interface_render(){
         }
     	
 	// Handing save settings
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the add_submenu_page function to validate request comes from settings api.
 	if ( isset( $_GET['settings-updated'] ) ) {							                                                 
 		settings_errors();               
 	}
@@ -656,50 +657,10 @@ function saswp_custom_upload_mimes($mimes = array()) {
 add_action('upload_mimes', 'saswp_custom_upload_mimes');
 
 function saswp_handle_file_upload($option){
-    
-    if ( ! current_user_can( saswp_current_user_can() ) ) {
-		return $option;
-    }
 
-   if(isset($_FILES['saswp_import_backup'])){
-       $fileInfo = array(); 
-       if(isset($_FILES['saswp_import_backup']['name'])){ 
-            $fileInfo = wp_check_filetype(basename($_FILES['saswp_import_backup']['name']));
-        }
-    
-        if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
+        // Sanitizing the register settings values
 
-            if(!empty($_FILES["saswp_import_backup"]["tmp_name"])){
-
-              $urls = wp_handle_upload($_FILES["saswp_import_backup"], array('test_form' => FALSE));    
-              $url = $urls["url"];
-              update_option('saswp-file-upload_url',esc_url($url));
-
-           }
-        }
-       
-   }
-   
-   if(isset($_FILES['saswp_upload_rv_csv'])){
-        $fileInfo = array();
-        if(isset($_FILES['saswp_upload_rv_csv']['name'])){
-            $fileInfo = wp_check_filetype(basename($_FILES['saswp_upload_rv_csv']['name']));
-        }
-     
-         if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'csv') {
- 
-             if(!empty($_FILES["saswp_upload_rv_csv"]["tmp_name"])){
- 
-               $urls = wp_handle_upload($_FILES["saswp_upload_rv_csv"], array('test_form' => FALSE));    
-               $url = $urls["url"];
-               update_option('saswp_rv_csv_upload_url',esc_url($url));
- 
-            }
-         }
-        
-  }
-   
-  $schema_setting_fields = saswp_fields_and_type('type');
+        $fields_type_data = saswp_fields_and_type('type');
 
     foreach ($option as $key => $value) {
         if (isset($fields_type_data[$key])) {
@@ -738,7 +699,53 @@ function saswp_handle_file_upload($option){
             }
         }
     } 
+        //     Uploading files
+    if ( ! current_user_can( saswp_current_user_can() ) ) {
+		return $option;
+    }
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+   if(isset($_FILES['saswp_import_backup'])){
+       $fileInfo = array(); 
+       // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+       if(isset($_FILES['saswp_import_backup']['name'])){ 
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+            $fileInfo = wp_check_filetype(basename($_FILES['saswp_import_backup']['name']));
+        }
+    
+        if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+            if(!empty($_FILES["saswp_import_backup"]["tmp_name"])){
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+              $urls = wp_handle_upload($_FILES["saswp_import_backup"], array('test_form' => FALSE));    
+              $url = $urls["url"];
+              update_option('saswp-file-upload_url',sanitize_url($url));
 
+           }
+        }
+       
+   }
+   // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+   if(isset($_FILES['saswp_upload_rv_csv'])){
+        $fileInfo = array();
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+        if(isset($_FILES['saswp_upload_rv_csv']['name'])){
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+            $fileInfo = wp_check_filetype(basename($_FILES['saswp_upload_rv_csv']['name']));
+        }
+     
+         if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'csv') {
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+             if(!empty($_FILES["saswp_upload_rv_csv"]["tmp_name"])){
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+               $urls = wp_handle_upload($_FILES["saswp_upload_rv_csv"], array('test_form' => FALSE));    
+               $url = $urls["url"];
+               update_option('saswp_rv_csv_upload_url',sanitize_url($url));
+ 
+            }
+         }
+        
+  }
+     
   return $option;
   
 }
@@ -4810,18 +4817,18 @@ function saswp_enqueue_style_js( $hook ) {
         if ( file_exists( $mappings_file ) ) {
             $all_schema_array = include $mappings_file;
         }
-        
-        $post_id = get_the_ID();
-
-        if(isset($_GET['tag_ID'])){
-                $post_id = intval($_GET['tag_ID']);
-        }
 
         $req_from = 'post';
-
+        $post_id  = get_the_ID();
+        $tag_id   = '';
+        $req_from = '';
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_enqueue_scripts hook.
         if(isset($_GET['tag_ID'])){
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_enqueue_scripts hook.
+                $tag_id   = intval($_GET['tag_ID']);
+                $post_id  = $tag_id;
                 $req_from = 'taxonomy';
-        }
+        }                
 
         $data = array(     
             'current_url'                  => saswp_get_current_url(), 
@@ -4843,7 +4850,7 @@ function saswp_enqueue_style_js( $hook ) {
             'trans_self'                   => saswp_label_text('translation-self'),
             'translable_txt'               => $translable_txt,
             'is_rtl'                       => is_rtl(),     
-            'tag_ID'                       => isset($_GET['tag_ID']) ? intval($_GET['tag_ID']) : '',
+            'tag_ID'                       => $tag_id,
             'req_from'                     => $req_from,     
             'saswp_g_site_key'             => isset($sd_data['saswp_g_site_key'])?sanitize_text_field($sd_data['saswp_g_site_key']):'',    
             'saswp_g_secret_key'           => isset($sd_data['saswp_g_secret_key'])?sanitize_text_field($sd_data['saswp_g_secret_key']):'',    

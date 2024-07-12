@@ -2567,6 +2567,7 @@ function saswp_get_strong_testimonials(){
                     switch ( $out['mode'] ) {
 			case 'form' :
 				$view = new Strong_View_Form( $out );
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading to check success condition.
 				if ( isset( $_GET['success'] ) ) {
 				    $view->success();
 				} else {

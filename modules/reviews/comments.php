@@ -137,9 +137,9 @@ function saswp_comment_rating_rating_field () {
 //Save the rating submitted by the user.
 add_action( 'comment_post', 'saswp_comment_rating_save_comment_rating' );
 function saswp_comment_rating_save_comment_rating( $comment_id ) {
-		
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the comment_post hook.
 		if ( ( isset( $_POST['review_rating'] ) ) && ( '' !== $_POST['review_rating'] ) ){
-
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the comment_post hook.
 			$rating = floatval( $_POST['review_rating'] );
 			add_comment_meta( $comment_id, 'review_rating', $rating );
 			

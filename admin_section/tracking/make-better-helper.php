@@ -52,7 +52,9 @@ function saswp_send_feedback() {
     if(!current_user_can( saswp_current_user_can())){
         die( '-1' );    
     }
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are just verifiying nonce below this lines.
     if( isset( $_POST['data'] ) ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are just verifiying nonce below this lines.
         parse_str( $_POST['data'], $form );
     }
     if ( ! isset( $form['saswp_feedback_nonce'] ) ){

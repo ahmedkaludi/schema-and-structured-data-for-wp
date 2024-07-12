@@ -70,6 +70,7 @@ class saswp_ads_newsletter {
                         
                 global $current_user;                
 		$tour     = array ();
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_enqueue_scripts.
                 $tab      = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : '';                   
                 
                 if (!array_key_exists($tab, $tour)) {                
