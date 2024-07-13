@@ -547,10 +547,16 @@ function saswp_add_mooberrybm_schema( $input1 ){
             }
         }
         
-        $publisher = array();
-        $imprint   = array();
-        $book_table = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}mbdb_books WHERE book_id = %d",trim($post->ID)), 'ARRAY_A');  
-        
+        $publisher  = array();
+        $imprint    = array();
+        $cache_key  = 'saswp_mbdb_books_cache_key';
+        $book_table = wp_cache_get( $cache_key );  
+        if ( false === $book_table ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Custom table wp_mbdb_books
+            $book_table = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}mbdb_books WHERE book_id = %d",trim($post->ID)), 'ARRAY_A');  
+            wp_cache_set( $cache_key, $book_table );
+        }
+                
         if(!empty($book_table)){
 
         $mbdb_options   = get_option('mbdb_options');                        

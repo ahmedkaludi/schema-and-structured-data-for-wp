@@ -122,11 +122,7 @@ class SASWP_Gutenberg {
                     foreach ($this->blocks as $key => $value) {
                         $this->blocks[$key]['path'] = SASWP_PLUGIN_URL. '/modules/gutenberg/assets/blocks/'.$key.'.js'; 
                     }
-
-                    if($this->service == null){
-                        require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/service.php';
-                        $this->service = new SASWP_Gutenberg_Service();
-                    }
+                    
                     if($this->render == null){
                         require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/render.php';
                         $this->render = new SASWP_Gutenberg_Render();

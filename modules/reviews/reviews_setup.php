@@ -146,7 +146,9 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                 case 'saswp_review_rating' :
                  
                     $rating_val = get_post_meta( $post_id, $key='saswp_review_rating', true);                   
-                    echo saswp_get_rating_html_by_value_column($rating_val,'');                                                                                                                                       
+                    $rating_html_escaped = saswp_get_rating_html_by_value_column($rating_val,'');
+                    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- html is already fully escaped in function saswp_get_rating_html_by_value
+                    echo $rating_html_escaped;
                     
                     break;
                 case 'saswp_review_platform' :
@@ -168,7 +170,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                              }
                             
                         }else{
-                            echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png'.'" alt="Icon" /></span>';
+                            echo '<span class="saswp-g-plus"><img src="'.esc_url(SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.$term->slug.'-img.png').'" alt="Icon" /></span>';
                         }
                                                 
                     }
@@ -189,10 +191,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                             $stringCut = substr($string, 0, 150);
                             $endPoint  = strrpos($stringCut, ' ');
                             $string    = $endPoint? substr($stringCut, 0, $endPoint):substr($stringCut, 0);
-
-                            $string    =  esc_html($string);
-                            $string   .= '... <a style="cursor: pointer;" href="'.esc_url($url).'" >'.esc_html__('Read More', 'schema-and-structured-data-for-wp').'</a>';
-                            echo $string;    
+                            echo esc_html($string).'... <a style="cursor: pointer;" href="'.esc_url($url).'" >'.esc_html__('Read More', 'schema-and-structured-data-for-wp').'</a>';
                             
                         }else{
                             echo esc_html($string);

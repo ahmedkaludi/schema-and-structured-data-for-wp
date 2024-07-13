@@ -190,10 +190,21 @@ function saswp_comment_rating_display_average_rating() {
 				$average = 1;
 			}
 			$count   = $average_rate['count'];
-				
-			$custom_content  = '<div class="saswp-average-rating">'.esc_html__('Average', 'schema-and-structured-data-for-wp').' '. saswp_get_rating_html_by_value($average).' '.esc_html($average).' '. esc_html__('Based On', 'schema-and-structured-data-for-wp') .' '.esc_html($count).'</div>';
-
-			echo $custom_content;
+			?> 				
+			<div class="saswp-average-rating">
+				<?php 
+				echo esc_html__('Average', 'schema-and-structured-data-for-wp');
+				?>&nbsp;<?php
+				$rating_box_escaped = saswp_get_rating_html_by_value($average);
+				//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- html is already fully escaped in function saswp_get_rating_html_by_value
+				echo $rating_box_escaped;
+				?>&nbsp;<?php
+				echo esc_html($average);
+				?>&nbsp;<?php
+				echo esc_html__('Based On', 'schema-and-structured-data-for-wp');
+				?>&nbsp;<?php
+				echo esc_html($count); ?></div>
+			<?php
 
 		}
 

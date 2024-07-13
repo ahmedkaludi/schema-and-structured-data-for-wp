@@ -118,10 +118,10 @@ function saswp_schema_type_get_meta( $value ) {
 
 function saswp_migrate_global_static_data($schema_type){
     
-            $meta_list = array();
+            $meta_list   = array();
+            $meta_fields = array();
             $service           = new saswp_output_service();
-            $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
-
+            $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);            
             foreach($meta_fields as $key => $field){
                 $meta_list[$key] = 'manual_text';
             }
@@ -292,28 +292,25 @@ function saswp_schema_type_meta_box_callback( $post) {
                           if(!empty($all_schema_array)){
 
                               foreach ($all_schema_array as $parent_type => $type) {
-
-                               $option_html = '';   
-
-                               foreach($type as $key => $value){
-                                   
-                                    $sel = '';
-                                
-                                    if($schema_type == $key){
-                                        $sel = 'selected';
-                                    }
-
-                                    if($schema_type == 'Blogposting' && $key == 'BlogPosting'){
-                                        $sel = 'selected';
-                                    }
-                                    
-                                    $option_html.= "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value )."</option>";    
-
-                                }   
-
+                                                                 
                                     echo '<optgroup label="'.esc_attr($parent_type).'">';
-                                    //Escaping is done while adding data in this variable
-                                    echo $option_html;   
+                                    
+                                    foreach($type as $key => $value){
+                                   
+                                        $sel = '';
+                                    
+                                        if($schema_type == $key){
+                                            $sel = 'selected';
+                                        }
+    
+                                        if($schema_type == 'Blogposting' && $key == 'BlogPosting'){
+                                            $sel = 'selected';
+                                        }
+                                        
+                                        echo "<option value='".esc_attr($key)."' ".esc_attr($sel).">".esc_html($value)."</option>";
+    
+                                    }
+
                                     echo '</optgroup>';                                                                                 
                             }
 
@@ -1108,58 +1105,55 @@ function saswp_schema_type_meta_box_callback( $post) {
                             $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);
                             
                             foreach($meta_list as $fieldkey => $fieldval){
-                                                                                        
-                            $option = '';
+                                                                                                                    
                             echo '<tr>'; 
                             echo '<td><select class="saswp-custom-fields-name">';
                             
                             if($review_fields){
                             
-                                $option .= '<optgroup label="Reviews">';
+                                echo '<optgroup label="Reviews">';
                                 
                                 foreach ($review_fields as $key =>$val){
                                 
                                 if( $fieldkey == $key){
                                     
-                                    $option .='<option value="'.esc_attr($key).'" selected>'.esc_html($val).'</option>';   
+                                    echo '<option value="'.esc_attr($key).'" selected>'.esc_html($val).'</option>';   
                                  
                                 }else{
                                     
-                                    $option .='<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';   
+                                    echo '<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';   
                                  
                                 }
                                 
                               }
-                                $option .= '</optgroup>';
+                              echo '</optgroup>';
                             }
                                                         
                             if($review_fields){
-                                $option .= '<optgroup label="'.esc_attr($schema_type).'">'; 
+                                echo '<optgroup label="'.esc_attr($schema_type).'">'; 
                             }
                             
                             foreach ($meta_fields as $key =>$val){
                                 
                                 if( $fieldkey == $key){
                                     
-                                    $option .='<option value="'.esc_attr($key).'" selected>'.esc_html($val).'</option>';   
+                                    echo '<option value="'.esc_attr($key).'" selected>'.esc_html($val).'</option>';   
                                  
                                 }else{
                                     
-                                    $option .='<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';   
+                                    echo '<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';   
                                  
                                 }
                                 
                             }
                             
                             if($review_fields){
-                                 $option .= '</optgroup>';
+                                echo '</optgroup>';
                             }
-                                                        
-                            echo $option;                            
+                                                                                                             
                             echo '</select>';
                             echo '</td>';
-                                                        
-                            $list_html = '';
+                                                                                    
                             $meta_list_fields = include(SASWP_DIR_NAME . '/core/array-list/meta_list.php');                            
                             
                             $meta_list_arr = $meta_list_fields['text'];
@@ -1167,27 +1161,28 @@ function saswp_schema_type_meta_box_callback( $post) {
                             if ((strpos($fieldkey, '_image') !== false) || strpos($fieldkey, '_logo') !== false) {
                                   $meta_list_arr = $meta_list_fields['image'];
                             }
-                                                                                    
+                                                                                                                 
+                            echo '<td>';
+                            echo '<select class="saswp-custom-meta-list" name="saswp_meta_list_val['.esc_attr($fieldkey).']">';
+
                             foreach($meta_list_arr as $list){
                             
-                                $list_html.= '<optgroup label="'.esc_attr($list['label']).'">';
+                                echo '<optgroup label="'.esc_attr($list['label']).'">';
                                 
                                 foreach ($list['meta-list'] as $key => $val){
                                     
                                     if( $fieldval == $key){
-                                        $list_html.= '<option value="'.esc_attr($key).'" selected>'.esc_html($val).'</option>';    
+                                        echo '<option value="'.esc_attr($key).'" selected>'.esc_html($val).'</option>';    
                                     }else{
-                                        $list_html.= '<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';    
+                                        echo '<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';
                                     }
                                                                         
                                 }
                                 
-                                $list_html.= '</optgroup>';
+                                echo '</optgroup>';
                                 
-                            } 
-                            echo '<td>';
-                            echo '<select class="saswp-custom-meta-list" name="saswp_meta_list_val['.esc_attr($fieldkey).']">';
-                            echo $list_html;
+                            }
+
                             echo '</select>';
                             echo '</td>';
                                                         
@@ -1217,38 +1212,33 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                                 
                             }else if($fieldval == 'custom_field'){
                                  echo '<td><select class="saswp-custom-fields-select2" name="saswp_custom_meta_field['.esc_attr($fieldkey).']">';
-                                 echo '<option value="'.esc_attr($cus_field[$fieldkey]).'">'.preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $cus_field[$fieldkey] ) ) ).'</option>';
+                                 echo '<option value="'.esc_attr($cus_field[$fieldkey]).'">'.esc_html(preg_replace( '/^_/', '', esc_html( str_replace( '_', ' ', $cus_field[$fieldkey] ) ) )).'</option>';
                                  echo '</select></td>';
                                  
                             }else if($fieldval == 'fixed_image'){
-                                            
-                                            $image_pre    = '';
+                                                                                        
                                             $el_id        = strtolower($schema_type). '_'.$fieldkey;                                            
                                             $media_name   = 'saswp_fixed_image['.esc_attr($fieldkey).']';
                                             $media_url    = $fixed_image[$fieldkey]['thumbnail'];
                                             $media_width  = $fixed_image[$fieldkey]['width'];
                                             $media_height = $fixed_image[$fieldkey]['height'];
-                                            
-                                            if($media_url){
-                                            
-                                                    $image_pre = '<div class="saswp_image_thumbnail">
-                                                                 <img class="saswp_image_prev" src="'.esc_url($media_url).'" />
-                                                                 <a data-id="'.esc_attr($el_id).'" href="#" class="saswp_prev_close">X</a>
-                                                                 </div>'; 
-                                            
-                                                }
-                                
-                                            echo '<td>'
-                                                .'<fieldset>'
-                                                . '<input data-id="media" style="width: 30%;" class="button" id="'. esc_attr($el_id).'_button" name="'. esc_attr($el_id).'_button" type="button" value="Upload" />'
-                                                . '<input type="hidden" data-id="'.esc_attr($el_id).'_height" class="upload-height" name="'.esc_attr($media_name).'[height]" id="'.esc_attr($el_id).'_height" value="'.esc_attr($media_height).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($el_id).'_width" class="upload-width" name="'.esc_attr($media_name).'[width]" id="'.esc_attr($el_id).'_width" value="'.esc_attr($media_width).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($el_id).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($media_name).'[thumbnail]" id="'.esc_attr($el_id).'_thumbnail" value="'.esc_attr($media_url).'">'                                                
-                                                . '<div class="saswp_image_div_'.esc_attr($el_id).'">'                                               
-                                                . $image_pre                                                 
-                                                . '</div>'
-                                                . '</fieldset>'
-                                                . '</td>';
+                                                                                                                        
+                                                echo '<td>';
+                                                echo '<fieldset>';
+                                                echo '<input data-id="media" style="width: 30%;" class="button" id="'. esc_attr($el_id).'_button" name="'. esc_attr($el_id).'_button" type="button" value="Upload" />';
+                                                echo '<input type="hidden" data-id="'.esc_attr($el_id).'_height" class="upload-height" name="'.esc_attr($media_name).'[height]" id="'.esc_attr($el_id).'_height" value="'.esc_attr($media_height).'">';
+                                                echo '<input type="hidden" data-id="'.esc_attr($el_id).'_width" class="upload-width" name="'.esc_attr($media_name).'[width]" id="'.esc_attr($el_id).'_width" value="'.esc_attr($media_width).'">';
+                                                echo '<input type="hidden" data-id="'.esc_attr($el_id).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($media_name).'[thumbnail]" id="'.esc_attr($el_id).'_thumbnail" value="'.esc_attr($media_url).'">';
+                                                echo '<div class="saswp_image_div_'.esc_attr($el_id).'">';
+                                                if($media_url){
+                                                    echo  '<div class="saswp_image_thumbnail">';
+                                                    echo  '<img class="saswp_image_prev" src="'.esc_url($media_url).'" />';
+                                                    echo  '<a data-id="'.esc_attr($el_id).'" href="#" class="saswp_prev_close">X</a>';
+                                                    echo  '</div>';
+                                                }                                                                                          
+                                                echo '</div>';
+                                                echo '</fieldset>';
+                                                echo '</td>';
                                 
                             }else{
                                 echo '<td></td>';
@@ -1258,6 +1248,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                                                    
                             echo '</tr>';
                             if($fieldkey == 'saswp_faq_main_entity' && $fieldval == 'saswp_repeater_mapping'){
+                                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- filter is being applied here and whereever it has been called escaped have been passed
                                 echo apply_filters( 'saswp_repeater_html_render_filter', $post_id, $meta_list_arr); 
                             }
 
@@ -1282,13 +1273,13 @@ function saswp_schema_type_meta_box_callback( $post) {
                         
                             <?php                        
                         
-                                $output = '';
+                                $output_escaped = '';
                                 $common_obj = new saswp_view_common_class();
                                 
                                 $schema_type    = get_post_meta($post_id, 'schema_type', true);
 
                                 $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
-                                $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
+                                $output_escaped = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
                                 
                                 if($schema_type == 'Review'){
                                                                         
@@ -1297,11 +1288,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                                         $item_reviewed = 'Book';
                                     }
                                     $response          = saswp_get_fields_by_schema_type($post_id, null, $item_reviewed);                                                                                                        
-                                    $output           .= $common_obj->saswp_saswp_post_specific($schema_type, $response, $post_id, $post_id ,$item_reviewed, null, 1);
+                                    $output_escaped           .= $common_obj->saswp_saswp_post_specific($schema_type, $response, $post_id, $post_id ,$item_reviewed, null, 1);
 
                                 }
-                                                                
-                                echo $output;
+                                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                
+                                echo $output_escaped;
                                                                                         
                             ?>
                             
@@ -1385,7 +1376,7 @@ function saswp_get_manual_fields_on_ajax(){
             if(!current_user_can( saswp_current_user_can())){
                 die( '-1' );    
             }
-            $output      = '';
+            $output_escaped      = '';
             $post_id     = isset($_GET['post_id'])?intval($_GET['post_id']):'';
             $schema_type = isset($_GET['schema_type'])?sanitize_text_field($_GET['schema_type']):'';
         
@@ -1393,9 +1384,9 @@ function saswp_get_manual_fields_on_ajax(){
 
             $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
             
-            $output = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
-            
-            echo $output;
+            $output_escaped = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped
+            echo $output_escaped;
 
             wp_die();        
 }

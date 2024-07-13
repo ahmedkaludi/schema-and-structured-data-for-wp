@@ -201,7 +201,7 @@ class saswp_post_specific {
                 $output           .= $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id ,$item_reviewed, $disabled, $modify_this, $modified);
                 
             }
-
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                
              echo $output;
                                                
              wp_die();
@@ -225,8 +225,8 @@ class saswp_post_specific {
                 die( '-1' );    
             }
             
-            $output        = '';
-            $disabled      = '';
+            $output_escaped = '';
+            $disabled       = '';
             
             $item_reviewed = isset($_GET['item'])?sanitize_text_field($_GET['item']):'';  
             $schema_id     = isset($_GET['schema_id'])?sanitize_text_field($_GET['schema_id']):'';
@@ -242,9 +242,9 @@ class saswp_post_specific {
             
             $response          = saswp_get_fields_by_schema_type($schema_id, null, $item_reviewed);                                                              
             $saswp_meta_fields = array_filter($response);                
-            $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, $item_reviewed, $disabled, $modify_this); 
-                                 
-            echo $output;
+            $output_escaped    = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, $item_reviewed, $disabled, $modify_this); 
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                                     
+            echo $output_escaped;
 
             wp_die();
         }
@@ -552,7 +552,7 @@ class saswp_post_specific {
                     if(!empty($disabled)){
                         $btn_in_loop = '<div class="saswp-disable-btn-container">'
                         . '<span class="saswp-disable-label '.esc_attr($schema_type_txt).'">'
-                            /* translators: %s: date */
+                        /* translators: %s: schema type */
                         . esc_html(sprintf(__('Enable %s on this page', 'schema-and-structured-data-for-wp'),$schema_type_txt))                            
                         . '</span>'
                         . '<label class="saswp-switch">'
@@ -563,6 +563,7 @@ class saswp_post_specific {
                     }else{
                         $btn_in_loop = '<div class="saswp-enable-btn-container">'
                         . '<span class="saswp-enable-label '.esc_attr($schema_type_txt).'">'
+                        /* translators: %s: schema type */
                         . esc_html(sprintf(__('Disable %s on this page', 'schema-and-structured-data-for-wp'),$schema_type_txt))                            
                         . '</span>'
                         . '<label class="saswp-switch">'
@@ -642,7 +643,8 @@ class saswp_post_specific {
                 
         public function saswp_post_meta_box_callback($post) { 
                                                  
-		        wp_nonce_field( 'post_specific_data', 'post_specific_nonce' );  
+		        wp_nonce_field( 'post_specific_data', 'post_specific_nonce' ); 
+                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                 
                 echo $this->saswp_post_meta_box_fields($post);                                             
                                                                                                                                                                    		
         }        

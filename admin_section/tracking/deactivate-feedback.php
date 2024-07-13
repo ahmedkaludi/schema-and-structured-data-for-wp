@@ -21,8 +21,9 @@ shuffle($reasons);
 	    <h3><strong><?php echo esc_html__('If you have a moment, please let us know why you are deactivating:', 'schema-and-structured-data-for-wp'); ?></strong></h3>
 	    <ul>
                 <?php 
-                foreach ($reasons as $reason){
-                    echo $reason;
+                foreach ($reasons as $reason_escaped){
+					//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- all html inside this variable already escaped above in $reasons variable
+                    echo $reason_escaped;
                 }
                 ?>
 	    </ul>

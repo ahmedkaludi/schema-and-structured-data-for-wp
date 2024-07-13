@@ -30,7 +30,6 @@ define('SASWP_EDD_STORE_URL', 'http://structured-data-for-wp.com/');
 // define('SASWP_ENVIRONMENT', 'development');
 define('SASWP_ENVIRONMENT', 'production');
 // including the output file
-require_once SASWP_DIR_NAME .'/core/queries_function.php';
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
 require_once SASWP_DIR_NAME .'/output/markup.php';

@@ -350,7 +350,7 @@ class saswp_reviews_service {
         $handle = fopen($url, "r");
 
         if($handle){
-               
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction            
         $wpdb->query('START TRANSACTION');    
         $counter = 0;        
         
@@ -392,8 +392,10 @@ class saswp_reviews_service {
         update_option('saswp_rv_csv_upload_url','');                                            
         if ( count($errorDesc) ){
             echo esc_html(implode("\n<br/>", $errorDesc));              
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
             $wpdb->query('ROLLBACK');             
         }else{
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction            
             $wpdb->query('COMMIT'); 
             return true;
         }

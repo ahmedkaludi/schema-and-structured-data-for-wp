@@ -83,6 +83,7 @@ if ( ! defined('ABSPATH') ) exit;
                
             if($all_schema_post && is_array($all_schema_post)){
             // begin transaction
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction            
             $wpdb->query('START TRANSACTION');
             
             foreach($all_schema_post as $schema_post){  
@@ -93,7 +94,7 @@ if ( ! defined('ABSPATH') ) exit;
                 if(empty($sanitized_post)){
                     continue;
                 }
-                if(saswp_post_exists($schema_post['post']['ID'])){
+                if(get_post_status( $schema_post['post']['ID'] )){
                     
                     $post_id    =     wp_update_post($sanitized_post);  
                      
@@ -182,9 +183,11 @@ if ( ! defined('ABSPATH') ) exit;
         }
                                      
         if ( count($errorDesc) ){
-          echo esc_html(implode("\n<br/>", $errorDesc));              
+          echo esc_html(implode("\n<br/>", $errorDesc));  
+          // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
           $wpdb->query('ROLLBACK');             
         }else{
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction            
           $wpdb->query('COMMIT'); 
           return true;
         }
@@ -312,6 +315,7 @@ if ( ! defined('ABSPATH') ) exit;
         
         if($all_schema_post){
             // begin transaction
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction            
             $wpdb->query('START TRANSACTION');
             
             foreach($all_schema_post as $schema){    
@@ -345,9 +349,11 @@ if ( ! defined('ABSPATH') ) exit;
                 
                 $post_id = wp_insert_post($schema_post);
                 $result  = $post_id;
-                $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
-                
+                wp_update_post( array(
+                    'ID'           => intval($post_id),
+                    'guid'         => sanitize_url(get_option('siteurl') .'/?post_type=saswp&p='.$post_id)
+                ));
+                                                
                 $schema_post_meta       = get_post_meta($schema->ID); 
                 $schema_post_types      = get_post_meta($schema->ID, $key='_schema_post_types', true );                                  
                 
@@ -489,8 +495,10 @@ if ( ! defined('ABSPATH') ) exit;
               
             if ( count($errorDesc) ){
               echo esc_html(implode("\n<br/>", $errorDesc)); 
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction
               $wpdb->query('COMMIT'); 
               return true;
             }            
@@ -501,12 +509,14 @@ if ( ! defined('ABSPATH') ) exit;
     function saswp_import_schema_for_faqs_plugin_data(){
 
       global $wpdb;
-                                   
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction                                               
       $wpdb->query('START TRANSACTION');
       $errorDesc = array(); 
         
-      $post_ids = saswp_get_post_ids('post');
-
+      $post_ids = get_posts(array(
+        'fields'          => 'ids', // Only get post IDs
+        'posts_per_page'  => -1
+      ));      
       if($post_ids){
 
         $result    = saswp_insert_schema_type('schema for faqs');
@@ -556,9 +566,11 @@ if ( ! defined('ABSPATH') ) exit;
       }                      
       
       if ( count($errorDesc) ){
-        echo esc_html(implode("\n<br/>", $errorDesc));           
+        echo esc_html(implode("\n<br/>", $errorDesc));   
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction        
         $wpdb->query('ROLLBACK');             
       }else{
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction   
         $wpdb->query('COMMIT'); 
         return true;
       }
@@ -567,7 +579,7 @@ if ( ! defined('ABSPATH') ) exit;
     function saswp_import_wp_custom_rv_plugin_data(){
         
            global $wpdb;
-                                   
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction                               
             $wpdb->query('START TRANSACTION');
             $errorDesc = array();            
                                                             
@@ -630,8 +642,10 @@ if ( ! defined('ABSPATH') ) exit;
                                  
            if ( count($errorDesc) ){
               echo esc_html(implode("\n<br/>", $errorDesc));           
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction   
               $wpdb->query('COMMIT'); 
               return true;
             }                        
@@ -652,7 +666,7 @@ if ( ! defined('ABSPATH') ) exit;
                     $args_video   = get_option('bsf_video');	
                     $args_article = get_option('bsf_article');
                     $args_service = get_option('bsf_service');
-                                        
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction                                
                     $wpdb->query('START TRANSACTION');
                     $errorDesc = array();            
                                                             
@@ -682,10 +696,13 @@ if ( ! defined('ABSPATH') ) exit;
                             'imported_from'                => 'aiors',                                                    
                          );    
                         
-                        $post_id = wp_insert_post($schema_post);                    
-                        $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                        $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
+                        $post_id = wp_insert_post($schema_post);  
 
+                        wp_update_post( array(
+                            'ID'           => intval($post_id),
+                            'guid'         => sanitize_url(get_option('siteurl') .'/?post_type=saswp&p='.$post_id)
+                        ));
+                        
                         foreach ($saswp_meta_key as $key => $val){                     
                             update_post_meta($post_id, $key, $val);  
                         }  
@@ -792,8 +809,10 @@ if ( ! defined('ABSPATH') ) exit;
           
            if ( count($errorDesc) ){
               echo esc_html(implode("\n<br/>", $errorDesc));           
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction   
               $wpdb->query('COMMIT'); 
               return true;
             }                        
@@ -874,7 +893,7 @@ if ( ! defined('ABSPATH') ) exit;
          );
          
          if(isset($saswp_option)){ 
-                       
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction           
                 $wpdb->query('START TRANSACTION');
                 $errorDesc = array();
                                                                                                                                                            
@@ -883,8 +902,10 @@ if ( ! defined('ABSPATH') ) exit;
                 update_option('sd_data', $merge_options);
                 
                     $post_id = wp_insert_post($schema_post);                    
-                    $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                    $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
+                    wp_update_post( array(
+                        'ID'           => intval($post_id),
+                        'guid'         => sanitize_url(get_option('siteurl') .'/?post_type=saswp&p='.$post_id)
+                    ));                    
                                                          
                     foreach ($saswp_meta_key as $key => $val){                     
                         update_post_meta($post_id, $key, $val);  
@@ -892,8 +913,10 @@ if ( ! defined('ABSPATH') ) exit;
           
            if ( count($errorDesc) ){
               echo esc_html(implode("\n<br/>", $errorDesc));           
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction   
               $wpdb->query('COMMIT'); 
               return true;
             }               
@@ -988,6 +1011,7 @@ if ( ! defined('ABSPATH') ) exit;
          if(isset($settings)){ 
              
           $local_business_details = array();          
+          // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction    
           $wpdb->query('START TRANSACTION');
           $errorDesc = array();
           $user_id = get_current_user_id();
@@ -1038,8 +1062,10 @@ if ( ! defined('ABSPATH') ) exit;
                     }                                                                               
                     $post_id = wp_insert_post($schema_post);
                     $result  = $post_id;
-                    $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                    $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
+                    wp_update_post( array(
+                        'ID'           => intval($post_id),
+                        'guid'         => sanitize_url(get_option('siteurl') .'/?post_type=saswp&p='.$post_id)
+                    ));
                      
                     $data_group_array = array();   
                     
@@ -1075,8 +1101,10 @@ if ( ! defined('ABSPATH') ) exit;
           
            if ( count($errorDesc) ){
               echo esc_html(implode("\n<br/>", $errorDesc));           
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction   
               $wpdb->query('COMMIT'); 
               return true;
             }               
@@ -1093,6 +1121,7 @@ if ( ! defined('ABSPATH') ) exit;
              
           $saswp_plugin_options   = array();   
           $local_business_details = array();          
+          // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction    
           $wpdb->query('START TRANSACTION');
           $errorDesc = array();
           $user_id = get_current_user_id();
@@ -1145,8 +1174,10 @@ if ( ! defined('ABSPATH') ) exit;
                         
                     $post_id = wp_insert_post($schema_post);
                     $result  = $post_id;
-                    $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                    $wpdb->query("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
+                    wp_update_post( array(
+                        'ID'           => intval($post_id),
+                        'guid'         => sanitize_url(get_option('siteurl') .'/?post_type=saswp&p='.$post_id)
+                    ));                    
                      
                     $data_group_array = array();    
                     
@@ -1226,9 +1257,11 @@ if ( ! defined('ABSPATH') ) exit;
                 $result        = update_option('sd_data', $merge_options);
           
            if ( count($errorDesc) ){
-              echo esc_html(implode("\n<br/>", $errorDesc));             
+              echo esc_html(implode("\n<br/>", $errorDesc)); 
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                                    
               $wpdb->query('ROLLBACK');             
             }else{
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction   
               $wpdb->query('COMMIT'); 
               return true;
             }               
@@ -1253,6 +1286,7 @@ if ( ! defined('ABSPATH') ) exit;
         
         if($all_schema_post){
             // begin transaction
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction            
             $wpdb->query('START TRANSACTION');
             $errorDesc = array();
             foreach($all_schema_post as $schema){    
@@ -1284,8 +1318,10 @@ if ( ! defined('ABSPATH') ) exit;
                 
                 $post_id = wp_insert_post($schema_post);
                 $result  = $post_id;
-                $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                $wpdb->get_results("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");   
+                wp_update_post( array(
+                    'ID'           => intval($post_id),
+                    'guid'         => sanitize_url(get_option('siteurl') .'/?post_type=saswp&p='.$post_id)
+                ));                
                                              
                 $schema_post_types          = get_post_meta($schema->ID, $key='bsf-aiosrs-schema-type', true );                   
                 $schema_post_meta_box       = get_post_meta($schema->ID, $key='bsf-aiosrs-'.$schema_post_types, true );                
@@ -1626,8 +1662,10 @@ if ( ! defined('ABSPATH') ) exit;
               
             if ( count($errorDesc) ){
               echo esc_html(implode("\n<br/>", $errorDesc));              
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
+             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction   
               $wpdb->query('COMMIT'); 
               return true;
             }            
@@ -1700,6 +1738,7 @@ if ( ! defined('ABSPATH') ) exit;
             $all_schema_array = include $mappings_file;
         }
         if(!empty($all_schema_array) && is_array($all_schema_array)){
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction            
             $wpdb->query('START TRANSACTION');
             foreach ($all_schema_array as $ask_key => $ask_value) {
                 if(!empty($ask_value) && is_array($ask_value)){
@@ -1738,8 +1777,12 @@ if ( ! defined('ABSPATH') ) exit;
                         if(!empty($schema_post)){    
                             $post_id = wp_insert_post($schema_post);
                             $result  = $post_id;
-                            $guid    = get_option('siteurl') .'/?post_type=saswp&p='.$post_id;                
-                            $wpdb->get_results("UPDATE ".$wpdb->prefix."posts SET guid ='".esc_sql($guid)."' WHERE ID ='".esc_sql($post_id)."'");
+                            
+                            wp_update_post( array(
+                                'ID'           => intval($post_id),
+                                'guid'         => sanitize_url(get_option('siteurl') .'/?post_type=saswp&p='.$post_id)
+                            ));                            
+
                             $data_group_array = array();     
                             $data_group_array['group-0'] =array(
                               'data_array' => array(
@@ -1771,8 +1814,10 @@ if ( ! defined('ABSPATH') ) exit;
 
             if (!empty($errorDesc) && is_array($errorDesc) && count($errorDesc) ){
               echo esc_html(implode("\n<br/>", $errorDesc)); 
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just commiting transaction   
               $wpdb->query('COMMIT');
               return true;
             }
@@ -2396,20 +2441,8 @@ function saswp_fields_and_type($data_type = 'value'){
         }
         
         //SEOPress
-        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
-                        
-                 global $wpdb;
-                
-                 $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID);
-                 
-                 if ($rows = $wpdb->get_results($query, OBJECT)) {
-                     
-                    $seo_data = unserialize($rows[0]->seo) ;
-                                        
-                    if(isset($seo_data['description']) && $seo_data['description'] <>''){
-                      $excerpt = $seo_data['description'];
-                    }                     
-                 }                                                 
+        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){                        
+                 $excerpt = saswp_get_seo_press_metadata('description');                                                                                   
         }
         
                 
@@ -2530,23 +2563,8 @@ function saswp_fields_and_type($data_type = 'value'){
         }
                                                 
         //SEOPress
-        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){
-                        
-                global $wpdb;
-                
-                 $table_name = $wpdb->prefix."qss";
-                 $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID);
-                 
-                 if ($rows = $wpdb->get_results($query, OBJECT)) {
-                     
-                    $seo_data = unserialize($rows[0]->seo) ;
-                                        
-                    if(isset($seo_data['title']) && $seo_data['title'] <>''){
-                      $title = $seo_data['title'];
-                    } 
-                    
-                 }             
-                                    
+        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){                        
+                $title = saswp_get_seo_press_metadata('title');                                                 
         }
         
         //SEOPress
@@ -3081,26 +3099,28 @@ function saswp_uninstall_single($blog_id = null){
 }
 
 function saswp_on_uninstall(){
-        
-   global $wpdb;
+
+    if ( ! current_user_can( saswp_current_user_can() ) ) {
+        return;
+    }
+       
+    $options = get_option('sd_data');
     
-   $options = get_option('sd_data');
+    if(isset($options['saswp_rmv_data_on_uninstall'])){
     
-   if(isset($options['saswp_rmv_data_on_uninstall'])){
-    
-       if ( ! is_multisite() ) {
-            saswp_uninstall_single();
+       if (is_multisite() ) {
+
+            foreach ( get_sites() as $site ) {
+                switch_to_blog( $site->blog_id );
+                saswp_uninstall_single($site->blog_id);
+                restore_current_blog();
+            }
+            
         } else {
-                $blog_ids = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}" );
-
-                foreach ( $blog_ids as $blog_id ) {
-
-                        saswp_uninstall_single($blog_id);
-                }
-
+            saswp_uninstall_single();                
         }
               
-   }            
+    }            
                                       
 }
 
@@ -5313,10 +5333,39 @@ function saswp_local_file_get_contents($file_path){
     // Check if the file exists
     if ( $wp_filesystem->exists( $file_path ) ) {
         // Read the file content
-        $file_content = $wp_filesystem->get_contents( $file_path );
-        echo $file_content;
+        $file_safe = $wp_filesystem->get_contents( $file_path );
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- loading only static css files from this plugin in amp version
+        echo $file_safe;
     } else {
         echo esc_html__('File does not exist.', 'schema-and-structured-data-for-wp');
     }
 
+}
+
+function saswp_get_seo_press_metadata($type){
+
+    global $wpdb;    
+    $meta_value = '';
+    $cache_key = 'saswp_seo_press_cache_key';
+    $result = wp_cache_get( $cache_key );    
+    if ( false === $result ) {
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Custom table created by seopress plugin
+        $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID), OBJECT);
+        wp_cache_set( $cache_key, $result );
+    }
+    
+    if($result){
+        $seo_data = unserialize($rows[0]->seo);
+        if($type == 'title'){            
+            if(isset($seo_data['title']) && $seo_data['title'] <>''){
+                $meta_value = $seo_data['title'];
+            }            
+        }
+        if($type == 'description'){
+            if(isset($seo_data['description']) && $seo_data['description'] <>''){
+                $meta_value = $seo_data['description'];
+            }            
+        }
+    }    
+    return $meta_value;
 }

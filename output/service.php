@@ -7599,8 +7599,9 @@ Class saswp_output_service{
 	        $result        = array();
             
             global $wpdb;
-
-	        $saswp_meta_array = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE '%{$search_string}%'", ARRAY_A ); // WPCS: unprepared SQL OK.         
+            $meta_search_value = '%' . $wpdb->esc_like( trim( $search_string ) ) . '%'; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+            //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+	        $saswp_meta_array = $wpdb->get_results( $wpdb->prepare("SELECT DISTINCT meta_key FROM {$wpdb->postmeta} WHERE meta_key LIKE %s", $meta_search_value), ARRAY_A ); 
 
             if ( isset( $saswp_meta_array ) && ! empty( $saswp_meta_array ) ) {
                 
@@ -7617,9 +7618,19 @@ Class saswp_output_service{
 
             //aioseo wp_aioseo_posts support starts here
             $column_names = array();
-
+            $cache_key    = 'saswp_aioseo_posts_cache_key';
             $table_name   = $wpdb->prefix . 'aioseo_posts';
-            $columns_des  = $wpdb->get_col( "DESC " . $table_name, 0 );
+            $columns_des  = wp_cache_get( $cache_key ); 
+            if ( false === $columns_des ) {                                		        
+                //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery	-- just to check if table exists
+		        $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name));
+                if($table_exists){
+                    //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery	-- Reasone Custom table create by aioseo
+                    $columns_des  = $wpdb->get_col( "DESC " . $table_name, 0 );
+                    wp_cache_set( $cache_key, $columns_des );
+                }
+                
+            }               
 
             if($columns_des){
 

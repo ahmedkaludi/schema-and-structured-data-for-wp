@@ -30,9 +30,10 @@ public function widget( $args, $instance ) {
     
     foreach($all_loc as $ad){
         
-        if($ad['value'] == $instance['loc']){   
+        if($ad['value'] == $instance['loc']){               
+            $loc_content_escaped = saswp_add_location_content($instance['loc']);
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The html all dynamic value has been escaped in called function
-            echo saswp_add_location_content($instance['loc']);
+            echo $loc_content_escaped;
                 
         }   
         
@@ -139,7 +140,10 @@ add_shortcode( 'saswp-location', 'saswp_location_shortcode_render');
 function saswp_location_shortcode_render($attr){
 
     if(isset($attr['id'])){
-        echo saswp_add_location_content($attr['id']);
+        
+        $loc_content_escaped = saswp_add_location_content($attr['id']);
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The html all dynamic value has been escaped in called function
+        echo $loc_content_escaped;
     }
     
 }
