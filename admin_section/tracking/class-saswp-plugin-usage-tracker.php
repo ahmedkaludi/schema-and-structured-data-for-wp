@@ -831,13 +831,13 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			if( is_array( $form['options'] ) ) {
 				$html .= '<div class="put-goodbye-options"><p>';
 				foreach( $form['options'] as $option ) {
-					$html .= '<input type="checkbox" name="put-goodbye-options[]" id="' . str_replace( " ", "", esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( " ", "", esc_attr( $option ) ) . '">' . esc_html( $option ) . '</label><br>';
+					$html .= '<input type="checkbox" name="put-goodbye-options[]" id="' . esc_attr(str_replace( " ", "", $option )) . '" value="' . esc_attr( $option ) . '"> <label for="' . esc_attr(str_replace( " ", "", $option )) . '">' . esc_html( $option ) . '</label><br>';
 				}
 				$html .= '</p><label for="put-goodbye-reasons">' . esc_html( $form['details'] ) .'</label><textarea name="put-goodbye-reasons" id="put-goodbye-reasons" rows="2" style="width:100%"></textarea>';
 				$html .= '</div><!-- .put-goodbye-options -->';
 			}
 			$html .= '</div><!-- .put-goodbye-form-body -->';
-			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . __( 'Submitting form', 'schema-and-structured-data-for-wp' ) . '</p>';
+			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . esc_html__( 'Submitting form', 'schema-and-structured-data-for-wp' ) . '</p>';
 			?>
 			<div class="put-goodbye-form-bg"></div>
 			<style type="text/css">
@@ -896,8 +896,8 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 						// We'll send the user to this deactivation link when they've completed or dismissed the form
 						var url = document.getElementById("put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>");
 						$('body').toggleClass('put-form-active');
-						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeIn();
-						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").html( '<?php echo $html; ?>' + '<div class="put-goodbye-form-footer"><p><a id="put-submit-form" class="button primary" href="#"><?php echo esc_html__( 'Submit and Deactivate', 'schema-and-structured-data-for-wp' ); ?></a>&nbsp;<a class="secondary button" href="'+url+'"><?php echo esc_html__( 'Just Deactivate', 'schema-and-structured-data-for-wp' ); ?></a></p></div>');
+						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeIn();						
+						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").html( '<?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: It is static html and its all dynamic values have been esacped. ?>' + '<div class="put-goodbye-form-footer"><p><a id="put-submit-form" class="button primary" href="#"><?php echo esc_html__( 'Submit and Deactivate', 'schema-and-structured-data-for-wp' ); ?></a>&nbsp;<a class="secondary button" href="'+url+'"><?php echo esc_html__( 'Just Deactivate', 'schema-and-structured-data-for-wp' ); ?></a></p></div>');
 						$('#put-submit-form').on('click', function(e){
 							// As soon as we click, the body of the form should disappear
 							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .put-goodbye-form-body").fadeOut();

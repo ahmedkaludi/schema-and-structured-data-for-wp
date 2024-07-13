@@ -7,7 +7,7 @@ Requires PHP: 5.6.20
 Stable tag: 1.33
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
+Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
 
 == Description ==
 

@@ -1197,7 +1197,7 @@ class SASWP_Reviews_Collection {
             if($collection_page == 1){
                 
                 $current_url = htmlspecialchars_decode(wp_nonce_url(admin_url('admin.php?post_id='.$post_id.'&page=collection'), '_wpnonce'));           
-                wp_redirect( $current_url );
+                wp_safe_redirect( $current_url );
                 exit;
             }
             

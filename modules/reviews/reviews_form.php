@@ -108,7 +108,7 @@ class SASWP_Reviews_Form {
                     header("Access-Control-Expose-Headers: AMP-Redirect-To, AMP-Access-Control-Allow-Source-Origin");                                 
                     echo wp_json_encode(array('message'=> esc_html__('Nonce MisMatch', 'schema-and-structured-data-for-wp')));die;
                 }else{
-                    wp_redirect( $rv_link );
+                    wp_safe_redirect( $rv_link );
                     exit; 
                 }
                 
@@ -131,7 +131,7 @@ class SASWP_Reviews_Form {
                 }
                 
                 if(!$captcha){
-                    wp_redirect( $rv_link );
+                    wp_safe_redirect( $rv_link );
                     exit;
                 }
                 
@@ -140,7 +140,7 @@ class SASWP_Reviews_Form {
                 if(!is_wp_error($resultset)){
                     $responseKeys = json_decode(wp_remote_retrieve_body($resultset), true);
                     if(!$responseKeys["success"]){
-                        wp_redirect( $rv_link );
+                        wp_safe_redirect( $rv_link );
                         exit;
                     }
                 }                                                                
@@ -248,32 +248,32 @@ class SASWP_Reviews_Form {
                 wp_enqueue_script( 'saswp-recaptcha', 'https://www.google.com/recaptcha/api.js'); 
             }
 
-            $form = $current_url = '';
+            $form_escaped = $current_url = '';
             
             if(is_object($wp)){
                 $current_url = home_url( add_query_arg( array(), $wp->request ) );
             }
             
-            $form       .= '<div class="saswp-rv-form-container">';
+            $form_escaped       .= '<div class="saswp-rv-form-container">';
             
             if(!$is_amp){ 
                 
                 if($on_button){
-                    $form       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default">'.saswp_label_text('translation-review-form').'</a></div>';
+                    $form_escaped       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default">'.saswp_label_text('translation-review-form').'</a></div>';
                 }
                 
                 $rating_html = '<div class="saswp-rating-container"><div class="saswp-rating-front-div"></div><div class="saswp-rateyo-counter"></div><input type="hidden" name="saswp_review_rating" value="5"></div>';
-                $form   .= '<form action="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'">';
+                $form_escaped   .= '<form action="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'">';
                 
             }else{
                 
                 add_action( 'amp_post_template_data', array($this, 'saswp_reviews_form_amp_script'));  
                 
                 if($on_button){
-                    $form       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default" on="tap:AMP.setState({ saswp_review_form_toggle: !saswp_review_form_toggle })" role="button" tabindex="1">'.saswp_label_text('translation-review-form').'</a></div>';
+                    $form_escaped       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default" on="tap:AMP.setState({ saswp_review_form_toggle: !saswp_review_form_toggle })" role="button" tabindex="1">'.saswp_label_text('translation-review-form').'</a></div>';
                 }
                 
-                $form   .= '<form   action-xhr="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'" [class]="saswp_review_form_toggle ? \'saswp-review-submission-form\' : \'saswp_hide saswp-review-submission-form\' ">';
+                $form_escaped   .= '<form   action-xhr="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'" [class]="saswp_review_form_toggle ? \'saswp-review-submission-form\' : \'saswp_hide saswp-review-submission-form\' ">';
                 
                 $rating_html = ''
                         . '<input type="hidden" name="saswp_review_rating" [value]="saswp_review_rating">'
@@ -287,7 +287,7 @@ class SASWP_Reviews_Form {
                                 
             }
             
-            $form   .= wp_nonce_field( 'saswp_review_form', 'saswp_review_nonce' )
+            $form_escaped   .= wp_nonce_field( 'saswp_review_form', 'saswp_review_nonce' )
 
                     . '<div class="saswp-form-tbl">'
                     
@@ -308,16 +308,16 @@ class SASWP_Reviews_Form {
                     
                     if( isset($sd_data['saswp_ar_captcha_checkbox']) && $sd_data['saswp_ar_captcha_checkbox'] == 1 ) {
                         if((isset($sd_data['saswp_g_site_key']) && !empty($sd_data['saswp_g_site_key'])) && (isset($sd_data['saswp_g_secret_key']) && !empty($sd_data['saswp_g_secret_key'])))
-                        $form.=    '<div class="g-recaptcha" data-sitekey="'.esc_attr($sd_data['saswp_g_site_key']).'"></div>';
+                        $form_escaped.=    '<div class="g-recaptcha" data-sitekey="'.esc_attr($sd_data['saswp_g_site_key']).'"></div>';
                     }
 
-                    $form.= '<input name="saswp-review-save" type="submit" class="submit">'                                        
+                    $form_escaped.= '<input name="saswp-review-save" type="submit" class="submit">'                                        
                     . '</div>'
                     . '</form>'
                     . '</div>';
             
-            
-             echo $form;
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: It is static html and its all dynamic values have been esacped.
+             echo $form_escaped;
              return ob_get_clean();
             
         }

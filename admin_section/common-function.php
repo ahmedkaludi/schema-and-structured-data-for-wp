@@ -4620,6 +4620,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
         $terms = array();
         $args = array( 
+                    'taxonomy'   => 'category',
                     'hide_empty' => false,
                     'number'     => 50, 
                   );
@@ -4631,7 +4632,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
             $new_obj  = get_term($saved_data);
             $terms[0] = $new_obj;            
         }else{
-            $terms = get_terms( 'category', $args);
+            $terms = get_terms($args);
         }   
         
         if( !empty($terms) ) {
@@ -4790,9 +4791,10 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
         default:
         
-        $args = array( 
+        $args = array(
+            'taxonomy'   => $condition,
             'hide_empty' => false,
-            'number'     => 50, 
+            'number'     => 50
         );
 
         if(!empty($search)){
@@ -4802,7 +4804,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         if($saved_data){                         
             $args['slug'] = $saved_data;
         }   
-        $taxonomies    =  get_terms($condition, $args);  
+        $taxonomies    =  get_terms($args);  
                       
         if($taxonomies){
 

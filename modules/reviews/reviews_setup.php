@@ -566,7 +566,7 @@ function saswp_insert_platform_terms(){
 function saswp_get_terms_as_array(){
     
     $terms_array = array();
-    $terms       = get_terms( 'platform', array( 'hide_empty' => false ) );  
+    $terms       = get_terms( array('taxonomy' => 'platform', 'hide_empty' => false ) );  
     
     if($terms){
         foreach ($terms as $val){

@@ -145,7 +145,7 @@ function saswp_reset_all_settings(){
 add_action('wp_ajax_saswp_reset_all_settings', 'saswp_reset_all_settings');
 
 function saswp_load_plugin_textdomain() {
-    
+    //phpcs:ignore WordPress.WP.DeprecatedParameters.Load_plugin_textdomainParam2Found	-- Used '' still plugin check gives error so added comment to ignore it.
     load_plugin_textdomain( 'schema-and-structured-data-for-wp', '', basename( dirname( __FILE__ ) ) . '/languages/' );
     
 }
