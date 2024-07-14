@@ -130,7 +130,7 @@ function saswp_reset_all_settings(){
         
         foreach ($allposts as $eachpost) {
             
-            $result = wp_delete_post( $eachpost->ID, true );
+            $result = wp_delete_post( $eachpost->ID);
         
         }
                         
@@ -138,8 +138,9 @@ function saswp_reset_all_settings(){
             echo wp_json_encode(array('status'=>'t'));            
         }else{
             echo wp_json_encode(array('status'=>'f'));            
-        }        
-           wp_die();           
+        }
+        wp_cache_flush();        
+        wp_die();           
 }
 
 add_action('wp_ajax_saswp_reset_all_settings', 'saswp_reset_all_settings');

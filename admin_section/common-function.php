@@ -2846,14 +2846,18 @@ function saswp_fields_and_type($data_type = 'value'){
                 if(!empty($explode_authors) && is_array($explode_authors)){
                     $auth_cnt = 0;
                     $author_details = array(); 
-                    foreach ($explode_authors as $ea_key => $ea_value) {
-                        $table_name = $wpdb->prefix."users";
-                        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}users WHERE display_name = %s",trim($ea_value));
-                        $user_results = $wpdb->get_results($query, ARRAY_A);
-                        
+                    foreach ($explode_authors as $ea_value) {                                                
+                        $cache_key    = 'saswp_publisher_press_cache_key';
+                        $user_results = wp_cache_get( $cache_key );
+                        if ( false === $user_results ) {
+                            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: can not query by display_name inside function get_user_by.
+                            $user_results = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}users WHERE display_name = %s",trim($ea_value)), ARRAY_A);
+                            wp_cache_set( $cache_key, $user_results );
+                        }
+                                                
                         if(!empty($user_results) && isset($user_results[0])){
                             if(isset($user_results[0]['ID'])){
-                                $author_id = $user_results[0]['ID'];  
+                                $author_id          = $user_results[0]['ID'];  
                                 $author_name        = $ea_value;  
                                 $author_desc        = get_the_author_meta( 'user_description', $author_id);
 
@@ -3028,73 +3032,43 @@ function saswp_compatible_active_list(){
     
 }
 
-function saswp_uninstall_single($blog_id = null){
-        
-        try{
-         
-        global $wpdb;
-	
-        //SASWP post types
-        $post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'saswp' ) );
-        
-        if ( $post_ids ) {
-                $wpdb->delete(
-                        $wpdb->posts,
-                        array( 'post_type' => 'saswp' ),
-                        array( '%s' )
-                );
+function saswp_delete_all_data_on_uninstall() {
+    // Delete all schema type posts.        
+    $schema_types = get_posts( array( 'post_type' => 'saswp', 'numberposts' => -1 ) );
 
-                $placeholders = array_fill(0, count($post_ids), '%d');
-                $placeholders_str = implode(', ', $placeholders);
-                $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id IN ($placeholders_str)", $post_ids));
-        }
-        
-        if($post_ids){
-            
-            $query = $wpdb->prepare("SELECT ID FROM {$wpdb->posts}");
-            $all_post_id   = $wpdb->get_results($query, ARRAY_A );
-            $all_post_id   = wp_list_pluck( $all_post_id, 'ID' );              
-                        
-            foreach($post_ids as $post_id){
-                
-               $meta_fields = saswp_get_fields_by_schema_type($post_id); 
-               $meta_fields = wp_list_pluck( $meta_fields, 'id' );
-               
-               foreach ($meta_fields as $meta_key){                   
-                   $placeholders = array_fill(0, count($all_post_id), '%d');
-                   $placeholders_str = implode(', ', $placeholders);
-                   $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id IN ($placeholders_str) AND meta_key = %s", $all_post_id,$meta_key)); 
-                   
-               }
-                                              
-            }
-        }
-        
-        //Post specific post meta
-                                
-        //Review Post Types        
-        $post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'saswp_reviews' ) );
-        
-        if ( $post_ids ) {
-                $wpdb->delete(
-                        $wpdb->posts,
-                        array( 'post_type' => 'saswp_reviews' ),
-                        array( '%s' )
-                );
+    if( $schema_types ){
 
-                $placeholders = array_fill(0, count($post_ids), '%d');
-                $placeholders_str = implode(', ', $placeholders);
-                $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id IN ($placeholders_str)", $post_ids));
-        }
-                
-        //All options                    
-        delete_option('sd_data');  
+        foreach ( $schema_types as $schema ) {
         
-        wp_cache_flush();
+            wp_delete_post( $schema->ID );
+        }
+    }    
+    
+    // Delete all reviews type posts  
+    $schema_reviews = get_posts( array( 'post_type' => 'saswp_reviews', 'numberposts' => -1 ) );
+
+    if( $schema_reviews ) {
+
+        foreach ( $schema_reviews as $review ) {
+        
+            wp_delete_post( $review->ID );
+        }
+
+    }
             
-        }catch(Exception $ex){
-            echo esc_html($ex->getMessage());
-        }            
+    // Delete all reviews_collections type posts  
+    $reviews_collections = get_posts( array( 'post_type' => 'saswp-collections', 'numberposts' => -1 ) );
+    if( $reviews_collections ){
+
+        foreach ( $reviews_collections as $review ) {
+        
+            wp_delete_post( $review->ID );
+        }
+
+    }    
+    //All schema options
+    delete_option( 'sd_data' );  
+    wp_cache_flush();
                 
 }
 
@@ -3112,12 +3086,12 @@ function saswp_on_uninstall(){
 
             foreach ( get_sites() as $site ) {
                 switch_to_blog( $site->blog_id );
-                saswp_uninstall_single($site->blog_id);
+                saswp_delete_all_data_on_uninstall();
                 restore_current_blog();
             }
             
         } else {
-            saswp_uninstall_single();                
+            saswp_delete_all_data_on_uninstall();                
         }
               
     }            

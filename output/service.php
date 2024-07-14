@@ -304,7 +304,7 @@ Class saswp_output_service{
 
                             }
 
-                        }elseif(strpos($key, "global_mapping") == true && $key == "saswp_itempage_reviewed_by"){
+                        }elseif(strpos($key, "global_mapping") === true && $key == "saswp_itempage_reviewed_by"){
 
                             $terms               = get_the_terms( $post->ID, $taxonomy_term[$key]);
 
@@ -399,7 +399,7 @@ Class saswp_output_service{
                         }
                         
 
-                    }elseif(strpos($key, "global_mapping") == true && $key == "saswp_webpage_reviewed_by"){
+                    }elseif(strpos($key, "global_mapping") === true && $key == "saswp_webpage_reviewed_by"){
                             
                         if($key == "saswp_webpage_reviewed_by"){
                             $tema_id    = get_post_meta($post->ID, "reviewed_by", true);
@@ -429,7 +429,7 @@ Class saswp_output_service{
                             }
                         }
                   
-                    }elseif(strpos($key, "global_mapping") == true && $key == "saswp_itempage_reviewed_by"){
+                    }elseif(strpos($key, "global_mapping") === true && $key == "saswp_itempage_reviewed_by"){
                             
                         if($key == "saswp_itempage_reviewed_by"){
                             $tema_id    = get_post_meta($post->ID, "reviewed_by", true);
@@ -7625,7 +7625,7 @@ Class saswp_output_service{
                 //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery	-- just to check if table exists
 		        $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name));
                 if($table_exists){
-                    //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery	-- Reasone Custom table create by aioseo
+                    //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared -- Reasone Custom table create by aioseo
                     $columns_des  = $wpdb->get_col( "DESC " . $table_name, 0 );
                     wp_cache_set( $cache_key, $columns_des );
                 }

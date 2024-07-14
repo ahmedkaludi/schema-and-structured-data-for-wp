@@ -515,15 +515,7 @@ class SASWP_Gutenberg {
                     
                     echo '<div class="saswp-faq-block-section">';                                
                     if($attributes['items']){
-                        
-                        $className = '';
-                        if(isset($attributes['className'])){
-                            $className = 'class="'.esc_attr($attributes['className']).'"';
-                        }
-                        
-                        
-    
-                        
+                                                                                                                            
                         if(!isset($attributes['listStyle']))
                         {
                             $attributes['listStyle']='none';
@@ -534,14 +526,11 @@ class SASWP_Gutenberg {
                             else{
                                 echo'<ul>';
                             }
-                        
-                        
-                           
+                                                                           
                          if(isset($item['image_align'])){
     
                             switch ($item['image_align']) {
-    
-                                
+                                    
                                   case 'right':
                                     echo  '<img class="alignright" style="float:right;" '. esc_attr($item['image_align']).'>';
                                     break;

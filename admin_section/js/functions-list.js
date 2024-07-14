@@ -1702,7 +1702,7 @@ function saswp_get_platform_place_list(getPlatformId) {
         },
         function(response){                                  
           if(response['status']){   
-            if(response['message'] && jQuery.type(response['message']) == 'object'){
+            if(response['message'] && response['message'].length > 0){
                 jQuery.each(response['message'], function(index, value){
                     platformPlaceOpt += '<option value="'+value+'">'+value+'</option>';
                     jQuery('#saswp-review-platform-places').html(platformPlaceOpt);

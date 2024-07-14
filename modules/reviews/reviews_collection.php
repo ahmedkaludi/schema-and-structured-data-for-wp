@@ -404,27 +404,23 @@ class SASWP_Reviews_Collection {
             }
             if(isset($_GET['platform_id']) && $_GET['platform_id'] > 0){
                 $platform_id = intval($_GET['platform_id']);
-                global $wpdb;
-                $post_meta_data = $wpdb->get_results( 
-                  $wpdb->prepare("SELECT post_id FROM {$wpdb->postmeta} where meta_value = %d", $platform_id)
-                 ); 
-                if(!empty($post_meta_data) && isset($post_meta_data[0])){
+                $reviews = $this->_service->saswp_get_reviews_list_by_parameters(null, $platform_id);                 
+                if(!empty($reviews)){
                     $review_location_array = array();
-                    foreach ($post_meta_data as $pmd_key => $pmd_value) {
-                        $meta_data = get_post_meta($pmd_value->post_id, 'saswp_review_location_id');
-                        if(isset($meta_data[0]) && !empty($meta_data[0])){
-                            $review_location_array[] = $meta_data[0];
+                    foreach ($reviews as $pmd_value) {                        
+                        if(!empty($pmd_value['saswp_review_location_id'])){
+                            $review_location_array[] = $pmd_value['saswp_review_location_id'];
                         }
                     }
                     if(!empty($review_location_array)){
                         $review_location_array = array_unique($review_location_array);
-                    }
+                    }                    
                     echo wp_json_encode(array('status' => true, 'message'=> $review_location_array));
                 }else{
-                    echo wp_json_encode(array('status' => false, 'message'=> 'No Records Found'));
+                    echo wp_json_encode(array('status' => false, 'message'=> esc_html__('No Records Found', 'schema-and-structured-data-for-wp')));
                 }
             }else{
-                echo wp_json_encode(array('status' => false, 'message'=> 'Platform id is missing'));
+                echo wp_json_encode(array('status' => false, 'message'=> esc_html__('Platform id is missing', 'schema-and-structured-data-for-wp')));
             }  
             wp_die(); 
         }
@@ -772,10 +768,14 @@ class SASWP_Reviews_Collection {
                                       <?php $platforms = saswp_get_terms_as_array();
                                           if($platforms){
                                           global $wpdb;
-                                          $exists_platforms = $wpdb->get_results("
-                                            SELECT meta_value, count(meta_value) as meta_count FROM {$wpdb->postmeta} WHERE `meta_key`='saswp_review_platform' group by meta_value",
-                                            ARRAY_A
-                                         );  ?>
+                                          $cache_key         = 'saswp_exists_platforms_cache_key';
+                                          $exists_platforms  = wp_cache_get( $cache_key );    
+                                          if(false === $exists_platforms){
+                                            //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery	-- As per requirement, We have to use the direct query.
+                                            $exists_platforms = $wpdb->get_results("SELECT meta_value, count(meta_value) as meta_count FROM {$wpdb->postmeta} WHERE `meta_key`='saswp_review_platform' group by meta_value",ARRAY_A);
+                                            wp_cache_set( $cache_key, $exists_platforms );
+                                          }                                            
+                                         ?>
                                         <div class="saswp-plf-lst-rv-cnt">
                                           <?php
                                          echo '<select id="saswp-plaftorm-list" name="saswp-plaftorm-list">';
