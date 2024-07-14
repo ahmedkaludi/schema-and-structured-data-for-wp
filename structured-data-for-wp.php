@@ -43,7 +43,7 @@ if ( ! function_exists( 'is_plugin_active' ) )
      require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 
 if ( is_plugin_active('flexmls-idx/flexmls_connect.php') && class_exists('flexmlsConnectPageCore')) {
-     require_once SASWP_DIR_NAME .'/output/flexmls.php';    
+     require_once SASWP_DIR_NAME .'/output/class-saswp-flexmls-list.php';    
 }
 
 // Non amp checker
@@ -76,9 +76,9 @@ if ( ! function_exists('saswp_non_amp') ){
 require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
-require_once SASWP_DIR_NAME .'/output/location.php';
-require_once SASWP_DIR_NAME.'/admin_section/fields-generator.php';  
-require_once SASWP_DIR_NAME.'/admin_section/newsletter.php';  
+require_once SASWP_DIR_NAME.'/output/class-saswp-location-widget.php';
+require_once SASWP_DIR_NAME.'/admin_section/class-saswp-fields-generator.php';  
+require_once SASWP_DIR_NAME.'/admin_section/class-saswp-newsletter-popup.php';  
 require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';
 require_once SASWP_DIR_NAME.'/admin_section/tracking/make-better-helper.php';  
 //Loading View files
@@ -87,37 +87,37 @@ require_once SASWP_DIR_NAME.'/view/help.php';
 require_once SASWP_DIR_NAME.'/view/schema_type.php';  
 require_once SASWP_DIR_NAME.'/view/paywall.php';  
 require_once SASWP_DIR_NAME.'/admin_section/add-schema/add_new.php';  
-require_once SASWP_DIR_NAME.'/view/post_specific.php';  
-require_once SASWP_DIR_NAME.'/modules/rating-box/backend.php';  
-require_once SASWP_DIR_NAME.'/modules/rating-box/frontend.php'; 
-require_once SASWP_DIR_NAME.'/output/service.php'; 
-require_once SASWP_DIR_NAME.'/output/compatibility.php'; 
+require_once SASWP_DIR_NAME.'/view/class-saswp-post-specific.php';  
+require_once SASWP_DIR_NAME.'/modules/rating-box/class-saswp-rating-Box-backend.php';  
+require_once SASWP_DIR_NAME.'/modules/rating-box/class-saswp-rating-Box-frontend.php'; 
+require_once SASWP_DIR_NAME.'/output/class-saswp-output-service.php'; 
+require_once SASWP_DIR_NAME.'/output/class-saswp-output-compatibility.php'; 
 
 //Loading api files
 
-require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api.php';
+require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/class-saswp-output-rest-api.php';
 require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/wpgraphql.php';
 
 //Loading Reviews files
 require_once SASWP_DIR_NAME.'/modules/divi-builder/extension.php'; 
-require_once SASWP_DIR_NAME.'/modules/reviews/reviews_admin.php'; 
+require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-admin.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/comments.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/reviews_setup.php';
-require_once SASWP_DIR_NAME.'/modules/reviews/reviews_service.php';
-require_once SASWP_DIR_NAME.'/modules/reviews/reviews_widget.php';
-require_once SASWP_DIR_NAME.'/modules/reviews/reviews_collection.php';
-require_once SASWP_DIR_NAME.'/modules/reviews/reviews_form.php';
+require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-service.php';
+require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-widget.php';
+require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-collection.php';
+require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-form.php';
 require_once SASWP_DIR_NAME.'/modules/tinymce/register-tinymce.php';
 require_once SASWP_DIR_NAME.'/modules/tinymce/register-shortcodes.php';
 require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
 require_once SASWP_DIR_NAME.'/core/global.php';
 //Module files load
-require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-gutenberg.php';
-require_once SASWP_DIR_NAME.'/modules/elementor/elementor-loader.php';
+require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-saswp-gutenberg.php';
+require_once SASWP_DIR_NAME.'/modules/elementor/saswp-elementor-loader.php';
 
 //Loading Third party files
-require_once SASWP_DIR_NAME.'/core/3rd-party/aqua_resizer.php';
-require_once SASWP_DIR_NAME.'/core/3rd-party/youtube.php';
+require_once SASWP_DIR_NAME.'/core/3rd-party/class-saswp-aq-resize.php';
+require_once SASWP_DIR_NAME.'/core/3rd-party/class-saswp-youtube.php';
 /**
  * set user defined message on plugin activate
  */

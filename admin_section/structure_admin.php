@@ -866,7 +866,7 @@ if(is_admin()){
       );
     }
     //security check
-    wp_nonce_field( 'saswp_select_action_nonce', 'saswp_select_name_nonce' );?>
+    wp_nonce_field( 'saswp_select_action_nonce', 'saswp_select_name_nonce' ); ?>
 
     <?php 
     // Type Select    
@@ -942,13 +942,15 @@ if(is_admin()){
           ?>
           <tr class="toclone">
             <td style="width:31%" class="post_types"> 
-              <select class="widefat select-post-type <?php echo esc_attr( $i );?>" name="data_group_array[group-<?php echo esc_attr( $j) ?>][data_array][<?php echo esc_attr( $i) ?>][key_1]">    
+              <select class="widefat select-post-type <?php echo esc_attr( $i ); ?>" name="data_group_array[group-<?php echo esc_attr( $j) ?>][data_array][<?php echo esc_attr( $i) ?>][key_1]">    
                 <?php 
-                foreach ($choices as $choice_key => $choice_value) { ?>         
-                  <optgroup label="<?php echo esc_attr($choice_key);?>">
+                foreach ($choices as $choice_key => $choice_value) { 
+                  ?>         
+                  <optgroup label="<?php echo esc_attr($choice_key); ?>">
                   <?php
-                  foreach ($choice_value as $sub_key => $sub_value) { ?> 
-                    <option class="pt-child" value="<?php echo esc_attr( $sub_key );?>" <?php selected( $selected_val_key_1, $sub_key );?> > <?php echo esc_html($sub_value);?> </option>
+                  foreach ($choice_value as $sub_key => $sub_value) { 
+                    ?> 
+                    <option class="pt-child" value="<?php echo esc_attr( $sub_key ); ?>" <?php selected( $selected_val_key_1, $sub_key ); ?> > <?php echo esc_html($sub_value); ?> </option>
                     <?php
                   }
                   ?> </optgroup > <?php
@@ -963,7 +965,7 @@ if(is_admin()){
                     $selcomp = 'selected';
                   }
                   ?>
-                  <option class="pt-child" value="<?php echo esc_attr( $key );?>" <?php echo esc_attr($selcomp); ?> > <?php echo esc_html($value);?> </option>
+                  <option class="pt-child" value="<?php echo esc_attr( $key ); ?>" <?php echo esc_attr($selcomp); ?> > <?php echo esc_html($value); ?> </option>
                   <?php
                 } ?>
               </select>
@@ -980,7 +982,7 @@ if(is_admin()){
             </td>
 
             <td class="widefat structured-clone" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
-                <span> <button class="saswp-placement-button" type="button"> <?php echo esc_html__('And', 'schema-and-structured-data-for-wp' );?> </button> </span> </td>
+                <span> <button class="saswp-placement-button" type="button"> <?php echo esc_html__('And', 'schema-and-structured-data-for-wp' ); ?> </button> </span> </td>
             
             <td class="widefat structured-delete" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
                 <button class="saswp-placement-button" type="button"><span class="dashicons dashicons-trash"></span>  </button></td>         
@@ -2277,9 +2279,9 @@ function saswp_review_module_upgradation(){
                                                             
                     if($posts_list){
                         
-                        if(class_exists('saswp_reviews_service')){
+                        if(class_exists('SASWP_Reviews_Service')){
                         
-                            $service = new saswp_reviews_service(); 
+                            $service = new SASWP_Reviews_Service(); 
                         
                                 foreach($posts_list as $list){
 

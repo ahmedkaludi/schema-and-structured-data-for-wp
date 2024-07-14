@@ -6017,7 +6017,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     
                     if($manual == null && $post_id){
                     
-                        $service = new saswp_output_service();
+                        $service = new SASWP_Output_Service();
                         $product_details = $service->saswp_woocommerce_product_details($post_id);     
                         
                     }

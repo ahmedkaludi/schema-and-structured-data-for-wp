@@ -1077,7 +1077,7 @@ function saswp_software_app_schema_markup($schema_id, $schema_post_id, $all_post
                     $input1['review'] = $itinerary_arr;
                 }
                     
-                    $service = new saswp_output_service();
+                    $service = new SASWP_Output_Service();
                     $product_details = $service->saswp_woocommerce_product_details(get_the_ID());  
 
 
@@ -1568,7 +1568,7 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                            $input1['review'] = $itinerary_arr;
                                         }
                                         
-                                        $service = new saswp_output_service();
+                                        $service = new SASWP_Output_Service();
                                         $product_details = $service->saswp_woocommerce_product_details(get_the_ID());  
 
 
@@ -3737,7 +3737,7 @@ function saswp_qanda_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     if(trim(saswp_remove_warnings($all_post_meta, 'saswp_qa_question_title_'.$schema_id, 'saswp_array')) ==''){
 
-        $service_object = new saswp_output_service();
+        $service_object = new SASWP_Output_Service();
         $input1  = $service_object->saswp_dw_question_answers_details(get_the_ID());  
 
     }else{
@@ -4228,7 +4228,7 @@ function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta
                                    $input1['review'] = $itinerary_arr;
                                 }
                                 
-                                $service = new saswp_output_service();
+                                $service = new SASWP_Output_Service();
                                 $car_details = $service->saswp_woocommerce_product_details(get_the_ID());  
 
                                 if(!empty($car_details['car_reviews'])){
@@ -4393,7 +4393,7 @@ function saswp_car_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                                    $input1['review'] = $itinerary_arr;
                                 }
                                 
-                                $service = new saswp_output_service();
+                                $service = new SASWP_Output_Service();
                                 $car_details = $service->saswp_woocommerce_product_details(get_the_ID());  
 
                                 if(!empty($car_details['car_reviews'])){

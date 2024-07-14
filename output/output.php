@@ -28,7 +28,7 @@ function saswp_kb_schema_output() {
                 $width         = '';
                 $contact_info  = array();
                 
-                $service_object     = new saswp_output_service();
+                $service_object     = new SASWP_Output_Service();
                 $default_logo       = $service_object->saswp_get_publisher(true);
                 
                 if(!empty($default_logo)){
@@ -155,7 +155,7 @@ function saswp_schema_output() {
         if(!$Conditionals){
             return ;
         }
-        $service_object     = new saswp_output_service();
+        $service_object     = new SASWP_Output_Service();
         
         $all_schema_output  = array();        
                         
@@ -3105,7 +3105,7 @@ function saswp_woocommerce_category_schema(){
             		
                 $list_item     = array();
                 $term          = get_queried_object();
-                $service       = new saswp_output_service();                
+                $service       = new SASWP_Output_Service();                
 		        $category_loop = new WP_Query( $query_string );
                 
                 $current_url = saswp_get_current_url();
@@ -3546,7 +3546,7 @@ function saswp_about_page_output(){
                                         
 	if((isset($sd_data['sd_about_page'])) && in_array($sd_data['sd_about_page'], $page_ids) ){   
             
-                        $service_object     = new saswp_output_service();
+                        $service_object     = new SASWP_Output_Service();
                         $feature_image      = $service_object->saswp_get_featured_image();
                         $publisher          = $service_object->saswp_get_publisher();
                         
@@ -3594,7 +3594,7 @@ function saswp_contact_page_output(){
         
 	if(isset($sd_data['sd_contact_page']) && in_array($sd_data['sd_contact_page'], $page_ids ) ){
                         
-                        $service_object     = new saswp_output_service();
+                        $service_object     = new SASWP_Output_Service();
                         $feature_image      = $service_object->saswp_get_featured_image();
                         $publisher          = $service_object->saswp_get_publisher();
                         			

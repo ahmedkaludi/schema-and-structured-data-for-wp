@@ -11,7 +11,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_flexmls_list extends flexmlsConnectPageCore{
+class SASWP_Flexmls_List extends flexmlsConnectPageCore{
     
         public $shorcode = array();
         protected $search_criteria;
@@ -209,6 +209,6 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
              }  
         }        		
 }
-if (class_exists('saswp_flexmls_list')) {
-	new saswp_flexmls_list;
+if (class_exists('SASWP_Flexmls_List')) {
+	new SASWP_Flexmls_List;
 };

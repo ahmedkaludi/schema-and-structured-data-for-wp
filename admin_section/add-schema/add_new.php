@@ -524,13 +524,17 @@ $saswp_add_data_type_config = array(
 		<head>
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-				<?php if($current_step == 1){ ?>
+				<?php if($current_step == 1){ 
+					?>
 					<title><?php echo esc_html__('Select Schema', 'schema-and-structured-data-for-wp'); ?></title>
-				<?php }elseif($current_step == 2){ ?>
+				<?php }elseif($current_step == 2){ 
+					?>
 					<title><?php echo esc_html__('Placement', 'schema-and-structured-data-for-wp'); ?></title>
-				<?php }elseif($current_step == 3){ ?>
+				<?php }elseif($current_step == 3){ 
+					?>
 					<title><?php echo esc_html__('Enjoy', 'schema-and-structured-data-for-wp'); ?></title>
-				<?php }else{ ?>
+				<?php }else{ 
+					?>
 					<title><?php echo esc_html__('Welcome', 'schema-and-structured-data-for-wp'); ?></title>
 				<?php } ?>			
 			<?php do_action( 'admin_print_styles' ); ?>

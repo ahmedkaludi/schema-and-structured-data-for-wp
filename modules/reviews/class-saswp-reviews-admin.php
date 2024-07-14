@@ -11,7 +11,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_reviews_admin {
+class SASWP_Reviews_Admin {
         
 	private $screen = array(		
             'saswp_reviews'                                                      
@@ -315,6 +315,6 @@ class saswp_reviews_admin {
        	
 	}
 }
-if (class_exists('saswp_reviews_admin')) {
-	new saswp_reviews_admin;
+if (class_exists('SASWP_Reviews_Admin')) {
+	new SASWP_Reviews_Admin;
 };

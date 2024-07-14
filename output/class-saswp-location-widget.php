@@ -50,7 +50,7 @@ public function widget( $args, $instance ) {
  */
 public function form( $instance ) {
             
-    $loc = ! empty( $instance['loc'] ) ? $instance['loc'] : esc_html__('Widget to display location', 'schema-and-structured-data-for-wp');?>
+    $loc = ! empty( $instance['loc'] ) ? $instance['loc'] : esc_html__('Widget to display location', 'schema-and-structured-data-for-wp'); ?>
 
     <p><label for="<?php echo esc_attr( $this->get_field_id( 'loc' ) ); ?>"><?php esc_html__('Locations', 'schema-and-structured-data-for-wp'); ?></label><?php 
     

@@ -10,7 +10,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-Class saswp_rating_box_frontend{
+Class SASWP_Rating_Box_Frontend{
         /**
          * All the hooks list which are used in rating module
          */            
@@ -368,7 +368,7 @@ Class saswp_rating_box_frontend{
         }
         
 }
-if (class_exists('saswp_rating_box_frontend')) {
-	$object = new saswp_rating_box_frontend();
+if (class_exists('SASWP_Rating_Box_Frontend')) {
+	$object = new SASWP_Rating_Box_Frontend();
         $object->saswp_review_hooks();
 };

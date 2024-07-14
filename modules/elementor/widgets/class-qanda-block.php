@@ -252,7 +252,7 @@ class Qanda_Block extends Widget_Base {
             ?>
         	</div> <!-- saswp-qanda-block-answer div end -->
 
-        	<div class="saswp-qanda-block-answer"><h3><?php echo esc_html__( 'Suggested Answers', 'schema-and-structured-data-for-wp' );?></h3>
+        	<div class="saswp-qanda-block-answer"><h3><?php echo esc_html__( 'Suggested Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
             <?php    
                 if(isset($attributes['suggested_answers']) && !empty($attributes['suggested_answers'])){
 

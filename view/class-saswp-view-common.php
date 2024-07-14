@@ -11,7 +11,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_view_common_class {
+class SASWP_View_Common {
     
     public    $_meta_name                = array();
     public    $schema_type_element       = array();
@@ -348,7 +348,7 @@ class saswp_view_common_class {
             
         }
         
-    public function saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null, $modified= null) { 
+    public function saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null, $modified= null) { 
                                 
                 global $sd_data;                        
 

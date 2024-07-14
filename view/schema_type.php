@@ -120,7 +120,7 @@ function saswp_migrate_global_static_data($schema_type){
     
             $meta_list   = array();
             $meta_fields = array();
-            $service           = new saswp_output_service();
+            $service           = new SASWP_Output_Service();
             $meta_fields = $service->saswp_get_all_schema_type_fields($schema_type);            
             foreach($meta_fields as $key => $field){
                 $meta_list[$key] = 'manual_text';
@@ -285,7 +285,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                
                 <table class="option-table-class saswp-option-table-class">
                 <tr>
-                   <td><label for="schema_type"><?php echo esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' );?></label></td>
+                   <td><label for="schema_type"><?php echo esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ); ?></label></td>
                    <td><select class="saswp-schame-type-select" id="schema_type" name="schema_type">
                         <?php
 
@@ -319,9 +319,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>                      
                    </td>
                 </tr>   
-            <?php if($style_business_type){ ?>
+            <?php if($style_business_type){ 
+                ?>
                 <tr class="saswp-business-type-tr" style="display:none;">
-            <?php }else{ ?>
+            <?php }else{ 
+                ?>
                 <tr class="saswp-business-type-tr">
             <?php } ?>
                     <td>
@@ -342,9 +344,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>  
                     </td>
                 </tr>
-            <?php if($style_business_type){ ?>
+            <?php if($style_business_type){ 
+                ?>
                 <tr class="saswp-organization-type-tr" style="display:none;">
-            <?php }else{ ?>
+            <?php }else{ 
+                ?>
                 <tr class="saswp-organization-type-tr">
             <?php } ?>                
                     <td>
@@ -365,9 +369,11 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>  
                     </td>
                 </tr>                
-            <?php if($style_business_type){ ?>
+            <?php if($style_business_type){ 
+                ?>
                 <tr class="saswp-event-text-field-tr" style="display:none;">
-            <?php }else{ ?>
+            <?php }else{ 
+                ?>
                 <tr class="saswp-event-text-field-tr">
             <?php } ?>
                     <td>
@@ -389,12 +395,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </td>
                 </tr>
                 
-                <?php if(!array_key_exists($business_name, $all_automotive_array)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_automotive_array)){
+                     ?>                    
                         <tr class="saswp-automotivebusiness-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){ 
+                            ?>
                             <tr class="saswp-automotivebusiness-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{
+                             ?>
                             <tr class="saswp-automotivebusiness-tr">
                         <?php } ?>
                 <?php } ?> 
@@ -418,12 +427,15 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                 </tr>
 
-                <?php if(!array_key_exists($business_name, $all_emergency_array)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_emergency_array)){
+                     ?>                    
                         <tr class="saswp-emergencyservice-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){ 
+                            ?>
                             <tr class="saswp-emergencyservice-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{ 
+                            ?>
                             <tr class="saswp-emergencyservice-tr">
                         <?php } ?>
                 <?php } ?>
@@ -445,12 +457,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </td>    
                 </tr>
                                     
-                <?php if(!array_key_exists($business_name, $all_entertainment_array)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_entertainment_array)){ 
+                    ?>                    
                         <tr class="saswp-entertainmentbusiness-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){
+                             ?>
                             <tr class="saswp-entertainmentbusiness-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{ 
+                            ?>
                             <tr class="saswp-entertainmentbusiness-tr">
                         <?php } ?>
                 <?php } ?>
@@ -472,12 +487,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </td>    
                 </tr>
                                 
-                <?php if(!array_key_exists($business_name, $all_medical_business_array)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_medical_business_array)){
+                     ?>                    
                         <tr class="saswp-medicalbusiness-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){ 
+                            ?>
                             <tr class="saswp-medicalbusiness-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{ 
+                            ?>
                             <tr class="saswp-medicalbusiness-tr">
                         <?php } ?>
                 <?php } ?>
@@ -499,12 +517,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </td>    
                 </tr>
                                 
-                <?php if(!array_key_exists($business_name, $all_financial_array)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_financial_array)){
+                     ?>                    
                         <tr class="saswp-financialservice-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){ 
+                            ?>
                             <tr class="saswp-financialservice-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{
+                             ?>
                             <tr class="saswp-financialservice-tr">
                         <?php } ?>
                 <?php } ?>
@@ -525,12 +546,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </td>    
                 </tr>                        
                 
-                <?php if(!array_key_exists($business_name, $all_food_establishment_array)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_food_establishment_array)){
+                     ?>                    
                         <tr class="saswp-foodestablishment-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){
+                             ?>
                             <tr class="saswp-foodestablishment-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{
+                             ?>
                             <tr class="saswp-foodestablishment-tr">
                         <?php } ?>
                 <?php } ?>
@@ -551,12 +575,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </td>    
                 </tr>
                 
-                <?php if(!array_key_exists($business_name, $all_health_and_beauty_array)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_health_and_beauty_array)){
+                     ?>                    
                         <tr class="saswp-healthandbeautybusiness-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){
+                             ?>
                             <tr class="saswp-healthandbeautybusiness-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{
+                             ?>
                             <tr class="saswp-healthandbeautybusiness-tr">
                         <?php } ?>
                 <?php } ?>
@@ -579,12 +606,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </td>    
                 </tr>                        
                 
-                <?php if(!array_key_exists($business_name, $all_home_and_construction_array)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_home_and_construction_array)){
+                     ?>                    
                         <tr class="saswp-homeandconstructionbusiness-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){
+                             ?>
                             <tr class="saswp-homeandconstructionbusiness-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{
+                             ?>
                             <tr class="saswp-homeandconstructionbusiness-tr">
                         <?php } ?>
                 <?php } ?>
@@ -606,12 +636,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </td>    
                 </tr>
                 
-                <?php if(!array_key_exists($business_name, $all_legal_service_array)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_legal_service_array)){
+                     ?>                    
                         <tr class="saswp-legalservice-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){
+                             ?>
                             <tr class="saswp-legalservice-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{
+                             ?>
                             <tr class="saswp-legalservice-tr">
                         <?php } ?>
                 <?php } ?>
@@ -633,12 +666,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </td>    
                 </tr>
                 
-                <?php if(!array_key_exists($business_name, $all_lodging_array)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_lodging_array)){
+                     ?>                    
                         <tr class="saswp-lodgingbusiness-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){
+                             ?>
                             <tr class="saswp-lodgingbusiness-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{
+                             ?>
                             <tr class="saswp-lodgingbusiness-tr">
                         <?php } ?>
                 <?php } ?>
@@ -660,12 +696,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </td>    
                 </tr>                
 
-                <?php if(!array_key_exists($business_name, $all_sports_activity_location)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_sports_activity_location)){
+                     ?>                    
                         <tr class="saswp-sportsactivitylocation-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){
+                             ?>
                             <tr class="saswp-sportsactivitylocation-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{
+                             ?>
                             <tr class="saswp-sportsactivitylocation-tr">
                         <?php } ?>
                 <?php } ?>
@@ -687,12 +726,15 @@ function saswp_schema_type_meta_box_callback( $post) {
                 </td>    
                 </tr>
                 
-                <?php if(!array_key_exists($business_name, $all_store)){ ?>                    
+                <?php if(!array_key_exists($business_name, $all_store)){ 
+                    ?>                    
                         <tr class="saswp-store-tr" style="display:none;">
                 <?php }else{?>
-                        <?php if($style_business_name){ ?>
+                        <?php if($style_business_name){
+                             ?>
                             <tr class="saswp-store-tr" style="display:none;">
-                        <?php }else{ ?>
+                        <?php }else{
+                             ?>
                             <tr class="saswp-store-tr">
                         <?php } ?>
                 <?php } ?>
@@ -763,7 +805,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                 <tr>
                    <td>
-                       <label for="saswp-itemlist"><?php echo esc_html__( 'ItemList ', 'schema-and-structured-data-for-wp' );?></label>
+                       <label for="saswp-itemlist"><?php echo esc_html__( 'ItemList ', 'schema-and-structured-data-for-wp' ); ?></label>
                    </td>
                    <td>
                        <div class="saswp-enable-speakable">
@@ -803,7 +845,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                        <input type="text" id="saswp_item_list_custom" name="saswp_item_list_custom" placeholder="classname" value="<?php echo esc_attr($item_list_custom); ?>" class="<?php if($item_list_enable == 1 && $item_list_tags == 'custom'){echo ''; }else{ echo 'saswp_hide'; } ?>">
                         
                        </div> 
-                           <p class="saspw-item-list-note <?php if($item_list_enable == 1){echo ''; }else{ echo 'saswp_hide'; } ?>"><?php echo esc_html__( 'It will collect all the data from selected tag to a itemlist', 'schema-and-structured-data-for-wp' );?></p>
+                           <p class="saspw-item-list-note <?php if($item_list_enable == 1){echo ''; }else{ echo 'saswp_hide'; } ?>"><?php echo esc_html__( 'It will collect all the data from selected tag to a itemlist', 'schema-and-structured-data-for-wp' ); ?></p>
                        </div>
                       
                    </td>
@@ -812,7 +854,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 
                 <tr>
                    <td>
-                       <label for="saswp-speakable"><?php echo esc_html__( 'Speakable', 'schema-and-structured-data-for-wp' );?></label>
+                       <label for="saswp-speakable"><?php echo esc_html__( 'Speakable', 'schema-and-structured-data-for-wp' ); ?></label>
                    </td>
                    <td>
                       <input class="saswp-enable-speakable" type="checkbox" name="saswp_enable_speakable_schema" value="1" <?php if(isset($speakable) && $speakable == 1){echo 'checked'; }else{ echo ''; } ?>>                                                                                                           
@@ -821,7 +863,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                 <tr>
                    <td>
-                       <label for="saswp-enable-markup"><?php echo esc_html__( 'Add VideoObject markup, Only if video is available on the post', 'schema-and-structured-data-for-wp' );?></label>
+                       <label for="saswp-enable-markup"><?php echo esc_html__( 'Add VideoObject markup, Only if video is available on the post', 'schema-and-structured-data-for-wp' ); ?></label>
                    </td>
                    <td>
                       <input id="saswp-enable-markup" class="saswp-enable-markup-class" type="checkbox" name="saswp_enable_videoobject" value="1" <?php if(isset($enable_videoobject) && $enable_videoobject == 1){echo 'checked'; }else{ echo ''; } ?> >
@@ -830,7 +872,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                 <tr>
                    <td>
-                       <label for="saswp-enable-faq-markup"><?php echo esc_html__( 'Add FAQ markup, Only if FAQ is available on the page', 'schema-and-structured-data-for-wp' );?></label>
+                       <label for="saswp-enable-faq-markup"><?php echo esc_html__( 'Add FAQ markup, Only if FAQ is available on the page', 'schema-and-structured-data-for-wp' ); ?></label>
                    </td>
                    <td>
                       <input id="saswp-enable-faq-markup" class="saswp-enable-faq-markup-class" type="checkbox" name="saswp_enable_faq_schema" value="1" <?php if(isset($enable_faqschema) && $enable_faqschema == 1){echo 'checked'; }else{ echo ''; } ?> >
@@ -839,7 +881,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                 <tr>
                    <td>
-                       <label for="saswp-append-reviews"><?php echo esc_html__('Add Reviews', 'schema-and-structured-data-for-wp' );?></label>
+                       <label for="saswp-append-reviews"><?php echo esc_html__('Add Reviews', 'schema-and-structured-data-for-wp' ); ?></label>
                    </td>
                    <td>
                       
@@ -887,24 +929,24 @@ function saswp_schema_type_meta_box_callback( $post) {
                         ?> 
                       </a>
                       <div style="display:none;" id="saswp-embed-code-div">
-                          <div class="saswp-add-rv-title"><?php echo esc_html__('Get reviews attached to the schema type with three different method.', 'schema-and-structured-data-for-wp' );?> <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-append-fetched-reviews-in-schema-markup/"><?php echo esc_html__('Learn More...', 'schema-and-structured-data-for-wp' );?></a></div>
+                          <div class="saswp-add-rv-title"><?php echo esc_html__('Get reviews attached to the schema type with three different method.', 'schema-and-structured-data-for-wp' ); ?> <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-append-fetched-reviews-in-schema-markup/"><?php echo esc_html__('Learn More...', 'schema-and-structured-data-for-wp' ); ?></a></div>
                           <div class="saswp-thick-box-container">
                               
                         <div class="saswp-add-rv-popup" id="saswp-global-tabs">
                             <h2 class="nav-tab-wrapper">
-                            <a class="nav-tab" data-id="saswp-add-rv-automatic"><?php echo esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' );?></a>
-                            <a class="nav-tab" data-id="saswp-add-rv-collection"><?php echo esc_html__( 'Collection', 'schema-and-structured-data-for-wp' );?></a>
-                            <a class="nav-tab" data-id="saswp-add-rv-manual"><?php echo esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' );?></a>
+                            <a class="nav-tab" data-id="saswp-add-rv-automatic"><?php echo esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ); ?></a>
+                            <a class="nav-tab" data-id="saswp-add-rv-collection"><?php echo esc_html__( 'Collection', 'schema-and-structured-data-for-wp' ); ?></a>
+                            <a class="nav-tab" data-id="saswp-add-rv-manual"><?php echo esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' ); ?></a>
                            </h2>
                         </div>
                            
                             <div class="saswp-global-container" id="saswp-add-rv-automatic">
-                                <div class="saswp-add-rv-note"><strong><?php echo esc_html__( 'Note:', 'schema-and-structured-data-for-wp' );?></strong> <span><?php echo esc_html__( 'The attached reviews will only be added in Json-ld', 'schema-and-structured-data-for-wp' );?></span> </div>
+                                <div class="saswp-add-rv-note"><strong><?php echo esc_html__( 'Note:', 'schema-and-structured-data-for-wp' ); ?></strong> <span><?php echo esc_html__( 'The attached reviews will only be added in Json-ld', 'schema-and-structured-data-for-wp' ); ?></span> </div>
                                 <div data-type="review" class="saswp-add-rv-automatic-list">
                                 
                                 <?php 
                                                                                                
-                                $reviews_service = new saswp_reviews_service();
+                                $reviews_service = new SASWP_Reviews_Service();
                                 
                                 $reviews = $reviews_service->saswp_get_reviews_list_by_parameters(null, null, 10, 1);
                                
@@ -932,22 +974,23 @@ function saswp_schema_type_meta_box_callback( $post) {
                                  echo '<input id="saswp_attahced_reviews" type="hidden" name="saswp_attahced_reviews" value="'. esc_attr($attached_rv_json).'">';
                                 ?>
                                 
-                                <div class="saswp-rv-not-found saswp_hide" data-type="review"><?php echo esc_html__( 'Reviews not found', 'schema-and-structured-data-for-wp' );?></div>
+                                <div class="saswp-rv-not-found saswp_hide" data-type="review"><?php echo esc_html__( 'Reviews not found', 'schema-and-structured-data-for-wp' ); ?></div>
                                 <?php if(!empty($reviews) && count($reviews) >= 10){?> 
                                     <span class="spinner" data-type="review"></span>
-                                    <div><a class="saswp-load-more-rv" data-type="review"><?php echo esc_html__( 'Load More...', 'schema-and-structured-data-for-wp' );?></a></div>
-                                <?php }else{ ?> 
-                                    <div class="saswp-rv-not-found saswp_hide" data-type="review"><?php echo esc_html__( 'Reviews not found', 'schema-and-structured-data-for-wp' );?></div>
+                                    <div><a class="saswp-load-more-rv" data-type="review"><?php echo esc_html__( 'Load More...', 'schema-and-structured-data-for-wp' ); ?></a></div>
+                                <?php }else{
+                                     ?> 
+                                    <div class="saswp-rv-not-found saswp_hide" data-type="review"><?php echo esc_html__( 'Reviews not found', 'schema-and-structured-data-for-wp' ); ?></div>
                                 <?php } ?>                          
                             </div>
                               
                             <div class="saswp-global-container" id="saswp-add-rv-collection">
-                                <div class="saswp-add-rv-note"><strong><?php echo esc_html__( 'Note:', 'schema-and-structured-data-for-wp' );?></strong> <span><?php echo esc_html__( 'The attached collection will only be added in Json-ld', 'schema-and-structured-data-for-wp' );?></span> </div>
+                                <div class="saswp-add-rv-note"><strong><?php echo esc_html__( 'Note:', 'schema-and-structured-data-for-wp' ); ?></strong> <span><?php echo esc_html__( 'The attached collection will only be added in Json-ld', 'schema-and-structured-data-for-wp' ); ?></span> </div>
                                 <div data-type="collection" class="saswp-add-rv-automatic-list">
                                 
                                 <?php 
                                                                                                
-                                $review_service = new saswp_reviews_service();
+                                $review_service = new SASWP_Reviews_Service();
                                 $reviews  = $review_service->saswp_get_collection_list(10,1);
                                 
                                 if($reviews){
@@ -976,21 +1019,22 @@ function saswp_schema_type_meta_box_callback( $post) {
                                  echo '<input id="saswp_attached_collection" type="hidden" name="saswp_attached_collection" value="'. esc_attr($attached_col_json).'">';                                 
                                 ?>
 
-                                <div class="saswp-rv-not-found saswp_hide" data-type="collection"><?php echo esc_html__( 'Reviews not found', 'schema-and-structured-data-for-wp' );?></div>
+                                <div class="saswp-rv-not-found saswp_hide" data-type="collection"><?php echo esc_html__( 'Reviews not found', 'schema-and-structured-data-for-wp' ); ?></div>
                                 <?php if(!empty($reviews) && count($reviews) >= 10){?>
                                     <span class="spinner" data-type="collection"></span>
-                                    <div><a class="saswp-load-more-rv" data-type="collection"><?php echo esc_html__( 'Load More...', 'schema-and-structured-data-for-wp' );?></a></div>
-                                <?php }else{ ?>
-                                    <div class="saswp-rv-not-found saswp_hide" data-type="collection"><?php echo esc_html__( 'Reviews not found', 'schema-and-structured-data-for-wp' );?></div>
+                                    <div><a class="saswp-load-more-rv" data-type="collection"><?php echo esc_html__( 'Load More...', 'schema-and-structured-data-for-wp' ); ?></a></div>
+                                <?php }else{
+                                     ?>
+                                    <div class="saswp-rv-not-found saswp_hide" data-type="collection"><?php echo esc_html__( 'Reviews not found', 'schema-and-structured-data-for-wp' ); ?></div>
                                 <?php } ?>                    
                             </div>  
 
                             <div class="saswp-global-container" id="saswp-add-rv-manual">
-                               <p> <?php echo esc_html__('Output reviews in front and its schema markup in source by using below shortcode', 'schema-and-structured-data-for-wp' );?> </p>
+                               <p> <?php echo esc_html__('Output reviews in front and its schema markup in source by using below shortcode', 'schema-and-structured-data-for-wp' ); ?> </p>
                                 <strong>[saswp-reviews]</strong><br>OR<br>
                                 <strong>[saswp-reviews-collection id="your collection id"]</strong>
                             </div>
-                              <a class="button button-default close-attached-reviews-popup"><?php echo esc_html__( 'OK', 'schema-and-structured-data-for-wp' );?></a>                          
+                              <a class="button button-default close-attached-reviews-popup"><?php echo esc_html__( 'OK', 'schema-and-structured-data-for-wp' ); ?></a>                          
                           </div>
                           
                       </div>
@@ -1070,7 +1114,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         if(!empty($meta_list)){  
                             
                             $review_fields = array();                            
-                            $service       = new saswp_output_service();
+                            $service       = new SASWP_Output_Service();
                                                         
                             $schema_type    = get_post_meta($post->ID, 'schema_type', true);
                             
@@ -1274,12 +1318,12 @@ function saswp_schema_type_meta_box_callback( $post) {
                             <?php                        
                         
                                 $output_escaped = '';
-                                $common_obj = new saswp_view_common_class();
+                                $common_obj = new SASWP_View_Common();
                                 
                                 $schema_type    = get_post_meta($post_id, 'schema_type', true);
 
                                 $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
-                                $output_escaped = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
+                                $output_escaped = $common_obj->saswp_SASWP_Post_Specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
                                 
                                 if($schema_type == 'Review'){
                                                                         
@@ -1288,7 +1332,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                         $item_reviewed = 'Book';
                                     }
                                     $response          = saswp_get_fields_by_schema_type($post_id, null, $item_reviewed);                                                                                                        
-                                    $output_escaped           .= $common_obj->saswp_saswp_post_specific($schema_type, $response, $post_id, $post_id ,$item_reviewed, null, 1);
+                                    $output_escaped           .= $common_obj->saswp_SASWP_Post_Specific($schema_type, $response, $post_id, $post_id ,$item_reviewed, null, 1);
 
                                 }
                                 //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                
@@ -1328,7 +1372,7 @@ function saswp_get_reviews_on_load(){
             
             if($paged && $offset){
                 
-                $reviews_service = new saswp_reviews_service();  
+                $reviews_service = new SASWP_Reviews_Service();  
                 
                 if($data_type == 'review'){
                                                                       
@@ -1380,11 +1424,11 @@ function saswp_get_manual_fields_on_ajax(){
             $post_id     = isset($_GET['post_id'])?intval($_GET['post_id']):'';
             $schema_type = isset($_GET['schema_type'])?sanitize_text_field($_GET['schema_type']):'';
         
-            $common_obj = new saswp_view_common_class();
+            $common_obj = new SASWP_View_Common();
 
             $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
             
-            $output_escaped = $common_obj->saswp_saswp_post_specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
+            $output_escaped = $common_obj->saswp_SASWP_Post_Specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped
             echo $output_escaped;
 
@@ -1537,7 +1581,7 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
                 update_post_meta($post_id, 'faq_repeater_question_'.$post_id, $element_val);
             }
         }
-        $common_obj = new saswp_view_common_class();
+        $common_obj = new SASWP_View_Common();
         
         $post_obj[] = (object) array(
             'ID' => $post_id

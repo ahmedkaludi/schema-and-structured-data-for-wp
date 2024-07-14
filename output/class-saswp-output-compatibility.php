@@ -9,7 +9,7 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_output_compatibility{
+class SASWP_Output_Compatibility{
     
     public $_plugins_list = array(); 
     public $_theme_list   = array();
@@ -717,8 +717,8 @@ class saswp_output_compatibility{
      */
         
 }
-if(class_exists('saswp_output_compatibility')){
-   $obj_compatibility =  new saswp_output_compatibility();
+if(class_exists('SASWP_Output_Compatibility')){
+   $obj_compatibility =  new SASWP_Output_Compatibility();
    $obj_compatibility->saswp_service_compatibility_hooks();
 }
 

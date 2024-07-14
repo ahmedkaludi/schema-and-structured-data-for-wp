@@ -11,7 +11,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_ads_newsletter {
+class SASWP_Newsletter_Popup {
         
 	function __construct () {
 		
@@ -88,4 +88,4 @@ class saswp_ads_newsletter {
     }
        
 }
-$saswp_ads_newsletter = new saswp_ads_newsletter();
+$SASWP_Newsletter_Popup = new SASWP_Newsletter_Popup();

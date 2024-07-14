@@ -532,7 +532,7 @@ function saswp_get_all_schema_markup_output() {
                         
                     
                     $final_output = array();
-                    $object   = new saswp_output_service();
+                    $object   = new SASWP_Output_Service();
                     $webpage  = $object->saswp_schema_markup_generator('WebPage');
                     
                         unset($soutput['@context']);                   
@@ -2718,7 +2718,7 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
     
         global $saswp_post_reviews;
         
-        $service = new saswp_reviews_service();
+        $service = new SASWP_Reviews_Service();
         
         if ( $saswp_post_reviews ){
                   
@@ -2883,7 +2883,7 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
 
                     if($schema_options['saswp_modify_method'] == 'automatic'){
 
-                        $service = new saswp_output_service();
+                        $service = new SASWP_Output_Service();
                         $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                    
                     }
 
@@ -2942,7 +2942,7 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
                     }
 
                 }else{
-                    $service = new saswp_output_service();
+                    $service = new SASWP_Output_Service();
                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                    
                 }
 
@@ -3208,7 +3208,7 @@ function saswp_get_loop_markup($i) {
     $schema_properties  = array();
 
     $schema_type        =  $sd_data['saswp_archive_schema_type'];    
-    $service_object     = new saswp_output_service();    
+    $service_object     = new SASWP_Output_Service();    
     $publisher_info     = $service_object->saswp_get_publisher();   
     $feature_image      = $service_object->saswp_get_featured_image();             
                                                                                                                                                                                                                                                                               

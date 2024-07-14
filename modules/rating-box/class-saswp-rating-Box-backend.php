@@ -11,7 +11,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_rating_box_backend {
+class SASWP_Rating_Box_Backend {
     
  private $screen = array();
     
@@ -282,11 +282,11 @@ class saswp_rating_box_backend {
                                         foreach ($unit_array as $ukey => $uvalue) {
                                             if($uvalue == $rating_head_funit){
                                             ?>
-                                                <option value="<?php echo esc_attr($uvalue);?>" selected><?php echo esc_html($uvalue);?></option>    
+                                                <option value="<?php echo esc_attr($uvalue); ?>" selected><?php echo esc_html($uvalue); ?></option>    
                                             <?php    
                                             }else{
                                             ?>  
-                                                <option value="<?php echo esc_attr($uvalue);?>"><?php echo esc_html($uvalue);?></option>    
+                                                <option value="<?php echo esc_attr($uvalue); ?>"><?php echo esc_html($uvalue); ?></option>    
                                             <?php    
                                             }
                                         }
@@ -309,11 +309,11 @@ class saswp_rating_box_backend {
                                             foreach ($unit_array as $ukey => $uvalue) {
                                                 if($uvalue == $rating_item_funit){
                                                 ?>
-                                                    <option value="<?php echo esc_attr($uvalue);?>" selected><?php echo esc_html($uvalue);?></option>    
+                                                    <option value="<?php echo esc_attr($uvalue); ?>" selected><?php echo esc_html($uvalue); ?></option>    
                                                 <?php    
                                                 }else{
                                                 ?>  
-                                                    <option value="<?php echo esc_attr($uvalue);?>"><?php echo esc_html($uvalue);?></option>    
+                                                    <option value="<?php echo esc_attr($uvalue); ?>"><?php echo esc_html($uvalue); ?></option>    
                                                 <?php    
                                                 }
                                             }
@@ -348,11 +348,11 @@ class saswp_rating_box_backend {
                                             foreach ($unit_array as $ukey => $uvalue) {
                                                 if($uvalue == $overall_rating_funit){
                                                 ?>
-                                                    <option value="<?php echo esc_attr($uvalue);?>" selected><?php echo esc_html($uvalue);?></option>    
+                                                    <option value="<?php echo esc_attr($uvalue); ?>" selected><?php echo esc_html($uvalue); ?></option>    
                                                 <?php    
                                                 }else{
                                                 ?>  
-                                                    <option value="<?php echo esc_attr($uvalue);?>"><?php echo esc_html($uvalue);?></option>    
+                                                    <option value="<?php echo esc_attr($uvalue); ?>"><?php echo esc_html($uvalue); ?></option>    
                                                 <?php    
                                                 }
                                             }
@@ -430,6 +430,6 @@ class saswp_rating_box_backend {
         // return ob_get_clean();
         }  
 }
-if (class_exists('saswp_rating_box_backend')) {
-	new saswp_rating_box_backend;
+if (class_exists('SASWP_Rating_Box_Backend')) {
+	new SASWP_Rating_Box_Backend;
 };

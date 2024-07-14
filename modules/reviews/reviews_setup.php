@@ -160,7 +160,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                         
                         if($term->slug == 'self'){
                             
-                             $service_object     = new saswp_output_service();
+                             $service_object     = new SASWP_Output_Service();
                              $default_logo       = $service_object->saswp_get_publisher(true);                                                         
                              
                              if(isset($default_logo['url'])){
@@ -599,7 +599,8 @@ function saswp_reviews_filter() {
       } ?>
       <select name="slug" id="slug">
         <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php echo esc_html__( 'All', 'schema-and-structured-data-for-wp' ); ?></option>
-        <?php foreach( $plugins as $key=>$value ) { ?>
+        <?php foreach( $plugins as $key=>$value ) {
+             ?>
           <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $current_plugin ); ?>><?php echo esc_html( $value ); ?></option>
         <?php } ?>
       </select>

@@ -24,7 +24,7 @@ function saswp_gutenberg_recipe_schema(){
         $attributes = $recipe_block['attrs'];
     }    
     
-    $service_object          = new saswp_output_service();   
+    $service_object          = new SASWP_Output_Service();   
     $structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
     $helpers                 = new WPZOOM_Helpers();
     $feature_image           = $service_object->saswp_get_featured_image();                  
@@ -501,7 +501,7 @@ function saswp_gutenberg_how_to_schema(){
 
                 if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 && $yoast_howto && isset($yoast_howto['attrs'])){
                     
-                $service_object     = new saswp_output_service();   
+                $service_object     = new SASWP_Output_Service();   
                 $feature_image      = $service_object->saswp_get_featured_image();                  
                                        
                 $input1['@context']              = saswp_context_url();
@@ -708,7 +708,7 @@ function saswp_gutenberg_how_to_schema(){
 
                 if(isset($parse_blocks['attrs'])){
                     
-                $service_object     = new saswp_output_service();   
+                $service_object     = new SASWP_Output_Service();   
                 $feature_image      = $service_object->saswp_get_featured_image();                  
                                        
                 $input1['@context']              = saswp_context_url();
@@ -852,7 +852,7 @@ function saswp_gutenberg_how_to_schema(){
                 
             if($input1){
                 
-                $service_object     = new saswp_output_service();
+                $service_object     = new SASWP_Output_Service();
 
                 $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
                 $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
@@ -1041,7 +1041,7 @@ function saswp_gutenberg_event_schema(){
 
         if( !empty($input1) && !isset($input1['image'])){
 
-                        $service_object     = new saswp_output_service();
+                        $service_object     = new SASWP_Output_Service();
                         $input2             = $service_object->saswp_get_featured_image();
 
                         if(!empty($input2)){
@@ -1233,7 +1233,7 @@ function saswp_gutenberg_job_schema(){
                                                      
         if( !empty($input1) && !isset($input1['image'])){
 
-                        $service_object     = new saswp_output_service();
+                        $service_object     = new SASWP_Output_Service();
                         $input2             = $service_object->saswp_get_featured_image();
 
                         if(!empty($input2)){

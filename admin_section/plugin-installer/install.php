@@ -303,12 +303,12 @@
 						<li class="merlin__drawer--import-content__list-item status post-type-fields">
 							<input type="checkbox" name="sd_data_create__post_schema_checkbox[<?php echo esc_attr($key); ?>]" id="sd_data_create__post_schema_<?php echo esc_attr($key); ?>" class="checkbox" value="1" >
 							<label for="sd_data_create__post_schema_<?php echo esc_attr($key); ?>"><i></i><span><?php echo esc_html(ucfirst($value)); ?></span></label>
-							<input type="hidden" name="sd_data_create__post_schema[<?php echo esc_attr($key); ?>][posttype]" class="checkbox" value="<?php echo esc_attr($key);?>" >
+							<input type="hidden" name="sd_data_create__post_schema[<?php echo esc_attr($key); ?>][posttype]" class="checkbox" value="<?php echo esc_attr($key); ?>" >
 	
 							<select id="schema_type" name="sd_data_create__post_schema['.$key.'][schema_type]">
 								<option value=""><?php echo esc_html__('Select Schema Type', 'schema-and-structured-data-for-wp'); ?></option>
 								<option value="BlogPosting"><?php echo esc_html__('BlogPosting', 'schema-and-structured-data-for-wp'); ?></option>
-								<option value="NewsArticle"><?php echo esc_html__('NewsArticl', 'schema-and-structured-data-for-wp') ;?></option>
+								<option value="NewsArticle"><?php echo esc_html__('NewsArticl', 'schema-and-structured-data-for-wp') ; ?></option>
 								<option value="AnalysisNewsArticle"><?php echo esc_html__('AnalysisNewsArticle', 'schema-and-structured-data-for-wp'); ?></option>
 								<option value="AskPublicNewsArticle"><?php echo esc_html__('AskPublicNewsArticle', 'schema-and-structured-data-for-wp'); ?></option>
 								<option value="BackgroundNewsArticle"><?php echo esc_html__('BackgroundNewsArticle', 'schema-and-structured-data-for-wp'); ?></option>
@@ -522,17 +522,23 @@
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-			<?php if($current_step == 1){ ?>
+			<?php if($current_step == 1){ 
+					?>
 					<title><?php echo esc_html__('Welcome', 'schema-and-structured-data-for-wp'); ?></title>
-				<?php }elseif($current_step == 2){ ?>
+				<?php }elseif($current_step == 2){ 
+					?>
 					<title><?php echo esc_html__('General Settings', 'schema-and-structured-data-for-wp'); ?></title>
-				<?php }elseif($current_step == 3){ ?>
+				<?php }elseif($current_step == 3){ 
+					?>
 					<title><?php echo esc_html__('Social Profiles', 'schema-and-structured-data-for-wp'); ?></title>
-				<?php }elseif($current_step == 4){ ?>
+				<?php }elseif($current_step == 4){ 
+					?>
 					<title><?php echo esc_html__('Select Schema', 'schema-and-structured-data-for-wp'); ?></title>
-				<?php }elseif($current_step == 5){ ?>
+				<?php }elseif($current_step == 5){
+					 ?>
 					<title><?php echo esc_html__('Enjoy', 'schema-and-structured-data-for-wp'); ?></title>
-				<?php }else{ ?>
+				<?php }else{ 
+					?>
 					<title><?php echo esc_html__('Welcome', 'schema-and-structured-data-for-wp'); ?></title>
 				<?php } ?>										
 			<?php do_action( 'admin_print_styles' ); ?>

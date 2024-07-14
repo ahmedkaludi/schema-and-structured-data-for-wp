@@ -10,7 +10,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-Class saswp_output_service{           
+Class SASWP_Output_Service{           
         
         /**
          * List of hooks used in current class
@@ -9318,7 +9318,7 @@ Class saswp_output_service{
         }
                 
 }
-if (class_exists('saswp_output_service')) {
-	    $object = new saswp_output_service();
+if (class_exists('SASWP_Output_Service')) {
+	    $object = new SASWP_Output_Service();
         $object->saswp_service_hooks();
 };

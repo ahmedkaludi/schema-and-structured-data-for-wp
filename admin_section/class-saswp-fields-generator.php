@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /*
   Metabox to show ads type such as custom and adsense 
  */
-class saswp_fields_generator {
+class SASWP_Fields_Generator {
 
     public $platforms = array(
         array(

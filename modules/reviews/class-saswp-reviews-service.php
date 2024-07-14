@@ -11,7 +11,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_reviews_service {
+class SASWP_Reviews_Service {
         
     /**
      * List of hooks used in this context
@@ -847,7 +847,7 @@ class saswp_reviews_service {
               'saswp_review_location_id'   
             );
              
-             $service_object     = new saswp_output_service();
+             $service_object     = new SASWP_Output_Service();
             
             foreach($posts_list as $rv_post){
                 $review_data = array();                
@@ -1802,5 +1802,5 @@ class saswp_reviews_service {
     }
 }
 
-$saswp_service_obj = new saswp_reviews_service();
+$saswp_service_obj = new SASWP_Reviews_Service();
 $saswp_service_obj->saswp_service_hooks();

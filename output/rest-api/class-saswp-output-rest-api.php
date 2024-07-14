@@ -10,7 +10,7 @@ class SASWP_Output_Rest_Api {
         private function __construct() {
             
             if($this->api_service == null){
-                require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api-service.php'; 
+                require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/class-saswp-output-rest-api-service.php'; 
                 $this->api_service = new SASWP_Output_Rest_Api_Service();
             }            
                         

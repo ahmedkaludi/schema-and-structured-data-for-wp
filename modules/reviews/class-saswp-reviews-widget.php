@@ -28,7 +28,7 @@ class Saswp_Reviews_Widget extends WP_Widget {
 	function __construct() {
             
             if($this->_serviceClass == null){
-                $this->_serviceClass = new saswp_reviews_service();  
+                $this->_serviceClass = new SASWP_Reviews_Service();  
             }
             
 		parent::__construct(

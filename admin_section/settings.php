@@ -506,8 +506,8 @@ function saswp_admin_interface_render(){
 			</div>  
                     <input type="hidden" name="sd_data[sd_initial_wizard_status]" value="1">
             <?php 
-            if (class_exists('saswp_rating_box_backend')) {
-                $class_obj = new saswp_rating_box_backend;
+            if (class_exists('SASWP_Rating_Box_Backend')) {
+                $class_obj = new SASWP_Rating_Box_Backend;
                 $class_obj->saswp_rating_box_appearance();
             }
             ?>
@@ -515,7 +515,8 @@ function saswp_admin_interface_render(){
 	</div>
     <div class="saswp-settings-second-div">
 
-        <?php if(!saswp_ext_installed_status()) { ?>
+        <?php if(!saswp_ext_installed_status()) { 
+                ?>
             <div class="saswp-upgrade-pro">
                 <h2><?php echo esc_html__('Upgrade to Pro!', 'schema-and-structured-data-for-wp') ?></h2>
                 <ul>
@@ -796,7 +797,8 @@ function saswp_is_check_plugin($ext_ind,$index){
           return false;
      }
 
-function saswp_premium_features_callback(){ ?>
+function saswp_premium_features_callback(){ 
+        ?>
 
 	<div class="saswp-pre-ftrs-wrap">
 
@@ -892,7 +894,8 @@ foreach($main_ext_array as $value){
  <?php
     }
 
-function saswp_services_callback(){ ?>
+function saswp_services_callback(){ 
+        ?>
    <div class="saswp-pre-ftrs-wrap">
         <ul class="saswp-features-blocks">
                         <li>
@@ -954,7 +957,7 @@ function saswp_amp_page_callback(){
     
         $settings = saswp_defaultSettings();  
         
-        $field_objs = new saswp_fields_generator();
+        $field_objs = new SASWP_Fields_Generator();
         
         $non_amp_enable_field = array(
 			'label'  => 'Structured Data for AMP',
@@ -1027,7 +1030,7 @@ function saswp_amp_page_callback(){
 function saswp_general_page_callback(){	
             
 	$settings = saswp_defaultSettings(); 
-        $field_objs = new saswp_fields_generator(); 
+        $field_objs = new SASWP_Fields_Generator(); 
         $nav_menu   = wp_get_nav_menus();
         
         $meta_fields_default[] =  array(
@@ -1663,7 +1666,7 @@ function saswp_import_callback(){
         global $sd_data;
                                 
         $settings = saswp_defaultSettings();         
-        $field_objs = new saswp_fields_generator();
+        $field_objs = new SASWP_Fields_Generator();
         $meta_fields = array(				
                 array(
 			'label'  => 'Defragment Schema Markup',
@@ -2484,7 +2487,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
 function saswp_review_page_callback(){
         
         $settings = saswp_defaultSettings();         
-        $field_objs = new saswp_fields_generator();
+        $field_objs = new SASWP_Fields_Generator();
                                 
         $meta_fields = array(				                               
                 array(
@@ -2638,7 +2641,7 @@ function saswp_email_schema_callback(){
                                       
         }
                                    
-        $field_objs = new saswp_fields_generator();
+        $field_objs = new SASWP_Fields_Generator();
         $meta_fields = array(				               
                 $woocommerce,                                              
 	);       
@@ -4441,7 +4444,7 @@ function saswp_compatibility_page_callback(){
          }
          
                                                  
-        $field_objs = new saswp_fields_generator();
+        $field_objs = new SASWP_Fields_Generator();
         
         $meta_fields = array(
                 $ampforwp,

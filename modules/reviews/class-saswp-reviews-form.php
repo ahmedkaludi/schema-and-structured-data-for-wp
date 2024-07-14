@@ -25,7 +25,7 @@ class SASWP_Reviews_Form {
             
           if($this->_service == null){
               
-              $this->_service = new saswp_reviews_service();
+              $this->_service = new SASWP_Reviews_Service();
               
           }  
                          

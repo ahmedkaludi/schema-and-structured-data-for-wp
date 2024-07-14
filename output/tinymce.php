@@ -17,7 +17,7 @@ function saswp_tinymce_how_to_schema(){
                                 
                 if( !empty($saswp_tiny_howto['elements']) ){
                     
-                $service_object     = new saswp_output_service();   
+                $service_object     = new SASWP_Output_Service();   
                 $feature_image      = $service_object->saswp_get_featured_image();                  
                                        
                 $input1['@context']              = saswp_context_url();
@@ -111,7 +111,7 @@ function saswp_tinymce_how_to_schema(){
                                                     
             if($input1){
                 
-                $service_object     = new saswp_output_service();
+                $service_object     = new SASWP_Output_Service();
 
                 $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
                 $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());

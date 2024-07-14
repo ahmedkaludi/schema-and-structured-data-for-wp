@@ -17,8 +17,7 @@ class SASWP_Gutenberg {
          * Static private variable to hold instance this class
          * @var type 
          */
-        private static $instance;
-        private $service;
+        private static $instance;        
         private $render;
         
         private $blocks = array(
@@ -124,7 +123,7 @@ class SASWP_Gutenberg {
                     }
                     
                     if($this->render == null){
-                        require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/render.php';
+                        require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-saswp-gutenberg-render.php';
                         $this->render = new SASWP_Gutenberg_Render();
                     }
                     
@@ -312,7 +311,7 @@ class SASWP_Gutenberg {
                                                         
                             if($key == 'collection'){
                                 
-                                 $review_service = new saswp_reviews_service();
+                                 $review_service = new SASWP_Reviews_Service();
                                  $col_opt  = $review_service->saswp_get_collection_list();
                                         
                                 if($col_opt){                                    

@@ -11,7 +11,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_post_specific {
+class SASWP_Post_Specific {
     
 	    public    $screen                    = array();				
         public    $all_schema                = null;
@@ -30,8 +30,8 @@ class saswp_post_specific {
 		}
                 
                 if($this->_common_view == null){
-                    require_once SASWP_DIR_NAME.'/view/common.php';  
-                    $this->_common_view = new saswp_view_common_class();
+                    require_once SASWP_DIR_NAME.'/view/class-saswp-view-common.php';  
+                    $this->_common_view = new SASWP_View_Common();
                 }
                 
         }
@@ -39,7 +39,7 @@ class saswp_post_specific {
         /**
          * List of hooks used in this context
          */                       
-        public function saswp_post_specific_hooks(){
+        public function SASWP_Post_Specific_hooks(){
 
                 $taxterm = array('category', 'post_tag', 'product_cat', 'product_tag');
 
@@ -55,11 +55,11 @@ class saswp_post_specific {
                            
 		        add_action( 'add_meta_boxes', array( $this, 'saswp_post_specifc_add_meta_boxes' ),10,2 );
                                 
-		        add_action( 'save_post', array( $this, 'saswp_post_specific_save_fields' ) );
+		        add_action( 'save_post', array( $this, 'SASWP_Post_Specific_save_fields' ) );
 
-                add_action( 'add_attachment', array( $this, 'saswp_post_specific_save_fields' ) );
+                add_action( 'add_attachment', array( $this, 'SASWP_Post_Specific_save_fields' ) );
                 
-                add_action( 'edit_attachment', array( $this, 'saswp_post_specific_save_fields' ) );
+                add_action( 'edit_attachment', array( $this, 'SASWP_Post_Specific_save_fields' ) );
                
                 add_action( 'wp_ajax_saswp_get_sub_business_ajax', array($this,'saswp_get_sub_business_ajax'));
                 
@@ -188,7 +188,7 @@ class saswp_post_specific {
              $response = $this->saswp_get_schema_fields_on_ajax($post_id, $schema_id);                                            
              $saswp_meta_fields = array_filter($response); 
              
-             $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, null, $disabled, $modify_this, $modified ); 
+             $output            = $this->_common_view->saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, null, $disabled, $modify_this, $modified ); 
 
              if($schema_type == 'Review' || $schema_type == 'ReviewNewsArticle'){
                         
@@ -198,7 +198,7 @@ class saswp_post_specific {
                 }
                 $response = $this->saswp_get_schema_fields_on_ajax($post_id, $schema_id, $item_reviewed);                                                                
                 $saswp_meta_fields = array_filter($response);                           
-                $output           .= $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id ,$item_reviewed, $disabled, $modify_this, $modified);
+                $output           .= $this->_common_view->saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post_id, $schema_id ,$item_reviewed, $disabled, $modify_this, $modified);
                 
             }
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                
@@ -242,7 +242,7 @@ class saswp_post_specific {
             
             $response          = saswp_get_fields_by_schema_type($schema_id, null, $item_reviewed);                                                              
             $saswp_meta_fields = array_filter($response);                
-            $output_escaped    = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, $item_reviewed, $disabled, $modify_this); 
+            $output_escaped    = $this->_common_view->saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, $item_reviewed, $disabled, $modify_this); 
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                                     
             echo $output_escaped;
 
@@ -345,14 +345,14 @@ class saswp_post_specific {
                      if(saswp_current_user_allowed()){
                       
                          add_meta_box(
-                                'saswp_post_specific',
+                                'SASWP_Post_Specific',
                                 esc_html__( 'Schema & Structured Data on this post', 'schema-and-structured-data-for-wp' ),
                                 array( $this, 'saswp_post_meta_box_callback' ),
                                 $single_screen,
                                 'advanced',
                                 'default'
                         );
-                        $saswp_metaboxes[]= 'saswp_post_specific';                         
+                        $saswp_metaboxes[]= 'SASWP_Post_Specific';                         
                     }			                        
 		        }   
              }   
@@ -482,7 +482,7 @@ class saswp_post_specific {
                      $response          = @saswp_get_fields_by_schema_type($schema->ID);                       
                      $saswp_meta_fields = array_filter($response); 
                      if($modify_this){
-                        $output            = $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified ); 
+                        $output            = $this->_common_view->saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified ); 
                      }                    
                      
                      
@@ -498,7 +498,7 @@ class saswp_post_specific {
                          }
                          $response          = @saswp_get_fields_by_schema_type($schema->ID, null, $item_reviewed);                                                              
                          $saswp_meta_fields = array_filter($response);                           
-                         $output           .= $this->_common_view->saswp_saswp_post_specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed, $disabled, $modify_this, $modified);
+                         $output           .= $this->_common_view->saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed, $disabled, $modify_this, $modified);
                          
                      }
                      
@@ -675,7 +675,7 @@ class saswp_post_specific {
          * @return type null
          * @since version 1.0.4
          */
-	public function saswp_post_specific_save_fields( $post_id ) {
+	public function SASWP_Post_Specific_save_fields( $post_id ) {
                                             
 		if ( ! isset( $_POST['post_specific_nonce'] ) ) return $post_id;					        
 		if ( !wp_verify_nonce( $_POST['post_specific_nonce'], 'post_specific_data' ) ) return $post_id;			
@@ -719,7 +719,7 @@ class saswp_post_specific {
         }
                 
 }
-if (class_exists('saswp_post_specific')) {
-	$object = new saswp_post_specific();
-        $object->saswp_post_specific_hooks();
+if (class_exists('SASWP_Post_Specific')) {
+	$object = new SASWP_Post_Specific();
+        $object->SASWP_Post_Specific_hooks();
 };
