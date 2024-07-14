@@ -346,7 +346,7 @@ class saswp_reviews_service {
        $url             = get_option('saswp_rv_csv_upload_url');
        
        if($url && $url != ''){
-
+        //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- We are not able to find a proper method to open and read csv file using wp_filesystem.
         $handle = fopen($url, "r");
 
         if($handle){

@@ -2423,7 +2423,7 @@ function saswp_create_resized_image_folder(){
   $make_new_dir = $upload_dir . '/schema-and-structured-data-for-wp';
 
   if (! is_dir($make_new_dir)) {
-      mkdir( $make_new_dir, 0700 );
+    wp_mkdir_p($make_new_dir);
   }
 
   if(is_dir($make_new_dir)){
@@ -2432,9 +2432,7 @@ function saswp_create_resized_image_folder(){
     $url        = $upload_url.'/schema-and-structured-data-for-wp/sd-logo-white.png';
     $new_url    = $make_new_dir.'/sd-logo-white.png';    
     @copy($old_url, $new_url);
-
-    
-    
+        
     if(file_exists($new_url)){
       $response = array('status' => 't');   
     }else{

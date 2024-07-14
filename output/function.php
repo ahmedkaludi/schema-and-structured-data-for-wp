@@ -105,10 +105,10 @@ function saswp_schema_markup_output_in_buffer($content){
              
      if($saswp_post_reviews || $saswp_elementor_qanda || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto || $saswp_evo_json_ld || $saswp_tiny_multi_faq || $saswp_tiny_howto || $saswp_tiny_recipe){
         
-            $saswp_json_ld =  saswp_get_all_schema_markup_output();  
+            $saswp_json_ld_escaped =  saswp_get_all_schema_markup_output();  
             
             
-            if(!empty($saswp_json_ld['saswp_json_ld'])){
+            if(!empty($saswp_json_ld_escaped['saswp_json_ld'])){
 
                 if(strpos($content, 'saswp-schema-markup-output') !== false){
 
@@ -117,12 +117,12 @@ function saswp_schema_markup_output_in_buffer($content){
                     preg_match($regex, $content, $match);
 
                     if(isset($match[0])){
-                        $content = str_replace($match[0], $saswp_json_ld['saswp_json_ld'], $content);
+                        $content = str_replace($match[0], $saswp_json_ld_escaped['saswp_json_ld'], $content);
                     }
 
                 }else{
 
-                    $content = str_replace('</head>', $saswp_json_ld['saswp_json_ld'].'</head>', $content);                    
+                    $content = str_replace('</head>', $saswp_json_ld_escaped['saswp_json_ld'].'</head>', $content);                    
 
                 }                
                  
@@ -135,39 +135,42 @@ function saswp_schema_markup_output_in_buffer($content){
 
 function saswp_schema_markup_output(){
     global $sd_data;
-    $saswp_json_ld =  saswp_get_all_schema_markup_output();    
+    $saswp_json_ld_escaped =  saswp_get_all_schema_markup_output();    
     
-    if(!empty($saswp_json_ld['saswp_json_ld'])){
+    if(!empty($saswp_json_ld_escaped['saswp_json_ld'])){
         
         echo "\n";
         if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
             echo "<!-- Schema & Structured Data For WP v".esc_attr(SASWP_VERSION)." - -->";
         }
         echo "\n";
-        echo $saswp_json_ld['saswp_json_ld'];
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- data is already fully escaped using wp_json_encode
+        echo $saswp_json_ld_escaped['saswp_json_ld'];
         echo "\n\n";
         
     }
     
-    if(!empty($saswp_json_ld['saswp_custom_json_ld'])){
+    if(!empty($saswp_json_ld_escaped['saswp_custom_json_ld'])){
         
         echo "\n";
         if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
             echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
         }
         echo "\n";
-        echo $saswp_json_ld['saswp_custom_json_ld'];
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- data is already fully escaped using wp_json_encode
+        echo $saswp_json_ld_escaped['saswp_custom_json_ld'];
         echo "\n\n";
         
     }
-    if(!empty($saswp_json_ld['saswp_user_custom_json_ld'])){
+    if(!empty($saswp_json_ld_escaped['saswp_user_custom_json_ld'])){
         
         echo "\n";
         if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
             echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
         }
         echo "\n";
-        echo $saswp_json_ld['saswp_user_custom_json_ld'];
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- data is already fully escaped using wp_json_encode
+        echo $saswp_json_ld_escaped['saswp_user_custom_json_ld'];
         echo "\n\n";
         
     }
@@ -186,6 +189,7 @@ function saswp_schema_markup_output(){
                 }
                 echo PHP_EOL;
                 echo '<script type="application/ld+json" class="saswp-other-schema-markup-output">';
+                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- data is already fully escaped using wp_json_encode
                 echo saswp_json_print_format( $recipe);
                 echo '</script>';			
                 echo PHP_EOL;

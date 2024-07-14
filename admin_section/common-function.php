@@ -4902,18 +4902,6 @@ function saswp_explode_comma_seprated ($data, $type) {
     return $response;
 }
 
-function saswp_t_string($string){
-
-    $settings       = saswp_defaultSettings();    
-
-    if(function_exists('pll__') && (isset($settings['saswp-polylang']) && $settings['saswp-polylang'] == 1) ){
-        return pll__($string);
-    }else{
-        return esc_html__( $string , 'schema-and-structured-data-for-wp');
-    }
-    
-}
-
 function saswp_get_elementor_widget_data($element_data, $widget_type){
 
     if ( null!=$element_data['elType'] ) {

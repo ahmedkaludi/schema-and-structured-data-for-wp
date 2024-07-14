@@ -381,7 +381,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->collection_block_data($attributes);
+            $this->render->collection_block_data($attributes);
             
             return ob_get_clean();
             
@@ -397,7 +397,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->location_block_data($attributes);
+            $this->render->location_block_data($attributes);
             
             return ob_get_clean();
             
@@ -669,21 +669,20 @@ class SASWP_Gutenberg {
                 if(isset($attributes['hasCost'])){
                     echo '<p class="saswp-how-to-total-time">';
                     
-                    $time_html = '';
+                    $has_price = false;
                        
                     if(isset($attributes['price']) && $attributes['price'] != ''){
-                        $time_html .=   esc_attr($attributes['price']). ' ';
+                        $has_price = true;
                     }
                     
                     if(isset($attributes['currency']) && $attributes['currency'] != ''){
-                        $time_html .=     esc_attr($attributes['currency']);
+                        $has_price = true;
                     }
                                         
-                    if($time_html !=''){
+                    if($has_price){
                     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
-                     echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-estimate-cost').' :</strong> </span>';    
-                     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
-                     echo $time_html;
+                     echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-estimate-cost').' :</strong> </span>';                         
+                     echo esc_html($attributes['price']). ' '.esc_html($attributes['currency']);
                     }
                                         
                     echo '</p>';
@@ -692,23 +691,34 @@ class SASWP_Gutenberg {
                 if(isset($attributes['hasDuration'])){
                     echo '<p class="saswp-how-to-total-time">';
                     
-                    $time_html = '';
+                    $has_time = false;
                        
                     if(isset($attributes['days']) && $attributes['days'] != ''){
-                        $time_html .=   esc_attr($attributes['days']).' days ';
+                        $has_time = true;
                     }
                     
                     if(isset($attributes['hours']) && $attributes['hours'] != ''){
-                        $time_html .=     esc_attr($attributes['hours']).' hours ';
+                        $has_time = true;
                     }
                     
                     if(isset($attributes['minutes']) && $attributes['minutes'] != ''){
-                        $time_html .=     esc_attr($attributes['minutes']).' minutes';
+                        $has_time = true;
                     }
                     
-                    if($time_html !=''){
+                    if($has_time){
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
                      echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-time-needed').' :</strong> </span>';    
-                     echo $time_html;
+                        if(isset($attributes['days']) && $attributes['days'] != ''){
+                            echo esc_html($attributes['days']).' days ';
+                        }
+                        
+                        if(isset($attributes['hours']) && $attributes['hours'] != ''){
+                            echo esc_html($attributes['hours']).' hours ';
+                        }
+                        
+                        if(isset($attributes['minutes']) && $attributes['minutes'] != ''){
+                            echo esc_html($attributes['minutes']).' minutes';
+                        }                     
                     }
                                         
                     echo '</p>';
@@ -717,20 +727,24 @@ class SASWP_Gutenberg {
                     echo sprintf('<p>%s</p>', wp_kses($attributes['description'], $allowed_tags_desc));
                 }
                                 
-                if(isset($attributes['items'])){
-                    
-                    $className = '';
-                    if(isset($attributes['className'])){
-                        $className = 'class="'.esc_attr($attributes['className']).'"';
-                    }
-
-                    
+                if(isset($attributes['items'])){                                                            
 
                     if(isset($attributes['listStyleType'])){
                         if(($attributes['listStyleType']=='none')){
-                            echo'<ol '.$className.' style="list-style-type:none;">';
+                            if(isset($attributes['className'])){
+                                ?><ol class="<?php echo esc_attr($attributes['className']); ?>" style="list-style-type:none;"><?php                            
+                            }else{
+                                ?><ol style="list-style-type:none;"><?php                            
+                            }
+                            
+                            
                          }elseif(($attributes['listStyleType']=='disc')){
-                            echo'<ol '.$className.' style="list-style-type:disc;">';
+                            if(isset($attributes['className'])){
+                                ?><ol class="<?php echo esc_attr($attributes['className']); ?>" style="list-style-type:disc;"><?php
+                            }else{
+                                ?><ol style="list-style-type:disc;"><?php
+                            }
+                            
                          }else{
                             echo '<ol>';
                          }
@@ -771,8 +785,7 @@ class SASWP_Gutenberg {
 
                     foreach($attributes['items'] as $item){
                        
-                      $block_title = isset($item['title'])?$item['title']:'';
-                      $block_description = isset($item['description'])?$item['description']:'';
+                      $block_title = isset($item['title'])?$item['title']:'';                      
 
                       if($item['title'] || $item['description']){
                         echo '<li>'; 

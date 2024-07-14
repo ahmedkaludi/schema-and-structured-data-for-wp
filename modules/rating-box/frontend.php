@@ -130,6 +130,7 @@ Class saswp_rating_box_frontend{
                                 echo "\n";
                                 echo '<script type="application/ld+json" class="saswp-schema-markup-rating-module-output">'; 
                                 echo "\n";       
+                                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- data is already fully escaped using wp_json_encode
                                 echo saswp_json_print_format($input1);       
                                 echo "\n";
                                 echo '</script>';
@@ -359,7 +360,7 @@ Class saswp_rating_box_frontend{
             if(saswp_global_option() && isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
                 ?>
                     <script type="text/javascript">
-                        let saswpStarColor = "<?php echo isset($sd_data['saswp-rbcc-stars-color'])?$sd_data['saswp-rbcc-stars-color']:'#000';  ?>";
+                        let saswpStarColor = "<?php echo isset($sd_data['saswp-rbcc-stars-color'])? esc_attr($sd_data['saswp-rbcc-stars-color']):'#000';  ?>";
                         jQuery('.saswp_star_color .saswp_star').attr('stop-color', saswpStarColor);   
                     </script>
                 <?php    

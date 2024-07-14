@@ -102,7 +102,7 @@ if(!class_exists('SASWP_Aq_Resize')) {
                     $make_new_dir = $upload_dir . '/schema-and-structured-data-for-wp';
 
                     if (! is_dir($make_new_dir)) {
-                        mkdir( $make_new_dir, 0700 );
+                        wp_mkdir_p( $make_new_dir);
                     }
 
                     if(is_dir($make_new_dir)){

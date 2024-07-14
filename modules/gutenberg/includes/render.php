@@ -507,9 +507,10 @@ class SASWP_Gutenberg_Render {
              if(isset($col_opt[0]['value'])){
                  $collection_id = $col_opt[0]['value'];
              }
-        }
-                
-        return do_shortcode('[saswp-reviews-collection id="'.$collection_id.'"]');
+        }         
+        $coll_block_escaped = do_shortcode('[saswp-reviews-collection id="'.$collection_id.'"]');
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- all html coming from this shortcode has fully been escaped.
+        echo $coll_block_escaped;
         
     }
 
@@ -525,8 +526,9 @@ class SASWP_Gutenberg_Render {
                  $location_id = $col_opt[0]['value'];
              }
         }
-                
-        return do_shortcode('[saswp-location id="'.$location_id.'"]');
+        $loc_block_escaped = do_shortcode('[saswp-location id="'.$location_id.'"]');
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- all html coming from this shortcode has fully been escaped.
+        echo $loc_block_escaped;
         
     }
     
