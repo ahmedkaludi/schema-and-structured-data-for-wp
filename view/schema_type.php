@@ -1323,7 +1323,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $schema_type    = get_post_meta($post_id, 'schema_type', true);
 
                                 $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
-                                $output_escaped = $common_obj->saswp_SASWP_Post_Specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
+                                $output_escaped = $common_obj->saswp_post_specific_schema($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
                                 
                                 if($schema_type == 'Review'){
                                                                         
@@ -1332,7 +1332,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                         $item_reviewed = 'Book';
                                     }
                                     $response          = saswp_get_fields_by_schema_type($post_id, null, $item_reviewed);                                                                                                        
-                                    $output_escaped           .= $common_obj->saswp_SASWP_Post_Specific($schema_type, $response, $post_id, $post_id ,$item_reviewed, null, 1);
+                                    $output_escaped           .= $common_obj->saswp_post_specific_schema($schema_type, $response, $post_id, $post_id ,$item_reviewed, null, 1);
 
                                 }
                                 //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                
@@ -1428,7 +1428,7 @@ function saswp_get_manual_fields_on_ajax() {
 
             $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
             
-            $output_escaped = $common_obj->saswp_SASWP_Post_Specific($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
+            $output_escaped = $common_obj->saswp_post_specific_schema($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped
             echo $output_escaped;
 

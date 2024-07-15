@@ -25,11 +25,11 @@ class SASWP_Post_Specific {
             
                 $mapping_local_sub = SASWP_DIR_NAME . '/core/array-list/local-sub-business.php';
                 
-		if ( file_exists( $mapping_local_sub ) ) {
-                    $this->_local_sub_business = include $mapping_local_sub;
-		}
+                if ( file_exists( $mapping_local_sub ) ) {
+                            $this->_local_sub_business = include $mapping_local_sub;
+                }
                 
-                if($this->_common_view == null){
+                if( $this->_common_view == null ){
                     require_once SASWP_DIR_NAME.'/view/class-saswp-view-common.php';  
                     $this->_common_view = new SASWP_View_Common();
                 }
@@ -41,9 +41,9 @@ class SASWP_Post_Specific {
          */                       
         public function SASWP_Post_Specific_hooks() {
 
-                $taxterm = array('category', 'post_tag', 'product_cat', 'product_tag');
+                $taxterm = array( 'category', 'post_tag', 'product_cat', 'product_tag' );
 
-                foreach ( $taxterm as $value) {
+                foreach ( $taxterm as $value ) {
                     add_action( "{$value}_edit_form_fields", array( $this, 'saswp_taxonomy_edit_custom_meta_box' ),10,2 );
                     add_action( "created_{$value}", array($this, "saswp_save_term_fields" ));
                     add_action( "edited_{$value}", array($this, "saswp_save_term_fields" ));	
@@ -55,11 +55,11 @@ class SASWP_Post_Specific {
                            
 		        add_action( 'add_meta_boxes', array( $this, 'saswp_post_specifc_add_meta_boxes' ),10,2 );
                                 
-		        add_action( 'save_post', array( $this, 'SASWP_Post_Specific_save_fields' ) );
+		        add_action( 'save_post', array( $this, 'saswp_post_specific_save_fields' ) );
 
-                add_action( 'add_attachment', array( $this, 'SASWP_Post_Specific_save_fields' ) );
+                add_action( 'add_attachment', array( $this, 'saswp_post_specific_save_fields' ) );
                 
-                add_action( 'edit_attachment', array( $this, 'SASWP_Post_Specific_save_fields' ) );
+                add_action( 'edit_attachment', array( $this, 'saswp_post_specific_save_fields' ) );
                
                 add_action( 'wp_ajax_saswp_get_sub_business_ajax', array($this,'saswp_get_sub_business_ajax'));
                 
@@ -70,7 +70,7 @@ class SASWP_Post_Specific {
                 
         }
 
-        public function saswp_taxonomy_edit_custom_meta_box($term, $taxonomy){
+        public function saswp_taxonomy_edit_custom_meta_box( $term, $taxonomy ) {
 
             wp_nonce_field( 'taxonomy_specific_nonce_data', 'taxonomy_specific_nonce' );  
 
@@ -82,7 +82,7 @@ class SASWP_Post_Specific {
             ?>
             <tr class="saswp-modify-schema-on-taxonomy">
             <th>Schema & Structured Data for WP & AMP</th>
-            <td><?php $this->saswp_post_meta_box_callback($post); ?></td>
+            <td><?php $this->saswp_post_meta_box_callback( $post ); ?></td>
             </tr>
           <?php
             
@@ -103,28 +103,28 @@ class SASWP_Post_Specific {
             if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }  
-            if(!current_user_can( saswp_current_user_can()) ) {
+            if ( ! current_user_can( saswp_current_user_can()) ) {
                 die( '-1' );    
             }
                             
-                $post_id        = isset($_POST['post_id'])?intval($_POST['post_id']):'';
-                $schema_id      = isset($_POST['schema_id'])?intval($_POST['schema_id']):'';            
+                $post_id        = isset( $_POST['post_id']) ? intval( $_POST['post_id'] ):'';
+                $schema_id      = isset( $_POST['schema_id']) ? intval( $_POST['schema_id'] ):'';            
              
-                saswp_delete_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id); 
+                saswp_delete_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema_id ); 
 
-                $meta_field = saswp_get_fields_by_schema_type($schema_id);
+                $meta_field = saswp_get_fields_by_schema_type( $schema_id );
                 
-                if($meta_field){
-                    foreach( $meta_field as $field){
-                        saswp_delete_post_meta($post_id, $field['id']); 
+                if ( $meta_field){
+                    foreach( $meta_field as $field ) {
+                        saswp_delete_post_meta( $post_id, $field['id'] ); 
                     }
                 }                             
-                echo wp_json_encode(array('status'=> 't', 'msg'=>esc_html__( 'Schema has been restored', 'schema-and-structured-data-for-wp' )));                
+                echo wp_json_encode( array( 'status'=> 't', 'msg'=> esc_html__( 'Schema has been restored', 'schema-and-structured-data-for-wp' )) );                
                 wp_die();
              
             }
 
-        public function saswp_get_schema_fields_on_ajax($post_id, $schema_id, $item_reviewed = null){
+        public function saswp_get_schema_fields_on_ajax( $post_id, $schema_id, $item_reviewed = null ) {
 
                 $response = array();
 
@@ -173,7 +173,7 @@ class SASWP_Post_Specific {
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             } 
-            if(!current_user_can( saswp_current_user_can()) ) {
+            if( ! current_user_can( saswp_current_user_can() ) ) {
                 die( '-1' );    
             } 
             
@@ -188,7 +188,7 @@ class SASWP_Post_Specific {
              $response = $this->saswp_get_schema_fields_on_ajax($post_id, $schema_id);                                            
              $saswp_meta_fields = array_filter($response); 
              
-             $output            = $this->_common_view->saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, null, $disabled, $modify_this, $modified ); 
+             $output            = $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post_id, $schema_id, null, $disabled, $modify_this, $modified ); 
 
              if($schema_type == 'Review' || $schema_type == 'ReviewNewsArticle'){
                         
@@ -198,7 +198,7 @@ class SASWP_Post_Specific {
                 }
                 $response = $this->saswp_get_schema_fields_on_ajax($post_id, $schema_id, $item_reviewed);                                                                
                 $saswp_meta_fields = array_filter($response);                           
-                $output           .= $this->_common_view->saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post_id, $schema_id ,$item_reviewed, $disabled, $modify_this, $modified);
+                $output           .= $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post_id, $schema_id ,$item_reviewed, $disabled, $modify_this, $modified);
                 
             }
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                
@@ -213,7 +213,7 @@ class SASWP_Post_Specific {
         * @since 1.0.8 
         * @return type html string
         */
-         public  function saswp_get_item_reviewed_fields() {
+         public function saswp_get_item_reviewed_fields() {
 
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
@@ -221,7 +221,7 @@ class SASWP_Post_Specific {
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             } 
-            if(!current_user_can( saswp_current_user_can()) ) {
+            if( ! current_user_can( saswp_current_user_can() ) ) {
                 die( '-1' );    
             }
             
@@ -242,7 +242,7 @@ class SASWP_Post_Specific {
             
             $response          = saswp_get_fields_by_schema_type($schema_id, null, $item_reviewed);                                                              
             $saswp_meta_fields = array_filter($response);                
-            $output_escaped    = $this->_common_view->saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post_id, $schema_id, $item_reviewed, $disabled, $modify_this); 
+            $output_escaped    = $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post_id, $schema_id, $item_reviewed, $disabled, $modify_this); 
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                                     
             echo $output_escaped;
 
@@ -329,7 +329,7 @@ class SASWP_Post_Specific {
                                                                                                                       
         }
 
-        public function saswp_post_specifc_add_meta_boxes($post_type, $post) {
+        public function saswp_post_specifc_add_meta_boxes( $post_type, $post ) {
             
             global $saswp_metaboxes;
                                                          
@@ -367,7 +367,7 @@ class SASWP_Post_Specific {
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
-            if(!current_user_can( saswp_current_user_can()) ) {
+            if ( ! current_user_can( saswp_current_user_can() ) ) {
                 die( '-1' );    
             }
             $meta_name   = '';
@@ -398,12 +398,12 @@ class SASWP_Post_Specific {
                 }                                                           
             }           
             if ( ! empty( $meta_array) ) {
-             echo wp_json_encode($meta_array);   
+             echo wp_json_encode( $meta_array );   
             }            
             wp_die();
         }
         
-        public function saswp_post_meta_box_fields($post){  
+        public function saswp_post_meta_box_fields( $post ) {
                         			                
              $response_html     = '';
              $disable_btn       = '';
@@ -482,7 +482,7 @@ class SASWP_Post_Specific {
                      $response          = @saswp_get_fields_by_schema_type($schema->ID);                       
                      $saswp_meta_fields = array_filter($response); 
                      if($modify_this){
-                        $output            = $this->_common_view->saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified ); 
+                        $output            = $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified ); 
                      }                    
                      
                      
@@ -498,7 +498,7 @@ class SASWP_Post_Specific {
                          }
                          $response          = @saswp_get_fields_by_schema_type($schema->ID, null, $item_reviewed);                                                              
                          $saswp_meta_fields = array_filter($response);                           
-                         $output           .= $this->_common_view->saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed, $disabled, $modify_this, $modified);
+                         $output           .= $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed, $disabled, $modify_this, $modified);
                          
                      }
                      
@@ -641,11 +641,11 @@ class SASWP_Post_Specific {
              return $response_html;   
         }
                 
-        public function saswp_post_meta_box_callback($post) { 
+        public function saswp_post_meta_box_callback( $post ) { 
                                                  
 		        wp_nonce_field( 'post_specific_data', 'post_specific_nonce' ); 
                 //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                 
-                echo $this->saswp_post_meta_box_fields($post);                                             
+                echo $this->saswp_post_meta_box_fields( $post );                                             
                                                                                                                                                                    		
         }        
         
@@ -675,7 +675,7 @@ class SASWP_Post_Specific {
          * @return type null
          * @since version 1.0.4
          */
-	public function SASWP_Post_Specific_save_fields( $post_id ) {
+	public function saswp_post_specific_save_fields( $post_id ) {
                                             
 		if ( ! isset( $_POST['post_specific_nonce'] ) ) return $post_id;					        
 		if ( !wp_verify_nonce( $_POST['post_specific_nonce'], 'post_specific_data' ) ) return $post_id;			

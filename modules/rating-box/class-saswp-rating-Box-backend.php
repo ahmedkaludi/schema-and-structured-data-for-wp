@@ -13,16 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class SASWP_Rating_Box_Backend {
     
- private $screen = array();
+        private $screen = array();
     
         public function __construct() {    
      
-		add_action( 'add_meta_boxes', array( $this, 'saswp_review_add_meta_box' ) );
-		add_action( 'save_post', array( $this, 'saswp_review_save' ) );
+            add_action( 'add_meta_boxes', array( $this, 'saswp_review_add_meta_box' ) );
+            add_action( 'save_post', array( $this, 'saswp_review_save' ) );
                 
-	}
+	    }
         
-        function saswp_review_add_meta_box($post) {
+        public function saswp_review_add_meta_box($post) {
             
             global $sd_data, $saswp_metaboxes;          
                                       
@@ -52,7 +52,7 @@ class SASWP_Rating_Box_Backend {
                }                          
           }
        }
-        function saswp_review_get_meta( $value ) {
+       public function saswp_review_get_meta( $value ) {
             
             global $post;
             
@@ -64,7 +64,7 @@ class SASWP_Rating_Box_Backend {
                     return false;
             }
     }
-        function saswp_meta_box_callback( $post) {
+    public function saswp_meta_box_callback( $post) {
             
                 wp_nonce_field( 'saswp_review_nonce', 'saswp_review_nonce' ); 
                 
@@ -187,7 +187,7 @@ class SASWP_Rating_Box_Backend {
                     <?php
         }
    
-        function saswp_review_save( $post_id ) {
+        public function saswp_review_save( $post_id ) {
             
                 if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
                 if ( ! isset( $_POST['saswp_review_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_review_nonce'], 'saswp_review_nonce' ) ) return;
@@ -431,5 +431,5 @@ class SASWP_Rating_Box_Backend {
         }  
 }
 if (class_exists('SASWP_Rating_Box_Backend')) {
-	new SASWP_Rating_Box_Backend;
+	new SASWP_Rating_Box_Backend();
 };

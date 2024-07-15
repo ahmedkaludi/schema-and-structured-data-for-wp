@@ -16,11 +16,11 @@ class SASWP_Flexmls_List extends flexmlsConnectPageCore{
         public $shorcode = array();
         protected $search_criteria;
         
-	function __construct() {  
+	public function __construct() {  
                                                                         
-            add_filter( 'the_content', array($this,'saswp_content'),9);            
+              add_filter( 'the_content', array($this,'saswp_content'),9);            
 	          add_action('wp_footer', array($this, 'saswp_get_flexidx_listing'));            
-            add_action('amp_post_template_footer',array($this, 'saswp_get_flexidx_listing'));                
+              add_action('amp_post_template_footer',array($this, 'saswp_get_flexidx_listing'));                
 	}
         public function saswp_get_flexidx_listing() {
             
@@ -210,5 +210,5 @@ class SASWP_Flexmls_List extends flexmlsConnectPageCore{
         }        		
 }
 if (class_exists('SASWP_Flexmls_List')) {
-	new SASWP_Flexmls_List;
+	new SASWP_Flexmls_List();
 };

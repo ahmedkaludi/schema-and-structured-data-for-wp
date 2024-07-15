@@ -278,7 +278,7 @@ if(!class_exists('SASWP_Aq_Resize')) {
         /**
          * Callback to overwrite WP computing of thumbnail measures
          */
-        function aq_upscale( $default, $orig_w, $orig_h, $dest_w, $dest_h, $crop ) {
+        public function aq_upscale( $default, $orig_w, $orig_h, $dest_w, $dest_h, $crop ) {
             if ( ! $crop ) return null; // Let the wordpress default function handle this.
 
             // Here is the point we allow to use larger image size than the original one.

@@ -113,7 +113,7 @@ require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
 require_once SASWP_DIR_NAME.'/core/global.php';
 //Module files load
 require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-saswp-gutenberg.php';
-require_once SASWP_DIR_NAME.'/modules/elementor/saswp-elementor-loader.php';
+require_once SASWP_DIR_NAME.'/modules/elementor/class-saswp-elementor-loader.php';
 
 //Loading Third party files
 require_once SASWP_DIR_NAME.'/core/3rd-party/class-saswp-aq-resize.php';

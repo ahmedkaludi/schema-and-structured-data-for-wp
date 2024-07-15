@@ -45,7 +45,7 @@ class SASWP_View_Common {
                 
         }
     
-    public function saswp_get_dynamic_html($schema_id, $meta_name, $index, $data){
+    public function saswp_get_dynamic_html( $schema_id, $meta_name, $index, $data ) {
                 
                 $meta_fields = array();
                 $response    = '';
@@ -204,7 +204,7 @@ class SASWP_View_Common {
                  
         }
         
-    public function saswp_schema_fields_html_on_the_fly($schema_type, $schema_id, $post_id, $disabled_schema=null, $modify_this=null, $modified = null){
+    public function saswp_schema_fields_html_on_the_fly( $schema_type, $schema_id, $post_id, $disabled_schema=null, $modify_this=null, $modified = null ) {
             
                     $howto_data        = array();                    
                     $tabs_fields       = '';
@@ -348,7 +348,7 @@ class SASWP_View_Common {
             
         }
         
-    public function saswp_SASWP_Post_Specific($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null, $modified= null) { 
+    public function saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null, $modified= null) { 
                                 
                 global $sd_data;                        
 

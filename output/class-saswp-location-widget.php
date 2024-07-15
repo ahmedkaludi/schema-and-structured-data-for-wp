@@ -5,7 +5,7 @@ class SASWP_Location_Widget extends WP_Widget {
 /**
  * Register widget with WordPress.
  */
-function __construct() {
+public function __construct() {
                                
     parent::__construct(
         'saswp_location_widget', // Base ID
