@@ -842,7 +842,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                            ?>                          
                         </select>               
                       
-                       <input type="text" id="saswp_item_list_custom" name="saswp_item_list_custom" placeholder="classname" value="<?php echo esc_attr( $item_list_custom); ?>" class="<?php if($item_list_enable == 1 && $item_list_tags == 'custom'){echo ''; }else{ echo 'saswp_hide'; } ?>">
+                       <input type="text" id="saswp_item_list_custom" name="saswp_item_list_custom" placeholder="<?php echo esc_attr__('classname', 'schema-and-structured-data-for-wp' ) ?>" value="<?php echo esc_attr( $item_list_custom); ?>" class="<?php if($item_list_enable == 1 && $item_list_tags == 'custom'){echo ''; }else{ echo 'saswp_hide'; } ?>">
                         
                        </div> 
                            <p class="saspw-item-list-note <?php if($item_list_enable == 1){echo ''; }else{ echo 'saswp_hide'; } ?>"><?php echo esc_html__( 'It will collect all the data from selected tag to a itemlist', 'schema-and-structured-data-for-wp' ); ?></p>

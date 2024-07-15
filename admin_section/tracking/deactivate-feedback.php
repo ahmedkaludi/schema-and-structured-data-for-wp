@@ -1,21 +1,20 @@
 <?php 
 $reasons = array(
-    	1 => '<li><label><input type="radio" name="saswp_disable_reason" value="temporary"/>' . __('It is only temporary', 'schema-and-structured-data-for-wp' ) . '</label></li>',
-		2 => '<li><label><input type="radio" name="saswp_disable_reason" value="stopped"/>' . __('I stopped using Schema plugin on my site', 'schema-and-structured-data-for-wp' ) . '</label></li>',
-		3 => '<li><label><input type="radio" name="saswp_disable_reason" value="missing"/>' . __('I miss a feature', 'schema-and-structured-data-for-wp' ) . '</label></li>
-		<li><input class="mb-box missing" type="text" name="saswp_disable_text[]" value="" placeholder="Please describe the feature"/></li>',
-		4 => '<li><label><input type="radio" name="saswp_disable_reason" value="technical"/>' . __('Technical Issue', 'schema-and-structured-data-for-wp' ) . '</label></li>
-		<li><textarea class="mb-box technical" name="saswp_disable_text[]" placeholder="' . __('How Can we help? Please describe your problem', 'schema-and-structured-data-for-wp' ) . '"></textarea></li>',
-		5 => '<li><label><input type="radio" name="saswp_disable_reason" value="another plugin"/>' . __('I switched to another plugin', 'schema-and-structured-data-for-wp' ) .  '</label></li>
-		<li><input class="mb-box another" type="text" name="saswp_disable_text[]" value="" placeholder="Name of the plugin"/></li>',
-		6 => '<li><label><input type="radio" name="saswp_disable_reason" value="other"/>' . __('Other reason', 'schema-and-structured-data-for-wp' ) . '</label></li>
-		<li><textarea class="mb-box other" name="saswp_disable_text[]" placeholder="' . __('Please specify, if possible', 'schema-and-structured-data-for-wp' ) . '"></textarea></li>',
+    	1 => '<li><label><input type="radio" name="saswp_disable_reason" value="temporary"/>' . esc_html__('It is only temporary', 'schema-and-structured-data-for-wp' ) . '</label></li>',
+		2 => '<li><label><input type="radio" name="saswp_disable_reason" value="stopped"/>' . esc_html__('I stopped using Schema plugin on my site', 'schema-and-structured-data-for-wp' ) . '</label></li>',
+		3 => '<li><label><input type="radio" name="saswp_disable_reason" value="missing"/>' . esc_html__('I miss a feature', 'schema-and-structured-data-for-wp' ) . '</label></li>
+		<li><input class="mb-box missing" type="text" name="saswp_disable_text[]" value="" placeholder="'. esc_attr__('Please describe the feature', 'schema-and-structured-data-for-wp' ) .'"/></li>',
+		4 => '<li><label><input type="radio" name="saswp_disable_reason" value="technical"/>' . esc_html__('Technical Issue', 'schema-and-structured-data-for-wp' ) . '</label></li>
+		<li><textarea class="mb-box technical" name="saswp_disable_text[]" placeholder="' . esc_attr__('How Can we help? Please describe your problem', 'schema-and-structured-data-for-wp' ) . '"></textarea></li>',
+		5 => '<li><label><input type="radio" name="saswp_disable_reason" value="another plugin"/>' . esc_html__('I switched to another plugin', 'schema-and-structured-data-for-wp' ) .  '</label></li>
+		<li><input class="mb-box another" type="text" name="saswp_disable_text[]" value="" placeholder="' . esc_attr__('Name of the plugin', 'schema-and-structured-data-for-wp' ) . '"/></li>',
+		6 => '<li><label><input type="radio" name="saswp_disable_reason" value="other"/>' . esc_html__('Other reason', 'schema-and-structured-data-for-wp' ) . '</label></li>
+		<li><textarea class="mb-box other" name="saswp_disable_text[]" placeholder="' . esc_attr__('Please specify, if possible', 'schema-and-structured-data-for-wp' ) . '"></textarea></li>',
     );
 
 shuffle( $reasons );
 
 ?>
-
 
 <div id="saswp-reloaded-feedback-overlay" style="display: none;">
     <div id="saswp-reloaded-feedback-content">

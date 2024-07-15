@@ -436,7 +436,7 @@ class SASWP_Post_Specific {
             
              
                 $cus_schema .= '<div id="saswp_specific_custom" class="saswp-post-specific-wrapper saswp_hide">';                                      
-                $cus_schema .= '<div class="'.((isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'saswp_hide' : '').'"><textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85">'
+                $cus_schema .= '<div class="'.((isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'saswp_hide' : '').'"><textarea style="margin-left:5px;" placeholder="'.esc_attr__('JSON-LD', 'schema-and-structured-data-for-wp' ).'" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85">'
                             .  $custom_markp
                             .  '</textarea>';
                 $cus_schema .= '<span><strong>'.esc_html__( 'Note', 'schema-and-structured-data-for-wp' ).': </strong>'.esc_html__( 'Please enter the valid Json-ld. Whatever you enter will be added in page source', 'schema-and-structured-data-for-wp' ).'</span>';
