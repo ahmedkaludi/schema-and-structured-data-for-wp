@@ -35,13 +35,13 @@ function saswp_register_schema_output() {
       //Get schema data for post query
     $post_types = \WPGraphQL::get_allowed_post_types();
 
-    if(!empty($post_types) && is_array($post_types)){
+    if ( ! empty( $post_types) && is_array($post_types) ) {
      
-        foreach ($post_types as $post_type) {
+        foreach ( $post_types as $post_type) {
 
                 $post_type_object = get_post_type_object($post_type);
 
-                if (isset($post_type_object->graphql_single_name)){
+                if (isset($post_type_object->graphql_single_name) ) {
                  
                     register_graphql_field( $post_type_object->graphql_single_name, 'saswpSchema', [
                         
@@ -52,7 +52,7 @@ function saswp_register_schema_output() {
                             $restApiObj = new SASWP_Output_Rest_Api_Service();
                             $response = $restApiObj->get_schema($post->ID, 'saswpSchema');
                             
-                            if(is_array($response) && !empty($response)){
+                            if ( is_array( $response) && !empty($response) ) {
 
                                 return [ 'json_ld' => wp_json_encode($response, JSON_UNESCAPED_SLASHES )];
                             }else{
@@ -72,7 +72,7 @@ function saswp_register_schema_output() {
                             $restApiObj = new SASWP_Output_Rest_Api_Service();
                             $response = $restApiObj->get_schema($post->ID, 'saswpCustomSchema');
                             
-                            if(is_array($response) && !empty($response)){
+                            if ( is_array( $response) && !empty($response) ) {
 
                                 return [ 'json_ld' => wp_json_encode($response, JSON_UNESCAPED_SLASHES )];
                             }else{
@@ -92,7 +92,7 @@ function saswp_register_schema_output() {
                             $restApiObj = new SASWP_Output_Rest_Api_Service();
                             $response = $restApiObj->get_schema($post->ID, 'saswpUserSchema');
                             
-                            if(is_array($response) && !empty($response)){
+                            if ( is_array( $response) && !empty($response) ) {
 
                                 return [ 'json_ld' => wp_json_encode($response, JSON_UNESCAPED_SLASHES )];
                             }else{
@@ -112,7 +112,7 @@ function saswp_register_schema_output() {
                             $restApiObj = new SASWP_Output_Rest_Api_Service();
                             $response = $restApiObj->get_schema($post->ID, 'saswpOtherSchema');
                             
-                            if(is_array($response) && !empty($response)){
+                            if ( is_array( $response) && !empty($response) ) {
 
                                 return [ 'json_ld' => wp_json_encode($response, JSON_UNESCAPED_SLASHES )];
                             }else{

@@ -37,7 +37,7 @@ class SASWP_View_Common {
                     $this->schema_type_element = $repeater_fields['schema_type_element'];
                     $this->_meta_name          = $repeater_fields['meta_name'];
                     
-                    foreach($this->item_list_item as $item){
+                    foreach( $this->item_list_item as $item){
                         $this->itemlist_meta[$item]  = @saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
                     }
                     $this->_meta_name['itemlist_item'] = $this->itemlist_meta;
@@ -58,7 +58,7 @@ class SASWP_View_Common {
                     $itemval = $this->_meta_name[$meta_name][$item_type];
                     if($itemval){
                          
-                         foreach($itemval as $key => $val){
+                         foreach( $itemval as $key => $val){
                              $itemval[$key]['name'] = $val['id'];
                              unset($itemval[$key]['id']);
                          }
@@ -88,11 +88,11 @@ class SASWP_View_Common {
                                                 
                                                 if( isset($data[$meta_field['name'].'_id']) && wp_get_attachment_url( $data[$meta_field['name'].'_id'] ) ){
                                                  
-                                                $src = wp_get_attachment_url(esc_attr($data[$meta_field['name'].'_id']));
+                                                $src = wp_get_attachment_url(esc_attr( $data[$meta_field['name'].'_id']));
                                                     
                                                 $img_prev = '<div class="saswp_image_thumbnail">'
-                                                           . '<img class="saswp_image_prev" src="'.esc_url($src).'">'
-                                                           . '<a data-id="'.esc_attr($name).'" href="#" class="saswp_prev_close">X</a>'
+                                                           . '<img class="saswp_image_prev" src="'. esc_url( $src).'">'
+                                                           . '<a data-id="'. esc_attr( $name).'" href="#" class="saswp_prev_close">X</a>'
                                                            . '</div>';     
 
                                                 }
@@ -105,10 +105,10 @@ class SASWP_View_Common {
                                                 }
                                                 
                                                 $input = '<fieldset>
-                                                        <input style="width:79%" type="text" id="'.esc_attr($name).'" name="'.esc_attr($name).'" value="'.esc_url($src).'">
-                                                        <input type="hidden" data-id="'.esc_attr($name).'_id" name="'.esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).'_id]'.'" id="'.esc_attr($name).'_id" value="'.esc_attr($img_val).'">
-                                                        <input data-id="media" style="width: 19%" class="button" id="'.esc_attr($name).'_button" name="'.esc_attr($name).'_button" type="button" value="Upload">
-                                                        <div class="saswp_image_div_'.esc_attr($name).'">'.$img_prev.'</div>
+                                                        <input style="width:79%" type="text" id="'. esc_attr( $name).'" name="'. esc_attr( $name).'" value="'. esc_url( $src).'">
+                                                        <input type="hidden" data-id="'. esc_attr( $name).'_id" name="'. esc_attr( $meta_name).'_'. esc_attr( $schema_id).'['. esc_attr( $index).']['. esc_attr( $meta_field['name']).'_id]'.'" id="'. esc_attr( $name).'_id" value="'. esc_attr( $img_val).'">
+                                                        <input data-id="media" style="width: 19%" class="button" id="'. esc_attr( $name).'_button" name="'. esc_attr( $name).'_button" type="button" value="Upload">
+                                                        <div class="saswp_image_div_'. esc_attr( $name).'">'.$img_prev.'</div>
                                                         </fieldset>';
                                                 
                                             
@@ -123,8 +123,8 @@ class SASWP_View_Common {
 
                                 $input = sprintf(
                                     '<textarea style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',                                                
-                                    esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
-                                    esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
+                                    esc_attr( $meta_field['name']).'_'. esc_attr( $index).'_'. esc_attr( $schema_id),
+                                    esc_attr( $meta_name).'_'. esc_attr( $schema_id).'['. esc_attr( $index).']['. esc_attr( $meta_field['name']).']',
                                     esc_textarea($textarea_val)
                                 );
                                                     
@@ -134,8 +134,8 @@ class SASWP_View_Common {
                                                                                      
 					$input = sprintf(
 						'<select id="%s" name="%s">',                                                
-						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
-						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']'
+						esc_attr( $meta_field['name']).'_'. esc_attr( $index).'_'. esc_attr( $schema_id),
+						esc_attr( $meta_name).'_'. esc_attr( $schema_id).'['. esc_attr( $index).']['. esc_attr( $meta_field['name']).']'
 					);
 					foreach ( $meta_field['options'] as $key => $value ) {
                                             
@@ -144,7 +144,7 @@ class SASWP_View_Common {
 							'<option %s value="%s">%s</option>',
 							$data[$meta_field['name']] === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							esc_html($value )
+							esc_html( $value )
 						);
 					}
 					$input .= '</select>';
@@ -152,14 +152,14 @@ class SASWP_View_Common {
                                         
                                 case 'checkbox':
                                     $check_val = '';
-                                    if(isset($data[$meta_field['name']])){
+                                    if ( isset( $data[$meta_field['name']]) ) {
                                         $check_val = $data[$meta_field['name']];
                                     }
                                                                         
 					$input = sprintf(
 						'<input id="%s" name="%s" type="checkbox" value="1" %s>', 
-                                                esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
-                                                esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
+                                                esc_attr( $meta_field['name']).'_'. esc_attr( $index).'_'. esc_attr( $schema_id),
+                                                esc_attr( $meta_name).'_'. esc_attr( $schema_id).'['. esc_attr( $index).']['. esc_attr( $meta_field['name']).']',
                                                 $check_val === '1' ? 'checked' : ''												
 						);
 					break;           
@@ -178,10 +178,10 @@ class SASWP_View_Common {
                                      $input = sprintf(
 						'<input class="%s"  style="width:100%%" id="%s" name="%s" type="%s" value="%s">',
                                                 $class,
-						esc_attr($meta_field['name']).'_'.esc_attr($index).'_'.esc_attr($schema_id),
-						esc_attr($meta_name).'_'.esc_attr($schema_id).'['.esc_attr($index).']['.esc_attr($meta_field['name']).']',
-						esc_attr($meta_field['type']),
-						esc_attr($data_value)                                            
+						esc_attr( $meta_field['name']).'_'. esc_attr( $index).'_'. esc_attr( $schema_id),
+						esc_attr( $meta_name).'_'. esc_attr( $schema_id).'['. esc_attr( $index).']['. esc_attr( $meta_field['name']).']',
+						esc_attr( $meta_field['type']),
+						esc_attr( $data_value)                                            
                                              );
                                         
 					
@@ -212,7 +212,7 @@ class SASWP_View_Common {
                     
                     $schema_type_fields = $this->schema_type_element;
                     
-                    if($schema_type !=''){
+                    if($schema_type !='' ) {
                         
                         $type_fields = array_key_exists($schema_type, $schema_type_fields) ? $schema_type_fields[$schema_type]:'';  
                         
@@ -220,32 +220,32 @@ class SASWP_View_Common {
                        
                     if($schema_type == 'ItemList'){
                          $itemlist_sub_type     = get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
-                         $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
+                         $tabs_fields .= '<div schema-id="'. esc_attr( $schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
                         
                     }else{
                     
-                        if(empty($disabled_schema)){
+                        if(empty($disabled_schema) ) {
                         
                         if( $modified || $modify_this == 1){
-                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
+                             $tabs_fields .= '<div schema-id="'. esc_attr( $schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
                         }else{
-                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle saswp_hide">';
+                             $tabs_fields .= '<div schema-id="'. esc_attr( $schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle saswp_hide">';
                         }
 
                         }else{                         
-                            $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle saswp_hide">';                     
+                            $tabs_fields .= '<div schema-id="'. esc_attr( $schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle saswp_hide">';                     
                         }
                                                 
                     } 
                         
-                     foreach($type_fields as $key => $value){
+                     foreach( $type_fields as $key => $value){
                             
                            
                             $howto_data[$value.'_'.$schema_id]  = saswp_get_post_meta($post_id, $value.'_'.$schema_id, true);  
                             $prosCheckBoxMeta = saswp_get_post_meta($post_id,"saswp_schema_type_product_pros_enable_pros", true);                            
                                                           
                             $enablePros ='';
-                            if(isset($prosCheckBoxMeta)){
+                            if ( isset( $prosCheckBoxMeta) ) {
                                 $enablePros = 'checked';
                             }
                             $prosCheckboxFalse = false;
@@ -257,7 +257,7 @@ class SASWP_View_Common {
                                         <th>
                                         <label for="saswp_schema_type_product_pros_enable_pros"><b>'.esc_html__( 'Pros & Cons', 'schema-and-structured-data-for-wp' ).'</b></label>
                                         </th> 
-                                        <td><input type="checkbox" id="saswp_schema_type_product_pros_enable_pros" name="saswp_schema_type_product_pros_enable_pros" value="1" '.esc_attr($enablePros).'>
+                                        <td><input type="checkbox" id="saswp_schema_type_product_pros_enable_pros" name="saswp_schema_type_product_pros_enable_pros" value="1" '. esc_attr( $enablePros).'>
                                         </td>
                                     </tr>
                                 </table>';       
@@ -268,26 +268,26 @@ class SASWP_View_Common {
                                 $tabs_fields .='<div class="thepros_main_section_outer">';
                                 $prosCheckboxFalseClass ="thepros_main_section";
                             }
-                            $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section-main '.$prosCheckboxFalseClass.'" >'; 
+                            $tabs_fields .= '<div class="saswp-'. esc_attr( $key).'-section-main '.$prosCheckboxFalseClass.'" >'; 
                             $hideoldCloseBtn='';
                             if($value == 'product_pros'){
                                 $tabs_fields .="<h3>Pros</h3>";
                                 $hideoldCloseBtn = 'hideoldclosebtn';
-                            }else if($value == 'product_cons'){
+                            }elseif($value == 'product_cons'){
                                 $tabs_fields .="<h3>Cons</h3>";
                                 $hideoldCloseBtn = 'hideoldclosebtn';
                             }             
-                            $tabs_fields .= '<div class="saswp-'.esc_attr($key).'-section" data-id="'.esc_attr($schema_id).'">';                         
-                            if(isset($howto_data[$value.'_'.$schema_id])){
+                            $tabs_fields .= '<div class="saswp-'. esc_attr( $key).'-section" data-id="'. esc_attr( $schema_id).'">';                         
+                            if ( isset( $howto_data[$value.'_'.$schema_id]) ) {
 
                                 $howto_supply = $howto_data[$value.'_'.$schema_id];                                                     
                                 $supply_html  = '';
 
-                                if(!empty($howto_supply)){
+                                if ( ! empty( $howto_supply) ) {
                                     
                                        $i = 0;
                                        $reviewNumber = 1;
-                                       foreach ($howto_supply as $supply){
+                                       foreach ( $howto_supply as $supply){
                                            $supply_html .= '<div class="saswp-'.$key.'-table-div saswp-dynamic-properties" data-id="'.$i.'">';
                                             if($key == 'product_reviews'){
                                                 $supply_html .= "<h3 style='float: left;'>Review ".$reviewNumber."</h3>";
@@ -314,7 +314,7 @@ class SASWP_View_Common {
                                 $btn_array = explode('_',$value);
                             
                                 if($btn_array){
-                                    foreach ($btn_array as $btn){
+                                    foreach ( $btn_array as $btn){
                                         $btn_text .= ucfirst($btn).' ';
                                     }
                                 }
@@ -322,13 +322,13 @@ class SASWP_View_Common {
                             }
                                                         
                             if($value == 'product_pros'){
-                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'New Pros', 'schema-and-structured-data-for-wp' ).'</a>';   
-                            }else if($value == 'product_cons'){
-                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'New Cons', 'schema-and-structured-data-for-wp' ).'</a>';   
+                                $tabs_fields .= '<a itemlist_sub_type="'. esc_attr( $itemlist_sub_type).'" data-id="'. esc_attr( $schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'New Pros', 'schema-and-structured-data-for-wp' ).'</a>';   
+                            }elseif($value == 'product_cons'){
+                                $tabs_fields .= '<a itemlist_sub_type="'. esc_attr( $itemlist_sub_type).'" data-id="'. esc_attr( $schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'.esc_html__( 'New Cons', 'schema-and-structured-data-for-wp' ).'</a>';   
                             }else{
-                                $tabs_fields .= '<a itemlist_sub_type="'.esc_attr($itemlist_sub_type).'" data-id="'.esc_attr($schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'
+                                $tabs_fields .= '<a itemlist_sub_type="'. esc_attr( $itemlist_sub_type).'" data-id="'. esc_attr( $schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'
                                 /* translators: %s: button label */
-                                .esc_html(sprintf(__('Add %s', 'schema-and-structured-data-for-wp'),$btn_text)).
+                                .esc_html( sprintf(__('Add %s', 'schema-and-structured-data-for-wp'),$btn_text)).
                                 '</a>';   
                             }                                                                                                  
                             $tabs_fields .= '</div>';                                                                                                
@@ -358,7 +358,7 @@ class SASWP_View_Common {
 
                     $current_user   = wp_get_current_user();
                                 
-                    if(function_exists('get_avatar_data')){
+                    if ( function_exists( 'get_avatar_data') ) {
                         $author_details	= get_avatar_data($current_user->ID);                
                     }
 
@@ -374,7 +374,7 @@ class SASWP_View_Common {
                         $meta_value = array();
                     if($meta_field['type'] != 'global_mapping'){
                         if($meta_field['type'] != 'repeater'){
-                            $label      = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html( $meta_field['label'] ). '</label>';
+                            $label      = '<label for="' . esc_attr( $meta_field['id']) . '">' . esc_html( $meta_field['label'] ). '</label>';
                             $meta_value = saswp_get_post_meta( $post_id, $meta_field['id'], true );
                         }
                     }                                
@@ -384,11 +384,11 @@ class SASWP_View_Common {
                         
                     }
                                 
-                    if(isset($meta_field['attributes'])){
+                    if ( isset( $meta_field['attributes']) ) {
                         
-                        foreach ($meta_field['attributes'] as $key => $attr ){
+                        foreach ( $meta_field['attributes'] as $key => $attr ){
                             
-                                    $attributes .=''.esc_attr($key).'="'.esc_attr($attr).'"';
+                                    $attributes .=''. esc_attr( $key).'="'. esc_attr( $attr).'"';
                             }
                             
                     }                        
@@ -405,13 +405,13 @@ class SASWP_View_Common {
                                         
                                         $media_value_meta = saswp_get_post_meta( $post_id, $media_key, true ); 
                                         
-                                        if(!empty($media_value_meta)){
+                                        if ( ! empty( $media_value_meta) ) {
                                             $media_value = $media_value_meta;  
                                         }  
 
                                         if (strpos($meta_field['id'], 'image') !== false && empty($media_value_meta)) {
                                                                                             
-                                                if(!empty($f_image_details)){
+                                                if ( ! empty( $f_image_details) ) {
                                                     $media_value['thumbnail'] = $f_image_details[0];
                                                     $media_value['width']     = $f_image_details[1];
                                                     $media_value['height']    = $f_image_details[2];
@@ -428,7 +428,7 @@ class SASWP_View_Common {
                                                   
                                         if (strpos($meta_field['id'], 'organization_logo') !== false && empty($media_value_meta)) {
                                                                                             
-                                                if(isset($sd_data['sd_logo'])){
+                                                if ( isset( $sd_data['sd_logo']) ) {
                                                     $media_value['height']    = $sd_data['sd_logo']['height'];                                                                                         
                                                     $media_value['width']     = $sd_data['sd_logo']['width'];                                                                                         
                                                     $media_value['thumbnail'] = $sd_data['sd_logo']['url']; 
@@ -442,18 +442,18 @@ class SASWP_View_Common {
                                         
                                         if (strpos($meta_field['id'], 'faq_author_image') !== false) {
                                             $media_meta_data = get_post_meta( $post_id, $meta_field['id']);
-                                            if(isset($media_meta_data[0]) && empty($media_meta_data[0])){
+                                            if ( isset( $media_meta_data[0]) && empty($media_meta_data[0]) ) {
                                                 $media_value = array();
                                             }
                                         } 
 
-                                        if(isset($media_value['thumbnail'])){
+                                        if ( isset( $media_value['thumbnail']) ) {
                                             $media_thumbnail =$media_value['thumbnail'];
                                         }
-                                        if(isset($media_value['height'])){
+                                        if ( isset( $media_value['height']) ) {
                                            $media_height =$media_value['height']; 
                                         }
-                                        if(isset($media_value['width'])){
+                                        if ( isset( $media_value['width']) ) {
                                              $media_width =$media_value['width'];
                                         }
                                             
@@ -461,18 +461,18 @@ class SASWP_View_Common {
                                         if($media_thumbnail){
                                             
                                            $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'.esc_url($media_thumbnail).'" />
-                                                         <a data-id="'.esc_attr($meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
+                                                         <img class="saswp_image_prev" src="'. esc_url( $media_thumbnail).'" />
+                                                         <a data-id="'. esc_attr( $meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             
                                         }
 					$input = sprintf(
 						'<fieldset><input style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
                                                 . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.esc_attr($media_height).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.esc_attr($media_width).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.esc_attr($media_thumbnail).'">'                                                
-                                                . '<div class="saswp_image_div_'.esc_attr($meta_field['id']).'">'                                               
+                                                . '<input type="hidden" data-id="'. esc_attr( $meta_field['id']).'_height" class="upload-height" name="'. esc_attr( $meta_field['id']).'_height" id="'. esc_attr( $meta_field['id']).'_height" value="'. esc_attr( $media_height).'">'
+                                                . '<input type="hidden" data-id="'. esc_attr( $meta_field['id']).'_width" class="upload-width" name="'. esc_attr( $meta_field['id']).'_width" id="'. esc_attr( $meta_field['id']).'_width" value="'. esc_attr( $media_width).'">'
+                                                . '<input type="hidden" data-id="'. esc_attr( $meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'. esc_attr( $meta_field['id']).'_thumbnail" id="'. esc_attr( $meta_field['id']).'_thumbnail" value="'. esc_attr( $media_thumbnail).'">'                                                
+                                                . '<div class="saswp_image_div_'. esc_attr( $meta_field['id']).'">'                                               
                                                 . $image_pre                                                 
                                                 . '</div>'
                                                 .'</fieldset>',
@@ -527,7 +527,7 @@ class SASWP_View_Common {
 							'<option %s value="%s">%s</option>',
 							$meta_value === $meta_field_value ? 'selected' : '',
 							$meta_field_value,
-							esc_html($value )
+							esc_html( $value )
 						);
 					}
 					$input .= '</select>';
@@ -566,9 +566,9 @@ class SASWP_View_Common {
                                             
                                                 $meta_field_selected = '';
                                                 
-                                                if(isset($meta_value)){
+                                                if ( isset( $meta_value) ) {
                                                     
-                                                    if(in_array($key, $meta_value)){
+                                                    if(in_array($key, $meta_value) ) {
 
                                                     $meta_field_selected = 'selected';    
 
@@ -593,9 +593,9 @@ class SASWP_View_Common {
 						$meta_field['id'],
 						$meta_value
 					);
-                                        if(isset($meta_field['note'])){
+                                        if ( isset( $meta_field['note']) ) {
                                             
-                                          $input .='<p>'.esc_html($meta_field['note']).'</p>';  
+                                          $input .='<p>'.esc_html( $meta_field['note']).'</p>';  
                                           
                                         }
 					break;
@@ -619,7 +619,7 @@ class SASWP_View_Common {
 						$meta_field['type'],
 						$meta_value                                                                                                 
 					   );
-                                            if(isset($meta_field['note'])){
+                                            if ( isset( $meta_field['note']) ) {
                                             $input .='<p>'.$meta_field['note'].'</p>';  
                                            }
                                          break;	
@@ -648,11 +648,11 @@ class SASWP_View_Common {
                           )
                           {
                             $output .= '<tr class="saswp-rating-review-'.strtolower($schema_type).'"><th>'.$label.'</th><td>'.$input.'</td></tr>'; 
-                          }else if($schema_type == 'Review' && $meta_field['id'] != 'saswp_review_schema_enable_rating_'.$schema_id) {
+                          }elseif($schema_type == 'Review' && $meta_field['id'] != 'saswp_review_schema_enable_rating_'.$schema_id) {
                             
                             $output .= '<tr class="saswp-review-tr"><th>'.$label.'</th><td>'.$input.'</td></tr>';   
                               
-                          }else if($meta_field['id'] != 'product_pros_'.$schema_id){
+                          }elseif($meta_field['id'] != 'product_pros_'.$schema_id){
                             if($meta_field['type'] != 'global_mapping'){
                                 $output .= '<tr class="saswp-product-pros"><th>'.$label.'</th><td>'.$input.'</td></tr>';  
                             } 
@@ -664,16 +664,16 @@ class SASWP_View_Common {
                 
                      $tabs_fields  = '';
                      
-                     if(empty($disabled_schema)){
+                     if(empty($disabled_schema) ) {
                          
                          if($modified  ||$modify_this == 1){
-                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle">';    
+                             $tabs_fields .= '<div schema-id="'. esc_attr( $schema_id).'" class="saswp-table-create-onload saswp-ps-toggle">';    
                          }else{
-                             $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle saswp_hide">'; 
+                             $tabs_fields .= '<div schema-id="'. esc_attr( $schema_id).'" class="saswp-table-create-onload saswp-ps-toggle saswp_hide">'; 
                          }
                                                      
                      }else{                         
-                         $tabs_fields .= '<div schema-id="'.esc_attr($schema_id).'" class="saswp-table-create-onload saswp-ps-toggle saswp_hide">';                          
+                         $tabs_fields .= '<div schema-id="'. esc_attr( $schema_id).'" class="saswp-table-create-onload saswp-ps-toggle saswp_hide">';                          
                      }
                      
                      
@@ -698,7 +698,7 @@ class SASWP_View_Common {
                             
 			if ( isset($meta_field['id']) && isset( $post_meta[ $meta_field['id'] ] ) ) {
                             
-				if(isset($meta_field['type'])){
+				if ( isset( $meta_field['type']) ) {
                     switch ( $meta_field['type'] ) {
                                         
                         case 'media':                                                                                                  
@@ -735,7 +735,7 @@ class SASWP_View_Common {
     				}
                 }
 				saswp_update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
-			} else if ( isset($meta_field['type']) && $meta_field['type'] === 'checkbox' ) {
+			} elseif ( isset($meta_field['type']) && $meta_field['type'] === 'checkbox' ) {
 				saswp_delete_post_meta( $post_id, $meta_field['id']);
 			}
 		    }
@@ -747,7 +747,7 @@ class SASWP_View_Common {
                 
                 $post_meta    = array();                    
                 // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
-                if(is_array($_POST)){
+                if ( is_array( $_POST) ) {
                     // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                     $post_meta    = $_POST;
                     // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
@@ -755,39 +755,39 @@ class SASWP_View_Common {
                 // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.    
                 $schema_count = 0;
                                                 
-                if(!empty($all_schema)){
+                if ( ! empty( $all_schema) ) {
                   $schema_count = count($all_schema);  
                 }
                
                 if($schema_count > 0){
                                                                       
-                 foreach($all_schema as $schema){
+                 foreach( $all_schema as $schema){
                    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                      if( isset($_POST['saswp_modify_this_schema_'.$schema->ID]) && !empty($_POST['saswp_modify_this_schema_'.$schema->ID]) ){
                         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                         saswp_update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
                      }                     
                     
-                     foreach ($this->schema_type_element as $element){
+                     foreach ( $this->schema_type_element as $element){
                           
-                        foreach($element as $key => $val){
+                        foreach( $element as $key => $val){
                             
                             $element_val          = array();   
                             // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.                
-                                if(is_array($_POST)){
+                                if ( is_array( $_POST) ) {
                                 // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
-                                    if(array_key_exists($val.'_'.$schema->ID, $_POST)){
+                                    if(array_key_exists($val.'_'.$schema->ID, $_POST) ) {
                                // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                                         $data = (array) $_POST[$val.'_'.$schema->ID];  
                                      // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                                             if($data){
                                         
-                                                foreach ($data as $supply){
+                                                foreach ( $data as $supply){
         
                                                     $sanitize_data = array();
         
-                                                        foreach($supply as $k => $el){   
-                                                                if(isset($el)){
+                                                        foreach( $supply as $k => $el){   
+                                                                if ( isset( $el) ) {
                                                                     $sanitize_data[$k] = wp_kses_post(wp_unslash($el));                                                                                                                                   
                                                                 }                                               
                                                                 
@@ -800,7 +800,7 @@ class SASWP_View_Common {
                                     }
                                 }   
 
-                                if(!empty($element_val)){
+                                if ( ! empty( $element_val) ) {
                                     saswp_update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);                                                                                                              
                                 }                            
                                 
@@ -812,7 +812,7 @@ class SASWP_View_Common {
                         
                         $this->saswp_save_meta_fields_value($post_meta, $response, $post_id);
                         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
-                        if(isset($_POST['saswp_review_item_reviewed_'.$schema->ID]) && $_POST['saswp_review_item_reviewed_'.$schema->ID] !=''){
+                        if ( isset( $_POST['saswp_review_item_reviewed_'.$schema->ID]) && $_POST['saswp_review_item_reviewed_'.$schema->ID] !='' ) {
                             // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                              $item_reviewed = sanitize_text_field($_POST['saswp_review_item_reviewed_'.$schema->ID]);
                             

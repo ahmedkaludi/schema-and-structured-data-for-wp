@@ -37,7 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if(!class_exists('SASWP_Aq_Resize')) {
     
-    if(!class_exists('SASWP_Aq_Exception')){
+    if(!class_exists('SASWP_Aq_Exception') ) {
         class SASWP_Aq_Exception extends Exception {}
     }
         
@@ -105,7 +105,7 @@ if(!class_exists('SASWP_Aq_Resize')) {
                         wp_mkdir_p( $make_new_dir);
                     }
 
-                    if(is_dir($make_new_dir)){
+                    if(is_dir($make_new_dir) ) {
 
                         $old_url    = $url;
                         $explod_url = @explode('/', $url);                    
@@ -127,13 +127,13 @@ if(!class_exists('SASWP_Aq_Resize')) {
 
                 /* if the $url scheme differs from $upload_url scheme, make them match
                    if the schemes differe, images don't show up. */
-                if(!strncmp($url,$https_prefix,strlen($https_prefix))){ //if url begins with https:// make $upload_url begin with https:// as well
+                if(!strncmp($url,$https_prefix,strlen($https_prefix)) ) { //if url begins with https:// make $upload_url begin with https:// as well
                     $upload_url = str_replace($http_prefix,$https_prefix,$upload_url);
                 }
-                elseif(!strncmp($url,$http_prefix,strlen($http_prefix))){ //if url begins with http:// make $upload_url begin with http:// as well
+                elseif(!strncmp($url,$http_prefix,strlen($http_prefix)) ) { //if url begins with http:// make $upload_url begin with http:// as well
                     $upload_url = str_replace($https_prefix,$http_prefix,$upload_url);
                 }
-                elseif(!strncmp($url,$relative_prefix,strlen($relative_prefix))){ //if url begins with // make $upload_url begin with // as well
+                elseif(!strncmp($url,$relative_prefix,strlen($relative_prefix)) ) { //if url begins with // make $upload_url begin with // as well
                     $upload_url = str_replace(array( 0 => "$http_prefix", 1 => "$https_prefix"),$relative_prefix,$upload_url);
                 }
                 $is_cdn  = false;
@@ -314,7 +314,7 @@ if(!function_exists('saswp_aq_resize')) {
      * need to change any code in your own WP themes. Usage is still the same :)
      */
     function saswp_aq_resize( $url, $width = null, $height = null, $crop = null, $single = true, $upscale = false ) {
-        if(function_exists('saswp_validate_image_extension')){
+        if ( function_exists( 'saswp_validate_image_extension') ) {
             $valid_extension = saswp_validate_image_extension($url);
             if($valid_extension === false){
                 return array();

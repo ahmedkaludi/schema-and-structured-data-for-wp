@@ -34,13 +34,13 @@ if ( ! defined('ABSPATH') ) exit;
          global $sd_data;
          $label_text = '';
          
-         if(isset($sd_data[$label_key]) && $sd_data[$label_key] !=''){
+         if ( isset( $sd_data[$label_key]) && $sd_data[$label_key] !='' ) {
              $label_text = $sd_data[$label_key];
          }else{
             $label_text = $translation_labels[$label_key];
          }
         /* translators: %s: list of static string which user can use in traslation or can modify it in advanced settings section */
-         return esc_html(sprintf(__('%s', 'schema-and-structured-data-for-wp'),$label_text));
+         return esc_html( sprintf(__('%s', 'schema-and-structured-data-for-wp'),$label_text));
      }
     
     /**
@@ -49,7 +49,7 @@ if ( ! defined('ABSPATH') ) exit;
      * @global type $wpdb
      * @return boolean
      */        
-    function saswp_import_all_settings_and_schema(){
+    function saswp_import_all_settings_and_schema() {
                         
         if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
@@ -67,7 +67,7 @@ if ( ! defined('ABSPATH') ) exit;
             
         $resultset       = wp_remote_get($url);
                 
-        if(!is_wp_error($resultset)){
+        if ( ! is_wp_error( $resultset) ) {
             
             $json_array      = json_decode(wp_remote_retrieve_body($resultset), true);   
         
@@ -75,26 +75,26 @@ if ( ! defined('ABSPATH') ) exit;
                         
             if($posts_data && is_array($posts_data) && json_last_error() ===  0){  
                 
-            foreach($posts_data as $data){
+            foreach( $posts_data as $data){
                     
             $all_schema_post = $data;                   
                                 
             $schema_post = array();                     
                
-            if($all_schema_post && is_array($all_schema_post)){
+            if($all_schema_post && is_array($all_schema_post) ) {
             // begin transaction
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction            
             $wpdb->query('START TRANSACTION');
             
-            foreach($all_schema_post as $schema_post){  
+            foreach( $all_schema_post as $schema_post){  
                               
                 $post_meta =     $schema_post['post_meta'];
 
                 $sanitized_post = saswp_sanitize_post_data($schema_post['post']);   
-                if(empty($sanitized_post)){
+                if(empty($sanitized_post) ) {
                     continue;
                 }
-                if(get_post_status( $schema_post['post']['ID'] )){
+                if(get_post_status( $schema_post['post']['ID'] ) ) {
                     
                     $post_id    =     wp_update_post($sanitized_post);  
                      
@@ -107,7 +107,7 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     if($post_meta){
                         
-                        foreach($post_meta as $key => $val){
+                        foreach( $post_meta as $key => $val){
 
                           $explod_key = explode("_",$key);
 
@@ -125,11 +125,11 @@ if ( ! defined('ABSPATH') ) exit;
                                         
                 }
                                                                                           
-                foreach($post_meta as $key => $meta){
+                foreach( $post_meta as $key => $meta){
                     
                     $meta = wp_unslash($meta);
                     
-                    if(is_array($meta)){    
+                    if ( is_array( $meta) ) {    
                         
                         $meta = wp_unslash($meta);
                         update_post_meta($post_id, $key, $meta);
@@ -140,7 +140,7 @@ if ( ! defined('ABSPATH') ) exit;
                                                             
                 }
                                                                                                                     
-                if(is_wp_error($post_id)){
+                if(is_wp_error($post_id) ) {
                     $errorDesc[] = $result->get_error_message();
                 }
                 } 
@@ -151,17 +151,17 @@ if ( ! defined('ABSPATH') ) exit;
                 
             }            
             //Saving settings data starts here
-            if(array_key_exists('sd_data', $json_array)){
+            if(array_key_exists('sd_data', $json_array) ) {
                 
                 $saswp_sd_data = $json_array['sd_data'];
                 
-                foreach($saswp_sd_data as $key => $val){
+                foreach( $saswp_sd_data as $key => $val){
                     
-                    if(is_array($val)){
+                    if ( is_array( $val) ) {
                         
                         $saswp_sd_data[$key] = $meta = array_map( 'sanitize_text_field' ,$val); 
-                        if(isset($val[0]) && is_array($val[0])){
-                            foreach ($val as $key1 => $value1) {
+                        if ( isset( $val[0]) && is_array($val[0]) ) {
+                            foreach ( $val as $key1 => $value1) {
                                 $saswp_sd_data[$key][$key1] = array_map('sanitize_text_field', $value1);
                             }
                         }  
@@ -183,7 +183,7 @@ if ( ! defined('ABSPATH') ) exit;
         }
                                      
         if ( count($errorDesc) ){
-          echo esc_html(implode("\n<br/>", $errorDesc));  
+          echo esc_html( implode("\n<br/>", $errorDesc));  
           // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
           $wpdb->query('ROLLBACK');             
         }else{
@@ -196,7 +196,7 @@ if ( ! defined('ABSPATH') ) exit;
                                                              
     }   
 
-    function saswp_download_csv_review_format(){
+    function saswp_download_csv_review_format() {
 
         if ( ! current_user_can( saswp_current_user_can() ) ) {
             return;
@@ -222,7 +222,7 @@ if ( ! defined('ABSPATH') ) exit;
      * @global type $wpdb
      * @return boolean
      */
-    function saswp_export_all_settings_and_schema(){   
+    function saswp_export_all_settings_and_schema() {   
         
                 if ( ! current_user_can( saswp_current_user_can() ) ) {
                      return;
@@ -238,7 +238,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $post_type = array('saswp_reviews', 'saswp', 'saswp-collections');
                 $export_data_all   = array(); 
                 
-                foreach($post_type as $type){
+                foreach( $post_type as $type){
                     
                     $export_data       = array();                
 
@@ -254,14 +254,14 @@ if ( ! defined('ABSPATH') ) exit;
 
                     if($all_schema_post){
                     
-                        foreach($all_schema_post as $schema){    
+                        foreach( $all_schema_post as $schema){    
 
                         $export_data[$schema->ID]['post']      = (array)$schema;                    
                         $post_meta                             = get_post_meta($schema->ID);    
 
-                        if(!empty($post_meta)){
+                        if ( ! empty( $post_meta) ) {
 
-                            foreach ($post_meta as $key => $meta){
+                            foreach ( $post_meta as $key => $meta){
 
                                 if(@unserialize($meta[0]) !== false){
                                     $post_meta[$key] = @unserialize($meta[0]);
@@ -298,7 +298,7 @@ if ( ! defined('ABSPATH') ) exit;
      * @global type $wpdb
      * @return boolean
      */
-    function saswp_import_schema_plugin_data(){           
+    function saswp_import_schema_plugin_data() {           
                                                     
         $schema_post = array();
         $errorDesc   = array();
@@ -318,7 +318,7 @@ if ( ! defined('ABSPATH') ) exit;
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction            
             $wpdb->query('START TRANSACTION');
             
-            foreach($all_schema_post as $schema){    
+            foreach( $all_schema_post as $schema){    
                 
                 $schema_post = array(
                     
@@ -362,7 +362,7 @@ if ( ! defined('ABSPATH') ) exit;
                 if($schema_post_types){
                                         
                     $i=0;
-                    foreach ($schema_post_types as $post_type){
+                    foreach ( $schema_post_types as $post_type){
                        
                        $data_group_array['group-'.$i] =array(
                           'data_array' => array(
@@ -380,7 +380,7 @@ if ( ! defined('ABSPATH') ) exit;
                 
                 $schema_article_type ='';                                                
 
-                if(isset($schema_post_meta['_schema_article_type'])){
+                if ( isset( $schema_post_meta['_schema_article_type']) ) {
                   $schema_article_type = $schema_post_meta['_schema_article_type'][0];  
                 }                      
                 $saswp_meta_key = array(
@@ -389,10 +389,10 @@ if ( ! defined('ABSPATH') ) exit;
                     'imported_from'    => 'schema'
                 );
                 
-                foreach ($saswp_meta_key as $key => $val){                     
+                foreach ( $saswp_meta_key as $key => $val){                     
                     update_post_meta($post_id, $key, $val);  
                 }                                                        
-                if(is_wp_error($result)){
+                if(is_wp_error($result) ) {
                     $errorDesc[] = $result->get_error_message();
                 }
               }          
@@ -420,81 +420,81 @@ if ( ! defined('ABSPATH') ) exit;
                     'sd_initial_wizard_status' => 1,
                                         
                 );                
-                if(isset($schema_plugin_options['facebook'])){
+                if ( isset( $schema_plugin_options['facebook']) ) {
                   $saswp_plugin_options['sd_facebook'] =  $schema_plugin_options['facebook']; 
                   $saswp_plugin_options['saswp-facebook-enable'] =  1; 
                 }
-                if(isset($schema_plugin_options['twitter'])){
+                if ( isset( $schema_plugin_options['twitter']) ) {
                   $saswp_plugin_options['sd_twitter'] =  $schema_plugin_options['twitter']; 
                   $saswp_plugin_options['saswp-twitter-enable'] =  1;
                 }
-                if(isset($schema_plugin_options['google'])){
+                if ( isset( $schema_plugin_options['google']) ) {
                   $saswp_plugin_options['sd_google_plus'] =  $schema_plugin_options['google']; 
                   $saswp_plugin_options['saswp-google-plus-enable'] =  1;
                 }
-                if(isset($schema_plugin_options['instagram'])){
+                if ( isset( $schema_plugin_options['instagram']) ) {
                   $saswp_plugin_options['sd_instagram'] =  $schema_plugin_options['instagram']; 
                   $saswp_plugin_options['saswp-instagram-enable'] =  1;
                 }
-                if(isset($schema_plugin_options['youtube'])){
+                if ( isset( $schema_plugin_options['youtube']) ) {
                   $saswp_plugin_options['sd_youtube'] =  $schema_plugin_options['youtube']; 
                   $saswp_plugin_options['saswp-youtube-enable'] =  1;
                 }
-                if(isset($schema_plugin_options['linkedin'])){
+                if ( isset( $schema_plugin_options['linkedin']) ) {
                   $saswp_plugin_options['sd_linkedin'] =  $schema_plugin_options['linkedin']; 
                   $saswp_plugin_options['saswp-linkedin-enable'] =  1;
                 }
-                if(isset($schema_plugin_options['pinterest'])){
+                if ( isset( $schema_plugin_options['pinterest']) ) {
                   $saswp_plugin_options['sd_pinterest'] =  $schema_plugin_options['pinterest']; 
                   $saswp_plugin_options['saswp-pinterest-enable'] =  1;
                 }
-                if(isset($schema_plugin_options['soundcloud'])){
+                if ( isset( $schema_plugin_options['soundcloud']) ) {
                   $saswp_plugin_options['sd_soundcloud'] =  $schema_plugin_options['soundcloud']; 
                   $saswp_plugin_options['saswp-soundcloud-enable'] =  1;
                 }
-                if(isset($schema_plugin_options['tumblr'])){
+                if ( isset( $schema_plugin_options['tumblr']) ) {
                   $saswp_plugin_options['sd_tumblr'] =  $schema_plugin_options['tumblr']; 
                   $saswp_plugin_options['saswp-tumblr-enable'] =  1;
                 }                
-                if(isset($schema_plugin_options['organization_or_person'])){
+                if ( isset( $schema_plugin_options['organization_or_person']) ) {
                                                            
                   $saswp_plugin_options['saswp_kb_type'] = ucfirst($schema_plugin_options['organization_or_person']);  
                   $saswp_plugin_options['sd_name'] = $schema_plugin_options['name'];
                   $saswp_plugin_options['sd-person-name'] = $schema_plugin_options['name'];
                 }                
-                if(isset($schema_plugin_options['about_page'])){
+                if ( isset( $schema_plugin_options['about_page']) ) {
                   $saswp_plugin_options['sd_about_page'] = $schema_plugin_options['about_page'];  
                 }
-                if(isset($schema_plugin_options['contact_page'])){
+                if ( isset( $schema_plugin_options['contact_page']) ) {
                   $saswp_plugin_options['sd_contact_page'] = $schema_plugin_options['contact_page'];  
                 }
-                if(isset($schema_plugin_options['site_name'])){
+                if ( isset( $schema_plugin_options['site_name']) ) {
                    
                 }
-                if(isset($schema_plugin_options['site_alternate_name'])){
+                if ( isset( $schema_plugin_options['site_alternate_name']) ) {
                   $saswp_plugin_options['sd_alt_name'] = $schema_plugin_options['site_alternate_name'];  
                 }
-                if(isset($schema_plugin_options['url'])){
+                if ( isset( $schema_plugin_options['url']) ) {
                   $saswp_plugin_options['sd_url'] = $schema_plugin_options['url'];  
                   $saswp_plugin_options['sd-person-url'] = $schema_plugin_options['url'];  
                 }
-                if(isset($schema_plugin_options['name'])){
+                if ( isset( $schema_plugin_options['name']) ) {
                   $saswp_plugin_options['sd-person-name'] = $schema_plugin_options['name'];  
                 }
-                if(isset($schema_plugin_options['corporate_contacts_telephone'])){
+                if ( isset( $schema_plugin_options['corporate_contacts_telephone']) ) {
                   $saswp_plugin_options['saswp_kb_telephone'] = $schema_plugin_options['corporate_contacts_telephone'];  
                 }
-                if(isset($schema_plugin_options['corporate_contacts_contact_type'])){
+                if ( isset( $schema_plugin_options['corporate_contacts_contact_type']) ) {
                   $saswp_plugin_options['saswp_contact_type'] = $schema_plugin_options['corporate_contacts_contact_type'];  
                 }                
-                if(isset($schema_plugin_options['breadcrumbs_enable'])){
+                if ( isset( $schema_plugin_options['breadcrumbs_enable']) ) {
                   $saswp_plugin_options['saswp_breadcrumb_schema'] = $schema_plugin_options['breadcrumbs_enable'];  
                 }                
                 update_option('sd_data', $saswp_plugin_options);
                 //Importing settings ends here
               
             if ( count($errorDesc) ){
-              echo esc_html(implode("\n<br/>", $errorDesc)); 
+              echo esc_html( implode("\n<br/>", $errorDesc)); 
               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
@@ -506,7 +506,7 @@ if ( ! defined('ABSPATH') ) exit;
                              
     }
     
-    function saswp_import_schema_for_faqs_plugin_data(){
+    function saswp_import_schema_for_faqs_plugin_data() {
 
       global $wpdb;
     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction                                               
@@ -524,7 +524,7 @@ if ( ! defined('ABSPATH') ) exit;
 
         if($schema_id){
             
-            foreach ($post_ids as $id) {
+            foreach ( $post_ids as $id) {
             
                 $schema_for_faqs = get_post_meta($id, 'schema_faqs_ques_ans_data', true);
     
@@ -532,13 +532,13 @@ if ( ! defined('ABSPATH') ) exit;
     
                     $data_arr = json_decode($schema_for_faqs, true);
     
-                    if($data_arr && is_array($data_arr)){
+                    if($data_arr && is_array($data_arr) ) {
     
                         $saswp_faq = array();
     
-                        foreach ($data_arr as $value) {
+                        foreach ( $data_arr as $value) {
     
-                            if(isset($value['question'])){
+                            if ( isset( $value['question']) ) {
     
                                 $saswp_faq[] =  array(
                                     'saswp_faq_question_name'   => sanitize_text_field($value['question']),
@@ -566,7 +566,7 @@ if ( ! defined('ABSPATH') ) exit;
       }                      
       
       if ( count($errorDesc) ){
-        echo esc_html(implode("\n<br/>", $errorDesc));   
+        echo esc_html( implode("\n<br/>", $errorDesc));   
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction        
         $wpdb->query('ROLLBACK');             
       }else{
@@ -576,7 +576,7 @@ if ( ! defined('ABSPATH') ) exit;
       }
                      
     } 
-    function saswp_import_wp_custom_rv_plugin_data(){
+    function saswp_import_wp_custom_rv_plugin_data() {
         
            global $wpdb;
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction                               
@@ -593,7 +593,7 @@ if ( ! defined('ABSPATH') ) exit;
             
             if($wpcr3reviews){
                            
-                foreach($wpcr3reviews as $new_post){
+                foreach( $wpcr3reviews as $new_post){
                     
                     $review_post = (array)$new_post;                   
                     $wp_post_id  = $review_post['ID'];
@@ -628,9 +628,9 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp_reviewer_image_detail' => $media_detail
                     );
 
-                    if($post_id && !empty($review_meta) && is_array($review_meta)){
+                    if($post_id && !empty($review_meta) && is_array($review_meta) ) {
 
-                        foreach ($review_meta as $key => $val){                     
+                        foreach ( $review_meta as $key => $val){                     
                             update_post_meta($post_id, $key, $val);  
                         }
 
@@ -641,7 +641,7 @@ if ( ! defined('ABSPATH') ) exit;
             }
                                  
            if ( count($errorDesc) ){
-              echo esc_html(implode("\n<br/>", $errorDesc));           
+              echo esc_html( implode("\n<br/>", $errorDesc));           
               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
@@ -652,7 +652,7 @@ if ( ! defined('ABSPATH') ) exit;
         
     }
     
-    function saswp_import_aiors_plugin_data(){
+    function saswp_import_aiors_plugin_data() {
         
                     global $wpdb;
         
@@ -670,7 +670,7 @@ if ( ! defined('ABSPATH') ) exit;
                     $wpdb->query('START TRANSACTION');
                     $errorDesc = array();            
                                                             
-                    foreach($schema_types as $schema){
+                    foreach( $schema_types as $schema){
                         
                         $schema_post = array(
                                 'post_title'  => sanitize_text_field($schema),                                                            
@@ -703,7 +703,7 @@ if ( ! defined('ABSPATH') ) exit;
                             'guid'         => sanitize_url(get_option('siteurl') .'/?post_type=saswp&p='.$post_id)
                         ));
                         
-                        foreach ($saswp_meta_key as $key => $val){                     
+                        foreach ( $saswp_meta_key as $key => $val){                     
                             update_post_meta($post_id, $key, $val);  
                         }  
                         
@@ -808,7 +808,7 @@ if ( ! defined('ABSPATH') ) exit;
                     }                                    
           
            if ( count($errorDesc) ){
-              echo esc_html(implode("\n<br/>", $errorDesc));           
+              echo esc_html( implode("\n<br/>", $errorDesc));           
               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
@@ -819,7 +819,7 @@ if ( ! defined('ABSPATH') ) exit;
         
     }
     
-    function saswp_import_wpsso_core_plugin_data(){
+    function saswp_import_wpsso_core_plugin_data() {
         
          global $wpdb;
                           
@@ -827,7 +827,7 @@ if ( ! defined('ABSPATH') ) exit;
          
          $saswp_option = array();
         
-         if(isset($wpsso_option['schema_home_person_id'])){
+         if ( isset( $wpsso_option['schema_home_person_id']) ) {
              $user_info = get_userdata($wpsso_option['schema_home_person_id']);
              $saswp_option['sd-person-name']       = $user_info->user_login;
          }
@@ -835,35 +835,35 @@ if ( ! defined('ABSPATH') ) exit;
          $saswp_option['sd_logo']['url']       = $wpsso_option['schema_logo_url'];
          $saswp_option['saswp_website_schema'] = $wpsso_option['schema_add_home_website'];                  
          
-         if(isset($wpsso_option['fb_publisher_url'])){
+         if ( isset( $wpsso_option['fb_publisher_url']) ) {
              $saswp_option['saswp-facebook-enable'] = 1;
              $saswp_option['sd_facebook']   = $wpsso_option['fb_publisher_url'];
          }
-         if(isset($wpsso_option['instgram_publisher_url'])){
+         if ( isset( $wpsso_option['instgram_publisher_url']) ) {
              $saswp_option['saswp-instagram-enable'] = 1;
              $saswp_option['sd_instagram']  = $wpsso_option['instgram_publisher_url'];
          }
-         if(isset($wpsso_option['linkedin_publisher_url'])){
+         if ( isset( $wpsso_option['linkedin_publisher_url']) ) {
              $saswp_option['saswp-linkedin-enable'] = 1;
              $saswp_option['sd_linkedin']   = $wpsso_option['linkedin_publisher_url'];
          }         
-         if(isset($wpsso_option['p_publisher_url'])){
+         if ( isset( $wpsso_option['p_publisher_url']) ) {
              $saswp_option['saswp-pinterest-enable'] = 1;
              $saswp_option['sd_pinterest']  = $wpsso_option['p_publisher_url'];
          }
-         if(isset($wpsso_option['sc_publisher_url'])){
+         if ( isset( $wpsso_option['sc_publisher_url']) ) {
              $saswp_option['saswp-soundcloud-enable'] = 1;
              $saswp_option['sd_soundcloud'] = $wpsso_option['sc_publisher_url'];
          }
-         if(isset($wpsso_option['tumblr_publisher_url'])){
+         if ( isset( $wpsso_option['tumblr_publisher_url']) ) {
              $saswp_option['saswp-tumblr-enable'] = 1;
              $saswp_option['sd_tumblr']     = $wpsso_option['tumblr_publisher_url'];
          }
-         if(isset($wpsso_option['tc_site'])){
+         if ( isset( $wpsso_option['tc_site']) ) {
              $saswp_option['saswp-twitter-enable'] = 1;
              $saswp_option['sd_twitter']    = $wpsso_option['tc_site'];
          }
-         if(isset($wpsso_option['yt_publisher_url'])){
+         if ( isset( $wpsso_option['yt_publisher_url']) ) {
              $saswp_option['saswp-youtube-enable'] = 1;
              $saswp_option['sd_youtube']    = $wpsso_option['yt_publisher_url']; 
          }
@@ -892,7 +892,7 @@ if ( ! defined('ABSPATH') ) exit;
             'imported_from'                => 'wpsso_core',                                                    
          );
          
-         if(isset($saswp_option)){ 
+         if ( isset( $saswp_option) ) { 
                 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction           
                 $wpdb->query('START TRANSACTION');
                 $errorDesc = array();
@@ -907,12 +907,12 @@ if ( ! defined('ABSPATH') ) exit;
                         'guid'         => sanitize_url(get_option('siteurl') .'/?post_type=saswp&p='.$post_id)
                     ));                    
                                                          
-                    foreach ($saswp_meta_key as $key => $val){                     
+                    foreach ( $saswp_meta_key as $key => $val){                     
                         update_post_meta($post_id, $key, $val);  
                     }
           
            if ( count($errorDesc) ){
-              echo esc_html(implode("\n<br/>", $errorDesc));           
+              echo esc_html( implode("\n<br/>", $errorDesc));           
               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
@@ -923,16 +923,16 @@ if ( ! defined('ABSPATH') ) exit;
          }
         
     }
-    function saswp_import_seo_pressor_plugin_data(){
+    function saswp_import_seo_pressor_plugin_data() {
          
         global $wpdb;
         $social_fields = array();
         $opening_hours = '';
         $settings = WPPostsRateKeys_Settings::get_options();
         
-        if(isset($settings['seop_home_social'])){
+        if ( isset( $settings['seop_home_social']) ) {
             
-            foreach($settings['seop_home_social'] as $social){
+            foreach( $settings['seop_home_social'] as $social){
                
                 switch ($social['social_type']) {
                     
@@ -980,35 +980,35 @@ if ( ! defined('ABSPATH') ) exit;
             }         
         }
        
-        if(isset($settings['seop_operating_hour'])){
+        if ( isset( $settings['seop_operating_hour']) ) {
             
            $hours = $settings['seop_operating_hour'];
            
-           if(isset($hours['Mo'])){
+           if ( isset( $hours['Mo']) ) {
              $opening_hours .='Mo-Mo'.' '.$hours['Mo']['from'].'-'.$hours['Mo']['to'].' '; 
            }
-           if(isset($hours['Tu'])){
+           if ( isset( $hours['Tu']) ) {
               $opening_hours .='Tu-Tu'.' '.$hours['Tu']['from'].'-'.$hours['Tu']['to'].' '; 
            }
-           if(isset($hours['We'])){
+           if ( isset( $hours['We']) ) {
               $opening_hours .='We-We'.' '.$hours['We']['from'].'-'.$hours['We']['to'].' '; 
            }
-           if(isset($hours['Th'])){
+           if ( isset( $hours['Th']) ) {
               $opening_hours .='Th-Th'.' '.$hours['Th']['from'].'-'.$hours['Th']['to'].' '; 
            }
-           if(isset($hours['Fr'])){
+           if ( isset( $hours['Fr']) ) {
              $opening_hours .='Fr-Fr'.' '.$hours['Fr']['from'].'-'.$hours['Fr']['to'].' ';  
            }
-           if(isset($hours['Sa'])){
+           if ( isset( $hours['Sa']) ) {
              $opening_hours .='Sa-Sa'.' '.$hours['Sa']['from'].'-'.$hours['Sa']['to'].' '; 
            }
-           if(isset($hours['Su'])){
+           if ( isset( $hours['Su']) ) {
              $opening_hours .='Su-Su'.' '.$hours['Su']['from'].'-'.$hours['Su']['to'];
            }
         } 
         
         
-         if(isset($settings)){ 
+         if ( isset( $settings) ) { 
              
           $local_business_details = array();          
           // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction    
@@ -1016,7 +1016,7 @@ if ( ! defined('ABSPATH') ) exit;
           $errorDesc = array();
           $user_id = get_current_user_id();
            
-                    if($settings['seop_local_name'] !=''){ 
+                    if($settings['seop_local_name'] !='' ) { 
                         
                          $schema_post = array(
                             'post_author' => intval($user_id),                                                            
@@ -1026,12 +1026,12 @@ if ( ! defined('ABSPATH') ) exit;
                          
                     $schema_post['post_title'] = 'Organization (Migrated from SEO Pressor)';
                                       
-                    if(isset($settings['seop_local_name'])){
+                    if ( isset( $settings['seop_local_name']) ) {
                         
                      $schema_post['post_title'] = sanitize_text_field($settings['seop_local_name']).'(Migrated from WP SEO Plugin)'; 
                      
                     }
-                    if(isset($settings['seop_home_logo'])){
+                    if ( isset( $settings['seop_home_logo']) ) {
                         
                        $image_details 	= wp_get_attachment_image_src($settings['seop_home_logo'], 'full');
               
@@ -1044,20 +1044,20 @@ if ( ! defined('ABSPATH') ) exit;
                             ); 
                     }
                                                           
-                    if(isset($settings['seop_local_website'])){
+                    if ( isset( $settings['seop_local_website']) ) {
                       $local_business_details['local_website'] = $settings['seop_local_website'];  
                     }
                     
-                    if(isset($settings['seop_local_city'])){
+                    if ( isset( $settings['seop_local_city']) ) {
                         $local_business_details['local_city'] = $settings['seop_local_city'];
                     }
-                    if(isset($settings['seop_local_state'])){
+                    if ( isset( $settings['seop_local_state']) ) {
                         $local_business_details['local_state'] = $settings['seop_local_state'];
                     }
-                    if(isset($settings['seop_local_postcode'])){
+                    if ( isset( $settings['seop_local_postcode']) ) {
                         $local_business_details['local_postal_code'] = $settings['seop_local_postcode'];
                     }
-                    if(isset($settings['seop_local_address'])){
+                    if ( isset( $settings['seop_local_address']) ) {
                         $local_business_details['local_street_address'] = $settings['seop_local_address'];
                     }                                                                               
                     $post_id = wp_insert_post($schema_post);
@@ -1087,10 +1087,10 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp_dayofweek'              => $opening_hours,        
                      );
                 
-                    foreach ($saswp_meta_key as $key => $val){                     
+                    foreach ( $saswp_meta_key as $key => $val){                     
                         update_post_meta($post_id, $key, $val);  
                     }
-                    if(is_wp_error($result)){
+                    if(is_wp_error($result) ) {
                         $errorDesc[] = $result->get_error_message();
                     }
                     }
@@ -1100,7 +1100,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $result        = update_option('sd_data', $merge_options);
           
            if ( count($errorDesc) ){
-              echo esc_html(implode("\n<br/>", $errorDesc));           
+              echo esc_html( implode("\n<br/>", $errorDesc));           
               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
@@ -1111,13 +1111,13 @@ if ( ! defined('ABSPATH') ) exit;
          }                        
     }
     
-    function saswp_import_wp_seo_schema_plugin_data(){
+    function saswp_import_wp_seo_schema_plugin_data() {
         
          global $KcSeoWPSchema;
          global $wpdb;
          $settings = get_option($KcSeoWPSchema->options['settings']); 
          
-         if(isset($settings)){
+         if ( isset( $settings) ) {
              
           $saswp_plugin_options   = array();   
           $local_business_details = array();          
@@ -1135,10 +1135,10 @@ if ( ! defined('ABSPATH') ) exit;
                         );                        
                     $schema_post['post_title'] = 'Organization (Migrated from WP SEO Plugin)';
                                       
-                    if(isset($settings['type_name'])){
+                    if ( isset( $settings['type_name']) ) {
                      $schema_post['post_title'] = sanitize_text_field($settings['type_name']).'(Migrated from WP SEO Plugin)';    
                     }
-                    if(isset($settings['site_image'])){
+                    if ( isset( $settings['site_image']) ) {
                        $image_details 	= wp_get_attachment_image_src($settings['site_image'], 'full');
               
                        $local_business_details['local_business_logo'] = array(
@@ -1149,26 +1149,26 @@ if ( ! defined('ABSPATH') ) exit;
                                 'thumbnail'     =>$image_details[0]        
                             ); 
                     }
-                    if(isset($settings['site_price_range'])){
+                    if ( isset( $settings['site_price_range']) ) {
                         $local_business_details['local_price_range'] = $settings['site_price_range']; 
                     }
-                    if(isset($settings['site_telephone'])){
+                    if ( isset( $settings['site_telephone']) ) {
                         $local_business_details['local_phone'] = $settings['site_telephone'];
                     }                                        
-                    if(isset($settings['web_url'])){
+                    if ( isset( $settings['web_url']) ) {
                       $local_business_details['local_website'] = $settings['web_url'];  
                     }
                     
-                    if(isset($settings['address']['locality'])){
+                    if ( isset( $settings['address']['locality']) ) {
                         $local_business_details['local_city'] = $settings['site_telephone'];
                     }
-                    if(isset($settings['address']['region'])){
+                    if ( isset( $settings['address']['region']) ) {
                         $local_business_details['local_state'] = $settings['address']['region'];
                     }
-                    if(isset($settings['address']['postalcode'])){
+                    if ( isset( $settings['address']['postalcode']) ) {
                         $local_business_details['local_postal_code'] = $settings['address']['postalcode'];
                     }
-                    if(isset($settings['address']['street'])){
+                    if ( isset( $settings['address']['street']) ) {
                         $local_business_details['local_street_address'] = $settings['site_telephone'];
                     }
                         
@@ -1198,24 +1198,24 @@ if ( ! defined('ABSPATH') ) exit;
                         'saswp_local_business_details' => $local_business_details
                      );
                 
-                    foreach ($saswp_meta_key as $key => $val){                     
+                    foreach ( $saswp_meta_key as $key => $val){                     
                         update_post_meta($post_id, $key, $val);  
                     }
-                    if(is_wp_error($result)){
+                    if(is_wp_error($result) ) {
                         $errorDesc[] = $result->get_error_message();
                     }
                     
                     }
                                                                 
-                if(isset($settings['person']['name'])){
+                if ( isset( $settings['person']['name']) ) {
                  $saswp_plugin_options['sd-person-name'] =  $settings['person']['name'];     
                 }
 
-                if(isset($settings['person']['jobTitle'])){
+                if ( isset( $settings['person']['jobTitle']) ) {
                  $saswp_plugin_options['sd-person-job-title'] =  $settings['person']['jobTitle'];        
                 }
 
-                if(isset($settings['person']['image'])){
+                if ( isset( $settings['person']['image']) ) {
                 $image_details 	= wp_get_attachment_image_src($settings['person']['image'], 'full');
 
                 $saswp_plugin_options['sd-person-image'] = array(
@@ -1227,7 +1227,7 @@ if ( ! defined('ABSPATH') ) exit;
                             );                                                  
           }         
                
-          if(isset($settings['organization_logo'])){
+          if ( isset( $settings['organization_logo']) ) {
               $image_details 	= wp_get_attachment_image_src($settings['organization_logo'], 'full');	   
               
               $saswp_plugin_options['sd_logo'] = array(
@@ -1238,18 +1238,18 @@ if ( ! defined('ABSPATH') ) exit;
                                 'thumbnail'     => $image_details[0]        
                             );                               
           }          
-          if(isset($settings['contact']['contactType'])){
+          if ( isset( $settings['contact']['contactType']) ) {
               $saswp_plugin_options['saswp_contact_type'] =  $settings['contact']['contactType']; 
               $saswp_plugin_options['saswp_kb_contact_1'] =  1; 
           }
-          if(isset($settings['contact']['telephone'])){
+          if ( isset( $settings['contact']['telephone']) ) {
               $saswp_plugin_options['saswp_kb_telephone'] =  $settings['contact']['telephone'];    
           }                   
-          if(isset($settings['sitename'])){
+          if ( isset( $settings['sitename']) ) {
               $saswp_plugin_options['sd_name'] =  $settings['sitename']; 
           }
           
-          if(isset($settings['siteurl'])){
+          if ( isset( $settings['siteurl']) ) {
               $saswp_plugin_options['sd_url'] =  $settings['sitename'];    
           }                
                 $get_options   = get_option('sd_data');
@@ -1257,7 +1257,7 @@ if ( ! defined('ABSPATH') ) exit;
                 $result        = update_option('sd_data', $merge_options);
           
            if ( count($errorDesc) ){
-              echo esc_html(implode("\n<br/>", $errorDesc)); 
+              echo esc_html( implode("\n<br/>", $errorDesc)); 
               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                                    
               $wpdb->query('ROLLBACK');             
             }else{
@@ -1270,7 +1270,7 @@ if ( ! defined('ABSPATH') ) exit;
        
     }
     
-    function saswp_import_schema_pro_plugin_data(){           
+    function saswp_import_schema_pro_plugin_data() {           
                                                                      
         $schema_post = array();
         global $wpdb;
@@ -1289,7 +1289,7 @@ if ( ! defined('ABSPATH') ) exit;
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction            
             $wpdb->query('START TRANSACTION');
             $errorDesc = array();
-            foreach($all_schema_post as $schema){    
+            foreach( $all_schema_post as $schema){    
                 
                 $schema_post = array(
                     'post_author'           => intval($user_id),
@@ -1341,7 +1341,7 @@ if ( ! defined('ABSPATH') ) exit;
                    $exclude_specific = $schema_exclude_location['specific'];  
                   
                    
-                   foreach($exclude_rule as $rule){
+                   foreach( $exclude_rule as $rule){
                        
                        if($rule =='basic-singulars'){
                            
@@ -1363,7 +1363,7 @@ if ( ! defined('ABSPATH') ) exit;
                       }                                                                   
                    }                                                           
                    
-                   foreach ($exclude_specific as $rule){
+                   foreach ( $exclude_specific as $rule){
                                              
                        $explode = explode("-", $rule);  
                        $specific_post_name = $explode[0];
@@ -1397,13 +1397,13 @@ if ( ! defined('ABSPATH') ) exit;
                     $temp_two_array = $data_array['data_array'];                
                     $j =0;      
                     
-                    foreach($temp_two_array as $key => $val){
+                    foreach( $temp_two_array as $key => $val){
                         
                         $index =0;     
                         
-                        foreach($temp_data_array as $t=>$tval){
+                        foreach( $temp_data_array as $t=>$tval){
 
-                        if(($val['key_1'] == $tval['key_1']) && ($val['key_2'] == $tval['key_2']) && ($val['key_3'] == $tval['key_3'])){
+                        if(($val['key_1'] == $tval['key_1']) && ($val['key_2'] == $tval['key_2']) && ($val['key_3'] == $tval['key_3']) ) {
                           $index++;   
                             if($index>1 ){
                                 unset($temp_two_array[$t]);
@@ -1428,7 +1428,7 @@ if ( ! defined('ABSPATH') ) exit;
                    $enable_specific = $schema_enable_location['specific'];                    
                                                                                                                        
                     $i=0;
-                    foreach ($enable_rule as $rule){
+                    foreach ( $enable_rule as $rule){
                        
                       if($rule =='basic-singulars'){
                           
@@ -1461,7 +1461,7 @@ if ( ! defined('ABSPATH') ) exit;
                          );   
                        
                       } 
-                       if(isset($data_array['data_array'])){
+                       if ( isset( $data_array['data_array']) ) {
                            
                             $data_group_array['group-'.$i]['data_array'] = array_merge($data_group_array['group-'.$i]['data_array'],$data_array['data_array']);                                                                      
                             
@@ -1470,7 +1470,7 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     }
                     
-                    foreach ($enable_specific as $rule){
+                    foreach ( $enable_specific as $rule){
                                              
                        $explode            = explode("-", $rule);  
                        $specific_post_name = $explode[0];
@@ -1508,7 +1508,7 @@ if ( ! defined('ABSPATH') ) exit;
                          );
                            
                        }
-                       if(isset($data_array['data_array'])){
+                       if ( isset( $data_array['data_array']) ) {
                            
                                $data_group_array['group-'.$i]['data_array'] = array_merge($data_group_array['group-'.$i]['data_array'],$data_array['data_array']);                                                                                                                                                                           
                        
@@ -1520,7 +1520,7 @@ if ( ! defined('ABSPATH') ) exit;
                 }                                
                 $schema_type  = '';                  
                 
-                if(isset($schema_post_types)){
+                if ( isset( $schema_post_types) ) {
                     
                   $schema_type = ucfirst($schema_post_types);  
                   
@@ -1537,25 +1537,25 @@ if ( ! defined('ABSPATH') ) exit;
                     
                     $schema_type = 'local_business';
                     
-                    if(isset($schema_post_meta_box['telephone'])){
+                    if ( isset( $schema_post_meta_box['telephone']) ) {
                         $local_business_details['local_phone'] = $schema_post_meta_box['telephone'];
                     }
-                    if(isset($schema_post_meta_box['image'])){
+                    if ( isset( $schema_post_meta_box['image']) ) {
                         $local_business_details['local_business_logo']['url'] = $schema_post_meta_box['image'];
                     }
-                    if(isset($schema_post_meta_box['price-range'])){
+                    if ( isset( $schema_post_meta_box['price-range']) ) {
                         $local_business_details['local_price_range'] = $schema_post_meta_box['price-range'];
                     }
-                    if(isset($schema_post_meta_box['location-postal'])){
+                    if ( isset( $schema_post_meta_box['location-postal']) ) {
                         $local_business_details['local_postal_code'] = $schema_post_meta_box['location-postal'];
                     }
-                    if(isset($schema_post_meta_box['location-region'])){
+                    if ( isset( $schema_post_meta_box['location-region']) ) {
                         $local_business_details['local_state'] = $schema_post_meta_box['location-region']; 
                     }
-                    if(isset($schema_post_meta_box['location-street'])){
+                    if ( isset( $schema_post_meta_box['location-street']) ) {
                         $local_business_details['local_street_address'] = $schema_post_meta_box['location-street']; 
                     }
-                    if(isset($schema_post_meta_box['url'])){
+                    if ( isset( $schema_post_meta_box['url']) ) {
                        $local_business_details['local_website'] = $schema_post_meta_box['url'];  
                     }                                        
                 }                  
@@ -1568,12 +1568,12 @@ if ( ! defined('ABSPATH') ) exit;
                         
                 );
                 
-                foreach ($saswp_meta_key as $key => $val){   
+                foreach ( $saswp_meta_key as $key => $val){   
                     
                     update_post_meta($post_id, $key, $val);  
                     
                 }   
-                if(is_wp_error($result)){
+                if(is_wp_error($result) ) {
                     $errorDesc[] = $result->get_error_message();
                 }
             }                                      
@@ -1604,55 +1604,55 @@ if ( ! defined('ABSPATH') ) exit;
                     'sd_initial_wizard_status'  => 1,
                                         
                );                
-                if(isset($schema_pro_social_profile['facebook'])){
+                if ( isset( $schema_pro_social_profile['facebook']) ) {
                   $saswp_plugin_options['sd_facebook'] =  $schema_pro_social_profile['facebook']; 
                   $saswp_plugin_options['saswp-facebook-enable'] =  1; 
                 }
-                if(isset($schema_pro_social_profile['twitter'])){
+                if ( isset( $schema_pro_social_profile['twitter']) ) {
                   $saswp_plugin_options['sd_twitter'] =  $schema_pro_social_profile['twitter']; 
                   $saswp_plugin_options['saswp-twitter-enable'] =  1;
                 }
-                if(isset($schema_pro_social_profile['google-plus'])){
+                if ( isset( $schema_pro_social_profile['google-plus']) ) {
                   $saswp_plugin_options['sd_google_plus'] =  $schema_pro_social_profile['google-plus']; 
                   $saswp_plugin_options['saswp-google-plus-enable'] =  1;
                 }
-                if(isset($schema_pro_social_profile['instagram'])){
+                if ( isset( $schema_pro_social_profile['instagram']) ) {
                   $saswp_plugin_options['sd_instagram'] =  $schema_pro_social_profile['instagram']; 
                   $saswp_plugin_options['saswp-instagram-enable'] =  1;
                 }
-                if(isset($schema_pro_social_profile['youtube'])){
+                if ( isset( $schema_pro_social_profile['youtube']) ) {
                   $saswp_plugin_options['sd_youtube'] =  $schema_pro_social_profile['youtube']; 
                   $saswp_plugin_options['saswp-youtube-enable'] =  1;
                 }
-                if(isset($schema_pro_social_profile['linkedin'])){
+                if ( isset( $schema_pro_social_profile['linkedin']) ) {
                   $saswp_plugin_options['sd_linkedin'] =  $schema_pro_social_profile['linkedin']; 
                   $saswp_plugin_options['saswp-linkedin-enable'] =  1;
                 }
-                if(isset($schema_pro_social_profile['pinterest'])){
+                if ( isset( $schema_pro_social_profile['pinterest']) ) {
                   $saswp_plugin_options['sd_pinterest'] =  $schema_pro_social_profile['pinterest']; 
                   $saswp_plugin_options['saswp-pinterest-enable'] =  1;
                 }
-                if(isset($schema_pro_social_profile['soundcloud'])){
+                if ( isset( $schema_pro_social_profile['soundcloud']) ) {
                   $saswp_plugin_options['sd_soundcloud'] =  $schema_pro_social_profile['soundcloud']; 
                   $saswp_plugin_options['saswp-soundcloud-enable'] =  1;
                 }
-                if(isset($schema_pro_social_profile['tumblr'])){
+                if ( isset( $schema_pro_social_profile['tumblr']) ) {
                   $saswp_plugin_options['sd_tumblr'] =  $schema_pro_social_profile['tumblr']; 
                   $saswp_plugin_options['saswp-tumblr-enable'] =  1;
                 }                
-                if(isset($schema_pro_general_settings['site-represent'])){
+                if ( isset( $schema_pro_general_settings['site-represent']) ) {
                                                            
                   $saswp_plugin_options['saswp_kb_type'] = ucfirst($schema_pro_general_settings['site-represent']);  
                   $saswp_plugin_options['sd_name'] = $schema_pro_general_settings['site-name'];
                   $saswp_plugin_options['sd-person-name'] = $schema_pro_general_settings['person-name'];
                 }                
-                if(isset($schema_pro_global_schemas['about-page'])){
+                if ( isset( $schema_pro_global_schemas['about-page']) ) {
                   $saswp_plugin_options['sd_about_page'] = $schema_pro_global_schemas['about-page'];  
                 }
-                if(isset($schema_pro_global_schemas['contact-page'])){
+                if ( isset( $schema_pro_global_schemas['contact-page']) ) {
                   $saswp_plugin_options['sd_contact_page'] = $schema_pro_global_schemas['contact-page'];  
                 }
-                if(isset($schema_pro_global_schemas['breadcrumb'])){
+                if ( isset( $schema_pro_global_schemas['breadcrumb']) ) {
                   $saswp_plugin_options['saswp_breadcrumb_schema'] = $schema_pro_global_schemas['breadcrumb'];  
                 }                                              
                 $get_options = get_option('sd_data');
@@ -1661,7 +1661,7 @@ if ( ! defined('ABSPATH') ) exit;
                
               
             if ( count($errorDesc) ){
-              echo esc_html(implode("\n<br/>", $errorDesc));              
+              echo esc_html( implode("\n<br/>", $errorDesc));              
               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
@@ -1685,44 +1685,44 @@ if ( ! defined('ABSPATH') ) exit;
         $yoast_wpseo_premium = get_option('wpseo_premium');
 
         $saswp_plugin_options = array();
-        if(isset($yoast_wpseo_titles['company_name'])){
+        if ( isset( $yoast_wpseo_titles['company_name']) ) {
             $saswp_plugin_options['sd_name'] = $yoast_wpseo_titles['company_name'];
         }
-        if(isset($yoast_wpseo_titles['company_logo'])){
+        if ( isset( $yoast_wpseo_titles['company_logo']) ) {
             $saswp_plugin_options['sd_logo']['url'] = $yoast_wpseo_titles['company_logo'];
         }
-        if(isset($yoast_wpseo_titles['company_logo_id'])){
+        if ( isset( $yoast_wpseo_titles['company_logo_id']) ) {
             $saswp_plugin_options['sd_logo']['id'] = $yoast_wpseo_titles['company_logo_id'];
         }
-        if(isset($yoast_wpseo_titles['company_or_person']) && $yoast_wpseo_titles['company_or_person'] == 'person'){
+        if ( isset( $yoast_wpseo_titles['company_or_person']) && $yoast_wpseo_titles['company_or_person'] == 'person'){
             $saswp_plugin_options['saswp_kb_type'] = 'Person';
         }
-        if(isset($yoast_wpseo_titles['company_or_person']) && $yoast_wpseo_titles['company_or_person'] == 'company'){
+        if ( isset( $yoast_wpseo_titles['company_or_person']) && $yoast_wpseo_titles['company_or_person'] == 'company'){
             $saswp_plugin_options['saswp_kb_type'] = 'Organization';
         }
-        if(isset($yoast_wpseo_titles['company_or_person_user_id']) && !empty($yoast_wpseo_titles['company_or_person_user_id'])){
+        if ( isset( $yoast_wpseo_titles['company_or_person_user_id']) && !empty($yoast_wpseo_titles['company_or_person_user_id']) ) {
             $user_details = get_userdata($yoast_wpseo_titles['company_or_person_user_id']);
-            if(isset($user_details->data) && isset($user_details->data->display_name)){
+            if ( isset( $user_details->data) && isset($user_details->data->display_name) ) {
                 $saswp_plugin_options['sd-person-name'] = $user_details->data->display_name;
             }
         }
-        if(isset($yoast_wpseo_titles['website_name'])){
+        if ( isset( $yoast_wpseo_titles['website_name']) ) {
             $saswp_plugin_options['sd_url'] = $yoast_wpseo_titles['website_name'];
         }
-        if(isset($yoast_wpseo_titles['breadcrumbs-home'])){
+        if ( isset( $yoast_wpseo_titles['breadcrumbs-home']) ) {
             $saswp_plugin_options['saswp_breadcrumb_home_page_title'] = $yoast_wpseo_titles['breadcrumbs-home'];
         }
-        if(isset($yoast_wpseo_titles['person_logo']) && !empty($yoast_wpseo_titles['person_logo'])){
+        if ( isset( $yoast_wpseo_titles['person_logo']) && !empty($yoast_wpseo_titles['person_logo']) ) {
             $saswp_plugin_options['sd-person-image']['url'] = $yoast_wpseo_titles['person_logo'];
         }
-        if(isset($yoast_wpseo_titles['person_logo_id'])){
+        if ( isset( $yoast_wpseo_titles['person_logo_id']) ) {
             $saswp_plugin_options['sd-person-image']['id'] = $yoast_wpseo_titles['person_logo_id'];
         }
-        if(isset($yoast_wpseo_social['facebook_site'])){
+        if ( isset( $yoast_wpseo_social['facebook_site']) ) {
           $saswp_plugin_options['sd_facebook'] =  $yoast_wpseo_social['facebook_site']; 
           $saswp_plugin_options['saswp-facebook-enable'] =  1; 
         }
-        if(isset($yoast_wpseo_social['twitter_site'])){
+        if ( isset( $yoast_wpseo_social['twitter_site']) ) {
           $saswp_plugin_options['sd_twitter'] =  $yoast_wpseo_social['twitter_site']; 
           $saswp_plugin_options['saswp-twitter-enable'] =  1;
         }
@@ -1737,15 +1737,15 @@ if ( ! defined('ABSPATH') ) exit;
         if ( file_exists( $mappings_file ) ) {
             $all_schema_array = include $mappings_file;
         }
-        if(!empty($all_schema_array) && is_array($all_schema_array)){
+        if ( ! empty( $all_schema_array) && is_array($all_schema_array) ) {
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just starting transaction            
             $wpdb->query('START TRANSACTION');
-            foreach ($all_schema_array as $ask_key => $ask_value) {
-                if(!empty($ask_value) && is_array($ask_value)){
-                    foreach ($ask_value as $ask_key1 => $ask_value1) {
+            foreach ( $all_schema_array as $ask_key => $ask_value) {
+                if ( ! empty( $ask_value) && is_array($ask_value) ) {
+                    foreach ( $ask_value as $ask_key1 => $ask_value1) {
                         $schema_post = array();
                         $key3 = 'post';
-                        if((isset($yoast_wpseo_titles['schema-page-type-post']) && $ask_value1 == $yoast_wpseo_titles['schema-page-type-post']) || (isset($yoast_wpseo_titles['schema-article-type-post']) && $ask_value1 == $yoast_wpseo_titles['schema-article-type-post'])){
+                        if((isset($yoast_wpseo_titles['schema-page-type-post']) && $ask_value1 == $yoast_wpseo_titles['schema-page-type-post']) || (isset($yoast_wpseo_titles['schema-article-type-post']) && $ask_value1 == $yoast_wpseo_titles['schema-article-type-post']) ) {
                             $schema_post = array(
                                 'post_author'           => $user_id,
                                 'post_date'             => gmdate('Y-m-d H:i:s'),
@@ -1759,7 +1759,7 @@ if ( ! defined('ABSPATH') ) exit;
                                 'post_type'             => 'saswp',                   
                             ); 
                             $key3 = 'post';
-                        }else if((isset($yoast_wpseo_titles['schema-page-type-page']) && $ask_value1 == $yoast_wpseo_titles['schema-page-type-page']) || (isset($yoast_wpseo_titles['schema-article-type-page']) && $ask_value1 == $yoast_wpseo_titles['schema-article-type-page'])){
+                        }elseif((isset($yoast_wpseo_titles['schema-page-type-page']) && $ask_value1 == $yoast_wpseo_titles['schema-page-type-page']) || (isset($yoast_wpseo_titles['schema-article-type-page']) && $ask_value1 == $yoast_wpseo_titles['schema-article-type-page']) ) {
                             $schema_post = array(
                                 'post_author'           => intval($user_id),
                                 'post_date'             => gmdate('Y-m-d H:i:s'),
@@ -1774,7 +1774,7 @@ if ( ! defined('ABSPATH') ) exit;
                             ); 
                             $key3 = 'page';
                         }
-                        if(!empty($schema_post)){    
+                        if ( ! empty( $schema_post) ) {    
                             $post_id = wp_insert_post($schema_post);
                             $result  = $post_id;
                             
@@ -1800,11 +1800,11 @@ if ( ! defined('ABSPATH') ) exit;
                                 'imported_from'    => 'yoast'
                             );
                             
-                            foreach ($saswp_meta_key as $key => $val){                     
+                            foreach ( $saswp_meta_key as $key => $val){                     
                                 update_post_meta($post_id, $key, $val);  
                             }
 
-                            if(is_wp_error($result)){
+                            if(is_wp_error($result) ) {
                                 $errorDesc[] = $result->get_error_message();
                             }
                         }
@@ -1813,7 +1813,7 @@ if ( ! defined('ABSPATH') ) exit;
             }
 
             if (!empty($errorDesc) && is_array($errorDesc) && count($errorDesc) ){
-              echo esc_html(implode("\n<br/>", $errorDesc)); 
+              echo esc_html( implode("\n<br/>", $errorDesc)); 
               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Just rollbacking transaction                        
               $wpdb->query('ROLLBACK');             
             }else{
@@ -1927,7 +1927,7 @@ if ( ! defined('ABSPATH') ) exit;
                 return $my_allowed;
             }    
             
-    function saswp_admin_link($tab = '', $args = array()){
+    function saswp_admin_link($tab = '', $args = array() ) {
 
                 $page = 'structured_data_options';
 
@@ -1985,8 +1985,8 @@ function saswp_fields_and_type($data_type = 'value'){
 
     if($custom_logo_id){
         
-        if(class_exists('FOXIZ_CORE')){
-            if(function_exists('wp_get_current_user')){
+        if(class_exists('FOXIZ_CORE') ) {
+            if ( function_exists( 'wp_get_current_user') ) {
                 $logo       = wp_get_attachment_image_src( $custom_logo_id , 'full' );                      
             }                       
         }else{
@@ -2081,7 +2081,7 @@ function saswp_fields_and_type($data_type = 'value'){
         'saswp-role-based-access'                       => array('type' => 'select', 'value' => array('administrator'))
     );
     
-    if(is_array($logo)){
+    if ( is_array( $logo) ) {
 
         $defaults['sd_logo']  = array(
                     'type' => 'text',
@@ -2098,12 +2098,12 @@ function saswp_fields_and_type($data_type = 'value'){
     $response = [];
     switch ($data_type) {
         case 'type':
-            foreach ($defaults as $key => $value) {
+            foreach ( $defaults as $key => $value) {
                 $response[$key] = $value['type'];
             }
             break;
         case 'value':
-            foreach ($defaults as $key => $value) {
+            foreach ( $defaults as $key => $value) {
                 $response[$key] = $value['value'];
             }
             break;
@@ -2124,20 +2124,20 @@ function saswp_fields_and_type($data_type = 'value'){
      * @since version 1.0
      */   
             
-    function saswp_default_settings_array(){
+    function saswp_default_settings_array() {
         $defaults = saswp_fields_and_type();
         $defaults = apply_filters("saswp_default_settings_vals",$defaults);
         return $defaults;
     }        
             
-    function saswp_defaultSettings(){
+    function saswp_defaultSettings() {
                            
                 global $sd_data; 
                 
                 $sd_data = get_option( 'sd_data', saswp_default_settings_array());     
 
                 // If data is not set for custom schema option then  set default data to 1
-                if(!array_key_exists('saswp-for-cschema', $sd_data)){
+                if(!array_key_exists('saswp-for-cschema', $sd_data) ) {
                     $sd_data['saswp-for-cschema'] = 1;
                 }
 
@@ -2148,16 +2148,16 @@ function saswp_fields_and_type($data_type = 'value'){
      * Function to enqueue css and js in frontend
      * @global type $sd_data
      */        
-    function saswp_frontend_enqueue(){ 
+    function saswp_frontend_enqueue() { 
 
           global $sd_data;
 
 
-          if(isset($sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
+          if ( isset( $sd_data['saswp-review-module']) && $sd_data['saswp-review-module'] == 1){
 
                     $review_details     = esc_sql ( get_post_meta(get_the_ID(), 'saswp_review_details', true));
 
-                    if(isset($review_details['saswp-review-item-enable'])){
+                    if ( isset( $review_details['saswp-review-item-enable']) ) {
 
                         wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       
 
@@ -2165,7 +2165,7 @@ function saswp_fields_and_type($data_type = 'value'){
 
           }  
 
-          if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
+          if ( isset( $sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1 ){
 
                      wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       
 
@@ -2176,7 +2176,7 @@ function saswp_fields_and_type($data_type = 'value'){
      * Function to enqueue css in amp version
      * @global type $sd_data
      */  
-    function saswp_enqueue_amp_script(){
+    function saswp_enqueue_amp_script() {
      
          global $sd_data;  
         
@@ -2184,7 +2184,7 @@ function saswp_fields_and_type($data_type = 'value'){
         
          $saswp_rv_item_enable = 0;
         
-         if(isset($saswp_review_details['saswp-review-item-enable'])){
+         if ( isset( $saswp_review_details['saswp-review-item-enable']) ) {
             
           $saswp_rv_item_enable =  $saswp_review_details['saswp-review-item-enable'];  
          
@@ -2199,15 +2199,15 @@ function saswp_fields_and_type($data_type = 'value'){
         
         .saswp-rvw-str .half-str{
            
-            background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/half_star.png'); ?>);
+            background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/half_star.png' ); ?>);
         }
         .saswp-rvw-str .str-ic{
            
-            background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png'); ?>);
+            background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png' ); ?>);
         }
         .saswp-rvw-str .df-clr{
            
-            background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png'); ?>);
+            background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png' ); ?>);
         }
                
         <?php
@@ -2217,13 +2217,13 @@ function saswp_fields_and_type($data_type = 'value'){
             ?>
         
             .saswp-rvw-str .half-str{                
-                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/half_star.png'); ?>);
+                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/half_star.png' ); ?>);
             }
             .saswp-rvw-str .str-ic{               
-                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png'); ?>);
+                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png' ); ?>);
             }
             .saswp-rvw-str .df-clr{                
-                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png'); ?>);
+                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png' ); ?>);
             }
                                 
         <?php
@@ -2238,7 +2238,7 @@ function saswp_fields_and_type($data_type = 'value'){
      * Function to get author name
      * @return type string
      */    
-    function saswp_get_the_author_name(){
+    function saswp_get_the_author_name() {
         
             $author_id          = get_the_author_meta('ID');														
             $aurthor_name 	= get_the_author();
@@ -2263,8 +2263,8 @@ function saswp_fields_and_type($data_type = 'value'){
         
         if (empty($cached_data)) {
             $response = array();        
-            if(!empty($attachments)){
-                foreach ($attachments as $url){
+            if ( ! empty( $attachments) ) {
+                foreach ( $attachments as $url){
                 
                     if($url && $url != ""){
 
@@ -2272,7 +2272,7 @@ function saswp_fields_and_type($data_type = 'value'){
                             $image = array();    
                             $image = saswp_get_image_details($url);
 
-                            if(!empty($image) && is_array($image)){
+                            if ( ! empty( $image) && is_array($image) ) {
 
                                 $image_data[0] =  $image[0]; //width
                                 $image_data[1] =  $image[1]; //height
@@ -2284,7 +2284,7 @@ function saswp_fields_and_type($data_type = 'value'){
                                 $img_id           = attachment_url_to_postid($url);
                                 $imageDetail      = wp_get_attachment_image_src( $img_id , 'full');
 
-                                if($imageDetail && is_array($imageDetail)){
+                                if($imageDetail && is_array($imageDetail) ) {
 
                                     $image_data[0]    = $imageDetail[1]; // width
                                     $image_data[1]    = $imageDetail[2]; // height
@@ -2310,12 +2310,12 @@ function saswp_fields_and_type($data_type = 'value'){
      * @global type $post
      * @return type string
      */
-    function saswp_get_the_content(){
+    function saswp_get_the_content() {
 
         global $post;
         $content = '';   
         
-        if(is_object($post)){
+        if(is_object($post) ) {
             $content = get_post_field('post_content', $post->ID);            
             $content = wp_strip_all_tags($content);   
             $content = preg_replace('/\[.*?\]/','', $content);            
@@ -2349,11 +2349,11 @@ function saswp_fields_and_type($data_type = 'value'){
         $excerpt = '';
         
         
-        if(is_object($post)){
+        if(is_object($post) ) {
 
         $excerpt = $post->post_excerpt;
 
-        if(empty($excerpt)){
+        if(empty($excerpt) ) {
 
             $post_content = wp_strip_all_tags(strip_shortcodes($post->post_content)); 
             $post_content = preg_replace('/\[.*?\]/','', $post_content);
@@ -2368,7 +2368,7 @@ function saswp_fields_and_type($data_type = 'value'){
             $regex = '/<p>(.*?)<\/p>/';
             preg_match_all($regex, $excerpt, $matches);
 
-            if(is_array($matches[1])){
+            if ( is_array( $matches[1]) ) {
                 $excerpt = implode(" ", $matches[1]); 
             }
 
@@ -2390,7 +2390,7 @@ function saswp_fields_and_type($data_type = 'value'){
 
             $slim_seo = get_post_meta( $post->ID, 'slim_seo', true );
             
-            if(isset($slim_seo['description']) && $slim_seo['description'] != ''){
+            if ( isset( $slim_seo['description']) && $slim_seo['description'] != '' ) {
                 $excerpt = $slim_seo['description'];
             }
 
@@ -2398,7 +2398,7 @@ function saswp_fields_and_type($data_type = 'value'){
         
         if(saswp_remove_warnings($sd_data, 'saswp-smart-crawl', 'saswp_string') == 1){
                             
-                if(class_exists('Smartcrawl_OpenGraph_Value_Helper')){
+                if(class_exists('Smartcrawl_OpenGraph_Value_Helper') ) {
                         
                     $value_helper = new Smartcrawl_OpenGraph_Value_Helper();
             
@@ -2417,7 +2417,7 @@ function saswp_fields_and_type($data_type = 'value'){
                              
              global $aiosp;  
              
-             if(is_object($aiosp)){
+             if(is_object($aiosp) ) {
              
                     $c_excerpt =  $aiosp->get_aioseop_description($post);             
                     if($c_excerpt){
@@ -2441,7 +2441,7 @@ function saswp_fields_and_type($data_type = 'value'){
         }
         
         //SEOPress
-        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){                        
+        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo') ) {                        
                  $excerpt = saswp_get_seo_press_metadata('description');                                                                                   
         }
         
@@ -2456,7 +2456,7 @@ function saswp_fields_and_type($data_type = 'value'){
                                       
         }
 
-        if(saswp_remove_warnings($sd_data, 'saswp-rankmath', 'saswp_string') == 1 && class_exists('RankMath\Post')){
+        if(saswp_remove_warnings($sd_data, 'saswp-rankmath', 'saswp_string') == 1 && class_exists('RankMath\Post') ) {
                         
             $c_excerpt = RankMath\Post::get_meta( 'description', $post->ID );
         
@@ -2470,13 +2470,13 @@ function saswp_fields_and_type($data_type = 'value'){
 
             $post_meta = get_post_meta($post->ID, 'mtm_data', true);
             
-            if(is_array($post_meta)){
+            if ( is_array( $post_meta) ) {
 
                 $meta_tag = array_column($post_meta, 'value');
             
                 $key      = array_search("description",$meta_tag);
                 
-                if(array_key_exists($key, $post_meta)){
+                if(array_key_exists($key, $post_meta) ) {
                     
                     $c_excerpt = $post_meta[$key]['content'];
                     
@@ -2504,7 +2504,7 @@ function saswp_fields_and_type($data_type = 'value'){
      */
     function saswp_convert_yoast_metafields ($post_id, $field) {
 
-        if(class_exists('WPSEO_Meta') && class_exists('WPSEO_Replace_Vars')){
+        if(class_exists('WPSEO_Meta') && class_exists('WPSEO_Replace_Vars') ) {
 
             $string =  WPSEO_Meta::get_value( $field, $post_id );
             if ($string !== '') {
@@ -2517,7 +2517,7 @@ function saswp_fields_and_type($data_type = 'value'){
         return '';
     }
     
-    function saswp_get_blog_desc(){
+    function saswp_get_blog_desc() {
         
         global $sd_data; 
         
@@ -2525,9 +2525,9 @@ function saswp_fields_and_type($data_type = 'value'){
         
         if(is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home()) ){
             
-        if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1){
+        if ( isset( $sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1){
             
-            if(class_exists('WPSEO_Frontend')){
+            if(class_exists('WPSEO_Frontend') ) {
                 
                 if (defined('WPSEO_VERSION') && WPSEO_VERSION < 14.0) {
                     $front             = WPSEO_Frontend::get_instance();
@@ -2537,7 +2537,7 @@ function saswp_fields_and_type($data_type = 'value'){
                    $blog_desc = $saswp_yoast_home_meta;                                        
                 }
                                                       
-                if(empty($blog_desc)){
+                if(empty($blog_desc) ) {
                     $blog_desc = get_bloginfo('description');
                 }                                   
             }            
@@ -2551,28 +2551,28 @@ function saswp_fields_and_type($data_type = 'value'){
      * @global type $post
      * @return type string
      */
-    function saswp_get_the_title(){
+    function saswp_get_the_title() {
 
         global $post;
         global $sd_data;
 
         $title = $c_title = '';
 
-        if(is_object($post)){
+        if(is_object($post) ) {
             $title   = @get_the_title();
         }
                                                 
         //SEOPress
-        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo')){                        
+        if(saswp_remove_warnings($sd_data, 'saswp-squirrly-seo', 'saswp_string') == 1 && class_exists('SQ_Models_Abstract_Seo') ) {                        
                 $title = saswp_get_seo_press_metadata('title');                                                 
         }
         
         //SEOPress
         if(saswp_remove_warnings($sd_data, 'saswp-seo-press', 'saswp_string') == 1){
             
-             if(!is_admin()){
+             if(!is_admin() ) {
                                              
-                    if(function_exists('seopress_titles_the_title') && seopress_titles_the_title() !=''){
+                    if ( function_exists( 'seopress_titles_the_title') && seopress_titles_the_title() !='' ) {
 
                        require_once ( WP_PLUGIN_DIR. '/wp-seopress/inc/functions/options-titles-metas.php');
 
@@ -2593,7 +2593,7 @@ function saswp_fields_and_type($data_type = 'value'){
             
              global $aiosp;
              
-             if(is_object($aiosp)){
+             if(is_object($aiosp) ) {
              
                 $c_title =  $aiosp->wp_title();
              
@@ -2611,7 +2611,7 @@ function saswp_fields_and_type($data_type = 'value'){
             
             $slim_seo = get_post_meta( get_the_ID(), 'slim_seo', true );
             
-            if(isset($slim_seo['title']) && $slim_seo['title'] != ''){
+            if ( isset( $slim_seo['title']) && $slim_seo['title'] != '' ) {
                 $title = $slim_seo['title'];
             }
             
@@ -2620,7 +2620,7 @@ function saswp_fields_and_type($data_type = 'value'){
         //The seo framework
         if(saswp_remove_warnings($sd_data, 'saswp-the-seo-framework', 'saswp_string') == 1){
                           
-            if(is_object($post)){
+            if(is_object($post) ) {
 
                 $c_title = get_post_meta($post->ID, '_genesis_title', true);
                 
@@ -2636,9 +2636,9 @@ function saswp_fields_and_type($data_type = 'value'){
                 
         if(saswp_remove_warnings($sd_data, 'saswp-smart-crawl', 'saswp_string') == 1){
 
-            if(is_object($post)){
+            if(is_object($post) ) {
                 
-                if(class_exists('Smartcrawl_OpenGraph_Value_Helper')){
+                if(class_exists('Smartcrawl_OpenGraph_Value_Helper') ) {
                         
                     $value_helper = new Smartcrawl_OpenGraph_Value_Helper();
             
@@ -2660,7 +2660,7 @@ function saswp_fields_and_type($data_type = 'value'){
         //Yoast title 
         if(saswp_remove_warnings($sd_data, 'saswp-yoast', 'saswp_string') == 1){
 
-            if(is_object($post)){
+            if(is_object($post) ) {
 
                 $c_title = saswp_convert_yoast_metafields($post->ID, 'title');
 
@@ -2674,13 +2674,13 @@ function saswp_fields_and_type($data_type = 'value'){
 
         }
 
-        if(saswp_remove_warnings($sd_data, 'saswp-rankmath', 'saswp_string') == 1 && class_exists('RankMath\Post')){
+        if(saswp_remove_warnings($sd_data, 'saswp-rankmath', 'saswp_string') == 1 && class_exists('RankMath\Post') ) {
                                             
             if( is_tag() || is_tax() || is_category() ){
                 $c_title = RankMath\Post::get_meta( 'title', get_the_ID() );
             }else{
                 $c_title = RankMath\Post::get_meta( 'title', get_the_ID() );
-                if(empty($c_title)){
+                if(empty($c_title) ) {
                     $c_title = RankMath\Paper\Paper::get()->get_title();
                 }
             }            
@@ -2710,15 +2710,15 @@ function saswp_fields_and_type($data_type = 'value'){
      * @global type $post
      * @return type array
      */
-    function saswp_get_author_details(){
+    function saswp_get_author_details() {
 
         global $post, $sd_data;
 
         $author_details = array();            
         $is_multiple_authors = 0;
-        if(isset($sd_data['saswp-publish-press-authors']) && $sd_data['saswp-publish-press-authors'] == 1){
+        if ( isset( $sd_data['saswp-publish-press-authors']) && $sd_data['saswp-publish-press-authors'] == 1){
             $multiple_authors = get_post_meta(get_the_ID(), 'ppma_authors_name');
-            if(!empty($multiple_authors) && isset($multiple_authors[0])){
+            if ( ! empty( $multiple_authors) && isset($multiple_authors[0]) ) {
                 $explode_authors = explode(',', $multiple_authors[0]);
                 if(count($explode_authors) > 1){
                     $is_multiple_authors = 1;
@@ -2730,7 +2730,7 @@ function saswp_fields_and_type($data_type = 'value'){
             $author_name 	    = get_the_author();
             $author_desc        = get_the_author_meta( 'user_description' );     
 
-            if(!$author_name && is_object($post)){
+            if(!$author_name && is_object($post) ) {
                 $author_id    = get_post_field ( 'post_author', $post->ID);
                 $author_name  = get_the_author_meta( 'display_name' , $author_id );             
             }
@@ -2742,7 +2742,7 @@ function saswp_fields_and_type($data_type = 'value'){
 
             $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim', 'threads', 'mastodon');
 
-            foreach($social_links as $links){
+            foreach( $social_links as $links){
 
                 $url  = get_the_author_meta($links, $author_id );
 
@@ -2754,35 +2754,35 @@ function saswp_fields_and_type($data_type = 'value'){
                             
             $author_image = array();
             
-            if(function_exists('get_avatar_data')){
+            if ( function_exists( 'get_avatar_data') ) {
                 $author_image	= get_avatar_data($author_id);
             }
                     
             $author_details['@type']           = 'Person';
-            $author_details['name']            = esc_attr($author_name);
-            if(!empty($author_desc)){
+            $author_details['name']            = esc_attr( $author_name);
+            if ( ! empty( $author_desc) ) {
                 $author_details['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
             }else{
-                if(!empty($author_meta['author_bio'][0])){
+                if ( ! empty( $author_meta['author_bio'][0]) ) {
                     $author_details['description'] =   $author_meta['author_bio'][0];
                 }
             }
             $author_details['url']             = esc_url($author_url);
             $author_details['sameAs']          = $same_as;
 
-            if(!empty($author_meta['knowsabout'][0])){
+            if ( ! empty( $author_meta['knowsabout'][0]) ) {
                 $author_details['knowsAbout'] =   explode(',', $author_meta['knowsabout'][0]);
             }
 
-            if(!empty($author_meta['honorificsuffix'][0])){
+            if ( ! empty( $author_meta['honorificsuffix'][0]) ) {
                 $author_details['honorificSuffix'] =  $author_meta['honorificsuffix'][0];
             }
 
-            if(!empty($author_meta['alumniof'][0])){
+            if ( ! empty( $author_meta['alumniof'][0]) ) {
                 $str =  $author_meta['alumniof'][0];
                 $itemlist = explode(",", $str);
-                if(!empty($itemlist)){
-                    foreach ($itemlist as $key => $list){
+                if ( ! empty( $itemlist) ) {
+                    foreach ( $itemlist as $key => $list){
                         $vnewarr['@type'] = 'Organization';
                         $vnewarr['Name']   = $list;   
                         $author_details['alumniOf'][] = $vnewarr;
@@ -2791,22 +2791,22 @@ function saswp_fields_and_type($data_type = 'value'){
                 
             }
 
-            if(!empty($author_meta['author_image'][0])){
+            if ( ! empty( $author_meta['author_image'][0]) ) {
                 $author_image =  wp_get_attachment_image_src($author_meta['author_image'][0]);
-                if(!empty($author_image)){
+                if ( ! empty( $author_image) ) {
                     $author_details['image']['@type']  = 'ImageObject';
                     $author_details['image']['url']    = $author_image[0];
                     $author_details['image']['height'] = $author_image[1];
                     $author_details['image']['width']  = $author_image[2];
                 }
-            }elseif(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
+            }elseif ( isset( $author_image['url']) && isset($author_image['height']) && isset($author_image['width']) ) {
 
                 $author_details['image']['@type']  = 'ImageObject';
                 $author_details['image']['url']    = $author_image['url'];
                 $author_details['image']['height'] = $author_image['height'];
                 $author_details['image']['width']  = $author_image['width'];
             }
-            if(isset($sd_data['saswp-simple-author-box']) && $sd_data['saswp-simple-author-box'] == 1 && function_exists('sab_fs') ){
+            if ( isset( $sd_data['saswp-simple-author-box']) && $sd_data['saswp-simple-author-box'] == 1 && function_exists('sab_fs') ){
 
                 $sab_image = get_the_author_meta( 'sabox-profile-image', $author_id );
 
@@ -2815,7 +2815,7 @@ function saswp_fields_and_type($data_type = 'value'){
                     $image = array();
                     $image = saswp_get_image_details($sab_image);
 
-                    if(!empty($image) && is_array($image)){
+                    if ( ! empty( $image) && is_array($image) ) {
                         $author_details['image']['@type']  = 'ImageObject';
                         $author_details['image']['url']    = $sab_image;
                         $author_details['image']['height'] = $image[1];
@@ -2839,14 +2839,14 @@ function saswp_fields_and_type($data_type = 'value'){
     {
         global $post, $sd_data, $wpdb;
 
-        if(isset($sd_data['saswp-publish-press-authors']) && $sd_data['saswp-publish-press-authors'] == 1){
+        if ( isset( $sd_data['saswp-publish-press-authors']) && $sd_data['saswp-publish-press-authors'] == 1){
             $multiple_authors = get_post_meta(get_the_ID(), 'ppma_authors_name');
-            if(!empty($multiple_authors) && isset($multiple_authors[0])){
+            if ( ! empty( $multiple_authors) && isset($multiple_authors[0]) ) {
                 $explode_authors = explode(',', $multiple_authors[0]);
-                if(!empty($explode_authors) && is_array($explode_authors)){
+                if ( ! empty( $explode_authors) && is_array($explode_authors) ) {
                     $auth_cnt = 0;
                     $author_details = array(); 
-                    foreach ($explode_authors as $ea_value) {                                                
+                    foreach ( $explode_authors as $ea_value) {                                                
                         $cache_key    = 'saswp_publisher_press_cache_key';
                         $user_results = wp_cache_get( $cache_key );
                         if ( false === $user_results ) {
@@ -2855,8 +2855,8 @@ function saswp_fields_and_type($data_type = 'value'){
                             wp_cache_set( $cache_key, $user_results );
                         }
                                                 
-                        if(!empty($user_results) && isset($user_results[0])){
-                            if(isset($user_results[0]['ID'])){
+                        if ( ! empty( $user_results) && isset($user_results[0]) ) {
+                            if ( isset( $user_results[0]['ID']) ) {
                                 $author_id          = $user_results[0]['ID'];  
                                 $author_name        = $ea_value;  
                                 $author_desc        = get_the_author_meta( 'user_description', $author_id);
@@ -2867,7 +2867,7 @@ function saswp_fields_and_type($data_type = 'value'){
 
                                 $social_links = array('url', 'facebook', 'twitter', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'youtube', 'wikipedia', 'jabber', 'yim', 'aim', 'threads', 'mastodon');
 
-                                foreach($social_links as $links){
+                                foreach( $social_links as $links){
 
                                     $url  = get_the_author_meta($links, $author_id );
 
@@ -2879,35 +2879,35 @@ function saswp_fields_and_type($data_type = 'value'){
 
                                 $author_image = array();
             
-                                if(function_exists('get_avatar_data')){
+                                if ( function_exists( 'get_avatar_data') ) {
                                     $author_image   = get_avatar_data($author_id);
                                 }
                                         
                                 $author_details[$auth_cnt]['@type']           = 'Person';
-                                $author_details[$auth_cnt]['name']            = esc_attr($author_name);
-                                if(!empty($author_desc)){
+                                $author_details[$auth_cnt]['name']            = esc_attr( $author_name);
+                                if ( ! empty( $author_desc) ) {
                                     $author_details[$auth_cnt]['description']     = wp_strip_all_tags(strip_shortcodes($author_desc)); 
                                 }else{
-                                    if(!empty($author_meta['author_bio'][0])){
+                                    if ( ! empty( $author_meta['author_bio'][0]) ) {
                                         $author_details[$auth_cnt]['description'] =   $author_meta['author_bio'][0];
                                     }
                                 }
                                 $author_details[$auth_cnt]['url']             = esc_url($author_url);
                                 $author_details[$auth_cnt]['sameAs']          = $same_as;
 
-                                if(!empty($author_meta['knowsabout'][0])){
+                                if ( ! empty( $author_meta['knowsabout'][0]) ) {
                                     $author_details[$auth_cnt]['knowsAbout'] =   explode(',', $author_meta['knowsabout'][0]);
                                 }
 
-                                if(!empty($author_meta['honorificsuffix'][0])){
+                                if ( ! empty( $author_meta['honorificsuffix'][0]) ) {
                                     $author_details[$auth_cnt]['honorificSuffix'] =  $author_meta['honorificsuffix'][0];
                                 }
 
-                                if(!empty($author_meta['alumniof'][0])){
+                                if ( ! empty( $author_meta['alumniof'][0]) ) {
                                     $str =  $author_meta['alumniof'][0];
                                     $itemlist = explode(",", $str);
-                                    if(!empty($itemlist)){
-                                        foreach ($itemlist as $key => $list){
+                                    if ( ! empty( $itemlist) ) {
+                                        foreach ( $itemlist as $key => $list){
                                             $vnewarr['@type'] = 'Organization';
                                             $vnewarr['Name']   = $list;   
                                             $author_details[$auth_cnt]['alumniOf'][] = $vnewarr;
@@ -2916,15 +2916,15 @@ function saswp_fields_and_type($data_type = 'value'){
                                     
                                 }
 
-                                if(!empty($author_meta['author_image'][0])){
+                                if ( ! empty( $author_meta['author_image'][0]) ) {
                                     $author_image =  wp_get_attachment_image_src($author_meta['author_image'][0]);
-                                    if(!empty($author_image)){
+                                    if ( ! empty( $author_image) ) {
                                         $author_details[$auth_cnt]['image']['@type']  = 'ImageObject';
                                         $author_details[$auth_cnt]['image']['url']    = $author_image[0];
                                         $author_details[$auth_cnt]['image']['height'] = $author_image[1];
                                         $author_details[$auth_cnt]['image']['width']  = $author_image[2];
                                     }
-                                }elseif(isset($author_image['url']) && isset($author_image['height']) && isset($author_image['width'])){
+                                }elseif ( isset( $author_image['url']) && isset($author_image['height']) && isset($author_image['width']) ) {
 
                                     $author_details[$auth_cnt]['image']['@type']  = 'ImageObject';
                                     $author_details[$auth_cnt]['image']['url']    = $author_image['url'];
@@ -2932,11 +2932,11 @@ function saswp_fields_and_type($data_type = 'value'){
                                     $author_details[$auth_cnt]['image']['width']  = $author_image['width'];
                                 }
 
-                                if(!empty(get_the_author_meta('user_email', $author_id))){
+                                if ( ! empty( get_the_author_meta('user_email', $author_id)) ) {
                                     $author_details[$auth_cnt]['email']  = get_the_author_meta('user_email', $author_id);
                                 }
 
-                                if(isset($sd_data['saswp-simple-author-box']) && $sd_data['saswp-simple-author-box'] == 1 && function_exists('sab_fs') ){
+                                if ( isset( $sd_data['saswp-simple-author-box']) && $sd_data['saswp-simple-author-box'] == 1 && function_exists('sab_fs') ){
 
                                     $sab_image = get_the_author_meta( 'sabox-profile-image', $author_id );
 
@@ -2945,7 +2945,7 @@ function saswp_fields_and_type($data_type = 'value'){
                                         $image = array();
                                         $image = saswp_get_image_details($sab_image);
 
-                                        if(!empty($image) && is_array($image)){
+                                        if ( ! empty( $image) && is_array($image) ) {
                                             $author_details[$auth_cnt]['image']['@type']  = 'ImageObject';
                                             $author_details[$auth_cnt]['image']['url']    = $sab_image;
                                             $author_details[$auth_cnt]['image']['height'] = $image[1];
@@ -2974,13 +2974,13 @@ function saswp_fields_and_type($data_type = 'value'){
     
     if($array){
                
-        foreach($array as $group => $condition){
+        foreach( $array as $group => $condition){
             
             $group_condition = $condition[$type];
             
-            foreach ($group_condition as $con_key => $con_val){
+            foreach ( $group_condition as $con_key => $con_val){
                 
-                foreach($con_val as $key => $val){
+                foreach( $con_val as $key => $val){
                         
                         $con_val[$key] =   sanitize_text_field($val);
                         
@@ -2998,7 +2998,7 @@ function saswp_fields_and_type($data_type = 'value'){
     return $array;
 }
 
-function saswp_compatible_active_list(){
+function saswp_compatible_active_list() {
         
     $pnamelist   = array();
     $active      = array();
@@ -3009,16 +3009,16 @@ function saswp_compatible_active_list(){
         $pnamelist = include $mappings_file;        
     }
     
-    foreach ($pnamelist['plugins'] as $key => $plugin){
+    foreach ( $pnamelist['plugins'] as $key => $plugin){
         
-        if(is_plugin_active($plugin['free']) || (array_key_exists('pro', $plugin) && is_plugin_active($plugin['pro']))){
+        if ( is_plugin_active( $plugin['free']) || (array_key_exists('pro', $plugin) && is_plugin_active($plugin['pro'])) ) {
 
             $active[$key] = $plugin['opt_name'];
 
         }
         
     }    
-    foreach ($pnamelist['themes'] as $key => $plugin){
+    foreach ( $pnamelist['themes'] as $key => $plugin){
         
         if(get_template() == $plugin['free']){
 
@@ -3072,7 +3072,7 @@ function saswp_delete_all_data_on_uninstall() {
                 
 }
 
-function saswp_on_uninstall(){
+function saswp_on_uninstall() {
 
     if ( ! current_user_can( saswp_current_user_can() ) ) {
         return;
@@ -3080,7 +3080,7 @@ function saswp_on_uninstall(){
        
     $options = get_option('sd_data');
     
-    if(isset($options['saswp_rmv_data_on_uninstall'])){
+    if ( isset( $options['saswp_rmv_data_on_uninstall']) ) {
     
        if (is_multisite() ) {
 
@@ -3098,7 +3098,7 @@ function saswp_on_uninstall(){
                                       
 }
 
-function saswp_on_activation(){
+function saswp_on_activation() {
     
     $installation_date = get_option('saswp_installation_date');
     
@@ -3114,7 +3114,7 @@ function saswp_on_activation(){
                 
     if($active_plugin){
 
-        foreach ($active_plugin as $plugin){
+        foreach ( $active_plugin as $plugin){
             $defaults[$plugin] = 1;
         }
 
@@ -3124,24 +3124,24 @@ function saswp_on_activation(){
                               
 }
 
-function saswp_context_url(){
+function saswp_context_url() {
     
     $url = 'http://schema.org/';
     
-    if(is_ssl()){
+    if(is_ssl() ) {
         $url = 'https://schema.org/';
     }
     
     return $url;
 }
 
-function saswp_get_permalink(){
+function saswp_get_permalink() {
     
     $url = get_permalink();
         
     if ((function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && is_amp_endpoint()) {  
     
-        if(function_exists('ampforwp_url_controller')){
+        if ( function_exists( 'ampforwp_url_controller') ) {
             
             $url = ampforwp_url_controller( $url );
             
@@ -3151,7 +3151,7 @@ function saswp_get_permalink(){
     
     return saswp_validate_url($url);
 }
-function saswp_get_taxonomy_term_list(){
+function saswp_get_taxonomy_term_list() {
     
         if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
@@ -3173,10 +3173,10 @@ function saswp_get_taxonomy_term_list(){
 add_action( 'wp_ajax_saswp_get_taxonomy_term_list', 'saswp_get_taxonomy_term_list'); 
 
 add_action('init', 'saswp_save_new_social_profile');
-function saswp_save_new_social_profile(){
+function saswp_save_new_social_profile() {
     saswp_migrate_old_social_profile();
 }
-function saswp_migrate_old_social_profile(){
+function saswp_migrate_old_social_profile() {
     
         $upgrade_option = get_option('saswp_social_profile_upgrade');
         
@@ -3186,34 +3186,34 @@ function saswp_migrate_old_social_profile(){
     
             $sd_social_profile = array();
 
-            if(isset($sd_data['sd_facebook']) && !empty($sd_data['sd_facebook'])){
+            if ( isset( $sd_data['sd_facebook']) && !empty($sd_data['sd_facebook']) ) {
                     $sd_social_profile[] = $sd_data['sd_facebook'];
             }	
-            if(isset($sd_data['sd_twitter']) && !empty($sd_data['sd_twitter'])){		
+            if ( isset( $sd_data['sd_twitter']) && !empty($sd_data['sd_twitter']) ) {		
                     $sd_social_profile[] = $sd_data['sd_twitter'];
             }		
-            if(isset($sd_data['sd_instagram']) && !empty($sd_data['sd_instagram'])){		
+            if ( isset( $sd_data['sd_instagram']) && !empty($sd_data['sd_instagram']) ) {		
                     $sd_social_profile[] = $sd_data['sd_instagram'];
             }	
-            if(isset($sd_data['sd_youtube']) && !empty($sd_data['sd_youtube'])){		
+            if ( isset( $sd_data['sd_youtube']) && !empty($sd_data['sd_youtube']) ) {		
                     $sd_social_profile[] = $sd_data['sd_youtube'];
             }	
-            if(isset($sd_data['sd_linkedin']) && !empty($sd_data['sd_linkedin'])){		
+            if ( isset( $sd_data['sd_linkedin']) && !empty($sd_data['sd_linkedin']) ) {		
                     $sd_social_profile[] = $sd_data['sd_linkedin'];
             }	
-            if(isset($sd_data['sd_pinterest']) && !empty($sd_data['sd_pinterest'])){	
+            if ( isset( $sd_data['sd_pinterest']) && !empty($sd_data['sd_pinterest']) ) {	
                     $sd_social_profile[] = $sd_data['sd_pinterest'];
             }	
-            if(isset($sd_data['sd_soundcloud']) && !empty($sd_data['sd_soundcloud'])){		
+            if ( isset( $sd_data['sd_soundcloud']) && !empty($sd_data['sd_soundcloud']) ) {		
                     $sd_social_profile[] = $sd_data['sd_soundcloud'];
             }
-            if(isset($sd_data['sd_tumblr']) && !empty($sd_data['sd_tumblr'])){		
+            if ( isset( $sd_data['sd_tumblr']) && !empty($sd_data['sd_tumblr']) ) {		
                     $sd_social_profile[] = $sd_data['sd_tumblr'];
             }                
-            if(isset($sd_data['sd_yelp']) && !empty($sd_data['sd_yelp'])){		
+            if ( isset( $sd_data['sd_yelp']) && !empty($sd_data['sd_yelp']) ) {		
                     $sd_social_profile[] = $sd_data['sd_yelp'];
             }
-            if(isset($sd_data['saswp_social_links']) && !empty($sd_data['saswp_social_links'])){
+            if ( isset( $sd_data['saswp_social_links']) && !empty($sd_data['saswp_social_links']) ) {
                 $sd_social_profile = array_merge($sd_social_profile, $sd_data['saswp_social_links']);
             }
             $sd_data['saswp_social_links'] = $sd_social_profile;        
@@ -3225,7 +3225,7 @@ function saswp_migrate_old_social_profile(){
 }
 function saswp_validate_url($url){
     
-    if(wp_http_validate_url($url)){
+    if(wp_http_validate_url($url) ) {
         return $url;
     }else{
         return '';
@@ -3264,7 +3264,7 @@ function saswp_https( $url ) {
                 	
 }
 
-function saswp_remove_unwanted_metabox(){
+function saswp_remove_unwanted_metabox() {
     
     global $wp_meta_boxes;    
     
@@ -3276,12 +3276,12 @@ function saswp_remove_unwanted_metabox(){
 }
 
 
-function saswp_remove_unwanted_notice_boxes(){
+function saswp_remove_unwanted_notice_boxes() {
     
     $screen_id = ''; 
     $current_screen = get_current_screen();
     
-    if(is_object($current_screen)){
+    if(is_object($current_screen) ) {
         $screen_id =  $current_screen->id;
     }
     
@@ -3304,12 +3304,12 @@ function saswp_remove_unwanted_notice_boxes(){
 
 add_action('in_admin_header', 'saswp_remove_unwanted_notice_boxes',999);
 
-function saswp_admin_notice(){
+function saswp_admin_notice() {
     
     $screen_id      = ''; 
     $current_screen = get_current_screen();
     
-    if(is_object($current_screen)){
+    if(is_object($current_screen) ) {
         $screen_id =  $current_screen->id;
     }
     
@@ -3318,15 +3318,15 @@ function saswp_admin_notice(){
                                       
     $sd_data         = get_option('sd_data'); 
         
-    if(($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') && !isset($sd_data['sd_initial_wizard_status'])){
+    if(($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') && !isset($sd_data['sd_initial_wizard_status']) ) {
         ?>
         <div class="updated notice message notice notice-alt saswp-setup-notice">'
-            <p><strong><?php echo esc_html__( 'Welcome to Schema & Structured Data For WP' , 'schema-and-structured-data-for-wp'); ?></strong> 
-            - <?php echo esc_html__('You are almost ready :)', 'schema-and-structured-data-for-wp'); ?></p>
+            <p><strong><?php echo esc_html__( 'Welcome to Schema & Structured Data For WP' , 'schema-and-structured-data-for-wp' ); ?></strong> 
+            - <?php echo esc_html__( 'You are almost ready :)', 'schema-and-structured-data-for-wp' ); ?></p>
             <p><a class="button button-primary" href="<?php echo esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce); ?>">
-            <?php echo esc_html__('Run the Setup Wizard', 'schema-and-structured-data-for-wp'); ?></a>
+            <?php echo esc_html__( 'Run the Setup Wizard', 'schema-and-structured-data-for-wp' ); ?></a>
             <a class="button saswp-skip-button">
-            <?php echo esc_html__('Skip Setup', 'schema-and-structured-data-for-wp'); ?></a></p>                    
+            <?php echo esc_html__( 'Skip Setup', 'schema-and-structured-data-for-wp' ); ?></a></p>                    
         </div>
         <?php                            
     }     
@@ -3352,33 +3352,33 @@ function saswp_admin_notice(){
       ?>
          <div class="updated notice message notice notice-alt saswp-feedback-notice">                         
             <p class="saswp-notice-p">
-            <?php   echo esc_html__('Awesome, you\'ve been using ', 'schema-and-structured-data-for-wp'); 
-                    echo '<strong>' .esc_html__(' Schema & Structured Data ', 'schema-and-structured-data-for-wp'). '</strong>' ;
+            <?php   echo esc_html__( 'Awesome, you\'ve been using ', 'schema-and-structured-data-for-wp'); 
+                    echo '<strong>' . esc_html__( ' Schema & Structured Data ', 'schema-and-structured-data-for-wp' ) . '</strong>' ;
                     /* translators: %s: notice message */
-                    echo esc_html(sprintf(__('plugin for more than %s', 'schema-and-structured-data-for-wp'),$notice_msg));                    
-                    echo '<p class="saswp-notice-p">'.esc_html__('May we ask you to give it a 5-star rating on WordPress?', 'schema-and-structured-data-for-wp').'</p>';                                     
+                    echo esc_html( sprintf(__('plugin for more than %s', 'schema-and-structured-data-for-wp'),$notice_msg));                    
+                    echo '<p class="saswp-notice-p">'. esc_html__( 'May we ask you to give it a 5-star rating on WordPress?', 'schema-and-structured-data-for-wp' ) .'</p>';                                     
             ?>
             <div>- SASWP dev team</div>
             </p>                                                                        
 
             <div class="saswp-update-notice-btns">
                 <ul>
-                    <li><a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"><?php echo esc_html__('Ok, you deserve it', 'schema-and-structured-data-for-wp') ?></a></li>
-                    <li><a  class="saswp-feedback-remindme"><?php echo esc_html__('Nope, May be later', 'schema-and-structured-data-for-wp') ?></a></li>
-                    <li><a  class="saswp-feedback-no-thanks"><?php echo esc_html__('I already did', 'schema-and-structured-data-for-wp') ?></a></li>
+                    <li><a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"><?php echo esc_html__( 'Ok, you deserve it', 'schema-and-structured-data-for-wp') ?></a></li>
+                    <li><a  class="saswp-feedback-remindme"><?php echo esc_html__( 'Nope, May be later', 'schema-and-structured-data-for-wp') ?></a></li>
+                    <li><a  class="saswp-feedback-no-thanks"><?php echo esc_html__( 'I already did', 'schema-and-structured-data-for-wp') ?></a></li>
                 </ul>
             </div>
         </div>
         <?php
     }  
     
-    if(isset($sd_data['sd_logo']['url']) && $sd_data['sd_logo']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
+    if ( isset( $sd_data['sd_logo']['url']) && $sd_data['sd_logo']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') ) {
 
         ?>
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
             <p>
-                  <span><?php echo esc_html__('Please setup Logo to avoid structured data validation issue.', 'schema-and-structured-data-for-wp') ?> </span>                                               
-                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-knowledge-container' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+                  <span><?php echo esc_html__( 'Please setup Logo to avoid structured data validation issue.', 'schema-and-structured-data-for-wp') ?> </span>                                               
+                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-knowledge-container' ) ); ?>"> <?php echo esc_html__( 'Please Setup', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
 
@@ -3386,13 +3386,13 @@ function saswp_admin_notice(){
         
     }
 
-    if(isset($sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp')){
+    if ( isset( $sd_data['sd_default_image']['url']) && $sd_data['sd_default_image']['url'] == '' && ($screen_id =='saswp_page_structured_data_options' ||$screen_id == 'plugins' || $screen_id =='edit-saswp' || $screen_id == 'saswp') ) {
 
         ?>
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
             <p>
-                  <span><?php echo esc_html__('You have not set up default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
-                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__('Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+                  <span><?php echo esc_html__( 'You have not set up default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
+                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__( 'Please Setup', 'schema-and-structured-data-for-wp') ?></a>
             </p>
         </div>
 
@@ -3400,12 +3400,12 @@ function saswp_admin_notice(){
         
     }
 
-    if(function_exists('Stars_Rating') && (isset($sd_data['saswp-starsrating']) && $sd_data['saswp-starsrating'] == 1)){
+    if ( function_exists( 'Stars_Rating') && (isset($sd_data['saswp-starsrating']) && $sd_data['saswp-starsrating'] == 1) ) {
         
         ?>
         <div class="updated notice is-dismissible message">
             <p>
-                  <span><?php echo esc_html__('You use Stars Rating plugin and has enabled Stars Rating option in Schema & Structured Data For WP & AMP. Use any one option for better comment form.', 'schema-and-structured-data-for-wp') ?> </span>                                                                
+                  <span><?php echo esc_html__( 'You use Stars Rating plugin and has enabled Stars Rating option in Schema & Structured Data For WP & AMP. Use any one option for better comment form.', 'schema-and-structured-data-for-wp') ?> </span>                                                                
             </p>
         </div>
 
@@ -3421,9 +3421,9 @@ function saswp_admin_notice(){
         ?>
         <div class="updated notice message notice notice-alt saswp-feedback-notice">
            <p>
-           <?php echo esc_html__('You have disabled schema on AMP.', 'schema-and-structured-data-for-wp') ?>
-           &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=amp' ) ); ?>"> <?php echo esc_html__('Enable it', 'schema-and-structured-data-for-wp') ?></a>
-           <a notice-type="amp_enable" class="saswp-revws-lnk saswp-dismiss-notices"> <?php echo esc_html__('Dismiss', 'schema-and-structured-data-for-wp') ?></a>
+           <?php echo esc_html__( 'You have disabled schema on AMP.', 'schema-and-structured-data-for-wp') ?>
+           &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=amp' ) ); ?>"> <?php echo esc_html__( 'Enable it', 'schema-and-structured-data-for-wp') ?></a>
+           <a notice-type="amp_enable" class="saswp-revws-lnk saswp-dismiss-notices"> <?php echo esc_html__( 'Dismiss', 'schema-and-structured-data-for-wp') ?></a>
          </p>           
        </div>
        <?php
@@ -3440,7 +3440,7 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
             return;
         }
        
-        if(is_array($filters)){
+        if ( is_array( $filters) ) {
             
             foreach ( $filters as $priority => $filter )
             {
@@ -3480,145 +3480,145 @@ function saswp_remove_anonymous_object_filter_or_action( $tag, $class, $method, 
 function saswp_get_field_note($pname){
     
     $notes = array(  
-            'ameliabooking'               => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpamelia.com/">wpamelia</a>',
-            'wpml'                        => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpml.org">WPML</a>',
-            'polylang'                    => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/polylang/">Polylang</a>',
-            'autolistings'                => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/auto-listings">Auto Listings</a>',
-            'wpdiscuz'                    => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wpdiscuz/">Comments – wpDiscuz</a>',
-            'rannarecipe'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/ranna-food-recipe-wordpress-theme/25157340">Ranna - Food & Recipe</a>',
-            'easy_recipe'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easyrecipe/">EasyRecipe</a>',
-            'total_recipe_generator'      => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/total-recipe-generator-wordpress-recipe-maker-with-schema-and-nutrition-facts-elementor-addon/21445400/">Total Recipe Generator</a>',
-            'yet_another_stars_rating'    => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/yet-another-stars-rating/">Yet Another Stars Rating</a>',
-            'wp_customer_reviews'         => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-customer-reviews">WP Customer Reviews</a>',
-            'wordpress_news'              => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="#">Wordpress News</a>',
-            'strong_testimonials'         => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
-            'brb'                         => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://richplugins.com/business-reviews-bundle-wordpress-plugin">Business Reviews Bundle</a>',
-            'wp_event_aggregator'         => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-aggregator/">WP Event Aggregator</a>',
-            'stachethemes_event_calendar' => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="http://stachethemes.com/">Stachethemes Event Calendar</a>',
-            'timetable_event'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mp-timetable">Timetable and Event Schedule by MotoPress</a>',
-            'all_in_one_event_calendar'   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-event-calendar/">All In One Event Calendar</a>',
-            'xo_event_calendar'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/xo-event-calendar/">XO Event Calendar</a>',
-            'calendarize_it'              => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/calendarize-it-for-wordpress/2568439">Calendarize it! for WordPress</a>',
-            'events_schedule'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/events-schedule-wordpress-plugin/14907462">Events Schedule - WordPress Events Calendar Plugin</a>',
-            'woo_event_manager'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mage-eventpress/">WooCommerce Event Manager</a>',
-            'vs_event_list'               => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/very-simple-event-list/">Very Simple Event List</a>',
-            'event_on'                    => esc_html__('Event On', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.myeventon.com/">Event On</a>',
-            'wordlift'                    => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
-            'ampforwp'                    => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
-            'bunyadamp'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">Bunyad AMP</a>',
-            'quickandeasyfaq'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/quick-and-easy-faqs/">Quick and Easy FAQs</a>',
-            'accordionfaq'                => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/responsive-accordion-and-collapse">Accordion FAQ</a>',
-            'webfaq10'                    => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-wd/">10WebFAQ</a>',
-            'ultimatefaqs'                => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-faqs/">Ultimate FAQs</a>',
-            'ultimatemember'              => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-member/">Ultimate Member</a>',
-            'showcaseidx'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/showcase-idx/">Showcaseidx</a>',
-            'easyaccordion'               => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-accordion-free/">Easy Accordion</a>',
-            'wpresponsivefaq'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/sp-faq">WP responsive FAQ with category plugin</a>',
-            'arconixfaq'                  => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/arconix-faq/">Arconix FAQ</a>',
-            'faqconcertina'               => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-concertina/">FAQ Concertina</a>',
-            'masteraccordion'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-awesome-faq/">Master Accordion</a>',
-            'wpfaqschemamarkup'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-faq-schema-markup-for-seo/">WP FAQ Schema Markup for SEO</a>',
-            'faqschemaforpost'            => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-for-pages-and-posts/">FAQ Schema For Pages And Posts</a>',
-            'accordion'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/accordions">Accordion By PickPlugins</a>',
-            'easyfaqs'                    => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-faqs/">Easy FAQs</a>',
-            'html5responsivefaq'          => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/html5-responsive-faq/">HTML5 Responsive FAQ</a>',
-            'helpiefaq'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/helpie-faq/">Helpie FAQ – WordPress FAQ Accordion Plugin</a>',
-            'mooberrybm'                  => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mooberry-book-manager/">Mooberry Book Manager</a>',
-            'novelist'                    => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/novelist">Novelist</a>',
-            'ampbyautomatic'              => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
-            'wpreviewslider'              => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-facebook-reviews/">WP Review Slider</a>',
-            'jetpackrecipe'               => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/jetpack/">JetPack Recipe</a>',
-            'cmp'                         => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cmp-coming-soon-maintenance/">CMP – Coming Soon & Maintenance Plugin</a>',
-            'wpecommerce'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-e-commerce/">WP eCommerce</a>',
-            'wpreviewpro'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://mythemeshop.com/plugins/wordpress-review/">WP Review Pro</a>',
-            'webstories'                  => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/web-stories/">Web Stories</a>',
-            'simplejobboard'              => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/simple-job-board/">Simple Job Board</a>',
-            'wpjobmanager'                => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">WP Job Manager</a>',
-            'wpjobopenings'               => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-job-openings/">WP Job Openings</a>',
-            'schemaforfaqs'               => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-markup-faq-structured-data/">FAQ Schema Markup</a>',
-            'betteramp'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/better-amp/">Better AMP</a>',
-            'wpamp'                       => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
-            'ampwp'                       => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
-            'kk_star_ratings'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
-            'rmprating'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/rate-my-post">Rate my Post – WP Rating System</a>',
-            'elementor'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://elementor.com/widgets/testimonial-widget/">Elementor Testimonial</a>',
-            'ratingform'                  => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/rating-form/10357679/">Rating Form</a>',
-            'simple_author_box'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/simple-author-box//">Simple Author Box</a>',
-            'wp_post_ratings'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
-            'bb_press'                    => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
-            'woocommerce'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
-            'cooked'                      => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
-            'the_events_calendar'         => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
-            'yoast_seo'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
-            'metatagmanager'              => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/meta-tag-manager/">Meta Tag Manager</a>',
-            'slimseo'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/slim-seo/">Slim SEO</a>',
-            'rank_math'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
-            'dw_qna'                      => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
-            'wpqa'                        => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://2code.info/wpqa-builder/">WPQA Builder Plugin</a>',
-            'sabaidiscuss'                => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://sabaidiscuss.com">SabaiDiscuss</a>',
-            'smart_crawl'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
-            'the_seo_framework'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
-            'seo_press'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
-            'aiosp'                       => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
-            'squirrly_seo'                => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
-            'wp_recipe_maker'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
-            'wpzoom'                      => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom">Recipe Card Blocks by WPZOOM</a>',        
-            'video_thumbnails'            => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/video-thumbnails/">Video Thumbnails</a>',        
-            'featured_video_plus'         => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/featured-video-plus/">Featured Video Plus</a>',        
-            'yotpo'                       => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/yotpo-social-reviews-for-woocommerce/">Yotpo: Product & Photo Reviews for WooCommerce</a>',
-            'ryviu'                       => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ryviu">Ryviu – Product Reviews for WooCommerce</a>',
-            'starsrating'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/stars-rating">Stars Rating</a>',        
-            'ultimate_blocks'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/ultimate-blocks">Ultimate Blocks – Gutenberg Blocks Plugin</a>',        
-            'wptastyrecipe'               => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.wptasty.com">WP Tasty Recipe</a>',
-            'recipress'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/recipress">ReciPress</a>',
-            'wp_ultimate_recipe'          => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-ultimate-recipe/">WP Ultimate Recipe</a>',
-            'learn_press'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
-            'learn_dash'                  => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
-            'lifter_lms'                  => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
-            'senseilms'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/sensei-lms/">Sensei LMS</a>',
-            'wplms'                       => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/wplms-learning-management-system/6780226">WPLMS</a>',
-            'wp_event_manager'            => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager/">WP Event Manager</a>',
-            'wp_event_solution'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-event-solution/">Event Manager, Event Calendar, Event Tickets for WooCommerce – Eventin</a>',
-            'events_manager'              => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
-            'event_calendar_wd'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
-            'event_organiser'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',
-            'modern_events_calendar'      => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar</a>',
-            'flex_mls_idx'                => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',        
-            'woocommerce_membership'      => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-memberships">Woocommerce Membership</a>',
-            'woocommerce_bookings'        => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://woocommerce.com/products/woocommerce-bookings">Woocommerce Bookings</a>',        
-            'extra'                       => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
-            'homeland'                    => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
-            'ratency'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/ratency-review-magazine-theme/21303977">Ratency - Review & Magazine Theme</a>',            
-            'wpresidence'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
-            'reviews'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/reviews-products-and-services-review-wp-theme/13004739?s_rank=4">Reviews - Products And Services Review WP Theme</a>',            
-            'realhomes'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
-            'myhome'                      => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://myhometheme.net/">My Home Theme</a>',
-            'realestate_5'                => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://myhometheme.net/">WP Pro Realstate 5</a>',
-            'realestate_7'                => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://myhometheme.net/">WP Pro Realstate 7</a>',
-            'geodirectory'                => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/geodirectory/">GeoDirectory – Business Directory</a>',
-            'classipress'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://www.appthemes.com/themes/classipress/">ClassiPress</a>',
-            'taqyeem'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
-            'wp_product_review'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/wp-product-review/">WP Product Review</a>',
-            'stamped'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/stampedio-product-reviews">Stamped.io Product Reviews & UGC for WooCommerce</a>',
-            'soledad'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
-            'enfold'                      => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/enfold-responsive-multipurpose-theme/4519990">Enfold Theme</a>',
-            'zip_recipes'                 => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
-            'mediavine_create'            => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
-            'ht_recipes'                  => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
-            'easy_testimonials'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
-            'bne_testimonials'            => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
-            'testimonial_pro'             => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
-            'tevolution_events'           => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>',
-            'publishpress_authors'                     => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/publishpress-authors"> Publish Press Authors </a>',
-            'jetpackrecipe'               => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/"> Jetpack Recipe Schema </a>',
-            'event_prime'                   => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/eventprime-event-calendar-management/"> EventPrime – Events Calendar, Bookings and Tickets </a>',
-            'jolifaq'                       => esc_html__('Requires', 'schema-and-structured-data-for-wp').' <a target="_blank" href="https://wordpress.org/plugins/joli-faq-seo/"> Joli FAQ SEO – WordPress FAQ Plugin </a>',
+            'ameliabooking'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wpamelia.com/">wpamelia</a>',
+            'wpml'                        => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wpml.org">WPML</a>',
+            'polylang'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/polylang/">Polylang</a>',
+            'autolistings'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/auto-listings">Auto Listings</a>',
+            'wpdiscuz'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wpdiscuz/">Comments – wpDiscuz</a>',
+            'rannarecipe'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/ranna-food-recipe-wordpress-theme/25157340">Ranna - Food & Recipe</a>',
+            'easy_recipe'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/easyrecipe/">EasyRecipe</a>',
+            'total_recipe_generator'      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://codecanyon.net/item/total-recipe-generator-wordpress-recipe-maker-with-schema-and-nutrition-facts-elementor-addon/21445400/">Total Recipe Generator</a>',
+            'yet_another_stars_rating'    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/yet-another-stars-rating/">Yet Another Stars Rating</a>',
+            'wp_customer_reviews'         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-customer-reviews">WP Customer Reviews</a>',
+            'wordpress_news'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="#">Wordpress News</a>',
+            'strong_testimonials'         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
+            'brb'                         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://richplugins.com/business-reviews-bundle-wordpress-plugin">Business Reviews Bundle</a>',
+            'wp_event_aggregator'         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-event-aggregator/">WP Event Aggregator</a>',
+            'stachethemes_event_calendar' => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="http://stachethemes.com/">Stachethemes Event Calendar</a>',
+            'timetable_event'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/mp-timetable">Timetable and Event Schedule by MotoPress</a>',
+            'all_in_one_event_calendar'   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-event-calendar/">All In One Event Calendar</a>',
+            'xo_event_calendar'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/xo-event-calendar/">XO Event Calendar</a>',
+            'calendarize_it'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://codecanyon.net/item/calendarize-it-for-wordpress/2568439">Calendarize it! for WordPress</a>',
+            'events_schedule'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://codecanyon.net/item/events-schedule-wordpress-plugin/14907462">Events Schedule - WordPress Events Calendar Plugin</a>',
+            'woo_event_manager'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/mage-eventpress/">WooCommerce Event Manager</a>',
+            'vs_event_list'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/very-simple-event-list/">Very Simple Event List</a>',
+            'event_on'                    => esc_html__( 'Event On', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://www.myeventon.com/">Event On</a>',
+            'wordlift'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wordlift/">WordLift</a>',
+            'ampforwp'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">AMP for WP</a>',
+            'bunyadamp'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/accelerated-mobile-pages/">Bunyad AMP</a>',
+            'quickandeasyfaq'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/quick-and-easy-faqs/">Quick and Easy FAQs</a>',
+            'accordionfaq'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/responsive-accordion-and-collapse">Accordion FAQ</a>',
+            'webfaq10'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/faq-wd/">10WebFAQ</a>',
+            'ultimatefaqs'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/ultimate-faqs/">Ultimate FAQs</a>',
+            'ultimatemember'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/ultimate-member/">Ultimate Member</a>',
+            'showcaseidx'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/showcase-idx/">Showcaseidx</a>',
+            'easyaccordion'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/easy-accordion-free/">Easy Accordion</a>',
+            'wpresponsivefaq'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/sp-faq">WP responsive FAQ with category plugin</a>',
+            'arconixfaq'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/arconix-faq/">Arconix FAQ</a>',
+            'faqconcertina'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/faq-concertina/">FAQ Concertina</a>',
+            'masteraccordion'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-awesome-faq/">Master Accordion</a>',
+            'wpfaqschemamarkup'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-faq-schema-markup-for-seo/">WP FAQ Schema Markup for SEO</a>',
+            'faqschemaforpost'            => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-for-pages-and-posts/">FAQ Schema For Pages And Posts</a>',
+            'accordion'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/accordions">Accordion By PickPlugins</a>',
+            'easyfaqs'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/easy-faqs/">Easy FAQs</a>',
+            'html5responsivefaq'          => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/html5-responsive-faq/">HTML5 Responsive FAQ</a>',
+            'helpiefaq'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/helpie-faq/">Helpie FAQ – WordPress FAQ Accordion Plugin</a>',
+            'mooberrybm'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/mooberry-book-manager/">Mooberry Book Manager</a>',
+            'novelist'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/novelist">Novelist</a>',
+            'ampbyautomatic'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/amp/">AMP</a>',
+            'wpreviewslider'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-facebook-reviews/">WP Review Slider</a>',
+            'jetpackrecipe'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/jetpack/">JetPack Recipe</a>',
+            'cmp'                         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/cmp-coming-soon-maintenance/">CMP – Coming Soon & Maintenance Plugin</a>',
+            'wpecommerce'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-e-commerce/">WP eCommerce</a>',
+            'wpreviewpro'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://mythemeshop.com/plugins/wordpress-review/">WP Review Pro</a>',
+            'webstories'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/web-stories/">Web Stories</a>',
+            'simplejobboard'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/simple-job-board/">Simple Job Board</a>',
+            'wpjobmanager'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">WP Job Manager</a>',
+            'wpjobopenings'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-job-openings/">WP Job Openings</a>',
+            'schemaforfaqs'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-markup-faq-structured-data/">FAQ Schema Markup</a>',
+            'betteramp'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/better-amp/">Better AMP</a>',
+            'wpamp'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
+            'ampwp'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
+            'kk_star_ratings'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
+            'rmprating'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/rate-my-post">Rate my Post – WP Rating System</a>',
+            'elementor'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://elementor.com/widgets/testimonial-widget/">Elementor Testimonial</a>',
+            'ratingform'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://codecanyon.net/item/rating-form/10357679/">Rating Form</a>',
+            'simple_author_box'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/simple-author-box//">Simple Author Box</a>',
+            'wp_post_ratings'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
+            'bb_press'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
+            'woocommerce'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
+            'cooked'                      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
+            'the_events_calendar'         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',
+            'yoast_seo'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a>',
+            'metatagmanager'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/meta-tag-manager/">Meta Tag Manager</a>',
+            'slimseo'                     => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/slim-seo/">Slim SEO</a>',
+            'rank_math'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/seo-by-rank-math/">WordPress SEO Plugin – Rank Math</a>',            
+            'dw_qna'                      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/dw-question-answer/">DW Question Answer</a>',
+            'wpqa'                        => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://2code.info/wpqa-builder/">WPQA Builder Plugin</a>',
+            'sabaidiscuss'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://sabaidiscuss.com">SabaiDiscuss</a>',
+            'smart_crawl'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo/">SmartCrawl Seo</a>',
+            'the_seo_framework'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/autodescription/">The Seo Framework</a>',
+            'seo_press'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-seopress/">SEOPress</a>',
+            'aiosp'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/all-in-one-seo-pack/">All in One SEO Pack</a>',
+            'squirrly_seo'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/squirrly-seo/">Squirrly SEO</a>',          
+            'wp_recipe_maker'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-recipe-maker/">WP Recipe Maker</a>',        
+            'wpzoom'                      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/recipe-card-blocks-by-wpzoom">Recipe Card Blocks by WPZOOM</a>',        
+            'video_thumbnails'            => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/video-thumbnails/">Video Thumbnails</a>',        
+            'featured_video_plus'         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/featured-video-plus/">Featured Video Plus</a>',        
+            'yotpo'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/yotpo-social-reviews-for-woocommerce/">Yotpo: Product & Photo Reviews for WooCommerce</a>',
+            'ryviu'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/ryviu">Ryviu – Product Reviews for WooCommerce</a>',
+            'starsrating'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/stars-rating">Stars Rating</a>',        
+            'ultimate_blocks'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/ultimate-blocks">Ultimate Blocks – Gutenberg Blocks Plugin</a>',        
+            'wptastyrecipe'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://www.wptasty.com">WP Tasty Recipe</a>',
+            'recipress'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/recipress">ReciPress</a>',
+            'wp_ultimate_recipe'          => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-ultimate-recipe/">WP Ultimate Recipe</a>',
+            'learn_press'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/learnpress/">Learn Press</a>',
+            'learn_dash'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://www.learndash.com/pricing-and-purchase/">Learn Dash</a>',
+            'lifter_lms'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/lifterlms/">LifterLMS</a>',
+            'senseilms'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/sensei-lms/">Sensei LMS</a>',
+            'wplms'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/wplms-learning-management-system/6780226">WPLMS</a>',
+            'wp_event_manager'            => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-event-manager/">WP Event Manager</a>',
+            'wp_event_solution'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-event-solution/">Event Manager, Event Calendar, Event Tickets for WooCommerce – Eventin</a>',
+            'events_manager'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/events-manager/">Events Manager</a>',
+            'event_calendar_wd'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/event-calendar-wd/">Event Calendar WD</a>',
+            'event_organiser'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/event-organiser/">Event Organiser</a>',
+            'modern_events_calendar'      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar</a>',
+            'flex_mls_idx'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',        
+            'woocommerce_membership'      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://woocommerce.com/products/woocommerce-memberships">Woocommerce Membership</a>',
+            'woocommerce_bookings'        => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://woocommerce.com/products/woocommerce-bookings">Woocommerce Bookings</a>',        
+            'extra'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
+            'homeland'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
+            'ratency'                     => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/ratency-review-magazine-theme/21303977">Ratency - Review & Magazine Theme</a>',            
+            'wpresidence'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wpresidence.net/">WP Residence</a>',            
+            'reviews'                     => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/reviews-products-and-services-review-wp-theme/13004739?s_rank=4">Reviews - Products And Services Review WP Theme</a>',            
+            'realhomes'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/real-homes-wordpress-real-estate-theme/5373914">RealHomes</a>',
+            'myhome'                      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://myhometheme.net/">My Home Theme</a>',
+            'realestate_5'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://myhometheme.net/">WP Pro Realstate 5</a>',
+            'realestate_7'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://myhometheme.net/">WP Pro Realstate 7</a>',
+            'geodirectory'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/geodirectory/">GeoDirectory – Business Directory</a>',
+            'classipress'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://www.appthemes.com/themes/classipress/">ClassiPress</a>',
+            'taqyeem'                     => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://codecanyon.net/item/taqyeem-wordpress-review-plugin/4558799">Taqyeem</a>',
+            'wp_product_review'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-product-review/">WP Product Review</a>',
+            'stamped'                     => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/stampedio-product-reviews">Stamped.io Product Reviews & UGC for WooCommerce</a>',
+            'soledad'                     => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/soledad-multiconcept-blogmagazine-wp-theme/12945398">Soledad Theme</a>',
+            'enfold'                      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/enfold-responsive-multipurpose-theme/4519990">Enfold Theme</a>',
+            'zip_recipes'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/zip-recipes/">Zip Recipes</a>',
+            'mediavine_create'            => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/mediavine-create/">Create by Mediavine</a>',
+            'ht_recipes'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/culinier-food-recipe-wordpress-theme/11088564/">HT-Recipes</a>',
+            'easy_testimonials'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/easy-testimonials">Easy Testimonials</a>',
+            'bne_testimonials'            => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/bne-testimonials/">BNE Testimonials</a>',
+            'testimonial_pro'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://shapedplugin.com/plugin/testimonial-pro/">Testimonial Pro</a>',
+            'tevolution_events'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://templatic.com/wordpress-plugins/tevolution/">Tevolution Events</a>',
+            'publishpress_authors'                     => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/publishpress-authors"> Publish Press Authors </a>',
+            'jetpackrecipe'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/"> Jetpack Recipe Schema </a>',
+            'event_prime'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/eventprime-event-calendar-management/"> EventPrime – Events Calendar, Bookings and Tickets </a>',
+            'jolifaq'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/joli-faq-seo/"> Joli FAQ SEO – WordPress FAQ Plugin </a>',
         
         );
           
     $active = saswp_compatible_active_list();
         
-    if(!isset($active[$pname])){
+    if ( ! isset( $active[$pname]) ) {
         
         return $notes[$pname];
         
@@ -3632,7 +3632,7 @@ function saswp_get_category_link($term_id){
         
     if ((function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && is_amp_endpoint()) {  
     
-        if(function_exists('ampforwp_url_controller')){
+        if ( function_exists( 'ampforwp_url_controller') ) {
             
             $url = ampforwp_url_controller( $url );
             
@@ -3644,11 +3644,11 @@ function saswp_get_category_link($term_id){
         
 }
 
-function saswp_get_current_url(){
+function saswp_get_current_url() {
  
     $link = "http"; 
       
-    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'){
+    if ( isset( $_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'){
         $link = "https"; 
     } 
   
@@ -3678,13 +3678,13 @@ function saswp_remove_slash($url){
 
 }
 
-function saswp_get_user_roles(){
+function saswp_get_user_roles() {
     
         global $wp_roles;
         $allroles = array();
         
         foreach ( $wp_roles->roles as $key=>$value ){
-            $allroles[esc_attr($key)] = esc_html($value['name']);
+            $allroles[esc_attr( $key)] = esc_html( $value['name']);
         }
         
         return $allroles;
@@ -3727,7 +3727,7 @@ function saswp_get_capability_by_role($role){
     
 }
 
-function saswp_current_user_allowed(){
+function saswp_current_user_allowed() {
     
     global $sd_data;
     $currentuserrole = array();
@@ -3753,7 +3753,7 @@ function saswp_current_user_allowed(){
 
             $hasrole         = array_intersect( $currentuserrole, $saswp_roles );
         
-            if( !empty($hasrole)){                                     
+            if( !empty($hasrole) ) {                                     
                 return reset($hasrole);
             }
 
@@ -3766,13 +3766,13 @@ function saswp_current_user_allowed(){
     return false;
 }
 
-function saswp_current_user_can(){
+function saswp_current_user_can() {
         
         $capability = saswp_current_user_allowed() ? saswp_get_capability_by_role(saswp_current_user_allowed()) : 'manage_options';        
         return $capability;                    
 }
 
-function saswp_post_type_capabilities(){
+function saswp_post_type_capabilities() {
         
         $caplist = array();
             
@@ -3782,7 +3782,7 @@ function saswp_post_type_capabilities(){
 
             $cap = saswp_current_user_can();
 
-            if(!is_super_admin()){
+            if(!is_super_admin() ) {
         
                 $caplist =  array(
                     'publish_posts'       => $cap,
@@ -3812,7 +3812,7 @@ function saswp_get_image_by_url($url){
             $image_details = array();
             $image_details = saswp_get_image_details($url);                 
             
-            if(!empty($image_details) && is_array($image_details)){
+            if ( ! empty( $image_details) && is_array($image_details) ) {
 
                     $response['@type']  = 'ImageObject';
                     $response['url']    = $url;
@@ -3892,7 +3892,7 @@ function saswp_get_video_metadata($content = ''){
         $response = array();
 
         if(!$content){
-            if(is_object($post)){
+            if(is_object($post) ) {
                 $content = $post->post_content;
             }    
         }
@@ -3900,28 +3900,28 @@ function saswp_get_video_metadata($content = ''){
 
     
    
-        if(function_exists('has_block')){
+        if ( function_exists( 'has_block') ) {
             if( has_block('presto-player/youtube') ){
                 $attributes = saswp_get_gutenberg_multiple_block_data('presto-player/youtube');    
-                if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+                if ( ! empty( $attributes) ) {  $attributes = $attributes;  }else{   $attributes = "";  }    
             }else{
                 $attributes = "";
             }
             
-            if(!empty($attributes)){
+            if ( ! empty( $attributes) ) {
                 $temp_aray = array(); 
                
-                foreach($attributes as $match){
-                    if(!empty($match['attrs']['src'])){
+                foreach( $attributes as $match){
+                    if ( ! empty( $match['attrs']['src']) ) {
                         $vurl = $match['attrs']['src'];
                         if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
                             continue;
                         }
-                        if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
+                        if ( isset( $sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != '' ) {
                             $vid = saswp_get_youtube_vid($vurl);
                             $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
         
-                            if(!empty($video_meta)){
+                            if ( ! empty( $video_meta) ) {
                                 $metadata['title']      = $video_meta['title'];
                                 $metadata['description']      = $video_meta['description'];
                                 $metadata['viewCount']      = $video_meta['viewCount'];
@@ -3931,7 +3931,7 @@ function saswp_get_video_metadata($content = ''){
                             }
                         }
                         
-                        if(!empty($vurl)){
+                        if ( ! empty( $vurl) ) {
                             $metadata['video_url'] = $vurl;                    
                             $response[] = $metadata;
                         }
@@ -3940,25 +3940,25 @@ function saswp_get_video_metadata($content = ''){
             }
         }
 
-        if(function_exists('has_block')){
+        if ( function_exists( 'has_block') ) {
             if( has_block('acf/video') ){
                 $attributes = saswp_get_gutenberg_multiple_block_data('acf/video');    
-                if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+                if ( ! empty( $attributes) ) {  $attributes = $attributes;  }else{   $attributes = "";  }    
             }else{
                 $attributes = "";
             }
             
-            if(!empty($attributes)){
+            if ( ! empty( $attributes) ) {
                 $temp_aray = array(); 
-                foreach($attributes as $match){
-                    if(!empty($match['attrs']['data']['blok_vid_code'])){
+                foreach( $attributes as $match){
+                    if ( ! empty( $match['attrs']['data']['blok_vid_code']) ) {
                          $iframe_string = trim($match['attrs']['data']['blok_vid_code'], '"'); 
                          preg_match('/src="([^"]+)"/', $iframe_string, $match);
                          $vurl = $match[1];
                          if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
                             continue;
                         }
-                        if(!empty($vurl)){
+                        if ( ! empty( $vurl) ) {
                             $metadata['video_url'] = $vurl;                    
                             $response[] = $metadata;
                         }
@@ -3973,7 +3973,7 @@ function saswp_get_video_metadata($content = ''){
          
          if($matches){
 
-             foreach ($matches as $match) {
+             foreach ( $matches as $match) {
                 
                 $mached = rtrim($match[0], '[/video]'); 
                 $mached = ltrim($mached, '[');
@@ -3981,7 +3981,7 @@ function saswp_get_video_metadata($content = ''){
 
                 $attr = shortcode_parse_atts($mached);
                 
-                foreach ($attr as $key => $value) {
+                foreach ( $attr as $key => $value) {
 
                     if(strpos($value, 'http')!== false){
                         $vurl = trim($value, '"');
@@ -4004,14 +4004,14 @@ function saswp_get_video_metadata($content = ''){
             && in_array( 'playlist', $matches[2] ) )
             {
              
-              foreach ($matches[0] as $match){
+              foreach ( $matches[0] as $match){
             
                 $mached = rtrim($match, ']'); 
                 $mached = ltrim($mached, '[');
                 $mached = trim($mached, '[]');
                 $attr   = shortcode_parse_atts($mached);  
 
-                if(isset($attr['ids'])){
+                if ( isset( $attr['ids']) ) {
 
                     $vurl = wp_get_attachment_url($attr['ids']);
                     if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
@@ -4027,22 +4027,22 @@ function saswp_get_video_metadata($content = ''){
            
             preg_match_all( '/src\=\"(.*?)youtube(.*?)\"/s', $content, $youtubematches, PREG_SET_ORDER );
              
-            if(!empty($youtubematches)){
+            if ( ! empty( $youtubematches) ) {
              
-                foreach($youtubematches as $match){
+                foreach( $youtubematches as $match){
                    $vurl = trim($match[1].'youtu.be'.$match[2], '"');     
                    if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
                      continue;
                    }             
                    $metadata   = array();  
                   
-                   if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
+                   if ( isset( $sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != '' ) {
  
                      $vid = saswp_get_youtube_vid($vurl);
  
                      $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
  
-                     if(!empty($video_meta)){
+                     if ( ! empty( $video_meta) ) {
                          $metadata['title']      = $video_meta['title'];
                          $metadata['description']      = $video_meta['description'];
                          $metadata['viewCount']      = $video_meta['viewCount'];
@@ -4053,7 +4053,7 @@ function saswp_get_video_metadata($content = ''){
  
                    }else{
                     if (filter_var($vurl, FILTER_VALIDATE_URL) !== FALSE) {
-                     $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                     $rulr     = 'https://www.youtube.com/oembed?url='. esc_attr( $vurl).'&format=json';  
                      $result   = @wp_remote_get(esc_url_raw($rulr));                                    
                      $metadata = json_decode(wp_remote_retrieve_body($result),true);
                     }
@@ -4066,22 +4066,22 @@ function saswp_get_video_metadata($content = ''){
 
            preg_match_all( '/src\=\"(.*?)youtu\.be(.*?)\"/s', $content, $youtubematches, PREG_SET_ORDER );
              
-           if(!empty($youtubematches)){
+           if ( ! empty( $youtubematches) ) {
             
-               foreach($youtubematches as $match){
+               foreach( $youtubematches as $match){
                   $vurl = trim($match[1].'youtu.be'.$match[2], '"');     
                   if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
                     continue;
                   }             
                   $metadata   = array();  
                  
-                  if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
+                  if ( isset( $sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != '' ) {
 
                     $vid = saswp_get_youtube_vid($vurl);
 
                     $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
 
-                    if(!empty($video_meta)){
+                    if ( ! empty( $video_meta) ) {
                         $metadata['title']      = $video_meta['title'];
                         $metadata['description']      = $video_meta['description'];
                         $metadata['viewCount']      = $video_meta['viewCount'];
@@ -4091,7 +4091,7 @@ function saswp_get_video_metadata($content = ''){
                     }
 
                   }else{
-                    $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                    $rulr     = 'https://www.youtube.com/oembed?url='. esc_attr( $vurl).'&format=json';  
                     $result   = @wp_remote_get(esc_url_raw($rulr));                                    
                     $metadata = json_decode(wp_remote_retrieve_body($result),true);
                   }
@@ -4102,25 +4102,25 @@ function saswp_get_video_metadata($content = ''){
            } /* end if */
 
 
-           if(function_exists('has_block')){
+           if ( function_exists( 'has_block') ) {
                 if( has_block('core-embed/youtube') ){
                     $attributes = saswp_get_gutenberg_multiple_block_data('core-embed/youtube');
-                    if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+                    if ( ! empty( $attributes) ) {  $attributes = $attributes;  }else{   $attributes = "";  }    
                 }else{
                        $attributes = ""; 
                  }
 
                 if( has_block('core/embed') ){
                     $attributes = saswp_get_gutenberg_multiple_block_data('core/embed');  
-                    if(!empty($attributes)){  $attributes = $attributes;  }else{   $attributes = "";  }    
+                    if ( ! empty( $attributes) ) {  $attributes = $attributes;  }else{   $attributes = "";  }    
                 }else{  
                      $attributes = "";
                 }
                 
-                if(!empty($attributes)){
+                if ( ! empty( $attributes) ) {
                     $temp_aray = array(); 
-                    foreach($attributes as $match){
-                        if(!empty($match['attrs']['url'])){
+                    foreach( $attributes as $match){
+                        if ( ! empty( $match['attrs']['url']) ) {
                             $vurl = trim($match['attrs']['url'], '"'); 
                             if(strpos($vurl,'type') == true || strpos($vurl,'className') == true){
                                 continue;
@@ -4128,10 +4128,10 @@ function saswp_get_video_metadata($content = ''){
                            
                             $metadata = array();
                           
-                            if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
+                            if ( isset( $sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != '' ) {
                                $vid = saswp_get_youtube_vid($vurl);
                                 $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
-                                if(!empty($video_meta)){
+                                if ( ! empty( $video_meta) ) {
                                     $metadata['title']      = $video_meta['title'];
                                     $metadata['description']      = $video_meta['description'];
                                     $metadata['viewCount']      = $video_meta['viewCount'];
@@ -4143,7 +4143,7 @@ function saswp_get_video_metadata($content = ''){
                                 if(strpos($vurl, 'twitter') !== false){
                                     $metadata['video_url'] = $vurl;
                                 }else{
-                                    $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($vurl).'&format=json';  
+                                    $rulr     = 'https://www.youtube.com/oembed?url='. esc_attr( $vurl).'&format=json';  
                                     $result   = @wp_remote_get(esc_url_raw($rulr));                                    
                                     $metadata = json_decode(wp_remote_retrieve_body($result),true); 
                                 }
@@ -4160,20 +4160,20 @@ function saswp_get_video_metadata($content = ''){
         // if elementor video is not found then this code checks for it
         // This is the solution for issue #1882
         $parse_content = wp_extract_urls($content);
-        if(!empty($parse_content)){
-            if(is_array($parse_content)){
-                foreach ($parse_content as $parse_key => $parse_value) {
-                    if(!empty($parse_value)){
+        if ( ! empty( $parse_content) ) {
+            if ( is_array( $parse_content) ) {
+                foreach ( $parse_content as $parse_key => $parse_value) {
+                    if ( ! empty( $parse_value) ) {
                         $explode_url = explode("https://", $parse_value);
-                        if(isset($explode_url) && !empty(is_array($explode_url))){
-                            foreach ($explode_url as $eu_key => $eu_value) {
-                                if(!empty($eu_value)){
+                        if ( isset( $explode_url) && !empty(is_array($explode_url)) ) {
+                            foreach ( $explode_url as $eu_key => $eu_value) {
+                                if ( ! empty( $eu_value) ) {
                                     $video_url = "https://".$eu_value;
                                     $is_video_exist = 0;
-                                    if(!empty($response)){
-                                        foreach ($response as $res_key => $res_value) {
+                                    if ( ! empty( $response) ) {
+                                        foreach ( $response as $res_key => $res_value) {
                                             if($res_value['video_url'] == $video_url){
-                                                if(isset($res_value['thumbnail_url'])){
+                                                if ( isset( $res_value['thumbnail_url']) ) {
                                                     $is_video_exist = 1;
                                                 }
                                                 break;
@@ -4182,12 +4182,12 @@ function saswp_get_video_metadata($content = ''){
                                     }
                                     if($is_video_exist == 0){
                                         preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $video_url_match);
-                                        if(!empty($video_url_match) && is_array($video_url_match)){
+                                        if ( ! empty( $video_url_match) && is_array($video_url_match) ) {
                                             $metadata = array();
-                                            if(isset($sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != ''){
+                                            if ( isset( $sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != '' ) {
                                                 $vid = saswp_get_youtube_vid($video_url);
                                                 $video_meta = SASWP_Youtube::getVideoInfo($vid, $sd_data['saswp-youtube-api']);
-                                                if(!empty($video_meta)){
+                                                if ( ! empty( $video_meta) ) {
                                                     $metadata['title']      = isset($video_meta['title'])?$video_meta['title']:'';
                                                     $metadata['description']      = isset($video_meta['description'])?$video_meta['description']:'';
                                                     $metadata['viewCount']      = isset($video_meta['viewCount'])?$video_meta['viewCount']:'';
@@ -4197,7 +4197,7 @@ function saswp_get_video_metadata($content = ''){
                                                 }
                                             }else{
                                                 if (filter_var($video_url, FILTER_VALIDATE_URL) !== FALSE) {
-                                                $rulr     = 'https://www.youtube.com/oembed?url='.esc_attr($video_url).'&format=json';  
+                                                $rulr     = 'https://www.youtube.com/oembed?url='. esc_attr( $video_url).'&format=json';  
                                                 $result   = @wp_remote_get(esc_url_raw($rulr));                                    
                                                 $metadata = json_decode(wp_remote_retrieve_body($result),true); 
                                                 }
@@ -4207,18 +4207,18 @@ function saswp_get_video_metadata($content = ''){
                                         }
 
                                         preg_match('/^.*dailymotion.com\/(?:video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/', $video_url, $daily_url_match);
-                                        if(!empty($daily_url_match) && is_array($daily_url_match)){
+                                        if ( ! empty( $daily_url_match) && is_array($daily_url_match) ) {
                                             $metadata = array();
-                                            if(isset($daily_url_match[0]) && !empty($daily_url_match[0])){
+                                            if ( isset( $daily_url_match[0]) && !empty($daily_url_match[0]) ) {
                                                 $daily_id = substr(wp_parse_url($video_url, PHP_URL_PATH), 1);
-                                                if(isset($daily_url_match[1]) && !empty($daily_url_match[1])){
+                                                if ( isset( $daily_url_match[1]) && !empty($daily_url_match[1]) ) {
                                                     $daily_id = 'video/'.$daily_url_match[1];
                                                 }
                                                 $remote_url = "https://api.dailymotion.com/".$daily_id.'?fields=id,title,description,created_time,thumbnail_url';
                                                 $daily_video_details = wp_remote_get( esc_url_raw($remote_url));
                                                 $daily_video_details = json_decode(wp_remote_retrieve_body($daily_video_details),true);
                                                 
-                                                if(isset($daily_video_details) && !empty($daily_video_details)){
+                                                if ( isset( $daily_video_details) && !empty($daily_video_details) ) {
                                                     $metadata['title']      = isset($daily_video_details['title'])?$daily_video_details['title']:'';
                                                     $metadata['description']      = isset($daily_video_details['description'])?$daily_video_details['description']:'';
                                                     $metadata['viewCount']      = 0;
@@ -4248,14 +4248,14 @@ function saswp_unique_multidim_array($array, $key) {
     $temp_array = array(); 
     $i = 0; 
     $key_array = array(); 
-    if(!empty($array) && !empty($key)){
-        foreach($array as $val) { 
-            if(!empty($val[$key])){   
+    if ( ! empty( $array) && !empty($key) ) {
+        foreach( $array as $val) { 
+            if ( ! empty( $val[$key]) ) {   
                 $checked = saswp_youtube_check_validate_url($val[$key]);
-                if(empty($checked)){
+                if(empty($checked) ) {
                     $checked = saswp_vimeo_check_validate_url($val);
                 }
-                if(empty($checked)){
+                if(empty($checked) ) {
                     $checked = saswp_dailymototion_check_validate_url($val);
                 }
                 if (!empty($checked)) {
@@ -4272,7 +4272,7 @@ function saswp_unique_multidim_array($array, $key) {
 }
 
 function saswp_youtube_check_validate_url($yt_url) { 
-    if(!empty($yt_url) && isset($yt_url)){
+    if ( ! empty( $yt_url) && isset($yt_url) ) {
         $url_parsed_arr = wp_parse_url($yt_url);
         if (
             (isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "youtu.be" || $url_parsed_arr['host'] == "www.youtube.com"))
@@ -4289,8 +4289,8 @@ function saswp_youtube_check_validate_url($yt_url) {
 }
 
 function saswp_vimeo_check_validate_url($yt_url) { 
-    if(!empty($yt_url) && isset($yt_url)){
-        if(isset($yt_url['thumbnail_url']) && !empty($yt_url['thumbnail_url'])){
+    if ( ! empty( $yt_url) && isset($yt_url) ) {
+        if ( isset( $yt_url['thumbnail_url']) && !empty($yt_url['thumbnail_url']) ) {
             $url_parsed_arr = wp_parse_url($yt_url['video_url']);
             if ((isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "vimeo.com" || $url_parsed_arr['host'] == "www.vimeo.com"))) {
                 return $yt_url;
@@ -4306,8 +4306,8 @@ function saswp_vimeo_check_validate_url($yt_url) {
 }
 
 function saswp_dailymototion_check_validate_url($yt_url) { 
-    if(!empty($yt_url) && isset($yt_url)){
-        if(isset($yt_url['thumbnail_url']) && !empty($yt_url['thumbnail_url'])){
+    if ( ! empty( $yt_url) && isset($yt_url) ) {
+        if ( isset( $yt_url['thumbnail_url']) && !empty($yt_url['thumbnail_url']) ) {
             $url_parsed_arr = wp_parse_url($yt_url['video_url']);
             if ((isset($url_parsed_arr['host']) && ($url_parsed_arr['host'] == "dailymotion.com" || $url_parsed_arr['host'] == "www.dailymotion.com"))) {
                 return $yt_url;
@@ -4323,7 +4323,7 @@ function saswp_dailymototion_check_validate_url($yt_url) {
 }
   
 
-function saswp_get_thumbnail(){
+function saswp_get_thumbnail() {
 
     global $thumbnail, $sd_data;
 
@@ -4336,13 +4336,13 @@ function saswp_get_thumbnail(){
 
             $thumbnail = get_video_thumbnail();
 
-        }else if (isset($image_details[0])){
+        }elseif (isset($image_details[0]) ) {
 
             $thumbnail = $image_details[0];
 
         }else{
 
-            if(isset($sd_data['sd_default_image']['thumbnail'])){
+            if ( isset( $sd_data['sd_default_image']['thumbnail']) ) {
                 $thumbnail = $sd_data['sd_default_image']['thumbnail'];    
             }
 
@@ -4364,7 +4364,7 @@ function saswp_remove_all_images($content){
 
 }
 
-function saswp_update_global_post(){
+function saswp_update_global_post() {
 
   global $post, $redux_builder_amp, $saswp_post_data;
   
@@ -4385,7 +4385,7 @@ function saswp_update_global_post(){
 
 }
 
-add_filter('wpseo_metadesc', 'saswp_yoast_homepage_meta_desc', 10,2);
+add_filter( 'wpseo_metadesc', 'saswp_yoast_homepage_meta_desc', 10,2);
 
 function saswp_yoast_homepage_meta_desc($description, $peresentation = false){
 
@@ -4496,7 +4496,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
           $post_type = array();
           $args['public'] = true;
             
-          if(!empty($search) && $search != null){                
+          if ( ! empty( $search) && $search != null){                
             $args['name'] = $search; 
           }                     
           if($saved_data){
@@ -4506,7 +4506,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
           unset($choices['amp_acf'], $choices['saswp-collections'], $choices['saswp_reviews'], $choices['saswp_reviews_server'], $choices['saswp'] );                    
           
           if($choices){
-            foreach($choices as $key =>$value){
+            foreach( $choices as $key =>$value){
               $post_type[] = array('id' => $value, 'text' => $key);
             }
           }          
@@ -4522,7 +4522,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         
         if($saved_data){
             $new_arr = array();
-            foreach ($templates as $key => $value) {
+            foreach ( $templates as $key => $value) {
                 if($value == $saved_data){
                   $new_arr[$key] = $value;
                 }
@@ -4532,7 +4532,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
         if($templates){
             
-            foreach($templates as $k => $v){
+            foreach( $templates as $k => $v){
                              
                  $choices[] = array('id' => $v, 'text' => $k);
           
@@ -4564,7 +4564,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
             $arg['posts_per_page'] = 50;  
             $arg['post_status']    = 'any'; 
 
-            if(!empty($search)){
+            if ( ! empty( $search) ) {
               $arg['s']              = $search;
             }
 
@@ -4574,9 +4574,9 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
                 
             $posts = saswp_get_posts_by_arg($arg);             
             
-            if(isset($posts['posts_data'])){
+            if ( isset( $posts['posts_data']) ) {
                             
-              foreach($posts['posts_data'] as $post){                                                          
+              foreach( $posts['posts_data'] as $post){                                                          
                 
                 $choices[] = array('id' => $post['post']['post_id'], 'text' => $post['post']['post_title']);
 
@@ -4599,7 +4599,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
                     'number'     => 50, 
                   );
 
-        if(!empty($search)){
+        if ( ! empty( $search) ) {
           $args['name__like'] = $search;
         }      
         if($saved_data){             
@@ -4631,13 +4631,13 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
           if( is_multisite() ){
           
-            $choices['super_admin'] = esc_html__('Super Admin', 'schema-and-structured-data-for-wp');
+            $choices['super_admin'] = esc_html__( 'Super Admin', 'schema-and-structured-data-for-wp');
             
           }
 
           if($saved_data){
             $new_arr = array();
-            foreach ($choices as $key => $value) {
+            foreach ( $choices as $key => $value) {
                 if($key == $saved_data){
                   $new_arr[$key] = $value;
                 }
@@ -4646,7 +4646,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
           }
           
           if($choices){
-            foreach($choices as $key =>$value){
+            foreach( $choices as $key =>$value){
               $general_arr[] = array('text' => $value, 'id' => $key);
             }
           }        
@@ -4660,7 +4660,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
           if($saved_data){
             $new_arr = array();
-            foreach ($choices as $key => $value) {
+            foreach ( $choices as $key => $value) {
                 if($key == $saved_data){
                   $new_arr[$key] = $value;
                 }
@@ -4669,7 +4669,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
          }
 
           if($choices){
-            foreach($choices as $key =>$value){
+            foreach( $choices as $key =>$value){
               $general_arr[] = array('text' => $value, 'id' => $key);
             }
           }        
@@ -4681,7 +4681,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         
         $args['public'] = true;
 
-        if(!empty($search) && $search != null){                
+        if ( ! empty( $search) && $search != null){                
             $args['name'] = $search; 
         }  
         if($saved_data){
@@ -4694,7 +4694,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
             
             if($taxonomies){
         
-                foreach($taxonomies as $taxonomy) {                                      
+                foreach( $taxonomies as $taxonomy) {                                      
                   $choices[] = array('id' => $taxonomy->name, 'text' => $taxonomy->labels->name);                  
                 }
                   
@@ -4728,12 +4728,12 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
         case "author_name":
 
         $authors = get_users('orderby=display_name&order=ASC');
-        foreach ($authors as $author) {
+        foreach ( $authors as $author) {
                $choices[] = array('id'  => $author->ID, 'text' => $author->display_name);
         }      
-        if(!empty($saved_data) && is_string($saved_data)){
+        if ( ! empty( $saved_data) && is_string($saved_data) ) {
             $selected_userdata = get_userdata($saved_data);
-            if(isset($selected_userdata->data)){
+            if ( isset( $selected_userdata->data) ) {
                 $choices = array();
                 $choices[] = array('id'  => $selected_userdata->data->ID, 'text' => $selected_userdata->display_name);
             }
@@ -4747,7 +4747,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
                 'number'     => 50, 
             );
 
-            if(!empty($search)){
+            if ( ! empty( $search) ) {
                 $args['name__like'] = $search;
             }
 
@@ -4755,7 +4755,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
             
             if($taxonomies){
 
-                foreach($taxonomies as $tax){
+                foreach( $taxonomies as $tax){
                     $choices[] = array('id' => $tax->slug, 'text' => $tax->name);
                 }
                 
@@ -4771,7 +4771,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
             'number'     => 50
         );
 
-        if(!empty($search)){
+        if ( ! empty( $search) ) {
             $args['name__like'] = $search;
         }
 
@@ -4782,9 +4782,9 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
                       
         if($taxonomies){
 
-            foreach($taxonomies as $tax){
+            foreach( $taxonomies as $tax){
 
-                if(is_object($tax)){
+                if(is_object($tax) ) {
                     $choices[] = array('id' => $tax->slug, 'text' => $tax->name);
                 }
                 
@@ -4794,14 +4794,14 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
     }        
 
-    if(!empty($search) && $search != null){
+    if ( ! empty( $search) && $search != null){
         
         if($array_search){
 
             $search_data = array();
 
-            foreach($choices as $val){
-              if((strpos($val['id'], $search) !== false) || (strpos($val['text'], $search) !== false)){
+            foreach( $choices as $val){
+              if((strpos($val['id'], $search) !== false) || (strpos($val['text'], $search) !== false) ) {
                 $search_data[] = $val; 
               }
             }
@@ -4856,13 +4856,13 @@ function saswp_explode_comma_seprated ($data, $type) {
 
     $response = array();
 
-    if(!empty($data) && is_string($data)){
+    if ( ! empty( $data) && is_string($data) ) {
 
         $area_served = explode(',', $data);
 
         if($area_served){
 
-            foreach ($area_served as  $value) {
+            foreach ( $area_served as  $value) {
                 $response[] = array(
                 '@type' => $type,
                 'name'  => $value
@@ -4890,7 +4890,7 @@ function saswp_get_elementor_widget_data($element_data, $widget_type){
         
       } else {
 
-                foreach($element_data['elements'] as $element_ot){
+                foreach( $element_data['elements'] as $element_ot){
                     return saswp_get_elementor_widget_data($element_ot, $widget_type);
                 }
 
@@ -4902,7 +4902,7 @@ function saswp_isset($str){
 
     $result = false;
 
-    if(isset($str) && $str !=''){
+    if ( isset( $str) && $str !='' ) {
         $result = true;
     }
 
@@ -5046,12 +5046,12 @@ function saswp_get_post_meta( $post_id, $key=null, $single = null ){
         }                        
 }
 function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){    
-    if(is_admin()){
+    if(is_admin() ) {
            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.           
-        if((!empty($_POST['tag_ID']))){
+        if((!empty($_POST['tag_ID'])) ) {
             return update_term_meta($post_id, $meta_key, $meta_value);                    
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- this is a dependent function and its all security measurament is done wherever it has been used.
-        }else if(!empty($_GET['tag_ID'])){
+        }elseif ( ! empty( $_GET['tag_ID']) ) {
             return update_term_meta($post_id, $meta_key, $meta_value);        
         }else{
             return update_post_meta($post_id, $meta_key, $meta_value);
@@ -5061,13 +5061,13 @@ function saswp_update_post_meta( $post_id, $meta_key, $meta_value ){
 
 function saswp_delete_post_meta( $post_id, $meta_key, $meta_value = null ){
     // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
-        if(!empty($_POST['tag_ID']) && is_admin()){    
+        if ( ! empty( $_POST['tag_ID']) && is_admin() ) {    
             return delete_term_meta( $post_id, $meta_key, $meta_value );            
         }else{
             return delete_post_meta( $post_id, $meta_key, $meta_value );
         }        
 }
-function saswp_get_the_ID(){
+function saswp_get_the_ID() {
 
     $id =  get_the_ID();
 
@@ -5123,12 +5123,12 @@ function saswp_sanitize_textarea_field( $str ) {
 	return $filtered;
 }
 
-if(!function_exists('saswp_revalidate_product_description')){
+if(!function_exists('saswp_revalidate_product_description') ) {
     function saswp_revalidate_product_description($product_description)
     {
         global $sd_data;
-        if(isset($sd_data['saswp-truncate-product-description']) && $sd_data['saswp-truncate-product-description'] == 1){
-            if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_description)){
+        if ( isset( $sd_data['saswp-truncate-product-description']) && $sd_data['saswp-truncate-product-description'] == 1){
+            if((isset($sd_data['saswp-woocommerce']) && $sd_data['saswp-woocommerce'] == 1) && !empty($product_description) ) {
                 if (mb_strlen($product_description, 'UTF-8') > 5000){
                     $product_description = mb_substr($product_description, 0, 5000, 'UTF-8');
                 }
@@ -5138,16 +5138,16 @@ if(!function_exists('saswp_revalidate_product_description')){
     }
 }
 
-if(!function_exists('saswp_get_main_authors')){
-    function saswp_get_main_authors(){
+if(!function_exists('saswp_get_main_authors') ) {
+    function saswp_get_main_authors() {
         $authors = saswp_get_author_details();
         $main_authors = $authors;
         if (!function_exists('is_plugin_active')) {
             include_once(ABSPATH . 'wp-admin/includes/plugin.php');
         }
-        if(is_plugin_active('publishpress-authors/publishpress-authors.php')){
-            if(!empty($authors) && is_array($authors)){
-                if(count($authors) > 1 && isset($authors[0])){
+        if ( is_plugin_active('publishpress-authors/publishpress-authors.php') ) {
+            if ( ! empty( $authors) && is_array($authors) ) {
+                if(count($authors) > 1 && isset($authors[0]) ) {
                     $main_authors = array();
                     $main_authors = $authors[0];
                 }
@@ -5157,16 +5157,16 @@ if(!function_exists('saswp_get_main_authors')){
     }
 }
 
-if(!function_exists('saswp_get_edited_authors')){
-    function saswp_get_edited_authors(){
+if(!function_exists('saswp_get_edited_authors') ) {
+    function saswp_get_edited_authors() {
         $authors = saswp_get_author_details();
         $edited_authors = $authors;
         if (!function_exists('is_plugin_active')) {
             include_once(ABSPATH . 'wp-admin/includes/plugin.php');
         }
-        if(is_plugin_active('publishpress-authors/publishpress-authors.php')){
-            if(!empty($authors) && is_array($authors)){
-                if(count($authors) > 1 && isset($authors[0])){
+        if ( is_plugin_active('publishpress-authors/publishpress-authors.php') ) {
+            if ( ! empty( $authors) && is_array($authors) ) {
+                if(count($authors) > 1 && isset($authors[0]) ) {
                     $edited_authors = array();
                     unset($authors[0]);
                     $authors = array_values($authors);
@@ -5194,23 +5194,23 @@ function saswp_modify_currency_code($currency='')
 function saswp_sanitize_post_data($array_sanitize = array())
 {
     $response = array(); $error_flag = 0;
-    if(!empty($array_sanitize) && is_array($array_sanitize)){
+    if ( ! empty( $array_sanitize) && is_array($array_sanitize) ) {
         $date_key_array = array('post_date','post_date_gmt','post_modified','post_modified_gmt');
         $int_key_array = array('ID','post_author','post_parent','menu_order','comment_count');
         $text_key_array = array('post_content','post_title','post_excerpt','post_status','comment_status','ping_status','post_name','to_ping','pinged','post_content_filtered','guid','post_type','post_mime_type','filter');
         $ignore_key_array = array('post_password');
-        foreach ($array_sanitize as $askey => $asvalue) {
-            if(in_array($askey, $int_key_array)){
+        foreach ( $array_sanitize as $askey => $asvalue) {
+            if(in_array($askey, $int_key_array) ) {
                 $response[$askey] = intval($asvalue);    
-            }else if(in_array($askey, $date_key_array)){
+            }elseif(in_array($askey, $date_key_array) ) {
                 if(substr($asvalue, 0,4) == '0000'){
                     $response[$askey] = $asvalue;
                 }else{
                     $response[$askey] = gmdate('Y-m-d H:i:s', strtotime($asvalue));
                 }    
-            }else if(in_array($askey, $text_key_array)){
+            }elseif(in_array($askey, $text_key_array) ) {
                 $response[$askey] = sanitize_text_field($asvalue);    
-            }else if(in_array($askey, $ignore_key_array)){
+            }elseif(in_array($askey, $ignore_key_array) ) {
                 continue;   
             }else{
                 $error_flag = 1; 
@@ -5227,14 +5227,14 @@ function saswp_sanitize_post_data($array_sanitize = array())
 function saswp_validate_image_extension($image_url = '')
 {
     $status = false;
-    if(!empty($image_url)){
+    if ( ! empty( $image_url) ) {
         $valid_extensions = array('gif', 'jpg', 'jpeg', 'webp', 'png', 'swf', 'psd', 'bmp', 'wbmp', 'xbm', 'xpm', 'tiff', 'dpx', 'svg');
         $explode_url = explode('.', $image_url);
-        if(!empty($explode_url) && is_array($explode_url)){
+        if ( ! empty( $explode_url) && is_array($explode_url) ) {
             $explode_count = count($explode_url);
             $img_extension = strtolower(sanitize_text_field($explode_url[$explode_count - 1]));
-            if(!empty($img_extension)){
-                if(in_array($img_extension, $valid_extensions)){
+            if ( ! empty( $img_extension) ) {
+                if(in_array($img_extension, $valid_extensions) ) {
                     $status = true;
                 }
             }
@@ -5255,7 +5255,7 @@ function saswp_get_image_details($url)
     if (!function_exists( 'wp_getimagesize' ) ){
         require_once( ABSPATH . '/wp-admin/includes/media.php' );
     }
-    if(function_exists('wp_getimagesize')){
+    if ( function_exists( 'wp_getimagesize') ) {
         $image = @wp_getimagesize($url);
     }else{
         $image = @getimagesize($url);
@@ -5301,7 +5301,7 @@ function saswp_local_file_get_contents($file_path){
         //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- loading only static css files from this plugin in amp version
         echo $file_safe;
     } else {
-        echo esc_html__('File does not exist.', 'schema-and-structured-data-for-wp');
+        echo esc_html__( 'File does not exist.', 'schema-and-structured-data-for-wp');
     }
 
 }
@@ -5321,12 +5321,12 @@ function saswp_get_seo_press_metadata($type){
     if($result){
         $seo_data = unserialize($rows[0]->seo);
         if($type == 'title'){            
-            if(isset($seo_data['title']) && $seo_data['title'] <>''){
+            if ( isset( $seo_data['title']) && $seo_data['title'] <>''){
                 $meta_value = $seo_data['title'];
             }            
         }
         if($type == 'description'){
-            if(isset($seo_data['description']) && $seo_data['description'] <>''){
+            if ( isset( $seo_data['description']) && $seo_data['description'] <>''){
                 $meta_value = $seo_data['description'];
             }            
         }

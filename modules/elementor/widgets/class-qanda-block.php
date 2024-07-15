@@ -221,29 +221,29 @@ class Qanda_Block extends Widget_Base {
          ?>
          <div class="saswp-qanda-block-html">
         <?php echo '<div class="saswp-qanda-block-question">
-                <h3>'.esc_html($attributes['question_name']).'</h3>
-                <span class="saswp-qand-date">'.esc_html($attributes['question_date']).' '. esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).' '.esc_html($attributes['question_author']).'</span>                
-                <p>'.esc_html($attributes['question_text']).'</p>
-                '.esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($attributes['question_vote']).')
+                <h3>'.esc_html( $attributes['question_name']).'</h3>
+                <span class="saswp-qand-date">'.esc_html( $attributes['question_date']).' '. esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).' '.esc_html( $attributes['question_author']).'</span>                
+                <p>'.esc_html( $attributes['question_text']).'</p>
+                '.esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html( $attributes['question_vote']).')
                 </div>'; 
         ?>	
             <div class="saswp-qanda-block-answer"><h3><?php echo esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
                 <?php
-                if(isset($attributes['accepted_answers']) && !empty($attributes['accepted_answers'])){
+                if ( isset( $attributes['accepted_answers']) && !empty($attributes['accepted_answers']) ) {
 
-                    foreach($attributes['accepted_answers'] as $answer){
+                    foreach( $attributes['accepted_answers'] as $answer){
 
                     	$ans_url = '';
-                    	if(is_array($answer) && isset($answer['url']) && isset($answer['url']['url'])){
+                    	if ( is_array( $answer) && isset($answer['url']) && isset($answer['url']['url']) ) {
                     		$ans_url = $answer['url']['url'];
                     	}
                         
                         echo '<li>
-                        <a href="'.esc_url($ans_url).'">
-                        <p>'.esc_html($answer['text']).'</p>                        
+                        <a href="'. esc_url( $ans_url).'">
+                        <p>'.esc_html( $answer['text']).'</p>                        
                         </a>
-                        <span class="saswp-qand-date">'.esc_html($answer['date']).' '.esc_html__( 'By', 'schema-and-structured-data-for-wp' ).' <strong>'.esc_html($answer['author']).'</strong></span>                        
-                        <br> '. esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')                        
+                        <span class="saswp-qand-date">'.esc_html( $answer['date']).' '.esc_html__( 'By', 'schema-and-structured-data-for-wp' ).' <strong>'.esc_html( $answer['author']).'</strong></span>                        
+                        <br> '. esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html( $answer['vote']).')                        
                         </li>';
                        
                     }
@@ -254,21 +254,21 @@ class Qanda_Block extends Widget_Base {
 
         	<div class="saswp-qanda-block-answer"><h3><?php echo esc_html__( 'Suggested Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
             <?php    
-                if(isset($attributes['suggested_answers']) && !empty($attributes['suggested_answers'])){
+                if ( isset( $attributes['suggested_answers']) && !empty($attributes['suggested_answers']) ) {
 
-                    foreach($attributes['suggested_answers'] as $answer){
+                    foreach( $attributes['suggested_answers'] as $answer){
 
                         $ans_url = '';
-                    	if(is_array($answer) && isset($answer['url']) && isset($answer['url']['url'])){
+                    	if ( is_array( $answer) && isset($answer['url']) && isset($answer['url']['url']) ) {
                     		$ans_url = $answer['url']['url'];
                     	}
 
                         echo '<li>
-                        <a href="'.esc_url($ans_url).'">
-                        <p>'.esc_html($answer['text']).'</p>                        
+                        <a href="'. esc_url( $ans_url).'">
+                        <p>'.esc_html( $answer['text']).'</p>                        
                         </a>
-                        <span class="saswp-qand-date">'.esc_html($answer['date']).' '.esc_html__( 'by', 'schema-and-structured-data-for-wp' ).' <strong>'.esc_html($answer['author']).'</strong></span>                        
-                        <br> '.esc_html__( 'vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')                        
+                        <span class="saswp-qand-date">'.esc_html( $answer['date']).' '.esc_html__( 'by', 'schema-and-structured-data-for-wp' ).' <strong>'.esc_html( $answer['author']).'</strong></span>                        
+                        <br> '.esc_html__( 'vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html( $answer['vote']).')                        
                         </li>';                       
                     }
 
@@ -293,7 +293,7 @@ class Qanda_Block extends Widget_Base {
 
 		var q_date = new Date(settings.question_date);		
 
-		if(q_date.getDate()){
+		if(q_date.getDate() ) {
 			#>
 			<span class="saswp-qand-date">{{{q_date.getDate()}}}-{{{q_date.getMonth()}}}-{{{q_date.getFullYear()}}}  {{{q_date.getHours()}}}:{{{q_date.getMinutes()}}}:{{{q_date.getSeconds()}}}</span>
 			<#
@@ -329,7 +329,7 @@ class Qanda_Block extends Widget_Base {
                 <p>{{{ item.text }}}</p>                        
 				</a>
 				<# 
-				if(date.getDate()){
+				if(date.getDate() ) {
 					#>
 					<span class="saswp-qand-date">{{{date.getDate()}}}-{{{date.getMonth()}}}-{{{date.getFullYear()}}}  {{{date.getHours()}}}:{{{date.getMinutes()}}}:{{{date.getSeconds()}}} </span>
 					<# 
@@ -370,7 +370,7 @@ class Qanda_Block extends Widget_Base {
 				<p>{{{ item.text }}}</p>                        
 				</a>
 				<# 
-				if(date.getDate()){
+				if(date.getDate() ) {
 					#>
 					<span class="saswp-qand-date">{{{date.getDate()}}}-{{{date.getMonth()}}}-{{{date.getFullYear()}}}  {{{date.getHours()}}}:{{{date.getMinutes()}}}:{{{date.getSeconds()}}} </span>
 					<# 

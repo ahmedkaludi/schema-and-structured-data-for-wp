@@ -13,22 +13,22 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('SASWP_VERSION', '1.33');
-define('SASWP_DIR_NAME_FILE', __FILE__ );
-define('SASWP_DIR_NAME', dirname( __FILE__ ));
-define('SASWP_DIR_URI', plugin_dir_url(__FILE__));
-define('SASWP_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ));
+define( 'SASWP_VERSION', '1.33' );
+define( 'SASWP_DIR_NAME_FILE', __FILE__ );
+define( 'SASWP_DIR_NAME', dirname( __FILE__ ) );
+define( 'SASWP_DIR_URI', plugin_dir_url( __FILE__ ) );
+define( 'SASWP_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 // the name of the settings page for the license input to be displayed
-if(! defined('SASWP_ITEM_FOLDER_NAME')){
-    $folderName = basename(__DIR__);
+if ( ! defined( 'SASWP_ITEM_FOLDER_NAME' ) ) {
+    $folderName = basename( __DIR__ );
     define( 'SASWP_ITEM_FOLDER_NAME', $folderName );
 }
-define('SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
-define('SASWP_PLUGIN_BASENAME', plugin_basename(__FILE__));
-define('SASWP_EDD_STORE_URL', 'http://structured-data-for-wp.com/');
+define( 'SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'SASWP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'SASWP_EDD_STORE_URL', 'http://structured-data-for-wp.com/' );
 
-// define('SASWP_ENVIRONMENT', 'development');
-define('SASWP_ENVIRONMENT', 'production');
+// define( 'SASWP_ENVIRONMENT', 'development' );
+define( 'SASWP_ENVIRONMENT', 'production' );
 // including the output file
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
@@ -42,28 +42,28 @@ require_once SASWP_DIR_NAME .'/output/divi-builder.php';
 if ( ! function_exists( 'is_plugin_active' ) )
      require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 
-if ( is_plugin_active('flexmls-idx/flexmls_connect.php') && class_exists('flexmlsConnectPageCore')) {
+if ( is_plugin_active('flexmls-idx/flexmls_connect.php') && class_exists( 'flexmlsConnectPageCore' )) {
      require_once SASWP_DIR_NAME .'/output/class-saswp-flexmls-list.php';    
 }
 
 // Non amp checker
-if ( ! function_exists('saswp_non_amp') ){
+if ( ! function_exists('saswp_non_amp') ) {
     
-  function saswp_non_amp(){
+  function saswp_non_amp() {
       
     $non_amp = true;
     
-    if( function_exists('ampforwp_is_amp_endpoint') && @ampforwp_is_amp_endpoint() ) {                
-        $non_amp = false;                       
+    if( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) {
+        $non_amp = false;
     }     
-    if(function_exists('is_amp_endpoint') && @is_amp_endpoint() ){
-        $non_amp = false;           
+    if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ){
+        $non_amp = false;
     }
-    if(function_exists('is_better_amp') && @is_better_amp()){       
-        $non_amp = false;           
+    if ( function_exists( 'is_better_amp' ) && is_better_amp() ) {
+        $non_amp = false;
     }
-    if(function_exists('is_amp_wp') && @is_amp_wp()){       
-        $non_amp = false;           
+    if ( function_exists( 'is_amp_wp' ) && is_amp_wp() ) {       
+        $non_amp = false;
     }
     
     return $non_amp;
@@ -124,15 +124,15 @@ require_once SASWP_DIR_NAME.'/core/3rd-party/class-saswp-youtube.php';
 register_activation_hook( __FILE__, 'saswp_on_activation' );
 register_uninstall_hook( __FILE__, 'saswp_on_uninstall' );
 
-add_filter('plugin_row_meta' , 'saswp_add_plugin_meta_links', 10, 2);
+add_filter( 'plugin_row_meta' , 'saswp_add_plugin_meta_links', 10, 2 );
 
-function saswp_add_plugin_meta_links($meta_fields, $file) {
+function saswp_add_plugin_meta_links( $meta_fields, $file ) {
     
     if ( SASWP_PLUGIN_BASENAME == $file ) {
                        
       $forum_url  = "https://structured-data-for-wp.com/contact-us/";
       
-      $meta_fields[] = "<a href='" . esc_url($forum_url) . "' target='_blank'>" . esc_html__( 'Technical Support' , 'schema-and-structured-data-for-wp') . "</a>";
+      $meta_fields[] = "<a href='" . esc_url( $forum_url ) . "' target='_blank'>" . esc_html__( 'Technical Support' , 'schema-and-structured-data-for-wp') . "</a>";
      
     }
 

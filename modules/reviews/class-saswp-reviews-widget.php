@@ -50,7 +50,7 @@ class Saswp_Reviews_Widget extends WP_Widget {
 
 		echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));	
                 
-        if(saswp_global_option()){
+        if(saswp_global_option() ) {
           
             $attr = array(
                 'count' => $instance['g_review']
@@ -83,7 +83,7 @@ class Saswp_Reviews_Widget extends WP_Widget {
 				<label for="<?php echo esc_attr( $this->get_field_id( 'g_review' ) ); ?>">
 			<?php echo esc_html__( 'Reviews :', 'schema-and-structured-data-for-wp' ); ?>
 				</label>
-				<input id="<?php echo esc_attr( $this->get_field_id( 'g_review' )); ?>" name="<?php echo esc_attr( $this->get_field_name( 'g_review' ) ); ?>" type="text" placeholder="review count" value="<?php echo (isset($instance['g_review']) ? esc_attr($instance['g_review']) : 5); ?>">
+				<input id="<?php echo esc_attr( $this->get_field_id( 'g_review' )); ?>" name="<?php echo esc_attr( $this->get_field_name( 'g_review' ) ); ?>" type="text" placeholder="review count" value="<?php echo (isset($instance['g_review']) ? esc_attr( $instance['g_review']) : 5); ?>">
 			</p>
 		<?php 
 	}
@@ -111,7 +111,7 @@ class Saswp_Reviews_Widget extends WP_Widget {
 /**
  * We are registering our widget here in wordpress
  */
-function register_saswp_reviews_widget(){
+function register_saswp_reviews_widget() {
     register_widget('Saswp_Reviews_Widget');
 }
 add_action('widgets_init', 'register_saswp_reviews_widget');

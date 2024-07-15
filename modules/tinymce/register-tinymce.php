@@ -2,7 +2,7 @@
 
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_style_tinymce_css' );
 
-function saswp_enqueue_style_tinymce_css(){
+function saswp_enqueue_style_tinymce_css() {
 
    wp_enqueue_style( 'saswp-tinyme-css', SASWP_PLUGIN_URL . 'modules/tinymce/js/tiny-mce.css', false , SASWP_VERSION );			
 }

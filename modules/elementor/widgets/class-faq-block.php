@@ -104,18 +104,18 @@ class Faq_Block extends Widget_Base {
                         $i = 1;
 			foreach (  $settings['list'] as $item ) {
 				if($order_type == 'order_list' || $order_type == ''){
-				?>	<li style="list-style:none" class="elementor-repeater-item-<?php echo esc_attr($item['_id']); ?>">
+				?>	<li style="list-style:none" class="elementor-repeater-item-<?php echo esc_attr( $item['_id']); ?>">
 				<?php }else{
 				?>
-					<li class="elementor-repeater-item-<?php echo esc_attr($item['_id']); ?>">	
+					<li class="elementor-repeater-item-<?php echo esc_attr( $item['_id']); ?>">	
 				<?php	
 				}
                                 echo '<h3>';
                                 
                                 if($order_type == 'order_list'){
-                                    echo '<span>'.esc_html($i).'. </span>';
+                                    echo '<span>'.esc_html( $i).'. </span>';
                                 } 
-                                echo esc_html($item['faq_question']);
+                                echo esc_html( $item['faq_question']);
                                 echo '</h3>';
 				echo '<p>' . wp_kses($item['faq_answer'], wp_kses_allowed_html('post'));
                                 

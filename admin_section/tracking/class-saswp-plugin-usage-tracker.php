@@ -424,7 +424,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 					}
 				}
 				
-			} else if( $is_allowed || ! $this->require_optin ) {
+			} elseif( $is_allowed || ! $this->require_optin ) {
 				// If the user has agreed to allow tracking or if opt-in is not required
 				
 				if( $this->what_am_i == 'theme' ) {
@@ -621,7 +621,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			if( empty( $admin_emails ) || ! is_array( $admin_emails ) ) {
 				// If nothing exists in the option yet, start a new array with the plugin name
 				$admin_emails = array( $plugin => sanitize_email( $email ) );
-			} else if( empty( $admin_emails[$plugin] ) ) {
+			} elseif( empty( $admin_emails[$plugin] ) ) {
 				// Else add the email address to the array, if not already set
 				$admin_emails[$plugin] = sanitize_email( $email );
 			}
@@ -684,7 +684,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				if( $this->marketing == 1 ) {
 					// Option 1 combines permissions to track and collect email
 					$yes_args['marketing_optin'] = 'yes';
-				} else if( $this->marketing == 2 ) {
+				} elseif( $this->marketing == 2 ) {
 					// Option 2 enables a second notice that fires after the user opts in to tracking
 					$yes_args['marketing'] = 'yes';
 				}
@@ -734,7 +734,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				// Do tracking
 				$this->do_tracking( true );
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
-			} else if( isset( $_GET['marketing'] ) && $_GET['marketing']=='yes' ) {
+			} elseif( isset( $_GET['marketing'] ) && $_GET['marketing']=='yes' ) {
 				// Display the notice requesting permission to collect email address
 				// Retrieve current plugin information
 				$plugin = $this->plugin_data();
@@ -892,7 +892,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			</style>
 			<script>
 				jQuery(document).ready(function($){
-					$("#put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>").on("click",function(){
+					$("#put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>").on("click",function() {
 						// We'll send the user to this deactivation link when they've completed or dismissed the form
 						var url = document.getElementById("put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>");
 						$('body').toggleClass('put-form-active');
@@ -906,7 +906,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .deactivating-spinner").fadeIn();
 							e.preventDefault();
 							var values = new Array();
-							$.each($("input[name='put-goodbye-options[]']:checked"), function(){
+							$.each($("input[name='put-goodbye-options[]']:checked"), function() {
 								values.push($(this).val());
 							});
 							var details = $('#put-goodbye-reasons').val();
@@ -914,7 +914,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 								'action': 'goodbye_form',
 								'values': values,
 								'details': details,
-								'security': "<?php echo esc_html(wp_create_nonce ( 'saswp_goodbye_form' )); ?>",
+								'security': "<?php echo esc_html( wp_create_nonce ( 'saswp_goodbye_form' )); ?>",
 								'dataType': "json"
 							}
 							$.post(
@@ -927,7 +927,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 							);
 						});
 						// If we click outside the form, the form will close
-						$('.put-goodbye-form-bg').on('click',function(){
+						$('.put-goodbye-form-bg').on('click',function() {
 							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeOut();
 							$('body').removeClass('put-form-active');
 						});
@@ -941,7 +941,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 * @since 1.0.0
 		 */
 		public function goodbye_form_callback() {
-			if(!current_user_can( saswp_current_user_can())){
+			if(!current_user_can( saswp_current_user_can()) ) {
 			    die( '-1' );    
 			}
 			check_ajax_referer( 'saswp_goodbye_form', 'security' );
