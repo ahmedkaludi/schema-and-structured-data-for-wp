@@ -540,11 +540,11 @@ class SASWP_Post_Specific {
                          
                          $setting_options  .= '<span>'
                          /* translators: %s: schema type */
-                         .esc_html( sprintf(__('%s schema is fetched automatically', 'schema-and-structured-data-for-wp'),$schema_type_txt)).
+                         .esc_html( sprintf(__('%s schema is fetched automatically', 'schema-and-structured-data-for-wp' ),$schema_type_txt)).
                          '</span><br><br>';
                          $setting_options  .= '<a class="button button-default saswp-modify-schema button" schema-id="'. esc_attr( $schema->ID).'">'
                          /* translators: %s: date */
-                         .esc_html( sprintf(__('Modify %s Schema Output', 'schema-and-structured-data-for-wp'),$schema_type)).'</a>';                         
+                         .esc_html( sprintf(__('Modify %s Schema Output', 'schema-and-structured-data-for-wp' ),$schema_type)).'</a>';                         
                          $setting_options .= '</div>';                                                                                                          
                          $setting_options .= '</div>';                                                
                          $setting_options .= '</div>';
@@ -553,7 +553,7 @@ class SASWP_Post_Specific {
                         $btn_in_loop = '<div class="saswp-disable-btn-container">'
                         . '<span class="saswp-disable-label '. esc_attr( $schema_type_txt).'">'
                         /* translators: %s: schema type */
-                        . esc_html( sprintf(__('Enable %s on this page', 'schema-and-structured-data-for-wp'),$schema_type_txt))                            
+                        . esc_html( sprintf(__('Enable %s on this page', 'schema-and-structured-data-for-wp' ),$schema_type_txt))                            
                         . '</span>'
                         . '<label class="saswp-switch">'
                         . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-name="'. esc_attr( $schema_type_txt).'" data-schema-id="'. esc_attr( $schema->ID).'" data-post-id="'. esc_attr( $post->ID).'" '.$disabled.'>'
@@ -564,7 +564,7 @@ class SASWP_Post_Specific {
                         $btn_in_loop = '<div class="saswp-enable-btn-container">'
                         . '<span class="saswp-enable-label '. esc_attr( $schema_type_txt).'">'
                         /* translators: %s: schema type */
-                        . esc_html( sprintf(__('Disable %s on this page', 'schema-and-structured-data-for-wp'),$schema_type_txt))                            
+                        . esc_html( sprintf(__('Disable %s on this page', 'schema-and-structured-data-for-wp' ),$schema_type_txt))                            
                         . '</span>'
                         . '<label class="saswp-switch">'
                         . '<input type="checkbox" class="saswp-schema-type-toggle" value="1" data-schema-name="'. esc_attr( $schema_type_txt).'" data-schema-id="'. esc_attr( $schema->ID).'" data-post-id="'. esc_attr( $post->ID).'" '.$disabled.'>'

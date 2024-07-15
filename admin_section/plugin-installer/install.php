@@ -26,25 +26,25 @@
 					'dev_mode'      => false, 
 					'steps'         => array(
 									1=>array(
-									'title'=>esc_html__( 'Welcome', 'schema-and-structured-data-for-wp'),
+									'title'=>esc_html__( 'Welcome', 'schema-and-structured-data-for-wp' ),
 									'fields'=>'',
-									'description'=>esc_html__( 'This wizard will set up AMP on your website, install plugin, and import content. It is optional & should take only a few minutes.', 'schema-and-structured-data-for-wp'),
+									'description'=>esc_html__( 'This wizard will set up AMP on your website, install plugin, and import content. It is optional & should take only a few minutes.', 'schema-and-structured-data-for-wp' ),
 									),
 									2=>array(
-									'title'=>esc_html__( 'General Settings', 'schema-and-structured-data-for-wp'),
+									'title'=>esc_html__( 'General Settings', 'schema-and-structured-data-for-wp' ),
 									'description'=>'',									
 									),
 									3=>array(
-									'title'=>esc_html__( 'Social Profiles', 'schema-and-structured-data-for-wp'),
-									'description'=>esc_html__( 'Would you like to setup Social Profiles?', 'schema-and-structured-data-for-wp'),									
+									'title'=>esc_html__( 'Social Profiles', 'schema-and-structured-data-for-wp' ),
+									'description'=>esc_html__( 'Would you like to setup Social Profiles?', 'schema-and-structured-data-for-wp' ),									
 									),
 									4=>array(
-									'title'=>esc_html__( 'Select Schema', 'schema-and-structured-data-for-wp'),
-									'description'=>esc_html__( 'Where would you like to enable the schema?', 'schema-and-structured-data-for-wp'),									
+									'title'=>esc_html__( 'Select Schema', 'schema-and-structured-data-for-wp' ),
+									'description'=>esc_html__( 'Where would you like to enable the schema?', 'schema-and-structured-data-for-wp' ),									
 									),
 									5=>array(
-									'title'=>esc_html__( 'Enjoy', 'schema-and-structured-data-for-wp'),
-									'description'=>esc_html__( 'Navigate to ', 'schema-and-structured-data-for-wp'),
+									'title'=>esc_html__( 'Enjoy', 'schema-and-structured-data-for-wp' ),
+									'description'=>esc_html__( 'Navigate to ', 'schema-and-structured-data-for-wp' ),
 									'fields'=>'',
 									),
 								),
@@ -308,7 +308,7 @@
 							<select id="schema_type" name="sd_data_create__post_schema['.$key.'][schema_type]">
 								<option value=""><?php echo esc_html__( 'Select Schema Type', 'schema-and-structured-data-for-wp' ); ?></option>
 								<option value="BlogPosting"><?php echo esc_html__( 'BlogPosting', 'schema-and-structured-data-for-wp' ); ?></option>
-								<option value="NewsArticle"><?php echo esc_html__( 'NewsArticl', 'schema-and-structured-data-for-wp') ; ?></option>
+								<option value="NewsArticle"><?php echo esc_html__( 'NewsArticl', 'schema-and-structured-data-for-wp' ) ; ?></option>
 								<option value="AnalysisNewsArticle"><?php echo esc_html__( 'AnalysisNewsArticle', 'schema-and-structured-data-for-wp' ); ?></option>
 								<option value="AskPublicNewsArticle"><?php echo esc_html__( 'AskPublicNewsArticle', 'schema-and-structured-data-for-wp' ); ?></option>
 								<option value="BackgroundNewsArticle"><?php echo esc_html__( 'BackgroundNewsArticle', 'schema-and-structured-data-for-wp' ); ?></option>

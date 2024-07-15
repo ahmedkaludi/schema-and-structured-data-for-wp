@@ -292,17 +292,17 @@ class SASWP_Gutenberg_Render {
             
             <div class="saswp-recipe-block-heading">
                  <h4></h4>   
-                 <span class="saswp-recipe-block-author"><?php echo esc_html__( 'Recipe By', 'schema-and-structured-data-for-wp') ?> <?php echo (!empty($attributes['author']) ? esc_html( $attributes['author']) : '') ; ?></span>
+                 <span class="saswp-recipe-block-author"><?php echo esc_html__( 'Recipe By', 'schema-and-structured-data-for-wp' ) ?> <?php echo (!empty($attributes['author']) ? esc_html( $attributes['author']) : '') ; ?></span>
                  <div class="saswp-r-course-section">
                   <span class="saswp-recipe-block-course">
-                    <?php echo esc_html__( 'Course', 'schema-and-structured-data-for-wp') ?>: <strong><?php echo (!empty($attributes['course']) ? esc_html( $attributes['course']) : '') ; ?></strong>
+                    <?php echo esc_html__( 'Course', 'schema-and-structured-data-for-wp' ) ?>: <strong><?php echo (!empty($attributes['course']) ? esc_html( $attributes['course']) : '') ; ?></strong>
                   </span>   
                   <span class="saswp-recipe-block-cuisine">
-                  <?php echo esc_html__( 'Cusine', 'schema-and-structured-data-for-wp') ?>:<strong><?php echo (!empty($attributes['cuisine']) ? esc_html( $attributes['cuisine']) : '') ; ?></strong>
+                  <?php echo esc_html__( 'Cusine', 'schema-and-structured-data-for-wp' ) ?>:<strong><?php echo (!empty($attributes['cuisine']) ? esc_html( $attributes['cuisine']) : '') ; ?></strong>
 
                   </span>   
                   <span class="saswp-recipe-block-difficulty">
-                  <?php echo esc_html__( 'Difficulty', 'schema-and-structured-data-for-wp') ?>:<strong><?php echo (!empty($attributes['difficulty']) ? esc_html( $attributes['difficulty']) : '') ; ?></strong>
+                  <?php echo esc_html__( 'Difficulty', 'schema-and-structured-data-for-wp' ) ?>:<strong><?php echo (!empty($attributes['difficulty']) ? esc_html( $attributes['difficulty']) : '') ; ?></strong>
                   </span>   
                  </div>
             </div>
@@ -310,30 +310,30 @@ class SASWP_Gutenberg_Render {
                 <div class="saswp-recipe-block-details-items">
 
                     <div class="saswp-recipe-block-details-item">
-                    <p class="saswp-r-b-label"><?php echo esc_html__( 'Servings', 'schema-and-structured-data-for-wp') ?></p>                    
-                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['servings']) ? esc_html( $attributes['servings']) : '') ; ?> <?php echo esc_html__( 'minutes', 'schema-and-structured-data-for-wp') ?></p>
+                    <p class="saswp-r-b-label"><?php echo esc_html__( 'Servings', 'schema-and-structured-data-for-wp' ) ?></p>                    
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['servings']) ? esc_html( $attributes['servings']) : '') ; ?> <?php echo esc_html__( 'minutes', 'schema-and-structured-data-for-wp' ) ?></p>
                     </div>
 
                     <div class="saswp-recipe-block-details-item">
-                    <p class="saswp-r-b-label"><?php echo esc_html__( 'Preparing Time', 'schema-and-structured-data-for-wp') ?></p>                    
-                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['pre_time']) ? esc_html( $attributes['pre_time']) : '') ; ?> <?php echo esc_html__( 'minutes', 'schema-and-structured-data-for-wp') ?></p>
+                    <p class="saswp-r-b-label"><?php echo esc_html__( 'Preparing Time', 'schema-and-structured-data-for-wp' ) ?></p>                    
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['pre_time']) ? esc_html( $attributes['pre_time']) : '') ; ?> <?php echo esc_html__( 'minutes', 'schema-and-structured-data-for-wp' ) ?></p>
                     </div>
 
                     <div class="saswp-recipe-block-details-item">
-                    <p class="saswp-r-b-label"><?php echo esc_html__( 'Cooking Time', 'schema-and-structured-data-for-wp') ?></p>                    
-                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['cook_time']) ? esc_html( $attributes['cook_time']) : '') ; ?> <?php echo esc_html__( 'minutes', 'schema-and-structured-data-for-wp') ?></p>
+                    <p class="saswp-r-b-label"><?php echo esc_html__( 'Cooking Time', 'schema-and-structured-data-for-wp' ) ?></p>                    
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['cook_time']) ? esc_html( $attributes['cook_time']) : '') ; ?> <?php echo esc_html__( 'minutes', 'schema-and-structured-data-for-wp' ) ?></p>
                     </div>
 
                     <div class="saswp-recipe-block-details-item">
-                    <p class="saswp-r-b-label"><?php echo esc_html__( 'Calories', 'schema-and-structured-data-for-wp') ?></p>                    
-                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['calories']) ? esc_html( $attributes['calories']) : '') ; ?> <?php echo esc_html__( 'kcal', 'schema-and-structured-data-for-wp') ?></p>
+                    <p class="saswp-r-b-label"><?php echo esc_html__( 'Calories', 'schema-and-structured-data-for-wp' ) ?></p>                    
+                    <p class="saswp-r-b-unit"><?php echo (!empty($attributes['calories']) ? esc_html( $attributes['calories']) : '') ; ?> <?php echo esc_html__( 'kcal', 'schema-and-structured-data-for-wp' ) ?></p>
                     </div>
 
 
                 </div>
             </div>
             <div class="saswp-recipe-block-ingredients">
-                <h4><?php echo esc_html__( 'INGREDIENTS', 'schema-and-structured-data-for-wp') ?></h4>
+                <h4><?php echo esc_html__( 'INGREDIENTS', 'schema-and-structured-data-for-wp' ) ?></h4>
 
                 <?php if ( isset( $attributes['ingredients']) ) {
                     echo '<ol class="saswp-dirction-ul">';
@@ -346,7 +346,7 @@ class SASWP_Gutenberg_Render {
                
             </div>
             <div class="saswp-recipe-block-direction">
-            <h4><?php echo esc_html__( 'DIRECTION', 'schema-and-structured-data-for-wp') ?></h4>
+            <h4><?php echo esc_html__( 'DIRECTION', 'schema-and-structured-data-for-wp' ) ?></h4>
                
             <?php if ( isset( $attributes['ingredients']) ) {
                     echo '<ol class="saswp-dirction-ul">';
@@ -364,7 +364,7 @@ class SASWP_Gutenberg_Render {
 
             </div>
             <div class="saswp-recipe-block-notes">
-                <h4><?php echo esc_html__( 'NOTES', 'schema-and-structured-data-for-wp') ?></h4>
+                <h4><?php echo esc_html__( 'NOTES', 'schema-and-structured-data-for-wp' ) ?></h4>
                 
                 <?php if ( isset( $attributes['notes']) ) {
                     echo '<ol class="saswp-dirction-ul">';
@@ -473,7 +473,7 @@ class SASWP_Gutenberg_Render {
           foreach( $attributes['courses'] as $course){
             ?>            
             <div class="saswp-course-loop">
-                      <h3 class="saswp-course-detail"><?php echo esc_html__( 'Course Details', 'schema-and-structured-data-for-wp') ?></h3>
+                      <h3 class="saswp-course-detail"><?php echo esc_html__( 'Course Details', 'schema-and-structured-data-for-wp' ) ?></h3>
                       <h5><?php echo esc_html( $course['name']) ?></h5>
                       <p>
                         <?php if($course['image_url']){

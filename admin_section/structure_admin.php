@@ -814,7 +814,7 @@ if(is_admin() ) {
                 'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
                 'add_new' 	        => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
                 'add_new_item'      => '',
-                'edit_item'         => esc_html__( 'Edit Schema Type', 'schema-and-structured-data-for-wp'),           
+                'edit_item'         => esc_html__( 'Edit Schema Type', 'schema-and-structured-data-for-wp' ),           
                 'all_items'         => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
                 'not_found'         => $not_found_button    
            ),
@@ -871,32 +871,32 @@ if(is_admin() ) {
     <?php 
     // Type Select    
       $choices = apply_filters('saswp_add_more_placement', array(
-        esc_html__("Basic", 'schema-and-structured-data-for-wp') => array(        
-          'post_type'           =>  esc_html__("Post Type", 'schema-and-structured-data-for-wp'),
-          'show_globally'       =>  esc_html__("Show Globally", 'schema-and-structured-data-for-wp'),    
-          'user_type'           =>  esc_html__("Logged in User Type", 'schema-and-structured-data-for-wp'),
-          'homepage'            =>  esc_html__("Homepage", 'schema-and-structured-data-for-wp'), 
-          'author'              =>  esc_html__("Author", 'schema-and-structured-data-for-wp'),  
-          'author_name'         =>  esc_html__("Author Name", 'schema-and-structured-data-for-wp'),  
+        esc_html__("Basic", 'schema-and-structured-data-for-wp' ) => array(        
+          'post_type'           =>  esc_html__("Post Type", 'schema-and-structured-data-for-wp' ),
+          'show_globally'       =>  esc_html__("Show Globally", 'schema-and-structured-data-for-wp' ),    
+          'user_type'           =>  esc_html__("Logged in User Type", 'schema-and-structured-data-for-wp' ),
+          'homepage'            =>  esc_html__("Homepage", 'schema-and-structured-data-for-wp' ), 
+          'author'              =>  esc_html__("Author", 'schema-and-structured-data-for-wp' ),  
+          'author_name'         =>  esc_html__("Author Name", 'schema-and-structured-data-for-wp' ),  
         ),
-        esc_html__("Post", 'schema-and-structured-data-for-wp') => array(
-          'post'                =>  esc_html__("Post", 'schema-and-structured-data-for-wp'),
-          'post_category'       =>  esc_html__("Post Category", 'schema-and-structured-data-for-wp'),
-          'post_format'         =>  esc_html__("Post Format", 'schema-and-structured-data-for-wp'), 
+        esc_html__("Post", 'schema-and-structured-data-for-wp' ) => array(
+          'post'                =>  esc_html__("Post", 'schema-and-structured-data-for-wp' ),
+          'post_category'       =>  esc_html__("Post Category", 'schema-and-structured-data-for-wp' ),
+          'post_format'         =>  esc_html__("Post Format", 'schema-and-structured-data-for-wp' ), 
         ),
-        esc_html__("Page", 'schema-and-structured-data-for-wp') => array(
-          'page'                =>  esc_html__("Page", 'schema-and-structured-data-for-wp'), 
-          'page_template'       =>  esc_html__("Page Template", 'schema-and-structured-data-for-wp'),
+        esc_html__("Page", 'schema-and-structured-data-for-wp' ) => array(
+          'page'                =>  esc_html__("Page", 'schema-and-structured-data-for-wp' ), 
+          'page_template'       =>  esc_html__("Page Template", 'schema-and-structured-data-for-wp' ),
         ),
-        esc_html__("Other", 'schema-and-structured-data-for-wp') => array( 
-          'ef_taxonomy'         =>  esc_html__("Taxonomy (Tag)", 'schema-and-structured-data-for-wp'), 
-          'date'                =>  esc_html__("Date", 'schema-and-structured-data-for-wp')           
+        esc_html__("Other", 'schema-and-structured-data-for-wp' ) => array( 
+          'ef_taxonomy'         =>  esc_html__("Taxonomy (Tag)", 'schema-and-structured-data-for-wp' ), 
+          'date'                =>  esc_html__("Date", 'schema-and-structured-data-for-wp' )           
         )
       )); 
 
       $comparison = array(
-        'equal'                =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp'), 
-        'not_equal'            =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp'),     
+        'equal'                =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp' ), 
+        'not_equal'            =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp' ),     
       );
 
       $total_group_fields = count( $data_group_array ); ?>
@@ -929,13 +929,13 @@ if(is_admin() ) {
 
           if($selected_val_key_1 == 'date'){
             $comparison = array(
-              'before_published'           =>  esc_html__( 'Before Published', 'schema-and-structured-data-for-wp'), 
-              'after_published'            =>  esc_html__( 'After Published', 'schema-and-structured-data-for-wp'),     
+              'before_published'           =>  esc_html__( 'Before Published', 'schema-and-structured-data-for-wp' ), 
+              'after_published'            =>  esc_html__( 'After Published', 'schema-and-structured-data-for-wp' ),     
             );
           }else{
             $comparison = array(
-              'equal'                =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp'), 
-              'not_equal'            =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp'),     
+              'equal'                =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp' ), 
+              'not_equal'            =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp' ),     
             );    
           }
 
@@ -1797,11 +1797,11 @@ function saswp_import_plugin_data() {
         }                             
         if($result){
             
-             echo wp_json_encode(array('status'=>'t', 'message'=>esc_html__( 'Data has been imported succeessfully', 'schema-and-structured-data-for-wp')));            
+             echo wp_json_encode(array('status'=>'t', 'message'=>esc_html__( 'Data has been imported succeessfully', 'schema-and-structured-data-for-wp' )));            
              
         }else{
             
-            echo wp_json_encode(array('status'=>'f', 'message'=>esc_html__( 'Plugin data is not available or it is not activated', 'schema-and-structured-data-for-wp')));            
+            echo wp_json_encode(array('status'=>'f', 'message'=>esc_html__( 'Plugin data is not available or it is not activated', 'schema-and-structured-data-for-wp' )));            
         
         }        
            wp_die();           
@@ -1920,13 +1920,13 @@ function saswp_license_status($add_on, $license_status, $license_key){
           $error_message = strtolower($response->get_error_message());
           $error_pos = strpos($error_message, 'operation timed out');
           if($error_pos !== false){
-              $message = esc_html__( 'Request timed out, please try again', 'schema-and-structured-data-for-wp');
+              $message = esc_html__( 'Request timed out, please try again', 'schema-and-structured-data-for-wp' );
           }else{
               $message = esc_html( $response->get_error_message());
           }
       }
       if(empty($message) ) { 
-			   $message =   esc_html__( 'An error occurred, please try again.', 'schema-and-structured-data-for-wp');
+			   $message =   esc_html__( 'An error occurred, please try again.', 'schema-and-structured-data-for-wp' );
       }
 		} else {
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -2439,11 +2439,11 @@ function saswp_create_resized_image_folder() {
     if(file_exists($new_url) ) {
       $response = array('status' => 't');   
     }else{
-      $response = array('status' => 'f', 'message' => esc_html__( 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp'));
+      $response = array('status' => 'f', 'message' => esc_html__( 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp' ));
     }
 
   }else{
-    $response = array('status' => 'f', 'message' => esc_html__( 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp'));
+    $response = array('status' => 'f', 'message' => esc_html__( 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp' ));
   }
 
   wp_send_json( $response );
@@ -2494,7 +2494,7 @@ function extra_user_profile_fields( $user ) {
         <th><label for="saswp_user_custom_schema_field"><?php echo esc_html__("Custom Schema (SASWP)", 'schema-and-structured-data-for-wp' ); ?></label></th>
         <td>
             <textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85"><?php if ( ! empty( $custom_markp) ) { echo esc_html( $custom_markp); } ?></textarea><br />
-            <span class="description"><strong><?php echo esc_html__("Note: ", 'schema-and-structured-data-for-wp') ?></strong><?php echo esc_html__("Please enter the valid Json-ld. Whatever you enter will be added in page source", 'schema-and-structured-data-for-wp' ); ?></span>
+            <span class="description"><strong><?php echo esc_html__("Note: ", 'schema-and-structured-data-for-wp' ) ?></strong><?php echo esc_html__("Please enter the valid Json-ld. Whatever you enter will be added in page source", 'schema-and-structured-data-for-wp' ); ?></span>
         </td>
     </tr>
 

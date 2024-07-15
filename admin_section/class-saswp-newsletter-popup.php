@@ -47,7 +47,7 @@ class SASWP_Newsletter_Popup {
 		    wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );                    
 
                 }else{
-                        echo esc_html__( 'Email id required', 'schema-and-structured-data-for-wp');                        
+                        echo esc_html__( 'Email id required', 'schema-and-structured-data-for-wp' );                        
                 }                        
 
                 wp_die();
@@ -77,7 +77,7 @@ class SASWP_Newsletter_Popup {
                         $object['current_user_email'] = $current_user->user_email;                
                         $object['current_user_name']  = $current_user->display_name;        
 			$object['displayID']          = '#menu-posts-saswp';                        
-                        $object['button1']            = esc_html__( 'No Thanks', 'schema-and-structured-data-for-wp');
+                        $object['button1']            = esc_html__( 'No Thanks', 'schema-and-structured-data-for-wp' );
                         $object['button2']            = false;
                         $object['function_name']      = '';                        
 		}

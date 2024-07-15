@@ -224,7 +224,7 @@ class SASWP_Reviews_Collection {
                         'name' 			=> esc_html__( 'Collections', 'schema-and-structured-data-for-wp' ),	        
                         'add_new' 		=> esc_html__( 'Add Collection', 'schema-and-structured-data-for-wp' ),
                         'add_new_item'  	=> esc_html__( 'Edit Collection', 'schema-and-structured-data-for-wp' ),
-                        'edit_item'             => esc_html__( 'Edit Collection', 'schema-and-structured-data-for-wp'),                
+                        'edit_item'             => esc_html__( 'Edit Collection', 'schema-and-structured-data-for-wp' ),                
                     ),
                     'public' 		    => true,
                     'has_archive' 	    => true,
@@ -417,10 +417,10 @@ class SASWP_Reviews_Collection {
                     }                    
                     echo wp_json_encode(array('status' => true, 'message'=> $review_location_array));
                 }else{
-                    echo wp_json_encode(array('status' => false, 'message'=> esc_html__( 'No Records Found', 'schema-and-structured-data-for-wp')));
+                    echo wp_json_encode(array('status' => false, 'message'=> esc_html__( 'No Records Found', 'schema-and-structured-data-for-wp' )));
                 }
             }else{
-                echo wp_json_encode(array('status' => false, 'message'=> esc_html__( 'Platform id is missing', 'schema-and-structured-data-for-wp')));
+                echo wp_json_encode(array('status' => false, 'message'=> esc_html__( 'Platform id is missing', 'schema-and-structured-data-for-wp' )));
             }  
             wp_die(); 
         }
@@ -804,7 +804,7 @@ class SASWP_Reviews_Collection {
                                       <div class="platform-places-wrapper" style="margin-top: 10px;">
                                           <label><strong><?php echo esc_html__( 'Platform URL', 'schema-and-structured-data-for-wp' ); ?></strong></label>
                                           <select id="saswp-review-platform-places" style="width: 100%;">
-                                            <option value="all"><?php echo esc_html__( 'All', 'schema-and-structured-data-for-wp') ?></option>
+                                            <option value="all"><?php echo esc_html__( 'All', 'schema-and-structured-data-for-wp' ) ?></option>
                                           </select>
                                        </div>
                                       <div class="saswp-platform-added-list">  
@@ -1021,14 +1021,14 @@ class SASWP_Reviews_Collection {
                                          <label><?php echo esc_html__( 'Where', 'schema-and-structured-data-for-wp' ); ?></label>
                                          <?php
                                             $choice = array(
-                                                'post_type'     => esc_html__("Post Type", 'schema-and-structured-data-for-wp'),
-                                                'user_type'     => esc_html__("Logged in User Type", 'schema-and-structured-data-for-wp'),
-                                                'post'          => esc_html__("Post", 'schema-and-structured-data-for-wp'),
-                                                'post_category' => esc_html__("Post Category", 'schema-and-structured-data-for-wp'),
-                                                'post_format'   => esc_html__("Post Format", 'schema-and-structured-data-for-wp'),
-                                                'page'          => esc_html__("Page", 'schema-and-structured-data-for-wp'),
-                                                'page_template' => esc_html__("Page Template", 'schema-and-structured-data-for-wp'),
-                                                'ef_taxonomy'   => esc_html__("Tag", 'schema-and-structured-data-for-wp'),
+                                                'post_type'     => esc_html__("Post Type", 'schema-and-structured-data-for-wp' ),
+                                                'user_type'     => esc_html__("Logged in User Type", 'schema-and-structured-data-for-wp' ),
+                                                'post'          => esc_html__("Post", 'schema-and-structured-data-for-wp' ),
+                                                'post_category' => esc_html__("Post Category", 'schema-and-structured-data-for-wp' ),
+                                                'post_format'   => esc_html__("Post Format", 'schema-and-structured-data-for-wp' ),
+                                                'page'          => esc_html__("Page", 'schema-and-structured-data-for-wp' ),
+                                                'page_template' => esc_html__("Page Template", 'schema-and-structured-data-for-wp' ),
+                                                'ef_taxonomy'   => esc_html__("Tag", 'schema-and-structured-data-for-wp' ),
                                             )
 
                                           ?>

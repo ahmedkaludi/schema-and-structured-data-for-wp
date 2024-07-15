@@ -328,7 +328,7 @@ class SASWP_View_Common {
                             }else{
                                 $tabs_fields .= '<a itemlist_sub_type="'. esc_attr( $itemlist_sub_type).'" data-id="'. esc_attr( $schema_id).'" div_type="'.$key.'" fields_type="'.$value.'" class="button saswp_add_schema_fields_on_fly saswp-'.$key.'">'
                                 /* translators: %s: button label */
-                                .esc_html( sprintf(__('Add %s', 'schema-and-structured-data-for-wp'),$btn_text)).
+                                .esc_html( sprintf(__('Add %s', 'schema-and-structured-data-for-wp' ),$btn_text)).
                                 '</a>';   
                             }                                                                                                  
                             $tabs_fields .= '</div>';                                                                                                

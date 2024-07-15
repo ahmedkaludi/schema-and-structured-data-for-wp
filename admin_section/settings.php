@@ -391,15 +391,15 @@ function saswp_admin_interface_render() {
 
                         $tab_links = apply_filters( 'saswp_extra_settings_tab_link',
                                 array(                                 
-                                        '<a href="' . esc_url(saswp_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Global', 'schema-and-structured-data-for-wp') . '</a>',
-                                        '<a href="' . esc_url(saswp_admin_link('amp')) . '" class="nav-tab ' . esc_attr( $tab == 'amp' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'AMP', 'schema-and-structured-data-for-wp') . '</a>',
-                                        '<a href="' . esc_url(saswp_admin_link('review')) . '" class="nav-tab ' . esc_attr( $tab == 'review' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Review', 'schema-and-structured-data-for-wp') . '</a>',
-                                        '<a href="' . esc_url(saswp_admin_link('compatibility')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Compatibility', 'schema-and-structured-data-for-wp') . '</a>',
-                                        '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Email Schema', 'schema-and-structured-data-for-wp') . '</a>',
-                                        '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Advanced', 'schema-and-structured-data-for-wp') . '</a>',                                       
-                                        '<a href="' . esc_url( admin_url( 'admin.php?page=structured_data_options&tab=premium_features' ) ).'" data-extmgr="'. ( class_exists('SASWPPROExtensionManager')? "yes": "no" ).'" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> '.$license_alert.'' . esc_html__( 'Premium Features', 'schema-and-structured-data-for-wp') . '</a>',
-                                        '<a href="' . esc_url(saswp_admin_link('services')) . '" class="nav-tab ' . esc_attr( $tab == 'services' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Services', 'schema-and-structured-data-for-wp') . '</a>',
-                                        '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Support', 'schema-and-structured-data-for-wp') . '</a>'                                        
+                                        '<a href="' . esc_url(saswp_admin_link('general')) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Global', 'schema-and-structured-data-for-wp' ) . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('amp')) . '" class="nav-tab ' . esc_attr( $tab == 'amp' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'AMP', 'schema-and-structured-data-for-wp' ) . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('review')) . '" class="nav-tab ' . esc_attr( $tab == 'review' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Review', 'schema-and-structured-data-for-wp' ) . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('compatibility')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Compatibility', 'schema-and-structured-data-for-wp' ) . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('email_schema')) . '" class="nav-tab ' . esc_attr( $tab == 'email_schema' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Email Schema', 'schema-and-structured-data-for-wp' ) . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Advanced', 'schema-and-structured-data-for-wp' ) . '</a>',                                       
+                                        '<a href="' . esc_url( admin_url( 'admin.php?page=structured_data_options&tab=premium_features' ) ).'" data-extmgr="'. ( class_exists('SASWPPROExtensionManager')? "yes": "no" ).'" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> '.$license_alert.'' . esc_html__( 'Premium Features', 'schema-and-structured-data-for-wp' ) . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('services')) . '" class="nav-tab ' . esc_attr( $tab == 'services' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Services', 'schema-and-structured-data-for-wp' ) . '</a>',
+                                        '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Support', 'schema-and-structured-data-for-wp' ) . '</a>'                                        
                                 ), $tab);
                                 
                                 foreach( $tab_links as $link_escaped){
@@ -501,7 +501,7 @@ function saswp_admin_interface_render() {
 			<div class="button-wrapper">
                                 <?php
                                 // Output save settings button
-                                submit_button( $text = esc_html__( 'Save Settings', 'schema-and-structured-data-for-wp'), $type = 'button button-primary', $name = 'saswp_settings_save',  $wrap = true );
+                                submit_button( $text = esc_html__( 'Save Settings', 'schema-and-structured-data-for-wp' ), $type = 'button button-primary', $name = 'saswp_settings_save',  $wrap = true );
                                 ?>
 			</div>  
                     <input type="hidden" name="sd_data[sd_initial_wizard_status]" value="1">
@@ -518,13 +518,13 @@ function saswp_admin_interface_render() {
         <?php if(!saswp_ext_installed_status()) { 
                 ?>
             <div class="saswp-upgrade-pro">
-                <h2><?php echo esc_html__( 'Upgrade to Pro!', 'schema-and-structured-data-for-wp') ?></h2>
+                <h2><?php echo esc_html__( 'Upgrade to Pro!', 'schema-and-structured-data-for-wp' ) ?></h2>
                 <ul>
-                    <li><?php echo esc_html__( 'Premium features', 'schema-and-structured-data-for-wp') ?></li>
-                    <li><?php echo esc_html__( 'Dedicated Schema Support', 'schema-and-structured-data-for-wp') ?></li>
-                    <li><?php echo esc_html__( 'Active Development', 'schema-and-structured-data-for-wp') ?></li>
+                    <li><?php echo esc_html__( 'Premium features', 'schema-and-structured-data-for-wp' ) ?></li>
+                    <li><?php echo esc_html__( 'Dedicated Schema Support', 'schema-and-structured-data-for-wp' ) ?></li>
+                    <li><?php echo esc_html__( 'Active Development', 'schema-and-structured-data-for-wp' ) ?></li>
                 </ul>
-                <a target="_blank" href="http://structured-data-for-wp.com/pricing/"><?php echo esc_html__( 'UPGRADE', 'schema-and-structured-data-for-wp') ?></a>
+                <a target="_blank" href="http://structured-data-for-wp.com/pricing/"><?php echo esc_html__( 'UPGRADE', 'schema-and-structured-data-for-wp' ) ?></a>
             </div>
         <?php  } ?>        
     </div>
@@ -851,7 +851,7 @@ foreach( $main_ext_array as $value){
     $css                = '';
 
     if($addon_status == false){
-        $addon_status = '<label class="saswp-sts-txt inactive">'. esc_html__( 'Status', 'schema-and-structured-data-for-wp') .' :<span class="saswp_inactive_key">'. esc_html__( 'Inactive', 'schema-and-structured-data-for-wp' ) .'</span></label><a target="_blank" href="'. esc_url( $addon_href).'"><span class="saswp-d-btn">'. esc_html__( 'Download', 'schema-and-structured-data-for-wp' ) .'</span></a>';
+        $addon_status = '<label class="saswp-sts-txt inactive">'. esc_html__( 'Status', 'schema-and-structured-data-for-wp' ) .' :<span class="saswp_inactive_key">'. esc_html__( 'Inactive', 'schema-and-structured-data-for-wp' ) .'</span></label><a target="_blank" href="'. esc_url( $addon_href).'"><span class="saswp-d-btn">'. esc_html__( 'Download', 'schema-and-structured-data-for-wp' ) .'</span></a>';
     }    
 
     $plist =   "<li>
@@ -904,13 +904,13 @@ function saswp_services_callback() {
                                             <img src="<?php echo esc_url(SASWP_PLUGIN_URL); ?>/admin_section/images/support-1.png">
                     </div>
                     <div class="saswp-ele-tlt">
-                        <h3><?php echo esc_html__( 'Priority Support', 'schema-and-structured-data-for-wp') ?></h3>
-                        <p><?php echo esc_html__( 'We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team.', 'schema-and-structured-data-for-wp') ?></p>
+                        <h3><?php echo esc_html__( 'Priority Support', 'schema-and-structured-data-for-wp' ) ?></h3>
+                        <p><?php echo esc_html__( 'We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team.', 'schema-and-structured-data-for-wp' ) ?></p>
                     </div>
                 </div>
                                 <a target="_blank" href="https://structured-data-for-wp.com/priority-support//">
                                     <div class="saswp-sts-btn">                 
-                    <span class="saswp-d-btn-1"><?php echo esc_html__( 'Try it', 'schema-and-structured-data-for-wp') ?></span>
+                    <span class="saswp-d-btn-1"><?php echo esc_html__( 'Try it', 'schema-and-structured-data-for-wp' ) ?></span>
                     </div>
                                 </a>
                 
@@ -921,13 +921,13 @@ function saswp_services_callback() {
                                             <img src="<?php echo esc_url(SASWP_PLUGIN_URL); ?>/admin_section/images/news.png">
                     </div>
                     <div class="saswp-ele-tlt">
-                        <h3><?php echo esc_html__( 'Google News Schema Setup', 'schema-and-structured-data-for-wp') ?></h3>
-                        <p><?php echo esc_html__( 'Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website.', 'schema-and-structured-data-for-wp') ?></p>
+                        <h3><?php echo esc_html__( 'Google News Schema Setup', 'schema-and-structured-data-for-wp' ) ?></h3>
+                        <p><?php echo esc_html__( 'Get quick approval to Google News with our service. Our structured data experts will set up the Google News schema properly on your website.', 'schema-and-structured-data-for-wp' ) ?></p>
                     </div>
                 </div>
                             <a target="_blank" href="http://structured-data-for-wp.com/services/google-news-schema-setup/">
                                 <div class="saswp-sts-btn">                 
-                    <span class="saswp-d-btn-2"><?php echo esc_html__( 'Try it', 'schema-and-structured-data-for-wp') ?></span>
+                    <span class="saswp-d-btn-2"><?php echo esc_html__( 'Try it', 'schema-and-structured-data-for-wp' ) ?></span>
                 </div>
                             </a>
                 
@@ -938,13 +938,13 @@ function saswp_services_callback() {
                                             <img src="<?php echo esc_url(SASWP_PLUGIN_URL); ?>/admin_section/images/schema-setup-icon.png">
                     </div>
                     <div class="saswp-ele-tlt">
-                        <h3><?php echo esc_html__( 'Structured Data Setup & Error Clean Up', 'schema-and-structured-data-for-wp') ?></h3>
-                        <p><?php echo esc_html__( 'We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers.', 'schema-and-structured-data-for-wp') ?></p>
+                        <h3><?php echo esc_html__( 'Structured Data Setup & Error Clean Up', 'schema-and-structured-data-for-wp' ) ?></h3>
+                        <p><?php echo esc_html__( 'We will help you setup Schema and Structured data on your website as per your requirements and as per recommendation by our expert developers.', 'schema-and-structured-data-for-wp' ) ?></p>
                     </div>
                 </div>
                                 <a target="_blank" href="http://structured-data-for-wp.com/services/structured-data-setup-error-clean-up/">
                                     <div class="saswp-sts-btn">                 
-                    <span class="saswp-d-btn-3"><?php echo esc_html__( 'Try it', 'schema-and-structured-data-for-wp') ?></span>
+                    <span class="saswp-d-btn-3"><?php echo esc_html__( 'Try it', 'schema-and-structured-data-for-wp' ) ?></span>
                     </div>
                                 </a>
                 
@@ -1237,13 +1237,13 @@ function saswp_general_page_callback() {
             <div class="saswp-heading">
               <h2><?php echo esc_html__( 'General Settings', 'schema-and-structured-data-for-wp' ); ?></h2>              
             </div>
-            <p><?php echo esc_html__( 'This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type.', 'schema-and-structured-data-for-wp') ?> <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/"><?php echo esc_html__( 'Learn More', 'schema-and-structured-data-for-wp') ?></a></p>   
+            <p><?php echo esc_html__( 'This is a global schema settings, to display about, contact, website, archive, breadcrumbs, comments and site navigation schema type.', 'schema-and-structured-data-for-wp' ) ?> <a target="_blank" href="http://structured-data-for-wp.com/docs/article/what-is-general-settings-in-schema/"><?php echo esc_html__( 'Learn More', 'schema-and-structured-data-for-wp' ) ?></a></p>   
         <ul><li><div class="saswp-about-contact-page-tooltip">
         <input  id="saswp_breadcrumb_home_page_title" name="sd_data[saswp_breadcrumb_home_page_title]" type="hidden" value="<?php if ( ! empty( $settings['saswp_breadcrumb_home_page_title']) ) { echo esc_attr( $settings['saswp_breadcrumb_home_page_title']); }else{ echo esc_attr(get_bloginfo()); } ?>">
         
         <label class="saswp-tooltip">
-        <?php echo esc_html__( 'About', 'schema-and-structured-data-for-wp') ?>
-                <span class="saswp-tooltiptext"><?php echo esc_html__( 'Set the about page of of your website', 'schema-and-structured-data-for-wp') ?></span>
+        <?php echo esc_html__( 'About', 'schema-and-structured-data-for-wp' ) ?>
+                <span class="saswp-tooltiptext"><?php echo esc_html__( 'Set the about page of of your website', 'schema-and-structured-data-for-wp' ) ?></span>
                 </label>
         </div>
         <div>
@@ -1294,8 +1294,8 @@ function saswp_general_page_callback() {
     </li>
     <li><div class="saswp-about-contact-page-tooltip">
             <label class="saswp-tooltip">
-    <?php echo esc_html__( 'Contact', 'schema-and-structured-data-for-wp') ?>
-                <span class="saswp-tooltiptext"><?php echo esc_html__( 'Set the contact us page of your website', 'schema-and-structured-data-for-wp') ?></span>
+    <?php echo esc_html__( 'Contact', 'schema-and-structured-data-for-wp' ) ?>
+                <span class="saswp-tooltiptext"><?php echo esc_html__( 'Set the contact us page of your website', 'schema-and-structured-data-for-wp' ) ?></span>
             </label>
         </div>
         <div>
@@ -1584,7 +1584,7 @@ function saswp_general_page_callback() {
                         'name'  => 'sd_data[sd_default_image_height]',
                         'class' => 'regular-text',                        
 			'type'  => 'text',
-                        'note'  => esc_html__( 'According to google validation tool, Image size must be greater than or equal to 1200*728', 'schema-and-structured-data-for-wp')
+                        'note'  => esc_html__( 'According to google validation tool, Image size must be greater than or equal to 1200*728', 'schema-and-structured-data-for-wp' )
 		)                
             
 	);
@@ -1929,56 +1929,56 @@ function saswp_import_callback() {
                 <li><div class="saswp-tools-field-title">
                         <div class="saswp-tooltip">
                                 <span class="saswp-tooltiptext">
-                                        <?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__( 'Schema Plugin', 'schema-and-structured-data-for-wp' ); ?></strong></div>
+                                        <?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp' ) ?></span><strong><?php echo esc_html__( 'Schema Plugin', 'schema-and-structured-data-for-wp' ); ?></strong></div>
                                         <button data-id="schema" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html( $schema_message).'</p>'; ?>    
                     </div>
                 </li>
-                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__( 'Schema Pro', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="schema_pro" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp' ) ?></span><strong><?php echo esc_html__( 'Schema Pro', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="schema_pro" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html( $schema_pro_message).'</p>'; ?>                       
                     </div>
                 </li>
-                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__( 'WP SEO Schema', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="wp_seo_schema" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp' ) ?></span><strong><?php echo esc_html__( 'WP SEO Schema', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="wp_seo_schema" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html( $wp_seo_schema_message).'</p>'; ?>                       
                     </div>
                 </li>
-                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__( 'SEO Pressor', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="seo_pressor" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp' ) ?></span><strong><?php echo esc_html__( 'SEO Pressor', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="seo_pressor" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html( $seo_pressor_message).'</p>'; ?>                          
                     </div>
                 </li>
                 
-                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__( 'WPSSO Core', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="wpsso_core" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp' ) ?></span><strong><?php echo esc_html__( 'WPSSO Core', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="wpsso_core" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html( $wpsso_core_message).'</p>'; ?>                          
                     </div>
                 </li>
-                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__( 'Schema – All In One Schema Rich Snippets', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="aiors" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp' ) ?></span><strong><?php echo esc_html__( 'Schema – All In One Schema Rich Snippets', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="aiors" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html( $aiors_message).'</p>'; ?>                          
                     </div>
                 </li>
-                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__( 'WP Customer Reviews', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="wp_custom_rv" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp' ) ?></span><strong><?php echo esc_html__( 'WP Customer Reviews', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="wp_custom_rv" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html( $wp_custom_rv_message).'</p>'; ?>                          
                     </div>
                 </li>
-                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the reviews can be imported from this plugin when you click start importing', 'schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__( 'Stars Rating', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="starsrating" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the reviews can be imported from this plugin when you click start importing', 'schema-and-structured-data-for-wp' ) ?></span><strong><?php echo esc_html__( 'Stars Rating', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="starsrating" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html( $starsrating_message).'</p>'; ?>                          
                     </div>
                 </li>
 
-                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__( 'FAQ Schema Markup – FAQ Structured Data', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="schema_for_faqs" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp' ) ?></span><strong><?php echo esc_html__( 'FAQ Schema Markup – FAQ Structured Data', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="schema_for_faqs" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html( $schema_for_faqs_message).'</p>'; ?>                          
                     </div>
                 </li>
 
-                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp') ?></span><strong><?php echo esc_html__( 'Yoast SEO', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="yoast_seo" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
+                <li><div class="saswp-tools-field-title"><div class="saswp-tooltip"><span class="saswp-tooltiptext"><?php echo esc_html__( 'All the settings and data you can import from this plugin when you click start importing', 'schema-and-structured-data-for-wp' ) ?></span><strong><?php echo esc_html__( 'Yoast SEO', 'schema-and-structured-data-for-wp' ); ?></strong></div><button data-id="yoast_seo" class="button saswp-import-plugins"><?php echo esc_html__( 'Import', 'schema-and-structured-data-for-wp' ); ?></button>
                         <p class="saswp-imported-message"></p>
                         <?php echo '<p>'.esc_html( $yoast_seo_message).'</p>'; ?>                          
                     </div>
@@ -2378,27 +2378,27 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
                 if ( $license_expires == 'Lifetime' ) {
                     $expire_msg_before_escaped = '<span class="before_msg_active">'. esc_html__( 'License is', 'schema-and-structured-data-for-wp' ) .'</span>';
                     $single_expire_msg = " ". esc_html__( 'Valid for Lifetime', 'schema-and-structured-data-for-wp' ) ." ";
-                    $renew_text = esc_html__( 'Renew', 'schema-and-structured-data-for-wp');
+                    $renew_text = esc_html__( 'Renew', 'schema-and-structured-data-for-wp' );
                     $license_expires_class = "lifetime_";
                 }
                 elseif( $license_expires < 0 ){
                     $expire_msg_before_escaped = '<span class="before_msg">'. esc_html__( 'Your', 'schema-and-structured-data-for-wp' ) .' <span class="less_than_zero">'. esc_html__( 'License is', 'schema-and-structured-data-for-wp' ) .'</span></span>';
                     $single_expire_msg = " ". esc_html__( 'Expired', 'schema-and-structured-data-for-wp' ) ." ";
-                    $renew_text = esc_html__( 'Renew', 'schema-and-structured-data-for-wp');
+                    $renew_text = esc_html__( 'Renew', 'schema-and-structured-data-for-wp' );
                     $license_expires_class = "expire_msg";
                  }
                  elseif( $license_expires >=0 && $license_expires <=30 ){
                     $expire_msg_before_escaped = '<span class="before_msg">'. esc_html__( 'Your', 'schema-and-structured-data-for-wp' ) .' <span class="zero_to_30">'. esc_html__( 'License is', 'schema-and-structured-data-for-wp' ) .'</span></span>';
                     $license_expires_class = "zero2thirty";
                     $single_expire_msg = '<span class="saswp-addon-alert">'. esc_html__( 'expiring in', 'schema-and-structured-data-for-wp' ) .' '.$license_expires .' '. esc_html__( 'days', 'schema-and-structured-data-for-wp' ) .'</span>';
-                    $renew_text = esc_html__( 'Renew', 'schema-and-structured-data-for-wp');
+                    $renew_text = esc_html__( 'Renew', 'schema-and-structured-data-for-wp' );
                     $alert_icon_escaped = '<span class="saswp_addon_icon dashicons dashicons-warning single_addon_warning"></span>';
                 }
                 else{
                     $expire_msg_before_escaped = '<span class="saswp-addon-active"></span>';
                     $single_expire_msg = " ".$license_expires ." ".esc_html__("days remaning", 'schema-and-structured-data-for-wp' ) ." ";
                     $license_expires_class = "lic_is_active";
-                    $renew_text = esc_html__( 'Renew License', 'schema-and-structured-data-for-wp');
+                    $renew_text = esc_html__( 'Renew License', 'schema-and-structured-data-for-wp' );
                 }
 
                 
@@ -2539,7 +2539,7 @@ function saswp_review_page_callback() {
                         <div class="saswp-knowledge-label"><label><?php echo esc_html__( 'Upload Reviews From CSV', 'schema-and-structured-data-for-wp' ); ?></label></div>
                         <div class="saswp-knowledge-field">
                          <input type="file" name="saswp_upload_rv_csv" id="saswp_upload_rv_csv" multiple="false" accept=".csv" />
-                         <p><?php echo esc_html__( 'You must follow the format.', 'schema-and-structured-data-for-wp' ); ?> <a href="<?php echo esc_url($csv_url); ?>"><?php echo esc_html__( 'Click here', 'schema-and-structured-data-for-wp');  ?></a> <?php echo esc_html__( 'to download the format.', 'schema-and-structured-data-for-wp') ?></p>
+                         <p><?php echo esc_html__( 'You must follow the format.', 'schema-and-structured-data-for-wp' ); ?> <a href="<?php echo esc_url($csv_url); ?>"><?php echo esc_html__( 'Click here', 'schema-and-structured-data-for-wp' );  ?></a> <?php echo esc_html__( 'to download the format.', 'schema-and-structured-data-for-wp' ) ?></p>
                          </div>
                 </li>
         </ul>
@@ -4719,7 +4719,7 @@ function saswp_support_page_callback() {
             
     ?>
      <div class="saswp_support_div">
-            <strong><?php echo esc_html__( 'If you have any query, please write the query in below box or email us at', 'schema-and-structured-data-for-wp') ?> <a href="mailto:team@magazine3.in">team@magazine3.in</a>. <?php echo esc_html__( 'We will reply to your email address shortly', 'schema-and-structured-data-for-wp') ?></strong>
+            <strong><?php echo esc_html__( 'If you have any query, please write the query in below box or email us at', 'schema-and-structured-data-for-wp' ) ?> <a href="mailto:team@magazine3.in">team@magazine3.in</a>. <?php echo esc_html__( 'We will reply to your email address shortly', 'schema-and-structured-data-for-wp' ) ?></strong>
        
             <ul>
                 <li>

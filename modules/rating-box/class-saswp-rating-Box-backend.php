@@ -361,7 +361,7 @@ class SASWP_Rating_Box_Backend {
                                     </td>
                                 </tr>
                                 <tr class="saswp-rbcc-tr-row">
-                                    <td colspan="4" class="saswp-rbcc-td-attributes" id="saswp-rbcc-reset"><h4><a href="#"><?php echo esc_html__( 'Reset to Default', 'schema-and-structured-data-for-wp') ?></a></h4></td>
+                                    <td colspan="4" class="saswp-rbcc-td-attributes" id="saswp-rbcc-reset"><h4><a href="#"><?php echo esc_html__( 'Reset to Default', 'schema-and-structured-data-for-wp' ) ?></a></h4></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -404,7 +404,7 @@ class SASWP_Rating_Box_Backend {
                                     </td>
                                     <td>
                                         <div class="saswp-rvw-ov">
-                                            <div class="saswp-rvw-fs saswp-rbcc-rvar" style="<?php echo esc_attr( $preview_overall_rating_style); ?>"><?php echo esc_html__( '5', 'schema-and-structured-data-for-wp') ?></div>                                                                        
+                                            <div class="saswp-rvw-fs saswp-rbcc-rvar" style="<?php echo esc_attr( $preview_overall_rating_style); ?>"><?php echo esc_html__( '5', 'schema-and-structured-data-for-wp' ) ?></div>                                                                        
                                             <div class="saswp-rvw-str">
                                                 <?php 
                                                 for ($i=1; $i <= 5 ; $i++) { 

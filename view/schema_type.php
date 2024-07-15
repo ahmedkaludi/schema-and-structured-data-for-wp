@@ -1234,7 +1234,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                  echo '<td><textarea cols="35" rows="2" name="saswp_fixed_text['. esc_attr( $fieldkey).']">'.(isset($fixed_text[$fieldkey]) ? esc_html( $fixed_text[$fieldkey]) :'').'</textarea></td>';    
                             }elseif($fieldval == 'taxonomy_term'){
                                 
-                                $choices    = array('all' => esc_html__( 'All', 'schema-and-structured-data-for-wp'));
+                                $choices    = array('all' => esc_html__( 'All', 'schema-and-structured-data-for-wp' ));
                                 $taxonomies = saswp_post_taxonomy_generator();        
                                 $choices    = array_merge($choices, $taxonomies); 
                                 

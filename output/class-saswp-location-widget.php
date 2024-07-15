@@ -9,8 +9,8 @@ function __construct() {
                                
     parent::__construct(
         'saswp_location_widget', // Base ID
-        esc_html__( 'SASWP Location', 'schema-and-structured-data-for-wp'), // Name
-        array( 'description' => esc_html__( 'Widget to display location', 'schema-and-structured-data-for-wp') ) // Args
+        esc_html__( 'SASWP Location', 'schema-and-structured-data-for-wp' ), // Name
+        array( 'description' => esc_html__( 'Widget to display location', 'schema-and-structured-data-for-wp' ) ) // Args
     );
 }
 

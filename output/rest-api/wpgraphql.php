@@ -23,7 +23,7 @@ add_action( 'graphql_register_types', 'saswp_register_schema_output' );
 function saswp_register_schema_output() {
         
     register_graphql_object_type( 'saswpSchemaType', [
-        'description' => esc_html__( 'Data from Schema & Structured Data for WP & AMP', 'schema-and-structured-data-for-wp'),
+        'description' => esc_html__( 'Data from Schema & Structured Data for WP & AMP', 'schema-and-structured-data-for-wp' ),
         'fields' => [
           'json_ld' => [
             'type' => 'String',

@@ -30,18 +30,18 @@ $saswp_add_data_type_config = array(
 				'dev_mode'      => false, 
 				'steps'         => array(
 								1=>array(									
-								'title'=>esc_html__( 'Select Schema', 'schema-and-structured-data-for-wp'),
-								'description'=>esc_html__( 'Where would you like to enable the schema?', 'schema-and-structured-data-for-wp'),
+								'title'=>esc_html__( 'Select Schema', 'schema-and-structured-data-for-wp' ),
+								'description'=>esc_html__( 'Where would you like to enable the schema?', 'schema-and-structured-data-for-wp' ),
 								
 								),
                                                                 2=>array(
-								'title'=>esc_html__( 'Placement', 'schema-and-structured-data-for-wp'),
-								'description'=>esc_html__( 'Where would you like this to be displayed?', 'schema-and-structured-data-for-wp'),
+								'title'=>esc_html__( 'Placement', 'schema-and-structured-data-for-wp' ),
+								'description'=>esc_html__( 'Where would you like this to be displayed?', 'schema-and-structured-data-for-wp' ),
 								
 								),
                                                                 3=>array(
-									'title'=>esc_html__( 'Enjoy', 'schema-and-structured-data-for-wp'),
-									'description'=>esc_html__( 'Navigate to ', 'schema-and-structured-data-for-wp'),
+									'title'=>esc_html__( 'Enjoy', 'schema-and-structured-data-for-wp' ),
+									'description'=>esc_html__( 'Navigate to ', 'schema-and-structured-data-for-wp' ),
 									'fields'=>'',
 									),
 								

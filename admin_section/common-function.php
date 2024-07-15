@@ -28,7 +28,7 @@ if ( ! defined('ABSPATH') ) exit;
        * @param type $label_key
        * @return string
        */    
-     function saswp_label_text($label_key){
+     function saswp_label_text( $label_key ){
          
          global $translation_labels;
          global $sd_data;
@@ -40,7 +40,7 @@ if ( ! defined('ABSPATH') ) exit;
             $label_text = $translation_labels[$label_key];
          }
         /* translators: %s: list of static string which user can use in traslation or can modify it in advanced settings section */
-         return esc_html( sprintf(__('%s', 'schema-and-structured-data-for-wp'),$label_text));
+         return esc_html( $label_text );
      }
     
     /**
@@ -3163,7 +3163,7 @@ function saswp_get_taxonomy_term_list() {
            return;  
         }
         
-        $choices    = array('all' => esc_html__( 'All' , 'schema-and-structured-data-for-wp'));
+        $choices    = array('all' => esc_html__( 'All' , 'schema-and-structured-data-for-wp' ));
         $taxonomies = saswp_post_taxonomy_generator();        
         $choices    = array_merge($choices, $taxonomies);                                          
         echo wp_json_encode($choices);
@@ -3240,13 +3240,7 @@ function saswp_validate_date($date, $format = 'Y-m-d H:i:s'){
 function saswp_format_date_time($date, $time=null){
     
     $formated = ''; 
-
-    $timezone = get_option('timezone_string');
-
-    if($timezone){
-        date_default_timezone_set($timezone);
-    }    
-    
+            
     if($date && $time){
         $formated = gmdate('c',strtotime($date.' '.$time));       
     }else{
@@ -3352,10 +3346,10 @@ function saswp_admin_notice() {
       ?>
          <div class="updated notice message notice notice-alt saswp-feedback-notice">                         
             <p class="saswp-notice-p">
-            <?php   echo esc_html__( 'Awesome, you\'ve been using ', 'schema-and-structured-data-for-wp'); 
+            <?php   echo esc_html__( 'Awesome, you\'ve been using ', 'schema-and-structured-data-for-wp' ); 
                     echo '<strong>' . esc_html__( ' Schema & Structured Data ', 'schema-and-structured-data-for-wp' ) . '</strong>' ;
                     /* translators: %s: notice message */
-                    echo esc_html( sprintf(__('plugin for more than %s', 'schema-and-structured-data-for-wp'),$notice_msg));                    
+                    echo esc_html( sprintf(__('plugin for more than %s', 'schema-and-structured-data-for-wp' ),$notice_msg));                    
                     echo '<p class="saswp-notice-p">'. esc_html__( 'May we ask you to give it a 5-star rating on WordPress?', 'schema-and-structured-data-for-wp' ) .'</p>';                                     
             ?>
             <div>- SASWP dev team</div>
@@ -3363,9 +3357,9 @@ function saswp_admin_notice() {
 
             <div class="saswp-update-notice-btns">
                 <ul>
-                    <li><a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"><?php echo esc_html__( 'Ok, you deserve it', 'schema-and-structured-data-for-wp') ?></a></li>
-                    <li><a  class="saswp-feedback-remindme"><?php echo esc_html__( 'Nope, May be later', 'schema-and-structured-data-for-wp') ?></a></li>
-                    <li><a  class="saswp-feedback-no-thanks"><?php echo esc_html__( 'I already did', 'schema-and-structured-data-for-wp') ?></a></li>
+                    <li><a target="_blank" href="https://wordpress.org/plugins/schema-and-structured-data-for-wp/#reviews"><?php echo esc_html__( 'Ok, you deserve it', 'schema-and-structured-data-for-wp' ) ?></a></li>
+                    <li><a  class="saswp-feedback-remindme"><?php echo esc_html__( 'Nope, May be later', 'schema-and-structured-data-for-wp' ) ?></a></li>
+                    <li><a  class="saswp-feedback-no-thanks"><?php echo esc_html__( 'I already did', 'schema-and-structured-data-for-wp' ) ?></a></li>
                 </ul>
             </div>
         </div>
@@ -3377,8 +3371,8 @@ function saswp_admin_notice() {
         ?>
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
             <p>
-                  <span><?php echo esc_html__( 'Please setup Logo to avoid structured data validation issue.', 'schema-and-structured-data-for-wp') ?> </span>                                               
-                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-knowledge-container' ) ); ?>"> <?php echo esc_html__( 'Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+                  <span><?php echo esc_html__( 'Please setup Logo to avoid structured data validation issue.', 'schema-and-structured-data-for-wp' ) ?> </span>                                               
+                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-knowledge-container' ) ); ?>"> <?php echo esc_html__( 'Please Setup', 'schema-and-structured-data-for-wp' ) ?></a>
             </p>
         </div>
 
@@ -3391,8 +3385,8 @@ function saswp_admin_notice() {
         ?>
         <div class="updated notice is-dismissible message notice notice-alt saswp-feedback-notice">
             <p>
-                  <span><?php echo esc_html__( 'You have not set up default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp') ?> </span>                                               
-                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__( 'Please Setup', 'schema-and-structured-data-for-wp') ?></a>
+                  <span><?php echo esc_html__( 'You have not set up default image in Schema & Structured Data For WP.', 'schema-and-structured-data-for-wp' ) ?> </span>                                               
+                  &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=general#saswp-default-container' ) ); ?>"> <?php echo esc_html__( 'Please Setup', 'schema-and-structured-data-for-wp' ) ?></a>
             </p>
         </div>
 
@@ -3405,7 +3399,7 @@ function saswp_admin_notice() {
         ?>
         <div class="updated notice is-dismissible message">
             <p>
-                  <span><?php echo esc_html__( 'You use Stars Rating plugin and has enabled Stars Rating option in Schema & Structured Data For WP & AMP. Use any one option for better comment form.', 'schema-and-structured-data-for-wp') ?> </span>                                                                
+                  <span><?php echo esc_html__( 'You use Stars Rating plugin and has enabled Stars Rating option in Schema & Structured Data For WP & AMP. Use any one option for better comment form.', 'schema-and-structured-data-for-wp' ) ?> </span>                                                                
             </p>
         </div>
 
@@ -3421,9 +3415,9 @@ function saswp_admin_notice() {
         ?>
         <div class="updated notice message notice notice-alt saswp-feedback-notice">
            <p>
-           <?php echo esc_html__( 'You have disabled schema on AMP.', 'schema-and-structured-data-for-wp') ?>
-           &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=amp' ) ); ?>"> <?php echo esc_html__( 'Enable it', 'schema-and-structured-data-for-wp') ?></a>
-           <a notice-type="amp_enable" class="saswp-revws-lnk saswp-dismiss-notices"> <?php echo esc_html__( 'Dismiss', 'schema-and-structured-data-for-wp') ?></a>
+           <?php echo esc_html__( 'You have disabled schema on AMP.', 'schema-and-structured-data-for-wp' ) ?>
+           &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=amp' ) ); ?>"> <?php echo esc_html__( 'Enable it', 'schema-and-structured-data-for-wp' ) ?></a>
+           <a notice-type="amp_enable" class="saswp-revws-lnk saswp-dismiss-notices"> <?php echo esc_html__( 'Dismiss', 'schema-and-structured-data-for-wp' ) ?></a>
          </p>           
        </div>
        <?php
@@ -4631,7 +4625,7 @@ function saswp_get_condition_list($condition, $search = '', $saved_data = ''){
 
           if( is_multisite() ){
           
-            $choices['super_admin'] = esc_html__( 'Super Admin', 'schema-and-structured-data-for-wp');
+            $choices['super_admin'] = esc_html__( 'Super Admin', 'schema-and-structured-data-for-wp' );
             
           }
 
@@ -5301,7 +5295,7 @@ function saswp_local_file_get_contents($file_path){
         //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- loading only static css files from this plugin in amp version
         echo $file_safe;
     } else {
-        echo esc_html__( 'File does not exist.', 'schema-and-structured-data-for-wp');
+        echo esc_html__( 'File does not exist.', 'schema-and-structured-data-for-wp' );
     }
 
 }
