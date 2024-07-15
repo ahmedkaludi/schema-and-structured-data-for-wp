@@ -34,7 +34,7 @@ function saswp_plugin_action_links( $links ) {
 
 function saswp_ext_installed_status() {
         
-            $mappings_file = SASWP_DIR_NAME . '/core/array-list/pro_extensions.php';
+            $mappings_file = SASWP_DIR_NAME . '/core/array-list/pro-extensions.php';
             
             $pro_ext = array();
             

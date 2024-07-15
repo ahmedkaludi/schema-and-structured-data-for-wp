@@ -1198,7 +1198,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                             echo '</select>';
                             echo '</td>';
                                                                                     
-                            $meta_list_fields = include(SASWP_DIR_NAME . '/core/array-list/meta_list.php');                            
+                            $meta_list_fields = include(SASWP_DIR_NAME . '/core/array-list/meta-list.php');
                             
                             $meta_list_arr = $meta_list_fields['text'];
                             

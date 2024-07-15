@@ -116,7 +116,7 @@ Class SASWP_Output_Service{
             }
             
             $response = array();    
-            $mappings_file = SASWP_DIR_NAME . '/core/array-list/meta_list.php';
+            $mappings_file = SASWP_DIR_NAME . '/core/array-list/meta-list.php';
 
             if ( file_exists( $mappings_file ) ) {
                 $response = include $mappings_file;

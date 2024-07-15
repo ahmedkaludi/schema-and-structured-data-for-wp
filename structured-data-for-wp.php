@@ -84,12 +84,12 @@ require_once SASWP_DIR_NAME.'/admin_section/tracking/make-better-helper.php';
 //Loading View files
 
 require_once SASWP_DIR_NAME.'/view/help.php';  
-require_once SASWP_DIR_NAME.'/view/schema_type.php';  
+require_once SASWP_DIR_NAME.'/view/schema-type.php';  
 require_once SASWP_DIR_NAME.'/view/paywall.php';  
 require_once SASWP_DIR_NAME.'/admin_section/add-schema/add_new.php';  
 require_once SASWP_DIR_NAME.'/view/class-saswp-post-specific.php';  
-require_once SASWP_DIR_NAME.'/modules/rating-box/class-saswp-rating-Box-backend.php';  
-require_once SASWP_DIR_NAME.'/modules/rating-box/class-saswp-rating-Box-frontend.php'; 
+require_once SASWP_DIR_NAME.'/modules/rating-box/class-saswp-rating-box-backend.php';  
+require_once SASWP_DIR_NAME.'/modules/rating-box/class-saswp-rating-box-frontend.php'; 
 require_once SASWP_DIR_NAME.'/output/class-saswp-output-service.php'; 
 require_once SASWP_DIR_NAME.'/output/class-saswp-output-compatibility.php'; 
 
@@ -102,7 +102,7 @@ require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/wpgraphql.php';
 require_once SASWP_DIR_NAME.'/modules/divi-builder/extension.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-admin.php'; 
 require_once SASWP_DIR_NAME.'/modules/reviews/comments.php'; 
-require_once SASWP_DIR_NAME.'/modules/reviews/reviews_setup.php';
+require_once SASWP_DIR_NAME.'/modules/reviews/reviews-setup.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-service.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-widget.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-collection.php';
