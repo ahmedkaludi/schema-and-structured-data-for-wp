@@ -155,13 +155,13 @@ Class SASWP_Output_Service{
                     $response = get_site_url();                    
                     break;
                 case 'post_title':
-                    $response = @get_the_title(); 
+                    $response = get_the_title(); 
                     if(empty($response) ) {
-                        $response = @get_the_title(get_the_ID());
+                        $response = get_the_title(get_the_ID());
                     }                   
                     break;
                 case 'post_content':
-                    $response = @get_the_content();
+                    $response = get_the_content();
                     if($schema_type == 'JobPosting'){
                         $response = strip_shortcodes($response);
                     }else{
@@ -206,12 +206,12 @@ Class SASWP_Output_Service{
 
                     if ( isset( $fixed_text[$key]) ) {
                         
-                        $explod = @explode('.', $fixed_text[$key]);                        
-                        $ext    = @strtolower(end($explod));           
+                        $explod = explode('.', $fixed_text[$key]);                        
+                        $ext    = strtolower(end($explod));           
 
                         if ($ext == 'jpg' || $ext == 'png' || $ext == 'gif' || $ext == 'jpeg') {
                         
-                        $image_details = @getimagesize($fixed_text[$key]);
+                        $image_details = getimagesize($fixed_text[$key]);
                         
                         if ( is_array( $image_details) ) {
                             $response['@type']  = 'ImageObject';
@@ -528,7 +528,7 @@ Class SASWP_Output_Service{
 
                     if($custom_logo_id){
 
-                        $custom_logo    = @wp_get_attachment_image_src( $custom_logo_id, $sizes);
+                        $custom_logo    = wp_get_attachment_image_src( $custom_logo_id, $sizes);
 
                     }
 
@@ -8240,7 +8240,7 @@ Class SASWP_Output_Service{
                 if ( $my_posts->have_posts() ) {
                     
                   while ( $my_posts->have_posts() ) : $my_posts->the_post();                   
-                   $dw_qa['text'] = @get_the_content();
+                   $dw_qa['text'] = get_the_content();
                   endwhile;
                   
                 } 
@@ -8852,7 +8852,7 @@ Class SASWP_Output_Service{
                            
                           if( (isset($sd_data['saswp-other-images']) && $sd_data['saswp-other-images'] == 1) || !isset($sd_data['saswp-other-images']) ){
                           
-                          $content = @get_the_content();   
+                          $content = get_the_content();   
                           
                           if($content){
                               
@@ -8985,7 +8985,7 @@ Class SASWP_Output_Service{
                                 $custom_logo_id    = get_theme_mod( 'custom_logo' );     
                                 $img_details       = wp_get_attachment_image_src( $custom_logo_id, 'full');                                  
                                 if ( isset( $img_details[0]) ) {
-                                    $img_details = @saswp_aq_resize( $img_details[0], 600, 60, true, false, true );
+                                    $img_details = saswp_aq_resize( $img_details[0], 600, 60, true, false, true );
                                 }
                                 
                                 $saswp_custom_logo =  $img_details;                              

@@ -1465,7 +1465,7 @@ function saswp_custom_breadcrumbs() {
                     
                     $parents .= '<li class="item-parent item-parent-' . esc_attr( $ancestor) . '"><a class="bread-parent bread-parent-' . esc_attr( $ancestor) . '" href="' . esc_url(get_permalink($ancestor)) . '" title="' . esc_attr(@get_the_title($ancestor)) . '">' . esc_html( @get_the_title($ancestor) ) . '</a></li>';
                     $parents .= '<li class="separator separator-' . esc_attr( $ancestor) . '"> ' . esc_html( $separator ) . ' </li>';
-                    $variables1_titles[]    = @get_the_title($ancestor);
+                    $variables1_titles[]    = get_the_title($ancestor);
                     $variables2_links[]     = get_permalink($ancestor);
                     $breadcrumb_url         = get_permalink($ancestor);
                     
@@ -1912,7 +1912,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 $message        = '';
                 $fname        = '';
                 $current_status = '';
-                $response       = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 60, 'sslverify' => false, 'body' => $api_params ) );
+                $response       = wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 60, 'sslverify' => false, 'body' => $api_params ) );
                            
                 // make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {

@@ -3265,7 +3265,7 @@ function saswp_get_ryviu_reviews ($product_id){
                 "type"          => "load-more",                
             );            
             
-            $result = @wp_remote_post(
+            $result = wp_remote_post(
                 $url, [
                     'headers'   => [ 'Content-Type' => 'application/json' ],
                     'body'       => wp_json_encode($body),
@@ -3328,7 +3328,7 @@ function saswp_get_yotpo_reviews($product_id){
         do{
             
             $url  = esc_url('https://api.yotpo.com/v1/widget/'.$yotpo_settings['app_key'].'/products/'.$product_id.'/reviews.json?per_page=150&page='.$i);
-            $result = @wp_remote_get($url);
+            $result = wp_remote_get($url);
 
             if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result) ) {
                 
@@ -3382,7 +3382,7 @@ function saswp_get_stamped_reviews($product_id){
             
             $url  = "https://stamped.io/api/widget/reviews?productId={$product_id}&apiKey={$public_api}&storeUrl={$store_url}&per_page=100&page={$i}";
             
-            $result = @wp_remote_get($url);
+            $result = wp_remote_get($url);
 
             if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result) ) {
                 

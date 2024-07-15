@@ -479,7 +479,7 @@ class SASWP_Post_Specific {
                      
                      $modify_this       = saswp_get_post_meta($post->ID, 'saswp_modify_this_schema_'.$schema->ID, true);                                          
                      $schema_type       = get_post_meta($schema->ID, 'schema_type', true);  
-                     $response          = @saswp_get_fields_by_schema_type($schema->ID);                       
+                     $response          = saswp_get_fields_by_schema_type($schema->ID);                       
                      $saswp_meta_fields = array_filter($response); 
                      if($modify_this){
                         $output            = $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified ); 
@@ -496,7 +496,7 @@ class SASWP_Post_Specific {
                          if(!$item_reviewed){
                              $item_reviewed = 'Book';
                          }
-                         $response          = @saswp_get_fields_by_schema_type($schema->ID, null, $item_reviewed);                                                              
+                         $response          = saswp_get_fields_by_schema_type($schema->ID, null, $item_reviewed);                                                              
                          $saswp_meta_fields = array_filter($response);                           
                          $output           .= $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed, $disabled, $modify_this, $modified);
                          

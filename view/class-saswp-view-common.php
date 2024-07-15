@@ -38,7 +38,7 @@ class SASWP_View_Common {
                     $this->_meta_name          = $repeater_fields['meta_name'];
                     
                     foreach( $this->item_list_item as $item){
-                        $this->itemlist_meta[$item]  = @saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
+                        $this->itemlist_meta[$item]  = saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
                     }
                     $this->_meta_name['itemlist_item'] = $this->itemlist_meta;
 		}                
@@ -808,7 +808,7 @@ class SASWP_View_Common {
                          
                      }    
                                                                      
-                        $response          = @saswp_get_fields_by_schema_type($schema->ID, 'save'); 
+                        $response          = saswp_get_fields_by_schema_type($schema->ID, 'save'); 
                         
                         $this->saswp_save_meta_fields_value($post_meta, $response, $post_id);
                         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
@@ -816,7 +816,7 @@ class SASWP_View_Common {
                             // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                              $item_reviewed = sanitize_text_field($_POST['saswp_review_item_reviewed_'.$schema->ID]);
                             
-                             $response          = @saswp_get_fields_by_schema_type($schema->ID, 'save', $item_reviewed); 
+                             $response          = saswp_get_fields_by_schema_type($schema->ID, 'save', $item_reviewed); 
                              $this->saswp_save_meta_fields_value($post_meta, $response, $post_id);
                         }
                    
