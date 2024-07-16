@@ -2393,7 +2393,7 @@ function saswp_clear_resized_image_folder() {
       //Make sure that this is a file and not a directory.
       if(is_file($file) ) {
           //Use the unlink function to delete the file.
-          unlink($file);
+          wp_delete_file($file);
       }
     }
 
