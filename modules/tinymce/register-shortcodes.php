@@ -244,19 +244,15 @@ function saswp_tiny_faq_render( $atts, $content = null ){
 
 add_shortcode( 'saswp_tiny_recipe', 'saswp_tiny_recipe_render' );
 
-function saswp_tiny_recipe_render( $atts, $content = null ){
+function saswp_tiny_recipe_render( $atts, $content = null ) {
 
-    wp_enqueue_style(
-         'saswp-g-recipe-css',
-         SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/recipe.css',
-         array()                        
-    );
+    wp_enqueue_style( 'saswp-g-recipe-css', SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/recipe.css', array(), SASWP_VERSION );
 
     global $saswp_tiny_recipe;
 
     $output = '';
 
-    $atts = saswp_wp_kses_post($atts);
+    $atts = saswp_wp_kses_post( $atts );
     $saswp_tiny_recipe = shortcode_atts(
         [
             'recipe_by'         => '',
@@ -295,7 +291,7 @@ function saswp_tiny_recipe_render( $atts, $content = null ){
             }
         }
     }
-    if($saswp_tiny_recipe['html'] == 'true'){
+    if( $saswp_tiny_recipe['html'] == 'true' ) {
         $image_thumburl = '';
         if ( ! empty( $saswp_tiny_recipe['image'] ) ) {
             $image_id       = intval( $saswp_tiny_recipe['image'] );                

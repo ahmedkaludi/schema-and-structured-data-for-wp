@@ -234,7 +234,7 @@ class SASWP_Reviews_Form {
             );
 
 
-            wp_register_script( 'saswp-review-form-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'review-form.min.js' : 'review-form.js'), array('jquery', 'jquery-ui-core'), SASWP_VERSION );
+            wp_register_script( 'saswp-review-form-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'review-form.min.js' : 'review-form.js'), array('jquery', 'jquery-ui-core'), SASWP_VERSION, true );
 
             wp_localize_script( 'saswp-review-form-js', 'saswp_localize_review_data', $localize );
         
@@ -245,7 +245,7 @@ class SASWP_Reviews_Form {
             wp_enqueue_style(  'jquery-rateyo-min-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'jquery.rateyo.min.css' : 'jquery.rateyo.min.css'), false, SASWP_VERSION );
             
             if( isset($sd_data['saswp_ar_captcha_checkbox']) && $sd_data['saswp_ar_captcha_checkbox'] == 1 ){
-                wp_enqueue_script( 'saswp-recaptcha', 'https://www.google.com/recaptcha/api.js'); 
+                wp_enqueue_script( 'saswp-recaptcha', 'https://www.google.com/recaptcha/api.js', array(), SASWP_VERSION, true); 
             }
 
             $form_escaped = $current_url = '';

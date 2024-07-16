@@ -46,9 +46,9 @@ class SASWP_Elementor_Loader {
 	 * @access public
 	 */
 	public function widget_scripts() {
-		wp_register_script( 'saswp-elementor-faq-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/faq-block.js', [ 'jquery' ], false, true );
-		wp_register_script( 'saswp-elementor-faq-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/qanda-block.js', [ 'jquery' ], false, true );
-		wp_register_script( 'saswp-elementor-how-to-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/how-to-block.js', [ 'jquery' ], false, true );
+		wp_register_script( 'saswp-elementor-faq-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/faq-block.js', array('jquery'), SASWP_VERSION, true );
+		wp_register_script( 'saswp-elementor-faq-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/qanda-block.js', array('jquery'), SASWP_VERSION, true );
+		wp_register_script( 'saswp-elementor-how-to-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/how-to-block.js', array('jquery'), SASWP_VERSION, true );
 	}
 
 	/**

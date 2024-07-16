@@ -203,7 +203,8 @@ class SASWP_Gutenberg {
                                            wp_enqueue_style(
                                                 'saswp-g-event-css',
                                                 SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/event.css',
-                                                array()                        
+                                                array(),
+                                                SASWP_VERSION
                                            );
                                            
                                        }
@@ -212,7 +213,8 @@ class SASWP_Gutenberg {
                                         wp_enqueue_style(
                                              'saswp-g-qanda-css',
                                              SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/qanda.css',
-                                             array()                        
+                                             array(),
+                                             SASWP_VERSION                        
                                         );
                                         
                                        }
@@ -221,7 +223,8 @@ class SASWP_Gutenberg {
                                            wp_enqueue_style(
                                                 'saswp-g-job-css',
                                                 SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/job.css',
-                                                array()                        
+                                                array(),
+                                                SASWP_VERSION                        
                                            );
                                            
                                        }
@@ -230,7 +233,8 @@ class SASWP_Gutenberg {
                                            wp_enqueue_style(
                                                 'saswp-g-course-css',
                                                 SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/course.css',
-                                                array()                        
+                                                array(),
+                                                SASWP_VERSION                        
                                            );
                                            
                                        }
@@ -240,7 +244,8 @@ class SASWP_Gutenberg {
                                         wp_enqueue_style(
                                              'saswp-g-book-css',
                                              SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/book.css',
-                                             array()                        
+                                             array(),
+                                             SASWP_VERSION                        
                                         );
                                         
                                        }
@@ -249,7 +254,8 @@ class SASWP_Gutenberg {
                                         wp_enqueue_style(
                                              'saswp-g-recipe-css',
                                              SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/recipe.css',
-                                             array()                        
+                                             array(),
+                                             SASWP_VERSION                        
                                         );
                                         
                                        }
@@ -258,7 +264,8 @@ class SASWP_Gutenberg {
                                         wp_enqueue_style(
                                              'saswp-g-howto-css',
                                              SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/howto.css',
-                                             array()                        
+                                             array(),
+                                             SASWP_VERSION                        
                                         );
                                         
                                        }

@@ -93,17 +93,17 @@ $saswp_add_data_type_config = array(
                 // Enqueue styles.
 		wp_enqueue_style( 'saswp-timepicker-js', SASWP_PLUGIN_URL.'admin_section/css/jquery.timepicker.css' , array( 'wp-admin' ), SASWP_VERSION);
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp-timepicker-css', SASWP_PLUGIN_URL.'admin_section/js/jquery.timepicker.js' , array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION );
+		wp_enqueue_script( 'saswp-timepicker-css', SASWP_PLUGIN_URL.'admin_section/js/jquery.timepicker.js' , array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true );
 		
 		        
 		// Enqueue styles.
 		wp_enqueue_style( 'saswp_add_new', SASWP_PLUGIN_URL.'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-add-new.min.css' : 'saswp-add-new.css') , array( 'wp-admin' ), SASWP_VERSION);
 		// Enqueue javascript.
-		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL.'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-add-new.min.js' : 'saswp-add-new.js') , array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION );		
+		wp_enqueue_script( 'saswp_add_new', SASWP_PLUGIN_URL.'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-add-new.min.js' : 'saswp-add-new.js') , array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true );		
                 
 		//Enque datepicker
 		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css' );
+		wp_register_style( 'jquery-ui', SASWP_PLUGIN_URL. 'admin_section/css/jquery-ui.css',array(), SASWP_VERSION );
 		wp_enqueue_style( 'jquery-ui' );                                                            
 				                
 		wp_localize_script( 'saswp_add_new', 'saswp_add_new_params', array(
@@ -116,7 +116,7 @@ $saswp_add_data_type_config = array(
 		wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL.'admin_section/js/select2.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true);        
 		wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL.'admin_section/js/select2-extended.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true);
 
-		wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL.'admin_section/js/'. (SASWP_ENVIRONMENT == 'production' ? 'structure_admin.min.js' : 'structure_admin.js') , array( 'jquery', 'jquery-ui-core' ), SASWP_VERSION );
+		wp_enqueue_script( 'structure_admin', SASWP_PLUGIN_URL.'admin_section/js/'. (SASWP_ENVIRONMENT == 'production' ? 'structure_admin.min.js' : 'structure_admin.js') , array( 'jquery', 'jquery-ui-core' ), SASWP_VERSION, true );
 		
 		$data = array(     
 			'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
