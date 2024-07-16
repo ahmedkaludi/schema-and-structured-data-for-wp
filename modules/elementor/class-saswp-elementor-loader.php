@@ -60,9 +60,9 @@ class SASWP_Elementor_Loader {
 	 * @access private
 	 */
 	private function include_widgets_files() {		
-		require_once( __DIR__ . '/widgets/faq-block.php' );
-		require_once( __DIR__ . '/widgets/qanda-block.php' );
-		require_once( __DIR__ . '/widgets/how-to-block.php' );
+		require_once( __DIR__ . '/widgets/class-faq-block.php' );
+		require_once( __DIR__ . '/widgets/class-qanda-block.php' );
+		require_once( __DIR__ . '/widgets/class-howto-block.php' );
 	}
 
 	/**

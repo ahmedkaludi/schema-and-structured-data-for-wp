@@ -48,7 +48,7 @@ function saswp_register_schema_output() {
                         'type' => 'saswpSchemaType',
                         'resolve' => function($post, array $args, AppContext $context) {
                           
-                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api-service.php'; 
+                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/class-saswp-output-rest-api-service.php'; 
                             $restApiObj = new SASWP_Output_Rest_Api_Service();
                             $response = $restApiObj->get_schema($post->ID, 'saswpSchema');
                             
@@ -68,7 +68,7 @@ function saswp_register_schema_output() {
                         'type' => 'saswpSchemaType',
                         'resolve' => function($post, array $args, AppContext $context) {
                           
-                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api-service.php'; 
+                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/class-saswp-output-rest-api-service.php'; 
                             $restApiObj = new SASWP_Output_Rest_Api_Service();
                             $response = $restApiObj->get_schema($post->ID, 'saswpCustomSchema');
                             
@@ -88,7 +88,7 @@ function saswp_register_schema_output() {
                         'type' => 'saswpSchemaType',
                         'resolve' => function($post, array $args, AppContext $context) {
                           
-                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api-service.php'; 
+                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/class-saswp-output-rest-api-service.php'; 
                             $restApiObj = new SASWP_Output_Rest_Api_Service();
                             $response = $restApiObj->get_schema($post->ID, 'saswpUserSchema');
                             
@@ -108,7 +108,7 @@ function saswp_register_schema_output() {
                         'type' => 'saswpSchemaType',
                         'resolve' => function($post, array $args, AppContext $context) {
                           
-                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/api-service.php'; 
+                            require_once SASWP_PLUGIN_DIR_PATH.'output/rest-api/class-saswp-output-rest-api-service.php'; 
                             $restApiObj = new SASWP_Output_Rest_Api_Service();
                             $response = $restApiObj->get_schema($post->ID, 'saswpOtherSchema');
                             
