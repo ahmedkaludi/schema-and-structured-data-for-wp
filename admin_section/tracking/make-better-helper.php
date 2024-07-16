@@ -12,10 +12,20 @@ if( !defined( 'ABSPATH' ) )
  *
  * @return bool
  */
-function saswp_is_plugins_page() {
-    global $pagenow;
 
-    return ( 'plugins.php' === $pagenow );
+function saswp_is_plugins_page() {
+
+    if ( function_exists( 'get_current_screen' ) ){
+
+        $screen = get_current_screen();
+
+            if ( is_object( $screen ) ) {
+                if ( $screen->id == 'plugins' || $screen->id == 'plugins-network' ) {
+                    return true;
+                }
+            }
+    }
+    return false;
 }
 
 /**
@@ -49,10 +59,12 @@ function saswp_add_deactivation_feedback_modal() {
  * @since 1.4.0
  */
 function saswp_send_feedback() {
-    if(!current_user_can( saswp_current_user_can())){
+    if(!current_user_can( saswp_current_user_can()) ) {
         die( '-1' );    
     }
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are just verifiying nonce below this lines.
     if( isset( $_POST['data'] ) ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are just verifiying nonce below this lines.
         parse_str( $_POST['data'], $form );
     }
     if ( ! isset( $form['saswp_feedback_nonce'] ) ){
@@ -83,7 +95,7 @@ function saswp_send_feedback() {
 
           $text = trim($text);
 
-          if(!empty($text)){
+          if ( ! empty( $text) ) {
 
             $text = 'technical issue description: '.$text;
 
@@ -104,19 +116,15 @@ add_action( 'wp_ajax_saswp_send_feedback', 'saswp_send_feedback' );
 
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_makebetter_email_js' );
 
-function saswp_enqueue_makebetter_email_js(){
+function saswp_enqueue_makebetter_email_js() {
  
-    if( !is_admin() && !saswp_is_plugins_page()) {
+    if( ! is_admin() && ! saswp_is_plugins_page() ) {
         return;
     }
 
-    wp_enqueue_script( 'saswp-make-better-js', SASWP_DIR_URI . '/admin_section/tracking/make-better-admin.js', array( 'jquery' ), SASWP_VERSION);
+    wp_enqueue_script( 'saswp-make-better-js', SASWP_DIR_URI . '/admin_section/tracking/make-better-admin.js', array( 'jquery' ), SASWP_VERSION, true );
 
-    wp_enqueue_style( 'saswp-make-better-css', SASWP_DIR_URI . '/admin_section/tracking/make-better-admin.css', false , SASWP_VERSION);
+    wp_enqueue_style( 'saswp-make-better-css', SASWP_DIR_URI . '/admin_section/tracking/make-better-admin.css', false , SASWP_VERSION );
 }
 
-if( is_admin() && saswp_is_plugins_page()) {
-    add_filter('admin_footer', 'saswp_add_deactivation_feedback_modal');
-}
-
-
+add_filter( 'admin_footer', 'saswp_add_deactivation_feedback_modal' );

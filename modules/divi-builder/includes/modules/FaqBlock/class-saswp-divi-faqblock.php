@@ -42,7 +42,7 @@ class SASWP_Divi_FaqBlock extends ET_Builder_Module {
                 $style      = '';
                 $order_type = '';
                 
-                if(isset($attrs['order_type'])){
+                if ( isset( $attrs['order_type']) ) {
                     $order_type = $attrs['order_type'];
                 }
                 
@@ -56,7 +56,7 @@ class SASWP_Divi_FaqBlock extends ET_Builder_Module {
                         $i = 1;
 			foreach (  $saswp_divi_faq as $item ) {
 
-				if(isset($item['faq_question'])){
+				if ( isset( $item['faq_question']) ) {
 					
 					$output .= '<li '.$style.' class="elementor-repeater-item-' . $i . '">';
                                 $output .= '<h3>';
@@ -64,7 +64,7 @@ class SASWP_Divi_FaqBlock extends ET_Builder_Module {
                                 if($order_type == 'order_list'){
                                     $output .= '<span>'.$i.'. </span>';
                                 } 
-                                $output .= esc_html($item['faq_question']);
+                                $output .= esc_html( $item['faq_question']);
                                 $output .= '</h3>';
 					$output .= '<p>' . wp_unslash(str_replace(array("%22", ""), array('"', "'"),$item['faq_answer'])) . '</p>';
                 	$output .= '</li>';                
@@ -79,4 +79,4 @@ class SASWP_Divi_FaqBlock extends ET_Builder_Module {
 	}      
 
 }
-new SASWP_Divi_FaqBlock;
+new SASWP_Divi_FaqBlock();

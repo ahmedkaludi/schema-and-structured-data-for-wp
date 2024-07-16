@@ -25,7 +25,7 @@ class SASWP_Reviews_Form {
             
           if($this->_service == null){
               
-              $this->_service = new saswp_reviews_service();
+              $this->_service = new SASWP_Reviews_Service();
               
           }  
                          
@@ -49,9 +49,9 @@ class SASWP_Reviews_Form {
                         
                 if( function_exists('ampforwp_is_amp_endpoint') && is_object($post) ){
 
-                    if(preg_match( '/\[saswp\-reviews\-form\]/', $post->post_content, $match ) || preg_match( '/\[saswp\-reviews\-form onbutton\=\"1\"\]/', $post->post_content, $match )){
+                    if(preg_match( '/\[saswp\-reviews\-form\]/', $post->post_content, $match ) || preg_match( '/\[saswp\-reviews\-form onbutton\=\"1\"\]/', $post->post_content, $match ) ) {
 
-                        if(!empty($match)){
+                        if ( ! empty( $match) ) {
                                 
                             require_once SASWP_PLUGIN_DIR_PATH .'core/3rd-party/class-amp-review-form-blacklist.php';            
                             unset($data['AMPFORWP_Blacklist_Sanitizer']);
@@ -80,7 +80,7 @@ class SASWP_Reviews_Form {
 		return self::$instance;
         }
                 
-        public function saswp_save_review_form_data(){
+        public function saswp_save_review_form_data() {
             /**
              * getallheaders() is supported only in Apache Web Server
              * and not in other popular web servers like NGINX.
@@ -92,7 +92,7 @@ class SASWP_Reviews_Form {
                 function getallheaders()
                 {
                     $headers = [];
-                    foreach ($_SERVER as $name => $value) {
+                    foreach ( $_SERVER as $name => $value) {
                         if (substr($name, 0, 5) == 'HTTP_') {
                             $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
                         }
@@ -100,20 +100,15 @@ class SASWP_Reviews_Form {
                     return $headers;
                 }
             }  
-            
-            $form_data = $_POST;  
-
-            if(!isset($form_data['saswp_review_nonce'])){
-                die('-1');
-            }
-            $rv_link   = isset($_SERVER['HTTP_REFERER'])?sanitize_url($_SERVER['HTTP_REFERER']):''; //$form_data['saswp_review_link'];
-            if(!wp_verify_nonce($form_data['saswp_review_nonce'], 'saswp_review_form')){
+                        
+            $rv_link   = isset($_SERVER['HTTP_REFERER'])?sanitize_url($_SERVER['HTTP_REFERER']):''; 
+            if(!wp_verify_nonce($_POST['saswp_review_nonce'], 'saswp_review_form') ) {
                 if($is_amp){
                     header("AMP-Redirect-To: ".$rv_link);
                     header("Access-Control-Expose-Headers: AMP-Redirect-To, AMP-Access-Control-Allow-Source-Origin");                                 
-                    echo json_decode(array('message'=> 'Nonce MisMatch'));die;
+                    echo wp_json_encode(array('message'=> esc_html__( 'Nonce MisMatch', 'schema-and-structured-data-for-wp' )));die;
                 }else{
-                    wp_redirect( $rv_link );
+                    wp_safe_redirect( $rv_link );
                     exit; 
                 }
                 
@@ -121,7 +116,7 @@ class SASWP_Reviews_Form {
 
             $headers = getallheaders();
             $is_amp  = false;
-            if(isset($headers['AMP-Same-Origin'])){
+            if ( isset( $headers['AMP-Same-Origin']) ) {
                 $is_amp = true;
             }
             $site_key   = get_option('saswp_g_site_key');
@@ -131,27 +126,28 @@ class SASWP_Reviews_Form {
                 
                 $captcha = '';
 
-                if(isset($form_data['g-recaptcha-response'])){
-                    $captcha = $form_data['g-recaptcha-response'];
+                if ( isset( $_POST['g-recaptcha-response']) ) {
+                    $captcha = $_POST['g-recaptcha-response'];
                 }
                 
                 if(!$captcha){
-                    wp_redirect( $rv_link );
+                    wp_safe_redirect( $rv_link );
                     exit;
                 }
                 
                 $url          = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secret_key) .  '&response=' . urlencode($captcha);
-                $response     = file_get_contents($url);
-                $responseKeys = json_decode($response,true);
-                
-                if(!$responseKeys["success"]){
-                    wp_redirect( $rv_link );
-                    exit;
-                }
+                $resultset       = wp_remote_get($url);
+                if ( ! is_wp_error( $resultset) ) {
+                    $responseKeys = json_decode(wp_remote_retrieve_body($resultset), true);
+                    if(!$responseKeys["success"]){
+                        wp_safe_redirect( $rv_link );
+                        exit;
+                    }
+                }                                                                
 
             }
                                     
-            if($form_data['action'] == 'saswp_review_form'){
+            if($_POST['action'] == 'saswp_review_form'){
                                
                if($is_amp){
                     $http_origin = isset($_SERVER['HTTP_ORIGIN'])?sanitize_text_field($_SERVER['HTTP_ORIGIN']):'';
@@ -164,7 +160,7 @@ class SASWP_Reviews_Form {
                    
                }
                                
-               $response = $this->_service->saswp_review_form_process_data($form_data);
+               $response = $this->_service->saswp_review_form_process_data($_POST);
             
                 if($response){
                     
@@ -184,21 +180,21 @@ class SASWP_Reviews_Form {
             }
             
         }
-        public function saswp_review_form_amp_css(){
+        public function saswp_review_form_amp_css() {
             
              $review_css  =  SASWP_PLUGIN_DIR_PATH . 'admin_section/css/amp/review-form.css';  
              
              ?>
             .saswp-rvw-str .str-ic{           
-                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png'); ?>);
+                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/full_star.png' ); ?>);
             }
             .saswp-rvw-str .df-clr{           
-                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png'); ?>);
+                background-image: url(<?php echo esc_url(SASWP_DIR_URI.'/admin_section/images/blank_star.png' ); ?>);
             }
 
             <?php
                           
-             echo @file_get_contents($review_css);
+             saswp_local_file_get_contents($review_css);
             
         }
         
@@ -217,13 +213,13 @@ class SASWP_Reviews_Form {
             
             
             
-            if(isset($attr['onbutton'])){
+            if ( isset( $attr['onbutton']) ) {
                 $on_button = true;
             }
             
             $is_amp = false;
             
-            if(!saswp_non_amp()){
+            if(!saswp_non_amp() ) {
                 $is_amp = true;
             }
             add_action( 'amp_post_template_css', array($this, 'saswp_review_form_amp_css'));
@@ -238,7 +234,7 @@ class SASWP_Reviews_Form {
             );
 
 
-            wp_register_script( 'saswp-review-form-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'review-form.min.js' : 'review-form.js'), array('jquery', 'jquery-ui-core'), SASWP_VERSION );
+            wp_register_script( 'saswp-review-form-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'review-form.min.js' : 'review-form.js'), array('jquery', 'jquery-ui-core'), SASWP_VERSION, true );
 
             wp_localize_script( 'saswp-review-form-js', 'saswp_localize_review_data', $localize );
         
@@ -249,35 +245,35 @@ class SASWP_Reviews_Form {
             wp_enqueue_style(  'jquery-rateyo-min-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'jquery.rateyo.min.css' : 'jquery.rateyo.min.css'), false, SASWP_VERSION );
             
             if( isset($sd_data['saswp_ar_captcha_checkbox']) && $sd_data['saswp_ar_captcha_checkbox'] == 1 ){
-                wp_enqueue_script( 'saswp-recaptcha', 'https://www.google.com/recaptcha/api.js'); 
+                wp_enqueue_script( 'saswp-recaptcha', 'https://www.google.com/recaptcha/api.js', array(), SASWP_VERSION, true); 
             }
 
-            $form = $current_url = '';
+            $form_escaped = $current_url = '';
             
-            if(is_object($wp)){
+            if(is_object($wp) ) {
                 $current_url = home_url( add_query_arg( array(), $wp->request ) );
             }
             
-            $form       .= '<div class="saswp-rv-form-container">';
+            $form_escaped       .= '<div class="saswp-rv-form-container">';
             
             if(!$is_amp){ 
                 
                 if($on_button){
-                    $form       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default">'.saswp_t_string(saswp_label_text('translation-review-form')).'</a></div>';
+                    $form_escaped       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default">'.saswp_label_text('translation-review-form').'</a></div>';
                 }
                 
                 $rating_html = '<div class="saswp-rating-container"><div class="saswp-rating-front-div"></div><div class="saswp-rateyo-counter"></div><input type="hidden" name="saswp_review_rating" value="5"></div>';
-                $form   .= '<form action="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'">';
+                $form_escaped   .= '<form action="'. esc_url(  admin_url( 'admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'">';
                 
             }else{
                 
                 add_action( 'amp_post_template_data', array($this, 'saswp_reviews_form_amp_script'));  
                 
                 if($on_button){
-                    $form       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default" on="tap:AMP.setState({ saswp_review_form_toggle: !saswp_review_form_toggle })" role="button" tabindex="1">'.saswp_t_string(saswp_label_text('translation-review-form')).'</a></div>';
+                    $form_escaped       .= '<div class="saswp-rv-form-btn"><a href="#" class="button button-default" on="tap:AMP.setState({ saswp_review_form_toggle: !saswp_review_form_toggle })" role="button" tabindex="1">'.saswp_label_text('translation-review-form').'</a></div>';
                 }
                 
-                $form   .= '<form   action-xhr="'.esc_url( admin_url('admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'" [class]="saswp_review_form_toggle ? \'saswp-review-submission-form\' : \'saswp_hide saswp-review-submission-form\' ">';
+                $form_escaped   .= '<form   action-xhr="'. esc_url(  admin_url( 'admin-post.php') ).'" method="post" class="saswp-review-submission-form '.($on_button ? "saswp_hide" : "").'" [class]="saswp_review_form_toggle ? \'saswp-review-submission-form\' : \'saswp_hide saswp-review-submission-form\' ">';
                 
                 $rating_html = ''
                         . '<input type="hidden" name="saswp_review_rating" [value]="saswp_review_rating">'
@@ -291,37 +287,37 @@ class SASWP_Reviews_Form {
                                 
             }
             
-            $form   .= wp_nonce_field( 'saswp_review_form', 'saswp_review_nonce' )
+            $form_escaped   .= wp_nonce_field( 'saswp_review_form', 'saswp_review_nonce' )
 
                     . '<div class="saswp-form-tbl">'
                     
                     . '<div class="saswp-form-fld">'
-                    .   '<span>'.saswp_t_string(saswp_label_text('translation-name')).'</span>'
+                    .   '<span>'.saswp_label_text('translation-name').'</span>'
                     .   '<input type="text" name="saswp_reviewer_name" required>'
                     . '</div>'
 
                     . '<div class="saswp-form-fld">'
-                    .   '<span>'.saswp_t_string(saswp_label_text('translation-comment')).'</span>'
+                    .   '<span>'.saswp_label_text('translation-comment').'</span>'
                     .   '<textarea name="saswp_review_text"></textarea>'
                     . '</div>'
 
-                    . '<input type="hidden" name="saswp_review_link" value="'.esc_url($current_url).'">'
+                    . '<input type="hidden" name="saswp_review_link" value="'. esc_url( $current_url).'">'
                     . $rating_html
-                    . '<input type="hidden" name="saswp_place_id" value="'.esc_attr($post->ID).'">'
+                    . '<input type="hidden" name="saswp_place_id" value="'. esc_attr( $post->ID).'">'
                     . '<input type="hidden" name="action" value="saswp_review_form">';
                     
                     if( isset($sd_data['saswp_ar_captcha_checkbox']) && $sd_data['saswp_ar_captcha_checkbox'] == 1 ) {
                         if((isset($sd_data['saswp_g_site_key']) && !empty($sd_data['saswp_g_site_key'])) && (isset($sd_data['saswp_g_secret_key']) && !empty($sd_data['saswp_g_secret_key'])))
-                        $form.=    '<div class="g-recaptcha" data-sitekey="'.esc_attr($sd_data['saswp_g_site_key']).'"></div>';
+                        $form_escaped.=    '<div class="g-recaptcha" data-sitekey="'. esc_attr( $sd_data['saswp_g_site_key']).'"></div>';
                     }
 
-                    $form.= '<input name="saswp-review-save" type="submit" class="submit">'                                        
+                    $form_escaped.= '<input name="saswp-review-save" type="submit" class="submit">'                                        
                     . '</div>'
                     . '</form>'
                     . '</div>';
             
-            
-             echo $form;
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: It is static html and its all dynamic values have been esacped.
+             echo $form_escaped;
              return ob_get_clean();
             
         }
@@ -338,18 +334,18 @@ class SASWP_Reviews_Form {
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         } 
-        if(!current_user_can( saswp_current_user_can())){
+        if(!current_user_can( saswp_current_user_can()) ) {
             die( '-1' );    
         }
 
-        if(!isset($_POST['gsitekey']) && !isset($_POST['gsecretkey'])){
+        if ( ! isset( $_POST['gsitekey']) && !isset($_POST['gsecretkey']) ) {
             $captcha_enable = intval($_POST['captcha_enable']);
             $keys['saswp_ar_captcha_checkbox'] = $captcha_enable;
 
             $get_options   = get_option('sd_data');
             $merge_options = array_merge($get_options, $keys);
             update_option('sd_data', $merge_options);
-        }else if(isset($_POST['gsitekey']) && isset($_POST['gsecretkey'])){
+        }elseif ( isset( $_POST['gsitekey']) && isset($_POST['gsecretkey']) ) {
             $gsitekey = sanitize_text_field($_POST['gsitekey']);
             $gsecretkey = sanitize_text_field($_POST['gsecretkey']);
             $captcha_enable = intval($_POST['captcha_enable']);

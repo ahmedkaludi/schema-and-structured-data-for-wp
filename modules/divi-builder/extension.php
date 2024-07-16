@@ -6,7 +6,7 @@ if ( ! function_exists( 'saswp_initialize_extension' ) ):
  * @since 1.0.0
  */
 function saswp_initialize_extension() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/Extension.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-saswp-extension.php';
 }
 add_action( 'divi_extensions_init', 'saswp_initialize_extension' );
 endif;

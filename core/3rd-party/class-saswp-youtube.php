@@ -18,11 +18,14 @@ class SASWP_Youtube
             'id' => $vid,
             'key' => $api_key,
         );
-
+        $result  = array();
         $api_url = SASWP_Youtube::$api_base . '?' . http_build_query($params);
-        $result = json_decode(@file_get_contents($api_url), true);
-
-        if(isset($result['items'][0]['snippet']) && $result['items'][0]['snippet']){
+        $resultset       = wp_remote_get($api_url);
+        if ( ! is_wp_error( $resultset) ) {
+            $result = json_decode(wp_remote_retrieve_body($resultset), true);
+        }
+        
+        if ( isset( $result['items'][0]['snippet']) && $result['items'][0]['snippet']){
        
             $vinfo['snippet'] = $result['items'][0]['snippet'];
         }        

@@ -11,19 +11,19 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function saswp_check_stars_rating(){
+function saswp_check_stars_rating() {
 
 	global $sd_data, $post;
 
-	if(isset($sd_data['saswp-stars-rating']) && $sd_data['saswp-stars-rating'] == 1){
+	if ( isset( $sd_data['saswp-stars-rating']) && $sd_data['saswp-stars-rating'] == 1){
 
 		$post_types = array();
 
-		if(isset($sd_data['saswp-stars-post-taype'])){
+		if ( isset( $sd_data['saswp-stars-post-taype']) ) {
 			$post_types = $sd_data['saswp-stars-post-taype'];
 		}
 		
-		if(in_array(get_post_type(), $post_types)){
+		if(in_array(get_post_type(), $post_types) ) {
 
 			return true;
 		}else{
@@ -34,11 +34,11 @@ function saswp_check_stars_rating(){
 		return false;
 	}
 }
-function saswp_check_starsrating_status(){
+function saswp_check_starsrating_status() {
 
 		global $sd_data;
 
-		if(isset($sd_data['saswp-starsrating']) && $sd_data['saswp-starsrating'] == 1){
+		if ( isset( $sd_data['saswp-starsrating']) && $sd_data['saswp-starsrating'] == 1){
 
 			$enabled_posts = get_option( 'enabled_post_types' );
 			$post_status   = get_post_meta( get_the_ID(), 'sr-comments-rating', true );
@@ -106,7 +106,7 @@ function saswp_comment_rating_rating_field () {
 
 	  global $sd_data;
 
-	if(saswp_check_stars_rating()){
+	if(saswp_check_stars_rating() ) {
 					
 		wp_enqueue_style( 'saswp-frontend-css', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-frontend.min.css' : 'saswp-frontend.css'), false , SASWP_VERSION );	
 		wp_enqueue_script( 'saswp-rateyo-front-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.rateyo.min.js', array('jquery', 'jquery-ui-core'), SASWP_VERSION , true );                                                                                        
@@ -117,7 +117,7 @@ function saswp_comment_rating_rating_field () {
             'rateyo_default_rating'  =>  isset($sd_data['saswp-default-rating']) ? $sd_data['saswp-default-rating'] : 5
 		);
 
-		wp_register_script( 'saswp-frontend-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-frontend.min.js' : 'saswp-frontend.js'), array('jquery', 'jquery-ui-core'), SASWP_VERSION );
+		wp_register_script( 'saswp-frontend-js', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-frontend.min.js' : 'saswp-frontend.js'), array('jquery', 'jquery-ui-core'), SASWP_VERSION, true );
 		wp_localize_script( 'saswp-frontend-js', 'saswp_localize_front_data', $data );
 		wp_enqueue_script( 'saswp-frontend-js' );
 
@@ -137,9 +137,9 @@ function saswp_comment_rating_rating_field () {
 //Save the rating submitted by the user.
 add_action( 'comment_post', 'saswp_comment_rating_save_comment_rating' );
 function saswp_comment_rating_save_comment_rating( $comment_id ) {
-		
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the comment_post hook.
 		if ( ( isset( $_POST['review_rating'] ) ) && ( '' !== $_POST['review_rating'] ) ){
-
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the comment_post hook.
 			$rating = floatval( $_POST['review_rating'] );
 			add_comment_meta( $comment_id, 'review_rating', $rating );
 			
@@ -179,7 +179,7 @@ function saswp_comment_rating_display_average_rating() {
 
 	global $post;
 
-	if(saswp_check_stars_rating()){
+	if(saswp_check_stars_rating() ) {
 
 		$average_rate = saswp_comment_rating_get_average_ratings( $post->ID );
 
@@ -190,10 +190,21 @@ function saswp_comment_rating_display_average_rating() {
 				$average = 1;
 			}
 			$count   = $average_rate['count'];
-				
-			$custom_content  = '<div class="saswp-average-rating">'.saswp_t_string('Average').' '. saswp_get_rating_html_by_value($average).' '.esc_html($average).' '. saswp_t_string('Based On') .' '.esc_html($count).'</div>';
-
-			echo $custom_content;
+			?> 				
+			<div class="saswp-average-rating">
+				<?php 
+				echo esc_html__( 'Average', 'schema-and-structured-data-for-wp' );
+				?>&nbsp;<?php
+				$rating_box_escaped = saswp_get_rating_html_by_value($average);
+				//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- html is already fully escaped in function saswp_get_rating_html_by_value
+				echo $rating_box_escaped;
+				?>&nbsp;<?php
+				echo esc_html( $average);
+				?>&nbsp;<?php
+				echo esc_html__( 'Based On', 'schema-and-structured-data-for-wp' );
+				?>&nbsp;<?php
+				echo esc_html( $count); ?></div>
+			<?php
 
 		}
 

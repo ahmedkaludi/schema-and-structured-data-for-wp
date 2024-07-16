@@ -11,7 +11,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_reviews_admin {
+class SASWP_Reviews_Admin {
         
 	private $screen = array(		
             'saswp_reviews'                                                      
@@ -68,7 +68,7 @@ class saswp_reviews_admin {
          * Function to disable default wordpress editor
          * @since version 1.9
          */
-        public function saswp_removing_reviews_wysiwig(){
+        public function saswp_removing_reviews_wysiwig() {
             
             remove_post_type_support( 'saswp_reviews', 'editor');
             remove_post_type_support( 'saswp-collections', 'editor');
@@ -87,7 +87,7 @@ class saswp_reviews_admin {
 			
 			add_meta_box(
 				'saswp_review_content',
-				saswp_t_string( 'Review Content' ),
+				esc_html__( 'Review Content', 'schema-and-structured-data-for-wp' ),
 				array( $this, 'saswp_meta_box_callback' ),
 				$single_screen,
 				'normal',
@@ -121,10 +121,10 @@ class saswp_reviews_admin {
                     
                     $attributes = $label = '';
                     
-                    if(isset($meta_field['label'])){
+                    if ( isset( $meta_field['label']) ) {
                       $label =  $meta_field['label']; 
                     }
-			$label = '<label for="' . esc_attr($meta_field['id']) . '">' . esc_html( $label ) . '</label>';
+			$label = '<label for="' . esc_attr( $meta_field['id']) . '">' . esc_html( $label ) . '</label>';
 			$meta_value = get_post_meta( $post->ID, $meta_field['id'], true );
                         
 			if ( empty( $meta_value ) ) {
@@ -138,8 +138,8 @@ class saswp_reviews_admin {
                                                                                                
 					$input = sprintf(
 						'<select class="saswp_select" id="%s" name="%s" %s>',
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['id']),
+						esc_attr( $meta_field['id']),
+						esc_attr( $meta_field['id']),
                                                 $attributes    
 					);
 					foreach ( $meta_field['options'] as $key => $value ) {
@@ -148,7 +148,7 @@ class saswp_reviews_admin {
 							'<option %s value="%s">%s</option>',
 							$meta_value == $key ? 'selected' : '',
 							$key,
-							esc_html($value)
+							esc_html( $value)
 						);
 					}
                                         $input .= '</select>';
@@ -157,8 +157,8 @@ class saswp_reviews_admin {
 				case 'textarea':
 					$input = sprintf(
 						'<textarea class="saswp_textarea" id="%s" name="%s" rows="5">%s</textarea>',
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['id']),
+						esc_attr( $meta_field['id']),
+						esc_attr( $meta_field['id']),
 						$meta_value
 					); 
                                     break;
@@ -167,8 +167,8 @@ class saswp_reviews_admin {
 					$input = sprintf(
 						'<input %s id="%s" name="%s" type="checkbox" value="1">',
 						$meta_value === '1' ? 'checked' : '',
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['id'])
+						esc_attr( $meta_field['id']),
+						esc_attr( $meta_field['id'])
 						);
 					break;
                                 case 'media':
@@ -177,7 +177,7 @@ class saswp_reviews_admin {
                                         
                                         $media_value_meta = get_post_meta( $post->ID, $media_key, true );   
                                         
-                                        if(!empty($media_value_meta)){
+                                        if ( ! empty( $media_value_meta) ) {
                                             $media_value = $media_value_meta;  
                                         }  
                                                                                 
@@ -185,13 +185,13 @@ class saswp_reviews_admin {
                                         $media_width     = '';
                                         $media_thumbnail = '';
                                         
-                                        if(isset($media_value['thumbnail'])){
+                                        if ( isset( $media_value['thumbnail']) ) {
                                             $media_thumbnail =$media_value['thumbnail'];
                                         }
-                                        if(isset($media_value['height'])){
+                                        if ( isset( $media_value['height']) ) {
                                            $media_height =$media_value['height']; 
                                         }
-                                        if(isset($media_value['width'])){
+                                        if ( isset( $media_value['width']) ) {
                                              $media_width =$media_value['width'];
                                         }
                                             
@@ -199,18 +199,18 @@ class saswp_reviews_admin {
                                         if($media_thumbnail){
                                             
                                            $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'.esc_url($media_thumbnail).'" />
-                                                         <a data-id="'.esc_attr($meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
+                                                         <img class="saswp_image_prev" src="'. esc_url( $media_thumbnail).'" />
+                                                         <a data-id="'. esc_attr( $meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             
                                         }
 					
-					$input = '<fieldset><input style="width: 80%" id="'. esc_attr($meta_field['id']).'" name="'. esc_attr($meta_field['id']).'" type="text" value="'.esc_url($media_thumbnail).'">'
-                                                . '<input data-id="media" style="width: 19%" class="button" id="'. esc_attr($meta_field['id']).'_button" name="'. esc_attr($meta_field['id']).'_button" type="button" value="Upload" />'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="'.esc_attr($meta_field['id']).'_height" id="'.esc_attr($meta_field['id']).'_height" value="'.esc_attr($media_height).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="'.esc_attr($meta_field['id']).'_width" id="'.esc_attr($meta_field['id']).'_width" value="'.esc_attr($media_width).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'.esc_attr($meta_field['id']).'_thumbnail" id="'.esc_attr($meta_field['id']).'_thumbnail" value="'.esc_url($media_thumbnail).'">'                                                
-                                                . '<div class="saswp_image_div_'.esc_attr($meta_field['id']).'">'                                               
+					$input = '<fieldset><input style="width: 80%" id="'. esc_attr( $meta_field['id']).'" name="'. esc_attr( $meta_field['id']).'" type="text" value="'. esc_url( $media_thumbnail).'">'
+                                                . '<input data-id="media" style="width: 19%" class="button" id="'. esc_attr( $meta_field['id']).'_button" name="'. esc_attr( $meta_field['id']).'_button" type="button" value="Upload" />'
+                                                . '<input type="hidden" data-id="'. esc_attr( $meta_field['id']).'_height" class="upload-height" name="'. esc_attr( $meta_field['id']).'_height" id="'. esc_attr( $meta_field['id']).'_height" value="'. esc_attr( $media_height).'">'
+                                                . '<input type="hidden" data-id="'. esc_attr( $meta_field['id']).'_width" class="upload-width" name="'. esc_attr( $meta_field['id']).'_width" id="'. esc_attr( $meta_field['id']).'_width" value="'. esc_attr( $media_width).'">'
+                                                . '<input type="hidden" data-id="'. esc_attr( $meta_field['id']).'_thumbnail" class="upload-thumbnail" name="'. esc_attr( $meta_field['id']).'_thumbnail" id="'. esc_attr( $meta_field['id']).'_thumbnail" value="'. esc_url( $media_thumbnail).'">'                                                
+                                                . '<div class="saswp_image_div_'. esc_attr( $meta_field['id']).'">'                                               
                                                 . $image_pre                                                 
                                                 . '</div>'
                                                 .'</fieldset>';
@@ -221,9 +221,9 @@ class saswp_reviews_admin {
                                      $input = sprintf(
 						'<div class="saswp-rating-container"><div class="saswp-rating-div"></div><div class="saswp-rateyo-counter"></div>'
                                               . '<input id="%s" name="%s" type="hidden" value="%s"></div>',                                                						
-						esc_attr($meta_field['id']),
-                                                esc_attr($meta_field['id']),
-						esc_attr($meta_value),
+						esc_attr( $meta_field['id']),
+                                                esc_attr( $meta_field['id']),
+						esc_attr( $meta_value),
                                                 $attributes
                                              );
                                     
@@ -240,10 +240,10 @@ class saswp_reviews_admin {
 						'<input class="%s" %s id="%s" name="%s" type="%s" value="%s" %s>',
                                                 $class,
 						$meta_field['type'] !== 'color' ? '' : '',
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['type']),
-						esc_attr($meta_value),
+						esc_attr( $meta_field['id']),
+						esc_attr( $meta_field['id']),
+						esc_attr( $meta_field['type']),
+						esc_attr( $meta_value),
                                                 $attributes
                                              );
                                         
@@ -308,13 +308,13 @@ class saswp_reviews_admin {
 					}
                                         update_post_meta( $post_id, $meta_field['id'], $post_meta[ $meta_field['id'] ] );
 					
-				} else if ( $meta_field['type'] === 'checkbox' ) {
+				} elseif ( $meta_field['type'] === 'checkbox' ) {
 					update_post_meta( $post_id, $meta_field['id'], '0' );
 				}
 			}
        	
 	}
 }
-if (class_exists('saswp_reviews_admin')) {
-	new saswp_reviews_admin;
+if (class_exists('SASWP_Reviews_Admin')) {
+	new SASWP_Reviews_Admin;
 };

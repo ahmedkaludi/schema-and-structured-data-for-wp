@@ -1,13 +1,13 @@
 === Schema & Structured Data for WP & AMP ===
 Contributors: magazine3
 Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
-Requires at least: 3.0
+Requires at least: 4.5
 Tested up to: 6.5
 Requires PHP: 5.6.20
-Stable tag: 1.33
+Stable tag: 1.34.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
+Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
 
 == Description ==
 
@@ -120,6 +120,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.34.1 (16 July 2024) =
+* Fixed: Fatal error after recent update #2142 
+
+= 1.34 (16 July 2024) =
+
+* Bug: Fixed vulnerability repoted by Wordfence
 
 = 1.33 (27 June 2024) =
 

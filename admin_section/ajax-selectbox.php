@@ -27,11 +27,11 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
         
         $is_ajax = true;
 
-        if(!current_user_can( saswp_current_user_can())){
+        if(!current_user_can( saswp_current_user_can()) ) {
           die( '-1' );    
         }
         
-        if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
+        if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce') ) {
             
             if ( isset( $_POST["id"] ) ) {
               $response = sanitize_text_field(wp_unslash($_POST["id"]));
@@ -53,7 +53,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
         // send the response back to the front end
        // vars
           if($response == 'date'){
-            $output = '<input value="'.esc_attr($saved_data).'" type="text" data-type="'.esc_attr($response).'"  class="widefat ajax-output saswp-datepicker-picker" name="data_group_array[group-'.esc_attr($current_group_number).'][data_array]['. esc_attr($current_number) .'][key_3]"/>'; 
+            $output = '<input value="'. esc_attr( $saved_data).'" type="text" data-type="'. esc_attr( $response).'"  class="widefat ajax-output saswp-datepicker-picker" name="data_group_array[group-'. esc_attr( $current_group_number).'][data_array]['. esc_attr( $current_number) .'][key_3]"/>'; 
           }else{
 
           $choices       = array();    
@@ -65,15 +65,15 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
             $saved_choices = saswp_get_condition_list($response, '', $saved_data);                        
           }
                                
-          $output = '<select data-type="'.esc_attr($response).'"  class="widefat ajax-output saswp-select2" name="data_group_array[group-'.esc_attr($current_group_number).'][data_array]['. esc_attr($current_number) .'][key_3]">'; 
+          $output = '<select data-type="'. esc_attr( $response).'"  class="widefat ajax-output saswp-select2" name="data_group_array[group-'. esc_attr( $current_group_number).'][data_array]['. esc_attr( $current_number) .'][key_3]">'; 
           
-          foreach ($choices as $value) {              
-           $output .= '<option value="' . esc_attr($value['id']) .'"> ' .  esc_html($value['text']) .'</option>';                     
+          foreach ( $choices as $value) {              
+           $output .= '<option value="' . esc_attr( $value['id']) .'"> ' .  esc_html( $value['text']) .'</option>';                     
           }
           
           if($saved_choices){
-            foreach($saved_choices as $value){
-              $output .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html($value['text']) .'</option>';                     
+            foreach( $saved_choices as $value){
+              $output .= '<option value="' . esc_attr( $value['id']) .'" selected> ' .  esc_html( $value['text']) .'</option>';                     
             }
           } 
         
@@ -97,7 +97,7 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
  * @return type array
  * @since version 1.0
  */
-function saswp_post_taxonomy_generator(){
+function saswp_post_taxonomy_generator() {
     
     $taxonomies = '';  
     $choices    = array();
@@ -106,7 +106,7 @@ function saswp_post_taxonomy_generator(){
     
     if($taxonomies){
         
-      foreach($taxonomies as $taxonomy) {
+      foreach( $taxonomies as $taxonomy) {
           
         $choices[ $taxonomy->name ] = $taxonomy->labels->name;
         
@@ -135,7 +135,7 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
     
     $is_ajax = false;
     
-    if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD']=='POST'){
+    if ( isset( $_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD']=='POST'){
         
         $is_ajax = true;
         
@@ -143,15 +143,15 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
           exit;
         }
         
-        if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce')){
+        if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce') ) {
             
-              if(isset($_POST['id'])){
+              if ( isset( $_POST['id']) ) {
                   
                 $selectedParentValue = sanitize_text_field(wp_unslash($_POST['id']));
                 
               }
               
-              if(isset($_POST['number'])){
+              if ( isset( $_POST['number']) ) {
                   
                 $current_number = intval(sanitize_text_field($_POST['number']));
                 
@@ -174,27 +174,27 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
 
     $taxonomies = saswp_get_condition_list($selectedParentValue);       
 
-    if($selectedValue){            
+    if( $selectedValue ) {
       $saved_choices = saswp_get_condition_list($selectedParentValue, '', $selectedValue);                              
     }
                  
-    $choices = '<option value="all">'.saswp_t_string('All').'</option>';
+    $choices = '<option value="all">'.esc_html__( 'All' , 'schema-and-structured-data-for-wp' ) .'</option>';
     
-    if(!empty($taxonomies)){
+    if ( ! empty( $taxonomies) ) {
         
-        foreach($taxonomies as $taxonomy) {                    
-            $choices .= '<option value="'.esc_attr($taxonomy['id']).'">'.esc_html($taxonomy['text']).'</option>';                                    
+        foreach( $taxonomies as $taxonomy) {                    
+            $choices .= '<option value="'. esc_attr( $taxonomy['id']).'">'.esc_html( $taxonomy['text']).'</option>';                                    
         }
     
         if($saved_choices){
-          foreach($saved_choices as $value){
-            $choices .= '<option value="' . esc_attr($value['id']) .'" selected> ' .  esc_html($value['text']) .'</option>';                     
+          foreach( $saved_choices as $value){
+            $choices .= '<option value="' . esc_attr( $value['id']) .'" selected> ' .  esc_html( $value['text']) .'</option>';                     
           }
         }   
 
     $allowed_html = saswp_expanded_allowed_tags();  
     
-    echo '<select data-type="'.esc_attr($selectedParentValue).'" class="widefat ajax-output-child saswp-select2" name="data_group_array[group-'. esc_attr($current_group_number) .'][data_array]['.esc_attr($current_number).'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
+    echo '<select data-type="'. esc_attr( $selectedParentValue).'" class="widefat ajax-output-child saswp-select2" name="data_group_array[group-'. esc_attr( $current_group_number) .'][data_array]['. esc_attr( $current_number).'][key_4]">'. wp_kses($choices, $allowed_html).'</select>';
         
     }    
     

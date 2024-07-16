@@ -46,9 +46,9 @@ class SASWP_Elementor_Loader {
 	 * @access public
 	 */
 	public function widget_scripts() {
-		wp_register_script( 'saswp-elementor-faq-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/faq-block.js', [ 'jquery' ], false, true );
-		wp_register_script( 'saswp-elementor-faq-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/qanda-block.js', [ 'jquery' ], false, true );
-		wp_register_script( 'saswp-elementor-how-to-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/how-to-block.js', [ 'jquery' ], false, true );
+		wp_register_script( 'saswp-elementor-faq-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/faq-block.js', array('jquery'), SASWP_VERSION, true );
+		wp_register_script( 'saswp-elementor-faq-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/qanda-block.js', array('jquery'), SASWP_VERSION, true );
+		wp_register_script( 'saswp-elementor-how-to-widget', SASWP_PLUGIN_URL .'/modules/elementor/assets/js/how-to-block.js', array('jquery'), SASWP_VERSION, true );
 	}
 
 	/**
@@ -60,9 +60,9 @@ class SASWP_Elementor_Loader {
 	 * @access private
 	 */
 	private function include_widgets_files() {		
-		require_once( __DIR__ . '/widgets/faq-block.php' );
-		require_once( __DIR__ . '/widgets/qanda-block.php' );
-		require_once( __DIR__ . '/widgets/how-to-block.php' );
+		require_once( __DIR__ . '/widgets/class-faq-block.php' );
+		require_once( __DIR__ . '/widgets/class-qanda-block.php' );
+		require_once( __DIR__ . '/widgets/class-howto-block.php' );
 	}
 
 	/**

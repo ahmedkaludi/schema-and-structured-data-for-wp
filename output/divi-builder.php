@@ -15,7 +15,7 @@ if (! defined('ABSPATH') ) exit;
  * @global type $saswp_divi_faq
  * @return type array
  */
-function saswp_divi_builder_faq_schema(){
+function saswp_divi_builder_faq_schema() {
               
             $input1 = array();
             
@@ -29,7 +29,7 @@ function saswp_divi_builder_faq_schema(){
 
                                $faq_question_arr = array();
 
-                               foreach($saswp_divi_faq as $val){
+                               foreach( $saswp_divi_faq as $val){
 
                                    $supply_data = array();
                                    $supply_data['@type']                   = 'Question';

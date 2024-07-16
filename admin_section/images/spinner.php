@@ -1,3 +1,7 @@
+<?php 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+?>
 <span class="merlin__button--loading__spinner">
 <cite class="merlin-spinner"><!--
 --><cite class="merlin-spinner-line merlin-spinner-line--1"><!--
@@ -46,3 +50,4 @@
 --></cite><!--
 --></cite><!--/spinner -->
 </span>
+<?php 

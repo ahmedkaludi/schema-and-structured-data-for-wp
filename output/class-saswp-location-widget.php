@@ -5,12 +5,12 @@ class SASWP_Location_Widget extends WP_Widget {
 /**
  * Register widget with WordPress.
  */
-function __construct() {
+public function __construct() {
                                
     parent::__construct(
         'saswp_location_widget', // Base ID
-        saswp_t_string('SASWP Location'), // Name
-        array( 'description' => saswp_t_string('Widget to display location') ) // Args
+        esc_html__( 'SASWP Location', 'schema-and-structured-data-for-wp' ), // Name
+        array( 'description' => esc_html__( 'Widget to display location', 'schema-and-structured-data-for-wp' ) ) // Args
     );
 }
 
@@ -23,23 +23,22 @@ function __construct() {
  * @param array $instance Saved values from database.
  */
 public function widget( $args, $instance ) {
-                      
-    echo html_entity_decode(esc_attr($args['before_widget']));
-                            
-    
+
+    echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
+                                
     $all_loc = saswp_get_location_list();    
     
-    foreach($all_loc as $ad){
+    foreach( $all_loc as $ad){
         
-        if($ad['value'] == $instance['loc']){   
-                            
-            echo saswp_add_location_content($instance['loc']);
+        if($ad['value'] == $instance['loc']){               
+            $loc_content_escaped = saswp_add_location_content($instance['loc']);
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The html all dynamic value has been escaped in called function
+            echo $loc_content_escaped;
                 
         }   
         
     }
-    
-    echo html_entity_decode(esc_attr($args['after_widget']));		
+    echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));   
 }
 
 /**
@@ -51,19 +50,19 @@ public function widget( $args, $instance ) {
  */
 public function form( $instance ) {
             
-    $loc = ! empty( $instance['loc'] ) ? $instance['loc'] : saswp_t_string('Widget to display location');?>
+    $loc = ! empty( $instance['loc'] ) ? $instance['loc'] : esc_html__( 'Widget to display location', 'schema-and-structured-data-for-wp' ); ?>
 
-    <p><label for="<?php echo esc_attr( $this->get_field_id( 'loc' ) ); ?>"><?php saswp_t_string('Locations'); ?></label><?php 
+    <p><label for="<?php echo esc_attr( $this->get_field_id( 'loc' ) ); ?>"><?php esc_html__( 'Locations', 'schema-and-structured-data-for-wp' ); ?></label><?php 
     
     $loc_select_html = '';
             
     $all_loc = saswp_get_location_list();    
     
-    $loc_select_html .= '<option value="">'.saswp_t_string('Select Location').'</option>';
+    $loc_select_html .= '<option value="">'. esc_html__( 'Select Location', 'schema-and-structured-data-for-wp' ) .'</option>';
 
-    foreach($all_loc as $ad){
+    foreach( $all_loc as $ad){
      
-        $loc_select_html .='<option '. esc_attr(selected( $loc, $ad['value'], false)).' value="'.esc_attr($ad['value']).'">'.esc_html($ad['label']).'</option>';
+        $loc_select_html .='<option '. esc_attr(selected( $loc, $ad['value'], false)).' value="'. esc_attr( $ad['value']).'">'.esc_html( $ad['label']).'</option>';
      
     }
     
@@ -94,12 +93,12 @@ public function update( $new_instance, $old_instance ) {
 
 } // class SASWP_Location_Widget
 
-function saswp_register_location_widget(){
+function saswp_register_location_widget() {
     register_widget('SASWP_Location_Widget');
 }
 add_action('widgets_init', 'saswp_register_location_widget');
 
-function saswp_get_location_list(){
+function saswp_get_location_list() {
 
             $response  = array();
         
@@ -115,7 +114,7 @@ function saswp_get_location_list(){
 
                 $col_opt = array(); 
 
-                foreach($schema_id_array as $col){
+                foreach( $schema_id_array as $col){
 
                     $schema_type   = get_post_meta($col, 'schema_type', true);
                     $display_front = get_post_meta($col, 'saswp_loc_display_on_front', true);
@@ -140,8 +139,11 @@ add_shortcode( 'saswp-location', 'saswp_location_shortcode_render');
 
 function saswp_location_shortcode_render($attr){
 
-    if(isset($attr['id'])){
-        echo saswp_add_location_content($attr['id']);
+    if ( isset( $attr['id']) ) {
+        
+        $loc_content_escaped = saswp_add_location_content($attr['id']);
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The html all dynamic value has been escaped in called function
+        echo $loc_content_escaped;
     }
     
 }
@@ -153,70 +155,70 @@ function saswp_add_location_content( $post_id ){
     $html  = '<div class="saswp-location-container">';
 
     if( !empty($post_meta['local_business_name_'.$post_id][0]) ){
-        $html .= '<h2>'.esc_html($post_meta['local_business_name_'.$post_id][0]).'</h2>';
+        $html .= '<h2>'.esc_html( $post_meta['local_business_name_'.$post_id][0]).'</h2>';
     }
 
     $html .= '<div class="saswp-location-address-wrapper">';
                         
     if( !empty($post_meta['local_street_address_'.$post_id][0]) ){
-        $html .= '<span>'.esc_html($post_meta['local_street_address_'.$post_id][0]).'</span>';  
+        $html .= '<span>'.esc_html( $post_meta['local_street_address_'.$post_id][0]).'</span>';  
     }
     if( !empty($post_meta['local_city_'.$post_id][0]) ){
-        $html .= '<span> '.esc_html($post_meta['local_city_'.$post_id][0]).'</span>';    
+        $html .= '<span> '.esc_html( $post_meta['local_city_'.$post_id][0]).'</span>';    
     }
     if( !empty($post_meta['local_state_'.$post_id][0]) ){
-        $html .= '<span> '.esc_html($post_meta['local_state_'.$post_id][0]).'</span>';   
+        $html .= '<span> '.esc_html( $post_meta['local_state_'.$post_id][0]).'</span>';   
     }
     if( !empty($post_meta['local_country_'.$post_id][0]) ){
-        $html .= '<span> '.esc_html($post_meta['local_country_'.$post_id][0]).'</span>';   
+        $html .= '<span> '.esc_html( $post_meta['local_country_'.$post_id][0]).'</span>';   
     }
     if( !empty($post_meta['local_postal_code_'.$post_id][0]) ){
-        $html .= '<span> '.esc_html($post_meta['local_postal_code_'.$post_id][0]).'</span>';   
+        $html .= '<span> '.esc_html( $post_meta['local_postal_code_'.$post_id][0]).'</span>';   
     }
     
     $html .= '</div>';
                   
     if( !empty($post_meta['local_phone_'.$post_id][0]) ){
-        $html .= '<div>Phone : '.esc_html($post_meta['local_phone_'.$post_id][0]).'</div>';
+        $html .= '<div>Phone : '.esc_html( $post_meta['local_phone_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_website_'.$post_id][0]) ){
-        $html .= '<div>Website : '.esc_html($post_meta['local_website_'.$post_id][0]).'</div>';
+        $html .= '<div>Website : '.esc_html( $post_meta['local_website_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_price_range_'.$post_id][0]) ){
-        $html .= '<div>Price indication : '.esc_html($post_meta['local_price_range_'.$post_id][0]).'</div>';
+        $html .= '<div>Price indication : '.esc_html( $post_meta['local_price_range_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_facebook_'.$post_id][0]) ){
-        $html .= '<div>Facebook : '.esc_html($post_meta['local_facebook_'.$post_id][0]).'</div>';
+        $html .= '<div>Facebook : '.esc_html( $post_meta['local_facebook_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_twitter_'.$post_id][0]) ){
-        $html .= '<div>Twitter : '.esc_html($post_meta['local_twitter_'.$post_id][0]).'</div>';
+        $html .= '<div>Twitter : '.esc_html( $post_meta['local_twitter_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_instagram_'.$post_id][0]) ){
-        $html .= '<div>Instagram : '.esc_html($post_meta['local_instagram_'.$post_id][0]).'</div>';
+        $html .= '<div>Instagram : '.esc_html( $post_meta['local_instagram_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_pinterest_'.$post_id][0]) ){
-        $html .= '<div>Pinterest : '.esc_html($post_meta['local_pinterest_'.$post_id][0]).'</div>';
+        $html .= '<div>Pinterest : '.esc_html( $post_meta['local_pinterest_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_linkedin_'.$post_id][0]) ){
-        $html .= '<div>Linkedin : '.esc_html($post_meta['local_linkedin_'.$post_id][0]).'</div>';
+        $html .= '<div>Linkedin : '.esc_html( $post_meta['local_linkedin_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_soundcloud_'.$post_id][0]) ){
-        $html .= '<div>Soundcloud : '.esc_html($post_meta['local_soundcloud_'.$post_id][0]).'</div>';
+        $html .= '<div>Soundcloud : '.esc_html( $post_meta['local_soundcloud_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_tumblr_'.$post_id][0]) ){
-        $html .= '<div>Tumblr : '.esc_html($post_meta['local_tumblr_'.$post_id][0]).'</div>';
+        $html .= '<div>Tumblr : '.esc_html( $post_meta['local_tumblr_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_youtube_'.$post_id][0]) ){
-        $html .= '<div>Youtube : '.esc_html($post_meta['local_youtube_'.$post_id][0]).'</div>';
+        $html .= '<div>Youtube : '.esc_html( $post_meta['local_youtube_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_threads_'.$post_id][0]) ){
-        $html .= '<div>Threads : '.esc_html($post_meta['local_threads_'.$post_id][0]).'</div>';
+        $html .= '<div>Threads : '.esc_html( $post_meta['local_threads_'.$post_id][0]).'</div>';
     }
     if( !empty($post_meta['local_mastodon_'.$post_id][0]) ){
-        $html .= '<div>Mastodon : '.esc_html($post_meta['local_mastodon_'.$post_id][0]).'</div>';
+        $html .= '<div>Mastodon : '.esc_html( $post_meta['local_mastodon_'.$post_id][0]).'</div>';
     }    
             
-    if(!empty($post_meta['saswp_dayofweek_'.$post_id][0])){
+    if ( ! empty( $post_meta['saswp_dayofweek_'.$post_id][0]) ) {
 
             $short_days = array('Monday'      => 'Mo',
                                 'Tuesday'      => 'Tu', 
@@ -247,7 +249,7 @@ function saswp_add_location_content( $post_id ){
                 }
 
                 if( isset($exploded[1]) ){
-                    $op_tr .= '<tr><td>'.esc_html($key).'</td><td>'.esc_html($exploded[1]).'</td></tr>';
+                    $op_tr .= '<tr><td>'.esc_html( $key).'</td><td>'.esc_html( $exploded[1]).'</td></tr>';
                 }
             }
             
@@ -262,7 +264,7 @@ function saswp_add_location_content( $post_id ){
             }
 
             if( !empty($post_meta['local_latitude_'.$post_id][0]) && !empty($post_meta['local_longitude_'.$post_id][0]) ){
-                $html .= '<iframe src="https://maps.google.com/maps?q='.esc_attr($post_meta['local_latitude_'.$post_id][0]).', '.esc_attr($post_meta['local_longitude_'.$post_id][0]).'&z=15&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>';
+                $html .= '<iframe src="https://maps.google.com/maps?q='. esc_attr( $post_meta['local_latitude_'.$post_id][0]).', '. esc_attr( $post_meta['local_longitude_'.$post_id][0]).'&z=15&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>';
             }
             
 

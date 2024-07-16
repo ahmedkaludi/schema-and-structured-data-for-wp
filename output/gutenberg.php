@@ -10,7 +10,7 @@
 if (! defined('ABSPATH') ) exit;
 
 
-function saswp_gutenberg_recipe_schema(){
+function saswp_gutenberg_recipe_schema() {
                         
     global $post, $sd_data;
 
@@ -20,11 +20,11 @@ function saswp_gutenberg_recipe_schema(){
     $attributes    = array();
     $recipe_block = saswp_get_gutenberg_block_data('wpzoom-recipe-card/block-recipe-card');     
 
-    if(isset($recipe_block['attrs'])){
+    if ( isset( $recipe_block['attrs']) ) {
         $attributes = $recipe_block['attrs'];
     }    
     
-    $service_object          = new saswp_output_service();   
+    $service_object          = new SASWP_Output_Service();   
     $structured_data_helpers = new WPZOOM_Structured_Data_Helpers();
     $helpers                 = new WPZOOM_Helpers();
     $feature_image           = $service_object->saswp_get_featured_image();                  
@@ -40,12 +40,12 @@ function saswp_gutenberg_recipe_schema(){
     $input1['author']                = saswp_get_author_details();
     
 
-    if(isset($attributes['cuisine'])){
+    if ( isset( $attributes['cuisine']) ) {
 
         $input1['recipeCuisine']    = $attributes['cuisine'];   
 
     }
-    if(isset($attributes['course'])){
+    if ( isset( $attributes['course']) ) {
 
         $input1['recipeCategory']    = $attributes['course'];   
 
@@ -185,14 +185,14 @@ function saswp_gutenberg_recipe_schema(){
         $input1['recipeInstructions'] = $groups_section;
     }
 
-    if(isset($attributes['image']['id'])){
+    if ( isset( $attributes['image']['id']) ) {
 
         $image_details   = saswp_get_image_by_id($attributes['image']['id']); 
 
         if($image_details){
             $input1['image'] = $image_details;
         }else{
-            if(!empty($feature_image)){
+            if ( ! empty( $feature_image) ) {
                     
                 $input1 = array_merge($input1, $feature_image);   
                         
@@ -225,7 +225,7 @@ function saswp_gutenberg_recipe_schema(){
                          'description' => $video_attachment->post_content,
                          'thumbnailUrl' => $thumbnail_url,
                          'contentUrl' => $video_url,
-                         'uploadDate' => date( 'c', strtotime( $video_attachment->post_date ) ),
+                         'uploadDate' => gmdate( 'c', strtotime( $video_attachment->post_date ) ),
                          'duration' => 'PT' . $video_data['length'] . 'S',
                      )
                  );
@@ -293,10 +293,10 @@ function saswp_gutenberg_recipe_schema(){
         $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
         $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
 				
-		if(!empty($aggregateRating)){
+		if ( ! empty( $aggregateRating) ) {
                 $input1['aggregateRating'] = $aggregateRating;
         }                                
-        if(!empty($extra_theme_review)){
+        if ( ! empty( $extra_theme_review) ) {
             $input1 = array_merge($input1, $extra_theme_review);
         }
         
@@ -307,7 +307,7 @@ function saswp_gutenberg_recipe_schema(){
         
         $attributes = saswp_get_gutenberg_block_data('saswp/recipe-block');
 
-        if(isset($attributes['attrs'])){
+        if ( isset( $attributes['attrs']) ) {
 
             $data = $attributes['attrs'];            
 
@@ -321,57 +321,59 @@ function saswp_gutenberg_recipe_schema(){
 
             $keywords = array();
 
-            if(!empty($data['cook_time'])){
+            if ( ! empty( $data['cook_time']) ) {
                 $input1['cookTime']             = 'PT'.$data['cook_time'].'M';
             }
-            if(!empty($data['pre_time'])){
+            if ( ! empty( $data['pre_time']) ) {
                 $input1['prepTime']             = 'PT'.$data['pre_time'].'M';
             }
-            if(!empty($data['cuisine'])){
+            if ( ! empty( $data['cuisine']) ) {
                 $keywords[] = $data['cuisine']; 
                 $input1['recipeCuisine']        = $data['cuisine'];
             }
-            if(!empty($data['calories'])){
+            if ( ! empty( $data['calories']) ) {
                 $input1['nutrition']['@type']   = 'NutritionInformation';
                 $input1['nutrition']['calories'] = $data['calories'];
             }
-            if(!empty($data['servings'])){
+            if ( ! empty( $data['servings']) ) {
                 $keywords[] = $data['servings']; 
                 $input1['recipeYield']           = $data['servings'];
             }
-            if(!empty($data['course'])){
+            if ( ! empty( $data['course']) ) {
                 $keywords[] = $data['course']; 
                 $input1['recipeCategory']        = $data['course'];
             }
-            if(!empty($data['banner_url'])){
+            if ( ! empty( $data['banner_url']) ) {
                 $input1['image']        = $data['banner_url'];
             }
 
             $input1['keywords']              = isset($keywords) ? $keywords :  saswp_get_the_tags();    
 
-            if(!empty($data['notes'])){
+            if ( ! empty( $data['notes']) ) {
                 $ing = '';
-                foreach ($data['notes'] as $value) {
-                    $ing .= $value['name']. ', ';
+                foreach ( $data['notes'] as $value) {
+                    if ( isset( $value['name']) ) {
+                        $ing .= $value['name']. ', ';
+                    }                    
                 }
                 $input1['description'] = $ing;
             }
 
-            if(!empty($data['ingredients'])){
+            if ( ! empty( $data['ingredients']) ) {
                 $ing = array();
-                foreach ($data['ingredients'] as $value) {
+                foreach ( $data['ingredients'] as $value) {
                     $ing[] = $value['name'];
                 }
                 $input1['recipeIngredient'] = $ing;
             }
 
-            if(!empty($data['directions'])){
+            if ( ! empty( $data['directions']) ) {
                 $ing = array();
-                foreach ($data['directions'] as $value) {
+                foreach ( $data['directions'] as $value) {
                     $ing[] = array(
                         '@type' => 'HoWToStep',
                         'name'  => $value['name'],
-                        'text'  => $value['text'], 
+                        'text'  => isset($value['text']) ? $value['text'] : '', 
                     );
                 }
                 $input1['recipeInstructions'] = $ing;
@@ -399,13 +401,13 @@ function saswp_get_gutenberg_block_data($block){
     $block_data = array();
     $response   = array();
     
-    if(function_exists('parse_blocks') && is_object($post)){
+    if ( function_exists( 'parse_blocks') && is_object($post) ) {
         
             $blocks = parse_blocks($post->post_content);            
             
             if($blocks){
 
-                foreach ($blocks as $parse_blocks){
+                foreach ( $blocks as $parse_blocks){
                         $block_list[] = $parse_blocks['blockName'];
                         $block_data[$parse_blocks['blockName']] = $parse_blocks;
                 }
@@ -415,16 +417,16 @@ function saswp_get_gutenberg_block_data($block){
     
     if($block_list){
     
-        if(in_array($block, $block_list)){
+        if(in_array($block, $block_list) ) {
             $response = $block_data[$block];
         }
         
     }
     
-    if(empty($response)){
+    if(empty($response) ) {
         $block_matched = saswp_search_gutenberg_block($block_data, $block);
-        if(!empty($block_matched) && is_array($block_matched)){
-            if(isset($block_matched[0]) && !empty($block_matched[0])){
+        if ( ! empty( $block_matched) && is_array($block_matched) ) {
+            if ( isset( $block_matched[0]) && !empty($block_matched[0]) ) {
                 $response = $block_matched[0];
             }
         }
@@ -436,8 +438,8 @@ function saswp_get_gutenberg_block_data($block){
 
 function saswp_search_gutenberg_block($block_data, $block) {
     $matches = [];
-    if(!empty($block_data) && is_array($block_data)){
-        foreach ($block_data as $item) {
+    if ( ! empty( $block_data) && is_array($block_data) ) {
+        foreach ( $block_data as $item) {
             if (is_array($item)) {
                 // If the item is an array, recursively search it
                 $nestedMatches = saswp_search_gutenberg_block($item, $block);
@@ -461,13 +463,13 @@ function saswp_get_gutenberg_multiple_block_data($block){
     $block_data = array();
     $response   = array();
     
-    if(function_exists('parse_blocks') && is_object($post)){
+    if ( function_exists( 'parse_blocks') && is_object($post) ) {
         
             $blocks = parse_blocks($post->post_content);            
             
             if($blocks){
 
-                foreach ($blocks as $parse_blocks){
+                foreach ( $blocks as $parse_blocks){
                         $block_list[] = $parse_blocks['blockName'];
                         $block_data[][$parse_blocks['blockName']] = $parse_blocks;
                 }
@@ -475,9 +477,9 @@ function saswp_get_gutenberg_multiple_block_data($block){
             }        
     }
     
-    if(!empty($block_data)){
-        foreach ($block_data as $value) {   
-            if(isset($value[$block])){
+    if ( ! empty( $block_data) ) {
+        foreach ( $block_data as $value) {   
+            if ( isset( $value[$block]) ) {
                 $response[] = $value[$block];                                          
             }
             
@@ -487,7 +489,7 @@ function saswp_get_gutenberg_multiple_block_data($block){
     
 }
 
-function saswp_gutenberg_how_to_schema(){
+function saswp_gutenberg_how_to_schema() {
                         
                 global $post, $sd_data;
                 
@@ -497,9 +499,9 @@ function saswp_gutenberg_how_to_schema(){
 
                 $ub_howto    = saswp_get_gutenberg_block_data('ub/how-to');                      
 
-                if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 && $yoast_howto && isset($yoast_howto['attrs'])){
+                if ( isset( $sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 && $yoast_howto && isset($yoast_howto['attrs']) ) {
                     
-                $service_object     = new saswp_output_service();   
+                $service_object     = new SASWP_Output_Service();   
                 $feature_image      = $service_object->saswp_get_featured_image();                  
                                        
                 $input1['@context']              = saswp_context_url();
@@ -509,13 +511,13 @@ function saswp_gutenberg_how_to_schema(){
                 $input1['datePublished']         = get_the_date("c");
                 $input1['dateModified']          = get_the_modified_date("c");
                 
-                if(!empty($feature_image)){
+                if ( ! empty( $feature_image) ) {
                             
                     $input1 = array_merge($input1, $feature_image);   
                          
                 }                
                 
-                if(array_key_exists('jsonDescription', $yoast_howto['attrs'])){
+                if(array_key_exists('jsonDescription', $yoast_howto['attrs']) ) {
                     $input1['description']           = $yoast_howto['attrs']['jsonDescription'];
                 }else{
                     $input1['description']           = saswp_get_the_excerpt();
@@ -524,12 +526,12 @@ function saswp_gutenberg_how_to_schema(){
                 $step     = array();
                 $step_arr = array(); 
                 
-                if(array_key_exists('steps', $yoast_howto['attrs'])){
+                if(array_key_exists('steps', $yoast_howto['attrs']) ) {
                     $step = $yoast_howto['attrs']['steps'];
                 }                                                           
-                if(!empty($step)){
+                if ( ! empty( $step) ) {
 
-                    foreach($step as $key => $val){
+                    foreach( $step as $key => $val){
 
                         $supply_data = array();
                         $direction   = array();
@@ -537,12 +539,12 @@ function saswp_gutenberg_how_to_schema(){
 
                        if($val['name'] || $val['text']){
 
-                        if(isset($val['text'][0])){
+                        if ( isset( $val['text'][0]) ) {
                             $direction['@type']     = 'HowToDirection';
                             $direction['text']      = $val['text'][0];
                         }
 
-                        if(isset($val['text'][0])){
+                        if ( isset( $val['text'][0]) ) {
 
                             $tip['@type']           = 'HowToTip';
                             $tip['text']            = $val['text'][0];
@@ -553,11 +555,11 @@ function saswp_gutenberg_how_to_schema(){
                         $supply_data['url']     = saswp_get_permalink().'#step'.++$key;
                         $supply_data['name']    = $val['name'][0];    
 
-                        if(isset($direction['text']) || isset($tip['text'])){
+                        if ( isset( $direction['text']) || isset($tip['text']) ) {
                             $supply_data['itemListElement']  = array($direction, $tip);
                         }
 
-                        if(isset($val['text'][1]['key']) && $val['text'][1]['key'] !=''){
+                        if ( isset( $val['text'][1]['key']) && $val['text'][1]['key'] !='' ) {
 
                                     $image_details   = saswp_get_image_by_id($val['text'][1]['key']);    
                                     
@@ -577,16 +579,16 @@ function saswp_gutenberg_how_to_schema(){
 
                 }  
                 
-                 if(isset($yoast_howto['attrs']['days']) || isset($yoast_howto['attrs']['hours']) || isset($yoast_howto['attrs']['minutes'])){
+                 if ( isset( $yoast_howto['attrs']['days']) || isset($yoast_howto['attrs']['hours']) || isset($yoast_howto['attrs']['minutes']) ) {
                      
                              $input1['totalTime'] = 'P'. 
-                             ((isset($yoast_howto['attrs']['days']) && $yoast_howto['attrs']['days'] !='') ? esc_attr($yoast_howto['attrs']['days']).'DT':''). 
-                             ((isset($yoast_howto['attrs']['hours']) && $yoast_howto['attrs']['hours'] !='') ? esc_attr($yoast_howto['attrs']['hours']).'H':''). 
-                             ((isset($yoast_howto['attrs']['minutes']) && $yoast_howto['attrs']['minutes'] !='') ? esc_attr($yoast_howto['attrs']['minutes']).'M':''); 
+                             ((isset($yoast_howto['attrs']['days']) && $yoast_howto['attrs']['days'] !='') ? esc_attr( $yoast_howto['attrs']['days']).'DT':''). 
+                             ((isset($yoast_howto['attrs']['hours']) && $yoast_howto['attrs']['hours'] !='') ? esc_attr( $yoast_howto['attrs']['hours']).'H':''). 
+                             ((isset($yoast_howto['attrs']['minutes']) && $yoast_howto['attrs']['minutes'] !='') ? esc_attr( $yoast_howto['attrs']['minutes']).'M':''); 
                              
                  }       
 
-                } else if( (isset($sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ) && $ub_howto && isset($ub_howto['attrs'])){
+                } elseif( (isset($sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ) && $ub_howto && isset($ub_howto['attrs']) ) {
                     
                     extract($ub_howto['attrs']);
                     
@@ -598,7 +600,7 @@ function saswp_gutenberg_how_to_schema(){
                     $input1['dateModified']          = get_the_modified_date("c");    
                     $input1['description']           = $introduction ? $introduction : saswp_get_the_excerpt(); 
 
-                    if(function_exists('generateISODurationCode')){
+                    if ( function_exists( 'generateISODurationCode') ) {
                         $ISOTotalTime = generateISODurationCode($totalTime);
 
                         if($ISOTotalTime){
@@ -612,7 +614,7 @@ function saswp_gutenberg_how_to_schema(){
                                         
                     if($advancedMode && $includeSuppliesList && count($supplies) > 0){
 
-                        foreach($supplies as $val){
+                        foreach( $supplies as $val){
 
                             $supply_data = array();
 
@@ -632,7 +634,7 @@ function saswp_gutenberg_how_to_schema(){
                                                             
                     if($advancedMode && $includeToolsList && count($tools) > 0){
 
-                        foreach($tools as $val){
+                        foreach( $tools as $val){
 
                             $supply_data = array();
 
@@ -647,13 +649,13 @@ function saswp_gutenberg_how_to_schema(){
                     $input1['tool'] = $tool_arr;
                     }
                     $step_sec = array();
-                    if(isset($useSections)){
+                    if ( isset( $useSections) ) {
 
-                        foreach($section as $i => $s){
+                        foreach( $section as $i => $s){
 
                             $step_arr = array();
 
-                            foreach($s['steps'] as $j => $step){
+                            foreach( $s['steps'] as $j => $step){
                                 $step_arr[] = array(
                                     '@type'               => 'HowToStep',                                  
                                     'name'                => $step['title'],
@@ -681,7 +683,7 @@ function saswp_gutenberg_how_to_schema(){
 
                             $step_arr = array();
 
-                            foreach($section[0]['steps'] as $j => $step){
+                            foreach( $section[0]['steps'] as $j => $step){
 
                                 $step_arr[] = array(
                                     '@type'               => 'HowToStep',                                  
@@ -704,9 +706,9 @@ function saswp_gutenberg_how_to_schema(){
                 
                 $parse_blocks = saswp_get_gutenberg_block_data('saswp/how-to-block');
 
-                if(isset($parse_blocks['attrs'])){
+                if ( isset( $parse_blocks['attrs']) ) {
                     
-                $service_object     = new saswp_output_service();   
+                $service_object     = new SASWP_Output_Service();   
                 $feature_image      = $service_object->saswp_get_featured_image();                  
                                        
                 $input1['@context']              = saswp_context_url();
@@ -716,26 +718,26 @@ function saswp_gutenberg_how_to_schema(){
                 $input1['datePublished']         = get_the_date("c");
                 $input1['dateModified']          = get_the_modified_date("c");
                 
-                if(!empty($feature_image)){
+                if ( ! empty( $feature_image) ) {
                             
                     $input1 = array_merge($input1, $feature_image);   
                          
                 }                
                 
-                if(array_key_exists('description', $parse_blocks['attrs'])){
+                if(array_key_exists('description', $parse_blocks['attrs']) ) {
                     $input1['description']           = $parse_blocks['attrs']['description'];
                 }
                 
                 $supply     = array();
                 $supply_arr = array();
                 
-                if(array_key_exists('materials', $parse_blocks['attrs'])){
+                if(array_key_exists('materials', $parse_blocks['attrs']) ) {
                     $supply = $parse_blocks['attrs']['materials'];
                 }
                 
-                if(!empty($supply)){
+                if ( ! empty( $supply) ) {
 
-                    foreach($supply as $val){
+                    foreach( $supply as $val){
 
                         $supply_data = array();
 
@@ -752,13 +754,13 @@ function saswp_gutenberg_how_to_schema(){
                 $tool     = array();
                 $tool_arr = array();
                 
-                if(array_key_exists('tools', $parse_blocks['attrs'])){
+                if(array_key_exists('tools', $parse_blocks['attrs']) ) {
                     $tool = $parse_blocks['attrs']['tools'];
                 }
                 
-                if(!empty($tool)){
+                if ( ! empty( $tool) ) {
 
-                    foreach($tool as $val){
+                    foreach( $tool as $val){
 
                         $supply_data = array();
 
@@ -775,12 +777,12 @@ function saswp_gutenberg_how_to_schema(){
                 $step     = array();
                 $step_arr = array(); 
                 
-                if(array_key_exists('items', $parse_blocks['attrs'])){
+                if(array_key_exists('items', $parse_blocks['attrs']) ) {
                     $step = $parse_blocks['attrs']['items'];
                 }                                                           
-                if(!empty($step)){
+                if ( ! empty( $step) ) {
 
-                    foreach($step as $key => $val){
+                    foreach( $step as $key => $val){
                         
                         $supply_data = array();
                         $direction   = array();
@@ -804,11 +806,11 @@ function saswp_gutenberg_how_to_schema(){
                         $supply_data['url']     = saswp_get_permalink().'#step'.++$key;
                         $supply_data['name']    = $val['title'];    
 
-                        if(isset($direction['text']) || isset($tip['text'])){
+                        if ( isset( $direction['text']) || isset($tip['text']) ) {
                             $supply_data['itemListElement']  = array($direction, $tip);
                         }
 
-                        if(isset($val['imageId']) && $val['imageId'] !=''){
+                        if ( isset( $val['imageId']) && $val['imageId'] !='' ) {
 
                                     $image_details   = saswp_get_image_by_id($val['imageId']);    
                                     
@@ -828,16 +830,16 @@ function saswp_gutenberg_how_to_schema(){
 
                 }  
                 
-                 if(isset($parse_blocks['attrs']['days']) || isset($parse_blocks['attrs']['hours']) || isset($parse_blocks['attrs']['minutes'])){
+                 if ( isset( $parse_blocks['attrs']['days']) || isset($parse_blocks['attrs']['hours']) || isset($parse_blocks['attrs']['minutes']) ) {
                      
                              $input1['totalTime'] = 'P'. 
-                             ((isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['days'] !='') ? esc_attr($parse_blocks['attrs']['days']).'DT':''). 
-                             ((isset($parse_blocks['attrs']['hours']) && $parse_blocks['attrs']['hours'] !='') ? esc_attr($parse_blocks['attrs']['hours']).'H':''). 
-                             ((isset($parse_blocks['attrs']['minutes']) && $parse_blocks['attrs']['minutes'] !='') ? esc_attr($parse_blocks['attrs']['minutes']).'M':''); 
+                             ((isset($parse_blocks['attrs']['days']) && $parse_blocks['attrs']['days'] !='') ? esc_attr( $parse_blocks['attrs']['days']).'DT':''). 
+                             ((isset($parse_blocks['attrs']['hours']) && $parse_blocks['attrs']['hours'] !='') ? esc_attr( $parse_blocks['attrs']['hours']).'H':''). 
+                             ((isset($parse_blocks['attrs']['minutes']) && $parse_blocks['attrs']['minutes'] !='') ? esc_attr( $parse_blocks['attrs']['minutes']).'M':''); 
                              
                  }   
 
-                 if(isset($parse_blocks['attrs']['price']) && isset($parse_blocks['attrs']['currency'])){
+                 if ( isset( $parse_blocks['attrs']['price']) && isset($parse_blocks['attrs']['currency']) ) {
                 
                     $input1['estimatedCost']['@type']   = 'MonetaryAmount';
                     $input1['estimatedCost']['currency']= $parse_blocks['attrs']['currency'];
@@ -850,15 +852,15 @@ function saswp_gutenberg_how_to_schema(){
                 
             if($input1){
                 
-                $service_object     = new saswp_output_service();
+                $service_object     = new SASWP_Output_Service();
 
                 $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
                 $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
 				
-                if(!empty($aggregateRating)){
+                if ( ! empty( $aggregateRating) ) {
                         $input1['aggregateRating'] = $aggregateRating;
                 }                                
-                if(!empty($extra_theme_review)){
+                if ( ! empty( $extra_theme_review) ) {
                     $input1 = array_merge($input1, $extra_theme_review);
                 }
         
@@ -870,14 +872,14 @@ function saswp_gutenberg_how_to_schema(){
     
 }
 
-function saswp_gutenberg_faq_schema(){
+function saswp_gutenberg_faq_schema() {
                         
             global $post, $sd_data;
             $input1 = array();
 
             $yoast_faq = saswp_get_gutenberg_block_data('yoast/faq-block');
             
-            if(isset($sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 && $yoast_faq && isset($yoast_faq['attrs'])){
+            if ( isset( $sd_data['saswp-yoast']) && $sd_data['saswp-yoast'] == 1 && $yoast_faq && isset($yoast_faq['attrs']) ) {
                                 
                            $input1['@context']              = saswp_context_url();
                            $input1['@type']                 = 'FAQPage';
@@ -885,9 +887,9 @@ function saswp_gutenberg_faq_schema(){
 
                            $faq_question_arr = array();
 
-                           if(!empty($yoast_faq['attrs']['questions'])){
+                           if ( ! empty( $yoast_faq['attrs']['questions']) ) {
 
-                               foreach($yoast_faq['attrs']['questions'] as $val){
+                               foreach( $yoast_faq['attrs']['questions'] as $val){
 
                                    $supply_data = array();
                                    $supply_data['@type']                   = 'Question';
@@ -895,7 +897,7 @@ function saswp_gutenberg_faq_schema(){
                                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
                                    $supply_data['acceptedAnswer']['text']  = (isset($val['jsonAnswer']) && is_string($val['jsonAnswer']) ) ? htmlspecialchars($val['jsonAnswer'], ENT_QUOTES, 'UTF-8') : '';
 
-                                    if(isset($val['answer'][1]['key']) && $val['answer'][1]['key'] !=''){
+                                    if ( isset( $val['answer'][1]['key']) && $val['answer'][1]['key'] !='' ) {
 
                                        $image_details   = saswp_get_image_by_id($val['answer'][1]['key']); 
                                        
@@ -913,7 +915,7 @@ function saswp_gutenberg_faq_schema(){
             
                 $attributes = saswp_get_gutenberg_block_data('saswp/faq-block');
 
-                if(isset($attributes['attrs'])){
+                if ( isset( $attributes['attrs']) ) {
 
                            $input1['@context']              = saswp_context_url();
                            $input1['@type']                 = 'FAQPage';
@@ -921,9 +923,9 @@ function saswp_gutenberg_faq_schema(){
 
                            $faq_question_arr = array();
 
-                           if(!empty($attributes['attrs']['items'])){
+                           if ( ! empty( $attributes['attrs']['items']) ) {
 
-                               foreach($attributes['attrs']['items'] as $val){
+                               foreach( $attributes['attrs']['items'] as $val){
 
                                    $supply_data = array();
                                    $supply_data['@type']                   = 'Question';
@@ -931,7 +933,7 @@ function saswp_gutenberg_faq_schema(){
                                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
                                    $supply_data['acceptedAnswer']['text']  = isset($val['description'])?htmlspecialchars(wp_strip_all_tags(do_shortcode($val['description'])), ENT_QUOTES, 'UTF-8'):'';
 
-                                    if(isset($val['imageId']) && $val['imageId'] !=''){
+                                    if ( isset( $val['imageId']) && $val['imageId'] !='' ) {
 
                                        $image_details   = saswp_get_image_by_id($val['imageId']); 
                                        
@@ -954,13 +956,13 @@ function saswp_gutenberg_faq_schema(){
     
 }
 
-function saswp_gutenberg_event_schema(){
+function saswp_gutenberg_event_schema() {
     
     $input1 = array();
      
     $attributes = saswp_get_gutenberg_block_data('saswp/event-block');
     
-    if(isset($attributes['attrs'])){
+    if ( isset( $attributes['attrs']) ) {
         
         $data = $attributes['attrs'];
                 
@@ -975,11 +977,11 @@ function saswp_gutenberg_event_schema(){
         $input1['eventStatus']           = $data['event_status'];
         $input1['eventAttendanceMode']   = $data['attendance_mode'];
 
-        if(isset($data['event_status']) && $data['event_status'] == 'EventRescheduled' && isset($data['previous_date'])){
+        if ( isset( $data['event_status']) && $data['event_status'] == 'EventRescheduled' && isset($data['previous_date']) ) {
             $input1['PreviousStartDate']               = saswp_format_date_time($data['previous_date'], $data['previous_time']);
         }
         
-        if(isset($data['venue_address']) || isset($data['venue_name'])){
+        if ( isset( $data['venue_address']) || isset($data['venue_name']) ) {
                             
         $input1['location']['@type']                      = 'Place';
         $input1['location']['name']                       = $data['venue_address'];
@@ -991,7 +993,7 @@ function saswp_gutenberg_event_schema(){
         $input1['location']['address']['addressCountry']  = $data['venue_country'];
         
         }
-        if(isset($data['price'])){
+        if ( isset( $data['price']) ) {
         
         $input1['offers']['@type']         = 'Offer';
         $input1['offers']['url']           = saswp_get_permalink();
@@ -1002,9 +1004,9 @@ function saswp_gutenberg_event_schema(){
         
         }
         
-         if(!empty($data['organizers'])){
+         if ( ! empty( $data['organizers']) ) {
              
-             foreach($data['organizers'] as $org){
+             foreach( $data['organizers'] as $org){
                 
                  $input1['organizer'][] = array(
                                     '@type'          => 'Organization',
@@ -1020,9 +1022,9 @@ function saswp_gutenberg_event_schema(){
                
         $performer_arr = array();
 
-        if(!empty($data['performers'])){
+        if ( ! empty( $data['performers']) ) {
 
-            foreach($data['performers'] as $val){
+            foreach( $data['performers'] as $val){
 
                 $supply_data = array();
                 $supply_data['@type']        = 'Person';
@@ -1037,12 +1039,12 @@ function saswp_gutenberg_event_schema(){
 
         }       
 
-        if( !empty($input1) && !isset($input1['image'])){
+        if( !empty($input1) && !isset($input1['image']) ) {
 
-                        $service_object     = new saswp_output_service();
+                        $service_object     = new SASWP_Output_Service();
                         $input2             = $service_object->saswp_get_featured_image();
 
-                        if(!empty($input2)){
+                        if ( ! empty( $input2) ) {
 
                           $input1 = array_merge($input1,$input2); 
 
@@ -1055,13 +1057,13 @@ function saswp_gutenberg_event_schema(){
         
 }
 
-function saswp_gutenberg_qanda_schema(){
+function saswp_gutenberg_qanda_schema() {
     
     $input1 = array();
      
     $attributes = saswp_get_gutenberg_block_data('saswp/qanda-block');
     
-    if(isset($attributes['attrs'])){
+    if ( isset( $attributes['attrs']) ) {
         
         $data                           = $attributes['attrs'];
         $accepted_answer                = $data['accepted_answers'];
@@ -1072,7 +1074,7 @@ function saswp_gutenberg_qanda_schema(){
         $suggested_json = array();
 
         if($accepted_answer){
-            foreach($accepted_answer as $answer){
+            foreach( $accepted_answer as $answer){
                 $accepted_json[] = array(
                     '@type'         => 'Answer',
                     'text'          => htmlspecialchars($answer['text'], ENT_QUOTES, 'UTF-8'),
@@ -1090,7 +1092,7 @@ function saswp_gutenberg_qanda_schema(){
         }
 
         if($suggested_answer){
-            foreach($suggested_answer as $answer){
+            foreach( $suggested_answer as $answer){
                 $suggested_json[] = array(
                     '@type'         => 'Answer',
                     'text'          => htmlspecialchars($answer['text'], ENT_QUOTES, 'UTF-8'),
@@ -1127,13 +1129,13 @@ function saswp_gutenberg_qanda_schema(){
         
 }
 
-function saswp_gutenberg_book_schema(){
+function saswp_gutenberg_book_schema() {
 
     $input1 = array();
 
     $attributes = saswp_get_gutenberg_block_data('saswp/book-block');
 
-    if(isset($attributes['attrs'])){
+    if ( isset( $attributes['attrs']) ) {
 
         $data = $attributes['attrs'];
 
@@ -1142,31 +1144,31 @@ function saswp_gutenberg_book_schema(){
         $input1['@id']                   = saswp_get_permalink().'#Book';  
         $input1['name']                  = $data['title'] ? $data['title'] : saswp_get_the_title(); 
 
-        if(!empty($data['description'])){
+        if ( ! empty( $data['description']) ) {
             $input1['description']           = wp_strip_all_tags($data['description']);
         }
         
-        if(!empty($data['release_date'])){            
+        if ( ! empty( $data['release_date']) ) {            
             $input1['datePublished']  = saswp_format_date_time($data['release_date']);
         }
-        if(!empty($data['author'])){
+        if ( ! empty( $data['author']) ) {
             $input1['author']['@type'] = 'Person';
             $input1['author']['name']  = $data['author'];
         }
-        if(!empty($data['publisher'])){
+        if ( ! empty( $data['publisher']) ) {
             $input1['publisher']['@type'] = 'Organization';
             $input1['publisher']['name']  = $data['publisher'];
         }
-        if(!empty($data['pages'])){            
+        if ( ! empty( $data['pages']) ) {            
             $input1['numberOfPages']  = $data['pages'];
         }
-        if(!empty($data['format'])){            
+        if ( ! empty( $data['format']) ) {            
             $input1['bookFormat']  = $data['format'];
         }
-        if(!empty($data['genre'])){            
+        if ( ! empty( $data['genre']) ) {            
             $input1['genre']  = $data['genre'];
         }
-        if(!empty($data['rating'])){            
+        if ( ! empty( $data['rating']) ) {            
             $input1['aggregateRating']['@type']       = 'AggregateRating';
             $input1['aggregateRating']['ratingValue'] = $data['rating'];
             $input1['aggregateRating']['reviewCount'] = 1;
@@ -1176,13 +1178,13 @@ function saswp_gutenberg_book_schema(){
     return $input1;
 }
 
-function saswp_gutenberg_job_schema(){
+function saswp_gutenberg_job_schema() {
     
     $input1 = array();
      
     $attributes = saswp_get_gutenberg_block_data('saswp/job-block');
     
-    if(isset($attributes['attrs'])){
+    if ( isset( $attributes['attrs']) ) {
         
         $data = $attributes['attrs'];
                 
@@ -1195,7 +1197,7 @@ function saswp_gutenberg_job_schema(){
         $input1['validThrough']          = saswp_format_date_time($data['listing_expire_date']);  
         $input1['employmentType']        = $data['job_types'];  
         
-        if(isset($data['location_address'])){
+        if ( isset( $data['location_address']) ) {
                             
         $input1['jobLocation']['@type']                      = 'Place';        
         $input1['jobLocation']['address']['@type']           = 'PostalAddress';
@@ -1206,7 +1208,7 @@ function saswp_gutenberg_job_schema(){
         $input1['jobLocation']['address']['addressCountry']  = $data['location_country'];
         
         }
-        if(isset($data['base_salary'])){
+        if ( isset( $data['base_salary']) ) {
         
         $input1['baseSalary']['@type']             = 'MonetaryAmount';        
         $input1['baseSalary']['currency']          = $data['currency_code'];
@@ -1215,7 +1217,7 @@ function saswp_gutenberg_job_schema(){
         $input1['baseSalary']['value']['unitText'] = $data['unit_text'];                
         }
         
-        if(isset($data['company_name']) || isset($data['company_website'])){
+        if ( isset( $data['company_name']) || isset($data['company_website']) ) {
                                 
         $input1['hiringOrganization']['@type']             = 'Organization';        
         $input1['hiringOrganization']['name']              = $data['company_name'];
@@ -1229,12 +1231,12 @@ function saswp_gutenberg_job_schema(){
                         
         }
                                                      
-        if( !empty($input1) && !isset($input1['image'])){
+        if( !empty($input1) && !isset($input1['image']) ) {
 
-                        $service_object     = new saswp_output_service();
+                        $service_object     = new SASWP_Output_Service();
                         $input2             = $service_object->saswp_get_featured_image();
 
-                        if(!empty($input2)){
+                        if ( ! empty( $input2) ) {
 
                           $input1 = array_merge($input1,$input2); 
 
@@ -1247,19 +1249,19 @@ function saswp_gutenberg_job_schema(){
         
 }
 
-function saswp_gutenberg_course_schema(){
+function saswp_gutenberg_course_schema() {
     
     $input1 = array();
      
     $attributes = saswp_get_gutenberg_block_data('saswp/course-block');
     
-    if(isset($attributes['attrs']) && !empty($attributes['attrs'])){
+    if ( isset( $attributes['attrs']) && !empty($attributes['attrs']) ) {
                 
         $loop_markup  = array();
         $item_list    = array();
         $course_count = count($attributes['attrs']['courses']);
         $i = 1;
-        foreach($attributes['attrs']['courses'] as $course){
+        foreach( $attributes['attrs']['courses'] as $course){
             
             $markup = array();
             

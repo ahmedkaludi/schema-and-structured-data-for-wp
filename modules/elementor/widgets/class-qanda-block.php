@@ -15,7 +15,7 @@ class Qanda_Block extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __( 'Q&A Block', 'elementor' );
+		return esc_html__( 'Q&A Block', 'schema-and-structured-data-for-wp' );
 	}
         public function get_keywords() {
 		return [ 'Q&A', 'Q&A schema','qanda schema', 'schema', 'structured data' ];
@@ -31,7 +31,7 @@ class Qanda_Block extends Widget_Base {
 		$this->start_controls_section(
 			'question_section',
 			[
-				'label' => __( 'Question', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Question', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -39,25 +39,25 @@ class Qanda_Block extends Widget_Base {
 		$this->add_control(
 			'question_name',
 			[
-				'label'            => __( 'Name', 'schema-and-structured-data-for-wp' ),
+				'label'            => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 				'type'             =>   Controls_Manager::TEXT,
-				'placeholder'      =>  __( 'Enter Question Name', 'schema-and-structured-data-for-wp' ),                                
+				'placeholder'      =>  esc_html__( 'Enter Question Name', 'schema-and-structured-data-for-wp' ),                                
 			]
 		);
 
 		$this->add_control(
 			'question_text',
 			[
-				'label'            => __( 'Text', 'schema-and-structured-data-for-wp' ),
+				'label'            => esc_html__( 'Text', 'schema-and-structured-data-for-wp' ),
 				'type'             =>   Controls_Manager::TEXTAREA,
-				'placeholder'      =>  __( 'Enter Question Description', 'schema-and-structured-data-for-wp' ),                                
+				'placeholder'      =>  esc_html__( 'Enter Question Description', 'schema-and-structured-data-for-wp' ),                                
 			]
 		);
 
 		$this->add_control(
 			'question_vote',
 			[
-				'label'            => __( 'Vote', 'schema-and-structured-data-for-wp' ),
+				'label'            => esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ),
 				'type'             =>   Controls_Manager::NUMBER,				
 			]
 		);
@@ -65,16 +65,16 @@ class Qanda_Block extends Widget_Base {
 		$this->add_control(
 			'question_author',
 			[
-				'label'            => __( 'Author', 'schema-and-structured-data-for-wp' ),
+				'label'            => esc_html__( 'Author', 'schema-and-structured-data-for-wp' ),
 				'type'             =>   Controls_Manager::TEXT,
-				'placeholder'      =>  __( 'Enter author name', 'schema-and-structured-data-for-wp' ),                                
+				'placeholder'      =>  esc_html__( 'Enter author name', 'schema-and-structured-data-for-wp' ),                                
 			]
 		);
 
 		$this->add_control(
 			'question_date',
 			[
-				'label'            => __( 'Date', 'schema-and-structured-data-for-wp' ),
+				'label'            => esc_html__( 'Date', 'schema-and-structured-data-for-wp' ),
 				'type'             =>   Controls_Manager::DATE_TIME,				
 			]
 		);
@@ -88,7 +88,7 @@ class Qanda_Block extends Widget_Base {
 		$this->start_controls_section(
 			'accepted_answers_section',
 			[
-				'label' => __( 'Accepted Answers', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -97,7 +97,7 @@ class Qanda_Block extends Widget_Base {
 
 		$accepted_repeater->add_control(
 			'text', [
-				'label' => __( 'Text', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Text', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::TEXTAREA,				
 				'label_block' => true                              
 			]
@@ -105,28 +105,28 @@ class Qanda_Block extends Widget_Base {
 
 		$accepted_repeater->add_control(
 			'vote', [
-				'label' => __( 'Vote', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::NUMBER,				
 				'show_label' => true                
 			]
 		);          
 		$accepted_repeater->add_control(
 			'url', [
-				'label' => __( 'URL', 'schema-and-structured-data-for-wp' ),
-				'type' => Controls_Manager::TEXT,				
+				'label' => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+				'type' => Controls_Manager::URL,				
 				'show_label' => true                
 			]
 		);          
 		$accepted_repeater->add_control(
 			'author', [
-				'label' => __( 'Author', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Author', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::TEXT,				
 				'show_label' => true                
 			]
 		);
 		$accepted_repeater->add_control(
 			'date', [
-				'label' => __( 'Date Created', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Date Created', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::DATE_TIME,				
 				'show_label' => true                
 			]
@@ -135,7 +135,7 @@ class Qanda_Block extends Widget_Base {
 		$this->add_control(
 			'accepted_answers',
 			[
-				'label' => __( 'Accepted Answers List', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Accepted Answers List', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::REPEATER,
 				'fields' => $accepted_repeater->get_controls(),				
 				'title_field' => '{{{ text }}}',
@@ -149,7 +149,7 @@ class Qanda_Block extends Widget_Base {
 		$this->start_controls_section(
 			'suggested_answers_section',
 			[
-				'label' => __( 'Suggested Answers', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Suggested Answers', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -158,7 +158,7 @@ class Qanda_Block extends Widget_Base {
 
 		$suggested_repeater->add_control(
 			'text', [
-				'label' => __( 'Text', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Text', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::TEXTAREA,				
 				'label_block' => true                              
 			]
@@ -166,28 +166,28 @@ class Qanda_Block extends Widget_Base {
 
 		$suggested_repeater->add_control(
 			'vote', [
-				'label' => __( 'Vote', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::NUMBER,				
 				'show_label' => true                
 			]
 		);          
 		$suggested_repeater->add_control(
 			'url', [
-				'label' => __( 'URL', 'schema-and-structured-data-for-wp' ),
-				'type' => Controls_Manager::TEXT,				
+				'label' => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+				'type' => Controls_Manager::URL,				
 				'show_label' => true                
 			]
 		);          
 		$suggested_repeater->add_control(
 			'author', [
-				'label' => __( 'Author', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Author', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::TEXT,				
 				'show_label' => true                
 			]
 		);
 		$suggested_repeater->add_control(
 			'date', [
-				'label' => __( 'Date Created', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'Date Created', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::DATE_TIME,				
 				'show_label' => true                
 			]
@@ -196,7 +196,7 @@ class Qanda_Block extends Widget_Base {
 		$this->add_control(
 			'suggested_answers',
 			[
-				'label' => __( 'suggested Answers List', 'schema-and-structured-data-for-wp' ),
+				'label' => esc_html__( 'suggested Answers List', 'schema-and-structured-data-for-wp' ),
 				'type' => Controls_Manager::REPEATER,
 				'fields' => $suggested_repeater->get_controls(),				
 				'title_field' => '{{{ text }}}',
@@ -218,52 +218,66 @@ class Qanda_Block extends Widget_Base {
          $accepted_answers  	= '';
          $suggested_answers 	= '';        
          $question          	= '';
+         ?>
+         <div class="saswp-qanda-block-html">
+        <?php echo '<div class="saswp-qanda-block-question">
+                <h3>'.esc_html( $attributes['question_name']).'</h3>
+                <span class="saswp-qand-date">'.esc_html( $attributes['question_date']).' '. esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).' '.esc_html( $attributes['question_author']).'</span>                
+                <p>'.esc_html( $attributes['question_text']).'</p>
+                '.esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html( $attributes['question_vote']).')
+                </div>'; 
+        ?>	
+            <div class="saswp-qanda-block-answer"><h3><?php echo esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
+                <?php
+                if ( isset( $attributes['accepted_answers']) && !empty($attributes['accepted_answers']) ) {
 
-         $question  = '<div class="saswp-qanda-block-question">
-                <h3>'.esc_html($attributes['question_name']).'</h3>
-                <span class="saswp-qand-date">'.esc_html($attributes['question_date']).' '. __( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).' '.esc_html($attributes['question_author']).'</span>                
-                <p>'.esc_html($attributes['question_text']).'</p>
-                '.__( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($attributes['question_vote']).')
-                </div>';
-                
-                if(isset($attributes['accepted_answers']) && !empty($attributes['accepted_answers'])){
+                    foreach( $attributes['accepted_answers'] as $answer){
 
-                    foreach($attributes['accepted_answers'] as $answer){
-
-                        $accepted_answers .= '<li>
-                        <a href="'.esc_url($answer['url']).'">
-                        <p>'.esc_html($answer['text']).'</p>                        
+                    	$ans_url = '';
+                    	if ( is_array( $answer) && isset($answer['url']) && isset($answer['url']['url']) ) {
+                    		$ans_url = $answer['url']['url'];
+                    	}
+                        
+                        echo '<li>
+                        <a href="'. esc_url( $ans_url).'">
+                        <p>'.esc_html( $answer['text']).'</p>                        
                         </a>
-                        <span class="saswp-qand-date">'.esc_html($answer['date']).' '.__( 'By', 'schema-and-structured-data-for-wp' ).' <strong>'.esc_html($answer['author']).'</strong></span>                        
-                        <br> '. __( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')                        
+                        <span class="saswp-qand-date">'.esc_html( $answer['date']).' '.esc_html__( 'By', 'schema-and-structured-data-for-wp' ).' <strong>'.esc_html( $answer['author']).'</strong></span>                        
+                        <br> '. esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html( $answer['vote']).')                        
                         </li>';
                        
                     }
 
                 }
+            ?>
+        	</div> <!-- saswp-qanda-block-answer div end -->
 
-                if(isset($attributes['suggested_answers']) && !empty($attributes['suggested_answers'])){
+        	<div class="saswp-qanda-block-answer"><h3><?php echo esc_html__( 'Suggested Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
+            <?php    
+                if ( isset( $attributes['suggested_answers']) && !empty($attributes['suggested_answers']) ) {
 
-                    foreach($attributes['suggested_answers'] as $answer){
+                    foreach( $attributes['suggested_answers'] as $answer){
 
-                        $suggested_answers .= '<li>
-                        <a href="'.esc_url($answer['url']).'">
-                        <p>'.esc_html($answer['text']).'</p>                        
+                        $ans_url = '';
+                    	if ( is_array( $answer) && isset($answer['url']) && isset($answer['url']['url']) ) {
+                    		$ans_url = $answer['url']['url'];
+                    	}
+
+                        echo '<li>
+                        <a href="'. esc_url( $ans_url).'">
+                        <p>'.esc_html( $answer['text']).'</p>                        
                         </a>
-                        <span class="saswp-qand-date">'.esc_html($answer['date']).' '.__( 'by', 'schema-and-structured-data-for-wp' ).' <strong>'.esc_html($answer['author']).'</strong></span>                        
-                        <br> '.__( 'vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html($answer['vote']).')                        
+                        <span class="saswp-qand-date">'.esc_html( $answer['date']).' '.esc_html__( 'by', 'schema-and-structured-data-for-wp' ).' <strong>'.esc_html( $answer['author']).'</strong></span>                        
+                        <br> '.esc_html__( 'vote', 'schema-and-structured-data-for-wp' ).' <span class="dashicons dashicons-thumbs-up"></span> ('.esc_html( $answer['vote']).')                        
                         </li>';                       
                     }
 
                 }
-              //Escaping has been done above for all below html  
-        $response = '<div class="saswp-qanda-block-html">
-        '.$question.'
-        <div class="saswp-qanda-block-answer"><h3>'.__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.$accepted_answers.'</div>
-        <div class="saswp-qanda-block-answer"><h3>'.__( 'Suggested Answers', 'schema-and-structured-data-for-wp' ).'</h3>'.$suggested_answers.'</div>
-        </div>';
-                
-        echo $response;
+              //Escaping has been done above for all below html 
+            ?>
+            </div><!-- saswp-qanda-block-answer div end --> 
+        </div> <!-- saswp-qanda-block-html div end -->
+    <?php
 	}
 
 	protected function content_template() {
@@ -279,7 +293,7 @@ class Qanda_Block extends Widget_Base {
 
 		var q_date = new Date(settings.question_date);		
 
-		if(q_date.getDate()){
+		if(q_date.getDate() ) {
 			#>
 			<span class="saswp-qand-date">{{{q_date.getDate()}}}-{{{q_date.getMonth()}}}-{{{q_date.getFullYear()}}}  {{{q_date.getHours()}}}:{{{q_date.getMinutes()}}}:{{{q_date.getSeconds()}}}</span>
 			<#
@@ -301,7 +315,7 @@ class Qanda_Block extends Widget_Base {
 		if ( settings.accepted_answers.length ) {					
 
 			#>
-			<h3><?php echo __( 'Accepted Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
+			<h3><?php echo esc_html__( 'Accepted Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
             <ul>
 			<# _.each( settings.accepted_answers, function( item, index ) { 
 				
@@ -311,11 +325,11 @@ class Qanda_Block extends Widget_Base {
 
 				#>
 				<li class="elementor-repeater-item-{{ item._id }}">                                   
-				<a href="{{ item.url }}">
+				<a href="{{ _.escape(item.url.url) }}">
                 <p>{{{ item.text }}}</p>                        
 				</a>
 				<# 
-				if(date.getDate()){
+				if(date.getDate() ) {
 					#>
 					<span class="saswp-qand-date">{{{date.getDate()}}}-{{{date.getMonth()}}}-{{{date.getFullYear()}}}  {{{date.getHours()}}}:{{{date.getMinutes()}}}:{{{date.getSeconds()}}} </span>
 					<# 
@@ -328,7 +342,7 @@ class Qanda_Block extends Widget_Base {
 
 				if(item.vote){
 					#>
-					<br> <?php echo __( 'Vote', 'schema-and-structured-data-for-wp' ); ?> <span class="dashicons dashicons-thumbs-up"></span> ({{{ item.vote }}})
+					<br> <?php echo esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ); ?> <span class="dashicons dashicons-thumbs-up"></span> ({{{ item.vote }}})
 					<# 
 				}
 				#>	
@@ -342,7 +356,7 @@ class Qanda_Block extends Widget_Base {
 		<# if ( settings.suggested_answers.length ) {					
 
 			#>
-			<h3><?php echo __( 'Suggested Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
+			<h3><?php echo esc_html__( 'Suggested Answers', 'schema-and-structured-data-for-wp' ); ?></h3>
 			<ul>
 			<# _.each( settings.suggested_answers, function( item, index ) { 
 				
@@ -352,11 +366,11 @@ class Qanda_Block extends Widget_Base {
 
 				#>
 				<li class="elementor-repeater-item-{{ item._id }}">                                   
-				<a href="{{ item.url }}">
+				<a href="{{ _.escape(item.url.url) }}">
 				<p>{{{ item.text }}}</p>                        
 				</a>
 				<# 
-				if(date.getDate()){
+				if(date.getDate() ) {
 					#>
 					<span class="saswp-qand-date">{{{date.getDate()}}}-{{{date.getMonth()}}}-{{{date.getFullYear()}}}  {{{date.getHours()}}}:{{{date.getMinutes()}}}:{{{date.getSeconds()}}} </span>
 					<# 
@@ -369,7 +383,7 @@ class Qanda_Block extends Widget_Base {
 
 				if(item.vote){
 					#>
-					<br> <?php echo __( 'Vote', 'schema-and-structured-data-for-wp' ); ?> <span class="dashicons dashicons-thumbs-up"></span> ({{{ item.vote }}})
+					<br> <?php echo esc_html__( 'Vote', 'schema-and-structured-data-for-wp' ); ?> <span class="dashicons dashicons-thumbs-up"></span> ({{{ item.vote }}})
 					<# 
 				}
 				#>	

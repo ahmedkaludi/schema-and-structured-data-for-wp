@@ -17,8 +17,7 @@ class SASWP_Gutenberg {
          * Static private variable to hold instance this class
          * @var type 
          */
-        private static $instance;
-        private $service;
+        private static $instance;        
         private $render;
         
         private $blocks = array(
@@ -119,16 +118,12 @@ class SASWP_Gutenberg {
          */
         private function __construct() {
             
-                    foreach ($this->blocks as $key => $value) {
+                    foreach ( $this->blocks as $key => $value) {
                         $this->blocks[$key]['path'] = SASWP_PLUGIN_URL. '/modules/gutenberg/assets/blocks/'.$key.'.js'; 
                     }
-
-                    if($this->service == null){
-                        require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/service.php';
-                        $this->service = new SASWP_Gutenberg_Service();
-                    }
+                    
                     if($this->render == null){
-                        require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/render.php';
+                        require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-saswp-gutenberg-render.php';
                         $this->render = new SASWP_Gutenberg_Render();
                     }
                     
@@ -144,41 +139,41 @@ class SASWP_Gutenberg {
                     add_action( 'amp_post_template_css', array($this, 'register_frontend_assets_amp'));
         }
         
-        public function register_frontend_assets_amp(){
+        public function register_frontend_assets_amp() {
             
              global $post;
              
-             if(function_exists('parse_blocks') && is_object($post)){
+             if ( function_exists( 'parse_blocks') && is_object($post) ) {
                  
                   $blocks = parse_blocks($post->post_content);
                   
                    if($blocks){
                        
-                        foreach ($blocks as $parse_blocks){
+                        foreach ( $blocks as $parse_blocks){
                             
-                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/event-block'){
+                            if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/event-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/event.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
-                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/qanda-block'){
+                            if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/qanda-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/qanda.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
-                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
+                            if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/job.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
-                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/course-block'){
+                            if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/course-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/course.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
-                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/book-block'){
+                            if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/book-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/book.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
-                            if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/recipe-block'){
+                            if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/recipe-block'){
                                 $amp_css  =  SASWP_PLUGIN_DIR_PATH . 'modules/gutenberg/assets/css/amp/recipe.css';              
-                                echo @file_get_contents($amp_css);
+                                saswp_local_file_get_contents($amp_css);
                             }
                             
                         }
@@ -195,75 +190,82 @@ class SASWP_Gutenberg {
                                                                       
                         global $post;
              
-                        if(function_exists('parse_blocks') && is_object($post)){
+                        if ( function_exists( 'parse_blocks') && is_object($post) ) {
 
                              $blocks = parse_blocks($post->post_content);
 
                               if($blocks){
 
-                                   foreach ($blocks as $parse_blocks){
+                                   foreach ( $blocks as $parse_blocks){
 
-                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/event-block'){
+                                       if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/event-block'){
                                            
                                            wp_enqueue_style(
                                                 'saswp-g-event-css',
                                                 SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/event.css',
-                                                array()                        
+                                                array(),
+                                                SASWP_VERSION
                                            );
                                            
                                        }
-                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/qanda-block'){
+                                       if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/qanda-block'){
                                            
                                         wp_enqueue_style(
                                              'saswp-g-qanda-css',
                                              SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/qanda.css',
-                                             array()                        
+                                             array(),
+                                             SASWP_VERSION                        
                                         );
                                         
                                        }
-                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
+                                       if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/job-block'){
                                            
                                            wp_enqueue_style(
                                                 'saswp-g-job-css',
                                                 SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/job.css',
-                                                array()                        
+                                                array(),
+                                                SASWP_VERSION                        
                                            );
                                            
                                        }
-                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/course-block'){
+                                       if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/course-block'){
                                            
                                            wp_enqueue_style(
                                                 'saswp-g-course-css',
                                                 SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/course.css',
-                                                array()                        
+                                                array(),
+                                                SASWP_VERSION                        
                                            );
                                            
                                        }
 
-                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/book-block'){
+                                       if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/book-block'){
                                            
                                         wp_enqueue_style(
                                              'saswp-g-book-css',
                                              SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/book.css',
-                                             array()                        
+                                             array(),
+                                             SASWP_VERSION                        
                                         );
                                         
                                        }
-                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/recipe-block'){
+                                       if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/recipe-block'){
                                            
                                         wp_enqueue_style(
                                              'saswp-g-recipe-css',
                                              SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/recipe.css',
-                                             array()                        
+                                             array(),
+                                             SASWP_VERSION                        
                                         );
                                         
                                        }
-                                       if(isset($parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/how-to-block'){
+                                       if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/how-to-block'){
                                            
                                         wp_enqueue_style(
                                              'saswp-g-howto-css',
                                              SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/howto.css',
-                                             array()                        
+                                             array(),
+                                             SASWP_VERSION                        
                                         );
                                         
                                        }
@@ -289,19 +291,22 @@ class SASWP_Gutenberg {
                      wp_register_style(
                         'saswp-gutenberg-css-reg-editor',
                         SASWP_PLUGIN_URL . 'modules/gutenberg/assets/css/editor.css',
-                        array( 'wp-edit-blocks' )
+                        array( 'wp-edit-blocks' ),
+                        SASWP_VERSION
                     );
                      
                     if($this->blocks){
                     
-                        foreach($this->blocks as $key => $block){                        
+                        foreach( $this->blocks as $key => $block){                        
                             
                             if ( $pagenow == 'widgets.php' && version_compare( $GLOBALS['wp_version'], '5.8.0', '>=' ) ) {
 
                                 wp_register_script(
                                     $block['handler'],
                                     $block['path'],
-                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-edit-widgets' )                                 
+                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-edit-widgets' ),
+                                    SASWP_VERSION,
+                                    true
                                 );
 
                             } else {
@@ -309,21 +314,23 @@ class SASWP_Gutenberg {
                                 wp_register_script(
                                     $block['handler'],
                                     $block['path'],
-                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )                                 
+                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' ),
+                                    SASWP_VERSION,
+                                    true
                                 );
                                 
                             }
                                                         
                             if($key == 'collection'){
                                 
-                                 $review_service = new saswp_reviews_service();
+                                 $review_service = new SASWP_Reviews_Service();
                                  $col_opt  = $review_service->saswp_get_collection_list();
                                         
                                 if($col_opt){                                    
                                     $block['local']['collection'] = $col_opt;
                                 }else{
                                     $block['local']['collection_not_found']      = true;
-                                    $block['local']['collection_url']            = wp_nonce_url(admin_url('admin.php?page=collection'), '_wpnonce');
+                                    $block['local']['collection_url']            = wp_nonce_url(admin_url( 'admin.php?page=collection'), '_wpnonce');
                                 }
                             }
 
@@ -335,7 +342,7 @@ class SASWP_Gutenberg {
                                    $block['local']['location'] = $col_opt;
                                }else{
                                    $block['local']['location_not_found']      = true;
-                                   $block['local']['location_url']            = admin_url('edit.php?post_type=saswp');
+                                   $block['local']['location_url']            = admin_url( 'edit.php?post_type=saswp');
                                }
                            }
                                                     
@@ -361,7 +368,7 @@ class SASWP_Gutenberg {
                      
                    if($this->blocks){
                     
-                    foreach($this->blocks as $block){
+                    foreach( $this->blocks as $block){
 
                         register_block_type( 'saswp/'.$block['block_name'], array(
                             'style'           => $block['style'],
@@ -385,7 +392,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->collection_block_data($attributes);
+            $this->render->collection_block_data($attributes);
             
             return ob_get_clean();
             
@@ -401,7 +408,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->location_block_data($attributes);
+            $this->render->location_block_data($attributes);
             
             return ob_get_clean();
             
@@ -416,7 +423,7 @@ class SASWP_Gutenberg {
 			    return '';
             }
             
-            echo $this->render->book_block_data($attributes);
+            $this->render->book_block_data($attributes);
             
             return ob_get_clean();
             
@@ -431,7 +438,7 @@ class SASWP_Gutenberg {
 			    return '';
             }
             
-            echo $this->render->recipe_block_data($attributes);
+            $this->render->recipe_block_data($attributes);
             
             return ob_get_clean();
             
@@ -447,7 +454,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->course_block_data($attributes);
+            $this->render->course_block_data($attributes);
             
             return ob_get_clean();
             
@@ -463,7 +470,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->job_block_data($attributes);
+            $this->render->job_block_data($attributes);
             
             return ob_get_clean();
             
@@ -479,7 +486,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->qanda_block_data($attributes);
+            $this->render->qanda_block_data($attributes);
             
             return ob_get_clean();
             
@@ -495,7 +502,7 @@ class SASWP_Gutenberg {
 			return '';
             }
             
-            echo $this->render->event_block_data($attributes);
+            $this->render->event_block_data($attributes);
             
             return ob_get_clean();
             
@@ -519,42 +526,31 @@ class SASWP_Gutenberg {
                     
                     echo '<div class="saswp-faq-block-section">';                                
                     if($attributes['items']){
-                        
-                        $className = '';
-                        if(isset($attributes['className'])){
-                            $className = 'class="'.esc_attr($attributes['className']).'"';
-                        }
-                        
-                        
-    
-                        
-                        if(!isset($attributes['listStyle']))
+                                                                                                                            
+                        if ( ! isset( $attributes['listStyle']))
                         {
                             $attributes['listStyle']='none';
                         }
     
-                        if(($attributes['listStyle']=='none')){
+                        if(($attributes['listStyle']=='none') ) {
                             echo '<ol style="list-style-type:none">';}
                             else{
                                 echo'<ul>';
                             }
-                        
-                        
-                           
-                         if(isset($item['image_align'])){
+                                                                           
+                         if ( isset( $item['image_align']) ) {
     
                             switch ($item['image_align']) {
-    
-                                
+                                    
                                   case 'right':
-                                    echo  '<img class="alignright" style="float:right;" '. esc_attr($item['image_align']).'>';
+                                    echo  '<img class="alignright" style="float:right;" '. esc_attr( $item['image_align']).'>';
                                     break;
                                   case 'left':
-                                    echo  '<img  class="alignleft" style="float:left;" '. esc_attr($item['image_align']).'>';
+                                    echo  '<img  class="alignleft" style="float:left;" '. esc_attr( $item['image_align']).'>';
                                     break;
     
                                 default:
-                                echo  '<img class="alignleft" style="float:left;" '. esc_attr($item['image_align']).'>';
+                                echo  '<img class="alignleft" style="float:left;" '. esc_attr( $item['image_align']).'>';
                                 break;
                             }
                         }
@@ -563,80 +559,80 @@ class SASWP_Gutenberg {
                         $allowed_tags_desc = self::saswp_blocks_description_allowed_tags('description');
 
                         $alignment_class = '';
-                        if(isset($attributes['alignment']) && !empty($attributes['alignment'])){
+                        if ( isset( $attributes['alignment']) && !empty($attributes['alignment']) ) {
                             $alignment_class = $attributes['alignment'];
                             if($alignment_class == 'left'){
                                 $alignment_class = 'has-text-align-left';    
-                            }else if($alignment_class == 'right'){
+                            }elseif($alignment_class == 'right'){
                                 $alignment_class = 'has-text-align-right';    
-                            }else if($alignment_class == 'center'){
+                            }elseif($alignment_class == 'center'){
                                 $alignment_class = 'has-text-align-center';    
                             }
 
                         }
 
-                        foreach($attributes['items'] as $item){
+                        foreach( $attributes['items'] as $item){
                             
                           $block_title = isset($item['title'])?$item['title']:'';
                           $block_description = isset($item['description'])?$item['description']:'';
 
                           if($item['title'] || $item['description']){
     
-                            if(!empty($item['questionID'])){
-                                echo '<li id="'.esc_attr($item['questionID']).'">'; 
+                            if ( ! empty( $item['questionID']) ) {
+                                echo '<li id="'. esc_attr( $item['questionID']).'">'; 
                             }else{
-                                echo '<li style="list-style-type: '.esc_attr($attributes['listStyle']).'">'; 
+                                echo '<li style="list-style-type: '. esc_attr( $attributes['listStyle']).'">'; 
                             }                        
-                            if(isset($attributes['headingTag'])){
+                            if ( isset( $attributes['headingTag']) ) {
     
                                 switch ($attributes['headingTag']) {
     
                                     case 'h1':
-                                            echo sprintf('<h1 class="%s">%s</h1>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                                            echo sprintf('<h1 class="%s">%s</h1>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'h2':
-                                            echo sprintf('<h2 class="%s">%s</h2>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                                            echo sprintf('<h2 class="%s">%s</h2>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'h3':
-                                            echo sprintf('<h3 class="%s">%s</h3>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                                            echo sprintf('<h3 class="%s">%s</h3>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'h4':
-                                            echo sprintf('<h4 class="%s">%s</h4>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                                            echo sprintf('<h4 class="%s">%s</h4>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'h5':
-                                            echo sprintf('<h5 class="%s">%s</h5>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                                            echo sprintf('<h5 class="%s">%s</h5>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'h6':
-                                            echo sprintf('<h6 class="%s">%s</h6>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                                            echo sprintf('<h6 class="%s">%s</h6>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                                         break;   
                                     case 'div':
-                                            echo sprintf('<div class="%s">%s</div>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                                            echo sprintf('<div class="%s">%s</div>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                                         break;  
                                     case 'p':
-                                            echo sprintf('<p class="%s">%s</p>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                                            echo sprintf('<p class="%s">%s</p>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                                         break;
                                     case 'strong':
-                                            echo sprintf('<strong class="%s">%s</strong>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                                            echo sprintf('<strong class="%s">%s</strong>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                                         break;   
     
     
                                     default:
-                                    echo sprintf('<h5 class="%s">%s</h5>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                                    echo sprintf('<h5 class="%s">%s</h5>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                                         break;
                                 }
     
                             }else{
-                                echo sprintf('<h5 class="saswp-faq-question-title %s">%s</h5>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));    
+                                echo sprintf('<h5 class="saswp-faq-question-title %s">%s</h5>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));    
                             }
                                                     
-                            if(isset($item['description'])){
+                            if ( isset( $item['description']) ) {
                                 echo sprintf('<p class="saswp-faq-answer-text">%s</p>', wp_kses($item['description'], $allowed_tags_desc));
                             }
                            
                           }  
                            
                         }                    
-                        if(!isset($attributes['listStyle'])){
+                        if ( ! isset( $attributes['listStyle']) ) {
                          echo '</ol>';   
                         }else{
                          echo '</ul>';    
@@ -670,69 +666,85 @@ class SASWP_Gutenberg {
                 
                 echo '<div class="saswp-how-to-block-steps">';
                 
-                if(isset($attributes['hasCost'])){
+                if ( isset( $attributes['hasCost']) ) {
                     echo '<p class="saswp-how-to-total-time">';
                     
-                    $time_html = '';
+                    $has_price = false;
                        
-                    if(isset($attributes['price']) && $attributes['price'] != ''){
-                        $time_html .=   esc_attr($attributes['price']). ' ';
+                    if ( isset( $attributes['price']) && $attributes['price'] != '' ) {
+                        $has_price = true;
                     }
                     
-                    if(isset($attributes['currency']) && $attributes['currency'] != ''){
-                        $time_html .=     esc_attr($attributes['currency']);
+                    if ( isset( $attributes['currency']) && $attributes['currency'] != '' ) {
+                        $has_price = true;
                     }
                                         
-                    if($time_html !=''){
-                     echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-estimate-cost').' :</strong> </span>';    
-                     echo $time_html;
+                    if($has_price){
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
+                     echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-estimate-cost').' :</strong> </span>';                         
+                     echo esc_html( $attributes['price']). ' '.esc_html( $attributes['currency']);
                     }
                                         
                     echo '</p>';
                 }
 
-                if(isset($attributes['hasDuration'])){
+                if ( isset( $attributes['hasDuration']) ) {
                     echo '<p class="saswp-how-to-total-time">';
                     
-                    $time_html = '';
+                    $has_time = false;
                        
-                    if(isset($attributes['days']) && $attributes['days'] != ''){
-                        $time_html .=   esc_attr($attributes['days']).' days ';
+                    if ( isset( $attributes['days']) && $attributes['days'] != '' ) {
+                        $has_time = true;
                     }
                     
-                    if(isset($attributes['hours']) && $attributes['hours'] != ''){
-                        $time_html .=     esc_attr($attributes['hours']).' hours ';
+                    if ( isset( $attributes['hours']) && $attributes['hours'] != '' ) {
+                        $has_time = true;
                     }
                     
-                    if(isset($attributes['minutes']) && $attributes['minutes'] != ''){
-                        $time_html .=     esc_attr($attributes['minutes']).' minutes';
+                    if ( isset( $attributes['minutes']) && $attributes['minutes'] != '' ) {
+                        $has_time = true;
                     }
                     
-                    if($time_html !=''){
+                    if($has_time){
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
                      echo '<span class="saswp-how-to-duration-time-text"><strong>'.saswp_label_text('translation-time-needed').' :</strong> </span>';    
-                     echo $time_html;
+                        if ( isset( $attributes['days']) && $attributes['days'] != '' ) {
+                            echo esc_html( $attributes['days']).' days ';
+                        }
+                        
+                        if ( isset( $attributes['hours']) && $attributes['hours'] != '' ) {
+                            echo esc_html( $attributes['hours']).' hours ';
+                        }
+                        
+                        if ( isset( $attributes['minutes']) && $attributes['minutes'] != '' ) {
+                            echo esc_html( $attributes['minutes']).' minutes';
+                        }                     
                     }
                                         
                     echo '</p>';
                 }                
-                if(isset($attributes['description'])){
+                if ( isset( $attributes['description']) ) {
                     echo sprintf('<p>%s</p>', wp_kses($attributes['description'], $allowed_tags_desc));
                 }
                                 
-                if(isset($attributes['items'])){
-                    
-                    $className = '';
-                    if(isset($attributes['className'])){
-                        $className = 'class="'.esc_attr($attributes['className']).'"';
-                    }
+                if ( isset( $attributes['items']) ) {                                                            
 
-                    
-
-                    if(isset($attributes['listStyleType'])){
-                        if(($attributes['listStyleType']=='none')){
-                            echo'<ol '.$className.' style="list-style-type:none;">';
-                         }elseif(($attributes['listStyleType']=='disc')){
-                            echo'<ol '.$className.' style="list-style-type:disc;">';
+                    if ( isset( $attributes['listStyleType']) ) {
+                        if(($attributes['listStyleType']=='none') ) {
+                            if ( isset( $attributes['className']) ) {
+                                ?><ol class="<?php echo esc_attr( $attributes['className']); ?>" style="list-style-type:none;"><?php                            
+                            }else{
+                                ?><ol style="list-style-type:none;"><?php                            
+                            }
+                            
+                            
+                         }elseif(($attributes['listStyleType']=='disc') ) {
+                            if ( isset( $attributes['className']) ) {
+                                ?><ol class="<?php echo esc_attr( $attributes['className']); ?>" style="list-style-type:disc;"><?php
+                            }else{
+                                ?><ol style="list-style-type:disc;"><?php
+                            }
+                            
                          }else{
                             echo '<ol>';
                          }
@@ -740,51 +752,50 @@ class SASWP_Gutenberg {
                         echo '<ol>';
                     }
                     
-                    if(isset($item['image_align'])){
+                    if ( isset( $item['image_align']) ) {
 
                         switch ($item['image_align']) {
 
                             
                               case 'right':
-                                echo  '<img class="alignright"'. esc_attr($item['image_align']).'>';
+                                echo  '<img class="alignright"'. esc_attr( $item['image_align']).'>';
                                 break;
                               case 'left':
-                                echo  '<img class="alignleft" '. esc_attr($item['image_align']).'>';
+                                echo  '<img class="alignleft" '. esc_attr( $item['image_align']).'>';
                                 break;
 
                             default:
-                            echo  '<img class="alignleft" '. esc_attr($item['image_align']).'>';
+                            echo  '<img class="alignleft" '. esc_attr( $item['image_align']).'>';
                             break;
                         }
                     }
 
                     $alignment_class = '';
-                    if(isset($attributes['alignment']) && !empty($attributes['alignment'])){
+                    if ( isset( $attributes['alignment']) && !empty($attributes['alignment']) ) {
                         $alignment_class = $attributes['alignment'];
                         if($alignment_class == 'left'){
                             $alignment_class = 'has-text-align-left';    
-                        }else if($alignment_class == 'right'){
+                        }elseif($alignment_class == 'right'){
                             $alignment_class = 'has-text-align-right';    
-                        }else if($alignment_class == 'center'){
+                        }elseif($alignment_class == 'center'){
                             $alignment_class = 'has-text-align-center';    
                         }
 
                     }
 
-                    foreach($attributes['items'] as $item){
+                    foreach( $attributes['items'] as $item){
                        
-                      $block_title = isset($item['title'])?$item['title']:'';
-                      $block_description = isset($item['description'])?$item['description']:'';
+                      $block_title = isset($item['title'])?$item['title']:'';                      
 
                       if($item['title'] || $item['description']){
                         echo '<li>'; 
-                        if(isset($attributes['headingTag']) && !empty($attributes['headingTag'])){
+                        if ( isset( $attributes['headingTag']) && !empty($attributes['headingTag']) ) {
                             $heading_array = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
-                            if(in_array($attributes['headingTag'], $heading_array)){
-                                echo sprintf('<%s class="%s"> %s </%s>', esc_html($attributes['headingTag']), esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title), esc_html($attributes['headingTag']));
+                            if(in_array($attributes['headingTag'], $heading_array) ) {
+                                echo sprintf('<%s class="%s"> %s </%s>', esc_html( $attributes['headingTag']), esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title), esc_html( $attributes['headingTag']));
                             }
                         }else{
-                            echo sprintf('<h1 class="saswp-how-to-step-name %s">%s</h1>', esc_attr($alignment_class), wp_kses($block_title, $allowed_tags_title));
+                            echo sprintf('<h1 class="saswp-how-to-step-name %s">%s</h1>', esc_attr( $alignment_class), wp_kses($block_title, $allowed_tags_title));
                         }
                         
                         echo sprintf('<p class="saswp-how-to-step-text">%s</p>', wp_kses($item['description'], $allowed_tags_desc));
@@ -792,7 +803,7 @@ class SASWP_Gutenberg {
                       }  
                        
                     }                    
-                    if(!isset($attributes['listStyleType'])){
+                    if ( ! isset( $attributes['listStyleType']) ) {
                      echo '</ol>';   
                     }else{
                      echo '</ul>';    
@@ -802,12 +813,12 @@ class SASWP_Gutenberg {
                 
                 echo '<div class="saswp-how-to-block-tools">';
                 
-                if(!empty($attributes['tools'])){
-                    
-                    echo '<h5>'.saswp_t_string(saswp_label_text('translation-tools')).'</h5>';
+                if ( ! empty( $attributes['tools']) ) {
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
+                    echo '<h5>'.saswp_label_text('translation-tools').'</h5>';
                     
                     echo '<ul>';
-                    foreach($attributes['tools'] as $val){
+                    foreach( $attributes['tools'] as $val){
                         if($val['name']){
                             echo sprintf('<li>%s</li>', wp_kses($val['name'], $allowed_tags_title));
                         }
@@ -821,12 +832,12 @@ class SASWP_Gutenberg {
                 
                 echo '<div class="saswp-how-to-block-material">';
                 
-                if(!empty($attributes['materials'])){
-                    
-                    echo '<h5>'.saswp_t_string(saswp_label_text('translation-materials')).'</h5>';  
+                if ( ! empty( $attributes['materials']) ) {
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- Reason: Escaping has been done inside function saswp_label_text
+                    echo '<h5>'.saswp_label_text('translation-materials').'</h5>';  
                     
                     echo '<ul>';
-                    foreach($attributes['materials'] as $val){
+                    foreach( $attributes['materials'] as $val){
 
                         if($val['name']){
                             echo sprintf('<li>%s</li>', wp_kses($val['name'], $allowed_tags_title));

@@ -9,39 +9,39 @@
  */
 if (! defined('ABSPATH') ) exit;
 
-function saswp_wpfaqschemamarkup_schema(){
+function saswp_wpfaqschemamarkup_schema() {
 
     $input1 = array();
     
     return apply_filters( 'saswp_modify_wpfaqschemamarkup_schema', $input1 );
 }
 
-function saswp_faqschemaforpost_schema(){
+function saswp_faqschemaforpost_schema() {
 
     $input1 = array();
     
     return apply_filters( 'saswp_modify_faqschemaforpost_schema', $input1 );
 }
 
-function saswp_schema_for_faqs_schema(){
+function saswp_schema_for_faqs_schema() {
 
     global $post, $sd_data;
 
     $input1    = array();
     $saswp_faq = array();
 
-    if(isset($sd_data['saswp-schemaforfaqs']) && $sd_data['saswp-schemaforfaqs'] == 1 && class_exists('Schema_Faqs') && !saswp_non_amp()){
+    if ( isset( $sd_data['saswp-schemaforfaqs']) && $sd_data['saswp-schemaforfaqs'] == 1 && class_exists('Schema_Faqs') && !saswp_non_amp() ) {
 
         $post_meta = get_post_meta($post->ID, 'schema_faqs_ques_ans_data', true);
         $post_meta = str_replace("\'","'",$post_meta);
 
-        if(!empty($post_meta)){
+        if ( ! empty( $post_meta) ) {
 
             $data_arr = json_decode($post_meta, true);
 
-            foreach($data_arr as $value){
+            foreach( $data_arr as $value){
                 
-                if(isset($value['question'])){
+                if ( isset( $value['question']) ) {
     
                     $saswp_faq[] =  array(
                         '@type'     => 'Question',
@@ -56,7 +56,7 @@ function saswp_schema_for_faqs_schema(){
 
             }
 
-            if(!empty($saswp_faq)){
+            if ( ! empty( $saswp_faq) ) {
 
                 $input1['@context']   = saswp_context_url();
                 $input1['@type']      = 'FAQPage';
@@ -71,7 +71,7 @@ function saswp_schema_for_faqs_schema(){
     return $input1;
 }
 
-function saswp_wp_product_review_lite_rich_snippet(){
+function saswp_wp_product_review_lite_rich_snippet() {
 
     global $post, $sd_data;
 
@@ -87,14 +87,14 @@ function saswp_wp_product_review_lite_rich_snippet(){
 
 }
 
-function saswp_taqyeem_review_rich_snippet(){
+function saswp_taqyeem_review_rich_snippet() {
 
     global $post, $sd_data;
 
     $input1    = array();    
 
-    if(isset($sd_data['saswp-taqyeem']) && $sd_data['saswp-taqyeem'] == 1 && function_exists('taqyeem_review_get_rich_snippet')){
-        if(is_object($post)){
+    if ( isset( $sd_data['saswp-taqyeem']) && $sd_data['saswp-taqyeem'] == 1 && function_exists('taqyeem_review_get_rich_snippet') ) {
+        if(is_object($post) ) {
             $get_meta = get_post_custom( $post->ID );
             if( !empty( $get_meta['taq_review_position'][0] ) ){
                 $input1 = taqyeem_review_get_rich_snippet();
@@ -112,13 +112,13 @@ function saswp_wordlift_amp_schema() {
 
     global $sd_data;
     
-    if(isset($sd_data['saswp-wordlift']) && $sd_data['saswp-wordlift'] == 1 && class_exists('Wordlift\Jsonld\Jsonld_Adapter')){
+    if ( isset( $sd_data['saswp-wordlift']) && $sd_data['saswp-wordlift'] == 1 && class_exists('Wordlift\Jsonld\Jsonld_Adapter') ) {
 
         if( function_exists('amp_get_schemaorg_metadata') ){
 
             $metadata = amp_get_schemaorg_metadata();            
 
-            if(!empty($metadata)){
+            if ( ! empty( $metadata) ) {
                 
                 echo '<script type="application/ld+json" id="wl-jsonld">';
                 echo wp_json_encode( $metadata, JSON_UNESCAPED_UNICODE);
@@ -132,7 +132,7 @@ function saswp_wordlift_amp_schema() {
     
 }
 
-add_filter('saswp_modify_recipe_schema_output', 'saswp_wp_recipe_maker_json_ld',10,1);
+add_filter( 'saswp_modify_recipe_schema_output', 'saswp_wp_recipe_maker_json_ld',10,1);
 
 function saswp_wp_recipe_maker_json_ld($input1){
 
@@ -140,15 +140,15 @@ function saswp_wp_recipe_maker_json_ld($input1){
 
     $recipe_json = array();
 
-    if(isset($sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){                            
+    if ( isset( $sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){                            
         
         $recipe_ids = saswp_get_ids_from_content_by_type('wp_recipe_maker');
 
         if($recipe_ids){
 
-            foreach($recipe_ids as $recipe){
+            foreach( $recipe_ids as $recipe){
 
-                if(class_exists('WPRM_Recipe_Manager')){
+                if(class_exists('WPRM_Recipe_Manager') ) {
 
                     $recipe_arr    = WPRM_Recipe_Manager::get_recipe( $recipe );
 
@@ -172,43 +172,43 @@ function saswp_wp_recipe_maker_json_ld($input1){
 
 }
 
-add_filter('saswp_modify_recipe_schema_output', 'saswp_recipress_json_ld',10,1);
+add_filter( 'saswp_modify_recipe_schema_output', 'saswp_recipress_json_ld',10,1);
 
 function saswp_recipress_json_ld($input1){
 
     global $sd_data, $post;
 
-    if( (isset($sd_data['saswp-recipress']) && $sd_data['saswp-recipress'] == 1) && function_exists('has_recipress_recipe') && has_recipress_recipe() && function_exists('recipress_recipe')){
+    if( (isset($sd_data['saswp-recipress']) && $sd_data['saswp-recipress'] == 1) && function_exists('has_recipress_recipe') && has_recipress_recipe() && function_exists('recipress_recipe') ) {
 
-        if(recipress_recipe('title')){
+        if(recipress_recipe('title') ) {
             $input1['name']          = recipress_recipe('title');
         }
-        if(recipress_recipe('summary')){
+        if(recipress_recipe('summary') ) {
             $input1['description']   = recipress_recipe('summary');    
         }                        
-        if(recipress_recipe('cook_time','iso')){
+        if(recipress_recipe('cook_time','iso') ) {
             $input1['cookTime'] = recipress_recipe('cook_time','iso');
         }        
-        if(recipress_recipe('prep_time', 'iso')){
+        if(recipress_recipe('prep_time', 'iso') ) {
             $input1['prepTime'] = recipress_recipe('prep_time', 'iso');
         }        
-        if(recipress_recipe('ready_time','iso')){
+        if(recipress_recipe('ready_time','iso') ) {
             $input1['totalTime'] = recipress_recipe('ready_time','iso');
         }
 
-        $cuisines = strip_tags( get_the_term_list( $post->ID, 'cuisine', '', ', ') );
+        $cuisines = wp_strip_all_tags( get_the_term_list( $post->ID, 'cuisine', '', ', ') );
 
         if($cuisines){
               $input1['recipeCuisine'] = $cuisines;
         }
-        if(recipress_recipe('yield')){
+        if(recipress_recipe('yield') ) {
             $input1['recipeYield'] = recipress_recipe('yield');
         }        
         $ingredients     = recipress_recipe('ingredients');
         $ingredients_arr = array();
 
         if($ingredients){
-            foreach($ingredients as $ing){
+            foreach( $ingredients as $ing){
                 $ingredients_arr[] = $ing['ingredient'];
             }
             $input1['recipeIngredient'] = $ingredients_arr;
@@ -219,13 +219,13 @@ function saswp_recipress_json_ld($input1){
         $instructions_arr = array();
 
         if($instructions){
-            foreach($instructions as $ing){
+            foreach( $instructions as $ing){
                 $instructions_arr[] = $ing['description'];
             }
             $input1['recipeInstructions'] = $instructions_arr;
         }
         
-        if(saswp_get_the_categories()){
+        if(saswp_get_the_categories() ) {
             $input1['recipeCategory'] = saswp_get_the_categories();    
         }                
         
@@ -234,7 +234,7 @@ function saswp_recipress_json_ld($input1){
     return $input1;
 }
 
-function saswp_wp_tasty_recipe_json_ld(){
+function saswp_wp_tasty_recipe_json_ld() {
 
     if ( ! is_singular() ) {
         return array();
@@ -264,7 +264,7 @@ function saswp_wp_tasty_recipe_json_ld(){
 
 }
 
-add_filter('saswp_modify_video_object_schema_output', 'saswp_featured_video_plus_schema',10,1);
+add_filter( 'saswp_modify_video_object_schema_output', 'saswp_featured_video_plus_schema',10,1);
 
 function saswp_featured_video_plus_schema($input1){
 
@@ -272,7 +272,7 @@ function saswp_featured_video_plus_schema($input1){
 
     if( isset($sd_data['saswp-featured-video-plus']) && $sd_data['saswp-featured-video-plus'] == 1 && function_exists('get_the_post_video_url') ){
 
-        if(has_post_video()){
+        if(has_post_video() ) {
 
             $input1['contentUrl']   = get_the_post_video_url();
             $input1['embedUrl']     = get_the_post_video_url();
@@ -285,7 +285,7 @@ function saswp_featured_video_plus_schema($input1){
     return $input1;
 }
 
-add_filter('saswp_modify_product_schema_output', 'saswp_classpress_ads_schema',10,1);
+add_filter( 'saswp_modify_product_schema_output', 'saswp_classpress_ads_schema',10,1);
 
 function saswp_classpress_ads_schema($input1){
 
@@ -321,7 +321,7 @@ function saswp_classpress_ads_schema($input1){
     return $input1;
 }
 
-add_filter('saswp_modify_product_schema_output', 'saswp_wpecommerce_product_schema',10,1);
+add_filter( 'saswp_modify_product_schema_output', 'saswp_wpecommerce_product_schema',10,1);
 
 function saswp_wpecommerce_product_schema($input1){
 
@@ -342,7 +342,7 @@ function saswp_wpecommerce_product_schema($input1){
 
             $availability = 'InStock';
 
-            if(!wpsc_product_has_stock()){
+            if(!wpsc_product_has_stock() ) {
                 $availability = 'OutOfStock';
             }
 
@@ -351,7 +351,7 @@ function saswp_wpecommerce_product_schema($input1){
                 'price'         => $price,   
                 'url'           => get_permalink(),       
                 'priceCurrency' => $currency, 
-                'priceValidUntil' => date( 'Y-12-31', time() + YEAR_IN_SECONDS ),                   
+                'priceValidUntil' => gmdate( 'Y-12-31', time() + YEAR_IN_SECONDS ),                   
                 'availability'  => $availability,                                        
               );
 
@@ -368,7 +368,7 @@ function saswp_wpecommerce_product_schema($input1){
 
 }
 
-add_filter('saswp_modify_book_schema_output', 'saswp_add_novelist_schema',10,1);
+add_filter( 'saswp_modify_book_schema_output', 'saswp_add_novelist_schema',10,1);
 
 function saswp_add_novelist_schema( $input1 ){
 
@@ -383,11 +383,11 @@ function saswp_add_novelist_schema( $input1 ){
         $genres     =  wp_get_post_terms( $post->ID , 'novelist-genre');
         $genres_str = '';      
 
-        if(!is_wp_error($genres)){
+        if ( ! is_wp_error( $genres) ) {
         
             if(count($genres)>0){
                                                 
-                foreach ($genres as $genre) {
+                foreach ( $genres as $genre) {
                     
                     $genres_str .= $genre->name.', '; 
                 
@@ -406,26 +406,26 @@ function saswp_add_novelist_schema( $input1 ){
         $input1['editor']                   = saswp_get_author_details();   
         $input1['author']                   = saswp_get_author_details();         
         
-        if(!empty($post_meta['novelist_excerpt'][0])){
+        if ( ! empty( $post_meta['novelist_excerpt'][0]) ) {
             $input1['description']              = $post_meta['novelist_excerpt'][0];               
         }
         
-        if(!empty($post_meta['novelist_isbn'][0])){
+        if ( ! empty( $post_meta['novelist_isbn'][0]) ) {
             $input1['isbn']                     = $post_meta['novelist_isbn'][0]; 
         }                
 
-        if(!empty($post_meta['novelist_pages'][0])){
+        if ( ! empty( $post_meta['novelist_pages'][0]) ) {
             $input1['numberOfPages']            = $post_meta['novelist_pages'][0];        
         }                                
 
-        if(!empty($post_meta['novelist_publisher'][0])){
+        if ( ! empty( $post_meta['novelist_publisher'][0]) ) {
             $input1['publisher']                = array(
                         '@type' => 'Organization',
                         'name'  => $post_meta['novelist_publisher'][0]
             );
         }
         
-        if(!empty($post_meta['novelist_contributors'][0])){
+        if ( ! empty( $post_meta['novelist_contributors'][0]) ) {
             $input1['contributor']                = array(
                 '@type' => 'Organization',
                 'name'  => $post_meta['novelist_contributors'][0]
@@ -436,7 +436,7 @@ function saswp_add_novelist_schema( $input1 ){
     return $input1;
 }
 
-add_filter('saswp_modify_book_schema_output', 'saswp_add_mooberrybm_schema',10,1);
+add_filter( 'saswp_modify_book_schema_output', 'saswp_add_mooberrybm_schema',10,1);
 
 function saswp_add_mooberrybm_schema( $input1 ){
 
@@ -451,11 +451,11 @@ function saswp_add_mooberrybm_schema( $input1 ){
         $tags    =  wp_get_post_terms( $post->ID , 'mbdb_tag');
         $tag_str = '';    
 
-        if(!is_wp_error($tags)){
+        if ( ! is_wp_error( $tags) ) {
         
             if(count($tags)>0){
                                                 
-                foreach ($tags as $tag) {
+                foreach ( $tags as $tag) {
                     
                     $tag_str .= $tag->name.', '; 
                 
@@ -467,11 +467,11 @@ function saswp_add_mooberrybm_schema( $input1 ){
 
         $genres     =  wp_get_post_terms( $post->ID , 'mbdb_genre');
         $genres_str = '';      
-        if(!is_wp_error($genres)){
+        if ( ! is_wp_error( $genres) ) {
         
             if(count($genres)>0){
                                                 
-                foreach ($genres as $genre) {
+                foreach ( $genres as $genre) {
                     
                     $genres_str .= $genre->name.', '; 
                 
@@ -484,11 +484,11 @@ function saswp_add_mooberrybm_schema( $input1 ){
         $illustrators     =  wp_get_post_terms( $post->ID , 'mbdb_illustrator');
         $illustrator_arr  = array();
 
-        if(!is_wp_error($illustrators)){
+        if ( ! is_wp_error( $illustrators) ) {
         
             if(count($illustrators)>0){
                                                 
-                foreach ($illustrators as $illu) {
+                foreach ( $illustrators as $illu) {
                     
                     $illustrator_arr[] = array(
                         '@type' => 'Person',
@@ -504,11 +504,11 @@ function saswp_add_mooberrybm_schema( $input1 ){
         $editors       =  wp_get_post_terms( $post->ID , 'mbdb_editor');
         $editors_arr   = array();
 
-        if(!is_wp_error($editors)){
+        if ( ! is_wp_error( $editors) ) {
         
             if(count($editors)>0){
                                                 
-                foreach ($editors as $editor) {
+                foreach ( $editors as $editor) {
                     
                     $editors_arr[] = array(
                         '@type' => 'Person',
@@ -527,9 +527,9 @@ function saswp_add_mooberrybm_schema( $input1 ){
 
         $format = array('Hardcover', 'Paperback', 'ePub', 'Kindle', 'PDF', 'Audiobook');
 
-        if(!empty($editions)){
+        if ( ! empty( $editions) ) {
 
-            foreach ($editions as $value) {
+            foreach ( $editions as $value) {
 
                 $editions_arr[] = array(
                     '@type'         => 'Book',
@@ -547,17 +547,23 @@ function saswp_add_mooberrybm_schema( $input1 ){
             }
         }
         
-        $publisher = array();
-        $imprint   = array();
-        $book_table = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}mbdb_books WHERE book_id = %d",trim($post->ID)), 'ARRAY_A');  
-        
-        if(!empty($book_table)){
+        $publisher  = array();
+        $imprint    = array();
+        $cache_key  = 'saswp_mbdb_books_cache_key';
+        $book_table = wp_cache_get( $cache_key );  
+        if ( false === $book_table ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Custom table wp_mbdb_books
+            $book_table = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}mbdb_books WHERE book_id = %d",trim($post->ID)), 'ARRAY_A');  
+            wp_cache_set( $cache_key, $book_table );
+        }
+                
+        if ( ! empty( $book_table) ) {
 
         $mbdb_options   = get_option('mbdb_options');                        
 
-        if(!empty($mbdb_options['publishers'])){
+        if ( ! empty( $mbdb_options['publishers']) ) {
 
-            foreach ($mbdb_options['publishers'] as $value) {
+            foreach ( $mbdb_options['publishers'] as $value) {
 
                 if($value['uniqueID'] == $book_table['publisher_id']){
                     $publisher['@type'] = 'Organization';
@@ -570,9 +576,9 @@ function saswp_add_mooberrybm_schema( $input1 ){
 
         }
 
-        if(!empty($mbdb_options['imprints'])){
+        if ( ! empty( $mbdb_options['imprints']) ) {
 
-            foreach ($mbdb_options['imprints'] as $value) {
+            foreach ( $mbdb_options['imprints'] as $value) {
 
                 if($value['uniqueID'] == $book_table['imprint_id']){
                     $imprint['@type'] = 'Organization';
@@ -598,14 +604,14 @@ function saswp_add_mooberrybm_schema( $input1 ){
         $input1['datePublished']            = get_the_date("c");   
         $input1['dateModified']             = get_the_modified_date("c"); 
 
-        if(!empty($editions_arr)){
+        if ( ! empty( $editions_arr) ) {
             $input1['workExample']   = $editions_arr; 
         }
 
-        if(!empty($publisher)){
+        if ( ! empty( $publisher) ) {
             $input1['publisher']            = $publisher;   
         }
-        if(!empty($imprint)){
+        if ( ! empty( $imprint) ) {
             $input1['publisherImprint']     = $imprint;   
         }                       
            

@@ -9,7 +9,7 @@
  */
 if (! defined('ABSPATH') ) exit;
 
-function saswp_tinymce_how_to_schema(){
+function saswp_tinymce_how_to_schema() {
                         
                 global $saswp_tiny_howto;
                 
@@ -17,7 +17,7 @@ function saswp_tinymce_how_to_schema(){
                                 
                 if( !empty($saswp_tiny_howto['elements']) ){
                     
-                $service_object     = new saswp_output_service();   
+                $service_object     = new SASWP_Output_Service();   
                 $feature_image      = $service_object->saswp_get_featured_image();                  
                                        
                 $input1['@context']              = saswp_context_url();
@@ -27,7 +27,7 @@ function saswp_tinymce_how_to_schema(){
                 $input1['datePublished']         = get_the_date("c");
                 $input1['dateModified']          = get_the_modified_date("c");
                 
-                if(!empty($feature_image)){
+                if ( ! empty( $feature_image) ) {
                             
                     $input1 = array_merge($input1, $feature_image);   
                          
@@ -43,7 +43,7 @@ function saswp_tinymce_how_to_schema(){
                                                                        
                 if( !empty($saswp_tiny_howto['elements']) ){
 
-                    foreach($saswp_tiny_howto['elements'] as $key => $val){
+                    foreach( $saswp_tiny_howto['elements'] as $key => $val){
                         
                         $supply_data = array();
                         $direction   = array();
@@ -67,11 +67,11 @@ function saswp_tinymce_how_to_schema(){
                         $supply_data['url']     = saswp_get_permalink().'#step'.++$key;
                         $supply_data['name']    = $val['step_title'];    
 
-                        if(isset($direction['text']) || isset($tip['text'])){
+                        if ( isset( $direction['text']) || isset($tip['text']) ) {
                             $supply_data['itemListElement']  = array($direction, $tip);
                         }
 
-                        if(isset($val['image']) && $val['image'] !=''){
+                        if ( isset( $val['image']) && $val['image'] !='' ) {
 
                                     $image_details   = saswp_get_image_by_id($val['image']);    
                                     
@@ -91,16 +91,16 @@ function saswp_tinymce_how_to_schema(){
 
                 }  
                 
-                 if(isset($saswp_tiny_howto['days']) || isset($saswp_tiny_howto['hours']) || isset($saswp_tiny_howto['minutes'])){
+                 if ( isset( $saswp_tiny_howto['days']) || isset($saswp_tiny_howto['hours']) || isset($saswp_tiny_howto['minutes']) ) {
                      
                              $input1['totalTime'] = 'P'. 
-                             ((isset($saswp_tiny_howto['days']) && $saswp_tiny_howto['days'] !='') ? esc_attr($saswp_tiny_howto['days']).'DT':''). 
-                             ((isset($saswp_tiny_howto['hours']) && $saswp_tiny_howto['hours'] !='') ? esc_attr($saswp_tiny_howto['hours']).'H':''). 
-                             ((isset($saswp_tiny_howto['minutes']) && $saswp_tiny_howto['minutes'] !='') ? esc_attr($saswp_tiny_howto['minutes']).'M':''); 
+                             ((isset($saswp_tiny_howto['days']) && $saswp_tiny_howto['days'] !='') ? esc_attr( $saswp_tiny_howto['days']).'DT':''). 
+                             ((isset($saswp_tiny_howto['hours']) && $saswp_tiny_howto['hours'] !='') ? esc_attr( $saswp_tiny_howto['hours']).'H':''). 
+                             ((isset($saswp_tiny_howto['minutes']) && $saswp_tiny_howto['minutes'] !='') ? esc_attr( $saswp_tiny_howto['minutes']).'M':''); 
                              
                  }   
 
-                 if(isset($saswp_tiny_howto['cost']) && isset($saswp_tiny_howto['cost_currency'])){
+                 if ( isset( $saswp_tiny_howto['cost']) && isset($saswp_tiny_howto['cost_currency']) ) {
                 
                     $input1['estimatedCost']['@type']   = 'MonetaryAmount';
                     $input1['estimatedCost']['currency']= $saswp_tiny_howto['cost_currency'];
@@ -111,15 +111,15 @@ function saswp_tinymce_how_to_schema(){
                                                     
             if($input1){
                 
-                $service_object     = new saswp_output_service();
+                $service_object     = new SASWP_Output_Service();
 
                 $extra_theme_review = $service_object->saswp_extra_theme_review_details(get_the_ID());
                 $aggregateRating    = $service_object->saswp_rating_box_rating_markup(get_the_ID());
 				
-                if(!empty($aggregateRating)){
+                if ( ! empty( $aggregateRating) ) {
                         $input1['aggregateRating'] = $aggregateRating;
                 }                                
-                if(!empty($extra_theme_review)){
+                if ( ! empty( $extra_theme_review) ) {
                     $input1 = array_merge($input1, $extra_theme_review);
                 }
         
@@ -131,7 +131,7 @@ function saswp_tinymce_how_to_schema(){
     
 }
 
-function saswp_tinymce_faq_schema(){
+function saswp_tinymce_faq_schema() {
                         
     global $saswp_tiny_multi_faq, $sd_data;
 
@@ -139,13 +139,13 @@ function saswp_tinymce_faq_schema(){
     
     $faq_question_arr = array();
 
-    if(!empty($saswp_tiny_multi_faq['elements'])){
+    if ( ! empty( $saswp_tiny_multi_faq['elements']) ) {
 
         $input1['@context']              = saswp_context_url();
         $input1['@type']                     = 'FAQPage';
         $input1['@id']                       = saswp_get_permalink().'#FAQPage';                            
 
-        foreach($saswp_tiny_multi_faq['elements'] as $val){
+        foreach( $saswp_tiny_multi_faq['elements'] as $val){
 
             $supply_data = array();
             $supply_data['@type']                   = 'Question';
@@ -153,7 +153,7 @@ function saswp_tinymce_faq_schema(){
             $supply_data['acceptedAnswer']['@type'] = 'Answer';
             $supply_data['acceptedAnswer']['text']  = (isset($val['answer']) && is_string($val['answer']) ) ? htmlspecialchars($val['answer'], ENT_QUOTES, 'UTF-8') : '';
 
-            if(!empty($val['image'])){
+            if ( ! empty( $val['image']) ) {
 
                 $image_details   = saswp_get_image_by_id($val['image']); 
                 

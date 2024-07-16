@@ -269,7 +269,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			if( empty( $plugin ) ) {
 				// We can't find the plugin data
 				// Send a message back to our home site
-				$body['message'] .= __( 'We can\'t detect any product information. This is most probably because you have not included the code snippet.', 'singularity' );
+				$body['message'] .= __( 'We can\'t detect any product information. This is most probably because you have not included the code snippet.', 'schema-and-structured-data-for-wp' );
 				$body['status'] = 'Data not found'; // Never translated
 			} else {
 				if( isset( $plugin['Name'] ) ) {
@@ -424,7 +424,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 					}
 				}
 				
-			} else if( $is_allowed || ! $this->require_optin ) {
+			} elseif( $is_allowed || ! $this->require_optin ) {
 				// If the user has agreed to allow tracking or if opt-in is not required
 				
 				if( $this->what_am_i == 'theme' ) {
@@ -621,7 +621,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			if( empty( $admin_emails ) || ! is_array( $admin_emails ) ) {
 				// If nothing exists in the option yet, start a new array with the plugin name
 				$admin_emails = array( $plugin => sanitize_email( $email ) );
-			} else if( empty( $admin_emails[$plugin] ) ) {
+			} elseif( empty( $admin_emails[$plugin] ) ) {
 				// Else add the email address to the array, if not already set
 				$admin_emails[$plugin] = sanitize_email( $email );
 			}
@@ -635,8 +635,11 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 */
 		public function optin_notice() {
 			// Check for plugin args
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 			if( isset( $_GET['plugin'] ) && isset( $_GET['plugin_action'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 				$plugin = sanitize_text_field( $_GET['plugin'] );
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 				$action = sanitize_text_field( $_GET['plugin_action'] );
 				if( $action == 'yes' ) {
 					$this->set_is_tracking_allowed( true, $plugin );
@@ -681,7 +684,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				if( $this->marketing == 1 ) {
 					// Option 1 combines permissions to track and collect email
 					$yes_args['marketing_optin'] = 'yes';
-				} else if( $this->marketing == 2 ) {
+				} elseif( $this->marketing == 2 ) {
 					// Option 2 enables a second notice that fires after the user opts in to tracking
 					$yes_args['marketing'] = 'yes';
 				}
@@ -692,29 +695,22 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				) );
 				
 				// Decide on notice text
-				if( $this->marketing != 1 ) {
-					// Standard notice text
-					$notice_text = sprintf(
-						__( 'Become a super contributor by opting in to our anonymous %1$s data collection and to our updates. We guarantee no sensitive data is collected.'),
-						$this->what_am_i
-						
-					);
-				} else {
-					// If we have option 1 for marketing, we include reference to sending product information here
-					$notice_text = sprintf(
-						__( 'Thank you for installing our %1$s. We\'d like your permission to track its usage on your site and subscribe you to our newsletter. We won\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.', 'singularity' ),
-						$this->what_am_i
-					);
+				if( $this->marketing != 1 ) {					
+					/* translators: %s: product type */
+					$notice_text = sprintf(__( 'Become a super contributor by opting in to our anonymous %1$s data collection and to our updates. We guarantee no sensitive data is collected.'),$this->what_am_i);
+				} else {					
+					/* translators: %s: product type */
+					$notice_text = sprintf(__( 'Thank you for installing our %1$s. We\'d like your permission to track its usage on your site and subscribe you to our newsletter. We won\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.', 'schema-and-structured-data-for-wp' ),$this->what_am_i);
 				}
 				// And we allow you to filter the text anyway
 				$notice_text = apply_filters( 'wisdom_notice_text_' . esc_attr( $this->plugin_name ), $notice_text ); ?>
 				
 				<div class="notice notice-info updated put-dismiss-notice">
 					<p><?php echo '<strong>Love using Schema & Structured Data for WP & AMP?</strong>'; ?></p>
-					<p><?php echo esc_html( $notice_text ); ?> <a href="https://structured-data-for-wp.com/docs/article/usage-data-tracking/" target="_blank"><?php echo saswp_t_string( 'Learn more.' ); ?></a></p>
+					<p><?php echo esc_html( $notice_text ); ?> <a href="https://structured-data-for-wp.com/docs/article/usage-data-tracking/" target="_blank"><?php echo esc_html__( 'Learn more.', 'schema-and-structured-data-for-wp' ); ?></a></p>
 					<p>
-						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php echo _e( 'Sure! I\'d love to help', 'singularity' ); ?></a>&nbsp;&nbsp;
-						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php echo _e( 'No thanks', 'singularity' ); ?></a>
+						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php echo esc_html__( 'Sure! I\'d love to help', 'schema-and-structured-data-for-wp' ); ?></a>&nbsp;&nbsp;
+						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php echo esc_html__( 'No thanks', 'schema-and-structured-data-for-wp' ); ?></a>
 					</p>
 				</div>
 			<?php
@@ -730,12 +726,15 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 */
 		public function marketing_notice() {
 			// Check if user has opted in to marketing
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 			if( isset( $_GET['marketing_optin'] ) ) {
 				// Set marketing optin
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 				$this->set_can_collect_email( sanitize_text_field( $_GET['marketing_optin'] ), $this->plugin_name );
 				// Do tracking
 				$this->do_tracking( true );
-			} else if( isset( $_GET['marketing'] ) && $_GET['marketing']=='yes' ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
+			} elseif( isset( $_GET['marketing'] ) && $_GET['marketing']=='yes' ) {
 				// Display the notice requesting permission to collect email address
 				// Retrieve current plugin information
 				$plugin = $this->plugin_data();
@@ -749,19 +748,16 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 					'plugin' 			=> $this->plugin_name,
 					'marketing_optin'	=> 'no'
 				) );
-				
-				$marketing_text = sprintf(
-					__( 'Thank you for opting in to tracking. Would you like to receive occasional news about this %s, including details of new features and special offers?', 'singularity' ),
-					$this->what_am_i
-				);
+				/* translators: %s: product type */
+				$marketing_text = sprintf(__( 'Thank you for opting in to tracking. Would you like to receive occasional news about this %s, including details of new features and special offers?', 'schema-and-structured-data-for-wp' ),$this->what_am_i);
 				$marketing_text = apply_filters( 'wisdom_marketing_text_' . esc_attr( $this->plugin_name ), $marketing_text ); ?>
 				
 				<div class="notice notice-info updated put-dismiss-notice">
 					<p><?php echo '<strong>' . esc_html( $plugin_name ) . '</strong>'; ?></p>
 					<p><?php echo esc_html( $marketing_text ); ?></p>
 					<p>
-						<a href="<?php echo esc_url( $url_yes ); ?>" data-putnotice="yes" class="button-secondary"><?php _e( 'Yes Please', 'singularity' ); ?></a>
-						<a href="<?php echo esc_url( $url_no ); ?>" data-putnotice="no" class="button-secondary"><?php _e( 'No Thank You', 'singularity' ); ?></a>
+						<a href="<?php echo esc_url( $url_yes ); ?>" data-putnotice="yes" class="button-secondary"><?php echo esc_html__( 'Yes Please', 'schema-and-structured-data-for-wp' ); ?></a>
+						<a href="<?php echo esc_url( $url_no ); ?>" data-putnotice="no" class="button-secondary"><?php echo esc_html__( 'No Thank You', 'schema-and-structured-data-for-wp' ); ?></a>
 					</p>
 				</div>
 				<?php }
@@ -790,18 +786,18 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 */
 		public function form_default_text() {
 			$form = array();
-			$form['heading'] = __( 'Sorry to see you go', 'singularity' );
-			$form['body'] = __( 'Before you deactivate the plugin, would you quickly give us your reason for doing so?', 'singularity' );
+			$form['heading'] = __( 'Sorry to see you go', 'schema-and-structured-data-for-wp' );
+			$form['body'] = __( 'Before you deactivate the plugin, would you quickly give us your reason for doing so?', 'schema-and-structured-data-for-wp' );
 			$form['options'] = array(
-				__( 'Set up is too difficult', 'singularity' ),
-				__( 'Lack of documentation', 'singularity' ),
-				__( 'Not the features I wanted', 'singularity' ),
-				__( 'Found a better plugin', 'singularity' ),
-				__( 'Installed by mistake', 'singularity' ),
-				__( 'Only required temporarily', 'singularity' ),
-				__( 'Didn\'t work', 'singularity' )
+				__( 'Set up is too difficult', 'schema-and-structured-data-for-wp' ),
+				__( 'Lack of documentation', 'schema-and-structured-data-for-wp' ),
+				__( 'Not the features I wanted', 'schema-and-structured-data-for-wp' ),
+				__( 'Found a better plugin', 'schema-and-structured-data-for-wp' ),
+				__( 'Installed by mistake', 'schema-and-structured-data-for-wp' ),
+				__( 'Only required temporarily', 'schema-and-structured-data-for-wp' ),
+				__( 'Didn\'t work', 'schema-and-structured-data-for-wp' )
 			);
-			$form['details'] = __( 'Details (optional)', 'singularity' );
+			$form['details'] = __( 'Details (optional)', 'schema-and-structured-data-for-wp' );
 			return $form;
 		}
 		
@@ -835,13 +831,13 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			if( is_array( $form['options'] ) ) {
 				$html .= '<div class="put-goodbye-options"><p>';
 				foreach( $form['options'] as $option ) {
-					$html .= '<input type="checkbox" name="put-goodbye-options[]" id="' . str_replace( " ", "", esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( " ", "", esc_attr( $option ) ) . '">' . esc_html( $option ) . '</label><br>';
+					$html .= '<input type="checkbox" name="put-goodbye-options[]" id="' . esc_attr(str_replace( " ", "", $option )) . '" value="' . esc_attr( $option ) . '"> <label for="' . esc_attr(str_replace( " ", "", $option )) . '">' . esc_html( $option ) . '</label><br>';
 				}
 				$html .= '</p><label for="put-goodbye-reasons">' . esc_html( $form['details'] ) .'</label><textarea name="put-goodbye-reasons" id="put-goodbye-reasons" rows="2" style="width:100%"></textarea>';
 				$html .= '</div><!-- .put-goodbye-options -->';
 			}
 			$html .= '</div><!-- .put-goodbye-form-body -->';
-			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . __( 'Submitting form', 'singularity' ) . '</p>';
+			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . esc_html__( 'Submitting form', 'schema-and-structured-data-for-wp' ) . '</p>';
 			?>
 			<div class="put-goodbye-form-bg"></div>
 			<style type="text/css">
@@ -896,12 +892,12 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			</style>
 			<script>
 				jQuery(document).ready(function($){
-					$("#put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>").on("click",function(){
+					$("#put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>").on("click",function() {
 						// We'll send the user to this deactivation link when they've completed or dismissed the form
 						var url = document.getElementById("put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>");
 						$('body').toggleClass('put-form-active');
-						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeIn();
-						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").html( '<?php echo $html; ?>' + '<div class="put-goodbye-form-footer"><p><a id="put-submit-form" class="button primary" href="#"><?php _e( 'Submit and Deactivate', 'singularity' ); ?></a>&nbsp;<a class="secondary button" href="'+url+'"><?php _e( 'Just Deactivate', 'singularity' ); ?></a></p></div>');
+						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeIn();						
+						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").html( '<?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: It is static html and its all dynamic values have been esacped. ?>' + '<div class="put-goodbye-form-footer"><p><a id="put-submit-form" class="button primary" href="#"><?php echo esc_html__( 'Submit and Deactivate', 'schema-and-structured-data-for-wp' ); ?></a>&nbsp;<a class="secondary button" href="'+url+'"><?php echo esc_html__( 'Just Deactivate', 'schema-and-structured-data-for-wp' ); ?></a></p></div>');
 						$('#put-submit-form').on('click', function(e){
 							// As soon as we click, the body of the form should disappear
 							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .put-goodbye-form-body").fadeOut();
@@ -910,7 +906,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .deactivating-spinner").fadeIn();
 							e.preventDefault();
 							var values = new Array();
-							$.each($("input[name='put-goodbye-options[]']:checked"), function(){
+							$.each($("input[name='put-goodbye-options[]']:checked"), function() {
 								values.push($(this).val());
 							});
 							var details = $('#put-goodbye-reasons').val();
@@ -918,7 +914,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 								'action': 'goodbye_form',
 								'values': values,
 								'details': details,
-								'security': "<?php echo wp_create_nonce ( 'saswp_goodbye_form' ); ?>",
+								'security': "<?php echo esc_html( wp_create_nonce ( 'saswp_goodbye_form' )); ?>",
 								'dataType': "json"
 							}
 							$.post(
@@ -931,7 +927,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 							);
 						});
 						// If we click outside the form, the form will close
-						$('.put-goodbye-form-bg').on('click',function(){
+						$('.put-goodbye-form-bg').on('click',function() {
 							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeOut();
 							$('body').removeClass('put-form-active');
 						});
@@ -945,7 +941,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 * @since 1.0.0
 		 */
 		public function goodbye_form_callback() {
-			if(!current_user_can( saswp_current_user_can())){
+			if(!current_user_can( saswp_current_user_can()) ) {
 			    die( '-1' );    
 			}
 			check_ajax_referer( 'saswp_goodbye_form', 'security' );

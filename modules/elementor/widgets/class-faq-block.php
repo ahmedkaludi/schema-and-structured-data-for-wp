@@ -96,11 +96,6 @@ class Faq_Block extends Widget_Base {
             
 				$settings            = $this->get_settings_for_display();
                 $order_type          = $settings['order_type'];                
-                $style               ='';
-                
-                if($order_type == 'order_list' || $order_type == ''){
-                    $style = 'style="list-style:none"';
-                }
                 
 		if ( $settings['list'] ) {
                     
@@ -108,15 +103,21 @@ class Faq_Block extends Widget_Base {
 			echo '<ul>';
                         $i = 1;
 			foreach (  $settings['list'] as $item ) {
-				echo '<li '.$style.' class="elementor-repeater-item-' . esc_attr($item['_id']) . '">';
+				if($order_type == 'order_list' || $order_type == ''){
+				?>	<li style="list-style:none" class="elementor-repeater-item-<?php echo esc_attr( $item['_id']); ?>">
+				<?php }else{
+				?>
+					<li class="elementor-repeater-item-<?php echo esc_attr( $item['_id']); ?>">	
+				<?php	
+				}
                                 echo '<h3>';
                                 
                                 if($order_type == 'order_list'){
-                                    echo '<span>'.esc_html($i).'. </span>';
+                                    echo '<span>'.esc_html( $i).'. </span>';
                                 } 
-                                echo esc_html($item['faq_question']);
+                                echo esc_html( $item['faq_question']);
                                 echo '</h3>';
-				echo '<p>' . wp_unslash($item['faq_answer']) . '</p>';
+				echo '<p>' . wp_kses($item['faq_answer'], wp_kses_allowed_html('post'));
                                 
                                 $i++;
 			}

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /*
   Metabox to show ads type such as custom and adsense 
  */
-class saswp_fields_generator {
+class SASWP_Fields_Generator {
 
     public $platforms = array(
         array(
@@ -318,11 +318,11 @@ class saswp_fields_generator {
             "name"  => "dreams.co.uk")                                      
     );
     
-    public function saswp_tooltip_message($meta_field_id){
+    public function saswp_tooltip_message($meta_field_id) {
         
         $tooltip_message = '';
         
-        switch ($meta_field_id) {
+        switch ( $meta_field_id ) {
             
             case 'saswp_kb_type':
                //$tooltip_message = 'Test Message';
@@ -343,13 +343,13 @@ class saswp_fields_generator {
      */
     public function saswp_field_generator( $meta_fields, $settings, $field_type = null ) {  
                         
-		$output          = '';
+		        $output          = '';
                 $tooltip_message = '';
                 
                 
 		foreach ( $meta_fields as $meta_field ) {
                     
-                        $tooltip_message = $this->saswp_tooltip_message($meta_field['id']);
+                        $tooltip_message = $this->saswp_tooltip_message( $meta_field['id'] );
                         
                         $class      = "";
                         $note       = "";                          
@@ -366,15 +366,15 @@ class saswp_fields_generator {
                             $license_download_id = '';
                             $license_user_name = '';
                             
-                            if(isset($settings[strtolower($on).'_addon_license_key'])){
+                            if ( isset( $settings[strtolower($on).'_addon_license_key']) ) {
                             $license_key =   $settings[strtolower($on).'_addon_license_key'];
                             }
 
-                            if(isset($settings[strtolower($on).'_addon_license_key_status'])){
+                            if ( isset( $settings[strtolower($on).'_addon_license_key_status']) ) {
                               $license_status =   $settings[strtolower($on).'_addon_license_key_status'];
                             }
 
-                            if(isset($settings[strtolower($on).'_addon_license_key_message'])){
+                            if ( isset( $settings[strtolower($on).'_addon_license_key_message']) ) {
                               $license_status_msg =   $settings[strtolower($on).'_addon_license_key_message'];
                             }
                             
@@ -399,43 +399,43 @@ class saswp_fields_generator {
                               $rv_limits =   get_option(strtolower($on).'_addon_reviews_limits');
                             }
                                                                         
-                        if(array_key_exists('class', $meta_field)){
+                        if(array_key_exists('class', $meta_field) ) {
                             
                             $class = $meta_field['class'];    
                             
                         }                        
-                        if(array_key_exists('note', $meta_field)){
+                        if(array_key_exists('note', $meta_field) ) {
                             
                             $note = $meta_field['note'];     
                         
                         }
-                        if(array_key_exists('hidden', $meta_field)){
+                        if(array_key_exists('hidden', $meta_field) ) {
                             
                             $hidden = $meta_field['hidden'];     
                         
                         }
-                        if(array_key_exists('attributes', $meta_field)){
+                        if(array_key_exists('attributes', $meta_field) ) {
                             
                             $attribute = $meta_field['attributes'];     
                         
                         }
                         if($tooltip_message){
                             
-                            $label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ).' <span class="saswp-tooltiptext">'.saswp_t_string($tooltip_message).'</span></label>';			
+                            $label = '<label class="saswp-tooltip" for="' . esc_attr( $meta_field['id']) . '">' . esc_html( $meta_field['label'] ).' <span class="saswp-tooltiptext">'.esc_html( $tooltip_message).'</span></label>';			
                         
                         }else{
                             
-                            $label = '<label class="saswp-tooltip" for="' . esc_attr($meta_field['id']) . '">' . saswp_t_string( $meta_field['label'] ).' <span class="saswp-tooltiptext"></span></label>';			    
+                            $label = '<label class="saswp-tooltip" for="' . esc_attr( $meta_field['id']) . '">' . esc_html( $meta_field['label'] ).' <span class="saswp-tooltiptext"></span></label>';			    
                         
                         }
 			
                         $attribute_str ='';
                         
-                        if(!empty($attribute)){
+                        if ( ! empty( $attribute) ) {
                             
-                            foreach ($attribute as $key => $attr ){
+                            foreach ( $attribute as $key => $attr ){
 
-                                $attribute_str .=''.esc_attr($key).'="'.esc_attr($attr).'" ';
+                                $attribute_str .=''. esc_attr( $key).'="'. esc_attr( $attr).'" ';
                            
                             }
                         
@@ -447,7 +447,7 @@ class saswp_fields_generator {
                                                                                                      
                                         $mediavalue = array();
                                     
-                                            if(isset($settings[$meta_field['id']])){
+                                            if ( isset( $settings[$meta_field['id']]) ) {
                                                 
                                                 $mediavalue = $settings[$meta_field['id']];                                          
                                                 
@@ -455,14 +455,14 @@ class saswp_fields_generator {
                                         
                                         $image_pre = '';
                                         $thumbnail_url = '';
-                                        if(saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string')){
+                                        if(saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string') ) {
                                            $thumbnail_url = saswp_remove_warnings($mediavalue, 'thumbnail', 'saswp_string');
-                                           if(!empty($thumbnail_url)){
+                                           if ( ! empty( $thumbnail_url) ) {
                                             $thumbnail_url = urldecode($thumbnail_url);
                                            } 
                                            $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'.esc_url($thumbnail_url).'" />
-                                                         <a data-id="'.esc_attr($meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
+                                                         <img class="saswp_image_prev" src="'. esc_url( $thumbnail_url).'" />
+                                                         <a data-id="'. esc_attr( $meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             
                                         }    
@@ -470,41 +470,41 @@ class saswp_fields_generator {
 					$input = sprintf(
 						'<fieldset><input %s class="%s" style="width: 80%%" id="%s" name="%s" type="text" value="%s">'
                                                 . '<input data-id="media" style="width: 19%%" class="button" id="%s_button" name="%s_button" type="button" value="Upload" />'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_id" class="upload-id " name="sd_data['.esc_attr($meta_field['id']).'][id]" id="sd_data['.esc_attr($meta_field['id']).'][id]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'id', 'saswp_string')).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_height" class="upload-height" name="sd_data['.esc_attr($meta_field['id']).'][height]" id="sd_data['.esc_attr($meta_field['id']).'][height]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'height', 'saswp_string')).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_width" class="upload-width" name="sd_data['.esc_attr($meta_field['id']).'][width]" id="sd_data['.esc_attr($meta_field['id']).'][width]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'width', 'saswp_string')).'">'
-                                                . '<input type="hidden" data-id="'.esc_attr($meta_field['id']).'_thumbnail" class="upload-thumbnail" name="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" id="sd_data['.esc_attr($meta_field['id']).'][thumbnail]" value="'.esc_attr($thumbnail_url).'">'
-                                                . '<div class="saswp_image_div_'.esc_attr($meta_field['id']).'">'                                               
+                                                . '<input type="hidden" data-id="'. esc_attr( $meta_field['id']).'_id" class="upload-id " name="sd_data['. esc_attr( $meta_field['id']).'][id]" id="sd_data['. esc_attr( $meta_field['id']).'][id]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'id', 'saswp_string' )). '">'
+                                                . '<input type="hidden" data-id="'. esc_attr( $meta_field['id']).'_height" class="upload-height" name="sd_data['. esc_attr( $meta_field['id']).'][height]" id="sd_data['. esc_attr( $meta_field['id']).'][height]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'height', 'saswp_string' )). '">'
+                                                . '<input type="hidden" data-id="'. esc_attr( $meta_field['id']).'_width" class="upload-width" name="sd_data['. esc_attr( $meta_field['id']).'][width]" id="sd_data['. esc_attr( $meta_field['id']).'][width]" value="'.esc_attr(saswp_remove_warnings($mediavalue, 'width', 'saswp_string' )). '">'
+                                                . '<input type="hidden" data-id="'. esc_attr( $meta_field['id']).'_thumbnail" class="upload-thumbnail" name="sd_data['. esc_attr( $meta_field['id']).'][thumbnail]" id="sd_data['. esc_attr( $meta_field['id']).'][thumbnail]" value="'. esc_attr( $thumbnail_url).'">'
+                                                . '<div class="saswp_image_div_'. esc_attr( $meta_field['id']).'">'                                               
                                                 . $image_pre                                                 
                                                 . '</div>'	
                                                 . '</fieldset>',
                                                 $attribute_str,
                                                 $class,
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['name']),
+						esc_attr( $meta_field['id']),
+						esc_attr( $meta_field['name']),
                                                 esc_url(saswp_remove_warnings($mediavalue, 'url', 'saswp_string')),
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['id'])                                                
+						esc_attr( $meta_field['id']),
+						esc_attr( $meta_field['id'])                                                
 					);
 					break;
 				case 'checkbox':
                                     
                                         $hiddenvalue ="";
                                         
-                                        if(array_key_exists('id', $hidden) && isset($settings[$hidden['id']])){
+                                        if(array_key_exists('id', $hidden) && isset($settings[$hidden['id']]) ) {
                                             
                                          $hiddenvalue = $settings[$hidden['id']];  
                                          
                                         }
                                         $hiddenfield="";
                                         
-                                        if(!empty($hidden)){   
+                                        if ( ! empty( $hidden) ) {   
                                             
                                           $hiddenfield = sprintf(
 						'<input id="%s" name="%s" type="hidden" value="%s">',                                                						
-						esc_attr($hidden['id']),
-						esc_attr($hidden['name']),					
-						esc_attr($hiddenvalue)
+						esc_attr( $hidden['id']),
+						esc_attr( $hidden['name']),					
+						esc_attr( $hiddenvalue)
 					 );  
                                           
                                          }   
@@ -512,17 +512,17 @@ class saswp_fields_generator {
                                                                                                                                                                                                          
 					$alink = '';
                     if($meta_field['id'] == 'saswp-review-module-checkbox'){
-                        if(isset($settings['saswp-review-module']) && $settings['saswp-review-module'] == 1){
-                            $alink = '<span id="saswp-rtb-link">'.saswp_t_string('Customize the Design').'</span>';
+                        if ( isset( $settings['saswp-review-module']) && $settings['saswp-review-module'] == 1){
+                            $alink = '<span id="saswp-rtb-link">'. esc_html__( 'Customize the Design', 'schema-and-structured-data-for-wp' ) .'</span>';
                         }else{
-                            $alink = '<span id="saswp-rtb-link" class="saswp_hide">'.saswp_t_string('Customize the Design').'</span>';
+                            $alink = '<span id="saswp-rtb-link" class="saswp_hide">'. esc_html__( 'Customize the Design', 'schema-and-structured-data-for-wp' ) .'</span>';
                         }
                     }
                     $input = sprintf(
 						'<input class="%s" id="%s" name="%s" type="checkbox" %s %s>'.$alink.'<p>'.$message.'</p>',
-                                                esc_attr($class),
-                                                esc_attr($meta_field['id']),    
-						esc_attr($meta_field['name']),                                              
+                                                esc_attr( $class),
+                                                esc_attr( $meta_field['id']),    
+						esc_attr( $meta_field['name']),                                              
                                                 $hiddenvalue == 1 ? 'checked' : '',
                                                 $attribute_str
 						);                                          
@@ -532,14 +532,14 @@ class saswp_fields_generator {
 					$input = sprintf(
 						'<select class="%s" id="%s" name="%s">',
                                                 $class,
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['name'])
+						esc_attr( $meta_field['id']),
+						esc_attr( $meta_field['name'])
 					);                                    
 					foreach ( $meta_field['options'] as $key => $value ) {	  
                                                 $settings_meta_field = '';
-                                                if(isset($settings[$meta_field['id']])){                                                 
+                                                if ( isset( $settings[$meta_field['id']]) ) {                                                 
 
-                                                 if($meta_field['id'] == 'saswp_site_navigation_menu' && function_exists('icl_object_id')){
+                                                 if($meta_field['id'] == 'saswp_site_navigation_menu' && function_exists('icl_object_id') ) {
 																											
                                                     $settings_meta_field   = apply_filters( 'wpml_object_id', $settings[$meta_field['id']], 'nav_menu', FALSE,ICL_LANGUAGE_CODE );
                                                     if(!$settings_meta_field){
@@ -555,7 +555,7 @@ class saswp_fields_generator {
 							'<option %s value="%s">%s</option>',
 							$settings_meta_field == $key ? 'selected' : '',                                                        
 							$key,
-							saswp_t_string( $value )
+							esc_html( $value )
 						);
 					}
 					$input .= '</select>';
@@ -564,11 +564,11 @@ class saswp_fields_generator {
 					$input = sprintf(
 						'<select class="%s" id="%s" name="%s[]" multiple>',
                                                 $class,
-						esc_attr($meta_field['id']),
-						esc_attr($meta_field['name'])
+						esc_attr( $meta_field['id']),
+						esc_attr( $meta_field['name'])
 					);                                      
                                         $settings_meta_field = array();
-                                        if(isset($settings[$meta_field['id']])){
+                                        if ( isset( $settings[$meta_field['id']]) ) {
                                          $settings_meta_field   = $settings[$meta_field['id']];
                                         }
                                     
@@ -580,7 +580,7 @@ class saswp_fields_generator {
 							'<option %s value="%s">%s (Default)</option>',
 							'selected',                                                        
 							$key,
-							saswp_t_string( $value )
+							esc_html( $value )
 						   );
                                                     
                                                 }else{                                                    
@@ -588,7 +588,7 @@ class saswp_fields_generator {
 							'<option %s value="%s">%s</option>',
 							in_array($key, $settings_meta_field)  ? 'selected' : '',                                                        
 							$key,
-							saswp_t_string( $value )
+							esc_html( $value )
 						   );
                                                     
                                                 }                                            
@@ -620,10 +620,10 @@ class saswp_fields_generator {
                                                       <span class="saswp_lst saswp_avlbl">Integrations Available</span>
                                                       <ul>';
                                                       
-                                                    foreach ($this->platforms as $platform) {
+                                                    foreach ( $this->platforms as $platform) {
                                                         
-                                                    $input .= '<li class=""><img src="'.esc_url(SASWP_PLUGIN_URL.$platform['image']).'">
-                                                              <span class="saswp_cmpny">'.esc_html($platform['name']).'</span>
+                                                    $input .= '<li class=""><img src="'. esc_url( SASWP_PLUGIN_URL.$platform['image']).'">
+                                                              <span class="saswp_cmpny">'.esc_html( $platform['name']).'</span>
                                                               </li>';        
                                                     }      
                                                       
@@ -643,7 +643,7 @@ class saswp_fields_generator {
 
                                             $location = '';
                             
-                            if(isset($settings['saswp_reviews_location_name']) && !empty($settings['saswp_reviews_location_name'])){
+                            if ( isset( $settings['saswp_reviews_location_name']) && !empty($settings['saswp_reviews_location_name']) ) {
                                 
                                 $rv_loc     = $settings['saswp_reviews_location_name'];
                                 $rv_lang    = $settings['saswp_reviews_language_name'];
@@ -651,20 +651,20 @@ class saswp_fields_generator {
                                 
                                 $i=0;
                                 
-                                foreach($rv_loc as $rvl){
+                                foreach( $rv_loc as $rvl){
                                     
                                     if($rvl){
                                                                                 
                                         $blocks_fields = apply_filters('saswp_modify_blocks_field', '<input class="saswp-g-blocks-field" name="sd_data[saswp_reviews_location_blocks][]" type="number" min="5" step="5" placeholder="5" value="5" disabled="disabled">', isset($rv_blocks[$i])? $rv_blocks[$i]: 5);
                                         
                                         $location .= '<tr>'
-                                        . '<td style="width:12%;"><strong>'.saswp_t_string( 'Place Id' ).'</strong></td>'
-                                        . '<td style="width:10%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value="'. esc_attr($rvl).'"></td>'
-                                        . '<td style="width:12%;"><strong>'.saswp_t_string( 'Language' ).'</strong></td>'
-                                        . '<td style="width:10%;"><input class="saswp-g-language-field" name="sd_data[saswp_reviews_language_name][]" type="text" value="'. esc_attr($rv_lang[$i]).'"></td>'
-                                        . '<td style="width:10%;"><strong>'.saswp_t_string( 'Reviews' ).'</strong></td>'
-                                        . '<td style="width:10%;">'.$blocks_fields.'</td>'                                        
-                                        . '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">'.saswp_t_string( 'Fetch' ).'</a></td>'
+                                        . '<td style="width:12%;"><strong>'.esc_html__( 'Place Id', 'schema-and-structured-data-for-wp' ).'</strong></td>'
+                                        . '<td style="width:10%;"><input class="saswp-g-location-field" name="sd_data[saswp_reviews_location_name][]" type="text" value="'. esc_attr( $rvl).'"></td>'
+                                        . '<td style="width:12%;"><strong>'.esc_html__( 'Language', 'schema-and-structured-data-for-wp' ).'</strong></td>'
+                                        . '<td style="width:10%;"><input class="saswp-g-language-field" name="sd_data[saswp_reviews_language_name][]" type="text" value="'. esc_attr( $rv_lang[$i]).'"></td>'
+                                        . '<td style="width:10%;"><strong>'.esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ).'</strong></td>'
+                                        . '<td style="width:10%;">'.esc_html( $blocks_fields).'</td>'                                        
+                                        . '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">'.esc_html__( 'Fetch', 'schema-and-structured-data-for-wp' ).'</a></td>'
                                         . '<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>'
                                         . '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>'        
                                         . '</tr>'; 
@@ -679,8 +679,8 @@ class saswp_fields_generator {
                                 . $location                                 
                                 . '</table>'                                
                                 . '<div>'
-                                . '<a class="button button-default saswp-add-g-location-btn">'.saswp_t_string( 'Add Location' ).'</a>'
-                                .  '<p><a target="_blank" href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder">'.saswp_t_string( 'Place ID Finder' ).'</a></p>'  
+                                . '<a class="button button-default saswp-add-g-location-btn">'.esc_html__( 'Add Location', 'schema-and-structured-data-for-wp' ).'</a>'
+                                .  '<p><a target="_blank" href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder">'.esc_html__( 'Place ID Finder', 'schema-and-structured-data-for-wp' ).'</a></p>'  
                                 . '</div>'    
                                 . '</div>';  
                                                                                                      
@@ -693,13 +693,13 @@ class saswp_fields_generator {
                                             $reviews = '<div class="saswp-s-approved-reviews-settings saswp-knowledge-label">'                                                                
                                                 . '<table class="saswp-s-reviews-settings-table" style="width:100%">'                                                                               
                                                 . '<tr>'
-                                                . '<td style="width:12%;"><strong>'.saswp_t_string( 'Site Id' ).'</strong></td>'
-                                                . '<td style="width:10%;"><input class="saswp-g-location-field" id="saswp_s_approved_site_id" name="sd_data[saswp_s_approved_site_id]" type="text" value="'.$settings['saswp_s_approved_site_id'].'"></td>'
-                                                . '<td style="width:10%;"><strong>'.saswp_t_string( 'Token' ).'</strong></td>'
-                                                . '<td style="width:20%;"><input class="saswp-g-blocks-field" id="saswp_s_approved_token" name="sd_data[saswp_s_approved_token]" type="text" value="'.$settings['saswp_s_approved_token'].'"></td>'                                        
-                                                . '<td style="width:5%;"><strong>'.saswp_t_string( 'Reviews' ).'</strong></td>'
-                                                . '<td style="width:15%;"><input class="saswp-g-blocks-field" id="saswp_s_approved_reviews" name="sd_data[saswp_s_approved_reviews]" type="number" min="1" max="500" value="'.$settings['saswp_s_approved_reviews'].'"></td>'                                        
-                                                . '<td style="width:10%;"><a class="button button-default saswp-fetch-s-approved-reviews">'.saswp_t_string( 'Fetch' ).'</a></td>'                                                        
+                                                . '<td style="width:12%;"><strong>'.esc_html__( 'Site Id', 'schema-and-structured-data-for-wp' ).'</strong></td>'
+                                                . '<td style="width:10%;"><input class="saswp-g-location-field" id="saswp_s_approved_site_id" name="sd_data[saswp_s_approved_site_id]" type="text" value="'. esc_attr( $settings['saswp_s_approved_site_id']).'"></td>'
+                                                . '<td style="width:10%;"><strong>'.esc_html__( 'Token', 'schema-and-structured-data-for-wp' ).'</strong></td>'
+                                                . '<td style="width:20%;"><input class="saswp-g-blocks-field" id="saswp_s_approved_token" name="sd_data[saswp_s_approved_token]" type="text" value="'. esc_attr( $settings['saswp_s_approved_token']).'"></td>'                                        
+                                                . '<td style="width:5%;"><strong>'.esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ).'</strong></td>'
+                                                . '<td style="width:15%;"><input class="saswp-g-blocks-field" id="saswp_s_approved_reviews" name="sd_data[saswp_s_approved_reviews]" type="number" min="1" max="500" value="'. esc_attr( $settings['saswp_s_approved_reviews']).'"></td>'                                        
+                                                . '<td style="width:10%;"><a class="button button-default saswp-fetch-s-approved-reviews">'.esc_html__( 'Fetch', 'schema-and-structured-data-for-wp' ).'</a></td>'                                                        
                                                 . '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>'        
                                                 . '</tr>'   
                                                 . '</table>'                                
@@ -716,7 +716,7 @@ class saswp_fields_generator {
                                             
                                              $stng_meta_field = '';
                                     
-                                        if(isset($settings[$meta_field['id']])){
+                                        if ( isset( $settings[$meta_field['id']]) ) {
                                             
                                                 $stng_meta_field =  $settings[$meta_field['id']];  
                                          
@@ -729,7 +729,7 @@ class saswp_fields_generator {
 						esc_attr(saswp_remove_warnings($meta_field, 'id', 'saswp_string')),
 						esc_attr(saswp_remove_warnings($meta_field, 'name', 'saswp_string')),
 						esc_attr(saswp_remove_warnings($meta_field, 'type', 'saswp_string')),
-						esc_attr($stng_meta_field),
+						esc_attr( $stng_meta_field),
                                                 $attribute_str
 					);
                                             
@@ -747,7 +747,7 @@ class saswp_fields_generator {
                             
                             $sel_value = array();
 
-                            if(isset($settings['saswp-stars-post-taype'])){
+                            if ( isset( $settings['saswp-stars-post-taype']) ) {
                                 $sel_value = $settings['saswp-stars-post-taype'];                           
                             }                             
 
@@ -755,14 +755,14 @@ class saswp_fields_generator {
                             
                             if($post_type){
                                 
-                                if(isset($settings['saswp-stars-rating']) && $settings['saswp-stars-rating'] == 1){
+                                if ( isset( $settings['saswp-stars-rating']) && $settings['saswp-stars-rating'] == 1){
                                     $subfields .= '<div><table class="saswp-stars-post-table">';
                                 }else{
                                     $subfields .= '<div><table class="saswp-stars-post-table saswp_hide">';
                                 }
                                 
-                                foreach($post_type as $key => $value){
-                                    $subfields .= '<tr><td><input type="checkbox" name="sd_data[saswp-stars-post-taype][]" value="'.esc_attr($key).'" '.(in_array($key, $sel_value) ? 'checked':'' ).' /></td><td> '.esc_html($value).' </td><tr>';
+                                foreach( $post_type as $key => $value){
+                                    $subfields .= '<tr><td><input type="checkbox" name="sd_data[saswp-stars-post-taype][]" value="'. esc_attr( $key).'" '.(in_array($key, $sel_value) ? 'checked':'' ).' /></td><td> '.esc_html( $value).' </td><tr>';
                                 }
 
                                 $subfields .= '</table></div>';

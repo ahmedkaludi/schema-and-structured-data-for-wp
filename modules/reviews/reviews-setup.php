@@ -31,10 +31,10 @@ function saswp_register_saswp_reviews_location() {
                         
         $post_type = array(
 	    'labels' => array(
-	        'name' 		            	=> saswp_t_string( 'Location' ),	        
-	        'add_new' 		            => saswp_t_string( 'Add Location' ),
-	        'add_new_item'  	        => saswp_t_string( 'Edit Location' ),
-            'edit_item'                 => saswp_t_string( 'Edit Location'),                
+	        'name' 		            	=> esc_html__( 'Location', 'schema-and-structured-data-for-wp' ),	        
+	        'add_new' 		            => esc_html__( 'Add Location', 'schema-and-structured-data-for-wp' ),
+	        'add_new_item'  	        => esc_html__( 'Edit Location', 'schema-and-structured-data-for-wp' ),
+            'edit_item'                 => esc_html__( 'Edit Location', 'schema-and-structured-data-for-wp' ),                
 	    ),
       	'public' 		        => false,
       	'has_archive' 		    => false,
@@ -47,11 +47,11 @@ function saswp_register_saswp_reviews_location() {
 	    'rewrite'               => false,        
     );
         
-    if(saswp_current_user_allowed()){
+    if(saswp_current_user_allowed() ) {
         
         $cap = saswp_post_type_capabilities();
 
-        if(!empty($cap)){        
+        if ( ! empty( $cap) ) {        
             $post_type['capabilities'] = $cap;         
         }
         
@@ -69,10 +69,10 @@ function saswp_register_saswp_reviews() {
                         
         $post_type = array(
             'labels' => array(
-                'name' 			    => saswp_t_string( 'Reviews' ),	        
-                'add_new' 		    => saswp_t_string( 'Add Review' ),
-                'add_new_item'  	=> saswp_t_string( 'Edit Review' ),
-                'edit_item'         => saswp_t_string( 'Edit Review'),                
+                'name' 			    => esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ),	        
+                'add_new' 		    => esc_html__( 'Add Review', 'schema-and-structured-data-for-wp' ),
+                'add_new_item'  	=> esc_html__( 'Edit Review', 'schema-and-structured-data-for-wp' ),
+                'edit_item'         => esc_html__( 'Edit Review', 'schema-and-structured-data-for-wp' ),                
             ),
             'public' 		        => true,
             'has_archive' 		    => false,
@@ -86,11 +86,11 @@ function saswp_register_saswp_reviews() {
             'rewrite'               => false
         );
     
-        if(saswp_current_user_allowed()){
+        if(saswp_current_user_allowed() ) {
             
             $cap = saswp_post_type_capabilities();
 
-            if(!empty($cap)){        
+            if ( ! empty( $cap) ) {        
                 $post_type['capabilities'] = $cap;         
             }
             
@@ -105,7 +105,7 @@ function saswp_collection_custom_columns_set( $column, $post_id ) {
                 
                 case 'saswp_collection_shortcode' :
                                         
-                    echo '[saswp-reviews-collection id="'.esc_attr($post_id).'"]';
+                    echo '[saswp-reviews-collection id="'. esc_attr( $post_id).'"]';
                     
                 break;                 
                               
@@ -116,7 +116,7 @@ function saswp_collection_custom_columns($columns) {
     
     unset($columns['date']);
     
-    $columns['saswp_collection_shortcode']       = '<a>'.saswp_t_string( 'Shortcode' ).'<a>';
+    $columns['saswp_collection_shortcode']       = '<a>'.esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' ).'<a>';
     
     return $columns;
     
@@ -136,9 +136,9 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     }
                     $url = admin_url( 'post.php?post='.$post_id.'&action=edit' );
                     echo '<div class="saswp-rv-img">'
-                       . '<a href="'.esc_url($url).'">'
-                       . '<span><img height="65" width="65" src="'.esc_url($image_url).'" alt="Reviewer"></span>'
-                       . '<span><strong>'.esc_html($name).'</strong></span>'
+                       . '<a href="'. esc_url( $url).'">'
+                       . '<span><img height="65" width="65" src="'. esc_url( $image_url).'" alt="Reviewer"></span>'
+                       . '<span><strong>'.esc_html( $name).'</strong></span>'
                        . '</a>'
                        . '</div>';
                                                             
@@ -146,7 +146,9 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                 case 'saswp_review_rating' :
                  
                     $rating_val = get_post_meta( $post_id, $key='saswp_review_rating', true);                   
-                    echo saswp_get_rating_html_by_value_column($rating_val,'');                                                                                                                                       
+                    $rating_html_escaped = saswp_get_rating_html_by_value_column($rating_val,'');
+                    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 -- html is already fully escaped in function saswp_get_rating_html_by_value
+                    echo $rating_html_escaped;
                     
                     break;
                 case 'saswp_review_platform' :
@@ -154,21 +156,21 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     $platform = get_post_meta( $post_id, 'saswp_review_platform', true);  
                     $term     = get_term( $platform, 'platform' );
                     
-                    if(isset($term->slug)){
+                    if ( isset( $term->slug) ) {
                         
                         if($term->slug == 'self'){
                             
-                             $service_object     = new saswp_output_service();
+                             $service_object     = new SASWP_Output_Service();
                              $default_logo       = $service_object->saswp_get_publisher(true);                                                         
                              
-                             if(isset($default_logo['url'])){
+                             if ( isset( $default_logo['url']) ) {
                             
-                                 echo '<span class="saswp-g-plus"><img src="'.esc_url($default_logo['url']).'" alt="Icon" /></span>';
+                                 echo '<span class="saswp-g-plus"><img src="'. esc_url( $default_logo['url']).'" alt="Icon" /></span>';
                                  
                              }
                             
                         }else{
-                            echo '<span class="saswp-g-plus"><img src="'.SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.esc_attr($term->slug).'-img.png'.'" alt="Icon" /></span>';
+                            echo '<span class="saswp-g-plus"><img src="'. esc_url( SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.$term->slug.'-img.png').'" alt="Icon" /></span>';
                         }
                                                 
                     }
@@ -179,7 +181,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                 
                     $string = get_post_meta( $post_id, $key='saswp_review_text', true);
                     
-                    if(!empty($string)){
+                    if ( ! empty( $string) ) {
 
                         $url    = admin_url( 'post.php?post='.$post_id.'&action=edit' );
                         $string = wp_strip_all_tags($string);
@@ -189,13 +191,10 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                             $stringCut = substr($string, 0, 150);
                             $endPoint  = strrpos($stringCut, ' ');
                             $string    = $endPoint? substr($stringCut, 0, $endPoint):substr($stringCut, 0);
-
-                            $string    =  esc_html($string);
-                            $string   .= '... <a style="cursor: pointer;" href="'.esc_url($url).'" >'.saswp_t_string('Read More').'</a>';
-                            echo $string;    
+                            echo esc_html( $string).'... <a style="cursor: pointer;" href="'. esc_url( $url).'" >'. esc_html__( 'Read More', 'schema-and-structured-data-for-wp' ) .'</a>';
                             
                         }else{
-                            echo esc_html($string);
+                            echo esc_html( $string);
                         }
                         
                     }
@@ -206,24 +205,24 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     $date = get_post_meta( $post_id, $key='saswp_review_date', true);
 
                     if($date){                        
-                        $date = date('m-d-Y H:i:s', strtotime($date));
-                        echo esc_attr($date);
+                        $date = gmdate('m-d-Y H:i:s', strtotime($date));
+                        echo esc_attr( $date);
                     }
                                                                                                                                                                                                     
                     break;
                 case 'saswp_review_place_id' :
                     
                     $name = get_post_meta( $post_id, 'saswp_review_location_id', true);
-                    if(saswp_validate_url($name)){
-                        echo '<a target="_blank" href="'.esc_url($name).'">'.esc_html($name).'</a>';
+                    if(saswp_validate_url($name) ) {
+                        echo '<a target="_blank" href="'. esc_url( $name).'">'.esc_html( $name).'</a>';
                     }else{
-                        echo '<a target="_blank" href="'.esc_url(get_permalink($name)).'">'.esc_html($name).'</a>';
+                        echo '<a target="_blank" href="'. esc_url( get_permalink($name)).'">'.esc_html( $name).'</a>';
                     }
                                                                                                                                                                                 
                     break; 
                 case 'saswp_review_shortcode' :
                                         
-                    echo '[saswp-reviews id="'. esc_attr($post_id).'"]';
+                    echo '[saswp-reviews id="'. esc_attr( $post_id).'"]';
                                                                                                                                                             
                     break; 
                
@@ -259,14 +258,14 @@ function saswp_reviews_custom_columns($columns) {
     unset($columns);
     
     $columns['cb']                         = '<input type="checkbox" />';
-    $columns['saswp_reviewer_image']       = saswp_t_string( 'Image' );
-    $columns['title']                      = saswp_t_string( 'Title' ); 
-    $columns['saswp_review_text']          = saswp_t_string( 'Text' );    
-    $columns['saswp_review_rating']        = saswp_t_string( 'Rating' );    
-    $columns['saswp_review_platform']      = saswp_t_string( 'Platform' );    
-    $columns['saswp_review_date']          = saswp_t_string( 'Review Date' ); 
-    $columns['saswp_review_place_id']      = saswp_t_string( 'Place ID/Reviewed To' );    
-    $columns['saswp_review_shortcode']     = saswp_t_string( 'Shortcode' );    
+    $columns['saswp_reviewer_image']       = esc_html__( 'Image', 'schema-and-structured-data-for-wp' );
+    $columns['title']                      = esc_html__( 'Title', 'schema-and-structured-data-for-wp' ); 
+    $columns['saswp_review_text']          = esc_html__( 'Text', 'schema-and-structured-data-for-wp' );    
+    $columns['saswp_review_rating']        = esc_html__( 'Rating', 'schema-and-structured-data-for-wp' );    
+    $columns['saswp_review_platform']      = esc_html__( 'Platform', 'schema-and-structured-data-for-wp' );    
+    $columns['saswp_review_date']          = esc_html__( 'Review Date', 'schema-and-structured-data-for-wp' ); 
+    $columns['saswp_review_place_id']      = esc_html__( 'Place ID/Reviewed To', 'schema-and-structured-data-for-wp' );    
+    $columns['saswp_review_shortcode']     = esc_html__( 'Shortcode', 'schema-and-structured-data-for-wp' );    
     
     return $columns;
 }
@@ -288,22 +287,22 @@ function saswp_get_rating_html_by_value($rating_val,$stars_color="",$review_id="
 
                     $explod = explode('.', $rating_val);
 
-                    if(isset($explod[1])){
+                    if ( isset( $explod[1]) ) {
 
                         if($j <$explod[0]){
                            $a = wp_rand(1231,7879); 
-                            $starating.='<span class="saswp_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'.esc_attr($review_id).''.esc_attr($a).'"><stop offset="100%" class="saswp_star" stop-color='.$stars_color.' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'.esc_attr($review_id).''.esc_attr($a).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
+                            $starating.='<span class="saswp_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'. esc_attr( $review_id).''. esc_attr( $a).'"><stop offset="100%" class="saswp_star" stop-color='.$stars_color.' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'. esc_attr( $review_id).''. esc_attr( $a).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
                         }else{
                             $b = wp_rand(1231,7879);
-                            $starating.='<span class="saswp_half_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'.esc_attr($review_id).''.esc_attr($b).'"><stop offset="50%" class="saswp_star" stop-color='.$stars_color.' /><stop offset="50%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'.esc_attr($review_id).''.esc_attr($b).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
+                            $starating.='<span class="saswp_half_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'. esc_attr( $review_id).''. esc_attr( $b).'"><stop offset="50%" class="saswp_star" stop-color='.$stars_color.' /><stop offset="50%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'. esc_attr( $review_id).''. esc_attr( $b).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
                         }                                           
                     }else{
                         $c = wp_rand(1231,7879);
-                        $starating.='<span class="saswp_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'.esc_attr($review_id).''.esc_attr($c).'"><stop offset="100%" class="saswp_star" stop-color='.$stars_color.' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'.esc_attr($review_id).''.esc_attr($c).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
+                        $starating.='<span class="saswp_star_color"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad'. esc_attr( $review_id).''. esc_attr( $c).'"><stop offset="100%" class="saswp_star" stop-color='.$stars_color.' /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad'. esc_attr( $review_id).''. esc_attr( $c).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
                     }
               } else{
                     $d = wp_rand(1231,7879);
-                    $starating.='<span class="saswp_star_color_gray"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad1'.esc_attr($review_id).''.esc_attr($d).'"><stop offset="100%" stop-color="grey" /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad1'.esc_attr($review_id).''.esc_attr($d).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
+                    $starating.='<span class="saswp_star_color_gray"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" viewBox="0 0 32 32"><defs><linearGradient id="grad1'. esc_attr( $review_id).''. esc_attr( $d).'"><stop offset="100%" stop-color="grey" /><stop offset="100%" stop-color="grey"/></linearGradient></defs><path fill="url(#grad1'. esc_attr( $review_id).''. esc_attr( $d).')" d="M20.388,10.918L32,12.118l-8.735,7.749L25.914,31.4l-9.893-6.088L6.127,31.4l2.695-11.533L0,12.118 l11.547-1.2L16.026,0.6L20.388,10.918z"/></svg></span>';
                 }                                                                                                                                
             }
         $starating .= '</div>';
@@ -322,7 +321,7 @@ function saswp_get_rating_html_by_value_column($rating_val){
 
                     $explod = explode('.', $rating_val);
 
-                    if(isset($explod[1])){
+                    if ( isset( $explod[1]) ) {
 
                         if($j <$explod[0]){
                             $starating.='<span class="str-ic"></span>';   
@@ -353,7 +352,7 @@ function saswp_enqueue_rateyo_script( $hook ) {
         
         $current_screen = get_current_screen(); 
        
-        if(isset($current_screen->post_type)){                  
+        if ( isset( $current_screen->post_type) ) {                  
             $post_type = $current_screen->post_type;                
         }  
                 
@@ -418,7 +417,7 @@ function saswp_create_platform_custom_taxonomy() {
   
 }
 
-function saswp_insert_platform_terms(){
+function saswp_insert_platform_terms() {
 
     $term_ids = array();
     
@@ -534,7 +533,7 @@ function saswp_insert_platform_terms(){
             'Dreams.co'                    
         );
 
-        foreach($term_array as $term){
+        foreach( $term_array as $term){
 
             $term_id = term_exists( $term, 'platform' );                         
                 
@@ -542,13 +541,13 @@ function saswp_insert_platform_terms(){
 
                 $result = wp_insert_term(  $term, 'platform', array('slug' => $term) );
 
-                if(!is_wp_error($result)){
+                if ( ! is_wp_error( $result) ) {
                     $term_ids[] = $result;
                 }
 
             }else{
                 
-                if(isset($term_id['term_id'])){
+                if ( isset( $term_id['term_id']) ) {
                     $term_ids[] = $term_id['term_id'];
                 }
                 
@@ -564,13 +563,13 @@ function saswp_insert_platform_terms(){
         
 }
 
-function saswp_get_terms_as_array(){
+function saswp_get_terms_as_array() {
     
     $terms_array = array();
-    $terms       = get_terms( 'platform', array( 'hide_empty' => false ) );  
+    $terms       = get_terms( array('taxonomy' => 'platform', 'hide_empty' => false ) );  
     
     if($terms){
-        foreach ($terms as $val){
+        foreach ( $terms as $val){
             $terms_array[$val->term_id] = $val->name;
             
         }
@@ -593,12 +592,15 @@ function saswp_reviews_filter() {
     if ( $typenow == 'saswp_reviews' ) { // Your custom post type slug
       $plugins = saswp_get_terms_as_array();
       $current_plugin = '';
+      // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the restrict_manage_posts hook.
       if( isset( $_GET['slug'] ) ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the restrict_manage_posts hook.
         $current_plugin = sanitize_text_field($_GET['slug']); // Check if option has been selected
       } ?>
       <select name="slug" id="slug">
-        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php esc_html_e( 'All' ); ?></option>
-        <?php foreach( $plugins as $key=>$value ) { ?>
+        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php echo esc_html__( 'All', 'schema-and-structured-data-for-wp' ); ?></option>
+        <?php foreach( $plugins as $key=>$value ) {
+             ?>
           <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $current_plugin ); ?>><?php echo esc_html( $value ); ?></option>
         <?php } ?>
       </select>
@@ -614,15 +616,18 @@ add_action( 'restrict_manage_posts', 'saswp_reviews_filter' );
  * @param type $query
  */
 function saswp_sort_reviews_by_platform( $query ) {
-    
-  global $pagenow;
-  // Get the post type
-  $post_type = isset( $_GET['post_type'] ) ? sanitize_text_field($_GET['post_type']) : '';
-  
-  if ( is_admin() && $pagenow == 'edit.php' && $post_type == 'saswp_reviews' && isset( $_GET['slug'] ) && $_GET['slug'] !='all' ) {
+
+   if ( ! $query->is_main_query() ) {
+        return;
+   }    
+  global $pagenow;  
+  $post_type = get_query_var('post_type');
+  // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside parse_query filter.
+  $slug = isset($_GET['slug']) ? $_GET['slug'] : '';  
+  if ( is_admin() && $pagenow == 'edit.php' && $post_type == 'saswp_reviews' && $slug !='all' ) {
       
     $query->query_vars['meta_key']     = 'saswp_review_platform';
-    $query->query_vars['meta_value']   = sanitize_text_field($_GET['slug']);
+    $query->query_vars['meta_value']   = sanitize_text_field($slug);
     $query->query_vars['meta_compare'] = '=';
     
   }
@@ -633,13 +638,13 @@ add_filter( 'parse_query', 'saswp_sort_reviews_by_platform' );
 
 function saswp_reviews_form_shortcode_metabox($post){
     
-    echo '<p>'.saswp_t_string( 'Use Below shortcode to show reviews form in your website. Using this you can collect reviews from your website directly.').'</p>';
+    echo '<p>'.esc_html__( 'Use Below shortcode to show reviews form in your website. Using this you can collect reviews from your website directly.', 'schema-and-structured-data-for-wp' ) .'</p>';
     echo '<input type="text" value="[saswp-reviews-form]" readonly>';
 }
 
 function saswp_reviews_usage_metabox ($post) {
 
-    echo '<p>'.saswp_t_string( 'Use these reviews to create a collection and use them to show on frontend.').'</p>';
-    echo '<div><a href="'.esc_url( admin_url("edit.php?post_type=saswp-collections") ).'">'.saswp_t_string( 'Add to collection').'</a></div>';
+    echo '<p>'.esc_html__( 'Use these reviews to create a collection and use them to show on frontend.', 'schema-and-structured-data-for-wp' ) .'</p>';
+    echo '<div><a href="'. esc_url(  admin_url("edit.php?post_type=saswp-collections") ).'">'.esc_html__( 'Add to collection', 'schema-and-structured-data-for-wp' ) .'</a></div>';
 
 }

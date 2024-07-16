@@ -15,7 +15,7 @@ if (! defined('ABSPATH') ) exit;
  * @global type $saswp_elementor_qanda
  * @return type array
  */
-function saswp_elementor_qanda_schema(){
+function saswp_elementor_qanda_schema() {
               
     $input1 = array();
     
@@ -32,13 +32,19 @@ function saswp_elementor_qanda_schema(){
         $suggested_json = array();
 
         if($accepted_answer){
-            foreach($accepted_answer as $answer){
+            foreach( $accepted_answer as $answer){
+
+                $ans_url = '';
+                if ( is_array( $answer) && isset($answer['url']) && isset($answer['url']['url']) ) {
+                    $ans_url = $answer['url']['url'];
+                }
+
                 $accepted_json[] = array(
                     '@type'         => 'Answer',
                     'text'          => $answer['text'],
                     'dateCreated'   => $answer['date'],
                     'upvoteCount'   => $answer['vote'],
-                    'url'           => $answer['url'],
+                    'url'           => $ans_url,
                     'author'        => array(
                                     '@type' => 'Person',
                                     'name'  => $answer['author']
@@ -50,13 +56,19 @@ function saswp_elementor_qanda_schema(){
         }
 
         if($suggested_answer){
-            foreach($suggested_answer as $answer){
+            foreach( $suggested_answer as $answer){
+
+                $ans_url = '';
+                if ( is_array( $answer) && isset($answer['url']) && isset($answer['url']['url']) ) {
+                    $ans_url = $answer['url']['url'];
+                }
+
                 $suggested_json[] = array(
                     '@type'         => 'Answer',
                     'text'          => $answer['text'],
                     'dateCreated'   => $answer['date'],
                     'upvoteCount'   => $answer['vote'],
-                    'url'           => $answer['url'],
+                    'url'           => $ans_url,
                     'author'        => array(
                                     '@type' => 'Person',
                                     'name'  => $answer['author']
@@ -92,7 +104,7 @@ function saswp_elementor_qanda_schema(){
  * @global type $saswp_elementor_faq
  * @return type array
  */
-function saswp_elementor_faq_schema(){
+function saswp_elementor_faq_schema() {
               
             $input1 = array();
             
@@ -106,7 +118,7 @@ function saswp_elementor_faq_schema(){
 
                                $faq_question_arr = array();
 
-                               foreach($saswp_elementor_faq as $val){
+                               foreach( $saswp_elementor_faq as $val){
 
                                    $supply_data = array();
                                    $supply_data['@type']                   = 'Question';
@@ -129,7 +141,7 @@ function saswp_elementor_faq_schema(){
  * @global type $saswp_elementor_howto
  * @return type array
  */
-function saswp_elementor_howto_schema(){
+function saswp_elementor_howto_schema() {
               
     $input1 = array();
     
@@ -140,16 +152,16 @@ function saswp_elementor_howto_schema(){
                     $howto_description = '';
                     $step_list = $tool_list = $material_list = array();
 
-                    if(isset($saswp_elementor_howto['step_list'])){
+                    if ( isset( $saswp_elementor_howto['step_list']) ) {
                         $step_list           = $saswp_elementor_howto['step_list'];
                     }
-                    if(isset($saswp_elementor_howto['tool_list'])){
+                    if ( isset( $saswp_elementor_howto['tool_list']) ) {
                         $tool_list           = $saswp_elementor_howto['tool_list'];
                     }						
-                    if(isset($saswp_elementor_howto['material_list'])){
+                    if ( isset( $saswp_elementor_howto['material_list']) ) {
                         $material_list       = $saswp_elementor_howto['material_list'];
                     }
-                    if(isset($saswp_elementor_howto['howto_description'])){
+                    if ( isset( $saswp_elementor_howto['howto_description']) ) {
                         $howto_description   = $saswp_elementor_howto['howto_description'];						
                     }                                                                
 
@@ -161,9 +173,9 @@ function saswp_elementor_howto_schema(){
                     $input1['dateModified']          = get_the_modified_date("c");
                     $input1['description']           = $howto_description;                    
 
-                    if(!empty($material_list)){
+                    if ( ! empty( $material_list) ) {
 
-                        foreach($material_list as $val){
+                        foreach( $material_list as $val){
     
                             $supply_data = array();
     
@@ -180,9 +192,9 @@ function saswp_elementor_howto_schema(){
                     $tool     = array();
                     $tool_arr = array();
                                             
-                    if(!empty($tool_list)){
+                    if ( ! empty( $tool_list) ) {
 
-                    foreach($tool_list as $val){
+                    foreach( $tool_list as $val){
 
                     $supply_data = array();
 
@@ -199,9 +211,9 @@ function saswp_elementor_howto_schema(){
             $step     = array();
             $step_arr = array(); 
                                               
-            if(!empty($step_list)){
+            if ( ! empty( $step_list) ) {
 
-                foreach($step_list as $key => $val){
+                foreach( $step_list as $key => $val){
 
                     $supply_data = array();
                     $direction   = array();
@@ -225,14 +237,14 @@ function saswp_elementor_howto_schema(){
                     $supply_data['url']     = saswp_get_permalink().'#step'.++$key;
                     $supply_data['name']    = $val['howto_step_title'];    
 
-                    if(isset($direction['text']) || isset($tip['text'])){
+                    if ( isset( $direction['text']) || isset($tip['text']) ) {
                         $supply_data['itemListElement']  = array($direction, $tip);
                     }
 
                     $regex   = '/<img(.*?)src="(.*?)"(.*?)>/';                          
                     @preg_match_all( $regex, $val['howto_step_description'], $match , PREG_SET_ORDER); 
                     
-                    if(isset($match[0][2])){
+                    if ( isset( $match[0][2]) ) {
 
                                 $image_details   = saswp_get_image_by_url($match[0][2]);                                        
                                 if($image_details){
@@ -249,16 +261,16 @@ function saswp_elementor_howto_schema(){
 
             } 
             
-                    if(isset($saswp_elementor_howto['howto_days']) || isset($saswp_elementor_howto['howto_hours']) || isset($saswp_elementor_howto['howto_minutes'])){
+                    if ( isset( $saswp_elementor_howto['howto_days']) || isset($saswp_elementor_howto['howto_hours']) || isset($saswp_elementor_howto['howto_minutes']) ) {
                         
                         $input1['totalTime'] = 'P'. 
-                        ((isset($saswp_elementor_howto['howto_days']) && $saswp_elementor_howto['howto_days'] !='') ? esc_attr($saswp_elementor_howto['howto_days']).'DT':''). 
-                        ((isset($saswp_elementor_howto['howto_hours']) && $saswp_elementor_howto['howto_hours'] !='') ? esc_attr($saswp_elementor_howto['howto_hours']).'H':''). 
-                        ((isset($saswp_elementor_howto['howto_minutes']) && $saswp_elementor_howto['howto_minutes'] !='') ? esc_attr($saswp_elementor_howto['howto_minutes']).'M':''); 
+                        ((isset($saswp_elementor_howto['howto_days']) && $saswp_elementor_howto['howto_days'] !='') ? esc_attr( $saswp_elementor_howto['howto_days']).'DT':''). 
+                        ((isset($saswp_elementor_howto['howto_hours']) && $saswp_elementor_howto['howto_hours'] !='') ? esc_attr( $saswp_elementor_howto['howto_hours']).'H':''). 
+                        ((isset($saswp_elementor_howto['howto_minutes']) && $saswp_elementor_howto['howto_minutes'] !='') ? esc_attr( $saswp_elementor_howto['howto_minutes']).'M':''); 
                         
                     }   
 
-                    if(isset($saswp_elementor_howto['howto_currency']) && isset($saswp_elementor_howto['howto_price'])){
+                    if ( isset( $saswp_elementor_howto['howto_currency']) && isset($saswp_elementor_howto['howto_price']) ) {
                 
                         $input1['estimatedCost']['@type']   = 'MonetaryAmount';
                         $input1['estimatedCost']['currency']= $saswp_elementor_howto['howto_currency'];

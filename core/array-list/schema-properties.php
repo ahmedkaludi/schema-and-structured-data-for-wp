@@ -29,7 +29,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
             
             if($manual == null){
             
-                if(is_object($post)){
+                if(is_object($post) ) {
                         $post_id = $post->ID; 
                 }
                 $current_user       = null;
@@ -48,14 +48,14 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 $author_url         = get_the_author_meta( 'user_url' ); 
 
                 $author_id = get_post_field( 'post_author', get_the_ID() );
-                if(empty($author_desc)){
+                if(empty($author_desc) ) {
                     $author_desc = get_the_author_meta('user_description',$author_id);
                 }
-                if(empty($author_url)){
+                if(empty($author_url) ) {
                     $author_url = get_the_author_meta('user_url',$author_id);
                 }               
 
-                if(function_exists('get_avatar_data') && is_object($current_user) ){
+                if ( function_exists( 'get_avatar_data') && is_object($current_user) ){
                     $author_details	= get_avatar_data($current_user->ID);           
                 }
 
@@ -87,7 +87,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     
                     if($condition !=null){
                                                 
-                        if(!empty($local_sub_business) && array_key_exists($business_type, $local_sub_business)){
+                        if ( ! empty( $local_sub_business) && array_key_exists($business_type, $local_sub_business) ) {
                         
                         $sub_business_options = array(
                              'label'     => 'Sub Business Type',
@@ -102,7 +102,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         
                     }else{
                         
-                       if(!empty($local_sub_business) && array_key_exists($business_type, $local_sub_business)){
+                       if ( ! empty( $local_sub_business) && array_key_exists($business_type, $local_sub_business) ) {
                         
                        $sub_business_options = array(
                             'label'     => 'Sub Business Type',
@@ -634,7 +634,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     $category_detail=get_the_category(get_the_ID());//$post->ID
                     $article_section = '';
                     
-                    foreach($category_detail as $cd){
+                    foreach( $category_detail as $cd){
                         
                     $article_section =  $cd->cat_name;
                     
@@ -867,7 +867,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $category_detail=get_the_category(get_the_ID());//$post->ID
                         $article_section = '';
                         
-                        foreach($category_detail as $cd){
+                        foreach( $category_detail as $cd){
                             
                         $article_section =  $cd->cat_name;
                         
@@ -1087,7 +1087,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $category_detail=get_the_category(get_the_ID());//$post->ID
                         $article_section = '';
                         
-                        foreach($category_detail as $cd){
+                        foreach( $category_detail as $cd){
                                 
                         $article_section =  $cd->cat_name;
                         
@@ -1307,7 +1307,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $category_detail=get_the_category(get_the_ID());//$post->ID
                         $article_section = '';
                         
-                        foreach($category_detail as $cd){
+                        foreach( $category_detail as $cd){
                                 
                         $article_section =  $cd->cat_name;
                         
@@ -1527,7 +1527,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $category_detail=get_the_category(get_the_ID());//$post->ID
                         $article_section = '';
                         
-                        foreach($category_detail as $cd){
+                        foreach( $category_detail as $cd){
                                 
                         $article_section =  $cd->cat_name;
                         
@@ -1747,7 +1747,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $category_detail=get_the_category(get_the_ID());//$post->ID
                         $article_section = '';
                         
-                        foreach($category_detail as $cd){
+                        foreach( $category_detail as $cd){
                                 
                         $article_section =  $cd->cat_name;
                         
@@ -1967,7 +1967,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         $category_detail=get_the_category(get_the_ID());//$post->ID
                         $article_section = '';
                         
-                        foreach($category_detail as $cd){
+                        foreach( $category_detail as $cd){
                                 
                         $article_section =  $cd->cat_name;
                         
@@ -4036,7 +4036,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 
                                 if($category_detail){
 
-                                        foreach($category_detail as $cd){
+                                        foreach( $category_detail as $cd){
                                         
                                                 $article_section =  $cd->cat_name;
                                         
@@ -6017,7 +6017,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     
                     if($manual == null && $post_id){
                     
-                        $service = new saswp_output_service();
+                        $service = new SASWP_Output_Service();
                         $product_details = $service->saswp_woocommerce_product_details($post_id);     
                         
                     }
@@ -8930,51 +8930,51 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     case 'FAQ':
                         $faq_post_meta_data = get_post_meta(get_the_ID());
                         $faq_post_meta_id = 'FAQ';
-                        if(isset($faq_post_meta_data['saswp_faq_id_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_id_'.$schema_id]) ) {
                             $faq_post_meta_id = $faq_post_meta_data['saswp_faq_id_'.$schema_id][0];
                         }
                         $faq_post_meta_headline = get_the_title();
-                        if(isset($faq_post_meta_data['saswp_faq_headline_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_headline_'.$schema_id]) ) {
                             $faq_post_meta_headline = $faq_post_meta_data['saswp_faq_headline_'.$schema_id][0];
                         }
                         $faq_post_meta_tags = saswp_get_the_tags();
-                        if(isset($faq_post_meta_data['saswp_faq_keywords_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_keywords_'.$schema_id]) ) {
                             $faq_post_meta_tags = $faq_post_meta_data['saswp_faq_keywords_'.$schema_id][0];
                         }
                         $faq_post_meta_atype = '';
-                        if(isset($faq_post_meta_data['saswp_faq_author_type_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_author_type_'.$schema_id]) ) {
                             $faq_post_meta_atype = $faq_post_meta_data['saswp_faq_author_type_'.$schema_id][0];
                         }
                         $faq_post_meta_aname = is_object($current_user) ? $current_user->display_name : '';
-                        if(isset($faq_post_meta_data['saswp_faq_author_name_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_author_name_'.$schema_id]) ) {
                             $faq_post_meta_aname = $faq_post_meta_data['saswp_faq_author_name_'.$schema_id][0];
                         }
                         $faq_post_meta_adesc = $author_desc;
-                        if(isset($faq_post_meta_data['saswp_faq_author_description_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_author_description_'.$schema_id]) ) {
                             $faq_post_meta_adesc = $faq_post_meta_data['saswp_faq_author_description_'.$schema_id][0];
                         }
                         $faq_post_meta_aurl = $author_url;
-                        if(isset($faq_post_meta_data['saswp_faq_author_url_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_author_url_'.$schema_id]) ) {
                             $faq_post_meta_aurl = $faq_post_meta_data['saswp_faq_author_url_'.$schema_id][0];
                         }
                         $faq_post_meta_aiurl = isset($author_details['url']) ? $author_details['url']: '';
-                        if(isset($faq_post_meta_data['saswp_faq_author_image_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_author_image_'.$schema_id]) ) {
                             $faq_post_meta_aiurl = $faq_post_meta_data['saswp_faq_author_image_'.$schema_id][0];
                         }
                         $faq_post_meta_dcreated = get_the_date("Y-m-d");
-                        if(isset($faq_post_meta_data['saswp_faq_date_created_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_date_created_'.$schema_id]) ) {
                             $faq_post_meta_dcreated = $faq_post_meta_data['saswp_faq_date_created_'.$schema_id][0];
                         }
                         $faq_post_meta_dpublished = get_the_date("Y-m-d");
-                        if(isset($faq_post_meta_data['saswp_faq_date_published_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_date_published_'.$schema_id]) ) {
                             $faq_post_meta_dpublished = $faq_post_meta_data['saswp_faq_date_published_'.$schema_id][0];
                         }
                         $faq_post_meta_dmodified = get_the_modified_date("Y-m-d");
-                        if(isset($faq_post_meta_data['saswp_faq_date_modified_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_date_modified_'.$schema_id]) ) {
                             $faq_post_meta_dmodified = $faq_post_meta_data['saswp_faq_date_modified_'.$schema_id][0];
                         }
                         $faq_post_meta_about = '';
-                        if(isset($faq_post_meta_data['saswp_faq_about_'.$schema_id])){
+                        if ( isset( $faq_post_meta_data['saswp_faq_about_'.$schema_id]) ) {
                             $faq_post_meta_about = $faq_post_meta_data['saswp_faq_about_'.$schema_id][0];
                         }
 

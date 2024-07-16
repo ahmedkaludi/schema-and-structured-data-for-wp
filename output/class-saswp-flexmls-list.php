@@ -11,22 +11,22 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class saswp_flexmls_list extends flexmlsConnectPageCore{
+class SASWP_Flexmls_List extends flexmlsConnectPageCore{
     
         public $shorcode = array();
         protected $search_criteria;
         
-	function __construct() {  
+	public function __construct() {  
                                                                         
-            add_filter('the_content', array($this,'saswp_content'),9);            
+              add_filter( 'the_content', array($this,'saswp_content'),9);            
 	          add_action('wp_footer', array($this, 'saswp_get_flexidx_listing'));            
-            add_action('amp_post_template_footer',array($this, 'saswp_get_flexidx_listing'));                
+              add_action('amp_post_template_footer',array($this, 'saswp_get_flexidx_listing'));                
 	}
-        public function saswp_get_flexidx_listing(){
+        public function saswp_get_flexidx_listing() {
             
             global $fmc_api,$sd_data;
 
-            if(!empty($fmc_api)){		
+            if ( ! empty( $fmc_api) ) {		
 
 
 					$custom_page = new flexmlsConnectPageSearchResults($fmc_api);
@@ -49,12 +49,12 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
 					$params['_limit']  = 1;
 					$results = $flexcoreApi->GetListings($params);								
 				  
-				  if(!empty($results)){
+				  if ( ! empty( $results) ) {
 					  
 					$count = count($results); 
                   
                     echo "\n";
-                    if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
+                    if ( isset( $sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
                         echo '<!-- Schema & Structured Data For WP v'.esc_attr(SASWP_VERSION)   .' IDX - -->';
                     }
                     echo "\n";
@@ -62,7 +62,7 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                     echo "\n";
                     echo "[";                     										
                     
-					foreach ($results as $result){  
+					foreach ( $results as $result){  
                         
                         if($count > 1){
                             
@@ -107,24 +107,24 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
           $sellertelephone   = '';
           $sellerpricerange  = '';                   
           
-          if(isset($sd_data['saswp-flexmlx-compativility']) &&  $sd_data['saswp-flexmlx-compativility'] == 1 && is_plugin_active('flexmls-idx/flexmls_connect.php')){
+          if ( isset( $sd_data['saswp-flexmlx-compativility']) &&  $sd_data['saswp-flexmlx-compativility'] == 1 && is_plugin_active('flexmls-idx/flexmls_connect.php') ) {
            
-              if(isset($sd_data['sd-seller-name'])){
+              if ( isset( $sd_data['sd-seller-name']) ) {
                 $sellername  =$sd_data['sd-seller-name'];
               }
-              if(isset($sd_data['sd-seller-url'])){
+              if ( isset( $sd_data['sd-seller-url']) ) {
                  $sellerurl =$sd_data['sd-seller-url'];
               }
-              if(isset($sd_data['sd_seller_image']['thumbnail'])){
+              if ( isset( $sd_data['sd_seller_image']['thumbnail']) ) {
                  $sellerimage = $sd_data['sd_seller_image']['thumbnail'];
               } 
-              if(isset($sd_data['sd-seller-address'])){
+              if ( isset( $sd_data['sd-seller-address']) ) {
                  $selleraddress =$sd_data['sd-seller-address'];
               }
-              if(isset($sd_data['sd-seller-telephone'])){
+              if ( isset( $sd_data['sd-seller-telephone']) ) {
                  $sellertelephone =$sd_data['sd-seller-telephone'];
               }
-              if(isset($sd_data['sd-seller-price-range'])){
+              if ( isset( $sd_data['sd-seller-price-range']) ) {
                  $sellerpricerange =$sd_data['sd-seller-price-range'];
               }
                
@@ -133,9 +133,9 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
           
           $photos = array();
           
-          if(isset($result['StandardFields'])){              
+          if ( isset( $result['StandardFields']) ) {              
               
-              foreach ($result['StandardFields']['Photos'] as $photo){
+              foreach ( $result['StandardFields']['Photos'] as $photo){
                   
                $photos[] = array(
                    'url' => $photo['UriThumb']
@@ -148,14 +148,14 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
             $input = array(
 				"@context" 	    => saswp_context_url(),
 				"@type"		    => ["Product", "Apartment"],
-				"name"              => esc_attr($result['StandardFields']['UnparsedFirstLineAddress']),
-                                "description"       => isset($result['StandardFields']['PublicRemarks'])? $result['StandardFields']['PublicRemarks']:strip_tags(get_the_excerpt()),
-                                "sku"               => esc_attr($result['StandardFields']['BuildingAreaTotal']),
+				"name"              => esc_attr( $result['StandardFields']['UnparsedFirstLineAddress']),
+                                "description"       => isset($result['StandardFields']['PublicRemarks'])? $result['StandardFields']['PublicRemarks']:wp_strip_all_tags(get_the_excerpt()),
+                                "sku"               => esc_attr( $result['StandardFields']['BuildingAreaTotal']),
                                 "brand"             => array(
                                     '@type' => 'Brand',
                                     'name'  => get_bloginfo()                                    
                                 ),
-                                "mpn"               => esc_attr($result['StandardFields']['YearBuilt']),
+                                "mpn"               => esc_attr( $result['StandardFields']['YearBuilt']),
 				"url"		    => esc_url($link_to_details),
                                 "aggregateRating"   => array(
                                                             "@type"=> "AggregateRating",
@@ -179,27 +179,27 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
                                 "image" 	    => esc_url($result['StandardFields']['Photos'][0]['Uri300']),
 				"offers"            => array(
 							"priceCurrency"	  => "USD",
-                                                        "price"		  => esc_attr($result['StandardFields']['ListPrice']),
+                                                        "price"		  => esc_attr( $result['StandardFields']['ListPrice']),
                                                         "availability"	  => 'InStock',
                                                         "url"		  => esc_url($link_to_details),
                                                         "priceValidUntil" => $result['StandardFields']['ListingUpdateTimestamp'],
 							"seller"	  => array(
                                                             array(
                                                                 "@type"      => "RealEstateAgent",
-                                                                "name"       => esc_attr($sellername), 
+                                                                "name"       => esc_attr( $sellername), 
                                                                 "url"        => esc_url($sellerurl),
-                                                                "image"      => esc_attr($sellerimage),   
-                                                                "address"    => esc_attr($selleraddress),
-                                                                "priceRange" => esc_attr($sellerpricerange),  
-                                                                "telephone"  => esc_attr($sellertelephone),         
+                                                                "image"      => esc_attr( $sellerimage),   
+                                                                "address"    => esc_attr( $selleraddress),
+                                                                "priceRange" => esc_attr( $sellerpricerange),  
+                                                                "telephone"  => esc_attr( $sellertelephone),         
                                                             )
                                                         ),
 							),
-				'address'	    => esc_attr($result['StandardFields']['StreetNumber']).' '. esc_attr($result['StandardFields']['StreetName']).' '.esc_attr($result['StandardFields']['StreetSuffix']) .' '.esc_attr($result['StandardFields']['City']).' '. esc_attr($result['StandardFields']['postalCode']),
+				'address'	    => esc_attr( $result['StandardFields']['StreetNumber']).' '. esc_attr( $result['StandardFields']['StreetName']).' '. esc_attr( $result['StandardFields']['StreetSuffix']) .' '. esc_attr( $result['StandardFields']['City']).' '. esc_attr( $result['StandardFields']['postalCode']),
 				'geo'		    => array(
                                                             "@type"             => "GeoCoordinates",
-                                                             "address"          => esc_attr($result['StandardFields']['UnparsedFirstLineAddress']), 
-                                                             "addressCountry"   => esc_attr($result['StandardFields']['UnparsedFirstLineAddress']),                                                             
+                                                             "address"          => esc_attr( $result['StandardFields']['UnparsedFirstLineAddress']), 
+                                                             "addressCountry"   => esc_attr( $result['StandardFields']['UnparsedFirstLineAddress']),                                                             
                                                      ),
 						
 				'photos'	    => $photos,
@@ -209,6 +209,6 @@ class saswp_flexmls_list extends flexmlsConnectPageCore{
              }  
         }        		
 }
-if (class_exists('saswp_flexmls_list')) {
-	new saswp_flexmls_list;
+if (class_exists('SASWP_Flexmls_List')) {
+	new SASWP_Flexmls_List();
 };

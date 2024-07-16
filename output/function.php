@@ -17,11 +17,11 @@ add_action( 'wp', 'saswp_wp_hook_operation',999 );
 
 function saswp_schema_markup_hook_on_init() {
         
-        if(!is_admin()){
+        if(!is_admin() ) {
             
             global $sd_data;
         
-            if(isset($sd_data['saswp-markup-footer']) && $sd_data['saswp-markup-footer'] == 1){
+            if ( isset( $sd_data['saswp-markup-footer']) && $sd_data['saswp-markup-footer'] == 1){
                 
                add_action( 'wp_footer', 'saswp_schema_markup_output');    
                add_action( 'amp_post_template_footer' , 'saswp_schema_markup_output' );
@@ -29,7 +29,7 @@ function saswp_schema_markup_hook_on_init() {
                add_action( 'amphtml_template_footer', 'saswp_schema_markup_output');
                add_action( 'amp_wp_template_footer', 'saswp_schema_markup_output');
 
-               if(isset($sd_data['saswp-cmp']) && $sd_data['saswp-cmp'] == 1){
+               if ( isset( $sd_data['saswp-cmp']) && $sd_data['saswp-cmp'] == 1){
                     add_action( 'cmp-after-footer-scripts', 'saswp_schema_markup_output');  
                }
                
@@ -42,7 +42,7 @@ function saswp_schema_markup_hook_on_init() {
                add_action( 'amphtml_template_head', 'saswp_schema_markup_output');
                add_action( 'amp_wp_template_head', 'saswp_schema_markup_output');
 
-               if(isset($sd_data['saswp-cmp']) && $sd_data['saswp-cmp'] == 1){
+               if ( isset( $sd_data['saswp-cmp']) && $sd_data['saswp-cmp'] == 1){
                     add_action( 'cmp-before-header-scripts', 'saswp_schema_markup_output');  
                }
                               
@@ -50,7 +50,7 @@ function saswp_schema_markup_hook_on_init() {
             
             add_action('cooked_amp_head', 'saswp_schema_markup_output');
             
-            if(saswp_global_option()){
+            if(saswp_global_option() ) {
 
                 remove_action( 'amp_post_template_head', 'amp_post_template_add_schemaorg_metadata',99,1);
                 remove_action( 'amp_post_template_footer', 'amp_post_template_add_schemaorg_metadata',99,1);  
@@ -58,14 +58,14 @@ function saswp_schema_markup_hook_on_init() {
                 
                 add_filter( 'amp_schemaorg_metadata', '__return_empty_array' );
                 add_filter( 'hunch_schema_markup', '__return_false');                 
-                add_filter('electro_structured_data', '__return_false');
-                add_filter('electro_woocommerce_structured_data', '__return_false');
+                add_filter( 'electro_structured_data', '__return_false');
+                add_filter( 'electro_woocommerce_structured_data', '__return_false');
                 
             }
                                     
-            if(class_exists('BSF_AIOSRS_Pro_Markup')){
+            if(class_exists('BSF_AIOSRS_Pro_Markup') ) {
                 
-                if(saswp_global_option()){
+                if(saswp_global_option() ) {
 
                     remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'schema_markup' ),10);
                     remove_action( 'wp_head', array( BSF_AIOSRS_Pro_Markup::get_instance(), 'global_schemas_markup' ),10);
@@ -76,22 +76,22 @@ function saswp_schema_markup_hook_on_init() {
                 
             }
             
-            if(isset($sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){
-                if(saswp_global_option()){
+            if ( isset( $sd_data['saswp-wp-recipe-maker']) && $sd_data['saswp-wp-recipe-maker'] == 1){
+                if(saswp_global_option() ) {
                     add_filter( 'wprm_recipe_metadata', '__return_false' );            
                 }                
             }
-            if(isset($sd_data['saswp-webstories']) && $sd_data['saswp-webstories'] == 1){
+            if ( isset( $sd_data['saswp-webstories']) && $sd_data['saswp-webstories'] == 1){
                     add_action('web_stories_story_head', 'saswp_schema_markup_output');                     
             }                                               
                                                                                                            
         }                       
 }
 
-function saswp_wp_hook_operation(){
-    if(!is_admin()){
+function saswp_wp_hook_operation() {
+    if(!is_admin() ) {
         global $sd_data;
-        if(isset($sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
+        if ( isset( $sd_data['saswp-microdata-cleanup']) && $sd_data['saswp-microdata-cleanup'] == 1){                
             ob_start("saswp_remove_microdata");                
         }
         ob_start('saswp_schema_markup_output_in_buffer');
@@ -102,18 +102,13 @@ function saswp_wp_hook_operation(){
 function saswp_schema_markup_output_in_buffer($content){
     
     global $saswp_post_reviews, $saswp_elementor_qanda, $saswp_elementor_faq, $saswp_divi_faq, $saswp_elementor_howto, $saswp_evo_json_ld, $saswp_tiny_multi_faq, $saswp_tiny_howto, $saswp_tiny_recipe;
-    
-    if(!$saswp_divi_faq){
-        $regex = "<script type='text/javascript' src='".SASWP_PLUGIN_URL."modules/divi-builder/scripts/frontend-bundle.min.js?ver=1.0.0'></script>";
-        $content = str_replace($regex, '', $content);
-    }
-     
+             
      if($saswp_post_reviews || $saswp_elementor_qanda || $saswp_elementor_faq || $saswp_divi_faq || $saswp_elementor_howto || $saswp_evo_json_ld || $saswp_tiny_multi_faq || $saswp_tiny_howto || $saswp_tiny_recipe){
         
-            $saswp_json_ld =  saswp_get_all_schema_markup_output();  
+            $saswp_json_ld_escaped =  saswp_get_all_schema_markup_output();  
             
             
-            if(!empty($saswp_json_ld['saswp_json_ld'])){
+            if ( ! empty( $saswp_json_ld_escaped['saswp_json_ld']) ) {
 
                 if(strpos($content, 'saswp-schema-markup-output') !== false){
 
@@ -121,13 +116,13 @@ function saswp_schema_markup_output_in_buffer($content){
                                 
                     preg_match($regex, $content, $match);
 
-                    if(isset($match[0])){
-                        $content = str_replace($match[0], $saswp_json_ld['saswp_json_ld'], $content);
+                    if ( isset( $match[0]) ) {
+                        $content = str_replace($match[0], $saswp_json_ld_escaped['saswp_json_ld'], $content);
                     }
 
                 }else{
 
-                    $content = str_replace('</head>', $saswp_json_ld['saswp_json_ld'].'</head>', $content);                    
+                    $content = str_replace('</head>', $saswp_json_ld_escaped['saswp_json_ld'].'</head>', $content);                    
 
                 }                
                  
@@ -138,41 +133,44 @@ function saswp_schema_markup_output_in_buffer($content){
     return $content;
 }
 
-function saswp_schema_markup_output(){
+function saswp_schema_markup_output() {
     global $sd_data;
-    $saswp_json_ld =  saswp_get_all_schema_markup_output();    
+    $saswp_json_ld_escaped =  saswp_get_all_schema_markup_output();    
     
-    if(!empty($saswp_json_ld['saswp_json_ld'])){
+    if ( ! empty( $saswp_json_ld_escaped['saswp_json_ld']) ) {
         
         echo "\n";
-        if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
+        if ( isset( $sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
             echo "<!-- Schema & Structured Data For WP v".esc_attr(SASWP_VERSION)." - -->";
         }
         echo "\n";
-        echo $saswp_json_ld['saswp_json_ld'];
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- data is already fully escaped using wp_json_encode
+        echo $saswp_json_ld_escaped['saswp_json_ld'];
         echo "\n\n";
         
     }
     
-    if(!empty($saswp_json_ld['saswp_custom_json_ld'])){
+    if ( ! empty( $saswp_json_ld_escaped['saswp_custom_json_ld']) ) {
         
         echo "\n";
-        if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
+        if ( isset( $sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
             echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
         }
         echo "\n";
-        echo $saswp_json_ld['saswp_custom_json_ld'];
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- data is already fully escaped using wp_json_encode
+        echo $saswp_json_ld_escaped['saswp_custom_json_ld'];
         echo "\n\n";
         
     }
-    if(!empty($saswp_json_ld['saswp_user_custom_json_ld'])){
+    if ( ! empty( $saswp_json_ld_escaped['saswp_user_custom_json_ld']) ) {
         
         echo "\n";
-        if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
+        if ( isset( $sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
             echo '<!-- Schema & Structured Data For WP Custom Markup v'.esc_attr(SASWP_VERSION).' - -->';
         }
         echo "\n";
-        echo $saswp_json_ld['saswp_user_custom_json_ld'];
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- data is already fully escaped using wp_json_encode
+        echo $saswp_json_ld_escaped['saswp_user_custom_json_ld'];
         echo "\n\n";
         
     }
@@ -183,14 +181,15 @@ function saswp_schema_markup_output(){
 
         $wp_tasty_recipe          = saswp_wp_tasty_recipe_json_ld();
 
-        if(!empty($wp_tasty_recipe)){
+        if ( ! empty( $wp_tasty_recipe) ) {
 
-            foreach ($wp_tasty_recipe as $recipe) {
-                if(isset($sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
+            foreach ( $wp_tasty_recipe as $recipe) {
+                if ( isset( $sd_data['saswp_remove_version_tag']) && $sd_data['saswp_remove_version_tag'] != 1){
                     echo '<!-- Schema & Structured Data For WP Other Markup v'.esc_attr(SASWP_VERSION).' - -->';                            
                 }
                 echo PHP_EOL;
                 echo '<script type="application/ld+json" class="saswp-other-schema-markup-output">';
+                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- data is already fully escaped using wp_json_encode
                 echo saswp_json_print_format( $recipe);
                 echo '</script>';			
                 echo PHP_EOL;
@@ -278,7 +277,7 @@ function saswp_get_all_schema_markup_output() {
         
         if($archive_output){
             
-            if(empty($woo_cat_schema)){
+            if(empty($woo_cat_schema) ) {
                 $item_list            = $archive_output[0];
             }
             
@@ -288,7 +287,7 @@ function saswp_get_all_schema_markup_output() {
                      
         $schema_breadcrumb_output = saswp_schema_breadcrumb_output();                      
                          
-        if((is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home())) ||  (isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1 && is_singular())){
+        if((is_home() || is_front_page() || ( function_exists('ampforwp_is_home') && ampforwp_is_home())) ||  (isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1 && is_singular()) ) {
             
                $kb_website_output        = saswp_kb_website_output();  
                $kb_schema_output         = saswp_kb_schema_output();
@@ -296,7 +295,7 @@ function saswp_get_all_schema_markup_output() {
                  
         $user_custom_markup        = saswp_fetched_user_custom_schema();
 
-        if(saswp_global_custom_schema_option()){         
+        if(saswp_global_custom_schema_option() ) {         
             $custom_markup             = saswp_taxonomy_schema_output();    
             if( is_singular() && is_object($post) ){
                 $custom_markup         = get_post_meta($post->ID, 'saswp_custom_schema_field', true);            
@@ -307,7 +306,7 @@ function saswp_get_all_schema_markup_output() {
                 $cus_regex = '/\<script type\=\"application\/ld\+json\"\>/';
                 preg_match( $cus_regex, $custom_markup, $match );
                 
-                if(empty($match)){
+                if(empty($match) ) {
                     json_decode($custom_markup);
                     if(json_last_error() === JSON_ERROR_NONE){
                         $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
@@ -317,8 +316,8 @@ function saswp_get_all_schema_markup_output() {
                 }else{
                     $regex = '/<script type=\"application\/ld\+json">(.*?)<\/script>/s';
                     preg_match_all( $regex, $custom_markup, $matches );
-                    if(!empty($matches) && isset($matches[1])){
-                        foreach ($matches[1] as $value) {
+                    if ( ! empty( $matches) && isset($matches[1]) ) {
+                        foreach ( $matches[1] as $value) {
                             json_decode($value);
                             if(json_last_error() === JSON_ERROR_NONE){
                                 $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
@@ -338,194 +337,194 @@ function saswp_get_all_schema_markup_output() {
         
 	if(saswp_global_option()) {
 		                                  
-                        if(!empty($contact_page_output)){
+                        if ( ! empty( $contact_page_output) ) {
                           
                             $output .= saswp_json_print_format($contact_page_output); 
                             $output .= ",";
                             $output .= "\n\n";                        
                         }			                        
-                        if(!empty($default_videoObject_schema)){
+                        if ( ! empty( $default_videoObject_schema) ) {
                           
                             $output .= saswp_json_print_format($default_videoObject_schema); 
                             $output .= ",";
                             $output .= "\n\n";                        
                         }			                        
-                        if(!empty($about_page_output)){
+                        if ( ! empty( $about_page_output) ) {
                         
                             $output .= saswp_json_print_format($about_page_output);    
                             $output .= ",";
                             $output .= "\n\n";
                         }                        
-                        if(!empty($author_output)){
+                        if ( ! empty( $author_output) ) {
                            
                             $output .= saswp_json_print_format($author_output); 
                             $output .= ",";
                             $output .= "\n\n";
                         }                                              
-                        if(!empty($collection_page)){
+                        if ( ! empty( $collection_page) ) {
                         
                             $output .= saswp_json_print_format($collection_page);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($woo_shop_page['itemlist'])){
+                        if ( ! empty( $woo_shop_page['itemlist']) ) {
                         
                             $output .= saswp_json_print_format($woo_shop_page['itemlist']);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($woo_shop_page['collection'])){
+                        if ( ! empty( $woo_shop_page['collection']) ) {
                         
                             $output .= saswp_json_print_format($woo_shop_page['collection']);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($item_list)){
+                        if ( ! empty( $item_list) ) {
                         
                             $output .= saswp_json_print_format($item_list);   
                             $output .= ",";
                             $output .= "\n\n";
                         }                        
-                        if(!empty($woo_cat_schema)){
+                        if ( ! empty( $woo_cat_schema) ) {
                         
                             $output .= saswp_json_print_format($woo_cat_schema);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($gutenberg_how_to)){
+                        if ( ! empty( $gutenberg_how_to) ) {
                         
                             $output .= saswp_json_print_format($gutenberg_how_to);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($tinymce_how_to)){
+                        if ( ! empty( $tinymce_how_to) ) {
                         
                             $output .= saswp_json_print_format($tinymce_how_to);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($tinymce_faq)){
+                        if ( ! empty( $tinymce_faq) ) {
                         
                             $output .= saswp_json_print_format($tinymce_faq);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($gutenberg_recipe)){
+                        if ( ! empty( $gutenberg_recipe) ) {
                         
                             $output .= saswp_json_print_format($gutenberg_recipe);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($gutenberg_faq)){
+                        if ( ! empty( $gutenberg_faq) ) {
                         
                             $output .= saswp_json_print_format($gutenberg_faq);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($schema_for_faqs)){
+                        if ( ! empty( $schema_for_faqs) ) {
                         
                             $output .= saswp_json_print_format($schema_for_faqs);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($faqschemaforpost)){
+                        if ( ! empty( $faqschemaforpost) ) {
                         
                             $output .= saswp_json_print_format($faqschemaforpost);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($wpfaqschemamarkup)){
+                        if ( ! empty( $wpfaqschemamarkup) ) {
                         
                             $output .= saswp_json_print_format($wpfaqschemamarkup);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($taqeem_schema)){
+                        if ( ! empty( $taqeem_schema) ) {
                         
                             $output .= saswp_json_print_format($taqeem_schema);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($wp_product_rv)){
+                        if ( ! empty( $wp_product_rv) ) {
                         
                             $output .= saswp_json_print_format($wp_product_rv);   
                             $output .= ",";
                             $output .= "\n\n";
                         }                        
-                        if(!empty($elementor_faq)){
+                        if ( ! empty( $elementor_faq) ) {
                         
                             $output .= saswp_json_print_format($elementor_faq);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($elementor_qanda)){
+                        if ( ! empty( $elementor_qanda) ) {
                         
                             $output .= saswp_json_print_format($elementor_qanda);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($elementor_howto)){
+                        if ( ! empty( $elementor_howto) ) {
                         
                             $output .= saswp_json_print_format($elementor_howto);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($divi_builder_faq)){
+                        if ( ! empty( $divi_builder_faq) ) {
                         
                             $output .= saswp_json_print_format($divi_builder_faq);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($gutenberg_course)){
+                        if ( ! empty( $gutenberg_course) ) {
                         
                             $output .= saswp_json_print_format($gutenberg_course);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($gutenberg_event)){
+                        if ( ! empty( $gutenberg_event) ) {
                         
                             $output .= saswp_json_print_format($gutenberg_event);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($gutenberg_qanda)){
+                        if ( ! empty( $gutenberg_qanda) ) {
                         
                             $output .= saswp_json_print_format($gutenberg_qanda);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($gutenberg_job)){
+                        if ( ! empty( $gutenberg_job) ) {
                         
                             $output .= saswp_json_print_format($gutenberg_job);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($gutenberg_book)){
+                        if ( ! empty( $gutenberg_book) ) {
                         
                             $output .= saswp_json_print_format($gutenberg_book);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($collection_output)){
+                        if ( ! empty( $collection_output) ) {
                         
                             $output .= saswp_json_print_format($collection_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                        if(!empty($blog_page)){
+                        if ( ! empty( $blog_page) ) {
                         
                             $output .= saswp_json_print_format($blog_page);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
                                     
-            if(isset($sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1){
+            if ( isset( $sd_data['saswp-defragment']) && $sd_data['saswp-defragment'] == 1){
             
                 $output_schema_type_id = array();
                 
-                if(!empty($schema_output)){
+                if ( ! empty( $schema_output) ) {
                     
-                foreach($schema_output as $soutput){
+                foreach( $schema_output as $soutput){
             
                     $output_schema_type_id[] = $soutput['@type'];
                     
@@ -533,7 +532,7 @@ function saswp_get_all_schema_markup_output() {
                         
                     
                     $final_output = array();
-                    $object   = new saswp_output_service();
+                    $object   = new SASWP_Output_Service();
                     $webpage  = $object->saswp_schema_markup_generator('WebPage');
                     
                         unset($soutput['@context']);                   
@@ -542,7 +541,7 @@ function saswp_get_all_schema_markup_output() {
                         unset($kb_schema_output['@context']);                        
                         unset($kb_website_output['@context']); 
                         
-                        if(isset($sd_data['saswp_kb_type'])){
+                        if ( isset( $sd_data['saswp_kb_type']) ) {
                            
                             $kb_schema_output['@type'] = $sd_data['saswp_kb_type'];
                             
@@ -564,7 +563,7 @@ function saswp_get_all_schema_markup_output() {
                              '@id' => saswp_get_permalink().'#primaryimage'
                          );
                          
-                         if(array_key_exists('@graph', $site_navigation)){                             
+                         if(array_key_exists('@graph', $site_navigation) ) {                             
                              unset($site_navigation['@context']);                                                       
                              $webpage['mainContentOfPage'] = array($site_navigation['@graph']);
                          }                         
@@ -591,7 +590,7 @@ function saswp_get_all_schema_markup_output() {
                     
                         if($kb_website_output){
                             
-                            if(!empty($kb_schema_output['@id'])){
+                            if ( ! empty( $kb_schema_output['@id']) ) {
 
                                     $kb_website_output['publisher'] = array(
                                         '@id' => $kb_schema_output['@id']
@@ -601,7 +600,7 @@ function saswp_get_all_schema_markup_output() {
                         }
                         if($sd_data['saswp_kb_type'] == 'Organization'){                                                                             
                             
-                            if(!empty($kb_schema_output['@id'])){
+                            if ( ! empty( $kb_schema_output['@id']) ) {
 
                                 $soutput['publisher'] = array(
                                     '@id' => $kb_schema_output['@id']
@@ -647,25 +646,25 @@ function saswp_get_all_schema_markup_output() {
             }                                 
                 if(in_array('BlogPosting', $output_schema_type_id) || in_array('Article', $output_schema_type_id) || in_array('TechArticle', $output_schema_type_id) || in_array('NewsArticle', $output_schema_type_id) ){                                                                                            
                 }else{
-                    if(!empty($site_navigation)){
+                    if ( ! empty( $site_navigation) ) {
                                                                             
                         $output .= saswp_json_print_format($site_navigation);   
                         $output .= ",";
                         $output .= "\n\n";                        
                     }
-                    if(!empty($kb_website_output)){
+                    if ( ! empty( $kb_website_output) ) {
                         
                             $output .= saswp_json_print_format($kb_website_output);  
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                    if(!empty($schema_breadcrumb_output)){
+                    if ( ! empty( $schema_breadcrumb_output) ) {
                         
                             $output .= saswp_json_print_format($schema_breadcrumb_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }
-                    if(!empty($kb_schema_output)){
+                    if ( ! empty( $kb_schema_output) ) {
                             
                             $output .= saswp_json_print_format($kb_schema_output);
                             $output .= ",";                        
@@ -675,28 +674,28 @@ function saswp_get_all_schema_markup_output() {
                 
             }else{
                           
-                        if(!empty($site_navigation)){
+                        if ( ! empty( $site_navigation) ) {
                                                                             
                             $output .= saswp_json_print_format($site_navigation);   
                             $output .= ",";
                             $output .= "\n\n";                        
                         }
                         
-                        if(!empty($kb_website_output)){
+                        if ( ! empty( $kb_website_output) ) {
                         
                             $output .= saswp_json_print_format($kb_website_output);  
                             $output .= ",";
                             $output .= "\n\n";
                         }                         
-                        if(!empty($schema_breadcrumb_output)){
+                        if ( ! empty( $schema_breadcrumb_output) ) {
                         
                             $output .= saswp_json_print_format($schema_breadcrumb_output);   
                             $output .= ",";
                             $output .= "\n\n";
                         }                        
-                        if(!empty($schema_output)){ 
+                        if ( ! empty( $schema_output) ) { 
                             
-                            foreach($schema_output as $schema){
+                            foreach( $schema_output as $schema){
                                 
                                 $schema = saswp_json_print_format($schema);
                                 $output .= $schema; 
@@ -705,7 +704,7 @@ function saswp_get_all_schema_markup_output() {
                                 
                             }                            
                         }                        
-                        if(!empty($kb_schema_output)){
+                        if ( ! empty( $kb_schema_output) ) {
                             
                             $output .= saswp_json_print_format($kb_schema_output);
                             $output .= ",";                        
@@ -717,7 +716,7 @@ function saswp_get_all_schema_markup_output() {
                         $cus_regex = '/\<script type\=\"application\/ld\+json\"\>/';
                         preg_match( $cus_regex, $user_custom_markup, $match );
                         
-                        if(empty($match)){
+                        if(empty($match) ) {
                             json_decode($user_custom_markup);
                             if(json_last_error() === JSON_ERROR_NONE){
                                 $user_custom_output .= '<script type="application/ld+json" class="saswp-user-custom-schema-markup-output">';                            
@@ -729,8 +728,8 @@ function saswp_get_all_schema_markup_output() {
                             
                             $regex = '/<script type=\"application\/ld\+json">(.*?)<\/script>/';
                             preg_match_all( $regex, $user_custom_markup, $matches );
-                            if(!empty($matches) && isset($matches[1])){
-                                foreach ($matches[1] as $value) {
+                            if ( ! empty( $matches) && isset($matches[1]) ) {
+                                foreach ( $matches[1] as $value) {
                                     json_decode($value);
                                     if(json_last_error() === JSON_ERROR_NONE){
                                         $user_custom_output .= '<script type="application/ld+json" class="saswp-user-custom-schema-markup-output">';                            
@@ -765,7 +764,7 @@ function saswp_get_all_schema_markup_output() {
                 
 }
 
-add_filter('the_content', 'saswp_paywall_data_for_login');
+add_filter( 'the_content', 'saswp_paywall_data_for_login');
 
 function saswp_paywall_data_for_login($content){
     
@@ -787,16 +786,16 @@ function saswp_paywall_data_for_login($content){
                 $paywallenable = '';
                 $className     = 'paywall';
                 
-                foreach($Conditionals as $schemaConditionals){
+                foreach( $Conditionals as $schemaConditionals){
                     
                      $schema_options = $schemaConditionals['schema_options'];    
                
-                if(isset($schema_options['paywall_class_name'])){
+                if ( isset( $schema_options['paywall_class_name']) ) {
                     
                      $className = $schema_options['paywall_class_name'];                                 
                 
                 }
-                if(isset($schema_options['notAccessibleForFree'])){               
+                if ( isset( $schema_options['notAccessibleForFree']) ) {               
                     
                      $paywallenable = $schema_options['notAccessibleForFree'];
                      
@@ -807,17 +806,17 @@ function saswp_paywall_data_for_login($content){
                 }                
                 if($paywallenable){
                     
-		if(strpos($content, '<!--more-->')!==false && !is_user_logged_in()){
+		if(strpos($content, '<!--more-->')!==false && !is_user_logged_in() ) {
                     			
 			$redirect       =  home_url( $wp->request );
 			$breakedContent = explode("<!--more-->", $content);
-			$content        = $breakedContent[0].'<a href="'.esc_url(wp_login_url( $redirect )) .'">'.saswp_t_string( 'Login' ).'</a>';
+			$content        = $breakedContent[0].'<a href="'. esc_url( wp_login_url( $redirect )) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
                         
-		}elseif(strpos($content, '<!--more-->')!==false && is_user_logged_in()){
+		}elseif(strpos($content, '<!--more-->')!==false && is_user_logged_in() ) {
                     			
 			$redirect       =  home_url( $wp->request );
 			$breakedContent = explode("<!--more-->", $content);
-			$content        = $breakedContent[0].'<div class="'.esc_attr($className).'">'.$breakedContent[1].'</div>';
+			$content        = $breakedContent[0].'<div class="'. esc_attr( $className).'">'.$breakedContent[1].'</div>';
                         
 		}
                 
@@ -827,18 +826,18 @@ function saswp_paywall_data_for_login($content){
 	return $content;
 }
 
-add_filter('memberpress_form_update', 'saswp_memberpress_form_update'); 
+add_filter( 'memberpress_form_update', 'saswp_memberpress_form_update'); 
         
 function saswp_memberpress_form_update($form){
     
 	if( !saswp_non_amp() ){
             
-		add_action('amp_post_template_css',function(){
+		add_action('amp_post_template_css',function() {
 			echo '.amp-mem-login{background-color: #fef5c4;padding: 13px 30px 9px 30px;}';
 		},11); 
 		global $wp;
 		$redirect =  home_url( $wp->request );
-		$form = '<a class="amp-mem-login" href="'.esc_url(wp_login_url( $redirect )) .'">'.saswp_t_string( 'Login' ).'</a>';
+		$form = '<a class="amp-mem-login" href="'. esc_url( wp_login_url( $redirect )) .'">'.esc_html__( 'Login', 'schema-and-structured-data-for-wp' ).'</a>';
 	}
         
 	return $form;
@@ -855,8 +854,8 @@ function saswp_remove_warnings($data, $index, $type){
     	
                 if($type == 'saswp_array'){
 
-                        if(isset($data[$index])){
-                                return esc_attr($data[$index][0]);
+                        if ( isset( $data[$index]) ) {
+                                return esc_attr( $data[$index][0]);
                         }else{
                                 return '';
                         }		
@@ -864,8 +863,8 @@ function saswp_remove_warnings($data, $index, $type){
 
 		if($type == 'saswp_string'){
 	
-                        if(isset($data[$index])){
-                                return esc_attr($data[$index]);
+                        if ( isset( $data[$index]) ) {
+                                return esc_attr( $data[$index]);
                         }else{
                                 return '';
                         }		
@@ -885,9 +884,9 @@ function saswp_reading_time_and_word_count() {
 
     // Count the words in the content.
     $word_count      = 0;
-    $text            = trim( strip_tags( @get_the_content() ) );
+    $text            = trim( wp_strip_all_tags( @get_the_content() ) );
     
-    if(!$text && is_object($post)){
+    if(!$text && is_object($post) ) {
         $text = $post->post_content;
     }    
     $word_count      = substr_count( "$text ", ' ' );
@@ -907,7 +906,7 @@ function saswp_reading_time_and_word_count() {
         $timereq = 'PT'.$seconds.'S';
     }
 
-    return array('word_count' => esc_attr($word_count), 'timerequired' => esc_attr($timereq));
+    return array('word_count' => esc_attr( $word_count), 'timerequired' => esc_attr( $timereq));
 }
 
 /**
@@ -916,12 +915,12 @@ function saswp_reading_time_and_word_count() {
  * @param type $id
  * @return type array
  */
-function saswp_extract_taqyeem_ratings(){
+function saswp_extract_taqyeem_ratings() {
         
     global $sd_data, $post;    
     $star_rating = array();
     
-    if(isset($sd_data['saswp-taqyeem']) && $sd_data['saswp-taqyeem'] == 1 && function_exists('taqyeem_review_get_rich_snippet')){
+    if ( isset( $sd_data['saswp-taqyeem']) && $sd_data['saswp-taqyeem'] == 1 && function_exists('taqyeem_review_get_rich_snippet') ) {
        
         $rate  = get_post_meta( $post->ID, 'tie_user_rate', true );
 		$count = get_post_meta( $post->ID, 'tie_users_num', true );
@@ -953,7 +952,7 @@ function saswp_extract_taqyeem_ratings(){
     return $star_rating;                       
 }
 
-function saswp_ratency_rating_box_rating(){
+function saswp_ratency_rating_box_rating() {
         
     global $sd_data, $post;    
     $result = array();
@@ -991,11 +990,11 @@ function saswp_ratency_rating_box_rating(){
  * @param type $id
  * @return type array
  */
-function saswp_extract_yet_another_stars_rating(){
+function saswp_extract_yet_another_stars_rating() {
     global $sd_data, $post;
     $result = array();
 
-    if(isset($sd_data['saswp-yet-another-stars-rating']) && $sd_data['saswp-yet-another-stars-rating'] == 1 && method_exists('YasrDatabaseRatings', 'getVisitorVotes') ){
+    if ( isset( $sd_data['saswp-yet-another-stars-rating']) && $sd_data['saswp-yet-another-stars-rating'] == 1 && method_exists('YasrDatabaseRatings', 'getVisitorVotes') ){
 
         $visitor_votes  = YasrDatabaseRatings::getVisitorVotes(false);
 
@@ -1035,14 +1034,14 @@ function saswp_extract_yet_another_stars_rating(){
  * @param type $id
  * @return type array
  */
-function saswp_extract_wpdiscuz(){
+function saswp_extract_wpdiscuz() {
         
     global $sd_data, $post;    
     $star_rating = array();
 
-    if(isset($sd_data['saswp-wpdiscuz']) && $sd_data['saswp-wpdiscuz'] == 1 && is_plugin_active('wpdiscuz/class.WpdiscuzCore.php') ){
+    if ( isset( $sd_data['saswp-wpdiscuz']) && $sd_data['saswp-wpdiscuz'] == 1 && is_plugin_active('wpdiscuz/class.WpdiscuzCore.php') ){
            
-        if(is_object($post) && isset($post->ID)){
+        if(is_object($post) && isset($post->ID) ) {
             $rating = (float) get_post_meta($post->ID, 'wpdiscuz_post_rating', true);
             $count = (int) get_post_meta($post->ID, 'wpdiscuz_post_rating_count', true);
              
@@ -1080,12 +1079,12 @@ function saswp_extract_wpdiscuz(){
  * @param type $id
  * @return type array
  */
-function saswp_extract_ratingform(){
+function saswp_extract_ratingform() {
     
     global $sd_data;    
     $star_rating = array();
 
-    if(isset($sd_data['saswp-ratingform']) && $sd_data['saswp-ratingform'] == 1 && is_plugin_active('rating-form/rf-init.php')){                
+    if ( isset( $sd_data['saswp-ratingform']) && $sd_data['saswp-ratingform'] == 1 && is_plugin_active('rating-form/rf-init.php') ) {                
         
         $total = get_post_meta(get_the_ID(), 'rf_total', true) ? ((int) get_post_meta(get_the_ID(), 'rf_total', true)) : 0;
         $avg   = get_post_meta(get_the_ID(), 'rf_average', true) ? ((int) get_post_meta(get_the_ID(), 'rf_average', true)) : 0;
@@ -1114,14 +1113,14 @@ function saswp_extract_ratingform(){
     }                        
 }
 
-function saswp_get_elementor_testomonials(){
+function saswp_get_elementor_testomonials() {
 
             global $sd_data;    
             
             if( isset($sd_data['saswp-elementor']) && $sd_data['saswp-elementor'] == 1 && is_plugin_active('elementor/elementor.php') ){
                
                 $alldata    = get_post_meta( get_the_ID(),'_elementor_data', true );
-                if(!empty($alldata) && is_string($alldata)){
+                if ( ! empty( $alldata) && is_string($alldata) ) {
                     $alldata    = json_decode($alldata, true);
                 }
             
@@ -1135,11 +1134,11 @@ function saswp_get_elementor_testomonials(){
                         $returnData[] = saswp_get_elementor_widget_data($element_data, 'testimonial');
                     }
                     
-                    if( !empty($returnData) && is_array($returnData)){
+                    if( !empty($returnData) && is_array($returnData) ) {
 
                         foreach ( $returnData as $value ) {
                         
-                            if(!empty($value['settings']['testimonial_name'])){
+                            if ( ! empty( $value['settings']['testimonial_name']) ) {
 
                                 $reviews[] = array(
                                     '@type'         => 'Review',
@@ -1157,7 +1156,7 @@ function saswp_get_elementor_testomonials(){
                                 
                         }
     
-                        if(!empty($reviews)){
+                        if ( ! empty( $reviews) ) {
 
                             $ratings['aggregateRating'] =  array(
                                 '@type'         => 'AggregateRating',
@@ -1177,11 +1176,11 @@ function saswp_get_elementor_testomonials(){
                         
 }
 
-function saswp_extract_rmp_ratings(){
+function saswp_extract_rmp_ratings() {
         
     global $sd_data;    
     $star_rating = array();
-    if(isset($sd_data['saswp-rmprating']) && $sd_data['saswp-rmprating'] == 1 && is_plugin_active('rate-my-post/rate-my-post.php')){
+    if ( isset( $sd_data['saswp-rmprating']) && $sd_data['saswp-rmprating'] == 1 && is_plugin_active('rate-my-post/rate-my-post.php') ) {
        
         
         $avg   = get_post_meta(get_the_ID(), 'rmp_avg_rating', true) ? ( get_post_meta(get_the_ID(), 'rmp_avg_rating', true)) : 0;
@@ -1216,11 +1215,11 @@ function saswp_extract_rmp_ratings(){
  * @param type $id
  * @return type array
  */
-function saswp_extract_kk_star_ratings(){
+function saswp_extract_kk_star_ratings() {
         
             global $sd_data;    
             $kk_star_rating = array();
-            if(isset($sd_data['saswp-kk-star-raring']) && $sd_data['saswp-kk-star-raring'] == 1 && is_plugin_active('kk-star-ratings/index.php')){
+            if ( isset( $sd_data['saswp-kk-star-raring']) && $sd_data['saswp-kk-star-raring'] == 1 && is_plugin_active('kk-star-ratings/index.php') ) {
                
                 $best  = get_option('kksr_stars');
                 $score = get_post_meta(get_the_ID(), '_kksr_ratings', true) ? ((int) get_post_meta(get_the_ID(), '_kksr_ratings', true)) : 0;
@@ -1255,13 +1254,13 @@ function saswp_extract_kk_star_ratings(){
  * @param type $id
  * @return type array
  */
-function saswp_extract_wp_post_ratings(){
+function saswp_extract_wp_post_ratings() {
         
             global $sd_data;    
             
             $wp_post_rating_ar = array();
             
-            if(isset($sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1 && is_plugin_active('wp-postratings/wp-postratings.php')){
+            if ( isset( $sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1 && is_plugin_active('wp-postratings/wp-postratings.php') ) {
                
                 $best   = (int) get_option( 'postratings_max' );
                 $avg   = get_post_meta(get_the_ID(), 'ratings_average', true);
@@ -1298,7 +1297,7 @@ function saswp_get_comments($post_id){
     global $sd_data;
     $wpdiscuz = false;
 
-    if(isset($sd_data['saswp-wpdiscuz']) && $sd_data['saswp-wpdiscuz'] == 1 && is_plugin_active('wpdiscuz/class.WpdiscuzCore.php') ){
+    if ( isset( $sd_data['saswp-wpdiscuz']) && $sd_data['saswp-wpdiscuz'] == 1 && is_plugin_active('wpdiscuz/class.WpdiscuzCore.php') ){
         $wpdiscuz = true;
     }
     
@@ -1307,7 +1306,7 @@ function saswp_get_comments($post_id){
     
     $is_bbpress = false;
     
-    if(isset($sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){
+    if ( isset( $sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){
         $is_bbpress = true;
     }
    
@@ -1355,11 +1354,11 @@ function saswp_get_comments($post_id){
 
             $wpdiscuz_votes =  get_comment_meta($comment->comment_ID, 'wpdiscuz_votes_seperate', true);
             
-            if(isset($wpdiscuz_votes['like'])){
+            if ( isset( $wpdiscuz_votes['like']) ) {
                 $likes = $wpdiscuz_votes['like'];
             }
 
-            if(isset($wpdiscuz_votes['dislike'])){
+            if ( isset( $wpdiscuz_votes['dislike']) ) {
                 $dislikes = $wpdiscuz_votes['dislike'];
             }
         }
@@ -1369,12 +1368,12 @@ function saswp_get_comments($post_id){
                 '@type'         => 'Comment',
                 'id'            => $permalink.'#comment-'.$comment->comment_ID,
                 'dateCreated'   => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
-                'description'   => strip_tags($comment->comment_content),
+                'description'   => wp_strip_all_tags($comment->comment_content),
                 'upvoteCount'   => $likes,
                 'downvoteCount' => $dislikes,
                 'author'      => array (
                                                 '@type' => 'Person',
-                                                'name'  => esc_attr($comment->comment_author),
+                                                'name'  => esc_attr( $comment->comment_author),
                                                 'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
                     ),
         );
@@ -1389,7 +1388,7 @@ function saswp_get_comments($post_id){
  * @param type $post_id
  * @return type array
  */       
-function saswp_get_comments_with_rating(){
+function saswp_get_comments_with_rating() {
     
         global $post;
         
@@ -1429,17 +1428,17 @@ function saswp_get_comments_with_rating(){
                 $rating = 1;
             }
 
-            if(is_numeric($rating)){
+            if(is_numeric($rating) ) {
 
                 $sumofrating += $rating;
 
                 $comments[] = array (
 					'@type'         => 'Review',
 					'datePublished' => saswp_format_date_time($comment->comment_date),
-					'description'   => strip_tags($comment->comment_content),
+					'description'   => wp_strip_all_tags($comment->comment_content),
 					'author'        => array (
                                             '@type' => 'Person',
-                                            'name'  => esc_attr($comment->comment_author),
+                                            'name'  => esc_attr( $comment->comment_author),
                                             'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
                                     ),
                     'reviewRating'  => array(
@@ -1499,20 +1498,20 @@ function saswp_structure_data_access_scripts($data){
  * @global type $sd_data
  * @return array
  */
-function saswp_list_items_generator(){
+function saswp_list_items_generator() {
     
 		global $sd_data;
 		$bc_titles = array();
 		$bc_links  = array();
         $settings = saswp_defaultSettings(); 
 
-        if(empty($sd_data['links'])){
+        if(empty($sd_data['links']) ) {
             saswp_custom_breadcrumbs();
         }                 
-        if(isset($sd_data['titles']) && !empty($sd_data['titles'])){		
+        if ( isset( $sd_data['titles']) && !empty($sd_data['titles']) ) {		
 			$bc_titles = $sd_data['titles'];
 		}
-		if(isset($sd_data['links']) && !empty($sd_data['links'])){
+		if ( isset( $sd_data['links']) && !empty($sd_data['links']) ) {
 			$bc_links = $sd_data['links'];
         }	        
                 
@@ -1520,17 +1519,17 @@ function saswp_list_items_generator(){
                 $i = 0;
                 $breadcrumbslist = array();
                 
-        if(is_single()){    
+        if(is_single() ) {    
 
-			if(!empty($bc_titles) && !empty($bc_links)){      
+			if ( ! empty( $bc_titles) && !empty($bc_links) ) {      
                             
 				for($i=0;$i<sizeof($bc_titles);$i++){
                                     
-                                    if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
+                                    if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles) ) {
                                     
                                         if($bc_links[$i] != '' && $bc_titles[$i] != '' ){
                                            
-                                            if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title'])){
+                                            if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title']) ) {
                                                $titles = $settings['saswp_breadcrumb_home_page_title'];
                                             }else{
                                                $titles = $bc_titles[$i];
@@ -1556,16 +1555,16 @@ function saswp_list_items_generator(){
                      }
                
     }
-        if(is_page()){
-                        if(!empty($bc_titles) && !empty($bc_links)){
+        if(is_page() ) {
+                        if ( ! empty( $bc_titles) && !empty($bc_links) ) {
                             
                             for($i=0;$i<sizeof($bc_titles);$i++){
                             
-                                if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
+                                if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles) ) {
         
-                                    if($bc_links[$i] !='' && $bc_titles[$i] != ''){
+                                    if($bc_links[$i] !='' && $bc_titles[$i] != '' ) {
 
-                                        if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title'])){
+                                        if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title']) ) {
                                             $titles = $settings['saswp_breadcrumb_home_page_title'];
                                         }else{
                                             $titles = $bc_titles[$i];
@@ -1591,17 +1590,17 @@ function saswp_list_items_generator(){
 			
 
     }
-        if(is_archive()){
+        if(is_archive() ) {
 
-         if(!empty($bc_titles) && !empty($bc_links)){
+         if ( ! empty( $bc_titles) && !empty($bc_links) ) {
              
              for($i=0;$i<sizeof($bc_titles);$i++){
                  
-                    if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles)){
+                    if(array_key_exists($i, $bc_links) && array_key_exists($i, $bc_titles) ) {
                                                
-                        if($bc_links[$i] != '' && $bc_titles[$i] !=''){
+                        if($bc_links[$i] != '' && $bc_titles[$i] !='' ) {
 
-                            if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title'])){
+                            if($j == 1 && !empty($settings['saswp_breadcrumb_home_page_title']) ) {
                                 $titles = $settings['saswp_breadcrumb_home_page_title'];
                             }else{
                                 $titles = $bc_titles[$i];
@@ -1639,10 +1638,10 @@ function saswp_json_print_format($output_array){
     
     global $sd_data;
     
-    if(isset($sd_data['saswp-pretty-print']) && $sd_data['saswp-pretty-print'] == 1){
+    if ( isset( $sd_data['saswp-pretty-print']) && $sd_data['saswp-pretty-print'] == 1){
         return wp_json_encode( $output_array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
     }else{
-        return wp_json_encode( $output_array, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+        return wp_json_encode( $output_array );
     }
         
 }
@@ -1657,7 +1656,7 @@ function saswp_remove_microdata($content){
     
     global $sd_data;
     
-    if(saswp_global_option()){
+    if(saswp_global_option() ) {
         //Clean MicroData
         $content = preg_replace("/itemtype=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|TouristTrip|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|EventPosting|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement|Rating|worstRating|ratingValue|bestRating)(\"?)/", "", $content);
         $content = preg_replace("/itemscope[\n|\s|]*itemtype=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|TouristTrip|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|EventPosting|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement|Rating|worstRating|ratingValue|bestRating)(\"?)/", "", $content);
@@ -1680,78 +1679,78 @@ function saswp_remove_microdata($content){
         $content = preg_replace('/hreview-aggregate/', "", $content);
         $content = preg_replace('/hrecipe/', "", $content);
         
-        if(isset($sd_data['saswp-ratency']) && $sd_data['saswp-ratency'] == 1 ){
+        if ( isset( $sd_data['saswp-ratency']) && $sd_data['saswp-ratency'] == 1 ){
             
             $regex = '/<meta property\=\"og\:image\:secure_url\" content\=\"(.*?)\" \/>(.*?)<script type\=\"application\/ld\+json\">(.*?)<\/script>/s';
 
             preg_match( $regex, $content, $match);
 
-            if(isset($match[1])){
+            if ( isset( $match[1]) ) {
                 $content = preg_replace($regex, '<meta property="og:image:secure_url" content="'.$match[1].'" />', $content);        
             }
             
         }
 
-        if(isset($sd_data['saswp-ratency']) && $sd_data['saswp-ratency'] == 1 ){
+        if ( isset( $sd_data['saswp-ratency']) && $sd_data['saswp-ratency'] == 1 ){
             
             $regex = '/<meta property\=\"og\:site_name\" content\="(.*?)\" \/>(.*?)<script type\=\"application\/ld\+json\">(.*?)<\/script>/s';
 
             preg_match( $regex, $content, $match);
 
-            if(isset($match[1])){
+            if ( isset( $match[1]) ) {
                 $content = preg_replace($regex, '<meta property="og:site_name" content="'.$match[1].'" />', $content);        
             }
             
         }
 
         //Clean json markup
-        if(isset($sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ){
+        if ( isset( $sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ){
             
             $regex = '/<div class\=\"ub_howto\"(.*?)<\/div><script type=\"application\/ld\+json\">(.*?)<\/script>/s';
 
             preg_match( $regex, $content, $match);
 
-            if(isset($match[1])){
+            if ( isset( $match[1]) ) {
                 $content = preg_replace($regex, '<div class="ub_howto"'.$match[1].' </div>', $content);        
             }
             
         }
 
-        if(isset($sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ){
+        if ( isset( $sd_data['saswp-ultimate-blocks']) && $sd_data['saswp-ultimate-blocks'] == 1 ){
             
             $regex = '/<div class\=\"ub_review_block\"(.*?)<\/div><script type=\"application\/ld\+json\">(.*?)<\/script>/s';
           
             preg_match( $regex, $content, $match);
 
-            if(isset($match[1])){
+            if ( isset( $match[1]) ) {
                 $content = preg_replace($regex, '<div class="ub_review_block"'.$match[1].' </div>', $content);        
             }
             
         }
 
         //Clean json markup
-        if(isset($sd_data['saswp-wpzoom']) && $sd_data['saswp-wpzoom'] == 1 ){
+        if ( isset( $sd_data['saswp-wpzoom']) && $sd_data['saswp-wpzoom'] == 1 ){
 
             $regex = '/<script type=\"application\/ld\+json\">(.*?)<\/script><div class=\"wp-block-wpzoom-recipe-card-block-recipe-card/s';
 
             $content = preg_replace($regex, '<div class="wp-block-wpzoom-recipe-card-block-recipe-card', $content);        
         }
         //Clean json markup
-        if(isset($sd_data['saswp-aiosp']) && $sd_data['saswp-aiosp'] == 1 ){
+        if ( isset( $sd_data['saswp-aiosp']) && $sd_data['saswp-aiosp'] == 1 ){
             $content = preg_replace('/<script type=\"application\/ld\+json" class=\"aioseop-schema"\>(.*?)<\/script>/', "", $content);
         }
         
         //Clean json markup
-        if(isset($sd_data['saswp-wordpress-news']) && $sd_data['saswp-wordpress-news'] == 1 ){
+        if ( isset( $sd_data['saswp-wordpress-news']) && $sd_data['saswp-wordpress-news'] == 1 ){
             $content = preg_replace("/<script type\=\'application\/ld\+json\' class\=\'wpnews-schema-graph(.*?)'\>(.*?)<\/script>/s", "", $content);
         }
 
         
-        if(isset($sd_data['saswp-event-on']) && $sd_data['saswp-event-on'] == 1 ){
+        if ( isset( $sd_data['saswp-event-on']) && $sd_data['saswp-event-on'] == 1 ){
             $content = preg_replace("/<div class\=\"evo_event_schema\"(.*?)>(.*?)<\/script><\/div>/s", "", $content);
         }
 
-        if(function_exists('review_child_company_reviews_comments') && isset($sd_data['saswp-wp-theme-reviews']) && $sd_data['saswp-wp-theme-reviews'] == 1){
+        if ( function_exists( 'review_child_company_reviews_comments') && isset($sd_data['saswp-wp-theme-reviews']) && $sd_data['saswp-wp-theme-reviews'] == 1){
 
             $regex = '/<\/section>[\s\n]*<script type=\"application\/ld\+json\">(.*?)<\/script>/s';
 
@@ -1759,17 +1758,17 @@ function saswp_remove_microdata($content){
             
         }
         
-        if(isset($sd_data['saswp-ultimatefaqs']) && $sd_data['saswp-ultimatefaqs'] == 1 ){
+        if ( isset( $sd_data['saswp-ultimatefaqs']) && $sd_data['saswp-ultimatefaqs'] == 1 ){
             $content = preg_replace('/<script type=\"application\/ld\+json" class=\"ewd-ufaq-ld-json-data"\>(.*?)<\/script>/', "", $content);
         }
         
-        if(isset($sd_data['saswp-wp-ultimate-recipe']) && $sd_data['saswp-wp-ultimate-recipe'] == 1 ){
+        if ( isset( $sd_data['saswp-wp-ultimate-recipe']) && $sd_data['saswp-wp-ultimate-recipe'] == 1 ){
          
             $regex = '/<script type=\"application\/ld\+json\">(.*?)<\/script>[\s\n]*<div id=\"wpurp\-container\-recipe\-([0-9]+)\"/';
         
             preg_match( $regex, $content, $match );
 
-            if(isset($match[2])){
+            if ( isset( $match[2]) ) {
                 
                 $recipe_id = $match[2];
 
@@ -1779,14 +1778,14 @@ function saswp_remove_microdata($content){
                                     
         }
         
-        if(isset($sd_data['saswp-zip-recipes']) && $sd_data['saswp-zip-recipes'] == 1 ){
+        if ( isset( $sd_data['saswp-zip-recipes']) && $sd_data['saswp-zip-recipes'] == 1 ){
             
             $regex = '/class=\"zlrecipe\-container\-border\"(.*?)>[\s\n]*<script type=\"application\/ld\+json\">(.*?)<\/script\>/sm';
             preg_match_all( $regex, $content, $matches , PREG_SET_ORDER );
             
             if($matches){
                 
-                foreach($matches as $match){
+                foreach( $matches as $match){
                     
                     $content = preg_replace($regex, 'class="zlrecipe-container-border" '.$match[1].'>', $content);   
                     
@@ -1802,13 +1801,13 @@ function saswp_remove_microdata($content){
 
             preg_match( $regex, $content, $match);
             
-            if(isset($match[1]) && is_string($match[1])){
+            if ( isset( $match[1]) && is_string($match[1]) ) {
                 
                 $data_decode = json_decode($match[1], true);
 
-                if($data_decode && is_array($data_decode)){
+                if($data_decode && is_array($data_decode) ) {
 
-                    if(isset($data_decode[0]['@type']) && $data_decode[0]['@type'] == 'Article'){
+                    if ( isset( $data_decode[0]['@type']) && $data_decode[0]['@type'] == 'Article'){
                         $content = preg_replace($regex, '', $content);
                     }
 
@@ -1829,7 +1828,7 @@ function saswp_remove_microdata($content){
  * @return boolean
  *
  */
-function saswp_global_option(){
+function saswp_global_option() {
     
             global $sd_data;
             
@@ -1854,18 +1853,18 @@ function saswp_global_option(){
  * @return string
  * @since version 1.9
  */
-function saswp_get_the_tags(){
+function saswp_get_the_tags() {
 
     global $post, $sd_data;
     $tag_str = '';
     
-    if(is_object($post)){
+    if(is_object($post) ) {
         
       $tags = get_the_tags($post->ID);
       
       if($tags){
           
-          foreach($tags as $tag){
+          foreach( $tags as $tag){
               
             $tag_str .= $tag->name.', '; 
               
@@ -1881,13 +1880,13 @@ function saswp_get_the_tags(){
 
         $post_meta = get_post_meta(get_the_ID(), 'mtm_data', true);
 
-        if(is_array($post_meta)){
+        if ( is_array( $post_meta) ) {
 
             $meta_tag = array_column($post_meta, 'value');
             $key      = array_search("keywords",$meta_tag);
-            if(!empty($key)){
-                if(is_numeric($key) || is_string($key)){
-                    if(array_key_exists($key, $post_meta)){
+            if ( ! empty( $key) ) {
+                if(is_numeric($key) || is_string($key) ) {
+                    if(array_key_exists($key, $post_meta) ) {
                         $tag_str = $post_meta[$key]['content'];
                     }
                 }
@@ -1901,19 +1900,19 @@ function saswp_get_the_tags(){
     
 }
 
-function saswp_get_the_categories(){
+function saswp_get_the_categories() {
 
     global $post;
 
     $category_str = '';
     
-    if(is_object($post)){
+    if(is_object($post) ) {
         
       $categories = get_the_category($post->ID);
       
       if($categories){
           
-          foreach($categories as $category){
+          foreach( $categories as $category){
               
             $category_str .= $category->name.', '; 
               
@@ -1939,7 +1938,7 @@ function saswp_get_ids_from_content_by_type($type){
         
     global $post;
     
-    if(is_object($post)){
+    if(is_object($post) ) {
      
         $content = $post->post_content;    
 
@@ -2017,7 +2016,7 @@ function saswp_wp_recipe_schema_json($recipe){
             
             unset($metadata['image']);
 
-            if(isset($metadata['video'])){
+            if ( isset( $metadata['video']) ) {
 
                 if(!$metadata['video']['description']){
                  $metadata['video']['description'] = saswp_get_the_excerpt();
@@ -2077,12 +2076,12 @@ function saswp_get_testimonial_data($atts, $matche){
                 
                 $testimonial = get_posts( $arg);  
                  
-                if(!empty($testimonial)){
+                if ( ! empty( $testimonial) ) {
                     
                     $sumofrating = 0;
                     $avg_rating  = 1;
                     
-                    foreach ($testimonial as $value){
+                    foreach ( $testimonial as $value){
                                 
                          $rating       = get_post_meta($value->ID, $key='_ikcf_rating', true); 
                          $author       = get_post_meta($value->ID, $key='_ikcf_client', true); 
@@ -2129,9 +2128,9 @@ function saswp_get_shortcode_attrs($shortcode_str, $content){
     if (  preg_match_all( '/'. $pattern .'/s', $content, $matches )
             && array_key_exists( 2, $matches ) )
     {
-        if(in_array( $shortcode_str, $matches[2] )){
+        if(in_array( $shortcode_str, $matches[2] ) ) {
             
-            foreach ($matches[0] as $matche){
+            foreach ( $matches[0] as $matche){
             
                 $mached         = rtrim($matche, ']'); 
                 $mached         = ltrim($mached, '[');
@@ -2147,15 +2146,15 @@ function saswp_get_shortcode_attrs($shortcode_str, $content){
 
 }
 
-function saswp_get_easy_testomonials(){
+function saswp_get_easy_testomonials() {
     
     $testimonial = array();
     
     global $post, $sd_data;
 
-     if(isset($sd_data['saswp-easy-testimonials']) && $sd_data['saswp-easy-testimonials'] == 1){
+     if ( isset( $sd_data['saswp-easy-testimonials']) && $sd_data['saswp-easy-testimonials'] == 1){
      
-        if(is_object($post)){
+        if(is_object($post) ) {
          
          $pattern = get_shortcode_regex();
 
@@ -2165,21 +2164,21 @@ function saswp_get_easy_testomonials(){
              
            $testimo_str = ''; 
            
-           if(in_array( 'single_testimonial', $matches[2] )){
+           if(in_array( 'single_testimonial', $matches[2] ) ) {
                $testimo_str = 'single_testimonial';
-           }elseif(in_array( 'random_testimonial', $matches[2] )){
+           }elseif(in_array( 'random_testimonial', $matches[2] ) ) {
                $testimo_str = 'random_testimonial';
-           }elseif(in_array( 'testimonials', $matches[2] )){
+           }elseif(in_array( 'testimonials', $matches[2] ) ) {
                $testimo_str = 'testimonials';
-           }elseif(in_array( 'testimonials_cycle', $matches[2] )){
+           }elseif(in_array( 'testimonials_cycle', $matches[2] ) ) {
                $testimo_str = 'testimonials_cycle';
-           }elseif(in_array( 'testimonials_grid', $matches[2] )){
+           }elseif(in_array( 'testimonials_grid', $matches[2] ) ) {
                $testimo_str = 'testimonials_grid';
            }
             
         if($testimo_str){
             
-            foreach ($matches[0] as $matche){
+            foreach ( $matches[0] as $matche){
             
                 $mached = rtrim($matche, ']'); 
                 $mached = ltrim($mached, '[');
@@ -2252,12 +2251,12 @@ function saswp_get_testimonial_pro_data($shortcode_data, $testimo_str){
 
             $testimonial = get_posts( $args );
                              
-            if(!empty($testimonial)){
+            if ( ! empty( $testimonial) ) {
 
                 $sumofrating = 0;
                 $avg_rating  = 1;
 
-                foreach ($testimonial as $value){
+                foreach ( $testimonial as $value){
 
                      $meta_option = get_post_meta($value->ID, 'sp_tpro_meta_options', true);
                      
@@ -2324,12 +2323,12 @@ function saswp_get_strong_testimonials_data($testimonial){
             $reviews = array();
             $ratings = array();
     
-            if(!empty($testimonial)){
+            if ( ! empty( $testimonial) ) {
 
                 $sumofrating = 0;
                 $avg_rating  = 1;
 
-                foreach ($testimonial as $value){
+                foreach ( $testimonial as $value){
                     
                      $rating       = 5; 
                      $author       = get_post_meta($value->ID, $key='client_name', true);
@@ -2380,12 +2379,12 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
 
             $testimonial = get_posts( $arg); 
                              
-            if(!empty($testimonial)){
+            if ( ! empty( $testimonial) ) {
 
                 $sumofrating = 0;
                 $avg_rating  = 1;
 
-                foreach ($testimonial as $value){
+                foreach ( $testimonial as $value){
 
                      $rating       = get_post_meta($value->ID, $key='rating', true); 
                      $author       = get_post_meta($value->ID, $key='tagline', true); 
@@ -2423,15 +2422,15 @@ function saswp_get_bne_testimonials_data($atts, $testimo_str){
     
 }
 
-function saswp_get_brb_reviews(){
+function saswp_get_brb_reviews() {
 
     global $post, $sd_data;
     $ratings = array();
     $reviews = array();
     
-    if(isset($sd_data['saswp-brb']) && $sd_data['saswp-brb'] == 1 && class_exists('WP_Business_Reviews_Bundle\Includes\Core')){
+    if ( isset( $sd_data['saswp-brb']) && $sd_data['saswp-brb'] == 1 && class_exists('WP_Business_Reviews_Bundle\Includes\Core') ) {
         
-        if(is_object($post)){
+        if(is_object($post) ) {
 
             $pattern = get_shortcode_regex();
 
@@ -2441,13 +2440,13 @@ function saswp_get_brb_reviews(){
 
                 $testimo_str = ''; 
            
-                if(in_array( 'brb_collection', $matches[2] )){
+                if(in_array( 'brb_collection', $matches[2] ) ) {
                     $testimo_str = 'brb_collection';
                 }
 
                 if($testimo_str){
                     
-                    foreach ($matches[0] as $match){
+                    foreach ( $matches[0] as $match){
 
                         $mached = rtrim($match, ']'); 
                         $mached = ltrim($mached, '[');
@@ -2471,12 +2470,12 @@ function saswp_get_brb_reviews(){
                                 $core_obj     = new WP_Business_Reviews_Bundle\Includes\Core;
                                 $reviews_data = $core_obj->get_reviews($post_data[0]);
 
-                                if(!empty($reviews_data)){
+                                if ( ! empty( $reviews_data) ) {
 
                                     $sumofrating = 0;
                                     $avg_rating  = 1;
 
-                                    foreach ($reviews_data as $value){                                        
+                                    foreach ( $reviews_data as $value){                                        
                    
                                         $sumofrating += 5;
                    
@@ -2522,15 +2521,15 @@ function saswp_get_brb_reviews(){
 
     }
 }
-function saswp_get_strong_testimonials(){
+function saswp_get_strong_testimonials() {
     
     $testimonial = array();
     
     global $post, $sd_data;
 
-     if(isset($sd_data['saswp-strong-testimonials']) && $sd_data['saswp-strong-testimonials'] == 1){
+     if ( isset( $sd_data['saswp-strong-testimonials']) && $sd_data['saswp-strong-testimonials'] == 1){
      
-        if(is_object($post)){
+        if(is_object($post) ) {
          
          $pattern = get_shortcode_regex();
 
@@ -2540,13 +2539,13 @@ function saswp_get_strong_testimonials(){
              
            $testimo_str = ''; 
            
-           if(in_array( 'testimonial_view', $matches[2] )){
+           if(in_array( 'testimonial_view', $matches[2] ) ) {
                $testimo_str = 'testimonial_view';
            }
            
         if($testimo_str){
             
-            foreach ($matches[0] as $matche){
+            foreach ( $matches[0] as $matche){
              
                 $mached = rtrim($matche, ']'); 
                 $mached = ltrim($mached, '[');
@@ -2562,11 +2561,12 @@ function saswp_get_strong_testimonials(){
 			'testimonial_view'
 		);                                
                 
-                if(class_exists('Strong_View_Form') && class_exists('Strong_View_Slideshow') && class_exists('Strong_View_Display')){
+                if(class_exists('Strong_View_Form') && class_exists('Strong_View_Slideshow') && class_exists('Strong_View_Display') ) {
                                     
                     switch ( $out['mode'] ) {
 			case 'form' :
 				$view = new Strong_View_Form( $out );
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading to check success condition.
 				if ( isset( $_GET['success'] ) ) {
 				    $view->success();
 				} else {
@@ -2581,7 +2581,7 @@ function saswp_get_strong_testimonials(){
 				$view = new Strong_View_Display( $out );
         		$view->build();
 		        }                 
-                        if(is_object($view)){
+                        if(is_object($view) ) {
                             $testimonial = saswp_get_strong_testimonials_data($view->query->posts);
                         }
                                         
@@ -2604,15 +2604,15 @@ function saswp_get_strong_testimonials(){
     
 }
 
-function saswp_get_testomonial_pro(){
+function saswp_get_testomonial_pro() {
     
     $testimonial = array();
     
     global $post, $sd_data;
 
-     if(isset($sd_data['saswp-testimonial-pro']) && $sd_data['saswp-testimonial-pro'] == 1){
+     if ( isset( $sd_data['saswp-testimonial-pro']) && $sd_data['saswp-testimonial-pro'] == 1){
      
-        if(is_object($post)){
+        if(is_object($post) ) {
          
          $pattern = get_shortcode_regex();
 
@@ -2622,13 +2622,13 @@ function saswp_get_testomonial_pro(){
              
            $testimo_str = ''; 
            
-           if(in_array( 'testimonial_pro', $matches[2] )){
+           if(in_array( 'testimonial_pro', $matches[2] ) ) {
                $testimo_str = 'testimonial_pro';
            }
            
         if($testimo_str){
             
-            foreach ($matches[0] as $matche){
+            foreach ( $matches[0] as $matche){
             
                 $mached = rtrim($matche, ']'); 
                 $mached = ltrim($mached, '[');
@@ -2658,15 +2658,15 @@ function saswp_get_testomonial_pro(){
     
 }
 
-function saswp_get_bne_testomonials(){
+function saswp_get_bne_testomonials() {
     
     $testimonial = array();
     
     global $post, $sd_data;
 
-     if(isset($sd_data['saswp-bne-testimonials']) && $sd_data['saswp-bne-testimonials'] == 1){
+     if ( isset( $sd_data['saswp-bne-testimonials']) && $sd_data['saswp-bne-testimonials'] == 1){
      
-        if(is_object($post)){
+        if(is_object($post) ) {
          
          $pattern = get_shortcode_regex();
 
@@ -2676,13 +2676,13 @@ function saswp_get_bne_testomonials(){
              
            $testimo_str = ''; 
            
-           if(in_array( 'bne_testimonials', $matches[2] )){
+           if(in_array( 'bne_testimonials', $matches[2] ) ) {
                $testimo_str = 'bne_testimonials';
            }
             
         if($testimo_str){
             
-            foreach ($matches[0] as $matche){
+            foreach ( $matches[0] as $matche){
             
                 $mached = rtrim($matche, ']'); 
                 $mached = ltrim($mached, '[');
@@ -2718,7 +2718,7 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
     
         global $saswp_post_reviews;
         
-        $service = new saswp_reviews_service();
+        $service = new SASWP_Reviews_Service();
         
         if ( $saswp_post_reviews ){
                   
@@ -2734,13 +2734,13 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
           $attached_rv        = get_post_meta($schema_post_id, 'saswp_attahced_reviews', true); 
           $append_reviews     = get_post_meta($schema_post_id, 'saswp_enable_append_reviews', true);
          
-         if($append_reviews == 1 && ($attached_rv || $attached_col)){
+         if($append_reviews == 1 && ($attached_rv || $attached_col) ) {
              
              $total_rv = array();
              
-             if($attached_rv && is_array($attached_rv)){
+             if($attached_rv && is_array($attached_rv) ) {
 
-                foreach($attached_rv as $review_id){
+                foreach( $attached_rv as $review_id){
                  
                     $attr['id'] =  $review_id;                  
                     $reviews = $service->saswp_get_reviews_list_by_parameters($attr);                                                      
@@ -2750,17 +2750,17 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
 
              }             
              
-             if($attached_col && is_array($attached_col)){
+             if($attached_col && is_array($attached_col) ) {
                  
                  $total_col_rv = array();
                  
-                 foreach($attached_col as $col_id){
+                 foreach( $attached_col as $col_id){
                      
                      $collection_data = get_post_meta($col_id);
                      
-                     if(isset($collection_data['saswp_total_reviews'][0])){
+                     if ( isset( $collection_data['saswp_total_reviews'][0]) ) {
                         $total_review_ids  = unserialize($collection_data['saswp_total_reviews'][0]);                
-                        if(!empty($total_review_ids) && is_array($total_review_ids)){
+                        if ( ! empty( $total_review_ids) && is_array($total_review_ids) ) {
                             $attr = array();
                             $attr['in'] = $total_review_ids;
                             $reviews_list = $service->saswp_get_reviews_list_by_parameters($attr);                                                      
@@ -2780,7 +2780,7 @@ function saswp_append_fetched_reviews($input1, $schema_post_id = null){
                 
                 if($rv_markup){
                     
-                    if(isset($input1['review'])){
+                    if ( isset( $input1['review']) ) {
 
                     $input1['review']          = $rv_markup['review'];
                     $input1['aggregateRating'] = $rv_markup['aggregateRating'];
@@ -2819,8 +2819,20 @@ function saswp_get_mainEntity($schema_id){
         
         if($item_list_enable){
 
-            if(is_object($post)){
-                $post_content = apply_filters('the_content', $post->post_content);
+            if(is_object($post) ) {
+                if ( isset( $post->post_type) && $post->post_type == 'al_product'){
+                    /**
+                     * If product is created using  eCommerce Product Catalog Plugin for WordPress plugin
+                     * then get product description using get_product_description() function of that plugin
+                     * */
+                    if ( function_exists( 'get_product_description') ) {
+                        $post_content = get_product_description( $post->ID );
+                    }else{
+                        $post_content = apply_filters('the_content', $post->post_content);
+                    }
+                }else{
+                    $post_content = apply_filters('the_content', $post->post_content);
+                }
             }
             
             $listitem = array();
@@ -2831,7 +2843,7 @@ function saswp_get_mainEntity($schema_id){
                 
                 preg_match_all( $regex, $post_content, $matches , PREG_SET_ORDER );
                                 
-                foreach($matches as $match){
+                foreach( $matches as $match){
                     $listitem[] = $match[2];
                 }
                                                 
@@ -2842,7 +2854,7 @@ function saswp_get_mainEntity($schema_id){
                 preg_match_all( $regex, $post_content, $matches , PREG_SET_ORDER );
                 
                 if($matches){
-                    foreach($matches as $match){
+                    foreach( $matches as $match){
                         $listitem[] = wp_strip_all_tags($match[1]);
                     }
                 }
@@ -2865,13 +2877,13 @@ function saswp_get_mainEntity($schema_id){
 
 function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options){
             
-            if(isset($schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
+            if ( isset( $schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
 
-                if(isset($schema_options['saswp_modify_method'])){
+                if ( isset( $schema_options['saswp_modify_method']) ) {
 
                     if($schema_options['saswp_modify_method'] == 'automatic'){
 
-                        $service = new saswp_output_service();
+                        $service = new SASWP_Output_Service();
                         $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                    
                     }
 
@@ -2930,7 +2942,7 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
                     }
 
                 }else{
-                    $service = new saswp_output_service();
+                    $service = new SASWP_Output_Service();
                     $input1 = $service->saswp_replace_with_custom_fields_value($input1, $schema_post_id);                                    
                 }
 
@@ -2950,7 +2962,7 @@ function saswp_explod_by_semicolon($data){
                    
         if($explod){
 
-            foreach ($explod as $val){
+            foreach ( $explod as $val){
 
                 $response[] = wp_strip_all_tags($val);  
 
@@ -2960,7 +2972,7 @@ function saswp_explod_by_semicolon($data){
     }    
     return $response;    
 }
-function saswp_get_wp_customer_reviews(){
+function saswp_get_wp_customer_reviews() {
 
     global $post, $sd_data, $response_rv;
     
@@ -2995,7 +3007,7 @@ function saswp_get_wp_customer_reviews(){
             $sumofrating = 0;
             $avg_rating  = 1;
     
-            foreach ($reviews_post->posts as $value){
+            foreach ( $reviews_post->posts as $value){
                 
                  $meta = get_post_custom($value->ID);
                  
@@ -3036,7 +3048,7 @@ function saswp_get_wp_customer_reviews(){
     return $response_rv;
 
 }
-function saswp_get_reviews_wp_theme(){
+function saswp_get_reviews_wp_theme() {
 
     global $post, $sd_data, $response_rv;
     
@@ -3052,7 +3064,7 @@ function saswp_get_reviews_wp_theme(){
             $sumofrating = 0;
             $avg_rating  = 1;
     
-            foreach ($reviews_post as $review){
+            foreach ( $reviews_post as $review){
 
                 $comment_meta = get_comment_meta( $review->comment_ID, 'review', true );
                 $comment_meta = explode( ',', $comment_meta );
@@ -3196,11 +3208,11 @@ function saswp_get_loop_markup($i) {
     $schema_properties  = array();
 
     $schema_type        =  $sd_data['saswp_archive_schema_type'];    
-    $service_object     = new saswp_output_service();    
+    $service_object     = new SASWP_Output_Service();    
     $publisher_info     = $service_object->saswp_get_publisher();   
     $feature_image      = $service_object->saswp_get_featured_image();             
                                                                                                                                                                                                                                                                               
-    $schema_properties['@type']            = esc_attr($schema_type);
+    $schema_properties['@type']            = esc_attr( $schema_type);
     $schema_properties['headline']         = saswp_get_the_title();
     $schema_properties['url']              = get_the_permalink();                                                                                                
     $schema_properties['datePublished']    = get_the_date('c');
@@ -3212,7 +3224,7 @@ function saswp_get_loop_markup($i) {
         $schema_properties['publisher']        = $publisher_info['publisher'];                                
     }
           
-    if(!empty($feature_image)){                            
+    if ( ! empty( $feature_image) ) {                            
         $schema_properties = array_merge($schema_properties, $feature_image);        
     }
 
@@ -3235,7 +3247,7 @@ function saswp_get_ryviu_reviews ($product_id){
     
     $response = array();
 
-    if(!empty($domain)){
+    if ( ! empty( $domain) ) {
 
         $i           = 1;
         $loop_count  = 1; 
@@ -3253,20 +3265,20 @@ function saswp_get_ryviu_reviews ($product_id){
                 "type"          => "load-more",                
             );            
             
-            $result = @wp_remote_post(
+            $result = wp_remote_post(
                 $url, [
                     'headers'   => [ 'Content-Type' => 'application/json' ],
                     'body'       => wp_json_encode($body),
                 ]
             );
             
-            if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
+            if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result) ) {
                 
                 $reviews = json_decode(wp_remote_retrieve_body($result),true);
                 
                 if($reviews['more_reviews']){
                     
-                    foreach ($reviews['more_reviews'] as  $value) {
+                    foreach ( $reviews['more_reviews'] as  $value) {
 
                         $response['reviews'][] = array(
                             'author'        => $value['author'],
@@ -3308,7 +3320,7 @@ function saswp_get_yotpo_reviews($product_id){
     $yotpo_settings = get_option('yotpo_settings');
     $response = array();
 
-    if(isset($yotpo_settings['app_key'])){
+    if ( isset( $yotpo_settings['app_key']) ) {
 
         $i          = 1;
         $loop_count = 1; 
@@ -3316,9 +3328,9 @@ function saswp_get_yotpo_reviews($product_id){
         do{
             
             $url  = esc_url('https://api.yotpo.com/v1/widget/'.$yotpo_settings['app_key'].'/products/'.$product_id.'/reviews.json?per_page=150&page='.$i);
-            $result = @wp_remote_get($url);
+            $result = wp_remote_get($url);
 
-            if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
+            if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result) ) {
                 
                 $reviews = json_decode(wp_remote_retrieve_body($result),true);
 
@@ -3331,7 +3343,7 @@ function saswp_get_yotpo_reviews($product_id){
                         $loop_count = ceil($response['total'] / 150);
                     }
 
-                    foreach ($reviews['response']['reviews'] as  $value) {
+                    foreach ( $reviews['response']['reviews'] as  $value) {
 
                         $response['reviews'][] = array(
                             'author'        => $value['user']['display_name'],
@@ -3370,9 +3382,9 @@ function saswp_get_stamped_reviews($product_id){
             
             $url  = "https://stamped.io/api/widget/reviews?productId={$product_id}&apiKey={$public_api}&storeUrl={$store_url}&per_page=100&page={$i}";
             
-            $result = @wp_remote_get($url);
+            $result = wp_remote_get($url);
 
-            if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result)){
+            if(wp_remote_retrieve_response_code($result) == 200 && wp_remote_retrieve_body($result) ) {
                 
                 $reviews = json_decode(wp_remote_retrieve_body($result),true);
 
@@ -3385,7 +3397,7 @@ function saswp_get_stamped_reviews($product_id){
                         $loop_count = ceil($response['total'] / 100);
                     }
 
-                    foreach ($reviews['data'] as  $value) {
+                    foreach ( $reviews['data'] as  $value) {
 
                         $response['reviews'][] = array(
                             'author'        => $value['author'],
@@ -3408,18 +3420,18 @@ function saswp_get_stamped_reviews($product_id){
     return $response;
 }
 
-function saswp_get_ampforwp_story_images(){
+function saswp_get_ampforwp_story_images() {
 
     $image_arr = array();
     
-    if(class_exists('Ampforwp_Stories_Post_Type')){
+    if(class_exists('Ampforwp_Stories_Post_Type') ) {
 
         $amp_story_meta = get_post_meta( get_the_ID(), 'ampforwp_stories', true );
         $post_type      = get_post_type(get_the_ID());
 
         if( !empty($amp_story_meta) && is_array($amp_story_meta) && $post_type == 'ampforwp_story' ) {
                                                     
-            foreach ($amp_story_meta as $value) {
+            foreach ( $amp_story_meta as $value) {
                     
                 if( isset($value['design_type']) ){
 
@@ -3458,7 +3470,7 @@ function saswp_render_breadcrumbs_html($atts){
     $hide_post_title = ($attr['hide_post_title']) ? $attr['hide_post_title'] : 0;
     $get_current_post_title = get_post_field('post_title',$post->ID);
     $breadcrumbs = '';    
-    if(!empty($sd_data['titles'])){
+    if ( ! empty( $sd_data['titles']) ) {
 
         $breadcrumbs .= '<style>';
 
@@ -3483,11 +3495,11 @@ function saswp_render_breadcrumbs_html($atts){
         $breadcrumbs .= '</style>';
         $breadcrumbs .= '<ul class="saswp-breadcrumbs-ul">';
 
-            foreach ($sd_data['titles'] as $key => $value) {
+            foreach ( $sd_data['titles'] as $key => $value) {
                 if($hide_post_title == 1 && $value == $get_current_post_title){
                     // do nothing
                 }else{
-                    $breadcrumbs .= '<li class="saswp-breadcrumbs-li" ><a href="'.esc_url($sd_data['links'][$key]).'">'.esc_html($value).'</a></li>';
+                    $breadcrumbs .= '<li class="saswp-breadcrumbs-li" ><a href="'. esc_url( $sd_data['links'][$key]).'">'.esc_html( $value).'</a></li>';
 
                 }
                 
@@ -3500,22 +3512,22 @@ function saswp_render_breadcrumbs_html($atts){
     return $breadcrumbs;
 }
 
-function saswp_default_video_object_schema(){
+function saswp_default_video_object_schema() {
 
     global $sd_data;
 
-    if(isset($sd_data['saswp-default-videoobject']) && $sd_data['saswp-default-videoobject'] == 0){
+    if ( isset( $sd_data['saswp-default-videoobject']) && $sd_data['saswp-default-videoobject'] == 0){
         return array();
     }    
 
     $input1 = array();
     $video_links      = saswp_get_video_metadata();  
     
-    if(!empty($video_links)){
+    if ( ! empty( $video_links) ) {
         $Conditionals = saswp_get_all_schema_posts(); 
         $countVideoObjSchema = [];
-        if(!empty($Conditionals)){
-            foreach($Conditionals as $schemaConditionals){
+        if ( ! empty( $Conditionals) ) {
+            foreach( $Conditionals as $schemaConditionals){
                 if($schemaConditionals['schema_type'] == 'VideoObject'){
                     $countVideoObjSchema[] = $schemaConditionals['schema_type'];
                 }        
@@ -3539,15 +3551,15 @@ function saswp_default_video_object_schema(){
 
             $input1['@type'] = "ItemList"; 
             $i = 1; 
-            foreach($video_links as $vkey => $v_val){
-                if(isset($v_val['video_url']) && !empty($v_val['video_url'])){
+            foreach( $video_links as $vkey => $v_val){
+                if ( isset( $v_val['video_url']) && !empty($v_val['video_url']) ) {
                     $vnewarr = array(
                         '@type'				            => 'VideoObject',
                         "position"                      => $vkey+1,
                         "@id"                           => saswp_get_permalink().'#'.$i++,
                         'name'				            => isset($v_val['title'])? $v_val['title'] : saswp_get_the_title(),
-                        'datePublished'                 => esc_html($date),
-                        'dateModified'                  => esc_html($modified_date),
+                        'datePublished'                 => esc_html( $date),
+                        'dateModified'                  => esc_html( $modified_date),
                         'url'				            => isset($v_val['video_url'])?saswp_validate_url($v_val['video_url']):saswp_get_permalink(),
                         'interactionStatistic'          => array(
                             "@type" => "InteractionCounter",
@@ -3558,25 +3570,25 @@ function saswp_default_video_object_schema(){
                         'author'			            => saswp_get_author_details(),
                     );
 
-                    if(isset($v_val['uploadDate'])){                                                                        
+                    if ( isset( $v_val['uploadDate']) ) {                                                                        
                         $vnewarr['uploadDate']   = $v_val['uploadDate'];                                    
                     }else{
                         $vnewarr['uploadDate']   = $date;     
                     }
 
-                    if(isset($v_val['duration'])){                                                                        
+                    if ( isset( $v_val['duration']) ) {                                                                        
                         $vnewarr['duration']   = $v_val['duration'];                                    
                     }
 
-                    if(isset($v_val['video_url'])){                                                                        
+                    if ( isset( $v_val['video_url']) ) {                                                                        
                         $vnewarr['contentUrl']  = saswp_validate_url($v_val['video_url']);                                    
                     }
 
-                    if(isset($v_val['video_url'])){                                                                        
+                    if ( isset( $v_val['video_url']) ) {                                                                        
                         $vnewarr['embedUrl']   = saswp_validate_url($v_val['video_url']);                                 
                     }
 
-                    if(isset($v_val['description'])){                                                                        
+                    if ( isset( $v_val['description']) ) {                                                                        
                         $vnewarr['description']   = $v_val['description'];                                    
                     }else{
                         $vnewarr['description']   = $description; 
@@ -3587,27 +3599,27 @@ function saswp_default_video_object_schema(){
             }
         }else{
           
-            if(isset($video_links[0]['video_url']) && !empty($video_links[0]['video_url'])){  
+            if ( isset( $video_links[0]['video_url']) && !empty($video_links[0]['video_url']) ) {  
                 $input1 = array(
                     '@context'			            => saswp_context_url(),
                     '@type'				            => 'VideoObject',
                     '@id'                           => saswp_get_permalink().'#videoobject',        
                     'url'				            => saswp_get_permalink(),
                     'headline'			            => saswp_get_the_title(),
-                    'datePublished'                 => esc_html($date),
-                    'dateModified'                  => esc_html($modified_date),
+                    'datePublished'                 => esc_html( $date),
+                    'dateModified'                  => esc_html( $modified_date),
                     'description'                   => $description,
                     'transcript'                    => saswp_get_the_content(),
                     'name'				            => saswp_get_the_title(),
-                    'uploadDate'                    => esc_html($date),
+                    'uploadDate'                    => esc_html( $date),
                     'thumbnailUrl'                  => isset($video_links[0]['thumbnail_url'])? $video_links[0]['thumbnail_url'] : saswp_get_thumbnail(),
                     'author'			            => saswp_get_author_details()						                                                                                                      
                 );
                 
-                if(isset($video_links[0]['duration'])){                                                                        
+                if ( isset( $video_links[0]['duration']) ) {                                                                        
                     $input1['duration']   = $video_links[0]['duration'];                                    
                 }
-                if(isset($video_links[0]['video_url'])){
+                if ( isset( $video_links[0]['video_url']) ) {
                     
                     $input1['contentUrl'] = saswp_validate_url($video_links[0]['video_url']);
                     $input1['embedUrl']   = saswp_validate_url($video_links[0]['video_url']);
@@ -3623,7 +3635,7 @@ function saswp_default_video_object_schema(){
  * Render the custom schema markup only if option is enabled in schema settings
  * @since 1.33
  * */
-function saswp_global_custom_schema_option(){
+function saswp_global_custom_schema_option() {
     global $sd_data;       
     if( saswp_remove_warnings($sd_data, 'saswp-for-cschema', 'saswp_string') == '' || saswp_remove_warnings($sd_data, 'saswp-for-cschema', 'saswp_string') == 1 ) {
         return true;

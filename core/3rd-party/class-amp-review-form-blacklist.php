@@ -1,8 +1,8 @@
 <?php
-if(defined('AMP__DIR__')){
+if(defined('AMP__DIR__') ) {
 	$amp_blacklist_sanitizer =  realpath( AMP__DIR__ . 'includes/sanitizers/class-amp-blacklist-sanitizer.php') ;
 }
-elseif(defined('AMP__VENDOR__DIR__')){
+elseif(defined('AMP__VENDOR__DIR__') ) {
 	$amp_blacklist_sanitizer =  realpath( AMP__VENDOR__DIR__ . 'includes/sanitizers/class-amp-blacklist-sanitizer.php') ;
 } 
 
@@ -36,7 +36,7 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 			$body = $this->get_body_node();
 
-			$this->strip_tags( $body, $blacklisted_tags );
+			$this->strip_all_tags( $body, $blacklisted_tags );
 
 			$this->strip_attributes_recursive( $body, $blacklisted_attributes, $blacklisted_protocols );
 
@@ -51,13 +51,13 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 			$node_name = $node->nodeName;
                                                 
-                        if($node->nodeName=='a' && $node->hasAttribute('href')){
+                        if($node->nodeName=='a' && $node->hasAttribute('href') ) {
                             
                             $href = $node->getAttribute('href');
                         
                             if( strpos($href,'tel:') ){
                                     $disallowed = array('http://', 'https://');
-                                    foreach($disallowed as $d){
+                                    foreach( $disallowed as $d){
                                   if(strpos($href, $d) === 0) {
                                      $href = str_replace($d, '', $href);
                                   }
@@ -136,7 +136,7 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 			}
 
 		}		
-		private function strip_tags( $node, $tag_names ) {
+		private function strip_all_tags( $node, $tag_names ) {
 
 			foreach ( $tag_names as $tag_name ) {
 
@@ -290,7 +290,7 @@ if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
 
 		}
 		private	function contains_any_multibyte($string){
-			if(function_exists('mb_check_encoding')){
+			if ( function_exists( 'mb_check_encoding') ) {
 				return !\mb_check_encoding($string, 'ASCII') && \mb_check_encoding($string, 'UTF-8');
 			}
 			else{

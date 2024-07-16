@@ -11,8 +11,8 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function saswp_skip_wizard(){                  
-        if(!current_user_can( saswp_current_user_can())){
+function saswp_skip_wizard() {                  
+        if(!current_user_can( saswp_current_user_can()) ) {
             die( '-1' );    
         }
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -40,7 +40,7 @@ function saswp_delete_post_transient( $post_id ){
     
 }
 
-function saswp_get_saved_schema_ids(){
+function saswp_get_saved_schema_ids() {
 
     global $all_schemas;
     $schema_ids = array();
@@ -52,7 +52,7 @@ function saswp_get_saved_schema_ids(){
       $args['posts_per_page'] = -1;
       $args['post_status']    = 'publish';
 
-      if(function_exists('pll_register_string')){
+      if ( function_exists( 'pll_register_string') ) {
         $args['lang'] = '';
       }
             
@@ -62,7 +62,7 @@ function saswp_get_saved_schema_ids(){
 
     if($all_schemas){
       
-      foreach($all_schemas as $schema){
+      foreach( $all_schemas as $schema){
          
         $schema_ids[] = $schema->ID;
         
@@ -77,7 +77,7 @@ function saswp_get_saved_schema_ids(){
  *      Storing and updating all ads post ids in transient on different actions 
  *      which we will fetch all ids from here to display our post
  */    
-function saswp_published(){
+function saswp_published() {
     
         $schema_post_ids = saswp_get_saved_schema_ids();
         
@@ -91,14 +91,14 @@ function saswp_published(){
         
 }
 
-function saswp_update_ids_on_trash(){
+function saswp_update_ids_on_trash() {
     
      delete_transient('saswp_transient_schema_ids');
      saswp_published();      
      
 }
 
-function saswp_update_ids_on_untrash(){  
+function saswp_update_ids_on_untrash() {  
     
      saswp_published();    
      
@@ -109,7 +109,7 @@ add_action( 'trash_saswp', 'saswp_update_ids_on_trash' );
 add_action( 'untrash_saswp', 'saswp_update_ids_on_untrash' );
 add_action( 'draft_saswp', 'saswp_update_ids_on_trash' );
 
-function saswp_reset_all_settings(){   
+function saswp_reset_all_settings() {   
     
         if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
@@ -128,9 +128,9 @@ function saswp_reset_all_settings(){
         
         $allposts= get_posts( array('post_type'=>'saswp','numberposts'=>-1) );
         
-        foreach ($allposts as $eachpost) {
+        foreach ( $allposts as $eachpost) {
             
-            $result = wp_delete_post( $eachpost->ID, true );
+            $result = wp_delete_post( $eachpost->ID);
         
         }
                         
@@ -138,15 +138,16 @@ function saswp_reset_all_settings(){
             echo wp_json_encode(array('status'=>'t'));            
         }else{
             echo wp_json_encode(array('status'=>'f'));            
-        }        
-           wp_die();           
+        }
+        wp_cache_flush();        
+        wp_die();           
 }
 
-add_action('wp_ajax_saswp_reset_all_settings', 'saswp_reset_all_settings');
+add_action( 'wp_ajax_saswp_reset_all_settings', 'saswp_reset_all_settings' );
 
-function saswp_load_plugin_textdomain() {
-    
-    load_plugin_textdomain( 'schema-and-structured-data-for-wp', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+function saswp_load_plugin_textdomain() {    
+
+    load_plugin_textdomain( 'schema-and-structured-data-for-wp', false, basename( dirname( __FILE__ ) ) . '/languages/' );
     
 }
 add_action( 'plugins_loaded', 'saswp_load_plugin_textdomain' );
@@ -162,9 +163,9 @@ function saswp_check_advance_display_status($post_id, $post){
               
           $condition_array = array();    
               
-          foreach ($resultset as $result){
+          foreach ( $resultset as $result){
               
-            if(is_array($result)){
+            if ( is_array( $result) ) {
                 $data             = array_filter($result);
                 $number_of_fields = count($data);
                 $checker          = 0;
@@ -203,7 +204,7 @@ function saswp_check_advance_display_status($post_id, $post){
     
 }
 
-function saswp_get_all_schema_posts(){
+function saswp_get_all_schema_posts() {
     global $post;
     $schema_id_array = array();
 
@@ -222,7 +223,7 @@ function saswp_get_all_schema_posts(){
         
       $returnData = array();
       
-      foreach ($schema_id_array as $post_id){ 
+      foreach ( $schema_id_array as $post_id){ 
         
           $unique_checker = saswp_check_advance_display_status($post_id, $post);
           
@@ -232,18 +233,18 @@ function saswp_get_all_schema_posts(){
               
               $data_group_array = get_post_meta( $post_id, 'data_group_array', true);                                         
               
-              if(isset($data_group_array['group-0'])){
+              if ( isset( $data_group_array['group-0']) ) {
                   
                  $conditions = $data_group_array['group-0']['data_array'];                  
                  
               }
-              if(isset($conditions[0])){
+              if ( isset( $conditions[0]) ) {
                   
                 $conditions = $conditions[0];    
               
               }
               
-              if(empty($conditions)){
+              if(empty($conditions) ) {
                   
                  $conditions['key_1'] = 'post_type';
                  $conditions['key_2'] = 'equal';
@@ -276,14 +277,14 @@ function saswp_generate_field_data( $post_id, $post ){
       
       $output = array();
       
-      if(!empty($data_group_array) && is_array($data_group_array)){ 
+      if ( ! empty( $data_group_array) && is_array($data_group_array) ) { 
           
-        foreach ($data_group_array as $group){
+        foreach ( $data_group_array as $group){
 
-          if(!empty($group['data_array']) && is_array($group['data_array'])) { 
+          if ( ! empty( $group['data_array']) && is_array($group['data_array'])) { 
             $inner_output = array();
 
-            foreach($group['data_array'] as $value){
+            foreach( $group['data_array'] as $value){
               $inner_output[] = saswp_comparison_logic_checker($value, $post); 
             }
             $output[] = $inner_output;            
@@ -323,7 +324,7 @@ function saswp_comparison_logic_checker($input, $post){
               
           $published_date ='';  
           
-          if(is_singular() || is_admin()){
+          if(is_singular() || is_admin() ) {
              $published_date = get_the_date('Y-m-d');  
           }
            
@@ -357,7 +358,7 @@ function saswp_comparison_logic_checker($input, $post){
               
                   $current_post_type = '';
               
-                  if( (is_singular() || is_admin()) && is_object($post) && !is_front_page()){
+                  if( (is_singular() || is_admin()) && is_object($post) && !is_front_page() ) {
                       
                      $current_post_type  = get_post_type($post->ID);   
                      
@@ -389,7 +390,7 @@ function saswp_comparison_logic_checker($input, $post){
                $homepage = 'true';  
             }
                       
-            if(is_admin() && isset($post->ID) && $post->ID == get_option('page_on_front')){
+            if(is_admin() && isset($post->ID) && $post->ID == get_option('page_on_front') ) {
               $homepage = 'true';  
             }
 
@@ -449,7 +450,7 @@ function saswp_comparison_logic_checker($input, $post){
         case 'user_type':            
             if ( $comparison == 'equal') {
               
-                if(is_object($user)){
+                if(is_object($user) ) {
 
                   if ( in_array( $data, (array) $user->roles ) ) {
                     $result = true;
@@ -464,7 +465,7 @@ function saswp_comparison_logic_checker($input, $post){
                 // Get all the registered user roles
                 $roles = get_editable_roles();                
                 $all_user_types = array();
-                foreach ($roles as $key => $value) {
+                foreach ( $roles as $key => $value) {
                   $all_user_types[] = $key;
                 }
                 // Flip the array so we can remove the user that is selected from the dropdown
@@ -487,7 +488,7 @@ function saswp_comparison_logic_checker($input, $post){
           
             $current_post ='';  
           
-             if(is_singular() || is_admin()){
+             if(is_singular() || is_admin() ) {
                 $current_post = $post->ID;  
              }
                       
@@ -509,12 +510,13 @@ function saswp_comparison_logic_checker($input, $post){
 
           global $cat_id_obj;
           $cat_id_arr = array();  
-          
-          if(isset($_GET['tag_ID'] ) && is_admin()){
+          // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+          if ( isset( $_GET['tag_ID'] ) && is_admin() ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
             $cat_id_arr[] = intval($_GET['tag_ID'] );
-          }
+          }          
           
-          if(is_object($post)){
+          if(is_object($post) ) {
 
               if(!$cat_id_obj){
                 $cat_id_obj = get_the_category( $post->ID );
@@ -522,7 +524,7 @@ function saswp_comparison_logic_checker($input, $post){
                             
               if($cat_id_obj){
 
-                foreach ($cat_id_obj as $value) {
+                foreach ( $cat_id_obj as $value) {
                   $cat_id_arr[] = $value->term_id;
                 }
 
@@ -547,7 +549,7 @@ function saswp_comparison_logic_checker($input, $post){
           
           $current_post_format = '';
           
-          if(is_object($post)){
+          if(is_object($post) ) {
           
               $current_post_format = get_post_format( $post->ID );
               
@@ -576,27 +578,27 @@ function saswp_comparison_logic_checker($input, $post){
           
         $current_post = '';
         
-        if(function_exists('ampforwp_is_front_page')){
+        if ( function_exists( 'ampforwp_is_front_page') ) {
             
-          if(ampforwp_is_front_page()){
+          if(ampforwp_is_front_page() ) {
               
                 $current_post = $redux_builder_amp['amp-frontpage-select-option-pages'];  
 
-                if(empty($current_post)){
-                  if(is_object($post)){
+                if(empty($current_post) ) {
+                  if(is_object($post) ) {
                     $current_post = $post->ID;   
                   }
                 }
           
           } else{
               
-                if(is_object($post)){
+                if(is_object($post) ) {
                     $current_post = $post->ID;   
                 }
                           
           }           
         }else{
-                if(is_object($post)){
+                if(is_object($post) ) {
                     $current_post = $post->ID;   
                 }
         }
@@ -618,7 +620,7 @@ function saswp_comparison_logic_checker($input, $post){
           
             $page_template = '';
                       
-            if(is_object($post)){
+            if(is_object($post) ) {
              
               $page_template = get_page_template_slug( $post->ID );
                 
@@ -653,7 +655,7 @@ function saswp_comparison_logic_checker($input, $post){
         // Get the list of all the taxonomies associated with current post
         $taxonomy_names = '';
 
-        if(is_object($post)){
+        if(is_object($post) ) {
           $taxonomy_names = get_post_taxonomies( $post->ID );        
         }
         
@@ -662,28 +664,29 @@ function saswp_comparison_logic_checker($input, $post){
 
           if ( $data != 'all') {
 
-            if(is_object($post)){
+            if(is_object($post) ) {
 
                 $post_term_data = wp_get_post_terms($post->ID, $data);                
-                if(!is_wp_error($post_term_data)){
+                if ( ! is_wp_error( $post_term_data) ) {
                   $post_terms = $post_term_data;    
                 }        
                 
             }
                                             
-            if(isset( $input['key_4'] ) && $input['key_4'] !='all'){
+            if ( isset( $input['key_4'] ) && $input['key_4'] !='all'){
              
               $term_data       = $input['key_4'];
               $termChoices     = array();
 
-              if(is_tax() || is_tag()){
+              if(is_tax() || is_tag() ) {
 
                 $queried_obj   = get_queried_object();
                 $termChoices[] = $queried_obj->slug;
-
-              }else if( isset($_GET['tag_ID'] ) && is_admin() ){
-
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+              }elseif( isset($_GET['tag_ID'] ) && is_admin() ){
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
                 $term_object = get_term( intval($_GET['tag_ID']) );
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
                 $termChoices[] = $term_object->slug;
 
               }else{
@@ -692,11 +695,11 @@ function saswp_comparison_logic_checker($input, $post){
 
                   $terms           = wp_get_post_terms( $post->ID ,$data);
                 
-                  if(!is_wp_error($terms)){
+                  if ( ! is_wp_error( $terms) ) {
                     
                     if(count($terms)>0){
                                                       
-                      foreach ($terms as $key => $termvalue) {
+                      foreach ( $terms as $key => $termvalue) {
                           
                         $termChoices[] = $termvalue->slug;
                         
@@ -712,22 +715,22 @@ function saswp_comparison_logic_checker($input, $post){
                                                                       
               
             if ( $comparison == 'equal' ) {
-              if(in_array($term_data, $termChoices)){
+              if(in_array($term_data, $termChoices) ) {
                 $result = true;
               }
             }
 
             if ( $comparison == 'not_equal') { 
-              if(!in_array($term_data, $termChoices)){
+              if(!in_array($term_data, $termChoices) ) {
                 $result = true;
               }
             }
 
             }else{
-              
-              if( isset($_GET['tag_ID'] ) && is_admin() ){
-
-                $term_object  = get_term( intval($_GET['tag_ID']) );
+              // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+              if( isset($_GET['tag_ID'] ) && is_admin() ){            
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+                $term_object  = get_term( intval($_GET['tag_ID']) );              
                 $post_terms[] = $term_object->slug;
 
               }
@@ -755,7 +758,7 @@ function saswp_comparison_logic_checker($input, $post){
                 }
 
                 if ( $comparison == 'not_equal') { 
-                  if(is_array($taxonomy_names)){
+                  if ( is_array( $taxonomy_names) ) {
                     $checker =  in_array($data, $taxonomy_names);       
                     if ( ! $checker ) {
                         $result = true;
@@ -796,23 +799,23 @@ function saswp_comparison_logic_checker($input, $post){
 
   require_once( untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/ajax-selectbox.php' );
 //Back End
-if(is_admin()){
+if(is_admin() ) {
          
   add_action( 'init', 'saswp_create_post_type' );
   
   function saswp_create_post_type() {
       
     $nonce = wp_create_nonce( 'saswp_install_wizard_nonce' );      
-    $not_found_button = '<div><span class="dashicons dashicons-thumbs-up"></span>'.saswp_t_string("Thank you for using Schema & Structured Data For WP plugin!").' <a href="'.esc_url(admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'.saswp_t_string("Start Quick Setup?").'</a></div>';       
+    $not_found_button = '<div><span class="dashicons dashicons-thumbs-up"></span>'.esc_html__("Thank you for using Schema & Structured Data For WP plugin!", 'schema-and-structured-data-for-wp' ) .' <a href="'. esc_url( admin_url( 'plugins.php?page=saswp-setup-wizard' ).'&_saswp_nonce='.$nonce).'">'.esc_html__("Start Quick Setup?", 'schema-and-structured-data-for-wp' ) .'</a></div>';       
     
     $saswp = array(
             'labels' => array(
-                'name'              => saswp_t_string( 'Structured Data' ),
-                'singular_name'     => saswp_t_string( 'Structured Data' ),
-                'add_new' 	        => saswp_t_string( 'Add Schema Type' ),
+                'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
+                'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
+                'add_new' 	        => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
                 'add_new_item'      => '',
-                'edit_item'         => saswp_t_string( 'Edit Schema Type'),           
-                'all_items'         => saswp_t_string( 'Schema Types' ),  
+                'edit_item'         => esc_html__( 'Edit Schema Type', 'schema-and-structured-data-for-wp' ),           
+                'all_items'         => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
                 'not_found'         => $not_found_button    
            ),
           'public'                => true,
@@ -825,11 +828,11 @@ if(is_admin()){
           
       );    
     
-    if(saswp_current_user_allowed()){        
+    if(saswp_current_user_allowed() ) {        
         
         $cap = saswp_post_type_capabilities();
 
-        if(!empty($cap)){        
+        if ( ! empty( $cap) ) {        
             $saswp['capabilities'] = $cap;         
         }
         
@@ -863,37 +866,37 @@ if(is_admin()){
       );
     }
     //security check
-    wp_nonce_field( 'saswp_select_action_nonce', 'saswp_select_name_nonce' );?>
+    wp_nonce_field( 'saswp_select_action_nonce', 'saswp_select_name_nonce' ); ?>
 
     <?php 
     // Type Select    
       $choices = apply_filters('saswp_add_more_placement', array(
-        saswp_t_string("Basic") => array(        
-          'post_type'           =>  saswp_t_string("Post Type"),
-          'show_globally'       =>  saswp_t_string("Show Globally"),    
-          'user_type'           =>  saswp_t_string("Logged in User Type"),
-          'homepage'            =>  saswp_t_string("Homepage"), 
-          'author'              =>  saswp_t_string("Author"),  
-          'author_name'         =>  saswp_t_string("Author Name"),  
+        esc_html__("Basic", 'schema-and-structured-data-for-wp' ) => array(        
+          'post_type'           =>  esc_html__("Post Type", 'schema-and-structured-data-for-wp' ),
+          'show_globally'       =>  esc_html__("Show Globally", 'schema-and-structured-data-for-wp' ),    
+          'user_type'           =>  esc_html__("Logged in User Type", 'schema-and-structured-data-for-wp' ),
+          'homepage'            =>  esc_html__("Homepage", 'schema-and-structured-data-for-wp' ), 
+          'author'              =>  esc_html__("Author", 'schema-and-structured-data-for-wp' ),  
+          'author_name'         =>  esc_html__("Author Name", 'schema-and-structured-data-for-wp' ),  
         ),
-        saswp_t_string("Post") => array(
-          'post'                =>  saswp_t_string("Post"),
-          'post_category'       =>  saswp_t_string("Post Category"),
-          'post_format'         =>  saswp_t_string("Post Format"), 
+        esc_html__("Post", 'schema-and-structured-data-for-wp' ) => array(
+          'post'                =>  esc_html__("Post", 'schema-and-structured-data-for-wp' ),
+          'post_category'       =>  esc_html__("Post Category", 'schema-and-structured-data-for-wp' ),
+          'post_format'         =>  esc_html__("Post Format", 'schema-and-structured-data-for-wp' ), 
         ),
-        saswp_t_string("Page") => array(
-          'page'                =>  saswp_t_string("Page"), 
-          'page_template'       =>  saswp_t_string("Page Template"),
+        esc_html__("Page", 'schema-and-structured-data-for-wp' ) => array(
+          'page'                =>  esc_html__("Page", 'schema-and-structured-data-for-wp' ), 
+          'page_template'       =>  esc_html__("Page Template", 'schema-and-structured-data-for-wp' ),
         ),
-        saswp_t_string("Other") => array( 
-          'ef_taxonomy'         =>  saswp_t_string("Taxonomy (Tag)"), 
-          'date'                =>  saswp_t_string("Date")           
+        esc_html__("Other", 'schema-and-structured-data-for-wp' ) => array( 
+          'ef_taxonomy'         =>  esc_html__("Taxonomy (Tag)", 'schema-and-structured-data-for-wp' ), 
+          'date'                =>  esc_html__("Date", 'schema-and-structured-data-for-wp' )           
         )
       )); 
 
       $comparison = array(
-        'equal'                =>  saswp_t_string( 'Equal to'), 
-        'not_equal'            =>  saswp_t_string( 'Not Equal to (Exclude)'),     
+        'equal'                =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp' ), 
+        'not_equal'            =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp' ),     
       );
 
       $total_group_fields = count( $data_group_array ); ?>
@@ -905,7 +908,7 @@ if(is_admin()){
         
         $total_fields = count( $data_array );
         ?>
-    <div class="saswp-placement-group" name="data_group_array[<?php echo esc_attr( $j) ?>]" data-id="<?php echo esc_attr($j); ?>">           
+    <div class="saswp-placement-group" name="data_group_array[<?php echo esc_attr( $j) ?>]" data-id="<?php echo esc_attr( $j); ?>">           
      <?php 
      if($j>0){
      echo '<span style="margin-left:10px;font-weight:600">Or</span>';    
@@ -920,32 +923,34 @@ if(is_admin()){
           $selected_val_key_2 = isset($data_array[$i]['key_2']) ? $data_array[$i]['key_2'] : '';           
           $selected_val_key_3 = isset($data_array[$i]['key_3']) ? $data_array[$i]['key_3'] : '';          
           $selected_val_key_4 = '';
-          if(isset($data_array[$i]['key_4'])){
+          if ( isset( $data_array[$i]['key_4']) ) {
             $selected_val_key_4 = $data_array[$i]['key_4'];
           }
 
           if($selected_val_key_1 == 'date'){
             $comparison = array(
-              'before_published'           =>  saswp_t_string( 'Before Published'), 
-              'after_published'            =>  saswp_t_string( 'After Published'),     
+              'before_published'           =>  esc_html__( 'Before Published', 'schema-and-structured-data-for-wp' ), 
+              'after_published'            =>  esc_html__( 'After Published', 'schema-and-structured-data-for-wp' ),     
             );
           }else{
             $comparison = array(
-              'equal'                =>  saswp_t_string( 'Equal to'), 
-              'not_equal'            =>  saswp_t_string( 'Not Equal to (Exclude)'),     
+              'equal'                =>  esc_html__( 'Equal to', 'schema-and-structured-data-for-wp' ), 
+              'not_equal'            =>  esc_html__( 'Not Equal to (Exclude)', 'schema-and-structured-data-for-wp' ),     
             );    
           }
 
           ?>
           <tr class="toclone">
             <td style="width:31%" class="post_types"> 
-              <select class="widefat select-post-type <?php echo esc_attr( $i );?>" name="data_group_array[group-<?php echo esc_attr( $j) ?>][data_array][<?php echo esc_attr( $i) ?>][key_1]">    
+              <select class="widefat select-post-type <?php echo esc_attr( $i ); ?>" name="data_group_array[group-<?php echo esc_attr( $j) ?>][data_array][<?php echo esc_attr( $i) ?>][key_1]">    
                 <?php 
-                foreach ($choices as $choice_key => $choice_value) { ?>         
-                  <optgroup label="<?php echo esc_attr($choice_key);?>">
+                foreach ( $choices as $choice_key => $choice_value) { 
+                  ?>         
+                  <optgroup label="<?php echo esc_attr( $choice_key); ?>">
                   <?php
-                  foreach ($choice_value as $sub_key => $sub_value) { ?> 
-                    <option class="pt-child" value="<?php echo esc_attr( $sub_key );?>" <?php selected( $selected_val_key_1, $sub_key );?> > <?php echo esc_html($sub_value);?> </option>
+                  foreach ( $choice_value as $sub_key => $sub_value) { 
+                    ?> 
+                    <option class="pt-child" value="<?php echo esc_attr( $sub_key ); ?>" <?php selected( $selected_val_key_1, $sub_key ); ?> > <?php echo esc_html( $sub_value); ?> </option>
                     <?php
                   }
                   ?> </optgroup > <?php
@@ -954,13 +959,13 @@ if(is_admin()){
             </td>
             <td style="width:31%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
               <select class="widefat comparison" name="data_group_array[group-<?php echo esc_attr( $j) ?>][data_array][<?php echo esc_attr( $i )?>][key_2]"> <?php
-                foreach ($comparison as $key => $value) { 
+                foreach ( $comparison as $key => $value) { 
                   $selcomp = '';
                   if($key == $selected_val_key_2){
                     $selcomp = 'selected';
                   }
                   ?>
-                  <option class="pt-child" value="<?php echo esc_attr( $key );?>" <?php echo esc_attr($selcomp); ?> > <?php echo esc_html($value);?> </option>
+                  <option class="pt-child" value="<?php echo esc_attr( $key ); ?>" <?php echo esc_attr( $selcomp); ?> > <?php echo esc_html( $value); ?> </option>
                   <?php
                 } ?>
               </select>
@@ -977,7 +982,7 @@ if(is_admin()){
             </td>
 
             <td class="widefat structured-clone" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
-                <span> <button class="saswp-placement-button" type="button"> <?php echo saswp_t_string('And' );?> </button> </span> </td>
+                <span> <button class="saswp-placement-button" type="button"> <?php echo esc_html__( 'And', 'schema-and-structured-data-for-wp' ); ?> </button> </span> </td>
             
             <td class="widefat structured-delete" style="width:3.5%; <?php if (  $selected_val_key_1 =='show_globally' ) { echo 'display:none;'; }  ?>">
                 <button class="saswp-placement-button" type="button"><span class="dashicons dashicons-trash"></span>  </button></td>         
@@ -990,7 +995,7 @@ if(is_admin()){
     <?php } ?>
     
     
-    <a style="margin-left: 8px; margin-bottom: 8px;" class="button saswp-placement-or-group saswp-placement-button" href="#"><?php echo saswp_t_string('Or'); ?></a>
+    <a style="margin-left: 8px; margin-bottom: 8px;" class="button saswp-placement-or-group saswp-placement-button" href="#"><?php echo esc_html__( 'Or', 'schema-and-structured-data-for-wp' ); ?></a>
 </div>        
     <?php
   }
@@ -1022,7 +1027,7 @@ function saswp_dequeue_script() {
        $post_found_status = $post_type = '';
        $current_screen = get_current_screen(); 
        
-       if(isset($current_screen->post_type)){                  
+       if ( isset( $current_screen->post_type) ) {                  
            $post_type = $current_screen->post_type;                
        }        
               
@@ -1032,7 +1037,7 @@ function saswp_dequeue_script() {
         $saswp_posts = saswp_get_saved_schema_ids();        
        }      
        
-       if(empty($saswp_posts)){           
+       if(empty($saswp_posts) ) {           
         $post_found_status ='not_found';           
        }       
        
@@ -1042,7 +1047,7 @@ function saswp_dequeue_script() {
           'post_found_status'         => $post_found_status,
           'post_type'                 => $post_type,   
           'page_now'                  => $hook,
-          'saswp_settings_url'        => esc_url(admin_url('edit.php?post_type=saswp&page=structured_data_options'))                       
+          'saswp_settings_url'        => esc_url(admin_url( 'edit.php?post_type=saswp&page=structured_data_options'))                       
           
       );
                    
@@ -1077,13 +1082,13 @@ function saswp_dequeue_script() {
     $temp_condition_array  = array();
     $show_globally         = false;
     
-    if(isset($_POST['data_group_array'])){        
+    if ( isset( $_POST['data_group_array']) ) {        
         
     $post_data_group_array = (array) $_POST['data_group_array'];    
     
-    foreach($post_data_group_array as $groups){        
+    foreach( $post_data_group_array as $groups){        
         
-          foreach($groups['data_array'] as $group ){              
+          foreach( $groups['data_array'] as $group ){              
               
             if(array_search('show_globally', $group))
             {
@@ -1101,7 +1106,7 @@ function saswp_dequeue_script() {
       
       }      
     }                      
-    if(isset($_POST['data_group_array'])){
+    if ( isset( $_POST['data_group_array']) ) {
         
       $post_data_group_array = saswp_sanitize_multi_array($post_data_group_array, 'data_array'); 
       
@@ -1119,7 +1124,7 @@ function saswp_dequeue_script() {
 // Generate Proper post types for select and to add data.
 add_action('wp_loaded', 'saswp_post_type_generator');
  
-function saswp_post_type_generator(){
+function saswp_post_type_generator() {
 
     $post_types = '';
     $post_types = get_post_types( array( 'public' => true ), 'names' );
@@ -1147,7 +1152,7 @@ function saswp_custom_breadcrumbs() {
     
     if(!$home_title){
         
-        if(isset($sd_data['sd_name'])){
+        if ( isset( $sd_data['sd_name']) ) {
             
            $home_title =  $sd_data['sd_name'];
            
@@ -1178,7 +1183,7 @@ function saswp_custom_breadcrumbs() {
                     $variables2_links[]  = get_post_type_archive_link(get_post_type());  
                     $breadcrumb_url      = get_post_type_archive_link(get_post_type());
                     
-        } else if  ( is_author() ) {
+        } elseif  ( is_author() ) {
             
 	    	 global $authordata;	    		               
               
@@ -1191,7 +1196,7 @@ function saswp_custom_breadcrumbs() {
 
               }	            
                     
-        } else if ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
+        } elseif ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
               
             // If post is a custom post type
                 $post_type = get_post_type();
@@ -1210,7 +1215,7 @@ function saswp_custom_breadcrumbs() {
                          
                         $queried_obj = get_queried_object();
                         
-                        if(is_object($queried_obj)){
+                        if(is_object($queried_obj) ) {
                             $variables1_titles[] = $queried_obj->name;
                             $variables2_links[]  = get_term_link($queried_obj->term_id);  
                             $breadcrumb_url      = get_term_link($queried_obj->term_id);
@@ -1235,13 +1240,13 @@ function saswp_custom_breadcrumbs() {
               
                     $queried_obj = get_queried_object();
                     
-                    if(is_object($queried_obj)){
+                    if(is_object($queried_obj) ) {
                          $variables1_titles[] = get_queried_object()->name;
                          $variables2_links[]  = get_term_link($queried_obj->term_id);
                          $breadcrumb_url      = get_term_link($queried_obj->term_id);
                     }
                                                            
-        } else if ( is_single() ) {
+        } elseif ( is_single() ) {
               
             // If post is a custom post type
                $post_type = get_post_type();
@@ -1252,11 +1257,11 @@ function saswp_custom_breadcrumbs() {
                     $post_type_object   = get_post_type_object($post_type);
                     $post_type_archive  = get_post_type_archive_link($post_type);  
                     
-                    if(empty($post_type_archive)){
+                    if(empty($post_type_archive) ) {
                         $post_type_archive = get_home_url().'/'.$post_type.'/';
                     }
                     
-                    if(is_object($post_type_object)){
+                    if(is_object($post_type_object) ) {
                       $pos = strpos($post_type_archive, '/shop/');
                       if($exclude_shop == 1){
                         if($pos === false){
@@ -1273,19 +1278,19 @@ function saswp_custom_breadcrumbs() {
                     
             }
 
-            if(isset($sd_data['saswp_breadcrumb_include_parent_cat']) && $sd_data['saswp_breadcrumb_include_parent_cat'] == 1){
+            if ( isset( $sd_data['saswp_breadcrumb_include_parent_cat']) && $sd_data['saswp_breadcrumb_include_parent_cat'] == 1){
               // Get post parent category info
               $category = get_the_category();
-              if(!empty($category)) {
+              if ( ! empty( $category)) {
                 $category_values = array_values( $category );
-                foreach ($category_values as $category_value) {
+                foreach ( $category_values as $category_value) {
                     $category_name        = get_category($category_value);
                    
-                    if(is_object($category_name)){
+                    if(is_object($category_name) ) {
                         $child = get_category($category_name->term_id);
                         $parent = $child->parent;
                         $parent_name = get_category($parent);
-                        if(!empty($parent_name->name)){
+                        if ( ! empty( $parent_name->name) ) {
                           $parent_name = $parent_name->name;
                           $variables1_titles[]  = $parent_name;
                         }else{
@@ -1307,7 +1312,7 @@ function saswp_custom_breadcrumbs() {
               // Get post category info
             $category = get_the_category();
               
-            if(!empty($category)) {
+            if ( ! empty( $category)) {
               
               $yoast_primary_cat_name     = '';
               $yoast_primary_cat_url      = '';
@@ -1327,7 +1332,7 @@ function saswp_custom_breadcrumbs() {
 
                }
 
-               if(!empty($yoast_primary_cat_name) && !empty($yoast_primary_cat_url)){
+               if ( ! empty( $yoast_primary_cat_name) && !empty($yoast_primary_cat_url) ) {
 
                       $variables1_titles[]  = $yoast_primary_cat_name;
                       $variables2_links[]   = $yoast_primary_cat_url;
@@ -1337,11 +1342,11 @@ function saswp_custom_breadcrumbs() {
 
                   $category_values = array_values( $category );
               
-                  foreach ($category_values as $category_value) {
+                  foreach ( $category_values as $category_value) {
                       
                       $category_name        = get_category($category_value);
 
-                      if(is_object($category_name)){
+                      if(is_object($category_name) ) {
 
                         $cat_name             = $category_name->name;
                         $variables1_titles[]  = $cat_name;
@@ -1363,7 +1368,7 @@ function saswp_custom_breadcrumbs() {
                 // Get parent any categories and create array
                   $get_cat_parents = get_category_parents($last_category->term_id, true, ',');
 
-                  if(is_string($get_cat_parents)){
+                  if(is_string($get_cat_parents) ) {
 
                     $get_cat_parents = rtrim($get_cat_parents,',');
                     $cat_parents     = explode(',',$get_cat_parents);
@@ -1373,7 +1378,7 @@ function saswp_custom_breadcrumbs() {
                     
                     if( !empty($cat_parents) && is_array($cat_parents) ){
   
-                      foreach($cat_parents as $parents) {
+                      foreach( $cat_parents as $parents) {
                         
                         $cat_display .= '<li class="item-cat">'.esc_html( $parents ).'</li>';
                         $cat_display .= '<li class="separator"> ' . esc_html( $separator ) . ' </li>';
@@ -1407,7 +1412,7 @@ function saswp_custom_breadcrumbs() {
                                 
             }
               
-             if(!empty($cat_id)) {
+             if ( ! empty( $cat_id)) {
                  
                 $variables1_titles[]  = $cat_name;
                 $variables2_links[]   = $cat_link;
@@ -1419,18 +1424,18 @@ function saswp_custom_breadcrumbs() {
             $variables2_links[]  = get_permalink();
             $breadcrumb_url      = get_permalink();
                           
-        } else if ( is_category() ) {
+        } elseif ( is_category() ) {
             
                 $current_url   = saswp_get_current_url();
                 $exploded_cat  = explode('/', $current_url);
                                 
-                if(!empty($exploded_cat) && is_array($exploded_cat)) {
+                if ( ! empty( $exploded_cat) && is_array($exploded_cat)) {
                                                       
-                  foreach ($exploded_cat as $value) {
+                  foreach ( $exploded_cat as $value) {
 
                       $category_value = get_category_by_slug($value);
                       
-                      if($category_value && is_object($category_value)){
+                      if($category_value && is_object($category_value) ) {
 
                         $category_name        = get_category($category_value);
                         $cat_name             = $category_name->name;
@@ -1442,7 +1447,7 @@ function saswp_custom_breadcrumbs() {
                       
                   }
               }                          
-        } else if ( is_page() ) {
+        } elseif ( is_page() ) {
               
             // Standard page
             if( is_object( $post ) &&  $post->post_parent ){
@@ -1458,9 +1463,9 @@ function saswp_custom_breadcrumbs() {
                 
                 foreach ( $anc as $ancestor ) {
                     
-                    $parents .= '<li class="item-parent item-parent-' . esc_attr($ancestor) . '"><a class="bread-parent bread-parent-' . esc_attr($ancestor) . '" href="' . esc_url(get_permalink($ancestor)) . '" title="' . esc_attr(@get_the_title($ancestor)) . '">' . esc_html(@get_the_title($ancestor) ) . '</a></li>';
-                    $parents .= '<li class="separator separator-' . esc_attr($ancestor) . '"> ' . esc_html($separator ) . ' </li>';
-                    $variables1_titles[]    = @get_the_title($ancestor);
+                    $parents .= '<li class="item-parent item-parent-' . esc_attr( $ancestor) . '"><a class="bread-parent bread-parent-' . esc_attr( $ancestor) . '" href="' . esc_url(get_permalink($ancestor)) . '" title="' . esc_attr(@get_the_title($ancestor)) . '">' . esc_html( @get_the_title($ancestor) ) . '</a></li>';
+                    $parents .= '<li class="separator separator-' . esc_attr( $ancestor) . '"> ' . esc_html( $separator ) . ' </li>';
+                    $variables1_titles[]    = get_the_title($ancestor);
                     $variables2_links[]     = get_permalink($ancestor);
                     $breadcrumb_url         = get_permalink($ancestor);
                     
@@ -1477,7 +1482,7 @@ function saswp_custom_breadcrumbs() {
                    $breadcrumb_url          = get_permalink();
             }
               
-        } else if ( is_tag() ) {
+        } elseif ( is_tag() ) {
             
             // Tag page               
             // Get tag information
@@ -1518,17 +1523,17 @@ function saswp_custom_column_set( $column, $post_id ) {
                       $business_name     = get_post_meta($post_id, 'saswp_business_name', true);
 
                       if($business_name){
-                          echo '<strong><a class="row-title" href="'.esc_url($url).'">LocalBusiness ('.esc_html($business_name).')</a></strong>';   
-                      } else if($business_type){
-                          echo '<strong><a class="row-title" href="'.esc_url($url).'">LocalBusiness ('.esc_html($business_type).')</a></strong>';
+                          echo '<strong><a class="row-title" href="'. esc_url( $url).'">LocalBusiness ('.esc_html( $business_name).')</a></strong>';   
+                      } elseif($business_type){
+                          echo '<strong><a class="row-title" href="'. esc_url( $url).'">LocalBusiness ('.esc_html( $business_type).')</a></strong>';
                       } else {
-                          echo '<strong><a class="row-title" href="'.esc_url($url).'">LocalBusiness</a></strong>';
+                          echo '<strong><a class="row-title" href="'. esc_url( $url).'">LocalBusiness</a></strong>';
                       }
                         
-                    }else if($schema_type == 'qanda'){
-                        echo '<strong><a class="row-title" href="'.esc_url($url).'">Q&A</a></strong>';
+                    }elseif($schema_type == 'qanda'){
+                        echo '<strong><a class="row-title" href="'. esc_url( $url).'">Q&A</a></strong>';
                     }else{
-                        echo '<strong><a class="row-title" href="'.esc_url($url).'">'.esc_html($schema_type).'</a></strong>';
+                        echo '<strong><a class="row-title" href="'. esc_url( $url).'">'.esc_html( $schema_type).'</a></strong>';
                     }
                     
                     
@@ -1542,9 +1547,9 @@ function saswp_custom_column_set( $column, $post_id ) {
                     
                     if($data_group_array){
                         
-                    foreach ($data_group_array as $groups){
+                    foreach ( $data_group_array as $groups){
                          
-                        foreach($groups['data_array'] as $group){                           
+                        foreach( $groups['data_array'] as $group){                           
                            
                            if($group['key_2'] == 'equal'){
                                
@@ -1554,7 +1559,7 @@ function saswp_custom_column_set( $column, $post_id ) {
                                    
                                }else{
                                    
-                                   if(isset($group['key_3'])){
+                                   if ( isset( $group['key_3']) ) {
                                       $enabled .= $group['key_3'].', ';   
                                    } 
                                                                       
@@ -1571,12 +1576,12 @@ function saswp_custom_column_set( $column, $post_id ) {
                     } 
                     if($enabled){
                         
-                        echo '<div><strong>'.saswp_t_string( 'Enable on: ' ).'</strong> '.esc_html($enabled).'</div>';    
+                        echo '<div><strong>'.esc_html__( 'Enable on: ', 'schema-and-structured-data-for-wp' ).'</strong> '.esc_html( $enabled).'</div>';    
                     
                     }
                     if($exclude){
                         
-                        echo '<div><strong>'.saswp_t_string( 'Exclude from: ' ).'</strong>'.esc_html($exclude).'</div>';   
+                        echo '<div><strong>'.esc_html__( 'Exclude from: ', 'schema-and-structured-data-for-wp' ).'</strong>'.esc_html( $exclude).'</div>';   
                     
                     }                    
                     }                    
@@ -1601,8 +1606,8 @@ function saswp_custom_columns($columns) {
     unset($columns);
     $columns['cb']    = $cb;
     $columns['title'] = $title;
-    $columns['saswp_schema_type']       = '<a>'.saswp_t_string( 'Schema Type' ).'<a>';
-    $columns['saswp_target_location']   = '<a>'.saswp_t_string( 'Target Location' ).'<a>';    
+    $columns['saswp_schema_type']       = '<a>'.esc_html__( 'Schema Type', 'schema-and-structured-data-for-wp' ).'<a>';
+    $columns['saswp_target_location']   = '<a>'.esc_html__( 'Target Location', 'schema-and-structured-data-for-wp' ).'<a>';    
     
     return $columns;
 }
@@ -1615,8 +1620,8 @@ add_filter( 'manage_saswp_posts_columns', 'saswp_custom_columns' );
      * This is a ajax handler function for sending email from user admin panel to us. 
      * @return type json string
      */
-function saswp_send_query_message(){   
-        if(!current_user_can( saswp_current_user_can())){
+function saswp_send_query_message() {   
+        if(!current_user_can( saswp_current_user_can()) ) {
             die( '-1' );    
         }
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -1630,7 +1635,7 @@ function saswp_send_query_message(){
         $email          = isset($_POST['email'])?saswp_sanitize_textarea_field($_POST['email']):''; 
         $premium_cus    = isset($_POST['premium_cus'])?saswp_sanitize_textarea_field($_POST['premium_cus']):'';   
                                 
-        if(function_exists('wp_get_current_user')){
+        if ( function_exists( 'wp_get_current_user') ) {
 
             $user           = wp_get_current_user();
 
@@ -1653,8 +1658,8 @@ function saswp_send_query_message(){
             $subject   = "Schema Customer Query";
             
             $headers[] = 'Content-Type: text/html; charset=UTF-8';
-            $headers[] = 'From: '. esc_attr($user_email);            
-            $headers[] = 'Reply-To: ' . esc_attr($user_email);
+            $headers[] = 'From: '. esc_attr( $user_email);            
+            $headers[] = 'Reply-To: ' . esc_attr( $user_email);
             // Load WP components, no themes.                      
             $sent = wp_mail($sendto, $subject, $message, $headers); 
 
@@ -1677,8 +1682,8 @@ add_action('wp_ajax_saswp_send_query_message', 'saswp_send_query_message');
 
 add_action('wp_ajax_saswp_dismiss_notices', 'saswp_dismiss_notices');
 
-function saswp_dismiss_notices(){
-  if(!current_user_can( saswp_current_user_can())){
+function saswp_dismiss_notices() {
+  if(!current_user_can( saswp_current_user_can()) ) {
       die( '-1' );    
   }
   if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -1688,14 +1693,14 @@ function saswp_dismiss_notices(){
     return;  
   }
   
-  if(isset($_POST['notice_type'])){
+  if ( isset( $_POST['notice_type']) ) {
     
     $notice_type = sanitize_text_field($_POST['notice_type']);
 
     $user_id      = get_current_user_id();
     
     
-    $updated = update_user_meta( $user_id, $notice_type.'_dismiss_date', date("Y-m-d"));
+    $updated = update_user_meta( $user_id, $notice_type.'_dismiss_date', gmdate("Y-m-d"));
 
     if($updated){
       echo wp_json_encode(array('status'=>'t'));  
@@ -1711,7 +1716,7 @@ function saswp_dismiss_notices(){
      * This is a ajax handler function for sending email from user admin panel to us. 
      * @return type json string
      */
-function saswp_import_plugin_data(){                  
+function saswp_import_plugin_data() {                  
     
         if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
@@ -1792,11 +1797,11 @@ function saswp_import_plugin_data(){
         }                             
         if($result){
             
-             echo wp_json_encode(array('status'=>'t', 'message'=>saswp_t_string('Data has been imported succeessfully')));            
+             echo wp_json_encode(array('status'=>'t', 'message'=>esc_html__( 'Data has been imported succeessfully', 'schema-and-structured-data-for-wp' )));            
              
         }else{
             
-            echo wp_json_encode(array('status'=>'f', 'message'=>saswp_t_string('Plugin data is not available or it is not activated')));            
+            echo wp_json_encode(array('status'=>'f', 'message'=>esc_html__( 'Plugin data is not available or it is not activated', 'schema-and-structured-data-for-wp' )));            
         
         }        
            wp_die();           
@@ -1805,7 +1810,7 @@ function saswp_import_plugin_data(){
 add_action('wp_ajax_saswp_import_plugin_data', 'saswp_import_plugin_data');
 
 
-function saswp_feeback_no_thanks(){     
+function saswp_feeback_no_thanks() {     
     
         if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
@@ -1835,7 +1840,7 @@ function saswp_feeback_no_thanks(){
 add_action('wp_ajax_saswp_feeback_no_thanks', 'saswp_feeback_no_thanks');
 
 
-function saswp_feeback_remindme(){  
+function saswp_feeback_remindme() {  
     
         if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
@@ -1847,7 +1852,7 @@ function saswp_feeback_remindme(){
            return;  
         }
     
-        $result = update_option( "saswp_activation_date", date("Y-m-d"));   
+        $result = update_option( "saswp_activation_date", gmdate("Y-m-d"));   
         
         if($result){
             
@@ -1907,21 +1912,21 @@ function saswp_license_status($add_on, $license_status, $license_key){
                 $message        = '';
                 $fname        = '';
                 $current_status = '';
-                $response       = @wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 60, 'sslverify' => false, 'body' => $api_params ) );
+                $response       = wp_remote_post( SASWP_EDD_STORE_URL, array( 'timeout' => 60, 'sslverify' => false, 'body' => $api_params ) );
                            
                 // make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-      if(!empty($response->get_error_message())){
+      if ( ! empty( $response->get_error_message()) ) {
           $error_message = strtolower($response->get_error_message());
           $error_pos = strpos($error_message, 'operation timed out');
           if($error_pos !== false){
-              $message = esc_html__('Request timed out, please try again', 'schema-and-structured-data-for-wp');
+              $message = esc_html__( 'Request timed out, please try again', 'schema-and-structured-data-for-wp' );
           }else{
-              $message = esc_html($response->get_error_message());
+              $message = esc_html( $response->get_error_message());
           }
       }
-      if(empty($message)){ 
-			   $message =   esc_html__( 'An error occurred, please try again.', 'schema-and-structured-data-for-wp');
+      if(empty($message) ) { 
+			   $message =   esc_html__( 'An error occurred, please try again.', 'schema-and-structured-data-for-wp' );
       }
 		} else {
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -1950,9 +1955,9 @@ function saswp_license_status($add_on, $license_status, $license_key){
                      $fname =  ucwords($fname);
                       } 
               // Get Expiring Date 
-              $license_exp = date('Y-m-d', strtotime($license_data->expires)); 
+              $license_exp = gmdate('Y-m-d', strtotime($license_data->expires)); 
               $license_info_lifetime = $license_data->expires; 
-              $today = date('Y-m-d');
+              $today = gmdate('Y-m-d');
                $exp_date =$license_exp; 
                $date1 = date_create($today);
                 $date2 = date_create($exp_date);
@@ -1970,7 +1975,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
               // Get Download_ID 
               $download_id = $license_data->payment_id;
                } 
-               $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
+               $license_exp_norml = gmdate('Y-m-d', strtotime($license_data->expires));
                $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname; 
                $license[strtolower($add_on).'_addon_license_key_expires'] = $days; 
                $license[strtolower($add_on).'_addon_license_key_expires_normal'] = $license_exp_norml;
@@ -1979,10 +1984,8 @@ function saswp_license_status($add_on, $license_status, $license_key){
                $message = 'Activated'; 
                $days_remaining = $days; 
                $username = $fname;
-               $message = sprintf(
-              __( 'Your license key expired on %s.' ),
-              date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
-            );
+               /* translators: %s: date */
+               $message = sprintf(__( 'Your license key expired on %s.' ),date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) ));
 						break;
 					case 'revoked' :
 						$message = __( 'Your license key has been disabled.' );
@@ -2035,7 +2038,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                                         
                         if(strtolower($add_on) == 'reviews'){
                             
-                            if(function_exists('saswp_create_reviews_user')){
+                            if ( function_exists( 'saswp_create_reviews_user') ) {
                                                              
                                 $user_create = saswp_create_reviews_user($license_key, $item_name[strtolower($add_on)]);   
                             
@@ -2069,10 +2072,10 @@ function saswp_license_status($add_on, $license_status, $license_key){
                           }
 
                           // Get Expiring Date
-                          $license_exp = date('Y-m-d', strtotime($license_data->expires));
-                          $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
+                          $license_exp = gmdate('Y-m-d', strtotime($license_data->expires));
+                          $license_exp_norml = gmdate('Y-m-d', strtotime($license_data->expires));
                           $license_info_lifetime = $license_data->expires;
-                          $today = date('Y-m-d');
+                          $today = gmdate('Y-m-d');
                           $exp_date =$license_exp;
                           $date1 = date_create($today);
                           $date2 = date_create($exp_date);
@@ -2124,7 +2127,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                           }
                         }
 
-                        $license_exp_norml = date('Y-m-d', strtotime($license_data->expires));
+                        $license_exp_norml = gmdate('Y-m-d', strtotime($license_data->expires));
                         $license[strtolower($add_on).'_addon_license_key_user_name'] = $fname;
 
                         $license[strtolower($add_on).'_addon_license_key_expires'] = $days;
@@ -2147,7 +2150,7 @@ function saswp_license_status($add_on, $license_status, $license_key){
                                                                 
 }
 
-function saswp_license_status_check(){  
+function saswp_license_status_check() {  
     
         if ( ! current_user_can( saswp_current_user_can() ) ) {
              return;
@@ -2178,7 +2181,7 @@ function saswp_license_status_check(){
 add_action('wp_ajax_saswp_license_status_check', 'saswp_license_status_check');
 
 add_action('wp_ajax_saswp_license_transient', 'saswp_license_transient');
-function saswp_license_transient(){
+function saswp_license_transient() {
             if ( ! current_user_can( saswp_current_user_can() ) ) {
                  return;
             }
@@ -2195,7 +2198,7 @@ function saswp_license_transient(){
 }
 
 add_action('wp_ajax_saswp_expired_license_transient', 'saswp_expired_license_transient');
-function saswp_expired_license_transient(){
+function saswp_expired_license_transient() {
             if ( ! current_user_can( saswp_current_user_can() ) ) {
                  return;
             }
@@ -2223,9 +2226,9 @@ function saswp_upgrade_function( $upgrader_object, $options ) {
 
     if ($options['action'] == 'update' && $options['type'] == 'plugin' ){
        
-       if(is_array($options) && array_key_exists('plugins', $options)){
+       if ( is_array( $options) && array_key_exists('plugins', $options) ) {
         
-           foreach($options['plugins'] as $each_plugin){
+           foreach( $options['plugins'] as $each_plugin){
            
             if ($each_plugin == $current_plugin_path_name){
 
@@ -2240,7 +2243,7 @@ function saswp_upgrade_function( $upgrader_object, $options ) {
     
 }
 
-function saswp_review_module_upgradation(){
+function saswp_review_module_upgradation() {
                     
             $upgrade_option = get_option('saswp_google_upgrade');
 
@@ -2250,11 +2253,11 @@ function saswp_review_module_upgradation(){
                 
                 $g_review_status = $g_review_api = '';
                 
-                if(isset($sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
+                if ( isset( $sd_data['saswp-google-review']) && $sd_data['saswp-google-review'] == 1){
                     $g_review_status = $sd_data['saswp-google-review'];
                 }
                 
-                if(isset($sd_data['saswp_google_place_api_key']) && $sd_data['saswp_google_place_api_key'] != ''){
+                if ( isset( $sd_data['saswp_google_place_api_key']) && $sd_data['saswp_google_place_api_key'] != '' ) {
                     $g_review_api = $sd_data['saswp_google_place_api_key'];
                 }
                 
@@ -2276,11 +2279,11 @@ function saswp_review_module_upgradation(){
                                                             
                     if($posts_list){
                         
-                        if(class_exists('saswp_reviews_service')){
+                        if(class_exists('SASWP_Reviews_Service') ) {
                         
-                            $service = new saswp_reviews_service(); 
+                            $service = new SASWP_Reviews_Service(); 
                         
-                                foreach($posts_list as $list){
+                                foreach( $posts_list as $list){
 
                                     $g_place_id = get_post_meta($list->ID, $key='saswp_google_place_id', true);
                                     
@@ -2296,7 +2299,7 @@ function saswp_review_module_upgradation(){
                                                             
                 } 
                 
-                 update_option('saswp_google_upgrade', date("Y-m-d"));
+                 update_option('saswp_google_upgrade', gmdate("Y-m-d"));
                  
            }
                                     
@@ -2304,12 +2307,12 @@ function saswp_review_module_upgradation(){
 
 add_action('wp_update_nav_menu', 'saswp_save_nav_menu_on_menu_update');
 
-function saswp_save_nav_menu_on_menu_update(){
+function saswp_save_nav_menu_on_menu_update() {
     
     global $sd_data; 
     $menu_id = null;
     
-    if(isset($sd_data['saswp_site_navigation_menu'])){
+    if ( isset( $sd_data['saswp_site_navigation_menu']) ) {
         $menu_id = $sd_data['saswp_site_navigation_menu'];
     }
     
@@ -2323,7 +2326,7 @@ function saswp_save_nav_menu_on_option_update($old, $new, $opt_name){
     
     $menu_id = null;
     
-    if(isset($new['saswp_site_navigation_menu'])){
+    if ( isset( $new['saswp_site_navigation_menu']) ) {
         $menu_id = $new['saswp_site_navigation_menu'];
     }
     
@@ -2340,15 +2343,15 @@ function saswp_save_nav_menu_in_transient($menu_id){
 
 add_action( 'wp_ajax_saswp_get_select2_data', 'saswp_get_select2_data'); 
 
-function saswp_get_select2_data(){
-        if(!current_user_can( saswp_current_user_can())){
+function saswp_get_select2_data() {
+        if(!current_user_can( saswp_current_user_can()) ) {
             die( '-1' );    
         }    
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
           return; 
         }
         
-        if ( (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ) ||  (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_add_new_nonce' ) )){
+        if ( (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ) ||  (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_add_new_nonce' ) ) ) {
 
           $search        = isset( $_GET['q'] ) ? sanitize_text_field( $_GET['q'] ) : '';                                    
           $type          = isset( $_GET['type'] ) ? sanitize_text_field( $_GET['type'] ) : '';                                    
@@ -2364,8 +2367,8 @@ function saswp_get_select2_data(){
         wp_die();
 }
 
-function saswp_clear_resized_image_folder(){
-  if(!current_user_can( saswp_current_user_can())){
+function saswp_clear_resized_image_folder() {
+  if(!current_user_can( saswp_current_user_can()) ) {
     die( '-1' );    
   }
   if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -2386,11 +2389,11 @@ function saswp_clear_resized_image_folder(){
 
   if($files){
     //Loop through the file list.
-    foreach($files as $file){
+    foreach( $files as $file){
       //Make sure that this is a file and not a directory.
-      if(is_file($file)){
+      if(is_file($file) ) {
           //Use the unlink function to delete the file.
-          unlink($file);
+          wp_delete_file($file);
       }
     }
 
@@ -2404,8 +2407,8 @@ function saswp_clear_resized_image_folder(){
 
 }
 
-function saswp_create_resized_image_folder(){                  
-  if(!current_user_can( saswp_current_user_can())){
+function saswp_create_resized_image_folder() {                  
+  if(!current_user_can( saswp_current_user_can()) ) {
     die( '-1' );    
   }  
   if ( ! isset( $_POST['saswp_security_nonce'] ) ){
@@ -2423,26 +2426,24 @@ function saswp_create_resized_image_folder(){
   $make_new_dir = $upload_dir . '/schema-and-structured-data-for-wp';
 
   if (! is_dir($make_new_dir)) {
-      mkdir( $make_new_dir, 0700 );
+    wp_mkdir_p($make_new_dir);
   }
 
-  if(is_dir($make_new_dir)){
+  if(is_dir($make_new_dir) ) {
 
     $old_url    = SASWP_PLUGIN_URL.'/admin_section/images/sd-logo-white.png';            
     $url        = $upload_url.'/schema-and-structured-data-for-wp/sd-logo-white.png';
     $new_url    = $make_new_dir.'/sd-logo-white.png';    
     @copy($old_url, $new_url);
-
-    
-    
-    if(file_exists($new_url)){
+        
+    if(file_exists($new_url) ) {
       $response = array('status' => 't');   
     }else{
-      $response = array('status' => 'f', 'message' => esc_html__('We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp'));
+      $response = array('status' => 'f', 'message' => esc_html__( 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp' ));
     }
 
   }else{
-    $response = array('status' => 'f', 'message' => esc_html__('We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp'));
+    $response = array('status' => 'f', 'message' => esc_html__( 'We are unable to create a folder in your uploads directory. Please Check your folder permission settings on server and allow it.', 'schema-and-structured-data-for-wp' ));
   }
 
   wp_send_json( $response );
@@ -2476,7 +2477,7 @@ function saswp_script_loader_tag($tag, $handle, $src) {
 	return $tag;
 	
 }
-add_filter('script_loader_tag', 'saswp_script_loader_tag', 10, 3);
+add_filter( 'script_loader_tag', 'saswp_script_loader_tag', 10, 3);
 
 //user Custom Schema filed start
 add_action( 'show_user_profile', 'extra_user_profile_fields', 10, 1 );
@@ -2486,14 +2487,14 @@ function extra_user_profile_fields( $user ) {
   $custom_markp  = get_user_meta($user_id, 'saswp_user_custom_schema_field', true);   
 
   ?>
-    <h3><?php echo saswp_t_string("Custom profile information"); ?></h3>
+    <h3><?php echo esc_html__("Custom profile information", 'schema-and-structured-data-for-wp' ); ?></h3>
 
     <table class="form-table">
     <tr>
-        <th><label for="saswp_user_custom_schema_field"><?php echo saswp_t_string("Custom Schema (SASWP)"); ?></label></th>
+        <th><label for="saswp_user_custom_schema_field"><?php echo esc_html__("Custom Schema (SASWP)", 'schema-and-structured-data-for-wp' ); ?></label></th>
         <td>
-            <textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85"><?php if(!empty($custom_markp)){ echo esc_html($custom_markp); } ?></textarea><br />
-            <span class="description"><strong><?php echo saswp_t_string("Note: ") ?></strong><?php echo saswp_t_string("Please enter the valid Json-ld. Whatever you enter will be added in page source"); ?></span>
+            <textarea style="margin-left:5px;" placeholder="JSON-LD" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85"><?php if ( ! empty( $custom_markp) ) { echo esc_html( $custom_markp); } ?></textarea><br />
+            <span class="description"><strong><?php echo esc_html__("Note: ", 'schema-and-structured-data-for-wp' ) ?></strong><?php echo esc_html__("Please enter the valid Json-ld. Whatever you enter will be added in page source", 'schema-and-structured-data-for-wp' ); ?></span>
         </td>
     </tr>
 
@@ -2509,10 +2510,11 @@ function save_extra_user_profile_fields( $user_id ) {
     if ( !current_user_can( 'edit_user', $user_id ) ) { 
         return false; 
     }
-   
-    if(!empty($_POST['saswp_custom_schema_field'])){
-        $allowed_html = saswp_expanded_allowed_tags();                                                  
-        $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
+   // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only used inside core edit_user_profile_update hook.
+    if ( ! empty( $_POST['saswp_custom_schema_field']) ) {
+        $allowed_html = saswp_expanded_allowed_tags();                                            
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only used inside core edit_user_profile_update hook.      
+        $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);    
         update_user_meta( $user_id, 'saswp_user_custom_schema_field',  $custom_schema );               
     }else{
         delete_user_meta( $user_id, 'saswp_user_custom_schema_field');  
