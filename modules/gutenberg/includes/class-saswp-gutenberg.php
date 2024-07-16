@@ -291,7 +291,8 @@ class SASWP_Gutenberg {
                      wp_register_style(
                         'saswp-gutenberg-css-reg-editor',
                         SASWP_PLUGIN_URL . 'modules/gutenberg/assets/css/editor.css',
-                        array( 'wp-edit-blocks' )
+                        array( 'wp-edit-blocks' ),
+                        SASWP_VERSION
                     );
                      
                     if($this->blocks){
@@ -303,7 +304,9 @@ class SASWP_Gutenberg {
                                 wp_register_script(
                                     $block['handler'],
                                     $block['path'],
-                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-edit-widgets' )                                 
+                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-edit-widgets' ),
+                                    SASWP_VERSION,
+                                    true
                                 );
 
                             } else {
@@ -311,7 +314,9 @@ class SASWP_Gutenberg {
                                 wp_register_script(
                                     $block['handler'],
                                     $block['path'],
-                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )                                 
+                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' ),
+                                    SASWP_VERSION,
+                                    true
                                 );
                                 
                             }
