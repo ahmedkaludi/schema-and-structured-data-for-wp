@@ -2,9 +2,9 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 5.6.20
-Stable tag: 1.34.1
+Stable tag: 1.34.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -120,6 +120,10 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.34.2 (18 July 2024) =
+* Fixed: Error after version 1.34.1 update #2144
+* Fixed: Tested with new version of wordpress i.e. 6.6v #2145
 
 = 1.34.1 (16 July 2024) =
 * Fixed: Fatal error after recent update #2142 
@@ -278,17 +282,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Fatal error in review collection #2004
 * Fixed: Breadcrumb schema showing wrong id in schema markup for custom post type #2005
 * Fixed: PHP Warnings for Undefined Array Keys in Course Schema URL's #2006
-
-
-= 1.19 (21 Aug 2023) =
-
-* Fixed: Checking success of folder creation via HTTP #1954
-* Fixed: Warning shown in the schema #1979
-* Fixed: wp_remote_post timeout for some users while activating reviews api #1983
-* Feature: Added slide interval option to perform auto slide for review collection #1984
-* Fixed: PHP Warning in reveiw module #1986
-* Fixed: Markup warning #1987
-* Fixed: Collection reviews are not showing in schema markup #1988
-* Fixed: Tested with WordPress 6.3 and updated readme.txt #1996
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
