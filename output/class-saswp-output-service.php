@@ -7874,7 +7874,7 @@ Class SASWP_Output_Service{
              
              if ( isset( $date_on_sale) ) {
                  
-             $product_details['product_priceValidUntil'] = $date_on_sale->gmdate('Y-m-d G:i:s');    
+             $product_details['product_priceValidUntil'] = $date_on_sale->date('Y-m-d G:i:s');    
              
              }else{
             
