@@ -518,11 +518,7 @@ Class SASWP_Output_Service{
                     break;
                 case 'site_logo':
                     
-                    $sizes = array(
-                            'width'  => 600,
-                            'height' => 60,
-                            'crop'   => false,
-                    ); 
+                    $sizes = array ( 600, 60 ); 
 
                     $custom_logo_id = get_theme_mod( 'custom_logo' );     
 
@@ -8727,20 +8723,22 @@ Class SASWP_Output_Service{
                                                 
                                                 if( ($image_details[1] > 0) && ($image_details[2] > 0) ){                                            
                                                     $img_ratio    = $image_details[1] / $image_details[2];
-                                                    $targetHeight = 1200 / $img_ratio;                                                
+                                                    $targetHeight = round ( 1200 / $img_ratio );                                                
                                                 }
                                                 
                                                 if($multiple_size){
-    
+                                                    
+                                                    $min_val    =   min ( $image_details[1], $targetHeight );
+
                                                     if($targetHeight < 675){
     
-                                                        $width  = array(1200, 1200, 1200);
-                                                        $height = array(900, 720, 675);
+                                                        $width  = array ( $min_val, 1200, 1200, 1200 );
+                                                        $height = array ( $min_val, 900, 720, 675 );
     
                                                     }else{
     
-                                                        $width  = array(1200, 1200, 1200);
-                                                        $height = array($targetHeight, 900, 675);
+                                                        $width  = array ( $min_val, 1200, 1200, 1200 );
+                                                        $height = array ( $min_val, $targetHeight, 900, 675 );
     
                                                     }
                                                     
@@ -8793,13 +8791,27 @@ Class SASWP_Output_Service{
 
                                                 if ( isset( $image_details[1]) ) {
 
-                                                    if($multiple_size){
-                                                    $width  = array($image_details[1], 1200, 1200);
-                                                    $height = array($image_details[2], 900, 675);
-                                                }else{
-                                                    $width  = array($image_details[1]);
-                                                    $height = array($image_details[2]);
-                                                }  
+                                                    if ( $multiple_size ) {
+
+                                                        $width  = array ( $image_details[1], 1200, 1200 );
+                                                        $height = array ( $image_details[2], 900, 675 );
+                                                        $height_array = array ( 900, 675 );
+                                                        $min_val    =   min ( $image_details[1], $image_details[2] );
+
+                                                        if ( $image_details[1] == 1200 && in_array ( $image_details[2], $height_array ) ) {
+
+                                                            $width      =   array ( $min_val, 1200, 1200 );   
+                                                            $height     =   array ( $min_val, 900, 675 );   
+
+                                                        } else {
+                                                            $width[]    =   $min_val;
+                                                            $height[]   =   $min_val;
+                                                        }
+
+                                                    }else{
+                                                        $width  = array ( $image_details[1] );
+                                                        $height = array ( $image_details[2] );
+                                                    }  
                                                                                                    
                                                    for($i = 0; $i < count($width); $i++){
                                                         
