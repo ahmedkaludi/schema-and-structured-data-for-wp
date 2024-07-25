@@ -688,7 +688,11 @@ function saswp_handle_file_upload($option){
         }else{
             if (is_array($value)) {
                 foreach ( $value as $k => $val) {
-                    $value[sanitize_key($k)] = sanitize_text_field($val);
+                    if( is_array($val) ){
+                        $value[sanitize_key($k)] = array_map('sanitize_text_field', $val);
+                    }else {
+                        $value[sanitize_key($k)] = sanitize_text_field($val);
+                    }
                 }       
                 $option[sanitize_key($key)] = $value;
             }else{
