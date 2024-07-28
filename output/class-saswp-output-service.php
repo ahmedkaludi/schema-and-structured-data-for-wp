@@ -3011,6 +3011,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['local_state']) ) {
                      $input1['address']['addressRegion'] =    $custom_fields['local_state'];
                     }
+                    if ( isset( $custom_fields['local_country']) ) {
+                     $input1['address']['addressCountry'] =    $custom_fields['local_country'];
+                    }
                     if ( isset( $custom_fields['local_postal_code']) ) {
                      $input1['address']['postalCode'] =    $custom_fields['local_postal_code'];
                     }                    
