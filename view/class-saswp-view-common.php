@@ -367,6 +367,8 @@ class SASWP_View_Common {
 		$output = '';                
                                 
 		foreach ( $saswp_meta_fields as $meta_field ) {
+        
+            if( isset( $meta_field['type'] ) ) {
                     
                         $input      = '';
                         $attributes = '';
@@ -660,7 +662,8 @@ class SASWP_View_Common {
                              $output .= '<tr><th>'.$label.'</th><td>'.$input.'</td></tr>';  
                           }                                                                       
 			
-		}
+		    }
+        }
                 
                      $tabs_fields  = '';
                      
