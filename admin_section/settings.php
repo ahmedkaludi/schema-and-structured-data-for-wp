@@ -4933,6 +4933,9 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         // Dequeue Widget Options plugin select2 on schema dashboard to remove conflict
         wp_dequeue_script('jquery-widgetopts-select2-script');        
         
+        // Dequeue ReviewX Pro plugin select2 on schema dashboard to remove conflict
+        wp_dequeue_script('reviewx-pro-select2-js');        
+        
         if($post_type == 'saswp'){
 
                 //conflict with jupitor theme fixed starts here
