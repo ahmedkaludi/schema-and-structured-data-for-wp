@@ -2981,6 +2981,8 @@ Class SASWP_Output_Service{
                                   
                 case 'local_business':
                    
+                    $business_name    = get_post_meta($schema_post_id, 'saswp_business_name', true);
+
                     if ( isset( $custom_fields['local_business_id']) ) {
                         $input1['@id'] =    get_permalink().$custom_fields['local_business_id'];
                     }                   
@@ -3121,6 +3123,17 @@ Class SASWP_Output_Service{
                     }
                     if($sameas){
                         $input1['sameAs'] = $sameas;
+                    }               
+                    if( $business_name == 'hotel' ) {
+                        if( ! empty( $custom_fields['local_checkin_time'] ) ) {
+                            $input1['checkinTime'] = $custom_fields['local_checkin_time'];
+                        }
+                        if( ! empty( $custom_fields['local_checkout_time'] ) ) {
+                            $input1['checkoutTime'] = $custom_fields['local_checkout_time'];
+                        }
+                        if( ! empty( $custom_fields['local_identifier_pvalue'] ) ) {
+                            $input1['identifier']               = $custom_fields['local_identifier_pvalue'];
+                        }
                     }               
                     break;
                 
