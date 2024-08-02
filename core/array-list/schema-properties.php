@@ -356,6 +356,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'local_review_count_'.$schema_id,
                             'type' => 'text',                            
                         );
+                        $meta_field[] =   array(
+                            'label' => 'Check-in Time',
+                            'id' => 'local_checkin_time_'.$schema_id,
+                            'type' => 'text',                            
+                        );
+                        $meta_field[] =   array(
+                            'label' => 'Check-out Time',
+                            'id' => 'local_checkout_time_'.$schema_id,
+                            'type' => 'text',                            
+                        );
+                        $meta_field[] =   array(
+                            'label' => 'Identifier',
+                            'id' => 'local_identifier_pvalue_'.$schema_id,
+                            'type' => 'text',                            
+                        );
                                            
                     break;
                 
@@ -6235,6 +6250,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'options' => array(
                                     ''                                  => 'Select Return Policy Fees',
                                     'FreeReturn'                        => 'FreeReturn',
+                                    'ReturnFeesCustomerResponsibility'  => 'ReturnFeesCustomerResponsibility',
+                                    'ReturnShippingFees'                => 'ReturnShippingFees',
                             )
                         ),
                         array(

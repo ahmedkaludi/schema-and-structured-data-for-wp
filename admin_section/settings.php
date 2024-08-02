@@ -688,7 +688,11 @@ function saswp_handle_file_upload($option){
         }else{
             if (is_array($value)) {
                 foreach ( $value as $k => $val) {
-                    $value[sanitize_key($k)] = sanitize_text_field($val);
+                    if( is_array($val) ){
+                        $value[sanitize_key($k)] = array_map('sanitize_text_field', $val);
+                    }else {
+                        $value[sanitize_key($k)] = sanitize_text_field($val);
+                    }
                 }       
                 $option[sanitize_key($key)] = $value;
             }else{
@@ -4928,6 +4932,9 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         
         // Dequeue Widget Options plugin select2 on schema dashboard to remove conflict
         wp_dequeue_script('jquery-widgetopts-select2-script');        
+        
+        // Dequeue ReviewX Pro plugin select2 on schema dashboard to remove conflict
+        wp_dequeue_script('reviewx-pro-select2-js');        
         
         if($post_type == 'saswp'){
 

@@ -518,11 +518,7 @@ Class SASWP_Output_Service{
                     break;
                 case 'site_logo':
                     
-                    $sizes = array(
-                            'width'  => 600,
-                            'height' => 60,
-                            'crop'   => false,
-                    ); 
+                    $sizes = array ( 600, 60 ); 
 
                     $custom_logo_id = get_theme_mod( 'custom_logo' );     
 
@@ -2985,6 +2981,8 @@ Class SASWP_Output_Service{
                                   
                 case 'local_business':
                    
+                    $business_name    = get_post_meta($schema_post_id, 'saswp_business_name', true);
+
                     if ( isset( $custom_fields['local_business_id']) ) {
                         $input1['@id'] =    get_permalink().$custom_fields['local_business_id'];
                     }                   
@@ -3014,6 +3012,9 @@ Class SASWP_Output_Service{
                     }
                     if ( isset( $custom_fields['local_state']) ) {
                      $input1['address']['addressRegion'] =    $custom_fields['local_state'];
+                    }
+                    if ( isset( $custom_fields['local_country']) ) {
+                     $input1['address']['addressCountry'] =    $custom_fields['local_country'];
                     }
                     if ( isset( $custom_fields['local_postal_code']) ) {
                      $input1['address']['postalCode'] =    $custom_fields['local_postal_code'];
@@ -3122,6 +3123,17 @@ Class SASWP_Output_Service{
                     }
                     if($sameas){
                         $input1['sameAs'] = $sameas;
+                    }               
+                    if( $business_name == 'hotel' ) {
+                        if( ! empty( $custom_fields['local_checkin_time'] ) ) {
+                            $input1['checkinTime'] = $custom_fields['local_checkin_time'];
+                        }
+                        if( ! empty( $custom_fields['local_checkout_time'] ) ) {
+                            $input1['checkoutTime'] = $custom_fields['local_checkout_time'];
+                        }
+                        if( ! empty( $custom_fields['local_identifier_pvalue'] ) ) {
+                            $input1['identifier']               = $custom_fields['local_identifier_pvalue'];
+                        }
                     }               
                     break;
                 
@@ -7874,7 +7886,7 @@ Class SASWP_Output_Service{
              
              if ( isset( $date_on_sale) ) {
                  
-             $product_details['product_priceValidUntil'] = $date_on_sale->gmdate('Y-m-d G:i:s');    
+             $product_details['product_priceValidUntil'] = $date_on_sale->date('Y-m-d G:i:s');    
              
              }else{
             
@@ -8727,20 +8739,22 @@ Class SASWP_Output_Service{
                                                 
                                                 if( ($image_details[1] > 0) && ($image_details[2] > 0) ){                                            
                                                     $img_ratio    = $image_details[1] / $image_details[2];
-                                                    $targetHeight = 1200 / $img_ratio;                                                
+                                                    $targetHeight = round ( 1200 / $img_ratio );                                                
                                                 }
                                                 
                                                 if($multiple_size){
-    
+                                                    
+                                                    $min_val    =   min ( $image_details[1], $targetHeight );
+
                                                     if($targetHeight < 675){
     
-                                                        $width  = array(1200, 1200, 1200);
-                                                        $height = array(900, 720, 675);
+                                                        $width  = array ( 1200, 1200, 1200, $min_val );
+                                                        $height = array ( 900, 720, 675, $min_val );
     
                                                     }else{
     
-                                                        $width  = array(1200, 1200, 1200);
-                                                        $height = array($targetHeight, 900, 675);
+                                                        $width  = array ( 1200, 1200, 1200, $min_val );
+                                                        $height = array ( $targetHeight, 900, 675, $min_val );
     
                                                     }
                                                     
@@ -8793,13 +8807,27 @@ Class SASWP_Output_Service{
 
                                                 if ( isset( $image_details[1]) ) {
 
-                                                    if($multiple_size){
-                                                    $width  = array($image_details[1], 1200, 1200);
-                                                    $height = array($image_details[2], 900, 675);
-                                                }else{
-                                                    $width  = array($image_details[1]);
-                                                    $height = array($image_details[2]);
-                                                }  
+                                                    if ( $multiple_size ) {
+
+                                                        $width  = array ( $image_details[1], 1200, 1200 );
+                                                        $height = array ( $image_details[2], 900, 675 );
+                                                        $height_array = array ( 900, 675 );
+                                                        $min_val    =   min ( $image_details[1], $image_details[2] );
+
+                                                        if ( $image_details[1] == 1200 && in_array ( $image_details[2], $height_array ) ) {
+
+                                                            $width      =   array ( $min_val, 1200, 1200 );   
+                                                            $height     =   array ( $min_val, 900, 675 );   
+
+                                                        } else {
+                                                            $width[]    =   $min_val;
+                                                            $height[]   =   $min_val;
+                                                        }
+
+                                                    }else{
+                                                        $width  = array ( $image_details[1] );
+                                                        $height = array ( $image_details[2] );
+                                                    }  
                                                                                                    
                                                    for($i = 0; $i < count($width); $i++){
                                                         

@@ -1923,6 +1923,22 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                                         
                 }
                 
+                $business_name    = get_post_meta($schema_post_id, 'saswp_business_name', true);
+
+                if( $business_name == 'hotel' || $business_sub_name == 'hotel' ) {
+
+                    if( ! empty( $all_post_meta['local_checkin_time_'.$schema_id] ) ) {
+                        $input1['checkinTime'] = saswp_remove_warnings($all_post_meta, 'local_checkin_time_'.$schema_id, 'saswp_array');
+                    }
+                    if( ! empty( $all_post_meta['local_checkout_time_'.$schema_id] ) ) {
+                        $input1['checkoutTime'] = saswp_remove_warnings($all_post_meta, 'local_checkout_time_'.$schema_id, 'saswp_array');
+                    }
+                    if( ! empty( $all_post_meta['local_identifier_pvalue_'.$schema_id] ) ) {
+                        $input1['identifier']               = saswp_remove_warnings( $all_post_meta, 'local_identifier_pvalue_'.$schema_id, 'saswp_array' );
+                    }
+
+                }
+                
 
     return $input1;
 }

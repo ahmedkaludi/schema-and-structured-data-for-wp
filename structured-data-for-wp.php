@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.34.1
+Version: 1.35
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SASWP_VERSION', '1.34.1' );
+define( 'SASWP_VERSION', '1.35' );
 define( 'SASWP_DIR_NAME_FILE', __FILE__ );
 define( 'SASWP_DIR_NAME', dirname( __FILE__ ) );
 define( 'SASWP_DIR_URI', plugin_dir_url( __FILE__ ) );
@@ -73,7 +73,7 @@ if ( ! function_exists('saswp_non_amp') ) {
 }
 
 // Schema App end here
-require_once SASWP_DIR_NAME.'/admin_section/structure_admin.php';
+require_once SASWP_DIR_NAME.'/admin_section/structure-admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
 require_once SASWP_DIR_NAME.'/output/class-saswp-location-widget.php';
@@ -86,7 +86,7 @@ require_once SASWP_DIR_NAME.'/admin_section/tracking/make-better-helper.php';
 require_once SASWP_DIR_NAME.'/view/help.php';  
 require_once SASWP_DIR_NAME.'/view/schema-type.php';  
 require_once SASWP_DIR_NAME.'/view/paywall.php';  
-require_once SASWP_DIR_NAME.'/admin_section/add-schema/add_new.php';  
+require_once SASWP_DIR_NAME.'/admin_section/add-schema/add-new.php';  
 require_once SASWP_DIR_NAME.'/view/class-saswp-post-specific.php';  
 require_once SASWP_DIR_NAME.'/modules/rating-box/class-saswp-rating-box-backend.php';  
 require_once SASWP_DIR_NAME.'/modules/rating-box/class-saswp-rating-box-frontend.php'; 
