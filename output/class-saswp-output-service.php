@@ -8748,13 +8748,13 @@ Class SASWP_Output_Service{
 
                                                     if($targetHeight < 675){
     
-                                                        $width  = array ( $min_val, 1200, 1200, 1200 );
-                                                        $height = array ( $min_val, 900, 720, 675 );
+                                                        $width  = array ( 1200, 1200, 1200, $min_val );
+                                                        $height = array ( 900, 720, 675, $min_val );
     
                                                     }else{
     
-                                                        $width  = array ( $min_val, 1200, 1200, 1200 );
-                                                        $height = array ( $min_val, $targetHeight, 900, 675 );
+                                                        $width  = array ( 1200, 1200, 1200, $min_val );
+                                                        $height = array ( $targetHeight, 900, 675, $min_val );
     
                                                     }
                                                     
