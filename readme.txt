@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.6
 Requires PHP: 5.6.20
-Stable tag: 1.34.2
+Stable tag: 1.35
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -120,6 +120,16 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.35 (02 August 2024) =
+* Enhancement: Added new properties in LodgingBusiness > Hotel schema #2105
+* Fixed: Feature image size duplicate issue in schema markup #2140
+* Fixed: Issue with country field missing in the schema markup while modifying the schema output (Local Business) #2147
+* Fixed: A fatal error issue in the latest update of 1.34.2 #2148
+* Fixed: FAQ Block not working on Divi Builder #2149
+* Fixed: PHP warnings on schema types page #2150
+* Fixed: ACF fields are unclickable when the plugin is activated and an error appears in the Console #2152
+* Fixed: The ReturnFeesCustomerResponsibility field is missing in the product schema #2153
 
 = 1.34.2 (18 July 2024) =
 * Fixed: Error after version 1.34.1 update #2144
@@ -271,16 +281,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Output Buffering Interferes with WP CLI #2010
 * Fixed: A deprecated warning with author image in schema markup #2012
 * Fixed: Undefined array key "headingTag" #2013
-
-
-= 1.20 (01 Sep 2023) =
-
-* Enhancement: Corrected summery page for archive schema #1980
-* Fixed: Resolved Organization URL issue in the knowledge graph  #1989
-* Fixed: Added proper display message on license activation/deactivation timeout #1998
-* Fixed: Plugin Upgrade (v1.18) Causing Internal Page Breakage and Blank Screen #2001
-* Fixed: Fatal error in review collection #2004
-* Fixed: Breadcrumb schema showing wrong id in schema markup for custom post type #2005
-* Fixed: PHP Warnings for Undefined Array Keys in Course Schema URL's #2006
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
