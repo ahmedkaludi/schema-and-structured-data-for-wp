@@ -4831,7 +4831,7 @@ function saswp_enqueue_style_js( $hook ) {
         $req_from = 'post';
         $post_id  = get_the_ID();
         $tag_id   = '';
-        $req_from = '';
+        
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_enqueue_scripts hook.
         if ( isset( $_GET['tag_ID']) ) {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_enqueue_scripts hook.
