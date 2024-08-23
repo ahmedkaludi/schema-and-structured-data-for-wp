@@ -737,7 +737,7 @@ function saswp_schema_output() {
                                            $input1['comment'] = saswp_get_comments(get_the_ID());
                                         }
 
-                                        $input1 = apply_filters('saswp_modify_course_schema_output', $input1 );
+                                        $input1 = apply_filters('saswp_modify_course_schema_output', $input1, $schema_post_id );
 
                                         $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                         
