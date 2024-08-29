@@ -1195,7 +1195,7 @@ function saswp_schema_output() {
                                 }                                                                                                
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                                                                             
-                                $input1 = apply_filters('saswp_modify_event_schema_output', $input1 );
+                                $input1 = apply_filters('saswp_modify_event_schema_output', $input1, $schema_post_id );
                                 
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                 
