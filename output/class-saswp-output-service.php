@@ -8880,7 +8880,7 @@ Class SASWP_Output_Service{
                            
                           if( (isset($sd_data['saswp-other-images']) && $sd_data['saswp-other-images'] == 1) || !isset($sd_data['saswp-other-images']) ){
                           
-                          $content = get_the_content();   
+                          $content = get_the_content(null, false, $post);   
                           
                           if($content){
                               
