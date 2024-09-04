@@ -66,6 +66,8 @@ if ( ! defined('ABSPATH') ) exit;
         if($url){
             
         $resultset       = wp_remote_get($url);
+
+        saswp_delete_uploaded_file( $url );
                 
         if ( ! is_wp_error( $resultset) ) {
             
@@ -151,7 +153,7 @@ if ( ! defined('ABSPATH') ) exit;
                 
             }            
             //Saving settings data starts here
-            if(array_key_exists('sd_data', $json_array) ) {
+            if( is_array( $json_array ) && array_key_exists('sd_data', $json_array) ) {
                 
                 $saswp_sd_data = $json_array['sd_data'];
                 
@@ -5326,4 +5328,34 @@ function saswp_get_seo_press_metadata($type){
         }
     }    
     return $meta_value;
+}
+
+/**
+ * Delete uploaded settings file
+ * @param   $url    String
+ * @since 1.36
+ * */
+function saswp_delete_uploaded_file( $url ){
+    
+    $parsed_url         = parse_url( $url );
+
+    if( ! empty($parsed_url['path']) ) {
+        $path           =   ltrim( $parsed_url['path'], '/');
+        $explode_path   =   explode( '/', $path );
+        
+        if( is_array( $explode_path ) ) {
+            if( ! empty( $explode_path[0] ) ) {
+                unset($explode_path[0]);
+            }
+
+            $path       =   implode( '/', $explode_path );
+        }
+
+        $file = ABSPATH . $path;
+
+        if( file_exists( $file ) ) {
+            wp_delete_file( $file );
+        }
+    }
+
 }
