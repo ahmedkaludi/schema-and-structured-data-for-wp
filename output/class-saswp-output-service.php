@@ -5639,6 +5639,12 @@ Class SASWP_Output_Service{
                             if ( isset( $custom_fields['saswp_car_schema_height']) ) {
                                 $input1['height'] =    $custom_fields['saswp_car_schema_height'];
                             }
+                            if ( isset( $custom_fields['saswp_car_schema_condition']) ) {
+                                $input1['itemCondition'] =    $custom_fields['saswp_car_schema_condition'];
+                            }
+                            if ( isset( $custom_fields['saswp_car_schema_model_date']) ) {
+                                $input1['vehicleModelDate'] =    $custom_fields['saswp_car_schema_model_date'];
+                            }
                             if ( isset( $custom_fields['saswp_car_schema_manufacturer']) ) {
                                 $input1['manufacturer'] =    $custom_fields['saswp_car_schema_manufacturer'];
                             }
@@ -5661,8 +5667,13 @@ Class SASWP_Output_Service{
                                 $input1['image'] =    $custom_fields['saswp_car_schema_image'];
                            }                           
                            if ( isset( $custom_fields['saswp_car_schema_price']) ) {
+                                $input1['offers']['@type'] =    'Offer';                                                       
                                 $input1['offers']['price'] =    $custom_fields['saswp_car_schema_price'];                                                                             
                            }
+                           if ( isset( $custom_fields['saswp_car_schema_availability']) ) {
+                                $input1['offers']['availability']     = $custom_fields['saswp_car_schema_availability'];     
+                           }
+
                            if ( isset( $custom_fields['saswp_car_schema_currency']) ) {
                                 $input1['offers']['priceCurrency'] =    $custom_fields['saswp_car_schema_currency'];                            
                            }                           
@@ -5674,9 +5685,12 @@ Class SASWP_Output_Service{
                            }                                  
                            if( isset($custom_fields['saswp_car_schema_high_price']) && isset($custom_fields['saswp_car_schema_low_price']) ){
        
-                               $input1['offers']['@type']     = 'AggregateOffer';
-                               $input1['offers']['highPrice'] = $custom_fields['saswp_car_schema_high_price'];
-                               $input1['offers']['lowPrice']  = $custom_fields['saswp_car_schema_low_price'];
+                               $input1['offers']['@type']            = 'AggregateOffer';
+                                if( isset( $custom_fields['saswp_car_schema_availability'] ) ) {
+                                    $input1['offers']['availability']     = $custom_fields['saswp_car_schema_availability'];
+                                }
+                               $input1['offers']['highPrice']        = $custom_fields['saswp_car_schema_high_price'];
+                               $input1['offers']['lowPrice']         = $custom_fields['saswp_car_schema_low_price'];
        
                                if ( isset( $custom_fields['saswp_car_schema_offer_count']) ) {
                                    $input1['offers']['offerCount']     = $custom_fields['saswp_car_schema_offer_count'];

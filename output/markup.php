@@ -4356,6 +4356,14 @@ function saswp_car_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         $input1['height'] = esc_attr( $all_post_meta['saswp_car_schema_height_'.$schema_id][0]);  
     }
 
+    if ( isset( $all_post_meta['saswp_car_schema_condition_'.$schema_id]) ) {
+        $input1['itemCondition'] = esc_attr( $all_post_meta['saswp_car_schema_condition_'.$schema_id][0]);  
+    }
+
+    if ( isset( $all_post_meta['saswp_car_schema_model_date_'.$schema_id]) ) {
+        $input1['vehicleModelDate'] = esc_attr( $all_post_meta['saswp_car_schema_model_date_'.$schema_id][0]);  
+    }
+
     if ( isset( $all_post_meta['saswp_car_schema_manufacturer_'.$schema_id]) ) {
         $input1['manufacturer'] = esc_attr( $all_post_meta['saswp_car_schema_manufacturer_'.$schema_id][0]);  
     }
