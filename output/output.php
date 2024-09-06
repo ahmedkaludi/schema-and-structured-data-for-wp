@@ -794,6 +794,34 @@ function saswp_schema_output() {
                                 'author'			=> saswp_get_author_details()											
                                 );
                                 
+                                /**
+                                 * Check if current topic is created through wpforo plugin
+                                 * @since 1.36
+                                 * */
+
+                                if( function_exists( 'is_wpforo_url' ) && is_wpforo_url() ) {
+                                    $topicid    =   '';
+                                    if( isset( WPF()->current_object['topicid'] ) ) {
+                                        $topicid = WPF()->current_object['topicid'];
+                                    }
+                                    if( ! empty( $topicid ) && function_exists('wpforo_topic') ) {
+                                        $topic_array  =   wpforo_topic($topicid);
+                                        if( ! empty( $topic_array ) && is_array( $topic_array ) ) {
+                                            
+                                            if( ! empty( $topic_array['url'] ) ) {
+                                                $input1['@id']                  =   $topic_array['url'].'#DiscussionForumPosting';       
+                                                $input1['url']                  =   $topic_array['url'];       
+                                                $input1['mainEntityOfPage']     =   $topic_array['url']; 
+                                            } 
+
+                                            if( ! empty( $topic_array['title'] ) ) {
+                                                $input1['headline']             =   $topic_array['title'];    
+                                            }
+
+                                        }
+                                    }
+                                }
+                                
                             }                                                                                                    
                                 if ( ! empty( $publisher) ) {
 
