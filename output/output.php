@@ -1332,9 +1332,9 @@ function saswp_schema_output() {
                                  * Check if sub schema type is set, if yes then add the schema type to the markup
                                  * or else remove the mainEntityOfPage page attribute from the markup
                                  * */
-                                $sub_schema_type    =    get_post_meta($schema_post_id, 'saswp_webpage_type', true);
+                                $sub_schema_type    =    get_post_meta( $schema_post_id, 'saswp_webpage_type', true );
 
-                                if( ! empty( $sub_schema_type ) && $sub_schema_type != 'none' && ! empty( $input1['mainEntity'] ) ) {
+                                if ( ! empty( $sub_schema_type ) && $sub_schema_type != 'none' && ! empty( $input1['mainEntity'] ) ) {
                                     $input1['mainEntity']['@type']      =   $sub_schema_type;    
                                 }else if( $sub_schema_type == 'none' ) {
                                     unset( $input1['mainEntity'] );  
