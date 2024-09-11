@@ -4879,8 +4879,10 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_script('thickbox');
         wp_enqueue_style('thickbox');
                        	
-        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery' ), SASWP_VERSION, true);        
-        wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
+        if( ! class_exists( 'acf' ) ) {        
+            wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery' ), SASWP_VERSION, true);        
+            wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
+        }
 
         if( !class_exists('TM_Builder_Core') ){
 
