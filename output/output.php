@@ -2978,7 +2978,7 @@ function saswp_schema_output() {
                                                           
                                 $input2             = $service_object->saswp_get_featured_image();
                                 
-                                if ( ! empty( $input2) ) {
+                                if ( ! empty( $input2) &&  isset( $input1['mainEntity'] ) ) {
                                     $input1['mainEntity'] = apply_filters('saswp_modify_featured_image', array_merge($input1['mainEntity'],$input2));
                                 }                                                                    
                            }
