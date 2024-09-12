@@ -1591,10 +1591,7 @@ function saswp_schema_output() {
                                     'keywords'          => saswp_get_the_tags(), 
                                     'author'			=> saswp_get_author_details(),        								
 				                );
-                                                                                               
-                                if ( isset( $sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
-                                    $input1['comment'] = saswp_get_comments(get_the_ID());
-                                }                                 
+                                                                                                                                
                                 if ( ! empty( $aggregateRating) ) {
                                     $input1['aggregateRating'] = $aggregateRating;
                                 }                                
@@ -1612,6 +1609,10 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_recipe_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                }
+
+                                if ( isset( $sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] == 1 ){
+                                    $input1['comment'] = saswp_get_comments( get_the_ID() );
+                                }
 			                                
                             break;
                         
