@@ -3578,6 +3578,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_newsarticle_main_entity_id']) ) {
                        $input1['mainEntity']['@id'] =    $custom_fields['saswp_newsarticle_main_entity_id'];  
                     }
+                    if( empty( $custom_fields['saswp_newsarticle_main_entity_id'] ) ) {
+                        unset( $input1['mainEntity'] );
+                    }
 
                     if ( ! empty( $custom_fields['saswp_newsarticle_editor_type']) ) {
                         if ( ! empty( $custom_fields['saswp_newsarticle_editor_name']) && $custom_fields['saswp_newsarticle_editor_name'] != '') {
@@ -8372,7 +8375,7 @@ Class SASWP_Output_Service{
          * @param type $schema_type
          * @return array
          */
-        public function saswp_schema_markup_generator($schema_type){
+        public function saswp_schema_markup_generator( $schema_type, $schema_post_id = null ){
             
                         global $post, $sd_data;                                                
                                     
@@ -8468,32 +8471,52 @@ Class SASWP_Output_Service{
                         break;    
                 
                 case 'WebPage':
-                    
-                 $input1 = array(
-				'@context'			=> saswp_context_url(),
-				'@type'				=> 'WebPage' ,
-                '@id'				=> saswp_get_permalink().'#webpage',
-				'name'				=> saswp_get_the_title(),
-                'url'				=> saswp_get_permalink(),
-                'lastReviewed'      => esc_html( $modified_date),
-                'dateCreated'       => esc_html( $date),                
-                'inLanguage'                    => get_bloginfo('language'),
-				'description'                   => saswp_get_the_excerpt(),
-				'mainEntity'                    => array(
-						'@type'			=> 'Article',
-						'mainEntityOfPage'	=> saswp_get_permalink(),						
-						'headline'		=> saswp_get_the_title(),
-						'description'		=> saswp_get_the_excerpt(),                        
-                        'keywords'              => saswp_get_the_tags(),
-						'datePublished' 	=> esc_html( $date),
-						'dateModified'		=> esc_html( $modified_date),
-						'author'			=> saswp_get_author_details()						                                               
-					)                    									
-				);
 
+                    $sub_schema_type    =   '';
+                    if( ! empty( $schema_post_id ) ) {
+                        $sub_schema_type    =    get_post_meta( $schema_post_id, 'saswp_webpage_type', true );
+
+                    }
+                    
+				    $input1['@context']                         = saswp_context_url();
+				    $input1['@type']				            = 'WebPage';
+                    $input1['@id']				                = saswp_get_permalink().'#webpage';
+				    $input1['name']				                = saswp_get_the_title();
+                    $input1['url']				                = saswp_get_permalink();
+                    $input1['lastReviewed']                     = $modified_date;
+                    $input1['dateCreated']                      = $date;                
+                    $input1['inLanguage']                       = get_bloginfo('language');
+				    $input1['description']                      = saswp_get_the_excerpt();
+                    $input1['keywords']                         = saswp_get_the_tags();
+
+                    // If sub schema type is set then add selected schema type to mainentity
+                    if( $sub_schema_type != 'none' ) {
+    				    $input1['mainEntity']['@type']              = $sub_schema_type;
+                        $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
+    					$input1['mainEntity']['headline']		    = saswp_get_the_title();
+    					$input1['mainEntity']['description']		= saswp_get_the_excerpt();                        
+                        $input1['mainEntity']['keywords']           = saswp_get_the_tags();
+    					$input1['mainEntity']['datePublished'] 	    = $date;
+    					$input1['mainEntity']['dateModified']		= $modified_date;
+    					$input1['mainEntity']['author']			    = saswp_get_author_details();	
+                        $input1['mainEntity']['publisher']          = $publisher['publisher'];
+                    } else if( empty( $sub_schema_type ) ) {
+                        /**
+                         * This else condition is for users who have set WebPage schema before the version 1.36
+                         * so that it won't affect in the markup 
+                         * */
+                        $input1['mainEntity']['@type']              = 'Article';
+                        $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
+                        $input1['mainEntity']['headline']           = saswp_get_the_title();
+                        $input1['mainEntity']['description']        = saswp_get_the_excerpt();                        
+                        $input1['mainEntity']['keywords']           = saswp_get_the_tags();
+                        $input1['mainEntity']['datePublished']      = $date;
+                        $input1['mainEntity']['dateModified']       = $modified_date;
+                        $input1['mainEntity']['author']             = saswp_get_author_details();
+                        $input1['mainEntity']['publisher']          = $publisher['publisher'];
+                    } 					                                                                  									
                     if ( ! empty( $publisher) ) {
-                        $input1['reviewedBy']              = $publisher['publisher'];  
-                        $input1['mainEntity']['publisher'] = $publisher['publisher'];   
+                        $input1['reviewedBy']              = $publisher['publisher'];     
                     }
                     
                     break;
