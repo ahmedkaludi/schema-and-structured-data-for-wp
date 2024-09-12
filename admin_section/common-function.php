@@ -66,8 +66,6 @@ if ( ! defined('ABSPATH') ) exit;
         if($url){
             
         $resultset       = wp_remote_get($url);
-
-        saswp_delete_uploaded_file( $url );
                 
         if ( ! is_wp_error( $resultset) ) {
             
@@ -181,6 +179,7 @@ if ( ! defined('ABSPATH') ) exit;
             //Saving settings data ends here 
              saswp_published();            
              update_option('saswp-file-upload_url','');
+             saswp_delete_uploaded_file( $url );
             
         }
                                      
@@ -5341,16 +5340,6 @@ function saswp_delete_uploaded_file( $url ){
 
     if( ! empty($parsed_url['path']) ) {
         $path           =   ltrim( $parsed_url['path'], '/');
-        $explode_path   =   explode( '/', $path );
-        
-        if( is_array( $explode_path ) ) {
-            if( ! empty( $explode_path[0] ) ) {
-                unset($explode_path[0]);
-            }
-
-            $path       =   implode( '/', $explode_path );
-        }
-
         $file = ABSPATH . $path;
 
         if( file_exists( $file ) ) {
