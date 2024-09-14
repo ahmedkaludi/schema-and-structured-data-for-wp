@@ -4498,12 +4498,6 @@ Class SASWP_Output_Service{
                         unset( $input1['reviewedBy'] );
                     }
 
-                    if( isset( $custom_fields['saswp_webpage_publisher'] ) && empty( $custom_fields['saswp_webpage_publisher'] ) ) {
-                        unset( $input1['publisher'] );
-                    }else if( ! empty( $input1['reviewedBy'] ) ){
-                        $input1['publisher']    =   $input1['reviewedBy'];   
-                    }
-                    
                     break;
 
                     case 'ItemPage':
