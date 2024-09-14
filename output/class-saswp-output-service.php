@@ -4493,6 +4493,16 @@ Class SASWP_Output_Service{
                         }
 
                     }
+
+                    if( isset( $custom_fields['saswp_webpage_reviewed_by'] ) && empty( $custom_fields['saswp_webpage_reviewed_by'] ) ) {
+                        unset( $input1['reviewedBy'] );
+                    }
+
+                    if( isset( $custom_fields['saswp_webpage_publisher'] ) && empty( $custom_fields['saswp_webpage_publisher'] ) ) {
+                        unset( $input1['publisher'] );
+                    }else if( ! empty( $input1['reviewedBy'] ) ){
+                        $input1['publisher']    =   $input1['reviewedBy'];   
+                    }
                     
                     break;
 
@@ -8516,7 +8526,8 @@ Class SASWP_Output_Service{
                         $input1['mainEntity']['publisher']          = $publisher['publisher'];
                     } 					                                                                  									
                     if ( ! empty( $publisher) ) {
-                        $input1['reviewedBy']              = $publisher['publisher'];     
+                        $input1['reviewedBy']               = $publisher['publisher'];     
+                        $input1['publisher']                = $publisher['publisher'];     
                     }
                     
                     break;

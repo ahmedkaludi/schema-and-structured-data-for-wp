@@ -2313,6 +2313,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
                       ),
                     array(
+                        'label'   => 'Publisher',
+                        'id'      => 'saswp_webpage_publisher_'.$schema_id,
+                        'type'    => 'text',
+                        'default' => saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')
+                    ),
+                    array(
                         'label'   => 'Author Type',
                         'id'      => 'saswp_webpage_author_type_'.$schema_id,
                         'type'    => 'select',
