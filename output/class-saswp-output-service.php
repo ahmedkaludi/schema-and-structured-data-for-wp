@@ -8481,16 +8481,33 @@ Class SASWP_Output_Service{
                         $sub_schema_type    =    get_post_meta( $schema_post_id, 'saswp_webpage_type', true );
 
                     }
+
+                    $webp_permalink           =   saswp_get_permalink();
+                    $webp_name                =   saswp_get_the_title();
+                    $webp_description         =   saswp_get_the_excerpt();
+
+                    // Check if current page is a tag
+                    if ( is_tag() ) {
+                        $tag_object             =   get_queried_object();
+                        if ( ! empty( $tag_object ) && is_object( $tag_object ) && ! empty( $tag_object->term_id ) ) {
+                            
+                            $tag_id             =   $tag_object->term_id;
+                            $webp_permalink     =   get_tag_link( $tag_id );
+                            $webp_name          =   $tag_object->name;
+                            $webp_description   =   $tag_object->description;
+         
+                        }
+                    }
                     
 				    $input1['@context']                         = saswp_context_url();
 				    $input1['@type']				            = 'WebPage';
-                    $input1['@id']				                = saswp_get_permalink().'#webpage';
-				    $input1['name']				                = saswp_get_the_title();
-                    $input1['url']				                = saswp_get_permalink();
+                    $input1['@id']				                = $webp_permalink.'#webpage';
+				    $input1['name']				                = $webp_name;
+                    $input1['url']				                = $webp_permalink;
                     $input1['lastReviewed']                     = $modified_date;
                     $input1['dateCreated']                      = $date;                
                     $input1['inLanguage']                       = get_bloginfo('language');
-				    $input1['description']                      = saswp_get_the_excerpt();
+				    $input1['description']                      = $webp_description;
                     $input1['keywords']                         = saswp_get_the_tags();
 
                     // If sub schema type is set then add selected schema type to mainentity
