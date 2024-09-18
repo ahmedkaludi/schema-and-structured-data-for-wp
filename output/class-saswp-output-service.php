@@ -3578,6 +3578,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_newsarticle_main_entity_id']) ) {
                        $input1['mainEntity']['@id'] =    $custom_fields['saswp_newsarticle_main_entity_id'];  
                     }
+                    if( empty( $custom_fields['saswp_newsarticle_main_entity_id'] ) ) {
+                        unset( $input1['mainEntity'] );
+                    }
 
                     if ( ! empty( $custom_fields['saswp_newsarticle_editor_type']) ) {
                         if ( ! empty( $custom_fields['saswp_newsarticle_editor_name']) && $custom_fields['saswp_newsarticle_editor_name'] != '') {
@@ -4490,7 +4493,11 @@ Class SASWP_Output_Service{
                         }
 
                     }
-                    
+
+                    if( isset( $custom_fields['saswp_webpage_reviewed_by'] ) && empty( $custom_fields['saswp_webpage_reviewed_by'] ) ) {
+                        unset( $input1['reviewedBy'] );
+                    }
+
                     break;
 
                     case 'ItemPage':
@@ -5639,6 +5646,12 @@ Class SASWP_Output_Service{
                             if ( isset( $custom_fields['saswp_car_schema_height']) ) {
                                 $input1['height'] =    $custom_fields['saswp_car_schema_height'];
                             }
+                            if ( isset( $custom_fields['saswp_car_schema_condition']) ) {
+                                $input1['itemCondition'] =    $custom_fields['saswp_car_schema_condition'];
+                            }
+                            if ( isset( $custom_fields['saswp_car_schema_model_date']) ) {
+                                $input1['vehicleModelDate'] =    $custom_fields['saswp_car_schema_model_date'];
+                            }
                             if ( isset( $custom_fields['saswp_car_schema_manufacturer']) ) {
                                 $input1['manufacturer'] =    $custom_fields['saswp_car_schema_manufacturer'];
                             }
@@ -5661,8 +5674,13 @@ Class SASWP_Output_Service{
                                 $input1['image'] =    $custom_fields['saswp_car_schema_image'];
                            }                           
                            if ( isset( $custom_fields['saswp_car_schema_price']) ) {
+                                $input1['offers']['@type'] =    'Offer';                                                       
                                 $input1['offers']['price'] =    $custom_fields['saswp_car_schema_price'];                                                                             
                            }
+                           if ( isset( $custom_fields['saswp_car_schema_availability']) ) {
+                                $input1['offers']['availability']     = $custom_fields['saswp_car_schema_availability'];     
+                           }
+
                            if ( isset( $custom_fields['saswp_car_schema_currency']) ) {
                                 $input1['offers']['priceCurrency'] =    $custom_fields['saswp_car_schema_currency'];                            
                            }                           
@@ -5674,9 +5692,12 @@ Class SASWP_Output_Service{
                            }                                  
                            if( isset($custom_fields['saswp_car_schema_high_price']) && isset($custom_fields['saswp_car_schema_low_price']) ){
        
-                               $input1['offers']['@type']     = 'AggregateOffer';
-                               $input1['offers']['highPrice'] = $custom_fields['saswp_car_schema_high_price'];
-                               $input1['offers']['lowPrice']  = $custom_fields['saswp_car_schema_low_price'];
+                               $input1['offers']['@type']            = 'AggregateOffer';
+                                if( isset( $custom_fields['saswp_car_schema_availability'] ) ) {
+                                    $input1['offers']['availability']     = $custom_fields['saswp_car_schema_availability'];
+                                }
+                               $input1['offers']['highPrice']        = $custom_fields['saswp_car_schema_high_price'];
+                               $input1['offers']['lowPrice']         = $custom_fields['saswp_car_schema_low_price'];
        
                                if ( isset( $custom_fields['saswp_car_schema_offer_count']) ) {
                                    $input1['offers']['offerCount']     = $custom_fields['saswp_car_schema_offer_count'];
@@ -8358,7 +8379,7 @@ Class SASWP_Output_Service{
          * @param type $schema_type
          * @return array
          */
-        public function saswp_schema_markup_generator($schema_type){
+        public function saswp_schema_markup_generator( $schema_type, $schema_post_id = null ){
             
                         global $post, $sd_data;                                                
                                     
@@ -8454,32 +8475,70 @@ Class SASWP_Output_Service{
                         break;    
                 
                 case 'WebPage':
-                    
-                 $input1 = array(
-				'@context'			=> saswp_context_url(),
-				'@type'				=> 'WebPage' ,
-                '@id'				=> saswp_get_permalink().'#webpage',
-				'name'				=> saswp_get_the_title(),
-                'url'				=> saswp_get_permalink(),
-                'lastReviewed'      => esc_html( $modified_date),
-                'dateCreated'       => esc_html( $date),                
-                'inLanguage'                    => get_bloginfo('language'),
-				'description'                   => saswp_get_the_excerpt(),
-				'mainEntity'                    => array(
-						'@type'			=> 'Article',
-						'mainEntityOfPage'	=> saswp_get_permalink(),						
-						'headline'		=> saswp_get_the_title(),
-						'description'		=> saswp_get_the_excerpt(),                        
-                        'keywords'              => saswp_get_the_tags(),
-						'datePublished' 	=> esc_html( $date),
-						'dateModified'		=> esc_html( $modified_date),
-						'author'			=> saswp_get_author_details()						                                               
-					)                    									
-				);
 
+                    $sub_schema_type    =   '';
+                    if( ! empty( $schema_post_id ) ) {
+                        $sub_schema_type    =    get_post_meta( $schema_post_id, 'saswp_webpage_type', true );
+
+                    }
+
+                    $webp_permalink           =   saswp_get_permalink();
+                    $webp_name                =   saswp_get_the_title();
+                    $webp_description         =   saswp_get_the_excerpt();
+
+                    // Check if current page is a tag
+                    if ( is_tag() ) {
+                        $tag_object             =   get_queried_object();
+                        if ( ! empty( $tag_object ) && is_object( $tag_object ) && ! empty( $tag_object->term_id ) ) {
+                            
+                            $tag_id             =   $tag_object->term_id;
+                            $webp_permalink     =   get_tag_link( $tag_id );
+                            $webp_name          =   $tag_object->name;
+                            $webp_description   =   $tag_object->description;
+         
+                        }
+                    }
+                    
+				    $input1['@context']                         = saswp_context_url();
+				    $input1['@type']				            = 'WebPage';
+                    $input1['@id']				                = $webp_permalink.'#webpage';
+				    $input1['name']				                = $webp_name;
+                    $input1['url']				                = $webp_permalink;
+                    $input1['lastReviewed']                     = $modified_date;
+                    $input1['dateCreated']                      = $date;                
+                    $input1['inLanguage']                       = get_bloginfo('language');
+				    $input1['description']                      = $webp_description;
+                    $input1['keywords']                         = saswp_get_the_tags();
+
+                    // If sub schema type is set then add selected schema type to mainentity
+                    if( $sub_schema_type != 'none' ) {
+    				    $input1['mainEntity']['@type']              = $sub_schema_type;
+                        $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
+    					$input1['mainEntity']['headline']		    = saswp_get_the_title();
+    					$input1['mainEntity']['description']		= saswp_get_the_excerpt();                        
+                        $input1['mainEntity']['keywords']           = saswp_get_the_tags();
+    					$input1['mainEntity']['datePublished'] 	    = $date;
+    					$input1['mainEntity']['dateModified']		= $modified_date;
+    					$input1['mainEntity']['author']			    = saswp_get_author_details();	
+                        $input1['mainEntity']['publisher']          = $publisher['publisher'];
+                    } else if( empty( $sub_schema_type ) ) {
+                        /**
+                         * This else condition is for users who have set WebPage schema before the version 1.36
+                         * so that it won't affect in the markup 
+                         * */
+                        $input1['mainEntity']['@type']              = 'Article';
+                        $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
+                        $input1['mainEntity']['headline']           = saswp_get_the_title();
+                        $input1['mainEntity']['description']        = saswp_get_the_excerpt();                        
+                        $input1['mainEntity']['keywords']           = saswp_get_the_tags();
+                        $input1['mainEntity']['datePublished']      = $date;
+                        $input1['mainEntity']['dateModified']       = $modified_date;
+                        $input1['mainEntity']['author']             = saswp_get_author_details();
+                        $input1['mainEntity']['publisher']          = $publisher['publisher'];
+                    } 					                                                                  									
                     if ( ! empty( $publisher) ) {
-                        $input1['reviewedBy']              = $publisher['publisher'];  
-                        $input1['mainEntity']['publisher'] = $publisher['publisher'];   
+                        $input1['reviewedBy']               = $publisher['publisher'];     
+                        $input1['publisher']                = $publisher['publisher'];     
                     }
                     
                     break;

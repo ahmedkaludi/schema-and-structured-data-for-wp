@@ -9639,6 +9639,20 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'type'       => 'text',                           
                                 ),
                                 array(
+                                        'label'      => 'Item Condition',
+                                        'id'         => 'saswp_car_schema_condition_'.$schema_id,
+                                        'type'       => 'select',
+                                        'options'    => array(
+                                            'NewCondition'      => 'NewCondition',
+                                            'UsedCondition'     => 'UsedCondition',                        
+                                        ),                           
+                                ),
+                                array(
+                                        'label'      => 'Model Year',
+                                        'id'         => 'saswp_car_schema_model_date_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
                                         'label'      => 'Manufacturer',
                                         'id'         => 'saswp_car_schema_manufacturer_'.$schema_id,
                                         'type'       => 'text',                           
@@ -9673,6 +9687,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'      => 'saswp_car_schema_currency_'.$schema_id,
                                         'type'    => 'text'                                        
                                    ),
+                                array(
+                                        'label'      => 'Availability',
+                                        'id'         => 'saswp_car_schema_availability_'.$schema_id,
+                                        'type'       => 'select',
+                                        'options'    => array(
+                                            'InStock'           => 'InStock',
+                                            'OutOfStock'        => 'OutOfStock',                        
+                                        ),                           
+                                ),
                                 array(
                                         'label' => 'Aggregate Rating',
                                         'id'    => 'saswp_car_schema_enable_rating_'.$schema_id,

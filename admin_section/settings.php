@@ -2899,6 +2899,19 @@ function saswp_compatibility_page_callback() {
                 )
         );
 
+        $wpjobboard        = array(
+                'label'  => 'WP Job Board',
+                'id'     => 'saswp-wpjobboard-checkbox',                        
+                'name'   => 'saswp-wpjobboard-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpjobboard'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpjobboard',
+                        'name' => 'sd_data[saswp-wpjobboard]',                             
+                )
+        );
+
         $schemaforfaqs = array(
                 'label'  => 'FAQ Schema Markup',
                 'id'     => 'saswp-schemaforfaqs-checkbox',                        
@@ -4335,55 +4348,64 @@ function saswp_compatibility_page_callback() {
          }
          
          if(!is_plugin_active('real-estate-schema/real-estate-schema.php') ) {
-                          
-             $homeland_theme['note'] = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
-             $real_homes['note']     = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
-             $wpresidence['note']    = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
-             $myhome['note']         = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
-             $realestate_5['note']   = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
-             $realestate_7['note']   = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';
-             $geo_directory['note']   = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';             
-             $showcaseidx['note']   = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/extensions/">Real Estate Schema Addon</a>';             
+                
+             $real_addon_req = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/extensions/real-estate-schema/">Real Estate Schema Addon</a>';
+
+             $homeland_theme['note'] = $real_addon_req;
+             $real_homes['note']     = $real_addon_req;
+             $wpresidence['note']    = $real_addon_req;
+             $myhome['note']         = $real_addon_req;
+             $realestate_5['note']   = $real_addon_req;
+             $realestate_7['note']   = $real_addon_req;
+             $geo_directory['note']  = $real_addon_req;
+             $showcaseidx['note']    = $real_addon_req;
                           
          }
          
          if(!is_plugin_active('course-schema-for-saswp/course-schema-for-saswp.php') ) {
+
+             $course_addon_req = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
                           
-             $learn_press['note'] = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
-             $learn_dash['note']  = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
-             $lifter_lms['note']  = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
-             $wplms['note']       = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
-             $senseilms['note']   = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/course-schema/">Course Schema Addon</a>';
+             $learn_press['note'] = $course_addon_req;
+             $learn_dash['note']  = $course_addon_req;
+             $lifter_lms['note']  = $course_addon_req;
+             $wplms['note']       = $course_addon_req;
+             $senseilms['note']   = $course_addon_req;
              
          }
 
          if(!is_plugin_active('jobposting-schema-compatibility/jobposting-schema-compatibility.php') ) {
+
+                $job_addon_req = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';
                           
-                $simplejobboard['note']      = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
-                $wpjobopenings['note']       = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
-                $wpjobmanager['note']        = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/jobposting-schema/">JobPosting Schema Compatibility Addon</a>';                        
+                $simplejobboard['note']      = $job_addon_req;
+                $wpjobopenings['note']       = $job_addon_req;
+                $wpjobmanager['note']        = $job_addon_req;
+                $wpjobboard['note']          = $job_addon_req;
           
          }
 
          if(!is_plugin_active('faq-schema-compatibility/faq-schema-compatibility.php') ) {
+
+                $faq_addon_req = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';
                           
-                $quickandeasyfaq['note']      = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $accordionfaq['note']         = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $helpiefaq['note']            = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $ultimatefaqs['note']         = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $arconixfaq['note']           = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $wpresponsivefaq['note']      = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                                                                
-                $easyaccordion['note']        = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $html5responsivefaq['note']   = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $faqconcertina['note']        = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $accordion['note']            = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $easyfaqs['note']             = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $masteraccordion['note']      = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $wpfaqschemamarkup['note']    = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $faqschemaforpost['note']     = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $webfaq10['note']             = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $enfold['note']               = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
-                $jolifaq['note']               = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/faq-schema/">FAQ Schema Compatibility Addon</a>';                        
+                $quickandeasyfaq['note']      = $faq_addon_req;
+                $accordionfaq['note']         = $faq_addon_req;
+                $helpiefaq['note']            = $faq_addon_req;
+                $ultimatefaqs['note']         = $faq_addon_req;
+                $arconixfaq['note']           = $faq_addon_req;
+                $wpresponsivefaq['note']      = $faq_addon_req;
+                $easyaccordion['note']        = $faq_addon_req;
+                $html5responsivefaq['note']   = $faq_addon_req;
+                $faqconcertina['note']        = $faq_addon_req;
+                $accordion['note']            = $faq_addon_req;
+                $easyfaqs['note']             = $faq_addon_req;
+                $masteraccordion['note']      = $faq_addon_req;
+                $wpfaqschemamarkup['note']    = $faq_addon_req;
+                $faqschemaforpost['note']     = $faq_addon_req;
+                $webfaq10['note']             = $faq_addon_req;
+                $enfold['note']               = $faq_addon_req;
+                $jolifaq['note']              = $faq_addon_req;
 
          }
          if(!is_plugin_active('reviews-for-schema/reviews-for-schema.php') ) {
@@ -4410,40 +4432,44 @@ function saswp_compatibility_page_callback() {
          }
        
          if(!is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php') ) {
-                          
-             $ameliabooking['note']               = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
-             $the_events_calendar['note']         = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
-             $events_calendar_wd['note']          = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
-             $wp_event_manager['note']            = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
-             $wp_event_solution['note']           = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
-             $events_manager['note']              = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
-             $event_organiser['note']             = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
-             $modern_events_calendar['note']      = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
-             $event_prime['note']                 = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';
-             $tevolution_events['note']           = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
-             $wp_event_aggregator['note']         = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
-             $stachethemes_events['note']         = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
-             $timetable_event['note']             = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
-             $xo_event_calendar['note']           = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
-             $events_schedule['note']             = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
-             $calendarize_it['note']              = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
-             $woo_event_manager['note']           = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
-             $vs_event_list['note']               = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
-             $all_in_one_event_calendar['note']   = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
-             $event_on['note']                    = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';               
+             
+             $event_addon_req = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Event Schema Addon</a>';   
+                
+             $ameliabooking['note']               = $event_addon_req;
+             $the_events_calendar['note']         = $event_addon_req;
+             $events_calendar_wd['note']          = $event_addon_req;
+             $wp_event_manager['note']            = $event_addon_req;
+             $wp_event_solution['note']           = $event_addon_req;
+             $events_manager['note']              = $event_addon_req;
+             $event_organiser['note']             = $event_addon_req;
+             $modern_events_calendar['note']      = $event_addon_req;
+             $event_prime['note']                 = $event_addon_req;
+             $tevolution_events['note']           = $event_addon_req;
+             $wp_event_aggregator['note']         = $event_addon_req;
+             $stachethemes_events['note']         = $event_addon_req;
+             $timetable_event['note']             = $event_addon_req;
+             $xo_event_calendar['note']           = $event_addon_req;
+             $events_schedule['note']             = $event_addon_req;
+             $calendarize_it['note']              = $event_addon_req;
+             $woo_event_manager['note']           = $event_addon_req;
+             $vs_event_list['note']               = $event_addon_req;
+             $all_in_one_event_calendar['note']   = $event_addon_req;
+             $event_on['note']                    = $event_addon_req;
              
          }
          
          if(!is_plugin_active('recipe-schema-for-saswp/recipe-schema-for-saswp.php') ) {
 
-             $jetpackrecipe['note']              = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';                          
-             $zip_recipes['note']                = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
-             $wp_ultimate_recipe['note']         = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
-             $mediavine_create['note']           = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';             
-             $ht_recipes['note']                 = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';
-             $easyrecipe['note']                 = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
-             $total_recipe_generator['note']     = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
-             $ranna_recipe['note']               = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/event-schema/">Recipe Schema Addon</a>';                            
+             $recipe_addon_req = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/">Recipe Schema Addon</a>';
+
+             $jetpackrecipe['note']              = $recipe_addon_req;
+             $zip_recipes['note']                = $recipe_addon_req;
+             $wp_ultimate_recipe['note']         = $recipe_addon_req;
+             $mediavine_create['note']           = $recipe_addon_req;
+             $ht_recipes['note']                 = $recipe_addon_req;
+             $easyrecipe['note']                 = $recipe_addon_req;
+             $total_recipe_generator['note']     = $recipe_addon_req;
+             $ranna_recipe['note']               = $recipe_addon_req;
              
          }
          
@@ -4562,6 +4588,7 @@ function saswp_compatibility_page_callback() {
                 $simplejobboard,
                 $wpjobmanager,
                 $wpjobopenings,
+                $wpjobboard,
                 $accordionfaq,
                 $ultimatefaqs,
                 $ultimatemember,
@@ -4819,7 +4846,7 @@ function saswp_enqueue_style_js( $hook ) {
         $req_from = 'post';
         $post_id  = get_the_ID();
         $tag_id   = '';
-        $req_from = '';
+        
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_enqueue_scripts hook.
         if ( isset( $_GET['tag_ID']) ) {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_enqueue_scripts hook.
@@ -4867,8 +4894,10 @@ function saswp_enqueue_style_js( $hook ) {
         wp_enqueue_script('thickbox');
         wp_enqueue_style('thickbox');
                        	
-        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery' ), SASWP_VERSION, true);        
-        wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
+        if( ! class_exists( 'acf' ) ) {        
+            wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery' ), SASWP_VERSION, true);        
+            wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
+        }
 
         if( !class_exists('TM_Builder_Core') ){
 

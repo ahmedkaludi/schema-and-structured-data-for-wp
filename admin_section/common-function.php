@@ -151,7 +151,7 @@ if ( ! defined('ABSPATH') ) exit;
                 
             }            
             //Saving settings data starts here
-            if(array_key_exists('sd_data', $json_array) ) {
+            if( is_array( $json_array ) && array_key_exists('sd_data', $json_array) ) {
                 
                 $saswp_sd_data = $json_array['sd_data'];
                 
@@ -179,6 +179,7 @@ if ( ! defined('ABSPATH') ) exit;
             //Saving settings data ends here 
              saswp_published();            
              update_option('saswp-file-upload_url','');
+             saswp_delete_uploaded_file( $url );
             
         }
                                      
@@ -3529,6 +3530,7 @@ function saswp_get_field_note($pname){
             'simplejobboard'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/simple-job-board/">Simple Job Board</a>',
             'wpjobmanager'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-job-manager/">WP Job Manager</a>',
             'wpjobopenings'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-job-openings/">WP Job Openings</a>',
+            'wpjobboard'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://apusthemes.com/wp-job-board-pro/">WP Job Board Pro</a>',
             'schemaforfaqs'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-markup-faq-structured-data/">FAQ Schema Markup</a>',
             'betteramp'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/better-amp/">Better AMP</a>',
             'wpamp'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
@@ -5326,4 +5328,24 @@ function saswp_get_seo_press_metadata($type){
         }
     }    
     return $meta_value;
+}
+
+/**
+ * Delete uploaded settings file
+ * @param   $url    String
+ * @since 1.36
+ * */
+function saswp_delete_uploaded_file( $url ){
+    
+    $parsed_url         = parse_url( $url );
+
+    if( ! empty($parsed_url['path']) ) {
+        $path           =   ltrim( $parsed_url['path'], '/');
+        $file = ABSPATH . $path;
+
+        if( file_exists( $file ) ) {
+            wp_delete_file( $file );
+        }
+    }
+
 }

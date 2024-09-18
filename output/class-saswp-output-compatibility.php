@@ -122,6 +122,9 @@ class SASWP_Output_Compatibility{
     }
     public function saswp_wpjobmanager_override() {      
         add_filter( 'wpjm_output_job_listing_structured_data', '__return_false');             
+    }
+    public function saswp_wpjobboard_override() {      
+        remove_action( 'wp_footer', 'WP_Job_Board_Pro_Structured_Data::output_structured_data');             
     }    
     public function saswp_soledad_override() {
             
@@ -643,6 +646,9 @@ class SASWP_Output_Compatibility{
     }
     public function simplejobboard_on_activation() {        
         $this->saswp_update_option_on_compatibility_activation('saswp-simplejobboard');
+    }
+    public function wpjobboard_on_activation() {        
+        $this->saswp_update_option_on_compatibility_activation('saswp-wpjobboard');
     }
     public function wpjobmanager_on_activation() {        
         $this->saswp_update_option_on_compatibility_activation('saswp-wpjobmanager');

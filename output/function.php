@@ -526,9 +526,14 @@ function saswp_get_all_schema_markup_output() {
                     
                 foreach( $schema_output as $soutput){
             
-                    $output_schema_type_id[] = $soutput['@type'];
+                    $s_type         =   '';
+
+                    if( ! empty( $soutput['@type'] ) ) {
+                        $s_type                     = $soutput['@type'];
+                        $output_schema_type_id[]    = $s_type;
+                    }
                     
-                    if($soutput['@type'] == 'BlogPosting'|| $soutput['@type'] == 'Article' || $soutput['@type'] == 'ScholarlyArticle' || $soutput['@type'] == 'TechArticle' || $soutput['@type'] == 'NewsArticle'){
+                    if($s_type == 'BlogPosting'|| $s_type == 'Article' || $s_type == 'ScholarlyArticle' || $s_type == 'TechArticle' || $s_type == 'NewsArticle'){
                         
                     
                     $final_output = array();

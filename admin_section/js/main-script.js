@@ -685,6 +685,10 @@ jQuery(document).ready(function($){
             $(".saswp-organization-type-tr").show();
             $(".saswp-option-table-class tr").find('select').attr('disabled', false);
         }
+        if(schematype == 'WebPage'){            
+            $(".saswp-webpage-type-tr").show();
+            $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+        }
          saswp_enable_rating_review();
          saswp_enable_rating_automate();
             
@@ -805,6 +809,10 @@ jQuery(document).ready(function($){
             }
             if(schematype == 'Organization'){
                 $(".saswp-organization-type-tr").show();
+                $(".saswp-option-table-class tr").find('select').attr('disabled', false);
+            }
+            if(schematype == 'WebPage'){            
+                $(".saswp-webpage-type-tr").show();
                 $(".saswp-option-table-class tr").find('select').attr('disabled', false);
             }
             saswp_enable_rating_review();
@@ -2143,6 +2151,16 @@ jQuery(document).ready(function($){
                               $("#saswp-simplejobboard").val(1);                                
                             }else{
                               $("#saswp-simplejobboard").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-wpjobboard-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpjobboard").val(1);                                
+                            }else{
+                              $("#saswp-wpjobboard").val(0);                                          
                             }
                             
                       break;

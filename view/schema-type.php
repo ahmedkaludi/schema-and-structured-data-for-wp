@@ -152,6 +152,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $event_type          = '';
                     $post_id             = null;                    
                     $organization_type   = '';
+                    $webpage_type        = '';
 
                     if($post){
             
@@ -175,6 +176,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $business_name     = get_post_meta($post->ID, 'saswp_business_name', true);
                         $enable_faqschema  = get_post_meta($post->ID, 'saswp_enable_faq_schema', true);
                         $organization_type = get_post_meta($post->ID, 'saswp_schema_organization_type', true);
+                        $webpage_type      = get_post_meta($post->ID, 'saswp_webpage_type', true);
                                                                                                  
                         if($schema_type != 'local_business'){
 
@@ -262,6 +264,14 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 'SportsOrganization'        => 'SportsOrganization',
                                 'WorkersUnion'              => 'WorkersUnion',
                             ); 
+                            
+                            $webpage_type_list = array(                                
+                                'none'                      => 'Select (Optional)',
+                                'Article'                   => 'Article',
+                                'NewsArticle'               => 'NewsArticle',
+                                'Blogposting'               => 'Blogposting',
+                                'TechArticle'               => 'TechArticle',
+                            );
                         
                           $all_business_type               = $sub_business_arr['all_business_type'];
 
@@ -394,6 +404,32 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>  
                     </td>
                 </tr>
+                
+                <?php if($style_business_type){ 
+                    ?>
+                    <tr class="saswp-webpage-type-tr" style="display:none;">
+                <?php }else{ 
+                    ?>
+                    <tr class="saswp-webpage-type-tr">
+                <?php } ?>
+                        <td>
+                        <?php echo esc_html__( 'Sub Schema Type', 'schema-and-structured-data-for-wp' ); ?>    
+                        </td>
+                        <td>
+                          <select id="saswp_webpage_type" name="saswp_webpage_type">
+                            <?php
+                            
+                              foreach ( $webpage_type_list as $key => $value) {
+                                $sel = '';
+                                if( $webpage_type == $key ){
+                                  $sel = 'selected';
+                                }
+                                echo "<option value='". esc_attr( $key)."' ". esc_attr( $sel).">".esc_html( $value )."</option>";
+                              }
+                            ?>
+                        </select>  
+                        </td>
+                    </tr>
                 
                 <?php if(!array_key_exists($business_name, $all_automotive_array) ) {
                      ?>                    
@@ -1561,6 +1597,12 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
             update_post_meta( $post_id, 'saswp_schema_organization_type', sanitize_text_field($_POST['saswp_schema_organization_type']));                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_schema_organization_type');                                                                       
+        }
+        
+        if ( isset( $_POST['saswp_webpage_type']) ) {
+            update_post_meta( $post_id, 'saswp_webpage_type', sanitize_text_field( $_POST['saswp_webpage_type'] ) );
+        }else{
+            delete_post_meta( $post_id, 'saswp_webpage_type');   
         }
 
         if ( isset( $_POST['faq_repeater_question_'.$post_id]) && is_array($_POST['faq_repeater_question_'.$post_id]) ) {

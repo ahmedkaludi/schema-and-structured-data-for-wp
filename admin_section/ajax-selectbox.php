@@ -52,8 +52,12 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
     }          
         // send the response back to the front end
        // vars
-          if($response == 'date'){
-            $output = '<input value="'. esc_attr( $saved_data).'" type="text" data-type="'. esc_attr( $response).'"  class="widefat ajax-output saswp-datepicker-picker" name="data_group_array[group-'. esc_attr( $current_group_number).'][data_array]['. esc_attr( $current_number) .'][key_3]"/>'; 
+          if ( $response == 'date' || $response == 'url_parameter' ) {
+            $input_class    = 'widefat ajax-output';
+            if ( $response == 'date' ) {
+              $input_class  = ' saswp-datepicker-picker';
+            }
+            $output = '<input value="'. esc_attr( $saved_data).'" type="text" data-type="'. esc_attr( $response).'"  class="'.esc_attr( $input_class ) .'" name="data_group_array[group-'. esc_attr( $current_group_number).'][data_array]['. esc_attr( $current_number) .'][key_3]"/>'; 
           }else{
 
           $choices       = array();    

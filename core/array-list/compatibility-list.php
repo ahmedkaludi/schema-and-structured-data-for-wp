@@ -54,6 +54,13 @@ return array(
             'opt_name'   => 'saswp-simplejobboard',
             'part_in'    => 'pro',
         ),
+        'wpjobboard'  =>  array(            
+            'name'       => 'WP Job Board',                    
+            'free'       => 'wp-job-board/wp-job-board.php',                    
+            'pro'        => 'wp-job-board-pro/wp-job-board-pro.php',                    
+            'opt_name'   => 'saswp-wpjobboard',
+            'part_in'    => 'pro',
+        ),
         'webfaq10'  =>  array(            
             'name'       => '10WebFAQ',
             'free'       => 'faq-wd/faq_wd.php',                    

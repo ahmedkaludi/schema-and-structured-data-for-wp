@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.6
 Requires PHP: 5.6.20
-Stable tag: 1.35
+Stable tag: 1.36
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -120,6 +120,21 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.36 (18 September 2024) =
+* Feature: Added URL Parameter placement to targer URL's #2117
+* Enhancement: Categories text appears in headline fields #2155
+* Fixed: Conflict between the DiscussionForumPosting schema placement and the wpForo plugin #2157
+* Enhancement: Removed the Article type from webpages schema #2158
+* Feature: Added missing field in car schema #2159
+* Feature: Jackrabbit compatibility with course and event schema #2163
+* Feature: Added compatibility with the WP Job Board Pro plugin #2166
+* Fixed: Warnings appearing on user end #2167
+* Fixed: Time picker issue with plugin Advanced Custom Fields in the Admin mode #2173
+* Feature: Added compatability for ACF CPT with JobPosting schema #2174
+* Enhancement: Delete files after importing settings #2176
+* Enhancement: Fixed GTIN12 issue with the product schema for variable products #2180
+* Fixed: Comments was not appears in Recipes #2182
 
 = 1.35 (02 August 2024) =
 * Enhancement: Added new properties in LodgingBusiness > Hotel schema #2105
@@ -271,15 +286,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 = 1.21.1 (27 Sep 2023) =
 * Fixed: Minor Fix
-
-
-= 1.21 (27 Sep 2023) =
-
-* Fixed: Gutenberg FAQ Block schema markup issue #2003
-* Enhancement: Improvements in ItemList schema type #2008
-* Fixed: PHP Deprecated Error: $render_slug Follows Optional $content Parameter #2009
-* Fixed: Output Buffering Interferes with WP CLI #2010
-* Fixed: A deprecated warning with author image in schema markup #2012
-* Fixed: Undefined array key "headingTag" #2013
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
