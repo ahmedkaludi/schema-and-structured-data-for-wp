@@ -787,6 +787,23 @@ function saswp_comparison_logic_checker($input, $post){
 
           }
         break;
+        
+        case 'url_parameter':
+          global $wp;
+          $url            = $wp->request;
+          $home_page_url  = get_home_url();
+          
+          if ( $comparison == 'equal' ) {
+            if ( strpos( $url, $data ) !== false ) {
+              $result = true;
+            }
+          }
+          if ( $comparison == 'not_equal' ) {
+            if ( strpos( $url, $data ) == false ) {
+              $result = true;
+            }
+          }
+        break;
       
       default:
         $result = false;
@@ -878,6 +895,7 @@ if(is_admin() ) {
           'homepage'            =>  esc_html__("Homepage", 'schema-and-structured-data-for-wp' ), 
           'author'              =>  esc_html__("Author", 'schema-and-structured-data-for-wp' ),  
           'author_name'         =>  esc_html__("Author Name", 'schema-and-structured-data-for-wp' ),  
+          'url_parameter'       =>  esc_html__("URL Parameter", 'schema-and-structured-data-for-wp' ),  
         ),
         esc_html__("Post", 'schema-and-structured-data-for-wp' ) => array(
           'post'                =>  esc_html__("Post", 'schema-and-structured-data-for-wp' ),
