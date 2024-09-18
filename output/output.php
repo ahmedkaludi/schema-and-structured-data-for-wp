@@ -1113,40 +1113,42 @@ function saswp_schema_output() {
                                                                 
                                 break;    
 
-                                case 'Organization':                                
-                                    $organization_type = get_post_meta($schema_post_id, 'saswp_schema_organization_type', true);
-                                    if(empty($organization_type) ) {
+                                case 'Organization':
+                                    $organization_type = get_post_meta(
+                                        $schema_post_id,
+                                        'saswp_schema_organization_type',
+                                        true
+                                    );
+
+                                    if (empty($organization_type)) {
                                         $organization_type = 'Organization';
                                     }
-                                    $input1 = saswp_kb_schema_output();                                    
-                                    if($input1['@type'] == 'Person'){
-                                        $input1 = array();
+
+                                    $input1 = saswp_kb_schema_output();
+
+                                    if (!empty($input1['@type']) && $input1['@type'] == 'Person') {
                                         $input1 = array(
                                             '@context'			=> saswp_context_url(),
                                             '@type'				=> $organization_type,
-                                            '@id'				=> saswp_get_current_url().'#Organization',    
-                                            'url'				=> saswp_get_current_url(),                                                                                    
-                                            'description'       => saswp_get_the_excerpt(),                                                                        
-                                            'name'				=> saswp_get_the_title()			                                                                                                            
+                                            '@id'				=> saswp_get_current_url().'#Organization',
+                                            'url'				=> saswp_get_current_url(),
+                                            'description'       => saswp_get_the_excerpt(),
+                                            'name'				=> saswp_get_the_title()
                                         );
-                                    }else{
+                                    } else {
                                         $input1['@type'] = $organization_type;
                                     }
-                                                                                                                                                                                                                                                                                                                                        
+
                                     $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
-
-                                    $input1 = apply_filters('saswp_modify_organization_schema_output', $input1 ); 
-
+                                    $input1 = apply_filters('saswp_modify_organization_schema_output', $input1 );
                                     $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
-                                    
-                                    if($modified_schema == 1){
-                                
-                                        $input1 = saswp_organization_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
+                                    if ($modified_schema == 1) {
+                                        $input1 = saswp_organization_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                     }
-                                                                                   
-                                break;    
-                        
+
+                                break;
+
                             case 'AudioObject':
                                                                                                      
                                 $input1 = array(
