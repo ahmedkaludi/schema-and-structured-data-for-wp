@@ -2154,6 +2154,16 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
+                      
+                      case 'saswp-wpjobboard-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpjobboard").val(1);                                
+                            }else{
+                              $("#saswp-wpjobboard").val(0);                                          
+                            }
+                            
+                      break;
 
                       case 'saswp-wpjobopenings-checkbox':
                            saswp_compatibliy_notes(current, id); 

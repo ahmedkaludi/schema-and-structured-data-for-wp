@@ -2899,6 +2899,19 @@ function saswp_compatibility_page_callback() {
                 )
         );
 
+        $wpjobboard        = array(
+                'label'  => 'WP Job Board',
+                'id'     => 'saswp-wpjobboard-checkbox',                        
+                'name'   => 'saswp-wpjobboard-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('wpjobboard'),
+                'hidden' => array(
+                        'id'   => 'saswp-wpjobboard',
+                        'name' => 'sd_data[saswp-wpjobboard]',                             
+                )
+        );
+
         $schemaforfaqs = array(
                 'label'  => 'FAQ Schema Markup',
                 'id'     => 'saswp-schemaforfaqs-checkbox',                        
@@ -4368,6 +4381,7 @@ function saswp_compatibility_page_callback() {
                 $simplejobboard['note']      = $job_addon_req;
                 $wpjobopenings['note']       = $job_addon_req;
                 $wpjobmanager['note']        = $job_addon_req;
+                $wpjobboard['note']          = $job_addon_req;
           
          }
 
@@ -4574,6 +4588,7 @@ function saswp_compatibility_page_callback() {
                 $simplejobboard,
                 $wpjobmanager,
                 $wpjobopenings,
+                $wpjobboard,
                 $accordionfaq,
                 $ultimatefaqs,
                 $ultimatemember,
