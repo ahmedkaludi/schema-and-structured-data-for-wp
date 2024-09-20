@@ -481,6 +481,32 @@ Class SASWP_Output_Service{
                             }
                         }
 
+                        if( ( is_category() || is_tag() ) ) {
+
+                            $query_obj  =   get_queried_object();
+
+                            if( ! empty( $query_obj ) && is_object( $query_obj ) && ! empty( $query_obj->term_id ) ) {
+
+                                $term_id            =   $query_obj->term_id;
+                                $term_taxonomy      =   $query_obj->term_id;
+
+                                if ( strpos( $cus_field[$key], "_yoast_wpseo_")  !== false && class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
+
+                                    $column_name = str_replace('_yoast_wpseo_', '', $cus_field[$key]);
+
+                                    switch ( $column_name ) {
+                                        case 'focuskw':
+                                                $response   =   WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $query_obj->taxonomy, $column_name );
+                                            break;
+
+                                    }
+
+                                }
+
+                            } 
+
+                        }
+
                     }
                                                                                                     
                     break;
@@ -4272,6 +4298,12 @@ Class SASWP_Output_Service{
                         break;
 
                 case 'WebPage':
+                
+                    $sub_schema_type    =   '';
+                    if( ! empty( $schema_post_id ) ) {
+                        $sub_schema_type    =    get_post_meta( $schema_post_id, 'saswp_webpage_type', true );
+                    }
+
                     if ( isset( $custom_fields['saswp_webpage_id']) ) {
                         $input1['@id'] =    get_permalink().$custom_fields['saswp_webpage_id'];
                     }
@@ -4308,6 +4340,7 @@ Class SASWP_Output_Service{
                         $input1['mainEntity']['articleSection'] =    $custom_fields['saswp_webpage_section'];
                     }                                        
                     if ( isset( $custom_fields['saswp_webpage_keywords']) ) {
+                        $input1['keywords']               =    $custom_fields['saswp_webpage_keywords'];
                         $input1['mainEntity']['keywords'] =    $custom_fields['saswp_webpage_keywords'];
                     }
                     
@@ -4496,6 +4529,10 @@ Class SASWP_Output_Service{
 
                     if( isset( $custom_fields['saswp_webpage_reviewed_by'] ) && empty( $custom_fields['saswp_webpage_reviewed_by'] ) ) {
                         unset( $input1['reviewedBy'] );
+                    }
+
+                    if( $sub_schema_type == 'none' ) { 
+                        unset( $input1['mainEntity'] );
                     }
 
                     break;
@@ -8485,9 +8522,10 @@ Class SASWP_Output_Service{
                     $webp_permalink           =   saswp_get_permalink();
                     $webp_name                =   saswp_get_the_title();
                     $webp_description         =   saswp_get_the_excerpt();
+                    $webp_keywords            =   saswp_get_the_tags();    
 
                     // Check if current page is a tag
-                    if ( is_tag() ) {
+                    if ( is_tag() || is_category() ) {
                         $tag_object             =   get_queried_object();
                         if ( ! empty( $tag_object ) && is_object( $tag_object ) && ! empty( $tag_object->term_id ) ) {
                             
@@ -8495,6 +8533,7 @@ Class SASWP_Output_Service{
                             $webp_permalink     =   get_tag_link( $tag_id );
                             $webp_name          =   $tag_object->name;
                             $webp_description   =   $tag_object->description;
+                            $webp_keywords      =   '';
          
                         }
                     }
@@ -8508,7 +8547,7 @@ Class SASWP_Output_Service{
                     $input1['dateCreated']                      = $date;                
                     $input1['inLanguage']                       = get_bloginfo('language');
 				    $input1['description']                      = $webp_description;
-                    $input1['keywords']                         = saswp_get_the_tags();
+                    $input1['keywords']                         = $webp_keywords;
 
                     // If sub schema type is set then add selected schema type to mainentity
                     if( $sub_schema_type != 'none' ) {
@@ -8516,7 +8555,7 @@ Class SASWP_Output_Service{
                         $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
     					$input1['mainEntity']['headline']		    = saswp_get_the_title();
     					$input1['mainEntity']['description']		= saswp_get_the_excerpt();                        
-                        $input1['mainEntity']['keywords']           = saswp_get_the_tags();
+                        $input1['mainEntity']['keywords']           = $webp_keywords;
     					$input1['mainEntity']['datePublished'] 	    = $date;
     					$input1['mainEntity']['dateModified']		= $modified_date;
     					$input1['mainEntity']['author']			    = saswp_get_author_details();	
@@ -8530,7 +8569,7 @@ Class SASWP_Output_Service{
                         $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
                         $input1['mainEntity']['headline']           = saswp_get_the_title();
                         $input1['mainEntity']['description']        = saswp_get_the_excerpt();                        
-                        $input1['mainEntity']['keywords']           = saswp_get_the_tags();
+                        $input1['mainEntity']['keywords']           = $webp_keywords;
                         $input1['mainEntity']['datePublished']      = $date;
                         $input1['mainEntity']['dateModified']       = $modified_date;
                         $input1['mainEntity']['author']             = saswp_get_author_details();
