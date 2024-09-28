@@ -2511,7 +2511,10 @@ function saswp_schema_output() {
 
                                  }                                                
                                 if ( isset( $sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
-                                 $input1['comment'] = saswp_get_comments(get_the_ID());
+                                    $comments = saswp_get_comments(get_the_ID());
+                                    if( ! empty( $comments ) ) {
+                                        $input1['comment'] = $comments;
+                                    }
                                 }                                                
                                 if ( ! empty( $aggregateRating) ) {
                                        $input1['aggregateRating'] = $aggregateRating;

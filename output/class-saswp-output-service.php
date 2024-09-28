@@ -3561,6 +3561,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_newsarticle_URL']) ) {
                        $input1['url'] =    saswp_validate_url($custom_fields['saswp_newsarticle_URL']); 
                     }
+                    if ( isset( $custom_fields['saswp_newsarticle_image']) ) {
+                       $input1['image'] =    $custom_fields['saswp_newsarticle_image']; 
+                    }
                     if ( isset( $custom_fields['saswp_newsarticle_inlanguage']) ) {
                         $input1['inLanguage'] =    $custom_fields['saswp_newsarticle_inlanguage']; 
                     }
@@ -6198,37 +6201,71 @@ Class SASWP_Output_Service{
                     
                     case 'ImageObject':
                     
-                    if ( isset( $custom_fields['saswpimage_object_url']) ) {
-                     $input1['url'] =    saswp_validate_url($custom_fields['saswpimage_object_url']);
+                    if ( ! empty( $custom_fields['saswpimage_object_id'] ) ) {
+                        $input1['@id'] =    get_permalink().$custom_fields['saswpimage_object_id'];
+                    }else if( empty( $custom_fields['saswpimage_object_id'] ) ){
+                        unset( $input1['@id'] );
+                    } 
+                    if ( ! empty( $custom_fields['saswpimage_object_url'] ) ) {
+                        if( is_array( $custom_fields['saswpimage_object_url'] ) ) {
+                            if( ! empty( $custom_fields['saswpimage_object_url']['url'] ) ) {
+                                $input1['url'] =    $custom_fields['saswpimage_object_url']['url'];
+                            }
+                            if( ! empty( $custom_fields['saswpimage_object_url']['width'] ) ) {
+                                $input1['width'] =    $custom_fields['saswpimage_object_url']['width'];
+                            }
+                            if( ! empty( $custom_fields['saswpimage_object_url']['height'] ) ) {
+                                $input1['height'] =    $custom_fields['saswpimage_object_url']['height'];
+                            }
+                        }else{
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswpimage_object_url']);
+                        }
+                    }else if( empty( $custom_fields['saswpimage_object_url'] ) ){
+                        unset( $input1['url'] );
+                    }
+                    if ( ! empty( $custom_fields['saswpimage_object_image'] ) ) {
+                        $input1['image'] =    $custom_fields['saswpimage_object_image'];
                     }                    
-                    if ( isset( $custom_fields['saswpimage_object_date_published']) ) {
-                     $input1['datePublished'] =    $custom_fields['saswpimage_object_date_published'];
+                    if ( ! empty( $custom_fields['saswpimage_object_date_published'] ) ) {
+                        $input1['datePublished'] =    $custom_fields['saswpimage_object_date_published'];
+                    }else if( empty( $custom_fields['saswpimage_object_date_published'] ) ){
+                        unset( $input1['datePublished'] );   
                     }                    
-                    if ( isset( $custom_fields['saswpimage_object_date_modified']) ) {
-                     $input1['dateModified'] =    $custom_fields['saswpimage_object_date_modified'];
+                    if ( ! empty( $custom_fields['saswpimage_object_date_modified'] ) ) {
+                        $input1['dateModified'] =    $custom_fields['saswpimage_object_date_modified'];
+                    }else if( empty( $custom_fields['saswpimage_object_date_modified'] ) ){
+                        unset( $input1['dateModified'] );   
                     }
-                    if ( isset( $custom_fields['saswpimage_object_description']) ) {
-                     $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswpimage_object_description'] ));
+                    if ( ! empty( $custom_fields['saswpimage_object_description'] ) ) {
+                        $input1['description'] =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswpimage_object_description'] ));
+                    }else if( empty( $custom_fields['saswpimage_object_description'] ) ){
+                        unset( $input1['description'] );   
                     }
-                    if ( isset( $custom_fields['saswpimage_object_name']) ) {
-                     $input1['name'] =    $custom_fields['saswpimage_object_name'];
+                    if ( ! empty( $custom_fields['saswpimage_object_name'] ) ) {
+                        $input1['name'] =    $custom_fields['saswpimage_object_name'];
+                    }else if( empty( $custom_fields['saswpimage_object_name'] ) ){
+                        unset( $input1['name'] );   
                     }
-                    if ( isset( $custom_fields['saswpimage_object_license']) ) {
-                     $input1['license'] =  $custom_fields['saswpimage_object_license'];
+                    if ( ! empty( $custom_fields['saswpimage_object_license'] ) ) {
+                        $input1['license'] =  $custom_fields['saswpimage_object_license'];
                     }
-                    if ( isset( $custom_fields['saswpimage_object_acquire_license_page']) ) {
-                     $input1['acquireLicensePage'] =  $custom_fields['saswpimage_object_acquire_license_page'];
+                    if ( ! empty( $custom_fields['saswpimage_object_acquire_license_page'] ) ) {
+                        $input1['acquireLicensePage'] =  $custom_fields['saswpimage_object_acquire_license_page'];
                     }                    
-                    if ( isset( $custom_fields['saswpimage_object_upload_date']) ) {
-                     $input1['uploadDate'] =    $custom_fields['saswpimage_object_upload_date'];
+                    if ( ! empty( $custom_fields['saswpimage_object_upload_date'] ) ) {
+                        $input1['uploadDate'] =    $custom_fields['saswpimage_object_upload_date'];
+                    }else if( empty( $custom_fields['saswpimage_object_upload_date'] ) ){
+                        unset( $input1['uploadDate'] );   
                     }
-                    if ( isset( $custom_fields['saswpimage_object_thumbnail_url']) ) {
-                     $input1['thumbnailUrl'] =    saswp_validate_url($custom_fields['saswpimage_object_thumbnail_url']);
+                    if ( ! empty( $custom_fields['saswpimage_object_thumbnail_url'] ) ) {
+                        $input1['thumbnailUrl'] =    saswp_validate_url($custom_fields['saswpimage_object_thumbnail_url']);
                     }                                        
-                    if ( isset( $custom_fields['saswpimage_object_content_url']) ) {
-                     $input1['contentUrl'] =    saswp_validate_url($custom_fields['saswpimage_object_content_url']);
+                    if ( ! empty( $custom_fields['saswpimage_object_content_url'] ) ) {
+                        $input1['contentUrl'] =    saswp_validate_url($custom_fields['saswpimage_object_content_url']);
+                    }else if( empty( $custom_fields['saswpimage_object_content_url'] ) ){
+                        unset( $input1['contentUrl'] );   
                     }
-                    if ( isset( $custom_fields['saswpimage_object_content_location']) ) {
+                    if ( ! empty( $custom_fields['saswpimage_object_content_location'] ) ) {
                      $input1['contentLocation'] =    $custom_fields['saswpimage_object_content_location'];
                     }
                     if ( isset( $custom_fields['saswpimage_object_author_type']) ) {
@@ -6246,10 +6283,15 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswpimage_object_author_image']) ) {
                      $input1['author']['image'] =    $custom_fields['saswpimage_object_author_image'];
                     }                      
-                    if ( isset( $custom_fields['saswpimage_object_organization_logo']) && isset($custom_fields['saswpimage_object_organization_name']) ) {
+                    if ( ! empty( $custom_fields['saswpimage_object_organization_logo']) && ! empty($custom_fields['saswpimage_object_organization_name'] ) ) {
                      $input1['publisher']['@type']       =    'Organization';
                      $input1['publisher']['name']        =    $custom_fields['saswpimage_object_organization_name'];
                      $input1['publisher']['logo']        =    $custom_fields['saswpimage_object_organization_logo'];
+                    }else if( empty( $custom_fields['saswpimage_object_organization_logo']) && empty($custom_fields['saswpimage_object_organization_name'] ) ){
+                        unset( $input1['publisher'] );
+                    }
+                    if( empty( $custom_fields['saswpimage_object_author_type'] ) ) {
+                        unset( $input1['author'] );
                     }
                     
                     break;

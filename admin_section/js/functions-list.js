@@ -443,7 +443,23 @@
                                 jQuery.get(ajaxurl, 
                                     { action:"saswp_get_meta_list", saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                                      function(response){                                  
-                                               saswp_meta_list[type] = response[type];                                                                                                                             
+                                               saswp_meta_list[type] = response[type];
+                                               if( fields_name == 'saswpimage_object_url' ) {
+                                                jQuery.each( response['image'], function( ri, re ) {
+                                                    if( saswp_meta_list[type].length > 0 ) {
+                                                        jQuery.each( saswp_meta_list[type], function( smli,smle ) {
+                                                            if( smle['label'].length > 0 && re['label'].length > 0 ) {
+                                                                if( smle['label'] == re['label'] ) {
+                                                                    jQuery.each( re['meta-list'], function( imgI, imgE ) {
+                                                                        saswp_meta_list[type][smli]['meta-list'][imgI] = imgE;
+                                                                    });
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+
+                                                }); 
+                                               }                                                                                                                             
                                                saswp_meta_list_html(current_fly, saswp_meta_list[type], fields, fields_name, id, tr);
                                           
                                     },'json');

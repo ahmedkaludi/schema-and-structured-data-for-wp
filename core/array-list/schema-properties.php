@@ -7136,10 +7136,21 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                 case 'ImageObject':
                     $meta_field = array(
                     array(
+                            'label'      => 'ID',
+                            'id'         => 'saswpimage_object_id_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => 'ImageObject'   
+                    ),
+                    array(
                             'label' => 'URL',
                             'id' => 'saswpimage_object_url_'.$schema_id,
                             'type' => 'text',
                             'default' => get_permalink()
+                    ),
+                    array(
+                            'label'   => 'Image',
+                            'id'      => 'saswpimage_object_image_'.$schema_id,
+                            'type'    => 'media'                            
                     ),                    
                     array(
                             'label' => 'Date Published',
