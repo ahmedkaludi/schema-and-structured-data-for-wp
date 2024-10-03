@@ -4074,6 +4074,19 @@ function saswp_compatibility_page_callback() {
                         )
 		);
         
+        $woo_discount_rules = array(
+            'label'  => 'Discount Rules for WooCommerce',
+            'id'     => 'saswp-woo-discount-rules-checkbox',                        
+                        'name'   => 'saswp-woo-discount-rules-checkbox',
+            'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('woo_discount_rules'),
+                        'hidden' => array(
+                                'id'   => 'saswp-woo-discount-rules',
+                                'name' => 'sd_data[saswp-woo-discount-rules]',                             
+                        )
+        );
+        
         $cooked = array(
 			'label'  => 'Cooked',
 			'id'     => 'saswp-cooked-checkbox',                        
@@ -4336,8 +4349,10 @@ function saswp_compatibility_page_callback() {
         ); 
                 
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php') ) {
-                      
-             $woocommerce_bok['note'] = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Woocommerce Addon</a>';
+
+            $woo_note                    =  esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Woocommerce Addon</a>';       
+             $woocommerce_bok['note']    =  $woo_note;
+             $woo_discount_rules['note'] =  $woo_note;
                                       
         }
         
@@ -4502,6 +4517,7 @@ function saswp_compatibility_page_callback() {
                 $woocommerce,                
                 $woocommerce_bok,
                 $woocommerce_mem,
+                $woo_discount_rules,
                 $cooked, 
                 $soledad,
                 $enfold,
@@ -4668,7 +4684,7 @@ function saswp_compatibility_page_callback() {
 
             foreach ( $act_meta_fields as $key => $field){
                                   
-                 if($field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership'){
+                 if( $field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership' || $field['hidden']['id'] == 'saswp-woo-discount-rules' ) {
                      
                      if(!array_search('saswp-woocommerce', $active_plugins) ) {
                                          
@@ -4716,7 +4732,7 @@ function saswp_compatibility_page_callback() {
              
             foreach ( $ina_meta_fields as $key => $field){
                                   
-                 if($field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership'){
+                 if( $field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership' || $field['hidden']['id'] == 'saswp-woo-discount-rules' ) {
                      
                      if(array_search('saswp-woocommerce', $active_plugins) ) {
                                          

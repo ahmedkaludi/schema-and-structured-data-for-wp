@@ -489,6 +489,12 @@ return array(
                     'part_in'    => 'pro',
                     'parent'     => 'woocommerce'
         ),        
+        'woo_discount_rules' => array(            
+                    'name'       => 'Discount Rules for WooCommerce',
+                    'free'       => 'woo-discount-rules/woo-discount-rules.php',            
+                    'opt_name'   => 'saswp-woo-discount-rules', 
+                    'part_in'    => 'free',
+        ),       
         'cooked' => array(            
                     'name'       => 'Cooked',
                     'free'       => 'cooked/cooked.php',  
