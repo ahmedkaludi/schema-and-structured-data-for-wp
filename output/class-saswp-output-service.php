@@ -533,7 +533,7 @@ Class SASWP_Output_Service{
                     $author_image       = array();
                     $author_id          = get_the_author_meta('ID');
                     
-                    if ( function_exists( 'get_avatar_data') ) {
+                    if ( function_exists( 'get_avatar_data') &&  ! empty( get_option( 'show_avatars' ) ) ) {
                         $author_image	= get_avatar_data($author_id);      
                     }                                                          
                     $response['@type']  = 'ImageObject';

@@ -55,7 +55,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     $author_url = get_the_author_meta('user_url',$author_id);
                 }               
 
-                if ( function_exists( 'get_avatar_data') && is_object($current_user) ){
+                if ( function_exists( 'get_avatar_data') && is_object($current_user) &&  ! empty( get_option( 'show_avatars' ) ) ) {
                     $author_details	= get_avatar_data($current_user->ID);           
                 }
 

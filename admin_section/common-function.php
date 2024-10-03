@@ -2755,7 +2755,7 @@ function saswp_fields_and_type($data_type = 'value'){
                             
             $author_image = array();
             
-            if ( function_exists( 'get_avatar_data') ) {
+            if ( function_exists( 'get_avatar_data') &&  ! empty( get_option( 'show_avatars' ) ) ) {
                 $author_image	= get_avatar_data($author_id);
             }
                     
@@ -2880,7 +2880,7 @@ function saswp_fields_and_type($data_type = 'value'){
 
                                 $author_image = array();
             
-                                if ( function_exists( 'get_avatar_data') ) {
+                                if ( function_exists( 'get_avatar_data') &&  ! empty( get_option( 'show_avatars' ) ) ) {
                                     $author_image   = get_avatar_data($author_id);
                                 }
                                         

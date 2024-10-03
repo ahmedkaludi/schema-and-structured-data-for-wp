@@ -358,7 +358,7 @@ class SASWP_View_Common {
 
                     $current_user   = wp_get_current_user();
                                 
-                    if ( function_exists( 'get_avatar_data') ) {
+                    if ( function_exists( 'get_avatar_data') &&  ! empty( get_option( 'show_avatars' ) ) ) {
                         $author_details	= get_avatar_data($current_user->ID);                
                     }
 
