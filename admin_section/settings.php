@@ -4909,11 +4909,9 @@ function saswp_enqueue_style_js( $hook ) {
         
         wp_enqueue_script('thickbox');
         wp_enqueue_style('thickbox');
-                       	
-        if( ! class_exists( 'acf' ) ) {        
-            wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery' ), SASWP_VERSION, true);        
-            wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
-        }
+                       	   
+        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery' ), SASWP_VERSION, true);        
+        wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
 
         if( !class_exists('TM_Builder_Core') ){
 
@@ -5002,6 +5000,14 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         wp_enqueue_script('select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', array( 'jquery' ), SASWP_VERSION, true);
         	                                        
         }                
+        
+        // If ACF is active then dequeue timepicker script on posts and pages
+        $current_screen     =   get_current_screen();
+        if( is_object( $current_screen ) && ! empty( $current_screen->base ) ) {
+            if(  class_exists( 'acf' ) && ( $current_screen->base == 'post' || $current_screen->base == 'page' ) ) {
+                wp_dequeue_script('saswp-timepicker-js');  
+            }    
+        }
         
 }
 
