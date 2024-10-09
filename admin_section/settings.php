@@ -4074,6 +4074,19 @@ function saswp_compatibility_page_callback() {
                         )
 		);
         
+        $woo_discount_rules = array(
+            'label'  => 'Discount Rules for WooCommerce',
+            'id'     => 'saswp-woo-discount-rules-checkbox',                        
+                        'name'   => 'saswp-woo-discount-rules-checkbox',
+            'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('woo_discount_rules'),
+                        'hidden' => array(
+                                'id'   => 'saswp-woo-discount-rules',
+                                'name' => 'sd_data[saswp-woo-discount-rules]',                             
+                        )
+        );
+        
         $cooked = array(
 			'label'  => 'Cooked',
 			'id'     => 'saswp-cooked-checkbox',                        
@@ -4336,8 +4349,10 @@ function saswp_compatibility_page_callback() {
         ); 
                 
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php') ) {
-                      
-             $woocommerce_bok['note'] = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Woocommerce Addon</a>';
+
+            $woo_note                    =  esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="http://structured-data-for-wp.com/woocommerce-compatibility-for-schema/">Woocommerce Addon</a>';       
+             $woocommerce_bok['note']    =  $woo_note;
+             $woo_discount_rules['note'] =  $woo_note;
                                       
         }
         
@@ -4502,6 +4517,7 @@ function saswp_compatibility_page_callback() {
                 $woocommerce,                
                 $woocommerce_bok,
                 $woocommerce_mem,
+                $woo_discount_rules,
                 $cooked, 
                 $soledad,
                 $enfold,
@@ -4668,7 +4684,7 @@ function saswp_compatibility_page_callback() {
 
             foreach ( $act_meta_fields as $key => $field){
                                   
-                 if($field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership'){
+                 if( $field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership' || $field['hidden']['id'] == 'saswp-woo-discount-rules' ) {
                      
                      if(!array_search('saswp-woocommerce', $active_plugins) ) {
                                          
@@ -4716,7 +4732,7 @@ function saswp_compatibility_page_callback() {
              
             foreach ( $ina_meta_fields as $key => $field){
                                   
-                 if($field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership'){
+                 if( $field['hidden']['id'] == 'saswp-woocommerce-booking' || $field['hidden']['id'] == 'saswp-woocommerce-membership' || $field['hidden']['id'] == 'saswp-woo-discount-rules' ) {
                      
                      if(array_search('saswp-woocommerce', $active_plugins) ) {
                                          
@@ -4893,11 +4909,9 @@ function saswp_enqueue_style_js( $hook ) {
         
         wp_enqueue_script('thickbox');
         wp_enqueue_style('thickbox');
-                       	
-        if( ! class_exists( 'acf' ) ) {        
-            wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery' ), SASWP_VERSION, true);        
-            wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
-        }
+                       	   
+        wp_enqueue_script( 'saswp-timepicker-js', SASWP_PLUGIN_URL . 'admin_section/js/jquery.timepicker.js', array( 'jquery' ), SASWP_VERSION, true);        
+        wp_enqueue_style( 'saswp-timepicker-css', SASWP_PLUGIN_URL . 'admin_section/css/jquery.timepicker.css', false , SASWP_VERSION );
 
         if( !class_exists('TM_Builder_Core') ){
 
@@ -4986,6 +5000,14 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         wp_enqueue_script('select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', array( 'jquery' ), SASWP_VERSION, true);
         	                                        
         }                
+        
+        // If ACF is active then dequeue timepicker script on posts and pages
+        $current_screen     =   get_current_screen();
+        if( is_object( $current_screen ) && ! empty( $current_screen->base ) ) {
+            if(  class_exists( 'acf' ) && ( $current_screen->base == 'post' || $current_screen->base == 'page' ) ) {
+                wp_dequeue_script('saswp-timepicker-js');  
+            }    
+        }
         
 }
 

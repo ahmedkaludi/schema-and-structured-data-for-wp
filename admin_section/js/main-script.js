@@ -1665,6 +1665,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-woo-discount-rules-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-woo-discount-rules").val(1);  
+                            }else{
+                              $("#saswp-woo-discount-rules").val(0); 
+                            }
+                      break;
+                      
                       case 'saswp-woocommerce-booking-main-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              

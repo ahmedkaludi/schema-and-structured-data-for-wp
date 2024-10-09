@@ -655,51 +655,52 @@ function saswp_comparison_logic_checker($input, $post){
         // Get the list of all the taxonomies associated with current post
         $taxonomy_names = '';
 
-        if(is_object($post) ) {
+        if ( is_object( $post ) ) {
           $taxonomy_names = get_post_taxonomies( $post->ID );        
         }
         
         $checker    = '';
         $post_terms = null;
 
-          if ( $data != 'all') {
+          if ( $data != 'all' ) {
 
-            if(is_object($post) ) {
+            if ( is_object( $post ) && is_singular() ) {
 
-                $post_term_data = wp_get_post_terms($post->ID, $data);                
-                if ( ! is_wp_error( $post_term_data) ) {
+                $post_term_data = wp_get_post_terms( $post->ID, $data );                
+
+                if ( ! is_wp_error( $post_term_data ) ) {
                   $post_terms = $post_term_data;    
                 }        
                 
             }
                                             
-            if ( isset( $input['key_4'] ) && $input['key_4'] !='all'){
+            if ( isset( $input['key_4'] ) && $input['key_4'] !='all' ){
              
               $term_data       = $input['key_4'];
               $termChoices     = array();
 
-              if(is_tax() || is_tag() ) {
+              if ( is_tax() || is_tag() || is_category() ) {
 
                 $queried_obj   = get_queried_object();
                 $termChoices[] = $queried_obj->slug;
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
-              }elseif( isset($_GET['tag_ID'] ) && is_admin() ){
+              }elseif( isset( $_GET['tag_ID'] ) && is_admin() ) {
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
-                $term_object = get_term( intval($_GET['tag_ID']) );
+                $term_object = get_term( intval( $_GET['tag_ID'] ) );
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
                 $termChoices[] = $term_object->slug;
 
               }else{
 
-                if( is_object($post) ) {
+                if ( is_object( $post ) ) {
 
-                  $terms           = wp_get_post_terms( $post->ID ,$data);
+                  $terms           = wp_get_post_terms( $post->ID ,$data );
                 
                   if ( ! is_wp_error( $terms) ) {
                     
-                    if(count($terms)>0){
+                    if ( count( $terms ) > 0 ) {
                                                       
-                      foreach ( $terms as $key => $termvalue) {
+                      foreach ( $terms as $key => $termvalue ) {
                           
                         $termChoices[] = $termvalue->slug;
                         
@@ -715,36 +716,52 @@ function saswp_comparison_logic_checker($input, $post){
                                                                       
               
             if ( $comparison == 'equal' ) {
-              if(in_array($term_data, $termChoices) ) {
-                $result = true;
+              if ( in_array( $term_data, $termChoices ) ) {
+                 $result = true;
               }
             }
 
-            if ( $comparison == 'not_equal') { 
-              if(!in_array($term_data, $termChoices) ) {
+            if ( $comparison == 'not_equal' ) { 
+              if ( ! in_array( $term_data, $termChoices ) ) {
                 $result = true;
               }
             }
 
             }else{
               // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
-              if( isset($_GET['tag_ID'] ) && is_admin() ){            
+              if ( isset( $_GET['tag_ID'] ) && is_admin() ) {            
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
-                $term_object  = get_term( intval($_GET['tag_ID']) );              
+                $term_object  = get_term( intval( $_GET['tag_ID'] ) );              
                 $post_terms[] = $term_object->slug;
 
               }
               
-              if( isset($input['key_4']) && $input['key_4'] == 'all' ) {
-              
+              if ( isset( $input['key_4'] ) && $input['key_4'] == 'all' ) {
+                              
+                $tax_name      = '';
+
+                if ( is_tax() || is_tag() || is_category() ) {
+
+                  $queried_obj   = get_queried_object();
+                  if ( is_object( $queried_obj ) ) {
+                    $tax_name = $queried_obj->taxonomy;
+                  }
+                }                
+                
                 if ( $comparison == 'equal' ) {
                   if ( $post_terms ) {
                       $result = true;
                   }
+                  if ( $data == $tax_name ) {
+                      $result = true;
+                  }
                 }
 
-                if ( $comparison == 'not_equal') { 
-                  if ( !$post_terms ) {
+                if ( $comparison == 'not_equal' ) { 
+                  if ( ! $post_terms ) {
+                    $result = true;
+                  }
+                  if ( $data != $tax_name ) {
                     $result = true;
                   }
                 }
@@ -757,9 +774,9 @@ function saswp_comparison_logic_checker($input, $post){
                   }
                 }
 
-                if ( $comparison == 'not_equal') { 
-                  if ( is_array( $taxonomy_names) ) {
-                    $checker =  in_array($data, $taxonomy_names);       
+                if ( $comparison == 'not_equal' ) { 
+                  if ( is_array( $taxonomy_names ) ) {
+                    $checker =  in_array( $data, $taxonomy_names );       
                     if ( ! $checker ) {
                         $result = true;
                     }

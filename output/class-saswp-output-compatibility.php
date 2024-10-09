@@ -413,6 +413,9 @@ class SASWP_Output_Compatibility{
     public function woocommerce_membership_on_activation() {
          $this->saswp_update_option_on_compatibility_activation('saswp-woocommerce-membership');
     }
+    public function woo_discount_rules_on_activation() {
+         $this->saswp_update_option_on_compatibility_activation('saswp-woo-discount-rules');
+    }
     public function cooked_on_activation() {
          $this->saswp_update_option_on_compatibility_activation('saswp-cooked');
     }

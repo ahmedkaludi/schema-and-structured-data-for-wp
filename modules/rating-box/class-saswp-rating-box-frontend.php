@@ -61,7 +61,7 @@ Class SASWP_Rating_Box_Frontend{
                         $author_id      = get_the_author_meta('ID');
 			$author_details = array();
                         
-                        if ( function_exists( 'get_avatar_data') ) {
+                        if ( function_exists( 'get_avatar_data') &&  ! empty( get_option( 'show_avatars' ) ) ) {
                             $author_details	= get_avatar_data($author_id);
                         }
 			

@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.6
 Requires PHP: 5.6.20
-Stable tag: 1.36
+Stable tag: 1.37
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -120,6 +120,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.37 (09 October 2024) =
+* Fixed: Avatars are disabled still they are being added to the schema markup #2184
+* Feature: Added compatibility with Discout Rules plugin #2190
+* Fixed: Issue with Taxonomy placement setup #2191
+* Fixed: ACF time picker conflict issue in block editor #2195
 
 = 1.36 (18 September 2024) =
 * Feature: Added URL Parameter placement to targer URL's #2117
@@ -282,9 +288,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Enhancement: Added option to add or remove shop page url from Breadcrumbs #2034
 * Fixed: Conflict issue with FOXIZ CORE plugin which causes fatal error #2035
 * Fixed: Warning in debug log #2036
-
-
-= 1.21.1 (27 Sep 2023) =
-* Fixed: Minor Fix
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

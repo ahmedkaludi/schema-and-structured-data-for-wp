@@ -2755,7 +2755,7 @@ function saswp_fields_and_type($data_type = 'value'){
                             
             $author_image = array();
             
-            if ( function_exists( 'get_avatar_data') ) {
+            if ( function_exists( 'get_avatar_data') &&  ! empty( get_option( 'show_avatars' ) ) ) {
                 $author_image	= get_avatar_data($author_id);
             }
                     
@@ -2880,7 +2880,7 @@ function saswp_fields_and_type($data_type = 'value'){
 
                                 $author_image = array();
             
-                                if ( function_exists( 'get_avatar_data') ) {
+                                if ( function_exists( 'get_avatar_data') &&  ! empty( get_option( 'show_avatars' ) ) ) {
                                     $author_image   = get_avatar_data($author_id);
                                 }
                                         
@@ -3581,7 +3581,8 @@ function saswp_get_field_note($pname){
             'modern_events_calendar'      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/modern-events-calendar-lite/">Modern Events Calendar</a>',
             'flex_mls_idx'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/flexmls-idx/">FlexMLS IDX</a>',        
             'woocommerce_membership'      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://woocommerce.com/products/woocommerce-memberships">Woocommerce Membership</a>',
-            'woocommerce_bookings'        => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://woocommerce.com/products/woocommerce-bookings">Woocommerce Bookings</a>',        
+            'woocommerce_bookings'        => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://woocommerce.com/products/woocommerce-bookings">Woocommerce Bookings</a>',
+            'woo_discount_rules'        => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/woo-discount-rules">Discount Rules for WooCommerce</a>',        
             'extra'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://www.elegantthemes.com/gallery/extra/">Extra Theme</a>',
             'homeland'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/homeland-responsive-real-estate-theme-for-wordpress/6518965">Homeland</a>',            
             'ratency'                     => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/ratency-review-magazine-theme/21303977">Ratency - Review & Magazine Theme</a>',            
