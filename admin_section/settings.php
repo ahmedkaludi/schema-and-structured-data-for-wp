@@ -5003,8 +5003,9 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         
         // If ACF is active then dequeue timepicker script on posts and pages
         $current_screen     =   get_current_screen();
-        if( is_object( $current_screen ) && ! empty( $current_screen->base ) ) {
-            if(  class_exists( 'acf' ) && ( $current_screen->base == 'post' || $current_screen->base == 'page' ) ) {
+        $post_types         =   saswp_post_type_generator();
+        if ( is_object( $current_screen ) && ! empty( $current_screen->post_type ) ) {
+            if (  class_exists( 'acf' ) && ( is_array( $post_types ) && in_array( $current_screen->post_type, $post_types ) ) ) {
                 wp_dequeue_script('saswp-timepicker-js');  
             }    
         }
