@@ -430,7 +430,10 @@ function saswp_comparison_logic_checker($input, $post){
 
         case 'author_name':            
 
-          $get_author = get_post_field('post_author',$post->ID);
+          $get_author = '';
+          if ( is_object( $post ) && isset( $post->ID ) ) {
+            $get_author = get_post_field( 'post_author',$post->ID );
+          }
           
           if ( $comparison == 'equal' ) {
               if ( $get_author == $data ) {
