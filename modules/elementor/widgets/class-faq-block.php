@@ -89,7 +89,7 @@ class Faq_Block extends Widget_Base {
 		$this->add_control(
 	        '_saswp_el_faq_schema',
 	        [
-	            'label'        => __( 'FAQ Schema', 'schema-and-structured-data-for-wp' ),
+	            'label'        => __( 'Add Schema', 'schema-and-structured-data-for-wp' ),
 	            'type'         => Controls_Manager::SWITCHER,
 	            'label_on'     => __( 'Yes', 'schema-and-structured-data-for-wp' ),
 	            'label_off'    => __( 'No', 'schema-and-structured-data-for-wp' ),
