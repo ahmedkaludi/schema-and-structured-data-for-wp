@@ -399,6 +399,33 @@ Class SASWP_Output_Service{
                         }
                         
 
+                    }elseif ( strpos( $cus_field[$key], "rank_math_" ) !== false && class_exists('RankMath\Helper') ) {
+
+                        $column_name = str_replace('rank_math_', '', $cus_field[$key]);
+                        $term_id        =   '';
+                        $term_taxonomy  =   '';
+                        if ( is_category() || is_tag() || is_product_category() ) {
+                            $query_obj  =   get_queried_object();
+                            if ( ! empty( $query_obj ) && is_object( $query_obj ) && ! empty( $query_obj->term_id ) ) { 
+                                $term_id            =   $query_obj->term_id;
+                                $term_taxonomy      =   $query_obj->taxonomy;
+                            }
+                        }
+
+                        if( ( is_category() || is_tag() || is_product_category() ) && $term_id > 0 ) {
+                            $response       =   get_term_meta( $term_id, $cus_field[$key], true );
+                            $rank_data      =   RankMath\Helper::replace_vars( $response, get_term( $term_id, $term_taxonomy ) );
+                            if ( ! empty( $rank_data ) && is_string( $rank_data ) ) {
+                                $response   =   $rank_data;
+                            }
+                        }else{
+                            $response       =   get_post_meta($post->ID, $cus_field[$key], true);  
+                            $rank_data      =   RankMath\Helper::replace_vars( $response, get_post( $post->ID ) );
+                            if ( ! empty( $rank_data ) && is_string( $rank_data ) ) {
+                                $response   =   $rank_data;
+                            }    
+                        }
+
                     }elseif(strpos($key, "global_mapping") === true && $key == "saswp_webpage_reviewed_by"){
                             
                         if($key == "saswp_webpage_reviewed_by"){
