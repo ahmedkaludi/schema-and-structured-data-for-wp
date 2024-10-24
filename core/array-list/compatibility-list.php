@@ -469,6 +469,12 @@ return array(
                     'opt_name'   => 'saswp-bbpress',
                     'part_in'    => 'free',
         ),
+        'wpforo' => array(            
+                    'name'       => 'wpForo Forum',
+                    'free'       => 'wpforo/wpforo.php',            
+                    'opt_name'   => 'saswp-wpforo',
+                    'part_in'    => 'free',
+        ),
         'woocommerce' => array(            
                     'name'       => 'Woocommerce',
                     'free'       => 'woocommerce/woocommerce.php',            

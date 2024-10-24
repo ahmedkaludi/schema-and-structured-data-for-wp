@@ -3542,6 +3542,7 @@ function saswp_get_field_note($pname){
             'simple_author_box'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/simple-author-box//">Simple Author Box</a>',
             'wp_post_ratings'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
+            'wpforo'                      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wpforo/">wpForo Forum</a>',
             'woocommerce'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
             'cooked'                      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
             'the_events_calendar'         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',

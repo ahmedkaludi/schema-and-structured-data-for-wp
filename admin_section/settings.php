@@ -4210,6 +4210,19 @@ function saswp_compatibility_page_callback() {
                                     'name' => 'sd_data[saswp-bbpress]',                             
                         )
 		);
+        
+        $wpforo = array(
+            'label'  => 'wpForo Forum',
+            'id'     => 'saswp-wpforo-checkbox',                        
+                        'name'   => 'saswp-wpforo-checkbox',
+            'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wpforo'),
+                        'hidden' => array(
+                                    'id'   => 'saswp-wpforo',
+                                    'name' => 'sd_data[saswp-wpforo]',                             
+                        )
+        );
                 
         $yoast      = array(
 			'label'   => 'Yoast SEO Plugin',
@@ -4512,6 +4525,7 @@ function saswp_compatibility_page_callback() {
                 $wppostratings,
                 $wpreviewpro,
                 $bbpress,
+                $wpforo,
                 $webstories,
                 $wpecommerce,
                 $woocommerce,                

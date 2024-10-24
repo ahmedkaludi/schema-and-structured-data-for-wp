@@ -1826,6 +1826,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-wpforo-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpforo").val(1);                                
+                            }else{
+                              $("#saswp-wpforo").val(0);                                          
+                            }
+                      break;
+                      
                       case 'saswp-microdata-cleanup-checkbox':
                           
                             if ($(this).is(':checked')) {              
