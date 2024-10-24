@@ -1306,7 +1306,7 @@ function saswp_get_comments($post_id){
      * */
     if ( ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) || function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) { 
 
-        if ( ( function_exists( 'ampforwp_get_setting' ) && false == ampforwp_get_setting( 'ampforwp-display-on-posts' ) ) ) {
+        if ( ( function_exists( 'ampforwp_get_setting' ) && false == ampforwp_get_setting( 'ampforwp-display-on-posts' ) ) || ( function_exists( 'amp_is_legacy' ) && amp_is_legacy() ) ) {
             return array();
         }
 
