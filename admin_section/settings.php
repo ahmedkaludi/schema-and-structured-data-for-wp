@@ -3001,6 +3001,19 @@ function saswp_compatibility_page_callback() {
                         'name' => 'sd_data[saswp-showcaseidx]',                             
                 )
         );
+        
+        $realtypress = array(
+                'label'  => 'RealtyPress Premium',
+                'id'     => 'saswp-realtypress-checkbox',                        
+                'name'   => 'saswp-realtypress-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('realtypress'),
+                'hidden' => array(
+                        'id'   => 'saswp-realtypress',
+                        'name' => 'sd_data[saswp-realtypress]',                             
+                )
+        );
 
         $arconixfaq   = array(
                 'label'  => 'Arconix FAQ',
@@ -4387,6 +4400,7 @@ function saswp_compatibility_page_callback() {
              $realestate_7['note']   = $real_addon_req;
              $geo_directory['note']  = $real_addon_req;
              $showcaseidx['note']    = $real_addon_req;
+             $realtypress['note']    = $real_addon_req;
                           
          }
          
@@ -4623,6 +4637,7 @@ function saswp_compatibility_page_callback() {
                 $ultimatefaqs,
                 $ultimatemember,
                 $showcaseidx,
+                $realtypress,
                 $arconixfaq,
                 $faqconcertina,
                 $faqschemaforpost,

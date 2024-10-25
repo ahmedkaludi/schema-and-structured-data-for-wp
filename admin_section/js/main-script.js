@@ -2132,6 +2132,15 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
+                      case 'saswp-realtypress-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-realtypress").val(1);                                
+                            }else{
+                              $("#saswp-realtypress").val(0);                                          
+                            }
+                            
+                      break;
 
                       case 'saswp-arconixfaq-checkbox':
                            saswp_compatibliy_notes(current, id); 

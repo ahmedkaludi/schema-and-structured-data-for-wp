@@ -148,6 +148,12 @@ return array(
             'opt_name'   => 'saswp-showcaseidx',
             'part_in'    => 'pro',
         ),
+        'realtypress'  =>  array(            
+            'name'       => 'RealtyPress Premium',
+            'free'       => 'realtypress-premium/realtypress.php',                    
+            'opt_name'   => 'saswp-realtypress',
+            'part_in'    => 'pro',
+        ),
         'easyaccordion'  =>  array(            
             'name'       => 'Easy Accordion',
             'free'       => 'easy-accordion-free/plugin-main.php',                    
