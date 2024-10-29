@@ -1766,6 +1766,27 @@ function saswp_schema_output() {
 
 			
                             break;
+                            
+                            case 'ProductGroup':
+                              
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
+
+                                if ( isset( $input1['offers'] ) ) {
+                                    unset( $input1['offers'] );
+                                }
+                                  
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+
+                                $input1 = apply_filters('saswp_modify_product_group_schema_output', $input1 );
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_product_group_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+            
+                            break;
                         
                             case 'NewsArticle':
                                                                                             

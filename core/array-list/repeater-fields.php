@@ -53,11 +53,14 @@ return array( 'schema_type_element' => array(
 							   'product_pros' => 'product_pros',
 							   'product_cons' => 'product_cons',                                                
                         ),   
-						'SoftwareApplication' => array(
-							'product_reviews' => 'product_reviews',
-							'product_pros' => 'product_pros',
-							'product_cons' => 'product_cons',
-						),                     
+                        'ProductGroup' => array(
+                        	'product_group_has_varient'	=>	'product_group_has_varient',
+                        ),
+			   'SoftwareApplication' => array(
+				'product_reviews' => 'product_reviews',
+				'product_pros' => 'product_pros',
+				'product_cons' => 'product_cons',
+			   ),                     
                         'DataFeed' => array(
                                'feed_element' => 'feed_element',                                                
                         ),
@@ -304,6 +307,81 @@ return array( 'schema_type_element' => array(
 					'label'     => 'Cons Text',
 					'name'      => 'saswp_product_cons_title',
 					'type'      => 'text',                        
+				),
+			),                
+			'product_group_has_varient' => array(
+				array(
+					'label'     => 'Sku',
+					'name'      => 'saswp_product_grp_sku',
+					'type'      => 'text',                        
+				),
+				array(
+					'label'     => 'GTIN14',
+					'name'      => 'saswp_product_grp_gtin14',
+					'type'      => 'text',                        
+				),
+				array(
+					'label'     => 'Image',
+					'name'      => 'saswp_product_grp_img',
+					'type'      => 'media',                        
+				),
+				array(
+					'label'     => 'Name',
+					'name'      => 'saswp_product_grp_name',
+					'type'      => 'text',                        
+				),
+				array(
+					'label'     => 'Description',
+					'name'      => 'saswp_product_grp_description',
+					'type'      => 'textarea',                        
+				),
+				array(
+					'label'     => 'Offer URL',
+					'name'      => 'saswp_product_grp_offer_url',
+					'type'      => 'text',                        
+				),
+				array(
+					'label'     => 'Offer Currency',
+					'name'      => 'saswp_product_grp_offer_currency',
+					'type'      => 'text',                        
+				),
+				array(
+					'label'     => 'Offer Price',
+					'name'      => 'saswp_product_grp_offer_price',
+					'type'      => 'number',                        
+				),
+				array(
+	                            'label'     => 'Price Valid Until',
+	                            'name'      => 'saswp_product_grp_schema_priceValidUntil',
+	                            'type'      => 'text',    
+                       	),
+				array(
+					'label'     => 'Offer Item Condition',
+					'name'      => 'saswp_product_grp_offer_icondition',
+					'type'      => 'select',                        
+					'options'   => array(
+						'NewCondition'		=> 'New Condition',
+						'RefurbishedCondition'	=> 'Refurbished Condition',
+						'UsedCondition'		=> 'Used Condition',
+					),                        
+				),
+				array(
+					'label'     => 'Offer Availability',
+					'name'      => 'saswp_product_grp_offer_avail',
+					'type'      => 'select',                            
+	                            'options'   => array(
+	                                   'InStock'           		=> 'In Stock',
+	                                   'BackOrder'           	=> 'Back Order',
+	                                   'Discontinued'           	=> 'Discontinued',
+	                                   'Discontinued'      		=> 'Discontinued',
+	                                   'InStoreOnly'           	=> 'In Store Only',
+	                                   'LimitedAvailability'     	=> 'Limited Availability',
+	                                   'OnlineOnly'           	=> 'Online Only',
+	                                   'OutOfStock'        		=> 'Out Of Stock',
+	                                   'PreOrder'          		=> 'Pre Order', 
+	                                   'PreSale'          		=> 'Pre Sale', 
+	                                   'SoldOut'          		=> 'Sold Out', 
+	                            ),                      
 				),
 			),                
                     'feed_element' => array(                    
