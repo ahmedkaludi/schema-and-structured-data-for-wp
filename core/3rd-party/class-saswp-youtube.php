@@ -39,9 +39,12 @@ class SASWP_Youtube
         if($result['items'][0]['snippet']['description']){ $vinfo['description']   = $result['items'][0]['snippet']['description']; }
         if($result['items'][0]['statistics']['viewCount']){   $vinfo['viewCount']   = $result['items'][0]['statistics']['viewCount'];  }
 
+        if ( isset( $vinfo['duration'] ) && $vinfo['duration'] != 'P0D' ) {
 
-        $interval = new DateInterval($vinfo['duration']);
-        $vinfo['duration_sec'] = $interval->h * 3600 + $interval->i * 60 + $interval->s;
+            $interval = new DateInterval($vinfo['duration']);
+            $vinfo['duration_sec'] = $interval->h * 3600 + $interval->i * 60 + $interval->s;
+
+        }        
 
         $vinfo['thumbnail']['default']       = self::$thumbnail_base . $vid . '/default.jpg';
         $vinfo['thumbnail']['mqDefault']     = self::$thumbnail_base . $vid . '/mqdefault.jpg';
