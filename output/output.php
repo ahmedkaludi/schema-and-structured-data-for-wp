@@ -1764,6 +1764,7 @@ function saswp_schema_output() {
                                     $input1 = saswp_product_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
 
+                                $input1 =  apply_filters( 'saswp_modify_product_schema_varient_output', $input1 ); 
 			
                             break;
                             
@@ -1777,14 +1778,16 @@ function saswp_schema_output() {
                                   
                                 $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
                                 
-                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
-
                                 $input1 = apply_filters('saswp_modify_product_group_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                 
                                 if($modified_schema == 1){
                                     
                                     $input1 = saswp_product_group_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 =  apply_filters( 'saswp_modify_product_schema_varient_output', $input1 ); 
             
                             break;
                         
