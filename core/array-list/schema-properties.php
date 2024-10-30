@@ -6723,7 +6723,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             ),
                             array(
                                 'label' => 'Aggregate Rating',
-                                'id'    => 'saswp_product_srp_schema_enable_rating_'.$schema_id,
+                                'id'    => 'saswp_product_grp_srp_schema_enable_rating_'.$schema_id,
                                 'type'  => 'checkbox',                            
                             ),                       
                             array(
