@@ -1853,6 +1853,16 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
+                      
+                      case 'saswp-archive-images-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-archive-images").val(1);                                
+                            }else{
+                              $("#saswp-archive-images").val(0);                                          
+                            }
+                            
+                      break;
 
                       case 'saswp-full-heading-checkbox':
                           

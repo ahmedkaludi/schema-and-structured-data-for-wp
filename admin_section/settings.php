@@ -1732,6 +1732,18 @@ function saswp_import_callback() {
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
                 ),  
+                 array(
+                    'label'  => 'Add All Available Images Of Tags & Categories',
+                    'id'     => 'saswp-archive-images-checkbox',                        
+                    'name'   => 'saswp-archive-images-checkbox',
+                    'type'   => 'checkbox',
+                    'class'  => 'checkbox saswp-checkbox',   
+                    'note'   => 'It adds all the available images on tags and categories to schema markup. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/what-is-add-all-available-images-on-post-in-schema-structured-data-for-wp-amp">Learn More</a>',   
+                        'hidden' => array(
+                             'id'   => 'saswp-archive-images',
+                             'name' => 'sd_data[saswp-archive-images]',                             
+                        )
+                ),  
                 array(
                         'label'  => 'Allow Image Resizing',
                         'id'     => 'saswp-image-resizing-checkbox',                        

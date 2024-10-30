@@ -9081,6 +9081,7 @@ Class SASWP_Output_Service{
             $image_details       = array();
             $image_resize        = false;
             $multiple_size       = false;
+            $term_id             = 0;
 
             if( (isset($sd_data['saswp-image-resizing']) && $sd_data['saswp-image-resizing'] == 1) || !isset($sd_data['saswp-image-resizing']) ) {
                 $image_resize = true;
@@ -9254,9 +9255,21 @@ Class SASWP_Output_Service{
                                                        
                           //Get All the images available on post   
                            
-                          if( (isset($sd_data['saswp-other-images']) && $sd_data['saswp-other-images'] == 1) || !isset($sd_data['saswp-other-images']) ){
+                          if( (isset($sd_data['saswp-other-images']) && $sd_data['saswp-other-images'] == 1) || !isset($sd_data['saswp-other-images']) || ! empty( $sd_data['saswp-archive-images'] ) ){
                           
-                          $content = get_the_content(null, false, $post);   
+                          $content          =   '';
+                          $queried_object   =   get_queried_object();
+                          if ( ! empty( $sd_data['saswp-archive-images'] ) ) {
+                            if (  is_object( $queried_object ) && ! empty( $queried_object->term_id ) && ! empty( $queried_object->description ) ) {
+                                $content        =   $queried_object->description;
+                                $input2         =   array();
+                                $term_id        =   $queried_object->term_id;
+                            }  
+                          }
+                          
+                          if ( ( isset( $sd_data['saswp-other-images'] ) && $sd_data['saswp-other-images'] == 1 ) || ! isset( $sd_data['saswp-other-images'] ) ) {
+                            $content        =   get_the_content(null, false, $post); 
+                          }  
                           
                           if($content){
                               
@@ -9332,7 +9345,12 @@ Class SASWP_Output_Service{
                                                 }
                                                 
                                             }                                             
-                                            $attach_images['image'][$key]['@id']    =   saswp_get_permalink().'#primaryimage';                                            
+                                            
+                                            if ( $term_id > 0 ){
+                                                $attach_images['image'][$key]['@id']    =   get_term_link( $term_id ).'#primaryimage';
+                                            }else {                                            
+                                                $attach_images['image'][$key]['@id']    =   saswp_get_permalink().'#primaryimage';
+                                            }                                            
                                           }                                                                                         
                                       }
                                       

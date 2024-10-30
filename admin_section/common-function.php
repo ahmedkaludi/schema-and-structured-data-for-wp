@@ -2071,6 +2071,7 @@ function saswp_fields_and_type($data_type = 'value'){
         'saswp-pretty-print'                            => array('type' => 'checkbox', 'value' => 0),
         'saswp-microdata-cleanup'                       => array('type' => 'checkbox', 'value' => 1),
         'saswp-other-images'                            => array('type' => 'checkbox', 'value' => 1),
+        'saswp-archive-images'                          => array('type' => 'checkbox', 'value' => 0),
         'saswp-image-resizing'                          => array('type' => 'checkbox', 'value' => 1),
         'saswp-multiple-size-image'                     => array('type' => 'checkbox', 'value' => 1),
         'saswp-resized-image-folder'                    => array('type' => 'checkbox', 'value' => 0),
