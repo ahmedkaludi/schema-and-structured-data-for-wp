@@ -404,6 +404,9 @@ class SASWP_Output_Compatibility{
     public function bb_press_on_activation() {
          $this->saswp_update_option_on_compatibility_activation('saswp-bbpress');
     }
+    public function wpforo_on_activation() {
+         $this->saswp_update_option_on_compatibility_activation('saswp-wpforo');
+    }
     public function woocommerce_on_activation() {            
         $this->saswp_update_option_on_compatibility_activation('saswp-woocommerce');                
     }
@@ -628,6 +631,9 @@ class SASWP_Output_Compatibility{
     }
     public function showcaseidx_on_activation() {        
         $this->saswp_update_option_on_compatibility_activation('saswp-showcaseidx');
+    }
+    public function realtypress_on_activation() {        
+        $this->saswp_update_option_on_compatibility_activation('saswp-realtypress');
     }
     public function easyaccordion_on_activation() {        
         $this->saswp_update_option_on_compatibility_activation('saswp-easyaccordion');

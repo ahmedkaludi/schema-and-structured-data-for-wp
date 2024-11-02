@@ -148,6 +148,12 @@ return array(
             'opt_name'   => 'saswp-showcaseidx',
             'part_in'    => 'pro',
         ),
+        'realtypress'  =>  array(            
+            'name'       => 'RealtyPress Premium',
+            'free'       => 'realtypress-premium/realtypress.php',                    
+            'opt_name'   => 'saswp-realtypress',
+            'part_in'    => 'pro',
+        ),
         'easyaccordion'  =>  array(            
             'name'       => 'Easy Accordion',
             'free'       => 'easy-accordion-free/plugin-main.php',                    
@@ -467,6 +473,12 @@ return array(
                     'name'       => 'bbPress',
                     'free'       => 'bbpress/bbpress.php',            
                     'opt_name'   => 'saswp-bbpress',
+                    'part_in'    => 'free',
+        ),
+        'wpforo' => array(            
+                    'name'       => 'wpForo Forum',
+                    'free'       => 'wpforo/wpforo.php',            
+                    'opt_name'   => 'saswp-wpforo',
                     'part_in'    => 'free',
         ),
         'woocommerce' => array(            

@@ -779,6 +779,54 @@ function saswp_schema_output() {
                                         )    
                                 );
                                 
+                            }elseif ( isset( $sd_data['saswp-wpforo']) && $sd_data['saswp-wpforo'] == 1 && is_plugin_active('wpforo/wpforo.php') ) {
+
+                                /**
+                                 * Check if current topic is created through wpforo plugin
+                                 * @since 1.38
+                                 * */
+
+                                if ( function_exists( 'is_wpforo_url' ) && is_wpforo_url() ) {
+                                    $topicid    =   '';
+                                    if( isset( WPF()->current_object['topicid'] ) ) {
+                                        $topicid = WPF()->current_object['topicid'];
+                                    }
+                                    if ( ! empty( $topicid ) && function_exists('wpforo_topic') ) {
+                                       
+                                        $topic_array  =   wpforo_topic( $topicid );
+                                        $wpforo_post  =   wpforo_post( $topicid );
+                                        
+                                        if ( ! empty( $topic_array ) && is_array( $topic_array ) ) {
+                                            
+                                            if ( ! empty( $topic_array['url'] ) ) {
+                                                $input1['@context']             =   saswp_context_url();
+                                                $input1['@type']                =   'DiscussionForumPosting';
+                                                $input1['@id']                  =   $topic_array['url'].'#DiscussionForumPosting';
+                                                $input1['url']                  =   $topic_array['url'];       
+                                                $input1['mainEntityOfPage']     =   $topic_array['url']; 
+                                                $input1['description']          =   isset( $wpforo_post['body'] ) ? esc_html( $wpforo_post['body'] ) : saswp_get_the_excerpt();
+                                            } 
+
+                                            if ( ! empty( $topic_array['title'] ) ) {
+                                                $input1['headline']             =   $topic_array['title'];    
+                                            }
+
+                                            if ( $forum = WPF()->current_object['forum'] ) {
+                                                $input1['articleSection']       =   wpforo_forum_title( $forum );
+                                            }
+                                            
+                                            $input1['articleBody']              =   isset( $wpforo_post['body'] ) ? esc_html( $wpforo_post['body'] ) : saswp_get_the_content(); 
+                                            $input1['datePublished']            =   isset( $topic_array['created'] ) ? saswp_format_date_time( date('Y-m-d', strtotime( $topic_array['created'] ) ), date('H:i:s', strtotime( $topic_array['created'] ) ) ) : get_post_time( DATE_ATOM, false, get_the_ID(), true );
+                                            $input1['dateModified']             =   isset( $topic_array['modified'] ) ? saswp_format_date_time( date('Y-m-d', strtotime( $topic_array['modified'] ) ), date('H:i:s', strtotime( $topic_array['modified'] ) ) ) : esc_html( $modified_date);
+                                            $input1['author']                   =   saswp_get_author_details();
+                                            $input1['interactionStatistic']['@type']                =   'InteractionCounter';
+                                            $input1['interactionStatistic']['interactionType']      =   saswp_context_url().'/CommentAction';
+                                            $input1['interactionStatistic']['userInteractionCount'] =   $topic_array['posts'] - 1;
+                                            
+                                        }
+                                    }
+                                }
+
                             }else{
                                 
                                 $input1 = array(
@@ -793,34 +841,6 @@ function saswp_schema_output() {
                                 'dateModified'                  => esc_html( $modified_date),
                                 'author'			=> saswp_get_author_details()											
                                 );
-                                
-                                /**
-                                 * Check if current topic is created through wpforo plugin
-                                 * @since 1.36
-                                 * */
-
-                                if( function_exists( 'is_wpforo_url' ) && is_wpforo_url() ) {
-                                    $topicid    =   '';
-                                    if( isset( WPF()->current_object['topicid'] ) ) {
-                                        $topicid = WPF()->current_object['topicid'];
-                                    }
-                                    if( ! empty( $topicid ) && function_exists('wpforo_topic') ) {
-                                        $topic_array  =   wpforo_topic($topicid);
-                                        if( ! empty( $topic_array ) && is_array( $topic_array ) ) {
-                                            
-                                            if( ! empty( $topic_array['url'] ) ) {
-                                                $input1['@id']                  =   $topic_array['url'].'#DiscussionForumPosting';       
-                                                $input1['url']                  =   $topic_array['url'];       
-                                                $input1['mainEntityOfPage']     =   $topic_array['url']; 
-                                            } 
-
-                                            if( ! empty( $topic_array['title'] ) ) {
-                                                $input1['headline']             =   $topic_array['title'];    
-                                            }
-
-                                        }
-                                    }
-                                }
                                 
                             }                                                                                                    
                                 if ( ! empty( $publisher) ) {
@@ -1744,7 +1764,31 @@ function saswp_schema_output() {
                                     $input1 = saswp_product_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
 
+                                $input1 =  apply_filters( 'saswp_modify_product_schema_varient_output', $input1 ); 
 			
+                            break;
+                            
+                            case 'ProductGroup':
+                              
+                                $input1 = $service_object->saswp_schema_markup_generator($schema_type);
+
+                                if ( isset( $input1['offers'] ) ) {
+                                    unset( $input1['offers'] );
+                                }
+                                  
+                                $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                
+                                $input1 = apply_filters('saswp_modify_product_group_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_product_group_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+
+                                $input1 =  apply_filters( 'saswp_modify_product_schema_varient_output', $input1 ); 
+            
                             break;
                         
                             case 'NewsArticle':

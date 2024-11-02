@@ -430,7 +430,10 @@ function saswp_comparison_logic_checker($input, $post){
 
         case 'author_name':            
 
-          $get_author = get_post_field('post_author',$post->ID);
+          $get_author = '';
+          if ( is_object( $post ) && isset( $post->ID ) ) {
+            $get_author = get_post_field( 'post_author',$post->ID );
+          }
           
           if ( $comparison == 'equal' ) {
               if ( $get_author == $data ) {
@@ -2557,3 +2560,21 @@ function save_extra_user_profile_fields( $user_id ) {
      
 }
 //user Custom Schema filed save end
+
+/**
+ * Add protection to schema post meta fields
+ * @param   $protected  Boolean
+ * @param   $meta_key   String
+ * @param   $meta_type  String
+ * @return  $protected  Boolean
+ * @since   1.38
+ * */
+add_filter( 'is_protected_meta', 'saswp_add_protection_schema_meta', 10, 3 );
+
+function saswp_add_protection_schema_meta( $protected, $meta_key, $meta_type ){
+    // Allow fields starting with underscore to be displayed
+    if ( strpos( $meta_key, 'saswp_' ) === 0 ) {
+        return true;
+    }
+    return $protected;
+}

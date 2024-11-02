@@ -85,6 +85,18 @@ class Faq_Block extends Widget_Base {
 				'title_field' => '{{{ faq_question }}}',
 			]
 		);
+		
+		$this->add_control(
+	        '_saswp_el_faq_schema',
+	        [
+	            'label'        => __( 'Add Schema', 'schema-and-structured-data-for-wp' ),
+	            'type'         => Controls_Manager::SWITCHER,
+	            'label_on'     => __( 'Yes', 'schema-and-structured-data-for-wp' ),
+	            'label_off'    => __( 'No', 'schema-and-structured-data-for-wp' ),
+	            'return_value' => 'yes',
+	            'default'      => 'yes',
+	        ]
+    	);
 
 		$this->end_controls_section();
 
@@ -92,11 +104,13 @@ class Faq_Block extends Widget_Base {
 
 	protected function render() {
             
-                global $saswp_elementor_faq;
-            
-				$settings            = $this->get_settings_for_display();
-                $order_type          = $settings['order_type'];                
+        global $saswp_elementor_faq, $saswp_elementor_faq_switch;
+    
+		$settings            = $this->get_settings_for_display();
+        $order_type          = $settings['order_type'];                
                 
+		$saswp_elementor_faq_switch =	isset( $settings['_saswp_el_faq_schema'] ) ? esc_html( $settings['_saswp_el_faq_schema'] ) : 'yes';
+
 		if ( $settings['list'] ) {
                     
                         $saswp_elementor_faq = $settings['list'];						

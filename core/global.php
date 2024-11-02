@@ -28,7 +28,8 @@ $with_aggregate = array(
         'local_business',
         'Organization', 
         'project',                  
-        'Product'              
+        'Product',              
+        'ProductGroup'              
 );
 $without_aggregate = array(
         'Apartment',

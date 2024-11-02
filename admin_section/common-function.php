@@ -2071,6 +2071,7 @@ function saswp_fields_and_type($data_type = 'value'){
         'saswp-pretty-print'                            => array('type' => 'checkbox', 'value' => 0),
         'saswp-microdata-cleanup'                       => array('type' => 'checkbox', 'value' => 1),
         'saswp-other-images'                            => array('type' => 'checkbox', 'value' => 1),
+        'saswp-archive-images'                          => array('type' => 'checkbox', 'value' => 0),
         'saswp-image-resizing'                          => array('type' => 'checkbox', 'value' => 1),
         'saswp-multiple-size-image'                     => array('type' => 'checkbox', 'value' => 1),
         'saswp-resized-image-folder'                    => array('type' => 'checkbox', 'value' => 0),
@@ -2138,7 +2139,7 @@ function saswp_fields_and_type($data_type = 'value'){
                 $sd_data = get_option( 'sd_data', saswp_default_settings_array());     
 
                 // If data is not set for custom schema option then  set default data to 1
-                if(!array_key_exists('saswp-for-cschema', $sd_data) ) {
+                if ( is_array( $sd_data ) && ! array_key_exists( 'saswp-for-cschema', $sd_data ) ) {
                     $sd_data['saswp-for-cschema'] = 1;
                 }
 
@@ -3507,6 +3508,7 @@ function saswp_get_field_note($pname){
             'ultimatefaqs'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/ultimate-faqs/">Ultimate FAQs</a>',
             'ultimatemember'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/ultimate-member/">Ultimate Member</a>',
             'showcaseidx'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/showcase-idx/">Showcaseidx</a>',
+            'realtypress'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://realtypress.ca/">RealtyPress Premium</a>',
             'easyaccordion'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/easy-accordion-free/">Easy Accordion</a>',
             'wpresponsivefaq'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/sp-faq">WP responsive FAQ with category plugin</a>',
             'arconixfaq'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/arconix-faq/">Arconix FAQ</a>',
@@ -3542,6 +3544,7 @@ function saswp_get_field_note($pname){
             'simple_author_box'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/simple-author-box//">Simple Author Box</a>',
             'wp_post_ratings'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-postratings/">WP-PostRatings</a>',
             'bb_press'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/bbpress/">bbPress</a>',
+            'wpforo'                      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wpforo/">wpForo Forum</a>',
             'woocommerce'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/woocommerce/">Woocommerce</a>',
             'cooked'                      => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/cooked/">Cooked</a>',
             'the_events_calendar'         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a>',

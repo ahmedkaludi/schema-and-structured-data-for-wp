@@ -1826,6 +1826,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-wpforo-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-wpforo").val(1);                                
+                            }else{
+                              $("#saswp-wpforo").val(0);                                          
+                            }
+                      break;
+                      
                       case 'saswp-microdata-cleanup-checkbox':
                           
                             if ($(this).is(':checked')) {              
@@ -1841,6 +1850,16 @@ jQuery(document).ready(function($){
                               $("#saswp-other-images").val(1);                                
                             }else{
                               $("#saswp-other-images").val(0);                                          
+                            }
+                            
+                      break;
+                      
+                      case 'saswp-archive-images-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-archive-images").val(1);                                
+                            }else{
+                              $("#saswp-archive-images").val(0);                                          
                             }
                             
                       break;
@@ -2120,6 +2139,15 @@ jQuery(document).ready(function($){
                               $("#saswp-showcaseidx").val(1);                                
                             }else{
                               $("#saswp-showcaseidx").val(0);                                          
+                            }
+                            
+                      break;
+                      case 'saswp-realtypress-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-realtypress").val(1);                                
+                            }else{
+                              $("#saswp-realtypress").val(0);                                          
                             }
                             
                       break;

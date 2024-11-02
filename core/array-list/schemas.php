@@ -81,6 +81,7 @@ return array(
         ),                                                                                                                                                                                    
         'Product' => array(
             'Product'                  => 'Product',
+            'ProductGroup'             => 'ProductGroup',
             'Car'                      => 'Car',
             'Vehicle'                  => 'Vehicle'
         ),

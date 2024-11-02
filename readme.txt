@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.6
 Requires PHP: 5.6.20
-Stable tag: 1.37
+Stable tag: 1.38
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -120,6 +120,21 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.38 (02 November 2024) =
+* Feature: Added ProductGroup Schema Type #2071
+* Feature: Added ption to show/hide schema markup inside elementor widget #2171
+* Enhancement: Fixed issue of correct image in ImageObject schema #2188
+* Enhancement: Schema meta fields should not be appeared inside custom fields. #2189
+* Feature: Automated the faqs data added manually in classic editor #2193
+* Fixed: Code improvement  #2194
+* Fixed: ACF time picker conflict issue in block editor #2195
+* Enhancement: Schema markup shown for the AMP pages showing the same markup as non-AMP #2199
+* Enhancement: Rankmath keyword issue with Category and Tag for WebPage schema #2201
+* Enhancement: Added FAQ compatibility with Elementor accordian #2202
+* Feature: Added Compatibility with wpForo plugin #2204
+* Enhancement: Issue with adding a live YouTube video to post #2205
+* Feature: Added compatibility with the plugin RealtyPress Premium #2206
 
 = 1.37 (09 October 2024) =
 * Fixed: Avatars are disabled still they are being added to the schema markup #2184
@@ -273,20 +288,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: The issue with Graphql on the pages shows the internal server error #2039
 * Fixed: Test with wordpress v6.4 #2040
 * Fixed: PHP warning in query monitor "Undefined array key 1" #2043
-
-
-= 1.22 (6 Nov 2023) =
-
-* Feature: Added few new fields in creativework schema #2015
-* Enhancement: Added support for newer social networks on the 'sameAs' field #2019
-* Fixed: A PHP warning shown in the schema markup #2020
-* Fixed: Classic Editor FAQ issue in schema markup #2022
-* Fixed: Issue with modify option in Recipe schema #2024
-* Feature: Added new feature (FAQ schema should be crawled from individual ACF fields step by step) #2026
-* Fixed: Fatal Error Call to undefined function wp_getimagesize() #2027
-* Fixed: Errors from schema pro extensions #2029
-* Enhancement: Added option to add or remove shop page url from Breadcrumbs #2034
-* Fixed: Conflict issue with FOXIZ CORE plugin which causes fatal error #2035
-* Fixed: Warning in debug log #2036
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

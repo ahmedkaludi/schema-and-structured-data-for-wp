@@ -1732,6 +1732,18 @@ function saswp_import_callback() {
                              'name' => 'sd_data[saswp-other-images]',                             
                         )
                 ),  
+                 array(
+                    'label'  => 'Add All Available Images Of Tags & Categories',
+                    'id'     => 'saswp-archive-images-checkbox',                        
+                    'name'   => 'saswp-archive-images-checkbox',
+                    'type'   => 'checkbox',
+                    'class'  => 'checkbox saswp-checkbox',   
+                    'note'   => 'It adds all the available images on tags and categories to schema markup. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/what-is-add-all-available-images-on-post-in-schema-structured-data-for-wp-amp">Learn More</a>',   
+                        'hidden' => array(
+                             'id'   => 'saswp-archive-images',
+                             'name' => 'sd_data[saswp-archive-images]',                             
+                        )
+                ),  
                 array(
                         'label'  => 'Allow Image Resizing',
                         'id'     => 'saswp-image-resizing-checkbox',                        
@@ -3001,6 +3013,19 @@ function saswp_compatibility_page_callback() {
                         'name' => 'sd_data[saswp-showcaseidx]',                             
                 )
         );
+        
+        $realtypress = array(
+                'label'  => 'RealtyPress Premium',
+                'id'     => 'saswp-realtypress-checkbox',                        
+                'name'   => 'saswp-realtypress-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('realtypress'),
+                'hidden' => array(
+                        'id'   => 'saswp-realtypress',
+                        'name' => 'sd_data[saswp-realtypress]',                             
+                )
+        );
 
         $arconixfaq   = array(
                 'label'  => 'Arconix FAQ',
@@ -4210,6 +4235,19 @@ function saswp_compatibility_page_callback() {
                                     'name' => 'sd_data[saswp-bbpress]',                             
                         )
 		);
+        
+        $wpforo = array(
+            'label'  => 'wpForo Forum',
+            'id'     => 'saswp-wpforo-checkbox',                        
+                        'name'   => 'saswp-wpforo-checkbox',
+            'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('wpforo'),
+                        'hidden' => array(
+                                    'id'   => 'saswp-wpforo',
+                                    'name' => 'sd_data[saswp-wpforo]',                             
+                        )
+        );
                 
         $yoast      = array(
 			'label'   => 'Yoast SEO Plugin',
@@ -4374,6 +4412,7 @@ function saswp_compatibility_page_callback() {
              $realestate_7['note']   = $real_addon_req;
              $geo_directory['note']  = $real_addon_req;
              $showcaseidx['note']    = $real_addon_req;
+             $realtypress['note']    = $real_addon_req;
                           
          }
          
@@ -4512,6 +4551,7 @@ function saswp_compatibility_page_callback() {
                 $wppostratings,
                 $wpreviewpro,
                 $bbpress,
+                $wpforo,
                 $webstories,
                 $wpecommerce,
                 $woocommerce,                
@@ -4609,6 +4649,7 @@ function saswp_compatibility_page_callback() {
                 $ultimatefaqs,
                 $ultimatemember,
                 $showcaseidx,
+                $realtypress,
                 $arconixfaq,
                 $faqconcertina,
                 $faqschemaforpost,
@@ -5003,8 +5044,9 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         
         // If ACF is active then dequeue timepicker script on posts and pages
         $current_screen     =   get_current_screen();
-        if( is_object( $current_screen ) && ! empty( $current_screen->base ) ) {
-            if(  class_exists( 'acf' ) && ( $current_screen->base == 'post' || $current_screen->base == 'page' ) ) {
+        $post_types         =   saswp_post_type_generator();
+        if ( is_object( $current_screen ) && ! empty( $current_screen->post_type ) ) {
+            if (  class_exists( 'acf' ) && ( is_array( $post_types ) && in_array( $current_screen->post_type, $post_types ) ) ) {
                 wp_dequeue_script('saswp-timepicker-js');  
             }    
         }

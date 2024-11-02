@@ -6401,6 +6401,346 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     );
                     
                     break;
+                    
+                case 'ProductGroup':
+
+                        $product_details = array();
+                    
+                        if($manual == null && $post_id){
+                        
+                            $service = new SASWP_Output_Service();
+                            $product_details = $service->saswp_woocommerce_product_details($post_id);     
+                            
+                        }
+
+                        $meta_field = array(                        
+                            array(
+                                    'label'   => 'Name',
+                                    'id'      => 'saswp_product_grp_schema_name_'.$schema_id,
+                                    'type'    => 'text',     
+                                    'default' => saswp_remove_warnings($product_details, 'product_name', 'saswp_string')
+                            ),
+                            array(
+                                    'label'   => 'ID',
+                                    'id'      => 'saswp_product_grp_schema_id_'.$schema_id,
+                                    'type'    => 'text'                        
+                            ),
+                            array(
+                                    'label'   => 'URL',
+                                    'id'      => 'saswp_product_grp_schema_url_'.$schema_id,
+                                    'type'    => 'text',     
+                                    'default' => get_permalink()
+                            ),    
+                            array(
+                                    'label'   => 'Description',
+                                    'id'      => 'saswp_product_grp_schema_description_'.$schema_id,
+                                    'type'    => 'textarea', 
+                                    'default' => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')
+                            ), 
+                            array(
+                                    'label'    => 'Image',
+                                    'id'       => 'saswp_product_grp_schema_image_'.$schema_id,
+                                    'type'     => 'media',                           
+                            ),
+                            array(
+                                    'label'    => 'Brand Name',
+                                    'id'       => 'saswp_product_grp_schema_brand_name_'.$schema_id,
+                                    'type'     => 'text',
+                                    'default' => saswp_remove_warnings($product_details, 'product_brand', 'saswp_string')
+                            ),
+                            array(
+                                    'label'    => 'Product Group ID',
+                                    'id'       => 'saswp_product_grp_schema_group_id_'.$schema_id,
+                                    'type'     => 'text',
+                            ),
+                            array(
+                                    'label'    => 'Varies By',
+                                    'id'       => 'saswp_product_grp_schema_varies_by_'.$schema_id,
+                                    'type'     => 'text',
+                                    'note'     => 'Note: Enter all the varies name in comma separated',
+                            ),
+                            array(
+                                    'label'   => 'Price',
+                                    'id'      => 'saswp_product_grp_schema_price_'.$schema_id,
+                                    'type'    => 'text',
+                                    'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                            ),
+                            array(
+                                    'label'   => 'High Price',
+                                    'id'      => 'saswp_product_grp_schema_high_price_'.$schema_id,
+                                    'type'    => 'text',
+                                    'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                            ),
+                            array(
+                                    'label'   => 'Low Price',
+                                    'id'      => 'saswp_product_grp_schema_low_price_'.$schema_id,
+                                    'type'    => 'text',
+                                    'default' => saswp_remove_warnings($product_details, 'product_price', 'saswp_string')
+                            ),
+                            array(
+                                    'label'   => 'Offer Count',
+                                    'id'      => 'saswp_product_grp_schema_offer_count_'.$schema_id,
+                                    'type'    => 'text',                                
+                            ),
+                            array(
+                                'label'   => 'Price Valid Until',
+                                'id'      => 'saswp_product_grp_schema_priceValidUntil_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_priceValidUntil', 'saswp_string')    
+                            ),
+                            array(
+                                'label'   => 'Currency',
+                                'id'      => 'saswp_product_grp_schema_currency_'.$schema_id,
+                                'type'    => 'text', 
+                                'default' => saswp_remove_warnings($product_details, 'product_currency', 'saswp_string')    
+                            ),
+                            array(
+                                'label'   => 'Availability',
+                                'id'      => 'saswp_product_grp_schema_availability_'.$schema_id,
+                                'type'    => 'select',                            
+                                'options' => array(
+                                         'InStock'              => 'In Stock',
+                                         'BackOrder'            => 'Back Order',
+                                         'Discontinued'         => 'Discontinued',
+                                         'Discontinued'         => 'Discontinued',
+                                         'InStoreOnly'          => 'In Store Only',
+                                         'LimitedAvailability'  => 'Limited Availability',
+                                         'OnlineOnly'           => 'Online Only',
+                                         'OutOfStock'           => 'Out Of Stock',
+                                         'PreOrder'             => 'Pre Order', 
+                                         'PreSale'              => 'Pre Sale', 
+                                ),
+                                'default' => saswp_remove_warnings($product_details, 'product_availability', 'saswp_string')
+                            ),
+                            array(
+                                'label'   => 'Condition',
+                                'id'      => 'saswp_product_grp_schema_condition_'.$schema_id,
+                                'type'    => 'select',                            
+                                'options' => array(
+                                         'NewCondition'              => 'New',
+                                         'UsedCondition'             => 'Used',
+                                         'RefurbishedCondition'      => 'Refurbished',
+                                         'DamagedCondition'          => 'Damaged',   
+                                ),
+                            ),
+                            array(
+                                'label'   => 'SKU',
+                                'id'      => 'saswp_product_grp_schema_sku_'.$schema_id,
+                                'type'    => 'text', 
+                                'default' => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string')    
+                            ),
+                            array(
+                                'label'   => 'MPN',
+                                'id'      => 'saswp_product_grp_schema_mpn_'.$schema_id,
+                                'type'    => 'text',
+                                'note'    => 'OR',                            
+                                'default' => saswp_remove_warnings($product_details, 'product_mpn', 'saswp_string')
+                            ),                       
+                            array(
+                                'label'   => 'GTIN8',
+                                'id'      => 'saswp_product_grp_schema_gtin8_'.$schema_id,
+                                'type'    => 'text',  
+                                'note'    => 'OR',  
+                                'default' => saswp_remove_warnings($product_details, 'product_gtin8', 'saswp_string')    
+                            ),
+                            array(
+                                    'label'   => 'GTIN13',
+                                    'id'      => 'saswp_product_grp_schema_gtin13_'.$schema_id,
+                                    'type'    => 'text',  
+                                    'default' => saswp_remove_warnings($product_details, 'product_gtin13', 'saswp_string')    
+                            ),
+                            array(
+                                    'label'   => 'GTIN12',
+                                    'id'      => 'saswp_product_grp_schema_gtin12_'.$schema_id,
+                                    'type'    => 'text',  
+                                    'default' => saswp_remove_warnings($product_details, 'product_gtin12', 'saswp_string')    
+                            ),
+                            array(
+                                'label' => 'Seller Organization',
+                                'id'    => 'saswp_product_grp_schema_seller_'.$schema_id,
+                                'type'  => 'text',                             
+                            ),
+                            array(
+                                'label' => 'Additional Type',
+                                'id'    => 'saswp_product_grp_additional_type_'.$schema_id,
+                                'type'  => 'text',                             
+                            ),
+                            array(
+                                'label'   => 'Return Policy Applicable Country Code',
+                                'id'      => 'saswp_product_grp_schema_rp_country_code_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'US'
+                                ),
+                            ),
+                            array(
+                                'label'   => 'Return Policy Category',
+                                'id'      => 'saswp_product_grp_schema_rp_category_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                         ''                                                 => 'Select Return Policy Category',
+                                         'MerchantReturnFiniteReturnWindow'                 => 'MerchantReturnFiniteReturnWindow',
+                                         'MerchantReturnNotPermitted'                       => 'MerchantReturnNotPermitted',
+                                         'MerchantReturnUnlimitedWindow'                    => 'MerchantReturnUnlimitedWindow',
+                                         'MerchantReturnUnspecified'                        => 'MerchantReturnUnspecified',
+                                )
+                            ),
+                            array(
+                                'label'   => 'Return Policy Merchant Return Days',
+                                'id'      => 'saswp_product_grp_schema_rp_return_days_'.$schema_id,
+                                'type'    => 'number',
+                                'attributes' => array(
+                                    'placeholder' => '5'
+                                ),
+                            ),
+                            array(
+                                'label'   => 'Return Policy Return Method',
+                                'id'      => 'saswp_product_grp_schema_rp_return_method_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ''                  => 'Select Return Policy Method',
+                                        'ReturnAtKiosk'     => 'ReturnAtKiosk',
+                                        'ReturnByMail'      => 'ReturnByMail',
+                                        'ReturnInStore'     => 'ReturnInStore',
+                                )
+                            ),
+                            array(
+                                'label'   => 'Return Policy Return Fees',
+                                'id'      => 'saswp_product_grp_schema_rp_return_fees_'.$schema_id,
+                                'type'    => 'select',
+                                'options' => array(
+                                        ''                                  => 'Select Return Policy Fees',
+                                        'FreeReturn'                        => 'FreeReturn',
+                                        'ReturnFeesCustomerResponsibility'  => 'ReturnFeesCustomerResponsibility',
+                                        'ReturnShippingFees'                => 'ReturnShippingFees',
+                                )
+                            ),
+                            array(
+                                'label'   => 'Shipping Rate Value',
+                                'id'      => 'saswp_product_grp_schema_sr_value_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                    'placeholder' => '3.8'
+                                ),
+                            ),
+                            array(
+                                'label'   => 'Shipping Rate Currency',
+                                'id'      => 'saswp_product_grp_schema_sr_currency_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'USD'
+                                ),
+                            ),
+                            array(
+                                'label'   => 'Shipping Destination Locality',
+                                'id'      => 'saswp_product_grp_schema_sa_locality_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'New York'
+                                ),                        
+                            ),
+                            array(
+                                'label'   => 'Shipping Destination Region',
+                                'id'      => 'saswp_product_grp_schema_sa_region_'.$schema_id,
+                                'type'    => 'text', 
+                                'attributes' => array(
+                                    'placeholder' => 'NY'
+                                ),                       
+                            ),
+                            array(
+                                'label'   => 'Shipping Destination Postal Code',
+                                'id'      => 'saswp_product_grp_schema_sa_postal_code_'.$schema_id,
+                                'type'    => 'text',  
+                                'attributes' => array(
+                                    'placeholder' => '10019'
+                                ),                      
+                            ),
+                            array(
+                                'label'   => 'Shipping Destination Street Address',
+                                'id'      => 'saswp_product_grp_schema_sa_address_'.$schema_id,
+                                'type'    => 'textarea', 
+                                'attributes' => array(
+                                    'placeholder' => '148 W 51st St'
+                                ),                       
+                            ),
+                            array(
+                                'label'   => 'Shipping Destination Country',
+                                'id'      => 'saswp_product_grp_schema_sa_country_'.$schema_id,
+                                'type'    => 'text', 
+                                'attributes' => array(
+                                    'placeholder' => 'US'
+                                ),                       
+                            ),
+                            array(
+                                'label'   => 'Shipping Handling Time Min Value',
+                                'id'      => 'saswp_product_grp_schema_sdh_minval_'.$schema_id,
+                                'type'    => 'number',
+                                'attributes' => array(
+                                    'placeholder' => '0'
+                                ),                        
+                            ),
+                            array(
+                                'label'   => 'Shipping Handling Time Max Value',
+                                'id'      => 'saswp_product_grp_schema_sdh_maxval_'.$schema_id,
+                                'type'    => 'number',
+                                'attributes' => array(
+                                    'placeholder' => '1'
+                                ),                        
+                            ),
+                            array(
+                                'label'   => 'Shipping Handling Time Unit Code',
+                                'id'      => 'saswp_product_grp_schema_sdh_unitcode_'.$schema_id,
+                                'type'    => 'text',     
+                                'note'    => 'Note: Enter unit code as DAY',
+                                'attributes' => array(
+                                    'placeholder' => 'DAY'
+                                ),                 
+                            ),
+                            array(
+                                'label'   => 'Shipping Transit Time Min Value',
+                                'id'      => 'saswp_product_grp_schema_sdt_minval_'.$schema_id,
+                                'type'    => 'number', 
+                                'attributes' => array(
+                                    'placeholder' => '2'
+                                ),                       
+                            ),
+                            array(
+                                'label'   => 'Shipping Transit Time Max Value',
+                                'id'      => 'saswp_product_grp_schema_sdt_maxval_'.$schema_id,
+                                'type'    => 'number',  
+                                'attributes' => array(
+                                    'placeholder' => '5'
+                                ),                      
+                            ),
+                            array(
+                                'label'   => 'Shipping Transit Time Unit Code',
+                                'id'      => 'saswp_product_grp_schema_sdt_unitcode_'.$schema_id,
+                                'type'    => 'text',     
+                                'note'    => 'Note: Enter unit code as DAY',  
+                                'attributes' => array(
+                                    'placeholder' => 'DAY'
+                                ),                 
+                            ),
+                            array(
+                                'label' => 'Aggregate Rating',
+                                'id'    => 'saswp_product_grp_srp_schema_enable_rating_'.$schema_id,
+                                'type'  => 'checkbox',                            
+                            ),                       
+                            array(
+                                'label'   => 'Rating',
+                                'id'      => 'saswp_product_grp_srp_schema_rating_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_average_rating', 'saswp_string')
+                            ),
+                            array(
+                                'label'   => 'Number of Reviews',
+                                'id'      => 'saswp_product_grp_srp_schema_review_count_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_remove_warnings($product_details, 'product_review_count', 'saswp_string')
+                            ),
+                        );
+
+                    break;
                 
                 case 'Service':
                     

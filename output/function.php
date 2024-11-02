@@ -1299,6 +1299,19 @@ function saswp_extract_wp_post_ratings() {
  */       
 function saswp_get_comments($post_id){
     
+    /**
+     * If Display comment on post is disabled in amp settings for amp post then don't add comments to schema markup
+     * https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues/2199
+     * @since 1.38
+     * */
+    if ( ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) || function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) { 
+
+        if ( ( function_exists( 'ampforwp_get_setting' ) && false == ampforwp_get_setting( 'ampforwp-display-on-posts' ) ) || ( function_exists( 'amp_is_legacy' ) && amp_is_legacy() ) ) {
+            return array();
+        }
+
+    }
+
     global $sd_data;
     $wpdiscuz = false;
 
@@ -2936,6 +2949,13 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
                             case 'Course':
                                                                                                 
                                 $data          = saswp_course_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
+                                $input1        = array_merge($input1, $data);
+                            
+                                break;    
+                                
+                            case 'ProductGroup':
+                                                                                                
+                                $data          = saswp_product_group_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
                                 $input1        = array_merge($input1, $data);
                             
                                 break;    
