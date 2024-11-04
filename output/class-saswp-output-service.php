@@ -404,7 +404,7 @@ Class SASWP_Output_Service{
                         $column_name = str_replace('rank_math_', '', $cus_field[$key]);
                         $term_id        =   '';
                         $term_taxonomy  =   '';
-                        if ( is_category() || is_tag() || is_product_category() ) {
+                        if ( is_category() || is_tag() || ( function_exists( 'is_product_category' ) && is_product_category() ) ) {
                             $query_obj  =   get_queried_object();
                             if ( ! empty( $query_obj ) && is_object( $query_obj ) && ! empty( $query_obj->term_id ) ) { 
                                 $term_id            =   $query_obj->term_id;
@@ -412,7 +412,7 @@ Class SASWP_Output_Service{
                             }
                         }
 
-                        if( ( is_category() || is_tag() || is_product_category() ) && $term_id > 0 ) {
+                        if( ( is_category() || is_tag() || ( function_exists( 'is_product_category' ) && is_product_category() ) ) && $term_id > 0 ) {
                             $response       =   get_term_meta( $term_id, $cus_field[$key], true );
                             $rank_data      =   RankMath\Helper::replace_vars( $response, get_term( $term_id, $term_taxonomy ) );
                             if ( ! empty( $rank_data ) && is_string( $rank_data ) ) {
