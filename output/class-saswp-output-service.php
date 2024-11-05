@@ -9192,9 +9192,15 @@ Class SASWP_Output_Service{
                                                         $min_val    =   min ( $image_details[1], $image_details[2] );
 
                                                         if ( $image_details[1] == 1200 && in_array ( $image_details[2], $height_array ) ) {
-
-                                                            $width      =   array ( $min_val, 1200, 1200 );   
-                                                            $height     =   array ( $min_val, 900, 675 );   
+                                                            
+                                                            $width_array    =  array ( 1200, 1200, $min_val );   
+                                                            $height_array   =  array ( 675, 900, $min_val );   
+                                                            if ( $image_details[2] == 900 ) {
+                                                                $height_array   =  array ( 900, 675, $min_val );
+                                                            }
+                                                            
+                                                            $width      =   $width_array;
+                                                            $height     =   $height_array;   
 
                                                         } else {
                                                             $width[]    =   $min_val;
