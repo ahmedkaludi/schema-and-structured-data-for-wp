@@ -121,9 +121,13 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.38.1 (06 November 2024) =
+* Enhancement: Rankmath keyword issue with Category and Tag for WebPage schema #2201
+* Enhancement: Primary image size was not reflected properly in Schema #2213
+
 = 1.38 (02 November 2024) =
 * Feature: Added ProductGroup Schema Type #2071
-* Feature: Added ption to show/hide schema markup inside elementor widget #2171
+* Feature: Added option to show/hide schema markup inside elementor widget #2171
 * Enhancement: Fixed issue of correct image in ImageObject schema #2188
 * Enhancement: Schema meta fields should not be appeared inside custom fields. #2189
 * Feature: Automated the faqs data added manually in classic editor #2193
@@ -276,17 +280,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Schema type not displaying in admin for post specific #2045
 * Fixed: Review Title Link Displays 404 Error #2046
 * Fixed: Broken Access Control vulnerability reported by patchstack.com
-
-= 1.23 (21 Nov 2023) =
-
-* Feature: Added compatibility with "custom-post-types" plugin #2017
-* Fixed: Fixed Fatal Error: Call to undefined function wp_getimagesize() #2027
-* Feature: Created an option of 'Read More' in the description of review #2028
-* Enhancement: Do not strip html tags from job posting description #2030
-* Feature: Added compatibility with Webwinkelkeur to fetch reviews #2032
-* Feature: Added an option to hide the Place ID URL #2037
-* Fixed: The issue with Graphql on the pages shows the internal server error #2039
-* Fixed: Test with wordpress v6.4 #2040
-* Fixed: PHP warning in query monitor "Undefined array key 1" #2043
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
