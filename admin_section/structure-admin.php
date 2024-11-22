@@ -850,7 +850,7 @@ if(is_admin() ) {
                 'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
                 'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
                 'add_new' 	        => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
-                'add_new_item'      => '',
+                'add_new_item'      => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
                 'edit_item'         => esc_html__( 'Edit Schema Type', 'schema-and-structured-data-for-wp' ),           
                 'all_items'         => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
                 'not_found'         => $not_found_button    

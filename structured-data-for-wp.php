@@ -75,6 +75,7 @@ if ( ! function_exists('saswp_non_amp') ) {
 // Schema App end here
 require_once SASWP_DIR_NAME.'/admin_section/structure-admin.php';
 require_once SASWP_DIR_NAME.'/admin_section/settings.php';
+require_once SASWP_DIR_NAME.'/admin_section/class-saswp-schema-templates.php';
 require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
 require_once SASWP_DIR_NAME.'/output/class-saswp-location-widget.php';
 require_once SASWP_DIR_NAME.'/admin_section/class-saswp-fields-generator.php';  

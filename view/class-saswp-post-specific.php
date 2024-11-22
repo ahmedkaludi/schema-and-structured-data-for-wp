@@ -334,7 +334,7 @@ class SASWP_Post_Specific {
             global $saswp_metaboxes;
                                                          
             $show_post_types = get_post_types();
-            unset($show_post_types['adsforwp'],$show_post_types['saswp'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
+            unset( $show_post_types['adsforwp'],$show_post_types['saswp'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css'], $show_post_types['saswp_template'] );            
             
             $this->screen = $show_post_types;
             
