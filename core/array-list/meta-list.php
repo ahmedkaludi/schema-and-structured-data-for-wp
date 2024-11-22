@@ -41,6 +41,12 @@ return apply_filters('saswp_modify_post_meta_list',
                                             'custom_field' => __( 'Custom Field', 'schema-and-structured-data-for-wp' ),
                                     ),
                             ),
+                            array(
+                                    'label'     => __( 'Schema Template', 'schema-and-structured-data-for-wp' ),
+                                    'meta-list' => array(
+                                            'saswp_schema_template' => __( 'Schema Template', 'schema-and-structured-data-for-wp' ),
+                                    ),
+                            ),
                     ),
                     'image' => array(
                             

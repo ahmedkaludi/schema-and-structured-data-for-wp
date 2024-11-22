@@ -1890,6 +1890,34 @@ function saswpAddReadmoreToReviewext(reviewText, wordLimit) {
     return reviewText;
 }
 
+function saswpRenderSchemaTemplates() {
+    
+    if((saswp_localize_data.post_type == 'saswp' || saswp_localize_data.page_now =='saswp') && saswp_localize_data.page_now !='saswp_page_structured_data_options' && jQuery('.saswp-schema-template-select2').length ){
+        jQuery('.saswp-schema-template-select2').select2({
+            ajax: {
+                type: "POST",    
+                url: ajaxurl, // AJAX URL is predefined in WordPress admin
+                dataType: 'json',
+                delay: 250, // delay in ms while typing when to perform a AJAX search
+                data: function (params) {
+                      return {
+                        saswp_security_nonce: saswp_localize_data.saswp_security_nonce,
+                        q: params.term, // search query
+                        action: 'saswp_get_schema_templates' // AJAX action for admin-ajax.php
+                      };
+                },
+                processResults: function( data ) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });   
+    }
+
+}
+
 // Expand review text on click on Read More
 jQuery(document).on('click', '.saswp-read-more', function(e){
     e.preventDefault();

@@ -3630,6 +3630,13 @@ jQuery(document).ready(function($){
               $(this).parent().parent('tr').find("td:gt(1)").remove();
               $(this).parent().parent('tr').append(html);
               saswpCustomSelect2();
+          }else if(meta_val == 'saswp_schema_template'){
+              html += '<td><select class="saswp-schema-template-select2" name="saswp_schema_template_field['+field_name+'][]" multiple>';
+              html += '</select></td>';              
+              html += '<td><a class="button button-default saswp-rmv-modify_row">X</a></td>';
+              $(this).parent().parent('tr').find("td:gt(1)").remove();
+              $(this).parent().parent('tr').append(html);
+              saswpRenderSchemaTemplates();          
           }
           else{
               html += '<td></td>';
@@ -3699,7 +3706,10 @@ jQuery(document).ready(function($){
                      
           }
        });
-       saswpCustomSelect2();                                
+       saswpCustomSelect2();    
+                                   
+       saswpRenderSchemaTemplates();   
+
        saswp_enable_rating_review();   
 
        saswp_enable_rating_automate();                    

@@ -79,6 +79,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $fixed_image          = '';
                 $cus_meta_field       = array();
                 $meta_list            = array();
+                $template_field       = array();
                 
                 if ( isset( $_POST['notAccessibleForFree'] ) )
                         $notAccessibleForFree = sanitize_text_field($_POST['notAccessibleForFree']);
@@ -100,6 +101,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     $cus_meta_field = array_map ('sanitize_text_field', $_POST['saswp_custom_meta_field']);
                 if ( isset( $_POST['saswp_fixed_image'] ) )                    
                     $fixed_image = wp_unslash($_POST['saswp_fixed_image']);
+                if ( isset( $_POST['saswp_schema_template_field'] ) ) {  
+                    $template_field     =   $_POST['saswp_schema_template_field'];
+                    if ( ! empty( $template_field ) && is_array( $template_field ) ) {
+                        foreach ($template_field as $tf_key => $tf_value) {
+
+                            if ( ! empty( $tf_value ) && is_array( $tf_value ) ) {
+                                $template_field[$tf_key]    =   array_map( 'sanitize_text_field', $tf_value );
+                            }
+                        }
+                    }
+                }
                 
                  $saswp_schema_options  =    array(
                                                 'isAccessibleForFree'   => $isAccessibleForFree,
@@ -115,4 +127,5 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                  update_post_meta( $post_id, 'saswp_taxonomy_term', $taxonomy_term);
                  update_post_meta( $post_id, 'saswp_fixed_image', $fixed_image);
                  update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);                              
+                 update_post_meta( $post_id, 'saswp_schema_template_field', $template_field);                              
 }    

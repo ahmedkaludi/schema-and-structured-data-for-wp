@@ -10,6 +10,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class SASWP_Schema_Templates {
+
+    protected $template_type    = 'saswp_template';
+    protected $template_label   = 'Schema Template';
     
     public function __construct(){
       
@@ -20,6 +23,7 @@ class SASWP_Schema_Templates {
         add_filter( 'manage_saswp_template_posts_columns', array( $this, 'custom_columns' ) );
         add_action( 'manage_saswp_template_posts_custom_column' , array( $this, 'set_custom_columns' ), 10, 2 );
         add_action( 'save_post', array( $this, 'save_modify_meta_data' ) ) ;
+        add_action( 'wp_ajax_saswp_get_schema_templates', array($this, 'get_get_schema_templates'));
 
       }
 
@@ -198,6 +202,62 @@ class SASWP_Schema_Templates {
        update_post_meta( $post_id, 'saswp_taxonomy_term', $taxonomy_term);
        update_post_meta( $post_id, 'saswp_fixed_image', $fixed_image);
        update_post_meta( $post_id, 'saswp_custom_meta_field', $cus_meta_field);
+
+    }
+    
+    /**
+     * Add template posts to meta list
+     * @param   $fields   Array
+     * @return  $fields   Array
+     * @since   1.39
+     * */
+    public function get_get_schema_templates(){
+
+      if ( ! isset( $_POST['saswp_security_nonce'] ) ){
+        return; 
+      }
+      if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
+        return;  
+      }
+      if(!current_user_can( saswp_current_user_can()) ) {
+        die( '-1' );    
+      }
+      
+      $template_list    = array();
+      $result           = array();
+
+      $args = array(
+          'post_type'      => $this->template_type,
+          'posts_per_page' => -1,
+          'post_status'    => 'publish',
+      );
+
+      $query = new WP_Query($args);
+
+      if ($query->have_posts()) {
+      
+          while ($query->have_posts()) {
+            
+            $query->the_post();
+            $template_list[]  = array(
+                                  'id'    => get_the_ID(),
+                                  'text'  => get_the_title(),
+                                );
+
+          }
+
+          wp_reset_postdata();
+      }
+
+      if ( ! empty( $template_list ) ) {
+        $result[] = array(
+          'children' => $template_list,
+        );
+      }
+
+      wp_send_json( $result );            
+            
+      wp_die();
 
     }
 }
