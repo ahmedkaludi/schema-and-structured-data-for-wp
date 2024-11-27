@@ -1890,6 +1890,10 @@ function saswpAddReadmoreToReviewext(reviewText, wordLimit) {
     return reviewText;
 }
 
+/**
+ * Add schema templates to schema template drowdown 
+ * @since 1.39
+ * */
 function saswpRenderSchemaTemplates() {
     
     if((saswp_localize_data.post_type == 'saswp' || saswp_localize_data.page_now =='saswp') && saswp_localize_data.page_now !='saswp_page_structured_data_options' && jQuery('.saswp-schema-template-select2').length ){
@@ -1915,6 +1919,29 @@ function saswpRenderSchemaTemplates() {
             }
         });   
     }
+
+}
+
+/**
+ * Append schema template group to meta list select element only if selected
+ * field is a schema template field
+ * @since 1.39
+ * */
+function saswp_add_schema_template_to_meta_list( field_name, thisData) {
+
+    let schemaType  =   jQuery('#schema_type').val();
+
+    jQuery.ajax({
+        type: "POST",    
+        url:ajaxurl,                    
+        async: false,
+        data:{action:"saswp_validate_schema_template_attr",field_name:field_name, schema_type:schemaType,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+        success:function(response){ 
+            if ( response.length > 0 ) {
+                thisData.closest('tr').find('.saswp-custom-meta-list').append(response);                                                                                        
+            }
+        }
+    });
 
 }
 

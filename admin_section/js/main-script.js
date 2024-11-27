@@ -3502,7 +3502,8 @@ jQuery(document).ready(function($){
                 type = 'image';
             }                                     
              var id = $(this).parent().parent('tr').find("td:eq(1)");                                    
-             saswp_get_meta_list(null,type, null, id, fields_name, tr);                    
+             saswp_get_meta_list(null,type, null, id, fields_name, tr); 
+             saswp_add_schema_template_to_meta_list( fields_name, $(this) );                   
              
        }); 
                 

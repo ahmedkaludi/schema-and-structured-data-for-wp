@@ -1238,6 +1238,10 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                                                     
                             $meta_list_fields = include(SASWP_DIR_NAME . '/core/array-list/meta-list.php');
                             
+                            if ( $fieldval == 'saswp_schema_template' ) {
+                                $meta_list_fields   =   saswp_add_schema_template_to_meta_list( $meta_list_fields );
+                            }
+
                             $meta_list_arr = $meta_list_fields['text'];
                             
                             if ((strpos($fieldkey, '_image') !== false) || strpos($fieldkey, '_logo') !== false) {

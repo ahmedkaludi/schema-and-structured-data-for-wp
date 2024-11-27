@@ -723,6 +723,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
+                            'label'   => 'hasPart',
+                            'id'      => 'saswp_newsarticle_haspart_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label'   => 'isPartOf',
+                            'id'      => 'saswp_newsarticle_ispartof_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
                             'label' => 'Keywords',
                             'id' => 'saswp_newsarticle_keywords_'.$schema_id,
                             'type' => 'text',
@@ -950,6 +962,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
                         ),
                         array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_analysisnewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_analysisnewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ), 
+                        array(
                                 'label' => 'Keywords',
                                 'id' => 'saswp_analysisnewsarticle_keywords_'.$schema_id,
                                 'type' => 'text',
@@ -1168,6 +1192,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_askpublicnewsarticle_description_'.$schema_id,
                                 'type' => 'textarea',
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_askpublicnewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_askpublicnewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
                         ),
                         array(
                                 'label' => 'Keywords',
@@ -1390,6 +1426,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
                         ),
                         array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_backgroundnewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_backgroundnewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
                                 'label' => 'Keywords',
                                 'id' => 'saswp_backgroundnewsarticle_keywords_'.$schema_id,
                                 'type' => 'text',
@@ -1608,6 +1656,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_opinionnewsarticle_description_'.$schema_id,
                                 'type' => 'textarea',
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_opinionnewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_opinionnewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
                         ),
                         array(
                                 'label' => 'Keywords',
@@ -1830,6 +1890,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
                         ),
                         array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_reportagenewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_reportagenewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
                                 'label' => 'Keywords',
                                 'id' => 'saswp_reportagenewsarticle_keywords_'.$schema_id,
                                 'type' => 'text',
@@ -2048,6 +2120,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_reviewnewsarticle_description_'.$schema_id,
                                 'type' => 'textarea',
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_reviewnewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_reviewnewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
                         ),
                         array(
                                 'label' => 'Keywords',
@@ -4542,7 +4626,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_tech_article_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => saswp_strip_all_tags(get_the_excerpt())
-                    ) , 
+                    ) ,
+                    array(
+                            'label'   => 'hasPart',
+                            'id'      => 'saswp_tech_article_haspart_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label'   => 'isPartOf',
+                            'id'      => 'saswp_tech_article_ispartof_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ), 
                     array(
                             'label' => 'Keywords',
                             'id' => 'saswp_tech_article_keywords_'.$schema_id,

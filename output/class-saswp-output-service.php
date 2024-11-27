@@ -3643,6 +3643,20 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_newsarticle_description']) ) {
                        $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_newsarticle_description'] ));  
                     }
+                    if ( ! empty( $custom_fields['saswp_newsarticle_haspart'] ) && is_array( $custom_fields['saswp_newsarticle_haspart'] ) ) {
+                        foreach ( $custom_fields['saswp_newsarticle_haspart'] as $hp_key => $has_part) {
+                            if ( ! empty( $has_part ) && is_array( $has_part ) ) {
+                                $input1['hasPart'][]       =   $has_part;    
+                            }
+                        } 
+                    }
+                    if ( ! empty( $custom_fields['saswp_newsarticle_ispartof'] ) && is_array( $custom_fields['saswp_newsarticle_ispartof'] ) ) {
+                        foreach ( $custom_fields['saswp_newsarticle_ispartof'] as $ip_key => $is_part) {
+                            if ( ! empty( $is_part ) && is_array( $is_part ) ) {
+                                $input1['isPartOf'][]       =   $is_part;    
+                            }
+                        } 
+                    }
                     if ( isset( $custom_fields['saswp_newsarticle_section']) ) {
                        $input1['articleSection'] = $custom_fields['saswp_newsarticle_section'];  
                     }
@@ -3757,6 +3771,20 @@ Class SASWP_Output_Service{
                         if ( isset( $custom_fields['saswp_analysisnewsarticle_description']) ) {
                            $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_analysisnewsarticle_description'] ));  
                         }
+                        if ( ! empty( $custom_fields['saswp_analysisnewsarticle_haspart'] ) && is_array( $custom_fields['saswp_analysisnewsarticle_haspart'] ) ) {
+                            foreach ( $custom_fields['saswp_analysisnewsarticle_haspart'] as $hp_key => $has_part) {
+                                if ( ! empty( $has_part ) && is_array( $has_part ) ) {
+                                    $input1['hasPart'][]       =   $has_part;    
+                                }
+                            } 
+                        }
+                        if ( ! empty( $custom_fields['saswp_analysisnewsarticle_ispartof'] ) && is_array( $custom_fields['saswp_analysisnewsarticle_ispartof'] ) ) {
+                            foreach ( $custom_fields['saswp_analysisnewsarticle_ispartof'] as $ip_key => $is_part) {
+                                if ( ! empty( $is_part ) && is_array( $is_part ) ) {
+                                    $input1['isPartOf'][]       =   $is_part;    
+                                }
+                            } 
+                        }
                         if ( isset( $custom_fields['saswp_analysisnewsarticle_section']) ) {
                            $input1['articleSection'] = $custom_fields['saswp_analysisnewsarticle_section'];  
                         }
@@ -3861,6 +3889,20 @@ Class SASWP_Output_Service{
                             }
                             if ( isset( $custom_fields['saswp_askpublicnewsarticle_description']) ) {
                                $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_askpublicnewsarticle_description'] ));  
+                            }
+                            if ( ! empty( $custom_fields['saswp_askpublicnewsarticle_haspart'] ) && is_array( $custom_fields['saswp_askpublicnewsarticle_haspart'] ) ) {
+                                foreach ( $custom_fields['saswp_askpublicnewsarticle_haspart'] as $hp_key => $has_part) {
+                                    if ( ! empty( $has_part ) && is_array( $has_part ) ) {
+                                        $input1['hasPart'][]       =   $has_part;    
+                                    }
+                                } 
+                            }
+                            if ( ! empty( $custom_fields['saswp_askpublicnewsarticle_ispartof'] ) && is_array( $custom_fields['saswp_askpublicnewsarticle_ispartof'] ) ) {
+                                foreach ( $custom_fields['saswp_askpublicnewsarticle_ispartof'] as $ip_key => $is_part) {
+                                    if ( ! empty( $is_part ) && is_array( $is_part ) ) {
+                                        $input1['isPartOf'][]       =   $is_part;    
+                                    }
+                                } 
                             }
                             if ( isset( $custom_fields['saswp_askpublicnewsarticle_section']) ) {
                                $input1['articleSection'] = $custom_fields['saswp_askpublicnewsarticle_section'];  
@@ -3967,6 +4009,20 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_backgroundnewsarticle_description']) ) {
                         $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_backgroundnewsarticle_description'] ));  
                     }
+                    if ( ! empty( $custom_fields['saswp_backgroundnewsarticle_haspart'] ) && is_array( $custom_fields['saswp_backgroundnewsarticle_haspart'] ) ) {
+                        foreach ( $custom_fields['saswp_backgroundnewsarticle_haspart'] as $hp_key => $has_part) {
+                            if ( ! empty( $has_part ) && is_array( $has_part ) ) {
+                                $input1['hasPart'][]       =   $has_part;    
+                            }
+                        } 
+                    }
+                    if ( ! empty( $custom_fields['saswp_backgroundnewsarticle_ispartof'] ) && is_array( $custom_fields['saswp_backgroundnewsarticle_ispartof'] ) ) {
+                        foreach ( $custom_fields['saswp_backgroundnewsarticle_ispartof'] as $ip_key => $is_part) {
+                            if ( ! empty( $is_part ) && is_array( $is_part ) ) {
+                                $input1['isPartOf'][]       =   $is_part;    
+                            }
+                        } 
+                    }
                     if ( isset( $custom_fields['saswp_backgroundnewsarticle_section']) ) {
                         $input1['articleSection'] = $custom_fields['saswp_backgroundnewsarticle_section'];  
                     }
@@ -4071,6 +4127,20 @@ Class SASWP_Output_Service{
                         }
                         if ( isset( $custom_fields['saswp_opinionnewsarticle_description']) ) {
                             $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_opinionnewsarticle_description'] ));  
+                        }
+                        if ( ! empty( $custom_fields['saswp_opinionnewsarticle_haspart'] ) && is_array( $custom_fields['saswp_opinionnewsarticle_haspart'] ) ) {
+                            foreach ( $custom_fields['saswp_opinionnewsarticle_haspart'] as $hp_key => $has_part) {
+                                if ( ! empty( $has_part ) && is_array( $has_part ) ) {
+                                    $input1['hasPart'][]       =   $has_part;    
+                                }
+                            } 
+                        }
+                        if ( ! empty( $custom_fields['saswp_opinionnewsarticle_ispartof'] ) && is_array( $custom_fields['saswp_opinionnewsarticle_ispartof'] ) ) {
+                            foreach ( $custom_fields['saswp_opinionnewsarticle_ispartof'] as $ip_key => $is_part) {
+                                if ( ! empty( $is_part ) && is_array( $is_part ) ) {
+                                    $input1['isPartOf'][]       =   $is_part;    
+                                }
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_opinionnewsarticle_section']) ) {
                             $input1['articleSection'] = $custom_fields['saswp_opinionnewsarticle_section'];  
@@ -4177,6 +4247,20 @@ Class SASWP_Output_Service{
                         if ( isset( $custom_fields['saswp_reportagenewsarticle_description']) ) {
                             $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_reportagenewsarticle_description'] ));  
                         }
+                        if ( ! empty( $custom_fields['saswp_reportagenewsarticle_haspart'] ) && is_array( $custom_fields['saswp_reportagenewsarticle_haspart'] ) ) {
+                            foreach ( $custom_fields['saswp_reportagenewsarticle_haspart'] as $hp_key => $has_part) {
+                                if ( ! empty( $has_part ) && is_array( $has_part ) ) {
+                                    $input1['hasPart'][]       =   $has_part;    
+                                }
+                            } 
+                        }
+                        if ( ! empty( $custom_fields['saswp_reportagenewsarticle_ispartof'] ) && is_array( $custom_fields['saswp_reportagenewsarticle_ispartof'] ) ) {
+                            foreach ( $custom_fields['saswp_reportagenewsarticle_ispartof'] as $ip_key => $is_part) {
+                                if ( ! empty( $is_part ) && is_array( $is_part ) ) {
+                                    $input1['isPartOf'][]       =   $is_part;    
+                                }
+                            } 
+                        }
                         if ( isset( $custom_fields['saswp_reportagenewsarticle_section']) ) {
                             $input1['articleSection'] = $custom_fields['saswp_reportagenewsarticle_section'];  
                         }
@@ -4281,6 +4365,20 @@ Class SASWP_Output_Service{
                         }
                         if ( isset( $custom_fields['saswp_reviewnewsarticle_description']) ) {
                             $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_reviewnewsarticle_description'] ));  
+                        }
+                        if ( ! empty( $custom_fields['saswp_reviewnewsarticle_haspart'] ) && is_array( $custom_fields['saswp_reviewnewsarticle_haspart'] ) ) {
+                            foreach ( $custom_fields['saswp_reviewnewsarticle_haspart'] as $hp_key => $has_part) {
+                                if ( ! empty( $has_part ) && is_array( $has_part ) ) {
+                                    $input1['hasPart'][]       =   $has_part;    
+                                }
+                            } 
+                        }
+                        if ( ! empty( $custom_fields['saswp_reviewnewsarticle_ispartof'] ) && is_array( $custom_fields['saswp_reviewnewsarticle_ispartof'] ) ) {
+                            foreach ( $custom_fields['saswp_reviewnewsarticle_ispartof'] as $ip_key => $is_part) {
+                                if ( ! empty( $is_part ) && is_array( $is_part ) ) {
+                                    $input1['isPartOf'][]       =   $is_part;    
+                                }
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_reviewnewsarticle_section']) ) {
                             $input1['articleSection'] = $custom_fields['saswp_reviewnewsarticle_section'];  
@@ -4994,6 +5092,20 @@ Class SASWP_Output_Service{
                     
                     if ( isset( $custom_fields['saswp_tech_article_description']) ) {
                      $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_tech_article_description'] ));
+                    }
+                    if ( ! empty( $custom_fields['saswp_tech_article_haspart'] ) && is_array( $custom_fields['saswp_tech_article_haspart'] ) ) {
+                        foreach ( $custom_fields['saswp_tech_article_haspart'] as $hp_key => $has_part) {
+                            if ( ! empty( $has_part ) && is_array( $has_part ) ) {
+                                $input1['hasPart'][]       =   $has_part;    
+                            }
+                        } 
+                    }
+                    if ( ! empty( $custom_fields['saswp_tech_article_ispartof'] ) && is_array( $custom_fields['saswp_tech_article_ispartof'] ) ) {
+                        foreach ( $custom_fields['saswp_tech_article_ispartof'] as $ip_key => $is_part) {
+                            if ( ! empty( $is_part ) && is_array( $is_part ) ) {
+                                $input1['isPartOf'][]       =   $is_part;    
+                            }
+                        } 
                     }
                     if ( isset( $custom_fields['saswp_tech_article_date_published']) ) {
                      $input1['datePublished'] =    $custom_fields['saswp_tech_article_date_published'];
