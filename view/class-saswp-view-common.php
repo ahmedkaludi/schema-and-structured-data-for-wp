@@ -366,8 +366,17 @@ class SASWP_View_Common {
 
 		$output = '';                
                                 
+        $post_type          =   '';
+        if ( $schema_id > 0 ) {
+            $post_type      =   get_post_type( $schema_id );
+        }
+
 		foreach ( $saswp_meta_fields as $meta_field ) {
         
+            if ( $post_type == 'saswp_template' && isset( $meta_field['is_template_attr'] ) ) {
+                continue;
+            }
+
             if( isset( $meta_field['type'] ) ) {
                     
                         $input      = '';

@@ -32,6 +32,7 @@ define( 'SASWP_ENVIRONMENT', 'production' );
 // including the output file
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
+require_once SASWP_DIR_NAME .'/output/schema-template-output.php';
 require_once SASWP_DIR_NAME .'/output/markup.php';
 require_once SASWP_DIR_NAME .'/output/other-schema.php';
 require_once SASWP_DIR_NAME .'/output/gutenberg.php';

@@ -598,6 +598,11 @@ Class SASWP_Output_Service{
                         break;
                     }    
                 break;                    
+                case 'saswp_schema_template':
+
+                    $response = saswp_get_schema_template_markup( $schema_post_id, $key );
+
+                break;                   
                 default:
                     if ( function_exists( 'get_field_object') ) {
                      
@@ -1703,6 +1708,20 @@ Class SASWP_Output_Service{
                         }                    
                         if ( isset( $custom_fields['saswp_article_description']) ) {
                          $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_article_description'] ));
+                        }
+                        if ( ! empty( $custom_fields['saswp_article_haspart'] ) && is_array( $custom_fields['saswp_article_haspart'] ) ) {
+                            foreach ( $custom_fields['saswp_article_haspart'] as $hp_key => $has_part) {
+                                if ( ! empty( $has_part ) && is_array( $has_part ) ) {
+                                    $input1['hasPart'][]       =   $has_part;    
+                                }
+                            } 
+                        }
+                        if ( ! empty( $custom_fields['saswp_article_ispartof'] ) && is_array( $custom_fields['saswp_article_ispartof'] ) ) {
+                            foreach ( $custom_fields['saswp_article_ispartof'] as $ip_key => $is_part) {
+                                if ( ! empty( $is_part ) && is_array( $is_part ) ) {
+                                    $input1['isPartOf'][]       =   $is_part;    
+                                }
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_article_date_published']) ) {
                          $input1['datePublished'] =    $custom_fields['saswp_article_date_published'];
@@ -3092,6 +3111,18 @@ Class SASWP_Output_Service{
                         }
                         
                     }
+                    if ( ! empty( $custom_fields['local_makes_offer'] ) && is_array( $custom_fields['local_makes_offer'] ) ) {
+                        foreach ( $custom_fields['local_makes_offer'] as $lmo_key => $local_offer) {
+                            if ( ! empty( $local_offer ) && is_array( $local_offer ) ) {
+                                $make_offer                   =   array();
+                                $make_offer['@type']          =   'Offer';
+                                $make_offer['@id']            =   '#service'. $lmo_key + 1;
+                                $make_offer['itemOffered']    =   $local_offer;
+
+                                $input1['makesOffer'][]       =   $make_offer;    
+                            }
+                        }   
+                    }
 
                     if ( isset( $custom_fields['local_business_founder']) ) {
                         $input1['founder'] =    saswp_explode_comma_seprated($custom_fields['local_business_founder'], 'Person');
@@ -4355,7 +4386,13 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_webpage_date_created']) ) {
                         $input1['dateCreated'] =    $custom_fields['saswp_webpage_date_created'];
                     }
-                    
+                    if ( ! empty( $custom_fields['saswp_webpage_haspart'] ) && is_array( $custom_fields['saswp_webpage_haspart'] ) ) {
+                        foreach ( $custom_fields['saswp_webpage_haspart'] as $hp_key => $has_part) {
+                            if ( ! empty( $has_part ) && is_array( $has_part ) ) {
+                                $input1['hasPart'][]       =   $has_part;    
+                            }
+                        } 
+                    }
                     if ( isset( $custom_fields['saswp_webpage_main_entity_of_page']) ) {
                      $input1['mainEntity']['mainEntityOfPage'] =    saswp_validate_url($custom_fields['saswp_webpage_main_entity_of_page']);
                     }
@@ -8671,10 +8708,21 @@ Class SASWP_Output_Service{
             $meta_field = array();   
                         
             $meta_field = saswp_get_fields_by_schema_type(null, null, $schema_type, 'manual');
-                        
+            
+            // Get post type from post id
+            $post_type          =   '';
+            if ( ! empty( $_REQUEST['post_id'] ) ) {
+                $post_id        =   intval( $_REQUEST['post_id'] );
+                $post_type      =   get_post_type( $post_id );
+            }
+            
             if($meta_field){
                                 
                 foreach ( $meta_field as $field){
+
+                    if ( $post_type == 'saswp_template' && isset( $field['is_template_attr'] ) ) {
+                        continue;
+                    }
                 
                     $key = $field['id'];
                     $key = rtrim($key, '_');

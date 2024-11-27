@@ -371,6 +371,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'local_identifier_pvalue_'.$schema_id,
                             'type' => 'text',                            
                         );
+                        $meta_field[] =   array(
+                            'label' => 'MakesOffer',
+                            'id' => 'local_makes_offer_'.$schema_id,
+                            'type' => 'text',                            
+                            'is_template_attr' => 'yes',                            
+                        );
                                            
                     break;
                 
@@ -2283,6 +2289,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_get_the_title(),
                     ),
                     array(
+                            'label' => 'hasPart',
+                            'id' => 'saswp_webpage_haspart_'.$schema_id,
+                            'type' => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
                         'label'   => 'Date Created',
                         'id'      => 'saswp_webpage_date_created_'.$schema_id,
                         'type'    => 'text',
@@ -2907,6 +2919,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_article_description_'.$schema_id,
                                 'type'    => 'textarea',
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_article_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_article_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
                         ),
                         array(
                                 'label'   => 'Article Section',
