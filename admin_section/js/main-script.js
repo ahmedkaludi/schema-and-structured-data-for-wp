@@ -3531,9 +3531,8 @@ jQuery(document).ready(function($){
           var fields_type = $(this).attr('fields_type'); 
           var div_type    = $(this).attr('div_type');          
           var schema_type = $(this).attr('itemlist_sub_type');
-          // var count =  $("saswp_specific_"+schema_id+" , .saswp-"+div_type+"-table-div").length;
-          var count = $("#saswp_specific_"+schema_id).find(".saswp-"+div_type+"-table-div").length;
-          var index =  $( "saswp_specific_"+schema_id+" , .saswp-"+div_type+"-table-div:nth-child("+count+")" ).attr('data-id');
+          var count =  $("#saswp_specific_"+schema_id+" , .saswp-"+div_type+"-table-div").length;
+          var index =  $( "#saswp_specific_"+schema_id+" , .saswp-"+div_type+"-table-div:nth-child("+count+")" ).attr('data-id');
               index = ++index;
            
            if(!index){
