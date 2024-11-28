@@ -150,7 +150,7 @@ function saswp_load_plugin_textdomain() {
     load_plugin_textdomain( 'schema-and-structured-data-for-wp', false, basename( dirname( __FILE__ ) ) . '/languages/' );
     
 }
-add_action( 'plugins_loaded', 'saswp_load_plugin_textdomain' );
+add_action( 'init', 'saswp_load_plugin_textdomain' );
 
 
 
