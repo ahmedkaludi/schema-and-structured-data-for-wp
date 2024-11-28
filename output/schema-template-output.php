@@ -685,6 +685,372 @@ function saswp_generate_schema_template_markup( $template_id ){
                     
         break;
 
+        case 'Book':
+                                                                                                                                                                        
+            $input1['@context']              = saswp_context_url();
+            $input1['@type']                 = 'Book';
+            $input1['@id']                   = get_permalink().'#Book'; 
+            
+             $woo_markp = $service_object->saswp_schema_markup_generator( $template_type );
+
+            if($woo_markp){
+                $input1 = array_merge( $input1, $woo_markp );
+            }
+
+            unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13'], $input1['gtin12']);
+
+            $input1 = saswp_append_fetched_reviews( $input1, $template_id );
+
+            $input1 = apply_filters('saswp_modify_book_schema_output', $input1 );
+
+            $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+            
+        break;
+
+        case 'Course':
+                                
+            $input1 = array(
+		            '@context'			=> saswp_context_url(),
+		            '@type'				=> $template_type ,
+		            '@id'				=> saswp_get_permalink().'#course',    
+		            'name'			    => saswp_get_the_title(),
+		            'description'       => saswp_get_the_excerpt(),			
+		            'url'				=> saswp_get_permalink(),
+		            'datePublished'     => esc_html( $date ),
+		            'dateModified'      => esc_html( $modified_date ),
+		            'author'			=> saswp_get_author_details(),    
+		            'provider'			=> array(
+	                                            '@type' 	=> 'Organization',
+	                                            'name'		=> get_bloginfo(),
+	                                            'sameAs'	=> get_home_url() 
+		                                    )											
+                );
+
+            if ( ! empty( $aggregateRating ) ) {
+                $input1['aggregateRating'] = $aggregateRating;
+            }                                
+            if ( ! empty( $extra_theme_review ) ) {
+               $input1 = array_merge( $input1, $extra_theme_review );
+            }   
+            $input1 = saswp_append_fetched_reviews( $input1 );                            
+            if ( isset( $sd_data['saswp_comments_schema'] ) && $sd_data['saswp_comments_schema'] == 1 ) {
+               $input1['comment'] = saswp_get_comments( get_the_ID() );
+            }
+
+            $input1 = apply_filters('saswp_modify_course_schema_output', $input1, $template_id );
+
+            $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+            
+        break;
+
+        case 'CreativeWorkSeries':                                
+                                    
+            $input1 = array(
+	            '@context'			=> saswp_context_url(),
+	            '@type'				=> 'CreativeWorkSeries',
+	            '@id'				=> saswp_get_current_url().'#CreativeWorkSeries',    
+	            'url'				=> saswp_get_current_url(),
+	            'inLanguage'        => get_bloginfo('language'),                                                                            
+	            'description'       => saswp_get_the_excerpt(),                                    
+	            'keywords'          => saswp_get_the_tags(),    
+	            'name'				=> saswp_get_the_title(),			
+	            'datePublished'     => esc_html( $date),
+	            'dateModified'      => esc_html( $modified_date),
+	            'author'			=> saswp_get_author_details()											
+            );
+                       
+            if ( ! empty( $publisher) ) {
+                    $input1 = array_merge( $input1, $publisher );   
+            }                              
+            if ( isset( $sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] == 1 ) {
+                $input1['comment'] = saswp_get_comments( get_the_ID() );
+            }
+            
+            $input1 = saswp_append_fetched_reviews( $input1, $template_id );
+
+            $input1 = apply_filters('saswp_modify_creative_work_series_schema_output', $input1 ); 
+
+            $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+                                        
+        break;
+
+        case 'EducationalOccupationalCredential':                                
+                                    
+            $input1 = array(
+	            '@context'			=> saswp_context_url(),
+	            '@type'				=> 'EducationalOccupationalCredential',
+	            '@id'				=> saswp_get_permalink().'#EducationalOccupationalCredential',    
+	            'url'				=> saswp_get_permalink(),                                                                                
+	            'description'       => saswp_get_the_excerpt(),                                                                        
+	            'name'				=> saswp_get_the_title()			                                                                     
+            );                                                                                                                                                                                        
+                                                                                    
+            $input1 = apply_filters('saswp_modify_educational_occupational_credential_schema_output', $input1 ); 
+
+            $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+                                        
+        break;
+
+        case 'LearningResource':
+
+	        $input1['@context']              = saswp_context_url();
+	        $input1['@type']                 = 'LearningResource';
+	        $input1['@id']                   = saswp_get_permalink().'#LearningResource';                                
+	        $input1['url']                   = saswp_get_permalink();  
+
+	        $thumbnail_id = get_post_thumbnail_id( get_the_ID() );
+	        $thumbnail_url = wp_get_attachment_url( $thumbnail_id );
+	        if ( ! empty( $thumbnail_url ) && is_string($thumbnail_url ) ) {
+	            $image_details                   = saswp_get_image_by_url( $thumbnail_url );
+	            if ( ! empty( $image_details ) && is_array( $image_details ) ) {
+	                $input1['image']         = $image_details;
+	            }
+	        }    
+
+	        $thumbnail_details   = wp_get_attachment_image_src( $image_id, 'thumbnail' );
+	        if ( is_array( $thumbnail_details ) && isset( $thumbnail_details[0] ) ) {
+	            $image_details                   = saswp_get_image_by_url( $thumbnail_details[0] );
+	            if ( ! empty( $image_details) && is_array( $image_details ) ) {
+	                $input1['thumbnail']     = $image_details;
+	            } 
+	            $input1['thumbnailUrl']  = saswp_remove_warnings( $thumbnail_details, 0, 'saswp_string' );
+	        }                          
+
+	        $input1 = apply_filters('saswp_modify_learning_resource_schema_output', $input1 );
+
+	        $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+
+	    break;
+
+	    case 'Movie':
+                                                         
+            $input1['@context']              = saswp_context_url();
+            $input1['@type']                 = 'Movie';
+            $input1['@id']                   = saswp_get_permalink().'#Movie';                                                                                                                                              
+
+            $input1 = saswp_append_fetched_reviews( $input1, $template_id );
+
+            $input1 = apply_filters('saswp_modify_movie_schema_output', $input1 );
+
+            $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+            
+        break;
+
+        case 'MusicComposition':
+                                                                                                                                                                                                                                       
+            $input1['@context']              = saswp_context_url();
+            $input1['@type']                 = 'MusicComposition';
+            $input1['@id']                   = get_permalink().'#MusicComposition'; 
+            $input1['inLanguage']            = get_bloginfo('language');
+            $input1['datePublished']         = esc_html( $date);                 
+
+            $input1 = saswp_append_fetched_reviews( $input1, $template_id );
+
+            $input1 = apply_filters('saswp_modify_music_composition_schema_output', $input1 );
+
+            $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+                                                                                                                          
+        break;
+
+        case 'Review':
+                                                                                            
+            $review_markup = $service_object->saswp_replace_with_custom_fields_value( $input1, $template_id );                                
+            $item_reviewed = get_post_meta( $template_id, 'saswp_review_item_reviewed_'.$template_id, true );
+            
+            if($item_reviewed == 'local_business'){
+                $item_reviewed = 'LocalBusiness';
+            }
+            
+            $input1['@context']               =  saswp_context_url();
+            $input1['@type']                  =  'Review';
+            $input1['@id']                    =  saswp_get_permalink().'#Review';
+            $input1['itemReviewed']['@type']  =  $item_reviewed;                                                                
+                                        
+            if ( isset( $schema_options['enable_custom_field']) && $schema_options['enable_custom_field'] == 1){
+                                                   
+                if($review_markup){
+                 
+                    if ( isset( $review_markup['review']) ) {
+                        
+                        $input1             =  $input1 + $review_markup['review'];
+                        
+                    }
+                    
+                    if ( isset( $review_markup['item_reviewed']) ) {                                            
+                        $item_reviewed          = array( '@type' => $item_reviewed) + $review_markup['item_reviewed'];                                        
+                        $input1['itemReviewed'] = $item_reviewed;
+                        
+                    }
+                    
+                }                                                                                                                                                                                  
+            } 
+            
+            $added_reviews = saswp_append_fetched_reviews( $input1, $template_id );
+            
+            if ( isset( $added_reviews['review']) ) {
+                
+                $input1['itemReviewed']['review']                    = $added_reviews['review'];
+                $input1['itemReviewed']['aggregateRating']           = $added_reviews['aggregateRating'];
+            
+            }                                                                                                                     
+            
+            $input1 = apply_filters('saswp_modify_review_schema_output', $input1 );
+            
+            $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+            
+        break;
+
+        case 'SoftwareApplication':
+                                                                                                           
+            $input1 = array(
+	            '@context'			=> saswp_context_url(),
+	            '@type'				=> $schema_type ,
+	            '@id'				=> saswp_get_permalink().'#softwareapplication',         						                        
+	            'datePublished'     => esc_html( $date),
+	            'dateModified'      => esc_html( $modified_date),
+	            'author'			=> saswp_get_author_details()			
+            );
+                                    
+            $woo_markp = $service_object->saswp_schema_markup_generator( $template_type );
+            
+            if($woo_markp){
+                $input1 = array_merge( $input1, $woo_markp );
+            }
+                                            
+            unset($input1['brand'], $input1['mpn'], $input1['sku'],$input1['gtin8'], $input1['gtin13'], $input1['gtin12']);
+            
+            if ( ! empty( $publisher ) ) {                            
+                 $input1 = array_merge( $input1, $publisher );                            
+            }                                
+            if ( ! empty( $aggregateRating) ) {
+                $input1['aggregateRating'] = $aggregateRating;
+            }                                
+            if ( ! empty( $extra_theme_review) ) {
+               $input1 = array_merge($input1, $extra_theme_review);
+            }                               
+            if ( isset( $sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+               $input1['comment'] = saswp_get_comments( get_the_ID() );
+            }    
+            
+            $input1 = saswp_append_fetched_reviews( $input1, $template_id );
+                                                                            
+            $input1 = apply_filters('saswp_modify_software_application_schema_output', $input1 );
+            
+            $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+                                    
+        break;
+
+        case 'TVSeries':
+                                                                                                                        
+            $input1['@context']              = saswp_context_url();
+            $input1['@type']                 = 'TVSeries';
+            $input1['@id']                   = saswp_get_permalink().'#TVSeries';                                                                                                                                
+            $input1['author']['@type']       = 'Person';                            
+
+            $input1 = saswp_append_fetched_reviews( $input1, $template_id );
+
+            $input1 = apply_filters('saswp_modify_tvseries_schema_output', $input1 );
+
+            $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+                                                                        
+        break;
+
+        case 'VisualArtwork':
+                                                                
+            $input1 = array(
+                '@context'			=> saswp_context_url(),
+                '@type'				=> $template_type ,
+                '@id'				=> saswp_get_permalink().'#VisualArtwork',     
+                'url'				=> saswp_get_current_url(),                                                                                    
+                'description'       => saswp_get_the_excerpt(),                                                                        
+                'name'				=> saswp_get_the_title(),
+                'dateCreated'       => esc_html( $date),                                    
+                'creator'			=> saswp_get_author_details()			
+            );
+                                            				                                                                                                                                
+            $input1 = apply_filters('saswp_modify_visualartwork_schema_output', $input1 );  
+            
+            $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+            if ( isset( $input1['@context'] ) ) {
+            	unset( $input1['@context'] );
+            }
+            if ( isset( $input1['@id'] ) ) {
+            	unset( $input1['@id'] );
+            }
+                        
+        break;
+
 	}
 	
 	return $input1;
