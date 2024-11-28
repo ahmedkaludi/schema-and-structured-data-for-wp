@@ -7507,7 +7507,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Thumbnail Url',
                             'id' => 'saswp_video_object_thumbnail_url_'.$schema_id,
-                            'type' => 'text',                            
+                            'type' => 'media',                            
                     ),
                     array(
                             'label' => 'Content Url',

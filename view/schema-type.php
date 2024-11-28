@@ -1244,7 +1244,7 @@ function saswp_schema_type_meta_box_callback( $post) {
 
                             $meta_list_arr = $meta_list_fields['text'];
                             
-                            if ((strpos($fieldkey, '_image') !== false) || strpos($fieldkey, '_logo') !== false) {
+                            if ((strpos($fieldkey, '_image') !== false) || strpos($fieldkey, '_logo') !== false || $fieldkey == 'saswp_video_object_thumbnail_url') {
                                   $meta_list_arr = $meta_list_fields['image'];
                             }
                                                                                                                  

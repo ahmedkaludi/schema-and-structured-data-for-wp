@@ -3498,7 +3498,7 @@ jQuery(document).ready(function($){
             var fields_name = $(this).val();            
             var str2 = "_image";
             var str3 = "_logo";
-            if((fields_name.indexOf(str2) != -1)|| (fields_name.indexOf(str3) != -1)){
+            if((fields_name.indexOf(str2) != -1)|| (fields_name.indexOf(str3) != -1) || (fields_name == 'saswp_video_object_thumbnail_url')){
                 type = 'image';
             }                                     
              var id = $(this).parent().parent('tr').find("td:eq(1)");                                    
