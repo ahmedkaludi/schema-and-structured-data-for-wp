@@ -1381,10 +1381,10 @@ function saswp_get_comments($post_id){
             }
         }
        
-        
+        $comment_id  = isset( $comment->comment_ID ) ? $comment->comment_ID : '';
         $comments[] = array (
                 '@type'         => 'Comment',
-                'id'            => $permalink.'#comment-'.$comment->comment_ID,
+                'id'            => $permalink.'#comment-'.$comment_id,
                 'dateCreated'   => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
                 'description'   => wp_strip_all_tags($comment->comment_content),
                 'upvoteCount'   => $likes,
