@@ -1276,6 +1276,12 @@ function saswp_validate_schema_template_attr(){
 
 }
 
+/**
+ * Check if schema custom field is enabled or not
+ * @param 	$schema_id 	integer
+ * @return 	bool
+ * @since 	1.39
+ * */
 function saswp_is_schema_custom_field_enabled( $schema_id ) {
 	$schema_options 	=	get_post_meta( $schema_id, 'schema_options', true );
 	if ( is_array( $schema_options ) && isset( $schema_options['enable_custom_field'] ) && $schema_options['enable_custom_field'] == 1 ) {
@@ -1283,4 +1289,48 @@ function saswp_is_schema_custom_field_enabled( $schema_id ) {
 	}
 
 	return false;
+}
+
+function saswp_prepare_haspart_and_is_partof_markup( $prefix, $schema_id ) {
+
+	$input1 				=	array();	
+	$input1['hasPart'] 		=	array();	
+	$input1['isPartOf'] 	=	array();	
+
+	// Check if schema is modified globally and add schema template markup
+    if ( saswp_is_schema_custom_field_enabled( $schema_id ) ){
+        $template_field   = get_post_meta( $schema_id, 'saswp_schema_template_field', true );
+        if ( ! empty( $template_field ) && is_array( $template_field ) ) {
+            foreach ( $template_field as $tf_key => $template) {
+                $template_markup   =   saswp_get_schema_template_markup( $schema_id, $tf_key );
+                if ( ! empty( $template_markup )  ) {
+
+                    switch ( $tf_key ) {
+
+                        case $prefix.'haspart':
+
+                            if ( is_array( $template_markup ) ) {
+                            	$input1['hasPart']       =   $template_markup;
+                            }
+
+                        break;
+
+                        case $prefix.'ispartof':
+
+                            if ( is_array( $template_markup ) ) {
+                            	$input1['isPartOf']       =   $template_markup;
+                            }
+
+                        break;
+
+                    }
+
+                }
+            }
+            
+        }
+    }
+
+    return $input1;
+
 }
