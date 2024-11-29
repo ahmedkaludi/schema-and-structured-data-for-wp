@@ -3797,6 +3797,7 @@ function saswp_tv_series_schema_markup($schema_id, $schema_post_id, $all_post_me
     $input1 = array();
         
     $actor     = get_post_meta($schema_post_id, 'tvseries_actor_'.$schema_id, true);              
+    $character = get_post_meta($schema_post_id, 'tvseries_character_'.$schema_id, true);              
     $season    = get_post_meta($schema_post_id, 'tvseries_season_'.$schema_id, true);                                          
     $checkIdPro = ((isset($all_post_meta['saswp_tvseries_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_tvseries_schema_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_tvseries_schema_id_'.$schema_id][0] : '');
 
@@ -3805,7 +3806,8 @@ function saswp_tv_series_schema_markup($schema_id, $schema_post_id, $all_post_me
     if($checkIdPro){
         $input1['@id']               = $checkIdPro;  
     }
-    $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_name_'.$schema_id, 'saswp_array');                            			    
+    $input1['name']                  = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_name_'.$schema_id, 'saswp_array');
+    $input1['genre']                 = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_genre_'.$schema_id, 'saswp_array');                            			    
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_description_'.$schema_id, 'saswp_array');
 
     $input1 = saswp_get_modified_image('saswp_tvseries_schema_image_'.$schema_id.'_detail', $input1);                            
@@ -3816,7 +3818,53 @@ function saswp_tv_series_schema_markup($schema_id, $schema_post_id, $all_post_me
         $input1['author']['@type']       = $all_post_meta['saswp_tvseries_schema_author_type_'.$schema_id][0];
     }
 
-    $input1['author']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_author_name_'.$schema_id, 'saswp_array');                            
+    $input1['author']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_author_name_'.$schema_id, 'saswp_array');
+
+    $input1['timeRequired']          = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_duration_'.$schema_id, 'saswp_array');
+    $input1['url']                  = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_url_'.$schema_id, 'saswp_array');         
+    $input1['numberOfSeasons']      = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_nos_'.$schema_id, 'saswp_array');         
+    $input1['numberOfEpisodes']     = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_noe_'.$schema_id, 'saswp_array');         
+    $input1['datePublished']        = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_date_published_'.$schema_id, 'saswp_array');                            
+    $input1['dateModified']         = saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_date_modified_'.$schema_id, 'saswp_array');
+    
+    // Check if schema is modified globally
+    if ( saswp_is_schema_custom_field_enabled( $schema_id ) ){
+        $template_field   = get_post_meta( $schema_id, 'saswp_schema_template_field', true );
+        if ( ! empty( $template_field ) && is_array( $template_field ) ) {
+            foreach ( $template_field as $tf_key => $template) {
+                $template_markup   =   saswp_get_schema_template_markup( $schema_id, $tf_key );
+                if ( ! empty( $template_markup )  ) {
+
+                    switch ( $tf_key ) {
+
+                        case 'saswp_tvseries_schema_trailer':
+
+                            $input1['trailer']      =   $template_markup;  
+
+                        break;
+
+                        case 'saswp_tvseries_schema_subject_of':
+
+                            $input1['subjectOf']    =   $template_markup;
+
+                        break;
+
+                    }
+
+                }
+            }
+            
+        }
+    }  
+
+    if(saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_rating_value_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_review_count_'.$schema_id, 'saswp_array') ) {   
+                                 
+        $input1['aggregateRating'] = array(
+                                        "@type"       => "AggregateRating",
+                                        "ratingValue" => saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_rating_value_'.$schema_id, 'saswp_array'),
+                                        "reviewCount" => saswp_remove_warnings($all_post_meta, 'saswp_tvseries_schema_review_count_'.$schema_id, 'saswp_array')
+                                    );                                       
+    }                            
 
     $supply_arr = array();
     if ( ! empty( $actor) ) {
@@ -3830,6 +3878,21 @@ function saswp_tv_series_schema_markup($schema_id, $schema_post_id, $all_post_me
             $supply_arr[] =  $supply_data;
         }
        $input1['actor'] = $supply_arr;
+    }
+
+    $character_arr = array();
+    if ( ! empty( $character) ) {
+
+        foreach( $character as $val){
+
+            $character_data = array();
+            $character_data['@type'] = 'Person';
+            $character_data['name']  = $val['saswp_tvseries_character_name'];
+            $character_data['description']  = $val['saswp_tvseries_character_description'];
+
+            $character_arr[] =  $character_data;
+        }
+       $input1['character'] = $character_arr;
     }
 
     $tool_arr = array();

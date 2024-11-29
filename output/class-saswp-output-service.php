@@ -6769,7 +6769,39 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_tvseries_schema_author_name']) ) {
                      $input1['author']['name'] =    $custom_fields['saswp_tvseries_schema_author_name'];
                     }
-                    
+                    if ( isset( $custom_fields['saswp_tvseries_schema_duration']) ) {
+                     $input1['timeRequired'] =    $custom_fields['saswp_tvseries_schema_duration'];
+                    }
+                    if ( isset( $custom_fields['saswp_tvseries_schema_url']) ) {
+                     $input1['url'] =    $custom_fields['saswp_tvseries_schema_url'];
+                    }
+                    if ( isset( $custom_fields['saswp_tvseries_schema_nos']) ) {
+                     $input1['numberOfSeasons'] =    $custom_fields['saswp_tvseries_schema_nos'];
+                    }
+                    if ( isset( $custom_fields['saswp_tvseries_schema_noe']) ) {
+                     $input1['numberOfEpisodes'] =    $custom_fields['saswp_tvseries_schema_noe'];
+                    }
+                    if ( isset( $custom_fields['saswp_tvseries_schema_date_published']) ) {
+                     $input1['datePublished'] =    $custom_fields['saswp_tvseries_schema_date_published'];
+                    }
+                    if ( isset( $custom_fields['saswp_tvseries_schema_date_modified']) ) {
+                     $input1['dateModified'] =    $custom_fields['saswp_tvseries_schema_date_modified'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_tvseries_schema_trailer'] ) && is_array( $custom_fields['saswp_tvseries_schema_trailer'] ) ) {
+                        foreach ( $custom_fields['saswp_tvseries_schema_trailer'] as $tr_key => $trailer) {
+                            if ( ! empty( $trailer ) && is_array( $trailer ) ) {
+                                $input1['trailer'][]       =   $trailer;    
+                            }
+                        } 
+                    }
+                    if ( ! empty( $custom_fields['saswp_tvseries_schema_subject_of'] ) && is_array( $custom_fields['saswp_tvseries_schema_subject_of'] ) ) {
+                        foreach ( $custom_fields['saswp_tvseries_schema_subject_of'] as $so_key => $subject) {
+                            if ( ! empty( $subject ) && is_array( $subject ) ) {
+                                $input1['subjectOf'][]       =   $subject;    
+                            }
+                        } 
+                    }
+                
                 break;
                 
                 case 'TouristAttraction':      
@@ -8823,8 +8855,8 @@ Class SASWP_Output_Service{
             
             // Get post type from post id
             $post_type          =   '';
-            if ( ! empty( $_REQUEST['post_id'] ) ) {
-                $post_id        =   intval( $_REQUEST['post_id'] );
+            if ( ! empty( $_REQUEST['post'] ) ) {
+                $post_id        =   intval( $_REQUEST['post'] );
                 $post_type      =   get_post_type( $post_id );
             }
             

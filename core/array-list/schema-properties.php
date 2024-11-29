@@ -8167,11 +8167,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label'      => 'ID',
                                 'id'         => 'saswp_tvseries_schema_id_'.$schema_id,
                                 'type'       => 'text',
-                                'default'    => 'RealEstateListing'   
+                                'default'    => 'TVSeries'   
                         ),
                     array(
                             'label'      => 'Name',
                             'id'         => 'saswp_tvseries_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Genre',
+                            'id'         => 'saswp_tvseries_schema_genre_'.$schema_id,
                             'type'       => 'text',
                             'attributes' => array(
                                 'placeholder' => 'Name'
@@ -8203,6 +8211,65 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Description',
                             'id'         => 'saswp_tvseries_schema_description_'.$schema_id,
                             'type'       => 'textarea'                            
+                    ),
+                    array(
+                            'label'      => 'Duration',
+                            'id'         => 'saswp_tvseries_schema_duration_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_tvseries_schema_url_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),
+                    array(
+                            'label'      => 'Number Of Seasons',
+                            'id'         => 'saswp_tvseries_schema_nos_'.$schema_id,
+                            'type'       => 'number'                            
+                    ),
+                    array(
+                            'label'      => 'Number Of Episodes',
+                            'id'         => 'saswp_tvseries_schema_noe_'.$schema_id,
+                            'type'       => 'number'                            
+                    ),
+                    array(
+                            'label'      => 'Date Published',
+                            'id'         => 'saswp_tvseries_schema_date_published_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_the_date("Y-m-d")
+                    ), 
+                    array(
+                            'label'      => 'Date Modified',
+                            'id'         => 'saswp_tvseries_schema_date_modified_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                            'label'   => 'Trailer',
+                            'id'      => 'saswp_tvseries_schema_trailer_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label'   => 'Subject Of',
+                            'id'      => 'saswp_tvseries_schema_subject_of_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label' => 'Aggregate Rating',
+                            'id'    => 'saswp_tvseries_schema_enable_rating_'.$schema_id,
+                            'type'  => 'checkbox',                            
+                    ),
+                    array(
+                            'label' => 'Rating',
+                            'id'    => 'saswp_tvseries_schema_rating_value_'.$schema_id,
+                            'type'  => 'text',                            
+                    ),
+                    array(
+                            'label' => 'Number of Reviews',
+                            'id'    => 'saswp_tvseries_schema_review_count_'.$schema_id,
+                            'type'  => 'text',                            
                     )  
                         
                    );
