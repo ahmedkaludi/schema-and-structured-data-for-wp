@@ -1291,6 +1291,13 @@ function saswp_is_schema_custom_field_enabled( $schema_id ) {
 	return false;
 }
 
+/**
+ * Prepare hasPart and isPartOf markup for schema template
+ * @param 	$prefix		string
+ * @param 	$schema_id	integer
+ * @return 	$input1		array
+ * @since 	1.39
+ * */
 function saswp_prepare_haspart_and_is_partof_markup( $prefix, $schema_id ) {
 
 	$input1 				=	array();	
