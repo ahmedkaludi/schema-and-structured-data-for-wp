@@ -549,7 +549,7 @@ function saswp_add_mooberrybm_schema( $input1 ){
         
         $publisher  = array();
         $imprint    = array();
-        $cache_key  = 'saswp_mbdb_books_cache_key';
+        $cache_key  = 'saswp_mbdb_books_cache_key_'.$post->ID;
         $book_table = wp_cache_get( $cache_key );  
         if ( false === $book_table ) {
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Custom table wp_mbdb_books
