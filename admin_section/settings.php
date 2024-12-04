@@ -1678,7 +1678,7 @@ function saswp_import_callback() {
                             'name'   => 'saswp-template-builder-checkbox',
                 'type'   => 'checkbox',
                             'class'  => 'checkbox saswp-checkbox',
-                            'note'   => 'Create a predefined set of schema markups and use them in main schema types. <a target="_blank" href="https://structured-data-for-wp.com/docs/">Learn More</a>',
+                            'note'   => 'Create a predefined set of schema markups and use them in main schema types. <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-schema-templates-in-schema-structured-data-for-wp-amp/">Learn More</a>',
                             'hidden' => array(
                                  'id'   => 'saswp-template-builder',
                                  'name' => 'sd_data[saswp-template-builder]',                             
