@@ -781,6 +781,7 @@ class SASWP_Reviews_Service {
                  $meta_query 
                 )
             );
+            // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
             $arg['meta_query'] = $meta_query_args;    
             }
             
@@ -827,6 +828,7 @@ class SASWP_Reviews_Service {
                         )
                     );
 
+                 // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
                  $arg['meta_query'] = $meta_query_args;                                 
             }
                         

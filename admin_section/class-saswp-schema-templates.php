@@ -33,9 +33,7 @@ class SASWP_Schema_Templates {
      * Register custom saswp_template post type
      * @since   1.39
      * */
-    public function register_saswp_template(  ){
-      
-      $nonce = wp_create_nonce( 'saswp_schema_type_nonce' );           
+    public function register_saswp_template(  ){         
     
       $saswp_template = array(
             'labels' => array(

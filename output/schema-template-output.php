@@ -81,7 +81,6 @@ function saswp_generate_schema_template_markup( $template_id ){
 		$image_id 	        		=	get_post_thumbnail_id();
 		$date 		        		=	get_the_date("c");
 	    $modified_date 	    		=	get_the_modified_date("c");        
-	    $modify_option      		=	get_option('modify_schema_post_enable_'.get_the_ID()); 
 		$template_meta 				=	saswp_get_schema_template_meta( $template_id );
 		$template_type 				=	$template_meta['template_type'];
 		$template_options 			=	$template_meta['template_options'];
@@ -1189,7 +1188,7 @@ function saswp_generate_schema_template_markup( $template_id ){
 
 		}
 	}
-	
+
 	return $input1;
 
 }
@@ -1274,6 +1273,7 @@ function saswp_validate_schema_template_attr(){
 					
 	}
 
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason Escaping is done above.
 	echo $html_escaped;
 	wp_die();
 

@@ -697,7 +697,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				// Decide on notice text
 				if( $this->marketing != 1 ) {					
 					/* translators: %s: product type */
-					$notice_text = sprintf(__( 'Become a super contributor by opting in to our anonymous %1$s data collection and to our updates. We guarantee no sensitive data is collected.'),$this->what_am_i);
+					$notice_text = sprintf(__( 'Become a super contributor by opting in to our anonymous %1$s data collection and to our updates. We guarantee no sensitive data is collected.', 'schema-and-structured-data-for-wp'),$this->what_am_i);
 				} else {					
 					/* translators: %s: product type */
 					$notice_text = sprintf(__( 'Thank you for installing our %1$s. We\'d like your permission to track its usage on your site and subscribe you to our newsletter. We won\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.', 'schema-and-structured-data-for-wp' ),$this->what_am_i);

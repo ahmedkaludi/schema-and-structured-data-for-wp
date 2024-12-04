@@ -1657,7 +1657,9 @@ function saswp_check_data_imported_from($plugin_post_type_name){
        $cc_args    = array(
                         'posts_per_page'   => -1,
                         'post_type'        => 'saswp',
+                        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
                         'meta_key'         => 'imported_from',
+                        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
                         'meta_value'       => $plugin_post_type_name,
                     );	
        
@@ -2494,7 +2496,7 @@ function saswp_get_license_section_html($on, $license_key, $license_status, $lic
              
 
                 $original_license = $license_key;
-                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">'. esc_html__( 'Status', 'schema-and-structured-data-for-wp' ) .':<span id="lic_inactive" class="inactive_status_'.strtolower($on).'">'. esc_html__( 'Inactive').'</span>
+                $response.= '<div class="saswp-sts-deactive-main '.strtolower($on).'_addon"><label class="saswp-sts-txt">'. esc_html__( 'Status', 'schema-and-structured-data-for-wp' ) .':<span id="lic_inactive" class="inactive_status_'.strtolower($on).'">'. esc_html__( 'Inactive', 'schema-and-structured-data-for-wp' ).'</span>
                 <input type="password" class="saswp_license_key_input_inactive '.strtolower($on).'_addon_inactive" placeholder="Enter License Key" name="sd_data['.strtolower($on).'_addon_license_key]" id="'.strtolower($on).'_addon_license_key" value="'. esc_attr( $original_license).'">
                 <a license-status="active" add-on="'.strtolower($on).'" class="button button-default saswp_license_activation '.strtolower($on).'" id="saswp_license_activation">'. esc_html__( 'Activate', 'schema-and-structured-data-for-wp' ) .'</a>
                 <input type="hidden" id="'.strtolower($on).'_addon_license_key_status" name="sd_data['.strtolower($on).'_addon_license_key_status]" value="'. esc_attr( $license_status).'">

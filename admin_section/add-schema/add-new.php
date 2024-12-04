@@ -558,12 +558,12 @@ $saswp_add_data_type_config = array(
 	function saswp_add_new_makesvg( $args = array() ){
 		// Make sure $args are an array.
 		if ( empty( $args ) ) {
-			return __( 'Please define default parameters in the form of an array.' );
+			return esc_html__( 'Please define default parameters in the form of an array.', 'schema-and-structured-data-for-wp' );
 		}
 
 		// Define an icon.
 		if ( false === array_key_exists( 'icon', $args ) ) {
-			return __( 'Please define an SVG icon filename.' );
+			return esc_html__( 'Please define an SVG icon filename.', 'schema-and-structured-data-for-wp' );
 		}
 
 		// Set defaults.

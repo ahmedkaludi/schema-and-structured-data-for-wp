@@ -3022,7 +3022,8 @@ function saswp_get_wp_customer_reviews() {
 				'value' => $post->ID,
 				'compare' => '='
 			);
-			$queryOpts['meta_query'] = $meta_query;
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+            $queryOpts['meta_query'] = $meta_query;
 		}
         
         $reviews_post = new WP_Query($queryOpts);    

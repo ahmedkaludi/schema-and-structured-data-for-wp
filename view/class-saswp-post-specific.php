@@ -627,7 +627,7 @@ class SASWP_Post_Specific {
                  
                  
                 $response_html .= '<div class="saswp-tab saswp-post-specific-tab-wrapper">';
-                $response_html .= '<div><a href="'. esc_url(  admin_url( 'edit.php?post_type=saswp' ) ).'" class="button button-default saswp-setup-schema-btn">'.esc_html__( 'Setup Schema' ).'</div>';                
+                $response_html .= '<div><a href="'. esc_url(  admin_url( 'edit.php?post_type=saswp' ) ).'" class="button button-default saswp-setup-schema-btn">'.esc_html__( 'Setup Schema', 'schema-and-structured-data-for-wp' ).'</div>';                
 		$response_html .= '<ul class="saswp-tab-nav">';                
                 $response_html .= '<li class="selected">'
                              . '<a class="saswp-tab-links" data-id="saswp_specific_custom">'.esc_html__( 'Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>'

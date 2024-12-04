@@ -8429,6 +8429,7 @@ Class SASWP_Output_Service{
                             'post_type' 	 => 'saswp_reviews',                                                                                   
                             'posts_per_page'     => -1,   
                             'post_status'        => 'publish',
+                            // phpcs:ignore     WordPress.DB.SlowDBQuery.slow_db_query_meta_query
                             'meta_query'  => array(
                                 array(
                                 'key'     => 'saswp_review_product_id',
