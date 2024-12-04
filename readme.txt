@@ -124,7 +124,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 == Changelog ==
 
 = 1.39 (04 December 2024) =
-* Major Feature: Schema Template Feature #2138
+* Major Feature: Schema Template Builder #2138
 * Feature: Added Genre and Actor fields for TVSeries schema #2207
 * Fixed: Tested with new version of wordpress i.e. 6.7v #2209
 * Fixed: Fixed issue with FAQ repeater field #2215
