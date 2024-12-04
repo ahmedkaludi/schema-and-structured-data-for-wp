@@ -1672,6 +1672,18 @@ function saswp_import_callback() {
         $settings = saswp_defaultSettings();         
         $field_objs = new SASWP_Fields_Generator();
         $meta_fields = array(				
+            array(
+                'label'  => 'Schema Template Builder',
+                'id'     => 'saswp-template-builder-checkbox',                        
+                            'name'   => 'saswp-template-builder-checkbox',
+                'type'   => 'checkbox',
+                            'class'  => 'checkbox saswp-checkbox',
+                            'note'   => 'Create a predefined set of schema markups and use them in main schema types. <a target="_blank" href="https://structured-data-for-wp.com/docs/">Learn More</a>',
+                            'hidden' => array(
+                                 'id'   => 'saswp-template-builder',
+                                 'name' => 'sd_data[saswp-template-builder]',                             
+                            )
+            ),
                 array(
 			'label'  => 'Defragment Schema Markup',
 			'id'     => 'saswp-defragment-checkbox',                        

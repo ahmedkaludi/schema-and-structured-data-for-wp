@@ -16,7 +16,7 @@ class SASWP_Schema_Templates {
     
     public function __construct(){
       
-      if ( is_admin() ) {
+      if ( is_admin() && saswp_check_if_schema_builder_is_active() ) {
 
         add_action( 'init', array( $this, 'register_saswp_template' ) );
         add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes') ) ;

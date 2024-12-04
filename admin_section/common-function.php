@@ -2067,6 +2067,7 @@ function saswp_fields_and_type($data_type = 'value'){
         'saswp-rbcc-ar-f-size'                          => array('type' => 'number', 'value' => '48'),
         'saswp-rbcc-ar-f-unit'                          => array('type' => 'select', 'value' => 'px'),
         'saswp-defragment'                              => array('type' => 'checkbox', 'value' => 0),
+        'saswp-template-builder'                        => array('type' => 'checkbox', 'value' => 0),
         'saswp-markup-footer'                           => array('type' => 'checkbox', 'value' => 0),
         'saswp-pretty-print'                            => array('type' => 'checkbox', 'value' => 0),
         'saswp-microdata-cleanup'                       => array('type' => 'checkbox', 'value' => 1),

@@ -1703,6 +1703,15 @@ jQuery(document).ready(function($){
                             }
                       break;
                       
+                      case 'saswp-template-builder-checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-template-builder").val(1);             
+                            }else{
+                              $("#saswp-template-builder").val(0);           
+                            }
+                      break;
+                      
                       case 'saswp-cooked-checkbox':
                           saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
