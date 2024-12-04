@@ -2067,6 +2067,7 @@ function saswp_fields_and_type($data_type = 'value'){
         'saswp-rbcc-ar-f-size'                          => array('type' => 'number', 'value' => '48'),
         'saswp-rbcc-ar-f-unit'                          => array('type' => 'select', 'value' => 'px'),
         'saswp-defragment'                              => array('type' => 'checkbox', 'value' => 0),
+        'saswp-template-builder'                        => array('type' => 'checkbox', 'value' => 0),
         'saswp-markup-footer'                           => array('type' => 'checkbox', 'value' => 0),
         'saswp-pretty-print'                            => array('type' => 'checkbox', 'value' => 0),
         'saswp-microdata-cleanup'                       => array('type' => 'checkbox', 'value' => 1),
@@ -2849,7 +2850,7 @@ function saswp_fields_and_type($data_type = 'value'){
                     $auth_cnt = 0;
                     $author_details = array(); 
                     foreach ( $explode_authors as $ea_value) {                                                
-                        $cache_key    = 'saswp_publisher_press_cache_key';
+                        $cache_key    = 'saswp_publisher_press_cache_key_'.$ea_value;
                         $user_results = wp_cache_get( $cache_key );
                         if ( false === $user_results ) {
                             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: can not query by display_name inside function get_user_by.
@@ -5310,7 +5311,7 @@ function saswp_get_seo_press_metadata($type){
 
     global $wpdb;    
     $meta_value = '';
-    $cache_key = 'saswp_seo_press_cache_key';
+    $cache_key = 'saswp_seo_press_cache_key_'.$post->ID;
     $result = wp_cache_get( $cache_key );    
     if ( false === $result ) {
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Custom table created by seopress plugin

@@ -1381,10 +1381,10 @@ function saswp_get_comments($post_id){
             }
         }
        
-        
+        $comment_id  = isset( $comment->comment_ID ) ? $comment->comment_ID : '';
         $comments[] = array (
                 '@type'         => 'Comment',
-                'id'            => $permalink.'#comment-'.$comment->comment_ID,
+                'id'            => $permalink.'#comment-'.$comment_id,
                 'dateCreated'   => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
                 'description'   => wp_strip_all_tags($comment->comment_content),
                 'upvoteCount'   => $likes,
@@ -3022,7 +3022,8 @@ function saswp_get_wp_customer_reviews() {
 				'value' => $post->ID,
 				'compare' => '='
 			);
-			$queryOpts['meta_query'] = $meta_query;
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+            $queryOpts['meta_query'] = $meta_query;
 		}
         
         $reviews_post = new WP_Query($queryOpts);    

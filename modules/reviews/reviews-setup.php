@@ -71,7 +71,7 @@ function saswp_register_saswp_reviews() {
             'labels' => array(
                 'name' 			    => esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ),	        
                 'add_new' 		    => esc_html__( 'Add Review', 'schema-and-structured-data-for-wp' ),
-                'add_new_item'  	=> esc_html__( 'Edit Review', 'schema-and-structured-data-for-wp' ),
+                'add_new_item'  	=> esc_html__( 'Add Review', 'schema-and-structured-data-for-wp' ),
                 'edit_item'         => esc_html__( 'Edit Review', 'schema-and-structured-data-for-wp' ),                
             ),
             'public' 		        => true,
@@ -387,15 +387,15 @@ add_action( 'init', 'saswp_create_platform_custom_taxonomy', 21 );
 function saswp_create_platform_custom_taxonomy() {
  
   $labels = array(
-    'name'          => _x( 'Platforms', 'taxonomy general name' ),
-    'singular_name' => _x( 'Platform', 'taxonomy singular name' ),
-    'search_items'  => __( 'Search Types' ),
-    'all_items'     => __( 'All Platform' ),        
-    'edit_item'     => __( 'Edit Platform' ), 
-    'update_item'   => __( 'Update Platform' ),
-    'add_new_item'  => __( 'Add New Platform' ),
-    'new_item_name' => __( 'New Platform Name' ),
-    'menu_name'     => __( 'Platforms' ),
+    'name'          => esc_html_x( 'Platforms', 'taxonomy general name', 'schema-and-structured-data-for-wp' ),
+    'singular_name' => esc_html_x( 'Platform', 'taxonomy singular name', 'schema-and-structured-data-for-wp' ),
+    'search_items'  => esc_html__( 'Search Types', 'schema-and-structured-data-for-wp' ),
+    'all_items'     => esc_html__( 'All Platform', 'schema-and-structured-data-for-wp' ),        
+    'edit_item'     => esc_html__( 'Edit Platform', 'schema-and-structured-data-for-wp' ), 
+    'update_item'   => esc_html__( 'Update Platform', 'schema-and-structured-data-for-wp' ),
+    'add_new_item'  => esc_html__( 'Add New Platform', 'schema-and-structured-data-for-wp' ),
+    'new_item_name' => esc_html__( 'New Platform Name', 'schema-and-structured-data-for-wp' ),
+    'menu_name'     => esc_html__( 'Platforms', 'schema-and-structured-data-for-wp' ),
   ); 	
  
   register_taxonomy(
@@ -626,7 +626,9 @@ function saswp_sort_reviews_by_platform( $query ) {
   $slug = isset($_GET['slug']) ? $_GET['slug'] : '';  
   if ( is_admin() && $pagenow == 'edit.php' && $post_type == 'saswp_reviews' && $slug !='all' ) {
       
+    // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
     $query->query_vars['meta_key']     = 'saswp_review_platform';
+    // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
     $query->query_vars['meta_value']   = sanitize_text_field($slug);
     $query->query_vars['meta_compare'] = '=';
     

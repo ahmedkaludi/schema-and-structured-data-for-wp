@@ -182,13 +182,14 @@ class SASWP_Post_Specific {
              $modify_this    = 1;
              $disabled       = '';
              $modified       = false;
+             $is_post_specific  = 'yes';
              
              saswp_update_post_meta($post_id, 'saswp_modify_this_schema_'.$schema_id, 1); 
              $schema_type       = get_post_meta($schema_id, 'schema_type', true); 
              $response = $this->saswp_get_schema_fields_on_ajax($post_id, $schema_id);                                            
              $saswp_meta_fields = array_filter($response); 
              
-             $output            = $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post_id, $schema_id, null, $disabled, $modify_this, $modified ); 
+             $output            = $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post_id, $schema_id, null, $disabled, $modify_this, $modified, $is_post_specific ); 
 
              if($schema_type == 'Review' || $schema_type == 'ReviewNewsArticle'){
                         
@@ -198,7 +199,7 @@ class SASWP_Post_Specific {
                 }
                 $response = $this->saswp_get_schema_fields_on_ajax($post_id, $schema_id, $item_reviewed);                                                                
                 $saswp_meta_fields = array_filter($response);                           
-                $output           .= $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post_id, $schema_id ,$item_reviewed, $disabled, $modify_this, $modified);
+                $output           .= $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post_id, $schema_id ,$item_reviewed, $disabled, $modify_this, $modified, $is_post_specific);
                 
             }
             //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- fetch data is already fully escaped                                
@@ -334,7 +335,7 @@ class SASWP_Post_Specific {
             global $saswp_metaboxes;
                                                          
             $show_post_types = get_post_types();
-            unset($show_post_types['adsforwp'],$show_post_types['saswp'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css']);            
+            unset( $show_post_types['adsforwp'],$show_post_types['saswp'], $show_post_types['revision'], $show_post_types['nav_menu_item'], $show_post_types['user_request'], $show_post_types['custom_css'], $show_post_types['saswp_template'] );            
             
             $this->screen = $show_post_types;
             
@@ -411,6 +412,7 @@ class SASWP_Post_Specific {
              $tabs              = '';
              $tabs_fields       = '';
              $schema_ids        = array();
+             $is_post_specific  = 'yes';
               
              $modify_option = get_option('modify_schema_post_enable_'. esc_attr( $post->ID));      
              $schema_enable = saswp_get_post_meta($post->ID, 'saswp_enable_disable_schema', true);   
@@ -482,7 +484,7 @@ class SASWP_Post_Specific {
                      $response          = saswp_get_fields_by_schema_type($schema->ID);                       
                      $saswp_meta_fields = array_filter($response); 
                      if($modify_this){
-                        $output            = $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified ); 
+                        $output            = $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified, $is_post_specific ); 
                      }                    
                      
                      
@@ -498,7 +500,7 @@ class SASWP_Post_Specific {
                          }
                          $response          = saswp_get_fields_by_schema_type($schema->ID, null, $item_reviewed);                                                              
                          $saswp_meta_fields = array_filter($response);                           
-                         $output           .= $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed, $disabled, $modify_this, $modified);
+                         $output           .= $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post->ID, $schema->ID ,$item_reviewed, $disabled, $modify_this, $modified, $is_post_specific);
                          
                      }
                      
@@ -625,7 +627,7 @@ class SASWP_Post_Specific {
                  
                  
                 $response_html .= '<div class="saswp-tab saswp-post-specific-tab-wrapper">';
-                $response_html .= '<div><a href="'. esc_url(  admin_url( 'edit.php?post_type=saswp' ) ).'" class="button button-default saswp-setup-schema-btn">'.esc_html__( 'Setup Schema' ).'</div>';                
+                $response_html .= '<div><a href="'. esc_url(  admin_url( 'edit.php?post_type=saswp' ) ).'" class="button button-default saswp-setup-schema-btn">'.esc_html__( 'Setup Schema', 'schema-and-structured-data-for-wp' ).'</div>';                
 		$response_html .= '<ul class="saswp-tab-nav">';                
                 $response_html .= '<li class="selected">'
                              . '<a class="saswp-tab-links" data-id="saswp_specific_custom">'.esc_html__( 'Custom Schema', 'schema-and-structured-data-for-wp' ).'</a>'

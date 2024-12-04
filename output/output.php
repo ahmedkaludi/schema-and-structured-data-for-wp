@@ -1674,7 +1674,7 @@ function saswp_schema_output() {
                                     'description'                   => saswp_get_the_excerpt(),                                    
                                     );
                                 	                                                                                                                                                                                                                                                                                                  
-                                $input1 = apply_filters('saswp_modify_real_estate_listing_schema_output', $input1 );
+                                $input1 = apply_filters('saswp_modify_real_estate_listing_schema_output', $input1, $schema_post_id );
                                 
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                 

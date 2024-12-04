@@ -15,7 +15,7 @@ class Faq_Block extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __( 'Faq Block', 'elementor' );
+		return __( 'Faq Block', 'schema-and-structured-data-for-wp' );
 	}
         public function get_keywords() {
 		return [ 'faq', 'faq schema', 'schema', 'structured data' ];
@@ -29,7 +29,7 @@ class Faq_Block extends Widget_Base {
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' => __( 'FAQ Block', 'plugin-name' ),
+				'label' => __( 'FAQ Block', 'schema-and-structured-data-for-wp' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
 			]
 		);

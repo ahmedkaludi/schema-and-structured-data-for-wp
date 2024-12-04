@@ -153,6 +153,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                     $post_id             = null;                    
                     $organization_type   = '';
                     $webpage_type        = '';
+                    $template_field      = array();
 
                     if($post){
             
@@ -163,6 +164,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                         $taxonomy_term     = get_post_meta($post->ID, 'saswp_taxonomy_term', true);  
                         $fixed_image       = get_post_meta($post->ID, 'saswp_fixed_image', true);  
                         $cus_field         = get_post_meta($post->ID, 'saswp_custom_meta_field', true); 
+                        $template_field    = get_post_meta($post->ID, 'saswp_schema_template_field', true); 
                         $schema_type       = get_post_meta($post->ID, 'schema_type', true);     
                         $append_reviews    = get_post_meta($post->ID, 'saswp_enable_append_reviews', true);
                         $event_type        = get_post_meta($post->ID, 'saswp_event_type', true);                         
@@ -1236,9 +1238,13 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                                                     
                             $meta_list_fields = include(SASWP_DIR_NAME . '/core/array-list/meta-list.php');
                             
+                            if ( $fieldval == 'saswp_schema_template' ) {
+                                $meta_list_fields   =   saswp_add_schema_template_to_meta_list( $meta_list_fields );
+                            }
+
                             $meta_list_arr = $meta_list_fields['text'];
                             
-                            if ((strpos($fieldkey, '_image') !== false) || strpos($fieldkey, '_logo') !== false) {
+                            if ((strpos($fieldkey, '_image') !== false) || strpos($fieldkey, '_logo') !== false || $fieldkey == 'saswp_video_object_thumbnail_url') {
                                   $meta_list_arr = $meta_list_fields['image'];
                             }
                                                                                                                  
@@ -1320,6 +1326,16 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                 echo '</fieldset>';
                                                 echo '</td>';
                                 
+                            }elseif($fieldval == 'saswp_schema_template'){
+                                 echo '<td><select class="saswp-schema-template-select2" name="saswp_schema_template_field['. esc_attr( $fieldkey).'][]" multiple>';
+                                 if ( is_array( $template_field ) && ! empty( $template_field[$fieldkey] ) && is_array( $template_field[$fieldkey] ) ) {
+                                     foreach ( $template_field[$fieldkey] as $tf_key => $tf_value ) {
+                                        $template_name = get_post_field( 'post_title', $tf_value );
+                                        echo '<option value="'. esc_attr( $tf_value ).'" selected>'.esc_html( $template_name ).'</option>';       
+                                     }
+                                 }
+                                 echo '</select></td>';
+                                 
                             }else{
                                 echo '<td></td>';
                             }

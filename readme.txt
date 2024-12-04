@@ -2,9 +2,9 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 1.38
+Stable tag: 1.39
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -16,6 +16,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 ### Features 
 
 * <strong>Schema Types</strong>: Currently, We have more than 35 schema types such as Blog Posting, News article, Local Business, Web page, Article, Recipe, Product, and Video Object [view all](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/). We are going to add all the schema types in the future. You can request the one you want and we will add it for you! 
+* <strong>Schema Templates</strong>: Create a predefined set of schema markups and use them in main schema types [learn more](https://structured-data-for-wp.com/docs/article/how-to-use-schema-templates-in-schema-structured-data-for-wp-amp/). 
 * <strong>Conditional Display Fields</strong>: Meaning you include or exclude any posts, pages, post types, taxonomies and more! 
 * <strong>Knowlegde Base Support</strong>: Recognize the content based on the organization or a person via data type option.
 * <strong>Full AMP Compatiblity</strong>: Supports the AMP for WP and AMP by Automattic plugins. 
@@ -71,6 +72,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * MusicAlbum
 * LocalBusiness with all the sub categories
 * Product
+* ProductGroup
 * TouristAttraction
 * TouristDestination
 * LandmarksOrHistoricalBuildings
@@ -121,9 +123,23 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.39 (04 December 2024) =
+* Major Feature: Schema Template Builder #2138
+* Feature: Added Genre and Actor fields for TVSeries schema #2207
+* Fixed: Tested with new version of wordpress i.e. 6.7v #2209
+* Fixed: Fixed issue with FAQ repeater field #2215
+* Enhancement: Added some modification in VideoObject schema #2218
+* Fixed: PHP translation notices on WordPress 6.7 #2219
+* Fixed: PHP Notice releated to comment id #2220
+* Enhancement: Added hasCourseInatance attribute for LearnPress plugin compatibility #2224
+
+= 1.38.1 (06 November 2024) =
+* Enhancement: Rankmath keyword issue with Category and Tag for WebPage schema #2201
+* Enhancement: Primary image size was not reflected properly in Schema #2213
+
 = 1.38 (02 November 2024) =
 * Feature: Added ProductGroup Schema Type #2071
-* Feature: Added ption to show/hide schema markup inside elementor widget #2171
+* Feature: Added option to show/hide schema markup inside elementor widget #2171
 * Enhancement: Fixed issue of correct image in ImageObject schema #2188
 * Enhancement: Schema meta fields should not be appeared inside custom fields. #2189
 * Feature: Automated the faqs data added manually in classic editor #2193
@@ -269,24 +285,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: PHP 8.1 Fatal Error : Unsupported Operand Types: int + string in Schema Plugin #2052
 * Fixed: Conflict with Mobile Menu premium plugin #2053
 * Enhancement: Added returnShippingFeesAmount property for product schema #2054
-
-= 1.24 (29 Nov 2023) =
-
-* Fixed: Fatal Error Call to undefined function wp_getimagesize() #2027
-* Fixed: Schema type not displaying in admin for post specific #2045
-* Fixed: Review Title Link Displays 404 Error #2046
-* Fixed: Broken Access Control vulnerability reported by patchstack.com
-
-= 1.23 (21 Nov 2023) =
-
-* Feature: Added compatibility with "custom-post-types" plugin #2017
-* Fixed: Fixed Fatal Error: Call to undefined function wp_getimagesize() #2027
-* Feature: Created an option of 'Read More' in the description of review #2028
-* Enhancement: Do not strip html tags from job posting description #2030
-* Feature: Added compatibility with Webwinkelkeur to fetch reviews #2032
-* Feature: Added an option to hide the Place ID URL #2037
-* Fixed: The issue with Graphql on the pages shows the internal server error #2039
-* Fixed: Test with wordpress v6.4 #2040
-* Fixed: PHP warning in query monitor "Undefined array key 1" #2043
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

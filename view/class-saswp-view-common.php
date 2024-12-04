@@ -348,7 +348,7 @@ class SASWP_View_Common {
             
         }
         
-    public function saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null, $modified= null) { 
+    public function saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post_id, $schema_id=null, $item_reviewed = null, $disabled_schema=null, $modify_this=null, $modified= null, $is_post_specific='no') { 
                                 
                 global $sd_data;                        
 
@@ -366,8 +366,17 @@ class SASWP_View_Common {
 
 		$output = '';                
                                 
+        $post_type          =   '';
+        if ( $schema_id > 0 ) {
+            $post_type      =   get_post_type( $schema_id );
+        }
+
 		foreach ( $saswp_meta_fields as $meta_field ) {
         
+            if ( ( $post_type == 'saswp_template' && isset( $meta_field['is_template_attr'] ) ) || ( $is_post_specific == 'yes'  && isset( $meta_field['is_template_attr'] ) ) ) {
+                continue;
+            }
+
             if( isset( $meta_field['type'] ) ) {
                     
                         $input      = '';

@@ -11,51 +11,46 @@
  * @copyright Copyright (c) 2017, Merlin WP of Inventionn LLC
  * @license   Licensed GPLv3 for open source use
  */	
-	$saswp_installer_config = array();
-        
-        add_action('plugins_loaded', 'saswp_add_installer_config');
-        
-        function saswp_add_installer_config() {
-            global $saswp_installer_config;
-            $saswp_installer_config = array(
-					'installer_dir' => 'plugin-installer',
-					'plugin_title'  => 'Schema & Structured Data for WP',
-					'start_steps'   => 1,
-					'total_steps'   => 5,
-					'installerpage' => 'saswp-setup-wizard',
-					'dev_mode'      => false, 
-					'steps'         => array(
-									1=>array(
-									'title'=>esc_html__( 'Welcome', 'schema-and-structured-data-for-wp' ),
-									'fields'=>'',
-									'description'=>esc_html__( 'This wizard will set up AMP on your website, install plugin, and import content. It is optional & should take only a few minutes.', 'schema-and-structured-data-for-wp' ),
-									),
-									2=>array(
-									'title'=>esc_html__( 'General Settings', 'schema-and-structured-data-for-wp' ),
-									'description'=>'',									
-									),
-									3=>array(
-									'title'=>esc_html__( 'Social Profiles', 'schema-and-structured-data-for-wp' ),
-									'description'=>esc_html__( 'Would you like to setup Social Profiles?', 'schema-and-structured-data-for-wp' ),									
-									),
-									4=>array(
-									'title'=>esc_html__( 'Select Schema', 'schema-and-structured-data-for-wp' ),
-									'description'=>esc_html__( 'Where would you like to enable the schema?', 'schema-and-structured-data-for-wp' ),									
-									),
-									5=>array(
-									'title'=>esc_html__( 'Enjoy', 'schema-and-structured-data-for-wp' ),
-									'description'=>esc_html__( 'Navigate to ', 'schema-and-structured-data-for-wp' ),
-									'fields'=>'',
-									),
-								),
-					'current_step'  =>array(
-								'title'=>'',
-								'step_id'=>1
-								)
-				);
+            
+    $saswp_installer_config = array(
+			'installer_dir' => 'plugin-installer',
+			'plugin_title'  => 'Schema & Structured Data for WP',
+			'start_steps'   => 1,
+			'total_steps'   => 5,
+			'installerpage' => 'saswp-setup-wizard',
+			'dev_mode'      => false, 
+			'steps'         => array(
+							1=>array(
+							'title'=>esc_html__( 'Welcome', 'schema-and-structured-data-for-wp' ),
+							'fields'=>'',
+							'description'=>esc_html__( 'This wizard will set up AMP on your website, install plugin, and import content. It is optional & should take only a few minutes.', 'schema-and-structured-data-for-wp' ),
+							),
+							2=>array(
+							'title'=>esc_html__( 'General Settings', 'schema-and-structured-data-for-wp' ),
+							'description'=>'',									
+							),
+							3=>array(
+							'title'=>esc_html__( 'Social Profiles', 'schema-and-structured-data-for-wp' ),
+							'description'=>esc_html__( 'Would you like to setup Social Profiles?', 'schema-and-structured-data-for-wp' ),									
+							),
+							4=>array(
+							'title'=>esc_html__( 'Select Schema', 'schema-and-structured-data-for-wp' ),
+							'description'=>esc_html__( 'Where would you like to enable the schema?', 'schema-and-structured-data-for-wp' ),									
+							),
+							5=>array(
+							'title'=>esc_html__( 'Enjoy', 'schema-and-structured-data-for-wp' ),
+							'description'=>esc_html__( 'Navigate to ', 'schema-and-structured-data-for-wp' ),
+							'fields'=>'',
+							),
+						),
+			'current_step'  =>array(
+						'title'=>'',
+						'step_id'=>1
+						)
+		);
             
             
-        }
+        
         
 	add_action( 'admin_menu', 'saswp_add_admin_menu' );
 	add_action( 'admin_init', 'saswp_installer_init');
@@ -562,12 +557,12 @@
 	function saswp_makesvg( $args = array() ){
 		// Make sure $args are an array.
 		if ( empty( $args ) ) {
-			return __( 'Please define default parameters in the form of an array.' );
+			return esc_html__( 'Please define default parameters in the form of an array.', 'schema-and-structured-data-for-wp' );
 		}
 
 		// Define an icon.
 		if ( false === array_key_exists( 'icon', $args ) ) {
-			return __( 'Please define an SVG icon filename.' );
+			return esc_html__( 'Please define an SVG icon filename.', 'schema-and-structured-data-for-wp' );
 		}
 
 		// Set defaults.

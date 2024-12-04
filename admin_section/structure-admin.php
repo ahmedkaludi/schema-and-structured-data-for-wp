@@ -850,7 +850,7 @@ if(is_admin() ) {
                 'name'              => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
                 'singular_name'     => esc_html__( 'Structured Data', 'schema-and-structured-data-for-wp' ),
                 'add_new' 	        => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
-                'add_new_item'      => '',
+                'add_new_item'      => esc_html__( 'Add Schema Type', 'schema-and-structured-data-for-wp' ),
                 'edit_item'         => esc_html__( 'Edit Schema Type', 'schema-and-structured-data-for-wp' ),           
                 'all_items'         => esc_html__( 'Schema Types', 'schema-and-structured-data-for-wp' ),  
                 'not_found'         => $not_found_button    
@@ -2023,29 +2023,29 @@ function saswp_license_status($add_on, $license_status, $license_key){
                $days_remaining = $days; 
                $username = $fname;
                /* translators: %s: date */
-               $message = sprintf(__( 'Your license key expired on %s.' ),date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) ));
+               $message = sprintf(__( 'Your license key expired on %s.', 'schema-and-structured-data-for-wp' ),date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) ));
 						break;
 					case 'revoked' :
-						$message = __( 'Your license key has been disabled.' );
+						$message = esc_html__( 'Your license key has been disabled.', 'schema-and-structured-data-for-wp' );
 						break;
 					case 'missing' :
-						$message = __( 'Invalid license.' );
+						$message = esc_html__( 'Invalid license.', 'schema-and-structured-data-for-wp' );
 						break;
 					case 'invalid' :
 					case 'site_inactive' :
-						$message = __( 'Your license is not active for this URL.' );
+						$message = esc_html__( 'Your license is not active for this URL.', 'schema-and-structured-data-for-wp' );
 						break;
 					case 'item_name_mismatch' :
-						$message = __( 'This appears to be an invalid license key.' );
+						$message = esc_html__( 'This appears to be an invalid license key.', 'schema-and-structured-data-for-wp' );
 						break;
 					case 'no_activations_left':
-						$message = __( 'Your license key has reached its activation limit.' );
+						$message = esc_html__( 'Your license key has reached its activation limit.', 'schema-and-structured-data-for-wp' );
 						break;
                                         case 'license_not_activable':
-						$message = __( 'Your license key may not belong to this extension.' );
+						$message = esc_html__( 'Your license key may not belong to this extension.', 'schema-and-structured-data-for-wp' );
 						break;    
 					default :
-						$message = __( 'An error occurred, please try again.' );
+						$message = esc_html__( 'An error occurred, please try again.', 'schema-and-structured-data-for-wp' );
 						break;
 				}
 			}
@@ -2306,6 +2306,7 @@ function saswp_review_module_upgradation() {
                             'post_type' 	 => 'saswp-google-review',                                                                                   
                             'posts_per_page'     => -1,   
                             'post_status'        => 'publish',
+                            // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
                             'meta_query'  => array(
                                 array(
                                 'key'     => 'saswp_google_place_id',                                

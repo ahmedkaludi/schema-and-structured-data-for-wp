@@ -371,6 +371,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'local_identifier_pvalue_'.$schema_id,
                             'type' => 'text',                            
                         );
+                        $meta_field[] =   array(
+                            'label' => 'MakesOffer',
+                            'id' => 'local_makes_offer_'.$schema_id,
+                            'type' => 'text',                            
+                            'is_template_attr' => 'yes',                            
+                        );
                                            
                     break;
                 
@@ -717,6 +723,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_strip_all_tags(get_the_excerpt())
                     ),
                     array(
+                            'label'   => 'hasPart',
+                            'id'      => 'saswp_newsarticle_haspart_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label'   => 'isPartOf',
+                            'id'      => 'saswp_newsarticle_ispartof_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
                             'label' => 'Keywords',
                             'id' => 'saswp_newsarticle_keywords_'.$schema_id,
                             'type' => 'text',
@@ -944,6 +962,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
                         ),
                         array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_analysisnewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_analysisnewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ), 
+                        array(
                                 'label' => 'Keywords',
                                 'id' => 'saswp_analysisnewsarticle_keywords_'.$schema_id,
                                 'type' => 'text',
@@ -1162,6 +1192,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_askpublicnewsarticle_description_'.$schema_id,
                                 'type' => 'textarea',
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_askpublicnewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_askpublicnewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
                         ),
                         array(
                                 'label' => 'Keywords',
@@ -1384,6 +1426,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
                         ),
                         array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_backgroundnewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_backgroundnewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
                                 'label' => 'Keywords',
                                 'id' => 'saswp_backgroundnewsarticle_keywords_'.$schema_id,
                                 'type' => 'text',
@@ -1602,6 +1656,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_opinionnewsarticle_description_'.$schema_id,
                                 'type' => 'textarea',
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_opinionnewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_opinionnewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
                         ),
                         array(
                                 'label' => 'Keywords',
@@ -1824,6 +1890,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
                         ),
                         array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_reportagenewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_reportagenewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
                                 'label' => 'Keywords',
                                 'id' => 'saswp_reportagenewsarticle_keywords_'.$schema_id,
                                 'type' => 'text',
@@ -2042,6 +2120,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id' => 'saswp_reviewnewsarticle_description_'.$schema_id,
                                 'type' => 'textarea',
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_reviewnewsarticle_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_reviewnewsarticle_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
                         ),
                         array(
                                 'label' => 'Keywords',
@@ -2281,6 +2371,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_webpage_headline_'.$schema_id,
                             'type' => 'text',
                             'default' => saswp_get_the_title(),
+                    ),
+                    array(
+                            'label' => 'hasPart',
+                            'id' => 'saswp_webpage_haspart_'.$schema_id,
+                            'type' => 'text',
+                            'is_template_attr' => 'yes',
                     ),
                     array(
                         'label'   => 'Date Created',
@@ -2907,6 +3003,18 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_article_description_'.$schema_id,
                                 'type'    => 'textarea',
                                 'default' => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                                'label'   => 'hasPart',
+                                'id'      => 'saswp_article_haspart_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                        ),
+                        array(
+                                'label'   => 'isPartOf',
+                                'id'      => 'saswp_article_ispartof_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
                         ),
                         array(
                                 'label'   => 'Article Section',
@@ -4518,7 +4626,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id' => 'saswp_tech_article_description_'.$schema_id,
                             'type' => 'textarea',
                             'default' => saswp_strip_all_tags(get_the_excerpt())
-                    ) , 
+                    ) ,
+                    array(
+                            'label'   => 'hasPart',
+                            'id'      => 'saswp_tech_article_haspart_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label'   => 'isPartOf',
+                            'id'      => 'saswp_tech_article_ispartof_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ), 
                     array(
                             'label' => 'Keywords',
                             'id' => 'saswp_tech_article_keywords_'.$schema_id,
@@ -7387,7 +7507,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label' => 'Thumbnail Url',
                             'id' => 'saswp_video_object_thumbnail_url_'.$schema_id,
-                            'type' => 'text',                            
+                            'type' => 'media',                            
                     ),
                     array(
                             'label' => 'Content Url',
@@ -8047,11 +8167,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label'      => 'ID',
                                 'id'         => 'saswp_tvseries_schema_id_'.$schema_id,
                                 'type'       => 'text',
-                                'default'    => 'RealEstateListing'   
+                                'default'    => 'TVSeries'   
                         ),
                     array(
                             'label'      => 'Name',
                             'id'         => 'saswp_tvseries_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'Genre',
+                            'id'         => 'saswp_tvseries_schema_genre_'.$schema_id,
                             'type'       => 'text',
                             'attributes' => array(
                                 'placeholder' => 'Name'
@@ -8083,6 +8211,65 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'      => 'Description',
                             'id'         => 'saswp_tvseries_schema_description_'.$schema_id,
                             'type'       => 'textarea'                            
+                    ),
+                    array(
+                            'label'      => 'Duration',
+                            'id'         => 'saswp_tvseries_schema_duration_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_tvseries_schema_url_'.$schema_id,
+                            'type'       => 'text'                            
+                    ),
+                    array(
+                            'label'      => 'Number Of Seasons',
+                            'id'         => 'saswp_tvseries_schema_nos_'.$schema_id,
+                            'type'       => 'number'                            
+                    ),
+                    array(
+                            'label'      => 'Number Of Episodes',
+                            'id'         => 'saswp_tvseries_schema_noe_'.$schema_id,
+                            'type'       => 'number'                            
+                    ),
+                    array(
+                            'label'      => 'Date Published',
+                            'id'         => 'saswp_tvseries_schema_date_published_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_the_date("Y-m-d")
+                    ), 
+                    array(
+                            'label'      => 'Date Modified',
+                            'id'         => 'saswp_tvseries_schema_date_modified_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_the_modified_date("Y-m-d")
+                    ),
+                    array(
+                            'label'   => 'Trailer',
+                            'id'      => 'saswp_tvseries_schema_trailer_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label'   => 'Subject Of',
+                            'id'      => 'saswp_tvseries_schema_subject_of_'.$schema_id,
+                            'type'    => 'text',
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label' => 'Aggregate Rating',
+                            'id'    => 'saswp_tvseries_schema_enable_rating_'.$schema_id,
+                            'type'  => 'checkbox',                            
+                    ),
+                    array(
+                            'label' => 'Rating',
+                            'id'    => 'saswp_tvseries_schema_rating_value_'.$schema_id,
+                            'type'  => 'text',                            
+                    ),
+                    array(
+                            'label' => 'Number of Reviews',
+                            'id'    => 'saswp_tvseries_schema_review_count_'.$schema_id,
+                            'type'  => 'text',                            
                     )  
                         
                    );

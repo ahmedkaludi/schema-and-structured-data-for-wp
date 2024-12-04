@@ -111,6 +111,7 @@ return array( 'schema_type_element' => array(
                         ),
                         'TVSeries' => array(
                                'tvseries-actor'  => 'tvseries_actor',
+                               'tvseries-character'  => 'tvseries_character',
                                'tvseries-season' => 'tvseries_season', 
                         ),
                         'Trip' => array(
@@ -784,6 +785,18 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_tvseries_actor_name',
 			'type'      => 'text',                        
 		    )                                                           
+                    ),
+                    'tvseries_character' => array(                    
+                    		array(
+					'label'     => 'Charater Name',
+					'name'      => 'saswp_tvseries_character_name',
+					'type'      => 'text',                        
+			    	),
+			    	array(
+					'label'     => 'Charater Description',
+					'name'      => 'saswp_tvseries_character_description',
+					'type'      => 'textarea',                        
+			    	),                                                            
                     ),
                     'tvseries_season' => array(                    
                     array(
