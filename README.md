@@ -109,13 +109,13 @@ Bug reports for Schema & Structured Data for WP & AMP are [welcomed on GitHub](h
 
 After you Active this plugin, just go to Dashboard > Structured data > Settings, and then setup the default settings, after that, just go back to 'Structured Data' click on Add New and add any data that you like!  
 
-#### How do I report bugs and suggest new features? =
+#### How do I report bugs and suggest new features?
 
 You can report the bugs for this Schema plugin [here](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues)
 
-#### Will you include features to my request? =
+#### Will you include features to my request?
 
 Yes, Absolutely! We would suggest you send your feature request by creating an issue in [Github](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues/new/) . It helps us organize the feedback easily.
 
-#### How do I get in touch? =
+#### How do I get in touch?
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
