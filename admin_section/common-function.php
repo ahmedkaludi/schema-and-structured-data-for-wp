@@ -5309,29 +5309,31 @@ function saswp_local_file_get_contents($file_path){
 
 function saswp_get_seo_press_metadata($type){
 
-    global $wpdb;    
+    global $wpdb, $post;    
     $meta_value = '';
-    $cache_key = 'saswp_seo_press_cache_key_'.$post->ID;
-    $result = wp_cache_get( $cache_key );    
-    if ( false === $result ) {
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Custom table created by seopress plugin
-        $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID), OBJECT);
-        wp_cache_set( $cache_key, $result );
-    }
-    
-    if($result){
-        $seo_data = unserialize($rows[0]->seo);
-        if($type == 'title'){            
-            if ( isset( $seo_data['title']) && $seo_data['title'] <>''){
-                $meta_value = $seo_data['title'];
-            }            
+    if ( is_object( $post ) && isset( $post->ID ) ) {
+        $cache_key = 'saswp_seo_press_cache_key_'.$post->ID;
+        $result = wp_cache_get( $cache_key );    
+        if ( false === $result ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Custom table created by seopress plugin
+            $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID), OBJECT);
+            wp_cache_set( $cache_key, $result );
         }
-        if($type == 'description'){
-            if ( isset( $seo_data['description']) && $seo_data['description'] <>''){
-                $meta_value = $seo_data['description'];
-            }            
-        }
-    }    
+        
+        if($result){
+            $seo_data = unserialize($rows[0]->seo);
+            if($type == 'title'){            
+                if ( isset( $seo_data['title']) && $seo_data['title'] <>''){
+                    $meta_value = $seo_data['title'];
+                }            
+            }
+            if($type == 'description'){
+                if ( isset( $seo_data['description']) && $seo_data['description'] <>''){
+                    $meta_value = $seo_data['description'];
+                }            
+            }
+        } 
+    }   
     return $meta_value;
 }
 
