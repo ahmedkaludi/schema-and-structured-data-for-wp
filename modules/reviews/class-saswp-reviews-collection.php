@@ -223,7 +223,7 @@ class SASWP_Reviews_Collection {
                     'labels' => array(
                         'name' 			=> esc_html__( 'Collections', 'schema-and-structured-data-for-wp' ),	        
                         'add_new' 		=> esc_html__( 'Add Collection', 'schema-and-structured-data-for-wp' ),
-                        'add_new_item'  	=> esc_html__( 'Edit Collection', 'schema-and-structured-data-for-wp' ),
+                        'add_new_item'  	=> esc_html__( 'Add Collection', 'schema-and-structured-data-for-wp' ),
                         'edit_item'             => esc_html__( 'Edit Collection', 'schema-and-structured-data-for-wp' ),                
                     ),
                     'public' 		    => true,
@@ -907,8 +907,12 @@ class SASWP_Reviews_Collection {
                                         <lable><?php echo esc_html__( 'Date Format', 'schema-and-structured-data-for-wp' ); ?></lable>  
                                         <select name="saswp_collection_date_format" class="saswp-collection-date-format saswp-coll-settings-options">
                                             <?php
-                                            foreach( $date_format as $key => $val){                                                
-                                                echo '<option value="'. esc_attr( $key).'" '.($post_meta['saswp_collection_date_format'][0] == $key ? 'selected':'').' >'.esc_html( $val  ).'</option>';
+                                            foreach( $date_format as $key => $val){    
+                                                $selected_date     =   '';
+                                                if ( isset( $post_meta['saswp_collection_date_format'][0] ) && $post_meta['saswp_collection_date_format'][0] == $key ) {
+                                                    $selected_date     =   'selected';    
+                                                }                                             
+                                                echo '<option value="'. esc_attr( $key).'" '.esc_attr( $selected_date ).' >'.esc_html( $val  ).'</option>';
                                             }
                                             ?>                                    
                                          </select>                                         
