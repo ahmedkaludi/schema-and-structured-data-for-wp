@@ -5372,7 +5372,7 @@ function saswp_filter_translatepress_content( $content ){
     $search     =   array( '&#8216;', '&#8217;', '&#8220;', '&#8221;', '&#8211;' );
     $replace    =   array( '\'', '\'', '"', '"', '-' );
 
-    if ( ! empty( $sd_data['saswp-translatepress'] ) ) {
+    if ( ! empty( $sd_data['saswp-translatepress'] ) && class_exists( 'TRP_Translate_Press' ) ) {
             
         $trp_settings           =   get_option( 'trp_settings', false ); 
         $default_language       =   '';
@@ -5385,37 +5385,46 @@ function saswp_filter_translatepress_content( $content ){
             $trp_meta_table     =   $wpdb->prefix.'trp_original_meta';
             $post_id            =   get_the_ID();
 
-            $results            =   $wpdb->get_results( $wpdb->prepare( "SELECT original_id FROM {$trp_meta_table} WHERE meta_value = %d ORDER BY meta_id", $post_id ) );
+            $meta_table         =  $wpdb->get_var( "SHOW TABLES LIKE '$trp_meta_table'" ); 
 
-            if ( ! empty( $results ) && is_array( $results ) ) {
+            if ( $trp_meta_table == $meta_table ) {
 
-                $translate_table =  $wpdb->prefix.'trp_dictionary_'.strtolower( $default_language ).'_'.strtolower( $TRP_LANGUAGE );      
-                
-                foreach ( $results as $original ) {
+                $results            =   $wpdb->get_results( $wpdb->prepare( "SELECT original_id FROM {$trp_meta_table} WHERE meta_value = %d ORDER BY meta_id", $post_id ) );
 
-                    if ( is_object( $original ) && ! empty( $original->original_id ) ) {
+                if ( ! empty( $results ) && is_array( $results ) ) {
 
-                        $translated_data     =   $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$translate_table} WHERE original_id = %d",  $original->original_id ) );
+                    $translate_table =  $wpdb->prefix.'trp_dictionary_'.strtolower( $default_language ).'_'.strtolower( $TRP_LANGUAGE );      
+                    $dictinary_table =  $wpdb->get_var( "SHOW TABLES LIKE '$translate_table'" ); 
+
+                    if ( $translate_table == $dictinary_table ) {
                         
-                        if ( ! empty( $translated_data ) && ! empty( $translated_data->translated ) ) {
+                        foreach ( $results as $original ) {
 
-                            $original_data  =   $translated_data->original;
-                            $original_data  =   str_replace( $search, $replace, $original_data );
-                            
-                            $pos = strpos( $content, $original_data );
+                            if ( is_object( $original ) && ! empty( $original->original_id ) ) {
 
-                            // if ( strpos( $content, $original_data ) !== false ) {
-                            if ( $pos !== false) {
-                                // $content    =   preg_replace('/'.trim( $original_data ).'/', trim( $translated_data->translated ) , $content, 1);
-                                $content    =   substr_replace( $content, $translated_data->translated, $pos, strlen( $original_data ) );
+                                $translated_data     =   $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$translate_table} WHERE original_id = %d",  $original->original_id ) );
+                                
+                                if ( ! empty( $translated_data ) && ! empty( $translated_data->translated ) ) {
+
+                                    $original_data  =   $translated_data->original;
+                                    $original_data  =   str_replace( $search, $replace, $original_data );
+                                    
+                                    $pos = strpos( $content, $original_data );
+
+                                    // if ( strpos( $content, $original_data ) !== false ) {
+                                    if ( $pos !== false) {
+                                        // $content    =   preg_replace('/'.trim( $original_data ).'/', trim( $translated_data->translated ) , $content, 1);
+                                        $content    =   substr_replace( $content, $translated_data->translated, $pos, strlen( $original_data ) );
+
+                                    }
+
+                                }
 
                             }
-
                         }
-
                     }
+     
                 }
- 
             }
 
         }
