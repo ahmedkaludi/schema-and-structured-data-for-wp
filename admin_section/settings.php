@@ -2858,6 +2858,19 @@ function saswp_compatibility_page_callback() {
                         'id'   => 'saswp-polylang',
                         'name' => 'sd_data[saswp-polylang]',                             
                 )
+        );
+
+        $translatepress = array(
+                'label'  => 'TranslatePress',
+                'id'     => 'saswp-translatepress-checkbox',                        
+                'name'   => 'saswp-translatepress-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('translatepress'),
+                'hidden' => array(
+                        'id'   => 'saswp-translatepress',
+                        'name' => 'sd_data[saswp-translatepress]',                             
+                )
         ); 
         
         $autolistings = array(
@@ -4585,6 +4598,7 @@ function saswp_compatibility_page_callback() {
                 $sabaidiscuss,                
                 $yoast,
                 $polylang,
+                $translatepress,
                 $autolistings,
                 $wpml,
                 $metatagmanager,

@@ -695,6 +695,9 @@ class SASWP_Output_Compatibility{
     public function polylang_on_activation() {        
         $this->saswp_update_option_on_compatibility_activation('saswp-polylang');
     }
+    public function translatepress_on_activation() {        
+        $this->saswp_update_option_on_compatibility_activation('saswp-translatepress');
+    }
     public function event_on_on_activation() {
         $this->saswp_update_option_on_compatibility_activation('saswp-event-on');
     }

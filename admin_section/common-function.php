@@ -3480,6 +3480,7 @@ function saswp_get_field_note($pname){
             'ameliabooking'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wpamelia.com/">wpamelia</a>',
             'wpml'                        => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wpml.org">WPML</a>',
             'polylang'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/polylang/">Polylang</a>',
+            'translatepress'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/translatepress-multilingual/">TranslatePress</a>',
             'autolistings'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/auto-listings">Auto Listings</a>',
             'wpdiscuz'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wpdiscuz/">Comments – wpDiscuz</a>',
             'rannarecipe'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/ranna-food-recipe-wordpress-theme/25157340">Ranna - Food & Recipe</a>',
@@ -5354,5 +5355,73 @@ function saswp_delete_uploaded_file( $url ){
             wp_delete_file( $file );
         }
     }
+
+}
+
+/**
+ * Function to filter the translatepress content as per the language
+ * @param   $content    string
+ * @return  $content    string
+ * @since   1.40
+ * */
+add_filter( 'saswp_the_content', 'saswp_filter_translatepress_content' );
+function saswp_filter_translatepress_content( $content ){
+
+    global $sd_data, $wpdb, $TRP_LANGUAGE;
+
+    $search     =   array( '&#8216;', '&#8217;', '&#8220;', '&#8221;', '&#8211;' );
+    $replace    =   array( '\'', '\'', '"', '"', '-' );
+
+    if ( ! empty( $sd_data['saswp-translatepress'] ) ) {
+            
+        $trp_settings           =   get_option( 'trp_settings', false ); 
+        $default_language       =   '';
+        if ( isset( $trp_settings['default-language'] ) ) {
+            $default_language   =   $trp_settings['default-language'];      
+        }   
+
+        if ( ! empty( $TRP_LANGUAGE ) && ! empty( $default_language ) && $TRP_LANGUAGE !== $default_language ) {
+
+            $trp_meta_table     =   $wpdb->prefix.'trp_original_meta';
+            $post_id            =   get_the_ID();
+
+            $results            =   $wpdb->get_results( $wpdb->prepare( "SELECT original_id FROM {$trp_meta_table} WHERE meta_value = %d ORDER BY meta_id", $post_id ) );
+
+            if ( ! empty( $results ) && is_array( $results ) ) {
+
+                $translate_table =  $wpdb->prefix.'trp_dictionary_'.strtolower( $default_language ).'_'.strtolower( $TRP_LANGUAGE );      
+                
+                foreach ( $results as $original ) {
+
+                    if ( is_object( $original ) && ! empty( $original->original_id ) ) {
+
+                        $translated_data     =   $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$translate_table} WHERE original_id = %d",  $original->original_id ) );
+                        
+                        if ( ! empty( $translated_data ) && ! empty( $translated_data->translated ) ) {
+
+                            $original_data  =   $translated_data->original;
+                            $original_data  =   str_replace( $search, $replace, $original_data );
+                            
+                            $pos = strpos( $content, $original_data );
+
+                            // if ( strpos( $content, $original_data ) !== false ) {
+                            if ( $pos !== false) {
+                                // $content    =   preg_replace('/'.trim( $original_data ).'/', trim( $translated_data->translated ) , $content, 1);
+                                $content    =   substr_replace( $content, $translated_data->translated, $pos, strlen( $original_data ) );
+
+                            }
+
+                        }
+
+                    }
+                }
+ 
+            }
+
+        }
+
+    } 
+      
+    return $content;
 
 }
