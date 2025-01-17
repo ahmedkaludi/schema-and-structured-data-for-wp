@@ -3242,14 +3242,15 @@ function saswp_validate_date($date, $format = 'Y-m-d H:i:s'){
 
 function saswp_format_date_time($date, $time=null){
     
-    $formated = ''; 
-            
-    if($date && $time){
-        $formated = gmdate('c',strtotime($date.' '.$time));       
-    }else{
-        if($date){
-        $formated = gmdate('c',strtotime($date));      
-        }        
+    $formated           =   '';
+    $wp_timezone        =   wp_timezone();
+
+    if ( $date ) {
+        $datetime       =   $time ? $date . ' ' . $time : $date;
+        $datetime_obj   =   date_create( $datetime, $wp_timezone );
+        if ( $datetime_obj ) {
+            $formated   =   $datetime_obj->format('c');
+        }
     }               
     
     return $formated;
