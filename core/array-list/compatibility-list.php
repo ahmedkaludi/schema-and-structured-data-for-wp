@@ -30,7 +30,7 @@ return array(
             'part_in'    => 'pro',
         ),
         'translatepress'  =>  array(            
-            'name'       => 'Polylang',
+            'name'       => 'Translate Press',
             'free'       => 'translatepress-multilingual/index.php',                    
             'opt_name'   => 'saswp-translatepress',
             'part_in'    => 'free',
