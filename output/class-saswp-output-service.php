@@ -3116,7 +3116,7 @@ Class SASWP_Output_Service{
                             if ( ! empty( $local_offer ) && is_array( $local_offer ) ) {
                                 $make_offer                   =   array();
                                 $make_offer['@type']          =   'Offer';
-                                $make_offer['@id']            =   '#service'. $lmo_key + 1;
+                                $make_offer['@id']            =   '#service'. ( $lmo_key + 1 );
                                 $make_offer['itemOffered']    =   $local_offer;
 
                                 $input1['makesOffer'][]       =   $make_offer;    
@@ -5685,6 +5685,11 @@ Class SASWP_Output_Service{
                     } 
                     if ( isset( $custom_fields['saswp_product_additional_type']) ) {
                         $input1['additionalType'] =    $custom_fields['saswp_product_additional_type'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_product_weight'] ) && ! empty( $custom_fields['saswp_product_weight_unit'] ) ) {
+                        $input1['weight']['@type']      =   'QuantitativeValue';    
+                        $input1['weight']['value']      =   $custom_fields['saswp_product_weight'];
+                        $input1['weight']['unitCode']   =   $custom_fields['saswp_product_weight_unit'];    
                     }                                        
                     if ( isset( $custom_fields['saswp_product_schema_description']) ) {
                      $input1['description'] =  wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_product_schema_description'] ));

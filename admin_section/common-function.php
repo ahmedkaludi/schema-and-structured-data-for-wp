@@ -3242,14 +3242,15 @@ function saswp_validate_date($date, $format = 'Y-m-d H:i:s'){
 
 function saswp_format_date_time($date, $time=null){
     
-    $formated = ''; 
-            
-    if($date && $time){
-        $formated = gmdate('c',strtotime($date.' '.$time));       
-    }else{
-        if($date){
-        $formated = gmdate('c',strtotime($date));      
-        }        
+    $formated           =   '';
+    $wp_timezone        =   wp_timezone();
+
+    if ( $date ) {
+        $datetime       =   $time ? $date . ' ' . $time : $date;
+        $datetime_obj   =   date_create( $datetime, $wp_timezone );
+        if ( $datetime_obj ) {
+            $formated   =   $datetime_obj->format('c');
+        }
     }               
     
     return $formated;
@@ -3480,6 +3481,7 @@ function saswp_get_field_note($pname){
             'ameliabooking'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wpamelia.com/">wpamelia</a>',
             'wpml'                        => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wpml.org">WPML</a>',
             'polylang'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/polylang/">Polylang</a>',
+            'translatepress'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/translatepress-multilingual/">TranslatePress</a>',
             'autolistings'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/auto-listings">Auto Listings</a>',
             'wpdiscuz'                    => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wpdiscuz/">Comments – wpDiscuz</a>',
             'rannarecipe'                 => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://themeforest.net/item/ranna-food-recipe-wordpress-theme/25157340">Ranna - Food & Recipe</a>',
@@ -5309,29 +5311,31 @@ function saswp_local_file_get_contents($file_path){
 
 function saswp_get_seo_press_metadata($type){
 
-    global $wpdb;    
+    global $wpdb, $post;    
     $meta_value = '';
-    $cache_key = 'saswp_seo_press_cache_key_'.$post->ID;
-    $result = wp_cache_get( $cache_key );    
-    if ( false === $result ) {
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Custom table created by seopress plugin
-        $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID), OBJECT);
-        wp_cache_set( $cache_key, $result );
-    }
-    
-    if($result){
-        $seo_data = unserialize($rows[0]->seo);
-        if($type == 'title'){            
-            if ( isset( $seo_data['title']) && $seo_data['title'] <>''){
-                $meta_value = $seo_data['title'];
-            }            
+    if ( is_object( $post ) && isset( $post->ID ) ) {
+        $cache_key = 'saswp_seo_press_cache_key_'.$post->ID;
+        $result = wp_cache_get( $cache_key );    
+        if ( false === $result ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Custom table created by seopress plugin
+            $result = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}qss WHERE post_id = %d",$post->ID), OBJECT);
+            wp_cache_set( $cache_key, $result );
         }
-        if($type == 'description'){
-            if ( isset( $seo_data['description']) && $seo_data['description'] <>''){
-                $meta_value = $seo_data['description'];
-            }            
-        }
-    }    
+        
+        if($result){
+            $seo_data = unserialize($rows[0]->seo);
+            if($type == 'title'){            
+                if ( isset( $seo_data['title']) && $seo_data['title'] <>''){
+                    $meta_value = $seo_data['title'];
+                }            
+            }
+            if($type == 'description'){
+                if ( isset( $seo_data['description']) && $seo_data['description'] <>''){
+                    $meta_value = $seo_data['description'];
+                }            
+            }
+        } 
+    }   
     return $meta_value;
 }
 
@@ -5352,5 +5356,79 @@ function saswp_delete_uploaded_file( $url ){
             wp_delete_file( $file );
         }
     }
+
+}
+
+/**
+ * Function to filter the translatepress content as per the language
+ * @param   $content    string
+ * @return  $content    string
+ * @since   1.40
+ * */
+add_filter( 'saswp_the_content', 'saswp_filter_translatepress_content' );
+function saswp_filter_translatepress_content( $content ){
+
+    global $sd_data, $wpdb, $TRP_LANGUAGE;
+
+    $search     =   array( '&#8216;', '&#8217;', '&#8220;', '&#8221;', '&#8211;' );
+    $replace    =   array( '\'', '\'', '"', '"', '-' );
+
+    if ( ! empty( $sd_data['saswp-translatepress'] ) && class_exists( 'TRP_Translate_Press' ) ) {
+            
+        $trp_settings           =   get_option( 'trp_settings', false ); 
+        $default_language       =   '';
+        if ( isset( $trp_settings['default-language'] ) ) {
+            $default_language   =   $trp_settings['default-language'];      
+        }   
+
+        if ( ! empty( $TRP_LANGUAGE ) && ! empty( $default_language ) && $TRP_LANGUAGE !== $default_language ) {
+
+            $trp_meta_table     =   $wpdb->prefix.'trp_original_meta';
+            $post_id            =   get_the_ID();
+
+            $meta_table         =  $wpdb->get_var( "SHOW TABLES LIKE '$trp_meta_table'" ); 
+
+            if ( $trp_meta_table == $meta_table ) {
+
+                $results            =   $wpdb->get_results( $wpdb->prepare( "SELECT original_id FROM {$trp_meta_table} WHERE meta_value = %d ORDER BY meta_id", $post_id ) );
+
+                if ( ! empty( $results ) && is_array( $results ) ) {
+
+                    $translate_table =  $wpdb->prefix.'trp_dictionary_'.strtolower( $default_language ).'_'.strtolower( $TRP_LANGUAGE );      
+                    $dictinary_table =  $wpdb->get_var( "SHOW TABLES LIKE '$translate_table'" ); 
+
+                    if ( $translate_table == $dictinary_table ) {
+                        
+                        foreach ( $results as $original ) {
+
+                            if ( is_object( $original ) && ! empty( $original->original_id ) ) {
+
+                                $translated_data     =   $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$translate_table} WHERE original_id = %d",  $original->original_id ) );
+                                
+                                if ( ! empty( $translated_data ) && ! empty( $translated_data->translated ) ) {
+
+                                    $original_data  =   $translated_data->original;
+                                    $original_data  =   str_replace( $search, $replace, $original_data );
+                                    
+                                    $pos = strpos( $content, $original_data );
+                                    
+                                    if ( $pos !== false) {
+                                        $content    =   substr_replace( $content, $translated_data->translated, $pos, strlen( $original_data ) );
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+     
+                }
+            }
+
+        }
+
+    } 
+      
+    return $content;
 
 }

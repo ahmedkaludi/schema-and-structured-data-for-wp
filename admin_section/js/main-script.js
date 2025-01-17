@@ -1356,6 +1356,15 @@ jQuery(document).ready(function($){
                               $("#saswp-polylang").val(0);           
                             }
                       break;
+                      
+                      case 'saswp-translatepress-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-translatepress").val(1);             
+                            }else{
+                              $("#saswp-translatepress").val(0);           
+                            }
+                      break;
 
                       case 'saswp-autolistings-checkbox':
                           saswp_compatibliy_notes(current, id); 

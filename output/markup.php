@@ -1491,6 +1491,12 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['additionalType'] = esc_attr( $all_post_meta['saswp_product_additional_type_'.$schema_id][0]);  
             }
             
+            if ( ! empty( $all_post_meta['saswp_product_weight_'.$schema_id][0] ) && ! empty( $all_post_meta['saswp_product_weight_unit_'.$schema_id][0] ) ) {
+                $input1['weight']['@type']      =   'QuantitativeValue';    
+                $input1['weight']['value']      =   saswp_remove_warnings( $all_post_meta, 'saswp_product_weight_'.$schema_id, 'saswp_array' );    
+                $input1['weight']['unitCode']   =   saswp_remove_warnings( $all_post_meta, 'saswp_product_weight_unit_'.$schema_id, 'saswp_array' );    
+            }
+            
             if(saswp_remove_warnings($all_post_meta, 'saswp_product_schema_enable_rating_'.$schema_id, 'saswp_array') == 1 && saswp_remove_warnings($all_post_meta, 'saswp_product_schema_rating_'.$schema_id, 'saswp_array') && saswp_remove_warnings($all_post_meta, 'saswp_product_schema_review_count_'.$schema_id, 'saswp_array') ) {   
                                  
                                           $input1['aggregateRating'] = array(

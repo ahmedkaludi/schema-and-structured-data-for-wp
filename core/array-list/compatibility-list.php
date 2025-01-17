@@ -29,6 +29,12 @@ return array(
             'opt_name'   => 'saswp-polylang',
             'part_in'    => 'pro',
         ),
+        'translatepress'  =>  array(            
+            'name'       => 'Translate Press',
+            'free'       => 'translatepress-multilingual/index.php',                    
+            'opt_name'   => 'saswp-translatepress',
+            'part_in'    => 'free',
+        ),
         'wpml'  =>  array(            
             'name'       => 'WPML Multilingual CMS',
             'free'       => 'sitepress-multilingual-cms/sitepress.php',

@@ -6325,6 +6325,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'  => 'text',                             
                        ),
                        array(
+                        'label' => 'Product Weight',
+                        'id'    => 'saswp_product_weight_'.$schema_id,
+                        'type'  => 'text',                             
+                       ),
+                       array(
+                        'label' => 'Product Weight Unit',
+                        'id'    => 'saswp_product_weight_unit_'.$schema_id,
+                        'type'  => 'text',                             
+                       ),
+                       array(
                             'label'   => 'Return Policy Applicable Country Code',
                             'id'      => 'saswp_product_schema_rp_country_code_'.$schema_id,
                             'type'    => 'text',

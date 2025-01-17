@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 1.39
+Stable tag: 1.40
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -122,6 +122,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.40 (17 January 2025) =
+* Feature: Added compatibility with translatepress plugin #2090
+* Enhancement: Added Weight Field to Product Schema with Support for Multiple Units #2221
+* Feature: Added compatibility with WPBakery page builder accordion #2228
+* Fixed: Houzz platform reviews compatibility issue #2229
+* Fixed: Homestars reviews compatibility issue #2230
+* Fixed: Code Improvement #2232
+* Fixed: Issue with creating new review collection #2233
+* Fixed: Deprecated error #2236
+* Enhancement: Fixed the format date time issue with timezone offset #2239
 
 = 1.39 (04 December 2024) =
 * Major Feature: Schema Template Builder #2138
@@ -274,16 +285,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Event schema automation issues #2058
 * Fixed: PHP warnings #2059
 * Fixed: Cross Site Scripting (XSS) vulnerability reported by patchstack.com
-
-= 1.25 (16 Dec 2023) =
-
-* Enhancement: Added ‘acceptedAnswer’ and ‘suggestedAnswer’ globally in Q&A schema #1967
-* Feature: Added TouristTrip schema type #2023
-* Feature: Added "hasCourseInstance" & "offers" properties to Course schema type #2042
-* Enhancement: Removed UTM parameters and # from menus url #2047
-* Fixed: PHP warnings and errors #2051
-* Fixed: PHP 8.1 Fatal Error : Unsupported Operand Types: int + string in Schema Plugin #2052
-* Fixed: Conflict with Mobile Menu premium plugin #2053
-* Enhancement: Added returnShippingFeesAmount property for product schema #2054
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
