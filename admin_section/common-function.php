@@ -5411,12 +5411,9 @@ function saswp_filter_translatepress_content( $content ){
                                     $original_data  =   str_replace( $search, $replace, $original_data );
                                     
                                     $pos = strpos( $content, $original_data );
-
-                                    // if ( strpos( $content, $original_data ) !== false ) {
+                                    
                                     if ( $pos !== false) {
-                                        // $content    =   preg_replace('/'.trim( $original_data ).'/', trim( $translated_data->translated ) , $content, 1);
                                         $content    =   substr_replace( $content, $translated_data->translated, $pos, strlen( $original_data ) );
-
                                     }
 
                                 }
