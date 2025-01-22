@@ -2250,6 +2250,33 @@ function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post
         if($sameas){
             $input1['sameAs'] = $sameas;
         }                    
+        if ( ! empty( $all_post_meta['saswp_organization_publishing_principles_'.$schema_id][0] ) ) {
+            $input1['publishingPrinciples']             = saswp_remove_warnings( $all_post_meta, 'saswp_organization_publishing_principles_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_organization_corrections_policy_'.$schema_id][0] ) ) {
+            $input1['correctionsPolicy']                = saswp_remove_warnings( $all_post_meta, 'saswp_organization_corrections_policy_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_organization_ethics_policy_'.$schema_id][0] ) ) {
+            $input1['ethicsPolicy']                     = saswp_remove_warnings( $all_post_meta, 'saswp_organization_ethics_policy_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_organization_diversity_policy_'.$schema_id][0] ) ) {
+            $input1['diversityPolicy']                  = saswp_remove_warnings( $all_post_meta, 'saswp_organization_diversity_policy_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_organization_vfc_policy_'.$schema_id][0] ) ) {
+            $input1['verificationFactCheckingPolicy']   = saswp_remove_warnings( $all_post_meta, 'saswp_organization_vfc_policy_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_organization_af_policy_'.$schema_id][0] ) ) {
+            $input1['actionableFeedbackPolicy']         = saswp_remove_warnings( $all_post_meta, 'saswp_organization_af_policy_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_organization_uns_policy_'.$schema_id][0] ) ) {
+            $input1['unnamedSourcesPolicy']             = saswp_remove_warnings( $all_post_meta, 'saswp_organization_uns_policy_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_organization_mcp_policy_'.$schema_id][0] ) ) {
+            $input1['missionCoveragePrioritiesPolicy']  = saswp_remove_warnings( $all_post_meta, 'saswp_organization_mcp_policy_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_organization_masthead_'.$schema_id][0] ) ) {
+            $input1['masthead'] = saswp_remove_warnings( $all_post_meta, 'saswp_organization_masthead_'.$schema_id, 'saswp_array' );
+        }                    
         return $input1;
 }
 

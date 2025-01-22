@@ -1645,7 +1645,34 @@ Class SASWP_Output_Service{
                         $input1['aggregateRating']['@type']       =   'AggregateRating';                                                
                         $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_organization_rating_value'];
                         $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_organization_rating_count'];
-                    }                    
+                    } 
+                    if ( ! empty( $custom_fields['saswp_organization_publishing_principles'] ) ) {
+                        $input1['publishingPrinciples']             =   $custom_fields['saswp_organization_publishing_principles'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_corrections_policy'] ) ) {
+                        $input1['correctionsPolicy']                =   $custom_fields['saswp_organization_corrections_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_ethics_policy'] ) ) {
+                        $input1['ethicsPolicy']                     =   $custom_fields['saswp_organization_ethics_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_diversity_policy'] ) ) {
+                        $input1['diversityPolicy']                  =   $custom_fields['saswp_organization_diversity_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_vfc_policy'] ) ) {
+                        $input1['verificationFactCheckingPolicy']   =   $custom_fields['saswp_organization_vfc_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_af_policy'] ) ) {
+                        $input1['actionableFeedbackPolicy']         =   $custom_fields['saswp_organization_af_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_uns_policy'] ) ) {
+                        $input1['unnamedSourcesPolicy']             =   $custom_fields['saswp_organization_uns_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_mcp_policy'] ) ) {
+                        $input1['missionCoveragePrioritiesPolicy']  =   $custom_fields['saswp_organization_mcp_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_masthead'] ) ) {
+                        $input1['masthead']   =   $custom_fields['saswp_organization_masthead'];
+                    }                   
                                                     
                     break;     
                     
@@ -3734,6 +3761,9 @@ Class SASWP_Output_Service{
                         $input1['about']['@type'] = 'Event';                   
                         $input1['about']['name'] = explode(',', $custom_fields['saswp_newsarticle_about']);    
                     }  
+                    if ( ! empty( $custom_fields['saswp_newsarticle_publisher'] ) && is_array( $custom_fields['saswp_newsarticle_publisher'] ) && ! empty( $custom_fields['saswp_newsarticle_publisher'][0] ) ) {
+                                $input1['publisher']       =   $custom_fields['saswp_newsarticle_publisher'][0];
+                    }
                     if ( isset( $custom_fields['saswp_newsarticle_organization_logo']) && isset($custom_fields['saswp_newsarticle_organization_name']) ) {
                      $input1['publisher']['@type']       =    'Organization';
                      $input1['publisher']['name']        =    $custom_fields['saswp_newsarticle_organization_name'];
