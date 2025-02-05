@@ -3637,12 +3637,6 @@ Class SASWP_Output_Service{
                 
                 case 'NewsArticle':
                     
-                    $keywords   =   $custom_fields['saswp_newsarticle_keywords'];
-                    if ( ! empty( $keywords ) && is_string( $keywords ) ) {
-                        $explode_keyword    =   explode( ',', $keywords );
-                        $keywords           =   $explode_keyword;
-                    }
-
                     if ( isset( $custom_fields['saswp_newsarticle_id']) ) {
                         $input1['@id'] =     get_permalink().$custom_fields['saswp_newsarticle_id'];
                     }
@@ -3665,7 +3659,12 @@ Class SASWP_Output_Service{
                         $input1['alternativeHeadline'] =    $custom_fields['saswp_newsarticle_alternative_headline']; 
                      }
                     if ( isset( $custom_fields['saswp_newsarticle_keywords']) ) {
-                       $input1['keywords'] =    $keywords; 
+                        $keywords   =   $custom_fields['saswp_newsarticle_keywords'];
+                        if ( ! empty( $keywords ) && is_string( $keywords ) ) {
+                            $explode_keyword    =   explode( ',', $keywords );
+                            $keywords           =   $explode_keyword;
+                        }
+                       $input1['keywords'] =    $keywords;
                     }
                     if ( isset( $custom_fields['saswp_newsarticle_date_published']) ) {
                        $input1['datePublished'] =    $custom_fields['saswp_newsarticle_date_published']; 
