@@ -1811,6 +1811,11 @@ function saswp_schema_output() {
                                 }
                                 
                                     $word_count = saswp_reading_time_and_word_count();
+                                    $news_keywords  =   saswp_get_the_tags();
+                                    if ( ! empty( $news_keywords ) && is_string( $news_keywords ) ) {
+                                        $news_keywords  =   explode( ',', $news_keywords );
+
+                                    }
 
                                     $input1 = array(
                                     '@context'			=> saswp_context_url(),
@@ -1824,7 +1829,7 @@ function saswp_schema_output() {
                                     'description'                   => saswp_get_the_excerpt(),
                                     'articleSection'                => $article_section,            
                                     'articleBody'                   => saswp_get_the_content(), 
-                                    'keywords'                      => saswp_get_the_tags(),
+                                    'keywords'                      => $news_keywords,
                                     'name'				            => saswp_get_the_title(), 					
                                     'thumbnailUrl'                  => saswp_remove_warnings($image_details, 0, 'saswp_string'),
                                     'wordCount'                     => saswp_remove_warnings($word_count, 'word_count', 'saswp_string'),
