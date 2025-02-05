@@ -2047,7 +2047,7 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                                                 if ( ! empty( $local_offer ) && is_array( $local_offer ) ) {
                                                     $make_offer                   =   array();
                                                     $make_offer['@type']          =   'Offer';
-                                                    $make_offer['@id']            =   '#service'. $lmo_key + 1;
+                                                    $make_offer['@id']            =   '#service'. ( $lmo_key + 1 );
                                                     $make_offer['itemOffered']    =   $local_offer;
 
                                                     $input1['makesOffer'][]       =   $make_offer;
