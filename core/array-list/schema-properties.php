@@ -2458,7 +2458,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_webpage_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
-                    )    
+                    ),    
+                    array(
+                        'label' => 'Specialty',
+                        'id' => 'saswp_webpage_specialty_'.$schema_id,
+                        'type' => 'text',
+
+                    ),
+                    array(
+                        'label' => 'Main Content Of Page',
+                        'id' => 'saswp_webpage_mcop_'.$schema_id,
+                        'type' => 'text',
+
+                    ),    
                     );
                     break;
 

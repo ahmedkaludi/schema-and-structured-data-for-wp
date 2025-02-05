@@ -4929,6 +4929,19 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
             );
 
         }
+        
+        if ( ! empty( $all_post_meta['saswp_webpage_specialty_'.$schema_id] ) ) {
+            $input1['specialty']   =   saswp_remove_warnings($all_post_meta, 'saswp_webpage_specialty_'.$schema_id, 'saswp_array');
+        }
+        if ( ! empty( $all_post_meta['saswp_webpage_mcop_'.$schema_id] ) ) {
+            $input1['mainContentOfPage']['@type']   =   'WebPageElement';
+            $mcop   =   saswp_remove_warnings($all_post_meta, 'saswp_webpage_mcop_'.$schema_id, 'saswp_array');
+            if ( filter_var( $mcop, FILTER_VALIDATE_URL) !== false ) {
+                $input1['mainContentOfPage']['url']    =   saswp_remove_warnings($all_post_meta, 'saswp_webpage_mcop_'.$schema_id, 'saswp_array');
+            }else{
+                $input1['mainContentOfPage']['name']    =   saswp_remove_warnings($all_post_meta, 'saswp_webpage_mcop_'.$schema_id, 'saswp_array');
+            }
+        }
     
     return $input1;
     
@@ -6055,7 +6068,12 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
                 
                 $slogo        = get_post_meta( get_the_ID(), 'saswp_newsarticle_organization_logo_'.$schema_id.'_detail',true);
                 $author_image = get_post_meta( get_the_ID(), 'saswp_newsarticle_author_image_'.$schema_id.'_detail',true);
-                $checkIdPro = ((isset($all_post_meta['saswp_newsarticle_id_'.$schema_id][0]) && $all_post_meta['saswp_newsarticle_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_newsarticle_id_'.$schema_id][0] : ''); 
+                $checkIdPro = ((isset($all_post_meta['saswp_newsarticle_id_'.$schema_id][0]) && $all_post_meta['saswp_newsarticle_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_newsarticle_id_'.$schema_id][0] : '');
+                $keywords   =   saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_keywords_'.$schema_id, 'saswp_array');
+                if ( ! empty( $keywords ) && is_string( $keywords ) ) {
+                    $explode_keyword    =   explode( ',', $keywords );
+                    $keywords           =   $explode_keyword;
+                } 
                              
 				
 				$input1['@context']                                 = saswp_context_url();
@@ -6070,7 +6088,7 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
                 $input1['datePublished']                            = isset($all_post_meta['saswp_newsarticle_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'';
 				$input1['dateModified']                             = isset($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'';
 				$input1['description']                              = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_description_'.$schema_id, 'saswp_array');
-                $input1['keywords']		                            = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_keywords_'.$schema_id, 'saswp_array');
+                $input1['keywords']		                            = $keywords;
                 $input1['articleSection']                           = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_section_'.$schema_id, 'saswp_array');
                 $input1['articleBody']                              = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_body_'.$schema_id, 'saswp_array');     
 				$input1['name']				                        = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_name_'.$schema_id, 'saswp_array'); 					

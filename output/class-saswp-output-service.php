@@ -3637,6 +3637,12 @@ Class SASWP_Output_Service{
                 
                 case 'NewsArticle':
                     
+                    $keywords   =   $custom_fields['saswp_newsarticle_keywords'];
+                    if ( ! empty( $keywords ) && is_string( $keywords ) ) {
+                        $explode_keyword    =   explode( ',', $keywords );
+                        $keywords           =   $explode_keyword;
+                    }
+
                     if ( isset( $custom_fields['saswp_newsarticle_id']) ) {
                         $input1['@id'] =     get_permalink().$custom_fields['saswp_newsarticle_id'];
                     }
@@ -3659,7 +3665,7 @@ Class SASWP_Output_Service{
                         $input1['alternativeHeadline'] =    $custom_fields['saswp_newsarticle_alternative_headline']; 
                      }
                     if ( isset( $custom_fields['saswp_newsarticle_keywords']) ) {
-                       $input1['keywords'] =    $custom_fields['saswp_newsarticle_keywords']; 
+                       $input1['keywords'] =    $keywords; 
                     }
                     if ( isset( $custom_fields['saswp_newsarticle_date_published']) ) {
                        $input1['datePublished'] =    $custom_fields['saswp_newsarticle_date_published']; 
@@ -4728,6 +4734,18 @@ Class SASWP_Output_Service{
 
                     if( $sub_schema_type == 'none' ) { 
                         unset( $input1['mainEntity'] );
+                    }
+                    
+                    if ( ! empty( $custom_fields['saswp_webpage_specialty'] ) ) {
+                        $input1['specialty']   =   $custom_fields['saswp_webpage_specialty'];    
+                    }
+                    if ( ! empty( $custom_fields['saswp_webpage_mcop'] ) ) {
+                        $input1['mainContentOfPage']['@type']   =   'WebPageElement';
+                        if ( filter_var( $custom_fields['saswp_webpage_mcop'], FILTER_VALIDATE_URL) !== false ) {
+                            $input1['mainContentOfPage']['url']    =   $custom_fields['saswp_webpage_mcop'];
+                        }else{
+                            $input1['mainContentOfPage']['name']    =   $custom_fields['saswp_webpage_mcop'];
+                        }
                     }
 
                     break;
