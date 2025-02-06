@@ -4499,7 +4499,12 @@ Class SASWP_Output_Service{
                     }
 
                     if ( isset( $custom_fields['saswp_webpage_id']) ) {
-                        $input1['@id'] =    get_permalink().$custom_fields['saswp_webpage_id'];
+                        if ( empty( $custom_fields['saswp_webpage_id'] ) ) {
+                            unset( $input1['@id'] );
+                        }else{
+                            $input1['@id'] =    get_permalink().$custom_fields['saswp_webpage_id'];
+                        }
+                        
                     }
                     if ( isset( $custom_fields['saswp_webpage_name']) ) {
                         $input1['name'] =    $custom_fields['saswp_webpage_name'];
