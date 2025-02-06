@@ -21,8 +21,20 @@ add_action( 'admin_menu', 'saswp_add_new_data_menu' );
 add_action( 'admin_init', 'saswp_add_new_init');
 add_action( 'admin_footer', 'saswp_add_new_svg_sprite');
 add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_data', 10, 0 );
+	
+	function saswp_add_new_data_menu() {
+            
+		saswp_add_new_init();
+                
+	}
 
-$saswp_add_data_type_config = array(	
+	function saswp_add_new_init() {
+		// Exit if the user does not have proper permissions
+		if(! current_user_can( saswp_current_user_can() ) ) {
+		    return ;
+		} 
+		global $saswp_add_data_type_config;
+		$saswp_add_data_type_config = array(	
 				'installer_dir' => 'admin_section',
 				'plugin_title'  => 'Schema & Structured Data for WP',
 				'start_steps'   => 1,
@@ -50,19 +62,7 @@ $saswp_add_data_type_config = array(
 							'title'=>'',
 							'step_id'=>1
 							)
-			);
-	
-	function saswp_add_new_data_menu() {
-            
-		saswp_add_new_init();
-                
-	}
-
-	function saswp_add_new_init() {
-		// Exit if the user does not have proper permissions
-		if(! current_user_can( saswp_current_user_can() ) ) {
-		    return ;
-		}                
+			);               
 		if ( ! isset( $_GET['_wpnonce']) ) {
 			return ;                    
 		}else{                                                      

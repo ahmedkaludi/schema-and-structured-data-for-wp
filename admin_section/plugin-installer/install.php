@@ -12,7 +12,27 @@
  * @license   Licensed GPLv3 for open source use
  */	
             
-    $saswp_installer_config = array(
+    
+        
+	add_action( 'admin_menu', 'saswp_add_admin_menu' );
+	add_action( 'admin_init', 'saswp_installer_init');
+	add_action( 'admin_footer', 'saswp_svg_sprite');
+	add_action( 'wp_ajax_saswp_save_installer', 'saswp_save_steps_data', 10, 0 );
+        
+	function saswp_add_admin_menu() {
+            
+		
+		saswp_installer_init();
+                
+	}
+
+	function saswp_installer_init() {
+		// Exit if the user does not have proper permissions
+		if(! current_user_can( saswp_current_user_can() ) ) {
+			return ;
+		}
+		global $saswp_installer_config; 	
+		$saswp_installer_config = array(
 			'installer_dir' => 'plugin-installer',
 			'plugin_title'  => 'Schema & Structured Data for WP',
 			'start_steps'   => 1,
@@ -47,28 +67,7 @@
 						'title'=>'',
 						'step_id'=>1
 						)
-		);
-            
-            
-        
-        
-	add_action( 'admin_menu', 'saswp_add_admin_menu' );
-	add_action( 'admin_init', 'saswp_installer_init');
-	add_action( 'admin_footer', 'saswp_svg_sprite');
-	add_action( 'wp_ajax_saswp_save_installer', 'saswp_save_steps_data', 10, 0 );
-        
-	function saswp_add_admin_menu() {
-            
-		global $saswp_installer_config;
-		saswp_installer_init();
-                
-	}
-
-	function saswp_installer_init() {
-		// Exit if the user does not have proper permissions
-		if(! current_user_can( saswp_current_user_can() ) ) {
-			return ;
-		}		
+		);	
 		if ( ! isset( $_GET['_saswp_nonce']) ) {
 			return;
 		}else{			
