@@ -305,7 +305,18 @@ class SASWP_Output_Compatibility{
         }
         
     }
-        
+    
+    /**
+     * Remove wpforo schema markup
+     * @since   1.41
+     * */
+    public function saswp_wpforo_override() {  
+        global $sd_data;
+        if ( ! empty( $sd_data['saswp-wpforo'] ) ) {
+            add_filter( "wpforo_schema", '__return_false' );
+        }
+    }
+
     public function saswp_remove_yoast_product_schema() {
          
        global $wp_filter;

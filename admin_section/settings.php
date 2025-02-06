@@ -4507,9 +4507,12 @@ function saswp_compatibility_page_callback() {
                 $wpml['note'] = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/wpml-schema-compatibility">WPML Schema Compatibility Addon</a>';                        
          }
          if(!is_plugin_active('qanda-schema-for-saswp/qanda-schema-for-saswp.php') ) {
-                          
-                $sabaidiscuss['note'] = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
-                $wpqa_builder['note'] = esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';                        
+                
+                $qnada_addon_req    =   esc_html__( 'This feature requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/qanda-schema/">Q&A Schema Compatibility Addon</a>';
+
+                $sabaidiscuss['note'] = $qnada_addon_req;                     
+                $wpqa_builder['note'] = $qnada_addon_req;                        
+                $wpforo['note']       = $qnada_addon_req;                        
          }
        
          if(!is_plugin_active('event-schema-for-saswp/event-schema-for-saswp.php') ) {
