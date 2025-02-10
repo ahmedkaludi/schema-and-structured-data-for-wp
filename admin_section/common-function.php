@@ -5432,3 +5432,25 @@ function saswp_filter_translatepress_content( $content ){
     return $content;
 
 }
+
+/**
+ * Modify product name product in schema markup
+ * @param   $title  string
+ * @return  $title  string
+ * @since   1.41
+ */
+function saswp_get_the_product_title( $title = '' ) { 
+
+    global $sd_data;
+
+    if( isset( $sd_data['saswp-full-heading'] ) && $sd_data['saswp-full-heading'] == 1 ) {
+        return $title;
+    }
+        
+    if ( mb_strlen( $title, 'UTF-8' ) > 150 ) {
+        $title = mb_substr( $title, 0, 146, 'UTF-8' ) . ' ...';
+    }
+
+    return $title;
+
+}
