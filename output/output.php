@@ -3606,6 +3606,7 @@ function saswp_author_output() {
         if(is_object($post_author) && isset($post_author->ID) ) {
 
             $input = array (
+                '@context' => saswp_context_url(),
                 '@type'	=> 'Person',
                 'name'	=> get_the_author_meta('display_name'),
                 'url'	=> esc_url( get_author_posts_url( $post_author->ID ) ),
