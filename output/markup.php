@@ -1430,7 +1430,7 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                     }
                 }
 
-                if ( isset( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0]) ) {
+                if ( isset( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0] ) ) {
                     $input1['offers']['shippingDetails']['@type'] = 'OfferShippingDetails';
                     $input1['offers']['shippingDetails']['shippingRate']['@type'] = 'MonetaryAmount';
                     $input1['offers']['shippingDetails']['shippingRate']['value'] = esc_attr( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0]);
@@ -1455,14 +1455,14 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                             $input1['offers']['shippingDetails']['shippingDestination']['addressCountry'] = esc_attr( $all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0]);
                         }
                     }
-                    if((isset($all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0])) && (isset($all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0])) && (isset($all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0])) ) {
+                    if(isset( $all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0] ) && isset( $all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0] ) && isset( $all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0] ) ) {
                         $input1['offers']['shippingDetails']['deliveryTime']['@type'] = 'ShippingDeliveryTime';
                         $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['@type'] = 'QuantitativeValue';
                         $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['minValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0]);
                         $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['maxValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0]);
                         $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['unitCode'] = esc_attr( $all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0]);
                     }
-                    if((isset($all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0])) && (isset($all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0])) && (isset($all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0])) ) {
+                    if(isset( $all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0] ) && isset( $all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0] ) && isset( $all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0] ) ) {
                         $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['@type'] = 'QuantitativeValue';
                         $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['minValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0]);
                         $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['maxValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0]);

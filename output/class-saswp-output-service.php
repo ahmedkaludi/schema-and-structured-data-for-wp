@@ -5843,7 +5843,7 @@ Class SASWP_Output_Service{
                         }
                     }
 
-                    if ( isset( $custom_fields['saswp_product_schema_sr_value']) && !empty($custom_fields['saswp_product_schema_sr_value']) ) {
+                    if ( isset( $custom_fields['saswp_product_schema_sr_value'] ) ) {
                         $input1['offers']['shippingDetails']['@type'] = 'OfferShippingDetails';
                         $input1['offers']['shippingDetails']['shippingRate']['@type'] = 'MonetaryAmount';
                         $input1['offers']['shippingDetails']['shippingRate']['value'] = esc_attr( $custom_fields['saswp_product_schema_sr_value']);
@@ -5868,14 +5868,14 @@ Class SASWP_Output_Service{
                                 $input1['offers']['shippingDetails']['shippingDestination']['addressCountry'] = esc_attr( $custom_fields['saswp_product_schema_sa_country']);
                             }
                         }
-                        if((isset($custom_fields['saswp_product_schema_sdh_minval']) && !empty($custom_fields['saswp_product_schema_sdh_minval'])) && (isset($custom_fields['saswp_product_schema_sdh_maxval']) && !empty($custom_fields['saswp_product_schema_sdh_maxval'])) && (isset($custom_fields['saswp_product_schema_sdh_unitcode']) && !empty($custom_fields['saswp_product_schema_sdh_unitcode'])) ) {
+                        if(isset( $custom_fields['saswp_product_schema_sdh_minval'] ) && isset( $custom_fields['saswp_product_schema_sdh_maxval'] ) && isset( $custom_fields['saswp_product_schema_sdh_unitcode'] ) ) {
                             $input1['offers']['shippingDetails']['deliveryTime']['@type'] = 'ShippingDeliveryTime';
                             $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['@type'] = 'QuantitativeValue';
                             $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['minValue'] = esc_attr( $custom_fields['saswp_product_schema_sdh_minval']);
                             $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['maxValue'] = esc_attr( $custom_fields['saswp_product_schema_sdh_maxval']);
                             $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['unitCode'] = esc_attr( $custom_fields['saswp_product_schema_sdh_unitcode']);
                         }
-                        if((isset($custom_fields['saswp_product_schema_sdt_minval']) && !empty($custom_fields['saswp_product_schema_sdt_minval'])) && (isset($custom_fields['saswp_product_schema_sdt_maxval']) && !empty($custom_fields['saswp_product_schema_sdt_maxval'])) && (isset($custom_fields['saswp_product_schema_sdt_unitcode']) && !empty($custom_fields['saswp_product_schema_sdt_unitcode'])) ) {
+                        if( isset( $custom_fields['saswp_product_schema_sdt_minval'] ) && isset( $custom_fields['saswp_product_schema_sdt_maxval'] ) && isset( $custom_fields['saswp_product_schema_sdt_unitcode'] ) ) {
                             $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['@type'] = 'QuantitativeValue';
                             $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['minValue'] = esc_attr( $custom_fields['saswp_product_schema_sdt_minval']);
                             $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['maxValue'] = esc_attr( $custom_fields['saswp_product_schema_sdt_maxval']);
