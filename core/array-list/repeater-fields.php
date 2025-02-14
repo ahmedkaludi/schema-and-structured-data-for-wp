@@ -134,6 +134,9 @@ return array( 'schema_type_element' => array(
 			    ),
 			    'LearningResource' => array(
 					'learning-resource-educational-alignment'  => 'learning_resource_educational_alignment',
+			    ),
+			    'LiveBlogPosting' => array(
+					'live-blog-update'  => 'live_blog_update',
 			    )
 						                                                                          
                     ),
@@ -1175,6 +1178,29 @@ return array( 'schema_type_element' => array(
 			'name'      => 'saswp_lr_audience',
 			'type'      => 'text'
 			),
+		),
+		'live_blog_update' 	=>	array(
+			array(
+				'label'     => 'Headline',
+				'name'      => 'saswp_lbp_lbu_headline',
+				'type'      => 'text'
+			),
+			array(
+				'label'     => 'Date Published',
+				'name'      => 'saswp_lbp_lbu_date_published',
+				'type'      => 'text',
+				'default'   => get_the_date( 'Y-m-d' )                            
+			),
+			array(
+				'label'     => 'Article Body',
+				'name'      => 'saswp_lbp_lbu_article_body',
+				'type'      => 'textarea',                          
+			),
+			array(
+				'label'     => 'Image',
+				'name'      => 'saswp_lbp_lbu_image',
+				'type'      => 'media',                        
+			),	
 		)
 		                    
         )    

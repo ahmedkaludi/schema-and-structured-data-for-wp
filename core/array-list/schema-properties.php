@@ -11624,6 +11624,67 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         );
                     break;
+                    
+                    case 'LiveBlogPosting':
+
+                    $meta_field = array(
+                         array(
+                               'label'      => 'ID',
+                               'id'         => 'saswp_lbp_id_'.$schema_id,
+                               'type'       => 'text',
+                               'default'    => 'LiveBlogPosting',   
+                            ),
+                        array(
+                                'label'   => 'Name',
+                                'id'      => 'saswp_lbp_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_get_the_title()
+                            ),
+                        array(
+                                'label'   => 'Description',
+                                'id'      => 'saswp_lbp_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => is_object($post) ? $post->post_excerpt : ''
+                            ),
+                        array(
+                            'label' => 'Headline',
+                            'id' => 'saswp_lbp_headline_'.$schema_id,
+                            'type' => 'text',
+                            'default'=> saswp_get_the_title()
+                        ),
+                        array(
+                                'label'   => 'Start Date',
+                                'id'      => 'saswp_lbp_start_date_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'YYYY-MM-DD'
+                                ),
+                            ),
+                        array(
+                                'label'   => 'Coverage Start Time',
+                                'id'      => 'saswp_lbp_coverage_start_date_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'YYYY-MM-DD'
+                                ),
+                            ),
+                        array(
+                                'label'   => 'Coverage End Time',
+                                'id'      => 'saswp_lbp_coverage_end_date_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'YYYY-MM-DD'
+                                ),
+                            ),
+                        array(
+                                'label'   => 'Live Blog Update',
+                                'id'      => 'saswp_lbp_live_blog_update_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes', 
+                            ),
+                    );
+
+                    break;
                                 
                 default:
                     break;

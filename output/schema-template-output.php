@@ -1225,6 +1225,28 @@ function saswp_generate_schema_template_markup( $template_id ){
 
             break;
 
+            case 'BlogPosting':
+                                
+                $input1 = $service_object->saswp_schema_markup_generator( $template_type );
+        
+                $mainentity = saswp_get_mainEntity( $template_id );
+
+                if($mainentity){
+                    $input1['mainEntity'] = $mainentity;                                     
+                }
+                                                                                    
+                $input1 = apply_filters('saswp_modify_blogposting_schema_output', $input1 ); 
+                $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+                
+                if ( isset( $input1['@context'] ) ) {
+	            	unset( $input1['@context'] );
+	            }
+	            if ( isset( $input1['@id'] ) ) {
+	            	unset( $input1['@id'] );
+	            }                        
+                
+            break;
+
 		}
 	}
 

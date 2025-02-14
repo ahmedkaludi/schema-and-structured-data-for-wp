@@ -7968,3 +7968,77 @@ function saswp_learning_resource_schema_markup($schema_id, $schema_post_id, $all
 
     return $input1;
 }
+
+/**
+ * Schema markup function for live blog posting Schema
+ * @param   $schema_id  Integer
+ * @param   $schema_post_id  Integer
+ * @param   $all_post_meta  Array
+ * @return  $input1  Array
+ * @since   1.41
+ * */
+function saswp_live_blog_posting_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1['@context']                     =   saswp_context_url();
+    $input1['@type']                        =   'LiveBlogPosting';
+
+    if ( isset( $all_post_meta['saswp_lbp_id_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_id_'.$schema_id][0] ) ) {
+        $input1['@id']                      =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_id_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_name_'.$schema_id][0] ) ) {
+        $input1['name']                     =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_name_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id] ) || isset( $all_post_meta['saswp_lbp_start_date_'.$schema_id] ) ) {
+        $input1['about']['@type']           =   'Event';   
+        if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id][0] ) ) {
+            $input1['about']['name']        =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_name_'.$schema_id, 'saswp_array' );    
+        }
+        if ( isset( $all_post_meta['saswp_lbp_start_date_'.$schema_id][0] ) ) {
+            $input1['about']['startDate']   =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_start_date_'.$schema_id, 'saswp_array');    
+        }           
+    }
+    if ( isset( $all_post_meta['saswp_lbp_coverage_start_date_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_coverage_start_date_'.$schema_id][0] ) ) {
+        $input1['coverageStartTime']        =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_start_date_'.$schema_id, 'saswp_array');    
+    }
+    if ( isset( $all_post_meta['saswp_lbp_coverage_end_date_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_coverage_end_date_'.$schema_id][0] ) ) {
+        $input1['coverageEndTime']          =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_end_date_'.$schema_id, 'saswp_array');    
+    }
+    if ( isset( $all_post_meta['saswp_lbp_headline_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_headline_'.$schema_id][0] ) ) {
+        $input1['headline']                 =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_headline_'.$schema_id, 'saswp_array');    
+    }
+    if ( isset( $all_post_meta['saswp_lbp_description_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_description_'.$schema_id][0] ) ) {
+        $input1['description']              =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_description_'.$schema_id, 'saswp_array');    
+    }
+
+    $live_blog_update = array();
+    $blog_update  = get_post_meta( $schema_post_id, 'live_blog_update_'.$schema_id, true );
+    if ( ! empty( $blog_update ) && is_array( $blog_update ) ) {
+        foreach ( $blog_update as $blog ) {
+            if ( ! empty( $blog ) && is_array( $blog ) ) {
+                $blog_array['@type']    =   'BlogPosting';
+                if ( isset( $blog['saswp_lbp_lbu_headline'] ) ) {
+                    $blog_array['headline']    =   sanitize_text_field( $blog['saswp_lbp_lbu_headline'] );
+                }
+                if ( isset( $blog['saswp_lbp_lbu_date_published'] ) ) {
+                    $blog_array['datePublished']    =   gmdate( 'c', strtotime( $blog['saswp_lbp_lbu_date_published'] ) );
+                }
+                if ( isset( $blog['saswp_lbp_lbu_article_body'] ) ) {
+                    $blog_array['articleBody']    =   sanitize_textarea_field( $blog['saswp_lbp_lbu_article_body'] );
+                }
+                if ( isset( $blog['saswp_lbp_lbu_image_id'] ) && $blog['saswp_lbp_lbu_image_id'] > 0 ) {
+                    $thumbnail_url = wp_get_attachment_url( $blog['saswp_lbp_lbu_image_id'] );
+                    $blog_array['image']    =   $thumbnail_url;
+                }
+                $live_blog_update[]     =   $blog_array;
+            }
+            
+        }
+    }
+
+    if ( ! empty( $live_blog_update ) ) {
+        $input1['liveBlogUpdate']   =   $live_blog_update;
+    }
+
+    return $input1;
+
+}

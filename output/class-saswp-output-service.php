@@ -8114,6 +8114,41 @@ Class SASWP_Output_Service{
                         $input1['audience']['educationalRole'] = $custom_fields['saswp_lr_audience'];
                     }  
                 break;
+                
+                case 'LiveBlogPosting':
+                    
+                    if ( ! empty( $custom_fields['saswp_lbp_id'] ) ) {
+                        $input1['@id']                      =   $custom_fields['saswp_lbp_id'];
+                    }
+                    if ( isset( $custom_fields['saswp_lbp_name'] ) ) {
+                        $input1['name']                     =   $custom_fields['saswp_lbp_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_name'] ) || ! empty( $custom_fields['saswp_lbp_start_date'] ) ) {
+                        $input1['about']['@type']           =   'Event';   
+                        if ( ! empty( $custom_fields['saswp_lbp_name'] ) ) {
+                            $input1['about']['name']        =   $custom_fields['saswp_lbp_name'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_lbp_start_date'] ) ) {
+                            $input1['about']['startDate']   =   $custom_fields['saswp_lbp_start_date'];
+                        }           
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_coverage_start_date'] ) ) {
+                        $input1['coverageStartTime']        =   gmdate( 'c', strtotime( $custom_fields['saswp_lbp_coverage_start_date'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_coverage_end_date'] ) ) {
+                        $input1['coverageEndTime']          =   gmdate( 'c', strtotime( $custom_fields['saswp_lbp_coverage_end_date'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_headline'] ) ) {
+                        $input1['headline']                 =   $custom_fields['saswp_lbp_headline'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_description'] ) ) {
+                        $input1['description']              =   $custom_fields['saswp_lbp_description'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_live_blog_update'] ) && is_array( $custom_fields['saswp_lbp_live_blog_update'] ) ) {
+                        $input1['liveBlogUpdate']           =   $custom_fields['saswp_lbp_live_blog_update'];
+                    }
+
+                break;
                
                      default:
                          break;
