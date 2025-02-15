@@ -324,7 +324,6 @@ class SASWP_Output_Compatibility{
     public function saswp_easy_liveblogs_override() {  
         global $sd_data;
         if ( ! empty( $sd_data['saswp-easy-liveblogs'] ) ) {
-            // add_filter( "easy_liveblogs_liveblog_metadata", '__return_false' );
             remove_action( 'wp_head', 'elb_add_meta_data' );
         }
     }
