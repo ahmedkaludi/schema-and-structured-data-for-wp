@@ -96,7 +96,7 @@ Class SASWP_Rating_Box_Frontend{
                                     'name'           => saswp_get_the_title(),                                    
                                     'url'            => get_permalink(),
                                     'description'    => saswp_get_the_excerpt(),
-                                    'copyrightYear'  => get_the_modified_date('Y'),                                                                                                           
+                                    'copyrightYear'  => get_the_modified_date('Y'),                                          
                                     'author'	     => array(
                                                             '@type' 	=> 'Person',
                                                             'name'		=> esc_attr( $aurthor_name),
@@ -361,7 +361,13 @@ Class SASWP_Rating_Box_Frontend{
                 ?>
                     <script type="text/javascript">
                         let saswpStarColor = "<?php echo isset($sd_data['saswp-rbcc-stars-color'])? esc_attr( $sd_data['saswp-rbcc-stars-color']):'#000';  ?>";
-                        jQuery('.saswp_star_color .saswp_star').attr('stop-color', saswpStarColor);   
+                        
+                        if (typeof jQuery !== 'undefined') {
+                            jQuery('.saswp_star_color .saswp_star').attr('stop-color', saswpStarColor);
+                        } else {
+                            const stars = document.querySelectorAll('.saswp_star_color .saswp_star');
+                            stars.forEach(star => star.setAttribute('stop-color', saswpStarColor));
+                        }
                     </script>
                 <?php    
             }

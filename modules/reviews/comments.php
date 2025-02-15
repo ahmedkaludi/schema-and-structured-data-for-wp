@@ -154,16 +154,27 @@ function saswp_comment_rating_display_rating( $comment_text = null, $comment = n
 	
 	if ( saswp_check_stars_rating() &&  '0' == $comment->comment_parent ) {
 		$stars_rating_moved = get_option('saswp_imported_starsrating');
+		$rating 		=	'';
+		$comment_id 	=	'';
+		if ( is_object( $comment ) && ! empty( $comment->comment_ID ) ) {
+			$comment_id 	=		$comment->comment_ID;
+		}
 		if($stars_rating_moved){
-			$rating = get_comment_meta( get_comment_ID(), 'rating', true );
+			if ( ! empty( $comment_id ) ) {
+				$rating = get_comment_meta( $comment_id, 'rating', true );
+			}
 			if(!$rating){
-				$rating = get_comment_meta( get_comment_ID(), 'review_rating', true );		
+				if ( ! empty( $comment_id ) ) {
+					$rating = get_comment_meta( $comment_id, 'review_rating', true );	
+				}	
 			}
 		}else{
-			$rating = get_comment_meta( get_comment_ID(), 'review_rating', true );
+			if ( ! empty( $comment_id ) ) {
+				$rating = get_comment_meta( $comment_id, 'review_rating', true );
+			}
 		}
-		if($rating < 1){
-			$rating = 1;
+		if ( empty( $rating ) ){
+			$rating = 5;
 		}
 		
 		wp_enqueue_style( 'saswp-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-style.min.css' : 'saswp-style.css'), false , SASWP_VERSION );       

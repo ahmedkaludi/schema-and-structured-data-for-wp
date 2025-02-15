@@ -891,7 +891,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_newsarticle_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
-                    )                        
+                    ),
+                    array(
+                        'label'      => 'Publisher',
+                        'id'         => 'saswp_newsarticle_publisher_'.$schema_id,
+                        'type'       => 'text',
+                        'is_template_attr' => 'yes',
+                    ),                        
                     );
                     break;
 
@@ -2452,7 +2458,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_webpage_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
-                    )    
+                    ),    
+                    array(
+                        'label' => 'Specialty',
+                        'id' => 'saswp_webpage_specialty_'.$schema_id,
+                        'type' => 'text',
+
+                    ),
+                    array(
+                        'label' => 'Main Content Of Page',
+                        'id' => 'saswp_webpage_mcop_'.$schema_id,
+                        'type' => 'text',
+
+                    ),    
                     );
                     break;
 
@@ -10934,21 +10952,66 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_organization_parent_organization_'.$schema_id,
                                 'type'       => 'text',                           
                             ),
-                        array(
-                            'label'      => 'Aggregate Rating',
-                            'id'         => 'saswp_organization_enable_rating_'.$schema_id,
-                            'type'       => 'checkbox',                            
-                        ),
-                        array(
-                            'label'      => 'Rating',
-                            'id'         => 'saswp_organization_rating_value_'.$schema_id,
-                            'type'       => 'text',                           
-                        ),
-                        array(
-                            'label'      => 'Rating Count',
-                            'id'         => 'saswp_organization_rating_count_'.$schema_id,
-                            'type'       => 'text',                            
-                        ),    
+                            array(
+                                'label'      => 'Aggregate Rating',
+                                'id'         => 'saswp_organization_enable_rating_'.$schema_id,
+                                'type'       => 'checkbox',                            
+                            ),
+                            array(
+                                'label'      => 'Rating',
+                                'id'         => 'saswp_organization_rating_value_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                            array(
+                                'label'      => 'Rating Count',
+                                'id'         => 'saswp_organization_rating_count_'.$schema_id,
+                                'type'       => 'text',                            
+                            ),
+                            array(
+                                'label'      => 'Publishing Principles',
+                                'id'         => 'saswp_organization_publishing_principles_'.$schema_id,
+                                'type'       => 'text',
+                            ),
+                            array(
+                                'label'      => 'Corrections Policy',
+                                'id'         => 'saswp_organization_corrections_policy_'.$schema_id,
+                                'type'       => 'text',
+                            ),
+                            array(
+                                'label'      => 'Ethics Policy',
+                                'id'         => 'saswp_organization_ethics_policy_'.$schema_id,
+                                'type'       => 'text',
+                            ),
+                            array(
+                                'label'      => 'Diversity Policy',
+                                'id'         => 'saswp_organization_diversity_policy_'.$schema_id,
+                                'type'       => 'text',
+                            ),
+                            array(
+                                'label'      => 'Verification FactChecking Policy',
+                                'id'         => 'saswp_organization_vfc_policy_'.$schema_id,
+                                'type'       => 'text',
+                            ),
+                            array(
+                                'label'      => 'Actionable Feedback Policy',
+                                'id'         => 'saswp_organization_af_policy_'.$schema_id,
+                                'type'       => 'text',
+                            ),
+                            array(
+                                'label'      => 'Unnamed Sources Policy',
+                                'id'         => 'saswp_organization_uns_policy_'.$schema_id,
+                                'type'       => 'text',
+                            ),
+                            array(
+                                'label'      => 'Mission Coverage Priorities Policy',
+                                'id'         => 'saswp_organization_mcp_policy_'.$schema_id,
+                                'type'       => 'text',
+                            ),
+                            array(
+                                'label'      => 'Mester Head',
+                                'id'         => 'saswp_organization_masthead_'.$schema_id,
+                                'type'       => 'text',
+                            ),    
                                                                                         
                    );
                     break;
@@ -11560,6 +11623,67 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             )
 
                         );
+                    break;
+                    
+                    case 'LiveBlogPosting':
+
+                    $meta_field = array(
+                         array(
+                               'label'      => 'ID',
+                               'id'         => 'saswp_lbp_id_'.$schema_id,
+                               'type'       => 'text',
+                               'default'    => 'LiveBlogPosting',   
+                            ),
+                        array(
+                                'label'   => 'Name',
+                                'id'      => 'saswp_lbp_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_get_the_title()
+                            ),
+                        array(
+                                'label'   => 'Description',
+                                'id'      => 'saswp_lbp_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => is_object($post) ? $post->post_excerpt : ''
+                            ),
+                        array(
+                            'label' => 'Headline',
+                            'id' => 'saswp_lbp_headline_'.$schema_id,
+                            'type' => 'text',
+                            'default'=> saswp_get_the_title()
+                        ),
+                        array(
+                                'label'   => 'Start Date',
+                                'id'      => 'saswp_lbp_start_date_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'YYYY-MM-DD'
+                                ),
+                            ),
+                        array(
+                                'label'   => 'Coverage Start Time',
+                                'id'      => 'saswp_lbp_coverage_start_date_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'YYYY-MM-DD'
+                                ),
+                            ),
+                        array(
+                                'label'   => 'Coverage End Time',
+                                'id'      => 'saswp_lbp_coverage_end_date_'.$schema_id,
+                                'type'    => 'text',
+                                'attributes' => array(
+                                    'placeholder' => 'YYYY-MM-DD'
+                                ),
+                            ),
+                        array(
+                                'label'   => 'Live Blog Update',
+                                'id'      => 'saswp_lbp_live_blog_update_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes', 
+                            ),
+                    );
+
                     break;
                                 
                 default:

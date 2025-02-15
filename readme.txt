@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 1.40
+Stable tag: 1.41
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -80,6 +80,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * Church
 * Mosque
 * Person
+* LiveBlogPosting
 * [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions
@@ -122,6 +123,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.41 (15 February 2025) =
+* Fixed: jQuery undefined issue #2086
+* Feature: Added compatibility with Easy Liveblogs plugin #2223
+* Feature: Added Q&A Schema Compatibility with wpForo #2234
+* Feature: Added new fields in NewsArticle schema #2238
+* Enhancemant: Existing Comments Assigned One-Star Rating After Activating Review Module #2241
+* Fixed: Deprecated Errors and Warnings #2242
+* Feature: Added new attributes to WebPage schema #2244
+* Fixed: PHP textdomain translation notices on WordPress 6.7 #2246
+* Fixed: context attribute is missing in Person schema #2249
+* Enhancement: Merchant Listing schema Invalid string length in field "name" #2250
 
 = 1.40 (17 January 2025) =
 * Feature: Added compatibility with translatepress plugin #2090
@@ -279,11 +292,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Users Unable to Edit Publish Date/Time for Schema Type #2075
 * Enhancement: Saved reCaptcha details in options table #2077
 * Fixed: Security vulnerability issues raised by Wordfence
-
-= 1.26 (10 Jan 2024) =
-
-* Fixed: Event schema automation issues #2058
-* Fixed: PHP warnings #2059
-* Fixed: Cross Site Scripting (XSS) vulnerability reported by patchstack.com
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

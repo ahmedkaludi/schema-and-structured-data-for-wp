@@ -1186,6 +1186,67 @@ function saswp_generate_schema_template_markup( $template_id ){
 
 	        break;
 
+	        case 'Organization':
+                $organization_type = get_post_meta(
+                    $template_id,
+                    'saswp_schema_organization_type',
+                    true
+                );
+
+                if (empty($organization_type)) {
+                    $organization_type = 'Organization';
+                }
+
+                $input1 = saswp_kb_schema_output();
+
+                if (!empty($input1['@type']) && $input1['@type'] == 'Person') {
+                    $input1 = array(
+                        '@context'			=> saswp_context_url(),
+                        '@type'				=> $organization_type,
+                        '@id'				=> saswp_get_current_url().'#Organization',
+                        'url'				=> saswp_get_current_url(),
+                        'description'       => saswp_get_the_excerpt(),
+                        'name'				=> saswp_get_the_title()
+                    );
+                } else {
+                    $input1['@type'] = $organization_type;
+                }
+
+                $input1 = saswp_append_fetched_reviews( $input1, $template_id );
+                $input1 = apply_filters( 'saswp_modify_organization_schema_output', $input1 );
+                $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+
+                if ( isset( $input1['@context'] ) ) {
+	            	unset( $input1['@context'] );
+	            }
+	            if ( isset( $input1['@id'] ) ) {
+	            	unset( $input1['@id'] );
+	            }
+
+            break;
+
+            case 'BlogPosting':
+                                
+                $input1 = $service_object->saswp_schema_markup_generator( $template_type );
+        
+                $mainentity = saswp_get_mainEntity( $template_id );
+
+                if($mainentity){
+                    $input1['mainEntity'] = $mainentity;                                     
+                }
+                                                                                    
+                $input1 = apply_filters('saswp_modify_blogposting_schema_output', $input1 ); 
+                $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+                
+                if ( isset( $input1['@context'] ) ) {
+	            	unset( $input1['@context'] );
+	            }
+	            if ( isset( $input1['@id'] ) ) {
+	            	unset( $input1['@id'] );
+	            }                        
+                
+            break;
+
 		}
 	}
 

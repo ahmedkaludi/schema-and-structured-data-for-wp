@@ -3616,6 +3616,7 @@ function saswp_get_field_note($pname){
             'jetpackrecipe'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://structured-data-for-wp.com/recipe-schema/"> Jetpack Recipe Schema </a>',
             'event_prime'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/eventprime-event-calendar-management/"> EventPrime – Events Calendar, Bookings and Tickets </a>',
             'jolifaq'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/joli-faq-seo/"> Joli FAQ SEO – WordPress FAQ Plugin </a>',
+            'easy_liveblogs'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/easy-liveblogs/"> Easy Liveblogs </a>',
         
         );
           
@@ -5430,5 +5431,27 @@ function saswp_filter_translatepress_content( $content ){
     } 
       
     return $content;
+
+}
+
+/**
+ * Modify product name product in schema markup
+ * @param   $title  string
+ * @return  $title  string
+ * @since   1.41
+ */
+function saswp_get_the_product_title( $title = '' ) { 
+
+    global $sd_data;
+
+    if( isset( $sd_data['saswp-full-heading'] ) && $sd_data['saswp-full-heading'] == 1 ) {
+        return $title;
+    }
+        
+    if ( mb_strlen( $title, 'UTF-8' ) > 150 ) {
+        $title = mb_substr( $title, 0, 146, 'UTF-8' ) . ' ...';
+    }
+
+    return $title;
 
 }

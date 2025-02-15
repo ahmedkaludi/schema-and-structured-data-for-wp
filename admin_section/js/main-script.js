@@ -2596,6 +2596,15 @@ jQuery(document).ready(function($){
                               $("#saswp-publish-press-authors").val(0);           
                             }
                       break;
+
+                        case 'saswp-easy-liveblogs-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-easy-liveblogs").val(1);                                
+                            }else{
+                              $("#saswp-easy-liveblogs").val(0);                                          
+                            }
+                      break;
                                        
                       default:
                           break;

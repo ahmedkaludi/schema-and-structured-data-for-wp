@@ -1645,7 +1645,34 @@ Class SASWP_Output_Service{
                         $input1['aggregateRating']['@type']       =   'AggregateRating';                                                
                         $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_organization_rating_value'];
                         $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_organization_rating_count'];
-                    }                    
+                    } 
+                    if ( ! empty( $custom_fields['saswp_organization_publishing_principles'] ) ) {
+                        $input1['publishingPrinciples']             =   $custom_fields['saswp_organization_publishing_principles'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_corrections_policy'] ) ) {
+                        $input1['correctionsPolicy']                =   $custom_fields['saswp_organization_corrections_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_ethics_policy'] ) ) {
+                        $input1['ethicsPolicy']                     =   $custom_fields['saswp_organization_ethics_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_diversity_policy'] ) ) {
+                        $input1['diversityPolicy']                  =   $custom_fields['saswp_organization_diversity_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_vfc_policy'] ) ) {
+                        $input1['verificationFactCheckingPolicy']   =   $custom_fields['saswp_organization_vfc_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_af_policy'] ) ) {
+                        $input1['actionableFeedbackPolicy']         =   $custom_fields['saswp_organization_af_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_uns_policy'] ) ) {
+                        $input1['unnamedSourcesPolicy']             =   $custom_fields['saswp_organization_uns_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_mcp_policy'] ) ) {
+                        $input1['missionCoveragePrioritiesPolicy']  =   $custom_fields['saswp_organization_mcp_policy'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_masthead'] ) ) {
+                        $input1['masthead']   =   $custom_fields['saswp_organization_masthead'];
+                    }                   
                                                     
                     break;     
                     
@@ -3632,7 +3659,12 @@ Class SASWP_Output_Service{
                         $input1['alternativeHeadline'] =    $custom_fields['saswp_newsarticle_alternative_headline']; 
                      }
                     if ( isset( $custom_fields['saswp_newsarticle_keywords']) ) {
-                       $input1['keywords'] =    $custom_fields['saswp_newsarticle_keywords']; 
+                        $keywords   =   $custom_fields['saswp_newsarticle_keywords'];
+                        if ( ! empty( $keywords ) && is_string( $keywords ) ) {
+                            $explode_keyword    =   explode( ',', $keywords );
+                            $keywords           =   $explode_keyword;
+                        }
+                       $input1['keywords'] =    $keywords;
                     }
                     if ( isset( $custom_fields['saswp_newsarticle_date_published']) ) {
                        $input1['datePublished'] =    $custom_fields['saswp_newsarticle_date_published']; 
@@ -3734,6 +3766,9 @@ Class SASWP_Output_Service{
                         $input1['about']['@type'] = 'Event';                   
                         $input1['about']['name'] = explode(',', $custom_fields['saswp_newsarticle_about']);    
                     }  
+                    if ( ! empty( $custom_fields['saswp_newsarticle_publisher'] ) && is_array( $custom_fields['saswp_newsarticle_publisher'] ) && ! empty( $custom_fields['saswp_newsarticle_publisher'][0] ) ) {
+                                $input1['publisher']       =   $custom_fields['saswp_newsarticle_publisher'][0];
+                    }
                     if ( isset( $custom_fields['saswp_newsarticle_organization_logo']) && isset($custom_fields['saswp_newsarticle_organization_name']) ) {
                      $input1['publisher']['@type']       =    'Organization';
                      $input1['publisher']['name']        =    $custom_fields['saswp_newsarticle_organization_name'];
@@ -4464,7 +4499,12 @@ Class SASWP_Output_Service{
                     }
 
                     if ( isset( $custom_fields['saswp_webpage_id']) ) {
-                        $input1['@id'] =    get_permalink().$custom_fields['saswp_webpage_id'];
+                        if ( empty( $custom_fields['saswp_webpage_id'] ) ) {
+                            unset( $input1['@id'] );
+                        }else{
+                            $input1['@id'] =    get_permalink().$custom_fields['saswp_webpage_id'];
+                        }
+                        
                     }
                     if ( isset( $custom_fields['saswp_webpage_name']) ) {
                         $input1['name'] =    $custom_fields['saswp_webpage_name'];
@@ -4698,6 +4738,18 @@ Class SASWP_Output_Service{
 
                     if( $sub_schema_type == 'none' ) { 
                         unset( $input1['mainEntity'] );
+                    }
+                    
+                    if ( ! empty( $custom_fields['saswp_webpage_specialty'] ) ) {
+                        $input1['specialty']   =   $custom_fields['saswp_webpage_specialty'];    
+                    }
+                    if ( ! empty( $custom_fields['saswp_webpage_mcop'] ) ) {
+                        $input1['mainContentOfPage']['@type']   =   'WebPageElement';
+                        if ( filter_var( $custom_fields['saswp_webpage_mcop'], FILTER_VALIDATE_URL) !== false ) {
+                            $input1['mainContentOfPage']['url']    =   $custom_fields['saswp_webpage_mcop'];
+                        }else{
+                            $input1['mainContentOfPage']['name']    =   $custom_fields['saswp_webpage_mcop'];
+                        }
                     }
 
                     break;
@@ -5791,7 +5843,7 @@ Class SASWP_Output_Service{
                         }
                     }
 
-                    if ( isset( $custom_fields['saswp_product_schema_sr_value']) && !empty($custom_fields['saswp_product_schema_sr_value']) ) {
+                    if ( isset( $custom_fields['saswp_product_schema_sr_value'] ) ) {
                         $input1['offers']['shippingDetails']['@type'] = 'OfferShippingDetails';
                         $input1['offers']['shippingDetails']['shippingRate']['@type'] = 'MonetaryAmount';
                         $input1['offers']['shippingDetails']['shippingRate']['value'] = esc_attr( $custom_fields['saswp_product_schema_sr_value']);
@@ -5816,14 +5868,14 @@ Class SASWP_Output_Service{
                                 $input1['offers']['shippingDetails']['shippingDestination']['addressCountry'] = esc_attr( $custom_fields['saswp_product_schema_sa_country']);
                             }
                         }
-                        if((isset($custom_fields['saswp_product_schema_sdh_minval']) && !empty($custom_fields['saswp_product_schema_sdh_minval'])) && (isset($custom_fields['saswp_product_schema_sdh_maxval']) && !empty($custom_fields['saswp_product_schema_sdh_maxval'])) && (isset($custom_fields['saswp_product_schema_sdh_unitcode']) && !empty($custom_fields['saswp_product_schema_sdh_unitcode'])) ) {
+                        if(isset( $custom_fields['saswp_product_schema_sdh_minval'] ) && isset( $custom_fields['saswp_product_schema_sdh_maxval'] ) && isset( $custom_fields['saswp_product_schema_sdh_unitcode'] ) ) {
                             $input1['offers']['shippingDetails']['deliveryTime']['@type'] = 'ShippingDeliveryTime';
                             $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['@type'] = 'QuantitativeValue';
                             $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['minValue'] = esc_attr( $custom_fields['saswp_product_schema_sdh_minval']);
                             $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['maxValue'] = esc_attr( $custom_fields['saswp_product_schema_sdh_maxval']);
                             $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['unitCode'] = esc_attr( $custom_fields['saswp_product_schema_sdh_unitcode']);
                         }
-                        if((isset($custom_fields['saswp_product_schema_sdt_minval']) && !empty($custom_fields['saswp_product_schema_sdt_minval'])) && (isset($custom_fields['saswp_product_schema_sdt_maxval']) && !empty($custom_fields['saswp_product_schema_sdt_maxval'])) && (isset($custom_fields['saswp_product_schema_sdt_unitcode']) && !empty($custom_fields['saswp_product_schema_sdt_unitcode'])) ) {
+                        if( isset( $custom_fields['saswp_product_schema_sdt_minval'] ) && isset( $custom_fields['saswp_product_schema_sdt_maxval'] ) && isset( $custom_fields['saswp_product_schema_sdt_unitcode'] ) ) {
                             $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['@type'] = 'QuantitativeValue';
                             $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['minValue'] = esc_attr( $custom_fields['saswp_product_schema_sdt_minval']);
                             $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['maxValue'] = esc_attr( $custom_fields['saswp_product_schema_sdt_maxval']);
@@ -8062,6 +8114,41 @@ Class SASWP_Output_Service{
                         $input1['audience']['educationalRole'] = $custom_fields['saswp_lr_audience'];
                     }  
                 break;
+                
+                case 'LiveBlogPosting':
+                    
+                    if ( ! empty( $custom_fields['saswp_lbp_id'] ) ) {
+                        $input1['@id']                      =   $custom_fields['saswp_lbp_id'];
+                    }
+                    if ( isset( $custom_fields['saswp_lbp_name'] ) ) {
+                        $input1['name']                     =   $custom_fields['saswp_lbp_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_name'] ) || ! empty( $custom_fields['saswp_lbp_start_date'] ) ) {
+                        $input1['about']['@type']           =   'Event';   
+                        if ( ! empty( $custom_fields['saswp_lbp_name'] ) ) {
+                            $input1['about']['name']        =   $custom_fields['saswp_lbp_name'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_lbp_start_date'] ) ) {
+                            $input1['about']['startDate']   =   $custom_fields['saswp_lbp_start_date'];
+                        }           
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_coverage_start_date'] ) ) {
+                        $input1['coverageStartTime']        =   gmdate( 'c', strtotime( $custom_fields['saswp_lbp_coverage_start_date'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_coverage_end_date'] ) ) {
+                        $input1['coverageEndTime']          =   gmdate( 'c', strtotime( $custom_fields['saswp_lbp_coverage_end_date'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_headline'] ) ) {
+                        $input1['headline']                 =   $custom_fields['saswp_lbp_headline'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_description'] ) ) {
+                        $input1['description']              =   $custom_fields['saswp_lbp_description'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_lbp_live_blog_update'] ) && is_array( $custom_fields['saswp_lbp_live_blog_update'] ) ) {
+                        $input1['liveBlogUpdate']           =   $custom_fields['saswp_lbp_live_blog_update'];
+                    }
+
+                break;
                
                      default:
                          break;
@@ -9138,7 +9225,7 @@ Class SASWP_Output_Service{
                             '@type'				=> $schema_type,
                             '@id'				=> saswp_get_permalink().'#'.$schema_type,     
                             'url'				=> saswp_get_permalink(),
-                            'name'                              => saswp_remove_warnings($product_details, 'product_name', 'saswp_string'),
+                            'name'                              => saswp_get_the_product_title( saswp_remove_warnings($product_details, 'product_name', 'saswp_string') ),
                             'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
                             'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')                                                               
                           );
