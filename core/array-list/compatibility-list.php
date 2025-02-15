@@ -768,7 +768,13 @@ return array(
                     'free'       => 'publishpress-authors/publishpress-authors.php',
                     'opt_name'   => 'saswp-publish-press-authors', 
                     'part_in'    => 'free',
-        ),                 
+        ), 
+        'easy_liveblogs' => array(            
+            'name'       => 'Easy Liveblogs',
+            'free'       => 'easy-liveblogs/easy-liveblogs.php',            
+            'opt_name'   => 'saswp-easy-liveblogs',
+            'part_in'    => 'free',
+        ),                
     ),
     'themes' => array(
         'enfold' => array(            

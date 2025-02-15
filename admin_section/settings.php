@@ -4411,6 +4411,19 @@ function saswp_compatibility_page_callback() {
                         'id'   => 'saswp-publish-press-authors',
                         'name' => 'sd_data[saswp-publish-press-authors]',                             
                 )
+        );
+
+        $easy_liveblogs = array(
+            'label'  => 'Easy Liveblogs',
+            'id'     => 'saswp-easy-liveblogs-checkbox',                        
+                        'name'   => 'saswp-easy-liveblogs-checkbox',
+            'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('easy_liveblogs'),
+                        'hidden' => array(
+                                    'id'   => 'saswp-easy-liveblogs',
+                                    'name' => 'sd_data[saswp-easy-liveblogs]',                             
+                        )
         ); 
                 
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php') ) {
@@ -4697,7 +4710,8 @@ function saswp_compatibility_page_callback() {
                 $novelist,
                 $flex_lmx,
                 $publishpress_authors,
-                $jolifaq
+                $jolifaq,
+                $easy_liveblogs,
                 
 	);  
                 

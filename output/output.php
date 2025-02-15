@@ -2706,11 +2706,14 @@ function saswp_schema_output() {
 
                                 $input1['@context']             =   saswp_context_url();
                                 $input1['@type']                =   'LiveBlogPosting';
-                                $input1['@id']                  =   saswp_get_permalink().'#LiveBlogPosting';                                
+                                $input1['@id']                  =   saswp_get_permalink().'#LiveBlogPosting'; 
+                                $input1['url']                  =   saswp_get_permalink();                               
                                 $input1['headline']             =   saswp_get_the_title();
                                 $input1['description']          =   saswp_get_the_excerpt();
+                                $input1['datePublished']        =   esc_html( $date);
+                                $input1['dateModified']         =   esc_html( $modified_date );
 
-                                $input1 = apply_filters('saswp_modify_learning_resource_schema_output', $input1 );
+                                $input1 = apply_filters('saswp_modify_live_blog_posting_schema_output', $input1 );
 
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                 
@@ -3966,4 +3969,82 @@ function saswp_remove_utm_parameters_from_url($url = '')
         }
     }
     return $response;
+}
+
+/**
+ * Filter hook to add compatibility with easy live blogs plugin
+ * @param    $input1     array
+ * @return   $input1     array
+ * @since    1.41
+ * */
+add_filter( 'saswp_modify_live_blog_posting_schema_output', 'saswp_live_blop_posting_easy_liveblogs' );
+function saswp_live_blop_posting_easy_liveblogs( $input1 ) {
+    
+    global $sd_data, $post;
+
+    if ( ! empty( $sd_data['saswp-easy-liveblogs'] ) && function_exists( 'elb_get_liveblog_api_endpoint' ) && is_object( $post ) && ! empty( $post->ID ) ) {
+
+        $blog_endpoint = elb_get_liveblog_api_endpoint( $post->ID );
+        if ( ! empty( $blog_endpoint ) && is_string( $blog_endpoint ) ) {
+
+            $blog_update    =   wp_remote_get( $blog_endpoint );
+
+            if ( ! is_wp_error( $blog_update ) ) {
+                $body = wp_remote_retrieve_body( $blog_update );
+                if ( ! empty( $body ) && is_string( $body ) ) {
+                    $blog_update = json_decode( $body, true );
+                }
+                
+            }
+            
+            $liveblog_url   =   saswp_get_permalink();
+
+            $organization = array(
+                '@type' => 'Organization',
+                'name'  => get_bloginfo( 'name' ),
+            );
+
+            $input1['@type']                =   'LiveBlogPosting';
+            $input1['@context']             =   saswp_context_url();
+            $input1['@id']                  =   saswp_get_permalink().'#LiveBlogPosting';
+            $input1['url']                  =   saswp_get_permalink();
+            $input1['headline']             =   saswp_get_the_title();
+            $input1['description']          =   saswp_get_the_excerpt();
+            if ( ! empty( $blog_update['last_update'] ) ) {
+                $input1['dateModified']     =   $blog_update['last_update'];
+            }
+            $input1['coverageStartTime']    =   get_the_date( 'c', $post );
+            if ( ! empty( $blog_update['last_update'] ) ) {
+                $input1['coverageEndTime']  =   wp_date( 'c', strtotime( $blog_update['last_update'] . ' + 1 hour' ) );
+            }
+            
+            if ( ! empty( $blog_update['updates'] ) && is_array( $blog_update['updates'] ) ) {
+                foreach ( $blog_update['updates'] as $entry ) {
+
+                    $_entry = array(
+                        '@type'            => 'BlogPosting',
+                        'headline'         => isset( $entry['title'] ) ? $entry['title'] : '',
+                        'datePublished'    => isset( $entry['datetime'] ) ? $entry['datetime'] : '',
+                        'dateModified'     => isset( $entry['modified'] ) ? $entry['modified'] : '',
+                        'articleBody'      => isset( $entry['content'] ) ? trim( preg_replace( '/\s+/', ' ', strip_tags( $entry['content'] ) ) ) : '',
+                    );
+
+                    if ( elb_display_author_name() ) {
+                        $_entry['author'] = $organization;
+                    }
+
+                    $entries[] = $_entry;
+                }
+            }
+
+            if ( ! empty( $entries ) ) {
+                $input1['liveBlogUpdate']   =   $entries;     
+            }
+
+        }
+
+    }
+
+    return $input1;
+
 }

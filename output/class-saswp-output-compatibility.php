@@ -317,6 +317,18 @@ class SASWP_Output_Compatibility{
         }
     }
 
+    /**
+     * Remove wpforo schema markup
+     * @since   1.41
+     * */
+    public function saswp_easy_liveblogs_override() {  
+        global $sd_data;
+        if ( ! empty( $sd_data['saswp-easy-liveblogs'] ) ) {
+            // add_filter( "easy_liveblogs_liveblog_metadata", '__return_false' );
+            remove_action( 'wp_head', 'elb_add_meta_data' );
+        }
+    }
+
     public function saswp_remove_yoast_product_schema() {
          
        global $wp_filter;
@@ -740,6 +752,9 @@ class SASWP_Output_Compatibility{
     }
     public function jolifaq_on_activation() {        
         $this->saswp_update_option_on_compatibility_activation('saswp-jolifaq');
+    }
+    public function easy_liveblogs_on_activation() {
+         $this->saswp_update_option_on_compatibility_activation('saswp-easy-liveblogs');
     }
     /**
      * Functions on compatiblity plugin activation ends here
