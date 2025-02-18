@@ -3265,9 +3265,13 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['title']                 = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_title_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_description_'.$schema_id, 'saswp_array');
-    $input1['datePosted']            = isset($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])):'';                            
+    if ( ! empty( $all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0] ) ) {
+        $input1['datePosted']            = gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0]));
+    }                            
     $input1['directApply']           = isset($all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id][0])?$all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id][0]:'false';                            
-    $input1['validThrough']          = isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])):'';                            
+    if ( ! empty( $all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] ) ) {
+        $input1['validThrough']          = gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]));
+    }                            
     $input1['employmentType']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_employment_type_'.$schema_id, 'saswp_array');
     $input1['industry']              = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_industry_'.$schema_id, 'saswp_array');
     $input1['occupationalCategory']  = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_occupational_category_'.$schema_id, 'saswp_array');
