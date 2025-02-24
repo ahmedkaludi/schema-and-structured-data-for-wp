@@ -8046,3 +8046,39 @@ function saswp_live_blog_posting_schema_markup( $schema_id, $schema_post_id, $al
     return $input1;
 
 }
+
+/**
+ * Schema markup function for ImageGallery Schema
+ * @param   $schema_id  Integer
+ * @param   $schema_post_id  Integer
+ * @param   $all_post_meta  Array
+ * @return  $input1  Array
+ * @since   1.42
+ * */
+function saswp_image_gallery_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1['@context']                     =   saswp_context_url();
+    $input1['@type']                        =   'ImageGallery';
+
+    if ( isset( $all_post_meta['saswp_img_gallery_id_'.$schema_id] ) && isset( $all_post_meta['saswp_img_gallery_id_'.$schema_id][0] ) ) {
+        $input1['@id']                      =   saswp_remove_warnings( $all_post_meta, 'saswp_img_gallery_id_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_img_gallery_name_'.$schema_id] ) && isset( $all_post_meta['saswp_img_gallery_name_'.$schema_id][0] ) ) {
+        $input1['name']                     =   saswp_remove_warnings( $all_post_meta, 'saswp_img_gallery_name_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_img_gallery_description_'.$schema_id] ) && isset( $all_post_meta['saswp_img_gallery_description_'.$schema_id][0] ) ) {
+        $input1['description']              =   saswp_remove_warnings( $all_post_meta, 'saswp_img_gallery_description_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_img_gallery_url_'.$schema_id] ) && isset( $all_post_meta['saswp_img_gallery_url_'.$schema_id][0] ) ) {
+        $input1['url']                      =   saswp_remove_warnings( $all_post_meta, 'saswp_img_gallery_url_'.$schema_id, 'saswp_array' );    
+    } 
+    if ( ! empty( $all_post_meta['saswp_img_gallery_date_published_'.$schema_id][0] ) ) {
+        $input1['datePublished']            =   saswp_format_date_time($all_post_meta['saswp_img_gallery_date_published_'.$schema_id][0], get_post_time('h:i:s'));
+    }
+    if ( ! empty( $all_post_meta['saswp_img_gallery_date_modified_'.$schema_id][0] ) ) {
+        $input1['datePublished']            =   saswp_format_date_time($all_post_meta['saswp_img_gallery_date_modified_'.$schema_id][0], get_post_time('h:i:s'));
+    } 
+
+    return $input1;
+
+}

@@ -8149,6 +8149,29 @@ Class SASWP_Output_Service{
                     }
 
                 break;
+
+                case 'ImageGallery':
+
+                    if ( ! empty( $custom_fields['saswp_img_gallery_id'] ) ) {
+                        $input1['@id']                      =   $custom_fields['saswp_img_gallery_id'];
+                    }
+                    if ( isset( $custom_fields['saswp_img_gallery_name'] ) ) {
+                        $input1['name']                     =   $custom_fields['saswp_img_gallery_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_img_gallery_description'] ) ) {
+                        $input1['description']              =   $custom_fields['saswp_img_gallery_description'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_img_gallery_url'] ) ) {
+                        $input1['url']                      =   $custom_fields['saswp_img_gallery_url'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_img_gallery_date_published'] ) ) {
+                        $input1['datePublished']            =   gmdate( 'c', strtotime( $custom_fields['saswp_img_gallery_date_published'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_img_gallery_date_modified'] ) ) {
+                        $input1['dateModified']             =   gmdate( 'c', strtotime( $custom_fields['saswp_img_gallery_date_modified'] ) );
+                    }
+
+                break;
                
                      default:
                          break;
@@ -9343,6 +9366,20 @@ Class SASWP_Output_Service{
                            $input1 = saswp_append_fetched_reviews($input1); 
                         }
                                             
+                    break;
+
+                    case 'ImageGallery':
+
+                    $input1 = array(
+                        '@context'          => saswp_context_url(),
+                        '@type'             => 'ImageGallery' ,
+                        '@id'               => saswp_get_permalink().'#ImageGallery',
+                        'name'              => saswp_get_the_title(),
+                        'url'               => saswp_get_permalink(),
+                        'dateCreated'       => esc_html( $date),                
+                        'description'       => saswp_get_the_excerpt(),                                                       
+                    );
+
                     break;
 
                 default:
