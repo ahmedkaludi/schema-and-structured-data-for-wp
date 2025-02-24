@@ -11728,6 +11728,49 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     );
 
                     break;
+
+                    case 'MediaGallery':
+
+                    $meta_field = array(
+                        array(
+                               'label'    => 'ID',
+                               'id'       => 'saswp_media_gallery_id_'.$schema_id,
+                               'type'     => 'text',
+                               'default'  => 'MediaGallery',   
+                            ),
+                        array(
+                                'label'   => 'Name',
+                                'id'      => 'saswp_media_gallery_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_get_the_title()
+                            ),
+                        array(
+                                'label'   => 'Description',
+                                'id'      => 'saswp_media_gallery_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => is_object($post) ? $post->post_excerpt : ''
+                            ),
+                        array(
+                                'label'   => 'URL',
+                                'id'      => 'saswp_media_gallery_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_permalink()
+                            ),
+                        array(
+                                'label'   => 'Date Published',
+                                'id'      => 'saswp_media_gallery_date_published_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_date("Y-m-d")
+                            ), 
+                        array(
+                                'label'   => 'Date Modified',
+                                'id'      => 'saswp_media_gallery_date_modified_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                            ),
+                    );
+
+                    break;
                                 
                 default:
                     break;

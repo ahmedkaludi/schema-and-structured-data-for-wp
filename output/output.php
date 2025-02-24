@@ -2745,6 +2745,28 @@ function saswp_schema_output() {
                                 }
 
                             break;
+
+                            case 'MediaGallery':
+
+                                $input1['@context']             =   saswp_context_url();
+                                $input1['@type']                =   'MediaGallery';
+                                $input1['@id']                  =   saswp_get_permalink().'#MediaGallery'; 
+                                $input1['url']                  =   saswp_get_permalink();
+                                $input1['name']                 =   saswp_get_the_title();
+                                $input1['description']          =   saswp_get_the_excerpt();
+                                $input1['datePublished']        =   esc_html( $date);
+                                $input1['dateModified']         =   esc_html( $modified_date );
+
+                                $input1 = apply_filters( 'saswp_modify_media_gallery_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
+                                
+                                if ( $modified_schema == 1 ) {
+                                    
+                                    $input1 = saswp_media_gallery_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
+                                }
+
+                            break;
                             
                             default:
                                 break;

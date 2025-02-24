@@ -86,6 +86,7 @@ $without_aggregate = array(
         'LearningResource',
         'LiveBlogPosting',
         'ImageGallery',
+        'MediaGallery',
 );
 $translation_labels = array(
     'translation-pros'            => 'Pros',
