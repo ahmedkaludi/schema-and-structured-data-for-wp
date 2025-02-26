@@ -140,6 +140,9 @@ return array( 'schema_type_element' => array(
 			    ),
 			    'MediaGallery' => array(
 					'media-gallery-associated-media'  => 'media_gallery_associated_media',
+			    ),
+			    'ImageGallery' => array(
+					'image-gallery-collections'  => 'image_gallery_collections',
 			    )
 						                                                                          
                     ),
@@ -1214,8 +1217,7 @@ return array( 'schema_type_element' => array(
 			array(
 				'label'     => 'Name',
 				'name'      => 'saswp_mg_name',
-				'type'      => 'text',
-				'default'   => get_the_date( 'Y-m-d' )                            
+				'type'      => 'text',                         
 			),
 			array(
 				'label'     => 'Content URL',
@@ -1231,6 +1233,33 @@ return array( 'schema_type_element' => array(
 				'label'     => 'Description',
 				'name'      => 'saswp_mg_description',
 				'type'      => 'textarea',                          
+			),	
+		),
+		'image_gallery_collections' 	=>	array(
+			array(
+				'label'     => 'Name',
+				'name'      => 'saswp_image_gallery_name',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Description',
+				'name'      => 'saswp_image_gallery_description',
+				'type'      => 'textarea',                          
+			),
+			array(
+				'label'     => 'Caption',
+				'name'      => 'saswp_image_gallery_caption',
+				'type'      => 'text',                          
+			),
+			array(
+				'label'     => 'Thumbnail URL',
+				'name'      => 'saswp_image_gallery_thumbnail_url',
+				'type'      => 'media'
+			),
+			array(
+				'label'     => 'Content URL',
+				'name'      => 'saswp_image_gallery_content_url',
+				'type'      => 'media',                          
 			),	
 		),
 
