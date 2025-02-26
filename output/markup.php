@@ -8115,6 +8115,52 @@ function saswp_media_gallery_schema_markup( $schema_id, $schema_post_id, $all_po
         $input1['dateModified']            =   saswp_format_date_time($all_post_meta['saswp_media_gallery_date_modified_'.$schema_id][0], get_post_time('h:i:s'));
     } 
 
+    $media_array        =   array();
+    $associated_media   =   get_post_meta( $schema_post_id, 'media_gallery_associated_media_'.$schema_id, true );
+    if ( ! empty( $associated_media ) && is_array( $associated_media ) ) {
+        foreach ( $associated_media as $media ) {
+            if ( ! empty( $media ) && is_array( $media ) ) {
+                $image_array    =   array();
+                if ( ! empty( $media['saswp_mg_thumbnail_url_id'] ) && $media['saswp_mg_thumbnail_url_id'] > 0 ) {
+                    $thumb_url  =   wp_get_attachment_image_url( $media['saswp_mg_thumbnail_url_id'] );
+                    if ( ! empty( $thumb_url ) ) {
+                        $image_array['@type']            =   'ImageObject';   
+                        $image_array['thumbnailUrl']     =   $thumb_url;   
+                    }
+                }
+                if ( ! empty( $media['saswp_mg_name'] ) && $media['saswp_mg_name'] > 0 ) {
+                    $image_array['@type']                =   'ImageObject'; 
+                    $image_array['name']                 =   sanitize_text_field( $media['saswp_mg_name'] );
+                }
+                if ( ! empty( $media['saswp_mg_content_url_id'] ) && $media['saswp_mg_content_url_id'] > 0 ) {
+                    $content_url=   wp_get_attachment_image_url( $media['saswp_mg_content_url_id'] );
+                    if ( ! empty( $content_url ) ) {
+                        $image_array['@type']            =   'ImageObject'; 
+                        $image_array['contentUrl']       =   $content_url;   
+                    }
+                }
+                if ( ! empty( $media['saswp_mg_caption'] ) && $media['saswp_mg_caption'] > 0 ) {
+                    $image_array['@type']                =   'ImageObject'; 
+                    $image_array['caption']              =   sanitize_text_field( $media['saswp_mg_caption'] );
+                }
+                if ( ! empty( $media['saswp_mg_description'] ) && $media['saswp_mg_description'] > 0 ) {
+                    $image_array['@type']                =   'ImageObject'; 
+                    $image_array['description']          =   sanitize_textarea_field( $media['saswp_mg_description'] );
+                }
+
+                if ( ! empty( $image_array ) ) {
+                    $media_array['associatedMedia'][]   =   $image_array;      
+                }
+                
+            }
+        }
+    }
+
+    if ( ! empty( $media_array ) ) {
+        $input1['mainEntityOfPage']['@type']                =  'ImageGallery';   
+        $input1['mainEntityOfPage']['associatedMedia']      =  $media_array['associatedMedia'];   
+    }
+    
     return $input1;
 
 }

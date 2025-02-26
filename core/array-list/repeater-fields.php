@@ -137,6 +137,9 @@ return array( 'schema_type_element' => array(
 			    ),
 			    'LiveBlogPosting' => array(
 					'live-blog-update'  => 'live_blog_update',
+			    ),
+			    'MediaGallery' => array(
+					'media-gallery-associated-media'  => 'media_gallery_associated_media',
 			    )
 						                                                                          
                     ),
@@ -1201,7 +1204,36 @@ return array( 'schema_type_element' => array(
 				'name'      => 'saswp_lbp_lbu_image',
 				'type'      => 'media',                        
 			),	
-		)
+		),
+		'media_gallery_associated_media' 	=>	array(
+			array(
+				'label'     => 'Thumbnail URL',
+				'name'      => 'saswp_mg_thumbnail_url',
+				'type'      => 'media'
+			),
+			array(
+				'label'     => 'Name',
+				'name'      => 'saswp_mg_name',
+				'type'      => 'text',
+				'default'   => get_the_date( 'Y-m-d' )                            
+			),
+			array(
+				'label'     => 'Content URL',
+				'name'      => 'saswp_mg_content_url',
+				'type'      => 'media',                          
+			),
+			array(
+				'label'     => 'Caption',
+				'name'      => 'saswp_mg_caption',
+				'type'      => 'text',                          
+			),
+			array(
+				'label'     => 'Description',
+				'name'      => 'saswp_mg_description',
+				'type'      => 'textarea',                          
+			),	
+		),
+
 		                    
         )    
 );
