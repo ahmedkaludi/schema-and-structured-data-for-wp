@@ -564,9 +564,9 @@ Class SASWP_Output_Service{
                         $author_image	= get_avatar_data($author_id);      
                     }                                                          
                     $response['@type']  = 'ImageObject';
-                    $response['url']    = $author_image['url'];
-                    $response['width']  = $author_image['height']; 
-                    $response['height'] = $author_image['width'];
+                    $response['url']    = isset( $author_image['url'] ) ? $author_image['url'] : '';
+                    $response['width']  = isset( $author_image['height'] ) ? $author_image['height'] : ''; 
+                    $response['height'] = isset( $author_image['width'] ) ? $author_image['width'] : '';
 
                     break;
                 case 'site_logo':
