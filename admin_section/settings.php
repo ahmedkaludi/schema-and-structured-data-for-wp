@@ -4424,6 +4424,19 @@ function saswp_compatibility_page_callback() {
                                     'id'   => 'saswp-easy-liveblogs',
                                     'name' => 'sd_data[saswp-easy-liveblogs]',                             
                         )
+        );
+
+        $foogallery = array(
+            'label'  => 'FooGallery',
+            'id'     => 'saswp-foogallery-checkbox',                        
+                        'name'   => 'saswp-foogallery-checkbox',
+            'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('foogallery'),
+                        'hidden' => array(
+                                    'id'   => 'saswp-foogallery',
+                                    'name' => 'sd_data[saswp-foogallery]',                             
+                        )
         ); 
                 
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php') ) {
@@ -4712,6 +4725,7 @@ function saswp_compatibility_page_callback() {
                 $publishpress_authors,
                 $jolifaq,
                 $easy_liveblogs,
+                $foogallery,
                 
 	);  
                 

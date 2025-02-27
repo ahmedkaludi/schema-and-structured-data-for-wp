@@ -2605,6 +2605,15 @@ jQuery(document).ready(function($){
                               $("#saswp-easy-liveblogs").val(0);                                          
                             }
                       break;
+
+                        case 'saswp-foogallery-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-foogallery").val(1);                                
+                            }else{
+                              $("#saswp-foogallery").val(0);                                          
+                            }
+                      break;
                                        
                       default:
                           break;

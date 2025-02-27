@@ -755,6 +755,9 @@ class SASWP_Output_Compatibility{
     public function easy_liveblogs_on_activation() {
          $this->saswp_update_option_on_compatibility_activation('saswp-easy-liveblogs');
     }
+    public function foogallery_on_activation() {
+         $this->saswp_update_option_on_compatibility_activation('saswp-foogallery');
+    }
     /**
      * Functions on compatiblity plugin activation ends here
      */

@@ -774,6 +774,12 @@ return array(
             'free'       => 'easy-liveblogs/easy-liveblogs.php',            
             'opt_name'   => 'saswp-easy-liveblogs',
             'part_in'    => 'free',
+        ),
+        'foogallery' => array(            
+            'name'       => 'FooGallery',
+            'free'       => 'foogallery/foogallery.php',            
+            'opt_name'   => 'saswp-foogallery',
+            'part_in'    => 'free',
         ),                
     ),
     'themes' => array(
