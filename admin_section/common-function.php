@@ -3537,7 +3537,6 @@ function saswp_get_field_note($pname){
             'wpjobopenings'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-job-openings/">WP Job Openings</a>',
             'wpjobboard'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://apusthemes.com/wp-job-board-pro/">WP Job Board Pro</a>',
             'schemaforfaqs'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-markup-faq-structured-data/">FAQ Schema Markup</a>',
-            'betteramp'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/better-amp/">Better AMP</a>',
             'wpamp'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
             'ampwp'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
             'kk_star_ratings'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',

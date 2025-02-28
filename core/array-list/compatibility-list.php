@@ -377,12 +377,6 @@ return array(
             'opt_name'   => 'saswp-webstories',
             'part_in'    => 'free'
         ),
-        'betteramp'  =>  array(            
-                    'name'       => 'Better AMP',
-                    'free'       => 'better-amp/better-amp.php',            
-                    'opt_name'   => 'saswp-betteramp',
-                    'part_in'    => 'free',
-        ),
         'wpamp'  =>  array(            
                     'name'       => 'WP AMP',
                     'free'       => 'wp-amp/wp-amp.php',            

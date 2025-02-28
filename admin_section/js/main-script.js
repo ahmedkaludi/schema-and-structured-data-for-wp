@@ -2568,16 +2568,6 @@ jQuery(document).ready(function($){
                             
                       break;
                       
-                      case 'saswp-betteramp-checkbox':
-                           saswp_compatibliy_notes(current, id); 
-                            if ($(this).is(':checked')) {              
-                              $("#saswp-betteramp").val(1);                                
-                            }else{
-                              $("#saswp-betteramp").val(0);                                          
-                            }
-                            
-                      break;
-                      
                       case 'saswp-wpamp-checkbox':
                            saswp_compatibliy_notes(current, id); 
                             if ($(this).is(':checked')) {              
@@ -3209,6 +3199,7 @@ jQuery(document).ready(function($){
 
     $(".saswp-send-query").on("click", function(e){
             e.preventDefault();   
+            var name        = $("#saswp_query_name").val();  
             var message     = $("#saswp_query_message").val();  
             var email       = $("#saswp_query_email").val();  
             var premium_cus = $("#saswp_query_premium_cus").val(); 
@@ -3218,7 +3209,7 @@ jQuery(document).ready(function($){
                             type: "POST",    
                             url:ajaxurl,                    
                             dataType: "json",
-                            data:{action:"saswp_send_query_message", premium_cus:premium_cus,message:message,email:email, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                            data:{action:"saswp_send_query_message", premium_cus:premium_cus,message:message,email:email,name:name,saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                             success:function(response){                       
                               if(response['status'] =='t'){
                                 $(".saswp-query-success").show();
@@ -4530,5 +4521,21 @@ $('#saswp-rbcc-ar-f-unit').change(function(e){
             location.reload();
         }
     });
+ });
+ 
+ $(document).on('click', '.saswp-tools-tab-nav', function(e){
+
+    e.preventDefault();
+    let divId   =   $(this).attr('data-div-id');
+    $('.saswp-tools-tab-nav').removeClass('saswp-global-selected');
+    $(this).addClass('saswp-global-selected');
+    $('#saswp-advanced-sub-tab').hide();
+    $('#saswp-migration-sub-tab').hide();
+    $('#saswp-import-export-sub-tab').hide();
+    $('#saswp-misc-sub-tab').hide();
+    $('#saswp-translation-sub-tab').hide();
+    $('#saswp-license-sub-tab').hide();
+    $('#'+divId).show();
+
  });
 });

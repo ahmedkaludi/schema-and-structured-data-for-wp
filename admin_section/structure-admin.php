@@ -1672,6 +1672,7 @@ function saswp_send_query_message() {
         $message        = isset($_POST['message'])?saswp_sanitize_textarea_field($_POST['message']):''; 
         $email          = isset($_POST['email'])?saswp_sanitize_textarea_field($_POST['email']):''; 
         $premium_cus    = isset($_POST['premium_cus'])?saswp_sanitize_textarea_field($_POST['premium_cus']):'';   
+        $name           = isset($_POST['name'])?saswp_sanitize_textarea_field($_POST['name']):'';   
                                 
         if ( function_exists( 'wp_get_current_user') ) {
 
@@ -1681,7 +1682,8 @@ function saswp_send_query_message() {
               $customer_type  = 'Are you a premium customer ? Yes';
             }
          
-            $message = '<p>'.$message.'</p><br><br>'
+            $message = '<p>Name: '.$name.'</p>' 
+                 .'<p>'.$message.'</p><br><br>'
                  . $customer_type
                  . '<br><br>'.'Query from plugin support tab';
             
