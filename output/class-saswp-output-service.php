@@ -2381,13 +2381,6 @@ Class SASWP_Output_Service{
                         if ( isset( $custom_fields['saswp_creativework_url']) ) {
                             $input1['url'] =    saswp_validate_url($custom_fields['saswp_creativework_url']);
                         }
-                        if ( isset( $custom_fields['saswp_creativework_body']) ) {
-                            if($custom_fields['saswp_creativework_body']){
-                                $input1['articleBody'] =    $custom_fields['saswp_creativework_body'];
-                            }else{
-                                unset($input1['articleBody']);
-                            }
-                        }
                         if ( isset( $custom_fields['saswp_creativework_keywords']) ) {
                             $input1['keywords'] =    $custom_fields['saswp_creativework_keywords'];
                         }
@@ -9043,7 +9036,6 @@ Class SASWP_Output_Service{
                 case 'TechArticle':  
                 case 'Photograph':  
                 case 'Blogposting':
-                case 'BlogPosting':
                 case 'CreativeWork': 
                                          
                     $input1 = array(
@@ -9093,6 +9085,10 @@ Class SASWP_Output_Service{
                 
                 if ( isset( $sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] == 1){
                     $input1['comment'] = saswp_get_comments(get_the_ID());
+                }
+
+                if ( $schema_type == 'CreativeWork' ) {
+                    unset( $input1['articleBody'] );
                 }
 
                     break;

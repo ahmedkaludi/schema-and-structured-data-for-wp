@@ -5764,7 +5764,6 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
             'headline'			            => saswp_remove_warnings($all_post_meta, 'saswp_creativework_headline_'.$schema_id, 'saswp_array'),
             'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_creativework_description_'.$schema_id, 'saswp_array'),
             'articleSection'                => saswp_remove_warnings($all_post_meta, 'saswp_creativework_section_'.$schema_id, 'saswp_array'),
-            'articleBody'                   => isset($all_post_meta['saswp_creativework_body_'.$schema_id][0]) ? wp_strip_all_tags(strip_shortcodes($all_post_meta['saswp_creativework_body_'.$schema_id][0])) : '',
             'keywords'		                => saswp_remove_warnings($all_post_meta, 'saswp_creativework_keywords_'.$schema_id, 'saswp_array'),                
             'datePublished'                 => isset($all_post_meta['saswp_creativework_date_published_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_creativework_date_published_'.$schema_id][0], get_post_time('h:i:s')):'',
             'dateModified'                  => isset($all_post_meta['saswp_creativework_date_modified_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_creativework_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')):'',                                
