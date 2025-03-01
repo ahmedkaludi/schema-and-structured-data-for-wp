@@ -8116,6 +8116,10 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_lbp_name'] ) ) {
                         $input1['name']                     =   $custom_fields['saswp_lbp_name'];
                     }
+                    if ( isset( $custom_fields['saswp_lbp_name'] ) ) {
+                        $input1['locationCreated']['@type'] =   'Place';
+                        $input1['locationCreated']['name']  =   $custom_fields['saswp_lbp_place'];
+                    }
                     if ( ! empty( $custom_fields['saswp_lbp_name'] ) || ! empty( $custom_fields['saswp_lbp_start_date'] ) ) {
                         $input1['about']['@type']           =   'Event';   
                         if ( ! empty( $custom_fields['saswp_lbp_name'] ) ) {
@@ -8138,6 +8142,15 @@ Class SASWP_Output_Service{
                         $input1['description']              =   $custom_fields['saswp_lbp_description'];
                     }
                     if ( ! empty( $custom_fields['saswp_lbp_live_blog_update'] ) && is_array( $custom_fields['saswp_lbp_live_blog_update'] ) ) {
+
+                        global $sd_data;
+                        if ( saswp_remove_warnings($sd_data, 'saswp-foxizcore', 'saswp_string') == 1 ) {
+                            foreach ( $custom_fields['saswp_lbp_live_blog_update'] as $lbu_key => $blog_update ) {
+                                if ( is_array( $blog_update ) && ! empty( $blog_update['datePublished'] ) ) {
+                                    $custom_fields['saswp_lbp_live_blog_update'][$lbu_key]['datePublished'] = saswp_format_date_time( date( 'Y-m-d', strtotime( $blog_update['datePublished'] ) ), date( 'H:i:s', strtotime( $blog_update['datePublished'] ) ) );
+                                }
+                            }
+                        }
                         $input1['liveBlogUpdate']           =   $custom_fields['saswp_lbp_live_blog_update'];
                     }
 

@@ -11676,6 +11676,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type'    => 'text',
                                 'is_template_attr' => 'yes', 
                             ),
+                        array(
+                                'label'   => 'Location',
+                                'id'      => 'saswp_lbp_place_'.$schema_id,
+                                'type'    => 'text',
+                            ),
                     );
 
                     break;

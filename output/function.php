@@ -1853,12 +1853,12 @@ function saswp_global_option() {
             $wpamp          =   saswp_remove_warnings($sd_data, 'saswp-wpamp', 'saswp_string');
             $ampwp          =   saswp_remove_warnings($sd_data, 'saswp-ampwp', 'saswp_string');
 
-            if ( ( 0 == $ampforwp && ! saswp_non_amp() ) && ( 0 == $bunyadamp && ! saswp_non_amp() ) && ( 0 == $wpamp && ! saswp_non_amp() ) && ( 0 == $ampwp && ! saswp_non_amp() ) ) {
-        
+            if ( ( 0 == $ampforwp && ! saswp_non_amp() ) && ( 0 == $bunyadamp && ! saswp_non_amp() ) && ( 0 == $wpamp && ! saswp_non_amp() ) && ( 0 == $ampwp && ! saswp_non_amp() ) && empty( $sd_data['saswp-webstories'] ) && function_exists('web_stories_get_compat_instance') ) {
+                
                 return false;
         
             }else{
-            
+                
                 return true;
                 
             }  

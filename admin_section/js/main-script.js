@@ -2604,6 +2604,15 @@ jQuery(document).ready(function($){
                               $("#saswp-foogallery").val(0);                                          
                             }
                       break;
+
+                         case 'saswp-foxizcore-checkbox':
+                          saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-foxizcore").val(1);                                
+                            }else{
+                              $("#saswp-foxizcore").val(0);                                          
+                            }
+                      break;
                                        
                       default:
                           break;

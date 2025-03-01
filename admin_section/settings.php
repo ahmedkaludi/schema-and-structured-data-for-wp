@@ -4342,6 +4342,19 @@ function saswp_compatibility_page_callback() {
                         )
         );
 
+        $foxizcore = array(
+            'label'  => 'Foxiz Core',
+            'id'     => 'saswp-foxizcore-checkbox',                        
+                        'name'   => 'saswp-foxizcore-checkbox',
+            'type'   => 'checkbox',
+                        'class'  => 'checkbox saswp-checkbox',
+                        'note'   => saswp_get_field_note('foxizcore'),
+                        'hidden' => array(
+                                    'id'   => 'saswp-foxizcore',
+                                    'name' => 'sd_data[saswp-foxizcore]',                             
+                        )
+        );
+
         $foogallery = array(
             'label'  => 'FooGallery',
             'id'     => 'saswp-foogallery-checkbox',                        
@@ -4641,6 +4654,7 @@ function saswp_compatibility_page_callback() {
                 $jolifaq,
                 $easy_liveblogs,
                 $foogallery,
+                $foxizcore,
                 
 	);  
                 

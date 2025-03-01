@@ -3617,6 +3617,7 @@ function saswp_get_field_note($pname){
             'jolifaq'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/joli-faq-seo/"> Joli FAQ SEO – WordPress FAQ Plugin </a>',
             'easy_liveblogs'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/easy-liveblogs/"> Easy Liveblogs </a>',
             'foogallery'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/foogallery/"> FooGallery  </a>',
+            'foxizcore'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://foxiz.themeruby.com/"> FooGallery  </a>',
         
         );
           

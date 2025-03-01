@@ -774,6 +774,12 @@ return array(
             'free'       => 'foogallery/foogallery.php',            
             'opt_name'   => 'saswp-foogallery',
             'part_in'    => 'free',
+        ),
+        'foxizcore' => array(            
+                    'name'       => 'Foxiz Core',
+                    'free'       => 'foxiz-core/foxiz-core.php',            
+                    'opt_name'   => 'saswp-foxizcore',
+                    'part_in'    => 'free',
         ),                
     ),
     'themes' => array(

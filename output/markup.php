@@ -7991,6 +7991,10 @@ function saswp_live_blog_posting_schema_markup( $schema_id, $schema_post_id, $al
     if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_name_'.$schema_id][0] ) ) {
         $input1['name']                     =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_name_'.$schema_id, 'saswp_array' );    
     }
+    if ( isset( $all_post_meta['saswp_lbp_place_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_place_'.$schema_id][0] ) ) {
+        $input1['locationCreated']['@type'] =   'Place';    
+        $input1['locationCreated']['name']  =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_place_'.$schema_id, 'saswp_array' );    
+    }
     if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id] ) || isset( $all_post_meta['saswp_lbp_start_date_'.$schema_id] ) ) {
         $input1['about']['@type']           =   'Event';   
         if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id][0] ) ) {
