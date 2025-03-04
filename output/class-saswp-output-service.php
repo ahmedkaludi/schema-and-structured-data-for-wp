@@ -8130,10 +8130,22 @@ Class SASWP_Output_Service{
                         }           
                     }
                     if ( ! empty( $custom_fields['saswp_lbp_coverage_start_date'] ) ) {
-                        $input1['coverageStartTime']        =   gmdate( 'c', strtotime( $custom_fields['saswp_lbp_coverage_start_date'] ) );
+                        $coverage_start_date                =   $custom_fields['saswp_lbp_coverage_start_date'];
+                        if ( ! empty( $custom_fields['saswp_lbp_coverage_start_time'] ) ) {
+                            $coverage_start_time            =   $custom_fields['saswp_lbp_coverage_start_time']; 
+                            $input1['coverageStartTime']    =   saswp_format_date_time( $coverage_start_date, $coverage_start_time );         
+                        }else{
+                            $input1['coverageStartTime']    =   $coverage_start_date;
+                        }
                     }
                     if ( ! empty( $custom_fields['saswp_lbp_coverage_end_date'] ) ) {
-                        $input1['coverageEndTime']          =   gmdate( 'c', strtotime( $custom_fields['saswp_lbp_coverage_end_date'] ) );
+                        $coverage_end_date                  =   $custom_fields['saswp_lbp_coverage_end_date'];
+                        if ( ! empty( $custom_fields['saswp_lbp_coverage_end_time'] ) ) {
+                            $coverage_end_time              =   $custom_fields['saswp_lbp_coverage_end_time']; 
+                            $input1['coverageEndTime']      =   saswp_format_date_time( $coverage_end_date, $coverage_end_time );         
+                        }else{
+                            $input1['coverageEndTime']      =   $coverage_end_date;
+                        }
                     }
                     if ( ! empty( $custom_fields['saswp_lbp_headline'] ) ) {
                         $input1['headline']                 =   $custom_fields['saswp_lbp_headline'];

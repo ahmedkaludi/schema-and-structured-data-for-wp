@@ -11655,7 +11655,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 ),
                             ),
                         array(
-                                'label'   => 'Coverage Start Time',
+                                'label'   => 'Coverage Start Date',
                                 'id'      => 'saswp_lbp_coverage_start_date_'.$schema_id,
                                 'type'    => 'text',
                                 'attributes' => array(
@@ -11663,12 +11663,22 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 ),
                             ),
                         array(
-                                'label'   => 'Coverage End Time',
+                                'label'   => 'Coverage Start Time',
+                                'id'      => 'saswp_lbp_coverage_start_time_'.$schema_id,
+                                'type'    => 'text',
+                            ),
+                        array(
+                                'label'   => 'Coverage End Date',
                                 'id'      => 'saswp_lbp_coverage_end_date_'.$schema_id,
                                 'type'    => 'text',
                                 'attributes' => array(
                                     'placeholder' => 'YYYY-MM-DD'
                                 ),
+                            ),
+                        array(
+                                'label'   => 'Coverage End Time',
+                                'id'      => 'saswp_lbp_coverage_end_time_'.$schema_id,
+                                'type'    => 'text',
                             ),
                         array(
                                 'label'   => 'Live Blog Update',

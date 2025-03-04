@@ -8005,10 +8005,22 @@ function saswp_live_blog_posting_schema_markup( $schema_id, $schema_post_id, $al
         }           
     }
     if ( isset( $all_post_meta['saswp_lbp_coverage_start_date_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_coverage_start_date_'.$schema_id][0] ) ) {
-        $input1['coverageStartTime']        =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_start_date_'.$schema_id, 'saswp_array');    
+        $coverage_start_date                =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_start_date_'.$schema_id, 'saswp_array');
+        if ( isset( $all_post_meta['saswp_lbp_coverage_start_time_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_coverage_start_time_'.$schema_id][0] ) ) {
+            $coverage_start_time            =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_start_time_'.$schema_id, 'saswp_array');
+            $input1['coverageStartTime']    =   saswp_format_date_time( $coverage_start_date, $coverage_start_time );
+        }else{
+            $input1['coverageStartTime']    =   $coverage_start_date;
+        } 
     }
     if ( isset( $all_post_meta['saswp_lbp_coverage_end_date_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_coverage_end_date_'.$schema_id][0] ) ) {
-        $input1['coverageEndTime']          =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_end_date_'.$schema_id, 'saswp_array');    
+        $coverage_end_date                  =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_end_date_'.$schema_id, 'saswp_array');  
+        if ( isset( $all_post_meta['saswp_lbp_coverage_end_time_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_coverage_end_time_'.$schema_id][0] ) ) {
+            $coverage_end_time              =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_end_time_'.$schema_id, 'saswp_array');
+            $input1['coverageEndTime']      =   saswp_format_date_time( $coverage_end_date, $coverage_end_time );
+        }else{
+            $input1['coverageEndTime']      =   $coverage_end_date;
+        } 
     }
     if ( isset( $all_post_meta['saswp_lbp_headline_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_headline_'.$schema_id][0] ) ) {
         $input1['headline']                 =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_headline_'.$schema_id, 'saswp_array');    
