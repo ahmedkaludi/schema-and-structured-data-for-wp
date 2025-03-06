@@ -3265,9 +3265,13 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['url']                   = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_url_'.$schema_id, 'saswp_array');                            
     $input1['title']                 = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_title_'.$schema_id, 'saswp_array');                            
     $input1['description']           = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_description_'.$schema_id, 'saswp_array');
-    $input1['datePosted']            = isset($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0])):'';                            
+    if ( ! empty( $all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0] ) ) {
+        $input1['datePosted']            = gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_dateposted_'.$schema_id][0]));
+    }                            
     $input1['directApply']           = isset($all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id][0])?$all_post_meta['saswp_jobposting_schema_direct_apply_'.$schema_id][0]:'false';                            
-    $input1['validThrough']          = isset($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0])):'';                            
+    if ( ! empty( $all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0] ) ) {
+        $input1['validThrough']          = gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_jobposting_schema_validthrough_'.$schema_id][0]));
+    }                            
     $input1['employmentType']        = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_employment_type_'.$schema_id, 'saswp_array');
     $input1['industry']              = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_industry_'.$schema_id, 'saswp_array');
     $input1['occupationalCategory']  = saswp_remove_warnings($all_post_meta, 'saswp_jobposting_schema_occupational_category_'.$schema_id, 'saswp_array');
@@ -5760,7 +5764,6 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
             'headline'			            => saswp_remove_warnings($all_post_meta, 'saswp_creativework_headline_'.$schema_id, 'saswp_array'),
             'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_creativework_description_'.$schema_id, 'saswp_array'),
             'articleSection'                => saswp_remove_warnings($all_post_meta, 'saswp_creativework_section_'.$schema_id, 'saswp_array'),
-            'articleBody'                   => isset($all_post_meta['saswp_creativework_body_'.$schema_id][0]) ? wp_strip_all_tags(strip_shortcodes($all_post_meta['saswp_creativework_body_'.$schema_id][0])) : '',
             'keywords'		                => saswp_remove_warnings($all_post_meta, 'saswp_creativework_keywords_'.$schema_id, 'saswp_array'),                
             'datePublished'                 => isset($all_post_meta['saswp_creativework_date_published_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_creativework_date_published_'.$schema_id][0], get_post_time('h:i:s')):'',
             'dateModified'                  => isset($all_post_meta['saswp_creativework_date_modified_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_creativework_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')):'',                                
@@ -7988,6 +7991,10 @@ function saswp_live_blog_posting_schema_markup( $schema_id, $schema_post_id, $al
     if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_name_'.$schema_id][0] ) ) {
         $input1['name']                     =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_name_'.$schema_id, 'saswp_array' );    
     }
+    if ( isset( $all_post_meta['saswp_lbp_place_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_place_'.$schema_id][0] ) ) {
+        $input1['locationCreated']['@type'] =   'Place';    
+        $input1['locationCreated']['name']  =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_place_'.$schema_id, 'saswp_array' );    
+    }
     if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id] ) || isset( $all_post_meta['saswp_lbp_start_date_'.$schema_id] ) ) {
         $input1['about']['@type']           =   'Event';   
         if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id][0] ) ) {
@@ -7998,10 +8005,22 @@ function saswp_live_blog_posting_schema_markup( $schema_id, $schema_post_id, $al
         }           
     }
     if ( isset( $all_post_meta['saswp_lbp_coverage_start_date_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_coverage_start_date_'.$schema_id][0] ) ) {
-        $input1['coverageStartTime']        =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_start_date_'.$schema_id, 'saswp_array');    
+        $coverage_start_date                =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_start_date_'.$schema_id, 'saswp_array');
+        if ( isset( $all_post_meta['saswp_lbp_coverage_start_time_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_coverage_start_time_'.$schema_id][0] ) ) {
+            $coverage_start_time            =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_start_time_'.$schema_id, 'saswp_array');
+            $input1['coverageStartTime']    =   saswp_format_date_time( $coverage_start_date, $coverage_start_time );
+        }else{
+            $input1['coverageStartTime']    =   $coverage_start_date;
+        } 
     }
     if ( isset( $all_post_meta['saswp_lbp_coverage_end_date_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_coverage_end_date_'.$schema_id][0] ) ) {
-        $input1['coverageEndTime']          =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_end_date_'.$schema_id, 'saswp_array');    
+        $coverage_end_date                  =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_end_date_'.$schema_id, 'saswp_array');  
+        if ( isset( $all_post_meta['saswp_lbp_coverage_end_time_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_coverage_end_time_'.$schema_id][0] ) ) {
+            $coverage_end_time              =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_coverage_end_time_'.$schema_id, 'saswp_array');
+            $input1['coverageEndTime']      =   saswp_format_date_time( $coverage_end_date, $coverage_end_time );
+        }else{
+            $input1['coverageEndTime']      =   $coverage_end_date;
+        } 
     }
     if ( isset( $all_post_meta['saswp_lbp_headline_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_headline_'.$schema_id][0] ) ) {
         $input1['headline']                 =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_headline_'.$schema_id, 'saswp_array');    
@@ -8039,6 +8058,167 @@ function saswp_live_blog_posting_schema_markup( $schema_id, $schema_post_id, $al
         $input1['liveBlogUpdate']   =   $live_blog_update;
     }
 
+    return $input1;
+
+}
+
+/**
+ * Schema markup function for ImageGallery Schema
+ * @param   $schema_id  Integer
+ * @param   $schema_post_id  Integer
+ * @param   $all_post_meta  Array
+ * @return  $input1  Array
+ * @since   1.42
+ * */
+function saswp_image_gallery_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1['@context']                     =   saswp_context_url();
+    $input1['@type']                        =   'ImageGallery';
+
+    if ( isset( $all_post_meta['saswp_img_gallery_id_'.$schema_id] ) && isset( $all_post_meta['saswp_img_gallery_id_'.$schema_id][0] ) ) {
+        $input1['@id']                      =   saswp_remove_warnings( $all_post_meta, 'saswp_img_gallery_id_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_img_gallery_name_'.$schema_id] ) && isset( $all_post_meta['saswp_img_gallery_name_'.$schema_id][0] ) ) {
+        $input1['name']                     =   saswp_remove_warnings( $all_post_meta, 'saswp_img_gallery_name_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_img_gallery_description_'.$schema_id] ) && isset( $all_post_meta['saswp_img_gallery_description_'.$schema_id][0] ) ) {
+        $input1['description']              =   saswp_remove_warnings( $all_post_meta, 'saswp_img_gallery_description_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_img_gallery_url_'.$schema_id] ) && isset( $all_post_meta['saswp_img_gallery_url_'.$schema_id][0] ) ) {
+        $input1['url']                      =   saswp_remove_warnings( $all_post_meta, 'saswp_img_gallery_url_'.$schema_id, 'saswp_array' );    
+    } 
+    if ( ! empty( $all_post_meta['saswp_img_gallery_date_published_'.$schema_id][0] ) ) {
+        $input1['datePublished']            =   saswp_format_date_time($all_post_meta['saswp_img_gallery_date_published_'.$schema_id][0], get_post_time('h:i:s'));
+    }
+    if ( ! empty( $all_post_meta['saswp_img_gallery_date_modified_'.$schema_id][0] ) ) {
+        $input1['datePublished']            =   saswp_format_date_time($all_post_meta['saswp_img_gallery_date_modified_'.$schema_id][0], get_post_time('h:i:s'));
+    } 
+
+    $media_array        =   array();
+    $gallery            =   get_post_meta( $schema_post_id, 'image_gallery_collections_'.$schema_id, true );
+    if ( ! empty( $gallery ) && is_array( $gallery ) ) {
+        foreach ( $gallery as $media ) {
+
+            if ( ! empty( $media ) && is_array( $media ) ) {
+                $image_array    =   array();
+                if ( ! empty( $media['saswp_image_gallery_name'] ) && $media['saswp_image_gallery_name'] > 0 ) {
+                    $image_array['@type']                =   'ImageObject'; 
+                    $image_array['name']                 =   sanitize_text_field( $media['saswp_image_gallery_name'] );
+                }
+                if ( ! empty( $media['saswp_image_gallery_caption'] ) && $media['saswp_image_gallery_caption'] > 0 ) {
+                    $image_array['@type']                =   'ImageObject'; 
+                    $image_array['caption']              =   sanitize_text_field( $media['saswp_image_gallery_caption'] );
+                }
+                if ( ! empty( $media['saswp_image_gallery_description'] ) && $media['saswp_image_gallery_description'] > 0 ) {
+                    $image_array['@type']                =   'ImageObject'; 
+                    $image_array['description']          =   sanitize_textarea_field( $media['saswp_image_gallery_description'] );
+                }
+                if ( ! empty( $media['saswp_image_gallery_thumbnail_url_id'] ) && $media['saswp_image_gallery_thumbnail_url_id'] > 0 ) {
+                    $thumb_url  =   wp_get_attachment_image_url( $media['saswp_image_gallery_thumbnail_url_id'] );
+                    if ( ! empty( $thumb_url ) ) {
+                        $image_array['@type']            =   'ImageObject';   
+                        $image_array['thumbnailUrl']     =   $thumb_url;   
+                    }
+                }
+                if ( ! empty( $media['saswp_image_gallery_content_url_id'] ) && $media['saswp_image_gallery_content_url_id'] > 0 ) {
+                    $content_url=   wp_get_attachment_image_url( $media['saswp_image_gallery_content_url_id'] );
+                    if ( ! empty( $content_url ) ) {
+                        $image_array['@type']            =   'ImageObject'; 
+                        $image_array['contentUrl']       =   $content_url;   
+                    }
+                }
+                
+                if ( ! empty( $image_array ) ) {
+                    $input1['image'][]                   =   $image_array;      
+                }
+                
+            }
+
+        }
+    }
+
+    return $input1;
+
+}
+
+/**
+ * Schema markup function for ImageGallery Schema
+ * @param   $schema_id  Integer
+ * @param   $schema_post_id  Integer
+ * @param   $all_post_meta  Array
+ * @return  $input1  Array
+ * @since   1.42
+ * */
+function saswp_media_gallery_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1['@context']                     =   saswp_context_url();
+    $input1['@type']                        =   'MediaGallery';
+
+    if ( isset( $all_post_meta['saswp_media_gallery_id_'.$schema_id] ) && isset( $all_post_meta['saswp_media_gallery_id_'.$schema_id][0] ) ) {
+        $input1['@id']                      =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_id_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_media_gallery_name_'.$schema_id] ) && isset( $all_post_meta['saswp_media_gallery_name_'.$schema_id][0] ) ) {
+        $input1['name']                     =   saswp_remove_warnings( $all_post_meta, 'saswp_media_gallery_name_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_media_gallery_description_'.$schema_id] ) && isset( $all_post_meta['saswp_media_gallery_description_'.$schema_id][0] ) ) {
+        $input1['description']              =   saswp_remove_warnings( $all_post_meta, 'saswp_media_gallery_description_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_media_gallery_url_'.$schema_id] ) && isset( $all_post_meta['saswp_media_gallery_url_'.$schema_id][0] ) ) {
+        $input1['url']                      =   saswp_remove_warnings( $all_post_meta, 'saswp_media_gallery_url_'.$schema_id, 'saswp_array' );    
+    } 
+    if ( ! empty( $all_post_meta['saswp_media_gallery_date_published_'.$schema_id][0] ) ) {
+        $input1['datePublished']            =   saswp_format_date_time($all_post_meta['saswp_media_gallery_date_published_'.$schema_id][0], get_post_time('h:i:s'));
+    }
+    if ( ! empty( $all_post_meta['saswp_media_gallery_date_modified_'.$schema_id][0] ) ) {
+        $input1['dateModified']            =   saswp_format_date_time($all_post_meta['saswp_media_gallery_date_modified_'.$schema_id][0], get_post_time('h:i:s'));
+    } 
+
+    $media_array        =   array();
+    $associated_media   =   get_post_meta( $schema_post_id, 'media_gallery_associated_media_'.$schema_id, true );
+    if ( ! empty( $associated_media ) && is_array( $associated_media ) ) {
+        foreach ( $associated_media as $media ) {
+            if ( ! empty( $media ) && is_array( $media ) ) {
+                $image_array    =   array();
+                if ( ! empty( $media['saswp_mg_thumbnail_url_id'] ) && $media['saswp_mg_thumbnail_url_id'] > 0 ) {
+                    $thumb_url  =   wp_get_attachment_image_url( $media['saswp_mg_thumbnail_url_id'] );
+                    if ( ! empty( $thumb_url ) ) {
+                        $image_array['@type']            =   'ImageObject';   
+                        $image_array['thumbnailUrl']     =   $thumb_url;   
+                    }
+                }
+                if ( ! empty( $media['saswp_mg_name'] ) && $media['saswp_mg_name'] > 0 ) {
+                    $image_array['@type']                =   'ImageObject'; 
+                    $image_array['name']                 =   sanitize_text_field( $media['saswp_mg_name'] );
+                }
+                if ( ! empty( $media['saswp_mg_content_url_id'] ) && $media['saswp_mg_content_url_id'] > 0 ) {
+                    $content_url=   wp_get_attachment_image_url( $media['saswp_mg_content_url_id'] );
+                    if ( ! empty( $content_url ) ) {
+                        $image_array['@type']            =   'ImageObject'; 
+                        $image_array['contentUrl']       =   $content_url;   
+                    }
+                }
+                if ( ! empty( $media['saswp_mg_caption'] ) && $media['saswp_mg_caption'] > 0 ) {
+                    $image_array['@type']                =   'ImageObject'; 
+                    $image_array['caption']              =   sanitize_text_field( $media['saswp_mg_caption'] );
+                }
+                if ( ! empty( $media['saswp_mg_description'] ) && $media['saswp_mg_description'] > 0 ) {
+                    $image_array['@type']                =   'ImageObject'; 
+                    $image_array['description']          =   sanitize_textarea_field( $media['saswp_mg_description'] );
+                }
+
+                if ( ! empty( $image_array ) ) {
+                    $media_array['associatedMedia'][]   =   $image_array;      
+                }
+                
+            }
+        }
+    }
+
+    if ( ! empty( $media_array ) ) {
+        $input1['mainEntityOfPage']['@type']                =  'ImageGallery';   
+        $input1['mainEntityOfPage']['associatedMedia']      =  $media_array['associatedMedia'];   
+    }
+    
     return $input1;
 
 }

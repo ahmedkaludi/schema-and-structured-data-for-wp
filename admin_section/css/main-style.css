@@ -555,7 +555,7 @@ Compatibility tab css starts here
 .saswp-tools .saswp-knowledge-field {
     float: right;
     width: 69%;
-    padding-bottom: 30px;
+    padding-bottom: 15px;
 }
 .saswp_kg_logo, .saswp_person_fields{
     background-color: #fff !important;
@@ -766,6 +766,10 @@ Compatibility tab css ends
 }
 #saswp-tools-tabs a{
     cursor: pointer;
+    text-decoration: none;
+}
+#saswp-tools-tabs a:focus{
+    box-shadow: none;
 }
 #saswp-review-tabs a{
     cursor: pointer;
@@ -955,6 +959,7 @@ Google review module ends here
     display: block;
     align-items: center;
     justify-content: space-between;
+    text-align: center;
 }
 
 .saswp-d-btn{
@@ -3243,4 +3248,13 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
 
 .saswp-ta-left{
     text-align: left !important;
+}
+.saswp-checkbox{
+    margin-top: 12px !important;
+}
+.saswp-support-label{
+    float: left;
+    font-weight: 500 !important;
+    margin-right: 50px;
+    width: 50px;
 }

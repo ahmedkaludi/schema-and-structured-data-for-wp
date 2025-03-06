@@ -3537,7 +3537,6 @@ function saswp_get_field_note($pname){
             'wpjobopenings'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-job-openings/">WP Job Openings</a>',
             'wpjobboard'                  => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://apusthemes.com/wp-job-board-pro/">WP Job Board Pro</a>',
             'schemaforfaqs'               => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/faq-schema-markup-faq-structured-data/">FAQ Schema Markup</a>',
-            'betteramp'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/better-amp/">Better AMP</a>',
             'wpamp'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://codecanyon.net/item/wp-amp-accelerated-mobile-pages-for-wordpress-and-woocommerce/16278608">WP AMP</a>',
             'ampwp'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/amp-wp/">AMP WP</a>',
             'kk_star_ratings'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/kk-star-ratings/">kk Star Rating</a>',
@@ -3617,6 +3616,8 @@ function saswp_get_field_note($pname){
             'event_prime'                   => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/eventprime-event-calendar-management/"> EventPrime – Events Calendar, Bookings and Tickets </a>',
             'jolifaq'                       => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/joli-faq-seo/"> Joli FAQ SEO – WordPress FAQ Plugin </a>',
             'easy_liveblogs'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/easy-liveblogs/"> Easy Liveblogs </a>',
+            'foogallery'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/foogallery/"> FooGallery  </a>',
+            'foxizcore'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://foxiz.themeruby.com/"> FoxizCore  </a>',
         
         );
           
@@ -5279,6 +5280,8 @@ function saswp_is_time_field($time_str){
         || strpos($time_str, 'saswp_event_schema_schedule_et')               !== false
         || strpos($time_str, 'saswp_course_instance_start_time')             !== false
         || strpos($time_str, 'saswp_course_instance_end_time')               !== false
+        || strpos($time_str, 'saswp_lbp_coverage_start_time')                !== false
+        || strpos($time_str, 'saswp_lbp_coverage_end_time')                  !== false
         ) {
             $response = true;
         }

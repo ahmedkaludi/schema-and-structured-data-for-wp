@@ -137,6 +137,12 @@ return array( 'schema_type_element' => array(
 			    ),
 			    'LiveBlogPosting' => array(
 					'live-blog-update'  => 'live_blog_update',
+			    ),
+			    'MediaGallery' => array(
+					'media-gallery-associated-media'  => 'media_gallery_associated_media',
+			    ),
+			    'ImageGallery' => array(
+					'image-gallery-collections'  => 'image_gallery_collections',
 			    )
 						                                                                          
                     ),
@@ -1201,7 +1207,62 @@ return array( 'schema_type_element' => array(
 				'name'      => 'saswp_lbp_lbu_image',
 				'type'      => 'media',                        
 			),	
-		)
+		),
+		'media_gallery_associated_media' 	=>	array(
+			array(
+				'label'     => 'Thumbnail URL',
+				'name'      => 'saswp_mg_thumbnail_url',
+				'type'      => 'media'
+			),
+			array(
+				'label'     => 'Name',
+				'name'      => 'saswp_mg_name',
+				'type'      => 'text',                         
+			),
+			array(
+				'label'     => 'Content URL',
+				'name'      => 'saswp_mg_content_url',
+				'type'      => 'media',                          
+			),
+			array(
+				'label'     => 'Caption',
+				'name'      => 'saswp_mg_caption',
+				'type'      => 'text',                          
+			),
+			array(
+				'label'     => 'Description',
+				'name'      => 'saswp_mg_description',
+				'type'      => 'textarea',                          
+			),	
+		),
+		'image_gallery_collections' 	=>	array(
+			array(
+				'label'     => 'Name',
+				'name'      => 'saswp_image_gallery_name',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Description',
+				'name'      => 'saswp_image_gallery_description',
+				'type'      => 'textarea',                          
+			),
+			array(
+				'label'     => 'Caption',
+				'name'      => 'saswp_image_gallery_caption',
+				'type'      => 'text',                          
+			),
+			array(
+				'label'     => 'Thumbnail URL',
+				'name'      => 'saswp_image_gallery_thumbnail_url',
+				'type'      => 'media'
+			),
+			array(
+				'label'     => 'Content URL',
+				'name'      => 'saswp_image_gallery_content_url',
+				'type'      => 'media',                          
+			),	
+		),
+
 		                    
         )    
 );

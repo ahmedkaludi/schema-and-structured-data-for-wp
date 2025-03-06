@@ -3951,13 +3951,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'      => 'saswp_creativework_section_'.$schema_id,
                                         'type'    => 'textarea',
                                         'default' => saswp_strip_all_tags(get_the_excerpt())
-                                ),    
-                                array(
-                                        'label'   => 'Article Body',
-                                        'id'      => 'saswp_creativework_body_'.$schema_id,
-                                        'type'    => 'textarea',
-                                        'default' => is_object($post) ? saswp_strip_all_tags($post->post_content) : ''
-                                ),    
+                                ),      
                                 array(
                                         'label'   => 'Keywords',
                                         'id'      => 'saswp_creativework_keywords_'.$schema_id,
@@ -11661,7 +11655,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 ),
                             ),
                         array(
-                                'label'   => 'Coverage Start Time',
+                                'label'   => 'Coverage Start Date',
                                 'id'      => 'saswp_lbp_coverage_start_date_'.$schema_id,
                                 'type'    => 'text',
                                 'attributes' => array(
@@ -11669,7 +11663,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 ),
                             ),
                         array(
-                                'label'   => 'Coverage End Time',
+                                'label'   => 'Coverage Start Time',
+                                'id'      => 'saswp_lbp_coverage_start_time_'.$schema_id,
+                                'type'    => 'text',
+                            ),
+                        array(
+                                'label'   => 'Coverage End Date',
                                 'id'      => 'saswp_lbp_coverage_end_date_'.$schema_id,
                                 'type'    => 'text',
                                 'attributes' => array(
@@ -11677,10 +11676,106 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 ),
                             ),
                         array(
+                                'label'   => 'Coverage End Time',
+                                'id'      => 'saswp_lbp_coverage_end_time_'.$schema_id,
+                                'type'    => 'text',
+                            ),
+                        array(
                                 'label'   => 'Live Blog Update',
                                 'id'      => 'saswp_lbp_live_blog_update_'.$schema_id,
                                 'type'    => 'text',
                                 'is_template_attr' => 'yes', 
+                            ),
+                        array(
+                                'label'   => 'Location',
+                                'id'      => 'saswp_lbp_place_'.$schema_id,
+                                'type'    => 'text',
+                            ),
+                    );
+
+                    break;
+
+                    case 'ImageGallery':
+
+                    $meta_field = array(
+                        array(
+                               'label'    => 'ID',
+                               'id'       => 'saswp_img_gallery_id_'.$schema_id,
+                               'type'     => 'text',
+                               'default'  => 'ImageGallery',   
+                            ),
+                        array(
+                                'label'   => 'Name',
+                                'id'      => 'saswp_img_gallery_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_get_the_title()
+                            ),
+                        array(
+                                'label'   => 'Description',
+                                'id'      => 'saswp_img_gallery_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => is_object($post) ? $post->post_excerpt : ''
+                            ),
+                        array(
+                                'label'   => 'URL',
+                                'id'      => 'saswp_img_gallery_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_permalink()
+                            ),
+                        array(
+                                'label'   => 'Date Published',
+                                'id'      => 'saswp_img_gallery_date_published_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_date("Y-m-d")
+                            ), 
+                        array(
+                                'label'   => 'Date Modified',
+                                'id'      => 'saswp_img_gallery_date_modified_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
+                            ),
+                    );
+
+                    break;
+
+                    case 'MediaGallery':
+
+                    $meta_field = array(
+                        array(
+                               'label'    => 'ID',
+                               'id'       => 'saswp_media_gallery_id_'.$schema_id,
+                               'type'     => 'text',
+                               'default'  => 'MediaGallery',   
+                            ),
+                        array(
+                                'label'   => 'Name',
+                                'id'      => 'saswp_media_gallery_name_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => saswp_get_the_title()
+                            ),
+                        array(
+                                'label'   => 'Description',
+                                'id'      => 'saswp_media_gallery_description_'.$schema_id,
+                                'type'    => 'textarea',
+                                'default' => is_object($post) ? $post->post_excerpt : ''
+                            ),
+                        array(
+                                'label'   => 'URL',
+                                'id'      => 'saswp_media_gallery_url_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_permalink()
+                            ),
+                        array(
+                                'label'   => 'Date Published',
+                                'id'      => 'saswp_media_gallery_date_published_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_date("Y-m-d")
+                            ), 
+                        array(
+                                'label'   => 'Date Modified',
+                                'id'      => 'saswp_media_gallery_date_modified_'.$schema_id,
+                                'type'    => 'text',
+                                'default' => get_the_modified_date("Y-m-d")
                             ),
                     );
 

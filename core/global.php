@@ -84,7 +84,9 @@ $without_aggregate = array(
         'TouristTrip',
         'VacationRental',
         'LearningResource',
-        'LiveBlogPosting'
+        'LiveBlogPosting',
+        'ImageGallery',
+        'MediaGallery',
 );
 $translation_labels = array(
     'translation-pros'            => 'Pros',

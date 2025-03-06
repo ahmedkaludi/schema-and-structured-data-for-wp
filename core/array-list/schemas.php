@@ -53,7 +53,9 @@ return array(
                 'MedicalWebPage'           => 'MedicalWebPage',
                 'BreadCrumbs'              => 'BreadCrumbs',  
                 'LearningResource'         => 'LearningResource',  
-                'LiveBlogPosting'          => 'LiveBlogPosting'  
+                'LiveBlogPosting'          => 'LiveBlogPosting',  
+                'ImageGallery'             => 'ImageGallery',  
+                'MediaGallery'             => 'MediaGallery',  
         ),
         'Event' => array(
             'Event'                    => 'Event',

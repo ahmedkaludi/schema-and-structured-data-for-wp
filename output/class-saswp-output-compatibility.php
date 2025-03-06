@@ -151,19 +151,8 @@ class SASWP_Output_Compatibility{
     public function saswp_wpamp_override_full($data){        
         $data->metadata = array();
     }    
-    public function saswp_betteramp_override() {
-        
-        add_action( 'template_redirect', array($this, 'saswp_betteramp_override_full') ,99);
-        
-    }
     public function saswp_faqschemaforpost_override() {                
-    }
-    public function saswp_betteramp_override_full() {
-        
-             remove_action( 'wp_head', 'BF_Json_LD_Generator::print_output' );
-             remove_action( 'better-amp/template/head', 'BF_Json_LD_Generator::print_output' );       
-             
-    }       
+    }      
     public function saswp_easy_testimonials_override() {
                         
         add_filter( 'easy_testimonials_json_ld', '__return_false'); 
@@ -603,9 +592,6 @@ class SASWP_Output_Compatibility{
     public function webstories_on_activation() {
         $this->saswp_update_option_on_compatibility_activation('saswp-webstories');
     }
-    public function betteramp_on_activation() {
-         $this->saswp_update_option_on_compatibility_activation('saswp-betteramp');
-    }
     public function wpamp_on_activation() {
          $this->saswp_update_option_on_compatibility_activation('saswp-wpamp');
     }
@@ -754,6 +740,9 @@ class SASWP_Output_Compatibility{
     }
     public function easy_liveblogs_on_activation() {
          $this->saswp_update_option_on_compatibility_activation('saswp-easy-liveblogs');
+    }
+    public function foogallery_on_activation() {
+         $this->saswp_update_option_on_compatibility_activation('saswp-foogallery');
     }
     /**
      * Functions on compatiblity plugin activation ends here

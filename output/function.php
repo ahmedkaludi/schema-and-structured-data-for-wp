@@ -25,7 +25,6 @@ function saswp_schema_markup_hook_on_init() {
                 
                add_action( 'wp_footer', 'saswp_schema_markup_output');    
                add_action( 'amp_post_template_footer' , 'saswp_schema_markup_output' );
-               add_action( 'better-amp/template/footer', 'saswp_schema_markup_output', 1, 1 );
                add_action( 'amphtml_template_footer', 'saswp_schema_markup_output');
                add_action( 'amp_wp_template_footer', 'saswp_schema_markup_output');
 
@@ -36,7 +35,6 @@ function saswp_schema_markup_hook_on_init() {
                
             }else{
                 
-               add_action( 'better-amp/template/head', 'saswp_schema_markup_output', 1, 1 );
                add_action( 'wp_head', 'saswp_schema_markup_output');  
                add_action( 'amp_post_template_head' , 'saswp_schema_markup_output' );
                add_action( 'amphtml_template_head', 'saswp_schema_markup_output');
@@ -1850,17 +1848,18 @@ function saswp_global_option() {
     
             global $sd_data;
             
-            if( (   saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') =='' 
-            ||   1 == saswp_remove_warnings($sd_data, 'saswp-for-wordpress', 'saswp_string') && saswp_non_amp() ) 
-            || ( 1 == saswp_remove_warnings($sd_data, 'saswp-for-amp', 'saswp_string') && !saswp_non_amp() )
-            || ( isset($sd_data['saswp-webstories']) && $sd_data['saswp-webstories'] == 1 && function_exists('web_stories_get_compat_instance') )
-            ) {
-        
-                return true;
+            $ampforwp       =   saswp_remove_warnings($sd_data, 'saswp-ampforwp', 'saswp_string');
+            $bunyadamp      =   saswp_remove_warnings($sd_data, 'saswp-bunyadamp', 'saswp_string');
+            $wpamp          =   saswp_remove_warnings($sd_data, 'saswp-wpamp', 'saswp_string');
+            $ampwp          =   saswp_remove_warnings($sd_data, 'saswp-ampwp', 'saswp_string');
+
+            if ( ( 0 == $ampforwp && ! saswp_non_amp() ) && ( 0 == $bunyadamp && ! saswp_non_amp() ) && ( 0 == $wpamp && ! saswp_non_amp() ) && ( 0 == $ampwp && ! saswp_non_amp() ) && empty( $sd_data['saswp-webstories'] ) && function_exists('web_stories_get_compat_instance') ) {
+                
+                return false;
         
             }else{
-            
-                return false;
+                
+                return true;
                 
             }  
             

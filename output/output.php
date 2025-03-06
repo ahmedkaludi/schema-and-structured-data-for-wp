@@ -2723,6 +2723,50 @@ function saswp_schema_output() {
                                 }
 
                             break;
+
+                            case 'ImageGallery':
+
+                                $input1['@context']             =   saswp_context_url();
+                                $input1['@type']                =   'ImageGallery';
+                                $input1['@id']                  =   saswp_get_permalink().'#ImageGallery'; 
+                                $input1['url']                  =   saswp_get_permalink();
+                                $input1['name']                 =   saswp_get_the_title();
+                                $input1['description']          =   saswp_get_the_excerpt();
+                                $input1['datePublished']        =   esc_html( $date);
+                                $input1['dateModified']         =   esc_html( $modified_date );
+
+                                $input1 = apply_filters( 'saswp_modify_image_gallery_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
+                                
+                                if ( $modified_schema == 1 ) {
+                                    
+                                    $input1 = saswp_image_gallery_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
+                                }
+
+                            break;
+
+                            case 'MediaGallery':
+
+                                $input1['@context']             =   saswp_context_url();
+                                $input1['@type']                =   'MediaGallery';
+                                $input1['@id']                  =   saswp_get_permalink().'#MediaGallery'; 
+                                $input1['url']                  =   saswp_get_permalink();
+                                $input1['name']                 =   saswp_get_the_title();
+                                $input1['description']          =   saswp_get_the_excerpt();
+                                $input1['datePublished']        =   esc_html( $date);
+                                $input1['dateModified']         =   esc_html( $modified_date );
+
+                                $input1 = apply_filters( 'saswp_modify_media_gallery_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
+                                
+                                if ( $modified_schema == 1 ) {
+                                    
+                                    $input1 = saswp_media_gallery_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
+                                }
+
+                            break;
                             
                             default:
                                 break;
@@ -4045,6 +4089,108 @@ function saswp_live_blop_posting_easy_liveblogs( $input1 ) {
 
     }
 
+    return $input1;
+
+}
+
+/**
+ * ImageGallery Schema compatibility with Foo Gallery Plugin
+ * @param   $input1     array
+ * @return  $input1     array
+ * @since   1.42
+ * */
+add_filter( 'saswp_modify_image_gallery_schema_output', 'saswp_image_gallery_foo_gallery_json_ld' );
+function saswp_image_gallery_foo_gallery_json_ld( $input1 ) {
+    
+    global $sd_data, $post;
+    $associated_media   =   array();
+
+    if ( ! empty( $sd_data['saswp-foogallery'] ) && function_exists( 'foogallery_fs' ) && is_object( $post ) && ! empty( $post->ID ) ) {
+
+        $foo_gallery_array  =   [];
+        $post_content   =   $post->post_content;
+        $shortcode      =   'foogallery';
+        $pattern        =   get_shortcode_regex();
+        if (preg_match_all('/' . $pattern . '/s', $post_content, $matches, PREG_SET_ORDER)) {
+
+            if ( ! empty( $matches ) && is_array( $matches ) ) {
+                foreach ($matches as $match) {
+                    // Here index 2 has shortcode name and index 3 is the shortcode attributes
+                    if ( is_array( $match ) && ! empty( $match[2] ) && ! empty( $match[3] ) ) {
+
+                        if ( $match[2] == $shortcode ) {
+
+                            $atts = shortcode_parse_atts($match[3]);
+                            if ( is_array( $atts ) && ! empty( $atts['id'] ) ) {
+
+                                $shortcode_id   =   $atts['id'];
+                                $foo_gallery    =   get_post_meta( $shortcode_id, 'foogallery_attachments', true );
+                                if ( ! empty( $foo_gallery ) && is_array( $foo_gallery ) ) {
+
+                                    foreach ( $foo_gallery as $attachment ) {
+
+                                        $attachment_obj     =   get_post( $attachment );
+                                        if ( is_object( $attachment_obj ) && ! empty( $attachment_obj->post_type ) && $attachment_obj->post_type == 'attachment' ) {
+
+                                            $thumbnail_data     =   wp_get_attachment_image_src( $attachment, 'thumbnail' );
+                                            $content_url        =   wp_get_attachment_url( $attachment );
+                                            $thumbnail_url      =   $content_url;
+                                            $title              =   isset( $attachment_obj->post_title ) ? $attachment_obj->post_title: '';
+                                            $description        =   isset( $attachment_obj->post_content ) ? $attachment_obj->post_content: '';
+                                            $caption            =   isset( $attachment_obj->post_excerpt ) ? $attachment_obj->post_excerpt: '';
+                                            if ( is_array( $thumbnail_data ) && ! empty( $thumbnail_data[0] ) ) {
+                                                $thumbnail_url  =   $thumbnail_data[0];
+                                            }
+
+                                            $fg_array                       =   [];
+                                            $fg_array['@type']              =   'ImageObject';
+                                            if ( ! empty( $title ) ) {
+                                                $fg_array['name']           =   $title;
+                                            }
+                                            if ( ! empty( $caption ) ) {
+                                                $fg_array['caption']        =   $caption;
+                                            }
+                                            if ( ! empty( $description ) ) {
+                                                $fg_array['description']    =   $description;
+                                            }
+                                            if ( ! empty( $thumbnail_url ) ) {
+                                                $fg_array['thumbnailUrl']   =   $thumbnail_url;
+                                            }
+                                            if ( ! empty( $content_url ) ) {
+                                                $fg_array['contentUrl']     =   $content_url;
+                                            }
+
+                                            $foo_gallery_array[]            =   $fg_array; 
+
+                                        }
+                                    }
+                                    
+                                }
+
+                            }
+
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+        $input1['@context']             =   saswp_context_url();
+        $input1['@type']                =   'ImageGallery';
+        $input1['@id']                  =   saswp_get_permalink().'#ImageGallery'; 
+        $input1['url']                  =   saswp_get_permalink();
+        $input1['name']                 =   saswp_get_the_title();
+        $input1['description']          =   saswp_get_the_excerpt();
+        $input1['datePublished']        =   esc_html( get_the_date("c") );
+        $input1['dateModified']         =   esc_html( get_the_modified_date("c") );
+
+        if ( ! empty( $foo_gallery_array ) ) {
+            $input1['image']            =   $foo_gallery_array;   
+        }
+
+    }
     return $input1;
 
 }

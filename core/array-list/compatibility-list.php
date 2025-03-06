@@ -377,12 +377,6 @@ return array(
             'opt_name'   => 'saswp-webstories',
             'part_in'    => 'free'
         ),
-        'betteramp'  =>  array(            
-                    'name'       => 'Better AMP',
-                    'free'       => 'better-amp/better-amp.php',            
-                    'opt_name'   => 'saswp-betteramp',
-                    'part_in'    => 'free',
-        ),
         'wpamp'  =>  array(            
                     'name'       => 'WP AMP',
                     'free'       => 'wp-amp/wp-amp.php',            
@@ -774,6 +768,18 @@ return array(
             'free'       => 'easy-liveblogs/easy-liveblogs.php',            
             'opt_name'   => 'saswp-easy-liveblogs',
             'part_in'    => 'free',
+        ),
+        'foogallery' => array(            
+            'name'       => 'FooGallery',
+            'free'       => 'foogallery/foogallery.php',            
+            'opt_name'   => 'saswp-foogallery',
+            'part_in'    => 'free',
+        ),
+        'foxizcore' => array(            
+                    'name'       => 'Foxiz Core',
+                    'free'       => 'foxiz-core/foxiz-core.php',            
+                    'opt_name'   => 'saswp-foxizcore',
+                    'part_in'    => 'free',
         ),                
     ),
     'themes' => array(

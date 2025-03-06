@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 1.41
+Stable tag: 1.42
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -22,7 +22,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * <strong>Full AMP Compatiblity</strong>: Supports the AMP for WP and AMP by Automattic plugins. 
 * <strong>Advanced Settings</strong>: Play with output of schema markup using these options (Defragment, Add in Footer, Pretty Print, MicroData CleanUp etc.)
 * <strong>Migration</strong>: Import the data from other schema plugins such as (SEO Pressor, WP SEO Schema, Schema Plugin etc )
-* <strong>Compatibility</strong>: Generate the schema markup for the plugins. We have provided schema support for them. Few of them are - kk Star Ratings, WP-PostRatings, bbPress
+* <strong>Compatibility</strong>: Generate the schema markup for the plugins. We have provided schema support for them. Few of them are - kk Star Ratings, WP-PostRatings, bbPress, Easy Liveblogs, wpForo, RealtyPress Premium, Discout Rules, WP Job Board Pro, EventPrime, Joli FAQ SEO
 * <strong>Google Review</strong>: Display your business google reviews and its schema markup on your website.
 * **[Premium]** Reviews ( [Fetch](https://structured-data-for-wp.com/reviews-for-schema) reviews from 75+ platforms ).
 * **[Premium]** Priority Support. [Get it](https://structured-data-for-wp.com/priority-support/) We get more than 100 technical queries a day but the Priority support plan will help you skip that and get the help from a dedicated team.
@@ -81,6 +81,8 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * Mosque
 * Person
 * LiveBlogPosting
+* ImageGallery
+* MediaGallery
 * [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions
@@ -123,6 +125,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.42 (6 March 2025) =
+* Fixed: Resolved issue with Airbnb Rooms platform reviews #2179
+* Fixed: Resolved issue with TripAdvisor platform reviews #2225
+* Enhancement: Setting page UI Changes #2226
+* Fixed: Valid Through date issue while modifying post individually #2253
+* Feature: Added ImageGallery Schema type and made it's compatibility with FooGallery plugin  #2254
+* Feature: Added Location type attribute in LiveBlogPosting schema #2255
+* Fixed: Resolved issue with CreativeWork schema #2258
+* Feature: Added MediaGallery schema #2259
+* Fixed: Author image issue in schema markup #2261
+* Enhancement: Added Coverage Time in LiveBlogPosting schema  #2263
+* Fixed: Review collection nonce issue #2267
 
 = 1.41 (15 February 2025) =
 * Fixed: jQuery undefined issue #2086
@@ -275,22 +290,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Q&A Schema is not getting enabled and disabled on post page #2082
 * Fixed: Custom Schema markup breakage #2083
 * Fixed: Review collection PHP error on the user end  #2084
-
-= 1.27 (17 Feb 2024) =
-
-* Feature: Added an option to edit/modify star rating box #1930
-* Fixed: Shopify Reviews fetching issue #1944
-* Feature:  Added an option of custom CSS for review collection #2025
-* Feature:  "@type":"Course" is Missing fields "hasCourseInstance" & "offers" (Critical Issue - Rich Results Checker) #2042
-* Enhancement: Resolved course schema generated errors in rich result test #2057
-* Feature: Changed H2 Font Size in FAQ Scheme Code Without Changing SEO Structure #2060
-* Enhancement: Resolved warning appearing in the GSC #2064
-* Feature: Automated the instructions and ingrediencies from gutenberg list block #2066
-* Fixed: Resolved warning appearing on the wp-admin dashboard #2067
-* Fixed: Resolved placement issue while adding multiple placements for schema type with and condition #2069
-* Feature: Added the custom schema support in WPGraphQL #2072
-* Fixed: Users Unable to Edit Publish Date/Time for Schema Type #2075
-* Enhancement: Saved reCaptcha details in options table #2077
-* Fixed: Security vulnerability issues raised by Wordfence
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

@@ -678,7 +678,7 @@ class SASWP_Reviews_Collection {
         public function saswp_admin_collection_interface_render() {
             
              if ( ! current_user_can( saswp_current_user_can() ) ) return;
-             if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ) return;
+             if ( isset( $_GET['_wpnonce'] ) && ! wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ) return;
              
             $post_meta = array();
             $post_id   = null;            
