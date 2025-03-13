@@ -432,9 +432,9 @@ class SASWP_View_Common {
                                         }
                                         
                                         if (strpos($meta_field['id'], 'author_image') !== false && empty($media_value_meta)) {                                          
-                                                $media_value['height']    = $author_details['height'];                                                                                         
-                                                $media_value['width']     = $author_details['width'];                                                                                         
-                                                $media_value['thumbnail'] = $author_details['url'];                                             
+                                                $media_value['height']    = isset( $author_details['height'] ) ? $author_details['height'] : '';                                                                                         
+                                                $media_value['width']     = isset( $author_details['width'] ) ? $author_details['width'] : '';                                                                                         
+                                                $media_value['thumbnail'] = isset( $author_details['url'] ) ? $author_details['url'] : '';                                             
                                         }
                                                   
                                         if (strpos($meta_field['id'], 'organization_logo') !== false && empty($media_value_meta)) {
