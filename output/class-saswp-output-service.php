@@ -8116,14 +8116,39 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_lbp_name'] ) ) {
                         $input1['name']                     =   $custom_fields['saswp_lbp_name'];
                     }
-                    if ( isset( $custom_fields['saswp_lbp_name'] ) ) {
-                        $input1['locationCreated']['@type'] =   'Place';
-                        $input1['locationCreated']['name']  =   $custom_fields['saswp_lbp_place'];
+                    $location   =   array();
+
+                    if ( isset( $custom_fields['saswp_lbp_place'] ) ) {
+                        $location['@type']        =   'Place';
+                        $location['name']         =   $custom_fields['saswp_lbp_place'];
                     }
+                    if ( isset( $custom_fields['saswp_lbp_street_address'] ) || isset( $custom_fields['saswp_lbp_locality'] ) || isset( $custom_fields['saswp_lbp_postal_code'] ) || isset( $custom_fields['saswp_lbp_region'] ) ) {
+                        $location['address']['@type']                     =   'PostalAddress';
+                        if ( isset( $custom_fields['saswp_lbp_street_address'] ) ) {      
+                            $location['address']['streetAddress']        =   $custom_fields['saswp_lbp_street_address'];
+                        }
+                        if ( isset( $custom_fields['saswp_lbp_locality'] ) ) {      
+                            $location['address']['addressLocality']     =   $custom_fields['saswp_lbp_locality'];
+                        }
+                        if ( isset( $custom_fields['saswp_lbp_postal_code'] ) ) {      
+                            $location['address']['postalCode']         =   $custom_fields['saswp_lbp_postal_code'];
+                        }
+                        if ( isset( $custom_fields['saswp_lbp_region'] ) ) {      
+                            $location['address']['addressRegion']     =   $custom_fields['saswp_lbp_region'];
+                        }
+                        if ( isset( $custom_fields['saswp_lbp_country'] ) ) {      
+                            $location['address']['addressCountry']['@type']     =   'Country';
+                            $location['address']['addressCountry']['name ']         =   $custom_fields['saswp_lbp_country'];
+                        }     
+                    }
+                    
                     if ( ! empty( $custom_fields['saswp_lbp_name'] ) || ! empty( $custom_fields['saswp_lbp_start_date'] ) ) {
                         $input1['about']['@type']           =   'Event';   
                         if ( ! empty( $custom_fields['saswp_lbp_name'] ) ) {
                             $input1['about']['name']        =   $custom_fields['saswp_lbp_name'];
+                        }
+                        if ( ! empty( $location ) ) {
+                            $input1['about']['location']    =   $location;
                         }
                         if ( ! empty( $custom_fields['saswp_lbp_start_date'] ) ) {
                             $input1['about']['startDate']   =   $custom_fields['saswp_lbp_start_date'];

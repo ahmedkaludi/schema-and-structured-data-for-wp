@@ -7991,14 +7991,37 @@ function saswp_live_blog_posting_schema_markup( $schema_id, $schema_post_id, $al
     if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_name_'.$schema_id][0] ) ) {
         $input1['name']                     =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_name_'.$schema_id, 'saswp_array' );    
     }
+    $location   =   array();
     if ( isset( $all_post_meta['saswp_lbp_place_'.$schema_id] ) && isset( $all_post_meta['saswp_lbp_place_'.$schema_id][0] ) ) {
-        $input1['locationCreated']['@type'] =   'Place';    
-        $input1['locationCreated']['name']  =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_place_'.$schema_id, 'saswp_array' );    
+        $location['@type'] =   'Place';    
+        $location['name']  =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_place_'.$schema_id, 'saswp_array' );    
+    }
+    if ( isset( $all_post_meta['saswp_lbp_street_address_'.$schema_id][0] ) || isset( $all_post_meta['saswp_lbp_locality_'.$schema_id][0] ) || isset( $all_post_meta['saswp_lbp_postal_code_'.$schema_id][0] ) || isset( $all_post_meta['saswp_lbp_region_'.$schema_id][0] ) ) {
+        $location['address']['@type']                      =   'PostalAddress';
+        if ( isset( $all_post_meta['saswp_lbp_street_address_'.$schema_id][0] ) ) {      
+            $location['address']['streetAddress']          =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_street_address_'.$schema_id, 'saswp_array' );    
+        }
+        if ( isset( $all_post_meta['saswp_lbp_locality_'.$schema_id][0] ) ) {      
+            $location['address']['addressLocality']        =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_locality_'.$schema_id, 'saswp_array' );    
+        }
+        if ( isset( $all_post_meta['saswp_lbp_postal_code_'.$schema_id][0] ) ) {      
+            $location['address']['postalCode']             =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_postal_code_'.$schema_id, 'saswp_array' );    
+        }
+        if ( isset( $all_post_meta['saswp_lbp_region_'.$schema_id][0] ) ) {      
+            $location['address']['addressRegion']          =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_region_'.$schema_id, 'saswp_array' );    
+        }
+        if ( isset( $all_post_meta['saswp_lbp_country_'.$schema_id][0] ) ) {      
+            $location['address']['addressCountry']['@type'] =   'Country';
+            $location['address']['addressCountry']['name '] =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_country_'.$schema_id, 'saswp_array' );
+        }
     }
     if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id] ) || isset( $all_post_meta['saswp_lbp_start_date_'.$schema_id] ) ) {
         $input1['about']['@type']           =   'Event';   
         if ( isset( $all_post_meta['saswp_lbp_name_'.$schema_id][0] ) ) {
             $input1['about']['name']        =   saswp_remove_warnings( $all_post_meta, 'saswp_lbp_name_'.$schema_id, 'saswp_array' );    
+        }
+        if ( ! empty( $location ) ) {
+            $input1['about']['location']    =   $location;
         }
         if ( isset( $all_post_meta['saswp_lbp_start_date_'.$schema_id][0] ) ) {
             $input1['about']['startDate']   =   saswp_remove_warnings($all_post_meta, 'saswp_lbp_start_date_'.$schema_id, 'saswp_array');    
