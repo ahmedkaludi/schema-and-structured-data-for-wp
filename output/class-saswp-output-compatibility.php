@@ -60,7 +60,7 @@ class SASWP_Output_Compatibility{
     }
     
     /**
-     * Exclude saswp post type from yoast indexing
+     * Exclude saswp post type from yoast indexing #2262
      * @param   $post_types     array
      * @return  $post_types     array
      * @since   1.43

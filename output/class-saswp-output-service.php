@@ -8116,6 +8116,11 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_lbp_name'] ) ) {
                         $input1['name']                     =   $custom_fields['saswp_lbp_name'];
                     }
+                    if ( ! empty( $custom_fields['saswp_lbp_about'] ) && is_array( $custom_fields['saswp_lbp_about'] ) ) {
+                        foreach ( $custom_fields['saswp_lbp_about'] as  $about ) {
+                            $input1['about'][]    =     $about;     
+                        }
+                    }
                     $location   =   array();
 
                     if ( isset( $custom_fields['saswp_lbp_place'] ) ) {

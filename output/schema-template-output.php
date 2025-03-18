@@ -1247,6 +1247,36 @@ function saswp_generate_schema_template_markup( $template_id ){
                 
             break;
 
+            case 'Event':
+                                
+                $event_type         =	get_post_meta( $template_id, 'saswp_event_type', true );  
+                            
+                $input1['@context'] = 	saswp_context_url();
+                $input1['@type']    = 	$event_type ? $event_type : $template_type;
+                $input1['@id']      = 	saswp_get_permalink().'#event';
+                $input1['url']		=	saswp_get_permalink();
+                                                                       
+                if ( ! empty( $aggregateRating) ) {
+                    $input1['aggregateRating'] = $aggregateRating;
+                }                                
+                if ( ! empty( $extra_theme_review) ) {
+                   $input1 = array_merge( $input1, $extra_theme_review );
+                }                                                                                                
+                $input1 = saswp_append_fetched_reviews( $input1, $template_id );
+                                                                            
+                $input1 = apply_filters( 'saswp_modify_event_schema_output', $input1, $template_id );
+                
+                $input1 = saswp_get_modified_markup( $input1, $template_type, $template_id, $template_options );
+                
+                if ( isset( $input1['@context'] ) ) {
+	            	unset( $input1['@context'] );
+	            }
+	            if ( isset( $input1['@id'] ) ) {
+	            	unset( $input1['@id'] );
+	            }                        
+                
+            break;
+
 		}
 	}
 

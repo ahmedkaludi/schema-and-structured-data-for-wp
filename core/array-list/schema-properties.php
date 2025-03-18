@@ -11641,6 +11641,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => is_object($post) ? $post->post_excerpt : ''
                             ),
                         array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_lbp_about_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                            ),
+                        array(
                             'label' => 'Headline',
                             'id' => 'saswp_lbp_headline_'.$schema_id,
                             'type' => 'text',
