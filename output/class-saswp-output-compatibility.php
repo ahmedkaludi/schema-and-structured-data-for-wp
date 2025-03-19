@@ -760,6 +760,9 @@ class SASWP_Output_Compatibility{
     public function foogallery_on_activation() {
          $this->saswp_update_option_on_compatibility_activation('saswp-foogallery');
     }
+    public function foxizcore_on_activation() {
+         $this->saswp_update_option_on_compatibility_activation('saswp-foxizcore');
+    }
     /**
      * Functions on compatiblity plugin activation ends here
      */

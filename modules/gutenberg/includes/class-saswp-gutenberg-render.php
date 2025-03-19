@@ -532,4 +532,83 @@ class SASWP_Gutenberg_Render {
         
     }
     
+    /**
+     * Render LiveBlogPosting block data
+     * @param   array
+     * @since   1.43
+     * */
+    public function live_blog_posting_block_data( $attributes ) {
+
+        ?>
+        <div id="saswp-lbp-schema-wrapper">
+            <div id="saswp-lbp-heading">
+                <h3><?php echo esc_html__( 'LIVE UPDATES', 'schema-and-structured-data-for-wp' ); ?></h3>    
+            </div>
+            
+            <div id="saswp-lbp-blogs-feed-wrapper">
+
+                <div class="saswp-lbp-blog-feed">
+                    <?php 
+                    if ( ! empty( $attributes['banner_url'] ) ) { ?>
+                        <div class="saswp-lbp-blog-image">
+                            <img src="<?php echo esc_attr( $attributes['banner_url'] ); ?>">
+                        </div>
+                     <?php } 
+                    if ( ! empty( $attributes['start_date'] ) ) { ?>
+                        <div class="saswp-lbp-blog-time">
+                        <?php
+                        $date   =   new DateTime( $attributes['start_date'] );
+                        $date   =   $date->format( 'F j, Y \a\t g:i A' );
+                        ?>
+                        <p><?php echo esc_html( $date ); ?></p>
+                        </div>
+                    <?php } ?>
+                    <div class="saswp-lbp-blog-heading">
+                        <h4><?php echo esc_html__( $attributes['headline'] ); ?></h4>
+                    </div>
+
+                    <div class="saswp-lbp-blog-content">
+                        <p><?php echo wp_kses( $attributes['description'], wp_kses_allowed_html('post') ); ?></p>
+                    </div>
+                </div> <!-- saswp-lbp-blogs-content -->
+
+                <?php 
+                if ( ! empty( $attributes['blog_update'] ) && is_array( $attributes['blog_update'] ) ) {
+                    foreach ( $attributes['blog_update'] as $blog_update ) {                            
+                    ?>
+                        <div class="saswp-lbp-blog-feed">
+                            <?php 
+                            if ( ! empty( $blog_update['image_url'] ) ) { ?>
+                                <div class="saswp-lbp-blog-image">
+                                    <img src="<?php echo esc_attr( $blog_update['image_url'] ); ?>">
+                                </div>
+                             <?php } 
+                            if ( ! empty( $blog_update['date'] ) ) { ?>
+                                <div class="saswp-lbp-blog-time">
+                                <?php
+                                $date   =   new DateTime( $blog_update['date'] );
+                                $date   =   $date->format( 'F j, Y \a\t g:i A' );
+                                ?>
+                                <p><?php echo esc_html( $date ); ?></p>
+                                </div>
+                            <?php } ?>
+                            <div class="saswp-lbp-blog-heading">
+                                <h4><?php echo esc_html__( $blog_update['headline'] ); ?></h4>
+                            </div>
+
+                            <div class="saswp-lbp-blog-content">
+                                <p><?php echo wp_kses( $blog_update['body'], wp_kses_allowed_html('post') ); ?></p>
+                            </div>
+                        </div> <!-- saswp-lbp-blogs-content -->
+                    <?php    
+                    }
+                }
+                ?>
+
+            </div> <!-- saswp-lbp-blogs-content-wrapper div end -->
+        </div>
+        <?php    
+
+    }
+    
 }

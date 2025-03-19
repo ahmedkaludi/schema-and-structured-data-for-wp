@@ -231,6 +231,7 @@ function saswp_get_all_schema_markup_output() {
         $gutenberg_qanda          = array();
         $elementor_qanda          = array();
         $gutenberg_faq            = array();
+        $live_blog_posting        = array();
         $elementor_faq            = array();
         $elementor_howto          = array();
         $divi_builder_faq         = array();
@@ -256,6 +257,7 @@ function saswp_get_all_schema_markup_output() {
             $tinymce_how_to           = saswp_tinymce_how_to_schema();
             $gutenberg_recipe         = saswp_gutenberg_recipe_schema(); 
             $gutenberg_faq            = saswp_gutenberg_faq_schema();        
+            $live_blog_posting        = saswp_gutenberg_live_blog_posting_schema();        
 
         }        
         $taqeem_schema            = saswp_taqyeem_review_rich_snippet(); 
@@ -416,6 +418,12 @@ function saswp_get_all_schema_markup_output() {
                         if ( ! empty( $gutenberg_faq) ) {
                         
                             $output .= saswp_json_print_format($gutenberg_faq);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if ( ! empty( $live_blog_posting) ) {
+                        
+                            $output .= saswp_json_print_format( $live_blog_posting );   
                             $output .= ",";
                             $output .= "\n\n";
                         }
