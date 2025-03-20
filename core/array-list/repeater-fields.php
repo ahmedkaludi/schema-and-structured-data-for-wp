@@ -1192,11 +1192,16 @@ return array( 'schema_type_element' => array(
 				'type'      => 'text'
 			),
 			array(
-				'label'     => 'Date Published',
-				'name'      => 'saswp_lbp_lbu_date_published',
+				'label'     => 'Published Date',
+				'name'      => 'saswp_lbp_lbu_published_date',
 				'type'      => 'text',
 				'default'   => get_the_date( 'Y-m-d' )                            
 			),
+			array(
+                         	'label'     => 'Published Time',
+                         	'name'      => 'saswp_lbp_lbu_published_time',
+                         	'type'      => 'text',
+                     ),
 			array(
 				'label'     => 'Article Body',
 				'name'      => 'saswp_lbp_lbu_article_body',

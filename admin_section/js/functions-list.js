@@ -541,7 +541,7 @@
                     meta_class = "saswp-datepicker-picker";   
                 }
                 
-                if(element.name.indexOf('saswp_event_schema_schedule_st') > -1 || element.name.indexOf('saswp_event_schema_schedule_et') > -1 || element.name.indexOf('saswp_course_instance_start_time') > -1 || element.name.indexOf('saswp_course_instance_end_time') > -1 || element.name.indexOf('saswp_lbp_coverage_start_time') > -1 || element.name.indexOf('saswp_lbp_coverage_end_time') > -1 ){
+                if(element.name.indexOf('saswp_event_schema_schedule_st') > -1 || element.name.indexOf('saswp_event_schema_schedule_et') > -1 || element.name.indexOf('saswp_course_instance_start_time') > -1 || element.name.indexOf('saswp_course_instance_end_time') > -1 || element.name.indexOf('saswp_lbp_coverage_start_time') > -1 || element.name.indexOf('saswp_lbp_coverage_end_time') > -1 || element.name.indexOf('saswp_lbp_lbu_published_time') > -1 ){ 
                     meta_class = "saswp-timepicker";
                 }
                 

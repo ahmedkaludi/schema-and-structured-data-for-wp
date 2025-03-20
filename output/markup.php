@@ -8061,8 +8061,14 @@ function saswp_live_blog_posting_schema_markup( $schema_id, $schema_post_id, $al
                 if ( isset( $blog['saswp_lbp_lbu_headline'] ) ) {
                     $blog_array['headline']    =   sanitize_text_field( $blog['saswp_lbp_lbu_headline'] );
                 }
-                if ( isset( $blog['saswp_lbp_lbu_date_published'] ) ) {
-                    $blog_array['datePublished']    =   gmdate( 'c', strtotime( $blog['saswp_lbp_lbu_date_published'] ) );
+                if ( ! empty( $blog['saswp_lbp_lbu_published_date'] ) ) {
+                    $published_date                     =   $blog['saswp_lbp_lbu_published_date'];
+                    if ( ! empty( $blog['saswp_lbp_lbu_published_time'] ) ) {
+                        $published_time                 =   $blog['saswp_lbp_lbu_published_time'];
+                        $blog_array['datePublished']    =   saswp_format_date_time( $published_date, $published_time );
+                    }else{
+                        $blog_array['datePublished']    =   $published_date;
+                    } 
                 }
                 if ( isset( $blog['saswp_lbp_lbu_article_body'] ) ) {
                     $blog_array['articleBody']    =   sanitize_textarea_field( $blog['saswp_lbp_lbu_article_body'] );

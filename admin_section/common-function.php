@@ -5265,6 +5265,7 @@ function saswp_is_time_field($time_str){
         || strpos($time_str, 'saswp_course_instance_end_time')               !== false
         || strpos($time_str, 'saswp_lbp_coverage_start_time')                !== false
         || strpos($time_str, 'saswp_lbp_coverage_end_time')                  !== false
+        || strpos($time_str, 'saswp_lbp_lbu_published_time')                  !== false
         ) {
             $response = true;
         }
