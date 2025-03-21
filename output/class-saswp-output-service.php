@@ -3729,32 +3729,37 @@ Class SASWP_Output_Service{
                         if ( ! empty( $custom_fields['saswp_newsarticle_editor_image']) ) {
                             $input1['editor']['Image']['url'] =    $custom_fields['saswp_newsarticle_editor_image'];
                         }
+                    }else if ( empty( $custom_fields['saswp_newsarticle_editor_type'] ) && isset( $input1['editor'] ) ) {
+                        unset( $input1['editor'] );
                     }
 
-                    if ( isset( $custom_fields['saswp_newsarticle_author_type']) ) {
+                    if ( ! empty( $custom_fields['saswp_newsarticle_author_type'] ) ) {
                         $input1['author']['@type'] =    $custom_fields['saswp_newsarticle_author_type']; 
-                    }
-                    if ( isset( $custom_fields['saswp_newsarticle_author_name']) ) {
-                        $input1['author']['name'] =    $custom_fields['saswp_newsarticle_author_name']; 
-                    }
-                    if ( isset( $custom_fields['saswp_newsarticle_author_honorific_suffix']) && $custom_fields['saswp_newsarticle_author_honorific_suffix'] != '') {
-                        $input1['author']['honorificSuffix']  =  $custom_fields['saswp_newsarticle_author_honorific_suffix'];
-                    }  
-                    if ( isset( $custom_fields['saswp_newsarticle_author_description']) ) {
-                        $input1['author']['description'] =    $custom_fields['saswp_newsarticle_author_description'];
-                    }
-                    if ( isset( $custom_fields['saswp_newsarticle_author_url']) ) {
-                        $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_newsarticle_author_url']); 
-                    }
-                    if ( isset( $custom_fields['saswp_newsarticle_author_image']) ) {
-                       $input1['author']['Image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
-                    }
-                    if ( isset( $custom_fields['saswp_newsarticle_author_social_profile']) && !empty($custom_fields['saswp_newsarticle_author_social_profile']) ) {
-                        $explode_sp = explode(',', $custom_fields['saswp_newsarticle_author_social_profile']);
-                        if ( is_array( $explode_sp) ) {
-                            $input1['author']['sameAs'] =    $explode_sp;
+                        if ( isset( $custom_fields['saswp_newsarticle_author_name']) ) {
+                            $input1['author']['name'] =    $custom_fields['saswp_newsarticle_author_name']; 
                         }
+                        if ( isset( $custom_fields['saswp_newsarticle_author_honorific_suffix']) && $custom_fields['saswp_newsarticle_author_honorific_suffix'] != '') {
+                            $input1['author']['honorificSuffix']  =  $custom_fields['saswp_newsarticle_author_honorific_suffix'];
+                        }  
+                        if ( isset( $custom_fields['saswp_newsarticle_author_description']) ) {
+                            $input1['author']['description'] =    $custom_fields['saswp_newsarticle_author_description'];
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_author_url']) ) {
+                            $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_newsarticle_author_url']); 
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_author_image']) ) {
+                           $input1['author']['Image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_author_social_profile']) && !empty($custom_fields['saswp_newsarticle_author_social_profile']) ) {
+                            $explode_sp = explode(',', $custom_fields['saswp_newsarticle_author_social_profile']);
+                            if ( is_array( $explode_sp) ) {
+                                $input1['author']['sameAs'] =    $explode_sp;
+                            }
+                        }
+                    }else if ( empty( $custom_fields['saswp_newsarticle_author_type'] ) && isset( $input1['author'] ) ) {
+                        unset( $input1['author'] );
                     }
+    
                     if ( ! empty( $custom_fields['saswp_newsarticle_about']) && isset($custom_fields['saswp_newsarticle_about']) ) {         
                         $input1['about']['@type'] = 'Event';                   
                         $input1['about']['name'] = explode(',', $custom_fields['saswp_newsarticle_about']);    
@@ -9209,7 +9214,7 @@ Class SASWP_Output_Service{
                     $input1['keywords']                         = $webp_keywords;
 
                     // If sub schema type is set then add selected schema type to mainentity
-                    if( $sub_schema_type != 'none' ) {
+                    if( ! empty( $sub_schema_type ) && $sub_schema_type != 'none' ) {
     				    $input1['mainEntity']['@type']              = $sub_schema_type;
                         $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
     					$input1['mainEntity']['headline']		    = saswp_get_the_title();
