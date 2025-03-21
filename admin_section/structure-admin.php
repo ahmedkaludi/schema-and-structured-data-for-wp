@@ -359,7 +359,7 @@ function saswp_comparison_logic_checker($input, $post){
                   $current_post_type = '';
               
                   if( (is_singular() || is_admin()) && is_object($post) && !is_front_page() ) {
-                      
+                     $post  = apply_filters( 'saswp_modify_bbpress_group_topic_object', $post ); 
                      $current_post_type  = get_post_type($post->ID);   
                      
                   } 
