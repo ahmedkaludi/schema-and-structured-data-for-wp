@@ -1330,8 +1330,14 @@ function saswp_get_comments($post_id){
     
     $is_bbpress = false;
     
-    if ( isset( $sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){
-        $is_bbpress = true;
+    if ( isset( $sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 ){
+        global $saswp_bb_topic;
+        if ( is_object( $saswp_bb_topic ) && ! empty( $saswp_bb_topic->ID ) ) {
+            $post_id    =   $saswp_bb_topic->ID;
+        }
+        if ( get_post_type( $post_id ) == 'topic' ) {
+            $is_bbpress = true;
+        }
     }
    
     if($is_bbpress){  
@@ -1349,6 +1355,7 @@ function saswp_get_comments($post_id){
                                     'comment_content'        => bbp_get_reply_content(),
                                     'comment_author'         => bbp_get_reply_author(),
                                     'comment_author_url'     => bbp_get_reply_author_url(),
+                                    'comment_ID'             => bbp_get_reply_id(),
                     );
                                                                                  
             endwhile;
@@ -3775,19 +3782,54 @@ function saswp_modify_bbpress_group_topic_markup( $input1 ){
     global $saswp_bb_topic, $sd_data;    
     if ( ! empty( $sd_data['saswp-bbpress'] == 1 ) && is_object( $saswp_bb_topic ) && ! empty( $saswp_bb_topic->post_content ) ) {
 
-        $excerpt = wp_strip_all_tags(strip_shortcodes( $saswp_bb_topic->post_content ) ); 
-        $excerpt = preg_replace( '/\[.*?\]/','', $excerpt );
+        $excerpt        =   wp_strip_all_tags(strip_shortcodes( $saswp_bb_topic->post_content ) ); 
+        $excerpt        =   preg_replace( '/\[.*?\]/','', $excerpt );
 
-        $content = wp_strip_all_tags( $saswp_bb_topic->post_content );   
-        $content = preg_replace( '/\[.*?\]/','', $content );            
-        $content = str_replace( '=', '', $content ); 
-        $content = str_replace( array("\n","\r\n","\r" ), ' ', $content );
+        $content        =   wp_strip_all_tags( $saswp_bb_topic->post_content );   
+        $content        =   preg_replace( '/\[.*?\]/','', $content );            
+        $content        =   str_replace( '=', '', $content ); 
+        $content        =   str_replace( array("\n","\r\n","\r" ), ' ', $content );
 
+        $author_name    =   '';
+        $author_url     =   '';
+        if ( empty( $input1['author']['name'] ) ) {
+            $input1['author']['name']    =   get_the_author_meta( 'display_name', $saswp_bb_topic->post_author );
+        }
+        if ( empty( $input1['author']['url'] ) ) {
+            $input1['author']['url']     =   get_the_author_meta( 'user_url', $saswp_bb_topic->post_author );
+        }
+        
         $input1['description']      =   $excerpt;
         $input1['articleSection']   =   isset( $saswp_bb_topic->post_title ) ? $saswp_bb_topic->post_title : $input1['articleSection'];  
         $input1['articleBody']      =   $content;
         $input1['datePublished']    =   get_post_time( DATE_ATOM, false, $saswp_bb_topic->ID , true );
         $input1['dateModified']     =   get_the_modified_date( "c", $saswp_bb_topic->ID );
+
+        if ( ! empty( $input1['comment'] ) && is_array( $input1['comment'] ) ) {
+
+            foreach ( $input1['comment'] as $key => $comment ) {
+
+                if ( isset( $comment['id'] ) && ! filter_var( $comment['id'], FILTER_VALIDATE_URL ) ) {
+                    
+                    $comment_id     =   bbp_get_topic_permalink() . $comment['id'];
+                    $comment_id     =   str_replace( '#comment-', '#post-', $comment_id );
+                    $input1['comment'][$key]['id']  =   $comment_id;
+                    if ( isset( $comment['description'] ) ) {
+                        $input1['comment'][$key]['text']    =   $comment['description'];
+                    }
+
+                    if ( isset( $comment['author']['url'] ) ) {
+                        $reply_id   =   explode( '#post-', $comment_id );
+                        if ( is_array( $reply_id ) && ! empty( $reply_id[1] ) && $reply_id[1] > 0 ) {
+                            $input1['comment'][$key]['author']['url']   =   bbp_get_reply_author_url( $reply_id[1] );
+                        }    
+                    }
+                    
+                }
+
+            }
+
+        }
 
     }
 
