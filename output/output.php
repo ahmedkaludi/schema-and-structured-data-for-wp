@@ -2655,6 +2655,8 @@ function saswp_schema_output() {
                                 $input1['@type']                 = 'VacationRental';
                                 $input1['@id']                   = saswp_get_permalink().'#VacationRental';                                
 
+                                $input1 = saswp_append_fetched_reviews( $input1, $schema_post_id );
+                                
                                 $input1 = apply_filters('saswp_modify_vacation_rental_schema_output', $input1 );
 
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);

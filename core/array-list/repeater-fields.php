@@ -1098,14 +1098,56 @@ return array( 'schema_type_element' => array(
 		array(
 			'label'     => 'Type Of Bed',
 			'name'      => 'saswp_vr_bed_details_tob',
-			'type'      => 'text'
+			'type'       => 'select',
+                     'options' => array(
+	                         'CaliforniaKing' => 'CaliforniaKing',
+	                         'King'          => 'King',
+	                         'Queen'         => 'Queen',
+	                         'Full'          => 'Full',
+	                         'Double'        => 'Double',
+	                         'SemiDouble'    => 'SemiDouble',
+	                         'Single'        => 'Single',
+                     	)
 			),
 		),
 		'vacation_rental_amenity_feature' => array(
 		array(
 			'label'     => 'Name',
 			'name'      => 'saswp_vr_amenity_feature_name',
-			'type'      => 'text'
+			'type'       => 'select',
+                     'options' => array(
+	                         'ac'                        => 'AC',
+	                         'airportShuttle'            => 'Airport Shuttle',
+	                         'balcony'                   => 'Balcony',
+	                         'beachAccess'               => 'Beach Access',
+	                         'childFriendly'             => 'Child Friendly',
+	                         'crib'                      => 'Crib',
+	                         'elevator'                  => 'Elevator',
+	                         'fireplace'                 => 'Fire Place',
+	                         'freeBreakfast'             => 'Free Break Fast',
+	                         'gymFitnessEquipment'       => 'Gym Fitness Equipment',
+	                         'heating'                   => 'Heating',
+	                         'hotTub'                    => 'Hot Tub',
+	                         'instantBookable'           => 'Instant Bookable',
+	                         'ironingBoard'              => 'Ironing Board',
+	                         'kitchen'                   => 'Kitchen',
+	                         'outdoorGrill'              => 'Outdoor Grill',
+	                         'ovenStove'                 => 'Oven Stove',
+	                         'patio'                     => 'Patio',
+	                         'petsAllowed'               => 'Pets Allowed',
+	                         'pool'                      => 'Pool',
+	                         'privateBeachAccess'        => 'Private Beach Access',
+	                         'selfCheckinCheckout'       => 'Self Checkin Checkout',
+	                         'smokingAllowed'            => 'Smoking Allowed',
+	                         'tv'                        => 'TV',
+	                         'washerDryer'               => 'Washer Dryer',
+	                         'wheelchairAccessible'      => 'Wheel Chair Accessible',
+	                         'wifi'                      => 'Wifi',
+	                         'internetType'              => 'Internet Type',
+	                         'parkingType'               => 'Parking Type',
+	                         'poolType'                  => 'Pool Type',
+	                         'licenseNum'                => 'License Num',
+                     	)
 			),
 		array(
 			'label'     => 'Value',
