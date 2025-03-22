@@ -810,7 +810,17 @@ function saswp_comparison_logic_checker($input, $post){
         
         case 'url_parameter':
           global $wp;
-          $url            = $wp->request;
+          
+          $url            = '';
+          if ( ! empty( $_GET['tag_ID'] ) && is_admin( $_GET['tag_ID'] ) ) {
+            $term_object  = get_term( intval( $_GET['tag_ID'] ) );
+            $url          = $term_object->slug;
+          }else if ( is_admin() && is_object( $post ) && ! empty( $post->ID ) ) {
+            $url          = get_permalink( $post->ID );
+          }else if ( ! is_admin() && isset( $wp->request ) ) {
+            $url          = $wp->request;
+          }
+          
           $home_page_url  = get_home_url();
           
           if ( $comparison == 'equal' ) {
