@@ -3698,7 +3698,7 @@ add_filter( 'saswp_modify_bbpress_group_topic_object', 'saswp_modify_bbpress_gro
 function saswp_modify_bbpress_group_topic_object_clbk( $post ) {
     
     global $sd_data, $wp, $saswp_bb_topic;
-    if ( ! empty( $sd_data['saswp-bbpress'] == 1 ) && function_exists( 'bp_get_current_group_id' ) && function_exists( 'groups_get_groupmeta' ) && function_exists( 'bbp_get_topic_post_type' ) ) {
+    if ( isset( $sd_data['saswp-bbpress'] ) && $sd_data['saswp-bbpress'] == 1 && function_exists( 'bp_get_current_group_id' ) && function_exists( 'groups_get_groupmeta' ) && function_exists( 'bbp_get_topic_post_type' ) ) {
 
         $topic_slug   = '';
         if ( is_object( $wp ) && ! empty( $wp->request ) ) {
