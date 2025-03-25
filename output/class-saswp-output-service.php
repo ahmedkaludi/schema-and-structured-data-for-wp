@@ -3729,7 +3729,7 @@ Class SASWP_Output_Service{
                         if ( ! empty( $custom_fields['saswp_newsarticle_editor_image']) ) {
                             $input1['editor']['Image']['url'] =    $custom_fields['saswp_newsarticle_editor_image'];
                         }
-                    }else if ( empty( $custom_fields['saswp_newsarticle_editor_type'] ) && isset( $input1['editor'] ) ) {
+                    }else if ( isset( $custom_fields['saswp_newsarticle_editor_type'] ) && isset( $input1['editor'] ) ) {
                         unset( $input1['editor'] );
                     }
 
@@ -3756,10 +3756,10 @@ Class SASWP_Output_Service{
                                 $input1['author']['sameAs'] =    $explode_sp;
                             }
                         }
-                    }else if ( empty( $custom_fields['saswp_newsarticle_author_type'] ) && isset( $input1['author'] ) ) {
+                    }else if ( isset( $custom_fields['saswp_newsarticle_author_type'] ) && isset( $input1['author'] ) ) {
                         unset( $input1['author'] );
                     }
-    
+            
                     if ( ! empty( $custom_fields['saswp_newsarticle_about']) && isset($custom_fields['saswp_newsarticle_about']) ) {         
                         $input1['about']['@type'] = 'Event';                   
                         $input1['about']['name'] = explode(',', $custom_fields['saswp_newsarticle_about']);    
