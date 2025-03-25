@@ -1,0 +1,50 @@
+#saswp-lbp-schema-wrapper{
+	position: relative;
+}
+
+#saswp-lbp-heading h3{
+	font-weight: 500;
+	background: #f6f6f6;
+	padding: 5px;
+}
+
+#saswp-lbp-blogs-feed-wrapper:before{
+	content: "";
+    width: 1px;
+    height: 100%;
+    position: absolute;
+    background: hsla(0, 0%, 70%, .6);
+}
+.saswp-lbp-blog-feed{
+	margin-left: 15px;
+}
+.saswp-lbp-blog-heading h4{
+	font-weight: 500;
+	padding: 0px;
+	margin: 0px;
+}
+
+.saswp-lbp-blog-content{
+	font-size: 14px;
+	text-align: justify;
+}
+
+.saswp-lbp-blog-time{
+	font-size: 11px;
+}
+
+.saswp-lbp-blog-feed:before{
+	content: "";
+    width: 15px;
+    height: 15px;
+    background-color: #dc0505;
+    border-radius: 50%;
+    position: absolute;
+    margin-left: -22px;
+    margin-top: 5px;
+}
+
+.saswp-lbp-blog-image img{
+	width: 312px;
+	height: 312px;
+}

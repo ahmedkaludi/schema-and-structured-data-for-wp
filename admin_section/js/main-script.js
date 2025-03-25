@@ -628,6 +628,7 @@ jQuery(document).ready(function($){
            || schematype == 'local_business'
            || schematype == 'Product'
            || schematype == 'Review'
+           || schematype == 'VacationRental'
 
            ){
                         
@@ -761,6 +762,7 @@ jQuery(document).ready(function($){
                || schematype == 'local_business'
                || schematype == 'Product'
                || schematype == 'Review'
+               || schematype == 'VacationRental'
                
                ){
                

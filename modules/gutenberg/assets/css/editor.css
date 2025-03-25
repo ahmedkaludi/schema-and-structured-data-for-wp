@@ -377,3 +377,45 @@ and open the template in the editor.
 /* 
     Recipe Block css ens here
 */
+
+/*
+Live Blog Posting block css starts here
+*/
+.saswp-live-blog-posting-block{
+    padding: 5px;
+    border: 1px solid;
+}
+.saswp-live-blog-posting-update{
+    margin-bottom: 25px;
+    border-bottom: 1px solid;
+    padding-bottom: 15px;
+}
+.saswp-live-blog-posting-block{
+    font-weight: 400;
+}
+.saswp-lbp-field-banner img{
+    width: 40%;
+    
+}
+.saswp-lbp-field-banner .components-button{
+    margin-top: 85px !important;
+}
+.saswp-lbp-field-banner{    
+    min-height: 200px;
+    background: #ccc;
+    text-align: center;    
+    justify-content: center;  
+    align-items: center;    
+}
+.saswp-lbplu-banner-div{
+    width: 25%;
+}
+.saswp-lbplu-banner-div img{
+    width: 85%;
+}
+.saswp-lbplu-banner-div span, .saswp-lbp-banner-div span{
+    float: right;
+}
+/*
+Live Blog Posting block css ends here
+*/

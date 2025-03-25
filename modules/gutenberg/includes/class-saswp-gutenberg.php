@@ -111,6 +111,15 @@ class SASWP_Gutenberg {
                 'local_var'    => 'saswpGutenbergHowTo',
                 'local'        => array()
             ),
+            'liveblogposting' => array(            
+                'handler'      => 'saswp-live-blog-posting-js-reg',                                
+                'block_name'   => 'live-blog-posting',
+                'render_func'  => 'render_live_blog_posting_data',
+                'style'        => 'saswp-g-live-blog-posting-css',
+                'editor'       => 'saswp-gutenberg-css-reg-editor',
+                'local_var'    => 'saswpGutenbergLiveBlogPosting',
+                'local'        => array()
+            ),
         );
 
         /**
@@ -264,6 +273,16 @@ class SASWP_Gutenberg {
                                         wp_enqueue_style(
                                              'saswp-g-howto-css',
                                              SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/howto.css',
+                                             array(),
+                                             SASWP_VERSION                        
+                                        );
+                                        
+                                       }
+                                       if ( isset( $parse_blocks['blockName']) && $parse_blocks['blockName'] === 'saswp/live-blog-posting'){
+                                           
+                                        wp_enqueue_style(
+                                             'saswp-g-live-blog-posting-css',
+                                             SASWP_PLUGIN_URL . '/modules/gutenberg/assets/css/liveblogposting.css',
                                              array(),
                                              SASWP_VERSION                        
                                         );
@@ -855,13 +874,35 @@ class SASWP_Gutenberg {
                 						
 		return ob_get_clean();
 	}
-        /**
-         * Function to register schema blocks category in Gutenberg block's categories list
-         * @param array $categories
-         * @return array
-         * @since version 1.9.7
-         */	        
-        public function add_blocks_categories($categories){
+    
+    /**
+     * Render LiveBlogPosting block on frontend
+     * @param   $attributes array
+     * @since   1.43
+     * */
+    public function render_live_blog_posting_data( $attributes ) {
+
+        ob_start();
+        
+        if ( ! isset( $attributes ) ) {
+            ob_end_clean();
+                                                                       
+            return '';
+        }
+
+        $this->render->live_blog_posting_block_data( $attributes );
+
+        return ob_get_clean();
+
+    }
+
+    /**
+     * Function to register schema blocks category in Gutenberg block's categories list
+     * @param array $categories
+     * @return array
+     * @since version 1.9.7
+     */	        
+    public function add_blocks_categories($categories){
         
         $categories[] = array(
                 'slug'  => 'saswp-blocks',
@@ -872,12 +913,12 @@ class SASWP_Gutenberg {
         
     }    
 	        
-        /**
-         * Return the unique instance 
-         * @return type instance
-         * @since version 1.9.7
-         */
-        public static function get_instance() {
+    /**
+     * Return the unique instance 
+     * @return type instance
+     * @since version 1.9.7
+     */
+    public static function get_instance() {
 		if ( null == self::$instance ) {
 			self::$instance = new self;
 		}

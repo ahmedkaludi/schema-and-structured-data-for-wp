@@ -44,6 +44,7 @@ class SASWP_Output_Compatibility{
            add_filter( 'amp_init', array($this, 'saswp_override_schema_markup'));  
            add_filter( 'wpsso_json_prop_https_schema_org_graph', array($this ,'saswp_exclude_wpsso_schema_graph'), 10, 5 );            
            add_action( 'mv_create_modify_card_style_hooks', array($this, 'saswp_remove_create_mediavine'),100,2);          
+           add_filter( 'wpseo_indexable_forced_included_post_types', array( $this, 'saswp_yoast_index_exclude_saswp_type' ) );         
     }
     
     public function saswp_remove_create_mediavine($attr, $type){
@@ -56,6 +57,21 @@ class SASWP_Output_Compatibility{
          
         return array();
         
+    }
+    
+    /**
+     * Exclude saswp post type from yoast indexing #2262
+     * @param   $post_types     array
+     * @return  $post_types     array
+     * @since   1.43
+     * */
+    public function saswp_yoast_index_exclude_saswp_type( $post_types ) {
+
+        if ( isset( $post_types['saswp'] ) ) {
+            unset($post_types['saswp']);
+        }
+        return $post_types;
+
     }
 
     public function saswp_override_schema_markup() {
@@ -743,6 +759,9 @@ class SASWP_Output_Compatibility{
     }
     public function foogallery_on_activation() {
          $this->saswp_update_option_on_compatibility_activation('saswp-foogallery');
+    }
+    public function foxizcore_on_activation() {
+         $this->saswp_update_option_on_compatibility_activation('saswp-foxizcore');
     }
     /**
      * Functions on compatiblity plugin activation ends here

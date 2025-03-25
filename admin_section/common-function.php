@@ -3410,23 +3410,6 @@ function saswp_admin_notice() {
       <?php 
 
     }
-
-    $user_id      = get_current_user_id();
-    $dismiss_meta = get_user_meta( $user_id, 'amp_enable_dismiss_date' );
-
-    if(!$dismiss_meta && (!isset($sd_data['saswp-for-amp']) ||(isset($sd_data['saswp-for-amp']) &&$sd_data['saswp-for-amp'] == 0)) ){
-
-        ?>
-        <div class="updated notice message notice notice-alt saswp-feedback-notice">
-           <p>
-           <?php echo esc_html__( 'You have disabled schema on AMP.', 'schema-and-structured-data-for-wp' ) ?>
-           &nbsp<a href="<?php echo esc_url( admin_url( 'admin.php?page=structured_data_options&tab=amp' ) ); ?>"> <?php echo esc_html__( 'Enable it', 'schema-and-structured-data-for-wp' ) ?></a>
-           <a notice-type="amp_enable" class="saswp-revws-lnk saswp-dismiss-notices"> <?php echo esc_html__( 'Dismiss', 'schema-and-structured-data-for-wp' ) ?></a>
-         </p>           
-       </div>
-       <?php
-
-    }
             
 }
 
@@ -5282,6 +5265,7 @@ function saswp_is_time_field($time_str){
         || strpos($time_str, 'saswp_course_instance_end_time')               !== false
         || strpos($time_str, 'saswp_lbp_coverage_start_time')                !== false
         || strpos($time_str, 'saswp_lbp_coverage_end_time')                  !== false
+        || strpos($time_str, 'saswp_lbp_lbu_published_time')                  !== false
         ) {
             $response = true;
         }

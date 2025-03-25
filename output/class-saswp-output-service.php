@@ -3729,32 +3729,37 @@ Class SASWP_Output_Service{
                         if ( ! empty( $custom_fields['saswp_newsarticle_editor_image']) ) {
                             $input1['editor']['Image']['url'] =    $custom_fields['saswp_newsarticle_editor_image'];
                         }
+                    }else if ( isset( $custom_fields['saswp_newsarticle_editor_type'] ) && isset( $input1['editor'] ) ) {
+                        unset( $input1['editor'] );
                     }
 
-                    if ( isset( $custom_fields['saswp_newsarticle_author_type']) ) {
+                    if ( ! empty( $custom_fields['saswp_newsarticle_author_type'] ) ) {
                         $input1['author']['@type'] =    $custom_fields['saswp_newsarticle_author_type']; 
-                    }
-                    if ( isset( $custom_fields['saswp_newsarticle_author_name']) ) {
-                        $input1['author']['name'] =    $custom_fields['saswp_newsarticle_author_name']; 
-                    }
-                    if ( isset( $custom_fields['saswp_newsarticle_author_honorific_suffix']) && $custom_fields['saswp_newsarticle_author_honorific_suffix'] != '') {
-                        $input1['author']['honorificSuffix']  =  $custom_fields['saswp_newsarticle_author_honorific_suffix'];
-                    }  
-                    if ( isset( $custom_fields['saswp_newsarticle_author_description']) ) {
-                        $input1['author']['description'] =    $custom_fields['saswp_newsarticle_author_description'];
-                    }
-                    if ( isset( $custom_fields['saswp_newsarticle_author_url']) ) {
-                        $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_newsarticle_author_url']); 
-                    }
-                    if ( isset( $custom_fields['saswp_newsarticle_author_image']) ) {
-                       $input1['author']['Image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
-                    }
-                    if ( isset( $custom_fields['saswp_newsarticle_author_social_profile']) && !empty($custom_fields['saswp_newsarticle_author_social_profile']) ) {
-                        $explode_sp = explode(',', $custom_fields['saswp_newsarticle_author_social_profile']);
-                        if ( is_array( $explode_sp) ) {
-                            $input1['author']['sameAs'] =    $explode_sp;
+                        if ( isset( $custom_fields['saswp_newsarticle_author_name']) ) {
+                            $input1['author']['name'] =    $custom_fields['saswp_newsarticle_author_name']; 
                         }
+                        if ( isset( $custom_fields['saswp_newsarticle_author_honorific_suffix']) && $custom_fields['saswp_newsarticle_author_honorific_suffix'] != '') {
+                            $input1['author']['honorificSuffix']  =  $custom_fields['saswp_newsarticle_author_honorific_suffix'];
+                        }  
+                        if ( isset( $custom_fields['saswp_newsarticle_author_description']) ) {
+                            $input1['author']['description'] =    $custom_fields['saswp_newsarticle_author_description'];
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_author_url']) ) {
+                            $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_newsarticle_author_url']); 
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_author_image']) ) {
+                           $input1['author']['Image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_author_social_profile']) && !empty($custom_fields['saswp_newsarticle_author_social_profile']) ) {
+                            $explode_sp = explode(',', $custom_fields['saswp_newsarticle_author_social_profile']);
+                            if ( is_array( $explode_sp) ) {
+                                $input1['author']['sameAs'] =    $explode_sp;
+                            }
+                        }
+                    }else if ( isset( $custom_fields['saswp_newsarticle_author_type'] ) && isset( $input1['author'] ) ) {
+                        unset( $input1['author'] );
                     }
+            
                     if ( ! empty( $custom_fields['saswp_newsarticle_about']) && isset($custom_fields['saswp_newsarticle_about']) ) {         
                         $input1['about']['@type'] = 'Event';                   
                         $input1['about']['name'] = explode(',', $custom_fields['saswp_newsarticle_about']);    
@@ -8116,14 +8121,44 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_lbp_name'] ) ) {
                         $input1['name']                     =   $custom_fields['saswp_lbp_name'];
                     }
-                    if ( isset( $custom_fields['saswp_lbp_name'] ) ) {
-                        $input1['locationCreated']['@type'] =   'Place';
-                        $input1['locationCreated']['name']  =   $custom_fields['saswp_lbp_place'];
+                    if ( ! empty( $custom_fields['saswp_lbp_about'] ) && is_array( $custom_fields['saswp_lbp_about'] ) ) {
+                        foreach ( $custom_fields['saswp_lbp_about'] as  $about ) {
+                            $input1['about'][]    =     $about;     
+                        }
                     }
+                    $location   =   array();
+
+                    if ( isset( $custom_fields['saswp_lbp_place'] ) ) {
+                        $location['@type']        =   'Place';
+                        $location['name']         =   $custom_fields['saswp_lbp_place'];
+                    }
+                    if ( isset( $custom_fields['saswp_lbp_street_address'] ) || isset( $custom_fields['saswp_lbp_locality'] ) || isset( $custom_fields['saswp_lbp_postal_code'] ) || isset( $custom_fields['saswp_lbp_region'] ) ) {
+                        $location['address']['@type']                     =   'PostalAddress';
+                        if ( isset( $custom_fields['saswp_lbp_street_address'] ) ) {      
+                            $location['address']['streetAddress']        =   $custom_fields['saswp_lbp_street_address'];
+                        }
+                        if ( isset( $custom_fields['saswp_lbp_locality'] ) ) {      
+                            $location['address']['addressLocality']     =   $custom_fields['saswp_lbp_locality'];
+                        }
+                        if ( isset( $custom_fields['saswp_lbp_postal_code'] ) ) {      
+                            $location['address']['postalCode']         =   $custom_fields['saswp_lbp_postal_code'];
+                        }
+                        if ( isset( $custom_fields['saswp_lbp_region'] ) ) {      
+                            $location['address']['addressRegion']     =   $custom_fields['saswp_lbp_region'];
+                        }
+                        if ( isset( $custom_fields['saswp_lbp_country'] ) ) {      
+                            $location['address']['addressCountry']['@type']     =   'Country';
+                            $location['address']['addressCountry']['name ']         =   $custom_fields['saswp_lbp_country'];
+                        }     
+                    }
+                    
                     if ( ! empty( $custom_fields['saswp_lbp_name'] ) || ! empty( $custom_fields['saswp_lbp_start_date'] ) ) {
                         $input1['about']['@type']           =   'Event';   
                         if ( ! empty( $custom_fields['saswp_lbp_name'] ) ) {
                             $input1['about']['name']        =   $custom_fields['saswp_lbp_name'];
+                        }
+                        if ( ! empty( $location ) ) {
+                            $input1['about']['location']    =   $location;
                         }
                         if ( ! empty( $custom_fields['saswp_lbp_start_date'] ) ) {
                             $input1['about']['startDate']   =   $custom_fields['saswp_lbp_start_date'];
@@ -9179,7 +9214,7 @@ Class SASWP_Output_Service{
                     $input1['keywords']                         = $webp_keywords;
 
                     // If sub schema type is set then add selected schema type to mainentity
-                    if( $sub_schema_type != 'none' ) {
+                    if( ! empty( $sub_schema_type ) && $sub_schema_type != 'none' ) {
     				    $input1['mainEntity']['@type']              = $sub_schema_type;
                         $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
     					$input1['mainEntity']['headline']		    = saswp_get_the_title();
@@ -9471,7 +9506,10 @@ Class SASWP_Output_Service{
                 $multiple_size = true;
             }
 
-            $image_id 	            = get_post_thumbnail_id();
+            $image_id 	            = '';
+            if ( ! is_category() || ! is_archive() || ! is_tax() ) {
+                $image_id               = get_post_thumbnail_id();
+            }
             
             if(empty($saswp_featured_image[$image_id]) ) {
                                 

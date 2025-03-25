@@ -11641,11 +11641,47 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => is_object($post) ? $post->post_excerpt : ''
                             ),
                         array(
+                                'label'   => 'About',
+                                'id'      => 'saswp_lbp_about_'.$schema_id,
+                                'type'    => 'text',
+                                'is_template_attr' => 'yes',
+                            ),
+                        array(
                             'label' => 'Headline',
                             'id' => 'saswp_lbp_headline_'.$schema_id,
                             'type' => 'text',
                             'default'=> saswp_get_the_title()
                         ),
+                        array(
+                                'label'   => 'Place Name',
+                                'id'      => 'saswp_lbp_place_'.$schema_id,
+                                'type'    => 'text',
+                            ),
+                        array(
+                                'label'   => 'Street Address',
+                                'id'      => 'saswp_lbp_street_address_'.$schema_id,
+                                'type'    => 'text',
+                            ),
+                        array(
+                                'label'   => 'Locality',
+                                'id'      => 'saswp_lbp_locality_'.$schema_id,
+                                'type'    => 'text',
+                            ),
+                        array(
+                                'label'   => 'Postal Code',
+                                'id'      => 'saswp_lbp_postal_code_'.$schema_id,
+                                'type'    => 'text',
+                            ),
+                        array(
+                                'label'   => 'Region',
+                                'id'      => 'saswp_lbp_region_'.$schema_id,
+                                'type'    => 'text',
+                            ),
+                        array(
+                                'label'   => 'Country',
+                                'id'      => 'saswp_lbp_country_'.$schema_id,
+                                'type'    => 'text',
+                            ),
                         array(
                                 'label'   => 'Start Date',
                                 'id'      => 'saswp_lbp_start_date_'.$schema_id,
@@ -11685,11 +11721,6 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'      => 'saswp_lbp_live_blog_update_'.$schema_id,
                                 'type'    => 'text',
                                 'is_template_attr' => 'yes', 
-                            ),
-                        array(
-                                'label'   => 'Location',
-                                'id'      => 'saswp_lbp_place_'.$schema_id,
-                                'type'    => 'text',
                             ),
                     );
 

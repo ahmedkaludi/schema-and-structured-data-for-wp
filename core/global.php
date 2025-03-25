@@ -29,7 +29,8 @@ $with_aggregate = array(
         'Organization', 
         'project',                  
         'Product',              
-        'ProductGroup'              
+        'ProductGroup',
+        'VacationRental',              
 );
 $without_aggregate = array(
         'Apartment',
@@ -82,7 +83,6 @@ $without_aggregate = array(
         'SpecialAnnouncement',
         'Service',
         'TouristTrip',
-        'VacationRental',
         'LearningResource',
         'LiveBlogPosting',
         'ImageGallery',

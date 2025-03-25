@@ -231,6 +231,7 @@ function saswp_get_all_schema_markup_output() {
         $gutenberg_qanda          = array();
         $elementor_qanda          = array();
         $gutenberg_faq            = array();
+        $live_blog_posting        = array();
         $elementor_faq            = array();
         $elementor_howto          = array();
         $divi_builder_faq         = array();
@@ -256,6 +257,7 @@ function saswp_get_all_schema_markup_output() {
             $tinymce_how_to           = saswp_tinymce_how_to_schema();
             $gutenberg_recipe         = saswp_gutenberg_recipe_schema(); 
             $gutenberg_faq            = saswp_gutenberg_faq_schema();        
+            $live_blog_posting        = saswp_gutenberg_live_blog_posting_schema();        
 
         }        
         $taqeem_schema            = saswp_taqyeem_review_rich_snippet(); 
@@ -416,6 +418,12 @@ function saswp_get_all_schema_markup_output() {
                         if ( ! empty( $gutenberg_faq) ) {
                         
                             $output .= saswp_json_print_format($gutenberg_faq);   
+                            $output .= ",";
+                            $output .= "\n\n";
+                        }
+                        if ( ! empty( $live_blog_posting) ) {
+                        
+                            $output .= saswp_json_print_format( $live_blog_posting );   
                             $output .= ",";
                             $output .= "\n\n";
                         }
@@ -1322,8 +1330,14 @@ function saswp_get_comments($post_id){
     
     $is_bbpress = false;
     
-    if ( isset( $sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 && get_post_type($post_id) == 'topic'){
-        $is_bbpress = true;
+    if ( isset( $sd_data['saswp-bbpress']) && $sd_data['saswp-bbpress'] == 1 ){
+        global $saswp_bb_topic;
+        if ( is_object( $saswp_bb_topic ) && ! empty( $saswp_bb_topic->ID ) ) {
+            $post_id    =   $saswp_bb_topic->ID;
+        }
+        if ( get_post_type( $post_id ) == 'topic' ) {
+            $is_bbpress = true;
+        }
     }
    
     if($is_bbpress){  
@@ -1341,6 +1355,7 @@ function saswp_get_comments($post_id){
                                     'comment_content'        => bbp_get_reply_content(),
                                     'comment_author'         => bbp_get_reply_author(),
                                     'comment_author_url'     => bbp_get_reply_author_url(),
+                                    'comment_ID'             => bbp_get_reply_id(),
                     );
                                                                                  
             endwhile;
@@ -3669,4 +3684,155 @@ function saswp_global_custom_schema_option() {
         return false;
         
     } 
+}
+
+/**
+ * Modify the $post variable and assign the buddypress group topic object to $post variable
+ * as schema is not getting displayed on a buddypress group assigned topic to tackle this this filter
+ * is written #2256
+ * @param   $post   WP_Post
+ * @return  $post   WP_Post
+ * @since   1.43
+ * */
+add_filter( 'saswp_modify_bbpress_group_topic_object', 'saswp_modify_bbpress_group_topic_object_clbk' );
+function saswp_modify_bbpress_group_topic_object_clbk( $post ) {
+    
+    global $sd_data, $wp, $saswp_bb_topic;
+    if ( isset( $sd_data['saswp-bbpress'] ) && $sd_data['saswp-bbpress'] == 1 && function_exists( 'bp_get_current_group_id' ) && function_exists( 'groups_get_groupmeta' ) && function_exists( 'bbp_get_topic_post_type' ) ) {
+
+        $topic_slug   = '';
+        if ( is_object( $wp ) && ! empty( $wp->request ) ) {
+            $topic_slug   = explode( '/', $wp->request );
+            $topic_slug   = trim( end( $topic_slug ) );
+        }
+                  
+        $bp_group_id  =   bp_get_current_group_id();
+        if ( $bp_group_id > 0 && ! empty( $topic_slug ) ) {
+            $forum_ids    =   groups_get_groupmeta( $bp_group_id, 'forum_id', true );
+
+            if ( ! empty( $forum_ids ) && is_array( $forum_ids ) ) {
+
+                foreach ( $forum_ids as $forum_id) {
+
+                    if ( $forum_id > 0 ) {
+
+                        // Get all topics under that forum
+                        $args = array(
+                            'post_type'      => bbp_get_topic_post_type(),
+                            'post_parent'    => $forum_id,
+                            'posts_per_page' => -1,
+                            'fields'         => 'ids', // Only get IDs
+                        );
+
+                        $topics = get_posts( $args );
+
+                        if ( ! empty( $topics ) && is_array( $topics ) ) {
+                            
+                            foreach ( $topics as $topic_id ) {
+                              $topic_post   =  get_post( $topic_id );
+                              if ( is_object( $topic_post ) && ! empty( $topic_post->post_name ) && $topic_slug == $topic_post->post_name ) {
+                                $post       = $topic_post;
+                                $saswp_bb_topic = $post;
+                                break;
+                              }
+
+                            }
+                          
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    return $post;
+}
+
+/**
+ * Modify the buddypress group topic id
+ * @param   $bbp_topic_id   integer
+ * @param   $topic_id       integer
+ * @return  $bbp_topic_id   integer
+ * @since   1.43
+ * */
+add_filter( 'bbp_get_topic_id', 'saswp_modify_bb_topic_id', 10, 2 );
+function saswp_modify_bb_topic_id( $bbp_topic_id, $topic_id ) {
+
+    global $saswp_bb_topic, $sd_data;
+
+    if ( ! empty( $sd_data['saswp-bbpress'] ) &&  is_object( $saswp_bb_topic ) && ! empty( $saswp_bb_topic->ID ) && $bbp_topic_id == 0 && $topic_id == 0 ) {
+        $bbp_topic_id = $saswp_bb_topic->ID;
+    }
+    return $bbp_topic_id;
+
+}
+
+/**
+ * Modify the discussion forum schema on Buddypress group topic
+ * @param   $input1     array
+ * @return  $input1     array
+ * @since   1.43
+ * */
+add_filter( 'saswp_modify_d_forum_posting_schema_output', 'saswp_modify_bbpress_group_topic_markup' );
+function saswp_modify_bbpress_group_topic_markup( $input1 ){
+    
+    global $saswp_bb_topic, $sd_data;    
+    if ( ! empty( $sd_data['saswp-bbpress'] == 1 ) && is_object( $saswp_bb_topic ) && ! empty( $saswp_bb_topic->post_content ) ) {
+
+        $excerpt        =   wp_strip_all_tags(strip_shortcodes( $saswp_bb_topic->post_content ) ); 
+        $excerpt        =   preg_replace( '/\[.*?\]/','', $excerpt );
+
+        $content        =   wp_strip_all_tags( $saswp_bb_topic->post_content );   
+        $content        =   preg_replace( '/\[.*?\]/','', $content );            
+        $content        =   str_replace( '=', '', $content ); 
+        $content        =   str_replace( array("\n","\r\n","\r" ), ' ', $content );
+
+        $author_name    =   '';
+        $author_url     =   '';
+        if ( empty( $input1['author']['name'] ) ) {
+            $input1['author']['name']    =   get_the_author_meta( 'display_name', $saswp_bb_topic->post_author );
+        }
+        if ( empty( $input1['author']['url'] ) ) {
+            $input1['author']['url']     =   get_the_author_meta( 'user_url', $saswp_bb_topic->post_author );
+        }
+        
+        $input1['description']      =   $excerpt;
+        $input1['articleSection']   =   isset( $saswp_bb_topic->post_title ) ? $saswp_bb_topic->post_title : $input1['articleSection'];  
+        $input1['articleBody']      =   $content;
+        $input1['datePublished']    =   get_post_time( DATE_ATOM, false, $saswp_bb_topic->ID , true );
+        $input1['dateModified']     =   get_the_modified_date( "c", $saswp_bb_topic->ID );
+
+        if ( ! empty( $input1['comment'] ) && is_array( $input1['comment'] ) ) {
+
+            foreach ( $input1['comment'] as $key => $comment ) {
+
+                if ( isset( $comment['id'] ) && ! filter_var( $comment['id'], FILTER_VALIDATE_URL ) ) {
+                    
+                    $comment_id     =   bbp_get_topic_permalink() . $comment['id'];
+                    $comment_id     =   str_replace( '#comment-', '#post-', $comment_id );
+                    $input1['comment'][$key]['id']  =   $comment_id;
+                    if ( isset( $comment['description'] ) ) {
+                        $input1['comment'][$key]['text']    =   $comment['description'];
+                    }
+
+                    if ( isset( $comment['author']['url'] ) ) {
+                        $reply_id   =   explode( '#post-', $comment_id );
+                        if ( is_array( $reply_id ) && ! empty( $reply_id[1] ) && $reply_id[1] > 0 ) {
+                            $input1['comment'][$key]['author']['url']   =   bbp_get_reply_author_url( $reply_id[1] );
+                        }    
+                    }
+                    
+                }
+
+            }
+
+        }
+
+    }
+
+    return $input1;
+
 }
