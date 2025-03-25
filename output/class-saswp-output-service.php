@@ -9506,7 +9506,10 @@ Class SASWP_Output_Service{
                 $multiple_size = true;
             }
 
-            $image_id 	            = get_post_thumbnail_id();
+            $image_id 	            = '';
+            if ( ! is_category() || ! is_archive() || ! is_tax() ) {
+                $image_id               = get_post_thumbnail_id();
+            }
             
             if(empty($saswp_featured_image[$image_id]) ) {
                                 
