@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 1.42
+Stable tag: 1.43
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -83,6 +83,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * LiveBlogPosting
 * ImageGallery
 * MediaGallery
+* VacationalRental
 * [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions
@@ -125,6 +126,19 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.43 (25 March 2025) =
+* Enhancement: Improvement in VacationRental schema properties #2109
+* Enhancement: Featured image of the latest article is automatically fetched in the NewsMediaOrganization schema #2214
+* Enhancement: Featured image of the latest article is automatically fetched in the NewsMediaOrganization schema #2214
+* Feature: DiscussionForumPosting Schema compatibility with BBPress Forum Within BuddyPress Group #2256
+* Fixed: Conflict with Yoast Seo helper #2262
+* Feature: Added a Gutenberg Block for LiveBlogPosting schema Update #2264
+* Fixed: LiveBlogPosting URL parameter placement issue #2265
+* Enhancement: Improvement in LiveBlogPosting schema properties #2266
+* Enhancement: Added time property LiveBlog Update in LiveBlogPosting schema #2269
+* Fixed: Location property issue in LiveBlogPosting #2270
+* Fixed: Improvement in global modification for author and editor for NewsArticle schema #2275
 
 = 1.42 (6 March 2025) =
 * Fixed: Resolved issue with Airbnb Rooms platform reviews #2179
@@ -277,18 +291,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: PHP Warning on schema settings Review tab #2095
 * Fixed: Test with new version of wordpress i.e. 6.5v #2096
 * Fixed: Issue with Import/export option #2098
-
-= 1.28 (29 Feb 2024) =
-
-* Enhancement: Implemented new LearningResource schema type #1789
-* Enhancement: Implemented new Vacationrental schema type #2068
-* Enhancement: Remove articleBody property from schema markup when it is empty #2070
-* Fixed: Resolved problem with DOM after filling data in the product schema #2073
-* Fixed: Added field "@id" in itemlist #2074
-* Fixed: Ratingbox Warning that appeared after latest update #2079
-* Enhacement: Author url is missing in QandA schema #2081
-* Fixed: Q&A Schema is not getting enabled and disabled on post page #2082
-* Fixed: Custom Schema markup breakage #2083
-* Fixed: Review collection PHP error on the user end  #2084
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
