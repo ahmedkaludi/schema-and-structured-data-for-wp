@@ -556,28 +556,46 @@ class SASWP_Gutenberg_Render {
                     ?>
                         <div class="saswp-lbp-blog-feed">
                             <?php 
-                            if ( ! empty( $blog_update['image_url'] ) ) { ?>
-                                <div class="saswp-lbp-blog-image">
-                                    <img src="<?php echo esc_attr( $blog_update['image_url'] ); ?>">
-                                </div>
-                             <?php } 
                             if ( ! empty( $blog_update['date'] ) ) { ?>
                                 <div class="saswp-lbp-blog-time">
-                                <?php
-                                $date   =   new DateTime( $blog_update['date'] );
-                                $date   =   $date->format( 'F j, Y \a\t g:i A' );
-                                ?>
-                                <p><?php echo esc_html( $date ); ?></p>
+                                    <?php
+                                    $date = new DateTime( $blog_update['date'] );
+                                    $date = $date->format( 'F j, Y \a\t g:i A' );
+                                    ?>
+                                    <time><?php echo esc_html( $date ); ?></time>
                                 </div>
                             <?php } ?>
+                         
                             <div class="saswp-lbp-blog-heading">
-                                <h4><?php echo esc_html__( $blog_update['headline'] ); ?></h4>
+                                <h3><?php echo esc_html( $blog_update['headline'] ); ?></h3>
                             </div>
-
+                         
                             <div class="saswp-lbp-blog-content">
                                 <p><?php echo wp_kses( $blog_update['body'], wp_kses_allowed_html('post') ); ?></p>
                             </div>
-                        </div> <!-- saswp-lbp-blogs-content -->
+                         
+                            <?php 
+                            if ( ! empty( $blog_update['image_url'] ) ) {
+                         
+                                // Get the attachment ID from the image URL
+                                $image_id       =   attachment_url_to_postid( $blog_update['image_url'] );
+                         
+                                // Get the image caption and alt text from the media library
+                                $image_caption  =   get_post_field( 'post_excerpt', $image_id ); // Image caption
+                                $image_alt      =   get_post_meta( $image_id, '_wp_attachment_image_alt', true ); // Image alt text
+                         
+                                // Get the image using wp_get_attachment_image() for proper alignment and attributes
+                                $image          =   wp_get_attachment_image( $image_id, 'full', false, array('alt' => $image_alt) );
+                         
+                                ?>
+                                <div class="saswp-lbp-blog-image">
+                                    <?php echo $image; ?>
+                                    <?php if ( ! empty( $image_caption ) ) : ?>
+                                        <figcaption><?php echo esc_html( $image_caption ); ?></figcaption>
+                                    <?php endif; ?>
+                                </div>
+                            <?php } ?>
+                        </div>
                     <?php    
                     }
                 }
