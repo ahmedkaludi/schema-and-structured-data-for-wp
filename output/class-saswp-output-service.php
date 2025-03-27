@@ -5784,6 +5784,30 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_product_schema_seller']) ) {
                      $input1['offers']['seller']['@type']         =    'Organization';
                      $input1['offers']['seller']['name']          =    $custom_fields['saswp_product_schema_seller'];
+
+                     if ( isset( $custom_fields['saswp_product_schema_seller_street_address'] ) || isset( $custom_fields['saswp_product_schema_seller_locality'] ) || isset( $custom_fields['saswp_product_schema_seller_region'] ) || isset( $custom_fields['saswp_product_schema_seller_postalcode'] ) || isset( $custom_fields['saswp_product_schema_seller_country'] ) ) {
+
+                        $input1['offers']['seller']['address']['@type']                 =   'PostalAddress';
+                        if ( isset( $custom_fields['saswp_product_schema_seller_street_address'] ) ) {
+                            $input1['offers']['seller']['address']['streetAddress']     =   $custom_fields['saswp_product_schema_seller_street_address'];
+                        }
+                        if ( isset( $custom_fields['saswp_product_schema_seller_locality'] ) ) {
+                            $input1['offers']['seller']['address']['addressLocality']   =   $custom_fields['saswp_product_schema_seller_locality'];
+                        }
+                        if ( isset( $custom_fields['saswp_product_schema_seller_region'] ) ) {
+                            $input1['offers']['seller']['address']['addressRegion']     =   $custom_fields['saswp_product_schema_seller_region'];
+                        }
+                        if ( isset( $custom_fields['saswp_product_schema_seller_postalcode'] ) ) {
+                            $input1['offers']['seller']['address']['postalCode']        =   $custom_fields['saswp_product_schema_seller_postalcode'];
+                        }
+                        if ( isset( $custom_fields['saswp_product_schema_seller_country'] ) ) {
+                            $input1['offers']['seller']['address']['addressCountry']    =   $custom_fields['saswp_product_schema_seller_country'];
+                        }
+                        if ( isset( $custom_fields['saswp_product_schema_seller_telephone'] ) ) {
+                            $input1['offers']['seller']['telephone']                    =   $custom_fields['saswp_product_schema_seller_telephone'];
+                        }
+                     }
+
                     }
 
                     if( isset($custom_fields['saswp_product_schema_high_price']) && isset($custom_fields['saswp_product_schema_low_price']) ){

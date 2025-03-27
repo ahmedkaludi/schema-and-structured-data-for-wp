@@ -6332,6 +6332,36 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'  => 'text',                             
                        ),
                        array(
+                                'label'      => 'Seller Street Address',
+                                'id'         => 'saswp_product_schema_seller_street_address_'.$schema_id,
+                                'type'       => 'text',                             
+                        ),
+                        array(
+                                'label'      => 'Seller Locality',
+                                'id'         => 'saswp_product_schema_seller_locality_'.$schema_id,
+                                'type'       => 'text',                             
+                        ),
+                        array(
+                                'label'      => 'Seller Region',
+                                'id'         => 'saswp_product_schema_seller_region_'.$schema_id,
+                                'type'       => 'text',                             
+                        ),
+                        array(
+                                'label'      => 'Seller Postal Code',
+                                'id'         => 'saswp_product_schema_seller_postalcode_'.$schema_id,
+                                'type'       => 'text',                             
+                        ),
+                        array(
+                                'label'      => 'Seller Country',
+                                'id'         => 'saswp_product_schema_seller_country_'.$schema_id,
+                                'type'       => 'text',                             
+                        ),
+                        array(
+                                'label'      => 'Seller Telephone',
+                                'id'         => 'saswp_product_schema_seller_telephone_'.$schema_id,
+                                'type'       => 'text',                             
+                        ), 
+                       array(
                         'label' => 'Additional Type',
                         'id'    => 'saswp_product_additional_type_'.$schema_id,
                         'type'  => 'text',                             

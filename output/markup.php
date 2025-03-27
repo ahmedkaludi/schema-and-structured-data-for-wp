@@ -1382,7 +1382,31 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
 
                 if ( isset( $all_post_meta['saswp_product_schema_seller_'.$schema_id]) ) {
                     $input1['offers']['seller']['@type']   = 'Organization';
-                    $input1['offers']['seller']['name']    = esc_attr( $all_post_meta['saswp_product_schema_seller_'.$schema_id][0]);  
+                    $input1['offers']['seller']['name']    = esc_attr( $all_post_meta['saswp_product_schema_seller_'.$schema_id][0]); 
+
+                    if ( ( isset( $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id][0] ) ) || ( isset( $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_locality_'.$schema_id][0]  ) ) || ( isset( $all_post_meta['saswp_product_schema_seller_region_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_region_'.$schema_id][0]  ) ) || ( isset( $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id][0] ) ) || ( isset( $all_post_meta['saswp_product_schema_seller_country_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_country_'.$schema_id][0] ) ) ) {
+                        
+                        $input1['offers']['seller']['address']['@type']                 =   'PostalAddress';
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id][0] ) ) {
+                            $input1['offers']['seller']['address']['streetAddress']     =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_street_address_'.$schema_id, 'saswp_array' );
+                        }
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id][0] ) ) {
+                            $input1['offers']['seller']['address']['addressLocality']   =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_locality_'.$schema_id, 'saswp_array' );
+                        }
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_region_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_region_'.$schema_id][0] ) ) {
+                            $input1['offers']['seller']['address']['addressRegion']     =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_region_'.$schema_id, 'saswp_array' );
+                        }
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id][0] ) ) {
+                            $input1['offers']['seller']['address']['postalCode']        =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_postalcode_'.$schema_id, 'saswp_array' );
+                        }
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_country_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_country_'.$schema_id][0] ) ) {
+                            $input1['offers']['seller']['address']['addressCountry']    =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_country_'.$schema_id, 'saswp_array' );
+                        }
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_telephone_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_telephone_'.$schema_id][0] ) ) {
+                            $input1['offers']['seller']['telephone']                    =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_telephone_'.$schema_id, 'saswp_array' );
+                        }
+                    }
+
                 }
 
                 if ( isset( $all_post_meta['saswp_product_schema_vat_'.$schema_id]) ) {
