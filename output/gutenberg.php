@@ -1330,16 +1330,17 @@ function saswp_gutenberg_live_blog_posting_schema() {
         $input1['@type']                =   'LiveBlogPosting';
         $input1['@id']                  =   saswp_get_permalink().'#LiveBlogPosting'; 
         $input1['url']                  =   saswp_get_permalink();                               
-        $input1['headline']             =   isset( $attributes['attrs']['headline'] ) ? $attributes['attrs']['headline'] : '';
-        $input1['description']          =   isset( $attributes['attrs']['description'] ) ? $attributes['attrs']['description'] : '';
+        $input1['headline']             =   saswp_get_the_title();
+        $input1['description']          =   saswp_get_the_excerpt();
         $input1['datePublished']        =   esc_html( $date);
         $input1['dateModified']         =   esc_html( $modified_date );
 
-        if ( ! empty( $attributes['attrs']['banner_id'] > 0 ) ) {
-            $thumbnail_url              =   saswp_get_image_by_id( $attributes['attrs']['banner_id'] );
+        $thumb_id                       =   get_post_thumbnail_id();
+        if ( $thumb_id > 0 ) {
+            $thumbnail_url              =   saswp_get_image_by_id( $thumb_id );
             $input1['image']            =   $thumbnail_url;
         }
-
+        
         $location   =   array();
 
         if ( isset( $attributes['attrs']['locationname'] ) ) {
@@ -1374,12 +1375,7 @@ function saswp_gutenberg_live_blog_posting_schema() {
             if ( ! empty( $location ) ) {
                 $input1['about']['location']    =   $location;
             }
-            if ( ! empty( $attributes['attrs']['start_date_iso'] ) ) {
-                $date   =   explode( 'T', $attributes['attrs']['start_date_iso'] );
-                if ( is_array( $date ) && ! empty( $date[0] ) && ! empty( $date[1] ) ) {
-                    $input1['about']['startDate']   =   saswp_format_date_time( $date[0], $date[1] );
-                }   
-            }           
+            $input1['about']['startDate']   =   esc_html( $date );          
         }
 
         if ( ! empty( $attributes['attrs']['coverage_start_date_iso'] ) ) {

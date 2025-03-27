@@ -23,18 +23,6 @@
             name: {
                   type: 'string',                  
             },
-            description: {
-                  type: 'string',                  
-            },
-            headline: {
-                  type: 'string',                  
-            },
-            banner_id: {
-                  type: 'integer'                  
-            },
-            banner_url: {
-                  type: 'string'                  
-            },
             locationname: {
                   type: 'string',                  
             },
@@ -117,42 +105,6 @@
 
             const attributes = props.attributes;
 
-            var start_date_div = el( 'div', {},
-                el('span',{className:'saswp-live-blog-posting-date-fields'},
-                    el(TextControl,{            
-                        className:'saswp-live-blog-posting-start-date',
-                        label: __( 'Start Date', 'schema-and-structured-data-for-wp' ),
-                        value : attributes.start_date,
-                        onClick:function(){
-                            props.setAttributes( { start_date_toggle: true } );   
-                        }            
-                    })            
-                ),
-                attributes.start_date_toggle ? 
-                el(
-                    Popover,{
-                        class:'saswp-calender-popover',
-                        position: 'bottom',
-                        onClose: function(){
-                           props.setAttributes( { start_date_toggle: false } );     
-                        }
-                    },
-                    el(DateTimePicker,{
-                        currentDate: attributes.start_date_iso,                 
-                        is12Hour : true,
-                        onChange: function(value){
-                          attributes.start_date_iso = value;
-                          var newDate = moment(value).format('YYYY-MM-DD'); 
-                          var newTime = moment(value).format('h:mm:ss a');
-                          var fullDateTime =  newDate + ' ' + newTime;
-                           props.setAttributes( { start_date: fullDateTime } ); 
-                         
-                        }
-                    })
-                ) 
-                : ''
-            );
-
             var coverage_start_date_div = el( 'div', {},
                 el('span',{className:'saswp-live-blog-posting-date-fields'},
                     el(TextControl,{            
@@ -223,43 +175,6 @@
                     })
                 ) 
                 : ''
-            );
-
-            var banner_section = el('div',{
-                  className: 'saswp-lbp-field-banner'
-                },
-
-                attributes.banner_url ? 
-                el('div',{className:'saswp-lbp-banner-div'},
-                  el('span',{
-                    className:'dashicons dashicons-trash',
-                    onClick: function(){
-                      props.setAttributes( { banner_id: null, banner_url: '' } );
-                    }
-                  }),
-                  el('img',{
-                    src: attributes.banner_url,
-                  })
-                )
-            
-                :                         
-                el(
-                    MediaUpload,{
-                      onSelect: function(media){  
-                        props.setAttributes( { banner_id: media.id, banner_url: media.url } );
-                      },
-                      allowedTypes:[ "image" ],
-                      value: attributes.banner_id,
-                      render:function(obj){
-                            return el( Button, {                         
-                                 className: 'button button-primary',            
-                                 onClick: obj.open
-                               },
-                             __('Add Image', 'schema-and-structured-data-for-wp')
-                         )
-                        }
-                    },
-                )
             );
 
             var blog_update_loop =  attributes.blog_update.sort(function(a, b){
@@ -432,7 +347,6 @@
                 el(
                     'div',
                     { className: 'saswp-live-blog-posting-block' },
-                    banner_section,
                     el( TextControl, {
                           className:'saswp-live-blog-posting-name',
                           placeholder: __( 'Enter blog name', 'schema-and-structured-data-for-wp' ), 
@@ -442,26 +356,6 @@
                               props.setAttributes( { name: newContent } );
                           }
                     }),
-                    el( RichText, {
-                          tagName: 'p', 
-                          className:'saswp-live-blog-posting-description',
-                          placeholder: __('Enter blog description', 'schema-and-structured-data-for-wp'), 
-                          label: __( 'Description', 'schema-and-structured-data-for-wp' ),
-                          value: attributes.description,
-                          onChange: function( newContent ) {                                
-                              props.setAttributes( { description: newContent } );
-                          }
-                    }),
-                    el( TextControl, {
-                          className:'saswp-live-blog-posting-headline',
-                          placeholder: __('Enter blog headline', 'schema-and-structured-data-for-wp'), 
-                          label: __( 'Headline', 'schema-and-structured-data-for-wp' ),
-                          value: attributes.headline,
-                          onChange: function( newContent ) {                                
-                              props.setAttributes( { headline: newContent } );
-                          }
-                    }),
-                    start_date_div,
                     el( TextControl, {
                           className:'saswp-live-blog-posting-locationname',
                           placeholder: __('Enter location name', 'schema-and-structured-data-for-wp'), 
