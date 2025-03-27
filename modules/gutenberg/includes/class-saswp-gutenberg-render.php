@@ -552,7 +552,8 @@ class SASWP_Gutenberg_Render {
 
                 <?php 
                 if ( ! empty( $attributes['blog_update'] ) && is_array( $attributes['blog_update'] ) ) {
-                    foreach ( $attributes['blog_update'] as $blog_update ) {                            
+                    $blog_updates   =   array_reverse( $attributes['blog_update'] );
+                    foreach ( $blog_updates as $blog_update ) {                            
                     ?>
                         <div class="saswp-lbp-blog-feed">
                             <?php 
