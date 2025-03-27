@@ -72,7 +72,7 @@
                 type: 'string'                
             },
             blog_update: {                     
-              default: [{index: 0, headline: '', date: '', body: '', image_id: null, image_url: ''}],              
+              default: [{index: 0, headline: '', date: '', date_toggle: false, date_iso: '', body: '', image_id: null, image_url: ''}],              
               query: {
                 index: {            
                   type: 'number',                  
@@ -87,6 +87,13 @@
                 },
                 date: {
                   type: 'string'                                    
+                },
+                date_toggle: {
+                    type: 'boolean',
+                    default: false
+                },
+                date_iso: {
+                    type: 'string'                
                 },
                 body: {
                   type: 'string'                                    
@@ -145,7 +152,7 @@
                 el('span',{className:'saswp-live-blog-posting-date-fields'},
                     el(TextControl,{            
                         className:'saswp-live-blog-posting-cover-start-date',
-                        label: __( 'Coverage Start Date', 'schema-and-structured-data-for-wp' ),
+                        label: __( 'Coverage End Date', 'schema-and-structured-data-for-wp' ),
                         value : attributes.coverage_end_date,
                         onClick:function(){
                             props.setAttributes( { coverage_end_date_toggle: true } );   
@@ -181,6 +188,57 @@
                 return a.index - b.index;            
             }).map(function(item){
                 
+                var date_div = el( 'div', {},
+                    el('span',{className:'saswp-live-blog-posting-date-fields'},
+                        el(TextControl,{            
+                            className:'saswp-live-blog-posting-cover-start-date',
+                            label: __( 'Date', 'schema-and-structured-data-for-wp' ),
+                            value : item.date,
+                            onClick: function( ) {                            
+                                var newObject = Object.assign({}, item, {
+                                  date_toggle: true,
+                                });
+                                saswp_lbp_on_item_change(newObject, item, 'blog_update');                            
+                            },
+                            onChange: function(value) { // Properly update the date value
+                                var newObject = Object.assign({}, item, {
+                                    date: value
+                                });
+                                saswp_lbp_on_item_change(newObject, item, 'blog_update');
+                            }           
+                        })            
+                    ),
+                    item.date_toggle ? 
+                    el(
+                        Popover,{
+                            class:'saswp-calender-popover',
+                            position: 'bottom',
+                            onClose: function( value ) {                                
+                                var newObject = Object.assign({}, item, {
+                                  date_toggle: false
+                                });
+                                saswp_lbp_on_item_change(newObject, item, 'blog_update');                            
+                            }
+                        },
+                        el(DateTimePicker,{
+                            currentDate: item.date_iso,                 
+                            is12Hour : true,
+                            onChange: function(value){
+                                item.date_iso = value;
+                                var newDate = moment(value).format('YYYY-MM-DD'); 
+                                var newTime = moment(value).format('h:mm:ss a');
+                                var fullDateTime =  newDate + ' ' + newTime;
+                                var newObject = Object.assign({}, item, {
+                                  date: fullDateTime
+                                });
+                                saswp_lbp_on_item_change(newObject, item, 'blog_update'); 
+                             
+                            }
+                        })
+                    ) 
+                    : ''
+                );
+
                 return el('fieldset',{className:'saswp-live-blog-posting-update-fieldset'},el('div',{className:'saswp-live-blog-posting-update'},
                     el(IconButton,{
                     icon:'trash',
@@ -192,17 +250,7 @@
                             saswpRemoveRepeater(oldItems, fieldname, item);                                        
                         }    
                     }),
-                    el(TextControl,{
-                        label:__('Date', 'schema-and-structured-data-for-wp'), 
-                        placeholder: __( 'YYYY-MM-DD', 'schema-and-structured-data-for-wp' ),   
-                        value: item.date,
-                        onChange: function( value ) {                                
-                                var newObject = Object.assign({}, item, {
-                                  date: value
-                                });
-                                saswp_lbp_on_item_change(newObject, item, 'blog_update');                            
-                          }   
-                    }),
+                    date_div,
                     el(TextControl,{
                         label:__('Headline', 'schema-and-structured-data-for-wp'),    
                         placeholder: __( 'Enter headline', 'schema-and-structured-data-for-wp' ),
