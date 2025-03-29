@@ -11841,6 +11841,418 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     );
 
                     break;
+
+                    case 'ProfilePage':
+                    
+                    $meta_field = array(
+                        array(
+                               'label'   => 'ID',
+                               'id'      => 'saswp_profile_page_schema_id_'.$schema_id,
+                               'type'    => 'text'                                
+                        ),   
+                        array(
+                            'label'      => 'Honorific Prefix',
+                            'id'         => 'saswp_profile_page_schema_honorific_prefix_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Honorific Suffix',
+                            'id'         => 'saswp_profile_page_schema_honorific_suffix_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),     
+                        array(
+                                'label'      => 'Name',
+                                'id'         => 'saswp_profile_page_schema_name_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Alternate Name',
+                                'id'         => 'saswp_profile_page_schema_alternate_name_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                               'label'      => 'Additional Name',
+                               'id'         => 'saswp_profile_page_schema_additional_name_'.$schema_id,
+                               'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Given Name',
+                            'id'         => 'saswp_profile_page_schema_given_name_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Family Name',
+                                'id'         => 'saswp_profile_page_schema_family_name_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                            'label'      => 'Spouse',
+                            'id'         => 'saswp_profile_page_schema_spouse_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Parent',
+                            'id'         => 'saswp_profile_page_schema_parent_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                    'placeholder' => 'Johannes Xoo, Amanda Xoo'
+                             ),
+                            'note' => 'Note: Separate it by comma ( , )' ,                            
+                        ),
+                        array(
+                            'label'      => 'Sibling',
+                            'id'         => 'saswp_profile_page_schema_sibling_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                    'placeholder' => 'Dima Xoo, Amanda Xoo'
+                             ),
+                            'note' => 'Note: Separate it by comma ( , )' ,                            
+                        ),
+                        array(
+                            'label'      => 'Colleague',
+                            'id'         => 'saswp_profile_page_schema_colleague_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                    'placeholder' => 'Bill Gates, Jeff Bezos'
+                             ),
+                            'note' => 'Note: Separate it by comma ( , )' ,                            
+                        ),
+                        array(
+                                'label'      => 'Description',
+                                'id'         => 'saswp_profile_page_schema_description_'.$schema_id,
+                                'type'       => 'textarea',                           
+                        ),    
+                        array(
+                                'label'      => 'URL',
+                                'id'         => 'saswp_profile_page_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink()
+                        ),   
+                        array(
+                                'label'      => 'Locality',
+                                'id'         => 'saswp_profile_page_schema_locality_'.$schema_id,
+                                'type'       => 'text',
+                               
+                        ),
+                        array(
+                                'label'      => 'Region',
+                                'id'         => 'saswp_profile_page_schema_region_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Postal Code',
+                                'id'         => 'saswp_profile_page_schema_postal_code_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Country',
+                                'id'         => 'saswp_profile_page_schema_country_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Email',
+                                'id'         => 'saswp_profile_page_schema_email_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),
+                        array(
+                                'label'      => 'Telephone',
+                                'id'         => 'saswp_profile_page_schema_telephone_'.$schema_id,
+                                'type'       => 'text',                           
+                        ),    
+                        array(
+                                'label'      => 'Gender',
+                                'id'         => 'saswp_profile_page_schema_gender_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                        'Male'   => 'Male',
+                                        'Female' => 'Female',    
+                                )
+                        ),
+                        array(
+                            'label'      => 'Date Of Birth',
+                            'id'         => 'saswp_profile_page_schema_date_of_birth_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                               'label'      => 'Date of death',
+                               'id'         => 'saswp_profile_page_schema_date_of_death_'.$schema_id,
+                               'type'       => 'text',                            
+                        ),
+                        array(
+                                'label'      => 'Member Of',
+                                'id'         => 'saswp_profile_page_schema_member_of_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),
+                        array(
+                                'label'      => 'Nationality',
+                                'id'         => 'saswp_profile_page_schema_nationality_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),                    
+                        array(
+                                'label'      => 'Image',
+                                'id'         => 'saswp_profile_page_schema_image_'.$schema_id,
+                                'type'       => 'media',                            
+                        ),
+                        array(
+                                'label'      => 'Job Title',
+                                'id'         => 'saswp_profile_page_schema_job_title_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),
+                        array(
+                                'label'      => 'Company ( Works For )',
+                                'id'         => 'saswp_profile_page_schema_company_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),
+                        array(
+                                'label'      => 'Website',
+                                'id'         => 'saswp_profile_page_schema_website_'.$schema_id,
+                                'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Facebook',
+                            'id'         => 'saswp_profile_page_schema_facebook_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Youtube',
+                            'id'         => 'saswp_profile_page_schema_youtube_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'X (Twitter)',
+                            'id'         => 'saswp_profile_page_schema_twitter_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'LinkedIn',
+                            'id'         => 'saswp_profile_page_schema_linkedin_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Instagram',
+                            'id'         => 'saswp_profile_page_schema_instagram_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Snapchat',
+                            'id'         => 'saswp_profile_page_schema_snapchat_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Threads',
+                            'id'         => 'saswp_profile_page_schema_threads_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Mastodon',
+                            'id'         => 'saswp_profile_page_schema_mastodon_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Vibehut',
+                            'id'         => 'saswp_profile_page_schema_vibehut_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Sponsor',
+                            'id'         => 'saswp_profile_page_schema_sponsor_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Affiliation',
+                            'id'         => 'saswp_profile_page_schema_affiliation_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Alumni Of',
+                            'id'         => 'saswp_profile_page_schema_alumniof_'.$schema_id,
+                            'type'       => 'text',                            
+                        ), 
+                        array(
+                            'label'      => 'Award',
+                            'id'         => 'saswp_profile_page_schema_award_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Seeks',
+                            'id'         => 'saswp_profile_page_schema_seeks_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Knows',
+                            'id'         => 'saswp_profile_page_schema_knows_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Owns',
+                            'id'         => 'saswp_profile_page_schema_owns_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Brand',
+                            'id'         => 'saswp_profile_page_schema_brand_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Qualifications',
+                            'id'         => 'saswp_profile_page_schema_qualifications_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Occupation Name',
+                            'id'         => 'saswp_profile_page_schema_occupation_name_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Occupation Description',
+                            'id'         => 'saswp_profile_page_schema_occupation_description_'.$schema_id,
+                            'type'       => 'textarea',                            
+                        ),
+                        array(
+                            'label'      => 'Estimated Salary',
+                            'id'         => 'saswp_profile_page_schema_estimated_salary_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Salary Currency',
+                            'id'         => 'saswp_profile_page_schema_salary_currency_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Salary Duration',
+                            'id'         => 'saswp_profile_page_schema_salary_duration_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Salary Median',
+                            'id'         => 'saswp_profile_page_schema_salary_median_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Salary Percentile10',
+                            'id'         => 'saswp_profile_page_schema_salary_percentile10_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Salary Percentile25',
+                            'id'         => 'saswp_profile_page_schema_salary_percentile25_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Salary Percentile75',
+                            'id'         => 'saswp_profile_page_schema_salary_percentile75_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Salary Percentile90',
+                            'id'         => 'saswp_profile_page_schema_salary_percentile90_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Salary Last Reviewed',
+                            'id'         => 'saswp_profile_page_schema_salary_last_reviewed_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'Occupation City',
+                            'id'         => 'saswp_profile_page_schema_occupation_city_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Name',
+                            'id'         => 'saswp_profile_page_schema_performerin_name_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Location Name',
+                            'id'         => 'saswp_profile_page_schema_performerin_location_name_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Location Locality',
+                            'id'         => 'saswp_profile_page_schema_performerin_location_locality_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Location Postal Code',
+                            'id'         => 'saswp_profile_page_schema_performerin_location_postal_code_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Location Street Address',
+                            'id'         => 'saswp_profile_page_schema_performerin_location_street_address_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+
+                        array(
+                            'label'      => 'performerIn Offers Name',
+                            'id'         => 'saswp_profile_page_schema_performerin_offers_name_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Offers Availability',
+                            'id'         => 'saswp_profile_page_schema_performerin_offers_availability_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                    ''                  => 'Select',
+                                    'InStock'           => 'In Stock',
+                                    'OutOfStock'        => 'Out Of Stock',
+                                    'Discontinued'      => 'Discontinued',
+                                    'PreOrder'          => 'Pre Order', 
+                           )                             
+                        ),
+                        array(
+                            'label'      => 'performerIn Offers Price',
+                            'id'         => 'saswp_profile_page_schema_performerin_offers_price_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Offers Currency',
+                            'id'         => 'saswp_profile_page_schema_performerin_offers_currency_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Offers Valid From',
+                            'id'         => 'saswp_profile_page_schema_performerin_offers_valid_from_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Offers URL',
+                            'id'         => 'saswp_profile_page_schema_performerin_offers_url_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+
+                        array(
+                            'label'      => 'performerIn Start Date',
+                            'id'         => 'saswp_person_schema_performerin_start_date_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn End Date',
+                            'id'         => 'saswp_profile_page_schema_performerin_end_date_'.$schema_id,
+                            'type'       => 'text',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Description',
+                            'id'         => 'saswp_profile_page_schema_performerin_description_'.$schema_id,
+                            'type'       => 'textarea',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Image',
+                            'id'         => 'saswp_profile_page_schema_performerin_image_'.$schema_id,
+                            'type'       => 'media',                            
+                        ),
+                        array(
+                            'label'      => 'performerIn Performer',
+                            'id'         => 'saswp_profile_page_schema_performerin_performer_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                    'placeholder' => 'Bill Gates, Jeff Bezos'
+                             ),
+                            'note' => 'Note: Separate it by comma ( , )' ,                             
+                        )                    
+                   );
+                    break;
                                 
                 default:
                     break;

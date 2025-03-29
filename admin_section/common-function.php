@@ -2013,6 +2013,8 @@ function saswp_fields_and_type($data_type = 'value'){
         'saswp_archive_schema'                          => array('type' => 'checkbox', 'value' => 0),
         'saswp_archive_list_type'                       => array('type' => 'select', 'value' => 'CollectionPage'),
         'saswp_archive_schema_type'                     => array('type' => 'select', 'value' => 'Article'),
+        'saswp_author_schema'                           => array('type' => 'checkbox', 'value' => 1),
+        'saswp_author_schema_type'                      => array('type' => 'select', 'value' => 'Person'),
         'saswp_woocommerce_archive'                     => array('type' => 'checkbox', 'value' => 1),
         'saswp_woocommerce_archive_list_type'           => array('type' => 'select', 'value' => 'DetailedItemList'),
         'saswp_breadcrumb_schema'                       => array('type' => 'checkbox', 'value' => 0),
@@ -2025,6 +2027,7 @@ function saswp_fields_and_type($data_type = 'value'){
 
         // Knowledge Graph Settings
         'saswp_kb_type'                                 => array('type' => 'select', 'value' => 'Organization'),
+        'saswp_kb_schema_type'                          => array('type' => 'select', 'value' => 'Person'),
         'saswp_organization_type'                       => array('type' => 'select', 'value' => ''),
         'sd_name'                                       => array('type' => 'text', 'value' => $sd_name),
         'sd_alt_name'                                   => array('type' => 'text', 'value' => $sd_name),

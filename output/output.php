@@ -2769,6 +2769,25 @@ function saswp_schema_output() {
                                 }
 
                             break;
+
+                            case 'ProfilePage':
+
+                                $author_id = get_the_author_meta( 'ID' );
+
+                                $input1['@context']             =   saswp_context_url();                                                               
+                                $input1['@type']                =   'ProfilePage';                                                               
+                                $input1['url']                  =   get_the_author_meta('user_url', $author_id);            
+
+                                $input1 = apply_filters('saswp_modify_profile_page_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_profile_page_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+                            
+                            break;
                             
                             default:
                                 break;
@@ -3658,7 +3677,7 @@ function saswp_author_output() {
            $post_id = null;
            $input   = array();
 
-	if ( isset( $sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
+	if ( ( ! isset( $sd_data['saswp_author_schema'] ) ) || ( isset( $sd_data['saswp_author_schema'] ) && $sd_data['saswp_author_schema'] == 1 ) ) {
             
         if(is_object($post) ) {
         
@@ -3673,9 +3692,11 @@ function saswp_author_output() {
 
         if(is_object($post_author) && isset($post_author->ID) ) {
 
+            $author_schema_type     =   isset( $sd_data['saswp_author_schema_type'] ) ? $sd_data['saswp_author_schema_type'] : 'Person'; 
+
             $input = array (
                 '@context' => saswp_context_url(),
-                '@type'	=> 'Person',
+                '@type'	=> esc_attr( $author_schema_type ),
                 'name'	=> get_the_author_meta('display_name'),
                 'url'	=> esc_url( get_author_posts_url( $post_author->ID ) ),
 
@@ -3708,6 +3729,23 @@ function saswp_author_output() {
             if ( get_the_author_meta( 'description', $post_author->ID ) ) {
                 $input['description'] = wp_strip_all_tags( get_the_author_meta( 'description', $post_author->ID ) );
             }
+
+            // Changes for ProfilePage schema
+            if ( $author_schema_type == 'ProfilePage' ) {
+
+                unset( $input['@context'] );
+                $input['@type']     =   'Person';
+
+                $profile_input  =   array();
+                $profile_input['@context']              =   saswp_context_url();
+                $profile_input['@type']                 =   'ProfilePage';
+                $profile_input['mainEntity']            =   $input; 
+
+                $input          =   array();
+                $input          =   $profile_input;
+
+            }
+
         }		
 		return apply_filters('saswp_modify_author_output', $input);
 	    }

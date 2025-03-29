@@ -107,6 +107,7 @@ return array(
             'Organization'                      => 'Organization',
             'Project'                           => 'Project', 
             'PsychologicalTreatment'            => 'PsychologicalTreatment',
-            'RentAction'                        => 'RentAction'                                                                                 
+            'RentAction'                        => 'RentAction',                                                                                 
+            'ProfilePage'                       => 'ProfilePage'                                                                                 
         )
      );

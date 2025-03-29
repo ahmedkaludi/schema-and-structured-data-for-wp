@@ -1015,6 +1015,28 @@ function saswp_general_page_callback() {
                                 'ItemPage'         => 'ItemPage'
                 )
         );
+        $meta_fields_default[] =  array(
+                'label'  => 'Author',
+                'id'     => 'saswp_author_schema_checkbox', 
+                'name'   => 'saswp_author_schema_checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',                        
+                'hidden' => array(
+                        'id'   => 'saswp_author_schema',
+                        'name' => 'sd_data[saswp_author_schema]',                             
+                )
+        );
+        $meta_fields_default[] = array(
+                'label'   => 'Schema Type',
+                'id'      => 'saswp_author_schema_type',
+                'name'    => 'sd_data[saswp_author_schema_type]',
+                'class'   => 'saswp_author_schema_type_class',
+                'type'    => 'select',
+                'options' => array(                                
+                                'Person'            => 'Person',     
+                                'ProfilePage'       => 'ProfilePage',                                     
+                )
+        );
         if ( is_plugin_active('woocommerce/woocommerce.php') ) {
 
                 $meta_fields_default[] =   array(

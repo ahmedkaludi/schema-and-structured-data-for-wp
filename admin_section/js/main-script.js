@@ -1052,6 +1052,17 @@ jQuery(document).ready(function($){
                                 $(".saswp_archive_list_type_class").parent().parent().hide();
                               }
                       break;
+
+                  case 'saswp_author_schema_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                                $("#saswp_author_schema").val(1);
+                                $(".saswp_author_schema_type_class").parent().parent().show();
+                              }else{
+                                $("#saswp_author_schema").val(0);
+                                $(".saswp_author_schema_type_class").parent().parent().hide();
+                              }
+                      break;
                       
                       case 'saswp_website_schema_checkbox':
                           

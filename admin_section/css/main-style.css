@@ -387,7 +387,7 @@ clear: both;
 label[for="saswp_archive_schema_type"] {
     padding-left: 10px !important;
 }
-label[for="saswp_archive_list_type"] {
+label[for="saswp_archive_list_type"], label[for="saswp_author_schema_type"] {
     padding-left: 10px !important;
 }
 label[for="saswp-single-price-type"] {
