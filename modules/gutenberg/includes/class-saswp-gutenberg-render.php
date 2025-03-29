@@ -560,8 +560,18 @@ class SASWP_Gutenberg_Render {
                             if ( ! empty( $blog_update['date'] ) ) { ?>
                                 <div class="saswp-lbp-blog-time">
                                     <?php
-                                    $date = new DateTime( $blog_update['date'] );
-                                    $date = $date->format( 'F j, Y \a\t g:i A' );
+                                    $datetime = new DateTime( $timestamp, new DateTimeZone( 'UTC' ) ); // Assuming input is in UTC
+
+                                    // Get WordPress timezone setting
+                                    $timezone = get_option( 'timezone_string' );
+
+                                    if ( ! $timezone ) {
+                                        $timezone = timezone_name_from_abbr( "", get_option( 'gmt_offset' ) * 3600, false );
+                                    }
+
+                                    $datetime->setTimezone( new DateTimeZone( $timezone ) ); // Convert to WP timezone
+
+                                    $date = $datetime->format( 'F j, Y g:i A T' );
                                     ?>
                                     <time><?php echo esc_html( $date ); ?></time>
                                 </div>
