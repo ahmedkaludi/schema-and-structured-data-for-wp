@@ -30,7 +30,8 @@ $with_aggregate = array(
         'project',                  
         'Product',              
         'ProductGroup',
-        'VacationRental',              
+        'VacationRental',
+        'CriticReview',               
 );
 $without_aggregate = array(
         'Apartment',

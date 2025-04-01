@@ -300,7 +300,7 @@
            schema_type = jQuery(".saswp-tab-links.selected").attr('saswp-schema-type');    
         }
         
-        if(schema_type === 'Review' || schema_type === 'ReviewNewsArticle'){
+        if ( schema_type === 'Review' || schema_type === 'ReviewNewsArticle' || schema_type === 'CriticReview' ) {
             var current = jQuery(this);
             saswp_item_reviewed_ajax(schema_type, current);
                     
@@ -352,7 +352,7 @@
                                 var schema_type    = jQuery('select#schema_type option:selected').val();
                                 var schema_subtype = '';
 
-                                if(schema_type == 'Review' || schema_type == 'ReviewNewsArticle'){
+                                if ( schema_type == 'Review' || schema_type == 'ReviewNewsArticle' || schema_type == 'CriticReview' ) {
                                     schema_subtype = jQuery('select.saswp-item-reivewed-list option:selected').val();
                                 }
           
@@ -362,7 +362,7 @@
                                      if(schema_type == 'ReviewNewsArticle'){
                                         html += '<optgroup label="ReviewNewsArticle">';
                                      }
-                                     if(schema_type == 'Review'){
+                                     if ( schema_type == 'Review' || schema_type == 'CriticReview' ) {
                                        html += '<optgroup label="Review">';
                                        html += '<option value="saswp_review_name">Review Name</option>';    
                                        html += '<option value="saswp_review_description">Review Description</option>';                                              
@@ -379,7 +379,7 @@
                                       
                                      }
                                      
-                                     if(schema_type == 'Review'){
+                                     if ( schema_type == 'Review' || schema_type == 'CriticReview' ) {
                                        html += '<optgroup label="'+schema_subtype+'">';   
                                      }
                                      
@@ -387,7 +387,7 @@
                                        html += '<option value="'+key+'">'+value+'</option>';                                       
                                      });
                                      
-                                     if(schema_type == 'Review' || schema_type == 'ReviewNewsArticle'){
+                                     if ( schema_type == 'Review' || schema_type == 'ReviewNewsArticle' || schema_type == 'CriticReview' ) {
                                          html += '</optgroup>'; 
                                      }
 

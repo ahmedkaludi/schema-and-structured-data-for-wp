@@ -7268,6 +7268,116 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         }                                                                   
                                                                                 
                     break;
+
+                case 'CriticReview':
+                                        
+                        $meta_field[] = array(
+                            'label' => 'Review Name',
+                            'id'    => 'saswp_review_name_'.$schema_id,
+                            'type'  => 'text',              
+                            'default' => get_the_title()             
+                        );
+                        $meta_field[] = array(
+                            'label' => 'Review Description',
+                            'id' => 'saswp_review_description_'.$schema_id,
+                            'type' => 'textarea',                           
+                            'default' => saswp_strip_all_tags(get_the_excerpt())                         
+                        );
+                        $meta_field[] = array(
+                                'label' => 'Review Body',
+                                'id'    => 'saswp_review_body_'.$schema_id,
+                                'type'   => 'textarea',                           
+                                'default' => saswp_strip_all_tags(get_the_excerpt())                         
+                        );                        
+                        $meta_field[] = array(
+                            'label' => 'Review Author',
+                            'id' => 'saswp_review_author_'.$schema_id,
+                            'type' => 'text',                            
+                            'default' => is_object($current_user) ?  $current_user->display_name : ''
+                        );
+                        $meta_field[] = array(
+                            'label' => 'Review Author URL',
+                            'id' => 'saswp_review_author_url_'.$schema_id,
+                            'type' => 'text',
+                            'default' => $author_url                           
+                        );
+                        $meta_field[] = array(
+                            'label' => 'Review Publisher',
+                            'id' => 'saswp_review_publisher_'.$schema_id,
+                            'type' => 'text',   
+                            'default'=> saswp_remove_warnings($sd_data, 'sd_name', 'saswp_string')                        
+                        );
+                        $meta_field[] = array(
+                                'label' => 'Review Publisher URL',
+                                'id'    => 'saswp_review_publisher_url'.$schema_id,
+                                'type'  => 'text',                           
+                                'default' => get_home_url() 
+                            );
+                        $meta_field[] = array(
+                            'label' => 'Review Published Date',
+                            'id' => 'saswp_review_date_published_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")                           
+                        );
+                        $meta_field[] = array(
+                                'label' => 'Review Modified Date',
+                                'id' => 'saswp_review_date_modified_'.$schema_id,
+                                'type' => 'text',
+                                'default' => get_the_modified_date("Y-m-d")                           
+                            );
+                        $meta_field[] = array(
+                            'label' => 'Review URL',
+                            'id' => 'saswp_review_url_'.$schema_id,
+                            'type' => 'text',               
+                            'default' => get_permalink()             
+                        ); 
+                        $meta_field[] = array(
+                            'label' => 'Review Rating',
+                            'id'    => 'saswp_review_enable_rating_'.$schema_id,
+                            'type'  => 'checkbox',                           
+                        );
+                        $meta_field[] = array(
+                            'label' => 'Rating Value',
+                            'id'    => 'saswp_review_rating_'.$schema_id,
+                            'type'  => 'text',                            
+                        );
+                        $meta_field[] = array(
+                            'label' => 'Best Rating',
+                            'id'    => 'saswp_review_review_count_'.$schema_id,
+                            'type'  => 'text',                            
+                        );
+                        $meta_field[] = array(
+                                'label' => 'Worst Rating',
+                                'id'    => 'saswp_review_worst_count_'.$schema_id,
+                                'type'  => 'text',                            
+                        );
+                        
+                        if($manual == null){
+                         
+                            $meta_field[] = array(
+                            'label'   => 'Item Reviewed Type',
+                            'id'      => 'saswp_review_item_reviewed_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                        'Book'                  => 'Book',                             
+                                        'Course'                => 'Course',                             
+                                        'Event'                 => 'Event',                              
+                                        'HowTo'                 => 'HowTo',   
+                                        'local_business'        => 'LocalBusiness',                                 
+                                        'MusicPlaylist'         => 'Music Playlist',
+                                        'Movie'                 => 'Movie',
+                                        'Organization'          => 'Organization', 
+                                        'Product'               => 'Product',                                
+                                        'Recipe'                => 'Recipe',                             
+                                        'SoftwareApplication'   => 'SoftwareApplication',
+                                        'MobileApplication'     => 'MobileApplication',
+                                        'VideoGame'             => 'VideoGame', 
+                            )                                                        
+                         );
+                                                        
+                        }                                                                   
+                                                                                
+                    break;
                 
                 case 'AudioObject':
                                          

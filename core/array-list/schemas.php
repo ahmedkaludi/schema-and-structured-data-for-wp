@@ -56,6 +56,7 @@ return array(
                 'LiveBlogPosting'          => 'LiveBlogPosting',  
                 'ImageGallery'             => 'ImageGallery',  
                 'MediaGallery'             => 'MediaGallery',  
+                'CriticReview'             => 'CriticReview',
         ),
         'Event' => array(
             'Event'                    => 'Event',

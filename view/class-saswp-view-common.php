@@ -659,7 +659,7 @@ class SASWP_View_Common {
                           )
                           {
                             $output .= '<tr class="saswp-rating-review-'.strtolower($schema_type).'"><th>'.$label.'</th><td>'.$input.'</td></tr>'; 
-                          }elseif($schema_type == 'Review' && $meta_field['id'] != 'saswp_review_schema_enable_rating_'.$schema_id) {
+                          }elseif( ( $schema_type == 'Review' && $meta_field['id'] != 'saswp_review_schema_enable_rating_'.$schema_id ) || ( $schema_type == 'CriticReview' && $meta_field['id'] != 'saswp_review_schema_enable_rating_'.$schema_id ) ) {
                             
                             $output .= '<tr class="saswp-review-tr"><th>'.$label.'</th><td>'.$input.'</td></tr>';   
                               

@@ -811,7 +811,7 @@ Class SASWP_Output_Service{
                                                            
                 }   
                                                                             
-                if($schema_type == 'Review' || $schema_type == 'ReviewNewsArticle'){
+                if ( $schema_type == 'Review' || $schema_type == 'ReviewNewsArticle' || $schema_type == 'CriticReview' ) {
 
                     $main_schema_type = $schema_type;                                                                                  
                     $schema_type = get_post_meta($schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true);
@@ -8521,7 +8521,7 @@ Class SASWP_Output_Service{
                          break;
                  }    
              
-             if($main_schema_type == 'Review' || $main_schema_type == 'ReviewNewsArticle'){
+             if ( $main_schema_type == 'Review' || $main_schema_type == 'ReviewNewsArticle' || $main_schema_type == 'CriticReview' ) {
                  
                  $review_response['item_reviewed'] = $input1;
                  $review_response['review']        = $review_markup;
@@ -8553,7 +8553,7 @@ Class SASWP_Output_Service{
             $schema_subtype = isset( $_POST['schema_subtype'] ) ? sanitize_text_field( $_POST['schema_subtype'] ) : ''; 
             $schema_type    = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';                      
                       
-            if($schema_type == 'Review'){
+            if ( $schema_type == 'Review' || $schema_type == 'CriticReview' ) {
                 
                 $meta_fields = $this->saswp_get_all_schema_type_fields($schema_subtype);                                            
                 

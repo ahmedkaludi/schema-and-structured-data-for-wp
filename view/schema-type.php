@@ -1156,7 +1156,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                         
                             $schema_type    = get_post_meta($post->ID, 'schema_type', true);
                             
-                            if($schema_type == 'Review'){
+                            if ( $schema_type == 'Review' || $schema_type == 'CriticReview' ) {
                                 
                                 $item_reviewed = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);                                                                
                                 $schema_type   = $item_reviewed;
@@ -1377,7 +1377,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                 $schema_fields = saswp_get_fields_by_schema_type($post_id, null, $schema_type, 'manual');
                                 $output_escaped = $common_obj->saswp_post_specific_schema($schema_type, $schema_fields, $post_id, $post_id, null, null, 1);
                                 
-                                if($schema_type == 'Review'){
+                                if ( $schema_type == 'Review' || $schema_type == 'CriticReview' ) {
                                                                         
                                     $item_reviewed     = get_post_meta($post_id, 'saswp_review_item_reviewed_'.$post_id, true);                         
                                     if(!$item_reviewed){
