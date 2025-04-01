@@ -3503,6 +3503,10 @@ Class SASWP_Output_Service{
                      $input1['publisher']['name']        =    $custom_fields['saswp_blogposting_organization_name'];
                      $input1['publisher']['logo']        =    $custom_fields['saswp_blogposting_organization_logo'];
                     }
+
+                    if ( isset( $custom_fields['saswp_blogposting_citation'] ) ) {
+                     $input1['citation'] =    $custom_fields['saswp_blogposting_citation'];
+                    }
                                         
                     break;
                     
@@ -9364,6 +9368,7 @@ Class SASWP_Output_Service{
                 case 'TechArticle':  
                 case 'Photograph':  
                 case 'Blogposting':
+                case 'BlogPosting':
                 case 'CreativeWork': 
                                          
                     $input1 = array(

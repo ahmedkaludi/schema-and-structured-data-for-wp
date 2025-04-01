@@ -646,7 +646,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_blogposting_speakable_'.$schema_id,
                         'type' => 'checkbox',
 
-                    )                        
+                    ),
+                    array(
+                        'label'   => 'Citation',
+                        'id'      => 'saswp_blogposting_citation_'.$schema_id,
+                        'type'    => 'text',
+                        'is_template_attr' => 'yes',
+                     )                        
                     );
                     break;
                 
