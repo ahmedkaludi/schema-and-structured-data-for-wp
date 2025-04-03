@@ -72,7 +72,7 @@
                 type: 'string'                
             },
             blog_update: {                     
-              default: [{index: 0, headline: '', date: '', date_toggle: false, date_iso: '', body: '', image_id: null, image_url: ''}],              
+              default: [{index: 0, headline: '', date: '', date_toggle: false, date_iso: '', body: '', image_id: null, image_url: '', video_url: ''}],              
               query: {
                 index: {            
                   type: 'number',                  
@@ -103,6 +103,9 @@
                 },
                 image_url: {
                     type: 'integer'
+                },
+                video_url: { 
+                    type: "string", 
                 },
               }
             },
@@ -327,7 +330,7 @@
                 el('span',{className:'saswp-live-blog-posting-date-fields'},
                     el(TextControl,{            
                         className:'saswp-live-blog-posting-cover-start-date',
-                        label: __( 'Event Start Date', 'schema-and-structured-data-for-wp' ),
+                        label: __( 'Event End Date', 'schema-and-structured-data-for-wp' ),
                         value : attributes.event_end_date,
                         onClick:function(){
                             props.setAttributes( { event_end_date_toggle: true } );   
@@ -761,6 +764,30 @@
                                 }
                             },
                         )
+                    ),
+                    el(
+                        "div",
+                        {className: 'saswp-lbp-blog-video-embed'},
+                        el(TextControl, {
+                            label: "Embed Video",
+                            value: item.video_url,
+                            placeholder: "Enter Video URL",
+                            onChange: function( value ) {                                
+                                var newObject = Object.assign({}, item, {
+                                  video_url: value
+                                });
+                                saswp_lbp_on_item_change(newObject, item, 'blog_update');                            
+                            }
+                        }),
+                        item.video_url && saswpGetEmbedUrl( item.video_url )
+                            ? el("iframe", {
+                                  width: "100%",
+                                  height: "315",
+                                  src: saswpGetEmbedUrl(item.video_url),
+                                  frameBorder: "0",
+                                  allowFullScreen: true,
+                              })
+                            : null
                     ),           
                 ));
                 
@@ -847,6 +874,18 @@
                      attributes: oldAttributes
                    });    
             
+            }
+
+            function saswpGetEmbedUrl(url) {
+
+                if ( url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/))([a-zA-Z0-9_-]+)/) ) {
+                    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/))([a-zA-Z0-9_-]+)/);
+                    return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+                } else if( url.includes('facebook.com') ) {
+                    var facebookUrl = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=560`;
+                    return facebookUrl;
+                }
+                
             }
 
             return [

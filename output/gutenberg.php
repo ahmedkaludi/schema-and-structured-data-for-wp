@@ -1400,7 +1400,9 @@ function saswp_gutenberg_live_blog_posting_schema() {
                 }
                 $input1['about']['offers']['priceCurrency'] = isset( $attributes['attrs']['offer_currency_code'] ) ? $attributes['attrs']['offer_currency_code'] : 'USD';
                 $input1['about']['offers']['availability']  = 'InStock';
-                $input1['about']['offers']['validFrom']     = $attributes['attrs']['event_offer_date_iso'];
+                if ( isset( $attributes['attrs']['event_offer_date_iso'] ) ) {
+                    $input1['about']['offers']['validFrom']     = $attributes['attrs']['event_offer_date_iso'];
+                }
             
             }
 

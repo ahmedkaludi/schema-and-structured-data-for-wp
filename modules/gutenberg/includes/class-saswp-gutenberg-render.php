@@ -606,7 +606,22 @@ class SASWP_Gutenberg_Render {
                                         <figcaption><?php echo esc_html( $image_caption ); ?></figcaption>
                                     <?php endif; ?>
                                 </div>
-                            <?php } ?>
+                            <?php } 
+                            if ( ! empty( $blog_update['video_url'] ) ) {
+                                // Extract Video ID using regex
+                                if ( preg_match( '/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/))([a-zA-Z0-9_-]+)/', $blog_update['video_url'], $matches ) ) {
+                                    $video_id = esc_attr( $matches[1] ) ?? ''; // Get the video ID if available
+                            ?>
+                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/<?php echo htmlspecialchars($video_id); ?>" 
+                                        frameborder="0" allowfullscreen>
+                                    </iframe>
+                            <?php
+                                } elseif ( strpos( $blog_update['video_url'], 'facebook.com' ) !== false ) { ?>
+                                    <iframe src="https://www.facebook.com/plugins/video.php?href=<?php echo urlencode($blog_update['video_url']) ;?>&show_text=false&width=560" width="100%" height="315" frameborder="0" allowfullscreen></iframe>
+                                <?php
+                                }
+                            }
+                            ?>
                         </div>
                     <?php    
                     }
