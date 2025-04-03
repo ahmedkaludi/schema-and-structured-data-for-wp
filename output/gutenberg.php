@@ -1368,10 +1368,77 @@ function saswp_gutenberg_live_blog_posting_schema() {
         }
 
         if ( isset( $attributes['attrs']['name'] ) || isset( $attributes['attrs']['name'] ) ) {
-            $input1['about']['@type']           =   'Event';   
+            $input1['about']['@type']                   =   'Event';   
             if ( isset( $attributes['attrs']['name'] ) ) {
-                $input1['about']['name']        =   esc_html( $attributes['attrs']['name'] );
+                $input1['about']['name']                =   esc_html( $attributes['attrs']['name'] );
             }
+            if ( isset( $attributes['attrs']['event_status'] ) ) {
+                $input1['about']['eventStatus']         =  $attributes['attrs']['event_status'];    
+            }
+            if ( isset( $attributes['attrs']['attendance_mode'] ) ) {
+                $input1['about']['eventAttendanceMode'] =  $attributes['attrs']['attendance_mode'];    
+            }
+            if ( isset( $attributes['attrs']['event_start_date_iso'] ) ) {
+                $input1['about']['startDate']           =  $attributes['attrs']['event_start_date_iso'];    
+            }
+            if ( isset( $attributes['attrs']['event_end_date_iso'] ) ) {
+                $input1['about']['endDate']             =  $attributes['attrs']['event_end_date_iso'];    
+            }
+            if ( ! empty( $attributes['attrs']['price'] ) || ! empty( $attributes['attrs']['low_price'] ) || ! empty( $attributes['attrs']['high_price'] ) ) {
+                $input1['about']['offers']['@type']     = 'Offer';
+                if ( isset( $attributes['attrs']['offer_url'] ) ) {
+                    $input1['about']['offers']['url']   = $attributes['attrs']['offer_url'];
+                }else{
+                    $input1['about']['offers']['url']   = saswp_get_permalink();
+                }
+                if ( ! empty( $attributes['attrs']['low_price'] ) && ! empty( $attributes['attrs']['high_price'] ) ) {
+                    $input1['about']['offers']['@type'] = 'AggregateOffer';
+                    $input1['about']['offers']['highPrice']     = $attributes['attrs']['high_price'];
+                    $input1['about']['offers']['lowPrice']     = $attributes['attrs']['low_price'];    
+                }else{
+                    $input1['about']['offers']['price'] = $attributes['attrs']['price'];    
+                }
+                $input1['about']['offers']['priceCurrency'] = isset( $attributes['attrs']['offer_currency_code'] ) ? $attributes['attrs']['offer_currency_code'] : 'USD';
+                $input1['about']['offers']['availability']  = 'InStock';
+                $input1['about']['offers']['validFrom']     = $attributes['attrs']['event_offer_date_iso'];
+            
+            }
+
+            if ( ! empty( $attributes['attrs']['organizers']) ) {
+                 
+                 foreach( $attributes['attrs']['organizers'] as $org){
+                    
+                     $input1['about']['organizer'][] = array(
+                                        '@type'          => 'Organization',
+                                        'name'           => $org['name'],                                                                      
+                                        'url'            => $org['phone'],
+                                        'email'          => $org['email'],
+                                        'telephone'      => $org['phone'],                                                                        
+                        );                 
+                     
+                 }
+                                                             
+             }
+                   
+            $performer_arr = array();
+
+            if ( ! empty( $attributes['attrs']['performers']) ) {
+
+                foreach( $attributes['attrs']['performers'] as $val){
+
+                    $supply_data = array();
+                    $supply_data['@type']        = 'Person';
+                    $supply_data['name']         = $val['name'];                                    
+                    $supply_data['url']          = $val['url'];
+                    $supply_data['email']        = $val['email'];
+
+                    $performer_arr[] =  $supply_data;
+                }
+
+               $input1['about']['performer'] = $performer_arr;
+
+            } 
+
             if ( ! empty( $location ) ) {
                 $input1['about']['location']    =   $location;
             }

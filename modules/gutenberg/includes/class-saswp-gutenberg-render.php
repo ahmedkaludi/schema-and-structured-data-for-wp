@@ -560,6 +560,7 @@ class SASWP_Gutenberg_Render {
                             if ( ! empty( $blog_update['date'] ) ) { ?>
                                 <div class="saswp-lbp-blog-time">
                                     <?php
+                                    $timestamp  =   date( 'Y-m-d H:i:s', strtotime( $blog_update['date'] ) );
                                     $datetime = new DateTime( $timestamp, new DateTimeZone( 'UTC' ) ); // Assuming input is in UTC
 
                                     // Get WordPress timezone setting
@@ -571,7 +572,7 @@ class SASWP_Gutenberg_Render {
 
                                     $datetime->setTimezone( new DateTimeZone( $timezone ) ); // Convert to WP timezone
 
-                                    $date = $datetime->format( 'F j, Y g:i A T' );
+                                    $date = $datetime->format('F j, Y g:i A T' );
                                     ?>
                                     <time><?php echo esc_html( $date ); ?></time>
                                 </div>
