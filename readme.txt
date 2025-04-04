@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 1.43
+Stable tag: 1.44
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -84,6 +84,8 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * ImageGallery
 * MediaGallery
 * VacationalRental
+* CriticReview
+* ProfilePage
 * [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions
@@ -126,6 +128,21 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.44 (4 April 2025) =
+* Enhancement: Added Citation field in Blogposting schema #1946
+* Feature: Added Profilepage schema type #2065
+* Feature: Added CriticReview schema type #2100
+* Feature: Added Address Field for Product Seller Organizations #2203
+* Enhancement: Added Event fields in LiveBlogPosting gutenberg block #2277
+* Fixed: Live Blog Update date and time picker issue #2278
+* Enhancement: Added option for Embed of YouTube, X etc #2280
+* Enhancement: Live Blog Update image placement improvement for gutenberg block #2281
+* Enhancement: Live blog update UI improvement #2282
+* Enhancement: Live blog update gutenebrg block improvement #2283
+* Enhancement: Place new published live blog updates on top #2284
+* Enhancement: TimeZone display improvement to Live Blog Update on Frontend #2285
+
 
 = 1.43 (25 March 2025) =
 * Enhancement: Improvement in VacationRental schema properties #2109
@@ -281,15 +298,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 = 1.30 (16 April 2024) =
 
 * Fixed: Security vulnerability issues raised by Wordfence
-
-= 1.29 (29 March 2024) =
-
-* Fixed: PHP warning is showing on the user's end #2080
-* Fixed: Conflict issue with Widget Options plugin #2087
-* Fixed: Product reviews compatibility issue #2092
-* Fixed: Fatal error for collection review #2094
-* Fixed: PHP Warning on schema settings Review tab #2095
-* Fixed: Test with new version of wordpress i.e. 6.5v #2096
-* Fixed: Issue with Import/export option #2098
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
