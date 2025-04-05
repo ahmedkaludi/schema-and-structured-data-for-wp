@@ -30,7 +30,8 @@ $with_aggregate = array(
         'project',                  
         'Product',              
         'ProductGroup',
-        'VacationRental',              
+        'VacationRental',
+        'CriticReview',               
 );
 $without_aggregate = array(
         'Apartment',
@@ -87,6 +88,7 @@ $without_aggregate = array(
         'LiveBlogPosting',
         'ImageGallery',
         'MediaGallery',
+        'ProfilePage',
 );
 $translation_labels = array(
     'translation-pros'            => 'Pros',

@@ -269,7 +269,7 @@ jQuery(document).ready(function($) {
              $('.select-post-type').val('show_globally').trigger('change'); 
             }
              
-             if(schematype == 'Review' || schematype == 'ReviewNewsArticle'){            
+             if(schematype == 'Review' || schematype == 'ReviewNewsArticle' || schematype == 'CriticReview'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }  
@@ -302,7 +302,7 @@ jQuery(document).ready(function($) {
             $(".saswp-"+businesstype+'-tr').find('select').attr('disabled', false);            
             }
             
-            if(schematype == 'Review' || schematype == 'ReviewNewsArticle'){            
+            if(schematype == 'Review' || schematype == 'ReviewNewsArticle' || schematype == 'CriticReview'){            
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
             }  

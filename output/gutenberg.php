@@ -1330,16 +1330,17 @@ function saswp_gutenberg_live_blog_posting_schema() {
         $input1['@type']                =   'LiveBlogPosting';
         $input1['@id']                  =   saswp_get_permalink().'#LiveBlogPosting'; 
         $input1['url']                  =   saswp_get_permalink();                               
-        $input1['headline']             =   isset( $attributes['attrs']['headline'] ) ? $attributes['attrs']['headline'] : '';
-        $input1['description']          =   isset( $attributes['attrs']['description'] ) ? $attributes['attrs']['description'] : '';
+        $input1['headline']             =   saswp_get_the_title();
+        $input1['description']          =   saswp_get_the_excerpt();
         $input1['datePublished']        =   esc_html( $date);
         $input1['dateModified']         =   esc_html( $modified_date );
 
-        if ( ! empty( $attributes['attrs']['banner_id'] > 0 ) ) {
-            $thumbnail_url              =   saswp_get_image_by_id( $attributes['attrs']['banner_id'] );
+        $thumb_id                       =   get_post_thumbnail_id();
+        if ( $thumb_id > 0 ) {
+            $thumbnail_url              =   saswp_get_image_by_id( $thumb_id );
             $input1['image']            =   $thumbnail_url;
         }
-
+        
         $location   =   array();
 
         if ( isset( $attributes['attrs']['locationname'] ) ) {
@@ -1367,19 +1368,83 @@ function saswp_gutenberg_live_blog_posting_schema() {
         }
 
         if ( isset( $attributes['attrs']['name'] ) || isset( $attributes['attrs']['name'] ) ) {
-            $input1['about']['@type']           =   'Event';   
+            $input1['about']['@type']                   =   'Event';   
             if ( isset( $attributes['attrs']['name'] ) ) {
-                $input1['about']['name']        =   esc_html( $attributes['attrs']['name'] );
+                $input1['about']['name']                =   esc_html( $attributes['attrs']['name'] );
             }
+            if ( isset( $attributes['attrs']['event_status'] ) ) {
+                $input1['about']['eventStatus']         =  $attributes['attrs']['event_status'];    
+            }
+            if ( isset( $attributes['attrs']['attendance_mode'] ) ) {
+                $input1['about']['eventAttendanceMode'] =  $attributes['attrs']['attendance_mode'];    
+            }
+            if ( isset( $attributes['attrs']['event_start_date_iso'] ) ) {
+                $input1['about']['startDate']           =  $attributes['attrs']['event_start_date_iso'];    
+            }
+            if ( isset( $attributes['attrs']['event_end_date_iso'] ) ) {
+                $input1['about']['endDate']             =  $attributes['attrs']['event_end_date_iso'];    
+            }
+            if ( ! empty( $attributes['attrs']['price'] ) || ! empty( $attributes['attrs']['low_price'] ) || ! empty( $attributes['attrs']['high_price'] ) ) {
+                $input1['about']['offers']['@type']     = 'Offer';
+                if ( isset( $attributes['attrs']['offer_url'] ) ) {
+                    $input1['about']['offers']['url']   = $attributes['attrs']['offer_url'];
+                }else{
+                    $input1['about']['offers']['url']   = saswp_get_permalink();
+                }
+                if ( ! empty( $attributes['attrs']['low_price'] ) && ! empty( $attributes['attrs']['high_price'] ) ) {
+                    $input1['about']['offers']['@type'] = 'AggregateOffer';
+                    $input1['about']['offers']['highPrice']     = $attributes['attrs']['high_price'];
+                    $input1['about']['offers']['lowPrice']     = $attributes['attrs']['low_price'];    
+                }else{
+                    $input1['about']['offers']['price'] = $attributes['attrs']['price'];    
+                }
+                $input1['about']['offers']['priceCurrency'] = isset( $attributes['attrs']['offer_currency_code'] ) ? $attributes['attrs']['offer_currency_code'] : 'USD';
+                $input1['about']['offers']['availability']  = 'InStock';
+                if ( isset( $attributes['attrs']['event_offer_date_iso'] ) ) {
+                    $input1['about']['offers']['validFrom']     = $attributes['attrs']['event_offer_date_iso'];
+                }
+            
+            }
+
+            if ( ! empty( $attributes['attrs']['organizers']) ) {
+                 
+                 foreach( $attributes['attrs']['organizers'] as $org){
+                    
+                     $input1['about']['organizer'][] = array(
+                                        '@type'          => 'Organization',
+                                        'name'           => $org['name'],                                                                      
+                                        'url'            => $org['phone'],
+                                        'email'          => $org['email'],
+                                        'telephone'      => $org['phone'],                                                                        
+                        );                 
+                     
+                 }
+                                                             
+             }
+                   
+            $performer_arr = array();
+
+            if ( ! empty( $attributes['attrs']['performers']) ) {
+
+                foreach( $attributes['attrs']['performers'] as $val){
+
+                    $supply_data = array();
+                    $supply_data['@type']        = 'Person';
+                    $supply_data['name']         = $val['name'];                                    
+                    $supply_data['url']          = $val['url'];
+                    $supply_data['email']        = $val['email'];
+
+                    $performer_arr[] =  $supply_data;
+                }
+
+               $input1['about']['performer'] = $performer_arr;
+
+            } 
+
             if ( ! empty( $location ) ) {
                 $input1['about']['location']    =   $location;
             }
-            if ( ! empty( $attributes['attrs']['start_date_iso'] ) ) {
-                $date   =   explode( 'T', $attributes['attrs']['start_date_iso'] );
-                if ( is_array( $date ) && ! empty( $date[0] ) && ! empty( $date[1] ) ) {
-                    $input1['about']['startDate']   =   saswp_format_date_time( $date[0], $date[1] );
-                }   
-            }           
+            $input1['about']['startDate']   =   esc_html( $date );          
         }
 
         if ( ! empty( $attributes['attrs']['coverage_start_date_iso'] ) ) {

@@ -491,6 +491,10 @@ class SASWP_Fields_Generator {
                                     
                                         $hiddenvalue ="";
                                         
+                                        if ( isset( $hidden['id'] ) &&  ! isset( $settings[ $hidden['id'] ] ) && $hidden['id'] == 'saswp_author_schema' ) {
+                                            $hiddenvalue = 1;
+                                        }  
+
                                         if(array_key_exists('id', $hidden) && isset($settings[$hidden['id']]) ) {
                                             
                                          $hiddenvalue = $settings[$hidden['id']];  

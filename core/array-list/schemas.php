@@ -56,6 +56,7 @@ return array(
                 'LiveBlogPosting'          => 'LiveBlogPosting',  
                 'ImageGallery'             => 'ImageGallery',  
                 'MediaGallery'             => 'MediaGallery',  
+                'CriticReview'             => 'CriticReview',
         ),
         'Event' => array(
             'Event'                    => 'Event',
@@ -107,6 +108,7 @@ return array(
             'Organization'                      => 'Organization',
             'Project'                           => 'Project', 
             'PsychologicalTreatment'            => 'PsychologicalTreatment',
-            'RentAction'                        => 'RentAction'                                                                                 
+            'RentAction'                        => 'RentAction',                                                                                 
+            'ProfilePage'                       => 'ProfilePage'                                                                                 
         )
      );

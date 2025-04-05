@@ -2,7 +2,7 @@
 	position: relative;
 }
 
-#saswp-lbp-heading h3{
+#saswp-lbp-heading h2{
 	font-weight: 500;
 	background: #f6f6f6;
 	padding: 5px;
@@ -17,11 +17,10 @@
 }
 .saswp-lbp-blog-feed{
 	margin-left: 15px;
+	margin-bottom: 25px;
 }
-.saswp-lbp-blog-heading h4{
+.saswp-lbp-blog-heading h3{
 	font-weight: 500;
-	padding: 0px;
-	margin: 0px;
 }
 
 .saswp-lbp-blog-content{
@@ -47,4 +46,12 @@
 .saswp-lbp-blog-image img{
 	width: 312px;
 	height: 312px;
+}
+
+.saswp-lbp-blog-image figcaption{
+	font-size: 18px;
+}
+
+.saswp-lbp-blog-video-embed{
+	margin-top: 20px;
 }

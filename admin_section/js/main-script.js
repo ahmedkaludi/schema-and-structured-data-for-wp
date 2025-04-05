@@ -629,6 +629,7 @@ jQuery(document).ready(function($){
            || schematype == 'Product'
            || schematype == 'Review'
            || schematype == 'VacationRental'
+           || schematype == 'CriticReview'
 
            ){
                         
@@ -659,7 +660,7 @@ jQuery(document).ready(function($){
          $(".saswp-event-text-field-tr").show();
          $(".saswp-option-table-class tr").find('select').attr('disabled', false);
          }
-         if(schematype == 'Review' || schematype == 'ReviewNewsArticle'){            
+         if(schematype == 'Review' || schematype == 'ReviewNewsArticle' || schematype == 'CriticReview'){            
          $(".saswp-review-text-field-tr").show();  
          $(".saswp-option-table-class tr").find('select').attr('disabled', false); 
          $(".saswp-item-reivewed-list").change();
@@ -784,7 +785,7 @@ jQuery(document).ready(function($){
                 $("#saswp_location_meta_box").removeClass('saswp_hide');         
             } 
                           
-             if(schematype == 'Review' || schematype == 'ReviewNewsArticle'){            
+             if(schematype == 'Review' || schematype == 'ReviewNewsArticle' || schematype == 'CriticReview'){            
                 $(".saswp-review-text-field-tr").show(); 
                 $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
              }
@@ -1050,6 +1051,17 @@ jQuery(document).ready(function($){
                                 $("#saswp_archive_schema").val(0);           
                                 $(".saswp_archive_schema_type_class").parent().parent().hide();
                                 $(".saswp_archive_list_type_class").parent().parent().hide();
+                              }
+                      break;
+
+                  case 'saswp_author_schema_checkbox':
+                          
+                            if ($(this).is(':checked')) {              
+                                $("#saswp_author_schema").val(1);
+                                $(".saswp_author_schema_type_class").parent().parent().show();
+                              }else{
+                                $("#saswp_author_schema").val(0);
+                                $(".saswp_author_schema_type_class").parent().parent().hide();
                               }
                       break;
                       
@@ -3709,7 +3721,7 @@ jQuery(document).ready(function($){
           var schema_subtype = '';
           var field_name     = null;
           
-          if(schema_type == 'Review'){
+          if(schema_type == 'Review' || schema_type == 'CriticReview'){
               schema_subtype = $('select.saswp-item-reivewed-list option:selected').val();
               field_name  = 'saswp_review_name';
           }          

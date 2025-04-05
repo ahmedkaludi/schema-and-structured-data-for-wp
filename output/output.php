@@ -2401,6 +2401,57 @@ function saswp_schema_output() {
                                 }
                                 
                             break;
+
+                            case 'CriticReview':
+                                                                                            
+                                $review_markup = $service_object->saswp_replace_with_custom_fields_value( $input1, $schema_post_id );                                
+                                $item_reviewed = get_post_meta( $schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true );
+                                
+                                if ( $item_reviewed == 'local_business' ) {
+                                    $item_reviewed = 'LocalBusiness';
+                                }
+                                
+                                $input1['@context']               =  saswp_context_url();
+                                $input1['@type']                  =  'CriticReview';
+                                $input1['@id']                    =  saswp_get_permalink().'#CriticReview';
+                                $input1['itemReviewed']['@type']  =  $item_reviewed;                                                                
+                                                            
+                                if ( isset( $schema_options['enable_custom_field'] ) && $schema_options['enable_custom_field'] == 1 ) {
+                                                                       
+                                    if ( $review_markup ) {
+                                     
+                                        if ( isset( $review_markup['review'] ) ) {
+                                            
+                                            $input1             =  $input1 + $review_markup['review'];
+                                            
+                                        }
+                                        
+                                        if ( isset( $review_markup['item_reviewed']) ) {                                            
+                                            $item_reviewed          = array( '@type' => $item_reviewed) + $review_markup['item_reviewed'];                                        
+                                            $input1['itemReviewed'] = $item_reviewed;
+                                            
+                                        }
+                                        
+                                    }                                                                                                                                                                                  
+                                } 
+                                
+                                $added_reviews = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                
+                                if ( isset( $added_reviews['review']) ) {
+                                    
+                                    $input1['itemReviewed']['review']                    = $added_reviews['review'];
+                                    $input1['itemReviewed']['aggregateRating']           = $added_reviews['aggregateRating'];
+                                
+                                }                                                                                                                     
+                                
+                                $input1 = apply_filters('saswp_modify_critic_review_schema_output', $input1 );
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_critic_review_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+                                
+                            break;
                         
                             case 'VideoObject':
                                 
@@ -2769,6 +2820,25 @@ function saswp_schema_output() {
                                 }
 
                             break;
+
+                            case 'ProfilePage':
+
+                                $author_id = get_the_author_meta( 'ID' );
+
+                                $input1['@context']             =   saswp_context_url();                                                               
+                                $input1['@type']                =   'ProfilePage';                                                               
+                                $input1['url']                  =   get_the_author_meta('user_url', $author_id);            
+
+                                $input1 = apply_filters('saswp_modify_profile_page_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_profile_page_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+                            
+                            break;
                             
                             default:
                                 break;
@@ -2798,7 +2868,7 @@ function saswp_schema_output() {
                         if(!in_array($schema_type, $without_aggregate) && !empty($input1) ){ 
                                                      
                                 
-                                    if($schema_type == 'Review' || $schema_type == 'ReviewNewsArticle'){
+                                    if ( $schema_type == 'Review' || $schema_type == 'ReviewNewsArticle' || $schema_type == 'CriticReview' ) {
 
                                     //Ratency Rating 
                             
@@ -3658,7 +3728,7 @@ function saswp_author_output() {
            $post_id = null;
            $input   = array();
 
-	if ( isset( $sd_data['saswp_archive_schema']) && $sd_data['saswp_archive_schema'] == 1){
+	if ( ( ! isset( $sd_data['saswp_author_schema'] ) ) || ( isset( $sd_data['saswp_author_schema'] ) && $sd_data['saswp_author_schema'] == 1 ) ) {
             
         if(is_object($post) ) {
         
@@ -3673,9 +3743,11 @@ function saswp_author_output() {
 
         if(is_object($post_author) && isset($post_author->ID) ) {
 
+            $author_schema_type     =   isset( $sd_data['saswp_author_schema_type'] ) ? $sd_data['saswp_author_schema_type'] : 'Person'; 
+
             $input = array (
                 '@context' => saswp_context_url(),
-                '@type'	=> 'Person',
+                '@type'	=> esc_attr( $author_schema_type ),
                 'name'	=> get_the_author_meta('display_name'),
                 'url'	=> esc_url( get_author_posts_url( $post_author->ID ) ),
 
@@ -3708,6 +3780,23 @@ function saswp_author_output() {
             if ( get_the_author_meta( 'description', $post_author->ID ) ) {
                 $input['description'] = wp_strip_all_tags( get_the_author_meta( 'description', $post_author->ID ) );
             }
+
+            // Changes for ProfilePage schema
+            if ( $author_schema_type == 'ProfilePage' ) {
+
+                unset( $input['@context'] );
+                $input['@type']     =   'Person';
+
+                $profile_input  =   array();
+                $profile_input['@context']              =   saswp_context_url();
+                $profile_input['@type']                 =   'ProfilePage';
+                $profile_input['mainEntity']            =   $input; 
+
+                $input          =   array();
+                $input          =   $profile_input;
+
+            }
+
         }		
 		return apply_filters('saswp_modify_author_output', $input);
 	    }
