@@ -541,8 +541,13 @@ class SASWP_Gutenberg_Render {
 
         ?>
         <div id="saswp-lbp-schema-wrapper">
-            <?php 
-            $attr_name  =   isset( $attributes['name'] ) ?  $attributes['name'] . ' live blog' : 'Live Blog';
+            <?php
+            $attr_name  =   'Live Blog'; 
+            if ( ! empty( $attributes['event_name'] ) ) {
+                $attr_name  =   $attributes['event_name'] . ' ' . $attr_name;
+            }else if( ! empty( $attributes['name'] ) ) {
+                $attr_name  =   $attributes['name'] . ' ' . $attr_name;
+            }
             ?>
             <div id="saswp-lbp-heading">
                 <h2><?php echo esc_html( $attr_name ); ?></h2>    
