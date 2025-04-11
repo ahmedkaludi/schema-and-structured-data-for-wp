@@ -3106,6 +3106,21 @@ function saswp_itemlist_schema_markup($schema_id, $schema_post_id, $all_post_met
                 );  
             }
             
+            if ( is_category() || is_tag() ) {
+                $term = get_queried_object();
+                if ( is_object( $term ) && ! empty( $term->term_id ) ) {
+                    $loop_query_string = array(
+                        'posts_per_page' => 10,
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => $term->taxonomy, // Change to 'post_tag', 'your_custom_taxonomy', etc.
+                                'terms'    => $term->term_id,
+                            ),
+                        ),
+                    );
+                }
+            }
+
             $post_loop = new WP_Query( $loop_query_string );                
 
             $i = 1;
