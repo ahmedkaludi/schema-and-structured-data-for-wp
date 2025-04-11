@@ -4754,6 +4754,19 @@ Class SASWP_Output_Service{
                         }
                     }
 
+                    if ( ! empty( $custom_fields['saswp_webpage_same_as'] ) && is_string( $custom_fields['saswp_webpage_same_as'] ) ) {
+
+                        $explode_sameas = explode( ',', $custom_fields['saswp_webpage_same_as'] );
+                        if ( ! empty( $explode_sameas ) && is_array( $explode_sameas ) ) {
+                            $about  =   array();
+                            foreach ( $explode_sameas as $sameas ) {
+                                $about['@type']         =   'Thing';    
+                                $about['@sameAs']       =   $sameas;
+                                $input1['about'][]      =   $about;
+                            }
+                        }
+                    }
+
                     break;
 
                     case 'ItemPage':

@@ -2476,7 +2476,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_webpage_mcop_'.$schema_id,
                         'type' => 'text',
 
-                    ),    
+                    ), 
+                    array(
+                        'label' => 'Same As',
+                        'id'    => 'saswp_webpage_same_as_'.$schema_id,
+                        'type'  => 'textarea',
+                        'attributes' => array(
+                            'placeholder' => 'Example, Example2'
+                        ),
+                        'note' => 'Note: Separate same as list by comma ( , )'                     
+                    ),   
                     );
                     break;
 

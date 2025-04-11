@@ -4985,6 +4985,21 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['mainContentOfPage']['name']    =   saswp_remove_warnings($all_post_meta, 'saswp_webpage_mcop_'.$schema_id, 'saswp_array');
             }
         }
+
+        if ( ! empty( $all_post_meta['saswp_webpage_same_as_'.$schema_id] ) ) { 
+            $same_as    =   saswp_remove_warnings( $all_post_meta, 'saswp_webpage_same_as_'.$schema_id, 'saswp_array' );
+            if ( ! empty( $same_as ) && is_string( $same_as ) ) {
+                $same_as    =   explode( ',', $same_as );
+                if ( ! empty( $same_as ) && is_array( $same_as ) ) {
+                    $about  =   array();
+                    foreach ( $same_as as $sameas ) {
+                        $about['@type']         =   'Thing';    
+                        $about['@sameAs']       =   $sameas;
+                        $input1['about'][]      =   $about;
+                    }
+                }    
+            } 
+        }
     
     return $input1;
     
