@@ -1339,7 +1339,7 @@ function saswp_gutenberg_live_blog_posting_schema() {
         $input1['datePublished']        =   esc_html( $date);
         $input1['dateModified']         =   esc_html( $modified_date );
 
-        if ( ! empty( $attributes['attrs']['banner_id'] > 0 ) ) {
+        if ( ! empty( $attributes['attrs']['banner_id'] ) > 0 ) {
             $thumbnail_url              =   saswp_get_image_by_id( $attributes['attrs']['banner_id'] );
             $input1['image']            =   $thumbnail_url;
         }
@@ -1387,7 +1387,7 @@ function saswp_gutenberg_live_blog_posting_schema() {
             if ( isset( $attributes['attrs']['description'] ) ) {
                 $input1['about']['description']         =   $attributes['attrs']['description'];
             }
-            if ( ! empty( $attributes['attrs']['banner_id'] > 0 ) ) {
+            if ( ! empty( $attributes['attrs']['banner_id'] ) > 0 ) {
                 $thumbnail_url                          =   saswp_get_image_by_id( $attributes['attrs']['banner_id'] );
                 $input1['about']['image']               =   $thumbnail_url;
             }
