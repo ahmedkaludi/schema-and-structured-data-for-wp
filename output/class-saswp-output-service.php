@@ -3779,6 +3779,25 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_newsarticle_associated_image'] ) ) {
                         $input1['associatedMedia ']     =    $custom_fields['saswp_newsarticle_associated_image'];
                     }
+                    if ( isset( $custom_fields['saswp_newsarticle_content_location_name'] ) || isset($custom_fields['saswp_newsarticle_content_location_locality'] ) || isset($custom_fields['saswp_newsarticle_content_location_country'] ) || isset($custom_fields['saswp_newsarticle_content_location_region'] ) || isset($custom_fields['saswp_newsarticle_content_location_postal_code'] ) ) {
+
+                        $input1['contentLocation']['@type']                        =   'Place';
+                        if ( isset( $custom_fields['saswp_newsarticle_content_location_name'] ) ) {
+                            $input1['contentLocation']['name']      =   $custom_fields['saswp_newsarticle_content_location_name'];       
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_content_location_locality'] ) ) {
+                            $input1['contentLocation']['address']['addressLocality']      =   $custom_fields['saswp_newsarticle_content_location_locality'];       
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_content_location_region'] ) ) {
+                            $input1['contentLocation']['address']['addressRegion']      =   $custom_fields['saswp_newsarticle_content_location_region'];       
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_content_location_postal_code'] ) ) {
+                            $input1['contentLocation']['address']['postalCode']      =   $custom_fields['saswp_newsarticle_content_location_postal_code'];       
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_content_location_country'] ) ) {
+                            $input1['contentLocation']['address']['addressCountry']      =   $custom_fields['saswp_newsarticle_content_location_country'];       
+                        }
+                    }
                                         
                     break;
                 

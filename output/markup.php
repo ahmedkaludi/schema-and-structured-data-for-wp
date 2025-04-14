@@ -6269,6 +6269,26 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
                 $input1['associatedMedia']['height']              = saswp_remove_warnings( $asso_image, 'height', 'saswp_string' );
             }
         }
+        if ( ( isset( $all_post_meta['saswp_newsarticle_content_location_name_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_content_location_name_'.$schema_id][0] ) ) || ( isset( $all_post_meta['saswp_newsarticle_content_location_locality_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_content_location_locality_'.$schema_id][0] ) ) || ( isset( $all_post_meta['saswp_newsarticle_content_location_country_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_content_location_country_'.$schema_id][0] ) ) && ( isset( $all_post_meta['saswp_newsarticle_content_location_region_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_content_location_region_'.$schema_id][0] ) ) || ( isset( $all_post_meta['saswp_newsarticle_content_location_postal_code_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_content_location_postal_code_'.$schema_id][0] ) ) ) {
+
+                $input1['contentLocation']['@type']                        =   'Place';
+                if ( isset( $all_post_meta['saswp_newsarticle_content_location_name_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_content_location_name_'.$schema_id][0] ) ) {
+                    $input1['contentLocation']['name']                     =   saswp_remove_warnings( $all_post_meta, 'saswp_newsarticle_content_location_name_'.$schema_id, 'saswp_array' );
+                }
+                if ( isset( $all_post_meta['saswp_newsarticle_content_location_locality_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_content_location_locality_'.$schema_id][0] ) ) {
+                    $input1['contentLocation']['address']['addressLocality'] =   saswp_remove_warnings( $all_post_meta, 'saswp_newsarticle_content_location_locality_'.$schema_id, 'saswp_array' );
+                }
+                if ( isset( $all_post_meta['saswp_newsarticle_content_location_region_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_content_location_region_'.$schema_id][0] ) ) {
+                    $input1['contentLocation']['address']['addressRegion'] =   saswp_remove_warnings( $all_post_meta, 'saswp_newsarticle_content_location_region_'.$schema_id, 'saswp_array' );
+                }
+                if ( isset( $all_post_meta['saswp_newsarticle_content_location_postal_code_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_content_location_postal_code_'.$schema_id][0] ) ) {
+                    $input1['contentLocation']['address']['postalCode'] =   saswp_remove_warnings( $all_post_meta, 'saswp_newsarticle_content_location_postal_code_'.$schema_id, 'saswp_array' );
+                }
+                if ( isset( $all_post_meta['saswp_newsarticle_content_location_country_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_content_location_country_'.$schema_id][0] ) ) {
+                    $input1['contentLocation']['address']['addressCountry'] =   saswp_remove_warnings( $all_post_meta, 'saswp_newsarticle_content_location_country_'.$schema_id, 'saswp_array' );
+                }
+
+        }
     
     return $input1;
     
