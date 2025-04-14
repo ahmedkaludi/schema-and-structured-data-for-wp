@@ -6260,6 +6260,15 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
                     );
 
                     }
+        if( !empty($all_post_meta['saswp_newsarticle_associated_image_'.$schema_id][0]) && isset( $all_post_meta['saswp_newsarticle_associated_image_'.$schema_id][0] ) ) {
+            $asso_image                                         = get_post_meta( get_the_ID(), 'saswp_newsarticle_associated_image_'.$schema_id.'_detail',true);
+            if ( is_array( $asso_image ) && isset( $asso_image['width'] ) && isset( $asso_image['height'] ) ) {
+                $input1['associatedMedia']['@type']               = 'ImageObject';
+                $input1['associatedMedia']['url']                 = saswp_remove_warnings( $all_post_meta, 'saswp_newsarticle_associated_image_'.$schema_id, 'saswp_array' );
+                $input1['associatedMedia']['width']               = saswp_remove_warnings( $asso_image, 'width', 'saswp_string' );
+                $input1['associatedMedia']['height']              = saswp_remove_warnings( $asso_image, 'height', 'saswp_string' );
+            }
+        }
     
     return $input1;
     

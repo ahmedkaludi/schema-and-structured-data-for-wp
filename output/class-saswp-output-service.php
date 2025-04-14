@@ -3776,6 +3776,9 @@ Class SASWP_Output_Service{
                      $input1['publisher']['name']        =    $custom_fields['saswp_newsarticle_organization_name'];
                      $input1['publisher']['logo']        =    $custom_fields['saswp_newsarticle_organization_logo'];
                     }
+                    if ( isset( $custom_fields['saswp_newsarticle_associated_image'] ) ) {
+                        $input1['associatedMedia ']     =    $custom_fields['saswp_newsarticle_associated_image'];
+                    }
                                         
                     break;
                 

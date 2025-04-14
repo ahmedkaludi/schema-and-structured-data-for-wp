@@ -903,6 +903,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'         => 'saswp_newsarticle_publisher_'.$schema_id,
                         'type'       => 'text',
                         'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label' => 'Associated Media',
+                            'id' => 'saswp_newsarticle_associated_image_'.$schema_id,
+                            'type' => 'media',                            
                     ),                        
                     );
                     break;
