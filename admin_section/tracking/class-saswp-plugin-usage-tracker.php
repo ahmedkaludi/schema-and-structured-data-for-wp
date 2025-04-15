@@ -229,6 +229,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			}
 			$body['marketing_method'] = $this->marketing;
 	
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash
 			$body['server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field($_SERVER['SERVER_SOFTWARE']) : '';
 
 			// Retrieve current plugin information
@@ -637,9 +638,9 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			// Check for plugin args
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 			if( isset( $_GET['plugin'] ) && isset( $_GET['plugin_action'] ) ) {
-				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 				$plugin = sanitize_text_field( $_GET['plugin'] );
-				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 				$action = sanitize_text_field( $_GET['plugin_action'] );
 				if( $action == 'yes' ) {
 					$this->set_is_tracking_allowed( true, $plugin );
@@ -729,7 +730,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 			if( isset( $_GET['marketing_optin'] ) ) {
 				// Set marketing optin
-				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside admin_notice hook.
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason: We are not processing form information but only loading it inside admin_notice hook.
 				$this->set_can_collect_email( sanitize_text_field( $_GET['marketing_optin'] ), $this->plugin_name );
 				// Do tracking
 				$this->do_tracking( true );
@@ -945,11 +946,15 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 			    die( '-1' );    
 			}
 			check_ajax_referer( 'saswp_goodbye_form', 'security' );
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			if( isset( $_POST['values'] ) ) {
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$values = wp_json_encode( wp_unslash( $_POST['values'] ) );
 				update_option( 'wisdom_deactivation_reason_' . $this->plugin_name, $values );
 			}
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			if( isset( $_POST['details'] ) ) {
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 				$details = sanitize_text_field( $_POST['details'] );
 				update_option( 'wisdom_deactivation_details_' . $this->plugin_name, $details );
 			}

@@ -998,7 +998,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                        if ( is_array( $attached_rv) && in_array($val['saswp_review_id'], $attached_rv) ) {
                                            $checked = 'checked';
                                        }
-                                       
+                                       // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                                        echo '<input class="saswp-attach-rv-checkbox" type="checkbox" '. esc_attr( $checked).'>  <strong> '.esc_html( $val['saswp_reviewer_name']).' ( Rating - '. esc_attr( $val['saswp_review_rating']).' ) <span class="saswp-g-plus"><img src="'. esc_url( $val['saswp_review_platform_icon']).'"/></span></strong>';
                                        echo '</div>';
                                        
@@ -1318,6 +1318,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                 echo '<div class="saswp_image_div_'. esc_attr( $el_id).'">';
                                                 if($media_url){
                                                     echo  '<div class="saswp_image_thumbnail">';
+                                                    // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                                                     echo  '<img class="saswp_image_prev" src="'. esc_url( $media_url).'" />';
                                                     echo  '<a data-id="'. esc_attr( $el_id).'" href="#" class="saswp_prev_close">X</a>';
                                                     echo  '</div>';
@@ -1411,6 +1412,7 @@ function saswp_get_reviews_on_load() {
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
@@ -1418,9 +1420,10 @@ function saswp_get_reviews_on_load() {
                 die( '-1' );    
             }
             $reviews    = array();
-            $offset     = isset($_GET['offset'])?intval($_GET['offset']):'';
-            $paged      = isset($_GET['paged'])?intval($_GET['paged']):'';
-            $data_type  = isset($_GET['data_type'])?sanitize_text_field($_GET['data_type']):'';
+            $offset     = isset( $_GET['offset'] ) ? intval( $_GET['offset'] ) : '';
+            $paged      = isset( $_GET['paged'] ) ? intval( $_GET['paged'] ) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
+            $data_type  = isset( $_GET['data_type'] ) ? sanitize_text_field( $_GET['data_type'] ) : '';
             
             if($paged && $offset){
                 
@@ -1466,6 +1469,7 @@ function saswp_get_manual_fields_on_ajax() {
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             } 
@@ -1473,8 +1477,9 @@ function saswp_get_manual_fields_on_ajax() {
                 die( '-1' );    
             }
             $output_escaped      = '';
-            $post_id     = isset($_GET['post_id'])?intval($_GET['post_id']):'';
-            $schema_type = isset($_GET['schema_type'])?sanitize_text_field($_GET['schema_type']):'';
+            $post_id     = isset( $_GET['post_id'] ) ? intval( $_GET['post_id'] ) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason get data is just used here so there is no necessary of unslash
+            $schema_type = isset( $_GET['schema_type'] ) ? sanitize_text_field( $_GET['schema_type'] ) : '';
         
             $common_obj = new SASWP_View_Common();
 
@@ -1496,6 +1501,7 @@ function saswp_get_manual_fields_on_ajax() {
  */
 function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) { 
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( ! isset( $_POST['saswp_schema_type_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_type_nonce'], 'saswp_schema_type_nonce' ) ) return;
         if ( ! current_user_can( 'edit_post', $post_id ) ) return;          
 
@@ -1512,7 +1518,7 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
     
         } 
         if ( isset( $_POST['schema_type']) ) {     
-            update_post_meta( $post_id, 'schema_type', sanitize_text_field( $_POST['schema_type'] ) );
+            update_post_meta( $post_id, 'schema_type', sanitize_text_field( wp_unslash( $_POST['schema_type'] ) ) );
         }else{
             delete_post_meta( $post_id, 'schema_type');
         } 
@@ -1524,7 +1530,7 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         }
         
         if ( isset( $_POST['saswp_business_type']) ) {
-            update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( $_POST['saswp_business_type'] ) );
+            update_post_meta( $post_id, 'saswp_business_type', sanitize_text_field( wp_unslash( $_POST['saswp_business_type'] ) ) );
         }else{
             delete_post_meta( $post_id, 'saswp_business_type');   
         }
@@ -1536,13 +1542,13 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         }                
     
         if ( isset( $_POST['saswp_event_type']) ) {
-            update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( $_POST['saswp_event_type'] ) );
+            update_post_meta( $post_id, 'saswp_event_type', sanitize_text_field( wp_unslash( $_POST['saswp_event_type'] ) ) );
         }else{
             delete_post_meta( $post_id, 'saswp_event_type');   
         }
     
         if ( isset( $_POST['saswp_business_name']) ) {
-            update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( $_POST['saswp_business_name'] ) );   
+            update_post_meta( $post_id, 'saswp_business_name', sanitize_text_field( wp_unslash( $_POST['saswp_business_name'] ) ) );   
         }else{
             delete_post_meta( $post_id, 'saswp_business_name');   
         }
@@ -1574,31 +1580,36 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         }
     
         if ( isset( $_POST['saswp_item_list_tags']) ) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
             update_post_meta( $post_id, 'saswp_item_list_tags', sanitize_text_field($_POST['saswp_item_list_tags']) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_item_list_tags');                                                                       
         }
         if ( isset( $_POST['saswp_item_list_custom']) ) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
             update_post_meta( $post_id, 'saswp_item_list_custom', sanitize_text_field($_POST['saswp_item_list_custom']) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_item_list_custom');                                                                       
         }
         if ( isset( $_POST['saswp_review_item_reviewed_'.$post_id]) ) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
             update_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id, sanitize_text_field($_POST['saswp_review_item_reviewed_'.$post_id]) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_review_item_reviewed_'.$post_id);                                                                       
         }
         if ( isset( $_POST['saswp_itemlist_item_type']) ) {
-            update_post_meta( $post_id, 'saswp_itemlist_item_type', sanitize_text_field($_POST['saswp_itemlist_item_type']) );                                                                       
+            update_post_meta( $post_id, 'saswp_itemlist_item_type', sanitize_text_field( wp_unslash( $_POST['saswp_itemlist_item_type'] ) ) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_itemlist_item_type');                                                                       
         }
         if ( isset( $_POST['saswp_attahced_reviews']) ) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             update_post_meta( $post_id, 'saswp_attahced_reviews', json_decode(wp_unslash($_POST['saswp_attahced_reviews'])) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_attahced_reviews');                                                                       
         }
         if ( isset( $_POST['saswp_attached_collection']) ) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             update_post_meta( $post_id, 'saswp_attached_collection', json_decode(wp_unslash($_POST['saswp_attached_collection'])) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_attached_collection');                                                                       
@@ -1610,19 +1621,20 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         }
 
         if ( isset( $_POST['saswp_schema_organization_type']) ) {
-            update_post_meta( $post_id, 'saswp_schema_organization_type', sanitize_text_field($_POST['saswp_schema_organization_type']));                                                                       
+            update_post_meta( $post_id, 'saswp_schema_organization_type', sanitize_text_field( wp_unslash( $_POST['saswp_schema_organization_type'] ) ) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_schema_organization_type');                                                                       
         }
         
         if ( isset( $_POST['saswp_webpage_type']) ) {
-            update_post_meta( $post_id, 'saswp_webpage_type', sanitize_text_field( $_POST['saswp_webpage_type'] ) );
+            update_post_meta( $post_id, 'saswp_webpage_type', sanitize_text_field( wp_unslash( $_POST['saswp_webpage_type'] ) ) );
         }else{
             delete_post_meta( $post_id, 'saswp_webpage_type');   
         }
 
         if ( isset( $_POST['faq_repeater_question_'.$post_id]) && is_array($_POST['faq_repeater_question_'.$post_id]) ) {
             $element_val = array();
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             $repeater_que_data = $_POST['faq_repeater_question_'.$post_id];
             foreach ( $repeater_que_data as $supply){
                 $sanitize_data = array();

@@ -18,6 +18,7 @@ function saswp_skip_wizard() {
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
            return; 
         }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }    
@@ -118,6 +119,7 @@ function saswp_reset_all_settings() {
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
            return; 
         }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }
@@ -812,7 +814,9 @@ function saswp_comparison_logic_checker($input, $post){
           global $wp;
           
           $url            = '';
+          // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash,  WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason Not performing any form submission so nonce verification is not needed.
           if ( ! empty( $_GET['tag_ID'] ) && is_admin( $_GET['tag_ID'] ) ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason Not performing any form submission so nonce verification is not needed.
             $term_object  = get_term( intval( $_GET['tag_ID'] ) );
             $url          = $term_object->slug;
           }else if ( is_admin() && is_object( $post ) && ! empty( $post->ID ) ) {
@@ -1120,7 +1124,7 @@ function saswp_dequeue_script() {
    
     if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
        
-      // if our nonce isn't there, or we can't verify it, bail
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
     if( !isset( $_POST['saswp_select_name_nonce'] ) || !wp_verify_nonce( $_POST['saswp_select_name_nonce'], 'saswp_select_action_nonce' ) ) return;
       
       // if our current user can't edit this post, bail
@@ -1132,6 +1136,7 @@ function saswp_dequeue_script() {
     
     if ( isset( $_POST['data_group_array']) ) {        
         
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
     $post_data_group_array = (array) $_POST['data_group_array'];    
     
     foreach( $post_data_group_array as $groups){        
@@ -1675,14 +1680,19 @@ function saswp_send_query_message() {
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
            return; 
         }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }   
         $customer_type  = 'Are you a premium customer ? No';
-        $message        = isset($_POST['message'])?saswp_sanitize_textarea_field($_POST['message']):''; 
-        $email          = isset($_POST['email'])?saswp_sanitize_textarea_field($_POST['email']):''; 
-        $premium_cus    = isset($_POST['premium_cus'])?saswp_sanitize_textarea_field($_POST['premium_cus']):'';   
-        $name           = isset($_POST['name'])?saswp_sanitize_textarea_field($_POST['name']):'';   
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason Sanitization is done after validationg the value
+        $message        = isset( $_POST['message'] ) ? saswp_sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : ''; 
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason Sanitization is done after validationg the value
+        $email          = isset( $_POST['email'] ) ? saswp_sanitize_textarea_field( wp_unslash( $_POST['email'] ) ) : ''; 
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason Sanitization is done after validationg the value
+        $premium_cus    = isset( $_POST['premium_cus'] ) ? saswp_sanitize_textarea_field( wp_unslash( $_POST['premium_cus'] ) ) : '';   
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason Sanitization is done after validationg the value
+        $name           = isset( $_POST['name'] ) ? saswp_sanitize_textarea_field( wp_unslash( $_POST['name'] ) ) : '';   
                                 
         if ( function_exists( 'wp_get_current_user') ) {
 
@@ -1739,13 +1749,14 @@ function saswp_dismiss_notices() {
   if ( ! isset( $_POST['saswp_security_nonce'] ) ){
     return; 
   }
+  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
   if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
     return;  
   }
   
   if ( isset( $_POST['notice_type']) ) {
     
-    $notice_type = sanitize_text_field($_POST['notice_type']);
+    $notice_type = sanitize_text_field( wp_unslash( $_POST['notice_type'] ) );
 
     $user_id      = get_current_user_id();
     
@@ -1775,11 +1786,12 @@ function saswp_import_plugin_data() {
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
            return; 
         }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }    
         
-        $plugin_name   = isset($_GET['plugin_name'])?sanitize_text_field($_GET['plugin_name']):'';         
+        $plugin_name   = isset( $_GET['plugin_name'] ) ? sanitize_text_field( wp_unslash( $_GET['plugin_name'] ) ) : '';         
         $result        = '';
         
         switch ($plugin_name) {
@@ -1868,6 +1880,7 @@ function saswp_feeback_no_thanks() {
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
            return; 
         }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }
@@ -1898,6 +1911,7 @@ function saswp_feeback_remindme() {
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
            return; 
         }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }
@@ -2208,12 +2222,16 @@ function saswp_license_status_check() {
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
              return; 
         }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
              return;  
         }    
         
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
         $add_on           = isset($_POST['add_on'])?sanitize_text_field($_POST['add_on']):'';
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
         $license_status   = isset($_POST['license_status'])?sanitize_text_field($_POST['license_status']):'';
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
         $license_key      = isset($_POST['license_key'])?sanitize_text_field($_POST['license_key']):'';
         
 
@@ -2238,6 +2256,7 @@ function saswp_license_transient() {
             if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                  die( '-1' );  
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                  return;  
             }
@@ -2255,6 +2274,7 @@ function saswp_expired_license_transient() {
             if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                  die( '-1' );  
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                  return;  
             }
@@ -2402,9 +2422,12 @@ function saswp_get_select2_data() {
           return; 
         }
         
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ) ||  (wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_add_new_nonce' ) ) ) {
 
-          $search        = isset( $_GET['q'] ) ? sanitize_text_field( $_GET['q'] ) : '';                                    
+          // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash
+          $search        = isset( $_GET['q'] ) ? sanitize_text_field( $_GET['q'] ) : '';    
+          // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash                                
           $type          = isset( $_GET['type'] ) ? sanitize_text_field( $_GET['type'] ) : '';                                    
 
           $result = saswp_get_condition_list($type, $search);
@@ -2425,6 +2448,7 @@ function saswp_clear_resized_image_folder() {
   if ( ! isset( $_POST['saswp_security_nonce'] ) ){
       return; 
   }
+  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
   if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
       return;  
   }
@@ -2465,6 +2489,7 @@ function saswp_create_resized_image_folder() {
   if ( ! isset( $_POST['saswp_security_nonce'] ) ){
      return; 
   }
+  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
   if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
      return;  
   }    

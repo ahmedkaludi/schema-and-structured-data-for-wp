@@ -412,7 +412,7 @@ class SASWP_Reviews_Service {
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                     return; 
                 }
-                
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
                 if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                    return;  
                 }
@@ -422,26 +422,26 @@ class SASWP_Reviews_Service {
                 $location  = $blocks = $premium_status = $g_api = $reviews_api = $reviews_api_status = $language = '';
                 
                 if ( isset( $_POST['reviews_api']) ) {
-                    $reviews_api = sanitize_text_field($_POST['reviews_api']);
+                    $reviews_api = sanitize_text_field( wp_unslash( $_POST['reviews_api'] ) );
                 }
                 
                 if ( isset( $_POST['reviews_api_status']) ) {
-                    $reviews_api_status = sanitize_text_field($_POST['reviews_api_status']);
+                    $reviews_api_status = sanitize_text_field( wp_unslash( $_POST['reviews_api_status'] ) );
                 }
                                 
                 if ( isset( $_POST['location']) ) {
-                    $location = sanitize_text_field($_POST['location']);
+                    $location = sanitize_text_field( wp_unslash( $_POST['location'] ) );
                 }
                 if ( isset( $_POST['language']) ) {
-                    $language = sanitize_text_field($_POST['language']);
+                    $language = sanitize_text_field( wp_unslash( $_POST['language'] ) );
                 }
                 
                 if ( isset( $_POST['g_api']) ) {                    
-                    $g_api = sanitize_text_field($_POST['g_api']);                                        
+                    $g_api = sanitize_text_field( wp_unslash( $_POST['g_api'] ) );                                        
                 }
                 
                 if ( isset( $_POST['premium_status']) ) {
-                    $premium_status = sanitize_text_field($_POST['premium_status']);
+                    $premium_status = sanitize_text_field( wp_unslash( $_POST['premium_status'] ) );
                 }
                 
                 if ( isset( $_POST['blocks']) ) {

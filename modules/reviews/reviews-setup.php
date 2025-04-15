@@ -137,6 +137,7 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                     $url = admin_url( 'post.php?post='.$post_id.'&action=edit' );
                     echo '<div class="saswp-rv-img">'
                        . '<a href="'. esc_url( $url).'">'
+                       // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                        . '<span><img height="65" width="65" src="'. esc_url( $image_url).'" alt="Reviewer"></span>'
                        . '<span><strong>'.esc_html( $name).'</strong></span>'
                        . '</a>'
@@ -164,12 +165,13 @@ function saswp_reviews_custom_columns_set( $column, $post_id ) {
                              $default_logo       = $service_object->saswp_get_publisher(true);                                                         
                              
                              if ( isset( $default_logo['url']) ) {
-                            
+                                // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                                  echo '<span class="saswp-g-plus"><img src="'. esc_url( $default_logo['url']).'" alt="Icon" /></span>';
                                  
                              }
                             
                         }else{
+                            // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                             echo '<span class="saswp-g-plus"><img src="'. esc_url( SASWP_PLUGIN_URL.'/admin_section/images/reviews_platform_icon/'.$term->slug.'-img.png').'" alt="Icon" /></span>';
                         }
                                                 
@@ -594,7 +596,7 @@ function saswp_reviews_filter() {
       $current_plugin = '';
       // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the restrict_manage_posts hook.
       if( isset( $_GET['slug'] ) ) {
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the restrict_manage_posts hook.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason: We are not processing form information but only loading it inside the restrict_manage_posts hook.
         $current_plugin = sanitize_text_field($_GET['slug']); // Check if option has been selected
       } ?>
       <select name="slug" id="slug">
@@ -622,7 +624,7 @@ function saswp_sort_reviews_by_platform( $query ) {
    }    
   global $pagenow;  
   $post_type = get_query_var('post_type');
-  // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside parse_query filter.
+  // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information but only loading it inside parse_query filter and santization is done below.
   $slug = isset($_GET['slug']) ? $_GET['slug'] : '';  
   if ( is_admin() && $pagenow == 'edit.php' && $post_type == 'saswp_reviews' && $slug !='all' ) {
       

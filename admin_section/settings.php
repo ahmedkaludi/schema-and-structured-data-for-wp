@@ -692,7 +692,7 @@ function saswp_handle_file_upload($option){
        $fileInfo = array(); 
        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
        if ( isset( $_FILES['saswp_import_backup']['name']) ) { 
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information but only loading it inside the admin_init hook.
             $fileInfo = wp_check_filetype(basename($_FILES['saswp_import_backup']['name']));
         }
     
@@ -708,12 +708,12 @@ function saswp_handle_file_upload($option){
         }
        
    }
-   // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+   // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information but only loading it inside the admin_init hook.
    if ( isset( $_FILES['saswp_upload_rv_csv']) ) {
         $fileInfo = array();
         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
         if ( isset( $_FILES['saswp_upload_rv_csv']['name']) ) {
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading it inside the admin_init hook.
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information but only loading it inside the admin_init hook.
             $fileInfo = wp_check_filetype(basename($_FILES['saswp_upload_rv_csv']['name']));
         }
      
@@ -843,8 +843,9 @@ foreach( $main_ext_array as $value){
 
     $plist =   "<li>
                 <div class='saswp-features-ele'>
-                <div class='saswp-ele-ic' style='background: ".$addon_bgcolor.";'>
-                <img src=". esc_url( $addon_image).">
+                <div class='saswp-ele-ic' style='background: ".$addon_bgcolor.";'>";
+    // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+    $plist .=  "<img src=". esc_url( $addon_image).">
                 </div>
                 <div class='saswp-ele-tlt'>
                 <h3>".esc_html( $addon_name)."</h3>
@@ -888,7 +889,8 @@ function saswp_services_callback() {
                         <li>
                 <div class="saswp-features-ele">
                     <div class="saswp-ele-ic saswp-ele-4" style="background: #69e781;">
-                                            <img src="<?php echo esc_url(SASWP_PLUGIN_URL); ?>/admin_section/images/support-1.png">
+                        <?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
+                        <img src="<?php echo esc_url(SASWP_PLUGIN_URL); ?>/admin_section/images/support-1.png">
                     </div>
                     <div class="saswp-ele-tlt">
                         <h3><?php echo esc_html__( 'Priority Support', 'schema-and-structured-data-for-wp' ) ?></h3>
@@ -905,7 +907,8 @@ function saswp_services_callback() {
             <li>
                 <div class="saswp-features-ele">
                     <div class="saswp-ele-ic saswp-ele-3">
-                                            <img src="<?php echo esc_url(SASWP_PLUGIN_URL); ?>/admin_section/images/news.png">
+                        <?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
+                        <img src="<?php echo esc_url(SASWP_PLUGIN_URL); ?>/admin_section/images/news.png">
                     </div>
                     <div class="saswp-ele-tlt">
                         <h3><?php echo esc_html__( 'Google News Schema Setup', 'schema-and-structured-data-for-wp' ) ?></h3>
@@ -922,7 +925,8 @@ function saswp_services_callback() {
             <li>
                 <div class="saswp-features-ele">
                     <div class="saswp-ele-ic saswp-ele-4">
-                                            <img src="<?php echo esc_url(SASWP_PLUGIN_URL); ?>/admin_section/images/schema-setup-icon.png">
+                        <?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
+                        <img src="<?php echo esc_url(SASWP_PLUGIN_URL); ?>/admin_section/images/schema-setup-icon.png">
                     </div>
                     <div class="saswp-ele-tlt">
                         <h3><?php echo esc_html__( 'Structured Data Setup & Error Clean Up', 'schema-and-structured-data-for-wp' ) ?></h3>

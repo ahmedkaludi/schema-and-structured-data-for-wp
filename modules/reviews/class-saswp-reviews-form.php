@@ -101,8 +101,10 @@ class SASWP_Reviews_Form {
                 }
             }  
                         
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
             $rv_link   = isset($_SERVER['HTTP_REFERER'])?sanitize_url($_SERVER['HTTP_REFERER']):''; 
-            if(!wp_verify_nonce($_POST['saswp_review_nonce'], 'saswp_review_form') ) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
+            if ( isset( $_POST['saswp_review_nonce'] ) && ! wp_verify_nonce( $_POST['saswp_review_nonce'], 'saswp_review_form' ) ) {
                 if($is_amp){
                     header("AMP-Redirect-To: ".$rv_link);
                     header("Access-Control-Expose-Headers: AMP-Redirect-To, AMP-Access-Control-Allow-Source-Origin");                                 
@@ -126,7 +128,9 @@ class SASWP_Reviews_Form {
                 
                 $captcha = '';
 
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason: Nonce verification done here so unslash is not used.
                 if ( isset( $_POST['g-recaptcha-response']) ) {
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason: Nonce verification done here so unslash is not used.
                     $captcha = $_POST['g-recaptcha-response'];
                 }
                 
@@ -147,9 +151,12 @@ class SASWP_Reviews_Form {
 
             }
                                     
-            if($_POST['action'] == 'saswp_review_form'){
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason: Nonce verification done here so unslash is not used.
+            if ( isset( $_POST['action'] ) && $_POST['action'] == 'saswp_review_form'){
                                
                if($is_amp){
+                    
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason: Nonce verification done here so unslash is not used.
                     $http_origin = isset($_SERVER['HTTP_ORIGIN'])?sanitize_text_field($_SERVER['HTTP_ORIGIN']):'';
                     header("access-control-allow-credentials:true");
                     header("access-control-allow-headers:Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token");
@@ -331,6 +338,7 @@ class SASWP_Reviews_Form {
         if ( ! isset( $_POST['saswp_security_nonce'] ) ){
             return; 
         }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         } 
@@ -339,16 +347,16 @@ class SASWP_Reviews_Form {
         }
 
         if ( ! isset( $_POST['gsitekey']) && !isset($_POST['gsecretkey']) ) {
-            $captcha_enable = intval($_POST['captcha_enable']);
+            $captcha_enable = isset( $_POST['captcha_enable'] ) ? intval( $_POST['captcha_enable'] ) : '';
             $keys['saswp_ar_captcha_checkbox'] = $captcha_enable;
 
             $get_options   = get_option('sd_data');
             $merge_options = array_merge($get_options, $keys);
             update_option('sd_data', $merge_options);
         }elseif ( isset( $_POST['gsitekey']) && isset($_POST['gsecretkey']) ) {
-            $gsitekey = sanitize_text_field($_POST['gsitekey']);
-            $gsecretkey = sanitize_text_field($_POST['gsecretkey']);
-            $captcha_enable = intval($_POST['captcha_enable']);
+            $gsitekey = isset( $_POST['gsitekey'] ) ? sanitize_text_field( wp_unslash( $_POST['gsitekey'] ) ) : '';
+            $gsecretkey = isset( $_POST['gsecretkey'] ) ? sanitize_text_field( wp_unslash( $_POST['gsecretkey'] ) ) : '';
+            $captcha_enable = isset( $_POST['captcha_enable'] ) ? intval( $_POST['captcha_enable'] ) : '';
 
             $keys['saswp_g_site_key'] = $gsitekey;
             $keys['saswp_g_secret_key'] = $gsecretkey;

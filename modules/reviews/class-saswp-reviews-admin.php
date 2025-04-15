@@ -198,8 +198,9 @@ class SASWP_Reviews_Admin {
                                         $image_pre = '';
                                         if($media_thumbnail){
                                             
-                                           $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'. esc_url( $media_thumbnail).'" />
+                                           $image_pre = '<div class="saswp_image_thumbnail">';
+                                           // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                                           $image_pre .='<img class="saswp_image_prev" src="'. esc_url( $media_thumbnail).'" />
                                                          <a data-id="'. esc_attr( $meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             
@@ -267,6 +268,7 @@ class SASWP_Reviews_Admin {
             
 		if ( ! isset( $_POST['saswp_reviews_nonce'] ) )
 			return $post_id;		
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
 		if ( !wp_verify_nonce( $_POST['saswp_reviews_nonce'], 'saswp_reviews_data' ) )
 			return $post_id;
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )

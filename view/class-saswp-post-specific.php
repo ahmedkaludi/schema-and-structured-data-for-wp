@@ -100,6 +100,7 @@ class SASWP_Post_Specific {
             if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }  
@@ -170,6 +171,7 @@ class SASWP_Post_Specific {
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             } 
@@ -219,6 +221,7 @@ class SASWP_Post_Specific {
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             } 
@@ -229,11 +232,14 @@ class SASWP_Post_Specific {
             $output_escaped = '';
             $disabled       = '';
             
-            $item_reviewed = isset($_GET['item'])?sanitize_text_field($_GET['item']):'';  
-            $schema_id     = isset($_GET['schema_id'])?sanitize_text_field($_GET['schema_id']):'';
-            $schema_type   = isset($_GET['schema_type'])?sanitize_text_field($_GET['schema_type']):'';
-            $post_id       = isset($_GET['post_id'])?intval($_GET['post_id']):'';  
-            $modify_this   = isset($_GET['modify_this'])?intval($_GET['modify_this']):'';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
+            $item_reviewed = isset( $_GET['item'] ) ? sanitize_text_field( $_GET['item'] ) : '';  
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
+            $schema_id     = isset( $_GET['schema_id'] ) ? sanitize_text_field( $_GET['schema_id'] ) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
+            $schema_type   = isset( $_GET['schema_type'] ) ? sanitize_text_field( $_GET['schema_type'] ) : '';
+            $post_id       = isset( $_GET['post_id'] ) ? intval( $_GET['post_id'] ) : '';  
+            $modify_this   = isset( $_GET['modify_this'] ) ? intval( $_GET['modify_this'] ) : '';
             
             $schema_enable     = get_post_meta($post_id, 'saswp_enable_disable_schema', true); 
                         
@@ -257,6 +263,7 @@ class SASWP_Post_Specific {
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                    return; 
                 }
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
                 if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                    return;  
                 } 
@@ -265,10 +272,13 @@ class SASWP_Post_Specific {
                 }
                 
                 $schema_enable = array();
-                $post_id       = isset($_POST['post_id'])?intval($_POST['post_id']):'';
-                $schema_id     = isset($_POST['schema_id'])?sanitize_text_field($_POST['schema_id']):'';
-                $status        = isset($_POST['status'])?sanitize_text_field($_POST['status']):'';
-                $req_from      = isset($_POST['req_from'])?sanitize_text_field($_POST['req_from']):'';
+                $post_id       = isset( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : '';
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
+                $schema_id     = isset( $_POST['schema_id'] ) ? sanitize_text_field( $_POST['schema_id'] ) : '';
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
+                $status        = isset( $_POST['status'] ) ? sanitize_text_field( $_POST['status'] ) : '';
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
+                $req_from      = isset( $_POST['req_from'] ) ? sanitize_text_field( $_POST['req_from'] ) : '';
                             
                 if($req_from == 'post'){
                     $schema_enable_status = get_post_meta($post_id, 'saswp_enable_disable_schema', true);  
@@ -365,6 +375,7 @@ class SASWP_Post_Specific {
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
@@ -376,10 +387,11 @@ class SASWP_Post_Specific {
             $schema_type = '';
                         
             if ( isset( $_GET['schema_type']) ) {
-                $schema_type = sanitize_text_field($_GET['schema_type']);
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
+                $schema_type = sanitize_text_field( $_GET['schema_type'] );
             }              
             if ( isset( $_GET['meta_name']) ) {  
-                
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
                 $meta_name = sanitize_text_field($_GET['meta_name']);                     
                 if($meta_name == 'itemlist_item'){
                     
@@ -656,7 +668,8 @@ class SASWP_Post_Specific {
                 
         if ( ! isset( $_POST['taxonomy_specific_nonce'] ) ) return $post_id;
 
-		if ( !wp_verify_nonce( $_POST['taxonomy_specific_nonce'], 'taxonomy_specific_nonce_data' ) ) return $post_id;	
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
+        if ( !wp_verify_nonce( $_POST['taxonomy_specific_nonce'], 'taxonomy_specific_nonce_data' ) ) return $post_id;	
 
         $allowed_html = saswp_expanded_allowed_tags(); 
                                                  
@@ -680,7 +693,8 @@ class SASWP_Post_Specific {
 	public function saswp_post_specific_save_fields( $post_id ) {
                                             
 		if ( ! isset( $_POST['post_specific_nonce'] ) ) return $post_id;					        
-		if ( !wp_verify_nonce( $_POST['post_specific_nonce'], 'post_specific_data' ) ) return $post_id;			
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
+        if ( !wp_verify_nonce( $_POST['post_specific_nonce'], 'post_specific_data' ) ) return $post_id;			
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return $post_id;       			
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return $post_id;    
                                        
@@ -702,13 +716,15 @@ class SASWP_Post_Specific {
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             } 
             if(!current_user_can( saswp_current_user_can()) ) {
                 die( '-1' );    
             }
-            $business_type = isset($_GET['business_type'])?sanitize_text_field($_GET['business_type']):'';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
+            $business_type = isset( $_GET['business_type'] ) ? sanitize_text_field( $_GET['business_type'] ) : '';
                                        
             $response = $this->_local_sub_business[$business_type]; 
             

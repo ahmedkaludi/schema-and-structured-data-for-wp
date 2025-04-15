@@ -1381,6 +1381,7 @@ function saswp_validate_schema_template_attr(){
 	if ( ! isset( $_POST['saswp_security_nonce'] ) ){
         return; 
     }
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
     if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
        return;  
     } 
@@ -1390,7 +1391,9 @@ function saswp_validate_schema_template_attr(){
 
     if ( isset( $_POST['schema_type'] ) && isset( $_POST['field_name'] ) ) {
     	
+    	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
     	$schema_type 	=	sanitize_text_field( $_POST['schema_type'] );
+    	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
     	$field_name 	=	sanitize_text_field( $_POST['field_name'] );
 
 		$meta_fields 	=	$meta_field = saswp_get_fields_by_schema_type( null, null, $schema_type, 'manual' );

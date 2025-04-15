@@ -2,7 +2,7 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 5.6.20
 Stable tag: 1.44
 License: GPLv2 or later

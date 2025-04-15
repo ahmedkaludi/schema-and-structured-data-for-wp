@@ -108,6 +108,7 @@ Class SASWP_Output_Service{
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
              }
+             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
              if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
@@ -8257,7 +8258,7 @@ Class SASWP_Output_Service{
                         if ( saswp_remove_warnings($sd_data, 'saswp-foxizcore', 'saswp_string') == 1 ) {
                             foreach ( $custom_fields['saswp_lbp_live_blog_update'] as $lbu_key => $blog_update ) {
                                 if ( is_array( $blog_update ) && ! empty( $blog_update['datePublished'] ) ) {
-                                    $custom_fields['saswp_lbp_live_blog_update'][$lbu_key]['datePublished'] = saswp_format_date_time( date( 'Y-m-d', strtotime( $blog_update['datePublished'] ) ), date( 'H:i:s', strtotime( $blog_update['datePublished'] ) ) );
+                                    $custom_fields['saswp_lbp_live_blog_update'][$lbu_key]['datePublished'] = saswp_format_date_time( gmdate( 'Y-m-d', strtotime( $blog_update['datePublished'] ) ), gmdate( 'H:i:s', strtotime( $blog_update['datePublished'] ) ) );
                                 }
                             }
                         }
@@ -8582,6 +8583,7 @@ Class SASWP_Output_Service{
              if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                 return; 
              }
+             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
              if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
@@ -8589,7 +8591,9 @@ Class SASWP_Output_Service{
                 die( '-1' );    
             }
             
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
             $schema_subtype = isset( $_POST['schema_subtype'] ) ? sanitize_text_field( $_POST['schema_subtype'] ) : ''; 
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
             $schema_type    = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';                      
                       
             if ( $schema_type == 'Review' || $schema_type == 'CriticReview' ) {
@@ -8613,6 +8617,7 @@ Class SASWP_Output_Service{
              if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                 return; 
              }
+             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
              if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
@@ -8620,7 +8625,7 @@ Class SASWP_Output_Service{
                 die( '-1' );    
             }
             
-            $search_string = isset( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';                                    
+            $search_string = isset( $_POST['q'] ) ? sanitize_text_field( wp_unslash( $_POST['q'] ) ) : '';                                    
 	        $data          = array();
 	        $result        = array();
             
@@ -9354,7 +9359,9 @@ Class SASWP_Output_Service{
             
             // Get post type from post id
             $post_type          =   '';
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: Just using the data so nonce verification is not necessary
             if ( ! empty( $_REQUEST['post'] ) ) {
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: Just using the data so nonce verification is not necessary
                 $post_id        =   intval( $_REQUEST['post'] );
                 $post_type      =   get_post_type( $post_id );
             }
@@ -10004,7 +10011,7 @@ Class SASWP_Output_Service{
                           }  
                           
                           if($content){
-                              
+                          // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage    
                           $regex   = '/<img(.*?)src="(.*?)"(.*?)>/';                          
                           @preg_match_all( $regex, $content, $attachments ); 
                                                                                                                                                                                       

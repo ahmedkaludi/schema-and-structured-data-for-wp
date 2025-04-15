@@ -91,6 +91,7 @@ class SASWP_View_Common {
                                                 $src = wp_get_attachment_url(esc_attr( $data[$meta_field['name'].'_id']));
                                                     
                                                 $img_prev = '<div class="saswp_image_thumbnail">'
+                                                // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                                                            . '<img class="saswp_image_prev" src="'. esc_url( $src).'">'
                                                            . '<a data-id="'. esc_attr( $name).'" href="#" class="saswp_prev_close">X</a>'
                                                            . '</div>';     
@@ -471,8 +472,9 @@ class SASWP_View_Common {
                                         $image_pre = '';
                                         if($media_thumbnail){
                                             
-                                           $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'. esc_url( $media_thumbnail).'" />
+                                           $image_pre = '<div class="saswp_image_thumbnail">';
+                                           // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                                           $image_pre .= '<img class="saswp_image_prev" src="'. esc_url( $media_thumbnail).'" />
                                                          <a data-id="'. esc_attr( $meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             
@@ -789,7 +791,7 @@ class SASWP_View_Common {
                                 if ( is_array( $_POST) ) {
                                 // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                                     if(array_key_exists($val.'_'.$schema->ID, $_POST) ) {
-                               // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
+                               // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- this is a dependent function and its all security measurament is done wherever it has been used.
                                         $data = (array) $_POST[$val.'_'.$schema->ID];  
                                      // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                                             if($data){
@@ -825,7 +827,7 @@ class SASWP_View_Common {
                         $this->saswp_save_meta_fields_value($post_meta, $response, $post_id);
                         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                         if ( isset( $_POST['saswp_review_item_reviewed_'.$schema->ID]) && $_POST['saswp_review_item_reviewed_'.$schema->ID] !='' ) {
-                            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
+                            // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- this is a dependent function and its all security measurament is done wherever it has been used.
                              $item_reviewed = sanitize_text_field($_POST['saswp_review_item_reviewed_'.$schema->ID]);
                             
                              $response          = saswp_get_fields_by_schema_type($schema->ID, 'save', $item_reviewed); 

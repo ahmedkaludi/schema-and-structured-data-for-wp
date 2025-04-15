@@ -206,6 +206,7 @@ if ( ! defined('ABSPATH') ) exit;
                 return; 
         }
 
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
                 return;  
         }
@@ -232,6 +233,7 @@ if ( ! defined('ABSPATH') ) exit;
                      return; 
                 }
 
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
                 if ( !wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ){
                      return;  
                 }
@@ -3165,6 +3167,7 @@ function saswp_get_taxonomy_term_list() {
         if ( ! isset( $_GET['saswp_security_nonce'] ) ){
            return; 
         }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
            return;  
         }
@@ -3644,7 +3647,9 @@ function saswp_get_current_url() {
     } 
   
     $link .= "://"; 
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash
     $link .= isset($_SERVER['HTTP_HOST'])?sanitize_text_field($_SERVER['HTTP_HOST']):''; 
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash
     $link .= isset($_SERVER['REQUEST_URI'])?sanitize_text_field($_SERVER['REQUEST_URI']):''; 
       
     return $link;
@@ -5337,7 +5342,7 @@ function saswp_get_seo_press_metadata($type){
  * */
 function saswp_delete_uploaded_file( $url ){
     
-    $parsed_url         = parse_url( $url );
+    $parsed_url         = wp_parse_url( $url );
 
     if( ! empty($parsed_url['path']) ) {
         $path           =   ltrim( $parsed_url['path'], '/');
@@ -5377,15 +5382,18 @@ function saswp_filter_translatepress_content( $content ){
             $trp_meta_table     =   $wpdb->prefix.'trp_original_meta';
             $post_id            =   get_the_ID();
 
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $meta_table         =  $wpdb->get_var( "SHOW TABLES LIKE '$trp_meta_table'" ); 
 
             if ( $trp_meta_table == $meta_table ) {
 
+                 // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
                 $results            =   $wpdb->get_results( $wpdb->prepare( "SELECT original_id FROM {$trp_meta_table} WHERE meta_value = %d ORDER BY meta_id", $post_id ) );
 
                 if ( ! empty( $results ) && is_array( $results ) ) {
 
                     $translate_table =  $wpdb->prefix.'trp_dictionary_'.strtolower( $default_language ).'_'.strtolower( $TRP_LANGUAGE );      
+                     // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
                     $dictinary_table =  $wpdb->get_var( "SHOW TABLES LIKE '$translate_table'" ); 
 
                     if ( $translate_table == $dictinary_table ) {
@@ -5394,6 +5402,7 @@ function saswp_filter_translatepress_content( $content ){
 
                             if ( is_object( $original ) && ! empty( $original->original_id ) ) {
 
+                                 // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
                                 $translated_data     =   $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$translate_table} WHERE original_id = %d",  $original->original_id ) );
                                 
                                 if ( ! empty( $translated_data ) && ! empty( $translated_data->translated ) ) {

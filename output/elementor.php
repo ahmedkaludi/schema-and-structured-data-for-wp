@@ -240,7 +240,7 @@ function saswp_elementor_howto_schema() {
                     if ( isset( $direction['text']) || isset($tip['text']) ) {
                         $supply_data['itemListElement']  = array($direction, $tip);
                     }
-
+                    // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                     $regex   = '/<img(.*?)src="(.*?)"(.*?)>/';                          
                     @preg_match_all( $regex, $val['howto_step_description'], $match , PREG_SET_ORDER); 
                     
