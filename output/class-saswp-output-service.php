@@ -212,9 +212,12 @@ Class SASWP_Output_Service{
 
                         if ($ext == 'jpg' || $ext == 'png' || $ext == 'gif' || $ext == 'jpeg') {
                         
-                        $image_details = getimagesize($fixed_text[$key]);
+                        $image_details  =   array();
+                        if ( is_string( $fixed_text[$key] ) && filter_var( $fixed_text[$key], FILTER_VALIDATE_URL ) ) {
+                            $image_details = getimagesize( $fixed_text[$key] );   
+                        }
                         
-                        if ( is_array( $image_details) ) {
+                        if ( is_array( $image_details) && isset( $image_details[0] ) && isset( $image_details[1] ) ) {
                             $response['@type']  = 'ImageObject';
                             $response['url']    = $fixed_text[$key];
                             $response['width']  = $image_details[0]; 
