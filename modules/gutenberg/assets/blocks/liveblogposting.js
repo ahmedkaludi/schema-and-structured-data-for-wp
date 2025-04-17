@@ -152,7 +152,8 @@
                 type: 'string'                
             },
             event_status: {
-              type: 'string'                
+              type: 'string',
+              default: 'EventScheduled',                
             },
             attendance_mode: {
               type: 'string'                
@@ -187,7 +188,7 @@
                 type: 'string'                
             },
             organizers: {                     
-              default: [{index: 0, name: '', phone: '', website: '', email: ''}],              
+              default: [{index: 0, name: '', website: ''}],              
               query: {
                 index: {            
                   type: 'number',                  
@@ -200,19 +201,13 @@
                 name: {
                   type: 'string'                                  
                 },
-                phone: {
-                  type: 'string'                                    
-                },
                 website: {
-                  type: 'string'                                    
-                },
-                email: {
                   type: 'string'                                    
                 },
               }
             },
             performers: {                     
-              default: [{index: 0, name: '', url: '', email: ''}],              
+              default: [{index: 0, name: '', url: ''}],              
               query: {
                 index: {            
                   type: 'number',                  
@@ -227,10 +222,7 @@
                 },
                 url: {
                   type: 'string'                                    
-                },
-                email: {
-                  type: 'string'                                    
-                }                
+                }              
               }
             },
         },
@@ -277,7 +269,7 @@
             );
 
             var coverage_start_date_div = el( 'div', {},
-                el('span',{className:'saswp-live-blog-posting-date-fields'},
+                el('p',{className:'saswp-live-blog-posting-date-fields'},
                     el(TextControl,{            
                         className:'saswp-live-blog-posting-cover-start-date',
                         label: __( 'Coverage Start Date', 'schema-and-structured-data-for-wp' ),
@@ -482,16 +474,6 @@
                       }   
                     }),
                     el(TextControl,{
-                        label:__('Phone', 'schema-and-structured-data-for-wp'),   
-                        value: item.phone,
-                        onChange: function(value){
-                             var newObject = Object.assign({}, item, {
-                                  phone: value
-                                });
-                                saswp_lbp_on_item_change(newObject, item, 'organizers'); 
-                        }    
-                    }),
-                    el(TextControl,{
                         label:__('URL', 'schema-and-structured-data-for-wp'),
                         value: item.website,
                         onChange: function(value){
@@ -501,17 +483,7 @@
                                 saswp_lbp_on_item_change(newObject, item, 'organizers'); 
 
                         }    
-                    }),
-                    el(TextControl,{
-                        label:__('Email', 'schema-and-structured-data-for-wp'), 
-                        value: item.email,
-                        onChange: function(value){
-                             var newObject = Object.assign({}, item, {
-                                  email: value
-                                });
-                                saswp_lbp_on_item_change(newObject, item, 'organizers'); 
-                        }    
-                    })            
+                    }),           
                 ));
                 
             });
@@ -568,17 +540,6 @@
                         onChange: function(value){
                              var newObject = Object.assign({}, item, {
                                   url: value
-                                });
-                                saswp_lbp_on_item_change(newObject, item, 'performers');
-                        }    
-                    }),
-                    
-                    el(TextControl,{
-                        label:__('Email', 'schema-and-structured-data-for-wp'), 
-                        value: item.email,
-                        onChange: function(value){
-                             var newObject = Object.assign({}, item, {
-                                  email: value
                                 });
                                 saswp_lbp_on_item_change(newObject, item, 'performers');
                         }    
@@ -785,6 +746,7 @@
                 
                 var date_div = el( 'div', {},
                     el('span',{className:'saswp-live-blog-posting-date-fields'},
+                        el('h4',{},__('New Update', 'schema-and-structured-data-for-wp')),
                         el(TextControl,{            
                             className:'saswp-live-blog-posting-cover-start-date',
                             label: __( 'Update Date & Time', 'schema-and-structured-data-for-wp' ),
@@ -918,9 +880,9 @@
                         "div",
                         {className: 'saswp-lbp-blog-video-embed'},
                         el(TextControl, {
-                            label: "Embed Video",
+                            label: "Embed Youtube Video",
                             value: item.video_url,
-                            placeholder: "Enter Video URL",
+                            placeholder: "Paste Youtube URL",
                             onChange: function( value ) {                                
                                 var newObject = Object.assign({}, item, {
                                   video_url: value
@@ -945,7 +907,7 @@
             var blog_update = el('fieldset',{className:'saswp-live-blog-posting-update-fieldset'},el('div',{
                  className:'saswp-live-blog-posting-update-container'
                  },
-                 el('h3',{},__('Live Blog Update', 'schema-and-structured-data-for-wp')),
+                 el('h3',{},__('Live Blog Updates', 'schema-and-structured-data-for-wp')),
                  blog_update_loop,
                  el(Button,{
                      className:'saswp-lbpup-repeater',
