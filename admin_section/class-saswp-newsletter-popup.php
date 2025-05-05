@@ -27,13 +27,14 @@ class SASWP_Newsletter_Popup {
                 if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                     return; 
                 }
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
                 if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                    return;  
                 }
                                 
-	        $name    = isset($_POST['name'])?sanitize_text_field($_POST['name']):'';
-                $email   = isset($_POST['email'])?sanitize_text_field($_POST['email']):'';
-                $website = isset($_POST['website'])?sanitize_text_field($_POST['website']):'';
+	        $name    = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+                $email   = isset( $_POST['email'] ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
+                $website = isset( $_POST['website'] ) ? sanitize_text_field( wp_unslash( $_POST['website'] ) ) : '';
                 
                 if($email){
                         
@@ -68,7 +69,7 @@ class SASWP_Newsletter_Popup {
                         
                 global $current_user;                
 		$tour     = array();
-                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_enqueue_scripts.
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason: We are not processing form information but only loading it inside the admin_enqueue_scripts.
                 $tab      = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : '';
                 
                 if ( ! array_key_exists( $tab, $tour ) ) {

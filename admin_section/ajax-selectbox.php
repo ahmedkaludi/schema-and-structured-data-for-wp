@@ -30,16 +30,21 @@ function saswp_ajax_select_creator($data = '', $saved_data= '', $current_number 
         if(!current_user_can( saswp_current_user_can()) ) {
           die( '-1' );    
         }
-        
+        if( ! isset( $_POST["saswp_call_nonce"] )) {
+          die( '-1' );    
+        }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce') ) {
             
             if ( isset( $_POST["id"] ) ) {
               $response = sanitize_text_field(wp_unslash($_POST["id"]));
             }
             if ( isset( $_POST["number"] ) ) {
+              // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
               $current_number   = intval(sanitize_text_field($_POST["number"]));
             }
             if ( isset( $_POST["group_number"] ) ) {
+              // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
               $current_group_number   = intval(sanitize_text_field($_POST["group_number"]));
             }
             
@@ -147,6 +152,10 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
           exit;
         }
         
+        if ( ! isset( $_POST["saswp_call_nonce"] ) ) {
+          return;
+        }
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if(wp_verify_nonce($_POST["saswp_call_nonce"],'saswp_select_action_nonce') ) {
             
               if ( isset( $_POST['id']) ) {
@@ -157,12 +166,14 @@ function saswp_create_ajax_select_taxonomy($selectedParentValue = '',$selectedVa
               
               if ( isset( $_POST['number']) ) {
                   
+                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash
                 $current_number = intval(sanitize_text_field($_POST['number']));
                 
               }
               
               if ( isset( $_POST["group_number"] ) ) {
                   
+                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash
                 $current_group_number   = intval(sanitize_text_field($_POST["group_number"]));
               
               }

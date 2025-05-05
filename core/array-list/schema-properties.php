@@ -903,6 +903,36 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id'         => 'saswp_newsarticle_publisher_'.$schema_id,
                         'type'       => 'text',
                         'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label' => 'Associated Media',
+                            'id' => 'saswp_newsarticle_associated_image_'.$schema_id,
+                            'type' => 'media',                            
+                    ),
+                    array(
+                        'label'   => 'Content Location Name',
+                        'id'      => 'saswp_newsarticle_content_location_name_'.$schema_id,
+                        'type'    => 'text'                        
+                    ),                   
+                    array(
+                        'label'   => 'Content Location Locality',
+                        'id'      => 'saswp_newsarticle_content_location_locality_'.$schema_id,
+                        'type'    => 'text'                        
+                    ),
+                    array(
+                        'label'   => 'Content Location Region',
+                        'id'      => 'saswp_newsarticle_content_location_region_'.$schema_id,
+                        'type'    => 'text'                        
+                    ),
+                    array(
+                        'label'   => 'Content Location Country',
+                        'id'      => 'saswp_newsarticle_content_location_country_'.$schema_id,
+                        'type'    => 'text'                        
+                    ),
+                    array(
+                        'label'   => 'Content Location Postal Code',
+                        'id'      => 'saswp_newsarticle_content_location_postal_code_'.$schema_id,
+                        'type'    => 'text'                        
                     ),                        
                     );
                     break;
@@ -2476,7 +2506,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_webpage_mcop_'.$schema_id,
                         'type' => 'text',
 
-                    ),    
+                    ), 
+                    array(
+                        'label' => 'Same As',
+                        'id'    => 'saswp_webpage_same_as_'.$schema_id,
+                        'type'  => 'textarea',
+                        'attributes' => array(
+                            'placeholder' => 'Example, Example2'
+                        ),
+                        'note' => 'Note: Separate same as list by comma ( , )'                     
+                    ),   
                     );
                     break;
 

@@ -67,6 +67,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         function saswp_schema_options_add_meta_box_save( $post_id ) {
             
                 if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
                 if ( ! isset( $_POST['saswp_schema_options_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_options_nonce'], 'saswp_schema_options_nonce' ) ) return;
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return;
                                                   
@@ -82,26 +83,37 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $template_field       = array();
                 
                 if ( isset( $_POST['notAccessibleForFree'] ) )
-                        $notAccessibleForFree = sanitize_text_field($_POST['notAccessibleForFree']);
+                        $notAccessibleForFree = sanitize_text_field( wp_unslash( $_POST['notAccessibleForFree'] ) );
                 if ( isset( $_POST['isAccessibleForFree'] ) )
-                        $isAccessibleForFree = sanitize_text_field($_POST['isAccessibleForFree']);
+                        $isAccessibleForFree = sanitize_text_field( wp_unslash( $_POST['isAccessibleForFree'] ) );
                 if ( isset( $_POST['paywall_class_name'] ) )
-                        $paywall_class_name = sanitize_text_field($_POST['paywall_class_name']);
+                        $paywall_class_name = sanitize_text_field( wp_unslash( $_POST['paywall_class_name'] ) );
                 if ( isset( $_POST['saswp_enable_custom_field'] ) )
-                        $enable_custom_field = sanitize_text_field($_POST['saswp_enable_custom_field']);
+                        $enable_custom_field = sanitize_text_field( wp_unslash( $_POST['saswp_enable_custom_field'] ) );
                 if ( isset( $_POST['saswp_modify_method'] ) )
-                        $saswp_modify_method = sanitize_text_field($_POST['saswp_modify_method']);                
-                if ( isset( $_POST['saswp_meta_list_val'] ) )                    
-                    $meta_list = array_map ('sanitize_text_field', $_POST['saswp_meta_list_val']);                
-                if ( isset( $_POST['saswp_fixed_text'] ) )                    
+                        $saswp_modify_method = sanitize_text_field( wp_unslash( $_POST['saswp_modify_method'] ) );                
+                if ( isset( $_POST['saswp_meta_list_val'] ) ) {                    
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
+                    $meta_list = array_map ('sanitize_text_field', $_POST['saswp_meta_list_val']); 
+                }               
+                if ( isset( $_POST['saswp_fixed_text'] ) ) {   
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash                 
                     $fixed_text = array_map ('sanitize_text_field', $_POST['saswp_fixed_text']);
-                if ( isset( $_POST['saswp_taxonomy_term'] ) )                    
+                }
+                if ( isset( $_POST['saswp_taxonomy_term'] ) ) {
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash                    
                     $taxonomy_term = array_map ('sanitize_text_field', $_POST['saswp_taxonomy_term']);
-                if ( isset( $_POST['saswp_custom_meta_field'] ) )                    
+                }
+                if ( isset( $_POST['saswp_custom_meta_field'] ) ) {
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash                    
                     $cus_meta_field = array_map ('sanitize_text_field', $_POST['saswp_custom_meta_field']);
-                if ( isset( $_POST['saswp_fixed_image'] ) )                    
+                }
+                if ( isset( $_POST['saswp_fixed_image'] ) ) { 
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                     $fixed_image = wp_unslash($_POST['saswp_fixed_image']);
+                }
                 if ( isset( $_POST['saswp_schema_template_field'] ) ) {  
+                    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                     $template_field     =   $_POST['saswp_schema_template_field'];
                     if ( ! empty( $template_field ) && is_array( $template_field ) ) {
                         foreach ($template_field as $tf_key => $tf_value) {

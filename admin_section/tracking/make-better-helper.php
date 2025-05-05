@@ -64,7 +64,7 @@ function saswp_send_feedback() {
     }
     // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are just verifiying nonce below this lines.
     if( isset( $_POST['data'] ) ) {
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are just verifiying nonce below this lines.
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are just verifiying nonce below this lines.
         parse_str( $_POST['data'], $form );
     }
     if ( ! isset( $form['saswp_feedback_nonce'] ) ){

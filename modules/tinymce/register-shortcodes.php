@@ -96,6 +96,7 @@ function saswp_tiny_howto_render( $atts, $content = null ){
                         $image_thumburl = wp_get_attachment_image_url( $image_id, [ 150, 150 ] );
                         
                         $output .= '<figure>';
+                        // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                         $output .= '<a href="'. esc_url( esc_url($image_thumburl)).'"><img class="saswp_tiny_howto_image" src="'. esc_url( $image_thumburl).'"></a>';
                         $output .= '</figure>';
     
@@ -174,6 +175,7 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
                     $image_thumburl = wp_get_attachment_image_url( $image_id, [ 150, 150 ] );
                     
                     $output .= '<figure>';
+                    // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                     $output .= '<a href="'. esc_url( esc_url($image_thumburl)).'"><img class="saswp_tiny_faq_image" src="'. esc_url( $image_thumburl).'"></a>';
                     $output .= '</figure>';
 
@@ -228,6 +230,7 @@ function saswp_tiny_faq_render( $atts, $content = null ){
                 $image_thumburl = wp_get_attachment_image_url( $image_id, [ 150, 150 ] );
                 
                 $output .= '<figure>';
+                // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                 $output .= '<a href="'. esc_url( esc_url($image_thumburl)).'"><img class="saswp_tiny_faq_image" src="'. esc_url( $image_thumburl).'"></a>';
                 $output .= '</figure>';
 
@@ -300,8 +303,10 @@ function saswp_tiny_recipe_render( $atts, $content = null ) {
         $output .= '<div class="saswp-recipe-block-container">';
         $output .= '<div class="saswp-recipe-field-banner"><div class="saswp-book-banner-div">';
         if ( ! empty( $image_thumburl) ) {    
+            // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
             $output .= '<img decoding="async" src="'. esc_url( $image_thumburl).'">';
         }else{
+            // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
             $output .= '<img decoding="async" src="" alt="No Image">';
         }
         $output .= '</div></div>'; // saswp-recipe-field-banner div end

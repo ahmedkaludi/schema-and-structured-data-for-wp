@@ -1330,18 +1330,22 @@ function saswp_gutenberg_live_blog_posting_schema() {
         $input1['@type']                =   'LiveBlogPosting';
         $input1['@id']                  =   saswp_get_permalink().'#LiveBlogPosting'; 
         $input1['url']                  =   saswp_get_permalink();                               
-        $input1['headline']             =   saswp_get_the_title();
-        $input1['description']          =   saswp_get_the_excerpt();
+        $input1['headline']             =   isset(  $attributes['attrs']['name'] ) ? esc_attr( $attributes['attrs']['name'] ) : saswp_get_the_title();
+        if ( isset( $attributes['attrs']['description'] ) ) {
+            $input1['description']          =   $attributes['attrs']['description'];
+        }else{
+            $input1['description']          =   saswp_get_the_excerpt();
+        }
         $input1['datePublished']        =   esc_html( $date);
         $input1['dateModified']         =   esc_html( $modified_date );
 
-        $thumb_id                       =   get_post_thumbnail_id();
-        if ( $thumb_id > 0 ) {
-            $thumbnail_url              =   saswp_get_image_by_id( $thumb_id );
+        if ( ! empty( $attributes['attrs']['banner_id'] ) > 0 ) {
+            $thumbnail_url              =   saswp_get_image_by_id( $attributes['attrs']['banner_id'] );
             $input1['image']            =   $thumbnail_url;
         }
         
-        $location   =   array();
+        $location           =   array();
+        $virtual_location   =   array();
 
         if ( isset( $attributes['attrs']['locationname'] ) ) {
             $location['@type']        =   'Place';
@@ -1367,22 +1371,41 @@ function saswp_gutenberg_live_blog_posting_schema() {
             }     
         }
 
-        if ( isset( $attributes['attrs']['name'] ) || isset( $attributes['attrs']['name'] ) ) {
+        if ( ! empty( $attributes['attrs']['virtual_location_name'] ) && ! empty( $attributes['attrs']['virtual_location_url'] ) ) {
+            $virtual_location['@type']        =   'VirtualLocation';
+            $virtual_location['name']         =   esc_html( $attributes['attrs']['virtual_location_name'] );
+            $virtual_location['url']          =   esc_html( $attributes['attrs']['virtual_location_url'] );
+        }
+
+        if ( isset( $attributes['attrs']['name'] ) || isset( $attributes['attrs']['event_name'] ) ) {
             $input1['about']['@type']                   =   'Event';   
-            if ( isset( $attributes['attrs']['name'] ) ) {
+            if ( ! empty( $attributes['attrs']['event_name'] ) ) {
+                $input1['about']['name']                =   esc_html( $attributes['attrs']['event_name'] );
+            }else if ( ! empty( $attributes['attrs']['name'] ) ) {
                 $input1['about']['name']                =   esc_html( $attributes['attrs']['name'] );
             }
-            if ( isset( $attributes['attrs']['event_status'] ) ) {
-                $input1['about']['eventStatus']         =  $attributes['attrs']['event_status'];    
+            if ( isset( $attributes['attrs']['description'] ) ) {
+                $input1['about']['description']         =   $attributes['attrs']['description'];
             }
+            if ( ! empty( $attributes['attrs']['banner_id'] ) > 0 ) {
+                $thumbnail_url                          =   saswp_get_image_by_id( $attributes['attrs']['banner_id'] );
+                $input1['about']['image']               =   $thumbnail_url;
+            }
+            $input1['about']['eventStatus']         =  isset( $attributes['attrs']['event_status'] ) ? $attributes['attrs']['event_status'] : 'EventScheduled';
             if ( isset( $attributes['attrs']['attendance_mode'] ) ) {
                 $input1['about']['eventAttendanceMode'] =  $attributes['attrs']['attendance_mode'];    
             }
-            if ( isset( $attributes['attrs']['event_start_date_iso'] ) ) {
-                $input1['about']['startDate']           =  $attributes['attrs']['event_start_date_iso'];    
+            if ( ! empty( $attributes['attrs']['event_start_date_iso'] ) ) {
+                $date   =   explode( 'T', $attributes['attrs']['event_start_date_iso'] );
+                if ( is_array( $date ) && ! empty( $date[0] ) && ! empty( $date[1] ) ) {
+                    $input1['about']['startDate']       =  saswp_format_date_time( $date[0], $date[1] );
+                }   
             }
             if ( isset( $attributes['attrs']['event_end_date_iso'] ) ) {
-                $input1['about']['endDate']             =  $attributes['attrs']['event_end_date_iso'];    
+                $date   =   explode( 'T', $attributes['attrs']['event_end_date_iso'] );
+                if ( is_array( $date ) && ! empty( $date[0] ) && ! empty( $date[1] ) ) {
+                    $input1['about']['endDate']         =  saswp_format_date_time( $date[0], $date[1] );
+                }    
             }
             if ( ! empty( $attributes['attrs']['price'] ) || ! empty( $attributes['attrs']['low_price'] ) || ! empty( $attributes['attrs']['high_price'] ) ) {
                 $input1['about']['offers']['@type']     = 'Offer';
@@ -1399,9 +1422,12 @@ function saswp_gutenberg_live_blog_posting_schema() {
                     $input1['about']['offers']['price'] = $attributes['attrs']['price'];    
                 }
                 $input1['about']['offers']['priceCurrency'] = isset( $attributes['attrs']['offer_currency_code'] ) ? $attributes['attrs']['offer_currency_code'] : 'USD';
-                $input1['about']['offers']['availability']  = 'InStock';
+                $input1['about']['offers']['availability']  = isset( $attributes['attrs']['offer_availability'] ) ? $attributes['attrs']['offer_availability'] : 'InStock';
                 if ( isset( $attributes['attrs']['event_offer_date_iso'] ) ) {
-                    $input1['about']['offers']['validFrom']     = $attributes['attrs']['event_offer_date_iso'];
+                    $date   =   explode( 'T', $attributes['attrs']['event_offer_date_iso'] );
+                    if ( is_array( $date ) && ! empty( $date[0] ) && ! empty( $date[1] ) ) {
+                        $input1['about']['offers']['validFrom']       =  saswp_format_date_time( $date[0], $date[1] );
+                    } 
                 }
             
             }
@@ -1413,9 +1439,7 @@ function saswp_gutenberg_live_blog_posting_schema() {
                      $input1['about']['organizer'][] = array(
                                         '@type'          => 'Organization',
                                         'name'           => $org['name'],                                                                      
-                                        'url'            => $org['phone'],
-                                        'email'          => $org['email'],
-                                        'telephone'      => $org['phone'],                                                                        
+                                        'url'            => $org['website'],                                                                       
                         );                 
                      
                  }
@@ -1432,7 +1456,6 @@ function saswp_gutenberg_live_blog_posting_schema() {
                     $supply_data['@type']        = 'Person';
                     $supply_data['name']         = $val['name'];                                    
                     $supply_data['url']          = $val['url'];
-                    $supply_data['email']        = $val['email'];
 
                     $performer_arr[] =  $supply_data;
                 }
@@ -1441,10 +1464,16 @@ function saswp_gutenberg_live_blog_posting_schema() {
 
             } 
 
-            if ( ! empty( $location ) ) {
+            if ( ! empty( $location ) && ! empty( $virtual_location ) ) {
+                $input1['about']['location'][]    =   $virtual_location;
+                $input1['about']['location'][]    =   $location;
+            }else if ( ! empty( $location ) ) {
                 $input1['about']['location']    =   $location;
             }
-            $input1['about']['startDate']   =   esc_html( $date );          
+            else if ( ! empty( $virtual_location ) ) {
+                $input1['about']['location']    =   $virtual_location;
+            }
+          
         }
 
         if ( ! empty( $attributes['attrs']['coverage_start_date_iso'] ) ) {
@@ -1472,8 +1501,11 @@ function saswp_gutenberg_live_blog_posting_schema() {
                 if ( isset( $blog['headline'] ) ) {
                     $blog_array['headline']         =   esc_html( $blog['headline'] );
                 }
-                if ( isset( $blog['date'] ) ) {
-                    $blog_array['datePublished']    =   gmdate( 'c', strtotime( $blog['date'] ) );
+                if ( ! empty( $blog['date_iso'] ) ) {
+                    $date   =   explode( 'T', $blog['date_iso'] );
+                    if ( is_array( $date ) && ! empty( $date[0] ) && ! empty( $date[1] ) ) {
+                        $blog_array['datePublished']=   saswp_format_date_time( $date[0], $date[1] );
+                    } 
                 }
                 if ( isset( $blog['body'] ) ) {
                     $blog_array['articleBody']      =   esc_html( $blog['body'] );
@@ -1491,7 +1523,8 @@ function saswp_gutenberg_live_blog_posting_schema() {
         }
 
     }
-
+    // echo "<pre>input1===== "; print_r($input1);
+    // echo "<pre>input1===== "; print_r($attributes['attrs']); die;
     return $input1;
 
 }

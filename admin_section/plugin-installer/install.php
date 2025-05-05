@@ -71,6 +71,7 @@
 		if ( ! isset( $_GET['_saswp_nonce']) ) {
 			return;
 		}else{			
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
 			if( wp_verify_nonce($_GET['_saswp_nonce'], 'saswp_install_wizard_nonce') ) {
 			saswp_steps_call(); 		
 			}     
@@ -81,7 +82,8 @@
 	function saswp_steps_call() {
             
 		global $saswp_installer_config;
-		if ( !wp_verify_nonce($_GET['_saswp_nonce'], 'saswp_install_wizard_nonce') || empty( $_GET['page'] ) || $saswp_installer_config['installerpage'] !== $_GET['page'] ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
+		if ( ! isset( $_GET['_saswp_nonce'] ) && !wp_verify_nonce($_GET['_saswp_nonce'], 'saswp_install_wizard_nonce') || empty( $_GET['page'] ) || $saswp_installer_config['installerpage'] !== $_GET['page'] ) {
 			return;
 		}
 		 if ( ob_get_length() ) {
@@ -379,6 +381,7 @@
                  if ( ! isset( $_POST['wpnonce'] ) ){
                     return; 
                  }
+                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
                  if ( !wp_verify_nonce( $_POST['wpnonce'], 'saswp_install_nonce' ) ){
                     return;  
                  }                                 
@@ -386,6 +389,7 @@
                     
                 $pre_sd_data                              = get_option('sd_data'); 
                 $pre_sd_data['sd_initial_wizard_status']  = 1;                
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
                 $sd_data                                  = array_map('sanitize_text_field', $_POST['sd_data']);
                 
                 if($pre_sd_data){
@@ -396,14 +400,18 @@
                 
                 }
 		
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
 		if ( isset( $_POST['sd_data_create__post_schema']) && isset($_POST['sd_data_create__post_schema_checkbox']) ) {
                     
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason post data is just used here so there is no necessary of unslash
 			$checkbox = array_filter($_POST['sd_data_create__post_schema_checkbox']);
 			if(count($checkbox)>0){
                             
 				foreach ( $checkbox as $key => $value) {
                                     
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
 					$postType   = isset($_POST['sd_data_create__post_schema'][$key]['posttype'])?sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['posttype']):'';
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
 					$schemaType = isset($_POST['sd_data_create__post_schema'][$key]['schema_type'])?sanitize_text_field($_POST['sd_data_create__post_schema'][$key]['schema_type']):'';
 					
 					$postarr = array(

@@ -234,6 +234,7 @@ class SASWP_Gutenberg_Render {
             <div class="saswp-job-company">
                 <?php
                  if ( isset( $attributes['company_logo_url']) ) {
+                    // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage 
                     ?> <img src=<?php echo esc_url($attributes['company_logo_url']); ?>>; <?php
                  } ?>
 
@@ -387,6 +388,7 @@ class SASWP_Gutenberg_Render {
         <div class="saswp-book-block-container">
             <div class="saswp-book-field-banner">
                 <div class="saswp-book-banner-div">
+                    <?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
                     <img src="<?php echo esc_url($attributes['banner_url']) ?>" />
                 </div>
             </div>
@@ -478,7 +480,8 @@ class SASWP_Gutenberg_Render {
                       <p>
                         <?php if($course['image_url']){
                              ?>
-                            <img src="<?php echo esc_url($course['image_url']); ?>">
+                        <?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
+                        <img src="<?php echo esc_url($course['image_url']); ?>">
                         <?php } ?>                                                                
                       <?php echo esc_html( $course['description']); ?>
                       </p>
@@ -541,8 +544,13 @@ class SASWP_Gutenberg_Render {
 
         ?>
         <div id="saswp-lbp-schema-wrapper">
-            <?php 
-            $attr_name  =   isset( $attributes['name'] ) ?  $attributes['name'] . ' live blog' : 'Live Blog';
+            <?php
+            $attr_name  =   'Live Blog'; 
+            if ( ! empty( $attributes['event_name'] ) ) {
+                $attr_name  =   $attributes['event_name'] . ' ' . $attr_name;
+            }else if( ! empty( $attributes['name'] ) ) {
+                $attr_name  =   $attributes['name'] . ' ' . $attr_name;
+            }
             ?>
             <div id="saswp-lbp-heading">
                 <h2><?php echo esc_html( $attr_name ); ?></h2>    
@@ -560,7 +568,7 @@ class SASWP_Gutenberg_Render {
                             if ( ! empty( $blog_update['date'] ) ) { ?>
                                 <div class="saswp-lbp-blog-time">
                                     <?php
-                                    $timestamp  =   date( 'Y-m-d H:i:s', strtotime( $blog_update['date'] ) );
+                                    $timestamp  =   gmdate( 'Y-m-d H:i:s', strtotime( $blog_update['date'] ) );
                                     $datetime = new DateTime( $timestamp, new DateTimeZone( 'UTC' ) ); // Assuming input is in UTC
 
                                     // Get WordPress timezone setting
@@ -596,12 +604,9 @@ class SASWP_Gutenberg_Render {
                                 $image_caption  =   get_post_field( 'post_excerpt', $image_id ); // Image caption
                                 $image_alt      =   get_post_meta( $image_id, '_wp_attachment_image_alt', true ); // Image alt text
                          
-                                // Get the image using wp_get_attachment_image() for proper alignment and attributes
-                                $image          =   wp_get_attachment_image( $image_id, 'full', false, array('alt' => $image_alt) );
-                         
                                 ?>
                                 <div class="saswp-lbp-blog-image">
-                                    <?php echo $image; ?>
+                                    <?php echo wp_get_attachment_image( $image_id, 'full', false, array('alt' => $image_alt) ); ?>
                                     <?php if ( ! empty( $image_caption ) ) : ?>
                                         <figcaption><?php echo esc_html( $image_caption ); ?></figcaption>
                                     <?php endif; ?>
@@ -612,7 +617,7 @@ class SASWP_Gutenberg_Render {
                                 if ( preg_match( '/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/))([a-zA-Z0-9_-]+)/', $blog_update['video_url'], $matches ) ) {
                                     $video_id = esc_attr( $matches[1] ) ?? ''; // Get the video ID if available
                             ?>
-                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/<?php echo htmlspecialchars($video_id); ?>" 
+                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/<?php echo esc_attr( htmlspecialchars($video_id) ); ?>" 
                                         frameborder="0" allowfullscreen>
                                     </iframe>
                             <?php

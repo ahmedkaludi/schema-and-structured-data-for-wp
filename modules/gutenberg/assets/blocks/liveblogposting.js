@@ -23,6 +23,21 @@
             name: {
                   type: 'string',                  
             },
+            banner_id: {
+                  type: 'integer'                  
+            },
+            banner_url: {
+                  type: 'string'                  
+            },
+            description: {
+                  type: 'string',                  
+            },
+            virtual_location_name: {
+                  type: 'string',                  
+            },
+            virtual_location_url: {
+                  type: 'string',                  
+            },
             locationname: {
                   type: 'string',                  
             },
@@ -113,6 +128,9 @@
                 type: 'boolean',
                 default: false
             },
+            event_name: {
+              type: 'string'                                    
+            },
             event_start_date: {
               type: 'string'                                    
             },
@@ -134,7 +152,8 @@
                 type: 'string'                
             },
             event_status: {
-              type: 'string'                
+              type: 'string',
+              default: 'EventScheduled',                
             },
             attendance_mode: {
               type: 'string'                
@@ -155,6 +174,9 @@
                 type: 'string',
                 default: 'USD'
             },
+            offer_availability: {
+              type: 'string'                
+            },
             event_offer_date: {
               type: 'string'                                    
             },
@@ -166,7 +188,7 @@
                 type: 'string'                
             },
             organizers: {                     
-              default: [{index: 0, name: '', phone: '', website: '', email: ''}],              
+              default: [{index: 0, name: '', website: ''}],              
               query: {
                 index: {            
                   type: 'number',                  
@@ -179,19 +201,13 @@
                 name: {
                   type: 'string'                                  
                 },
-                phone: {
-                  type: 'string'                                    
-                },
                 website: {
-                  type: 'string'                                    
-                },
-                email: {
                   type: 'string'                                    
                 },
               }
             },
             performers: {                     
-              default: [{index: 0, name: '', url: '', email: ''}],              
+              default: [{index: 0, name: '', url: ''}],              
               query: {
                 index: {            
                   type: 'number',                  
@@ -206,10 +222,7 @@
                 },
                 url: {
                   type: 'string'                                    
-                },
-                email: {
-                  type: 'string'                                    
-                }                
+                }              
               }
             },
         },
@@ -218,8 +231,45 @@
 
             const attributes = props.attributes;
 
+            var banner_section = el('div',{
+                  className: 'saswp-lbp-field-banner'
+                },
+
+                attributes.banner_url ? 
+                el('div',{className:'saswp-lbp-banner-div'},
+                  el('span',{
+                    className:'dashicons dashicons-trash',
+                    onClick: function(){
+                      props.setAttributes( { banner_id: null, banner_url: '' } );
+                    }
+                  }),
+                  el('img',{
+                    src: attributes.banner_url,
+                  })
+                )
+            
+                :                         
+                el(
+                    MediaUpload,{
+                      onSelect: function(media){  
+                        props.setAttributes( { banner_id: media.id, banner_url: media.url } );
+                      },
+                      allowedTypes:[ "image" ],
+                      value: attributes.banner_id,
+                      render:function(obj){
+                            return el( Button, {                         
+                                 className: 'button button-primary',            
+                                 onClick: obj.open
+                               },
+                             __('Add Image', 'schema-and-structured-data-for-wp')
+                         )
+                        }
+                    },
+                )
+            );
+
             var coverage_start_date_div = el( 'div', {},
-                el('span',{className:'saswp-live-blog-posting-date-fields'},
+                el('p',{className:'saswp-live-blog-posting-date-fields'},
                     el(TextControl,{            
                         className:'saswp-live-blog-posting-cover-start-date',
                         label: __( 'Coverage Start Date', 'schema-and-structured-data-for-wp' ),
@@ -366,7 +416,7 @@
                 el('span',{className:'saswp-live-blog-posting-date-fields'},
                     el(TextControl,{            
                         className:'saswp-live-blog-posting-cover-start-date',
-                        label: __( 'Event Valid Date', 'schema-and-structured-data-for-wp' ),
+                        label: __( 'Valid From', 'schema-and-structured-data-for-wp' ),
                         value : attributes.event_offer_date,
                         onClick:function(){
                             props.setAttributes( { event_offer_date_toggle: true } );   
@@ -424,17 +474,7 @@
                       }   
                     }),
                     el(TextControl,{
-                        label:__('Phone', 'schema-and-structured-data-for-wp'),   
-                        value: item.phone,
-                        onChange: function(value){
-                             var newObject = Object.assign({}, item, {
-                                  phone: value
-                                });
-                                saswp_lbp_on_item_change(newObject, item, 'organizers'); 
-                        }    
-                    }),
-                    el(TextControl,{
-                        label:__('Website', 'schema-and-structured-data-for-wp'),
+                        label:__('URL', 'schema-and-structured-data-for-wp'),
                         value: item.website,
                         onChange: function(value){
                              var newObject = Object.assign({}, item, {
@@ -443,17 +483,7 @@
                                 saswp_lbp_on_item_change(newObject, item, 'organizers'); 
 
                         }    
-                    }),
-                    el(TextControl,{
-                        label:__('Email', 'schema-and-structured-data-for-wp'), 
-                        value: item.email,
-                        onChange: function(value){
-                             var newObject = Object.assign({}, item, {
-                                  email: value
-                                });
-                                saswp_lbp_on_item_change(newObject, item, 'organizers'); 
-                        }    
-                    })            
+                    }),           
                 ));
                 
             });
@@ -513,17 +543,6 @@
                                 });
                                 saswp_lbp_on_item_change(newObject, item, 'performers');
                         }    
-                    }),
-                    
-                    el(TextControl,{
-                        label:__('Email', 'schema-and-structured-data-for-wp'), 
-                        value: item.email,
-                        onChange: function(value){
-                             var newObject = Object.assign({}, item, {
-                                  email: value
-                                });
-                                saswp_lbp_on_item_change(newObject, item, 'performers');
-                        }    
                     })            
                 ));
                 
@@ -556,13 +575,20 @@
                 attributes.event_details ?
                 el('div',{className:'saswp-lbplu-banner-div1'},
                     el('h3',{},__('Event Details', 'schema-and-structured-data-for-wp')),
+                    el( TextControl, {
+                        label: __( 'Event Name', 'schema-and-structured-data-for-wp' ),
+                        placeholder: __('Enter Event Name', 'schema-and-structured-data-for-wp'),
+                        value: attributes.event_name,
+                        onChange: function( newContent ) {                                
+                            props.setAttributes( { event_name: newContent } );
+                        }
+                    }),
                     event_start_date_div,
                     event_end_date_div,
                     el(SelectControl,{
                         value : attributes.event_status,
                         label: __('Event Status', 'schema-and-structured-data-for-wp'),
                         options:[
-                            { label: 'Select Status', value: '' },
                             { label: 'EventScheduled', value: 'EventScheduled' },
                             { label: 'Postponed', value: 'EventPostponed' },
                             { label: 'Rescheduled', value: 'EventRescheduled' },
@@ -575,7 +601,7 @@
                     }),
                     el(SelectControl,{
                         value : attributes.attendance_mode,
-                        label: __('Attendance Mode', 'schema-and-structured-data-for-wp'),
+                        label: __('Event Attendance Mode', 'schema-and-structured-data-for-wp'),
                         options:[
                           { label: 'Select Attendance Mode', value: '' },
                           { label: 'Offline', value: 'OfflineEventAttendanceMode' },
@@ -587,10 +613,89 @@
                         }
                     }),
                     el( TextControl, {
+                          className:'saswp-live-blog-posting-locationname',
+                          placeholder: __('Enter virtual location name', 'schema-and-structured-data-for-wp'), 
+                          label: __( 'Virtual Location Name', 'schema-and-structured-data-for-wp' ),
+                          value: attributes.virtual_location_name,
+                          onChange: function( newContent ) {                                
+                              props.setAttributes( { virtual_location_name: newContent } );
+                          }
+                    }),
+                    el( TextControl, {
+                          className:'saswp-live-blog-posting-locationname',
+                          placeholder: __('Enter virtual location url', 'schema-and-structured-data-for-wp'), 
+                          label: __( 'Virtual Location URL', 'schema-and-structured-data-for-wp' ),
+                          value: attributes.virtual_location_url,
+                          onChange: function( newContent ) {                                
+                              props.setAttributes( { virtual_location_url: newContent } );
+                          }
+                    }),
+                    el( TextControl, {
+                          className:'saswp-live-blog-posting-locationname',
+                          placeholder: __('Enter location name', 'schema-and-structured-data-for-wp'), 
+                          label: __( 'Location Name', 'schema-and-structured-data-for-wp' ),
+                          value: attributes.locationname,
+                          onChange: function( newContent ) {                                
+                              props.setAttributes( { locationname: newContent } );
+                          }
+                    }),
+                    el( TextControl, {
+                          className:'saswp-live-blog-posting-address',
+                          placeholder: __('Enter street address', 'schema-and-structured-data-for-wp'), 
+                          label: __( 'Location Street Address', 'schema-and-structured-data-for-wp' ),
+                          value: attributes.address,
+                          onChange: function( newContent ) {                                
+                              props.setAttributes( { address: newContent } );
+                          }
+                    }),
+                    el( TextControl, {
+                          className:'saswp-live-blog-posting-locality',
+                          placeholder: __('Enter locality', 'schema-and-structured-data-for-wp'), 
+                          label: __( 'Location Locality', 'schema-and-structured-data-for-wp' ),
+                          value: attributes.locality, 
+                          onChange: function( newContent ) {                                
+                              props.setAttributes( { locality: newContent } );
+                          }
+                    }),
+                    el( TextControl, {
+                          className:'saswp-live-blog-posting-region',
+                          placeholder: __('Enter region', 'schema-and-structured-data-for-wp'), 
+                          label: __( 'Location Region', 'schema-and-structured-data-for-wp' ),
+                          value: attributes.region,
+                          onChange: function( newContent ) {                                
+                              props.setAttributes( { region: newContent } );
+                          }
+                    }),
+                    el( TextControl, {
+                          className:'saswp-live-blog-posting-postalcode',
+                          placeholder: __('Enter postal code', 'schema-and-structured-data-for-wp'), 
+                          label: __( 'Location Postal Code', 'schema-and-structured-data-for-wp' ),
+                          value: attributes.postalcode,
+                          onChange: function( newContent ) {                                
+                              props.setAttributes( { postalcode: newContent } );
+                          }
+                    }),
+                    el( TextControl, {
+                          className:'saswp-live-blog-posting-country',
+                          placeholder: __('Enter country', 'schema-and-structured-data-for-wp'), 
+                          label: __( 'Location Country', 'schema-and-structured-data-for-wp' ),
+                          value: attributes.country,
+                          onChange: function( newContent ) {                                
+                              props.setAttributes( { country: newContent } );
+                          }
+                    }),
+                    el( TextControl, {
                         label: __( 'Offer Price', 'schema-and-structured-data-for-wp' ),
                         value: attributes.price,
                         onChange: function( newContent ) {                                
                             props.setAttributes( { price: parseInt(newContent) } );
+                        }
+                    }),
+                    el( TextControl, {
+                        label: __( 'Offer High Price', 'schema-and-structured-data-for-wp' ),
+                        value: attributes.high_price,
+                        onChange: function( newContent ) {                                
+                            props.setAttributes( { high_price: parseInt(newContent) } );
                         }
                     }),
                     el( TextControl, { 
@@ -601,13 +706,6 @@
                         }
                     }),
                     el( TextControl, {
-                        label: __( 'Offer High Price', 'schema-and-structured-data-for-wp' ),
-                        value: attributes.high_price,
-                        onChange: function( newContent ) {                                
-                            props.setAttributes( { high_price: parseInt(newContent) } );
-                        }
-                    }),
-                    el( TextControl, {
                         placeholder: __('Enter Offer Currency', 'schema-and-structured-data-for-wp'), 
                         label: __( 'Offer Currency', 'schema-and-structured-data-for-wp' ),
                         value: attributes.offer_currency_code,
@@ -615,6 +713,19 @@
                             props.setAttributes( { offer_currency_code: newContent } );
                         }
                     }),
+                    el(SelectControl,{
+                        value : attributes.offer_availability,
+                        label: __('Offer Availability', 'schema-and-structured-data-for-wp'),
+                        options:[
+                          { label: 'InStock', value: 'InStock' },
+                          { label: 'SoldOut', value: 'SoldOut' },
+                          { label: 'PreOrder', value: 'PreOrder' }                                    
+                        ] ,
+                        onChange: function(value){
+                             props.setAttributes( { offer_availability: value } ); 
+                        }
+                    }),
+                    event_offer_date_div,
                     el( TextControl, {
                         placeholder: __('Enter Offer URL', 'schema-and-structured-data-for-wp'), 
                         label: __( 'Offer URL', 'schema-and-structured-data-for-wp' ),
@@ -623,7 +734,6 @@
                             props.setAttributes( { offer_url: newContent } );
                         }
                     }),
-                    event_offer_date_div,
                     organizers,
                     performers
                 )
@@ -636,9 +746,10 @@
                 
                 var date_div = el( 'div', {},
                     el('span',{className:'saswp-live-blog-posting-date-fields'},
+                        el('h4',{},__('New Update', 'schema-and-structured-data-for-wp')),
                         el(TextControl,{            
                             className:'saswp-live-blog-posting-cover-start-date',
-                            label: __( 'Date', 'schema-and-structured-data-for-wp' ),
+                            label: __( 'Update Date & Time', 'schema-and-structured-data-for-wp' ),
                             value : item.date,
                             onClick: function( ) {                            
                                 var newObject = Object.assign({}, item, {
@@ -698,7 +809,7 @@
                     }),
                     date_div,
                     el(TextControl,{
-                        label:__('Headline', 'schema-and-structured-data-for-wp'),    
+                        label:__('Update Title', 'schema-and-structured-data-for-wp'),    
                         placeholder: __( 'Enter headline', 'schema-and-structured-data-for-wp' ),
                         value: item.headline,
                         onChange: function( value ) {                                
@@ -710,8 +821,8 @@
                     }),
                     el(RichText,{
                         tagName: 'p',
-                        label:__('Body', 'schema-and-structured-data-for-wp'),
-                        placeholder: __( 'Enter Body', 'schema-and-structured-data-for-wp' ),
+                        label:__('Update Body', 'schema-and-structured-data-for-wp'),
+                        placeholder: __( 'Enter Update Body', 'schema-and-structured-data-for-wp' ),
                         value: item.body,
                         onChange: function(value){
                              var newObject = Object.assign({}, item, {
@@ -769,9 +880,9 @@
                         "div",
                         {className: 'saswp-lbp-blog-video-embed'},
                         el(TextControl, {
-                            label: "Embed Video",
+                            label: "Embed Youtube Video",
                             value: item.video_url,
-                            placeholder: "Enter Video URL",
+                            placeholder: "Paste Youtube URL",
                             onChange: function( value ) {                                
                                 var newObject = Object.assign({}, item, {
                                   video_url: value
@@ -796,7 +907,7 @@
             var blog_update = el('fieldset',{className:'saswp-live-blog-posting-update-fieldset'},el('div',{
                  className:'saswp-live-blog-posting-update-container'
                  },
-                 el('h3',{},__('Live Blog Update', 'schema-and-structured-data-for-wp')),
+                 el('h3',{},__('Live Blog Updates', 'schema-and-structured-data-for-wp')),
                  blog_update_loop,
                  el(Button,{
                      className:'saswp-lbpup-repeater',
@@ -911,69 +1022,25 @@
                     el( TextControl, {
                           className:'saswp-live-blog-posting-name',
                           placeholder: __( 'Enter blog name', 'schema-and-structured-data-for-wp' ), 
-                          label: __( 'Blog Name', 'schema-and-structured-data-for-wp' ),
+                          label: __( 'Live Blog Title', 'schema-and-structured-data-for-wp' ),
                           value: attributes.name,
                           onChange: function( newContent ) {                                
                               props.setAttributes( { name: newContent } );
                           }
                     }),
-                    el( TextControl, {
-                          className:'saswp-live-blog-posting-locationname',
-                          placeholder: __('Enter location name', 'schema-and-structured-data-for-wp'), 
-                          label: __( 'Location Name', 'schema-and-structured-data-for-wp' ),
-                          value: attributes.locationname,
+                    banner_section,
+                    el( RichText, {
+                          tagName: 'p', 
+                          className:'saswp-live-blog-posting-description',
+                          placeholder: __('Enter Live Blog Description', 'schema-and-structured-data-for-wp'), 
+                          value: attributes.description,
                           onChange: function( newContent ) {                                
-                              props.setAttributes( { locationname: newContent } );
+                              props.setAttributes( { description: newContent } );
                           }
                     }),
-                    el( TextControl, {
-                          className:'saswp-live-blog-posting-address',
-                          placeholder: __('Enter address', 'schema-and-structured-data-for-wp'), 
-                          label: __( 'Address', 'schema-and-structured-data-for-wp' ),
-                          value: attributes.address,
-                          onChange: function( newContent ) {                                
-                              props.setAttributes( { address: newContent } );
-                          }
-                    }),
-                    el( TextControl, {
-                          className:'saswp-live-blog-posting-locality',
-                          placeholder: __('Enter locality', 'schema-and-structured-data-for-wp'), 
-                          label: __( 'Locality', 'schema-and-structured-data-for-wp' ),
-                          value: attributes.locality, 
-                          onChange: function( newContent ) {                                
-                              props.setAttributes( { locality: newContent } );
-                          }
-                    }),
-                    el( TextControl, {
-                          className:'saswp-live-blog-posting-postalcode',
-                          placeholder: __('Enter postal code', 'schema-and-structured-data-for-wp'), 
-                          label: __( 'Postal Code', 'schema-and-structured-data-for-wp' ),
-                          value: attributes.postalcode,
-                          onChange: function( newContent ) {                                
-                              props.setAttributes( { postalcode: newContent } );
-                          }
-                    }),
-                    el( TextControl, {
-                          className:'saswp-live-blog-posting-region',
-                          placeholder: __('Enter region', 'schema-and-structured-data-for-wp'), 
-                          label: __( 'Region', 'schema-and-structured-data-for-wp' ),
-                          value: attributes.region,
-                          onChange: function( newContent ) {                                
-                              props.setAttributes( { region: newContent } );
-                          }
-                    }),
-                    el( TextControl, {
-                          className:'saswp-live-blog-posting-country',
-                          placeholder: __('Enter country', 'schema-and-structured-data-for-wp'), 
-                          label: __( 'Country', 'schema-and-structured-data-for-wp' ),
-                          value: attributes.country,
-                          onChange: function( newContent ) {                                
-                              props.setAttributes( { country: newContent } );
-                          }
-                    }),
+                    eventDetails,
                     coverage_start_date_div,
                     coverage_end_date_div,
-                    eventDetails,
                     blog_update,
                 )
             ];

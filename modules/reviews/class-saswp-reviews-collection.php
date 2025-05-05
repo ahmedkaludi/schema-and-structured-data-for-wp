@@ -257,6 +257,7 @@ class SASWP_Reviews_Collection {
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
@@ -294,18 +295,19 @@ class SASWP_Reviews_Collection {
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
             if(!current_user_can( saswp_current_user_can()) ) {
                 die( '-1' );    
             }
-            $platform_id = intval($_GET['platform_id']);
+            $platform_id = isset( $_GET['platform_id'] ) ? intval( $_GET['platform_id'] ) : '';
                          
             $attr        = array();
 
             if ( isset( $_GET['q']) && $_GET['q'] != '' ) {
-                $attr['q'] = sanitize_text_field($_GET['q']);
+                $attr['q'] = sanitize_text_field( wp_unslash( $_GET['q'] ) );
             }            
                         
             if( $platform_id ){
@@ -345,6 +347,7 @@ class SASWP_Reviews_Collection {
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
@@ -357,6 +360,7 @@ class SASWP_Reviews_Collection {
             $attr        = array();
 
             if ( isset( $_GET['reviews_ids']) && $_GET['reviews_ids'] != '' ) {
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason Server data is just used here so there is no necessary of unslash
                 $attr['in'] = json_decode($_GET['reviews_ids']);
             }
 
@@ -366,6 +370,7 @@ class SASWP_Reviews_Collection {
             }
                       
             if ( isset( $_GET['platform_place']) && !empty($_GET['platform_place']) ) {
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash
                 $platform_place = sanitize_text_field($_GET['platform_place']);
             }          
 
@@ -396,6 +401,7 @@ class SASWP_Reviews_Collection {
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
             }
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                return;  
             }
@@ -571,7 +577,7 @@ class SASWP_Reviews_Collection {
                                     $data_id = 1; 
                                     // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the shortcode calls.
                                     if ( isset( $_GET['rv_page']) ) {
-                                        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the shortcode calls.
+                                        // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason: We are not processing form information but only loading it inside the shortcode calls.
                                         $data_id = sanitize_text_field($_GET['rv_page']); 
                                     }
                                     
@@ -678,6 +684,7 @@ class SASWP_Reviews_Collection {
         public function saswp_admin_collection_interface_render() {
             
              if ( ! current_user_can( saswp_current_user_can() ) ) return;
+             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
              if ( isset( $_GET['_wpnonce'] ) && ! wp_verify_nonce( $_GET['_wpnonce'], '_wpnonce' ) ) return;
              
             $post_meta = array();
@@ -939,6 +946,7 @@ class SASWP_Reviews_Collection {
                                                 }
                                                 ?>
                                                 <div class="saswp_image_thumbnail">
+                                                    <?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
                                                     <img class="saswp_image_prev" id="saswp_collection_reviewer_image" src="<?php echo esc_url($coll_review_image); ?>" style="max-width: 100px; max-height: 100px;">
                                                 </div>
                                             </div>
@@ -1128,13 +1136,14 @@ class SASWP_Reviews_Collection {
                                     
             if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
             if ( ! current_user_can( saswp_current_user_can() ) ) return ;		    		
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             if ( ! isset( $_POST['saswp_collection_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_collection_nonce'], 'saswp_collection_nonce_data' ) ) return;            
             
             if ( isset( $_POST['saswp_collection_id']) ) {
             $display_type_opt    = array();
-            $post_id         = isset($_POST['saswp_collection_id'])?intval($_POST['saswp_collection_id']):'';
-            $collection_page = isset($_POST['saswp-collection-page'])?intval($_POST['saswp-collection-page']):'';
-            $post_title      = isset($_POST['saswp_collection_title'])?sanitize_text_field($_POST['saswp_collection_title']):'';
+            $post_id         = isset( $_POST['saswp_collection_id'] ) ? intval( $_POST['saswp_collection_id'] ) : '';
+            $collection_page = isset( $_POST['saswp-collection-page'] ) ? intval( $_POST['saswp-collection-page'] ) : '';
+            $post_title      = isset( $_POST['saswp_collection_title'] ) ? sanitize_text_field( wp_unslash( $_POST['saswp_collection_title'] ) ) : '';
                         
             $post = array(                 
                     'ID'                    => $post_id,
@@ -1146,7 +1155,7 @@ class SASWP_Reviews_Collection {
             wp_update_post($post);                                      
             $post_meta = array();            
 
-            $display_type = isset($_POST['saswp_collection_display_type']) ? sanitize_text_field($_POST['saswp_collection_display_type']) : '';
+            $display_type = isset( $_POST['saswp_collection_display_type'] ) ? sanitize_text_field( wp_unslash( $_POST['saswp_collection_display_type'] ) ) : '';
             
             $display_type_opt = get_option('saswp_collection_display_opt');
 
@@ -1158,12 +1167,12 @@ class SASWP_Reviews_Collection {
            
             update_option('saswp_collection_display_opt', $display_type_opt);
             
-            $post_meta['saswp_collection_design']       = isset($_POST['saswp_collection_design']) ? sanitize_text_field($_POST['saswp_collection_design']) : '';                        
-            $post_meta['saswp_collection_date_format']  = isset($_POST['saswp_collection_date_format']) ? sanitize_text_field($_POST['saswp_collection_date_format']) : '';            
-            $post_meta['saswp_collection_sorting']      = isset($_POST['saswp_collection_sorting']) ? sanitize_text_field($_POST['saswp_collection_sorting']) : '';
-            $post_meta['saswp_collection_specific_rating'] = isset($_POST['saswp_collection_specific_rating']) ? sanitize_text_field($_POST['saswp_collection_specific_rating']) : '';
+            $post_meta['saswp_collection_design']       = isset( $_POST['saswp_collection_design'] ) ? sanitize_text_field( wp_unslash( $_POST['saswp_collection_design'] ) ) : '';                        
+            $post_meta['saswp_collection_date_format']  = isset( $_POST['saswp_collection_date_format'] ) ? sanitize_text_field( wp_unslash( $_POST['saswp_collection_date_format'] ) ) : '';            
+            $post_meta['saswp_collection_sorting']      = isset( $_POST['saswp_collection_sorting'] ) ? sanitize_text_field( wp_unslash( $_POST['saswp_collection_sorting'] ) ) : '';
+            $post_meta['saswp_collection_specific_rating'] = isset( $_POST['saswp_collection_specific_rating'] ) ? sanitize_text_field( wp_unslash( $_POST['saswp_collection_specific_rating'] ) ) : '';
             $post_meta['saswp_collection_display_type'] = $display_type;
-            $post_meta['saswp_collection_gallery_type'] = isset($_POST['saswp_collection_gallery_type']) ? sanitize_text_field($_POST['saswp_collection_gallery_type']) : '';
+            $post_meta['saswp_collection_gallery_type'] = isset( $_POST['saswp_collection_gallery_type'] ) ? sanitize_text_field( wp_unslash( $_POST['saswp_collection_gallery_type'] ) ) : '';
             $post_meta['saswp_collection_gallery_interval'] = isset($_POST['saswp_collection_gallery_interval']) ? intval($_POST['saswp_collection_gallery_interval']) : 3000;
             $post_meta['saswp_gallery_slide_auto'] = isset($_POST['saswp_gallery_slide_auto']) ? intval($_POST['saswp_gallery_slide_auto']) : 0;
             $post_meta['saswp_collection_cols']         = isset($_POST['saswp_collection_cols']) ? intval($_POST['saswp_collection_cols']) : '';
@@ -1178,15 +1187,21 @@ class SASWP_Reviews_Collection {
             $post_meta['saswp_fomo_interval']           = isset($_POST['saswp_fomo_interval']) ? intval($_POST['saswp_fomo_interval']) : '';
             $post_meta['saswp_fomo_visibility']         = isset($_POST['saswp_fomo_visibility']) ? intval($_POST['saswp_fomo_visibility']) : '';                                                        
             $post_meta['saswp_platform_ids']            = !empty($_POST['saswp_platform_ids']) ? array_map('intval', (array)$_POST['saswp_platform_ids']) : '';
-            $post_meta['saswp_collection_where']        = array_map('sanitize_text_field', (array) $_POST['saswp_collection_where']);
-            $post_meta['saswp_collection_where_data']   = array_map('sanitize_text_field', (array) $_POST['saswp_collection_where_data']);
-            $post_meta['saswp_total_reviews']           = array_map('intval', (array) json_decode( $_POST['saswp_total_reviews']));
-            $post_meta['saswp_stars_color_picker']      = isset($_POST['saswp_stars_color_picker']) ? sanitize_text_field($_POST['saswp_stars_color_picker']) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
+            $post_meta['saswp_collection_where']        = isset( $_POST['saswp_collection_where'] ) ? array_map('sanitize_text_field', (array) $_POST['saswp_collection_where'] ) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
+            $post_meta['saswp_collection_where_data']   = isset( $_POST['saswp_collection_where_data'] ) ? array_map( 'sanitize_text_field', (array) $_POST['saswp_collection_where_data'] ) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
+            $post_meta['saswp_total_reviews']           = isset( $_POST['saswp_total_reviews'] ) ? array_map( 'intval', (array) json_decode( $_POST['saswp_total_reviews'] ) ) : '';
+            $post_meta['saswp_stars_color_picker']      = isset($_POST['saswp_stars_color_picker']) ? sanitize_text_field( wp_unslash( $_POST['saswp_stars_color_picker'] ) ) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
             $post_meta['saswp_collection_image_thumbnail']      = isset($_POST['saswp_collection_image_thumbnail']) ? esc_url($_POST['saswp_collection_image_thumbnail']) : SASWP_DIR_URI.'admin_section/images/default_user.jpg';
             $post_meta['saswp_collection_readmore_desc'] = isset($_POST['saswp_collection_readmore_desc']) ? intval($_POST['saswp_collection_readmore_desc']) : '';
             $post_meta['saswp_collection_gallery_readmore_desc'] = isset($_POST['saswp_collection_gallery_readmore_desc']) ? intval($_POST['saswp_collection_gallery_readmore_desc']) : '';
             $post_meta['saswp_collection_badge_souce_link'] = isset($_POST['saswp_collection_badge_souce_link']) ? intval($_POST['saswp_collection_badge_souce_link']) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
             $post_meta['saswp_review_custom_css'] = isset($_POST['saswp_review_custom_css']) ? sanitize_textarea_field($_POST['saswp_review_custom_css']) : '';
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
             $post_meta['saswp_review_custom_chk_box'] = isset($_POST['saswp_review_custom_chk_box']) ? sanitize_textarea_field($_POST['saswp_review_custom_chk_box']) : '';
             if ( ! empty( $post_meta) ) {
                 

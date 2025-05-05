@@ -108,6 +108,7 @@ Class SASWP_Output_Service{
             if ( ! isset( $_GET['saswp_security_nonce'] ) ){
                 return; 
              }
+             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
              if ( !wp_verify_nonce( $_GET['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
@@ -211,9 +212,12 @@ Class SASWP_Output_Service{
 
                         if ($ext == 'jpg' || $ext == 'png' || $ext == 'gif' || $ext == 'jpeg') {
                         
-                        $image_details = getimagesize($fixed_text[$key]);
+                        $image_details  =   array();
+                        if ( is_string( $fixed_text[$key] ) && filter_var( $fixed_text[$key], FILTER_VALIDATE_URL ) ) {
+                            $image_details = getimagesize( $fixed_text[$key] );   
+                        }
                         
-                        if ( is_array( $image_details) ) {
+                        if ( is_array( $image_details) && isset( $image_details[0] ) && isset( $image_details[1] ) ) {
                             $response['@type']  = 'ImageObject';
                             $response['url']    = $fixed_text[$key];
                             $response['width']  = $image_details[0]; 
@@ -3776,6 +3780,28 @@ Class SASWP_Output_Service{
                      $input1['publisher']['name']        =    $custom_fields['saswp_newsarticle_organization_name'];
                      $input1['publisher']['logo']        =    $custom_fields['saswp_newsarticle_organization_logo'];
                     }
+                    if ( isset( $custom_fields['saswp_newsarticle_associated_image'] ) ) {
+                        $input1['associatedMedia ']     =    $custom_fields['saswp_newsarticle_associated_image'];
+                    }
+                    if ( isset( $custom_fields['saswp_newsarticle_content_location_name'] ) || isset($custom_fields['saswp_newsarticle_content_location_locality'] ) || isset($custom_fields['saswp_newsarticle_content_location_country'] ) || isset($custom_fields['saswp_newsarticle_content_location_region'] ) || isset($custom_fields['saswp_newsarticle_content_location_postal_code'] ) ) {
+
+                        $input1['contentLocation']['@type']                        =   'Place';
+                        if ( isset( $custom_fields['saswp_newsarticle_content_location_name'] ) ) {
+                            $input1['contentLocation']['name']      =   $custom_fields['saswp_newsarticle_content_location_name'];       
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_content_location_locality'] ) ) {
+                            $input1['contentLocation']['address']['addressLocality']      =   $custom_fields['saswp_newsarticle_content_location_locality'];       
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_content_location_region'] ) ) {
+                            $input1['contentLocation']['address']['addressRegion']      =   $custom_fields['saswp_newsarticle_content_location_region'];       
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_content_location_postal_code'] ) ) {
+                            $input1['contentLocation']['address']['postalCode']      =   $custom_fields['saswp_newsarticle_content_location_postal_code'];       
+                        }
+                        if ( isset( $custom_fields['saswp_newsarticle_content_location_country'] ) ) {
+                            $input1['contentLocation']['address']['addressCountry']      =   $custom_fields['saswp_newsarticle_content_location_country'];       
+                        }
+                    }
                                         
                     break;
                 
@@ -4751,6 +4777,19 @@ Class SASWP_Output_Service{
                             $input1['mainContentOfPage']['url']    =   $custom_fields['saswp_webpage_mcop'];
                         }else{
                             $input1['mainContentOfPage']['name']    =   $custom_fields['saswp_webpage_mcop'];
+                        }
+                    }
+
+                    if ( ! empty( $custom_fields['saswp_webpage_same_as'] ) && is_string( $custom_fields['saswp_webpage_same_as'] ) ) {
+
+                        $explode_sameas = explode( ',', $custom_fields['saswp_webpage_same_as'] );
+                        if ( ! empty( $explode_sameas ) && is_array( $explode_sameas ) ) {
+                            $about  =   array();
+                            foreach ( $explode_sameas as $sameas ) {
+                                $about['@type']         =   'Thing';    
+                                $about['@sameAs']       =   $sameas;
+                                $input1['about'][]      =   $about;
+                            }
                         }
                     }
 
@@ -8222,7 +8261,7 @@ Class SASWP_Output_Service{
                         if ( saswp_remove_warnings($sd_data, 'saswp-foxizcore', 'saswp_string') == 1 ) {
                             foreach ( $custom_fields['saswp_lbp_live_blog_update'] as $lbu_key => $blog_update ) {
                                 if ( is_array( $blog_update ) && ! empty( $blog_update['datePublished'] ) ) {
-                                    $custom_fields['saswp_lbp_live_blog_update'][$lbu_key]['datePublished'] = saswp_format_date_time( date( 'Y-m-d', strtotime( $blog_update['datePublished'] ) ), date( 'H:i:s', strtotime( $blog_update['datePublished'] ) ) );
+                                    $custom_fields['saswp_lbp_live_blog_update'][$lbu_key]['datePublished'] = saswp_format_date_time( gmdate( 'Y-m-d', strtotime( $blog_update['datePublished'] ) ), gmdate( 'H:i:s', strtotime( $blog_update['datePublished'] ) ) );
                                 }
                             }
                         }
@@ -8547,6 +8586,7 @@ Class SASWP_Output_Service{
              if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                 return; 
              }
+             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
              if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
@@ -8554,7 +8594,9 @@ Class SASWP_Output_Service{
                 die( '-1' );    
             }
             
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
             $schema_subtype = isset( $_POST['schema_subtype'] ) ? sanitize_text_field( $_POST['schema_subtype'] ) : ''; 
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
             $schema_type    = isset( $_POST['schema_type'] ) ? sanitize_text_field( $_POST['schema_type'] ) : '';                      
                       
             if ( $schema_type == 'Review' || $schema_type == 'CriticReview' ) {
@@ -8578,6 +8620,7 @@ Class SASWP_Output_Service{
              if ( ! isset( $_POST['saswp_security_nonce'] ) ){
                 return; 
              }
+             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
              if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
                 return;  
              }
@@ -8585,7 +8628,7 @@ Class SASWP_Output_Service{
                 die( '-1' );    
             }
             
-            $search_string = isset( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';                                    
+            $search_string = isset( $_POST['q'] ) ? sanitize_text_field( wp_unslash( $_POST['q'] ) ) : '';                                    
 	        $data          = array();
 	        $result        = array();
             
@@ -9319,7 +9362,9 @@ Class SASWP_Output_Service{
             
             // Get post type from post id
             $post_type          =   '';
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: Just using the data so nonce verification is not necessary
             if ( ! empty( $_REQUEST['post'] ) ) {
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: Just using the data so nonce verification is not necessary
                 $post_id        =   intval( $_REQUEST['post'] );
                 $post_type      =   get_post_type( $post_id );
             }
@@ -9969,7 +10014,7 @@ Class SASWP_Output_Service{
                           }  
                           
                           if($content){
-                              
+                          // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage    
                           $regex   = '/<img(.*?)src="(.*?)"(.*?)>/';                          
                           @preg_match_all( $regex, $content, $attachments ); 
                                                                                                                                                                                       

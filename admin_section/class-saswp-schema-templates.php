@@ -164,6 +164,7 @@ class SASWP_Schema_Templates {
     public function save_modify_meta_data( $post_id ){
       
       if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
       if ( ! isset( $_POST['saswp_schema_template_nonce'] ) || ! wp_verify_nonce( $_POST['saswp_schema_template_nonce'], 'saswp_schema_template_nonce' ) ) return;
       if ( ! current_user_can( 'edit_post', $post_id ) ) return;
 
@@ -175,19 +176,29 @@ class SASWP_Schema_Templates {
       $meta_list            = array();
       
       if ( isset( $_POST['saswp_enable_custom_field'] ) )
-            $enable_custom_field = sanitize_text_field($_POST['saswp_enable_custom_field']);
+            $enable_custom_field = sanitize_text_field( wp_unslash( $_POST['saswp_enable_custom_field'] ) );
       if ( isset( $_POST['saswp_modify_method'] ) )
-            $saswp_modify_method = sanitize_text_field($_POST['saswp_modify_method']);                
-      if ( isset( $_POST['saswp_meta_list_val'] ) )                    
-          $meta_list = array_map ('sanitize_text_field', $_POST['saswp_meta_list_val']);                
-      if ( isset( $_POST['saswp_fixed_text'] ) )                    
+            $saswp_modify_method = sanitize_text_field( wp_unslash( $_POST['saswp_modify_method'] ) );                
+      if ( isset( $_POST['saswp_meta_list_val'] ) ) {
+          // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash                    
+          $meta_list = array_map ('sanitize_text_field', $_POST['saswp_meta_list_val']);
+      }                
+      if ( isset( $_POST['saswp_fixed_text'] ) ) { 
+          // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash                   
           $fixed_text = array_map ('sanitize_text_field', $_POST['saswp_fixed_text']);
-      if ( isset( $_POST['saswp_taxonomy_term'] ) )                    
+      }
+      if ( isset( $_POST['saswp_taxonomy_term'] ) ) {
+          // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash                    
           $taxonomy_term = array_map ('sanitize_text_field', $_POST['saswp_taxonomy_term']);
-      if ( isset( $_POST['saswp_custom_meta_field'] ) )                    
+      }
+      if ( isset( $_POST['saswp_custom_meta_field'] ) ) {
+          // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason Server data is just used here so there is no necessary of unslash                    
           $cus_meta_field = array_map ('sanitize_text_field', $_POST['saswp_custom_meta_field']);
-      if ( isset( $_POST['saswp_fixed_image'] ) )                    
+      }
+      if ( isset( $_POST['saswp_fixed_image'] ) ) {
+          // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason Server data is just used here so there is no necessary of unslash                    
           $fixed_image = wp_unslash($_POST['saswp_fixed_image']);
+      }
       
        $saswp_schema_options  =    array(
                                       'enable_custom_field'   => $enable_custom_field,
@@ -214,6 +225,7 @@ class SASWP_Schema_Templates {
       if ( ! isset( $_POST['saswp_security_nonce'] ) ){
         return; 
       }
+      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
       if ( !wp_verify_nonce( $_POST['saswp_security_nonce'], 'saswp_ajax_check_nonce' ) ){
         return;  
       }

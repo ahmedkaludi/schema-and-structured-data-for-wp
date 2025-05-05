@@ -816,8 +816,8 @@ function saswp_schema_output() {
                                             }
                                             
                                             $input1['articleBody']              =   isset( $wpforo_post['body'] ) ? esc_html( $wpforo_post['body'] ) : saswp_get_the_content(); 
-                                            $input1['datePublished']            =   isset( $topic_array['created'] ) ? saswp_format_date_time( date('Y-m-d', strtotime( $topic_array['created'] ) ), date('H:i:s', strtotime( $topic_array['created'] ) ) ) : get_post_time( DATE_ATOM, false, get_the_ID(), true );
-                                            $input1['dateModified']             =   isset( $topic_array['modified'] ) ? saswp_format_date_time( date('Y-m-d', strtotime( $topic_array['modified'] ) ), date('H:i:s', strtotime( $topic_array['modified'] ) ) ) : esc_html( $modified_date);
+                                            $input1['datePublished']            =   isset( $topic_array['created'] ) ? saswp_format_date_time( gmdate('Y-m-d', strtotime( $topic_array['created'] ) ), gmdate('H:i:s', strtotime( $topic_array['created'] ) ) ) : get_post_time( DATE_ATOM, false, get_the_ID(), true );
+                                            $input1['dateModified']             =   isset( $topic_array['modified'] ) ? saswp_format_date_time( gmdate('Y-m-d', strtotime( $topic_array['modified'] ) ), gmdate('H:i:s', strtotime( $topic_array['modified'] ) ) ) : esc_html( $modified_date);
                                             $input1['author']                   =   saswp_get_author_details();
                                             $input1['interactionStatistic']['@type']                =   'InteractionCounter';
                                             $input1['interactionStatistic']['interactionType']      =   saswp_context_url().'/CommentAction';
@@ -4161,7 +4161,7 @@ function saswp_live_blop_posting_easy_liveblogs( $input1 ) {
                         'headline'         => isset( $entry['title'] ) ? $entry['title'] : '',
                         'datePublished'    => isset( $entry['datetime'] ) ? $entry['datetime'] : '',
                         'dateModified'     => isset( $entry['modified'] ) ? $entry['modified'] : '',
-                        'articleBody'      => isset( $entry['content'] ) ? trim( preg_replace( '/\s+/', ' ', strip_tags( $entry['content'] ) ) ) : '',
+                        'articleBody'      => isset( $entry['content'] ) ? trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( $entry['content'] ) ) ) : '',
                     );
 
                     if ( elb_display_author_name() ) {

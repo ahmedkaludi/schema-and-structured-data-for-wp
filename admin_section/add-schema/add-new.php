@@ -66,6 +66,7 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
 		if ( ! isset( $_GET['_wpnonce']) ) {
 			return ;                    
 		}else{                                                      
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
 			if( wp_verify_nonce($_GET['_wpnonce'], '_wpnonce') ) {                     
 				saswp_add_new_steps_call(); 	                        
 			}  
@@ -78,6 +79,10 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
             
 		global $saswp_add_data_type_config;
                 
+		if ( ! isset( $_GET['_wpnonce'] ) ) {
+			return;
+		}
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
 		if ( !wp_verify_nonce($_GET['_wpnonce'], '_wpnonce') ||empty( $_GET['page'] ) || 'saswp_add_new_data_type' !== $_GET['page'] ) {
 			return;
 		}
@@ -267,7 +272,8 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
                             <li>                    
 					<?php 
 						$last_post_id ='';
-						if( wp_verify_nonce($_GET['_wpnonce'], '_wpnonce') ) {
+						// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
+						if( isset( $_GET['_wpnonce'] ) && wp_verify_nonce($_GET['_wpnonce'], '_wpnonce') ) {
 							if ( isset( $_GET['step']) ) {
                                             
 								$step =     intval($_GET['step']); 
@@ -350,13 +356,14 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
                     return; 
                  }
                  
+                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
                  if ( !wp_verify_nonce( $_POST['wpnonce'], 'saswp_add_new_nonce' ) ){
                     return;  
                  }
                  
                 if ( isset( $_POST['schema_type']) ) { 
                     
-                    $schema_type = sanitize_text_field($_POST['schema_type']);
+                    $schema_type = sanitize_text_field( wp_unslash( $_POST['schema_type'] ) );
                 
                 if($schema_type == 'local_business'){
                     
@@ -409,6 +416,7 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
                 $post_data_group_array  = array();
                 $temp_condition_array   = array();
                 $show_globally          = false;
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
                 $post_data_group_array  = (array) $_POST['data_group_array'];
                 
                 if ( is_array( $post_data_group_array) ) {

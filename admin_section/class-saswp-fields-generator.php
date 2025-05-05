@@ -460,8 +460,9 @@ class SASWP_Fields_Generator {
                                            if ( ! empty( $thumbnail_url) ) {
                                             $thumbnail_url = urldecode($thumbnail_url);
                                            } 
-                                           $image_pre = '<div class="saswp_image_thumbnail">
-                                                         <img class="saswp_image_prev" src="'. esc_url( $thumbnail_url).'" />
+                                           $image_pre = '<div class="saswp_image_thumbnail">';
+                                           // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                                           $image_pre .= '<img class="saswp_image_prev" src="'. esc_url( $thumbnail_url).'" />
                                                          <a data-id="'. esc_attr( $meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
                                                         </div>'; 
                                             
@@ -626,6 +627,7 @@ class SASWP_Fields_Generator {
                                                       
                                                     foreach ( $this->platforms as $platform) {
                                                         
+                                                    // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                                                     $input .= '<li class=""><img src="'. esc_url( SASWP_PLUGIN_URL.$platform['image']).'">
                                                               <span class="saswp_cmpny">'.esc_html( $platform['name']).'</span>
                                                               </li>';        
