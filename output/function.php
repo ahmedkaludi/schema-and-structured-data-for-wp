@@ -1395,19 +1395,21 @@ function saswp_get_comments($post_id){
         }
        
         $comment_id  = isset( $comment->comment_ID ) ? $comment->comment_ID : '';
-        $comments[] = array (
-                '@type'         => 'Comment',
-                'id'            => $permalink.'#comment-'.$comment_id,
-                'dateCreated'   => $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date),
-                'description'   => wp_strip_all_tags($comment->comment_content),
-                'upvoteCount'   => $likes,
-                'downvoteCount' => $dislikes,
-                'author'      => array (
+        $each_comment                       =   array();
+        $each_comment['@type']              =   'Comment';   
+        $each_comment['id']                 =   $permalink.'#comment-'.$comment_id;
+        $each_comment['dateCreated']        =   $is_bbpress ? $comment->comment_date : saswp_format_date_time($comment->comment_date);
+        $each_comment['description']        =   wp_strip_all_tags($comment->comment_content);
+        if ( $wpdiscuz ) {
+            $each_comment['upvoteCount']    =   $likes;
+            $each_comment['downvoteCount']  =   $dislikes;
+        }
+        $each_comment['author']             =   array (
                                                 '@type' => 'Person',
                                                 'name'  => esc_attr( $comment->comment_author),
                                                 'url'   => isset($comment->comment_author_url) ? esc_url($comment->comment_author_url): '',
-                    ),
-        );
+                                            );
+        $comments[]                         =   $each_comment;    
     }
             
     return apply_filters( 'saswp_filter_comments', $comments );
