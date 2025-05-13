@@ -432,7 +432,7 @@ function saswp_admin_interface_render() {
                         
                             echo '<div id="saswp-review-tabs" style="margin-top: 10px;">';
 
-                            echo '<a data-id="saswp-review-reviews-container">'. esc_html__( 'Reviews Module', 'schema-and-structured-data-for-wp' ) .'</a> | <a data-id="saswp-review-rating-container">'. esc_html__( 'Rating Module', 'schema-and-structured-data-for-wp' ) .'</a>';
+                            echo '<a data-id="saswp-review-reviews-container">'. esc_html__( 'Reviews Module', 'schema-and-structured-data-for-wp' ) .'</a> | <a data-id="saswp-review-rating-container">'. esc_html__( 'Rating Module', 'schema-and-structured-data-for-wp' ) .'</a> | <a data-id="saswp-review-comment-container">'. esc_html__( 'Comment Reviews Module', 'schema-and-structured-data-for-wp' ) .'</a>';
 
                             echo'</div> ';
                         
@@ -2472,6 +2472,7 @@ function saswp_review_page_callback() {
         
         $settings = saswp_defaultSettings();         
         $field_objs = new SASWP_Fields_Generator();
+        global $saswp_review_feature_admin_obj;
                                 
         $meta_fields = array(				                               
                 array(
@@ -2562,36 +2563,48 @@ function saswp_review_page_callback() {
                              'name' => 'sd_data[saswp-review-module]',                             
                         )
                 ),
-                array(
-                        'label'  => 'Stars Rating',
-                        'id'     => 'saswp-stars-rating-checkbox',                        
-                        'name'   => 'saswp-stars-rating-checkbox',
-                        'type'   => 'checkbox',
-                        'class'  => 'checkbox saswp-checkbox',
-                        'note'   => 'This option adds rating field in wordpress default comment box <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">Learn More</a>',
-                        'hidden' => array(
-                                'id'   => 'saswp-stars-rating',
-                                'name' => 'sd_data[saswp-stars-rating]',                             
-                        )
-                ),
-                array(
-                        'label'  => 'Default Rating',
-                        'id'     => 'saswp-default-rating',                        
-                        'name'   => 'sd_data[saswp-default-rating]',
-                        'type'   => 'number',
-                        'class'  => 'regular-text',
-                        'note'   => 'Option to set default rating to rating field. If user does not choose rating this value will be submited',                        
-                        'attributes' => array(
-                                'max' => '5',
-                                'min' => '1'                                
-                        )
-                )
            );  
        
        $field_objs->saswp_field_generator($meta_fields, $settings); 
        ?> 
     </div>
     
+    <div class="saswp-review-container" id="saswp-review-comment-container">
+
+    <?php
+    $meta_fields = array(
+                        array(
+                            'label'  => 'Stars Rating',
+                            'id'     => 'saswp-stars-rating-checkbox',                        
+                            'name'   => 'saswp-stars-rating-checkbox',
+                            'type'   => 'checkbox',
+                            'class'  => 'checkbox saswp-checkbox',
+                            'note'   => 'This option adds rating field in wordpress default comment box <a target="_blank" href="https://structured-data-for-wp.com/docs/article/how-to-use-rating-module-in-schema-and-structured-data/">Learn More</a>',
+                            'hidden' => array(
+                                    'id'   => 'saswp-stars-rating',
+                                    'name' => 'sd_data[saswp-stars-rating]',                             
+                            )
+                        ), 
+                        array(
+                            'label'  => 'Default Rating',
+                            'id'     => 'saswp-default-rating',                        
+                            'name'   => 'sd_data[saswp-default-rating]',
+                            'type'   => 'number',
+                            'class'  => 'regular-text',
+                            'note'   => 'Option to set default rating to rating field. If user does not choose rating this value will be submited',                        
+                            'attributes' => array(
+                                    'max' => '5',
+                                    'min' => '1'                                
+                            )
+                        ),   
+                    );
+    $field_objs->saswp_field_generator( $meta_fields, $settings );
+
+    $saswp_review_feature_admin_obj->saswp_render_review_feature_page();
+    ?>    
+
+    </div>
+
     <?php
         
         
@@ -5161,3 +5174,12 @@ function saswp_pre_update_settings($value, $old_value,  $option){
 }
 
 add_filter( 'pre_update_option_sd_data', 'saswp_pre_update_settings',10,3);
+
+/**
+ * Initialize SASWP_Review_Feature_Admin class
+ * @since   1.46
+ * */
+add_action('init', function() {
+    global $saswp_review_feature_admin_obj;
+    $saswp_review_feature_admin_obj     =   SASWP_Review_Feature_Admin::get_instance();
+});

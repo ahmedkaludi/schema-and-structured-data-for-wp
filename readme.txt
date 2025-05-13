@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.8
 Requires PHP: 5.6.20
-Stable tag: 1.45
+Stable tag: 1.46
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -128,6 +128,14 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.46 (13 May 2025) =
+* Feature: Comments Review Module #2260
+* Fixed: Issue in associatedMedia property of NewsArticle  schema #2299
+* Enhancement: Added new properties StreetAddress and AddressRegion to Service schema #2300
+* Enhancement: Added filter hook for image attachment for custom url handling #2301
+* Enhancement: Added Support for mainEntityOfPage property in VideoObject schema #2302
+* Enhancement: Code improvement #2303
 
 = 1.45 (5 May 2025) =
 * Enhancement: Added about and sameAs property in WebPage schema #2049
@@ -304,9 +312,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Feature: Added schema markup compatibility with attachments #2103
 * Fixed: PHP warning appearing in extension manager #2104
 * Fixed: A <strong> HTML tag appears on the frontend while using FAQ Block #2106
-
-= 1.30 (16 April 2024) =
-
-* Fixed: Security vulnerability issues raised by Wordfence
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

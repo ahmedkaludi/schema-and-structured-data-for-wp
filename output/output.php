@@ -211,7 +211,9 @@ function saswp_schema_output() {
                                 $input1 = apply_filters('saswp_modify_itemlist_schema_output', $input1 );
                                 
                                 $input1 = saswp_itemlist_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
-                                                                                                                                                                                                                                              
+
+                                $input1 = apply_filters('saswp_modify_itemlist__final_schema_output', $input1 );
+                                                                                                                                                                                                                                                
                             break;
                             
                             case 'FAQ':
@@ -258,7 +260,10 @@ function saswp_schema_output() {
                                     if(empty($input1['mainEntity']) ) {
                                         $input1 = array();    
                                     }
-                                }                                                                                                                       
+                                }
+
+                                $input1 = apply_filters('saswp_modify_faq_final_schema_output', $input1 );
+
                             break;
                         
                             case 'VideoGame':
@@ -279,6 +284,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_video_game_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_video_game_final_schema_output', $input1 );
                                 
                             break;
                             
@@ -298,6 +305,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_medical_condition_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_medical_condition_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -318,7 +327,9 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_tv_series_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
-                                                                                            
+                                
+                                $input1 = apply_filters('saswp_modify_tvseries_final_schema_output', $input1 );    
+
                             break;
                         
                             case 'Movie':
@@ -338,6 +349,8 @@ function saswp_schema_output() {
                                     $input1 = saswp_movie_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
                                 
+                                $input1 = apply_filters('saswp_modify_movie_final_schema_output', $input1 );
+
                             break;
                         
                             case 'HowTo':
@@ -359,6 +372,8 @@ function saswp_schema_output() {
                                     $input1 = saswp_howto_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
                                 
+                                $input1 = apply_filters('saswp_modify_howto_final_schema_output', $input1 );
+
                             break;
                         
                             case 'Trip':
@@ -375,6 +390,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_trip_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_trip_final_schema_output', $input1 );
                             
                             break;
 
@@ -392,6 +409,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_boat_trip_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_boat_trip_final_schema_output', $input1 );
                             
                             break;
                         
@@ -410,6 +429,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_single_family_residence_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_apartment_final_schema_sfr', $input1 );
                             
                             break;
                         
@@ -428,6 +449,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_house_schema_makrup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_apartment_final_schema_house', $input1 );
                                 
                             break;
                         
@@ -446,6 +469,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_apartment_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_apartment_final_schema_output', $input1 );
                            
                             break;
                         
@@ -465,6 +490,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_music_playlist_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_music_playlist_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -486,6 +513,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_music_composition_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_music_composition_final_schema_output', $input1 );
                                                                                                                                               
                             break;
                         
@@ -513,6 +542,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_book_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_book_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -531,6 +562,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_music_album_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_music_album_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -549,6 +582,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_tourist_destination_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_tourist_destination_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -567,6 +602,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_tourist_attraction_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_tourist_attraction_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -585,6 +622,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_lorh_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_lorh_final_schema_output', $input1 );
                                 
                             break;
                             
@@ -603,6 +642,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_buddhist_temple_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_buddhist_temple_final_schema_output', $input1 );
                                 
                             break;
 
@@ -621,6 +662,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_hindu_temple_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_hindu_temple_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -639,6 +682,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_church_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_church_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -657,6 +702,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_mosque_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_mosque_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -683,6 +730,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_job_posting_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_jobposting_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -704,6 +753,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_person_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_person_final_schema_output', $input1 );
                             
                             break;
                         
@@ -726,26 +777,27 @@ function saswp_schema_output() {
                                                                 )											
                                     );
 
-                                        if ( ! empty( $aggregateRating) ) {
-                                            $input1['aggregateRating'] = $aggregateRating;
-                                        }                                
-                                        if ( ! empty( $extra_theme_review) ) {
-                                           $input1 = array_merge($input1, $extra_theme_review);
-                                        }   
-                                        $input1 = saswp_append_fetched_reviews($input1);                            
-                                        if ( isset( $sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
-                                           $input1['comment'] = saswp_get_comments(get_the_ID());
-                                        }
+                                if ( ! empty( $aggregateRating) ) {
+                                    $input1['aggregateRating'] = $aggregateRating;
+                                }                                
+                                if ( ! empty( $extra_theme_review) ) {
+                                   $input1 = array_merge($input1, $extra_theme_review);
+                                }   
+                                $input1 = saswp_append_fetched_reviews($input1);                            
+                                if ( isset( $sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
+                                   $input1['comment'] = saswp_get_comments(get_the_ID());
+                                }
 
-                                        $input1 = apply_filters('saswp_modify_course_schema_output', $input1, $schema_post_id );
+                                $input1 = apply_filters('saswp_modify_course_schema_output', $input1, $schema_post_id );
 
-                                        $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
-                                        
-                                        if($modified_schema == 1){
-                                    
-                                          $input1 = saswp_course_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
-                                        }
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                            
+                                  $input1 = saswp_course_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
                         
+                                $input1 = apply_filters('saswp_modify_course_final_schema_output', $input1, $schema_post_id );
                                 
                             break;
                         
@@ -867,7 +919,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_dfp_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
-                        
+                            
+                                $input1 = apply_filters('saswp_modify_d_forum_posting_final_schema_output', $input1 ); 
                                 
                             break;
                         
@@ -889,7 +942,9 @@ function saswp_schema_output() {
                                     if($modified_schema == 1){
                                 
                                         $input1 = saswp_blogposting_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
-                                    }                        
+                                    } 
+
+                                    $input1 = apply_filters('saswp_modify_blogposting_final_schema_output', $input1 );                       
                                 
                             break;
 
@@ -918,6 +973,8 @@ function saswp_schema_output() {
                                     $input1 = saswp_car_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                 }
+
+                                $input1 = apply_filters('saswp_modify_car_final_schema_output', $input1 ); 
                                                             
                             break;
 
@@ -946,7 +1003,9 @@ function saswp_schema_output() {
                                     $input1 = saswp_vehicle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                 }
-                                                            
+                                    
+                                $input1 = apply_filters('saswp_modify_vehicle_final_schema_output', $input1 ); 
+
                             break;
 
                             case 'CreativeWorkSeries':                                
@@ -983,6 +1042,8 @@ function saswp_schema_output() {
                                         $input1 = saswp_creative_work_series_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                     }
+
+                                    $input1 = apply_filters('saswp_modify_creative_work_series_final_schema_output', $input1 );
                                                                 
                                 break;
 
@@ -1006,6 +1067,8 @@ function saswp_schema_output() {
                                         $input1 = saswp_educational_occupational_credential_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                     }
+
+                                    $input1 = apply_filters('saswp_modify_educational_occupational_credential_final_schema_output', $input1 ); 
                                                                 
                                 break; 
                                 
@@ -1032,6 +1095,8 @@ function saswp_schema_output() {
                                         $input1 = saswp_audiobook_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                     }
+
+                                    $input1 = apply_filters('saswp_modify_audiobook_final_schema_output', $input1 ); 
                                                                 
                                 break; 
 
@@ -1057,6 +1122,8 @@ function saswp_schema_output() {
                                         $input1 = saswp_podcast_episode_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                     }
+
+                                    $input1 = apply_filters('saswp_modify_podcast_episode_final_schema_output', $input1 ); 
                                                                 
                                 break; 
 
@@ -1080,6 +1147,8 @@ function saswp_schema_output() {
                                         $input1 = saswp_hotel_room_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                     }
+
+                                    $input1 = apply_filters('saswp_modify_hotel_room_final_schema_output', $input1 ); 
                                                                 
                                 break; 
 
@@ -1105,6 +1174,8 @@ function saswp_schema_output() {
                                         $input1 = saswp_podcast_season_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                     }
+
+                                    $input1 = apply_filters('saswp_modify_podcast_season_final_schema_output', $input1 );
                                                                 
                                 break; 
 
@@ -1130,6 +1201,8 @@ function saswp_schema_output() {
                                         $input1 = saswp_project_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
                                     }
+
+                                    $input1 = apply_filters('saswp_modify_project_final_schema_output', $input1 ); 
                                                                 
                                 break;    
 
@@ -1166,6 +1239,8 @@ function saswp_schema_output() {
                                     if ($modified_schema == 1) {
                                         $input1 = saswp_organization_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                     }
+
+                                    $input1 = apply_filters('saswp_modify_organization_final_schema_output', $input1 );
 
                                 break;
 
@@ -1206,7 +1281,8 @@ function saswp_schema_output() {
                                     
                                      $input1 = saswp_audio_object_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                     }
-                        
+                                    
+                                    $input1 = apply_filters('saswp_modify_audio_object_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -1225,6 +1301,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_eop_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_eop_final_schema_output', $input1 );
                         
                             break;
 
@@ -1253,6 +1331,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_event_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_event_final_schema_output', $input1, $schema_post_id );
                         
                             break;
                         
@@ -1298,7 +1378,9 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_software_app_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
-                                                        
+                                     
+                                $input1 = apply_filters('saswp_modify_software_application_final_schema_output', $input1 );
+
                             break;
 
                             case 'MobileApplication':
@@ -1343,6 +1425,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_mobile_app_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_mobile_application_final_schema_output', $input1 );
                                                         
                             break;
                         
@@ -1368,6 +1452,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_webpage_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_webpage_final_schema_output', $input1 ); 
 				
                             break;
 
@@ -1393,6 +1479,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_itempage_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_itempage_final_schema_output', $input1 );
 				
                             break;
 
@@ -1418,6 +1506,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_medicalwebpage_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_medicalwebpage_final_schema_output', $input1 );
 				
                             break;
                             
@@ -1436,6 +1526,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_special_announcement_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_special_announcement_final_schema_output', $input1 );
 			                                
                             break;
                             
@@ -1460,6 +1552,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_visualartwork_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_visualartwork_final_schema_output', $input1 );
 			                                
                             break;
 
@@ -1481,6 +1575,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_creativework_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_creativework_final_schema_output', $input1 );
 			                                
                             break;
 
@@ -1502,6 +1598,8 @@ function saswp_schema_output() {
                                    
                                     $input1 = saswp_article_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_article_final_schema_output', $input1 ); 
 			                                
                             break;
 
@@ -1523,6 +1621,8 @@ function saswp_schema_output() {
                                    
                                     $input1 = saswp_scholarlyarticle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_scholarlyarticle_final_schema_output', $input1 ); 
 			                                
                             break;
 
@@ -1559,6 +1659,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_photograph_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_photograph_final_schema_output', $input1 );
 			                                
                             break;
                         
@@ -1584,6 +1686,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_tech_article_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_tech_article_final_schema_output', $input1 );
 			                                
                             break;
                         
@@ -1623,7 +1727,9 @@ function saswp_schema_output() {
                                 if ( isset( $sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] == 1 ){
                                     $input1['comment'] = saswp_get_comments( get_the_ID() );
                                 }
-			                                
+			                    
+                                $input1 = apply_filters('saswp_modify_recipe_final_schema_output', $input1 );
+
                             break;
                         
                             case 'qanda':
@@ -1659,6 +1765,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_qanda_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_qanda_final_schema_output', $input1 );
 			                                
                             break;
 
@@ -1682,6 +1790,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_real_estate_listing_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_real_estate_listing_final_schema_output', $input1, $schema_post_id );
 			
                             break;
 
@@ -1704,6 +1814,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_apartment_complex_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_apartment_complex_final_schema_output', $input1 );
 			
                             break;
 
@@ -1724,6 +1836,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_rent_action_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_rent_action_final_schema_output', $input1 );
 			
                             break;
 
@@ -1746,6 +1860,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_psychological_treatment_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_psychological_treatment_final_schema_output', $input1 );
 			
                             break;
 
@@ -1865,6 +1981,8 @@ function saswp_schema_output() {
                                             
                                             $input1 = saswp_news_article_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                         }
+
+                                        $input1 = apply_filters('saswp_modify_news_article_final_schema_output', $input1 );
                                         
                             break;
 
@@ -1937,6 +2055,8 @@ function saswp_schema_output() {
                                             
                                             $input1 = saswp_analysis_newsarticle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                         }
+
+                                        $input1 = apply_filters('saswp_modify_analysis_newsarticle_final_schema_output', $input1 );
                                         
                             break;
 
@@ -2009,6 +2129,8 @@ function saswp_schema_output() {
                                             
                                             $input1 = saswp_askpublic_newsarticle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                         }
+
+                                        $input1 = apply_filters('saswp_modify_askpublic_newsarticle_final_schema_output', $input1 );
                                         
                             break;
 
@@ -2081,6 +2203,8 @@ function saswp_schema_output() {
                                             
                                             $input1 = saswp_background_newsarticle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                         }
+
+                                        $input1 = apply_filters('saswp_modify_background_newsarticle_final_schema_output', $input1 );
                                         
                             break;
 
@@ -2153,6 +2277,8 @@ function saswp_schema_output() {
                                             
                                             $input1 = saswp_opinion_newsarticle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                         }
+
+                                        $input1 = apply_filters('saswp_modify_opinion_newsarticle_final_schema_output', $input1 );
                                         
                             break;
 
@@ -2225,6 +2351,8 @@ function saswp_schema_output() {
                                             
                                             $input1 = saswp_reportage_newsarticle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                         }
+
+                                        $input1 = apply_filters('saswp_modify_reportage_newsarticle_final_schema_output', $input1 );
                                         
                             break;
 
@@ -2314,6 +2442,8 @@ function saswp_schema_output() {
                                             
                                             $input1 = saswp_review_newsarticle_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                         }
+
+                                        $input1 = apply_filters('saswp_modify_review_newsarticle_final_schema_output', $input1 );
                                         
                             break;
                             
@@ -2331,6 +2461,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_service_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_service_final_schema_output', $input1 );
                                 
                             break;
 
@@ -2348,6 +2480,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_taxi_service_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_taxi_service_final_schema_output', $input1 );
                                 
                             break;
                             
@@ -2399,6 +2533,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_review_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_review_final_schema_output', $input1 );
                                 
                             break;
 
@@ -2450,6 +2586,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_critic_review_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_critic_review_final_schema_output', $input1 );
                                 
                             break;
                         
@@ -2582,7 +2720,7 @@ function saswp_schema_output() {
 
                                     }
                                  
-
+                                    $input1 = apply_filters('saswp_modify_video_object_final_schema_output', $input1 );
                             break;
                         
                             case 'ImageObject':
@@ -2632,6 +2770,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_image_object_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_image_object_final_schema_output', $input1 );
 				
                             break;
                         
@@ -2680,6 +2820,8 @@ function saswp_schema_output() {
                                     }
 
                                     $input1['@type'] = $local_business;
+
+                                    $input1 = apply_filters('saswp_modify_local_business_final_schema_output', $input1 );
                                 
                             break;
                             
@@ -2697,6 +2839,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_tourist_trip_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_tourist_trip_final_schema_output', $input1 );
 
                             break;
                             
@@ -2716,6 +2860,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_vacation_rental_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_vacation_rental_final_schema_output', $input1 );
 
                             break;
                             
@@ -2753,6 +2899,8 @@ function saswp_schema_output() {
                                     $input1 = saswp_learning_resource_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
 
+                                $input1 = apply_filters('saswp_modify_learning_resource_final_schema_output', $input1 );
+
                             break;
                             
                             case 'LiveBlogPosting':
@@ -2774,6 +2922,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_live_blog_posting_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_live_blog_posting_final_schema_output', $input1 );
 
                             break;
 
@@ -2797,6 +2947,8 @@ function saswp_schema_output() {
                                     $input1 = saswp_image_gallery_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
                                 }
 
+                                $input1 = apply_filters( 'saswp_modify_image_gallery_final_schema_output', $input1 );
+
                             break;
 
                             case 'MediaGallery':
@@ -2819,6 +2971,8 @@ function saswp_schema_output() {
                                     $input1 = saswp_media_gallery_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
                                 }
 
+                                $input1 = apply_filters( 'saswp_modify_media_gallery_final_schema_output', $input1 );
+
                             break;
 
                             case 'ProfilePage':
@@ -2837,6 +2991,8 @@ function saswp_schema_output() {
                                     
                                     $input1 = saswp_profile_page_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
+
+                                $input1 = apply_filters('saswp_modify_profile_page_final_schema_output', $input1 );
                             
                             break;
                             

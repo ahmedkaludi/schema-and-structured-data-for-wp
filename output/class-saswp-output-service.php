@@ -3781,7 +3781,7 @@ Class SASWP_Output_Service{
                      $input1['publisher']['logo']        =    $custom_fields['saswp_newsarticle_organization_logo'];
                     }
                     if ( isset( $custom_fields['saswp_newsarticle_associated_image'] ) ) {
-                        $input1['associatedMedia ']     =    $custom_fields['saswp_newsarticle_associated_image'];
+                        $input1['associatedMedia']     =    $custom_fields['saswp_newsarticle_associated_image'];
                     }
                     if ( isset( $custom_fields['saswp_newsarticle_content_location_name'] ) || isset($custom_fields['saswp_newsarticle_content_location_locality'] ) || isset($custom_fields['saswp_newsarticle_content_location_country'] ) || isset($custom_fields['saswp_newsarticle_content_location_region'] ) || isset($custom_fields['saswp_newsarticle_content_location_postal_code'] ) ) {
 
@@ -6544,10 +6544,23 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_service_schema_price_range']) ) {
                         $input1['provider']['priceRange'] =    $custom_fields['saswp_service_schema_price_range'];
                     }                    
+                    if ( isset( $custom_fields['saswp_service_schema_street_address']) ) {
+                     $input1['provider']['address']['@type']           = 'PostalAddress';
+                     $input1['provider']['address']['streetAddress'] =    $custom_fields['saswp_service_schema_street_address'];
+                    }
                     if ( isset( $custom_fields['saswp_service_schema_locality']) ) {
+                     $input1['provider']['address']['@type']           = 'PostalAddress';
                      $input1['provider']['address']['addressLocality'] =    $custom_fields['saswp_service_schema_locality'];
                     }
-                    if ( isset( $custom_fields['saswp_service_schema_postal_code']) ) {
+                    if ( isset( $custom_fields['saswp_service_schema_region']) ) {
+                     $input1['provider']['address']['@type']           = 'PostalAddress';   
+                     $input1['provider']['address']['addressRegion'] =    $custom_fields['saswp_service_schema_region'];
+                    }
+                    if ( isset( $custom_fields['saswp_service_schema_country']) ) {     
+                        $input1['provider']['address']['addressCountry']['@type'] =   'Country';
+                        $input1['provider']['address']['addressCountry']['name '] =   $custom_fields['saswp_service_schema_country'];
+                    }
+                    if ( isset( $custom_fields['saswp_service_schema_postal_code']) ) { 
                       $input1['provider']['address']['postalCode'] =    $custom_fields['saswp_service_schema_postal_code'];
                     }
                     if ( isset( $custom_fields['saswp_service_schema_telephone']) ) {
@@ -6673,7 +6686,13 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_video_object_embed_url']) && wp_http_validate_url($custom_fields['saswp_video_object_embed_url']) ) {
                      $input1['embedUrl']   =    saswp_validate_url($custom_fields['saswp_video_object_embed_url']);
                     }
-                    
+                    if ( ! empty( $custom_fields['saswp_video_object_main_entity_id']) ) {
+                        $input1['mainEntity']['@type'] =    'WebPage';
+                        $input1['mainEntity']['@id'] =    $custom_fields['saswp_video_object_main_entity_id'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_video_object_main_entity_of_page']) ) {
+                        $input1['mainEntityOfPage'] =    $custom_fields['saswp_video_object_main_entity_of_page'];
+                    }
                     if ( ! empty( $custom_fields['saswp_video_object_seek_to_seconds']) && !empty($custom_fields['saswp_video_object_seek_to_video_url']) ) {
 
                         $input1['potentialAction']['@type']             = 'SeekToAction';
@@ -7805,6 +7824,12 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_jobposting_schema_applicant_location_requirements']) ) {
                      $input1['applicantLocationRequirements']['@type'] = 'Country';
                      $input1['applicantLocationRequirements']['name']  = $custom_fields['saswp_jobposting_schema_applicant_location_requirements'];
+                    }
+                    if ( isset( $custom_fields['saswp_jobposting_schema_incentive_compensation']) ) {
+                     $input1['incentiveCompensation']  = $custom_fields['saswp_jobposting_schema_incentive_compensation'];
+                    }
+                    if ( isset( $custom_fields['saswp_jobposting_schema_job_benefits']) ) {
+                     $input1['jobBenefits']  = $custom_fields['saswp_jobposting_schema_job_benefits'];
                     }
                     if ( isset( $custom_fields['saswp_jobposting_schema_job_location_type']) ) {
                      $input1['jobLocationType']  = $custom_fields['saswp_jobposting_schema_job_location_type'];

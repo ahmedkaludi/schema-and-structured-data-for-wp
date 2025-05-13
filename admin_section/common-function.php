@@ -5251,10 +5251,9 @@ function saswp_get_image_details($url)
     if (!function_exists( 'wp_getimagesize' ) ){
         require_once( ABSPATH . '/wp-admin/includes/media.php' );
     }
-    if ( function_exists( 'wp_getimagesize') ) {
-        $image = wp_getimagesize($url);
-    }else{
-        $image = getimagesize($url);
+    $img_details = apply_filters( 'saswp_get_image_details', false, $url );
+    if ( false === $img_details ) {
+        $image = function_exists( 'wp_getimagesize' ) ? wp_getimagesize( $url ) : getimagesize( $url );
     }
     return $image;
 }
@@ -5454,3 +5453,19 @@ function saswp_get_the_product_title( $title = '' ) {
     return $title;
 
 }
+
+/**
+ * Check is current theme is a block based theme
+ * @since   1.46
+ * */
+function saswp_is_block_theme() {
+    
+    if ( ! function_exists( 'wp_is_block_theme' ) ) {
+        require_once ABSPATH . 'wp-includes/theme.php';
+    }
+    if ( wp_is_block_theme() ) {
+        return true;
+    }
+    return false;
+
+}   

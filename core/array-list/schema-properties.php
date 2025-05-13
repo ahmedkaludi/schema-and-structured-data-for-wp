@@ -7016,9 +7016,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             ),                           
                     ),                        
                     array(
+                            'label'      => 'Street Address',
+                            'id'         => 'saswp_service_schema_street_address_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
                             'label' => 'Locality',
                             'id' => 'saswp_service_schema_locality_'.$schema_id,
                             'type' => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Region',
+                            'id'         => 'saswp_service_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
                     ),
                     array(
                             'label' => 'Postal Code',
@@ -7751,6 +7761,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_video_object_main_entity_id_'.$schema_id,
                             'type'    => 'text',
                             'default' => get_permalink()
+                    ),
+                    array(
+                            'label'   => 'Main Entity of page',
+                            'id'      => 'saswp_video_object_main_entity_of_page_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => get_permalink(),
+                            'is_template_attr' => 'yes',
                     ),
                     array(
                         'label'   => 'Author Type',
@@ -9454,6 +9471,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                         'label'      => 'Applicants can apply from ( Country ) ',
                         'id'         => 'saswp_jobposting_schema_applicant_location_requirements_'.$schema_id,
+                        'type'       => 'text',                             
+                    ),
+                    array(
+                        'label'      => 'Incentive Compensation',
+                        'id'         => 'saswp_jobposting_schema_incentive_compensation_'.$schema_id,
+                        'type'       => 'text',                             
+                    ),
+                    array(
+                        'label'      => 'Job Benefits',
+                        'id'         => 'saswp_jobposting_schema_job_benefits_'.$schema_id,
                         'type'       => 'text',                             
                     ),
                     array(

@@ -1,0 +1,783 @@
+.saswp-rf-form{
+    background-color: #f8f8f8;
+    padding: 30px;
+    border-radius: 4px;
+}
+.saswp-rf-form .saswp-rf-form-title{
+    color: #000;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+.saswp-rf-form-submit-wrapper{
+	margin-top: 20px;
+}
+.saswp-rf-form .saswp-rf-form-group{
+	margin-bottom: 15px;
+}
+.saswp-rf-form .saswp-rf-form-group .saswp-rf-form-check {
+    display: flex;
+    margin: 20px 0;
+    position: relative;
+}
+.saswp-rf-form .saswp-rf-form-group .saswp-rf-form-check input[type=checkbox] {
+    cursor: pointer;
+    height: 20px;
+    margin: 0;
+/*    opacity: 0;*/
+    width: 20px;
+    z-index: 1;
+}
+.saswp-rf-form .saswp-rf-form-group .saswp-rf-form-check .saswp-rf-form-checkbox-label {
+    color: #646464;
+    cursor: pointer;
+    line-height: 1.1;
+    padding-left: 8px;
+}
+.saswp-rf-form .saswp-rf-form-group .saswp-rf-form-check .saswp-rf-form-checkbox-label:before {
+    border: 2px solid #a2a2a2;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 13px;
+    height: 16px;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    top: 2px;
+    transition: all .3s ease-in-out;
+    width: 16px;
+}
+.saswp-rf-form .saswp-rf-form-group .saswp-rf-form-control{
+	padding: 10px 20px;
+	border-radius: 5px;
+}
+.saswp-rf-form .saswp-rf-form-rating-ul{
+	display: grid;
+    grid-template-columns: repeat(2, 270px);
+    list-style: none;
+    margin: 27px 0 0 5px;
+    padding: 0;
+}
+.saswp-rf-form .saswp-rf-form-rating-ul li {
+    display: flex;
+    margin-bottom: 10px;
+}
+.saswp-rf-form .saswp-rf-form-rating-ul .saswp-rf-form-rating-text {
+    color: #000;
+    font-size: 17px;
+    font-weight: 500;
+    min-width: 120px;
+}
+.saswp-rf-form-rating-container>input+label:before {
+/*    color: #888;*/
+/*    content: "\e808";*/
+/*    display: inline-block;*/
+/*    text-indent: -9999px;*/
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper {
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    display: flex;
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .saswp-rf-form-pros-items, 
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .saswp-rf-form-cons-items {
+    border-right: 1px solid #ebebeb;
+    flex: 1;
+    padding: 25px 30px;
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .saswp-rf-form-input-title {
+    margin: 0 0 16px;
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .saswp-rf-form-input-filed {
+    padding-right: 30px;
+    position: relative;
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .saswp-rf-form-remove-field{
+    background: red;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    height: 20px;
+    line-height: 18px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 10px;
+    transform: rotate(45deg);
+    transition: all .3s ease-in-out;
+    width: 20px;
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .form-control {
+    background-color: #fff;
+    border: 1px solid #ebebeb;
+    border-radius: 4px;
+    font-size: 16px;
+    height: 40px;
+    margin-bottom: 10px;
+    padding: 5px 20px;
+    width: 100%;
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .saswp-rf-form-add-field {
+    color: #646464;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    transition: all .3s ease-in-out;
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .saswp-rf-form-add-field i{
+    margin-top: 5px;
+    font-size: 17px;
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .saswp-rf-form-input-title .dashicons-thumbs-up:before{
+	color: green;
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .saswp-rf-form-input-title i{
+	margin: 2px 4px;
+}
+.saswp-rf-form .saswp-rf-form-pros-cons-wrapper .saswp-rf-form-input-title .dashicons-thumbs-down:before{
+	color: red;
+}
+.saswp-rf-form-media-form-group {
+    display: flex;
+    margin-top: 20px;
+}
+.saswp-rf-form-media-form-group>div {
+    margin-right: 20px;
+}
+.saswp-rf-form-media-form-group div>label {
+    color: #000;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 6px;
+}
+.saswp-rf-form .saswp-rf-form-multimedia-upload {
+    width: 160px;
+}
+.saswp-rf-form .saswp-rf-form-multimedia-upload .saswp-rf-form-upload-box {
+    align-items: center;
+    background-color: #efefef;
+    border: 1px solid #8a8787;
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 4px 10px;
+    text-align: center;
+}
+.saswp-rf-form .saswp-rf-form-multimedia-upload .saswp-rf-form-upload-box span {
+    color: #4c4b4b;
+    font-size: 14px;
+}
+.saswp-rf-form-image-error, .saswp-rf-form-video-error {
+    color: red;
+}
+#saswp-rf-form-video-source {
+    color: #6d6d6d;
+    padding: 8px 5px;
+    text-indent: 22px;
+    width: 160px;
+}
+.saswp-rf-form-box .saswp-rf-form-group .saswp-rf-form-input-label {
+    color: #010101;
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 18px;
+    padding-top: 22px;
+}
+.saswp-rf-form-box .saswp-rf-form-group .saswp-rf-form-input-label {
+    display: none;
+}
+.saswp-rf-form-box .saswp-rf-form-group .saswp-rf-form-control {
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    color: #111;
+    font-size: 15px;
+    padding: 10px 20px;
+    width: 100%;
+}
+.saswp-rf-form-preview-imgs .saswp-rf-form-preview-img, .saswp-rf-form-preview-videos .saswp-rf-form-preview-video {
+    display: inline;
+    position: relative;
+}
+.saswp-rf-form-preview-imgs .saswp-rf-form-preview-img img, .saswp-rf-form-preview-videos .saswp-rf-form-preview-video .name {
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    max-width: 130px;
+    padding: 10px;
+    vertical-align: top;
+    width: auto;
+}
+.saswp-rf-form-preview-imgs .saswp-rf-form-preview-img .saswp-rf-form-file-remove, .saswp-rf-form-preview-videos .saswp-rf-form-preview-video .saswp-rf-form-file-remove {
+    background: red;
+    color: #fff;
+    cursor: pointer;
+    line-height: 17px;
+    padding: 0 6px 3px;
+    position: absolute;
+    right: 10px;
+}
+
+/**
+ * Front comment template display changes
+ * */
+.saswp-rf-template-wrapper{
+    background: #fff;
+}
+.saswp-rf-template-summary-wrapper{
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+.saswp-rf-template-summary-wrapper .saswp-rf-template-summary-rating-wrapper {
+    align-items: center;
+    border: 1px solid #eaeaea;
+    border-radius: 6px;
+    display: flex;
+    flex: 1;
+    height: 100%;
+    padding: 25px 30px;
+}
+.saswp-rf-template-summary-wrapper .saswp-rf-template-summary-rating-wrapper .saswp-rf-template-rating-number {
+    margin-right: 25px;
+}
+.saswp-rf-template-summary-wrapper .saswp-rf-template-summary-rating-wrapper .saswp-rf-template-rating {
+    color: #000;
+    font-size: 48px;
+    font-weight: 700;
+}
+.saswp-rf-template-summary-wrapper .saswp-rf-template-summary-rating-wrapper .saswp-rf-template-rating-overall {
+    color: #747474;
+    font-size: 36px;
+    font-weight: 700;
+}
+.saswp-rf-template-summary-wrapper .saswp-rf-template-summary-rating-wrapper .saswp-rf-template-rating-icon {
+    flex: 1;
+}
+.saswp-rf-template-summary-wrapper .saswp-rf-template-summary-rating-wrapper .saswp-rf-template-rating-icon i {
+    color: #ffb300;
+    font-size: 18px;
+}
+.saswp-rf-template-summary-layout-wrapper .saswp-rf-template-multi-wrapper {
+    border: 1px solid #eaeaea;
+    border-radius: 6px;
+    padding: 30px;
+}
+.saswp-rf-template-summary-layout-wrapper .saswp-rf-template-multi-wrapper .saswp-rf-template-multi-progress {
+    align-items: center;
+    display: flex;
+    margin-bottom: 20px;
+}
+.saswp-rf-template-summary-layout-wrapper .saswp-rf-template-multi-wrapper .saswp-rf-template-multi-progress label {
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 88px;
+}
+.saswp-rf-template-summary-layout-wrapper .saswp-rf-template-multi-wrapper progress[value] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    border-radius: 4px;
+    height: 5px;
+}
+.saswp-rf-template-summary-layout-wrapper .saswp-rf-template-multi-wrapper .service-preogress[value]::-webkit-progress-value {
+  background-color: #FFD700;
+/*  box-shadow: 0 4px 8px 0px rgba(0, 176, 255, 0.48);*/
+}
+.saswp-rf-template-summary-layout-wrapper .saswp-rf-template-multi-wrapper .saswp-rf-template-progress-bar {
+    flex: auto;
+}
+.saswp-rf-template-summary-layout-wrapper .saswp-rf-template-multi-wrapper .saswp-rf-template-multi-progress span {
+    min-width: 70px;
+}
+.saswp-rf-template-summary-layout-wrapper .saswp-rf-template-multi-wrapper .progress-percent {
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 40px;
+    text-align: right;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-rating-summary {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-rating-item:first-child {
+    margin-left: 30px;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-rating-item:last-child {
+    border-right: none;
+    flex: 1;
+    margin-right: 0;
+    padding-right: 0;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-rating-item {
+    border-right: 1px solid #ededed;
+    margin-right: 30px;
+    padding-right: 25px;
+    margin-top: 10px !important;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-circle {
+    max-width: 190px;
+    position: relative;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-circle-bar {
+    border-radius: 50%;
+    height: 190px;
+    position: relative;
+    width: 190px;
+    z-index: 1;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-circle-bar svg {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-circle-bar svg circle {
+    fill: transparent;
+    stroke: #efefef;
+    stroke-width: 12;
+    stroke-linecap: round;
+    height: 100%;
+    transform: translate(20px, 25px);
+    width: 100%;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-circle-bar svg circle:nth-child(2n) {
+    stroke-dasharray: 490;
+    stroke-dashoffset: 147;
+    stroke: green;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-circle-content {
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-circle-content .saswp-rf-template-rating-percent {
+    color: #000;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-circle-content .saswp-rf-template-rating-text {
+    color: #474747;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-circle-content .saswp-rf-template-rating-icon i {
+    color: #ffb300;
+    font-size: 13px;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-rating-multi-criteria {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.saswp-rf-template-rating-multi-criteria ul {
+    border-bottom: none;
+}
+.saswp-rf-template-rating-multi-criteria li {
+    margin-bottom: 20px;
+}
+.saswp-rf-template-rating-multi-criteria li label {
+    color: #111;
+    display: inline-block;
+    font-weight: 500;
+    min-width: 150px;
+}
+.saswp-rf-template-rating-multi-criteria li {
+    margin-bottom: 20px;
+}
+.saswp-rf-template-summary-wrapper-two .saswp-rf-template-rating-multi-criteria li i {
+    color: #ffb300;
+    font-size: 18px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-comment-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-main-review {
+    display: block !important;
+    margin-bottom: 20px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-single-review {
+    align-items: flex-start;
+    background-color: #f8f8f8;
+    display: flex;
+    padding: 30px 25px 20px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-avatar-holder {
+    margin-right: 15px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-avatar-holder img {
+    border-radius: 50%;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container {
+    flex: 1;
+    position: relative;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-meta {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-meta .saswp-rf-template-review-rating {
+    color: #ffb300;
+    font-size: 16px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-meta li {
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 15px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-meta .saswp-rf-template-author-link {
+    font-size: 14px;
+}
+.saswp-rf-template-author-link .dashicons-yes-alt {
+    color: green !important;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-meta li:last-child {
+    margin-right: 0;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-meta .saswp-rf-template-review-date {
+    color: #6d6d6d;
+    font-size: 14px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-title {
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container p {
+    color: #646464;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 0 18px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-pros-cons {
+    display: flex;
+    margin-top: 24px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-pros-cons .saswp-rf-template-feedback-list-box {
+    flex: 1;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-pros-cons .saswp-rf-template-feedback-title {
+    margin: 0 0 14px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-pros-cons .saswp-rf-template-feedback-title .item-icon {
+/*    background-color: #000;*/
+    border-radius: 4px;
+/*    color: #fff;*/
+    display: inline-block;
+    font-size: 18px;
+    height: 28px;
+    line-height: 28px;
+/*    margin-right: 12px;*/
+    width: 29px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-pros-cons .saswp-rf-template-feedback-title .item-text {
+    color: #010101;
+    font-size: 15px;
+    font-weight: 600;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-pros-cons .saswp-rf-template-feedback-list {
+    list-style: none;
+    margin-bottom: 10px;
+    padding: 0;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-pros-cons .saswp-rf-template-feedback-list li {
+    display: block !important;
+    color: #646464;
+    font-size: 15px;
+    margin-bottom: 4px;
+    position: relative;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-pros-cons .saswp-rf-template-feedback-list li:before {
+    color: #000;
+    font-size: 13px;
+    font-weight: 700;
+    margin-right: 8px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-reply-btn {
+    padding: 10px 0;
+    float: left;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-reaction-review-wrapper{
+    float: right;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-reaction-review-wrapper label:hover{
+    cursor: pointer;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-reply-btn .saswp-rf-template-item-btn {
+    background-color: #045CB4;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+    margin: 0;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: 600;
+}
+.saswp-rf-template-feedback-title .dashicons-thumbs-up:before{
+    color: green;
+}
+.saswp-rf-template-feedback-title .dashicons-thumbs-down:before{
+    color: red;
+}
+.saswp-rf-template-feedback-title .dashicons{
+    margin-top: 5px;
+}
+.children .saswp-rf-template-main-review{
+    margin-top: 20px;
+}
+/*#saswp_review_form_title{
+    width: 100%;
+}*/
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-item-media {
+    margin-bottom: 15px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-item-media .saswp-rf-template-review-media-item {
+    display: inline-block;
+    margin-right: 10px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-item-media .saswp-rf-template-review-media-item a {
+    padding: 0;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-item-media .saswp-rf-template-review-media-item img {
+    border-radius: 4px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-item-media .saswp-rf-template-review-media-item:last-child {
+    margin-right: 0;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-item-media .saswp-rf-template-review-media-video {
+    position: relative;
+    text-align: center;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-item-media .saswp-rf-template-review-media-video:before {
+    background-color: rgba(0, 0, 0, .3);
+    border-radius: 4px;
+    bottom: 0;
+    content: "";
+    height: 100%;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-item-media .saswp-rf-template-review-media-video .saswp-rf-template-review-video-icon {
+    display: inline-block;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-item-media .saswp-rf-template-review-media-video .saswp-rf-template-review-video-icon .dashicons-play:before {
+    color: #000;
+    font-size: 12px;
+    margin: 0 0 0 3px;
+}
+.saswp-rf-form #cancel-comment-reply-link{
+    margin-left: 10px;
+}
+
+
+/**
+ * Sorting related css
+ * */
+.saswp-rf-template-sorting-bar {
+    align-items: center;
+    background-color: #fafafa;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 5px 22px;
+}
+.saswp-rf-template-sorting-bar .saswp-rf-template-sorting-title {
+    color: #444;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+}
+.saswp-rf-template-sorting-bar .saswp-rf-template-sorting-select {
+    display: flex;
+    gap: 5px;
+}
+.saswp-rf-template-sorting-bar .saswp-rf-template-sorting-select label {
+    color: #444;
+    margin-right: 8px;
+}
+.saswp-rf-template-sorting-bar .saswp-rf-template-sorting-select select {
+    background-color: #fff;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 3px 8px 0 hsla(0, 0%, 75%, .27);
+    color: #969696;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 6px;
+    margin-top: 5px;
+    padding: 10px 25px 9px 15px;
+}
+.saswp-rf-template-sort-filter {
+    margin-right: 10px;
+}
+.saswp_rf_template_review_filter {
+    width: auto;
+}
+.saswp-rf-template-sorting-bar .saswp-rf-template-sorting-select i{
+    top: 15px;
+    position: relative;
+}
+
+/**
+ * Pagination css starts here
+ * */
+.saswp-rf-template-paginate {
+    margin: 10px 0 20px;
+    padding: 5px 1px;
+    text-align: right;
+}
+.saswp-rf-template-paginate a.next, .saswp-rf-template-paginate a.prev {
+    background-color: #d0d0d0;
+    color: #fff;
+    padding: 7px 4px;
+}
+.saswp-rf-template-paginate a {
+    background-color: #efefef;
+    border-radius: 4px;
+    color: #666;
+    padding: 7px 14px;
+    text-decoration: none;
+}
+.saswp-rf-template-paginate .current {
+    border-radius: 4px;
+    padding: 7px 14px;
+}
+.saswp-rf-template-paginate .current, .saswp-rf-template-paginate a:active, .saswp-rf-template-paginate a:focus, .saswp-rf-template-paginate a:hover {
+    background-color: #646464;
+    color: #fff;
+}
+.saswp-rf-template-align-center{
+    text-align: center;
+}
+#saswp-rf-template-load-more{
+    background-color: #444;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 24px;
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+}
+.saswp-rf-template-review-edit-btn {
+  cursor: pointer;
+}
+.saswp-rf-modal {
+    background-color: #000;
+    background-color: rgba(0, 0, 0, .5);
+    height: 100%;
+    left: 0;
+    overflow: auto;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+.saswp-rf-review-popup {
+    left: 50%;
+    left: 0;
+    margin: auto;
+    max-height: 80%;
+    max-width: 90% !important;
+    overflow: auto;
+    position: fixed;
+    right: 0;
+    top: 10%;
+    width: 800px;
+    z-index: 9999;
+}
+.saswp-rf-template-single-review .saswp-rf-template-review-helpful .saswp-rf-form-helful-radio {
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    width: 0;
+}
+.saswp-rf-template-single-review .saswp-rf-template-review-helpful {
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+    font-size: 18px;
+    align-items: center;
+}
+.saswp-rf-template-single-review .saswp-rf-template-review-helpful label {
+    cursor: pointer;
+}
+.saswp-rf-template-single-review .saswp-rf-template-review-helpful label:last-of-type {
+    margin-left: 20px;
+}
+.saswp-rf-template-single-review .saswp-rf-template-review-helpful label .dashicons {
+    font-size: 24px;
+}
+.saswp-rf-template-single-review .saswp-rf-template-review-helpful .saswp-rf-template-helpful-count{
+    padding-left: 5px;
+    font-size: 16px;
+}
+.saswp-rf-helpful-selected{
+    color: #045CB4 !important;
+}
+.saswp-rf-template-action-area{
+    margin-bottom: 15px;
+}
+
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-meta .saswp-rf-template-review-social-share i {
+    margin-top: 4px;
+}
+.saswp-rf-template-comment-box .saswp-rf-template-review-container .saswp-rf-template-review-meta .saswp-rf-template-review-social-share label {
+/*    cursor: pointer;*/
+}
+.saswp-rf-template-comment-box .saswp-rf-template-top-review {
+  background-color: #fffbf1;
+  box-shadow: 0 1px 9px 0 #646464;
+}
+.saswp-rf-template-hide{
+    display: none;
+}
+.saswp-rf-form-highlight-wrapper label{
+    font-size: 12px;
+    font-weight: 500;
+    color: #646464;
+}
+/**
+ * Featherlight - ultra slim jQuery lightbox
+ * Version 1.7.14 - http://noelboss.github.io/featherlight/
+ *
+ * Copyright 2019, Noël Raoul Bossart (http://www.noelboss.com)
+ * MIT Licensed.
+**/
+html.with-featherlight{overflow:hidden}.featherlight{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:2147483647;text-align:center;white-space:nowrap;cursor:pointer;background:#333;background:rgba(0,0,0,0)}.featherlight:last-of-type{background:rgba(0,0,0,.8)}.featherlight:before{content:'';display:inline-block;height:100%;vertical-align:middle}.featherlight .featherlight-content{position:relative;text-align:left;vertical-align:middle;display:inline-block;overflow:auto;padding:25px 25px 0;border-bottom:25px solid transparent;margin-left:5%;margin-right:5%;max-height:95%;background:#fff;cursor:auto;white-space:normal}.featherlight .featherlight-inner{display:block}.featherlight link.featherlight-inner,.featherlight script.featherlight-inner,.featherlight style.featherlight-inner{display:none}.featherlight .featherlight-close-icon{position:absolute;z-index:9999;top:0;right:0;line-height:25px;width:25px;cursor:pointer;text-align:center;font-family:Arial,sans-serif;background:#fff;background:rgba(255,255,255,.3);color:#000;border:0;padding:0}.featherlight .featherlight-close-icon::-moz-focus-inner{border:0;padding:0}.featherlight .featherlight-image{width:100%}.featherlight-iframe .featherlight-content{border-bottom:0;padding:0;-webkit-overflow-scrolling:touch}.featherlight iframe{border:0}.featherlight *{box-sizing:border-box}@media only screen and (max-width:1024px){.featherlight .featherlight-content{margin-left:0;margin-right:0;max-height:98%;padding:10px 10px 0;border-bottom:10px solid transparent}}@media print{html.with-featherlight>*>:not(.featherlight){display:none}}
