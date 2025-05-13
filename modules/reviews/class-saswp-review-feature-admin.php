@@ -1401,7 +1401,16 @@ class SASWP_Review_Feature_Admin {
 								}
 							} else {
 				                
-				                    $rt_rating = round( get_comment_meta( $comment_id, 'rating', true ) , 1 ); ?>
+				                    $rt_rating = get_comment_meta( $comment_id, 'rating', true );
+				                    if ( empty( $rt_rating ) ) {
+				                    	$rt_rating = get_comment_meta( $comment_id, 'review_rating', true );
+				                    } 
+				                    if ( $rt_rating > 0 ) {
+				                    	$rt_rating = round( $rt_rating, 1 ); 
+				                    }else{
+				                    	$rt_rating 	=	5;	
+				                    }
+				                    ?>
 				                    <div class="saswp-rf-form-rating-text"><?php echo esc_html__( 'Rating', 'schema-and-structured-data-for-wp' ); ?></div>
 									<div class="saswp-rf-form-rating-container">
 										<div class="saswp-rating-container">

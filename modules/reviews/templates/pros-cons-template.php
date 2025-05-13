@@ -17,7 +17,7 @@ if ( ! empty( $pros ) || ! empty( $cons ) ) {
 	<div class="saswp-rf-template-review-pros-cons">
 
 		<?php 
-		if ( ! empty( $pros ) ) {
+		if ( is_array( $pros ) && ! empty( $pros[0] ) ) {
 		?>
 			<div class="saswp-rf-template-feedback-list-box saswp-rf-template-like-feedback">
 		        <h3 class="saswp-rf-template-feedback-title">
@@ -33,7 +33,7 @@ if ( ! empty( $pros ) || ! empty( $cons ) ) {
 		<?php
 		}
 
-		if ( ! empty( $cons ) ) {
+		if ( is_array( $cons ) && ! empty( $cons[0] ) ) {
 		?>
 			<div class="saswp-rf-template-feedback-list-box saswp-rf-template-unlike-feedback">
 		        <h3 class="saswp-rf-template-feedback-title">
