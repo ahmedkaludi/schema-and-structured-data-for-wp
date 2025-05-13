@@ -7016,9 +7016,19 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             ),                           
                     ),                        
                     array(
+                            'label'      => 'Street Address',
+                            'id'         => 'saswp_service_schema_street_address_'.$schema_id,
+                            'type'       => 'text',                           
+                    ),
+                    array(
                             'label' => 'Locality',
                             'id' => 'saswp_service_schema_locality_'.$schema_id,
                             'type' => 'text',                            
+                    ),
+                    array(
+                            'label'      => 'Region',
+                            'id'         => 'saswp_service_schema_region_'.$schema_id,
+                            'type'       => 'text',                            
                     ),
                     array(
                             'label' => 'Postal Code',

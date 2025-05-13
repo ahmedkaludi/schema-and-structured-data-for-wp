@@ -6544,10 +6544,23 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_service_schema_price_range']) ) {
                         $input1['provider']['priceRange'] =    $custom_fields['saswp_service_schema_price_range'];
                     }                    
+                    if ( isset( $custom_fields['saswp_service_schema_street_address']) ) {
+                     $input1['provider']['address']['@type']           = 'PostalAddress';
+                     $input1['provider']['address']['streetAddress'] =    $custom_fields['saswp_service_schema_street_address'];
+                    }
                     if ( isset( $custom_fields['saswp_service_schema_locality']) ) {
+                     $input1['provider']['address']['@type']           = 'PostalAddress';
                      $input1['provider']['address']['addressLocality'] =    $custom_fields['saswp_service_schema_locality'];
                     }
-                    if ( isset( $custom_fields['saswp_service_schema_postal_code']) ) {
+                    if ( isset( $custom_fields['saswp_service_schema_region']) ) {
+                     $input1['provider']['address']['@type']           = 'PostalAddress';   
+                     $input1['provider']['address']['addressRegion'] =    $custom_fields['saswp_service_schema_region'];
+                    }
+                    if ( isset( $custom_fields['saswp_service_schema_country']) ) {     
+                        $input1['provider']['address']['addressCountry']['@type'] =   'Country';
+                        $input1['provider']['address']['addressCountry']['name '] =   $custom_fields['saswp_service_schema_country'];
+                    }
+                    if ( isset( $custom_fields['saswp_service_schema_postal_code']) ) { 
                       $input1['provider']['address']['postalCode'] =    $custom_fields['saswp_service_schema_postal_code'];
                     }
                     if ( isset( $custom_fields['saswp_service_schema_telephone']) ) {
