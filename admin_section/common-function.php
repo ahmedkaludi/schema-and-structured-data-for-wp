@@ -5251,10 +5251,9 @@ function saswp_get_image_details($url)
     if (!function_exists( 'wp_getimagesize' ) ){
         require_once( ABSPATH . '/wp-admin/includes/media.php' );
     }
-    if ( function_exists( 'wp_getimagesize') ) {
-        $image = wp_getimagesize($url);
-    }else{
-        $image = getimagesize($url);
+    $img_details = apply_filters( 'saswp_get_image_details', false, $url );
+    if ( false === $img_details ) {
+        $image = function_exists( 'wp_getimagesize' ) ? wp_getimagesize( $url ) : getimagesize( $url );
     }
     return $image;
 }
