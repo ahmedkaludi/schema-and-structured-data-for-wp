@@ -7763,6 +7763,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => get_permalink()
                     ),
                     array(
+                            'label'   => 'Main Entity of page',
+                            'id'      => 'saswp_video_object_main_entity_of_page_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => get_permalink(),
+                            'is_template_attr' => 'yes',
+                    ),
+                    array(
                         'label'   => 'Author Type',
                         'id'      => 'saswp_video_object_author_type_'.$schema_id,
                         'type'    => 'select',

@@ -7340,6 +7340,10 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
                 ),
         );
 
+        if ( ! empty( $all_post_meta['saswp_video_object_main_entity_of_page_'.$schema_id] ) && ! empty( $all_post_meta['saswp_video_object_main_entity_of_page_'.$schema_id][0] ) ) {
+            $input1['mainEntityOfPage']       = saswp_remove_warnings( $all_post_meta, 'saswp_video_object_main_entity_of_page_'.$schema_id, 'saswp_array' );
+        }
+
         if(empty($input1['@id']) ) {
             unset($input1['@id']);
         }
