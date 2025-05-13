@@ -3781,7 +3781,7 @@ Class SASWP_Output_Service{
                      $input1['publisher']['logo']        =    $custom_fields['saswp_newsarticle_organization_logo'];
                     }
                     if ( isset( $custom_fields['saswp_newsarticle_associated_image'] ) ) {
-                        $input1['associatedMedia ']     =    $custom_fields['saswp_newsarticle_associated_image'];
+                        $input1['associatedMedia']     =    $custom_fields['saswp_newsarticle_associated_image'];
                     }
                     if ( isset( $custom_fields['saswp_newsarticle_content_location_name'] ) || isset($custom_fields['saswp_newsarticle_content_location_locality'] ) || isset($custom_fields['saswp_newsarticle_content_location_country'] ) || isset($custom_fields['saswp_newsarticle_content_location_region'] ) || isset($custom_fields['saswp_newsarticle_content_location_postal_code'] ) ) {
 
