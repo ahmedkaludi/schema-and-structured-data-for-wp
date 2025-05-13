@@ -5454,3 +5454,19 @@ function saswp_get_the_product_title( $title = '' ) {
     return $title;
 
 }
+
+/**
+ * Check is current theme is a block based theme
+ * @since   1.46
+ * */
+function saswp_is_block_theme() {
+    
+    if ( ! function_exists( 'wp_is_block_theme' ) ) {
+        require_once ABSPATH . 'wp-includes/theme.php';
+    }
+    if ( wp_is_block_theme() ) {
+        return true;
+    }
+    return false;
+
+}   

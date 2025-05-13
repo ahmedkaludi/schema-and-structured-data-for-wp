@@ -1175,10 +1175,12 @@ jQuery(document).ready(function($){
                             if ($(this).is(':checked')) { 
                               $(".saswp-stars-post-table").removeClass('saswp_hide');  
                               $(this).parent().parent().next().removeClass('saswp_hide');           
+                              $('.saswp-rf-page-settings-container').removeClass('saswp_hide');           
                               $("#saswp-stars-rating").val(1);             
                             }else{
                               $(this).parent().parent().next().addClass('saswp_hide');
                               $(".saswp-stars-post-table").addClass('saswp_hide');
+                              $('.saswp-rf-page-settings-container').addClass('saswp_hide'); 
                               $("#saswp-stars-rating").val(0);           
                             }
                       break;

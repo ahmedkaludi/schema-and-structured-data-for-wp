@@ -768,7 +768,8 @@ class SASWP_Fields_Generator {
                                 }
                                 
                                 foreach( $post_type as $key => $value){
-                                    $subfields .= '<tr><td><input type="checkbox" name="sd_data[saswp-stars-post-taype][]" value="'. esc_attr( $key).'" '.(in_array($key, $sel_value) ? 'checked':'' ).' /></td><td> '.esc_html( $value).' </td><tr>';
+                                    $input_id   = 'saswp_stars_post_type_' . $value;  
+                                    $subfields .= '<tr><td><input type="checkbox" name="sd_data[saswp-stars-post-taype][]" value="'. esc_attr( $key).'" '.(in_array($key, $sel_value) ? 'checked':'' ).' id="'.esc_attr( $input_id ).'"/></td><td><label class="saswp-stars-post-type-label" for="'.esc_attr( $input_id ).'"> '.esc_html( $value).' </label></td><tr>';
                                 }
 
                                 $subfields .= '</table></div>';

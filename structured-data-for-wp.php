@@ -106,6 +106,8 @@ require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-service.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-widget.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-collection.php';
 require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-reviews-form.php';
+require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-review-feature-frontend.php';
+require_once SASWP_DIR_NAME.'/modules/reviews/class-saswp-review-feature-admin.php';
 require_once SASWP_DIR_NAME.'/modules/tinymce/register-tinymce.php';
 require_once SASWP_DIR_NAME.'/modules/tinymce/register-shortcodes.php';
 require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';

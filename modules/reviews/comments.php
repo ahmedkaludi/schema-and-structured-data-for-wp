@@ -100,7 +100,7 @@ function saswp_comment_rating_get_average_ratings( $id ) {
 }
 
 //Create the rating interface.
-add_action( 'comment_form_top', 'saswp_comment_rating_rating_field' );
+// add_action( 'comment_form_top', 'saswp_comment_rating_rating_field' );
 
 function saswp_comment_rating_rating_field () {	
 
@@ -148,7 +148,7 @@ function saswp_comment_rating_save_comment_rating( $comment_id ) {
 }
 
 //Display the rating on a submitted comment.
-add_filter( 'comment_text', 'saswp_comment_rating_display_rating', 10, 2);
+// add_filter( 'comment_text', 'saswp_comment_rating_display_rating', 10, 2);
 
 function saswp_comment_rating_display_rating( $comment_text = null, $comment = null ){
 	
@@ -185,7 +185,7 @@ function saswp_comment_rating_display_rating( $comment_text = null, $comment = n
 }
 
 //Display the average rating above the content.
-add_action( 'comment_form_before', 'saswp_comment_rating_display_average_rating' );
+// add_action( 'comment_form_before', 'saswp_comment_rating_display_average_rating' );
 function saswp_comment_rating_display_average_rating() {
 
 	global $post;
