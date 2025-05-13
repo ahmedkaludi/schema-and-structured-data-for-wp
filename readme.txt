@@ -130,7 +130,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 == Changelog ==
 
 = 1.46 (13 May 2025) =
-* Feature: Enhanced Reviews Schema #2260
+* Feature: Comments Review Module #2260
 * Fixed: Issue in associatedMedia property of NewsArticle  schema #2299
 * Enhancement: Added new properties StreetAddress and AddressRegion to Service schema #2300
 * Enhancement: Added filter hook for image attachment for custom url handling #2301
