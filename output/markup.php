@@ -3328,6 +3328,14 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
 
     }
 
+    if( isset($all_post_meta['saswp_jobposting_schema_incentive_compensation_'.$schema_id][0]) ){
+        $input1['incentiveCompensation']                       = saswp_remove_warnings( $all_post_meta, 'saswp_jobposting_schema_incentive_compensation_'.$schema_id, 'saswp_array' );
+    }
+
+    if( isset($all_post_meta['saswp_jobposting_schema_job_benefits_'.$schema_id][0]) ){
+        $input1['jobBenefits']                       = saswp_remove_warnings( $all_post_meta, 'saswp_jobposting_schema_job_benefits_'.$schema_id, 'saswp_array' );
+    }
+
     if( isset($all_post_meta['saswp_jobposting_schema_job_location_type_'.$schema_id][0]) ){
         $input1['jobLocationType']                       = $all_post_meta['saswp_jobposting_schema_job_location_type_'.$schema_id][0];
     }

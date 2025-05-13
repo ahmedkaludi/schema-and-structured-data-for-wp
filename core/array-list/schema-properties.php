@@ -9474,6 +9474,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type'       => 'text',                             
                     ),
                     array(
+                        'label'      => 'Incentive Compensation',
+                        'id'         => 'saswp_jobposting_schema_incentive_compensation_'.$schema_id,
+                        'type'       => 'text',                             
+                    ),
+                    array(
+                        'label'      => 'Job Benefits',
+                        'id'         => 'saswp_jobposting_schema_job_benefits_'.$schema_id,
+                        'type'       => 'text',                             
+                    ),
+                    array(
                         'label'      => 'Job Location Type',
                         'id'         => 'saswp_jobposting_schema_job_location_type_'.$schema_id,
                         'type'       => 'text',                             

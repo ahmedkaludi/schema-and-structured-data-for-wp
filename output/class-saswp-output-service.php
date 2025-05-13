@@ -7825,6 +7825,12 @@ Class SASWP_Output_Service{
                      $input1['applicantLocationRequirements']['@type'] = 'Country';
                      $input1['applicantLocationRequirements']['name']  = $custom_fields['saswp_jobposting_schema_applicant_location_requirements'];
                     }
+                    if ( isset( $custom_fields['saswp_jobposting_schema_incentive_compensation']) ) {
+                     $input1['incentiveCompensation']  = $custom_fields['saswp_jobposting_schema_incentive_compensation'];
+                    }
+                    if ( isset( $custom_fields['saswp_jobposting_schema_job_benefits']) ) {
+                     $input1['jobBenefits']  = $custom_fields['saswp_jobposting_schema_job_benefits'];
+                    }
                     if ( isset( $custom_fields['saswp_jobposting_schema_job_location_type']) ) {
                      $input1['jobLocationType']  = $custom_fields['saswp_jobposting_schema_job_location_type'];
                     }
