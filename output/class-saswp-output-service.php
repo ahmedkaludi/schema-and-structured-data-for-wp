@@ -3673,6 +3673,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_newsarticle_date_modified']) ) {
                        $input1['dateModified'] =    $custom_fields['saswp_newsarticle_date_modified']; 
                     }
+                    if ( isset( $custom_fields['saswp_newsarticle_date_created']) ) {
+                       $input1['dateCreated'] =    $custom_fields['saswp_newsarticle_date_created']; 
+                    }
                     if ( isset( $custom_fields['saswp_newsarticle_description']) ) {
                        $input1['description'] =    wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_newsarticle_description'] ));  
                     }
@@ -3689,6 +3692,9 @@ Class SASWP_Output_Service{
                                 $input1['isPartOf'][]       =   $is_part;    
                             }
                         } 
+                    }
+                    if ( isset( $custom_fields['saswp_newsarticle_is_acceesible_free']) ) {
+                        $input1['isAccessibleForFree'] =    $custom_fields['saswp_newsarticle_is_acceesible_free'];
                     }
                     if ( isset( $custom_fields['saswp_newsarticle_section']) ) {
                        $input1['articleSection'] = $custom_fields['saswp_newsarticle_section'];  

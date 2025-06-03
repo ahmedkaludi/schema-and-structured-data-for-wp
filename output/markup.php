@@ -6153,6 +6153,7 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
 				$input1['alternativeHeadline']			            = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_alternative_headline_'.$schema_id, 'saswp_array');
                 $input1['datePublished']                            = isset($all_post_meta['saswp_newsarticle_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'';
 				$input1['dateModified']                             = isset($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'';
+                $input1['dateCreated']                             = isset($all_post_meta['saswp_newsarticle_date_created_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_created_'.$schema_id][0], get_post_time('h:i:s')) :'';
 				$input1['description']                              = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_description_'.$schema_id, 'saswp_array');
                 $input1['keywords']		                            = $keywords;
                 $input1['articleSection']                           = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_section_'.$schema_id, 'saswp_array');
@@ -6185,7 +6186,9 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
                 if ( ! empty( $template_markup['isPartOf'] ) ) {
                     $input1['isPartOf']  =   $template_markup['isPartOf'];
                 }
-
+                if ( isset( $all_post_meta['saswp_newsarticle_is_acceesible_free_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_is_acceesible_free_'.$schema_id][0] ) ) {
+                    $input1['isAccessibleForFree'] = saswp_remove_warnings( $all_post_meta, 'saswp_newsarticle_is_acceesible_free_'.$schema_id, 'saswp_array' );
+                }
                 $input1['author']['@type']       = 'Person';
 
                 if ( isset( $all_post_meta['saswp_newsarticle_author_type_'.$schema_id][0] ) ) {

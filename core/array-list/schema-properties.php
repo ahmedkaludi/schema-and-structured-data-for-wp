@@ -722,6 +722,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',
                             'default' => get_the_modified_date("Y-m-d")
                     ),
+                    array(
+                            'label'      => 'Date Created',
+                            'id'         => 'saswp_newsarticle_date_created_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_the_date("Y-m-d")
+                    ),
                      array(
                             'label' => 'Description',
                             'id' => 'saswp_newsarticle_description_'.$schema_id,
@@ -739,6 +745,15 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_newsarticle_ispartof_'.$schema_id,
                             'type'    => 'text',
                             'is_template_attr' => 'yes',
+                    ),
+                    array(
+                            'label'      => 'Is Accessible For Free',
+                            'id'         => 'saswp_newsarticle_is_acceesible_free_'.$schema_id,
+                            'type'       => 'select',
+                            'options' => array(
+                                'true' => 'True',
+                                'false' => 'False',
+                            ),
                     ),
                     array(
                             'label' => 'Keywords',
