@@ -3693,9 +3693,6 @@ Class SASWP_Output_Service{
                             }
                         } 
                     }
-                    if ( isset( $custom_fields['saswp_newsarticle_is_acceesible_free']) ) {
-                        $input1['isAccessibleForFree'] =    $custom_fields['saswp_newsarticle_is_acceesible_free'];
-                    }
                     if ( isset( $custom_fields['saswp_newsarticle_section']) ) {
                        $input1['articleSection'] = $custom_fields['saswp_newsarticle_section'];  
                     }

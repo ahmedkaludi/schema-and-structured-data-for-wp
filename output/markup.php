@@ -6186,9 +6186,7 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
                 if ( ! empty( $template_markup['isPartOf'] ) ) {
                     $input1['isPartOf']  =   $template_markup['isPartOf'];
                 }
-                if ( isset( $all_post_meta['saswp_newsarticle_is_acceesible_free_'.$schema_id] ) && isset( $all_post_meta['saswp_newsarticle_is_acceesible_free_'.$schema_id][0] ) ) {
-                    $input1['isAccessibleForFree'] = saswp_remove_warnings( $all_post_meta, 'saswp_newsarticle_is_acceesible_free_'.$schema_id, 'saswp_array' );
-                }
+                
                 $input1['author']['@type']       = 'Person';
 
                 if ( isset( $all_post_meta['saswp_newsarticle_author_type_'.$schema_id][0] ) ) {

@@ -747,15 +747,6 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'is_template_attr' => 'yes',
                     ),
                     array(
-                            'label'      => 'Is Accessible For Free',
-                            'id'         => 'saswp_newsarticle_is_acceesible_free_'.$schema_id,
-                            'type'       => 'select',
-                            'options' => array(
-                                'true' => 'True',
-                                'false' => 'False',
-                            ),
-                    ),
-                    array(
                             'label' => 'Keywords',
                             'id' => 'saswp_newsarticle_keywords_'.$schema_id,
                             'type' => 'text',
