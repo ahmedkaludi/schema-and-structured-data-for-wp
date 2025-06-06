@@ -2995,6 +2995,24 @@ function saswp_schema_output() {
                                 $input1 = apply_filters('saswp_modify_profile_page_final_schema_output', $input1 );
                             
                             break;
+
+                            case 'Place':
+                                                                                    
+                                $input1['@context']                     = saswp_context_url();
+                                $input1['@type']                        = 'Place';                                 
+
+                                $input1 = apply_filters('saswp_modify_place_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
+                                
+                                if ( $modified_schema == 1 ) {
+                                    
+                                    $input1 = saswp_place_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
+                                }
+
+                                $input1 = apply_filters( 'saswp_modify_place_final_schema_output', $input1 );
+                                
+                            break;
                             
                             default:
                                 break;

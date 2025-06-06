@@ -8587,6 +8587,30 @@ Class SASWP_Output_Service{
                     }
                     
                 break;
+
+                case 'Place':
+
+                    if ( ! empty( $custom_fields['saswp_place_schema_name'] ) ) {
+                        $input1['name']         =   $custom_fields['saswp_place_schema_name'];
+                    }  
+                    $input1['address']['@type'] =   'PostalAddress';
+                    if ( ! empty( $custom_fields['saswp_place_schema_streetaddress'] ) ) {
+                        $input1['address']['streetAddress']         =   $custom_fields['saswp_place_schema_streetaddress'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_place_schema_locality'] ) ) {
+                        $input1['address']['addressLocality']         =   $custom_fields['saswp_place_schema_locality'];
+                    }  
+                    if ( ! empty( $custom_fields['saswp_place_schema_region'] ) ) {
+                        $input1['address']['addressRegion']         =   $custom_fields['saswp_place_schema_region'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_place_schema_postalcode'] ) ) {
+                        $input1['address']['postalCode']         =   $custom_fields['saswp_place_schema_postalcode'];
+                    }  
+                    if ( ! empty( $custom_fields['saswp_place_schema_country'] ) ) {
+                        $input1['address']['addressCountry']         =   $custom_fields['saswp_place_schema_country'];
+                    }  
+
+                break;
                
                      default:
                          break;

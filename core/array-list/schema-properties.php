@@ -12441,6 +12441,42 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         )                    
                    );
                     break;
+
+                case 'Place':
+                    
+                    $meta_field = array(
+                            array(
+                                    'label' => 'Name',
+                                    'id' => 'saswp_place_schema_name_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => 'Street Address',
+                                    'id' => 'saswp_place_schema_streetaddress_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => 'Locality',
+                                    'id' => 'saswp_place_schema_locality_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => 'Region',
+                                    'id' => 'saswp_place_schema_region_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => 'PostalCode',
+                                    'id' => 'saswp_place_schema_postalcode_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => 'Country',
+                                    'id'    => 'saswp_place_schema_country_'.$schema_id,
+                                    'type'  => 'text',                                
+                            ),
+                        );
+                break;
                                 
                 default:
                     break;

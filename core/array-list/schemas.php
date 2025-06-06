@@ -94,6 +94,7 @@ return array(
             'TouristDestination'              => 'TouristDestination',
             'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
             'TouristTrip'                     => 'TouristTrip',
+            'Place'                           => 'Place',  
         ),
         'PlaceOfWorship' => array(
             'BuddhistTemple'      => 'BuddhistTemple',
