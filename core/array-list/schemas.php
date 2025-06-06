@@ -62,6 +62,7 @@ return array(
             'Event'                    => 'Event',
         ),
         'Game' =>  array(
+             'Game'                     => 'Game',
              'VideoGame'                => 'VideoGame'                                         
          ),
         'Intangible' => array(
