@@ -722,6 +722,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type' => 'text',
                             'default' => get_the_modified_date("Y-m-d")
                     ),
+                    array(
+                            'label'      => 'Date Created',
+                            'id'         => 'saswp_newsarticle_date_created_'.$schema_id,
+                            'type'       => 'text',
+                            'default'    => get_the_date("Y-m-d")
+                    ),
                      array(
                             'label' => 'Description',
                             'id' => 'saswp_newsarticle_description_'.$schema_id,
@@ -12433,6 +12439,186 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                              ),
                             'note' => 'Note: Separate it by comma ( , )' ,                             
                         )                    
+                   );
+                    break;
+
+                case 'Place':
+                    
+                    $meta_field = array(
+                            array(
+                                    'label' => 'Name',
+                                    'id' => 'saswp_place_schema_name_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => 'Street Address',
+                                    'id' => 'saswp_place_schema_streetaddress_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => 'Locality',
+                                    'id' => 'saswp_place_schema_locality_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => 'Region',
+                                    'id' => 'saswp_place_schema_region_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => 'PostalCode',
+                                    'id' => 'saswp_place_schema_postalcode_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => 'Country',
+                                    'id'    => 'saswp_place_schema_country_'.$schema_id,
+                                    'type'  => 'text',                                
+                            ),
+                        );
+                break;
+
+                case 'Game':
+                    
+                    $meta_field = array(
+                        array(
+                                'label'      => 'ID',
+                                'id'         => 'saswp_game_schema_id_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => 'Game'   
+                        ),
+                    array(
+                            'label'      => 'Name',
+                            'id'         => 'saswp_game_schema_name_'.$schema_id,
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'Name'
+                            ), 
+                    ),
+                    array(
+                            'label'      => 'URL',
+                            'id'         => 'saswp_game_schema_url_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Image',
+                            'id'         => 'saswp_game_schema_image_'.$schema_id,
+                            'type'       => 'media',
+                            
+                    ),
+                    array(
+                            'label'      => 'Description',
+                            'id'         => 'saswp_game_schema_description_'.$schema_id,
+                            'type'       => 'textarea',
+                            
+                    ),
+                    array(
+                            'label'      => 'Game Items',
+                            'id'         => 'saswp_game_schema_game_items_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Example, Example2'
+                            ),
+                            'note'       => 'Note: Separate more than one game items by comma ( , )'
+                            
+                    ),
+                    array(
+                            'label'      => 'Genre',
+                            'id'         => 'saswp_game_schema_genre_'.$schema_id,
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => 'Example, Example2'
+                            ),
+                            'note'       => 'Note: Separate more than one genre by comma ( , )'
+                            
+                    ),
+                    array(
+                            'label'      => 'Min Players',
+                            'id'         => 'saswp_game_schema_min_players_'.$schema_id,
+                            'type'       => 'number',
+                            
+                    ),
+                    array(
+                            'label'      => 'Max Players',
+                            'id'         => 'saswp_game_schema_max_players_'.$schema_id,
+                            'type'       => 'number',
+                            
+                    ),
+                    array(
+                            'label'      => 'Audience Min Age',
+                            'id'         => 'saswp_game_schema_aud_min_age_'.$schema_id,
+                            'type'       => 'number',
+                            
+                    ),
+                    array(
+                            'label'      => 'Copyright Holder',
+                            'id'         => 'saswp_game_schema_copyright_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                        'label'      => 'Author Type',
+                        'id'         => 'saswp_game_schema_author_type_'.$schema_id,
+                        'type'    => 'select',
+                        'options' => array(
+                                'Person'           => 'Person',
+                                'Organization'     => 'Organization',                        
+                       )
+                        
+                    ),
+                    array(
+                            'label'      => 'Author Name',
+                            'id'         => 'saswp_game_schema_author_name_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Price',
+                            'id'         => 'saswp_game_schema_price_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label'      => 'Price Currency',
+                            'id'         => 'saswp_game_schema_price_currency_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),    
+                    array(
+                            'label'   => 'Availability',
+                            'id'      => 'saswp_game_schema_price_availability_'.$schema_id,
+                            'type'    => 'select',                            
+                            'options' => array(
+                                     ''                  => 'Select',
+                                     'InStock'           => 'In Stock',
+                                     'OutOfStock'        => 'Out Of Stock',
+                                     'Discontinued'      => 'Discontinued',
+                                     'PreOrder'          => 'Pre Order', 
+                            ) 
+                       ), 
+                    array(
+                            'label'      => 'Publisher',
+                            'id'         => 'saswp_game_schema_publisher_'.$schema_id,
+                            'type'       => 'text',
+                            
+                    ),
+                    array(
+                            'label' => 'Aggregate Rating',
+                            'id' => 'saswp_game_schema_enable_rating_'.$schema_id,
+                            'type' => 'checkbox',                          
+                        ),
+                        array(
+                            'label' => 'Rating',
+                            'id' => 'saswp_game_schema_rating_'.$schema_id,
+                            'type' => 'text',                           
+                        ),
+                        array(
+                            'label' => 'Rating Count',
+                            'id' => 'saswp_game_schema_review_count_'.$schema_id,
+                            'type' => 'text',                           
+                        ),    
+                        
                    );
                     break;
                                 

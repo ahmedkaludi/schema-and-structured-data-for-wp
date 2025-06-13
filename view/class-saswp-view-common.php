@@ -816,6 +816,10 @@ class SASWP_View_Common {
 
                                 if ( ! empty( $element_val) ) {
                                     saswp_update_post_meta( $post_id, $val.'_'.intval($schema->ID), $element_val);                                                                                                              
+                                }else{
+                                    
+                                    delete_post_meta( $post_id, $val.'_'.intval($schema->ID));                             
+                                    
                                 }                            
                                 
                            }    

@@ -692,11 +692,12 @@ class SASWP_Reviews_Service {
     
     public function saswp_get_free_reviews_data($place_id, $g_api, $language = null){
 
-        $result = wp_remote_get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.trim($place_id).'&key='.trim($g_api));                
-        
+        $api_endpoint = 'https://maps.googleapis.com/maps/api/place/details/json?placeid='.trim($place_id).'&key='.trim($g_api);
         if($language){
-            $result = wp_remote_get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.trim($place_id).'&key='.trim($g_api)).'&language='.trim($language);                
+            $api_endpoint .= '&language='.trim($language);     
         }
+
+        $result = wp_remote_get($api_endpoint);                
                         
         if ( isset( $result['body']) ) {
             

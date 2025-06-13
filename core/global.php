@@ -21,7 +21,8 @@ $with_aggregate = array(
         'CreativeWorkSeries', 
         'SoftwareApplication',
         'MobileApplication',                                                                  
-        'Event',                    
+        'Event',  
+        'Game',                  
         'VideoGame',                
         'AudioObject',              
         'VideoObject',              
@@ -89,6 +90,7 @@ $without_aggregate = array(
         'ImageGallery',
         'MediaGallery',
         'ProfilePage',
+        'Place',
 );
 $translation_labels = array(
     'translation-pros'            => 'Pros',

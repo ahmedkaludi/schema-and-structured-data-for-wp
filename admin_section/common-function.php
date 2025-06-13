@@ -5463,7 +5463,7 @@ function saswp_is_block_theme() {
     if ( ! function_exists( 'wp_is_block_theme' ) ) {
         require_once ABSPATH . 'wp-includes/theme.php';
     }
-    if ( wp_is_block_theme() ) {
+    if ( function_exists('wp_is_block_theme') && wp_is_block_theme() ) {
         return true;
     }
     return false;

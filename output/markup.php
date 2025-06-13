@@ -6153,6 +6153,7 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
 				$input1['alternativeHeadline']			            = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_alternative_headline_'.$schema_id, 'saswp_array');
                 $input1['datePublished']                            = isset($all_post_meta['saswp_newsarticle_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'';
 				$input1['dateModified']                             = isset($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'';
+                $input1['dateCreated']                             = isset($all_post_meta['saswp_newsarticle_date_created_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_newsarticle_date_created_'.$schema_id][0], get_post_time('h:i:s')) :'';
 				$input1['description']                              = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_description_'.$schema_id, 'saswp_array');
                 $input1['keywords']		                            = $keywords;
                 $input1['articleSection']                           = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_section_'.$schema_id, 'saswp_array');
@@ -6185,7 +6186,7 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
                 if ( ! empty( $template_markup['isPartOf'] ) ) {
                     $input1['isPartOf']  =   $template_markup['isPartOf'];
                 }
-
+                
                 $input1['author']['@type']       = 'Person';
 
                 if ( isset( $all_post_meta['saswp_newsarticle_author_type_'.$schema_id][0] ) ) {
@@ -8762,4 +8763,132 @@ function saswp_profile_page_schema_markup( $schema_id, $schema_post_id, $all_pos
         return $input1;
 
 
+}
+
+/**
+ * Schema markup for Place schema
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $input1             array
+ * @since   1.47
+ * */
+function saswp_place_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1 = array();
+
+    $input1['@context']                     = saswp_context_url();
+    $input1['@type']                        = 'Place'; 
+
+    if ( ! empty( $all_post_meta['saswp_place_schema_name_'.$schema_id][0]) ) {
+        $input1['name']                         = saswp_remove_warnings( $all_post_meta, 'saswp_place_schema_name_'.$schema_id, 'saswp_array' );    
+    }  
+    $input1['address']['@type']             = 'PostalAddress';
+    if ( ! empty( $all_post_meta['saswp_place_schema_streetaddress_'.$schema_id][0]) ) {
+        $input1['address']['streetAddress'] = saswp_remove_warnings($all_post_meta, 'saswp_place_schema_streetaddress_'.$schema_id, 'saswp_array');    
+    }
+    if ( ! empty( $all_post_meta['saswp_place_schema_country_'.$schema_id][0]) ) {
+        $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_place_schema_country_'.$schema_id, 'saswp_array');
+    }
+    if ( ! empty( $all_post_meta['saswp_place_schema_locality_'.$schema_id][0]) ) {
+        $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_place_schema_locality_'.$schema_id, 'saswp_array');    
+    }
+    if ( ! empty( $all_post_meta['saswp_place_schema_region_'.$schema_id][0]) ) {
+        $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_place_schema_region_'.$schema_id, 'saswp_array');
+    }
+    if ( ! empty( $all_post_meta['saswp_place_schema_postalcode_'.$schema_id][0]) ) {
+        $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_place_schema_postalcode_'.$schema_id, 'saswp_array');
+    }
+    
+    return $input1;
+}
+
+/**
+ * Schema markup for PlGameace schema
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $input1             array
+ * @since   1.47
+ * */
+function saswp_game_schema_markup( $schema_id, $schema_post_id, $all_post_meta ){
+    
+            $input1 = array();
+            $checkIdPro = ( ( isset( $all_post_meta['saswp_game_schema_id_'.$schema_id][0] ) && $all_post_meta['saswp_game_schema_id_'.$schema_id][0] !='' ) ? get_permalink().'#'.$all_post_meta['saswp_game_schema_id_'.$schema_id][0] : '' );
+            
+            $input1['@context']                     = saswp_context_url();
+            $input1['@type']                        = 'Game';
+            if($checkIdPro){
+                $input1['@id']                      = $checkIdPro;  
+            } 
+            $input1['name']                         = saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_name_'.$schema_id, 'saswp_array' );
+            $input1['url']                          = saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_url_'.$schema_id, 'saswp_array' );                            
+            $input1['description']                  = saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_description_'.$schema_id, 'saswp_array' );
+
+            $input1 = saswp_get_modified_image('saswp_game_schema_image_'.$schema_id.'_detail', $input1);
+            
+            if ( ! empty( $all_post_meta['saswp_game_schema_game_items_'.$schema_id][0] ) ) {
+                $input1['gameItem']                 =    explode( ',' ,  $all_post_meta['saswp_game_schema_game_items_'.$schema_id][0] );
+            }
+            if ( ! empty( $all_post_meta['saswp_game_schema_genre_'.$schema_id][0] ) ) {
+                $input1['genre']                    =    explode( ',' ,  $all_post_meta['saswp_game_schema_game_items_'.$schema_id][0] );
+            }
+            if ( isset( $all_post_meta['saswp_game_schema_min_players_'.$schema_id][0] ) || isset( $all_post_meta['saswp_game_schema_max_players_'.$schema_id][0] ) ) {
+                if( isset( $all_post_meta['saswp_game_schema_min_players_'.$schema_id][0] ) ) {
+                    $input1['numberOfPlayers']['minValue'] = saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_min_players_'.$schema_id, 'saswp_array' );
+                }
+                if( isset( $all_post_meta['saswp_game_schema_max_players_'.$schema_id][0] ) ) {
+                    $input1['numberOfPlayers']['maxValue'] = saswp_remove_warnings($all_post_meta, 'saswp_game_schema_max_players_'.$schema_id, 'saswp_array');
+                }
+            }
+            if ( ! empty( $all_post_meta['saswp_game_schema_aud_min_age_'.$schema_id][0] ) ) {
+                $input1['audience']['@type']                =    'PeopleAudience';
+                $input1['audience']['suggestedMinAge']      =    saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_aud_min_age_'.$schema_id, 'saswp_array' );
+            }
+            if ( ! empty( $all_post_meta['saswp_game_schema_copyright_'.$schema_id][0] ) ) {
+                $input1['copyrightHolder']                  =    saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_copyright_'.$schema_id, 'saswp_array' );
+            }
+
+            $input1['author']['@type']                      = 'Organization';
+
+            if ( isset( $all_post_meta['saswp_game_schema_author_type_'.$schema_id][0] ) ) {
+                $input1['author']['@type']                  = $all_post_meta['saswp_game_schema_author_type_'.$schema_id][0];
+            }
+
+            $input1['author']['name']                       = saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_author_name_'.$schema_id, 'saswp_array' );
+
+            if ( ! empty( $all_post_meta['saswp_game_schema_price_'.$schema_id][0] ) ) {
+
+                $input1['offers']['@type']                  = 'Offer';
+                $input1['offers']['price']                  = $all_post_meta['saswp_game_schema_price_'.$schema_id][0];
+                
+                if ( ! empty( $all_post_meta['saswp_game_schema_price_currency_'.$schema_id][0] ) ) {
+                    $input1['offers']['priceCurrency']      = $all_post_meta['saswp_game_schema_price_currency_'.$schema_id][0];                    
+                }
+
+                if ( ! empty( $all_post_meta['saswp_game_schema_price_availability_'.$schema_id][0] ) ) {                    
+                    $input1['offers']['availability']       = $all_post_meta['saswp_game_schema_price_availability_'.$schema_id][0];
+                }
+
+            }
+            
+            $input1['publisher']                            = saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_publisher_'.$schema_id, 'saswp_array' );
+                        
+            if( saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_enable_rating_'.$schema_id, 'saswp_array' ) == 1 && saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_rating_'.$schema_id, 'saswp_array' ) && saswp_remove_warnings( $all_post_meta, 'saswp_game_schema_review_count_'.$schema_id, 'saswp_array' ) ) {
+                                            
+                        if( $all_post_meta['saswp_game_schema_rating_'.$schema_id][0] > 5 ) {
+                            $input1['aggregateRating']['@type']         = 'aggregateRating';
+                            $input1['aggregateRating']['worstRating']   =   0;
+                            $input1['aggregateRating']['bestRating']    =   100;
+                            $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_game_schema_rating_'.$schema_id][0];
+                            $input1['aggregateRating']['ratingCount']   = $all_post_meta['saswp_game_schema_review_count_'.$schema_id][0];
+                        }else{
+                            $input1['aggregateRating']['@type']         = 'aggregateRating';                        
+                            $input1['aggregateRating']['ratingValue']   = $all_post_meta['saswp_game_schema_rating_'.$schema_id][0];
+                            $input1['aggregateRating']['reviewCount']   = $all_post_meta['saswp_game_schema_review_count_'.$schema_id][0];
+                        }            
+                                
+            }
+    
+    return $input1;
 }
