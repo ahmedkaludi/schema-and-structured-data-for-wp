@@ -669,7 +669,7 @@ class SASWP_Fields_Generator {
                                         . '<td style="width:12%;"><strong>'.esc_html__( 'Language', 'schema-and-structured-data-for-wp' ).'</strong></td>'
                                         . '<td style="width:10%;"><input class="saswp-g-language-field" name="sd_data[saswp_reviews_language_name][]" type="text" value="'. esc_attr( $rv_lang[$i]).'"></td>'
                                         . '<td style="width:10%;"><strong>'.esc_html__( 'Reviews', 'schema-and-structured-data-for-wp' ).'</strong></td>'
-                                        . '<td style="width:10%;">'.esc_html( $blocks_fields).'</td>'                                        
+                                        . '<td style="width:10%;">'.$blocks_fields.'</td>'                                        
                                         . '<td style="width:10%;"><a class="button button-default saswp-fetch-g-reviews">'.esc_html__( 'Fetch', 'schema-and-structured-data-for-wp' ).'</a></td>'
                                         . '<td style="width:10%;"><a type="button" class="saswp-remove-review-item button">x</a></td>'
                                         . '<td style="width:10%;"><p class="saswp-rv-fetched-msg"></p></td>'        
