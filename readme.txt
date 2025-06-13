@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.8
 Requires PHP: 5.6.20
-Stable tag: 1.46
+Stable tag: 1.47
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -128,6 +128,15 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.47 (13 June 2025) =
+* Feature: Added Place schema type #2272
+* Feature: Added Game schema type #2294
+* Fixed: Fatal Error After Upgrading to v1.46 (wp_is_block_theme Undefined) #2305
+* Fixed: Job location delete issue with JobPosting schema #2306
+* Feature: Course schema compatible with Amelia #2307
+* Enhancement: Added a new field to newsArticle schema #2310
+* Fixed: Issue with free google reviews with location code #2316
 
 = 1.46 (13 May 2025) =
 * Feature: Comments Review Module #2260
@@ -304,13 +313,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Issue with LocalBusiness schema #2120
 * Feature: Added compatibility with the plugin Joli FAQ SEO #2122
 * Enhancement: Added changes related to Product schema Return Policy #2124
-
-= 1.31 (29 April 2024) =
-
-* Fixed: Warning appearing on the website #2089
-* Feature: Added compatibility with dreams.co.uk to fetch reviews #2102
-* Feature: Added schema markup compatibility with attachments #2103
-* Fixed: PHP warning appearing in extension manager #2104
-* Fixed: A <strong> HTML tag appears on the frontend while using FAQ Block #2106
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
