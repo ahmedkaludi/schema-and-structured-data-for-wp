@@ -18,73 +18,76 @@ if ( ! defined( 'ABSPATH' ) ) exit;
      */
 function saswp_get_reviews_schema_markup($reviews){
                             
-                            $sumofrating = 0;
-                            $avg_rating  = 1;
-                            $reviews_arr = array();
-                            $input1      = array();
-                            
-                            if($reviews){
-                                
-                                foreach( $reviews as $rv){
-                                    
-                                    if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name'] !='' ){
-                                        $review_rate = intval($rv['saswp_review_rating']);
-                                        if($review_rate > 0){
-                                            $sumofrating += $review_rate;
-                                        }
-                                        
-                                        $reviews_arr[] = array(
-                                            '@type'         => 'Review',
-                                            'author'        => array('@type'=> 'Person', 'name' => $rv['saswp_reviewer_name']),
-                                            'datePublished' => $rv['saswp_review_date'],
-                                            'description'   => $rv['saswp_review_text'],
-                                            'reviewRating'  => array(
-                                                        '@type'       => 'Rating',
-                                                        'bestRating'  => 5,
-                                                        'ratingValue' => $rv['saswp_review_rating'],
-                                                        'worstRating' => 1
-                                            ),
-                                       );
-                                        
-                                    }
-                                    
-                                }
-                                
-                                    if($sumofrating> 0){
-                                      $avg_rating = $sumofrating /  count($reviews); 
-                                    }
-                                
-                                    if ( ! empty( $reviews_arr) ) {
-                                        
+    $sumofrating = 0;
+    $avg_rating  = 1;
+    $reviews_arr = array();
+    $input1      = array();
+    
+    if($reviews){
+        
+        foreach( $reviews as $rv){
+            
+            if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name'] !='' ){
+                $review_rate = intval($rv['saswp_review_rating']);
+                if($review_rate > 0){
+                    $sumofrating += $review_rate;
+                }
+                
+                $reviews_arr[] = array(
+                    '@type'         => 'Review',
+                    'author'        => array('@type'=> 'Person', 'name' => $rv['saswp_reviewer_name']),
+                    'datePublished' => $rv['saswp_review_date'],
+                    'description'   => $rv['saswp_review_text'],
+                    'reviewRating'  => array(
+                                '@type'       => 'Rating',
+                                'bestRating'  => 5,
+                                'ratingValue' => $rv['saswp_review_rating'],
+                                'worstRating' => 1
+                    ),
+               );
+                
+            }
+            
+        }
+        
+        if($sumofrating> 0){
+          $avg_rating = $sumofrating /  count($reviews); 
+        }
+    
+        if ( ! empty( $reviews_arr) ) {
+            
 
-                                        global $collection_aggregate;
+            global $collection_aggregate;
 
-                                        if($collection_aggregate){
+            if($collection_aggregate){
 
-                                            $input1['aggregateRating'] = array(
-                                                '@type'       => 'AggregateRating',
-                                                'reviewCount' => $collection_aggregate['count'],
-                                                'ratingValue' => $collection_aggregate['average']
-                                             );
-                                             
-                                        }else{
+                $input1['aggregateRating'] = array(
+                    '@type'       => 'AggregateRating',
+                    'reviewCount' => $collection_aggregate['count'],
+                    'ratingValue' => $collection_aggregate['average']
+                 );
+                 
+            }else{
 
-                                            $input1['aggregateRating'] = array(
-                                                '@type'       => 'AggregateRating',
-                                                'reviewCount' => count($reviews),
-                                                'ratingValue' => $avg_rating,                                        
-                                             );
+                $input1['aggregateRating'] = array(
+                    '@type'       => 'AggregateRating',
+                    'reviewCount' => count($reviews),
+                    'ratingValue' => $avg_rating,                                        
+                 );
 
-                                        }                                        
+            }                                        
 
-                                        $input1['review'] = $reviews_arr;
-                                        
-                                    }                                    
-                                
-                                }
-                            return $input1;                                      
-                        
+            $input1['review'] = $reviews_arr;
+            
+        }                                    
+        
     }
+
+    $input1 = apply_filters( 'saswp_schema_modify_appended_review_markup', $input1 );
+
+    return $input1;                                      
+                        
+}
 
 function saswp_get_modified_image( $key, $input1 ){
     
