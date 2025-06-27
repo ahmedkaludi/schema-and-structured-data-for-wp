@@ -1369,7 +1369,11 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['offers']['itemCondition']   = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_condition_'.$schema_id, 'saswp_array');
                 $input1['offers']['price']           = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_price_'.$schema_id, 'saswp_array');
                 $input1['offers']['priceCurrency']   = saswp_modify_currency_code(saswp_remove_warnings($all_post_meta, 'saswp_product_schema_currency_'.$schema_id, 'saswp_array'));
-                $input1['offers']['url']             = saswp_get_permalink();
+                if( isset($all_post_meta['saswp_product_schema_offer_url_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_offer_url_'.$schema_id][0]) ){
+                    $input1['offers']['url']             = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_offer_url_'.$schema_id, 'saswp_array');
+                }else{
+                    $input1['offers']['url']             = saswp_get_permalink();
+                }
                 $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id][0])):'';
             
                 if( isset($all_post_meta['saswp_product_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_low_price_'.$schema_id][0]) ){

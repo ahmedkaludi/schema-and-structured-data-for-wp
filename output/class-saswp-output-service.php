@@ -5824,6 +5824,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_product_schema_condition']) ) {
                      $input1['offers']['itemCondition'] =    $custom_fields['saswp_product_schema_condition'];
                     }
+                    if ( isset( $custom_fields['saswp_product_schema_offer_url'] ) && ! empty( $input1['offers'] ) ) {
+                        $input1['offers']['url']   =    $custom_fields['saswp_product_schema_offer_url'];
+                    }
                     if ( isset( $custom_fields['saswp_product_schema_sku']) ) {
                      $input1['sku']                    =    $custom_fields['saswp_product_schema_sku'];
                     }
@@ -5864,6 +5867,9 @@ Class SASWP_Output_Service{
 
                         if ( isset( $custom_fields['saswp_product_schema_offer_count']) ) {
                             $input1['offers']['offerCount']     = $custom_fields['saswp_product_schema_offer_count'];
+                        }
+                        if ( isset( $custom_fields['saswp_product_schema_offer_url'] ) ) {
+                            $input1['offers']['url']   =    $custom_fields['saswp_product_schema_offer_url'];
                         }
                     }
                     // Changes since version 1.15

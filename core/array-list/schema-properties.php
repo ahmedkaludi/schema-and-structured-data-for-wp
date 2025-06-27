@@ -6294,6 +6294,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type'    => 'text',                                
                         ),
                         array(
+                                'label'   => 'Offer URL',
+                                'id'      => 'saswp_product_schema_offer_url_'.$schema_id,
+                                'type'    => 'text',                                
+                        ),
+                        array(
                             'label'   => 'Price Valid Until',
                             'id'      => 'saswp_product_schema_priceValidUntil_'.$schema_id,
                             'type'    => 'text',
