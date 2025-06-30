@@ -2364,7 +2364,10 @@ function saswp_get_strong_testimonials_data($testimonial){
 
                 foreach ( $testimonial as $value){
                     
-                     $rating       = 5; 
+                     $rating       = get_post_meta($value->ID, $key='star_rating', true);
+                     if ( ! is_numeric( $rating ) ) {
+                        $rating    = 5;      
+                     }  
                      $author       = get_post_meta($value->ID, $key='client_name', true);
                      
                      $sumofrating += $rating;
@@ -2575,6 +2578,18 @@ function saswp_get_strong_testimonials() {
            
            if(in_array( 'testimonial_view', $matches[2] ) ) {
                $testimo_str = 'testimonial_view';
+           }else{
+                if ( function_exists( 'is_plugin_active' ) &&  is_plugin_active('fusion-builder/fusion-builder.php') ) {
+                    $content = preg_replace_callback('/\[fusion_code\](.*?)\[\/fusion_code\]/s', function ($matches) {
+                            $decoded = base64_decode($matches[1]);
+                            return $decoded;
+                    }, $post->post_content);
+
+                    preg_match_all('/\[testimonial_view[^\]]*\]/', $content, $matches);
+                    if ( is_array( $matches ) && ! empty( $matches[0] ) && is_array($matches[0]) && count( $matches[0] ) > 0 ) {
+                        $testimo_str = 'testimonial_view';    
+                    }
+                }
            }
            
         if($testimo_str){
