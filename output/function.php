@@ -2370,6 +2370,10 @@ function saswp_get_strong_testimonials_data($testimonial){
                      }  
                      $author       = get_post_meta($value->ID, $key='client_name', true);
                      
+                     // User specific condition, user has named the label in polish language
+                     if ( empty( $author ) ) {
+                        $author       = get_post_meta($value->ID, $key='imie', true);
+                     }
                      $sumofrating += $rating;
 
                      $reviews[] = array(
