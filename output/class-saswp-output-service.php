@@ -5917,6 +5917,12 @@ Class SASWP_Output_Service{
                         }
                     }
 
+                    if ( ! empty( $input1['offers'] ) && ! empty( $input1['offers']['hasMerchantReturnPolicy'] ) ) {
+                        if ( ! empty( $custom_fields['saswp_product_schema_rp_refund_type'] ) ) {
+                            $input1['offers']['hasMerchantReturnPolicy']['refundType'] = esc_attr( $custom_fields['saswp_product_schema_rp_refund_type']);    
+                        }
+                    }
+
                     if ( isset( $custom_fields['saswp_product_schema_sr_value'] ) ) {
                         $input1['offers']['shippingDetails']['@type'] = 'OfferShippingDetails';
                         $input1['offers']['shippingDetails']['shippingRate']['@type'] = 'MonetaryAmount';

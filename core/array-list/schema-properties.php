@@ -6483,6 +6483,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             )
                         ),
                         array(
+                            'label'   => 'Return Policy Refund Type',
+                            'id'      => 'saswp_product_schema_rp_refund_type_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                    ''                                  => 'Select Refune Type',
+                                    'FullRefund'                        => 'FullRefund',
+                                    'ExchangeRefund'                    => 'ExchangeRefund',
+                                    'StoreCreditRefund'                 => 'StoreCreditRefund',
+                            )
+                        ),
+                        array(
                             'label'   => 'Shipping Rate Value',
                             'id'      => 'saswp_product_schema_sr_value_'.$schema_id,
                             'type'    => 'text',

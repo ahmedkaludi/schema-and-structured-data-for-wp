@@ -1461,6 +1461,12 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                     }
                 }
 
+                if ( ! empty( $input1['offers'] ) && ! empty( $input1['offers']['hasMerchantReturnPolicy'] ) ) {
+                        if ( ! empty( $all_post_meta['saswp_product_schema_rp_refund_type_'.$schema_id][0] ) ) {
+                            $input1['offers']['hasMerchantReturnPolicy']['refundType'] = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_rp_refund_type_'.$schema_id, 'saswp_array');
+                        }
+                    }
+
                 if ( isset( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0] ) ) {
                     $input1['offers']['shippingDetails']['@type'] = 'OfferShippingDetails';
                     $input1['offers']['shippingDetails']['shippingRate']['@type'] = 'MonetaryAmount';
