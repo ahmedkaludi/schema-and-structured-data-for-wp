@@ -5558,6 +5558,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_recipe_name']) ) {
                      $input1['name'] =    $custom_fields['saswp_recipe_name'];
                     }
+                    if ( isset( $custom_fields['saswp_recipe_image']) ) {
+                        $input1['image'] =    $custom_fields['saswp_recipe_image'];
+                    }
                     if ( isset( $custom_fields['saswp_recipe_description']) ) {
                         $input1['description'] =  wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_recipe_description'] ))  ;
                     }
