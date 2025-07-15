@@ -895,14 +895,20 @@ function saswp_reading_time_and_word_count() {
 
     // Count the words in the content.
     $word_count      = 0;
+    $seconds         = 0;
     $text            = trim( wp_strip_all_tags( @get_the_content() ) );
     
     if(!$text && is_object($post) ) {
         $text = $post->post_content;
-    }    
-    $word_count      = substr_count( "$text ", ' ' );
-    // How many seconds (total)?
-    $seconds = floor( $word_count / $words_per_second );
+    }  
+
+    if ( ! empty( $text ) ) {  
+        $word_count      = substr_count( "$text ", ' ' );
+    }
+    if ( $word_count > 0 ) {
+        // How many seconds (total)?
+        $seconds = floor( $word_count / $words_per_second );
+    }
     
     $timereq = '';
 
