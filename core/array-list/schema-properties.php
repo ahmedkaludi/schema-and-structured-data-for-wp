@@ -7237,7 +7237,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         break;    
                 
                 case 'Review':
-                                        
+                        $review_item_type = get_post_meta($schema_id, 'saswp_review_item_reviewed_'.$schema_id, true);                
                         $meta_field[] = array(
                             'label' => 'Review Name',
                             'id'    => 'saswp_review_name_'.$schema_id,
@@ -7339,7 +7339,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'SoftwareApplication'   => 'SoftwareApplication',
                                         'MobileApplication'     => 'MobileApplication',
                                         'VideoGame'             => 'VideoGame', 
-                            )                                                        
+                            ),
+                            'default' => $review_item_type,                                                        
                          );
                                                         
                         }                                                                   
