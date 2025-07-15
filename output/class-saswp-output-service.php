@@ -6320,6 +6320,27 @@ Class SASWP_Output_Service{
                             if ( isset( $custom_fields['saswp_vehicle_schema_manufacturer']) ) {
                                 $input1['manufacturer'] =    $custom_fields['saswp_vehicle_schema_manufacturer'];
                             }
+                            if ( isset( $custom_fields['saswp_vehicle_schema_identification_no']) ) {
+                                $input1['VehicleIdentificationNumber'] =    $custom_fields['saswp_vehicle_schema_identification_no'];
+                            }
+                            if ( isset( $custom_fields['saswp_vehicle_schema_color']) ) {
+                                $input1['Color'] =    $custom_fields['saswp_vehicle_schema_color'];
+                            }
+                            if ( isset( $custom_fields['saswp_vehicle_schema_interior_type']) ) {
+                                $input1['VehicleInteriorType'] =    $custom_fields['saswp_vehicle_schema_interior_type'];
+                            }
+                            if ( isset( $custom_fields['saswp_vehicle_schema_interior_color']) ) {
+                                $input1['VehicleInteriorColor'] =    $custom_fields['saswp_vehicle_schema_interior_color'];
+                            }
+                            if ( isset( $custom_fields['saswp_vehicle_schema_transmission']) ) {
+                                $input1['VehicleTransmission'] =    $custom_fields['saswp_vehicle_schema_transmission'];
+                            }
+                            if ( isset( $custom_fields['saswp_vehicle_schema_config']) ) {
+                                $input1['VehicleConfiguration'] =    $custom_fields['saswp_vehicle_schema_config'];
+                            }
+                            if ( isset( $custom_fields['saswp_vehicle_schema_wheel_config']) ) {
+                                $input1['driveWheelConfiguration'] =    $custom_fields['saswp_vehicle_schema_wheel_config'];
+                            }
                            if ( isset( $custom_fields['saswp_vehicle_schema_url']) ) {
                                 $input1['url'] =    saswp_validate_url($custom_fields['saswp_vehicle_schema_url']);
                            }

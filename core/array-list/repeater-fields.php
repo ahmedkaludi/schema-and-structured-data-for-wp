@@ -143,6 +143,9 @@ return array( 'schema_type_element' => array(
 			    ),
 			    'ImageGallery' => array(
 					'image-gallery-collections'  => 'image_gallery_collections',
+			    ),
+			    'Vehicle' => array(
+					'vehicle-engine'  => 'vehicle_engine',
 			    )
 						                                                                          
                     ),
@@ -1308,6 +1311,53 @@ return array( 'schema_type_element' => array(
 				'name'      => 'saswp_image_gallery_content_url',
 				'type'      => 'media',                          
 			),	
+		),
+		'vehicle_engine' 	=>	array(
+			array(
+				'label'     => 'Name',
+				'name'      => 'saswp_vehicle_engine_name',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Type',
+				'name'      => 'saswp_vehicle_engine_type',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Fuel Type',
+				'name'      => 'saswp_vehicle_engine_fuel_type',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Displacement Value',
+				'name'      => 'saswp_vehicle_engine_dis_value',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Displacement Unit Code',
+				'name'      => 'saswp_vehicle_engine_dis_unit_code',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Power Value',
+				'name'      => 'saswp_vehicle_engine_power_value',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Power Unit Code',
+				'name'      => 'saswp_vehicle_engine_power_unit_code',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Torque Value',
+				'name'      => 'saswp_vehicle_engine_torque_value',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Torque Unit Code',
+				'name'      => 'saswp_vehicle_engine_torque_unit_code',
+				'type'      => 'text',                        
+			),
 		),
 
 		                    

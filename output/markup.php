@@ -4568,11 +4568,84 @@ function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1['height'] = esc_attr( $all_post_meta['saswp_vehicle_schema_height_'.$schema_id][0]);  
     }
 
-    if ( isset( $all_post_meta['saswp_vehicle_schema_manufacturer_'.$schema_id]) ) {
+    if ( isset( $all_post_meta['saswp_vehicle_schema_manufacturer_'.$schema_id] ) ) {
         $input1['manufacturer'] = esc_attr( $all_post_meta['saswp_vehicle_schema_manufacturer_'.$schema_id][0]);  
     }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_identification_no_'.$schema_id] ) ) {
+        $input1['VehicleIdentificationNumber'] = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_identification_no_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_color_'.$schema_id] ) ) {
+        $input1['Color'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_color_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_interior_type_'.$schema_id] ) ) {
+        $input1['VehicleInteriorType'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_type_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_interior_color_'.$schema_id] ) ) {
+        $input1['VehicleInteriorColor'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_color_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_transmission_'.$schema_id] ) ) {
+        $input1['VehicleTransmission'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_transmission_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_config_'.$schema_id] ) ) {
+        $input1['VehicleConfiguration'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_config_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_wheel_config_'.$schema_id] ) ) {
+        $input1['driveWheelConfiguration'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_wheel_config_'.$schema_id, 'saswp_array');
+    }
+    $engine_schema = array();
+    $engines   =   get_post_meta( $schema_post_id, 'vehicle_engine_'.$schema_id, true );
+    if ( ! empty( $engines ) && is_array( $engines ) ) {
+        foreach ( $engines as $key => $engine ) {
+            if ( ! empty( $engine ) && is_array( $engine ) ) {
+                $engine_array = [];
+                $engine_array['@type'] = 'EngineSpecification';
+                if ( ! empty( $engine['saswp_vehicle_engine_name'] ) ) {
+                    $engine_array['name'] = sanitize_text_field( $engine['saswp_vehicle_engine_name'] );
+                }
+                if ( ! empty( $engine['saswp_vehicle_engine_type'] ) ) {
+                    $engine_array['engineType'] = sanitize_text_field( $engine['saswp_vehicle_engine_type'] );
+                }
+                if ( ! empty( $engine['saswp_vehicle_engine_fuel_type'] ) ) {
+                    $engine_array['fuelType'] = sanitize_text_field( $engine['saswp_vehicle_engine_fuel_type'] );
+                }
+                if ( ! empty( $engine['saswp_vehicle_engine_dis_value'] ) || ! empty( $engine['saswp_vehicle_engine_dis_unit_code'] ) ) {
+                    $engine_array['engineDisplacement']['@type'] = 'QuantitativeValue';
+                    if ( ! empty( $engine['saswp_vehicle_engine_dis_value'] ) ){
+                        $engine_array['engineDisplacement']['value'] = intval( $engine['saswp_vehicle_engine_dis_value'] );     
+                    }
+                    if ( ! empty( $engine['saswp_vehicle_engine_dis_unit_code'] ) ){
+                        $engine_array['engineDisplacement']['unitCode'] = sanitize_text_field( $engine['saswp_vehicle_engine_dis_unit_code'] );     
+                    }
+                }
+                if ( ! empty( $engine['saswp_vehicle_engine_power_value'] ) || ! empty( $engine['saswp_vehicle_engine_power_unit_code'] ) ) {
+                    $engine_array['enginePower']['@type'] = 'QuantitativeValue';
+                    if ( ! empty( $engine['saswp_vehicle_engine_power_value'] ) ){
+                        $engine_array['enginePower']['value'] = intval( $engine['saswp_vehicle_engine_power_value'] );     
+                    }
+                    if ( ! empty( $engine['saswp_vehicle_engine_power_unit_code'] ) ){
+                        $engine_array['enginePower']['unitCode'] = sanitize_text_field( $engine['saswp_vehicle_engine_power_unit_code'] );     
+                    }
+                }
+                if ( ! empty( $engine['saswp_vehicle_engine_torque_value'] ) || ! empty( $engine['saswp_vehicle_engine_torque_unit_code'] ) ) {
+                    $engine_array['torque']['@type'] = 'QuantitativeValue';
+                    if ( ! empty( $engine['saswp_vehicle_engine_torque_value'] ) ){
+                        $engine_array['torque']['value'] = intval( $engine['saswp_vehicle_engine_torque_value'] );     
+                    }
+                    if ( ! empty( $engine['saswp_vehicle_engine_torque_unit_code'] ) ){
+                        $engine_array['torque']['unitCode'] = sanitize_text_field( $engine['saswp_vehicle_engine_torque_unit_code'] );     
+                    }
+                }
+                
+                $engine_schema[] = $engine_array;
+            }
+        }
+    }
 
-    if ( isset( $all_post_meta['saswp_vehicle_schema_mpn_'.$schema_id]) ) {
+    if ( ! empty( $engine_schema ) ) {
+        $input1['vehicleEngine'] = $engine_schema;
+    }
+
+    if ( isset( $all_post_meta['saswp_vehicle_schema_mpn_'.$schema_id] ) ) {
       $input1['mpn'] = esc_attr( $all_post_meta['saswp_vehicle_schema_mpn_'.$schema_id][0]);  
     }    
     
