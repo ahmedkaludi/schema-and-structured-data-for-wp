@@ -895,14 +895,20 @@ function saswp_reading_time_and_word_count() {
 
     // Count the words in the content.
     $word_count      = 0;
+    $seconds         = 0;
     $text            = trim( wp_strip_all_tags( @get_the_content() ) );
     
     if(!$text && is_object($post) ) {
         $text = $post->post_content;
-    }    
-    $word_count      = substr_count( "$text ", ' ' );
-    // How many seconds (total)?
-    $seconds = floor( $word_count / $words_per_second );
+    }  
+
+    if ( ! empty( $text ) ) {  
+        $word_count      = substr_count( "$text ", ' ' );
+    }
+    if ( $word_count > 0 ) {
+        // How many seconds (total)?
+        $seconds = floor( $word_count / $words_per_second );
+    }
     
     $timereq = '';
 
@@ -2364,9 +2370,16 @@ function saswp_get_strong_testimonials_data($testimonial){
 
                 foreach ( $testimonial as $value){
                     
-                     $rating       = 5; 
+                     $rating       = get_post_meta($value->ID, $key='star_rating', true);
+                     if ( ! is_numeric( $rating ) ) {
+                        $rating    = 5;      
+                     }  
                      $author       = get_post_meta($value->ID, $key='client_name', true);
                      
+                     // User specific condition, user has named the label in polish language
+                     if ( empty( $author ) ) {
+                        $author       = get_post_meta($value->ID, $key='imie', true);
+                     }
                      $sumofrating += $rating;
 
                      $reviews[] = array(
@@ -2575,6 +2588,18 @@ function saswp_get_strong_testimonials() {
            
            if(in_array( 'testimonial_view', $matches[2] ) ) {
                $testimo_str = 'testimonial_view';
+           }else{
+                if ( function_exists( 'is_plugin_active' ) &&  is_plugin_active('fusion-builder/fusion-builder.php') ) {
+                    $content = preg_replace_callback('/\[fusion_code\](.*?)\[\/fusion_code\]/s', function ($matches) {
+                            $decoded = base64_decode($matches[1]);
+                            return $decoded;
+                    }, $post->post_content);
+
+                    preg_match_all('/\[testimonial_view[^\]]*\]/', $content, $matches);
+                    if ( is_array( $matches ) && ! empty( $matches[0] ) && is_array($matches[0]) && count( $matches[0] ) > 0 ) {
+                        $testimo_str = 'testimonial_view';    
+                    }
+                }
            }
            
         if($testimo_str){

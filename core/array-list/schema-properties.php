@@ -6294,6 +6294,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'type'    => 'text',                                
                         ),
                         array(
+                                'label'   => 'Offer URL',
+                                'id'      => 'saswp_product_schema_offer_url_'.$schema_id,
+                                'type'    => 'text',                                
+                        ),
+                        array(
                             'label'   => 'Price Valid Until',
                             'id'      => 'saswp_product_schema_priceValidUntil_'.$schema_id,
                             'type'    => 'text',
@@ -6475,6 +6480,17 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                     'FreeReturn'                        => 'FreeReturn',
                                     'ReturnFeesCustomerResponsibility'  => 'ReturnFeesCustomerResponsibility',
                                     'ReturnShippingFees'                => 'ReturnShippingFees',
+                            )
+                        ),
+                        array(
+                            'label'   => 'Return Policy Refund Type',
+                            'id'      => 'saswp_product_schema_rp_refund_type_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                    ''                                  => 'Select Refune Type',
+                                    'FullRefund'                        => 'FullRefund',
+                                    'ExchangeRefund'                    => 'ExchangeRefund',
+                                    'StoreCreditRefund'                 => 'StoreCreditRefund',
                             )
                         ),
                         array(
@@ -7221,7 +7237,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         break;    
                 
                 case 'Review':
-                                        
+                        $review_item_type = get_post_meta($schema_id, 'saswp_review_item_reviewed_'.$schema_id, true);                
                         $meta_field[] = array(
                             'label' => 'Review Name',
                             'id'    => 'saswp_review_name_'.$schema_id,
@@ -7323,7 +7339,8 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'SoftwareApplication'   => 'SoftwareApplication',
                                         'MobileApplication'     => 'MobileApplication',
                                         'VideoGame'             => 'VideoGame', 
-                            )                                                        
+                            ),
+                            'default' => $review_item_type,                                                        
                          );
                                                         
                         }                                                                   
@@ -10587,36 +10604,71 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                         'id'         => 'saswp_vehicle_schema_manufacturer_'.$schema_id,
                                         'type'       => 'text',                           
                                 ),
-                                   array(
-                                        'label'   => 'Price',
-                                        'id'      => 'saswp_vehicle_schema_price_'.$schema_id,
-                                        'type'    => 'text',                                        
-                                   ),
-                                    array(
-                                        'label'   => 'High Price',
-                                        'id'      => 'saswp_vehicle_schema_high_price_'.$schema_id,
-                                        'type'    => 'text'                                            
-                                    ),
-                                    array(
-                                        'label'   => 'Low Price',
-                                        'id'      => 'saswp_vehicle_schema_low_price_'.$schema_id,
-                                        'type'    => 'text'                                            
-                                    ),
-                                    array(
-                                        'label'   => 'Offer Count',
-                                        'id'      => 'saswp_vehicle_schema_offer_count_'.$schema_id,
-                                        'type'    => 'text'
-                                    ),
-                                    array(
-                                        'label'   => 'Price Valid Until',
-                                        'id'      => 'saswp_vehicle_schema_priceValidUntil_'.$schema_id,
-                                        'type'    => 'text'                                        
-                                   ),
-                                    array(
-                                        'label'   => 'Currency',
-                                        'id'      => 'saswp_vehicle_schema_currency_'.$schema_id,
-                                        'type'    => 'text'                                        
-                                   ),
+                                array(
+                                        'label'      => 'Identification Number',
+                                        'id'         => 'saswp_vehicle_schema_identification_no_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Color',
+                                        'id'         => 'saswp_vehicle_schema_color_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Interior Type',
+                                        'id'         => 'saswp_vehicle_schema_interior_type_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Interior Color',
+                                        'id'         => 'saswp_vehicle_schema_interior_color_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Transmission',
+                                        'id'         => 'saswp_vehicle_schema_transmission_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Vehicle Configuration',
+                                        'id'         => 'saswp_vehicle_schema_config_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                                array(
+                                        'label'      => 'Drive Wheel Configuration',
+                                        'id'         => 'saswp_vehicle_schema_wheel_config_'.$schema_id,
+                                        'type'       => 'text',                           
+                                ),
+                               array(
+                                    'label'   => 'Price',
+                                    'id'      => 'saswp_vehicle_schema_price_'.$schema_id,
+                                    'type'    => 'text',                                        
+                               ),
+                                array(
+                                    'label'   => 'High Price',
+                                    'id'      => 'saswp_vehicle_schema_high_price_'.$schema_id,
+                                    'type'    => 'text'                                            
+                                ),
+                                array(
+                                    'label'   => 'Low Price',
+                                    'id'      => 'saswp_vehicle_schema_low_price_'.$schema_id,
+                                    'type'    => 'text'                                            
+                                ),
+                                array(
+                                    'label'   => 'Offer Count',
+                                    'id'      => 'saswp_vehicle_schema_offer_count_'.$schema_id,
+                                    'type'    => 'text'
+                                ),
+                                array(
+                                    'label'   => 'Price Valid Until',
+                                    'id'      => 'saswp_vehicle_schema_priceValidUntil_'.$schema_id,
+                                    'type'    => 'text'                                        
+                               ),
+                                array(
+                                    'label'   => 'Currency',
+                                    'id'      => 'saswp_vehicle_schema_currency_'.$schema_id,
+                                    'type'    => 'text'                                        
+                               ),
                                 array(
                                         'label' => 'Aggregate Rating',
                                         'id'    => 'saswp_vehicle_schema_enable_rating_'.$schema_id,

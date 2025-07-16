@@ -18,73 +18,76 @@ if ( ! defined( 'ABSPATH' ) ) exit;
      */
 function saswp_get_reviews_schema_markup($reviews){
                             
-                            $sumofrating = 0;
-                            $avg_rating  = 1;
-                            $reviews_arr = array();
-                            $input1      = array();
-                            
-                            if($reviews){
-                                
-                                foreach( $reviews as $rv){
-                                    
-                                    if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name'] !='' ){
-                                        $review_rate = intval($rv['saswp_review_rating']);
-                                        if($review_rate > 0){
-                                            $sumofrating += $review_rate;
-                                        }
-                                        
-                                        $reviews_arr[] = array(
-                                            '@type'         => 'Review',
-                                            'author'        => array('@type'=> 'Person', 'name' => $rv['saswp_reviewer_name']),
-                                            'datePublished' => $rv['saswp_review_date'],
-                                            'description'   => $rv['saswp_review_text'],
-                                            'reviewRating'  => array(
-                                                        '@type'       => 'Rating',
-                                                        'bestRating'  => 5,
-                                                        'ratingValue' => $rv['saswp_review_rating'],
-                                                        'worstRating' => 1
-                                            ),
-                                       );
-                                        
-                                    }
-                                    
-                                }
-                                
-                                    if($sumofrating> 0){
-                                      $avg_rating = $sumofrating /  count($reviews); 
-                                    }
-                                
-                                    if ( ! empty( $reviews_arr) ) {
-                                        
+    $sumofrating = 0;
+    $avg_rating  = 1;
+    $reviews_arr = array();
+    $input1      = array();
+    
+    if($reviews){
+        
+        foreach( $reviews as $rv){
+            
+            if($rv['saswp_review_rating'] && $rv['saswp_reviewer_name'] !='' ){
+                $review_rate = intval($rv['saswp_review_rating']);
+                if($review_rate > 0){
+                    $sumofrating += $review_rate;
+                }
+                
+                $reviews_arr[] = array(
+                    '@type'         => 'Review',
+                    'author'        => array('@type'=> 'Person', 'name' => $rv['saswp_reviewer_name']),
+                    'datePublished' => $rv['saswp_review_date'],
+                    'description'   => $rv['saswp_review_text'],
+                    'reviewRating'  => array(
+                                '@type'       => 'Rating',
+                                'bestRating'  => 5,
+                                'ratingValue' => $rv['saswp_review_rating'],
+                                'worstRating' => 1
+                    ),
+               );
+                
+            }
+            
+        }
+        
+        if($sumofrating> 0){
+          $avg_rating = $sumofrating /  count($reviews); 
+        }
+    
+        if ( ! empty( $reviews_arr) ) {
+            
 
-                                        global $collection_aggregate;
+            global $collection_aggregate;
 
-                                        if($collection_aggregate){
+            if($collection_aggregate){
 
-                                            $input1['aggregateRating'] = array(
-                                                '@type'       => 'AggregateRating',
-                                                'reviewCount' => $collection_aggregate['count'],
-                                                'ratingValue' => $collection_aggregate['average']
-                                             );
-                                             
-                                        }else{
+                $input1['aggregateRating'] = array(
+                    '@type'       => 'AggregateRating',
+                    'reviewCount' => $collection_aggregate['count'],
+                    'ratingValue' => $collection_aggregate['average']
+                 );
+                 
+            }else{
 
-                                            $input1['aggregateRating'] = array(
-                                                '@type'       => 'AggregateRating',
-                                                'reviewCount' => count($reviews),
-                                                'ratingValue' => $avg_rating,                                        
-                                             );
+                $input1['aggregateRating'] = array(
+                    '@type'       => 'AggregateRating',
+                    'reviewCount' => count($reviews),
+                    'ratingValue' => $avg_rating,                                        
+                 );
 
-                                        }                                        
+            }                                        
 
-                                        $input1['review'] = $reviews_arr;
-                                        
-                                    }                                    
-                                
-                                }
-                            return $input1;                                      
-                        
+            $input1['review'] = $reviews_arr;
+            
+        }                                    
+        
     }
+
+    $input1 = apply_filters( 'saswp_schema_modify_appended_review_markup', $input1 );
+
+    return $input1;                                      
+                        
+}
 
 function saswp_get_modified_image( $key, $input1 ){
     
@@ -1366,7 +1369,11 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['offers']['itemCondition']   = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_condition_'.$schema_id, 'saswp_array');
                 $input1['offers']['price']           = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_price_'.$schema_id, 'saswp_array');
                 $input1['offers']['priceCurrency']   = saswp_modify_currency_code(saswp_remove_warnings($all_post_meta, 'saswp_product_schema_currency_'.$schema_id, 'saswp_array'));
-                $input1['offers']['url']             = saswp_get_permalink();
+                if( isset($all_post_meta['saswp_product_schema_offer_url_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_offer_url_'.$schema_id][0]) ){
+                    $input1['offers']['url']             = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_offer_url_'.$schema_id, 'saswp_array');
+                }else{
+                    $input1['offers']['url']             = saswp_get_permalink();
+                }
                 $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id][0])):'';
             
                 if( isset($all_post_meta['saswp_product_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_low_price_'.$schema_id][0]) ){
@@ -1453,6 +1460,12 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                         }   
                     }
                 }
+
+                if ( ! empty( $input1['offers'] ) && ! empty( $input1['offers']['hasMerchantReturnPolicy'] ) ) {
+                        if ( ! empty( $all_post_meta['saswp_product_schema_rp_refund_type_'.$schema_id][0] ) ) {
+                            $input1['offers']['hasMerchantReturnPolicy']['refundType'] = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_rp_refund_type_'.$schema_id, 'saswp_array');
+                        }
+                    }
 
                 if ( isset( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0] ) ) {
                     $input1['offers']['shippingDetails']['@type'] = 'OfferShippingDetails';
@@ -4555,11 +4568,84 @@ function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1['height'] = esc_attr( $all_post_meta['saswp_vehicle_schema_height_'.$schema_id][0]);  
     }
 
-    if ( isset( $all_post_meta['saswp_vehicle_schema_manufacturer_'.$schema_id]) ) {
+    if ( isset( $all_post_meta['saswp_vehicle_schema_manufacturer_'.$schema_id] ) ) {
         $input1['manufacturer'] = esc_attr( $all_post_meta['saswp_vehicle_schema_manufacturer_'.$schema_id][0]);  
     }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_identification_no_'.$schema_id] ) ) {
+        $input1['VehicleIdentificationNumber'] = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_identification_no_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_color_'.$schema_id] ) ) {
+        $input1['Color'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_color_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_interior_type_'.$schema_id] ) ) {
+        $input1['VehicleInteriorType'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_type_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_interior_color_'.$schema_id] ) ) {
+        $input1['VehicleInteriorColor'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_color_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_transmission_'.$schema_id] ) ) {
+        $input1['VehicleTransmission'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_transmission_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_config_'.$schema_id] ) ) {
+        $input1['VehicleConfiguration'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_config_'.$schema_id, 'saswp_array');  
+    }
+    if ( isset( $all_post_meta['saswp_vehicle_schema_wheel_config_'.$schema_id] ) ) {
+        $input1['driveWheelConfiguration'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_wheel_config_'.$schema_id, 'saswp_array');
+    }
+    $engine_schema = array();
+    $engines   =   get_post_meta( $schema_post_id, 'vehicle_engine_'.$schema_id, true );
+    if ( ! empty( $engines ) && is_array( $engines ) ) {
+        foreach ( $engines as $key => $engine ) {
+            if ( ! empty( $engine ) && is_array( $engine ) ) {
+                $engine_array = [];
+                $engine_array['@type'] = 'EngineSpecification';
+                if ( ! empty( $engine['saswp_vehicle_engine_name'] ) ) {
+                    $engine_array['name'] = sanitize_text_field( $engine['saswp_vehicle_engine_name'] );
+                }
+                if ( ! empty( $engine['saswp_vehicle_engine_type'] ) ) {
+                    $engine_array['engineType'] = sanitize_text_field( $engine['saswp_vehicle_engine_type'] );
+                }
+                if ( ! empty( $engine['saswp_vehicle_engine_fuel_type'] ) ) {
+                    $engine_array['fuelType'] = sanitize_text_field( $engine['saswp_vehicle_engine_fuel_type'] );
+                }
+                if ( ! empty( $engine['saswp_vehicle_engine_dis_value'] ) || ! empty( $engine['saswp_vehicle_engine_dis_unit_code'] ) ) {
+                    $engine_array['engineDisplacement']['@type'] = 'QuantitativeValue';
+                    if ( ! empty( $engine['saswp_vehicle_engine_dis_value'] ) ){
+                        $engine_array['engineDisplacement']['value'] = intval( $engine['saswp_vehicle_engine_dis_value'] );     
+                    }
+                    if ( ! empty( $engine['saswp_vehicle_engine_dis_unit_code'] ) ){
+                        $engine_array['engineDisplacement']['unitCode'] = sanitize_text_field( $engine['saswp_vehicle_engine_dis_unit_code'] );     
+                    }
+                }
+                if ( ! empty( $engine['saswp_vehicle_engine_power_value'] ) || ! empty( $engine['saswp_vehicle_engine_power_unit_code'] ) ) {
+                    $engine_array['enginePower']['@type'] = 'QuantitativeValue';
+                    if ( ! empty( $engine['saswp_vehicle_engine_power_value'] ) ){
+                        $engine_array['enginePower']['value'] = intval( $engine['saswp_vehicle_engine_power_value'] );     
+                    }
+                    if ( ! empty( $engine['saswp_vehicle_engine_power_unit_code'] ) ){
+                        $engine_array['enginePower']['unitCode'] = sanitize_text_field( $engine['saswp_vehicle_engine_power_unit_code'] );     
+                    }
+                }
+                if ( ! empty( $engine['saswp_vehicle_engine_torque_value'] ) || ! empty( $engine['saswp_vehicle_engine_torque_unit_code'] ) ) {
+                    $engine_array['torque']['@type'] = 'QuantitativeValue';
+                    if ( ! empty( $engine['saswp_vehicle_engine_torque_value'] ) ){
+                        $engine_array['torque']['value'] = intval( $engine['saswp_vehicle_engine_torque_value'] );     
+                    }
+                    if ( ! empty( $engine['saswp_vehicle_engine_torque_unit_code'] ) ){
+                        $engine_array['torque']['unitCode'] = sanitize_text_field( $engine['saswp_vehicle_engine_torque_unit_code'] );     
+                    }
+                }
+                
+                $engine_schema[] = $engine_array;
+            }
+        }
+    }
 
-    if ( isset( $all_post_meta['saswp_vehicle_schema_mpn_'.$schema_id]) ) {
+    if ( ! empty( $engine_schema ) ) {
+        $input1['vehicleEngine'] = $engine_schema;
+    }
+
+    if ( isset( $all_post_meta['saswp_vehicle_schema_mpn_'.$schema_id] ) ) {
       $input1['mpn'] = esc_attr( $all_post_meta['saswp_vehicle_schema_mpn_'.$schema_id][0]);  
     }    
     
