@@ -113,7 +113,7 @@ class Faq_Block extends Widget_Base {
 
 		if ( $settings['list'] ) {
                     
-                        $saswp_elementor_faq = $settings['list'];						
+                        $saswp_elementor_faq[] = $settings['list'];						
 			echo '<ul>';
                         $i = 1;
 			foreach (  $settings['list'] as $item ) {

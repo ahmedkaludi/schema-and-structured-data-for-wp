@@ -106,33 +106,37 @@ function saswp_elementor_qanda_schema() {
  */
 function saswp_elementor_faq_schema() {
               
-            $input1 = array();
-            
-            global $post, $saswp_elementor_faq, $saswp_elementor_faq_switch;
-            
-            if ( $saswp_elementor_faq && $saswp_elementor_faq_switch == 'yes' ){
+    $input1 = array();
 
-                           $input1['@context']              = saswp_context_url();
-                           $input1['@type']                 = 'FAQPage';
-                           $input1['@id']                   = saswp_get_permalink().'#FAQPage';                            
+    global $post, $saswp_elementor_faq, $saswp_elementor_faq_switch;
 
-                               $faq_question_arr = array();
+    if ( $saswp_elementor_faq && $saswp_elementor_faq_switch == 'yes' ){
 
-                               foreach( $saswp_elementor_faq as $val){
+       $input1['@context']              = saswp_context_url();
+       $input1['@type']                 = 'FAQPage';
+       $input1['@id']                   = saswp_get_permalink().'#FAQPage';                            
 
-                                   $supply_data = array();
-                                   $supply_data['@type']                   = 'Question';
-                                   $supply_data['name']                    = $val['faq_question'];
-                                   $supply_data['acceptedAnswer']['@type'] = 'Answer';
-                                   $supply_data['acceptedAnswer']['text']  = $val['faq_answer'];
- 
-                                   $faq_question_arr[] =  $supply_data;
-                               }
-                              $input1['mainEntity'] = $faq_question_arr;                           
+       $faq_question_arr = array();
 
-           }
+       foreach( $saswp_elementor_faq as $element_faq){
 
-            return $input1;    
+            if ( ! empty( $element_faq ) && is_array( $element_faq ) ) {
+                foreach ( $element_faq as $val ) {
+                    $supply_data = array();
+                    $supply_data['@type']                   = 'Question';
+                    $supply_data['name']                    = $val['faq_question'];
+                    $supply_data['acceptedAnswer']['@type'] = 'Answer';
+                    $supply_data['acceptedAnswer']['text']  = $val['faq_answer'];
+
+                    $faq_question_arr[] =  $supply_data;    
+                }
+            } 
+        }
+        $input1['mainEntity'] = $faq_question_arr;                           
+
+    }
+
+    return $input1;    
 }
 
 /**
