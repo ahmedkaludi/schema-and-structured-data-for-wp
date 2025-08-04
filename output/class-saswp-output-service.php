@@ -7149,7 +7149,13 @@ Class SASWP_Output_Service{
                             $input1['author']['url'] =    $custom_fields['saswp_faq_author_url'];
                         }
                         if ( isset( $custom_fields['saswp_faq_author_image']) ) {
-                            $input1['author']['Image']['url'] =    $custom_fields['saswp_faq_author_image'];
+                            if ( is_string( $custom_fields['saswp_faq_author_image'] ) ) {
+                                $input1['author']['image']['@type'] = 'ImageObject';
+                                $input1['author']['image']['url'] = $custom_fields['saswp_faq_author_image'];
+                            }else if( is_array( $custom_fields['saswp_faq_author_image'] ) ) {
+                                $input1['author']['image']['@type'] = 'ImageObject';
+                                $input1['author']['image'] = $custom_fields['saswp_faq_author_image'];     
+                            }
                         }
                         if ( isset( $custom_fields['saswp_faq_author_jobtitle']) ) {
                             $input1['author']['JobTitle'] =    $custom_fields['saswp_faq_author_jobtitle'];
