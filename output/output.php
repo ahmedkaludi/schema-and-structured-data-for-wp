@@ -151,7 +151,7 @@ function saswp_schema_output() {
 	    global $sd_data;
 
     	$Conditionals = saswp_get_all_schema_posts();   
-        
+        $Conditionals = apply_filters( 'saswp_disable_schema_markup', $Conditionals );        
         if(!$Conditionals){
             return ;
         }
