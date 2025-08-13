@@ -5195,7 +5195,7 @@ function saswp_dequeue_publishpress_scripts( $scripts ) {
     
     $post_type = null;
 
-    if ( function_exists( 'is_admin' ) && is_admin() && ! empty( $_GET['post'] )) {
+    if ( function_exists( 'presspermit' ) &&  function_exists( 'is_admin' ) && is_admin() && ! empty( $_GET['post'] )) {
         $post_id = absint( $_GET['post'] );
         if ( $post_id > 0 ) {
             $post = get_post( $post_id );
