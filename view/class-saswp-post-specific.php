@@ -517,7 +517,7 @@ class SASWP_Post_Specific {
                      }
                      
                      if($schema_type == 'ItemList'){
-                         $setting_options = '<div class="saswp-post-specific-setting saswp_hide">';
+                         $setting_options = '<div class="saswp-post-specific-setting">';
                      }else{
                          $setting_options = '<div class="saswp-post-specific-setting">';
                      }

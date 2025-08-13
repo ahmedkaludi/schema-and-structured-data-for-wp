@@ -333,6 +333,17 @@ class SASWP_Output_Compatibility{
         }
     }
 
+    /**
+     * Remove aiseo schema markup
+     * @since 1.49
+     * */
+    public function saswp_aiosp_override() {
+        global $sd_data;
+        if ( ! empty( $sd_data['saswp-aiosp'] ) ) {
+            add_filter( 'aioseo_schema_disable', '__return_true' );   
+        }
+    }
+
     public function saswp_remove_yoast_product_schema() {
          
        global $wp_filter;

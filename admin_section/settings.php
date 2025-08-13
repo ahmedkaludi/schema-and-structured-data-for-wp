@@ -5183,3 +5183,29 @@ add_action('init', function() {
     global $saswp_review_feature_admin_obj;
     $saswp_review_feature_admin_obj     =   SASWP_Review_Feature_Admin::get_instance();
 });
+
+/**
+ * Empty or dequeue the select2 script of publish press permission plugin
+ * @param $scripts  WP_Scripts 
+ * @since 1.49
+ * Solution: https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/issues/2327
+ * */
+add_action('wp_default_scripts', 'saswp_dequeue_publishpress_scripts');
+function saswp_dequeue_publishpress_scripts( $scripts ) {
+    
+    $post_type = null;
+
+    if ( function_exists( 'presspermit' ) &&  function_exists( 'is_admin' ) && is_admin() && ! empty( $_GET['post'] )) {
+        $post_id = absint( $_GET['post'] );
+        if ( $post_id > 0 ) {
+            $post = get_post( $post_id );
+            if ( is_object( $post ) && ! empty( $post->post_type ) ) {
+                $post_type  = $post->post_type;       
+            }
+        }
+
+        if ( $post_type == 'saswp' || $post_type == 'saswp-collections' || $post_type == 'saswp_reviews' ) {
+            $scripts->add( 'presspermit-select2-js', false );
+        }
+    }
+};

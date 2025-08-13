@@ -1438,21 +1438,34 @@ Class SASWP_Output_Service{
                         $provider = array();
 
                         if ( isset( $custom_fields['saswp_eop_provider_name']) ) {
-                            $provider = array(
-                          '@type'       => 'Organization',
-                          'name'        =>  $custom_fields['saswp_eop_provider_name'],
-                           'telephone'  =>  $custom_fields['saswp_eop_provider_telephone'],
-                            'address'   => array(
-                                              '@type'           => 'Postaladdress',
-                                              'streetAddress'   => $custom_fields['saswp_eop_provider_street_address'],
-                                              'addressLocality' => $custom_fields['saswp_eop_provider_address_locality'],
-                                              'addressRegion'   => $custom_fields['saswp_eop_provider_address_region'],
-                                              'addressCountry'  => $custom_fields['saswp_eop_provider_address_country'],
-                                              'postalCode'      => $custom_fields['saswp_eop_provider_postal_code'],
-                                              ),
-                                            );
-                                            $input1['provider'] = $provider;
-                                     }
+                            $input1['provider']['@type']                            =   'Organization';
+                            if ( isset( $custom_fields['saswp_eop_provider_name'] ) ) {
+                                $input1['provider']['name']                         =   $custom_fields['saswp_eop_provider_name'];
+                            }
+                            if ( isset( $custom_fields['saswp_eop_provider_telephone'] ) ) {
+                                $input1['provider']['telephone']                    =   $custom_fields['saswp_eop_provider_telephone'];
+                            }
+                            if ( isset( $custom_fields['saswp_eop_provider_street_address'] ) ) {
+                                $input1['provider']['address']['@type']             =   'Postaladdress';
+                                $input1['provider']['address']['streetAddress']     =   $custom_fields['saswp_eop_provider_street_address'];
+                            }
+                            if ( isset( $custom_fields['saswp_eop_provider_address_locality'] ) ) {
+                                $input1['provider']['address']['@type']             =   'Postaladdress';
+                                $input1['provider']['address']['addressLocality']   =   $custom_fields['saswp_eop_provider_address_locality'];
+                            }
+                            if ( isset( $custom_fields['saswp_eop_provider_address_region'] ) ) {
+                                $input1['provider']['address']['@type']             =   'Postaladdress';
+                                $input1['provider']['address']['addressRegion']     =   $custom_fields['saswp_eop_provider_address_region'];
+                            }
+                            if ( isset( $custom_fields['saswp_eop_provider_address_country'] ) ) {
+                                $input1['provider']['address']['@type']             =   'Postaladdress';
+                                $input1['provider']['address']['addressCountry']    =   $custom_fields['saswp_eop_provider_address_country'];
+                            }
+                            if ( isset( $custom_fields['saswp_eop_provider_postal_code'] ) ) {
+                                $input1['provider']['address']['@type']             =   'Postaladdress';
+                                $input1['provider']['address']['addressCountry']    =   $custom_fields['saswp_eop_provider_postal_code'];
+                            }    
+                        }
                     break;  
 
                     case 'Project':      
@@ -7136,7 +7149,13 @@ Class SASWP_Output_Service{
                             $input1['author']['url'] =    $custom_fields['saswp_faq_author_url'];
                         }
                         if ( isset( $custom_fields['saswp_faq_author_image']) ) {
-                            $input1['author']['Image']['url'] =    $custom_fields['saswp_faq_author_image'];
+                            if ( is_string( $custom_fields['saswp_faq_author_image'] ) ) {
+                                $input1['author']['image']['@type'] = 'ImageObject';
+                                $input1['author']['image']['url'] = $custom_fields['saswp_faq_author_image'];
+                            }else if( is_array( $custom_fields['saswp_faq_author_image'] ) ) {
+                                $input1['author']['image']['@type'] = 'ImageObject';
+                                $input1['author']['image'] = $custom_fields['saswp_faq_author_image'];     
+                            }
                         }
                         if ( isset( $custom_fields['saswp_faq_author_jobtitle']) ) {
                             $input1['author']['JobTitle'] =    $custom_fields['saswp_faq_author_jobtitle'];

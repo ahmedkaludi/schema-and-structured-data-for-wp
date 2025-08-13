@@ -616,8 +616,12 @@ class SASWP_Gutenberg_Render {
                                 // Extract Video ID using regex
                                 if ( preg_match( '/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/))([a-zA-Z0-9_-]+)/', $blog_update['video_url'], $matches ) ) {
                                     $video_id = esc_attr( $matches[1] ) ?? ''; // Get the video ID if available
+                                    $iframe_class = 'saswp-youtube-normal';
+                                    if ( ! empty( $matches[0] ) &&  strpos( $matches[0], "youtube.com/shorts/") !== false) {
+                                        $iframe_class = 'saswp-youtube-short';
+                                    }
                             ?>
-                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/<?php echo esc_attr( htmlspecialchars($video_id) ); ?>" 
+                                    <iframe class="<?php echo esc_attr( $iframe_class ); ?>" width="100%" height="315" src="https://www.youtube.com/embed/<?php echo esc_attr( htmlspecialchars($video_id) ); ?>" 
                                         frameborder="0" allowfullscreen>
                                     </iframe>
                             <?php
