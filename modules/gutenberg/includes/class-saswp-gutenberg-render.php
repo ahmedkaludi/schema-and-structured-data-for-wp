@@ -621,7 +621,7 @@ class SASWP_Gutenberg_Render {
                                         $iframe_class = 'saswp-youtube-short';
                                     }
                             ?>
-                                    <iframe class="<?php echo $iframe_class; ?>" width="100%" height="315" src="https://www.youtube.com/embed/<?php echo esc_attr( htmlspecialchars($video_id) ); ?>" 
+                                    <iframe class="<?php echo esc_attr( $iframe_class ); ?>" width="100%" height="315" src="https://www.youtube.com/embed/<?php echo esc_attr( htmlspecialchars($video_id) ); ?>" 
                                         frameborder="0" allowfullscreen>
                                     </iframe>
                             <?php
