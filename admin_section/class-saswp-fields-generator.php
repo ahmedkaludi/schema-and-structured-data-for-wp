@@ -534,7 +534,11 @@ class SASWP_Fields_Generator {
                                          $input .=$hiddenfield;
 					break;                                    
 				case 'select':
-					$input = sprintf(
+					$input     =   '';
+                    if ( ! empty( $meta_field['sub_label'] ) ) {
+                        $input  .=  sprintf( '<span class="saswp-site-nav-lang-label">%s</span>' , esc_attr( $meta_field['sub_label'] ) );   
+                    }
+                    $input .= sprintf(
 						'<select class="%s" id="%s" name="%s">',
                                                 $class,
 						esc_attr( $meta_field['id']),

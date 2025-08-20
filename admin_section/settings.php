@@ -1150,23 +1150,25 @@ function saswp_general_page_callback() {
         
             if($nav_menu){
                 
-             $options = array();
-             
-             foreach( $nav_menu as $menu){
+                 $options = array();
                  
-                 $options[$menu->term_id] = $menu->name;
-             }
+                 foreach( $nav_menu as $menu){
+                     
+                     $options[$menu->term_id] = $menu->name;
+                 }
+                 
+                 $options = array('' => 'Select A Menu') + $options;
              
-             $options = array('' => 'Select A Menu') + $options;
-             
-             $meta_fields_default[] =   array(
-			'label'  => 'Site Navigation Menu',
-			'id'     => 'saswp_site_navigation_menu', 
-                        'name'   => 'sd_data[saswp_site_navigation_menu]',
-			'type'   => 'select',                        
-                        'options'=> $options
-                        
-		); 
+                $meta_fields_default[] =   array(
+        			'label'  => 'Site Navigation Menu',
+        			'id'     => 'saswp_site_navigation_menu', 
+                                'name'   => 'sd_data[saswp_site_navigation_menu]',
+        			'type'   => 'select',                        
+                                'options'=> $options
+                                
+        		); 
+
+                $meta_fields_default = apply_filters( 'saswp_add_wpml_language_menu_navigations', $meta_fields_default, $options );
             }                    
         ?>
 
