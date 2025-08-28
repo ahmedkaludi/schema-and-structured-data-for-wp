@@ -6747,7 +6747,19 @@ Class SASWP_Output_Service{
                                            
                     }                                        
                     if ( isset( $custom_fields['saswp_video_object_content_url']) && wp_http_validate_url($custom_fields['saswp_video_object_content_url']) ){
-                     $input1['contentUrl'] =    saswp_validate_url($custom_fields['saswp_video_object_content_url']);
+
+                        $input1['contentUrl']   =   saswp_validate_url($custom_fields['saswp_video_object_content_url']);
+                        
+                        $enable_video_object    =   get_post_meta( $schema_post_id, 'saswp_enable_video_object_details', true );
+                        if ( ! empty( $enable_video_object ) && strpos( $custom_fields['saswp_video_object_content_url'], 'https://you' ) !== false) {
+                            $video_data         =   saswp_get_youtube_video_metadata( $input1['contentUrl'] );
+                            if ( ! empty( $video_data ) && is_array( $video_data ) ) {
+                                $input1['duration']     =   $video_data['duration'];
+                                $input1['uploadDate']   =   $video_data['uploadDate'];
+                                $input1['thumbnailUrl'] =   $video_data['thumbnailUrl'];  
+                            }    
+                        }
+
                     }
                     if ( isset( $custom_fields['saswp_video_object_embed_url']) && wp_http_validate_url($custom_fields['saswp_video_object_embed_url']) ) {
                      $input1['embedUrl']   =    saswp_validate_url($custom_fields['saswp_video_object_embed_url']);

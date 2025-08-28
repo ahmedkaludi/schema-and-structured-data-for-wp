@@ -5469,3 +5469,32 @@ function saswp_is_block_theme() {
     return false;
 
 }   
+
+/**
+ * Get yuoutube video meta data
+ * @param   $url    param
+ * @return  $data   array
+ * @since   1.50
+ * */
+function saswp_get_youtube_video_metadata( $url ) {
+    global $sd_data;
+    $data   =   array();
+
+    if ( isset( $sd_data['saswp-youtube-api']) && $sd_data['saswp-youtube-api'] != '' ) {
+        $vid            =   saswp_get_youtube_vid( $url );
+        $video_meta     =   SASWP_Youtube::getVideoInfo( $vid, $sd_data['saswp-youtube-api'] );
+
+        if ( ! empty( $video_meta) ) {
+            $data['title']          =   isset( $video_meta['title'] ) ? $video_meta['title'] : '';
+            $data['description']    =   isset( $video_meta['description'] ) ? $video_meta['description'] : '' ;
+            $data['viewCount']      =   isset( $video_meta['viewCount'] ) ? $video_meta['viewCount'] : '';
+            $data['duration']       =   isset( $video_meta['duration'] ) ? $video_meta['duration'] : '';
+            $data['uploadDate']     =   isset( $video_meta['uploadDate'] ) ? $video_meta['uploadDate'] : '';
+            $data['thumbnailUrl']   =   isset( $video_meta['thumbnail']['sdDefault'] ) ? $video_meta['thumbnail']['sdDefault'] : '';
+            $data['contentUrl']     =   $url;
+        }
+    }                    
+
+    return $data;
+
+}
