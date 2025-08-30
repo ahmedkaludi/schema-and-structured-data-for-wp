@@ -3215,7 +3215,13 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         } 
     }
     
-    $faq_question  = get_post_meta($schema_post_id, 'faq_question_'.$schema_id, true);
+    $faq_question   =   array();
+    if ( ! empty( $all_post_meta['faq_question_'.$schema_id] ) && is_array( $all_post_meta['faq_question_'.$schema_id] ) && ! empty( $all_post_meta['faq_question_'.$schema_id][0] ) ) {
+        if ( is_string( $all_post_meta['faq_question_'.$schema_id][0] ) ) {
+            $faq_question   =   unserialize( $all_post_meta['faq_question_'.$schema_id][0] );    
+        } 
+    }
+
 
     $faq_question_arr = array();
 

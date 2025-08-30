@@ -34,6 +34,7 @@ class SASWP_Post_Specific {
                     $this->_common_view = new SASWP_View_Common();
                 }
                 
+                add_action( 'init', array( $this, 'SASWP_Post_Specific_hooks' ) );
         }
 
         /**
@@ -42,6 +43,10 @@ class SASWP_Post_Specific {
         public function SASWP_Post_Specific_hooks() {
 
                 $taxterm = array( 'category', 'post_tag', 'product_cat', 'product_tag' );
+                $saswp_terms    =   saswp_post_taxonomy_generator();
+                if ( ! empty( $saswp_terms ) && is_array( $saswp_terms ) ) {
+                    $taxterm    =   array_keys( $saswp_terms );     
+                }
 
                 foreach ( $taxterm as $value ) {
                     add_action( "{$value}_edit_form_fields", array( $this, 'saswp_taxonomy_edit_custom_meta_box' ),10,2 );
@@ -739,5 +744,4 @@ class SASWP_Post_Specific {
 }
 if (class_exists('SASWP_Post_Specific')) {
 	$object = new SASWP_Post_Specific();
-        $object->SASWP_Post_Specific_hooks();
 };
