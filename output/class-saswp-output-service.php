@@ -10347,8 +10347,8 @@ Class SASWP_Output_Service{
                         $custom_logo  = array();
                                       
                         $logo      = isset($sd_data['sd_logo']['url']) ?     $sd_data['sd_logo']['url']:'';	
-			            $height    = isset($sd_data['sd_logo']['height']) ?  $sd_data['sd_logo']['height']:'';
-			            $width     = isset($sd_data['sd_logo']['width']) ?   $sd_data['sd_logo']['width']:'';
+			            $height    = isset($sd_data['sd_logo']['height']) ?  intval( $sd_data['sd_logo']['height'] ):'';
+			            $width     = isset($sd_data['sd_logo']['width']) ?   intval( $sd_data['sd_logo']['width'] ):'';
                         $site_name = isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' ? $sd_data['sd_name']:get_bloginfo();
                                                                                                                        
                         if($logo =='' && $height =='' && $width ==''){
@@ -10390,12 +10390,12 @@ Class SASWP_Output_Service{
                                                                              
                             $publisher['publisher']['logo']['@type'] = 'ImageObject';
                             $publisher['publisher']['logo']['url']   = esc_url($logo);
-                            $publisher['publisher']['logo']['width'] = esc_attr( $width);
-                            $publisher['publisher']['logo']['height']= esc_attr( $height);                        
+                            $publisher['publisher']['logo']['width'] = intval( $width);
+                            $publisher['publisher']['logo']['height']= intval( $height);                        
                              
                             $default_logo['url']    = esc_url($logo);
-                            $default_logo['height'] = esc_attr( $height);
-                            $default_logo['width']  = esc_attr( $width);
+                            $default_logo['height'] = intval( $height);
+                            $default_logo['width']  = intval( $width);
                             
                           }
                                                         
