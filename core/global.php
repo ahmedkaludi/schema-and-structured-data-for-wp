@@ -33,6 +33,7 @@ $with_aggregate = array(
         'ProductGroup',
         'VacationRental',
         'CriticReview',               
+        'Certification',               
 );
 $without_aggregate = array(
         'Apartment',

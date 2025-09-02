@@ -8768,6 +8768,14 @@ Class SASWP_Output_Service{
                     }
                     
                 break;
+
+                case 'Certification':
+
+                    if ( ! empty( $custom_fields['saswp_place_schema_name'] ) ) {
+                        $input1['name']         =   $custom_fields['saswp_place_schema_name'];
+                    }   
+
+                break;
                
                      default:
                          break;

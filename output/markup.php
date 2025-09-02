@@ -8984,3 +8984,21 @@ function saswp_game_schema_markup( $schema_id, $schema_post_id, $all_post_meta )
     
     return $input1;
 }
+
+/**
+ * Schema markup for Certification schema
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $input1             array
+ * @since   1.50
+ * */
+function saswp_certification_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+    
+    $input1 = array();
+
+    
+    
+    return $input1;
+
+}
