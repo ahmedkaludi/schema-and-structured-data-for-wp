@@ -3036,6 +3036,28 @@ function saswp_schema_output() {
                                 $input1 = apply_filters( 'saswp_modify_game_final_schema_output', $input1 );
                                 
                             break;
+
+                            case 'Certification':
+                                                                                    
+                                $input1['@context']                     =   saswp_context_url();
+                                $input1['@type']                        =   'Certification';
+                                $input1['@id']                          =   saswp_get_permalink().'#Certification';  
+                                $input1['name']                         =   saswp_get_the_title();
+                                $input1['description']                  =   saswp_get_the_excerpt(); 
+                                $input1['url']                          =   saswp_get_permalink();                          
+
+                                $input1 = apply_filters( 'saswp_modify_certification_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_certification_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
+                                }
+
+                                $input1 = apply_filters( 'saswp_modify_certification_final_schema_output', $input1 );
+                                
+                            break;
                             
                             default:
                                 break;

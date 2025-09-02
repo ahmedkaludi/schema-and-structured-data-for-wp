@@ -3215,7 +3215,13 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         } 
     }
     
-    $faq_question  = get_post_meta($schema_post_id, 'faq_question_'.$schema_id, true);
+    $faq_question   =   array();
+    if ( ! empty( $all_post_meta['faq_question_'.$schema_id] ) && is_array( $all_post_meta['faq_question_'.$schema_id] ) && ! empty( $all_post_meta['faq_question_'.$schema_id][0] ) ) {
+        if ( is_string( $all_post_meta['faq_question_'.$schema_id][0] ) ) {
+            $faq_question   =   unserialize( $all_post_meta['faq_question_'.$schema_id][0] );    
+        } 
+    }
+
 
     $faq_question_arr = array();
 
@@ -8977,4 +8983,102 @@ function saswp_game_schema_markup( $schema_id, $schema_post_id, $all_post_meta )
             }
     
     return $input1;
+}
+
+/**
+ * Schema markup for Certification schema
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $input1             array
+ * @since   1.50
+ * */
+function saswp_certification_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+    
+    $input1 = array();
+
+    $input1['@context']                     =   saswp_context_url();
+    $input1['@type']                        =   'Certification';  
+    if ( isset( $all_post_meta['saswp_certification_name_'.$schema_id][0] ) ) {
+        $input1['name']                     =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_name_'.$schema_id, 'saswp_array' );
+    }
+    if ( isset( $all_post_meta['saswp_certification_description_'.$schema_id][0] ) ) {
+        $input1['description']              =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_description_'.$schema_id, 'saswp_array' );
+    }
+    if ( isset( $all_post_meta['saswp_certification_url_'.$schema_id][0] ) ) {
+        $input1['url']                      =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_url_'.$schema_id, 'saswp_array' );
+    } 
+    if ( isset( $all_post_meta['saswp_certification_issue_name_'.$schema_id][0] ) ) {
+        $issue_names                    =   explode( ',', $all_post_meta['saswp_certification_issue_name_'.$schema_id][0] );
+        $input1['issuedBy']['@type']    =  'Organization';
+        $input1['issuedBy']['name']     =   $issue_names;
+
+        if ( isset( $all_post_meta['saswp_certification_issue_url_'.$schema_id][0] ) ) {
+            $input1['issuedBy']['url']  =   saswp_remove_warnings( $all_post_meta, 'saswp_certification_issue_url_'.$schema_id, 'saswp_array' );
+        }
+    } 
+    if ( isset( $all_post_meta['saswp_certification_status_'.$schema_id][0] ) ) {
+        $options    =   array( 'CertificationActive', 'CertificationInactive' );
+        $status     =   saswp_remove_warnings( $all_post_meta, 'saswp_certification_status_'.$schema_id, 'saswp_array' );
+        if ( in_array( $status, $options ) ) {
+            $input1['certificationStatus'] =   $status;
+        }
+    }
+    if ( isset( $all_post_meta['saswp_certification_date_expires_'.$schema_id][0] ) ) {
+        $expiry                         =   saswp_remove_warnings( $all_post_meta, 'saswp_certification_date_expires_'.$schema_id, 'saswp_array' );
+        $input1['expires']              =   gmdate( 'c', strtotime( $expiry ) );
+    }
+    if ( isset( $all_post_meta['saswp_certification_date_published_'.$schema_id][0] ) ) {
+        $expiry                         =   saswp_remove_warnings( $all_post_meta, 'saswp_certification_date_published_'.$schema_id, 'saswp_array' );
+        $input1['datePublished']        =   gmdate( 'c', strtotime( $expiry ) );
+    }
+    if ( isset( $all_post_meta['saswp_certification_date_valid_from_'.$schema_id][0] ) ) {
+        $expiry                         =   saswp_remove_warnings( $all_post_meta, 'saswp_certification_date_valid_from_'.$schema_id, 'saswp_array' );
+        $input1['validFrom']            =   gmdate( 'c', strtotime( $expiry ) );
+    }
+    if ( isset( $all_post_meta['saswp_certification_date_audit_'.$schema_id][0] ) ) {
+        $expiry                         =   saswp_remove_warnings( $all_post_meta, 'saswp_certification_date_audit_'.$schema_id, 'saswp_array' );
+        $input1['auditDate']            =   gmdate( 'c', strtotime( $expiry ) );
+    }
+    if ( isset( $all_post_meta['saswp_certification_validin_name_'.$schema_id][0] ) ) {
+        $input1['validIn']['@type']     =   'AdministrativeArea';
+        $input1['validIn']['name']      =   saswp_remove_warnings( $all_post_meta, 'saswp_certification_validin_name_'.$schema_id, 'saswp_array' );
+        if ( isset( $all_post_meta['saswp_certification_validin_country_'.$schema_id][0] ) ) {
+            $countries                  =   saswp_remove_warnings( $all_post_meta, 'saswp_certification_validin_country_'.$schema_id, 'saswp_array' );
+            $countries                  =   explode( ',', $countries );  
+            $input1['validIn']['address']['@type']          =   'PostalAddress'; 
+            $input1['validIn']['address']['addressCountry'] =   $countries;      
+        }
+    }
+    if ( isset( $all_post_meta['saswp_certification_logo_'.$schema_id][0] ) ) {
+        $input1['logo']                 =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_logo_'.$schema_id, 'saswp_array' );
+    }
+    if ( isset( $all_post_meta['saswp_certification_identification_'.$schema_id][0] ) ) {
+        $input1['certificationIdentification']  =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_identification_'.$schema_id, 'saswp_array' );
+    }
+    if ( ! empty( $all_post_meta['saswp_certification_rating_value_'.$schema_id][0] ) || ! empty( $all_post_meta['saswp_certification_best_rating_'.$schema_id][0] ) || ! empty( $all_post_meta['saswp_certification_worst_rating_'.$schema_id][0] ) ) {
+        $input1['certificationRating']['@type']             =   'Rating'; 
+        if ( ! empty( $all_post_meta['saswp_certification_rating_value_'.$schema_id][0] ) ) {
+            $input1['certificationRating']['ratingValue']   =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_rating_value_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_certification_best_rating_'.$schema_id][0] ) ) {
+            $input1['certificationRating']['bestRating']    =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_best_rating_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_certification_worst_rating_'.$schema_id][0] ) ) {
+            $input1['certificationRating']['worstRating']   =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_worst_rating_'.$schema_id, 'saswp_array' );
+        }
+    }
+    if ( ! empty( $all_post_meta['saswp_certification_measurement_name_'.$schema_id][0] ) ) {
+        $input1['hasMeasurement']['@type']      =    'QuantitativeValue';
+        $input1['hasMeasurement']['name']       =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_measurement_name_'.$schema_id, 'saswp_array' );
+        if ( ! empty( $all_post_meta['saswp_certification_measurement_reference_'.$schema_id][0] ) ) {
+            $input1['hasMeasurement']['valueReference'] =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_measurement_reference_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_certification_measurement_value_'.$schema_id][0] ) ) {
+            $input1['hasMeasurement']['value'] =    saswp_remove_warnings( $all_post_meta, 'saswp_certification_measurement_value_'.$schema_id, 'saswp_array' );
+        }
+    }
+    
+    return $input1;
+
 }

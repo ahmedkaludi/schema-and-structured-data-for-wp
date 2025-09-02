@@ -3259,3 +3259,9 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
     margin-right: 50px;
     width: 50px;
 }
+
+.saswp-site-nav-lang-label{
+    width: 100px;
+    font-weight: 500;
+    display: inline-block;
+}

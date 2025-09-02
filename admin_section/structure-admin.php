@@ -1129,7 +1129,7 @@ function saswp_dequeue_script() {
       
       // if our current user can't edit this post, bail
     if( !current_user_can( saswp_current_user_can() ) ) return;  
-                
+             
     $post_data_group_array = array();  
     $temp_condition_array  = array();
     $show_globally         = false;
@@ -1170,6 +1170,18 @@ function saswp_dequeue_script() {
       );
       
     }
+    
+    // Add VideoObject schema meta options data
+    if ( ! empty( $_POST['saswp_schema_type_meta_options_nonce'] ) && wp_verify_nonce( $_POST['saswp_schema_type_meta_options_nonce'], 'saswp_schema_type_meta_action_nonce' ) ) {
+
+      if ( ! empty( $_POST['saswp_enable_video_object_details'] ) ) {
+        add_post_meta( $post_id, 'saswp_enable_video_object_details', 1 );
+      }else{
+        delete_post_meta( $post_id, 'saswp_enable_video_object_details' );
+      }
+      
+    }
+
   }
 
 }//CLosed is_admin
@@ -2615,4 +2627,55 @@ function saswp_add_protection_schema_meta( $protected, $meta_key, $meta_type ){
         return true;
     }
     return $protected;
+}
+
+/**
+ * Add schema type options on side meta box
+ * @param   $post   array
+ * @since   1.50
+ * */
+function saswp_schema_type_meta_options_callback( $post ) {
+
+  // Check if acf plugin is active
+  if ( is_object( $post ) && ! empty( $post->ID ) && function_exists( 'get_field_object' ) ) {
+
+    $post_id        =   $post->ID;
+
+    $schema_type    =   get_post_meta( $post_id, 'schema_type', true );
+    $video_enabled  =   get_post_meta( $post_id, 'saswp_enable_video_object_details', true );
+
+    // Add nonce field
+    wp_nonce_field( 'saswp_schema_type_meta_action_nonce', 'saswp_schema_type_meta_options_nonce' );
+
+    switch( $schema_type ) {
+
+      case 'VideoObject':
+
+        ?>
+          <div class="saswp-schema-type-meta-wrapper">
+            <div class="saswp-schema-type-section">
+              <table class="saswp-option-table-class">
+                <tr>
+                   <td>
+                      <label for="saswp-enable-video-object-details"><strong><?php echo esc_html__( 'YouTube API Sync', 'schema-and-structured-data-for-wp' ); ?></strong></label>
+                    </td>
+                    <td>
+                      <input class="saswp-schema-type-meta-chkbox" type="checkbox" name="saswp_enable_video_object_details" id="saswp-enable-video-object-details" value="1" <?php if ( isset( $video_enabled) && $video_enabled == 1){echo 'checked'; }else{ echo ''; } ?>>
+                   </td>
+                </tr>
+                <tr>
+                  <td colspan="2"><p><?php echo esc_html__( 'Fetch video details like thumbnail, title, and meta directly from YouTube API.', 'schema-and-structured-data-for-wp' ); ?></p></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        <?php
+
+        break;
+
+    }
+    
+
+  }
+
 }

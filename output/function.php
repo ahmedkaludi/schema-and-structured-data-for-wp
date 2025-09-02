@@ -1696,27 +1696,25 @@ function saswp_remove_microdata($content){
     global $sd_data;
     
     if(saswp_global_option() ) {
-        //Clean MicroData
-        $content = preg_replace("/itemtype=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|TouristTrip|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|EventPosting|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement|Rating|worstRating|ratingValue|bestRating)(\"?)/", "", $content);
-        $content = preg_replace("/itemscope[\n|\s|]*itemtype=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|TouristTrip|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|EventPosting|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement|Rating|worstRating|ratingValue|bestRating)(\"?)/", "", $content);
-        $content = preg_replace("/itemscope[\n|\s|]*itemtype=(\'?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|TouristTrip|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|EventPosting|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement|Rating|worstRating|ratingValue|bestRating)(\'?)/", "", $content);
-        $content = preg_replace("/itemscope=(\"?)itemscope(\"?) itemtype=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|TouristTrip|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|EventPosting|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement|Rating|worstRating|ratingValue|bestRating)(\"?)/", "", $content);    
-        $content = preg_replace("/itemscope=(\"?)itemprop(\"?) itemType=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|TouristTrip|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|EventPosting|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement|Rating|worstRating|ratingValue|bestRating)(\"?)/", "", $content);    
-        $content = preg_replace("/itemscope itemprop=\"(.*?)\" itemType=(\"?)http(s?):\/\/schema.org\/(Person|Mosque|SearchAction|Church|HinduTemple|LandmarksOrHistoricalBuildings|TouristDestination|TouristAttraction|TouristTrip|Place|LocalBusiness|MedicalCondition|VideoObject|AudioObject|Trip|Service|JobPosting|VideoGame|Game|TechArticle|SoftwareApplication|TVSeries|Recipe|Review|HowTo|DiscussionForumPosting|Course|SingleFamilyResidence|House|Apartment|EventPosting|Event|Article|BlogPosting|Blog|BreadcrumbList|AggregateRating|WebPage|Person|Organization|NewsArticle|Product|CreativeWork|ImageObject|UserComments|WPHeader|WPSideBar|WPFooter|WPAdBlock|SiteNavigationElement|Rating|worstRating|ratingValue|bestRating)(\"?)/", "", $content);           
-        $content = preg_replace("/itemprop='logo' itemscope itemtype='https:\/\/schema.org\/ImageObject'/", "", $content);
-        $content = preg_replace('/itemprop="logo" itemscope="" itemtype="https:\/\/schema.org\/ImageObject"/', "", $content);
-        $content = preg_replace('/itemprop=\"(worstRating|ratingValue|bestRating|aggregateRating|ratingCount|reviewBody|review|name|datePublished|author|reviewRating)\"/', "", $content);
-        $content = preg_replace('/itemscope\=\"(.*?)\"/', "", $content);
-        $content = preg_replace("/itemscope\='(.*?)\'/", "", $content);
-        $content = preg_replace('/itemscope/', "", $content);        
-        $content = preg_replace('/itemprop\=\"(.*?)\"/', "", $content);
-        $content = preg_replace("/itemprop\='(.*?)\'/", "", $content);
-        $content = preg_replace('/itemprop/', "", $content);
-        $content = preg_replace('/itemtype\=\"(.*?)\"/', "", $content);
-        $content = preg_replace("/itemtype\='(.*?)\'/", "", $content);
-        $content = preg_replace('/itemtype/', "", $content);
-        $content = preg_replace('/hreview-aggregate/', "", $content);
-        $content = preg_replace('/hrecipe/', "", $content);
+       
+       //  WP_HTML_Tag_Processor class works on wordpress grater than wordpress 6.2
+        if ( class_exists( 'WP_HTML_Tag_Processor' ) ) {
+            $processor = new WP_HTML_Tag_Processor( $content );
+            while ( $processor->next_tag() ) {
+                $processor->remove_attribute( 'itemscope' );
+                $processor->remove_attribute( 'itemtype' );
+                $processor->remove_attribute( 'itemprop' );
+
+                $class = $processor->get_attribute( 'class' );
+                if ( $class && preg_match( '/\b(hreview-aggregate|hrecipe)\b/i', $class ) ) {
+                    $processor->set_attribute(
+                        'class',
+                        preg_replace( '/\b(hreview-aggregate|hrecipe)\b/i', '', $class )
+                    );
+                }
+            }
+            $content = $processor->get_updated_html();
+        }
         
         if ( isset( $sd_data['saswp-ratency']) && $sd_data['saswp-ratency'] == 1 ){
             

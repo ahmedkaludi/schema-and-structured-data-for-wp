@@ -12673,7 +12673,131 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         
                    );
                     break;
-                                
+                    
+                case 'Certification':
+                    $meta_field = array(
+                        array(
+                            'label'     => 'Name',
+                            'id'        => 'saswp_certification_name_'.$schema_id,
+                            'type'      => 'text',
+                            'default'   => saswp_get_the_title()
+                        ),
+                        array(
+                            'label'     => 'Description',
+                            'id'        => 'saswp_certification_description_'.$schema_id,
+                            'type'      => 'textarea',
+                            'default'   => saswp_strip_all_tags(get_the_excerpt())
+                        ),
+                        array(
+                            'label'     => 'URL',
+                            'id'        => 'saswp_certification_url_'.$schema_id,
+                            'type'      => 'text',
+                            'default'   => get_permalink()
+                        ),
+                        array(
+                            'label'     => 'Issued By Name',
+                            'id'        => 'saswp_certification_issue_name_'.$schema_id,
+                            'type'      => 'textarea',
+                            'attributes'=> array(
+                                'placeholder' => 'Example, Example2'
+                            ),
+                            'note'      => 'Note: Separate more than one names by comma ( , )'
+                        ),
+                        array(
+                            'label'     => 'Issued By URL',
+                            'id'        => 'saswp_certification_issue_url_'.$schema_id,
+                            'type'      => 'text',
+                        ),
+                        array(
+                            'label'     =>  'Certification Status',
+                            'id'        => 'saswp_certification_status_'.$schema_id,
+                            'type'      => 'select',
+                            'options'   => array(
+                                'CertificationActive'   => 'CertificationActive',
+                                'CertificationInactive' => 'CertificationInactive', 
+                            ),                       
+                        ),
+                        array(
+                            'label'   => 'Date Expires',
+                            'id'      => 'saswp_certification_date_expires_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => get_the_date("Y-m-d")
+                        ),    
+                        array(
+                            'label' => 'Date Published',
+                            'id' => 'saswp_certification_date_published_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                            'label' => 'Valid From',
+                            'id' => 'saswp_certification_date_valid_from_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                            'label' => 'Audit Date',
+                            'id' => 'saswp_certification_date_audit_'.$schema_id,
+                            'type' => 'text',
+                            'default' => get_the_date("Y-m-d")
+                        ),
+                        array(
+                            'label'     => 'Valid In Name',
+                            'id'        => 'saswp_certification_validin_name_'.$schema_id,
+                            'type'      => 'text',
+                        ),
+                        array(
+                            'label'     => 'Valid In Country',
+                            'id'        => 'saswp_certification_validin_country_'.$schema_id,
+                            'type'      => 'textarea',
+                            'attributes'=> array(
+                                'placeholder' => 'Country1, Country2'
+                            ),
+                            'note'      => 'Note: Separate more than one countryies by comma ( , )'
+                        ),
+                        array(
+                            'label'    => 'Logo',
+                            'id'       => 'saswp_certification_logo_'.$schema_id,
+                            'type'     => 'media'                               
+                        ),
+                        array(
+                            'label'    => 'Identification',
+                            'id'       => 'saswp_certification_identification_'.$schema_id,
+                            'type'     => 'text'                               
+                        ),
+                        array(
+                            'label'    => 'Rating Value',
+                            'id'       => 'saswp_certification_rating_value_'.$schema_id,
+                            'type'     => 'text'                               
+                        ),
+                        array(
+                            'label'    => 'Best Rating',
+                            'id'       => 'saswp_certification_best_rating_'.$schema_id,
+                            'type'     => 'text'                               
+                        ),
+                        array(
+                            'label'    => 'Worst Rating',
+                            'id'       => 'saswp_certification_worst_rating_'.$schema_id,
+                            'type'     => 'text'                               
+                        ),
+                        array(
+                            'label'    => 'Measurement Name',
+                            'id'       => 'saswp_certification_measurement_name_'.$schema_id,
+                            'type'     => 'text'                               
+                        ),
+                        array(
+                            'label'    => 'Measurement Reference',
+                            'id'       => 'saswp_certification_measurement_reference_'.$schema_id,
+                            'type'     => 'text'                               
+                        ),
+                        array(
+                            'label'    => 'Measurement Value',
+                            'id'       => 'saswp_certification_measurement_value_'.$schema_id,
+                            'type'     => 'text'                               
+                        ),
+                    );
+                    break;
+
                 default:
                     break;
             } 

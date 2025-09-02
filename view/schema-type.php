@@ -16,6 +16,7 @@ add_action( 'wp_ajax_saswp_get_manual_fields_on_ajax', 'saswp_get_manual_fields_
 add_action( 'wp_ajax_saswp_get_reviews_on_load', 'saswp_get_reviews_on_load' ) ;
 add_action( 'save_post', 'saswp_schema_type_add_meta_box_save',10,3 ) ;
 add_action( 'add_meta_boxes', 'saswp_add_all_meta_boxes',99 ) ;
+add_action( 'add_meta_boxes', 'saswp_add_schema_type_meta_boxes', 99 ) ;
 
 /**
  * Register a schema type metabox
@@ -95,6 +96,50 @@ function saswp_add_all_meta_boxes() {
             $saswp_metaboxes[]= 'saswp_amp_select';
             $saswp_metaboxes[]= 'saswp_reviews_form';
 }
+
+/**
+ * Add schema type options meta box
+ * @since   1.50
+ * */
+function saswp_add_schema_type_meta_boxes() {
+    
+    global $saswp_metaboxes;
+
+    if ( ! empty( $_GET['post'] ) ) {
+        // Check if acf plugin is active
+
+        $post   =   get_post( wp_unslash( $_GET['post'] ) );
+        if ( is_object( $post ) && ! empty( $post->ID ) ) {
+            $post_id        =   $post->ID;
+            $schema_type    =   get_post_meta( $post_id, 'schema_type', true );
+
+            switch( $schema_type ) {
+
+                case 'VideoObject':
+
+                    $modified_schema    = get_post_meta( $post_id, 'schema_options', true);
+
+                    if ( is_array( $modified_schema ) && ! empty( $modified_schema['enable_custom_field'] ) && function_exists( 'get_field_object' ) ) {
+
+                        add_meta_box( 
+                            'saswp_schema_type_meta_options', 
+                            esc_html__( 'Extra Options', 'schema-and-structured-data-for-wp' ), 
+                            'saswp_schema_type_meta_options_callback', 'saswp',
+                            'side', 
+                            'default' 
+                        );
+
+                        $saswp_metaboxes[]= 'saswp_schema_type_meta_options';
+
+                    }
+
+                    break;
+            }
+        }
+    }
+
+}
+
 /**
  * Function to get schema type meta 
  * @global type $post

@@ -6747,7 +6747,19 @@ Class SASWP_Output_Service{
                                            
                     }                                        
                     if ( isset( $custom_fields['saswp_video_object_content_url']) && wp_http_validate_url($custom_fields['saswp_video_object_content_url']) ){
-                     $input1['contentUrl'] =    saswp_validate_url($custom_fields['saswp_video_object_content_url']);
+
+                        $input1['contentUrl']   =   saswp_validate_url($custom_fields['saswp_video_object_content_url']);
+                        
+                        $enable_video_object    =   get_post_meta( $schema_post_id, 'saswp_enable_video_object_details', true );
+                        if ( ! empty( $enable_video_object ) && strpos( $custom_fields['saswp_video_object_content_url'], 'https://you' ) !== false) {
+                            $video_data         =   saswp_get_youtube_video_metadata( $input1['contentUrl'] );
+                            if ( ! empty( $video_data ) && is_array( $video_data ) ) {
+                                $input1['duration']     =   $video_data['duration'];
+                                $input1['uploadDate']   =   $video_data['uploadDate'];
+                                $input1['thumbnailUrl'] =   $video_data['thumbnailUrl'];  
+                            }    
+                        }
+
                     }
                     if ( isset( $custom_fields['saswp_video_object_embed_url']) && wp_http_validate_url($custom_fields['saswp_video_object_embed_url']) ) {
                      $input1['embedUrl']   =    saswp_validate_url($custom_fields['saswp_video_object_embed_url']);
@@ -8756,6 +8768,84 @@ Class SASWP_Output_Service{
                     }
                     
                 break;
+
+                case 'Certification':
+
+                    if ( ! empty( $custom_fields['saswp_certification_name'] ) ) {
+                        $input1['name']                 =    $custom_fields['saswp_certification_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_description'] ) ) {
+                        $input1['description']          =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_certification_description'] ) );
+                    } 
+                    if ( ! empty( $custom_fields['saswp_certification_url'] ) ) {
+                        $input1['url']                  =    saswp_validate_url( $custom_fields['saswp_certification_url'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_issue_name'] ) ) {
+                        $issue_names                    =   explode( ',', $custom_fields['saswp_certification_issue_name'] );
+                        $input1['issuedBy']['@type']    =  'Organization';
+                        $input1['issuedBy']['name']     =   $issue_names;
+
+                        if ( ! empty( $custom_fields['saswp_certification_issue_url'] ) ){
+                            $input1['issuedBy']['url']  =   saswp_validate_url( $custom_fields['saswp_certification_issue_url'] );    
+                        }
+                    }   
+                    if ( ! empty( $custom_fields['saswp_certification_status'] ) ) {
+                        $options = array( 'CertificationActive', 'CertificationInactive' );
+                        if ( in_array( $custom_fields['saswp_certification_status'], $options ) ) {
+                            $input1['certificationStatus'] =   $custom_fields['saswp_certification_status'];
+                        }
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_date_expires'] ) ) {
+                        $input1['expires']              =   gmdate( 'c', strtotime( $custom_fields['saswp_certification_date_expires'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_date_published'] ) ) {
+                        $input1['datePublished']        =   gmdate( 'c', strtotime( $custom_fields['saswp_certification_date_published'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_date_valid_from'] ) ) {
+                        $input1['validFrom']            =   gmdate( 'c', strtotime( $custom_fields['saswp_certification_date_valid_from'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_date_audit'] ) ) {
+                        $input1['auditDate']            =   gmdate( 'c', strtotime( $custom_fields['saswp_certification_date_audit'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_validin_name'] ) ) {
+                        $input1['validIn']['@type']     =   'AdministrativeArea';
+                        $input1['validIn']['name']      =   $custom_fields['saswp_certification_validin_name'];
+                        if ( ! empty( $custom_fields['saswp_certification_validin_country'] ) ) {
+                            $countries                  =   explode( ',', $custom_fields['saswp_certification_validin_country'] );  
+                            $input1['validIn']['address']['@type']          =   'PostalAddress'; 
+                            $input1['validIn']['address']['addressCountry'] =   $countries;      
+                        }
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_logo'] ) ) {
+                        $input1['logo']                 =    $custom_fields['saswp_certification_logo'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_identification'] ) ) {
+                        $input1['certificationIdentification']  =    $custom_fields['saswp_certification_identification'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_rating_value'] ) || ! empty( $custom_fields['saswp_certification_best_rating'] ) || ! empty( $custom_fields['saswp_certification_worst_rating'] ) ) {
+                        $input1['certificationRating']['@type']             =   'Rating'; 
+                        if ( ! empty( $custom_fields['saswp_certification_rating_value'] ) ) {
+                            $input1['certificationRating']['ratingValue']   =    $custom_fields['saswp_certification_rating_value'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_certification_best_rating'] ) ) {
+                            $input1['certificationRating']['bestRating']    =    $custom_fields['saswp_certification_best_rating'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_certification_worst_rating'] ) ) {
+                            $input1['certificationRating']['worstRating']   =    $custom_fields['saswp_certification_worst_rating'];
+                        }
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_measurement_name'] ) ) {
+                        $input1['hasMeasurement']['@type']      =    'QuantitativeValue';
+                        $input1['hasMeasurement']['name']       =    $custom_fields['saswp_certification_measurement_name'];
+                        if ( ! empty( $custom_fields['saswp_certification_measurement_reference'] ) ) {
+                            $input1['hasMeasurement']['valueReference'] =    $custom_fields['saswp_certification_measurement_reference'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_certification_measurement_value'] ) ) {
+                            $input1['hasMeasurement']['value'] =    $custom_fields['saswp_certification_measurement_value'];
+                        }
+                    }   
+
+                break;
                
                      default:
                          break;
@@ -10335,8 +10425,8 @@ Class SASWP_Output_Service{
                         $custom_logo  = array();
                                       
                         $logo      = isset($sd_data['sd_logo']['url']) ?     $sd_data['sd_logo']['url']:'';	
-			            $height    = isset($sd_data['sd_logo']['height']) ?  $sd_data['sd_logo']['height']:'';
-			            $width     = isset($sd_data['sd_logo']['width']) ?   $sd_data['sd_logo']['width']:'';
+			            $height    = isset($sd_data['sd_logo']['height']) ?  intval( $sd_data['sd_logo']['height'] ):'';
+			            $width     = isset($sd_data['sd_logo']['width']) ?   intval( $sd_data['sd_logo']['width'] ):'';
                         $site_name = isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' ? $sd_data['sd_name']:get_bloginfo();
                                                                                                                        
                         if($logo =='' && $height =='' && $width ==''){
@@ -10378,12 +10468,12 @@ Class SASWP_Output_Service{
                                                                              
                             $publisher['publisher']['logo']['@type'] = 'ImageObject';
                             $publisher['publisher']['logo']['url']   = esc_url($logo);
-                            $publisher['publisher']['logo']['width'] = esc_attr( $width);
-                            $publisher['publisher']['logo']['height']= esc_attr( $height);                        
+                            $publisher['publisher']['logo']['width'] = intval( $width);
+                            $publisher['publisher']['logo']['height']= intval( $height);                        
                              
                             $default_logo['url']    = esc_url($logo);
-                            $default_logo['height'] = esc_attr( $height);
-                            $default_logo['width']  = esc_attr( $width);
+                            $default_logo['height'] = intval( $height);
+                            $default_logo['width']  = intval( $width);
                             
                           }
                                                         
