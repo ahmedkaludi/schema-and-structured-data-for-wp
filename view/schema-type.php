@@ -119,11 +119,11 @@ function saswp_add_schema_type_meta_boxes() {
 
                     $modified_schema    = get_post_meta( $post_id, 'schema_options', true);
 
-                    if ( is_array( $modified_schema ) && ! empty( $modified_schema['enable_custom_field'] ) ) {
+                    if ( is_array( $modified_schema ) && ! empty( $modified_schema['enable_custom_field'] ) && function_exists( 'get_field_object' ) ) {
 
                         add_meta_box( 
                             'saswp_schema_type_meta_options', 
-                            esc_html__( 'Schema Options', 'schema-and-structured-data-for-wp' ), 
+                            esc_html__( 'Extra Options', 'schema-and-structured-data-for-wp' ), 
                             'saswp_schema_type_meta_options_callback', 'saswp',
                             'side', 
                             'default' 

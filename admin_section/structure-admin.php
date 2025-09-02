@@ -2657,11 +2657,14 @@ function saswp_schema_type_meta_options_callback( $post ) {
               <table class="saswp-option-table-class">
                 <tr>
                    <td>
+                      <label for="saswp-enable-video-object-details"><strong><?php echo esc_html__( 'YouTube API Sync', 'schema-and-structured-data-for-wp' ); ?></strong></label>
+                    </td>
+                    <td>
                       <input class="saswp-schema-type-meta-chkbox" type="checkbox" name="saswp_enable_video_object_details" id="saswp-enable-video-object-details" value="1" <?php if ( isset( $video_enabled) && $video_enabled == 1){echo 'checked'; }else{ echo ''; } ?>>
                    </td>
-                   <td>
-                      <label for="saswp-enable-video-object-details"><?php echo esc_html__( 'Youtube properties', 'schema-and-structured-data-for-wp' ); ?></label>
-                    </td>
+                </tr>
+                <tr>
+                  <td colspan="2"><p><?php echo esc_html__( 'Fetch video details like thumbnail, title, and meta directly from YouTube API.', 'schema-and-structured-data-for-wp' ); ?></p></td>
                 </tr>
               </table>
             </div>

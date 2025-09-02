@@ -138,7 +138,7 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Enhancement: width and height of image appears as a strings #2350
 * Fixed: Issue with FAQ schema on Woocommerce brands #2351
 * Enhancement: Microdata clean up improvement #2352
-* Fixed: Fixed vulnerability repoted by WPScan Security
+* Fixed: Vulnerability reported by WPScan Security
 * Fixed: Code improvement with polylang add-on #2353
 
 = 1.49 (13 August 2025) =
