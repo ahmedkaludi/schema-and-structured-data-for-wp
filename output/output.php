@@ -3052,7 +3052,7 @@ function saswp_schema_output() {
                                 
                                 if($modified_schema == 1){
                                     
-                                    $input1 = saswp_game_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
+                                    $input1 = saswp_certification_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
                                 }
 
                                 $input1 = apply_filters( 'saswp_modify_certification_final_schema_output', $input1 );

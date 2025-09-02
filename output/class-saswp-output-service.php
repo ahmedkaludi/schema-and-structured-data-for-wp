@@ -8771,8 +8771,78 @@ Class SASWP_Output_Service{
 
                 case 'Certification':
 
-                    if ( ! empty( $custom_fields['saswp_place_schema_name'] ) ) {
-                        $input1['name']         =   $custom_fields['saswp_place_schema_name'];
+                    if ( ! empty( $custom_fields['saswp_certification_name'] ) ) {
+                        $input1['name']                 =    $custom_fields['saswp_certification_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_description'] ) ) {
+                        $input1['description']          =   wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_certification_description'] ) );
+                    } 
+                    if ( ! empty( $custom_fields['saswp_certification_url'] ) ) {
+                        $input1['url']                  =    saswp_validate_url( $custom_fields['saswp_certification_url'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_issue_name'] ) ) {
+                        $issue_names                    =   explode( ',', $custom_fields['saswp_certification_issue_name'] );
+                        $input1['issuedBy']['@type']    =  'Organization';
+                        $input1['issuedBy']['name']     =   $issue_names;
+
+                        if ( ! empty( $custom_fields['saswp_certification_issue_url'] ) ){
+                            $input1['issuedBy']['url']  =   saswp_validate_url( $custom_fields['saswp_certification_issue_url'] );    
+                        }
+                    }   
+                    if ( ! empty( $custom_fields['saswp_certification_status'] ) ) {
+                        $options = array( 'CertificationActive', 'CertificationInactive' );
+                        if ( in_array( $custom_fields['saswp_certification_status'], $options ) ) {
+                            $input1['certificationStatus'] =   $custom_fields['saswp_certification_status'];
+                        }
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_date_expires'] ) ) {
+                        $input1['expires']              =   gmdate( 'c', strtotime( $custom_fields['saswp_certification_date_expires'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_date_published'] ) ) {
+                        $input1['datePublished']        =   gmdate( 'c', strtotime( $custom_fields['saswp_certification_date_published'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_date_valid_from'] ) ) {
+                        $input1['validFrom']            =   gmdate( 'c', strtotime( $custom_fields['saswp_certification_date_valid_from'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_date_audit'] ) ) {
+                        $input1['auditDate']            =   gmdate( 'c', strtotime( $custom_fields['saswp_certification_date_audit'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_validin_name'] ) ) {
+                        $input1['validIn']['@type']     =   'AdministrativeArea';
+                        $input1['validIn']['name']      =   $custom_fields['saswp_certification_validin_name'];
+                        if ( ! empty( $custom_fields['saswp_certification_validin_country'] ) ) {
+                            $countries                  =   explode( ',', $custom_fields['saswp_certification_validin_country'] );  
+                            $input1['validIn']['address']['@type']          =   'PostalAddress'; 
+                            $input1['validIn']['address']['addressCountry'] =   $countries;      
+                        }
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_logo'] ) ) {
+                        $input1['logo']                 =    $custom_fields['saswp_certification_logo'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_identification'] ) ) {
+                        $input1['certificationIdentification']  =    $custom_fields['saswp_certification_identification'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_rating_value'] ) || ! empty( $custom_fields['saswp_certification_best_rating'] ) || ! empty( $custom_fields['saswp_certification_worst_rating'] ) ) {
+                        $input1['certificationRating']['@type']             =   'Rating'; 
+                        if ( ! empty( $custom_fields['saswp_certification_rating_value'] ) ) {
+                            $input1['certificationRating']['ratingValue']   =    $custom_fields['saswp_certification_rating_value'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_certification_best_rating'] ) ) {
+                            $input1['certificationRating']['bestRating']    =    $custom_fields['saswp_certification_best_rating'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_certification_worst_rating'] ) ) {
+                            $input1['certificationRating']['worstRating']   =    $custom_fields['saswp_certification_worst_rating'];
+                        }
+                    }
+                    if ( ! empty( $custom_fields['saswp_certification_measurement_name'] ) ) {
+                        $input1['hasMeasurement']['@type']      =    'QuantitativeValue';
+                        $input1['hasMeasurement']['name']       =    $custom_fields['saswp_certification_measurement_name'];
+                        if ( ! empty( $custom_fields['saswp_certification_measurement_reference'] ) ) {
+                            $input1['hasMeasurement']['valueReference'] =    $custom_fields['saswp_certification_measurement_reference'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_certification_measurement_value'] ) ) {
+                            $input1['hasMeasurement']['value'] =    $custom_fields['saswp_certification_measurement_value'];
+                        }
                     }   
 
                 break;
