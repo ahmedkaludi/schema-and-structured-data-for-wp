@@ -9449,7 +9449,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     array(
                             'label'      => 'Employment Type',
                             'id'         => 'saswp_jobposting_schema_employment_type_'.$schema_id,
-                            'type'       => 'select', 
+                            'type'       => 'multiselect', 
                             'options'    => array(
                                 'FULL_TIME'  => 'FULL_TIME',
                                 'PART_TIME'  => 'PART_TIME',

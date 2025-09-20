@@ -7891,7 +7891,8 @@ Class SASWP_Output_Service{
                      $input1['validThrough'] =    $custom_fields['saswp_jobposting_schema_validthrough'];
                     }
                     if ( isset( $custom_fields['saswp_jobposting_schema_employment_type']) ) {
-                     $input1['employmentType'] =    $custom_fields['saswp_jobposting_schema_employment_type'];
+
+                     $input1['employmentType'] =    explode( ',', $custom_fields['saswp_jobposting_schema_employment_type'] );
                     }
                     if ( isset( $custom_fields['saswp_jobposting_schema_jobimmediatestart']) ) {
                      $input1['jobImmediateStart'] =    $custom_fields['saswp_jobposting_schema_jobimmediatestart'];
