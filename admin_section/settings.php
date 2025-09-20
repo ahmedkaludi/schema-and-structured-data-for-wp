@@ -1374,7 +1374,8 @@ function saswp_general_page_callback() {
 			'type'  => 'select',
 			'options' => array(
                                 ''                    => 'Select an item',
-				'customer support'    => 'Customer Support',
+				'general'    => 'General',
+                'customer support'    => 'Customer Support',
 				'technical support'   => 'Technical Support',
                                 'billing support'     => 'Billing Support',
                                 'bill payment'        => 'Bill payment',
