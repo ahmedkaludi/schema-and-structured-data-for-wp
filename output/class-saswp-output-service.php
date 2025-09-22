@@ -7460,7 +7460,7 @@ Class SASWP_Output_Service{
                 case 'Person':      
                     
                     if ( isset( $custom_fields['saswp_person_schema_id']) ) {
-                     $input1['@id'] =    get_permalink().$custom_fields['saswp_person_schema_id'];
+                     $input1['@id'] =    $custom_fields['saswp_person_schema_id'];
                     }
                     if ( isset( $custom_fields['saswp_person_schema_name']) ) {
                      $input1['name'] =    $custom_fields['saswp_person_schema_name'];
