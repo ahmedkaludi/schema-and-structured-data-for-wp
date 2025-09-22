@@ -3058,6 +3058,27 @@ function saswp_schema_output() {
                                 $input1 = apply_filters( 'saswp_modify_certification_final_schema_output', $input1 );
                                 
                             break;
+
+                            case 'Guide':
+                                                                                    
+                                $input1['@context']                     =   saswp_context_url();
+                                $input1['@type']                        =   'Guide';
+                                $input1['@id']                          =   saswp_get_permalink().'#Guide';  
+                                $input1['name']                         =   saswp_get_the_title();
+                                $input1['text']                         =   saswp_get_the_excerpt();                           
+
+                                $input1 = apply_filters( 'saswp_modify_guide_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_guide_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
+                                }
+
+                                $input1 = apply_filters( 'saswp_modify_guide_final_schema_output', $input1 );
+                                
+                            break;
                             
                             default:
                                 break;

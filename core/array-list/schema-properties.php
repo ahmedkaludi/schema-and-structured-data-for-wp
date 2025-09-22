@@ -12798,6 +12798,35 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     );
                     break;
 
+                    case 'Guide':
+                        $meta_field = array(
+                            array(
+                                'label'     => 'Name',
+                                'id'        => 'saswp_guide_name_'.$schema_id,
+                                'type'      => 'text',
+                                'default'   => saswp_get_the_title(),
+                            ),
+                            array(
+                                'label'     => 'About',
+                                'id'        => 'saswp_guide_about_'.$schema_id,
+                                'type'      => 'text',
+                                'default'   => '',
+                            ),
+                            array(
+                                'label'     => 'Text',
+                                'id'        => 'saswp_guide_text_'.$schema_id,
+                                'type'      => 'text',
+                                'default'   => saswp_strip_all_tags(get_the_excerpt()),
+                            ),
+                            array(
+                                'label'     => 'Review Aspect',
+                                'id'        => 'saswp_guide_review_aspect_'.$schema_id,
+                                'type'      => 'text',
+                                'note'      => 'Note: Enter all the review aspects in comma separated',
+                            ),
+                        );
+                    break;
+
                 default:
                     break;
             } 

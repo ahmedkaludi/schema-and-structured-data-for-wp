@@ -8847,6 +8847,23 @@ Class SASWP_Output_Service{
                     }   
 
                 break;
+
+                case 'Guide':
+
+                    if ( ! empty( $custom_fields['saswp_guide_name'] ) ) {
+                        $input1['name']                     =    $custom_fields['saswp_guide_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_guide_about'] ) ) {
+                        $input1['about']                    =    $custom_fields['saswp_guide_about'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_guide_text'] ) ) {
+                        $input1['text']                     =    $custom_fields['saswp_guide_text'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_guide_review_aspect'] ) && is_string( $custom_fields['saswp_guide_review_aspect'] ) ) {
+                        $input1['reviewAspect']             =    explode( ',', $custom_fields['saswp_guide_review_aspect'] );
+                    }
+
+                break;
                
                      default:
                          break;
