@@ -928,6 +928,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_book_image']) ) {
                      $input1['image']         =    $custom_fields['saswp_book_image'];
                     }
+                    if ( ! empty( $custom_fields['saswp_book_award'] ) ) {
+                        $input1['award'] =    $custom_fields['saswp_book_award'];
+                    }
                     if ( isset( $custom_fields['saswp_book_date_published']) ) {                        
                      $input1['datePublished'] =    gmdate('c',strtotime($custom_fields['saswp_book_date_published']));
                     }                    
@@ -1630,6 +1633,9 @@ Class SASWP_Output_Service{
                     }
                     if ( isset( $custom_fields['saswp_organization_parent_organization']) ) {
                         $input1['parentOrganization'] =    $custom_fields['saswp_organization_parent_organization'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_award'] ) ) {
+                        $input1['award'] =    $custom_fields['saswp_organization_award'];
                     }
 
                     $sameas = array();
@@ -5823,6 +5829,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_product_schema_image']) ) {
                      $input1['image'] =    $custom_fields['saswp_product_schema_image'];
                     }
+                    if ( ! empty( $custom_fields['saswp_product_schema_award'] ) ) {
+                        $input1['award'] =    $custom_fields['saswp_product_schema_award'];
+                    }
                     if ( isset( $custom_fields['saswp_product_schema_availability']) ) {
                      $input1['offers']['availability'] =    $custom_fields['saswp_product_schema_availability'];
                      if ( isset( $custom_fields['saswp_product_schema_url']) ) {
@@ -6645,6 +6654,9 @@ Class SASWP_Output_Service{
                     }
                     if ( isset( $custom_fields['saswp_service_schema_image']) ) {
                         $input1['image']    =    $custom_fields['saswp_service_schema_image'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_service_schema_award']) ) {
+                        $input1['award'] =    $custom_fields['saswp_service_schema_award'];
                     }
                     if ( isset( $custom_fields['saswp_service_schema_service_offer']) ) {
                       $input1['hasOfferCatalog'] =    $custom_fields['saswp_service_schema_service_offer'];

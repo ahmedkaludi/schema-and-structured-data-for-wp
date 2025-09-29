@@ -6637,6 +6637,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'    => 'text',
                             'default' => saswp_remove_warnings($product_details, 'product_review_count', 'saswp_string')
                         ),
+                        array(
+                            'label'   => 'Award',
+                            'id'      => 'saswp_product_schema_award_'.$schema_id,
+                            'type'    => 'text',                            
+                        ),
                     );
                     
                     break;
@@ -7119,7 +7124,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label' => 'Rating Count',
                                 'id'    => 'saswp_service_schema_rating_count_'.$schema_id,
                                 'type'  => 'text',                            
-                        )
+                        ),
+                        array(
+                                'label' => 'Award',
+                                'id'    => 'saswp_service_schema_award_'.$schema_id,
+                                'type'  => 'text',                            
+                        ),
                             
                     );
                     break;
@@ -11015,6 +11025,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'label'   => 'Rating Count',
                             'id'      => 'saswp_book_rating_count_'.$schema_id,
                             'type'    => 'text',                            
+                    ),
+                    array(
+                            'label'   => 'Award',
+                            'id'      => 'saswp_book_award_'.$schema_id,
+                            'type'    => 'text',                            
                     ),                                                                            
                    );
                     break;
@@ -11275,7 +11290,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'label'      => 'Mester Head',
                                 'id'         => 'saswp_organization_masthead_'.$schema_id,
                                 'type'       => 'text',
-                            ),    
+                            ), 
+                            array(
+                                'label'      => 'Award',
+                                'id'         => 'saswp_organization_award_'.$schema_id,
+                                'type'       => 'text',                            
+                            ),   
                                                                                         
                    );
                     break;
