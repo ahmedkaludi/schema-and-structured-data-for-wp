@@ -4199,7 +4199,7 @@ function saswp_site_navigation_output() {
                                  "@type"     => "SiteNavigationElement",
                                  "@id"       => trailingslashit( get_home_url() ) . '#' . sanitize_title( $items->title ),
                                  "name"      => wp_strip_all_tags($items->title),
-                                 "url"       => ( strpos( $items->url, 'http' ) === 0 ) ? $items->url : trailingslashit( get_home_url() ) . ltrim( $items->url, '/' ),
+                                 "url"       => ( strpos( $utm_response['url'], 'http' ) === 0 ) ? $utm_response['url'] : trailingslashit( get_home_url() ) . ltrim( $utm_response['url'], '/' ),
                           );
                         }
 
