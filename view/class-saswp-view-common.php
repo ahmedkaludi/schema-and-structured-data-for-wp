@@ -579,7 +579,7 @@ class SASWP_View_Common {
                                             
                                                 $meta_field_selected = '';
                                                 
-                                                if ( isset( $meta_value) ) {
+                                                if ( ! empty( $meta_value) && is_array( $meta_value ) ) {
                                                     
                                                     if(in_array($key, $meta_value) ) {
 

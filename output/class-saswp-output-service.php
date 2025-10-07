@@ -928,6 +928,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_book_image']) ) {
                      $input1['image']         =    $custom_fields['saswp_book_image'];
                     }
+                    if ( ! empty( $custom_fields['saswp_book_award'] ) ) {
+                        $input1['award'] =    $custom_fields['saswp_book_award'];
+                    }
                     if ( isset( $custom_fields['saswp_book_date_published']) ) {                        
                      $input1['datePublished'] =    gmdate('c',strtotime($custom_fields['saswp_book_date_published']));
                     }                    
@@ -1630,6 +1633,9 @@ Class SASWP_Output_Service{
                     }
                     if ( isset( $custom_fields['saswp_organization_parent_organization']) ) {
                         $input1['parentOrganization'] =    $custom_fields['saswp_organization_parent_organization'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_award'] ) ) {
+                        $input1['award'] =    $custom_fields['saswp_organization_award'];
                     }
 
                     $sameas = array();
@@ -5823,6 +5829,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_product_schema_image']) ) {
                      $input1['image'] =    $custom_fields['saswp_product_schema_image'];
                     }
+                    if ( ! empty( $custom_fields['saswp_product_schema_award'] ) ) {
+                        $input1['award'] =    $custom_fields['saswp_product_schema_award'];
+                    }
                     if ( isset( $custom_fields['saswp_product_schema_availability']) ) {
                      $input1['offers']['availability'] =    $custom_fields['saswp_product_schema_availability'];
                      if ( isset( $custom_fields['saswp_product_schema_url']) ) {
@@ -6646,6 +6655,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_service_schema_image']) ) {
                         $input1['image']    =    $custom_fields['saswp_service_schema_image'];
                     }
+                    if ( ! empty( $custom_fields['saswp_service_schema_award']) ) {
+                        $input1['award'] =    $custom_fields['saswp_service_schema_award'];
+                    }
                     if ( isset( $custom_fields['saswp_service_schema_service_offer']) ) {
                       $input1['hasOfferCatalog'] =    $custom_fields['saswp_service_schema_service_offer'];
                     }
@@ -7460,7 +7472,7 @@ Class SASWP_Output_Service{
                 case 'Person':      
                     
                     if ( isset( $custom_fields['saswp_person_schema_id']) ) {
-                     $input1['@id'] =    get_permalink().$custom_fields['saswp_person_schema_id'];
+                     $input1['@id'] =    $custom_fields['saswp_person_schema_id'];
                     }
                     if ( isset( $custom_fields['saswp_person_schema_name']) ) {
                      $input1['name'] =    $custom_fields['saswp_person_schema_name'];
@@ -7595,6 +7607,95 @@ Class SASWP_Output_Service{
                         $input1['hasOccupation']['mainEntityOfPage']['@type']         = 'WebPage'; 
                         $input1['hasOccupation']['mainEntityOfPage']['lastReviewed']  =    $custom_fields['saswp_person_schema_salary_last_reviewed'];
                     }                    
+                    if ( ! empty( $custom_fields['saswp_person_schema_alternate_name'] ) ) {
+                        $input1['alternateName']    =   $custom_fields['saswp_person_schema_alternate_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_additional_name'] ) ) {
+                        $input1['additionalName']   =   $custom_fields['saswp_person_schema_additional_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_given_name'] ) ) {
+                        $input1['givenName']        =   $custom_fields['saswp_person_schema_given_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_parent'] ) ) {
+                        $input1['parent']           =   $custom_fields['saswp_person_schema_parent'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_sibling'] ) ) {
+                        $input1['sibling']          =   $custom_fields['saswp_person_schema_sibling'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_colleague'] ) ) {
+                        $input1['colleague']        =   $custom_fields['saswp_person_schema_colleague'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_main_entity_of_page'] ) ) {
+                        $input1['mainEntityOfPage'] =   $custom_fields['saswp_person_schema_main_entity_of_page'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_sponsor'] ) ) {
+                        $input1['sponsor']          =   $custom_fields['saswp_person_schema_sponsor'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_seeks'] ) ) {
+                        $input1['seeks']            =   $custom_fields['saswp_person_schema_seeks'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_knows'] ) ) {
+                        $input1['knows']            =   $custom_fields['saswp_person_schema_knows'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_owns'] ) ) {
+                        $input1['owns']             =   $custom_fields['saswp_person_schema_owns'];
+                    }
+
+                    $perform_in = array();
+
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_name'] ) ) {
+                        $perform_in['name'] = $custom_fields['saswp_person_schema_performerin_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_location_name'] ) ) {
+                        $perform_in['location']['name'] = $custom_fields['saswp_person_schema_performerin_location_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_location_locality'] ) ) {
+                        $perform_in['location']['address']['addressLocality'] = $custom_fields['saswp_person_schema_performerin_location_locality'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_location_postal_code'] ) ) {
+                        $perform_in['location']['address']['postalCode'] = $custom_fields['saswp_person_schema_performerin_location_postal_code'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_location_street_address'] ) ) {
+                        $perform_in['location']['address']['streetAddress'] = $custom_fields['saswp_person_schema_performerin_location_street_address'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_offers_name'] ) ) {
+                        $perform_in['offers']['name'] = $custom_fields['saswp_person_schema_performerin_offers_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_offers_availability'] ) ) {
+                        $perform_in['offers']['availability'] = $custom_fields['saswp_person_schema_performerin_offers_availability'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_offers_price'] ) ) {
+                        $perform_in['offers']['price'] = $custom_fields['saswp_person_schema_performerin_offers_price'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_offers_currency'] ) ) {
+                        $perform_in['offers']['priceCurrency'] = $custom_fields['saswp_person_schema_performerin_offers_currency'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_offers_valid_from'] ) ) {
+                        $perform_in['offers']['validFrom'] = $custom_fields['saswp_person_schema_performerin_offers_valid_from'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_offers_url'] ) ) {
+                        $perform_in['offers']['url'] = $custom_fields['saswp_person_schema_performerin_offers_url'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_start_date'] ) ) {
+                        $perform_in['startDate'] = $custom_fields['saswp_person_schema_performerin_start_date'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_end_date'] ) ) {
+                        $perform_in['endDate'] = $custom_fields['saswp_person_schema_performerin_end_date'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_description'] ) ) {
+                        $perform_in['description'] = $custom_fields['saswp_person_schema_performerin_description'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_image'] ) ) {
+                        $perform_in['image'] = $custom_fields['saswp_person_schema_performerin_image'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_performer'] ) ) {
+                        $perform_in['performer']['@type'] = 'Person';
+                        $perform_in['performer']['name']  = $custom_fields['saswp_person_schema_performerin_performer'];
+                    }
+
+                    if ( ! empty( $perform_in) ) {
+                        $input1['performerIn'] = $perform_in;
+                    }
 
                     $sameas = array();
                     if ( isset( $custom_fields['saswp_person_schema_website']) ) {
@@ -7891,7 +7992,8 @@ Class SASWP_Output_Service{
                      $input1['validThrough'] =    $custom_fields['saswp_jobposting_schema_validthrough'];
                     }
                     if ( isset( $custom_fields['saswp_jobposting_schema_employment_type']) ) {
-                     $input1['employmentType'] =    $custom_fields['saswp_jobposting_schema_employment_type'];
+
+                     $input1['employmentType'] =    explode( ',', $custom_fields['saswp_jobposting_schema_employment_type'] );
                     }
                     if ( isset( $custom_fields['saswp_jobposting_schema_jobimmediatestart']) ) {
                      $input1['jobImmediateStart'] =    $custom_fields['saswp_jobposting_schema_jobimmediatestart'];
@@ -8646,8 +8748,8 @@ Class SASWP_Output_Service{
                     if ( ! empty( $custom_fields['saswp_profile_page_schema_performerin_offers_url'] ) ) {
                         $perform_in['offers']['url'] = $custom_fields['saswp_profile_page_schema_performerin_offers_url'];
                     }
-                    if ( ! empty( $custom_fields['saswp_person_schema_performerin_start_date'] ) ) {
-                        $perform_in['startDate'] = $custom_fields['saswp_person_schema_performerin_start_date'];
+                    if ( ! empty( $custom_fields['saswp_profile_page_schema_performerin_start_date'] ) ) {
+                        $perform_in['startDate'] = $custom_fields['saswp_profile_page_schema_performerin_start_date'];
                     }
                     if ( ! empty( $custom_fields['saswp_profile_page_schema_performerin_end_date'] ) ) {
                         $perform_in['endDate'] = $custom_fields['saswp_profile_page_schema_performerin_end_date'];
@@ -8844,6 +8946,23 @@ Class SASWP_Output_Service{
                             $input1['hasMeasurement']['value'] =    $custom_fields['saswp_certification_measurement_value'];
                         }
                     }   
+
+                break;
+
+                case 'Guide':
+
+                    if ( ! empty( $custom_fields['saswp_guide_name'] ) ) {
+                        $input1['name']                     =    $custom_fields['saswp_guide_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_guide_about'] ) ) {
+                        $input1['about']                    =    $custom_fields['saswp_guide_about'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_guide_text'] ) ) {
+                        $input1['text']                     =    $custom_fields['saswp_guide_text'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_guide_review_aspect'] ) && is_string( $custom_fields['saswp_guide_review_aspect'] ) ) {
+                        $input1['reviewAspect']             =    explode( ',', $custom_fields['saswp_guide_review_aspect'] );
+                    }
 
                 break;
                
