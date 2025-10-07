@@ -4197,15 +4197,15 @@ function saswp_site_navigation_output() {
                           $navObj[] = array(
                                  "@context"  => saswp_context_url(),
                                  "@type"     => "SiteNavigationElement",
-                                 "@id"       => get_home_url().'#'.$menu_name,
+                                 "@id"       => trailingslashit( get_home_url() ) . '#' . sanitize_title( $items->title ),
                                  "name"      => wp_strip_all_tags($items->title),
-                                 "url"       => esc_url($utm_response['url'])
+                                 "url"       => ( strpos( $items->url, 'http' ) === 0 ) ? $items->url : trailingslashit( get_home_url() ) . ltrim( $items->url, '/' ),
                           );
                         }
 
                 }                                                                                                                                                                                   
             }
-     
+            
             if($navObj){
 
                 $input['@context'] = saswp_context_url(); 
