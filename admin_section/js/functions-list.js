@@ -1629,9 +1629,24 @@
        }  
        
        function saswp_get_collection_data(rvcount, platform_id, current = null, review_id =  null, reviews_ids = null, platformPlace='all'){
+
+            let offsetCount = 0;
+            if ( saswp_collection[platform_id] && saswp_collection[platform_id].length > 0) {
+                offsetCount = saswp_collection[platform_id].length;  
+            }
+            if ( rvcount > 0 ) {
+                if ( rvcount <=  offsetCount ) {
+                    if(current){
+                        current.removeClass('updating-message');    
+                    }                              
+                    return;
+                }else{
+                    rvcount = rvcount - offsetCount;
+                }
+            }
            
             jQuery.get(ajaxurl, 
-                             { action:"saswp_add_to_collection", rvcount:rvcount, reviews_ids:reviews_ids, review_id:review_id, platform_id:platform_id,platform_place:platformPlace, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
+                             { action:"saswp_add_to_collection", rvcount:rvcount, reviews_ids:reviews_ids, review_id:review_id, platform_id:platform_id,platform_place:platformPlace,offsetCount:offsetCount, saswp_security_nonce:saswp_localize_data.saswp_security_nonce},
                              
                               function(response){                                  
                     
