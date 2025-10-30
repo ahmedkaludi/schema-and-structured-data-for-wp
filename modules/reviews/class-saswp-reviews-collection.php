@@ -356,6 +356,10 @@ class SASWP_Reviews_Collection {
             }
             $platform_id = isset($_GET['platform_id'])?intval($_GET['platform_id']):'';
             $rvcount     = isset($_GET['rvcount'])?intval($_GET['rvcount']):'';
+            $offset      = null;
+            if ( ! empty( $_GET['offsetCount'] ) ) {
+                $offset     =   intval( $_GET['offsetCount'] );    
+            }
             $review_id   = ''; 
             $attr        = array();
 
@@ -375,7 +379,7 @@ class SASWP_Reviews_Collection {
             }          
 
             if( $platform_id ||  isset($attr['in']) ){
-            $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters($attr, $platform_id, $rvcount, null, null, null, null, $platform_place); 
+            $reviews_list = $this->_service->saswp_get_reviews_list_by_parameters($attr, $platform_id, $rvcount, null, $offset, null, null, $platform_place); 
              
             if($reviews_list){
                 
@@ -1207,6 +1211,10 @@ class SASWP_Reviews_Collection {
                 
                 foreach( $post_meta as $meta_key => $meta_val){
                     
+                    if ( $meta_key === 'saswp_total_reviews' && empty( $meta_val ) ) {
+                        delete_post_meta( $post_id, $meta_key );
+                        continue;
+                    }
                     update_post_meta($post_id, $meta_key, $meta_val); 
                     
                 }

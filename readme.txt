@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.8
 Requires PHP: 5.6.20
-Stable tag: 1.51
+Stable tag: 1.52
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -131,6 +131,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.52 (30 October 2025) =
+* Fixed: Time issue with LiveBlogPosting schema #2371
+* Enhancement: Duplicate schema issue in the review collection #2372
+* Fixed: Code improvement #2376
+* Fixed: Vulnerability reported by Wordfence Security
 
 = 1.51 (07 October 2025) =
 * Feature: Add Guide schema type #2313

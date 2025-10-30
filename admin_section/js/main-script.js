@@ -4110,7 +4110,12 @@ jQuery(document).ready(function($){
                 var platform_id = $(this).attr('platform-id');                                                
                 saswp_collection.splice(platform_id, 1);                                      
                 $(this).parent().remove();
-                saswp_on_collection_design_change();  
+                saswp_on_collection_design_change();
+                
+                if ( saswp_total_collection.length === 0 ) {
+                    var html = '<input type="hidden" id="saswp_total_reviews_list" name="saswp_total_reviews" value="">';
+                    $(".saswp-total-reviews-list").html(html);   
+                } 
                                                
             });            
                                   
