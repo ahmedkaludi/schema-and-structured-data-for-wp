@@ -3105,7 +3105,7 @@ function saswp_schema_output() {
                         
                         global $without_aggregate;
                         
-                        if(!in_array($schema_type, $without_aggregate) && !empty($input1) ){ 
+                        if( ! empty( $without_aggregate ) && is_array( $without_aggregate ) && ! in_array( $schema_type, $without_aggregate ) && !empty( $input1 ) ){ 
                                                      
                                 
                                     if ( $schema_type == 'Review' || $schema_type == 'ReviewNewsArticle' || $schema_type == 'CriticReview' ) {
