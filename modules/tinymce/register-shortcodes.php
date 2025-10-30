@@ -146,25 +146,54 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
 
         if( !empty($saswp_tiny_multi_faq['elements']) ){
 
-            foreach ( $saswp_tiny_multi_faq['elements'] as $value) {
-                $validate_headings = array('h1','h2','h3','h4','h5','h6','p');
-                if(!in_array(strtolower($value['headline']), $validate_headings) ) {
-                    continue;
+            $shortcode_data             =   [];
+            $validate_headings          =   array('h1','h2','h3','h4','h5','h6','p');
+            $valid_units                =   array('pt', 'px', '%', 'em');
+            $structure                  =   [];
+            $structure['headline']      =   'h2';
+            $structure['fontsize']      =   '';
+            $structure['fontunit']      =   'px';
+            $structure['image']         =   0;
+            $structure['question']      =   '';
+            $structure['answer']        =   '';
+            
+            foreach ( $saswp_tiny_multi_faq['elements'] as $key => $value ) {
+
+                if ( ! empty( $value['headline'] ) && in_array( strtolower( $value['headline'] ), $validate_headings ) ) {
+                    $structure['headline']  =   $value['headline'];
                 }
+                if ( ! empty( $value['fontsize'] ) ) {
+                    $structure['fontsize']  =   intval( $value['fontsize'] );
+                }
+                if ( ! empty( $value['fontunit'] ) &&  in_array( $value['fontunit'], $valid_units ) ) {
+                    $structure['fontunit']  =   $value['fontunit'];
+                }
+                if ( ! empty( $value['image'] ) ) {
+                    $structure['image']     =   intval( $value['image'] );
+                }
+                if ( ! empty( $value['question'] ) ) {
+                    $structure['question']  =   $value['question'];
+                }
+                if ( ! empty( $value['answer'] ) ) {
+                    $structure['answer']    =   $value['answer'];
+                }
+
+                $value  =   $structure;
+
                 $title_css = '';
-                if ( isset( $value['fontsize']) && $value['fontsize'] > 0){
-                    if ( isset( $value['fontunit']) && is_string($value['fontunit']) ) {
-                        $valid_units = array('pt', 'px', '%', 'em');
-                        if(in_array($value['fontunit'], $valid_units) ) {
-                            $title_css = 'style=font-size:'.$value['fontsize'].$value['fontunit'].';';    
+                if ( isset( $value['fontsize'] ) && $value['fontsize'] > 0 ) {
+                    if ( isset( $value['fontunit'] ) && is_string( $value['fontunit'] ) ) {
+                        if ( in_array( $value['fontunit'], $valid_units ) ) {
+                            $title_css = 'style=font-size:'.esc_attr( $value['fontsize'] ) .esc_attr( $value['fontunit'] ) .';';    
                         }
                     }
                 }
+
                 $output .= '<section>';
                 $output .= '<summary>';
-                $output .= '<'.esc_html( $value['headline']).' '.esc_html( $title_css). '>';
-                $output .=  esc_html( $value['question']);
-                $output .= '</'.esc_html( $value['headline']).'>';
+                $output .= '<'.esc_html( $value['headline'] ).' '.esc_html( $title_css). '>';
+                $output .=  esc_html( $value['question'] );
+                $output .= '</'.esc_html( $value['headline'] ).'>';
                 $output .= '</summary>';
 
                 $output .= '<div>';
@@ -176,12 +205,12 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
                     
                     $output .= '<figure>';
                     // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-                    $output .= '<a href="'. esc_url( esc_url($image_thumburl)).'"><img class="saswp_tiny_faq_image" src="'. esc_url( $image_thumburl).'"></a>';
+                    $output .= '<a href="'. esc_url( esc_url( $image_thumburl ) ).'"><img class="saswp_tiny_faq_image" src="'. esc_url( $image_thumburl ).'"></a>';
                     $output .= '</figure>';
 
                 }
                 
-                $output .= '<div class="saswp_faq_tiny_content">'.esc_html( $value['answer']).'</div>';
+                $output .= '<div class="saswp_faq_tiny_content">'.esc_html( $value['answer'] ).'</div>';
                 
                 $output .= '</div>';
                 $output .= '</section>';
