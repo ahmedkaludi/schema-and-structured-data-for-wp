@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.52
+Version: 1.53
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SASWP_VERSION', '1.52' );
+define( 'SASWP_VERSION', '1.53' );
 define( 'SASWP_DIR_NAME_FILE', __FILE__ );
 define( 'SASWP_DIR_NAME', dirname( __FILE__ ) );
 define( 'SASWP_DIR_URI', plugin_dir_url( __FILE__ ) );
@@ -140,3 +140,48 @@ function saswp_add_plugin_meta_links( $meta_fields, $file ) {
     return $meta_fields;
     
   }
+
+  /* * BFCM Banner Integration
+ * Loads assets from assets/css and assets/js
+ */
+add_action('admin_enqueue_scripts', 'structured_data_enqueue_bfcm_assets');
+
+function structured_data_enqueue_bfcm_assets($hook) { 
+ 
+    if ( $hook !== 'saswp_page_structured_data_options' &&
+    get_current_screen()->post_type !== 'saswp' ) {
+    return;
+    }
+
+    // 2. define settings
+    $expiry_date_str = '2025-12-25 23:59:59'; 
+    $offer_link      = 'https://structured-data-for-wp.com/bfcm-2025/';
+
+    // 3. Expiry Check (Server Side)
+    if ( current_time('timestamp') > strtotime($expiry_date_str) ) {
+        return; 
+    }
+
+    // 4. Register & Enqueue CSS    
+    wp_enqueue_style(
+        'etoc-bfcm-style', 
+        SASWP_DIR_URI. 'admin_section/css/bfcm-style.css', 
+        array(), 
+        SASWP_VERSION
+    );
+
+    // 5. Register & Enqueue JS
+    wp_enqueue_script(
+        'etoc-bfcm-script', 
+        SASWP_DIR_URI. 'admin_section/js/bfcm-script.js', 
+        array('jquery'), // jQuery dependency
+        SASWP_VERSION, 
+        true 
+    );
+
+    // 6. Data Pass (PHP to JS)
+    wp_localize_script('etoc-bfcm-script', 'bfcmData', array(
+        'targetDate' => $expiry_date_str,
+        'offerLink'  => $offer_link
+    ));
+}
