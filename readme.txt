@@ -13,7 +13,7 @@ Schema & Structured Data adds Google Rich Snippets markup according to Schema.or
 
 Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
 
-[Home](https://structured-data-for-wp.com/) | [Help & Tech Support](https://structured-data-for-wp.com/contact-us/) | [Documentation](https://structured-data-for-wp.com/docs/  | [Pro version Features](https://structured-data-for-wp.com/pricing/)
+[Home](https://structured-data-for-wp.com/) | [Help & Tech Support](https://structured-data-for-wp.com/contact-us/) | [Documentation](https://structured-data-for-wp.com/docs/)  | [Pro version Features](https://structured-data-for-wp.com/pricing/)
 
 ### Features 
 
