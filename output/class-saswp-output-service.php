@@ -1580,6 +1580,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_organization_name']) ) {
                      $input1['name'] =    $custom_fields['saswp_organization_name'];
                     }
+                    if ( isset( $custom_fields['saswp_organization_legal_name']) ) {
+                     $input1['legalName'] =    $custom_fields['saswp_organization_legal_name'];
+                    }
                     if ( isset( $custom_fields['saswp_organization_description']) ) {
                      $input1['description'] =    $custom_fields['saswp_organization_description'];
                     }
@@ -1695,7 +1698,16 @@ Class SASWP_Output_Service{
                     }
                     if ( ! empty( $custom_fields['saswp_organization_masthead'] ) ) {
                         $input1['masthead']   =   $custom_fields['saswp_organization_masthead'];
-                    }                   
+                    }
+                    if ( ! empty( $custom_fields['saswp_organization_contact_point_type'] ) || ! empty( $custom_fields['saswp_organization_contact_point_telephone'] ) ) {
+                        $input1['contactPoint']['@type']               =   'ContactPoint';
+                        if ( ! empty( $custom_fields['saswp_organization_contact_point_type'] ) ) {
+                            $input1['contactPoint']['contactType']      =   $custom_fields['saswp_organization_contact_point_type'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_organization_contact_point_telephone'] ) ) {
+                            $input1['contactPoint']['telephone']        =   $custom_fields['saswp_organization_contact_point_telephone'];
+                        }
+                    }                                        
                                                     
                     break;     
                     
@@ -7730,7 +7742,7 @@ Class SASWP_Output_Service{
                     }
                     if($sameas){
                         $input1['sameAs'] = $sameas;
-                    }
+                    }                    
                     
                 break;
                                 
