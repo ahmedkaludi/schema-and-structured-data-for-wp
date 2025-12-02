@@ -2205,7 +2205,7 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
 }
 
 function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post_meta){
-    
+         
             $input1 = array();
             
             $checkIdPro = ((isset($all_post_meta['saswp_organization_id_'.$schema_id][0]) && $all_post_meta['saswp_organization_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_organization_id_'.$schema_id][0] : '');
@@ -2216,6 +2216,7 @@ function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post
                 $input1['@id']                      = $checkIdPro;  
             } 
             $input1['name']                         = saswp_remove_warnings($all_post_meta, 'saswp_organization_name_'.$schema_id, 'saswp_array');
+            $input1['legalName']                    = saswp_remove_warnings($all_post_meta, 'saswp_organization_legal_name_'.$schema_id, 'saswp_array');
             $input1['url']                          = saswp_remove_warnings($all_post_meta, 'saswp_organization_url_'.$schema_id, 'saswp_array');                            
             $input1['description']                  = saswp_remove_warnings($all_post_meta, 'saswp_organization_description_'.$schema_id, 'saswp_array');
             
@@ -2317,7 +2318,15 @@ function saswp_organization_schema_markup($schema_id, $schema_post_id, $all_post
         }
         if ( ! empty( $all_post_meta['saswp_organization_masthead_'.$schema_id][0] ) ) {
             $input1['masthead'] = saswp_remove_warnings( $all_post_meta, 'saswp_organization_masthead_'.$schema_id, 'saswp_array' );
+        }
+        if ( ! empty( $all_post_meta['saswp_organization_contact_point_telephone_'.$schema_id][0] ) ||  ! empty( $all_post_meta['saswp_organization_contact_point_type_'.$schema_id][0] )) {
+            $input1['contactPoint'] = array(
+                                        '@type' => 'ContactPoint',
+                                        'telephone' => saswp_remove_warnings( $all_post_meta, 'saswp_organization_contact_point_telephone_'.$schema_id, 'saswp_array' ),
+                                        'contactType' => saswp_remove_warnings( $all_post_meta, 'saswp_organization_contact_point_type_'.$schema_id, 'saswp_array' ),
+                                    );
         }                    
+        
         return $input1;
 }
 
@@ -2944,8 +2953,7 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 
         if ( ! empty( $perform_in) ) {
             $input1['performerIn'] = $perform_in;
-        }
-
+        }        
         return $input1;
 }
 

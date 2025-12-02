@@ -11106,6 +11106,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'         => 'saswp_organization_name_'.$schema_id,
                             'type'       => 'text',                           
                         ),
+                        array(
+                            'label'      => 'Legal Name',
+                            'id'         => 'saswp_organization_legal_name_'.$schema_id,
+                            'type'       => 'text',                           
+                        ),
                     array(
                             'label'      => 'Description',
                             'id'         => 'saswp_organization_description_'.$schema_id,
@@ -11181,6 +11186,16 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'         => 'saswp_organization_linkedin_'.$schema_id,
                                 'type'       => 'text',                           
                             ),
+                            array(
+                                'label'      => 'ContactPoint Type',
+                                'id'         => 'saswp_organization_contact_point_type_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                            array(
+                                'label'      => 'ContactPoint Telephone',
+                                'id'         => 'saswp_organization_contact_point_telephone_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),                            
                            array(
                                 'label'      => 'Threads',
                                 'id'         => 'saswp_organization_threads_'.$schema_id,

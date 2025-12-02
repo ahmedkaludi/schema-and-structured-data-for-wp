@@ -2,9 +2,9 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 1.52
+Stable tag: 1.53
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -12,6 +12,8 @@ Schema & Structured Data adds Google Rich Snippets markup according to Schema.or
 == Description ==
 
 Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
+
+[Home](https://structured-data-for-wp.com/) | [Help & Tech Support](https://structured-data-for-wp.com/contact-us/) | [Documentation](https://structured-data-for-wp.com/docs/)  | [Pro version Features](https://structured-data-for-wp.com/pricing/)
 
 ### Features 
 
@@ -93,7 +95,23 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 
 ### Extensions
 
-Some useful extensions to extend Schema & Structured Data for WP & AMP features, check [Woocommerce Compatibility For Schema](https://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/), [Cooked Compatibility For Schema](https://structured-data-for-wp.com/extensions/cooked-compatibility-for-schema/) and We are going to add more.
+Some useful extensions to extend Schema & Structured Data for WP & AMP features
+
+1. [Woocommerce Compatibility For Schema](https://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/) 
+2. [WPML Schema Compatibility](https://structured-data-for-wp.com/wpml-schema-compatibility/) 
+3. [Polylang Compatibility For SASWP](https://structured-data-for-wp.com/polylang-compatibility-for-saswp)
+4. [FAQ Schema Compatibility](https://structured-data-for-wp.com/faq-schema-compatibility/)
+5. [Event Schema](https://structured-data-for-wp.com/event-schema/)
+6. [Google News Schema Setup](https://structured-data-for-wp.com/services/google-news-schema-setup/)
+7. [Show Business Reviews in Google SERP!](https://structured-data-for-wp.com/reviews-for-schema)
+8. [Classifieds Plugin Compatibility](https://structured-data-for-wp.com/classifieds-plugin-compatibility/)
+9. [1-Click Indexing API Integration](https://structured-data-for-wp.com/1-click-indexing-api-integration/)
+10. [JobPosting Schema Compatibility](https://structured-data-for-wp.com/jobposting-schema-compatibility/)
+11. [Recipe Schema](https://structured-data-for-wp.com/recipe-schema/)
+12. [Course Schema](https://structured-data-for-wp.com/course-schema/)
+13. [Real Estate Schema](https://structured-data-for-wp.com/extensions/real-estate-schema/)
+14. [Q&A Schema Compatibility](https://structured-data-for-wp.com/qanda-schema-for-saswp/)
+15. [WooCommerce Compatibility for Schema](https://structured-data-for-wp.com/extensions/woocommerce-compatibility-for-schema/)
 
 ### Support
 
@@ -131,6 +149,11 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.53 (28 November 2025) =
+* Promotion Banner BFCM #2386
+* Added Fields: legalName, contactPoint to the Organization schema #2385
+* Tested Upto WordPress 6.9.
 
 = 1.52 (30 October 2025) =
 * Fixed: Time issue with LiveBlogPosting schema #2371
