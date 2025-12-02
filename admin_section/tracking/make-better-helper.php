@@ -117,14 +117,12 @@ add_action( 'wp_ajax_saswp_send_feedback', 'saswp_send_feedback' );
 add_action( 'admin_enqueue_scripts', 'saswp_enqueue_makebetter_email_js' );
 
 function saswp_enqueue_makebetter_email_js() {
- 
-    if( ! is_admin() && ! saswp_is_plugins_page() ) {
-        return;
+
+    if ( is_admin() && saswp_is_plugins_page() ) {
+        wp_enqueue_script( 'saswp-make-better-js', SASWP_DIR_URI . '/admin_section/tracking/make-better-admin.js', array( 'jquery' ), SASWP_VERSION, true );
+
+        wp_enqueue_style( 'saswp-make-better-css', SASWP_DIR_URI . '/admin_section/tracking/make-better-admin.css', false , SASWP_VERSION );
     }
-
-    wp_enqueue_script( 'saswp-make-better-js', SASWP_DIR_URI . '/admin_section/tracking/make-better-admin.js', array( 'jquery' ), SASWP_VERSION, true );
-
-    wp_enqueue_style( 'saswp-make-better-css', SASWP_DIR_URI . '/admin_section/tracking/make-better-admin.css', false , SASWP_VERSION );
 }
 
 add_filter( 'admin_footer', 'saswp_add_deactivation_feedback_modal' );
