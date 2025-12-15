@@ -55,8 +55,6 @@ class SASWP_Review_Feature_Frontend {
 			//Create the rating interface.
 			add_filter( 'comment_text', 'saswp_comment_rating_display_rating', 10, 2);
 			add_action( 'comment_form_before', 'saswp_comment_rating_display_average_rating' );
-		}else{
-			add_action( 'comment_form_top', 'saswp_comment_rating_rating_field' );
 		}
 
 
