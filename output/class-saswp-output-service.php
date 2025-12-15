@@ -3287,6 +3287,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_blogposting_inlanguage']) ) {
                         $input1['inLanguage'] =    $custom_fields['saswp_blogposting_inlanguage'];
                     }
+                    if ( isset( $custom_fields['saswp_blogposting_keywords']) ) {
+                        $input1['keywords'] =    $custom_fields['saswp_blogposting_keywords'];
+                    }
                     if ( isset( $custom_fields['saswp_blogposting_headline']) ) {
                      $input1['headline'] =    $custom_fields['saswp_blogposting_headline'];
                     }
