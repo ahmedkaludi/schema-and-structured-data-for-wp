@@ -97,7 +97,7 @@ function saswp_tiny_howto_render( $atts, $content = null ){
                         
                         $output .= '<figure>';
                         // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-                        $output .= '<a href="'. esc_url( esc_url($image_thumburl)).'"><img class="saswp_tiny_howto_image" src="'. esc_url( $image_thumburl).'"></a>';
+                        $output .= '<a href="'. esc_url( $image_thumburl ).'"><img class="saswp_tiny_howto_image" src="'. esc_url( $image_thumburl).'"></a>';
                         $output .= '</figure>';
     
                     }
@@ -205,7 +205,7 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
                     
                     $output .= '<figure>';
                     // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-                    $output .= '<a href="'. esc_url( esc_url( $image_thumburl ) ).'"><img class="saswp_tiny_faq_image" src="'. esc_url( $image_thumburl ).'"></a>';
+                    $output .= '<a href="'. esc_url( $image_thumburl ).'"><img class="saswp_tiny_faq_image" src="'. esc_url( $image_thumburl ).'"></a>';
                     $output .= '</figure>';
 
                 }
@@ -260,7 +260,7 @@ function saswp_tiny_faq_render( $atts, $content = null ){
                 
                 $output .= '<figure>';
                 // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-                $output .= '<a href="'. esc_url( esc_url($image_thumburl)).'"><img class="saswp_tiny_faq_image" src="'. esc_url( $image_thumburl).'"></a>';
+                $output .= '<a href="'. esc_url( $image_thumburl ).'"><img class="saswp_tiny_faq_image" src="'. esc_url( $image_thumburl).'"></a>';
                 $output .= '</figure>';
 
             }
