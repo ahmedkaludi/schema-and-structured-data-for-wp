@@ -915,50 +915,74 @@ class SASWP_Reviews_Service {
         return $response;
     }
     
-    public function saswp_sort_collection($collection, $sorting){
-             
+    public function saswp_sort_collection($collection, $sorting){  
+  
          if($collection){
                
                switch($sorting){
                     
                 case 'lowest':
-                    
-                        usort($collection, function($a, $b) {                            
-                                return (((float)$a['saswp_review_rating']) - ((float)$b['saswp_review_rating']));
-                        });
-                                                
-                        break;
-                    
-                case 'highest':
-                    
-                        usort($collection, function($a, $b) {
-                                return ( ((float)$a['saswp_review_rating']) - ((float)$b['saswp_review_rating']));
-                        });
-                        
-                        $collection = array_reverse($collection);
-                        
-                        break;
-                        
-               case 'newest':
-               case 'recent':
-                   
-                        usort($collection, function($a, $b) {                            
-                                return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);                            
-                            
-                        });
-                        
-                        $collection = array_reverse($collection);
-                                                                                                             
+
+                    usort($collection, function ($a, $b) {
+                        $ratingA = isset($a['saswp_review_rating']) ? (float) $a['saswp_review_rating'] : 0;
+                        $ratingB = isset($b['saswp_review_rating']) ? (float) $b['saswp_review_rating'] : 0;
+
+                        if ($ratingA == $ratingB) {
+                            return 0;
+                        }
+
+                        return ($ratingA > $ratingB) ? 1 : -1; // ASC
+                    });
+
                     break;
-                    
-               case 'oldest':
-                   
-                        usort($collection, function($a, $b) {                            
-                                return strtotime($a['saswp_review_date']) - strtotime($b['saswp_review_date']);                                                        
-                        });
-                                                                                                                                                           
-                    break; 
-                
+
+
+                case 'highest':
+
+                    usort($collection, function ($a, $b) {
+                        $ratingA = isset($a['saswp_review_rating']) ? (float) $a['saswp_review_rating'] : 0;
+                        $ratingB = isset($b['saswp_review_rating']) ? (float) $b['saswp_review_rating'] : 0;
+
+                        if ($ratingA == $ratingB) {
+                            return 0;
+                        }
+
+                        return ($ratingA < $ratingB) ? 1 : -1; // DESC
+                    });
+
+                    break;
+                        
+                case 'newest':
+                case 'recent':
+
+                    usort($collection, function ($a, $b) {
+                        $dateA = ! empty($a['saswp_review_date']) ? strtotime($a['saswp_review_date']) : 0;
+                        $dateB = ! empty($b['saswp_review_date']) ? strtotime($b['saswp_review_date']) : 0;
+
+                        if ($dateA == $dateB) {
+                            return 0;
+                        }
+
+                        return ($dateA < $dateB) ? 1 : -1; // DESC
+                    });
+
+                    break;
+
+                case 'oldest':
+
+                    usort($collection, function ($a, $b) {
+                        $dateA = ! empty($a['saswp_review_date']) ? strtotime($a['saswp_review_date']) : 0;
+                        $dateB = ! empty($b['saswp_review_date']) ? strtotime($b['saswp_review_date']) : 0;
+
+                        if ($dateA == $dateB) {
+                            return 0;
+                        }
+
+                        return ($dateA > $dateB) ? 1 : -1; // ASC
+                    });
+
+                    break;
+
                 case 'random':
                     
                        shuffle($collection);

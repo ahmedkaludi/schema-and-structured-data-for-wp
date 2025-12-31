@@ -282,6 +282,32 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                'id'      => 'local_business_employee_'.$schema_id,
                                'type'    => 'textarea',
                                'note'    => 'Note: If There are more than one employee. Separate employee list by comma ( , )'                                   
+                       );  
+                       $meta_field[] = array(
+                               'label'   => 'Hospital Affiliation Name',
+                               'id'      => 'local_business_han_'.$schema_id,
+                               'type'    => 'text',                                   
+                       );                                                
+                       $meta_field[] = array(
+                               'label'   => 'Hospital Affiliation URL',
+                               'id'      => 'local_business_hau_'.$schema_id,
+                               'type'    => 'text',                                   
+                       );  
+                       $meta_field[] = array(
+                               'label'   => 'Medical Specialty',
+                               'id'      => 'local_business_medical_speciality_'.$schema_id,
+                               'type'    => 'text',   
+                               'note'    => 'Note: If There are more than one medical speciality. Separate medical speciality list by comma ( , )',                        
+                       );                                               
+                       $meta_field[] = array(
+                               'label'   => 'Occupational Category',
+                               'id'      => 'local_business_occupational_category_'.$schema_id,
+                               'type'    => 'text',                        
+                       );   
+                       $meta_field[] = array(
+                               'label'   => 'USNPI',
+                               'id'      => 'local_business_usnpi_'.$schema_id,
+                               'type'    => 'text',                        
                        );                                                
                         $meta_field[] =   array(
                             'label' => 'Facebook',

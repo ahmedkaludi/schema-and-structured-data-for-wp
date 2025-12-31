@@ -146,7 +146,10 @@ return array( 'schema_type_element' => array(
 			    ),
 			    'Vehicle' => array(
 					'vehicle-engine'  => 'vehicle_engine',
-			    )
+			    ),
+			    'local_business' => array(
+                               'available_service' => 'available_service',                                                
+                        ),
 						                                                                          
                     ),
     'meta_name' => array(
@@ -1359,7 +1362,18 @@ return array( 'schema_type_element' => array(
 				'type'      => 'text',                        
 			),
 		),
-
+		'available_service' 	=>	array(
+			array(
+				'label'     => 'Type',
+				'name'      => 'saswp_local_business_as_type',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => 'Name',
+				'name'      => 'saswp_local_business_as_name',
+				'type'      => 'text',                        
+			),
+		),
 		                    
         )    
 );

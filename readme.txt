@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 1.53
+Stable tag: 1.54
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.54 (31 December 2025) =
+* Fixed: Heading and description translation issue in schema due to incomatibility with tranlatepress #2373
+* Feature: Added more fields in Physician schema #2375
+* Fixed: Double star rating options appearing in comment box when enabling comment rating module #2378
+* Fixed: Keywords field not working with blog posting schema #2381
+* Feature: Added compatibility for Capterra platform #2382
+* Fixed: Removed promotion banner BFCM #2386
+* Feature: Added compatibility for Meta Box #2388
+* Fixed: Issue with course schema #2391
+* Fixed: Review collection sorting issue #2392
 
 = 1.53 (28 November 2025) =
 * Promotion Banner BFCM #2386
@@ -325,20 +336,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Feature: Added compatibility with Discout Rules plugin #2190
 * Fixed: Issue with Taxonomy placement setup #2191
 * Fixed: ACF time picker conflict issue in block editor #2195
-
-= 1.36 (18 September 2024) =
-* Feature: Added URL Parameter placement to targer URL's #2117
-* Enhancement: Categories text appears in headline fields #2155
-* Fixed: Conflict between the DiscussionForumPosting schema placement and the wpForo plugin #2157
-* Enhancement: Removed the Article type from webpages schema #2158
-* Feature: Added missing field in car schema #2159
-* Feature: Jackrabbit compatibility with course and event schema #2163
-* Feature: Added compatibility with the WP Job Board Pro plugin #2166
-* Fixed: Warnings appearing on user end #2167
-* Fixed: Time picker issue with plugin Advanced Custom Fields in the Admin mode #2173
-* Feature: Added compatability for ACF CPT with JobPosting schema #2174
-* Enhancement: Delete files after importing settings #2176
-* Enhancement: Fixed GTIN12 issue with the product schema for variable products #2180
-* Fixed: Comments was not appears in Recipes #2182
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

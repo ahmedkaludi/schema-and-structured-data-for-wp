@@ -2055,6 +2055,40 @@ function saswp_local_business_schema_markup($schema_id, $schema_post_id, $all_po
                 if ( isset( $all_post_meta['local_business_employee_'.$schema_id][0]) ) {                    
                     $input1['employee'] = saswp_explode_comma_seprated( $all_post_meta['local_business_employee_'.$schema_id][0], 'Person' );
                 }
+                if ( ! empty( $all_post_meta['local_business_han_'.$schema_id][0] ) || ! empty( $all_post_meta['local_business_hau_'.$schema_id][0] ) ) { 
+
+                    $input1['hospitalAffiliation']['@type'] = 'Hospital';
+                    if ( ! empty( $all_post_meta['local_business_han_'.$schema_id][0] ) ) {
+                        $input1['hospitalAffiliation']['name']  =   saswp_remove_warnings( $all_post_meta, 'local_business_han_'.$schema_id, 'saswp_array' );
+                    }
+                    if ( ! empty( $all_post_meta['local_business_hau_'.$schema_id][0] ) ) {
+                        $input1['hospitalAffiliation']['url']  =   saswp_remove_warnings( $all_post_meta, 'local_business_hau_'.$schema_id, 'saswp_array' );
+                    }                   
+                }
+                if ( ! empty( $all_post_meta['local_business_medical_speciality_'.$schema_id][0] ) && is_string( $all_post_meta['local_business_medical_speciality_'.$schema_id][0] ) ) {                    
+                    $input1['medicalSpecialty'] = explode( ',', $all_post_meta['local_business_medical_speciality_'.$schema_id][0] );
+                }
+                if ( ! empty( $all_post_meta['local_business_occupational_category_'.$schema_id][0] ) ) {                    
+                    $input1['occupationalCategory'] = saswp_remove_warnings( $all_post_meta, 'local_business_occupational_category_'.$schema_id, 'saswp_array' );
+                }
+                if ( ! empty( $all_post_meta['local_business_usnpi_'.$schema_id][0] ) ) {                    
+                    $input1['usNPI'] = saswp_remove_warnings( $all_post_meta, 'local_business_usnpi_'.$schema_id, 'saswp_array' );   
+                }
+                $local_as = array();
+                $available_services  = get_post_meta( $schema_post_id, 'available_service_'.$schema_id, true );
+                if ( ! empty( $available_services ) && is_array( $available_services ) ) {
+                    foreach ( $available_services as $service ) {
+                        if ( ! empty( $service ) && is_array( $service ) ) {
+                            $local_as[] = array(
+                                            '@type'     =>  isset( $service['saswp_local_business_as_type'] ) ? $service['saswp_local_business_as_type'] : '',
+                                            'name'     =>  isset( $service['saswp_local_business_as_name'] ) ? $service['saswp_local_business_as_name'] : '', 
+                                            );
+                        }
+                    }
+                }
+                if ( ! empty( $local_as ) ) {
+                    $input1['availableService'] = $local_as;    
+                }
 
                 if ( isset( $all_post_meta['local_service_offered_name_'.$schema_id][0]) ) {                    
                     $input1['makesOffer']['@type'] = 'Offer';

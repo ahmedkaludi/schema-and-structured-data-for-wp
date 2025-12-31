@@ -2497,6 +2497,23 @@ function saswp_fields_and_type($data_type = 'value'){
             }            
                             
         }
+
+        if ( ! empty( $sd_data['saswp-translatepress'] ) && class_exists( 'TRP_Translate_Press' ) ) {
+            if ( ! empty( $post ) && ! empty( $post->ID ) ) {
+                $excerpt  =   saswp_get_trp_translated_field_from_db( $post->ID, 'post_excerpt' );
+                if ( empty( $excerpt ) ) {
+
+                    $post_excerpt_content  =   saswp_get_the_content();
+
+                    $post_content = wp_strip_all_tags( strip_shortcodes( $post_excerpt_content ) ); 
+                    $post_content = preg_replace( '/\[.*?\]/','', $post_content );
+
+                    $excerpt_length = apply_filters( 'excerpt_length', 55 );                        
+                    $excerpt_more = '';
+                    $excerpt      = wp_trim_words( $post_content, $excerpt_length, $excerpt_more );
+                }
+            }  
+        }
             
         }
            
@@ -2699,6 +2716,12 @@ function saswp_fields_and_type($data_type = 'value'){
 
             }
         
+        }
+
+        if ( ! empty( $sd_data['saswp-translatepress'] ) && class_exists( 'TRP_Translate_Press' ) ) {
+            if ( ! empty( $post ) && ! empty( $post->ID ) ) {
+                $title  =   saswp_get_trp_translated_field_from_db( $post->ID, 'post_title' );
+            }  
         }
         
         if( isset($sd_data['saswp-full-heading']) && $sd_data['saswp-full-heading'] == 1 ){
@@ -5361,76 +5384,221 @@ function saswp_delete_uploaded_file( $url ){
  * @since   1.40
  * */
 add_filter( 'saswp_the_content', 'saswp_filter_translatepress_content' );
-function saswp_filter_translatepress_content( $content ){
+
+function saswp_filter_translatepress_content( $content ) {
 
     global $sd_data, $wpdb, $TRP_LANGUAGE;
 
-    $search     =   array( '&#8216;', '&#8217;', '&#8220;', '&#8221;', '&#8211;' );
-    $replace    =   array( '\'', '\'', '"', '"', '-' );
+    if ( empty( $content ) || empty( $sd_data['saswp-translatepress'] ) || ! class_exists( 'TRP_Translate_Press' ) ) {
+        return $content;
+    }
 
-    if ( ! empty( $sd_data['saswp-translatepress'] ) && class_exists( 'TRP_Translate_Press' ) ) {
-            
-        $trp_settings           =   get_option( 'trp_settings', false ); 
-        $default_language       =   '';
-        if ( isset( $trp_settings['default-language'] ) ) {
-            $default_language   =   $trp_settings['default-language'];      
-        }   
+    $settings = get_option( 'trp_settings', [] );
+    $default_lang = $settings['default-language'] ?? '';
 
-        if ( ! empty( $TRP_LANGUAGE ) && ! empty( $default_language ) && $TRP_LANGUAGE !== $default_language ) {
+    if ( empty( $TRP_LANGUAGE ) || $TRP_LANGUAGE === $default_lang ) {
+        return $content;
+    }
 
-            $trp_meta_table     =   $wpdb->prefix.'trp_original_meta';
-            $post_id            =   get_the_ID();
+    $post_id = get_the_ID();
+    if ( ! $post_id ) {
+        return $content;
+    }
 
-            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-            $meta_table         =  $wpdb->get_var( "SHOW TABLES LIKE '$trp_meta_table'" ); 
+    $cache_key = 'saswp_schema_trp_' . $post_id . '_' . $TRP_LANGUAGE;
+    $cached = wp_cache_get( $cache_key, 'saswp' );
 
-            if ( $trp_meta_table == $meta_table ) {
+    if ( false !== $cached ) {
+        return $cached;
+    }
 
-                 // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-                $results            =   $wpdb->get_results( $wpdb->prepare( "SELECT original_id FROM {$trp_meta_table} WHERE meta_value = %d ORDER BY meta_id", $post_id ) );
+    $search     =   [ '&#8216;', '&#8217;', '&#8220;', '&#8221;', '&#8211;' ];
+    $replace    =   [ '\'', '\'', '"', '"', '-' ];
 
-                if ( ! empty( $results ) && is_array( $results ) ) {
+    $meta_table = $wpdb->prefix . 'trp_original_meta';
+    $dict_table = $wpdb->prefix . 'trp_dictionary_' . strtolower( $default_lang ) . '_' . strtolower( $TRP_LANGUAGE );
 
-                    $translate_table =  $wpdb->prefix.'trp_dictionary_'.strtolower( $default_language ).'_'.strtolower( $TRP_LANGUAGE );      
-                     // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-                    $dictinary_table =  $wpdb->get_var( "SHOW TABLES LIKE '$translate_table'" ); 
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+    if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $meta_table ) ) !== $meta_table ) {
+        return $content;
+    }
 
-                    if ( $translate_table == $dictinary_table ) {
-                        
-                        foreach ( $results as $original ) {
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+    if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $dict_table ) ) !== $dict_table ) {
+        return $content;
+    }
 
-                            if ( is_object( $original ) && ! empty( $original->original_id ) ) {
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+    $translations = $wpdb->get_results(
+        $wpdb->prepare(
+            "
+            SELECT d.original, d.translated
+            FROM {$meta_table} m
+            INNER JOIN {$dict_table} d
+                ON d.original_id = m.original_id
+            WHERE m.meta_value = %d
+            ",
+            $post_id
+        )
+    );
 
-                                 // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-                                $translated_data     =   $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$translate_table} WHERE original_id = %d",  $original->original_id ) );
-                                
-                                if ( ! empty( $translated_data ) && ! empty( $translated_data->translated ) ) {
+    if ( empty( $translations ) ) {
+        wp_cache_set( $cache_key, $content, 'saswp', HOUR_IN_SECONDS );
+        return $content;
+    }
 
-                                    $original_data  =   $translated_data->original;
-                                    $original_data  =   str_replace( $search, $replace, $original_data );
-                                    
-                                    $pos = strpos( $content, $original_data );
-                                    
-                                    if ( $pos !== false) {
-                                        $content    =   substr_replace( $content, $translated_data->translated, $pos, strlen( $original_data ) );
-                                    }
-
-                                }
-
-                            }
-                        }
-                    }
-     
-                }
-            }
-
+    foreach ( $translations as $row ) {
+        if ( empty( $row->original ) || empty( $row->translated ) ) {
+            continue;
         }
 
-    } 
-      
-    return $content;
+        $original = str_replace( $search, $replace, $row->original );
 
+        if ( strpos( $content, $original ) !== false ) {
+            $content = str_replace( $original, $row->translated, $content );
+        }
+    }
+
+    wp_cache_set( $cache_key, $content, 'saswp', HOUR_IN_SECONDS );
+
+    return $content;
 }
+
+/**
+ * Clear translate press cache when post updates
+ * @param   $post_id    int
+ * @param   $post       WP_Post
+ * @since   1.54
+ * */
+add_action( 'save_post', 'saswp_clear_trp_schema_translation_cache', 10, 2 );
+
+function saswp_clear_trp_schema_translation_cache( $post_id, $post ) {
+
+    // Autosave / revision safety
+    if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+        return;
+    }
+
+    // TranslatePress settings
+    $settings = get_option( 'trp_settings', [] );
+    if ( empty( $settings['publish-languages'] ) ) {
+        return;
+    }
+
+    foreach ( $settings['publish-languages'] as $lang ) {
+        $cache_key = 'saswp_schema_trp_' . $post_id . '_' . $lang;
+        wp_cache_delete( $cache_key, 'saswp' );
+    }
+}
+
+/**
+ * Fetch translatepress field translation from DB
+ * @param   $post_id    int
+ * @param   $field      string 
+ * @return  $translated string
+ * @since   1.54
+ * */
+function saswp_get_trp_translated_field_from_db( $post_id, $field ) {
+    global $wpdb;
+
+    if ( ! in_array( $field, [ 'post_title', 'post_excerpt', 'post_content' ], true ) ) {
+        return '';
+    }
+
+    // Fetch original value
+    $original = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT {$field} FROM {$wpdb->posts} WHERE ID = %d LIMIT 1",
+            $post_id
+        )
+    );
+
+    if ( empty( $original ) ) {
+        return '';
+    }
+
+    // TranslatePress settings
+    $settings = get_option( 'trp_settings', [] );
+    $default_lang = $settings['default-language'] ?? '';
+    $languages    = $settings['publish-languages'] ?? [];
+
+    // Detect current language safely
+    $current_lang = saswp_detect_trp_language();
+    
+    if ( empty( $current_lang ) || $current_lang === $default_lang ) {
+        return $original;
+    }
+
+    // Cache
+    $cache_key = 'saswp_trp_db_' . $post_id . '_' . $field . '_' . $current_lang;
+    $cached = wp_cache_get( $cache_key, 'saswp' );
+
+    if ( false !== $cached ) {
+        return $cached;
+    }
+
+    $dictionary_table = $wpdb->prefix . 'trp_dictionary_' . strtolower( $default_lang ) . '_' . strtolower( $current_lang );
+
+    // Table existence check
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+    if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $dictionary_table ) ) !== $dictionary_table ) {
+        return $original;
+    }
+
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+    $translated = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT translated FROM {$dictionary_table} WHERE original = %s LIMIT 1",
+            $original
+        )
+    );
+
+    if ( empty( $translated ) ) {
+        wp_cache_set( $cache_key, $original, 'saswp', HOUR_IN_SECONDS );
+        return $original;
+    }
+
+    wp_cache_set( $cache_key, $translated, 'saswp', HOUR_IN_SECONDS );
+    
+    return $translated;
+}
+
+/**
+ * Get current language of translate press as it is not available in global
+ * @since 1.54
+ * */
+function saswp_detect_trp_language() {
+
+    $slug = '';
+
+    if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
+        $uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+        $uri = trim( $uri, '/' );
+
+        $parts = explode( '/', $uri );
+
+        if ( ! empty( $parts[1] ) && strlen( $parts[1] ) === 2 ) {
+            $slug =  sanitize_key( $parts[1] );
+        }
+    }
+
+    $settings = get_option( 'trp_settings', [] );
+
+    if ( empty( $settings['publish-languages'] ) ) {
+        return $settings['default-language'] ?? '';
+    }
+
+    // Match slug with published languages
+    foreach ( $settings['publish-languages'] as $locale ) {
+        if ( strtolower( substr( $locale, 0, 2 ) ) === $slug ) {
+            return $locale;
+        }
+    }
+
+    $settings = get_option( 'trp_settings', [] );
+    return $settings['default-language'] ?? '';
+}
+
 
 /**
  * Modify product name product in schema markup

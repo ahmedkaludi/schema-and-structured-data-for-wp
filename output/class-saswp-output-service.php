@@ -3184,7 +3184,26 @@ Class SASWP_Output_Service{
                     }
                     if ( isset( $custom_fields['local_business_employee']) ) {
                         $input1['employee'] =    saswp_explode_comma_seprated($custom_fields['local_business_employee'], 'Person');
-                    }                    
+                    }  
+                    if ( ! empty( $custom_fields['local_business_han'] ) || ! empty( $custom_fields['local_business_hau'] ) ) { 
+
+                        $input1['hospitalAffiliation']['@type'] = 'Hospital';
+                        if ( ! empty( $custom_fields['local_business_han'] ) ) {
+                            $input1['hospitalAffiliation']['name']  =   $custom_fields['local_business_han']; 
+                        }
+                        if ( ! empty( $custom_fields['local_business_hau'] ) ) {
+                            $input1['hospitalAffiliation']['url']  =   $custom_fields['local_business_hau']; 
+                        }
+                    }
+                    if ( ! empty( $custom_fields['local_business_medical_speciality'] ) && is_string( $custom_fields['local_business_medical_speciality'] ) ) {                    
+                        $input1['medicalSpecialty'] = explode( ',', $custom_fields['local_business_medical_speciality'] );
+                    }
+                    if ( ! empty( $custom_fields['local_business_occupational_category'] ) ) {                    
+                        $input1['occupationalCategory'] = $custom_fields['local_business_occupational_category'];
+                    }
+                    if ( ! empty( $custom_fields['local_business_usnpi'] ) ) {                    
+                        $input1['usNPI'] = $custom_fields['local_business_usnpi'];
+                    }                  
                     if ( isset( $custom_fields['local_phone']) ) {
                      $input1['telephone'] =    $custom_fields['local_phone'];
                     }
@@ -3286,6 +3305,9 @@ Class SASWP_Output_Service{
                     }
                     if ( isset( $custom_fields['saswp_blogposting_inlanguage']) ) {
                         $input1['inLanguage'] =    $custom_fields['saswp_blogposting_inlanguage'];
+                    }
+                    if ( isset( $custom_fields['saswp_blogposting_keywords']) ) {
+                        $input1['keywords'] =    $custom_fields['saswp_blogposting_keywords'];
                     }
                     if ( isset( $custom_fields['saswp_blogposting_headline']) ) {
                      $input1['headline'] =    $custom_fields['saswp_blogposting_headline'];
