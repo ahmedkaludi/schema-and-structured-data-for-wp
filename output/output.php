@@ -3079,6 +3079,37 @@ function saswp_schema_output() {
                                 $input1 = apply_filters( 'saswp_modify_guide_final_schema_output', $input1 );
                                 
                             break;
+
+                            case 'WebSite':
+
+                            $input1['@context'] = saswp_context_url();
+                            $input1['@type']    = 'WebSite';
+                            $input1['@id']      = home_url().'#WebSite';  
+                            $input1['name']     = get_bloginfo( 'name' );
+                            $input1['url']      = home_url();
+
+                            // Default Search Action for global output
+                            $input1['potentialAction'] = array(
+                                '@type'       => 'SearchAction',
+                                'target'      => array(
+                                    '@type'       => 'EntryPoint',
+                                    'urlTemplate' => home_url( '/?s={search_term_string}' ),
+                                ),
+                                'query-input' => 'required name=search_term_string',
+                            );
+
+                            $input1 = apply_filters( 'saswp_modify_website_schema_output', $input1 );
+
+                            $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
+                            
+                            if( $modified_schema == 1 ){
+                                
+                                $input1 = saswp_website_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
+                            }
+
+                            $input1 = apply_filters( 'saswp_modify_website_final_schema_output', $input1 );
+                            
+                            break;
                             
                             default:
                                 break;

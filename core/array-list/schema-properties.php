@@ -12888,6 +12888,30 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                     break;
 
+                    case 'WebSite':
+                    $meta_field = array(
+                        array(
+                            'label'   => 'Name',
+                            'id'      => 'saswp_website_name_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => get_bloginfo( 'name' ),
+                        ),
+                        array(
+                            'label'   => 'URL',
+                            'id'      => 'saswp_website_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => home_url(),
+                        ),
+                        array(
+                            'label'   => 'Search URL Template',
+                            'id'      => 'saswp_website_search_target_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => home_url( '/?s={search_term_string}' ),
+                            'note'    => 'Example: https://www.siasat.com/?s=&q={search_term_string}',
+                        ),
+                    );
+                    break;
+
                 default:
                     break;
             } 

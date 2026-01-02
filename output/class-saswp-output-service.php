@@ -8999,6 +8999,26 @@ Class SASWP_Output_Service{
                     }
 
                 break;
+
+                case 'WebSite':
+                if ( ! empty( $custom_fields['saswp_website_name'] ) ) {
+                    $input1['name'] = $custom_fields['saswp_website_name'];
+                }
+                if ( ! empty( $custom_fields['saswp_website_url'] ) ) {
+                    $input1['url'] = $custom_fields['saswp_website_url'];
+                }
+                if ( ! empty( $custom_fields['saswp_website_search_target_url'] ) ) {
+                    // Construct the SearchAction structure based on the input URL
+                    $input1['potentialAction'] = array(
+                        '@type'       => 'SearchAction',
+                        'target'      => array(
+                            '@type'       => 'EntryPoint',
+                            'urlTemplate' => $custom_fields['saswp_website_search_target_url'],
+                        ),
+                        'query-input' => 'required name=search_term_string',
+                    );
+                }
+                break;
                
                      default:
                          break;

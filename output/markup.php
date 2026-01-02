@@ -9165,3 +9165,40 @@ function saswp_guide_schema_markup( $schema_id, $schema_post_id, $all_post_meta 
     return $input1;
 
 }
+
+/**
+ * Schema markup for website schema
+ * */
+function saswp_website_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+    
+    $input1 = array();
+
+    $input1['@context'] = saswp_context_url();
+    $input1['@type']    = 'WebSite';
+
+    // Name
+    if ( ! empty( $all_post_meta['saswp_website_name_'.$schema_id][0] ) ) {
+        $input1['name'] = saswp_remove_warnings( $all_post_meta, 'saswp_website_name_'.$schema_id, 'saswp_string' );
+    }
+
+    // URL
+    if ( ! empty( $all_post_meta['saswp_website_url_'.$schema_id][0] ) ) {
+        $input1['url'] = saswp_remove_warnings( $all_post_meta, 'saswp_website_url_'.$schema_id, 'saswp_string' );
+    }
+
+    // Search Action (potentialAction)
+    if ( ! empty( $all_post_meta['saswp_website_search_target_url_'.$schema_id][0] ) ) {
+        $search_url = saswp_remove_warnings( $all_post_meta, 'saswp_website_search_target_url_'.$schema_id, 'saswp_string' );
+        
+        $input1['potentialAction'] = array(
+            '@type'       => 'SearchAction',
+            'target'      => array(
+                '@type'       => 'EntryPoint',
+                'urlTemplate' => $search_url,
+            ),
+            'query-input' => 'required name=search_term_string',
+        );
+    }
+
+    return $input1;
+}
