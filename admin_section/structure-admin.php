@@ -1563,7 +1563,9 @@ function saswp_custom_breadcrumbs() {
             }
             // Tag name and link                  
           }    
-          
+          if ( ! is_array( $sd_data ) ) {
+              $sd_data = array();
+          }
           $sd_data['titles']            = $variables1_titles;                        
           $sd_data['links']             = $variables2_links;
           $sd_data['breadcrumb_url']     = $breadcrumb_url;
