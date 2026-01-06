@@ -9667,9 +9667,24 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'attributes' => array(
                                 'placeholder' => 'Hour'
                                 )
-                        )   
-                   
-                                              
+                        ),
+                        array(
+                                'label'      => 'Education Requirements',
+                                'id'         => 'saswp_jobposting_schema_edu_credential_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                'placeholder' => 'bachelor degree'
+                                )
+                        ),
+                        array(
+                                'label'      => 'Experience Requirements',
+                                'id'         => 'saswp_jobposting_schema_exp_months_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                'placeholder' => '60'
+                                )
+                        )
+
                    );
                     break;
                

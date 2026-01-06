@@ -8103,6 +8103,14 @@ Class SASWP_Output_Service{
                     }
                     if ( isset( $custom_fields['saswp_jobposting_schema_es_unittext']) ) {
                     $input1['estimatedSalary']['value']['unitText'] =    $custom_fields['saswp_jobposting_schema_es_unittext'];
+                    }
+                    if ( isset( $custom_fields['saswp_jobposting_schema_edu_credential']) ) {
+                        $input1['educationRequirements']['@type']              = 'EducationalOccupationalCredential';
+                        $input1['educationRequirements']['credentialCategory'] = $custom_fields['saswp_jobposting_schema_edu_credential'];
+                    }
+                    if ( isset( $custom_fields['saswp_jobposting_schema_exp_months']) ) {
+                        $input1['experienceRequirements']['@type']              = 'OccupationalExperienceRequirements';
+                        $input1['experienceRequirements']['monthsOfExperience'] = $custom_fields['saswp_jobposting_schema_exp_months'];
                     }                    
                     if ( isset( $custom_fields['saswp_jobposting_schema_validthrough'])  && $custom_fields['saswp_jobposting_schema_validthrough'] !='' && gmdate('Y-m-d',strtotime($custom_fields['saswp_jobposting_schema_validthrough'])) < gmdate('Y-m-d') ){
                         $input1 = array();    

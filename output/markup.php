@@ -2894,6 +2894,17 @@ function saswp_person_schema_markup($schema_id, $schema_post_id, $all_post_meta)
             $input1['hasOccupation']['estimatedSalary']['percentile75']  =  $all_post_meta['saswp_person_schema_salary_percentile75_'.$schema_id][0];
             $input1['hasOccupation']['estimatedSalary']['percentile90']  =  $all_post_meta['saswp_person_schema_salary_percentile90_'.$schema_id][0];
         }
+        // Add Education Requirements
+        if( isset($all_post_meta['saswp_jobposting_schema_edu_credential_'.$schema_id][0]) && !empty($all_post_meta['saswp_jobposting_schema_edu_credential_'.$schema_id][0]) ){
+            $input1['educationRequirements']['@type']              = 'EducationalOccupationalCredential';
+            $input1['educationRequirements']['credentialCategory'] = $all_post_meta['saswp_jobposting_schema_edu_credential_'.$schema_id][0];
+        }
+
+        // Add Experience Requirements
+        if( isset($all_post_meta['saswp_jobposting_schema_exp_months_'.$schema_id][0]) && !empty($all_post_meta['saswp_jobposting_schema_exp_months_'.$schema_id][0]) ){
+            $input1['experienceRequirements']['@type']              = 'OccupationalExperienceRequirements';
+            $input1['experienceRequirements']['monthsOfExperience'] = $all_post_meta['saswp_jobposting_schema_exp_months_'.$schema_id][0];
+        }
         if ( isset( $all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0] ) && $all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0] != '' ){
             $input1['hasOccupation']['mainEntityOfPage']['@type']         = 'WebPage'; 
             $input1['hasOccupation']['mainEntityOfPage']['lastReviewed']  =    saswp_format_date_time($all_post_meta['saswp_person_schema_salary_last_reviewed_'.$schema_id][0]);
