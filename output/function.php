@@ -549,22 +549,23 @@ function saswp_get_all_schema_markup_output() {
                         unset($soutput['@context']);                   
                         unset($schema_breadcrumb_output['@context']);
                         unset($webpage['mainEntity']);
-                        unset($kb_schema_output['@context']);                        
+                        // FIX: Empty @type":""
+                        if ( ! empty($kb_schema_output) ) {
+                            unset($kb_schema_output['@context']);
+                            
+                            if ( isset( $sd_data['saswp_kb_type']) ) {
+                                $kb_schema_output['@type'] = $sd_data['saswp_kb_type'];
+                                if($sd_data['saswp_kb_type'] == 'Organization'){
+                                    $kb_schema_output['@type'] = (isset($sd_data['saswp_organization_type']) && !empty($sd_data['saswp_organization_type']) && strpos($sd_data['saswp_organization_type'], 'Organization') !== false ) ? $sd_data['saswp_organization_type'] : 'Organization';
+                                }
+                            } else {
+                                $kb_schema_output['@type'] = 'Organization';
+                            }
+                        }
+
                         unset($kb_website_output['@context']); 
                         
-                        if ( isset( $sd_data['saswp_kb_type']) ) {
-                           
-                            $kb_schema_output['@type'] = $sd_data['saswp_kb_type'];
-                            
-                            if($sd_data['saswp_kb_type'] == 'Organization'){
-                                $kb_schema_output['@type'] = (isset($sd_data['saswp_organization_type']) && !empty($sd_data['saswp_organization_type']) && strpos($sd_data['saswp_organization_type'], 'Organization') !== false ) ? $sd_data['saswp_organization_type'] : 'Organization';
-                            }
-                                                        
-                        }else{
-                            $kb_schema_output['@type'] = 'Organization';
-                        }
-                        
-                     if($webpage){
+                      if($webpage){
                     
                          $soutput['isPartOf'] = array(
                             '@id' => $webpage['@id']
@@ -572,17 +573,17 @@ function saswp_get_all_schema_markup_output() {
                          
                          $webpage['primaryImageOfPage'] = array(
                              '@id' => saswp_get_permalink().'#primaryimage'
-                         );
+                          );
                          
-                         if(array_key_exists('@graph', $site_navigation) ) {                             
-                             unset($site_navigation['@context']);                                                       
+                         if(array_key_exists('@graph', $site_navigation) ) {                     
+                             unset($site_navigation['@context']);                                                                            
                              $webpage['mainContentOfPage'] = array($site_navigation['@graph']);
-                         }                         
+                          }                   
                          
-                     }       
-                                        
+                      }        
+                                             
                     $soutput['mainEntityOfPage'] = $webpage['@id'];
-                                        
+                                             
                     if($kb_website_output){
                     
                         $webpage['isPartOf'] = array(
@@ -590,43 +591,47 @@ function saswp_get_all_schema_markup_output() {
                         );
                         
                     }
-                                        
+                                             
                     if($schema_breadcrumb_output){
                         $webpage['breadcrumb'] = array(
                         '@id' => $schema_breadcrumb_output['@id']
                     );
                     }
                     
-                    if($kb_schema_output){
+                    if ( ! empty($kb_schema_output) ) {
                     
                         if($kb_website_output){
                             
                             if ( ! empty( $kb_schema_output['@id']) ) {
-
                                     $kb_website_output['publisher'] = array(
                                         '@id' => $kb_schema_output['@id']
                                     );
                             }
-                                                        
+                                                                    
                         }
-                        if($sd_data['saswp_kb_type'] == 'Organization'){                                                                             
+                        
+                        if( isset($sd_data['saswp_kb_type']) && $sd_data['saswp_kb_type'] == 'Organization'){                                                                                                             
                             
                             if ( ! empty( $kb_schema_output['@id']) ) {
-
                                 $soutput['publisher'] = array(
                                     '@id' => $kb_schema_output['@id']
                                 );
-
                             }
-                                                        
+                                                                    
                         }
                         
                     }
-                                        
+                                             
                     $final_output['@context']   = saswp_context_url();
 
-                    $final_output['@graph'][]   = $kb_schema_output;
-                    $final_output['@graph'][]   = $kb_website_output;                    
+                    // FIX: Empty @type":""
+                    if ( ! empty($kb_schema_output) && ! empty($kb_schema_output['@type']) ) {
+                        $final_output['@graph'][]   = $kb_schema_output;
+                    }
+                    
+                    if ( ! empty($kb_website_output) ) {
+                         $final_output['@graph'][]   = $kb_website_output;                     
+                    }
 
                     $final_output['@graph'][]   = $webpage;
                    
