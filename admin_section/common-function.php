@@ -1871,10 +1871,6 @@ if ( ! defined('ABSPATH') ) exit;
                         'min'          => array(),
                         'max'          => array(),                    
                 );
-                $my_allowed['script'] = array(
-                        'class'        => array(),
-                        'type'         => array(),
-                );
                 //textarea
                  $my_allowed['textarea'] = array(
                         'class' => array(),
