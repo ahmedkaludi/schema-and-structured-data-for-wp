@@ -140,3 +140,38 @@ function saswp_add_plugin_meta_links( $meta_fields, $file ) {
     return $meta_fields;
     
   }
+
+/**
+ * 1. Hook to display the OmniReview Ad
+ */
+add_action('admin_notices', 'saswp_render_omnireview_ad');
+
+function saswp_render_omnireview_ad() {
+    $screen = get_current_screen();
+
+    if ( ! isset($screen->post_type) || $screen->post_type !== 'saswp_reviews' ) {
+        return;
+    }
+
+    wp_enqueue_style('omnireview-admin-css', plugin_dir_url(__FILE__) . 'admin_section/css/omnireview-admin.css');
+    wp_enqueue_script('omnireview-admin-js', plugin_dir_url(__FILE__) . 'admin_section/js/omnireview-admin.js', array('jquery'), '1.0', true);
+
+    ?>
+    <div class="saswp-omnireview-banner notice">
+        <div class="saswp-or-content">
+            <div class="saswp-or-text">
+                <span class="saswp-badge">NEW</span>
+                <h3>Introduce to our New Product <strong>OmniReview</strong></h3>
+                <p>We've built a brand new plugin to help you collect, manage, and showcase reviews from Google, Yelp, and more—all in one place.</p>
+            </div>
+            <div class="saswp-or-actions">
+                <a href="https://wordpress.org/plugins/omnireview/" target="_blank" class="saswp-btn-primary">Install OmniReview Free</a>
+                <a href="https://omnireview.site/" target="_blank" class="saswp-link-secondary">Learn More &rarr;</a>
+            </div>
+        </div>
+        <button type="button" class="saswp-or-dismiss">
+            <span class="dashicons dashicons-no-alt"></span>
+        </button>
+    </div>
+    <?php
+}
