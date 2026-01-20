@@ -310,10 +310,11 @@ function saswp_get_all_schema_markup_output() {
                     json_decode($custom_markup);
                     if(json_last_error() === JSON_ERROR_NONE){
                         $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
-                        $custom_output .= $custom_markup;                            
+                        $custom_output .= preg_replace( '#</?script[^>]*>#i', '', $custom_markup );                            
                         $custom_output .= '</script>';
                     }                                        
                 }else{
+                    
                     $regex = '/<script type=\"application\/ld\+json">(.*?)<\/script>/s';
                     preg_match_all( $regex, $custom_markup, $matches );
                     if ( ! empty( $matches) && isset($matches[1]) ) {
@@ -321,7 +322,7 @@ function saswp_get_all_schema_markup_output() {
                             json_decode($value);
                             if(json_last_error() === JSON_ERROR_NONE){
                                 $custom_output .= '<script type="application/ld+json" class="saswp-custom-schema-markup-output">';                            
-                                $custom_output .= $value;                            
+                                $custom_output .= preg_replace( '#</?script[^>]*>#i', '', $value );                            
                                 $custom_output .= '</script>';
                             }                            
                         }
@@ -736,7 +737,7 @@ function saswp_get_all_schema_markup_output() {
                             json_decode($user_custom_markup);
                             if(json_last_error() === JSON_ERROR_NONE){
                                 $user_custom_output .= '<script type="application/ld+json" class="saswp-user-custom-schema-markup-output">';                            
-                                $user_custom_output .= $user_custom_markup;                            
+                                $user_custom_output .= preg_replace( '#</?script[^>]*>#i', '', $user_custom_markup );                            
                                 $user_custom_output .= '</script>';   
                             }                            
                             
@@ -749,7 +750,7 @@ function saswp_get_all_schema_markup_output() {
                                     json_decode($value);
                                     if(json_last_error() === JSON_ERROR_NONE){
                                         $user_custom_output .= '<script type="application/ld+json" class="saswp-user-custom-schema-markup-output">';                            
-                                        $user_custom_output .= $value;
+                                        $user_custom_output .= preg_replace( '#</?script[^>]*>#i', '', $value );
                                         $user_custom_output .= '</script>';   
                                     }                            
                                 }
