@@ -1871,10 +1871,6 @@ if ( ! defined('ABSPATH') ) exit;
                         'min'          => array(),
                         'max'          => array(),                    
                 );
-                $my_allowed['script'] = array(
-                        'class'        => array(),
-                        'type'         => array(),
-                );
                 //textarea
                  $my_allowed['textarea'] = array(
                         'class' => array(),
@@ -3765,6 +3761,43 @@ function saswp_current_user_allowed() {
         }else{
             if( isset($currentUser->caps['administrator']) ){
                     $currentuserrole = array('administrator');
+            }else{
+                foreach ( $saswp_roles as $role ) {
+                    // Map role names to key capabilities
+                    switch ( $role ) {
+                        case 'administrator':
+                            if ( user_can( $currentUser, 'manage_options' ) ) {
+                                $currentuserrole[] = 'administrator';
+                            }
+                            break;
+                        case 'editor':
+                            if ( user_can( $currentUser, 'edit_others_posts' ) ) {
+                                $currentuserrole[] = 'editor';
+                            }
+                            break;
+                        case 'author':
+                            if ( user_can( $currentUser, 'publish_posts' ) ) {
+                                $currentuserrole[] = 'author';
+                            }
+                            break;
+                        case 'contributor':
+                            if ( user_can( $currentUser, 'edit_posts' ) ) {
+                                $currentuserrole[] = 'contributor';
+                            }
+                            break;
+                        case 'subscriber':
+                            if ( user_can( $currentUser, 'read' ) ) {
+                                $currentuserrole[] = 'subscriber';
+                            }
+                            break;
+                        default:
+                            // Custom capability check (if role name matches a capability)
+                            if ( user_can( $currentUser, $role ) ) {
+                                $currentuserrole[] = $role;
+                            }
+                            break;
+                    }
+                }
             }	
         }
         
