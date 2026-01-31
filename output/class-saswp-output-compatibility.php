@@ -514,6 +514,9 @@ class SASWP_Output_Compatibility{
     public function brb_on_activation() {
         $this->saswp_update_option_on_compatibility_activation('saswp-brb');
     }
+    public function or_on_activation() {
+        $this->saswp_update_option_on_compatibility_activation('saswp-or');
+    }
     public function yoast_seo_on_activation() {
          $this->saswp_update_option_on_compatibility_activation('saswp-yoast');
     }

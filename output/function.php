@@ -2572,6 +2572,113 @@ function saswp_get_brb_reviews() {
 
     }
 }
+
+function saswp_get_omnireview_reviews() {
+
+    global $post;
+    $ratings = array();
+    $reviews = array();
+
+    if ( is_object($post) ) {
+
+        $tag = 'omnireview_widget'; 
+        $pattern = get_shortcode_regex( array( $tag ) );
+
+        if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+             && array_key_exists( 2, $matches )
+             && in_array( $tag, $matches[2] ) ) 
+        {
+            foreach ( $matches[0] as $key => $value ) {
+                
+                // Get attributes correctly
+                $attr_string = isset($matches[3][$key]) ? $matches[3][$key] : '';
+                $atts = shortcode_parse_atts( $attr_string );
+
+                if( isset($atts['id']) ){
+                    
+                    $widget_id = $atts['id'];
+                    
+                    // 1. Fetch Review IDs from Meta
+                    $raw_ids = get_post_meta($widget_id, 'omnireview_total_reviews', true);
+                    $specific_ids = maybe_unserialize($raw_ids);
+
+                    if ( is_string($specific_ids) ) {
+                         $specific_ids = maybe_unserialize($specific_ids);
+                    }
+
+                    // 2. Setup Query
+                    $args = array(
+                        'post_type'      => 'omnireview_review',
+                        'post_status'    => 'publish',
+                        'no_found_rows'  => true,
+                        'posts_per_page' => -1, 
+                    );
+
+                    // 3. Apply ID Filter
+                    if ( ! empty( $specific_ids ) && is_array( $specific_ids ) ) {
+                        $clean_ids = array_values($specific_ids);
+                        $args['post__in'] = $clean_ids;
+                        $args['orderby']  = 'post__in';
+                    } else {
+                        $limit = get_post_meta($widget_id, 'omnireview_widget_per_page', true);
+                        if($limit) $args['posts_per_page'] = $limit;
+                    }
+
+                    // 4. Fetch Posts
+                    $review_posts = get_posts($args);
+
+                    if ( ! empty( $review_posts ) ) {
+                        $sumofrating = 0;
+                        $count = 0;
+
+                        foreach ( $review_posts as $review_post ){
+                            
+                            // --- META KEYS ---
+                            $rating_val = get_post_meta( $review_post->ID, '_omnireview_rating', true ); 
+                            $author_val = get_post_meta( $review_post->ID, '_omnireview_reviewer', true ); 
+                            $date_val   = get_post_meta( $review_post->ID, '_omnireview_date', true );
+                            
+                            // Fallbacks
+                            if ( empty($rating_val) ) $rating_val = 5; 
+                            if ( empty($author_val) ) $author_val = 'Guest';
+                            
+                            // Date logic: Use meta date if available, else post date
+                            $review_date = !empty($date_val) ? $date_val : get_the_date( 'c', $review_post->ID );
+
+                            $sumofrating += (float) $rating_val;
+                            $count++;
+
+                            $reviews[] = array(
+                                '@type'         => 'Review',
+                                'author'        => array('@type'=> 'Person', 'name' => $author_val),
+                                'datePublished' => $review_date,
+                                'description'   => $review_post->post_content,
+                                'reviewRating'  => array(
+                                    '@type'       => 'Rating',
+                                    'bestRating'  => '5',
+                                    'ratingValue' => $rating_val,
+                                    'worstRating' => '1',
+                                )
+                            );
+                        }
+
+                        if( $count > 0 ){
+                            $avg_rating = $sumofrating / $count;
+                            $ratings['aggregateRating'] = array(
+                                '@type'       => 'AggregateRating',
+                                'ratingValue' => number_format($avg_rating, 1),
+                                'reviewCount' => $count
+                            );
+                        }
+                    }
+                }
+                break; 
+            }
+        }
+    }
+    return array('reviews' => $reviews, 'rating' => $ratings);
+}
+
 function saswp_get_strong_testimonials() {
     
     $testimonial = array();

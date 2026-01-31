@@ -1977,6 +1977,16 @@ jQuery(document).ready(function($){
                             }
                             
                       break;
+
+                     case 'saswp-or-checkbox':
+                          
+                            if ($(this).is(':checked')) {
+                              $("#saswp-or").val(1);                                
+                            }else{
+                              $("#saswp-or").val(0);                                          
+                            }
+                            
+                      break;
                       
                       case 'saswp-testimonial-pro-checkbox':
                           

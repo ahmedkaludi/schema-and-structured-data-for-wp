@@ -3211,6 +3211,21 @@ function saswp_schema_output() {
                                     }
                                     // WP Customer Reviews ends here
 
+                                    // OmniReview Integration
+                                    $omnireview_rv = saswp_get_omnireview_reviews();
+
+                                    if ( ! empty( $omnireview_rv ) && ! empty( $omnireview_rv['reviews'] ) ) {
+
+                                        // Check if aggregateRating exists in the returned array
+                                        if ( isset( $omnireview_rv['rating']['aggregateRating'] ) ) {
+                                            $input1['itemReviewed']['aggregateRating'] = $omnireview_rv['rating']['aggregateRating'];
+                                        }
+
+                                        $input1['itemReviewed']['review'] = $omnireview_rv['reviews'];
+
+                                    }
+                                    // OmniReview ends here
+
                                     //Reviews wp theme starts here
                                         
                                     $reviews_wp_theme = saswp_get_reviews_wp_theme();                                    
@@ -3303,6 +3318,24 @@ function saswp_schema_output() {
                                             $input1['review'] = $wp_customer_rv['reviews'];                                                                                                                              
                                         }
                                         // WP Customer Reviews ends here
+
+                                        // OmniReview starts here
+                                        $omnireview_rv = saswp_get_omnireview_reviews();
+
+                                        if ( $omnireview_rv ) {
+
+                                            // Aggregate Rating
+                                            if ( isset( $omnireview_rv['rating']['aggregateRating'] ) ) {
+                                                $input1['aggregateRating'] = $omnireview_rv['rating']['aggregateRating'];
+                                            }
+
+                                            // Reviews list
+                                            if ( isset( $omnireview_rv['reviews'] ) ) {
+                                                $input1['review'] = $omnireview_rv['reviews'];
+                                            }
+
+                                        }
+                                        // OmniReview ends here
 
                                         //Reviews wp theme starts here
                                         
@@ -3415,6 +3448,23 @@ function saswp_schema_output() {
                                               $input1['review'] = array_merge($input1['review'],$brb_reviews['reviews']);
                                           }else{
                                               $input1['review'] = $brb_reviews['reviews'];
+                                          }
+                                          
+                                    }
+                        
+                                    $input1 = apply_filters('saswp_modify_reviews_schema', $input1);
+
+                                    // OmniReview Bundle
+                                    $or_reviews = saswp_get_omnireview_reviews();   
+                                    
+                                    if($or_reviews){
+                                        
+                                          $input1 = array_merge($input1,$or_reviews['rating']);
+                                          
+                                          if ( isset( $input1['review']) ) {
+                                              $input1['review'] = array_merge($input1['review'],$or_reviews['reviews']);
+                                          }else{
+                                              $input1['review'] = $or_reviews['reviews'];
                                           }
                                           
                                     }

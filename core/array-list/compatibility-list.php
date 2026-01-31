@@ -322,6 +322,12 @@ return array(
             'opt_name'   => 'saswp-brb',
             'part_in'    => 'free',
         ),
+        'or'  =>  array(
+            'name'       => 'OmniReview',
+            'free'       => 'omnireview/omnireview.php',            
+            'opt_name'   => 'saswp-or',
+            'part_in'    => 'free',
+        ),
         'wordlift'  =>  array(            
                     'name'       => 'WordLift',
                     'free'       => 'wordlift/wordlift.php',            
