@@ -10113,10 +10113,28 @@ Class SASWP_Output_Service{
                             '@type'				=> $schema_type,
                             '@id'				=> saswp_get_permalink().'#'.$schema_type,     
                             'url'				=> saswp_get_permalink(),
-                            'name'                              => saswp_get_the_product_title( saswp_remove_warnings($product_details, 'product_name', 'saswp_string') ),
+                            /*'name'                              => saswp_get_the_product_title( saswp_remove_warnings($product_details, 'product_name', 'saswp_string') ),
                             'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
-                            'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')                                                               
+                            'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')*/                                                               
                           );
+
+                          // 2. Validate Name
+                            $product_name = saswp_get_the_product_title(saswp_remove_warnings($product_details, 'product_name', 'saswp_string'));
+                            if (!empty($product_name)) {
+                                $input1['name'] = $product_name;
+                            }
+
+                            // 3. Validate SKU
+                            $product_sku = saswp_remove_warnings($product_details, 'product_sku', 'saswp_string');
+                            if (!empty($product_sku)) {
+                                $input1['sku'] = $product_sku;
+                            }
+
+                            // 4. Validate Description
+                            $product_desc = saswp_remove_warnings($product_details, 'product_description', 'saswp_string');
+                            if (!empty($product_desc)) {
+                                $input1['description'] = $product_desc;
+                            }  
                             
                           if ( isset( $product_details['product_price']) && $product_details['product_price'] !='' ) {
                                    

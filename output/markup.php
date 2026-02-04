@@ -1332,14 +1332,49 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             '@type'				            => 'Product',
             '@id'                           => get_permalink().'#product',    
             'url'				            => get_permalink(),
-            'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_name_'.$schema_id, 'saswp_array'),
+            /*'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_name_'.$schema_id, 'saswp_array'),
             'sku'                           => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_sku_'.$schema_id, 'saswp_array'),
             'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_description_'.$schema_id, 'saswp_array'),													                       
             'brand'                         => array('@type' => 'Brand',
                                                      'name'  => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_brand_name_'.$schema_id, 'saswp_array'),
-                                                    )    
+                                                    )*/    
             ); 
            
+            // 2. Validate Name
+            if (isset($all_post_meta['saswp_product_schema_name_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_name_'.$schema_id][0] != '') {
+                $input1['name'] = $all_post_meta['saswp_product_schema_name_'.$schema_id][0];
+            }
+
+            // 3. Validate SKU
+            if (isset($all_post_meta['saswp_product_schema_sku_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_sku_'.$schema_id][0] != '') {
+                $input1['sku'] = $all_post_meta['saswp_product_schema_sku_'.$schema_id][0];
+            }
+
+            // 4. Validate Description
+            if (isset($all_post_meta['saswp_product_schema_description_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_description_'.$schema_id][0] != '') {
+                $input1['description'] = $all_post_meta['saswp_product_schema_description_'.$schema_id][0];
+            }
+
+            // 5. Validate Brand (Nested)
+            $brand_name = isset($all_post_meta['saswp_product_schema_brand_name_'.$schema_id][0]) ? $all_post_meta['saswp_product_schema_brand_name_'.$schema_id][0] : '';
+
+            if ($brand_name != '') {
+                $input1['brand'] = array(
+                    '@type' => 'Brand',
+                    'name'  => $brand_name
+                );
+                
+                // Brand URL (from your screenshot)
+                if (isset($all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0] != '') {
+                    $input1['brand']['url'] = $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0];
+                }
+                
+                // Brand Image (from your screenshot)
+                if (isset($all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0] != '') {
+                    $input1['brand']['image'] = $all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0];
+                }
+            }
+
             if( isset($all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0] != '' ){
                 $input1['brand']['url'] = $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0];
             }
@@ -1359,68 +1394,112 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             //     $input1['brand']['url'] = $all_post_meta['product_pros_'.$schema_id][0];
             // }
            
-            $input1['award']                = saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_award_'.$schema_id, 'saswp_array' );
+            /*$input1['award']                = saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_award_'.$schema_id, 'saswp_array' );
             
-            $input1 = saswp_get_modified_image('saswp_product_schema_image_'.$schema_id.'_detail', $input1);
+            $input1 = saswp_get_modified_image('saswp_product_schema_image_'.$schema_id.'_detail', $input1);*/
+
+            // Validate and add Award
+            if (isset($all_post_meta['saswp_product_schema_award_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_award_'.$schema_id][0] != '') {
+                $input1['award'] = $all_post_meta['saswp_product_schema_award_'.$schema_id][0];
+            }
             
+            // Only attempt to get and add the image if the meta key exists and isn't empty
+            if (isset($all_post_meta['saswp_product_schema_image_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_image_'.$schema_id][0] != '') {
+                $input1 = saswp_get_modified_image('saswp_product_schema_image_'.$schema_id.'_detail', $input1);
+            }
            
             if( (isset($all_post_meta['saswp_product_schema_price_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_price_'.$schema_id][0]) || (isset($all_post_meta['saswp_product_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_low_price_'.$schema_id][0]) ) ){
                             
                 $input1['offers']['@type']           = 'Offer';
                 $input1['offers']['availability']    = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_availability_'.$schema_id, 'saswp_array');
-                $input1['offers']['itemCondition']   = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_condition_'.$schema_id, 'saswp_array');
-                $input1['offers']['price']           = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_price_'.$schema_id, 'saswp_array');
-                $input1['offers']['priceCurrency']   = saswp_modify_currency_code(saswp_remove_warnings($all_post_meta, 'saswp_product_schema_currency_'.$schema_id, 'saswp_array'));
-                if( isset($all_post_meta['saswp_product_schema_offer_url_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_offer_url_'.$schema_id][0]) ){
-                    $input1['offers']['url']             = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_offer_url_'.$schema_id, 'saswp_array');
-                }else{
-                    $input1['offers']['url']             = saswp_get_permalink();
+                $input1['offers']['itemCondition']   = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_condition_'.$schema_id, 'saswp_array');                
+                $price_val = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_price_'.$schema_id, 'saswp_array');
+                if ($price_val !== '') {
+                    $input1['offers']['price'] = $price_val;
+                }
+                $currency_val = saswp_remove_warnings($all_post_meta, 'saswp_product_schema_currency_'.$schema_id, 'saswp_array');
+                if ($currency_val !== '') {
+                    $input1['offers']['priceCurrency'] = saswp_modify_currency_code($currency_val);
+                }
+                // Define the meta key once to keep code clean
+                $offer_url_key = 'saswp_product_schema_offer_url_' . $schema_id;
+
+                // Check if the meta exists AND is not an empty string
+                if (isset($all_post_meta[$offer_url_key][0]) && $all_post_meta[$offer_url_key][0] !== '') {
+                    
+                    // Use the custom URL from meta
+                    $input1['offers']['url'] = saswp_remove_warnings($all_post_meta, $offer_url_key, 'saswp_array');
+                    
+                } else {
+                    
+                    // Fallback to the post permalink
+                    $input1['offers']['url'] = saswp_get_permalink();
+                    
                 }
                 $input1['offers']['priceValidUntil'] = isset($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_product_schema_priceValidUntil_'.$schema_id][0])):'';
             
                 if( isset($all_post_meta['saswp_product_schema_high_price_'.$schema_id][0]) && isset($all_post_meta['saswp_product_schema_low_price_'.$schema_id][0]) ){
                     $input1['offers']['@type']           = 'AggregateOffer';
-                    $input1['offers']['highPrice']       = $all_post_meta['saswp_product_schema_high_price_'.$schema_id][0];
-                    $input1['offers']['lowPrice']        = $all_post_meta['saswp_product_schema_low_price_'.$schema_id][0];
 
-                    if( isset($all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0]) ){
-                        $input1['offers']['offerCount'] = $all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0];
+                    if (isset($all_post_meta['saswp_product_schema_high_price_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_high_price_'.$schema_id][0] != '') {
+                        $input1['offers']['highPrice'] = $all_post_meta['saswp_product_schema_high_price_'.$schema_id][0];
+                    }
+
+                    if (isset($all_post_meta['saswp_product_schema_low_price_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_low_price_'.$schema_id][0] != '') {
+                        $input1['offers']['lowPrice'] = $all_post_meta['saswp_product_schema_low_price_'.$schema_id][0];
+                    }
+
+                    // Offer Count Validation
+                if (isset($all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0] != '') {
+                    $input1['offers']['offerCount'] = $all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0];
                     }
 
                 }
 
                 if ( isset( $all_post_meta['saswp_product_schema_seller_'.$schema_id]) ) {
                     $input1['offers']['seller']['@type']   = 'Organization';
-                    $input1['offers']['seller']['name']    = esc_attr( $all_post_meta['saswp_product_schema_seller_'.$schema_id][0]); 
+                    // Seller Name
+                    if (isset($all_post_meta['saswp_product_schema_seller_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_seller_'.$schema_id][0] != '') {
+                        $input1['offers']['seller']['name'] = $all_post_meta['saswp_product_schema_seller_'.$schema_id][0];
+                    } 
 
-                    if ( ( isset( $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id][0] ) ) || ( isset( $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_locality_'.$schema_id][0]  ) ) || ( isset( $all_post_meta['saswp_product_schema_seller_region_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_region_'.$schema_id][0]  ) ) || ( isset( $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id][0] ) ) || ( isset( $all_post_meta['saswp_product_schema_seller_country_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_country_'.$schema_id][0] ) ) ) {
+                    if ( ( isset( $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id][0] != '' ) || ( isset( $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_locality_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id][0] != '' ) || ( isset( $all_post_meta['saswp_product_schema_seller_region_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_region_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_region_'.$schema_id][0] != '' ) || ( isset( $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id][0] != '' ) || ( isset( $all_post_meta['saswp_product_schema_seller_country_'.$schema_id] ) && isset($all_post_meta['saswp_product_schema_seller_country_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_country_'.$schema_id][0] != '' ) ) {
                         
-                        $input1['offers']['seller']['address']['@type']                 =   'PostalAddress';
-                        if ( isset( $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id][0] ) ) {
-                            $input1['offers']['seller']['address']['streetAddress']     =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_street_address_'.$schema_id, 'saswp_array' );
+                        $input1['offers']['seller']['address']['@type'] = 'PostalAddress';
+
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_street_address_'.$schema_id][0] != '' ) {
+                            $input1['offers']['seller']['address']['streetAddress'] = saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_street_address_'.$schema_id, 'saswp_array' );
                         }
-                        if ( isset( $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id][0] ) ) {
-                            $input1['offers']['seller']['address']['addressLocality']   =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_locality_'.$schema_id, 'saswp_array' );
+
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_locality_'.$schema_id][0] != '' ) {
+                            $input1['offers']['seller']['address']['addressLocality'] = saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_locality_'.$schema_id, 'saswp_array' );
                         }
-                        if ( isset( $all_post_meta['saswp_product_schema_seller_region_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_region_'.$schema_id][0] ) ) {
-                            $input1['offers']['seller']['address']['addressRegion']     =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_region_'.$schema_id, 'saswp_array' );
+
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_region_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_region_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_region_'.$schema_id][0] != '' ) {
+                            $input1['offers']['seller']['address']['addressRegion'] = saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_region_'.$schema_id, 'saswp_array' );
                         }
-                        if ( isset( $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id][0] ) ) {
-                            $input1['offers']['seller']['address']['postalCode']        =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_postalcode_'.$schema_id, 'saswp_array' );
+
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_postalcode_'.$schema_id][0] != '' ) {
+                            $input1['offers']['seller']['address']['postalCode'] = saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_postalcode_'.$schema_id, 'saswp_array' );
                         }
-                        if ( isset( $all_post_meta['saswp_product_schema_seller_country_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_country_'.$schema_id][0] ) ) {
-                            $input1['offers']['seller']['address']['addressCountry']    =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_country_'.$schema_id, 'saswp_array' );
+
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_country_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_country_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_country_'.$schema_id][0] != '' ) {
+                            $input1['offers']['seller']['address']['addressCountry'] = saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_country_'.$schema_id, 'saswp_array' );
                         }
-                        if ( isset( $all_post_meta['saswp_product_schema_seller_telephone_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_telephone_'.$schema_id][0] ) ) {
-                            $input1['offers']['seller']['telephone']                    =   saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_telephone_'.$schema_id, 'saswp_array' );
+
+                        if ( isset( $all_post_meta['saswp_product_schema_seller_telephone_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_seller_telephone_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_seller_telephone_'.$schema_id][0] != '' ) {
+                            $input1['offers']['seller']['telephone'] = saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_seller_telephone_'.$schema_id, 'saswp_array' );
                         }
                     }
 
                 }
 
-                if ( isset( $all_post_meta['saswp_product_schema_vat_'.$schema_id]) ) {
-                    $input1['offers']['priceSpecification']['@type']                    = 'priceSpecification';
-                    $input1['offers']['priceSpecification']['valueAddedTaxIncluded']    = esc_attr( $all_post_meta['saswp_product_schema_vat_'.$schema_id][0]);  
+                if ( isset( $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] != '' ) {
+                    $input1['offers']['priceSpecification']['@type'] = 'priceSpecification';
+                    
+                    if ( isset( $all_post_meta['saswp_product_schema_vat_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] != '' ) {$input1['offers']['priceSpecification']['valueAddedTaxIncluded'] = esc_attr( $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] ); 
+                        
+                    }  
                 }
 
                 // Changes since version 1.15
@@ -1469,13 +1548,18 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                         }
                     }
 
-                if ( isset( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0] ) ) {
+                if ( isset( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0] != '' ) {
+    
                     $input1['offers']['shippingDetails']['@type'] = 'OfferShippingDetails';
                     $input1['offers']['shippingDetails']['shippingRate']['@type'] = 'MonetaryAmount';
-                    $input1['offers']['shippingDetails']['shippingRate']['value'] = esc_attr( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0]);
+                    
+                    if ( isset( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0] != '' ) {$input1['offers']['shippingDetails']['shippingRate']['value'] = esc_attr( $all_post_meta['saswp_product_schema_sr_value_'.$schema_id][0] );                        
+                    }
+
                     if ( isset( $all_post_meta['saswp_product_schema_sr_currency']) && !empty($all_post_meta['saswp_product_schema_sr_currency']) ) {
                         $input1['offers']['shippingDetails']['shippingRate']['currency'] = esc_attr( $all_post_meta['saswp_product_schema_sr_currency_'.$schema_id][0]);
                     }
+
                     if((isset($all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0]))  || (isset($all_post_meta['saswp_product_schema_sa_region_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_region_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_sa_postal_code_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_postal_code_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_sa_address_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_address_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0])) ) {
                         $input1['offers']['shippingDetails']['shippingDestination']['@type'] = 'DefinedRegion';
                         if ( isset( $all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_sa_locality_'.$schema_id][0]) ) {
@@ -1494,40 +1578,83 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                             $input1['offers']['shippingDetails']['shippingDestination']['addressCountry'] = esc_attr( $all_post_meta['saswp_product_schema_sa_country_'.$schema_id][0]);
                         }
                     }
-                    if(isset( $all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0] ) && isset( $all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0] ) && isset( $all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0] ) ) {
+
+                    if ( ( isset( $all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0] != '' ) || 
+                         ( isset( $all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0] != '' ) || 
+                         ( isset( $all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0] != '' ) ) {
+
+                        // These types are only assigned if data exists to support them
                         $input1['offers']['shippingDetails']['deliveryTime']['@type'] = 'ShippingDeliveryTime';
                         $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['@type'] = 'QuantitativeValue';
-                        $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['minValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0]);
-                        $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['maxValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0]);
-                        $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['unitCode'] = esc_attr( $all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0]);
+                        
+                        // Handling Time - minValue
+                        if ( isset( $all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0] != '' ) {
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['minValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdh_minval_'.$schema_id][0] );                           
+                        }
+
+                        // Handling Time - maxValue
+                        if ( isset( $all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0] != '' ) {
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['maxValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdh_maxval_'.$schema_id][0] );                           
+                        }
+
+                        // Handling Time - unitCode
+                        if ( isset( $all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0] != '' ) {
+                            $input1['offers']['shippingDetails']['deliveryTime']['handlingTime']['unitCode'] = esc_attr( $all_post_meta['saswp_product_schema_sdh_unitcode_'.$schema_id][0] );
+                        }
                     }
-                    if(isset( $all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0] ) && isset( $all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0] ) && isset( $all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0] ) ) {
+
+                    if ( ( isset( $all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0] != '' ) || 
+                         ( isset( $all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0] != '' ) || 
+                         ( isset( $all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0] != '' ) ) {
+
                         $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['@type'] = 'QuantitativeValue';
-                        $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['minValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0]);
-                        $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['maxValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0]);
-                        $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['unitCode'] = esc_attr( $all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0]);
+
+                        // Transit Time - minValue
+                        if ( isset( $all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0] != '' ) {
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['minValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdt_minval_'.$schema_id][0] );                        
+                        }
+
+                        // Transit Time - maxValue
+                        if ( isset( $all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0] != '' ) {
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['maxValue'] = esc_attr( $all_post_meta['saswp_product_schema_sdt_maxval_'.$schema_id][0] );                        
+                        }
+
+                        // Transit Time - unitCode
+                        if ( isset( $all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0] != '' ) {
+                            $input1['offers']['shippingDetails']['deliveryTime']['transitTime']['unitCode'] = esc_attr( $all_post_meta['saswp_product_schema_sdt_unitcode_'.$schema_id][0] );                        
+                        }
                     }
                 }
             }
                                                     
-            if ( isset( $all_post_meta['saswp_product_schema_gtin8_'.$schema_id]) ) {
-                $input1['gtin8'] = esc_attr( $all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0]);  
-            }
-            if ( isset( $all_post_meta['saswp_product_schema_color_'.$schema_id]) ) {
-                $input1['color'] = esc_attr( $all_post_meta['saswp_product_schema_color_'.$schema_id][0]);  
-            }
-            if ( isset( $all_post_meta['saswp_product_schema_gtin13_'.$schema_id]) ) {
-                $input1['gtin13'] = esc_attr( $all_post_meta['saswp_product_schema_gtin13_'.$schema_id][0]);  
-            }
-            if ( isset( $all_post_meta['saswp_product_schema_gtin12_'.$schema_id]) ) {
-                $input1['gtin12'] = esc_attr( $all_post_meta['saswp_product_schema_gtin12_'.$schema_id][0]);  
-            }
-            if ( isset( $all_post_meta['saswp_product_schema_mpn_'.$schema_id]) ) {
-              $input1['mpn'] = esc_attr( $all_post_meta['saswp_product_schema_mpn_'.$schema_id][0]);  
+            // GTIN8 Validation
+            if ( isset( $all_post_meta['saswp_product_schema_gtin8_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0] != '' ) {
+                $input1['gtin8'] = esc_attr( $all_post_meta['saswp_product_schema_gtin8_'.$schema_id][0] );  
             }
 
-            if ( isset( $all_post_meta['saswp_product_additional_type_'.$schema_id][0]) ) {
-                $input1['additionalType'] = esc_attr( $all_post_meta['saswp_product_additional_type_'.$schema_id][0]);  
+            // Color Validation
+            if ( isset( $all_post_meta['saswp_product_schema_color_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_color_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_color_'.$schema_id][0] != '' ) {
+                $input1['color'] = esc_attr( $all_post_meta['saswp_product_schema_color_'.$schema_id][0] );  
+            }
+
+            // GTIN13 Validation
+            if ( isset( $all_post_meta['saswp_product_schema_gtin13_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_gtin13_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_gtin13_'.$schema_id][0] != '' ) {
+                $input1['gtin13'] = esc_attr( $all_post_meta['saswp_product_schema_gtin13_'.$schema_id][0] );  
+            }
+
+            // GTIN12 Validation
+            if ( isset( $all_post_meta['saswp_product_schema_gtin12_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_gtin12_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_gtin12_'.$schema_id][0] != '' ) {
+                $input1['gtin12'] = esc_attr( $all_post_meta['saswp_product_schema_gtin12_'.$schema_id][0] );  
+            }
+
+            // MPN Validation
+            if ( isset( $all_post_meta['saswp_product_schema_mpn_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_mpn_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_mpn_'.$schema_id][0] != '' ) {
+                $input1['mpn'] = esc_attr( $all_post_meta['saswp_product_schema_mpn_'.$schema_id][0] );  
+            }
+
+            // Additional Type Validation
+            if ( isset( $all_post_meta['saswp_product_additional_type_'.$schema_id] ) && isset( $all_post_meta['saswp_product_additional_type_'.$schema_id][0] ) && $all_post_meta['saswp_product_additional_type_'.$schema_id][0] != '' ) {
+                $input1['additionalType'] = esc_attr( $all_post_meta['saswp_product_additional_type_'.$schema_id][0] );  
             }
             
             if ( ! empty( $all_post_meta['saswp_product_weight_'.$schema_id][0] ) && ! empty( $all_post_meta['saswp_product_weight_unit_'.$schema_id][0] ) ) {
