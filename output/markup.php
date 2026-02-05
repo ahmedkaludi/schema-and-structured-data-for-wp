@@ -33,18 +33,24 @@ function saswp_get_reviews_schema_markup($reviews){
                     $sumofrating += $review_rate;
                 }
                 
-                $reviews_arr[] = array(
-                    '@type'         => 'Review',
-                    'author'        => array('@type'=> 'Person', 'name' => $rv['saswp_reviewer_name']),
-                    'datePublished' => $rv['saswp_review_date'],
-                    'description'   => $rv['saswp_review_text'],
-                    'reviewRating'  => array(
+                $format_review                  = [];
+                $format_review['@type']         =   'Review';
+                $format_review['author']        =   array('@type'=> 'Person', 'name' => $rv['saswp_reviewer_name']);
+                $format_review['datePublished'] =   $rv['saswp_review_date'];
+                $format_review['description']   =   $rv['saswp_review_text'];
+                $format_review['reviewRating']  =   array(
                                 '@type'       => 'Rating',
                                 'bestRating'  => 5,
                                 'ratingValue' => $rv['saswp_review_rating'],
                                 'worstRating' => 1
-                    ),
-               );
+                            );
+                if ( ! empty( $rv['saswp_reviewer_image'] ) && is_string( $rv['saswp_reviewer_image'] ) ) {
+                    // If it's default image of schema then don't add it
+                    if ( strpos( $rv['saswp_reviewer_image'], 'default_user.jpg' ) === false ) {
+                        $format_review['image']     = $rv['saswp_reviewer_image'];   
+                    }  
+                }
+                $reviews_arr[]                  = $format_review;
                 
             }
             
