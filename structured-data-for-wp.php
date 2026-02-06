@@ -160,13 +160,13 @@ function saswp_render_omnireview_ad() {
     <div class="saswp-omnireview-banner notice">
         <div class="saswp-or-content">
             <div class="saswp-or-text">
-                <span class="saswp-badge">NEW</span>
-                <h3>Introduce to our New Product <strong>OmniReview</strong></h3>
-                <p>We've built a brand new plugin to help you collect, manage, and showcase reviews from Google, Yelp, and more—all in one place.</p>
+                <span class="saswp-badge"><?php echo esc_html__( 'NEW', 'schema-and-structured-data-for-wp' ); ?></span>
+                <h3><?php echo esc_html__( 'Introduce to our New Product', 'schema-and-structured-data-for-wp' ); ?> <strong><?php echo esc_html__( 'OmniReview', 'schema-and-structured-data-for-wp' ); ?></strong></h3>
+                <p><?php echo esc_html__( "We've built a brand new plugin to help you collect, manage, and showcase reviews from Google, Yelp, and more—all in one place.", 'schema-and-structured-data-for-wp' ); ?></p>
             </div>
             <div class="saswp-or-actions">
-                <a href="https://wordpress.org/plugins/omnireview/" target="_blank" class="saswp-btn-primary">Install OmniReview Free</a>
-                <a href="https://omnireview.site/" target="_blank" class="saswp-link-secondary">Learn More &rarr;</a>
+                <a href="https://wordpress.org/plugins/omnireview/" target="_blank" class="saswp-btn-primary"><?php echo esc_html__( 'Install OmniReview Free', 'schema-and-structured-data-for-wp' ); ?></a>
+                <a href="https://omnireview.site/" target="_blank" class="saswp-link-secondary"><?php echo esc_html__( 'Learn More', 'schema-and-structured-data-for-wp' ); ?> &rarr;</a>
             </div>
         </div>
         <button type="button" class="saswp-or-dismiss">
