@@ -1337,27 +1337,21 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             '@context'			            => saswp_context_url(),
             '@type'				            => 'Product',
             '@id'                           => get_permalink().'#product',    
-            'url'				            => get_permalink(),
-            /*'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_name_'.$schema_id, 'saswp_array'),
-            'sku'                           => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_sku_'.$schema_id, 'saswp_array'),
-            'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_description_'.$schema_id, 'saswp_array'),													                       
-            'brand'                         => array('@type' => 'Brand',
-                                                     'name'  => saswp_remove_warnings($all_post_meta, 'saswp_product_schema_brand_name_'.$schema_id, 'saswp_array'),
-                                                    )*/    
+            'url'				            => get_permalink(),   
             ); 
            
             // 2. Validate Name
-            if (isset($all_post_meta['saswp_product_schema_name_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_name_'.$schema_id][0] != '') {
+            if (! empty( $all_post_meta['saswp_product_schema_name_'.$schema_id][0] ) ) {
                 $input1['name'] = $all_post_meta['saswp_product_schema_name_'.$schema_id][0];
             }
 
             // 3. Validate SKU
-            if (isset($all_post_meta['saswp_product_schema_sku_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_sku_'.$schema_id][0] != '') {
+            if (! empty( $all_post_meta['saswp_product_schema_sku_'.$schema_id][0] ) ) {
                 $input1['sku'] = $all_post_meta['saswp_product_schema_sku_'.$schema_id][0];
             }
 
             // 4. Validate Description
-            if (isset($all_post_meta['saswp_product_schema_description_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_description_'.$schema_id][0] != '') {
+            if (! empty( $all_post_meta['saswp_product_schema_description_'.$schema_id][0] ) ) {
                 $input1['description'] = $all_post_meta['saswp_product_schema_description_'.$schema_id][0];
             }
 
@@ -1371,12 +1365,12 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 );
                 
                 // Brand URL (from your screenshot)
-                if (isset($all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0] != '') {
+                if (! empty( $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0] )) {
                     $input1['brand']['url'] = $all_post_meta['saswp_product_schema_brand_url_'.$schema_id][0];
                 }
                 
                 // Brand Image (from your screenshot)
-                if (isset($all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0] != '') {
+                if (! empty( $all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0] )) {
                     $input1['brand']['image'] = $all_post_meta['saswp_product_schema_brand_image_'.$schema_id][0];
                 }
             }
@@ -1395,14 +1389,6 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
             if( isset($all_post_meta['saswp_product_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_id_'.$schema_id][0] != '' ){
                     $input1['@id'] = $all_post_meta['saswp_product_schema_id_'.$schema_id][0];
             }
-
-            // if( isset($all_post_meta['product_pros_'.$schema_id][0]) && $all_post_meta['product_pros_'.$schema_id][0] != '' ){
-            //     $input1['brand']['url'] = $all_post_meta['product_pros_'.$schema_id][0];
-            // }
-           
-            /*$input1['award']                = saswp_remove_warnings( $all_post_meta, 'saswp_product_schema_award_'.$schema_id, 'saswp_array' );
-            
-            $input1 = saswp_get_modified_image('saswp_product_schema_image_'.$schema_id.'_detail', $input1);*/
 
             // Validate and add Award
             if (isset($all_post_meta['saswp_product_schema_award_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_award_'.$schema_id][0] != '') {

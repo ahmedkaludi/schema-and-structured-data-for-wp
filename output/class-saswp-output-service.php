@@ -10112,10 +10112,7 @@ Class SASWP_Output_Service{
                             '@context'			=> saswp_context_url(),
                             '@type'				=> $schema_type,
                             '@id'				=> saswp_get_permalink().'#'.$schema_type,     
-                            'url'				=> saswp_get_permalink(),
-                            /*'name'                              => saswp_get_the_product_title( saswp_remove_warnings($product_details, 'product_name', 'saswp_string') ),
-                            'sku'                               => saswp_remove_warnings($product_details, 'product_sku', 'saswp_string'),    
-                            'description'                       => saswp_remove_warnings($product_details, 'product_description', 'saswp_string')*/                                                               
+                            'url'				=> saswp_get_permalink(),                                                               
                           );
 
                           // 2. Validate Name
