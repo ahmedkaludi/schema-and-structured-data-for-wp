@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 1.54.1
+Stable tag: 1.55
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,20 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.55 (06 February 2026) =
+* Fixed: Error appears after recent update #2379
+* Enhancement: When the Knowledge Graph is disabled and the defragment option is enabled, it adds an empty @type to the @graph in the schema markup #2383
+* Enhancement: Added educationRequirements and experienceRequirements Fields to Job Posting Schema #2390
+* Feature: Add website schema seperately as we have article and other schema #2394
+* Enhancement: Custom schema improvement #2395
+* Fixed: Custom JSON Schema: <script type="application/ld+json"> tags removed on save after latest update #2399
+* Enhancement: Do not include empty properties in JSON-LD when generating schema #2403
+* Feature: Create compatibility with omnireview and generate schema #2404
+* Fixed: Reviewer image render issue in schema markup #2405
+
+= 1.54.2 (20 January 2026)
+* Added: Omni-review Banner integration #2384
 
 = 1.54.1 (17 January 2026) =
 * Fixed: Vulnerability reported by Wordfence Security and researched by type5afe #2395
@@ -319,20 +333,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 = 1.38.1 (06 November 2024) =
 * Enhancement: Rankmath keyword issue with Category and Tag for WebPage schema #2201
 * Enhancement: Primary image size was not reflected properly in Schema #2213
-
-= 1.38 (02 November 2024) =
-* Feature: Added ProductGroup Schema Type #2071
-* Feature: Added option to show/hide schema markup inside elementor widget #2171
-* Enhancement: Fixed issue of correct image in ImageObject schema #2188
-* Enhancement: Schema meta fields should not be appeared inside custom fields. #2189
-* Feature: Automated the faqs data added manually in classic editor #2193
-* Fixed: Code improvement  #2194
-* Fixed: ACF time picker conflict issue in block editor #2195
-* Enhancement: Schema markup shown for the AMP pages showing the same markup as non-AMP #2199
-* Enhancement: Rankmath keyword issue with Category and Tag for WebPage schema #2201
-* Enhancement: Added FAQ compatibility with Elementor accordian #2202
-* Feature: Added Compatibility with wpForo plugin #2204
-* Enhancement: Issue with adding a live YouTube video to post #2205
-* Feature: Added compatibility with the plugin RealtyPress Premium #2206
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
