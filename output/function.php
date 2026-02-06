@@ -2581,10 +2581,10 @@ function saswp_get_brb_reviews() {
 
 function saswp_get_omnireview_reviews() {
 
-    global $post;
+    global $post, $sd_data;
     $ratings = array();
     $reviews = array();
-
+    if ( isset( $sd_data['saswp-or']) && $sd_data['saswp-or'] == 1 && function_exists('omnireview_get_platforms') ) {
     if ( is_object($post) ) {
 
         $tag = 'omnireview_widget'; 
@@ -2683,6 +2683,7 @@ function saswp_get_omnireview_reviews() {
         }
     }
     return array('reviews' => $reviews, 'rating' => $ratings);
+    }
 }
 
 function saswp_get_strong_testimonials() {

@@ -2804,7 +2804,7 @@ function saswp_compatibility_page_callback() {
                 )
         );
 
-        $or = array(
+        $omni_review = array(
                 'label'  => 'OmniReview',
                 'id'     => 'saswp-or-checkbox',                        
                 'name'   => 'saswp-or-checkbox',
@@ -4581,7 +4581,7 @@ function saswp_compatibility_page_callback() {
                 $rmp_rating,
                 $elementor_testimonial,
                 $brb,
-                $or,
+                $omni_review,
                 $ratingform,
                 $wpdiscuz,
                 $yasr,

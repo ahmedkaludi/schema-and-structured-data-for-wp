@@ -3322,15 +3322,15 @@ function saswp_schema_output() {
                                         // OmniReview starts here
                                         $omnireview_rv = saswp_get_omnireview_reviews();
 
-                                        if ( $omnireview_rv ) {
+                                        if ( ! empty( $omnireview_rv ) && is_array( $omnireview_rv ) ) {
 
                                             // Aggregate Rating
-                                            if ( isset( $omnireview_rv['rating']['aggregateRating'] ) ) {
+                                            if ( ! empty( $omnireview_rv['rating']['aggregateRating'] ) ) {
                                                 $input1['aggregateRating'] = $omnireview_rv['rating']['aggregateRating'];
                                             }
 
                                             // Reviews list
-                                            if ( isset( $omnireview_rv['reviews'] ) ) {
+                                            if ( ! empty( $omnireview_rv['reviews'] ) ) {
                                                 $input1['review'] = $omnireview_rv['reviews'];
                                             }
 
