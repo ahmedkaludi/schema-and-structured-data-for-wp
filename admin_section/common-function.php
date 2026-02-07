@@ -3504,6 +3504,7 @@ function saswp_get_field_note($pname){
             'wordpress_news'              => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="#">Wordpress News</a>',
             'strong_testimonials'         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/strong-testimonials">Strong Testimonials</a>',
             'brb'                         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://richplugins.com/business-reviews-bundle-wordpress-plugin">Business Reviews Bundle</a>',
+            'or'                         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/omnireview/">OmniReview</a>',
             'wp_event_aggregator'         => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/wp-event-aggregator/">WP Event Aggregator</a>',
             'stachethemes_event_calendar' => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="http://stachethemes.com/">Stachethemes Event Calendar</a>',
             'timetable_event'             => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/mp-timetable">Timetable and Event Schedule by MotoPress</a>',
@@ -3765,6 +3766,43 @@ function saswp_current_user_allowed() {
         }else{
             if( isset($currentUser->caps['administrator']) ){
                     $currentuserrole = array('administrator');
+            }else{
+                foreach ( $saswp_roles as $role ) {
+                    // Map role names to key capabilities
+                    switch ( $role ) {
+                        case 'administrator':
+                            if ( user_can( $currentUser, 'manage_options' ) ) {
+                                $currentuserrole[] = 'administrator';
+                            }
+                            break;
+                        case 'editor':
+                            if ( user_can( $currentUser, 'edit_others_posts' ) ) {
+                                $currentuserrole[] = 'editor';
+                            }
+                            break;
+                        case 'author':
+                            if ( user_can( $currentUser, 'publish_posts' ) ) {
+                                $currentuserrole[] = 'author';
+                            }
+                            break;
+                        case 'contributor':
+                            if ( user_can( $currentUser, 'edit_posts' ) ) {
+                                $currentuserrole[] = 'contributor';
+                            }
+                            break;
+                        case 'subscriber':
+                            if ( user_can( $currentUser, 'read' ) ) {
+                                $currentuserrole[] = 'subscriber';
+                            }
+                            break;
+                        default:
+                            // Custom capability check (if role name matches a capability)
+                            if ( user_can( $currentUser, $role ) ) {
+                                $currentuserrole[] = $role;
+                            }
+                            break;
+                    }
+                }
             }	
         }
         

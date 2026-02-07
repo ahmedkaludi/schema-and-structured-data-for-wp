@@ -59,6 +59,7 @@ return array(
                 'CriticReview'             => 'CriticReview',
                 'Certification'            => 'Certification',
                 'Guide'                    => 'Guide',
+                'WebSite'                  => 'WebSite',
         ),
         'Event' => array(
             'Event'                    => 'Event',

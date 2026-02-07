@@ -1,0 +1,105 @@
+/* omnireview-admin.css */
+
+.saswp-omnireview-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin: 20px 0 20px 0 !important; 
+    border: none !important; 
+}
+
+.saswp-or-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.saswp-or-text {
+    flex: 1;
+}
+
+.saswp-badge {
+    background: #FFD700;
+    color: #333;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-right: 8px;
+    text-transform: uppercase;
+}
+
+.saswp-or-text h3 {
+    margin: 0 0 5px 0;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.saswp-or-text p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+    max-width: 600px;
+}
+
+.saswp-or-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.saswp-btn-primary {
+    background-color: #fff;
+    color: #764ba2;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 1px solid white;
+}
+
+.saswp-btn-primary:hover {
+    background-color: transparent;
+    color: #fff;
+}
+
+.saswp-link-secondary {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.saswp-link-secondary:hover {
+    text-decoration: underline;
+}
+
+.saswp-or-dismiss {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255, 0.6);
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0;
+}
+
+.saswp-or-dismiss:hover {
+    color: #fff;
+}
+
+.saswp-or-dismiss .dashicons {
+    font-size: 18px;
+}

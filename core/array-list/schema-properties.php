@@ -9667,9 +9667,24 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'attributes' => array(
                                 'placeholder' => 'Hour'
                                 )
-                        )   
-                   
-                                              
+                        ),
+                        array(
+                                'label'      => 'Education Requirements',
+                                'id'         => 'saswp_jobposting_schema_edu_credential_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                'placeholder' => 'bachelor degree'
+                                )
+                        ),
+                        array(
+                                'label'      => 'Experience Requirements',
+                                'id'         => 'saswp_jobposting_schema_exp_months_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                'placeholder' => '60'
+                                )
+                        )
+
                    );
                     break;
                
@@ -12886,6 +12901,30 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'note'      => 'Note: Enter all the review aspects in comma separated',
                             ),
                         );
+                    break;
+
+                    case 'WebSite':
+                    $meta_field = array(
+                        array(
+                            'label'   => 'Name',
+                            'id'      => 'saswp_website_name_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => get_bloginfo( 'name' ),
+                        ),
+                        array(
+                            'label'   => 'URL',
+                            'id'      => 'saswp_website_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => home_url(),
+                        ),
+                        array(
+                            'label'   => 'Search URL Template',
+                            'id'      => 'saswp_website_search_target_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => home_url( '/?s={search_term_string}' ),
+                            'note'    => 'Example: https://www.siasat.com/?s=&q={search_term_string}',
+                        ),
+                    );
                     break;
 
                 default:

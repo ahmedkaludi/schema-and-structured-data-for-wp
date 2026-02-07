@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.54
+Version: 1.55
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SASWP_VERSION', '1.54' );
+define( 'SASWP_VERSION', '1.55' );
 define( 'SASWP_DIR_NAME_FILE', __FILE__ );
 define( 'SASWP_DIR_NAME', dirname( __FILE__ ) );
 define( 'SASWP_DIR_URI', plugin_dir_url( __FILE__ ) );
@@ -140,3 +140,38 @@ function saswp_add_plugin_meta_links( $meta_fields, $file ) {
     return $meta_fields;
     
   }
+
+/**
+ * 1. Hook to display the OmniReview Ad
+ */
+add_action('admin_notices', 'saswp_render_omnireview_ad');
+
+function saswp_render_omnireview_ad() {
+    $screen = get_current_screen();
+
+    if ( ! isset($screen->post_type) || $screen->post_type !== 'saswp_reviews' ) {
+        return;
+    }
+
+    wp_enqueue_style('omnireview-admin-css', plugin_dir_url(__FILE__) . 'admin_section/css/omnireview-admin.css');
+    wp_enqueue_script('omnireview-admin-js', plugin_dir_url(__FILE__) . 'admin_section/js/omnireview-admin.js', array('jquery'), '1.0', true);
+
+    ?>
+    <div class="saswp-omnireview-banner notice">
+        <div class="saswp-or-content">
+            <div class="saswp-or-text">
+                <span class="saswp-badge"><?php echo esc_html__( 'NEW', 'schema-and-structured-data-for-wp' ); ?></span>
+                <h3><?php echo esc_html__( 'Introduce to our New Product', 'schema-and-structured-data-for-wp' ); ?> <strong><?php echo esc_html__( 'OmniReview', 'schema-and-structured-data-for-wp' ); ?></strong></h3>
+                <p><?php echo esc_html__( "We've built a brand new plugin to help you collect, manage, and showcase reviews from Google, Yelp, and more—all in one place.", 'schema-and-structured-data-for-wp' ); ?></p>
+            </div>
+            <div class="saswp-or-actions">
+                <a href="https://wordpress.org/plugins/omnireview/" target="_blank" class="saswp-btn-primary"><?php echo esc_html__( 'Install OmniReview Free', 'schema-and-structured-data-for-wp' ); ?></a>
+                <a href="https://omnireview.site/" target="_blank" class="saswp-link-secondary"><?php echo esc_html__( 'Learn More', 'schema-and-structured-data-for-wp' ); ?> &rarr;</a>
+            </div>
+        </div>
+        <button type="button" class="saswp-or-dismiss">
+            <span class="dashicons dashicons-no-alt"></span>
+        </button>
+    </div>
+    <?php
+}

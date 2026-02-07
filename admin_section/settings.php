@@ -2804,6 +2804,19 @@ function saswp_compatibility_page_callback() {
                 )
         );
 
+        $omni_review = array(
+                'label'  => 'OmniReview',
+                'id'     => 'saswp-or-checkbox',                        
+                'name'   => 'saswp-or-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('or'),
+                'hidden' => array(
+                        'id'   => 'saswp-or',
+                        'name' => 'sd_data[saswp-or]',                             
+                )
+        );
+
         $ratingform = array(
                 'label'  => 'Rating Form by SerdarG',
                 'id'     => 'saswp-ratingform-checkbox',                        
@@ -4568,6 +4581,7 @@ function saswp_compatibility_page_callback() {
                 $rmp_rating,
                 $elementor_testimonial,
                 $brb,
+                $omni_review,
                 $ratingform,
                 $wpdiscuz,
                 $yasr,
