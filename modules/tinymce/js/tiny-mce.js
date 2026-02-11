@@ -1,5 +1,25 @@
 (function() {    
 
+    window.saswp_init_faq_editor = function(id) {
+        if (typeof wp !== 'undefined' && wp.editor) {
+            
+            if (tinymce.get(id)) {
+                wp.editor.remove(id);
+            }
+            
+            wp.editor.initialize(id, {
+                tinymce: {
+                    wpautop: true,
+                    plugins: 'charmap colorpicker hr lists link media paste tabfocus textcolor wordpress wpautoresize wpdialogs wpeditimage wpemoji wpgallery wplink wpview',
+                    toolbar1: 'formatselect bold italic | bullist numlist | blockquote | alignleft aligncenter alignright | link unlink | wp_adv',
+                    toolbar2: 'strikethrough hr | forecolor | pastetext removeformat | charmap | outdent indent | undo redo | wp_help'
+                },
+                quicktags: true, 
+                mediaButtons: false 
+            });
+        }
+    };
+
     tinymce.PluginManager.add('saswp_tinymce_dropdown', function( editor, url ) {
         editor.addButton( 'saswp_tinymce_dropdown', { 
             title: 'SASWP Schema Block',           
@@ -13,8 +33,8 @@
                     onclick: function() {
                         editor.windowManager.open({
                             title: 'SASWP Featured Snippet FAQ',
-                            minWidth: 500,
-                            height: 500,
+                            minWidth: 700, 
+                            height: 500,   
                             autoScroll: true,
                             body:[
                                 {
@@ -59,7 +79,7 @@
                                                 </div>
                                                 <div>
                                                     <label>Answer</label>
-                                                    <textarea id="saswp_faq_answer-0" rows="5" name="saswp_faq_answer" placeholder="Enter your answer here..."></textarea>
+                                                    <textarea id="saswp_faq_answer-0" name="saswp_faq_answer" style="min-height: 200px;" placeholder="Enter your answer here..."></textarea>
                                                 </div>
                                                 <div>
                                                     <div type="text" id="saswp_faq_img_id-0" name="saswp_faq_img_id" class="saswp_tiny_img_container"></div>
@@ -74,32 +94,54 @@
                                         </div>
                                     </form>`,
                               }
-                                                                 
+                                                     
                             ],
-                            onsubmit: function(e){
-                                                                                                                                        
-                                        let shortcode = `[saswp_tiny_multiple_faq `,
-                                            fieldsets = jQuery('#saswp-faq-start-point fieldset');
-                                      
-                                        for (let i = 0; i < fieldsets.length; i++) {
-                                          var key = fieldsets[i].dataset.key,
-                                              headlineTag = jQuery("#saswp_faq_headline-"+key).val(),
-                                              question = jQuery(`#saswp_faq_question-`+key).val(),
-                                              answer = jQuery(`#saswp_faq_answer-`+key).val(),
-                                              imageID = jQuery(`#saswp_faq_img_id-`+key).html();                                            
-                                              fontSize = jQuery(`#saswp_faq_headline_font_size-`+key).val();                                            
-                                              fontUnit = jQuery(`#saswp_faq_headline_font_unit-`+key).val();                                            
+                            
+                            onPostRender: function() {
+                                setTimeout(function(){
+                                    window.saswp_init_faq_editor('saswp_faq_answer-0');
+                                }, 500);
+                            },
+                            onsubmit: function(e) {
 
-                                              shortcode += `headline-`+key+`="`+headlineTag+`" question-`+key+`="`+question+`" answer-`+key+`="`+answer+`" image-`+key+`="`+imageID+`" `;
-                                              if(jQuery.trim(fontSize).length > 0){
-                                                shortcode += ` fontsize-${key}="${fontSize}" fontunit-${key}="${fontUnit}" `;
-                                              }
-                                        }
-                                                                              
-                                        shortcode += ` count="`+fieldsets.length+`" html="`+e.data.saswp_multi_faq_render_html+`"]`;
-                                                                                                                    
-                                        editor.insertContent(shortcode)     
-                                        
+                                function escapeHtml(text) {
+                                    if (!text) return "";
+                                    return text
+                                        .replace(/&/g, "&amp;")
+                                        .replace(/</g, "&lt;")
+                                        .replace(/>/g, "&gt;")
+                                        .replace(/"/g, "&quot;")
+                                        .replace(/'/g, "&#039;");
+                                }
+
+                                if (typeof tinyMCE !== 'undefined') {
+                                    tinyMCE.triggerSave();
+                                }
+
+                                let shortcode = `[saswp_tiny_multiple_faq `,
+                                    fieldsets = jQuery('#saswp-faq-start-point fieldset');
+
+                                for (let i = 0; i < fieldsets.length; i++) {
+                                    var key = fieldsets[i].dataset.key;
+
+                                    var headlineTag = escapeHtml(jQuery("#saswp_faq_headline-" + key).val());
+                                    var question    = escapeHtml(jQuery(`#saswp_faq_question-` + key).val());
+                                    var answer      = escapeHtml(jQuery(`#saswp_faq_answer-` + key).val());
+                                    
+                                    var imageID     = jQuery(`#saswp_faq_img_id-` + key).html();
+                                    var fontSize    = jQuery(`#saswp_faq_headline_font_size-` + key).val();
+                                    var fontUnit    = jQuery(`#saswp_faq_headline_font_unit-` + key).val();
+
+                                    shortcode += `headline-` + key + `="` + headlineTag + `" question-` + key + `="` + question + `" answer-` + key + `="` + answer + `" image-` + key + `="` + imageID + `" `;
+
+                                    if (jQuery.trim(fontSize).length > 0) {
+                                        shortcode += ` fontsize-${key}="${fontSize}" fontunit-${key}="${fontUnit}" `;
+                                    }
+                                }
+
+                                shortcode += ` count="` + fieldsets.length + `" html="` + e.data.saswp_multi_faq_render_html + `"]`;
+
+                                editor.insertContent(shortcode);
                             }
 
                         })
@@ -151,14 +193,14 @@
                                     name: 'saswp_howto_estimate_cost_currency',
                                     label: 'Estimate Cost Currency',
                                     value: '',
-                                    placeholder: 'USD',                                                                        
+                                    placeholder: 'USD',                                                                                                                     
                                   },
                                   {
                                     type: 'textbox',
                                     name: 'saswp_howto_estimate_cost',
                                     label: 'Estimate Cost',
                                     value: '',
-                                    placeholder: '20',                                                                        
+                                    placeholder: '20',                                                                                                                     
                                   },
                                   {
                                     type: 'textbox',
@@ -210,10 +252,10 @@
                                         </div>
                                     </form>`,
                               }
-                                                                 
+                                                     
                             ],
                             onsubmit: function(e){
-                                                                                                                                        
+                                                                                                                                                                                                                                                                                
                                         let shortcode = `[saswp_tiny_howto `,
                                             fieldsets = jQuery('#saswp-howto-start-point fieldset');
                                       
@@ -228,7 +270,7 @@
                                         }
                                                                               
                                         shortcode += ` count="`+fieldsets.length+`" html="`+e.data.saswp_howto_render_html+`" days="`+e.data.saswp_howto_time_days+`" hours="`+e.data.saswp_howto_time_hours+`" minutes="`+e.data.saswp_howto_time_minutes+`" cost_currency="`+e.data.saswp_howto_estimate_cost_currency+`" cost="`+e.data.saswp_howto_estimate_cost+`" description="`+e.data.saswp_howto_description+`"]`;
-                                                                                                                    
+                                                                                                                                                                                
                                         editor.insertContent(shortcode)     
                                         
                             }
@@ -376,18 +418,18 @@
                                         </div>
                                     </form>`,
                               }
-                                                                 
+                                                     
                             ],
                             onsubmit: function(e){
                                 let recipeBy = jQuery.trim(e.data.saswp_recipe_by); 
-                                let recipeCourse = jQuery.trim(e.data.saswp_recipe_course);                                                                                                          
-                                let recipeCusine = jQuery.trim(e.data.saswp_recipe_cusine);                                                                                                          
-                                let recipeDifficulty = jQuery.trim(e.data.saswp_recipe_difficulty);                                                                                                          
-                                let recipeServings = jQuery.trim(e.data.saswp_recipe_servings);                                                                                                          
-                                let recipePTime = jQuery.trim(e.data.saswp_recipe_ptime);                                                                                                          
-                                let recipeCTime = jQuery.trim(e.data.saswp_recipe_ctime);                                                                                                          
+                                let recipeCourse = jQuery.trim(e.data.saswp_recipe_course);                                                                                                                                                                                                                                                             
+                                let recipeCusine = jQuery.trim(e.data.saswp_recipe_cusine);                                                                                                                                                                                                                                                             
+                                let recipeDifficulty = jQuery.trim(e.data.saswp_recipe_difficulty);                                                                                                                                                                                                                                                             
+                                let recipeServings = jQuery.trim(e.data.saswp_recipe_servings);                                                                                                                                                                                                                                                             
+                                let recipePTime = jQuery.trim(e.data.saswp_recipe_ptime);                                                                                                                                                                                                                                                             
+                                let recipeCTime = jQuery.trim(e.data.saswp_recipe_ctime);                                                                                                                                                                                                                                                             
                                 let recipeCalories = jQuery.trim(e.data.saswp_recipe_calories);   
-                                let recipeImageId = jQuery('#saswp_recipe_img_id-0').html();                                                                                                        
+                                let recipeImageId = jQuery('#saswp_recipe_img_id-0').html();                                                                                                                                                                                                                                                        
                                 let shortcode = '[saswp_tiny_recipe ';
                                 shortcode += 'recipe_by="'+recipeBy+'" course="'+recipeCourse+'" cusine="'+recipeCusine+'" difficulty="'+recipeDifficulty+'" servings="'+recipeServings+'" prepration_time="'+recipePTime+'" cooking_time="'+recipeCTime+'" calories="'+e.data.saswp_recipe_calories+'" image="'+recipeImageId+'"';
                                 let iCount = 0;
@@ -521,7 +563,7 @@ jQuery(document).ready(function($){
                         </div>
                         <div>
                             <label>Answer</label>
-                            <textarea id="saswp_faq_answer-`+id+`" rows="5" name="saswp_faq_answer" placeholder="Enter your answer here..."></textarea>
+                            <textarea id="saswp_faq_answer-`+id+`" name="saswp_faq_answer" style="min-height: 200px;" placeholder="Enter your answer here..."></textarea>
                         </div>
                         <div>
                             <div type="text" id="saswp_faq_img_id-`+id+`" name="saswp_faq_img_id" class="saswp_tiny_img_container"></div>
@@ -536,6 +578,10 @@ jQuery(document).ready(function($){
                 `;
                 
                 $("#saswp-fields").append(template);                
+                
+                if(typeof window.saswp_init_faq_editor === 'function'){
+                    window.saswp_init_faq_editor('saswp_faq_answer-' + id);
+                }
     });
 
     $(document).on('click','.saswp_removelast', function(e){

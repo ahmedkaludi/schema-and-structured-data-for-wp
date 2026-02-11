@@ -136,22 +136,32 @@ function saswp_tinymce_faq_schema() {
     global $saswp_tiny_multi_faq, $sd_data;
 
     $input1 = array();
-    
     $faq_question_arr = array();
 
     if ( ! empty( $saswp_tiny_multi_faq['elements']) ) {
 
         $input1['@context']              = saswp_context_url();
-        $input1['@type']                     = 'FAQPage';
-        $input1['@id']                       = saswp_get_permalink().'#FAQPage';                            
+        $input1['@type']                 = 'FAQPage';
+        $input1['@id']                   = saswp_get_permalink().'#FAQPage';                                    
 
         foreach( $saswp_tiny_multi_faq['elements'] as $val){
 
             $supply_data = array();
             $supply_data['@type']                   = 'Question';
-            $supply_data['name']                    = (isset($val['question']) && is_string($val['question']) ) ? htmlspecialchars($val['question'], ENT_QUOTES, 'UTF-8') : '';
+            
+            // Question plain text hi rahega
+            $supply_data['name']                    = (isset($val['question']) && is_string($val['question']) ) ? wp_strip_all_tags($val['question']) : '';
+            
             $supply_data['acceptedAnswer']['@type'] = 'Answer';
-            $supply_data['acceptedAnswer']['text']  = (isset($val['answer']) && is_string($val['answer']) ) ? htmlspecialchars($val['answer'], ENT_QUOTES, 'UTF-8') : '';
+            
+            // FIX IS HERE: Pehle decode kiya, fir saare tags strip kar diye
+            if ( isset($val['answer']) && is_string($val['answer']) ) {
+                $decoded_content = html_entity_decode($val['answer']); // Convert entities to tags
+                $plain_text = wp_strip_all_tags($decoded_content);     // Remove tags
+                $supply_data['acceptedAnswer']['text'] = $plain_text;
+            } else {
+                $supply_data['acceptedAnswer']['text'] = '';
+            }
 
             if ( ! empty( $val['image']) ) {
 
@@ -161,13 +171,13 @@ function saswp_tinymce_faq_schema() {
                     $supply_data['image']  = $image_details;                                                
                 }
                                                         
-                }
+            }
 
             $faq_question_arr[] =  $supply_data;
         }
         $input1['mainEntity'] = $faq_question_arr;
 
-    }                                          
+    }                                             
 
     return apply_filters('saswp_modify_faq_block_schema_output', $input1 );    
 }

@@ -3265,3 +3265,97 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
     font-weight: 500;
     display: inline-block;
 }
+
+.mce-window {
+    z-index: 100100 !important;
+}
+
+div.mce-inline-toolbar-grp {
+    z-index: 100200 !important;
+}
+
+div.mce-floatpanel {
+    z-index: 100200 !important;
+}
+
+div.mce-tooltip {
+    z-index: 100250 !important;
+}
+
+#wp-link-wrap {
+    z-index: 100300 !important;
+}
+#wp-link-backdrop {
+    z-index: 100250 !important;
+}
+
+ul.ui-autocomplete {
+    z-index: 100400 !important;
+}
+
+.media-modal {
+    z-index: 100300 !important;
+}
+.media-modal-backdrop {
+    z-index: 100250 !important;
+}
+
+.mce-window .wp-editor-wrap,
+.mce-window .wp-editor-wrap * {
+    -webkit-box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+}
+
+.mce-window .wp-editor-tools {
+    position: relative;
+    z-index: 1;
+    padding-top: 10px;
+}
+.mce-window .wp-editor-tabs {
+    float: right;
+}
+.mce-window .wp-switch-editor {
+    box-sizing: content-box !important;
+    margin: 5px 5px 0 0;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background: #e5e5e5;
+    color: #555;
+    cursor: pointer;
+}
+.mce-window .wp-switch-editor.html-active, 
+.mce-window .wp-switch-editor.tmce-active {
+    background: #fff;
+    border-bottom-color: #fff;
+}
+
+.mce-window .quicktags-toolbar {
+    border-bottom: 1px solid #ddd;
+    background: #f1f1f1;
+    padding: 5px;
+    height: auto;
+    min-height: 30px;
+}
+.mce-window .quicktags-toolbar > div {
+     display: inline-block !important;
+}
+.mce-window .quicktags-toolbar input.button {
+    display: inline-block !important;
+    width: auto !important;
+    margin: 2px !important;
+    padding: 2px 8px !important;
+    height: 28px !important;
+    line-height: 26px !important;
+}
+
+.mce-window .wp-media-buttons {
+    float: left;
+    margin-bottom: 5px;
+}
+
+.mce-window textarea.wp-editor-area {
+    width: 100% !important;
+    border: 1px solid #ddd;
+    box-shadow: none;
+}

@@ -175,3 +175,10 @@ function saswp_render_omnireview_ad() {
     </div>
     <?php
 }
+
+function saswp_admin_assets() {
+
+    wp_enqueue_editor(); 
+    wp_enqueue_media();
+}
+add_action( 'admin_enqueue_scripts', 'saswp_admin_assets' );
