@@ -147,14 +147,12 @@ function saswp_tinymce_faq_schema() {
         foreach( $saswp_tiny_multi_faq['elements'] as $val){
 
             $supply_data = array();
-            $supply_data['@type']                   = 'Question';
+            $supply_data['@type']                   = 'Question';            
             
-            // Question plain text hi rahega
             $supply_data['name']                    = (isset($val['question']) && is_string($val['question']) ) ? wp_strip_all_tags($val['question']) : '';
             
-            $supply_data['acceptedAnswer']['@type'] = 'Answer';
+            $supply_data['acceptedAnswer']['@type'] = 'Answer';            
             
-            // FIX IS HERE: Pehle decode kiya, fir saare tags strip kar diye
             if ( isset($val['answer']) && is_string($val['answer']) ) {
                 $decoded_content = html_entity_decode($val['answer']); // Convert entities to tags
                 $plain_text = wp_strip_all_tags($decoded_content);     // Remove tags
