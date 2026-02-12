@@ -1443,7 +1443,7 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
 
                     // Offer Count Validation
                 if (isset($all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0]) && $all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0] != '') {
-                    $input1['offers']['offerCount'] = $all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0];
+                    $input1['offers']['offerCount'] = (int) $all_post_meta['saswp_product_schema_offer_count_'.$schema_id][0];
                     }
 
                 }
@@ -1486,13 +1486,16 @@ function saswp_product_schema_markup($schema_id, $schema_post_id, $all_post_meta
 
                 }
 
-                if ( isset( $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] != '' ) {
-                    $input1['offers']['priceSpecification']['@type'] = 'priceSpecification';
-                    
-                    if ( isset( $all_post_meta['saswp_product_schema_vat_'.$schema_id] ) && isset( $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] ) && $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] != '' ) {$input1['offers']['priceSpecification']['valueAddedTaxIncluded'] = esc_attr( $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] ); 
-                        
-                    }  
+                $vat = $all_post_meta['saswp_product_schema_vat_'.$schema_id][0] ?? '';
+                $currency_raw = $all_post_meta['saswp_product_schema_currency_'.$schema_id][0] ?? '';
+
+                if ($vat !== '') {$input1['offers']['priceSpecification'] = ['@type' => 'PriceSpecification','valueAddedTaxIncluded' => filter_var($vat, FILTER_VALIDATE_BOOLEAN),];
+
+                if (!empty($currency_raw)) {$currency = saswp_modify_currency_code($currency_raw); if (!empty($currency)) {$input1['offers']['priceSpecification']['priceCurrency'] = $currency;
+                        }
+                    }
                 }
+
 
                 // Changes since version 1.15
                 if((isset($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_country_code_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_category_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_days_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_method_'.$schema_id][0])) || (isset($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0]) && !empty($all_post_meta['saswp_product_schema_rp_return_fees_'.$schema_id][0])) ) {
@@ -4716,7 +4719,7 @@ function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta
             $input1['offers']['lowPrice']        = $all_post_meta['saswp_vehicle_schema_low_price_'.$schema_id][0];
 
             if( isset($all_post_meta['saswp_vehicle_schema_offer_count_'.$schema_id][0]) ){
-                $input1['offers']['offerCount'] = $all_post_meta['saswp_vehicle_schema_offer_count_'.$schema_id][0];
+                $input1['offers']['offerCount'] = (int) $all_post_meta['saswp_vehicle_schema_offer_count_'.$schema_id][0];
             }
 
         }       
@@ -4954,7 +4957,7 @@ function saswp_car_schema_markup($schema_id, $schema_post_id, $all_post_meta){
             $input1['offers']['lowPrice']        = $all_post_meta['saswp_car_schema_low_price_'.$schema_id][0];
 
             if( isset($all_post_meta['saswp_car_schema_offer_count_'.$schema_id][0]) ){
-                $input1['offers']['offerCount'] = $all_post_meta['saswp_car_schema_offer_count_'.$schema_id][0];
+                $input1['offers']['offerCount'] = (int) $all_post_meta['saswp_car_schema_offer_count_'.$schema_id][0];
             }
 
         }       

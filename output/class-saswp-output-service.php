@@ -5887,8 +5887,10 @@ Class SASWP_Output_Service{
                         }
                     }
                     if ( isset( $custom_fields['saswp_product_schema_vat']) ) {
-                        $input1['offers']['priceSpecification']['@type']                 =    'priceSpecification';
-                        $input1['offers']['priceSpecification']['valueAddedTaxIncluded'] =    $custom_fields['saswp_product_schema_vat'];
+                        $input1['offers']['priceSpecification']['@type']                 =    'PriceSpecification';
+                        $input1['offers']['priceSpecification']['valueAddedTaxIncluded'] =    filter_var($custom_fields['saswp_product_schema_vat'], FILTER_VALIDATE_BOOLEAN);
+                        if (!empty($custom_fields['saswp_product_schema_currency'])) { $input1['offers']['priceSpecification']['priceCurrency'] = saswp_modify_currency_code($custom_fields['saswp_product_schema_currency']);}
+
                     }
                     if ( isset( $custom_fields['saswp_product_schema_priceValidUntil']) ) {
                      $input1['offers']['priceValidUntil'] =    $custom_fields['saswp_product_schema_priceValidUntil'];
@@ -5939,7 +5941,7 @@ Class SASWP_Output_Service{
                         $input1['offers']['lowPrice']  = $custom_fields['saswp_product_schema_low_price'];
 
                         if ( isset( $custom_fields['saswp_product_schema_offer_count']) ) {
-                            $input1['offers']['offerCount']     = $custom_fields['saswp_product_schema_offer_count'];
+                            $input1['offers']['offerCount']     = (int) $custom_fields['saswp_product_schema_offer_count'];
                         }
                         if ( isset( $custom_fields['saswp_product_schema_offer_url'] ) ) {
                             $input1['offers']['url']   =    $custom_fields['saswp_product_schema_offer_url'];
@@ -6133,7 +6135,7 @@ Class SASWP_Output_Service{
                             $input1['offers']['lowPrice']  = $custom_fields['saswp_product_grp_schema_low_price'];
 
                             if ( isset( $custom_fields['saswp_product_schema_offer_count']) ) {
-                                $input1['offers']['offerCount']     = $custom_fields['saswp_product_grp_schema_offer_count'];
+                                $input1['offers']['offerCount']     = (int) $custom_fields['saswp_product_grp_schema_offer_count'];
                             }
                         }
                         // Changes since version 1.15
@@ -6334,7 +6336,7 @@ Class SASWP_Output_Service{
                                $input1['offers']['lowPrice']         = $custom_fields['saswp_car_schema_low_price'];
        
                                if ( isset( $custom_fields['saswp_car_schema_offer_count']) ) {
-                                   $input1['offers']['offerCount']     = $custom_fields['saswp_car_schema_offer_count'];
+                                   $input1['offers']['offerCount']     = (int) $custom_fields['saswp_car_schema_offer_count'];
                                }
                            }                           
                            if ( isset( $custom_fields['saswp_car_schema_rating']) && isset($custom_fields['saswp_car_schema_rating_count']) ) {
@@ -6434,7 +6436,7 @@ Class SASWP_Output_Service{
                                $input1['offers']['lowPrice']  = $custom_fields['saswp_vehicle_schema_low_price'];
        
                                if ( isset( $custom_fields['saswp_vehicle_schema_offer_count']) ) {
-                                   $input1['offers']['offerCount']     = $custom_fields['saswp_vehicle_schema_offer_count'];
+                                   $input1['offers']['offerCount']     = (int) $custom_fields['saswp_vehicle_schema_offer_count'];
                                }
                            }                           
                            if ( isset( $custom_fields['saswp_vehicle_schema_rating']) && isset($custom_fields['saswp_vehicle_schema_rating_count']) ) {
@@ -10175,7 +10177,7 @@ Class SASWP_Output_Service{
                                     $input1['offers']['highPrice']     = max($product_details['product_varible_price']);
                                     $input1['offers']['priceCurrency'] = saswp_modify_currency_code(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'));
                                     $input1['offers']['availability']  = saswp_remove_warnings($product_details, 'product_availability', 'saswp_string');
-                                    $input1['offers']['offerCount']    = count($product_details['product_varible_price']);
+                                    $input1['offers']['offerCount']    = (int) count($product_details['product_varible_price']);
 
                                 }
 
