@@ -10509,33 +10509,42 @@ Class SASWP_Output_Service{
                               
                               $k = 0;
                               
-                              foreach ( $attachments[2] as $att_key => $attachment) {
-                                                                                                                                       
-                                  if ( is_array( $attach_details) && !empty($attach_details) ) {
-                                                                            
-                                                if( $attachment !='' && saswp_validate_url($attachment) ){
-                                                    $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
-                                                    $attach_images['image'][$k]['url']    = esc_url($attachment);
-                                                    $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
-                                                    $attach_images['image'][$k]['height'] = isset($attach_details[$k][1]) ? $attach_details[$k][1] : 0;
-                                                    if ( isset( $attachments[3]) && !empty($attachments[3]) ) {
-                                                        if ( is_array( $attachments[3]) ) {
-                                                            foreach ( $attachments[3] as $aimg_key => $aimg_value) {
-                                                                if($att_key == $aimg_key){
-                                                                    $explode_aimg_value = explode('"',$aimg_value);
-                                                                    if ( isset( $explode_aimg_value[1]) && !empty($explode_aimg_value[1]) ) {
-                                                                        $attach_images['image'][$k]['caption'] = $explode_aimg_value[1];
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                                                      
-                                  }
-                                  
-                                  $k++;
-                              }
+foreach ($attachments[2] as $att_key => $attachment) {
+    if (is_array($attach_details) && !empty($attach_details)) {
+        
+        if ($attachment != '' && saswp_validate_url($attachment)) {
+            
+            // 1. Convert the URL to a local file path
+            // This replaces your domain URL with the actual directory path on the server
+            $site_url = get_site_url();
+            $base_path = ABSPATH; // Standard WordPress constant for the root directory
+            $file_path = str_replace($site_url, $base_path, $attachment);
+
+            // 2. Check if the file actually exists on the disk
+            if (file_exists($file_path)) {
+                
+                $attach_images['image'][$k]['@type']  = 'ImageObject';
+                $attach_images['image'][$k]['url']    = esc_url($attachment);
+                $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
+                $attach_images['image'][$k]['height'] = isset($attach_details[$k][1]) ? $attach_details[$k][1] : 0;
+
+                if (isset($attachments[3]) && !empty($attachments[3])) {
+                    if (is_array($attachments[3])) {
+                        foreach ($attachments[3] as $aimg_key => $aimg_value) {
+                            if ($att_key == $aimg_key) {
+                                $explode_aimg_value = explode('"', $aimg_value);
+                                if (isset($explode_aimg_value[1]) && !empty($explode_aimg_value[1])) {
+                                    $attach_images['image'][$k]['caption'] = $explode_aimg_value[1];
+                                }
+                            }
+                        }
+                    }
+                }
+                $k++; 
+            }
+        }
+    }
+}
                               
                           }
                           

@@ -5309,13 +5309,40 @@ function saswp_validate_image_extension($image_url = '')
 function saswp_get_image_details($url)
 {
     $image = array();
-    if (!function_exists( 'wp_getimagesize' ) ){
-        require_once( ABSPATH . '/wp-admin/includes/media.php' );
+
+    if (empty($url)) {
+        return $image;
     }
-    $img_details = apply_filters( 'saswp_get_image_details', false, $url );
-    if ( false === $img_details ) {
-        $image = function_exists( 'wp_getimagesize' ) ? wp_getimagesize( $url ) : getimagesize( $url );
+    
+    $site_url_host  = wp_parse_url(get_site_url(), PHP_URL_HOST);
+    $image_url_host = wp_parse_url($url, PHP_URL_HOST);
+
+    // 1. External Image Check
+    if ($image_url_host !== null && $image_url_host !== $site_url_host) {
+        return $image; 
     }
+    
+    // 2. Local Path Conversion
+    $upload_dir = wp_upload_dir();
+    $path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $url);
+    
+    // 3. check if image 200 or 404
+    if (!file_exists($path) || is_dir($path)) {
+        return $image; 
+    }
+
+    $img_details = apply_filters('saswp_get_image_details', false, $url);
+    if (false !== $img_details) {
+        return $img_details;
+    }
+    
+    // 4. Get Image Size
+    if (!function_exists('wp_getimagesize')) {
+        require_once(ABSPATH . 'wp-admin/includes/media.php');
+    }
+    
+    $image = function_exists('wp_getimagesize') ? wp_getimagesize($path) : @getimagesize($path);
+
     return $image;
 }
 
