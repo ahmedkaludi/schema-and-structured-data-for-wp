@@ -1014,8 +1014,11 @@ Class SASWP_Output_Service{
                             $input1['url'] =    saswp_validate_url($custom_fields['saswp_cws_schema_url']);
                        }                       
                        if ( isset( $custom_fields['saswp_cws_schema_keywords']) ) {
-                            $input1['keywords'] =    $custom_fields['saswp_cws_schema_keywords'];
-                       }                       
+                            $keywords = $custom_fields['saswp_cws_schema_keywords'];
+                            if ( $keywords ) {
+                                $input1['keywords'] = $keywords;
+                            }
+                        }                       
                        if ( isset( $custom_fields['saswp_cws_schema_inlanguage']) ) {
                             $input1['inLanguage'] =    $custom_fields['saswp_cws_schema_inlanguage'];
                        }
@@ -1757,7 +1760,10 @@ Class SASWP_Output_Service{
                             }
                         }
                         if ( isset( $custom_fields['saswp_article_keywords']) ) {
-                         $input1['keywords'] =    $custom_fields['saswp_article_keywords'];
+                         $keywords = $custom_fields['saswp_article_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            }
                         }
                         if ( isset( $custom_fields['saswp_article_section']) ) {
                          $input1['articleSection'] =    $custom_fields['saswp_article_section'];
@@ -2099,7 +2105,10 @@ Class SASWP_Output_Service{
                              $input1['articleBody'] =    $custom_fields['saswp_scholarlyarticle_body'];
                             }
                             if ( isset( $custom_fields['saswp_scholarlyarticle_keywords']) ) {
-                             $input1['keywords'] =    $custom_fields['saswp_scholarlyarticle_keywords'];
+                             $keywords = $custom_fields['saswp_scholarlyarticle_keywords'];
+                                if($keywordse){
+                                    $input1['keywords'] = $keywords;
+                                }
                             }
                             if ( isset( $custom_fields['saswp_scholarlyarticle_section']) ) {
                              $input1['articleSection'] =    $custom_fields['saswp_scholarlyarticle_section'];
@@ -2417,7 +2426,10 @@ Class SASWP_Output_Service{
                             $input1['url'] =    saswp_validate_url($custom_fields['saswp_creativework_url']);
                         }
                         if ( isset( $custom_fields['saswp_creativework_keywords']) ) {
-                            $input1['keywords'] =    $custom_fields['saswp_creativework_keywords'];
+                            $keywords = $custom_fields['saswp_creativework_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            }
                         }
                         if ( isset( $custom_fields['saswp_creativework_section']) ) {
                             $input1['articleSection'] =    $custom_fields['saswp_creativework_section'];
@@ -3012,7 +3024,10 @@ Class SASWP_Output_Service{
                          $input1['url'] =    saswp_validate_url($custom_fields['saswp_special_announcement_url']);
                         }                        
                         if ( isset( $custom_fields['saswp_special_announcement_keywords']) ) {
-                         $input1['keywords'] =    $custom_fields['saswp_special_announcement_keywords'];
+                         $keywords = $custom_fields['saswp_special_announcement_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        }
                         }                        
                         if ( isset( $custom_fields['saswp_special_announcement_name']) ) {
                          $input1['name'] =    $custom_fields['saswp_special_announcement_name'];
@@ -3307,7 +3322,10 @@ Class SASWP_Output_Service{
                         $input1['inLanguage'] =    $custom_fields['saswp_blogposting_inlanguage'];
                     }
                     if ( isset( $custom_fields['saswp_blogposting_keywords']) ) {
-                        $input1['keywords'] =    $custom_fields['saswp_blogposting_keywords'];
+                        $keywords = $custom_fields['saswp_blogposting_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        }
                     }
                     if ( isset( $custom_fields['saswp_blogposting_headline']) ) {
                      $input1['headline'] =    $custom_fields['saswp_blogposting_headline'];
@@ -3886,7 +3904,10 @@ Class SASWP_Output_Service{
                            $input1['headline'] =    $custom_fields['saswp_analysisnewsarticle_headline']; 
                         }
                         if ( isset( $custom_fields['saswp_analysisnewsarticle_keywords']) ) {
-                           $input1['keywords'] =    $custom_fields['saswp_analysisnewsarticle_keywords']; 
+                           $keywords = $custom_fields['saswp_analysisnewsarticle_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_analysisnewsarticle_date_published']) ) {
                            $input1['datePublished'] =    $custom_fields['saswp_analysisnewsarticle_date_published']; 
@@ -4005,7 +4026,10 @@ Class SASWP_Output_Service{
                                $input1['headline'] =    $custom_fields['saswp_askpublicnewsarticle_headline']; 
                             }
                             if ( isset( $custom_fields['saswp_askpublicnewsarticle_keywords']) ) {
-                               $input1['keywords'] =    $custom_fields['saswp_askpublicnewsarticle_keywords']; 
+                               $keywords = $custom_fields['saswp_askpublicnewsarticle_keywords'];
+                                if($keywords){
+                                    $input1['keywords'] = $keywords;
+                                } 
                             }
                             if ( isset( $custom_fields['saswp_askpublicnewsarticle_date_published']) ) {
                                $input1['datePublished'] =    $custom_fields['saswp_askpublicnewsarticle_date_published']; 
@@ -4124,7 +4148,10 @@ Class SASWP_Output_Service{
                         $input1['headline'] =    $custom_fields['saswp_backgroundnewsarticle_headline']; 
                     }
                     if ( isset( $custom_fields['saswp_backgroundnewsarticle_keywords']) ) {
-                        $input1['keywords'] =    $custom_fields['saswp_backgroundnewsarticle_keywords']; 
+                        $keywords = $custom_fields['saswp_backgroundnewsarticle_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        } 
                     }
                     if ( isset( $custom_fields['saswp_backgroundnewsarticle_date_published']) ) {
                         $input1['datePublished'] =    $custom_fields['saswp_backgroundnewsarticle_date_published']; 
@@ -4243,7 +4270,10 @@ Class SASWP_Output_Service{
                             $input1['headline'] =    $custom_fields['saswp_opinionnewsarticle_headline']; 
                         }
                         if ( isset( $custom_fields['saswp_opinionnewsarticle_keywords']) ) {
-                            $input1['keywords'] =    $custom_fields['saswp_opinionnewsarticle_keywords']; 
+                            $keywords = $custom_fields['saswp_opinionnewsarticle_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_opinionnewsarticle_date_published']) ) {
                             $input1['datePublished'] =    $custom_fields['saswp_opinionnewsarticle_date_published']; 
@@ -4362,7 +4392,10 @@ Class SASWP_Output_Service{
                             $input1['headline'] =    $custom_fields['saswp_reportagenewsarticle_headline']; 
                         }
                         if ( isset( $custom_fields['saswp_reportagenewsarticle_keywords']) ) {
-                            $input1['keywords'] =    $custom_fields['saswp_reportagenewsarticle_keywords']; 
+                            $keywords = $custom_fields['saswp_reportagenewsarticle_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_reportagenewsarticle_date_published']) ) {
                             $input1['datePublished'] =    $custom_fields['saswp_reportagenewsarticle_date_published']; 
@@ -4481,7 +4514,10 @@ Class SASWP_Output_Service{
                             $input1['headline'] =    $custom_fields['saswp_reviewnewsarticle_headline']; 
                         }
                         if ( isset( $custom_fields['saswp_reviewnewsarticle_keywords']) ) {
-                            $input1['keywords'] =    $custom_fields['saswp_reviewnewsarticle_keywords']; 
+                            $keywords = $custom_fields['saswp_reviewnewsarticle_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_reviewnewsarticle_date_published']) ) {
                             $input1['datePublished'] =    $custom_fields['saswp_reviewnewsarticle_date_published']; 
@@ -4895,7 +4931,10 @@ Class SASWP_Output_Service{
                             $input1['mainEntity']['articleSection'] =    $custom_fields['saswp_itempage_section'];
                         }                                        
                         if ( isset( $custom_fields['saswp_itempage_keywords']) ) {
-                            $input1['mainEntity']['keywords'] =    $custom_fields['saswp_itempage_keywords'];
+                            $keywords = $custom_fields['saswp_itempage_keywords'];
+                            if($keywords){
+                                $input1['mainEntity']['keywords'] = $keywords;
+                            }
                         }
                         
                         if ( isset( $custom_fields['saswp_itempage_date_published']) ) {
@@ -5034,7 +5073,10 @@ Class SASWP_Output_Service{
                     $input1['mainEntity']['articleSection'] =    $custom_fields['saswp_medicalwebpage_section'];
                 }                                        
                 if ( isset( $custom_fields['saswp_medicalwebpage_keywords']) ) {
-                    $input1['mainEntity']['keywords'] =    $custom_fields['saswp_medicalwebpage_keywords'];
+                    $keywords = $custom_fields['saswp_medicalwebpage_keywords'];
+                    if($keywords){
+                        $input1['mainEntity']['keywords'] = $keywords;
+                    }
                 }
                 
                 if ( isset( $custom_fields['saswp_medicalwebpage_date_published']) ) {
@@ -5234,7 +5276,10 @@ Class SASWP_Output_Service{
                         }
                     }
                     if ( isset( $custom_fields['saswp_tech_article_keywords']) ) {
-                     $input1['keywords'] =    $custom_fields['saswp_tech_article_keywords'];
+                     $keywords = $custom_fields['saswp_tech_article_keywords'];
+                    if($keywords){
+                        $input1['keywords'] = $keywords;
+                    }
                     }
                     if ( isset( $custom_fields['saswp_tech_article_section']) ) {
                      $input1['articleSection'] =    $custom_fields['saswp_tech_article_section'];
@@ -5674,7 +5719,10 @@ Class SASWP_Output_Service{
                      $input1['totalTime'] =    saswp_format_time_to_ISO_8601($custom_fields['saswp_recipe_totaltime']);
                     }
                     if ( isset( $custom_fields['saswp_recipe_keywords']) ) {
-                     $input1['keywords'] =    $custom_fields['saswp_recipe_keywords'];
+                     $keywords = $custom_fields['saswp_recipe_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        }
                     }
                     if ( isset( $custom_fields['saswp_recipe_recipeyield']) ) {
                      $input1['recipeYield'] =    $custom_fields['saswp_recipe_recipeyield'];
@@ -7120,7 +7168,10 @@ Class SASWP_Output_Service{
                      $input1['headline'] =    $custom_fields['saswp_faq_headline'];
                     }
                     if ( isset( $custom_fields['saswp_faq_keywords']) ) {
-                     $input1['keywords'] =    $custom_fields['saswp_faq_keywords'];
+                     $keywords = $custom_fields['saswp_faq_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        }
                     }
                     if ( isset( $custom_fields['saswp_faq_date_created']) ) {
                      $input1['datePublished'] =    $custom_fields['saswp_faq_date_created'];
@@ -8368,7 +8419,10 @@ Class SASWP_Output_Service{
                         $input1['description'] = $custom_fields['saswp_lr_description'];
                     }
                     if ( isset( $custom_fields['saswp_lr_keywords']) ) {
-                        $input1['keywords'] = $custom_fields['saswp_lr_keywords'];
+                        $keywords = $custom_fields['saswp_lr_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        }
                     }
                     if ( isset( $custom_fields['saswp_lr_lrt']) ) {
                         $input1['learningResourceType'] = $custom_fields['saswp_lr_lrt'];
@@ -9896,12 +9950,16 @@ Class SASWP_Output_Service{
 					'headline'			=> saswp_get_the_title(),
 					'description'       => saswp_get_the_excerpt(),
                     'articleBody'       => saswp_get_the_content(),
-                    'keywords'          => saswp_get_the_tags(),
 					'datePublished'     => esc_html( $date),
 					'dateModified'      => esc_html( $modified_date),
 					'author'			=> saswp_get_main_authors(),//saswp_get_author_details(),
                     'editor'			=> saswp_get_edited_authors()//saswp_get_author_details()
 				);
+                
+                $keywords = saswp_get_the_tags();
+                if($keywords){
+                    $input1['keywords'] = $keywords;
+                }
 
                 if($schema_type == 'Photograph'){
                     unset($input1['articleBody']);
@@ -9949,14 +10007,19 @@ Class SASWP_Output_Service{
                         'url'				=> saswp_get_permalink(),
                         'inLanguage'        => get_bloginfo('language'),                        
                         'name'			    => saswp_get_the_title(),                        
-                        'text'              => saswp_get_the_excerpt(),                                                                    
+                        'text'              => saswp_get_the_excerpt(),                        
                         'keywords'          => saswp_get_the_tags(),
                         'datePublished'     => esc_html( $date),
                         'datePosted'        => esc_html( $date),
                         'dateModified'      => esc_html( $modified_date),
                         'expires'           => esc_html( $modified_date),
                         'author'			=> saswp_get_author_details()                                                                
-                    );    
+                    );  
+
+                    $keywords = saswp_get_the_tags();
+                    if($keywords){
+                        $input1['keywords'] = $keywords;
+                    }  
 
                     if ( ! empty( $publisher) ) {
                         $input1 = array_merge($input1, $publisher);   
