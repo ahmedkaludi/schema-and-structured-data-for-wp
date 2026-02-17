@@ -9999,15 +9999,19 @@ Class SASWP_Output_Service{
                     $input1['dateCreated']                      = $date;                
                     $input1['inLanguage']                       = get_bloginfo('language');
 				    $input1['description']                      = $webp_description;
-                    $input1['keywords']                         = $webp_keywords;
+                    if($webp_keywords){
+                        $input1['keywords'] = $webp_keywords;
+                    }
 
                     // If sub schema type is set then add selected schema type to mainentity
                     if( ! empty( $sub_schema_type ) && $sub_schema_type != 'none' ) {
     				    $input1['mainEntity']['@type']              = $sub_schema_type;
                         $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
     					$input1['mainEntity']['headline']		    = saswp_get_the_title();
-    					$input1['mainEntity']['description']		= saswp_get_the_excerpt();                        
-                        $input1['mainEntity']['keywords']           = $webp_keywords;
+    					$input1['mainEntity']['description']		= saswp_get_the_excerpt();
+                        if($webp_keywords){
+                        $input1['mainEntity']['keywords'] = $webp_keywords;
+                        }
     					$input1['mainEntity']['datePublished'] 	    = $date;
     					$input1['mainEntity']['dateModified']		= $modified_date;
     					$input1['mainEntity']['author']			    = saswp_get_author_details();	
@@ -10021,7 +10025,9 @@ Class SASWP_Output_Service{
                         $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
                         $input1['mainEntity']['headline']           = saswp_get_the_title();
                         $input1['mainEntity']['description']        = saswp_get_the_excerpt();                        
-                        $input1['mainEntity']['keywords']           = $webp_keywords;
+                        if($webp_keywords){
+                        $input1['mainEntity']['keywords'] = $webp_keywords;
+                        }
                         $input1['mainEntity']['datePublished']      = $date;
                         $input1['mainEntity']['dateModified']       = $modified_date;
                         $input1['mainEntity']['author']             = saswp_get_author_details();

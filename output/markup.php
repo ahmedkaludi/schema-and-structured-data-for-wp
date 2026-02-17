@@ -5183,49 +5183,157 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $slogo = get_post_meta( get_the_ID(), 'saswp_webpage_organization_logo_'.$schema_id.'_detail',true);
         $checkIdPro = ((isset($all_post_meta['saswp_webpage_id_'.$schema_id][0]) && $all_post_meta['saswp_webpage_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_webpage_id_'.$schema_id][0] : '');
         $input1 = array(
-        '@context'			=> saswp_context_url(),
-        '@type'				=> 'WebPage' ,
-        '@id'               => $checkIdPro,    
-        'inLanguage'        => saswp_remove_warnings($all_post_meta, 'saswp_webpage_inlanguage_'.$schema_id, 'saswp_array'),   
-        'name'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_name_'.$schema_id, 'saswp_array'),
-        'url'				=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_url_'.$schema_id, 'saswp_array'),
-        'lastReviewed' 	    => isset($all_post_meta['saswp_webpage_last_reviewed_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_last_reviewed_'.$schema_id][0], get_post_time('h:i:s')) :'',
-        'dateCreated' 	    => isset($all_post_meta['saswp_webpage_date_created_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_created_'.$schema_id][0], get_post_time('h:i:s')) :'',
-        'reviewedBy'	    => array(
-            '@type'			=> 'Organization',
-            'logo' 			=> array(
-                    '@type'		=> 'ImageObject',
-                    'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_logo_'.$schema_id, 'saswp_array'),
-                    'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
-                    'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
-                    ),
-            'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_name_'.$schema_id, 'saswp_array'),
-         ),        
-        'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_webpage_description_'.$schema_id, 'saswp_array'),
-        'mainEntity'                    => array(
-                        '@type'			=> 'Article',
-                        'mainEntityOfPage'	=> wp_strip_all_tags(strip_shortcodes(saswp_remove_warnings($all_post_meta, 'saswp_webpage_main_entity_of_page_'.$schema_id, 'saswp_array'))),
-                        'image'			=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_image_'.$schema_id, 'saswp_array'),
-                        'headline'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_headline_'.$schema_id, 'saswp_array'),
-                        'description'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_description_'.$schema_id, 'saswp_array'),
-                        'keywords'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_keywords_'.$schema_id, 'saswp_array'),
-                        'articleSection'	=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_section_'.$schema_id, 'saswp_array'),                        
-                        'datePublished' 	=> isset($all_post_meta['saswp_webpage_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
-                        'dateModified'		=> isset($all_post_meta['saswp_webpage_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',                        
-                        'publisher'			=> array(
-                                '@type'			=> 'Organization',
-                                'logo' 			=> array(
-                                        '@type'		=> 'ImageObject',
-                                        'url'		=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_logo_'.$schema_id, 'saswp_array'),
-                                        'width'		=> saswp_remove_warnings($slogo, 'width', 'saswp_string'),
-                                        'height'	=> saswp_remove_warnings($slogo, 'height', 'saswp_string'),
-                                        ),
-                                'name'			=> saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_name_'.$schema_id, 'saswp_array'),
-                        ),
-                ),
-
-
+            '@context' => saswp_context_url(),
+            '@type'    => 'WebPage',
+            '@id'      => $checkIdPro,
         );
+
+        // 1. inLanguage
+        $inLanguage = saswp_remove_warnings($all_post_meta, 'saswp_webpage_inlanguage_'.$schema_id, 'saswp_array');
+        if($inLanguage){
+            $input1['inLanguage'] = $inLanguage;
+        }
+
+        // 2. name
+        $name = saswp_remove_warnings($all_post_meta, 'saswp_webpage_name_'.$schema_id, 'saswp_array');
+        if($name){
+            $input1['name'] = $name;
+        }
+
+        // 3. url
+        $url = saswp_remove_warnings($all_post_meta, 'saswp_webpage_url_'.$schema_id, 'saswp_array');
+        if($url){
+            $input1['url'] = $url;
+        }
+
+        // 4. lastReviewed
+        $lastReviewed = isset($all_post_meta['saswp_webpage_last_reviewed_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_last_reviewed_'.$schema_id][0], get_post_time('h:i:s')) :'';
+        if($lastReviewed){
+            $input1['lastReviewed'] = $lastReviewed;
+        }
+
+        // 5. dateCreated
+        $dateCreated = isset($all_post_meta['saswp_webpage_date_created_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_created_'.$schema_id][0], get_post_time('h:i:s')) :'';
+        if($dateCreated){
+            $input1['dateCreated'] = $dateCreated;
+        }
+
+        // 6. reviewedBy (Organization)
+        $rb_name = saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_name_'.$schema_id, 'saswp_array');
+        $rb_logo_url = saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_logo_'.$schema_id, 'saswp_array');
+
+        // Only add 'reviewedBy' if there is a name OR a logo
+        if($rb_name || $rb_logo_url){
+            $reviewedBy = array('@type' => 'Organization');
+            
+            if($rb_logo_url){
+                $rb_logo = array(
+                    '@type' => 'ImageObject',
+                    'url'   => $rb_logo_url
+                );
+                $rb_width = saswp_remove_warnings($slogo, 'width', 'saswp_string');
+                if($rb_width){
+                    $rb_logo['width'] = $rb_width;
+                }
+                $rb_height = saswp_remove_warnings($slogo, 'height', 'saswp_string');
+                if($rb_height){
+                    $rb_logo['height'] = $rb_height;
+                }
+                $reviewedBy['logo'] = $rb_logo;
+            }
+
+            if($rb_name){
+                $reviewedBy['name'] = $rb_name;
+            }
+
+            $input1['reviewedBy'] = $reviewedBy;
+        }
+
+        // 7. description (WebPage)
+        $description = saswp_remove_warnings($all_post_meta, 'saswp_webpage_description_'.$schema_id, 'saswp_array');
+        if($description){
+            $input1['description'] = $description;
+        }
+
+        // 8. mainEntity (Article)
+        $me_mainEntityOfPage = wp_strip_all_tags(strip_shortcodes(saswp_remove_warnings($all_post_meta, 'saswp_webpage_main_entity_of_page_'.$schema_id, 'saswp_array')));
+        $me_headline = saswp_remove_warnings($all_post_meta, 'saswp_webpage_headline_'.$schema_id, 'saswp_array');
+
+        // Only add 'mainEntity' if core fields exist (headline or mainEntityOfPage)
+        if($me_mainEntityOfPage || $me_headline){
+            $mainEntity = array('@type' => 'Article');
+
+            if($me_mainEntityOfPage){
+                $mainEntity['mainEntityOfPage'] = $me_mainEntityOfPage;
+            }
+
+            $me_image = saswp_remove_warnings($all_post_meta, 'saswp_webpage_image_'.$schema_id, 'saswp_array');
+            if($me_image){
+                $mainEntity['image'] = $me_image;
+            }
+
+            if($me_headline){
+                $mainEntity['headline'] = $me_headline;
+            }
+
+            $me_description = saswp_remove_warnings($all_post_meta, 'saswp_webpage_description_'.$schema_id, 'saswp_array');
+            if($me_description){
+                $mainEntity['description'] = $me_description;
+            }
+
+            $me_keywords = saswp_remove_warnings($all_post_meta, 'saswp_webpage_keywords_'.$schema_id, 'saswp_array');
+            if($me_keywords){
+                $mainEntity['keywords'] = $me_keywords;
+            }
+
+            $me_section = saswp_remove_warnings($all_post_meta, 'saswp_webpage_section_'.$schema_id, 'saswp_array');
+            if($me_section){
+                $mainEntity['articleSection'] = $me_section;
+            }
+
+            $me_datePublished = isset($all_post_meta['saswp_webpage_date_published_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'';
+            if($me_datePublished){
+                $mainEntity['datePublished'] = $me_datePublished;
+            }
+
+            $me_dateModified = isset($all_post_meta['saswp_webpage_date_modified_'.$schema_id])? saswp_format_date_time($all_post_meta['saswp_webpage_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'';
+            if($me_dateModified){
+                $mainEntity['dateModified'] = $me_dateModified;
+            }
+
+            // 8.1 Publisher (Organization) inside mainEntity
+            // Note: Re-using the same lookup keys as reviewedBy as per original array
+            $pub_name = saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_name_'.$schema_id, 'saswp_array');
+            $pub_logo_url = saswp_remove_warnings($all_post_meta, 'saswp_webpage_organization_logo_'.$schema_id, 'saswp_array');
+
+            if($pub_name || $pub_logo_url){
+                $publisher = array('@type' => 'Organization');
+                
+                if($pub_logo_url){
+                    $pub_logo = array(
+                        '@type' => 'ImageObject',
+                        'url'   => $pub_logo_url
+                    );
+                    $pub_width = saswp_remove_warnings($slogo, 'width', 'saswp_string');
+                    if($pub_width){
+                        $pub_logo['width'] = $pub_width;
+                    }
+                    $pub_height = saswp_remove_warnings($slogo, 'height', 'saswp_string');
+                    if($pub_height){
+                        $pub_logo['height'] = $pub_height;
+                    }
+                    $publisher['logo'] = $pub_logo;
+                }
+
+                if($pub_name){
+                    $publisher['name'] = $pub_name;
+                }
+
+                $mainEntity['publisher'] = $publisher;
+            }
+
+            $input1['mainEntity'] = $mainEntity;
+        }        
 
         if(empty($input1['@id']) ) {
             unset($input1['@id']);
@@ -5243,7 +5351,16 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
         }  
 
         $input1['mainEntity']['author']['name']        = saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_name_'.$schema_id, 'saswp_array');
-        $input1['mainEntity']['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_description_'.$schema_id, 'saswp_array');
+        $author_desc = saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_description_'.$schema_id, 'saswp_array');
+        if($author_desc){
+            if( !isset($mainEntity['author']) ){
+                $mainEntity['author'] = array(
+                    '@type' => 'Person'
+                );
+            }
+            
+            $mainEntity['author']['description'] = $author_desc;
+        }
         $input1['mainEntity']['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_webpage_author_url_'.$schema_id, 'saswp_array');   
 
         if ( isset( $all_post_meta['saswp_webpage_speakable_'.$schema_id]) && $all_post_meta['saswp_webpage_speakable_'.$schema_id][0] == 1){
@@ -5257,7 +5374,10 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
         }
         
         if ( ! empty( $all_post_meta['saswp_webpage_specialty_'.$schema_id] ) ) {
-            $input1['specialty']   =   saswp_remove_warnings($all_post_meta, 'saswp_webpage_specialty_'.$schema_id, 'saswp_array');
+            $specialty = saswp_remove_warnings($all_post_meta, 'saswp_webpage_specialty_'.$schema_id, 'saswp_array');
+            if($specialty){
+                $input1['specialty'] = $specialty;
+            }
         }
         if ( ! empty( $all_post_meta['saswp_webpage_mcop_'.$schema_id] ) ) {
             $input1['mainContentOfPage']['@type']   =   'WebPageElement';
@@ -5265,7 +5385,10 @@ function saswp_webpage_schema_markup($schema_id, $schema_post_id, $all_post_meta
             if ( filter_var( $mcop, FILTER_VALIDATE_URL) !== false ) {
                 $input1['mainContentOfPage']['url']    =   saswp_remove_warnings($all_post_meta, 'saswp_webpage_mcop_'.$schema_id, 'saswp_array');
             }else{
-                $input1['mainContentOfPage']['name']    =   saswp_remove_warnings($all_post_meta, 'saswp_webpage_mcop_'.$schema_id, 'saswp_array');
+                $name = saswp_remove_warnings($all_post_meta, 'saswp_webpage_mcop_'.$schema_id, 'saswp_array');
+                if($name){
+                    $input1['name'] = $name;
+                }
             }
         }
 

@@ -3616,8 +3616,11 @@ function saswp_kb_website_output() {
                     $input['@id']         = $site_url.'#website';
                     $input['headline']    = $site_name;
                     $input['name']        = $site_name;
-                    $input['description'] = saswp_get_blog_desc();
                     $input['url']         = $site_url;
+
+                    if(saswp_get_blog_desc()){
+                        $input['description'] = saswp_get_blog_desc();
+                    }
                                                              
                     if ( isset( $sd_data['saswp_search_box_schema']) && $sd_data['saswp_search_box_schema'] == 1 || !isset($sd_data['saswp_search_box_schema']) ) {
                         
