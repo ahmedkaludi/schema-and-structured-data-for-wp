@@ -3026,7 +3026,7 @@ function saswp_get_mainEntity($schema_id){
                                                 
             }else{
                                 
-                $regex = '/<'.$item_list_tags.'>(.*?)<\/'.$item_list_tags.'>/';
+                $regex = '/<'.$item_list_tags.'[^>]*>(.*?)<\/'.$item_list_tags.'>/is';
                 
                 preg_match_all( $regex, $post_content, $matches , PREG_SET_ORDER );
                 
