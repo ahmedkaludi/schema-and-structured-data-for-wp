@@ -265,6 +265,36 @@ function saswp_schema_output() {
                                 $input1 = apply_filters('saswp_modify_faq_final_schema_output', $input1 );
 
                             break;
+
+                            case 'SportsTeam':
+                                                                                                                                                                                                
+                                $input1['@context']                     = saswp_context_url();
+                                $input1['@type']                        = 'SportsTeam';
+                                $input1['name']                         = saswp_get_the_title();                                                           
+                                if ( isset( $all_post_meta['saswp_sports_team_sport_'.$schema_post_id]) && empty($all_post_meta['saswp_sports_team_sport_'.$schema_post_id][0]) ) {
+                                    unset($input1['sport']);
+                                }
+                                
+                                if ( isset( $all_post_meta['saswp_sports_team_name_'.$schema_post_id]) && empty($all_post_meta['saswp_sports_team_name_'.$schema_post_id][0]) ) {
+                                    unset($input1['name']);
+                                }
+                            
+                                if ( isset( $all_post_meta['saswp_sports_team_coach_name_'.$schema_post_id]) && empty($all_post_meta['saswp_sports_team_coach_name_'.$schema_post_id][0]) ) {
+                                    unset($input1['coach']);
+                                }
+
+                                $input1 = apply_filters('saswp_modify_sports_team_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_sports_team_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+
+                                $input1 = apply_filters('saswp_modify_sports_team_final_schema_output', $input1 );
+
+                            break;
                         
                             case 'VideoGame':
                                                                                     

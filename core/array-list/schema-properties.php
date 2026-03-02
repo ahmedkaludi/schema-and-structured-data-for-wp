@@ -12951,6 +12951,63 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                     );
                     break;
 
+                    case 'SportsTeam':
+                        $sports_team_post_meta_data = get_post_meta(get_the_ID());                        
+                        
+                        $sports_team_name = get_the_title();
+                        if ( isset( $sports_team_post_meta_data['saswp_sports_team_name_'.$schema_id]) ) {
+                            $sports_team_name = $sports_team_post_meta_data['saswp_sports_team_name_'.$schema_id][0];
+                        }                        
+                        
+                        $sports_team_sport = '';
+                        if ( isset( $sports_team_post_meta_data['saswp_sports_team_sport_'.$schema_id]) ) {
+                            $sports_team_sport = $sports_team_post_meta_data['saswp_sports_team_sport_'.$schema_id][0];
+                        }
+                        
+                        $sports_team_coach_name = '';
+                        if ( isset( $sports_team_post_meta_data['saswp_sports_team_coach_name_'.$schema_id]) ) {
+                            $sports_team_coach_name = $sports_team_post_meta_data['saswp_sports_team_coach_name_'.$schema_id][0];
+                        }
+
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_sports_team_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => $sports_team_name   
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Sport', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_sports_team_sport_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => $sports_team_sport,
+                                'attributes' => array(
+                                'placeholder' => 'eg: American Football'
+                                ),                        
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Coach Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_sports_team_coach_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => $sports_team_coach_name,
+                                'attributes' => array(
+                                'placeholder' => 'eg: Pete Carroll'
+                                ),                           
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Member Of (Organizations)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'sports_team_member_of_'.$schema_id,
+                                'type'       => 'repeater'                                                      
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Athlete', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'sports_team_athlete_'.$schema_id,
+                                'type'       => 'repeater'                                                      
+                            )                                                                              
+                        );                                                              
+                        
+                        break;
+
                 default:
                     break;
             } 

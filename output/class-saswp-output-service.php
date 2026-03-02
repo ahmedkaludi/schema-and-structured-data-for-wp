@@ -601,6 +601,19 @@ Class SASWP_Output_Service{
                             $response = apply_filters('saswp_faq_acf_repeater_mapping', $post->ID, $schema_post_id, $field_key);
                         break;
                     }    
+                break;
+                case 'saswp_repeater_mapping':
+                    switch ($schema_type) {
+                        case 'SportsTeam':
+                            // Mapping for Member Of (Organizations) repeater
+                            $field_key_member = 'sports_team_member_of_'.$schema_post_id;
+                            $response_member  = apply_filters('saswp_sports_team_member_of_acf_repeater_mapping', $post->ID, $schema_post_id, $field_key_member);
+                            
+                            // Mapping for Athlete repeater
+                            $field_key_athlete = 'sports_team_athlete_'.$schema_post_id;
+                            $response_athlete  = apply_filters('saswp_sports_team_athlete_acf_repeater_mapping', $post->ID, $schema_post_id, $field_key_athlete);
+                        break;
+                    }    
                 break;                    
                 case 'saswp_schema_template':
 
@@ -654,6 +667,45 @@ Class SASWP_Output_Service{
                                                
                                             }
                                             
+                                        }
+
+                                        break;
+
+                                        case 'SportsTeam':
+                                        
+                                        if ( ! empty( $acf_obj['value']) ) {
+                                            
+                                            // 1. Check if we are processing the "Member Of" repeater
+                                            if ( strpos($field_key, 'sports_team_member_of') !== false ) {
+                                                foreach( $acf_obj['value'] as $value){
+                                                    $main_entity = array();
+                                                    $ar_values   = array_values($value);
+                                                    
+                                                    $main_entity['@type'] = 'SportsOrganization';
+                                                    
+                                                    if ( ! empty( $ar_values[0]) ) {
+                                                        $main_entity['name'] = $ar_values[0]; 
+                                                    }
+                                                    
+                                                    $response [] = $main_entity;                                   
+                                                }
+                                            }
+                                            
+                                            // 2. Check if we are processing the "Athlete" repeater
+                                            elseif ( strpos($field_key, 'sports_team_athlete') !== false ) {
+                                                foreach( $acf_obj['value'] as $value){
+                                                    $main_entity = array();
+                                                    $ar_values   = array_values($value);
+                                                    
+                                                    $main_entity['@type'] = 'Person';
+                                                    
+                                                    if ( ! empty( $ar_values[0]) ) {
+                                                        $main_entity['name'] = $ar_values[0]; 
+                                                    }
+                                                    
+                                                    $response [] = $main_entity;                                   
+                                                }
+                                            }
                                         }
 
                                         break;
@@ -7117,6 +7169,84 @@ Class SASWP_Output_Service{
                         } 
                     }
                 
+                break;
+
+                case 'SportsTeam':   
+                    
+                    if ( isset( $custom_fields['saswp_sports_team_name']) ) {
+                        $input1['name'] =    $custom_fields['saswp_sports_team_name'];
+                    }
+                    
+                    if ( isset( $custom_fields['saswp_sports_team_sport']) ) {
+                        $input1['sport'] =    $custom_fields['saswp_sports_team_sport'];
+                    }                    
+
+                    // For the Member Of repeater mapping
+                    if ( isset( $custom_fields['sports_team_member_of']) ) {                                                                                                                                                                                                
+                        $member_val = $custom_fields['sports_team_member_of'];
+                        
+                        // If it's a simple string from a custom field
+                        if ( is_string($member_val) && !empty($member_val) ) {
+                            $input1['memberOf'] = array(
+                                array(
+                                    '@type' => 'SportsOrganization',
+                                    'name'  => $member_val
+                                )
+                            );
+                        } 
+
+                        if ( isset( $custom_fields['saswp_sports_team_coach_name']) ) {
+                        $input1['coach']['@type'] = 'Person';
+                        $input1['coach']['name']  = $custom_fields['saswp_sports_team_coach_name'];
+                        }
+
+                        // If it's returning an array
+                        elseif ( is_array($member_val) ) {
+                            $member_arr = array();
+                            foreach( $member_val as $val ) {
+                                $org_name = is_array($val) && isset($val['name']) ? $val['name'] : (is_string($val) ? $val : '');
+                                if ( !empty($org_name) ) {
+                                    $member_arr[] = array(
+                                        '@type' => 'SportsOrganization',
+                                        'name'  => $org_name
+                                    );
+                                }
+                            }
+                            if(!empty($member_arr)) {
+                                $input1['memberOf'] = $member_arr;
+                            }
+                        }
+                    }
+
+                    // For the Athlete repeater mapping
+                    if ( isset( $custom_fields['sports_team_athlete']) ) {                                                                                                                                                                                                
+                        $athlete_val = $custom_fields['sports_team_athlete'];
+                        
+                        if ( is_string($athlete_val) && !empty($athlete_val) ) {
+                            $input1['athlete'] = array(
+                                array(
+                                    '@type' => 'Person',
+                                    'name'  => $athlete_val
+                                )
+                            );
+                        } 
+                        elseif ( is_array($athlete_val) ) {
+                            $athlete_arr = array();
+                            foreach( $athlete_val as $val ) {
+                                $ath_name = is_array($val) && isset($val['name']) ? $val['name'] : (is_string($val) ? $val : '');
+                                if ( !empty($ath_name) ) {
+                                    $athlete_arr[] = array(
+                                        '@type' => 'Person',
+                                        'name'  => $ath_name
+                                    );
+                                }
+                            }
+                            if(!empty($athlete_arr)) {
+                                $input1['athlete'] = $athlete_arr;
+                            }
+                        }
+                    }
+                                                                         
                 break;
                 
                 case 'TouristAttraction':      

@@ -3338,6 +3338,92 @@ function saswp_itemlist_schema_markup($schema_id, $schema_post_id, $all_post_met
     
 }
 
+function saswp_sports_team_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+    
+    $input1['@context']              = saswp_context_url();
+    $input1['@type']                 = 'SportsTeam';
+
+    if ( isset( $all_post_meta['saswp_sports_team_name_'.$schema_id]) && isset($all_post_meta['saswp_sports_team_name_'.$schema_id][0]) && !empty($all_post_meta['saswp_sports_team_name_'.$schema_id][0]) ) {
+        $input1['name']              = saswp_remove_warnings($all_post_meta, 'saswp_sports_team_name_'.$schema_id, 'saswp_array');
+    }            
+    
+    if ( isset( $all_post_meta['saswp_sports_team_sport_'.$schema_id]) && isset($all_post_meta['saswp_sports_team_sport_'.$schema_id][0]) && !empty($all_post_meta['saswp_sports_team_sport_'.$schema_id][0]) ) {              
+        $input1['sport']             = saswp_remove_warnings($all_post_meta, 'saswp_sports_team_sport_'.$schema_id, 'saswp_array');
+    } 
+
+    // Member Of Repeater (Sports Organizations)
+    $member_of   =   array();
+        if ( ! empty( $all_post_meta['sports_team_member_of_'.$schema_id] ) && is_array( $all_post_meta['sports_team_member_of_'.$schema_id] ) && ! empty( $all_post_meta['sports_team_member_of_'.$schema_id][0] ) ) {
+            if ( is_string( $all_post_meta['sports_team_member_of_'.$schema_id][0] ) ) {
+                $member_of   =   unserialize( $all_post_meta['sports_team_member_of_'.$schema_id][0] );    
+            } 
+        }
+
+        $member_of_arr = array();
+        if ( ! empty( $member_of) && is_array($member_of) ) {
+            foreach( $member_of as $val){
+                $org_name = '';
+                
+                if ( isset($val['saswp_sports_team_member_of_name']) && !empty($val['saswp_sports_team_member_of_name']) ) {
+                    $org_name = $val['saswp_sports_team_member_of_name'];
+                } elseif ( is_array($val) && !empty(array_values($val)[0]) ) {
+                    $org_name = array_values($val)[0]; // Fallback check
+                }
+
+                if ( !empty(trim($org_name)) ) {
+                    $supply_data = array();
+                    $supply_data['@type'] = 'SportsOrganization';
+                    $supply_data['name']  = $org_name;
+                    $member_of_arr[]      = $supply_data;
+                }
+            }
+            if ( !empty($member_of_arr) ) {
+                $input1['memberOf'] = $member_of_arr;
+            }
+        }
+
+            if ( isset( $all_post_meta['saswp_sports_team_coach_name_'.$schema_id]) && isset($all_post_meta['saswp_sports_team_coach_name_'.$schema_id][0]) && !empty($all_post_meta['saswp_sports_team_coach_name_'.$schema_id][0]) ) {
+                $input1['coach']['@type']    = 'Person';
+                $input1['coach']['name']     = saswp_remove_warnings($all_post_meta, 'saswp_sports_team_coach_name_'.$schema_id, 'saswp_array');
+            }
+   
+    // Athlete Repeater (Persons)
+    $athlete   =   array();
+        if ( ! empty( $all_post_meta['sports_team_athlete_'.$schema_id] ) && is_array( $all_post_meta['sports_team_athlete_'.$schema_id] ) && ! empty( $all_post_meta['sports_team_athlete_'.$schema_id][0] ) ) {
+            if ( is_string( $all_post_meta['sports_team_athlete_'.$schema_id][0] ) ) {
+                $athlete   =   unserialize( $all_post_meta['sports_team_athlete_'.$schema_id][0] );    
+            } 
+        }
+
+        $athlete_arr = array();
+        if ( ! empty( $athlete) && is_array($athlete) ) {
+            foreach( $athlete as $val){
+                $ath_name = '';
+                
+                if ( isset($val['saswp_sports_team_athlete_name']) && !empty($val['saswp_sports_team_athlete_name']) ) {
+                    $ath_name = $val['saswp_sports_team_athlete_name'];
+                } elseif ( is_array($val) && !empty(array_values($val)[0]) ) {
+                    $ath_name = array_values($val)[0]; // Fallback check
+                }
+
+                if ( !empty(trim($ath_name)) ) {
+                    $supply_data = array();
+                    $supply_data['@type'] = 'Person';
+                    $supply_data['name']  = $ath_name;
+                    $athlete_arr[]        = $supply_data;
+                }
+            }
+            if ( !empty($athlete_arr) ) {
+                $input1['athlete'] = $athlete_arr;
+            }
+        }
+    
+    return $input1;
+    
+}
+
 function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();

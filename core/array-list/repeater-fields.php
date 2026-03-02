@@ -149,7 +149,12 @@ return array( 'schema_type_element' => array(
 			    ),
 			    'local_business' => array(
                                'available_service' => 'available_service',                                                
-                        ),
+                          ),
+			      'SportsTeam' => array(
+	                    'sports-team-member-of' => 'sports_team_member_of',
+	                    'sports-team-athlete'   => 'sports_team_athlete'	                    
+	                  ),
+
 						                                                                          
                     ),
     'meta_name' => array(
@@ -1371,6 +1376,22 @@ return array( 'schema_type_element' => array(
 			array(
 				'label'     => 'Name',
 				'name'      => 'saswp_local_business_as_name',
+				'type'      => 'text',                        
+			),
+		),
+		'sports_team_member_of' 	=>	array(
+			
+			array(
+				'label'     => 'Name',
+				'name'      => 'saswp_sports_team_as_name',
+				'type'      => 'text',                        
+			),
+		),
+		'sports_team_athlete' 	=>	array(
+			
+			array(
+				'label'     => 'Name',
+				'name'      => 'saswp_sports_team_as_name',
 				'type'      => 'text',                        
 			),
 		),
