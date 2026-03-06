@@ -3357,7 +3357,7 @@ function saswp_sports_team_schema_markup($schema_id, $schema_post_id, $all_post_
     $member_of   =   array();
         if ( ! empty( $all_post_meta['sports_team_member_of_'.$schema_id] ) && is_array( $all_post_meta['sports_team_member_of_'.$schema_id] ) && ! empty( $all_post_meta['sports_team_member_of_'.$schema_id][0] ) ) {
             if ( is_string( $all_post_meta['sports_team_member_of_'.$schema_id][0] ) ) {
-                $member_of   =   unserialize( $all_post_meta['sports_team_member_of_'.$schema_id][0] );    
+                $member_of   =   maybe_unserialize( $all_post_meta['sports_team_member_of_'.$schema_id][0] );    
             } 
         }
 
@@ -3393,7 +3393,7 @@ function saswp_sports_team_schema_markup($schema_id, $schema_post_id, $all_post_
     $athlete   =   array();
         if ( ! empty( $all_post_meta['sports_team_athlete_'.$schema_id] ) && is_array( $all_post_meta['sports_team_athlete_'.$schema_id] ) && ! empty( $all_post_meta['sports_team_athlete_'.$schema_id][0] ) ) {
             if ( is_string( $all_post_meta['sports_team_athlete_'.$schema_id][0] ) ) {
-                $athlete   =   unserialize( $all_post_meta['sports_team_athlete_'.$schema_id][0] );    
+                $athlete   =   maybe_unserialize( $all_post_meta['sports_team_athlete_'.$schema_id][0] );    
             } 
         }
 
@@ -3483,7 +3483,7 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     $faq_question   =   array();
     if ( ! empty( $all_post_meta['faq_question_'.$schema_id] ) && is_array( $all_post_meta['faq_question_'.$schema_id] ) && ! empty( $all_post_meta['faq_question_'.$schema_id][0] ) ) {
         if ( is_string( $all_post_meta['faq_question_'.$schema_id][0] ) ) {
-            $faq_question   =   unserialize( $all_post_meta['faq_question_'.$schema_id][0] );    
+            $faq_question   =   maybe_unserialize( $all_post_meta['faq_question_'.$schema_id][0] );    
         } 
     }
 
